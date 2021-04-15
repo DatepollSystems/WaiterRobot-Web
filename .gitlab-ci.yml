@@ -1,0 +1,58 @@
+image: trion/ng-cli-karma
+
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  artifacts:
+    untracked: true
+  cache:
+    paths:
+      - node_modules/
+  script:
+    - rm ./package-lock.json
+    - npm install
+    - ./node_modules/@angular/cli/bin/ng build --progress false --prod
+    - cd dist/
+    - ls -al
+
+deploy-dev:
+  stage: deploy
+  dependencies:
+    - build
+  only:
+    - development
+  script:
+    - apt-get update -qq && apt-get install -y -qq zip
+    - eval "$(ssh-agent -s)"
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - cd dist/
+    - zip -r WaiterRobot-Web-dev.zip ./WaiterRobot-Web >> /dev/null
+    - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR ./DatePoll-Frontend-dev.zip $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/WaiterRobot/Web-Releases/ > /dev/null
+
+deploy-release:
+  stage: deploy
+  dependencies:
+    - build
+  only:
+    - tags
+  except:
+    - branches
+  script:
+    - apt-get update -qq && apt-get install -y -qq zip
+    - eval "$(ssh-agent -s)"
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - version=$(git describe --tags $(git rev-list --tags --max-count=1))
+    - cd dist/
+    - zip -r "WaiterRobot-Web-${version}.zip" ./WaiterRobot-Web >> /dev/null
+    - cp "WaiterRobot-Web-${version}.zip" WaiterRobot-Web-latest.zip
+    - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR ./WaiterRobot-Web-latest.zip $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/WaiterRobot/Web-Releases/ > /dev/null
+    - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR "WaiterRobot-Web-${version}.zip" $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/WaiterRobot/Web-Releases/ > /dev/null
