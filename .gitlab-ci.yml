@@ -23,7 +23,7 @@ deploy-dev:
   dependencies:
     - build
   only:
-    - development
+    - develop
   script:
     - apt-get update -qq && apt-get install -y -qq zip
     - eval "$(ssh-agent -s)"
