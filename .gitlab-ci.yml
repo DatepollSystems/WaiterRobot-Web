@@ -33,7 +33,7 @@ deploy-dev:
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - cd dist/
     - zip -r WaiterRobot-Web-dev.zip ./WaiterRobot-Web >> /dev/null
-    - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR ./DatePoll-Frontend-dev.zip $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/WaiterRobot/Web-Releases/ > /dev/null
+    - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR ./WaiterRobot-Web-dev.zip $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/WaiterRobot/Web-Releases/ > /dev/null
 
 deploy-release:
   stage: deploy
