@@ -3,14 +3,21 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {DfxTranslateModule} from 'dfx-translate';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
-    AppRoutingModule
+    HttpClientModule,
+    NgbModule,
+    DfxTranslateModule,
+    DfxTranslateModule.setup({defaultLanguage: 'de'})
   ],
   providers: [],
   bootstrap: [AppComponent]
