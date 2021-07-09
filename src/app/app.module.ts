@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {DfxTranslateModule} from 'dfx-translate';
 import {HttpClientModule} from '@angular/common/http';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import {HttpClientModule} from '@angular/common/http';
     AppRoutingModule,
     BrowserModule,
     HttpClientModule,
+    FlexLayoutModule,
     NgbModule,
     DfxTranslateModule,
     DfxTranslateModule.setup({defaultLanguage: 'de'})

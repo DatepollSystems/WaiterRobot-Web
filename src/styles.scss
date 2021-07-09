@@ -2,3 +2,14 @@
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
+
+a {
+  text-decoration: none;
+  color: #2196f3;
+}
+
+a:hover {
+  color: #21b3f2;
+  cursor: pointer;
+  text-decoration: none;
+}

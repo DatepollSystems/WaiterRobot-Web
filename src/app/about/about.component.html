@@ -1,5 +1,87 @@
-<p>about works!</p>
+<div class="d-container">
+  <div fxLayout="column" fxLayoutAlign="space-between center">
+    <div fxFlex>
+      <div fxLayout="row" fxLayoutGap="2%">
+        <img src="./../../assets/logo.png" style="height: 110px"/>
+        <h1 style="color: white; padding-top: 10%">WaiterRobot</h1>
+      </div>
+    </div>
+  </div>
+  <div
+    fxLayout="row"
+    fxLayoutGap="2%"
+    fxLayoutAlign="center start"
+    fxLayout.lt-md="column"
+    fxLayoutAlign.lt-md="center"
+    style="margin-top: 15px; padding-left: 10px; padding-right: 10px"
+  >
+    <div fxFlex.gt-lg="30%" fxFlex="40%">
+      <div fxLayout="column" fxLayoutGap="2%">
+        <div class="card bg-dark text-white">
+          <div class="card-body">
+            <form #f="ngForm" fxLayout="column" style="padding-left: 10px; padding-right: 10px">
+              <div class="form-group">
+                <label for="username">Benutzername</label>
+                <input type="text" class="form-control bg-dark text-white" id="username" placeholder="vorname.nachname">
+              </div>
 
-{{'ABOUT' | tr}}
+              <div class="form-group">
+                <label for="password">Passwort</label>
+                <input type="password" class="form-control bg-dark text-white" id="password">
+              </div>
 
-<button class="btn btn-primary">test</button>
+              <button [disabled]="!f.valid" class="btn btn-primary">
+                {{ 'ABOUT_SIGNIN' | tr }}
+              </button>
+
+              <div style="text-align: center; margin-top: 5px">
+                <a routerLink="/auth/signin">{{ 'ABOUT_SIGNIN_TROUBLE_LOGGING_IN' | tr }}</a>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="card bg-dark">
+          <div class="card-body">
+            <button class="btn btn-outline-info" style="width: 100%">
+              {{ 'ABOUT_APP_INFO' | tr }}
+            </button>
+          </div>
+        </div>
+
+        <div class="card bg-dark">
+          <div class="card-body" fxLayout="column" fxLayoutGap="3%">
+            <button routerLink="/info/imprint" class="btn btn-outline-info" style="width: 100%">
+              {{ 'ABOUT_IMPRINT' | tr }}
+            </button>
+            <button routerLink="/info/privacypolicy" class="btn btn-outline-info" style="width: 100%">
+              {{ 'ABOUT_PRIVACY_POLICY' | tr }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div fxFlex="40%" fxFlex.xs="90%">
+      <div fxLayout="column" fxLayoutGap="2%">
+        <div class="card bg-dark text-white">
+          <div class="card-body">
+            <h3 class="card-title">> <b><a href="#" target="_blank" rel="noopener">WaiterRobot</a></b></h3>
+            <p class="card-text">Description...</p>
+          </div>
+        </div>
+
+        <div class="card text-white bg-dark">
+          <div class="card-body">
+            <h5 class="card-title">{{ 'ABOUT_MORE_INFORMATION' | tr }}</h5>
+            <div class="card-text">
+              <a href="https://datepoll.org/projects/waiterrobot" target="_blank" rel="noopener">WaiterRobot</a> &
+              <a href="https://datepoll.org" target="_blank" rel="noopener">DatePoll-Systems</a>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

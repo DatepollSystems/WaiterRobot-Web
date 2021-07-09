@@ -1,0 +1,42 @@
+<footer id="footerContainer">
+  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-around" id="footerHeaderContainer">
+    <div>
+      <h3><a href="https://datepoll.org/projects/waiterrobot" rel="noopener" style="color: white" target="_blank">WaiterRobot</a></h3>
+    </div>
+    <div fxFlex="20%">
+      <ul>
+        <li>
+          <a (click)="openAboutModal()">{{ 'ABOUT' | tr }}</a>
+        </li>
+        <li>
+          <div class="form-group">
+            <label for="changeLanguage">{{ 'LANGUAGE' | tr }}</label>
+            <select class="form-control bg-dark text-white" id="changeLanguage" [(ngModel)]="selected" (ngModelChange)="setLang($event)">
+              <option value="de">{{ 'LANGUAGE_GERMAN' | tr }}</option>
+              <option value="en">{{ 'LANGUAGE_ENGLISH' | tr }}</option>
+              <option value="es">{{ 'LANGUAGE_SPANISH' | tr }}</option>
+              <option value="fr">{{ 'LANGUAGE_FRANCE' | tr }}</option>
+              <option value="it">{{ 'LANGUAGE_ITALIEN' | tr }}</option>
+              <option value="pt">{{ 'LANGUAGE_PORTUGUES' | tr }}</option>
+            </select>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="footerBarContainer" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-around">
+    <div>
+      <div style="float: left">Mady with&nbsp;</div>
+      <div style="float: left; color: red">&hearts;&nbsp;</div>
+      <div style="float: left">
+        by
+        <a href="https://datepoll.org" rel="noopener" style="color: #2196f3" target="_blank">DatePoll-Systems</a>
+      </div>
+    </div>
+
+    <div>
+      <a routerLink="/info/imprint" style="color: #2196f3"> {{ 'ABOUT_IMPRINT' | tr }} & {{ 'ABOUT_PRIVACY_POLICY' | tr }}</a>
+    </div>
+  </div>
+</footer>

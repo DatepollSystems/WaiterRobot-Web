@@ -1,4 +1,21 @@
 {
-  "HELLO": "Hallo",
-  "ABOUT": "Über"
+  "GO_BACK": "Zurück",
+
+  "ABOUT": "Über",
+  "ABOUT_SIGNIN": "Anmelden",
+  "ABOUT_SIGNIN_TROUBLE_LOGGING_IN": "Probleme beim anmelden oder Passwort vergessen?",
+  "ABOUT_APP_INFO": "Downloade die dazugehörige App",
+  "ABOUT_MORE_INFORMATION": "Mehr Informationen über",
+  "ABOUT_IMPRINT": "Impressum",
+  "ABOUT_PRIVACY_POLICY": "Datenschutzerklärung",
+
+  "LANGUAGE": "Sprache",
+  "LANGUAGE_CHANGED_TO": "Sprache geändert zu ",
+  "LANGUAGE_RESET": "Sprache zurückgesetzt",
+  "LANGUAGE_GERMAN": "Deutsch",
+  "LANGUAGE_ENGLISH": "English",
+  "LANGUAGE_SPANISH": "Español",
+  "LANGUAGE_FRANCE": "Français",
+  "LANGUAGE_ITALIEN": "Italiano",
+  "LANGUAGE_PORTUGUES": "Portugués"
 }

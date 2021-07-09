@@ -7,10 +7,12 @@ import {AboutRoutingModule} from './about-routing.module';
 import {AboutComponent} from './about.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTranslateModule} from 'dfx-translate';
+import {FlexModule} from '@angular/flex-layout';
+import {FooterModule} from '../footer/footer.module';
 
 @NgModule({
   declarations: [AboutComponent],
-  imports: [AboutRoutingModule, CommonModule, FormsModule, NgbModule, DfxTranslateModule],
+  imports: [AboutRoutingModule, CommonModule, FormsModule, NgbModule, DfxTranslateModule, FlexModule, FooterModule],
   providers: [],
 })
 export class AboutModule {}
