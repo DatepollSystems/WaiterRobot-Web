@@ -9,7 +9,7 @@ const homeRoutes: Routes = [
     component: HomeComponent,
     canActivate: [],
     children: [
-      // {path: '', pathMatch: 'full', loadChildren: () => import('./start/start.module').then((m) => m.StartModule), data: {preload: true}}
+      {path: '', pathMatch: 'full', loadChildren: () => import('./start/start.module').then((m) => m.StartModule), data: {preload: true}}
     ],
   },
 ];
