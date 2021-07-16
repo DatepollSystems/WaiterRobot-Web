@@ -19,18 +19,18 @@
       <div fxLayout="column" fxLayoutGap="2%">
         <div class="card bg-dark text-white">
           <div class="card-body">
-            <form #f="ngForm" fxLayout="column" style="padding-left: 10px; padding-right: 10px">
+            <form #f="ngForm" (ngSubmit)="onSignin(f)" fxLayout="column" style="padding-left: 10px; padding-right: 10px">
               <div class="form-group">
-                <label for="username">Benutzername</label>
-                <input type="text" class="form-control bg-dark text-white" id="username" placeholder="vorname.nachname">
+                <label for="username">{{'ABOUT_SIGNIN_USERNAME' | tr}}</label>
+                <input ngModel class="form-control bg-dark text-white" required type="text" id="username" name="username" minlength="3" placeholder="{{'ABOUT_SIGNIN_USERNAME_PLACEHOLDER' | tr}}">
               </div>
 
               <div class="form-group">
-                <label for="password">Passwort</label>
-                <input type="password" class="form-control bg-dark text-white" id="password">
+                <label for="password">{{'ABOUT_SIGNIN_PASSWORD' | tr}}</label>
+                <input ngModel class="form-control bg-dark text-white" required type="password" id="password" name="password">
               </div>
 
-              <button [disabled]="!f.valid" class="btn btn-primary">
+              <button [disabled]="!f.valid" type="submit" class="btn btn-primary">
                 {{ 'ABOUT_SIGNIN' | tr }}
               </button>
 

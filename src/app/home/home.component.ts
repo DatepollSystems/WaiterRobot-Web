@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService} from '../_services/auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
   }
@@ -18,6 +19,10 @@ export class HomeComponent implements OnInit {
     } else {
       collapsable.style.display = 'none';
     }
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 
 }

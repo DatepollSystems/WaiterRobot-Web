@@ -21,7 +21,7 @@
     </ul>
 
     <div class="my-2 my-lg-0">
-      <button class="btn btn-outline-danger my-2 my-sm-0" type="button">Logout</button>
+      <button class="btn btn-outline-danger my-2 my-sm-0" type="button" (click)="logout()">Logout</button>
     </div>
   </div>
 </nav>
@@ -29,3 +29,5 @@
 <main class="container-fluid">
   <router-outlet></router-outlet>
 </main>
+
+<app-footer></app-footer>
