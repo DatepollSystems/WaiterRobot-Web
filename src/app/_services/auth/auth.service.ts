@@ -13,12 +13,13 @@ export class AuthService {
   private httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
   private apiUrl = EnvironmentHelper.getAPIUrl();
 
-  private sessionToken: string|null = null;
-  private jwtToken: string|null = null;
+  private sessionToken: string | null = null;
+  private jwtToken: string | null = null;
   private jwtTokenExpires: Date;
 
   public redirectUrl: string | null = null;
 
+  // Never use own httpService! It creates a circular dependency
   constructor(private http: HttpClient) {
     this.jwtTokenExpires = new Date();
     this.jwtTokenExpires.setMinutes(this.jwtTokenExpires.getMinutes() + 50);
@@ -32,7 +33,9 @@ export class AuthService {
       session_name: browser.name + ' - ' + browser.majorVersion + '; OS: ' + browser.os + '; Phone: ' + browser.mobile,
     };
 
-    return this.http.post(this.apiUrl + '/v1/auth/login', signInObject, {headers: this.httpHeaders});
+    // TODO: Change back to post; currently get because of json server
+    return this.http.get(this.apiUrl + '/v1/auth/login');
+    // return this.http.post(this.apiUrl + '/v1/auth/login', signInObject, {headers: this.httpHeaders});
   }
 
   public setSessionToken(sessionToken: string): void {
@@ -40,7 +43,7 @@ export class AuthService {
     this.sessionToken = sessionToken;
   }
 
-  getSessionToken(): string|null {
+  getSessionToken(): string | null {
     if (this.sessionToken == null) {
       this.sessionToken = localStorage.getItem('sessionToken');
     }
@@ -54,7 +57,7 @@ export class AuthService {
     this.jwtTokenExpires.setMinutes(this.jwtTokenExpires.getMinutes() + 50);
   }
 
-  public getJWTToken(): string|null {
+  public getJWTToken(): string | null {
     if (this.jwtToken == null) {
       this.jwtToken = localStorage.getItem('token');
     }
@@ -69,11 +72,17 @@ export class AuthService {
       session_information: browser.name + ' - ' + browser.majorVersion + '; OS: ' + browser.os + '; Phone: ' + browser.mobile,
     };
 
-    return this.http.post(this.apiUrl + '/auth/IamLoggedIn', object, {headers: this.httpHeaders}).pipe(
+    // TODO: Change back to post; currently get because of json server
+    return this.http.get(this.apiUrl + '/v1/auth/login').pipe(
       tap((data: any) => {
         this.setJWTToken(data.access_token);
       })
     );
+    // return this.http.post(this.apiUrl + '/v1/auth/refresh', object, {headers: this.httpHeaders}).pipe(
+    //   tap((data: any) => {
+    //     this.setJWTToken(data.access_token);
+    //   })
+    // );
   }
 
   public logout(): void {

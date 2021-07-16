@@ -1,5 +1,9 @@
 {
+  "CLOSE": "Schließen",
   "GO_BACK": "Zurück",
+
+  "REQUEST_ERROR_CLIENT": "Client fehler",
+  "REQUEST_ERROR_SERVER": "Server fehler",
 
   "ABOUT": "Über",
   "ABOUT_SIGNIN": "Anmelden",
@@ -12,6 +16,11 @@
   "ABOUT_MORE_INFORMATION": "Mehr Informationen über",
   "ABOUT_IMPRINT": "Impressum",
   "ABOUT_PRIVACY_POLICY": "Datenschutzerklärung",
+  "ABOUT_MODAL_GENERAL": "Allgemein",
+  "ABOUT_MODAL_GENERAL_DESCRIPTION": "WaiterRobot ist das BenutzernamePasswort Probleme beim anmelden oder Passwort vergessen? Downloade die dazugehörige App Mehr Informationen über",
+  "ABOUT_MODAL_GENERAL_WEBSITE": "Besuch (https://datepoll.org) die Projekt-Website",
+  "ABOUT_MODAL_TECHNICAL": "Technisches",
+  "ABOUT_MODAL_TECHNICAL_WEB_VERSION": "Version der Webapplication",
 
   "LANGUAGE": "Sprache",
   "LANGUAGE_CHANGED_TO": "Sprache geändert zu ",
