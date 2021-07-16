@@ -1,5 +1,7 @@
 {
   "CLOSE": "Schließen",
+  "ADD": "Erstellen",
+  "ADD_2": "Anlegen",
   "GO_BACK": "Zurück",
 
   "REQUEST_ERROR_CLIENT": "Client fehler",
@@ -30,5 +32,16 @@
   "LANGUAGE_SPANISH": "Español",
   "LANGUAGE_FRANCE": "Français",
   "LANGUAGE_ITALIEN": "Italiano",
-  "LANGUAGE_PORTUGUES": "Portugués"
+  "LANGUAGE_PORTUGUES": "Portugués",
+
+  "NAV_SETTINGS": "Einstellungen",
+  "NAV_WELCOME": "Willkommen",
+  "NAV_USER_SETTINGS": "Benutzereinstellungen",
+  "NAV_USER_SESSIONS": "Sessions",
+  "NAV_LOGOUT": "Abmelden",
+  "NAV_TABLES": "Tische",
+  "NAV_PRODUCTS": "Produkte",
+  "NAV_WAITERS": "Kellner",
+  "NAV_PRINTERS": "Drucker",
+  "NAV_ORGANISATIONS": "Organisationen"
 }

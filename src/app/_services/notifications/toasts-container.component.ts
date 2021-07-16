@@ -19,7 +19,8 @@ import {NotificationService} from './notification.service';
       <ng-template #text>{{ toast.textOrTpl }}</ng-template>
     </ngb-toast>
   `,
-  host: {'[class.ngb-toasts]': 'true'}
+  host: {'[class.ngb-toasts]': 'true'},
+  styles: [':host { position: fixed; bottom: 25px; right: 0; margin: 0.5em; z-index: 1200;}']
 })
 export class ToastsContainerComponent {
   constructor(public notificationService: NotificationService) {}

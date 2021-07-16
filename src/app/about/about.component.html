@@ -19,7 +19,7 @@
       <div fxLayout="column" fxLayoutGap="2%">
         <div class="card bg-dark text-white">
           <div class="card-body">
-            <form #f="ngForm" (ngSubmit)="onSignin(f)" fxLayout="column" style="padding-left: 10px; padding-right: 10px">
+            <form #f="ngForm" (ngSubmit)="onSignin(f)" fxLayout="column" fxLayoutGap="2%" style="padding-left: 10px; padding-right: 10px">
               <div class="form-group">
                 <label for="username">{{'ABOUT_SIGNIN_USERNAME' | tr}}</label>
                 <input ngModel class="form-control bg-dark text-white" required type="text" id="username" name="username" minlength="3" placeholder="{{'ABOUT_SIGNIN_USERNAME_PLACEHOLDER' | tr}}">

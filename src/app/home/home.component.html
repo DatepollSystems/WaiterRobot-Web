@@ -1,32 +1,71 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">
-    <img src="assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="Brand logo"> WaiterRobot</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" (click)="toggleNav(collapsable)"
-          data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-          aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/home">
+      <img src="assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="Brand logo"> WaiterRobot
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" (click)="toggleNav(collapsable)"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent" #collapsable>
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-    </ul>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" #collapsable fxLayout="row"
+         fxLayout.lt-md="column" fxLayoutAlign="space-between" fxLayoutGap="2%">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/home">Home <span class="visually-hidden">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">{{'NAV_TABLES' | tr}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">{{'NAV_PRODUCTS' | tr}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">{{'NAV_WAITERS' | tr}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">{{'NAV_PRINTERS' | tr}}</a>
+        </li>
+        <li class="nav-item">
+          <div ngbDropdown display="dynamic" class="nav-item">
+            <a class="nav-link" id="organisationSwitcherDropdown"
+               ngbDropdownToggle>{{'NAV_ORGANISATIONS' | tr}}</a>
+            <div ngbDropdownMenu aria-labelledby="organisationSwitcherDropdown">
+              <button ngbDropdownItem><b>Org 1</b></button>
+              <button ngbDropdownItem>Feuerwehrfest 1</button>
+              <button ngbDropdownItem>Feuerwehrfest 2</button>
+              <div class="dropdown-divider"></div>
+              <button ngbDropdownItem><b>+</b> {{'ADD_2' | tr}}</button>
+              <button ngbDropdownItem>{{'NAV_SETTINGS' | tr}}</button>
+            </div>
+          </div>
+        </li>
+      </ul>
 
-    <div class="my-2 my-lg-0">
-      <button class="btn btn-outline-danger my-2 my-sm-0" type="button" (click)="logout()">Logout</button>
+      <div fxLayout="row">
+        <div ngbDropdown display="dynamic" class="nav-item">
+          <a class="nav-link" id="settingsDropdown"
+             ngbDropdownToggle>{{'NAV_SETTINGS' | tr}}</a>
+          <div ngbDropdownMenu aria-labelledby="settingsDropdown">
+            <div class="px-3 py-1">
+              <h5>{{'NAV_WELCOME' | tr}}</h5>
+              <small><b>vorname.nachname</b></small>
+            </div>
+            <div class="dropdown-divider"></div>
+            <button ngbDropdownItem>{{'NAV_USER_SETTINGS' | tr}}</button>
+            <button ngbDropdownItem>{{'NAV_USER_SESSIONS' | tr}}</button>
+            <button ngbDropdownItem (click)="logout()">{{'NAV_LOGOUT' | tr}}</button>
+          </div>
+        </div>
+      </div>
+
+
     </div>
   </div>
 </nav>
 
-<main class="container-fluid">
+<main class="container-fluid text-white">
   <router-outlet></router-outlet>
 </main>
 

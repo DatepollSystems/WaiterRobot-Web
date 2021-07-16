@@ -14,10 +14,10 @@ export class HomeComponent implements OnInit {
   }
 
   toggleNav(collapsable: any): void {
-    if (collapsable.style.display === 'none') {
-      collapsable.style.display = 'block';
-    } else {
+    if (collapsable.style.display === 'block') {
       collapsable.style.display = 'none';
+    } else {
+      collapsable.style.display = 'block';
     }
   }
 
