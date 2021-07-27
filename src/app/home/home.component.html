@@ -27,8 +27,11 @@
         <li class="nav-item">
           <a class="nav-link" href="#">{{'NAV_PRINTERS' | tr}}</a>
         </li>
+      </ul>
+
+      <ul class="navbar-nav">
         <li class="nav-item">
-          <div ngbDropdown display="dynamic" class="nav-item">
+          <div ngbDropdown display="dynamic">
             <a class="nav-link" id="organisationSwitcherDropdown"
                ngbDropdownToggle>{{'NAV_ORGANISATIONS' | tr}}</a>
             <div ngbDropdownMenu aria-labelledby="organisationSwitcherDropdown">
@@ -41,25 +44,24 @@
             </div>
           </div>
         </li>
-      </ul>
 
-      <div fxLayout="row">
-        <div ngbDropdown display="dynamic" class="nav-item">
-          <a class="nav-link" id="settingsDropdown"
-             ngbDropdownToggle>{{'NAV_SETTINGS' | tr}}</a>
-          <div ngbDropdownMenu aria-labelledby="settingsDropdown">
-            <div class="px-3 py-1">
-              <h5>{{'NAV_WELCOME' | tr}}</h5>
-              <small><b>vorname.nachname</b></small>
+        <li class="nav-item">
+          <div ngbDropdown display="dynamic">
+            <a class="nav-link" id="settingsDropdown"
+               ngbDropdownToggle>{{'NAV_SETTINGS' | tr}}</a>
+            <div ngbDropdownMenu aria-labelledby="settingsDropdown">
+              <div class="px-3 py-1">
+                <h5>{{'NAV_WELCOME' | tr}}</h5>
+                <small><b>vorname.nachname</b></small>
+              </div>
+              <div class="dropdown-divider"></div>
+              <button ngbDropdownItem>{{'NAV_USER_SETTINGS' | tr}}</button>
+              <button ngbDropdownItem>{{'NAV_USER_SESSIONS' | tr}}</button>
+              <button ngbDropdownItem (click)="logout()">{{'NAV_LOGOUT' | tr}}</button>
             </div>
-            <div class="dropdown-divider"></div>
-            <button ngbDropdownItem>{{'NAV_USER_SETTINGS' | tr}}</button>
-            <button ngbDropdownItem>{{'NAV_USER_SESSIONS' | tr}}</button>
-            <button ngbDropdownItem (click)="logout()">{{'NAV_LOGOUT' | tr}}</button>
           </div>
-        </div>
-      </div>
-
+        </li>
+      </ul>
 
     </div>
   </div>

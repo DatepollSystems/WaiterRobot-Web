@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../_services/auth/auth.service';
 
 @Component({
@@ -7,10 +7,18 @@ import {AuthService} from '../_services/auth/auth.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {
+  }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      if (window.innerWidth < 992) {
+        const navContent = document.getElementById('navbarSupportedContent');
+        if (navContent != null) {
+          navContent.style.display = 'none';
+        }
+      }
+    }, 1);
   }
 
   toggleNav(collapsable: any): void {
