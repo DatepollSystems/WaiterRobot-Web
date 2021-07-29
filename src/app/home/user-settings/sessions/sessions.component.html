@@ -1,0 +1,23 @@
+<h1>{{'NAV_USER_SESSIONS' | tr}}</h1>
+<div class="table-responsive">
+  <table class="table table-dark table-striped table-hover">
+    <thead>
+    <tr class="table-dark">
+      <th>#</th>
+      <th sortable="name" (sort)="onSort($event)">{{'NAME' | tr}}</th>
+      <th sortable="registered_at" (sort)="onSort($event)">{{'HOME_USERSETTINGS_SESSIONS_REGISTERED_AT' | tr}}</th>
+      <th>{{'ACTIONS' | tr}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let session of sessionsCopy" class="table-dark">
+      <th>{{ session.id }}</th>
+      <td>{{ session.name }}</td>
+      <td>{{ session.registered_at | date: 'HH:mm - dd.MM.YYYY'}}</td>
+      <td>
+        <button type="button" class="btn btn-danger btn-sm" (click)="onDelete(session.id)">{{'DELETE' | tr}}</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

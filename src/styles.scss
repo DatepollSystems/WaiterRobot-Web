@@ -13,3 +13,21 @@ a:hover {
   cursor: pointer;
   text-decoration: none;
 }
+
+.sortable-header {
+  cursor: pointer;
+}
+
+/* Fix vertical text alignment in buttons with icons */
+.btn > bi {
+  vertical-align: middle;
+}
+
+.big {
+  height: 50px;
+  width: 50px;
+}
+
+.fill-red {
+  fill: red;
+}

@@ -1,0 +1,136 @@
+<h1 *ngIf="isEdit && organisation">{{'EDIT_2' | tr}} "{{organisation.name}}"</h1>
+<h1 *ngIf="!isEdit">{{'ADD_2' | tr}}</h1>
+
+<div fxLayout="row break" fxLayoutGap="2%" fxLayoutGap.gt-md="1%" *ngIf="isEdit && organisation">
+  <div>
+    <button class="btn btn-sm btn-success" (click)="f.ngSubmit.emit();" [disabled]="!f.valid">
+      <bi name="save"></bi>
+      {{'SAVE' | tr}}</button>
+  </div>
+  <div>
+    <button class="btn btn-sm btn-primary my-2 my-md-0" [disabled]="organisation.id == selectedOrganisation?.id">
+      <bi name="check2-square"></bi>
+      {{'SELECT' | tr}}</button>
+  </div>
+  <div>
+    <button class="btn btn-sm btn-outline-secondary my-2 my-md-0 disabled">
+      <bi name="clipboard"></bi>
+      {{'COPY' | tr}}</button>
+  </div>
+  <div>
+    <button class="btn btn-sm btn-outline-secondary my-2 my-md-0 disabled">
+      <bi name="save"></bi>
+      {{'EXPORT' | tr}}</button>
+  </div>
+  <div>
+    <button class="btn btn-sm btn-outline-danger my-2 my-md-0" (click)="delete(organisation.id)">
+      <bi name="trash"></bi>
+      {{'DELETE' | tr}}</button>
+  </div>
+</div>
+
+<div fxLayout="row break" *ngIf="!isEdit">
+  <div>
+    <button class="btn btn-sm btn-success" (click)="f.ngSubmit.emit();" [disabled]="!f.valid || f != null">
+      <bi name="plus-circle"></bi>
+      {{'ADD' | tr}}</button>
+  </div>
+</div>
+
+<form #f="ngForm" (ngSubmit)="onSave(f)">
+  <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs mt-3 bg-dark" (navChange)="onNavChange($event)">
+    <li [ngbNavItem]="1">
+      <a ngbNavLink>Daten</a>
+      <ng-template ngbNavContent>
+        <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%">
+          <div class="form-group" fxFlex="70%">
+            <label for="name">{{'NAME' | tr}}</label>
+            <input ngModel class="form-control bg-dark text-white" required type="text" id="name" name="name" #nameModel="ngModel"
+                   minlength="5" placeholder="{{'NAME' | tr}}" [ngModel]="isEdit ? organisation?.name : null">
+
+            <small *ngIf="nameModel.invalid" class="text-danger">
+              {{ 'HOME_ORGS_NAME_INCORRECT' | tr }}
+            </small>
+          </div>
+          <div class="form-group" fxFlex="28%">
+            <label for="name">{{'DATE' | tr}}</label>
+            <input ngModel class="form-control bg-dark text-white" required type="text" id="date" name="date" #dateModel="ngModel"
+                   minlength="3" placeholder="{{'DATE' | tr}}" [ngModel]="isEdit ? organisation?.name : null">
+
+            <small *ngIf="dateModel.invalid" class="text-danger">
+              {{ 'HOME_ORGS_DATE_INCORRECT' | tr }}
+            </small>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%" class="mt-2">
+          <div class="form-group" fxFlex="70%">
+            <label for="street">{{'HOME_ORGS_STREET' | tr}}</label>
+            <input ngModel class="form-control bg-dark text-white" required type="text" id="street" name="street" #streetModel="ngModel"
+                   minlength="3" placeholder="{{'HOME_ORGS_STREET' | tr}}"
+                   [ngModel]="isEdit ? organisation?.street : null">
+            <small *ngIf="streetModel.invalid" class="text-danger">
+              {{ 'HOME_ORGS_STREET_INCORRECT' | tr }}
+            </small>
+          </div>
+          <div class="form-group" fxFlex="28%">
+            <label for="street_number">{{'HOME_ORGS_STREETNUMBER' | tr}}</label>
+            <input ngModel class="form-control bg-dark text-white" required type="text" id="street_number" #streetNumberModel="ngModel"
+                   name="street_number" minlength="1" placeholder="{{'HOME_ORGS_STREETNUMBER' | tr}}"
+                   [ngModel]="isEdit ? organisation?.street_number : null">
+            <small *ngIf="streetNumberModel.invalid" class="text-danger">
+              {{ 'HOME_ORGS_STREETNUMBER_INCORRECT' | tr }}
+            </small>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%" class="mt-2">
+          <div class="form-group" fxFlex="23%">
+            <label for="postal_code">{{'HOME_ORGS_POSTAL_CODE' | tr}}</label>
+            <input ngModel class="form-control bg-dark text-white" required type="text" id="postal_code" #postalCodeModel="ngModel"
+                   name="postal_code" minlength="1" placeholder="{{'HOME_ORGS_POSTAL_CODE' | tr}}"
+                   [ngModel]="isEdit ? organisation?.postal_code : null">
+            <small *ngIf="postalCodeModel.invalid" class="text-danger">
+              {{ 'HOME_ORGS_POSTAL_CODE_INCORRECT' | tr }}
+            </small>
+          </div>
+
+          <div class="form-group" fxFlex="23%">
+            <label for="country_code">{{'HOME_ORGS_COUNTRY_CODE' | tr}}</label>
+            <input ngModel class="form-control bg-dark text-white" required type="text" id="country_code" #countryCodeModel="ngModel"
+                   name="country_code" minlength="2" placeholder="{{'HOME_ORGS_COUNTRY_CODE' | tr}}"
+                   [ngModel]="isEdit ? organisation?.country_code : null">
+            <small *ngIf="countryCodeModel.invalid" class="text-danger">
+              {{ 'HOME_ORGS_COUNTRY_CODE_INCORRECT' | tr }}
+            </small>
+          </div>
+
+          <div class="form-group" fxFlex="50%">
+            <label for="city">{{'HOME_ORGS_CITY' | tr}}</label>
+            <input ngModel class="form-control bg-dark text-white" required type="text" id="city" name="city" #cityModel="ngModel"
+                   minlength="4" placeholder="{{'HOME_ORGS_CITY' | tr}}" [ngModel]="isEdit ? organisation?.city : null">
+            <small *ngIf="cityModel.invalid" class="text-danger">
+              {{ 'HOME_ORGS_CITY_INCORRECT' | tr }}
+            </small>
+          </div>
+        </div>
+
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <a ngbNavLink>{{'USER' | tr}}</a>
+      <ng-template ngbNavContent>
+        Coming soon...
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="3" *ngIf="isEdit">
+      <a ngbNavLink>{{'STATISTICS' | tr}}</a>
+      <ng-template ngbNavContent>
+        Coming soon...
+      </ng-template>
+    </li>
+  </ul>
+
+  <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
+
+</form>

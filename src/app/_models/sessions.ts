@@ -1,9 +1,12 @@
-import {WModel} from './model';
+import {AModel} from 'dfx-helper';
 
-export class Sessions extends WModel{
+export class SessionsModel extends AModel {
+  public readonly name: string;
+  public readonly registered_at: string;
 
-  constructor(dto: any) {
-    console.log(dto);
-    super(dto.id);
+  constructor(data: any) {
+    super(data.id);
+    this.name = data.name;
+    this.registered_at = data.registered_at;
   }
 }

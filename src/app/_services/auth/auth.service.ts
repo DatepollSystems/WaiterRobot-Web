@@ -1,26 +1,22 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 
-import {EnvironmentHelper} from '../../_helper/EnvironmentHelper';
 import {BrowserHelper} from 'dfx-helper';
+
+import {HttpService} from '../http.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
-  private apiUrl = EnvironmentHelper.getAPIUrl();
-
   private sessionToken: string | null = null;
   private jwtToken: string | null = null;
   private jwtTokenExpires: Date;
 
   public redirectUrl: string | null = null;
 
-  // Never use own httpService! It creates a circular dependency
-  constructor(private http: HttpClient) {
+  constructor(private httpService: HttpService) {
     this.jwtTokenExpires = new Date();
     this.jwtTokenExpires.setMinutes(this.jwtTokenExpires.getMinutes() + 50);
   }
@@ -33,9 +29,7 @@ export class AuthService {
       session_name: browser.name + ' - ' + browser.majorVersion + '; OS: ' + browser.os + '; Phone: ' + browser.mobile,
     };
 
-    // TODO: Change back to post; currently get because of json server
-    return this.http.get(this.apiUrl + '/v1/auth/login');
-    // return this.http.post(this.apiUrl + '/v1/auth/login', signInObject, {headers: this.httpHeaders});
+    return this.httpService.post('/auth/login', signInObject, 'sendSignInRequest');
   }
 
   public setSessionToken(sessionToken: string): void {
@@ -72,17 +66,11 @@ export class AuthService {
       session_information: browser.name + ' - ' + browser.majorVersion + '; OS: ' + browser.os + '; Phone: ' + browser.mobile,
     };
 
-    // TODO: Change back to post; currently get because of json server
-    return this.http.get(this.apiUrl + '/v1/auth/login').pipe(
+    return this.httpService.post('/auth/refresh', object, 'refreshJWTToken').pipe(
       tap((data: any) => {
         this.setJWTToken(data.access_token);
       })
     );
-    // return this.http.post(this.apiUrl + '/v1/auth/refresh', object, {headers: this.httpHeaders}).pipe(
-    //   tap((data: any) => {
-    //     this.setJWTToken(data.access_token);
-    //   })
-    // );
   }
 
   public logout(): void {

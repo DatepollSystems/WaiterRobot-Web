@@ -35,12 +35,21 @@
             <a class="nav-link" id="organisationSwitcherDropdown"
                ngbDropdownToggle>{{'NAV_ORGANISATIONS' | tr}}</a>
             <div ngbDropdownMenu aria-labelledby="organisationSwitcherDropdown">
-              <button ngbDropdownItem><b>Org 1</b></button>
-              <button ngbDropdownItem>Feuerwehrfest 1</button>
-              <button ngbDropdownItem>Feuerwehrfest 2</button>
+              <button ngbDropdownItem *ngIf="selectedOrganisation">
+                <b>{{selectedOrganisation.name}}</b>
+              </button>
+
+              <ng-container *ngFor="let organisation of this.organisations">
+                <button ngbDropdownItem *ngIf="organisation.id != selectedOrganisation?.id">
+                  <span>{{organisation.name}}</span>
+                </button>
+              </ng-container>
               <div class="dropdown-divider"></div>
-              <button ngbDropdownItem><b>+</b> {{'ADD_2' | tr}}</button>
-              <button ngbDropdownItem>{{'NAV_SETTINGS' | tr}}</button>
+              <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/create">
+                <b>+</b> {{'ADD_2' | tr}}</button>
+              <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/all">
+                <bi name="gear"></bi>
+                {{'NAV_SETTINGS' | tr}}</button>
             </div>
           </div>
         </li>
@@ -55,9 +64,15 @@
                 <small><b>vorname.nachname</b></small>
               </div>
               <div class="dropdown-divider"></div>
-              <button ngbDropdownItem>{{'NAV_USER_SETTINGS' | tr}}</button>
-              <button ngbDropdownItem>{{'NAV_USER_SESSIONS' | tr}}</button>
-              <button ngbDropdownItem (click)="logout()">{{'NAV_LOGOUT' | tr}}</button>
+              <button ngbDropdownItem routerLinkActive="active" routerLink="usettings/settings">
+                <bi name="gear-wide-connected"></bi>
+                {{'NAV_USER_SETTINGS' | tr}}</button>
+              <button ngbDropdownItem routerLinkActive="active" routerLink="usettings/sessions">
+                <bi name="file-lock"></bi>
+                {{'NAV_USER_SESSIONS' | tr}}</button>
+              <button ngbDropdownItem (click)="logout()">
+                <bi name="box-arrow-left"></bi>
+                {{'NAV_LOGOUT' | tr}}</button>
             </div>
           </div>
         </li>

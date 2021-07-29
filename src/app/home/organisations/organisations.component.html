@@ -1,0 +1,30 @@
+<div fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap.lt-md="4%">
+  <ul class="list-group" fxFlex="22%" fxFlex.gt-lg="15%">
+    <a class="list-group-item list-group-item-action" routerLink="all"
+       routerLinkActive="active">
+      <bi name="people-fill"></bi>
+      {{ 'HOME_ORGS_ALL' | tr }}</a>
+
+    <a class="list-group-item list-group-item-action" routerLink="/home/organisations/create"
+       routerLinkActive="active">
+      <bi name="plus-circle"></bi>
+      {{ 'ADD_2' | tr }}</a>
+
+    <a class="list-group-item list-group-item-action" routerLink="{{selectedOrganisation?.id}}"
+       *ngIf="selectedOrganisation"
+       routerLinkActive="active"><b>{{selectedOrganisation.name}}</b></a>
+
+    <ng-container *ngFor="let organisation of this.organisations">
+      <a class="list-group-item list-group-item-action" routerLink="{{organisation.id}}"
+         *ngIf="organisation.id != selectedOrganisation?.id"
+         routerLinkActive="active">{{organisation.name}}</a>
+    </ng-container>
+  </ul>
+  <div fxFlex="76%" fxFlex.gt-lg="82%">
+    <div class="card bg-dark">
+      <div class="card-body">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <h1>{{'HOME_ORGS_ALL' | tr}}</h1>
+  <div>
+    <a routerLink="../create" class="btn btn-outline-success"><bi name="plus-circle"></bi>{{'ADD_2' | tr}}</a>
+  </div>
+</div>
+<div class="table-responsive">
+  <table class="table table-dark table-hover">
+    <thead>
+    <tr class="table-dark">
+      <th>#</th>
+      <th sortable="name" (sort)="onSort($event)">{{'NAME' | tr}}</th>
+      <th sortable="street" (sort)="onSort($event)">{{'HOME_ORGS_STREET' | tr}}</th>
+      <th sortable="street_number" (sort)="onSort($event)">{{'HOME_ORGS_STREETNUMBER' | tr}}</th>
+      <th sortable="postal_code" (sort)="onSort($event)">{{'HOME_ORGS_POSTAL_CODE' | tr}}</th>
+      <th sortable="city" (sort)="onSort($event)">{{'HOME_ORGS_CITY' | tr}}</th>
+      <th sortable="country_code" (sort)="onSort($event)">{{'HOME_ORGS_COUNTRY_CODE' | tr}}</th>
+      <th>{{'ACTIONS' | tr}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let organisation of organisationsCopy" class="table-dark">
+      <th>{{ organisation.id }}</th>
+      <td>{{ organisation.name }}</td>
+      <td>{{ organisation.street }}</td>
+      <td>{{ organisation.street_number }}</td>
+      <td>{{ organisation.postal_code }}</td>
+      <td>{{ organisation.city }}</td>
+      <td>{{ organisation.country_code }}</td>
+      <td>
+        <button type="button" class="btn btn-danger btn-sm m-1" (click)="onDelete(organisation.id)">{{'DELETE' | tr}}</button>
+        <a routerLink="{{organisation.id}}" class="btn btn-success btn-sm m-1">{{'EDIT' | tr}}</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

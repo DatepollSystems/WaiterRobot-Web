@@ -1,8 +1,20 @@
 {
   "CLOSE": "Schließen",
   "ADD": "Erstellen",
-  "ADD_2": "Anlegen",
+  "ADD_2": "Neu Anlegen",
   "GO_BACK": "Zurück",
+  "NAME": "Name",
+  "ACTIONS": "Aktionen",
+  "DELETE": "Löschen",
+  "EDIT": "Editieren",
+  "EDIT_2": "Bearbeite",
+  "SELECT": "Auswählen",
+  "COPY": "Kopieren",
+  "EXPORT": "Exportieren",
+  "DATE": "Datum",
+  "SAVE": "Speichern",
+  "USER": "Benutzer",
+  "STATISTICS": "Statistiken",
 
   "REQUEST_ERROR_CLIENT": "Client fehler",
   "REQUEST_ERROR_SERVER": "Server fehler",
@@ -43,5 +55,23 @@
   "NAV_PRODUCTS": "Produkte",
   "NAV_WAITERS": "Kellner",
   "NAV_PRINTERS": "Drucker",
-  "NAV_ORGANISATIONS": "Organisationen"
+  "NAV_ORGANISATIONS": "Organisationen",
+
+  "HOME_USERSETTINGS_USER_SETTINGS": "Benutzereinstellugen",
+  "HOME_USERSETTINGS_USER_SETTINGS_EMAIL": "E-Mail Adresse",
+  "HOME_USERSETTINGS_SESSIONS_REGISTERED_AT": "Registriert am",
+
+  "HOME_ORGS_ALL": "Organisationen",
+  "HOME_ORGS_NAME_INCORRECT": "Der Name muss mehr als 5 Zeichen haben",
+  "HOME_ORGS_DATE_INCORRECT": "Das Datum ist inkorrekt",
+  "HOME_ORGS_STREET": "Straße",
+  "HOME_ORGS_STREET_INCORRECT": "Der Straßename muss mehr als 3 Zeichen haben",
+  "HOME_ORGS_STREETNUMBER": "Nr.",
+  "HOME_ORGS_STREETNUMBER_INCORRECT": "Straßen Nr. erforderlich",
+  "HOME_ORGS_POSTAL_CODE": "Postleitzahl",
+  "HOME_ORGS_POSTAL_CODE_INCORRECT": "Postleitzahl erforderlich",
+  "HOME_ORGS_CITY": "Stadt",
+  "HOME_ORGS_CITY_INCORRECT": "Der Stadtname muss mehr als 4 Zeichen haben",
+  "HOME_ORGS_COUNTRY_CODE": "Landkürzel",
+  "HOME_ORGS_COUNTRY_CODE_INCORRECT": "Landkürzel erforderlich"
 }
