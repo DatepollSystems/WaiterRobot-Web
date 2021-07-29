@@ -29,7 +29,7 @@
       <td>{{ organisation.country_code }}</td>
       <td>
         <button type="button" class="btn btn-danger btn-sm m-1" (click)="onDelete(organisation.id)">{{'DELETE' | tr}}</button>
-        <a routerLink="{{organisation.id}}" class="btn btn-success btn-sm m-1">{{'EDIT' | tr}}</a>
+        <a routerLink="../{{organisation.id}}" class="btn btn-success btn-sm m-1">{{'EDIT' | tr}}</a>
       </td>
     </tr>
     </tbody>
