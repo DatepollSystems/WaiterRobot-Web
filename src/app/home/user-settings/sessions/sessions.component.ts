@@ -20,6 +20,7 @@ export class SessionsComponent implements OnDestroy {
       this.sessions = value;
       this.sessionsCopy = this.sessions.slice();
     });
+
   }
   sessions: SessionsModel[];
   sessionsCopy: SessionsModel[];

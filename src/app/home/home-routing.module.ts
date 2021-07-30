@@ -12,7 +12,11 @@ const homeRoutes: Routes = [
     children: [
       {path: '', pathMatch: 'full', loadChildren: () => import('./start/start.module').then((m) => m.StartModule), data: {preload: true}},
       {path: 'usettings', loadChildren: () => import('./user-settings/user-settings.module').then((m) => m.UserSettingsModule)},
-      {path: 'organisations', loadChildren: () => import('./organisations/organisations.module').then((m) => m.OrganisationsModule)}
+      {path: 'organisations', loadChildren: () => import('./organisations/organisations.module').then((m) => m.OrganisationsModule)},
+      {path: 'printers', loadChildren: () => import('./printers/printers.module').then((m) => m.PrintersModule)},
+      {path: 'tables', loadChildren: () => import('./tables/tables.module').then((m) => m.TablesModule)},
+      {path: 'waiters', loadChildren: () => import('./waiters/waiters.module').then((m) => m.WaitersModule)},
+      {path: 'products', loadChildren: () => import('./products/products.module').then((m) => m.ProductsModule)}
     ],
   },
 ];

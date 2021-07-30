@@ -11,7 +11,6 @@ import {AuthInterceptor} from './_services/auth/auth-interceptor';
 
 import {AppComponent} from './app.component';
 import {ToastsContainerComponent} from './_services/notifications/toasts-container.component';
-
 @NgModule({
   declarations: [
     AppComponent,
