@@ -10,7 +10,7 @@ import {
   PlusCircle,
   Check2Square,
   Clipboard,
-  Save, Trash
+  Save, Trash, PencilSquare, XCircleFill
 } from 'ng-bootstrap-icons/icons';
 
 // Select some icons (use an object, not an array)
@@ -24,7 +24,9 @@ const icons = {
   Check2Square,
   Clipboard,
   Save,
-  Trash
+  Trash,
+  PencilSquare,
+  XCircleFill
 };
 
 @NgModule({

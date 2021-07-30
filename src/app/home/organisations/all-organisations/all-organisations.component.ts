@@ -7,6 +7,8 @@ import {SessionsService} from '../../../_services/sessions.service';
 import {SessionsModel} from '../../../_models/sessions';
 import {OrganisationsModel} from '../../../_models/organisations';
 import {OrganisationsService} from '../../../_services/organisations.service';
+import {FormControl} from '@angular/forms';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-all-organisations',
@@ -15,6 +17,7 @@ import {OrganisationsService} from '../../../_services/organisations.service';
 })
 export class AllOrganisationsComponent implements OnDestroy {
   @ViewChildren(SortableHeader) headers: QueryList<SortableHeader> | undefined;
+  filter = new FormControl('');
 
   organisations: OrganisationsModel[];
   organisationsCopy: OrganisationsModel[];
@@ -23,9 +26,29 @@ export class AllOrganisationsComponent implements OnDestroy {
   constructor(private organisationsService: OrganisationsService) {
     this.organisations = this.organisationsService.getAll();
     this.organisationsCopy = this.organisations.slice();
-    this.organisationsSubscription = this.organisationsService.allChange.subscribe((value: OrganisationsModel[]) => {
+    this.organisationsSubscription = this.organisationsService.allChange.subscribe(value => {
       this.organisations = value;
       this.organisationsCopy = this.organisations.slice();
+    });
+
+    this.filter.valueChanges.subscribe(value => {
+      if (value == null) {
+        this.organisationsCopy = this.organisations.slice();
+        return;
+      }
+      value = value.trim().toLowerCase();
+      this.organisationsCopy = [];
+      for (const org of this.organisations) {
+        if (org.id == value
+          || org.name.trim().toLowerCase().includes(value)
+          || org.street.trim().toLowerCase().includes(value)
+          || org.postal_code.trim().toLowerCase().includes(value)
+          || org.city.trim().toLowerCase().includes(value)
+          || org.country_code.trim().toLowerCase().includes(value)
+          || org.street_number.trim().toLowerCase().includes(value)) {
+          this.organisationsCopy.push(org);
+        }
+      }
     });
   }
 
@@ -33,11 +56,15 @@ export class AllOrganisationsComponent implements OnDestroy {
     this.organisationsSubscription.unsubscribe();
   }
 
+  onSelect(organisationId: number) {
+    this.organisationsService.changeSelected(organisationId);
+  }
+
   onDelete(id: number) {
     this.organisationsService.delete(id);
   }
 
-  onSort({column, direction}: SortEvent): boolean|void {
+  onSort({column, direction}: SortEvent): boolean | void {
     if (this.headers == null) {
       return;
     }

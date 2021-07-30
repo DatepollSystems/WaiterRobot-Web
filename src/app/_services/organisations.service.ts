@@ -34,9 +34,19 @@ export class OrganisationsService extends AModelService<OrganisationsModel>{
 
   public fetchSelected(): void {
     this.httpService.get('/config/organisation/my', 'fetchSelected').subscribe(
-      (data: any) => {
+        (data: any) => {
         console.log(data);
         this.setSelected(this.convert(data));
+      },
+      (error: any) => console.log(error)
+    );
+  }
+
+  public changeSelected(id: number): void {
+    this.httpService.put('/config/organisation/my/' + id, 'changeSelected').subscribe(
+      (data: any) => {
+        console.log(data);
+        this.fetchSelected();
       },
       (error: any) => console.log(error)
     );

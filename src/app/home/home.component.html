@@ -35,21 +35,15 @@
             <a class="nav-link" id="organisationSwitcherDropdown"
                ngbDropdownToggle>{{'NAV_ORGANISATIONS' | tr}}</a>
             <div ngbDropdownMenu aria-labelledby="organisationSwitcherDropdown">
-              <button ngbDropdownItem *ngIf="selectedOrganisation">
+              <button ngbDropdownItem *ngIf="selectedOrganisation" routerLink="organisations/{{selectedOrganisation.id}}">
                 <b>{{selectedOrganisation.name}}</b>
               </button>
-
-              <ng-container *ngFor="let organisation of this.organisations">
-                <button ngbDropdownItem *ngIf="organisation.id != selectedOrganisation?.id">
-                  <span>{{organisation.name}}</span>
-                </button>
-              </ng-container>
               <div class="dropdown-divider"></div>
               <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/create">
                 <b>+</b> {{'ADD_2' | tr}}</button>
               <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/all">
                 <bi name="gear"></bi>
-                {{'NAV_SETTINGS' | tr}}</button>
+                {{'NAV_ORGANISATIONS' | tr}}</button>
             </div>
           </div>
         </li>

@@ -1,8 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+
 import {AuthService} from '../_services/auth/auth.service';
-import {OrganisationsModel} from '../_models/organisations';
-import {Subscription} from 'rxjs';
 import {OrganisationsService} from '../_services/organisations.service';
+
+import {OrganisationsModel} from '../_models/organisations';
 
 @Component({
   selector: 'app-home',
@@ -10,18 +11,10 @@ import {OrganisationsService} from '../_services/organisations.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy{
-  organisations: OrganisationsModel[];
-  organisationsSubscription: Subscription;
-
   selectedOrganisation: OrganisationsModel|undefined;
   selectedOrganisationSubscription;
 
   constructor(private authService: AuthService, private organisationsService: OrganisationsService) {
-    this.organisations = this.organisationsService.getAll().slice(0, 5);
-    this.organisationsSubscription = this.organisationsService.allChange.subscribe((value: OrganisationsModel[]) => {
-      this.organisations = value.slice(0, 5);
-    });
-
     this.selectedOrganisation = this.organisationsService.getSelected();
     this.selectedOrganisationSubscription = this.organisationsService.selectedChange.subscribe((value: OrganisationsModel) => {
       this.selectedOrganisation = value;
@@ -40,7 +33,6 @@ export class HomeComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy() {
-    this.organisationsSubscription.unsubscribe();
     this.selectedOrganisationSubscription.unsubscribe();
   }
 

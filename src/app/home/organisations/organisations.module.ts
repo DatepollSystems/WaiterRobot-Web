@@ -11,8 +11,8 @@ import {IconsModule} from '../../_helper/icons.module';
 import {OrganisationsComponent} from './organisations.component';
 import {AllOrganisationsComponent} from './all-organisations/all-organisations.component';
 import {OrganisationEditComponent} from './organisation-edit/organisation-edit.component';
-import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
-import {FormsModule} from '@angular/forms';
+import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 const startRoutes: Routes = [
   {
@@ -28,7 +28,7 @@ const startRoutes: Routes = [
 
 @NgModule({
   declarations: [OrganisationsComponent, OrganisationEditComponent, AllOrganisationsComponent],
-  imports: [CommonModule, DfxTranslateModule, RouterModule.forChild(startRoutes), FlexLayoutModule, SortableHeaderModule, IconsModule, NgbNavModule, FormsModule],
+  imports: [CommonModule, DfxTranslateModule, RouterModule.forChild(startRoutes), FlexLayoutModule, SortableHeaderModule, IconsModule, NgbNavModule, FormsModule, NgbTooltipModule, ReactiveFormsModule],
 })
 export class OrganisationsModule {
 }

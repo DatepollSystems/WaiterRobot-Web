@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap.lt-md="4%">
-  <ul class="list-group" fxFlex="22%" fxFlex.gt-lg="15%">
+  <div class="list-group" fxFlex="22%" fxFlex.gt-lg="15%">
     <a class="list-group-item list-group-item-action" routerLink="all"
        routerLinkActive="active">
       <bi name="people-fill"></bi>
@@ -19,7 +19,7 @@
          *ngIf="organisation.id != selectedOrganisation?.id"
          routerLinkActive="active">{{organisation.name}}</a>
     </ng-container>
-  </ul>
+  </div>
   <div fxFlex="76%" fxFlex.gt-lg="82%">
     <div class="card bg-dark">
       <div class="card-body">

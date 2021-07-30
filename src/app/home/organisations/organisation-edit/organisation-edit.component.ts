@@ -35,8 +35,7 @@ export class OrganisationEditComponent implements OnDestroy {
       if (id != null) {
         if (TypeHelper.isNumeric(id)) {
           console.log('Org to open: ' + id);
-          const idN = TypeHelper.stringToNumber(id);
-          this.organisation = this.organisationsService.getSingle(idN);
+          this.organisation = this.organisationsService.getSingle(TypeHelper.stringToNumber(id));
           this._organisationSubscription = this.organisationsService.singleChange.subscribe((value: OrganisationsModel) => {
             this.organisation = value;
           });
@@ -49,6 +48,11 @@ export class OrganisationEditComponent implements OnDestroy {
         } else {
           this.isEdit = false;
           console.log('Create new org');
+
+          // Tab 3 is the statistics tab which does not exist on create organisation
+          if (this.active == 3) {
+            this.active = 1;
+          }
         }
       } else {
         console.log('No org to open');
@@ -69,6 +73,10 @@ export class OrganisationEditComponent implements OnDestroy {
         queryParams: {tab: $event.nextId},
         queryParamsHandling: 'merge',
       }).then();
+  }
+
+  onSelect(organisationId: number) {
+    this.organisationsService.changeSelected(organisationId);
   }
 
   onSave(f: NgForm) {
