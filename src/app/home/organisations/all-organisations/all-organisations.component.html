@@ -1,4 +1,4 @@
-<div fxLayout="row" fxLayoutAlign="space-between center">
+<div fxLayout="row break" fxLayoutAlign="space-between center">
   <h1>{{'HOME_ORGS_ALL' | tr}}</h1>
   <div>
     <a routerLink="../create" class="btn btn-outline-success">
@@ -7,7 +7,7 @@
   </div>
 </div>
 
-<form>
+<form class="mt-2">
   <div class="input-group">
     <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter"
            placeholder="{{'SEARCH' | tr}}"/>
@@ -23,13 +23,13 @@
     <thead>
     <tr class="table-dark">
       <th sortable="id" (sort)="onSort($event)">#</th>
-      <th sortable="name" (sort)="onSort($event)">{{'NAME' | tr}}</th>
+      <th sortable="name" (sort)="onSort($event)" style="min-width: 20vh;">{{'NAME' | tr}}</th>
       <th sortable="street" (sort)="onSort($event)">{{'HOME_ORGS_STREET' | tr}}</th>
       <th sortable="street_number" (sort)="onSort($event)">{{'HOME_ORGS_STREETNUMBER' | tr}}</th>
       <th sortable="postal_code" (sort)="onSort($event)">{{'HOME_ORGS_POSTAL_CODE' | tr}}</th>
-      <th sortable="city" (sort)="onSort($event)">{{'HOME_ORGS_CITY' | tr}}</th>
+      <th style="min-width: 15vh" sortable="city" (sort)="onSort($event)">{{'HOME_ORGS_CITY' | tr}}</th>
       <th sortable="country_code" (sort)="onSort($event)">{{'HOME_ORGS_COUNTRY_CODE' | tr}}</th>
-      <th>{{'ACTIONS' | tr}}</th>
+      <th style="min-width: 20vh">{{'ACTIONS' | tr}}</th>
     </tr>
     </thead>
     <tbody>

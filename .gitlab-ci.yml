@@ -14,7 +14,7 @@ build:
   script:
     - rm ./package-lock.json
     - npm install
-    - ./node_modules/@angular/cli/bin/ng build --progress false --prod
+    - ./node_modules/@angular/cli/bin/ng build --progress false --configuration production
     - cd dist/
     - ls -al
 
