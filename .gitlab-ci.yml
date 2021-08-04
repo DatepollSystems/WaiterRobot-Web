@@ -7,7 +7,8 @@ stages:
 build:
   stage: build
   artifacts:
-    untracked: true
+    paths:
+      - dist/
   cache:
     paths:
       - node_modules/
