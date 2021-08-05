@@ -1,5 +1,5 @@
 <div fxLayout="row break" fxLayoutAlign="space-between center">
-  <h1>{{'HOME_ORGS_ALL' | tr}}</h1>
+  <h1>{{'NAV_EVENTS' | tr}}</h1>
   <div>
     <a routerLink="../create" class="btn btn-outline-success">
       <bi name="plus-circle"></bi>
@@ -24,34 +24,34 @@
     <tr class="table-dark">
       <th sortable="id" (sort)="onSort($event)">#</th>
       <th sortable="name" (sort)="onSort($event)" style="min-width: 20vh;">{{'NAME' | tr}}</th>
+      <th sortable="date" (sort)="onSort($event)">{{'DATE' | tr}}</th>
       <th sortable="street" (sort)="onSort($event)">{{'HOME_ORGS_STREET' | tr}}</th>
       <th sortable="street_number" (sort)="onSort($event)">{{'HOME_ORGS_STREETNUMBER' | tr}}</th>
       <th sortable="postal_code" (sort)="onSort($event)">{{'HOME_ORGS_POSTAL_CODE' | tr}}</th>
       <th style="min-width: 15vh" sortable="city" (sort)="onSort($event)">{{'HOME_ORGS_CITY' | tr}}</th>
-      <th sortable="country_code" (sort)="onSort($event)">{{'HOME_ORGS_COUNTRY_CODE' | tr}}</th>
       <th style="min-width: 20vh">{{'ACTIONS' | tr}}</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let organisation of organisationsCopy" class="table-dark">
-      <th>{{ organisation.id }}</th>
-      <td>{{ organisation.name }}</td>
-      <td>{{ organisation.street }}</td>
-      <td>{{ organisation.street_number }}</td>
-      <td>{{ organisation.postal_code }}</td>
-      <td>{{ organisation.city }}</td>
-      <td>{{ organisation.country_code }}</td>
+    <tr *ngFor="let event of eventsCopy" class="table-dark">
+      <th>{{ event.id }}</th>
+      <td>{{ event.name }}</td>
+      <td>{{ event.date | date: 'dd.MM.YYYY' }}</td>
+      <td>{{ event.street }}</td>
+      <td>{{ event.street_number }}</td>
+      <td>{{ event.postal_code }}</td>
+      <td>{{ event.city }}</td>
       <td>
-        <button type="button" class="btn btn-sm m-1 btn-outline-primary text-white" (click)="onSelect(organisation)"
+        <button type="button" class="btn btn-sm m-1 btn-outline-primary text-white" (click)="onSelect(event)"
                 ngbTooltip="{{'SELECT' | tr}}">
           <bi name="check2-square"></bi>
         </button>
-        <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{organisation.id}}"
+        <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{event.id}}"
            ngbTooltip="{{'EDIT' | tr}}">
           <bi name="pencil-square"></bi>
         </a>
         <button type="button" class="btn btn-sm m-1 btn-outline-danger text-white" ngbTooltip="{{'DELETE' | tr}}"
-                (click)="onDelete(organisation.id)">
+                (click)="onDelete(event.id)">
           <bi name="trash"></bi>
         </button>
       </td>

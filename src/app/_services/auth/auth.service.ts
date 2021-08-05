@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 
-import {BrowserHelper} from 'dfx-helper';
+import {BrowserHelper, StorageHelper} from 'dfx-helper';
 
 import {HttpService} from '../http.service';
 
@@ -33,19 +33,19 @@ export class AuthService {
   }
 
   public setSessionToken(sessionToken: string): void {
-    localStorage.setItem('sessionToken', sessionToken);
+    StorageHelper.set('sessionToken', sessionToken);
     this.sessionToken = sessionToken;
   }
 
   getSessionToken(): string | null {
     if (this.sessionToken == null) {
-      this.sessionToken = localStorage.getItem('sessionToken');
+      this.sessionToken = StorageHelper.getString('sessionToken');
     }
     return this.sessionToken;
   }
 
   public setJWTToken(jwtToken: string): void {
-    localStorage.setItem('token', jwtToken);
+    StorageHelper.set('token', jwtToken);
     this.jwtToken = jwtToken;
     this.jwtTokenExpires = new Date();
     this.jwtTokenExpires.setMinutes(this.jwtTokenExpires.getMinutes() + 50);
@@ -53,7 +53,7 @@ export class AuthService {
 
   public getJWTToken(): string | null {
     if (this.jwtToken == null) {
-      this.jwtToken = localStorage.getItem('token');
+      this.jwtToken = StorageHelper.getString('token');
     }
     return this.jwtToken;
   }

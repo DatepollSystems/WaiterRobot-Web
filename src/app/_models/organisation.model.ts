@@ -1,6 +1,6 @@
 import {AModel} from 'dfx-helper';
 
-export class OrganisationsModel extends AModel {
+export class OrganisationModel extends AModel {
   public readonly name: string;
   public readonly street: string;
   public readonly street_number: string;

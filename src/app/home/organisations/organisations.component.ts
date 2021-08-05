@@ -1,5 +1,5 @@
 import {Component, OnDestroy} from '@angular/core';
-import {OrganisationsModel} from '../../_models/organisations';
+import {OrganisationModel} from '../../_models/organisation.model';
 import {Subscription} from 'rxjs';
 import {OrganisationsService} from '../../_services/organisations.service';
 
@@ -9,20 +9,20 @@ import {OrganisationsService} from '../../_services/organisations.service';
   styleUrls: ['./organisations.component.scss']
 })
 export class OrganisationsComponent implements OnDestroy {
-  organisations: OrganisationsModel[];
+  organisations: OrganisationModel[];
   organisationsSubscription: Subscription;
 
-  selectedOrganisation: OrganisationsModel|undefined;
+  selectedOrganisation: OrganisationModel|null;
   selectedOrganisationSubscription: Subscription;
 
   constructor(private organisationsService: OrganisationsService) {
     this.organisations = this.organisationsService.getAll().slice(0, 5);
-    this.organisationsSubscription = this.organisationsService.allChange.subscribe((value: OrganisationsModel[]) => {
+    this.organisationsSubscription = this.organisationsService.allChange.subscribe((value: OrganisationModel[]) => {
       this.organisations = value.slice(0, 5);
     });
 
     this.selectedOrganisation = this.organisationsService.getSelected();
-    this.selectedOrganisationSubscription = this.organisationsService.selectedChange.subscribe((value: OrganisationsModel) => {
+    this.selectedOrganisationSubscription = this.organisationsService.selectedChange.subscribe((value: OrganisationModel|null) => {
       this.selectedOrganisation = value;
     });
   }

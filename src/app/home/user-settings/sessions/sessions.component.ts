@@ -4,7 +4,7 @@ import {Subscription} from 'rxjs';
 import {compare, SortableHeader, SortEvent} from '../../../_helper/table-sortable';
 
 import {SessionsService} from '../../../_services/sessions.service';
-import {SessionsModel} from '../../../_models/sessions';
+import {SessionsModel} from '../../../_models/session.model';
 
 @Component({
   selector: 'app-sessions',

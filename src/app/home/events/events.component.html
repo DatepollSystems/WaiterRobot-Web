@@ -1,0 +1,30 @@
+<div fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap.lt-md="4%">
+  <div class="list-group" fxFlex="22%" fxFlex.gt-lg="15%">
+    <a class="list-group-item list-group-item-action" routerLink="all"
+       routerLinkActive="active">
+      <bi name="people-fill"></bi>
+      {{ 'NAV_EVENTS' | tr }}</a>
+
+    <a class="list-group-item list-group-item-action" routerLink="/home/events/create"
+       routerLinkActive="active">
+      <bi name="plus-circle"></bi>
+      {{ 'ADD_2' | tr }}</a>
+
+    <a class="list-group-item list-group-item-action" routerLink="{{selectedEvent?.id}}"
+       *ngIf="selectedEvent"
+       routerLinkActive="active"><b>{{selectedEvent.name}}</b></a>
+
+    <ng-container *ngFor="let event of this.events">
+      <a class="list-group-item list-group-item-action" routerLink="{{event.id}}" fxHide.lt-md="true"
+         *ngIf="event.id != selectedEvent?.id"
+         routerLinkActive="active">{{event.name}}</a>
+    </ng-container>
+  </div>
+  <div fxFlex="76%" fxFlex.gt-lg="82%">
+    <div class="card bg-dark">
+      <div class="card-body px-4">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

@@ -6,7 +6,7 @@ import {Subscription} from 'rxjs';
 import {TypeHelper} from 'dfx-helper';
 
 import {OrganisationsService} from '../../../_services/organisations.service';
-import {OrganisationsModel} from '../../../_models/organisations';
+import {OrganisationModel} from '../../../_models/organisation.model';
 
 @Component({
   selector: 'app-organisation-edit',
@@ -17,10 +17,10 @@ export class OrganisationEditComponent implements OnDestroy {
   isEdit = false;
   active = 1;
 
-  organisation: OrganisationsModel | null | undefined;
+  organisation: OrganisationModel | undefined;
   _organisationSubscription: Subscription | undefined;
 
-  selectedOrganisation: OrganisationsModel | undefined;
+  selectedOrganisation!: OrganisationModel | null;
   selectedOrganisationSubscription: Subscription | undefined;
 
   constructor(private router: Router, private route: ActivatedRoute, private organisationsService: OrganisationsService) {
@@ -36,13 +36,13 @@ export class OrganisationEditComponent implements OnDestroy {
         if (TypeHelper.isNumeric(id)) {
           console.log('Org to open: ' + id);
           this.organisation = this.organisationsService.getSingle(TypeHelper.stringToNumber(id));
-          this._organisationSubscription = this.organisationsService.singleChange.subscribe((value: OrganisationsModel) => {
+          this._organisationSubscription = this.organisationsService.singleChange.subscribe((value: OrganisationModel) => {
             this.organisation = value;
           });
           this.isEdit = true;
 
           this.selectedOrganisation = this.organisationsService.getSelected();
-          this.selectedOrganisationSubscription = this.organisationsService.selectedChange.subscribe((value: OrganisationsModel) => {
+          this.selectedOrganisationSubscription = this.organisationsService.selectedChange.subscribe((value: OrganisationModel|null) => {
             this.selectedOrganisation = value;
           });
         } else {
@@ -75,13 +75,13 @@ export class OrganisationEditComponent implements OnDestroy {
       }).then();
   }
 
-  onSelect(organisationId: number) {
-    this.organisationsService.changeSelected(organisationId);
+  onSelect(organisation: OrganisationModel | null) {
+    this.organisationsService.setSelected(organisation);
   }
 
   onSave(f: NgForm) {
     const values = f.form.value;
-    let org = new OrganisationsModel(values);
+    let org = new OrganisationModel(values);
     console.log(org);
     if (this.isEdit && this.organisation?.id != null) {
       org.id = this.organisation?.id;

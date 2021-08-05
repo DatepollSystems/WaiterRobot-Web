@@ -27,21 +27,21 @@ export class HttpService extends AHttpService {
     this.notificationService.terror('REQUEST_ERROR_SERVER');
   }
 
-  public override post(url: string, body: any, functionUser: string|null = null): any {
+  public override post(url: string, body: any, functionUser: string|undefined = undefined): any {
     this.log('POST', url, functionUser);
 
     // TODO: Change back to post; currently get because of json server
     return this.get(url, functionUser);
   }
 
-  public override put(url: string, body: any, functionUser: string|null = null): any {
+  public override put(url: string, body: any, functionUser: string|undefined = undefined): any {
     this.log('PUT', url, functionUser);
 
     // TODO: Change back to post; currently get because of json server
     return this.get(url, functionUser);
   }
 
-  public override delete(url: string, functionUser: string|null = null): any {
+  public override delete(url: string, functionUser: string|undefined = undefined): any {
     this.log('DELETE', url, functionUser);
 
     return this.get(url, functionUser);

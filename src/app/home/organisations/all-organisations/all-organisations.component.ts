@@ -4,8 +4,8 @@ import {Subscription} from 'rxjs';
 import {compare, SortableHeader, SortEvent} from '../../../_helper/table-sortable';
 
 import {SessionsService} from '../../../_services/sessions.service';
-import {SessionsModel} from '../../../_models/sessions';
-import {OrganisationsModel} from '../../../_models/organisations';
+import {SessionsModel} from '../../../_models/session.model';
+import {OrganisationModel} from '../../../_models/organisation.model';
 import {OrganisationsService} from '../../../_services/organisations.service';
 import {FormControl} from '@angular/forms';
 import {map} from 'rxjs/operators';
@@ -19,8 +19,8 @@ export class AllOrganisationsComponent implements OnDestroy {
   @ViewChildren(SortableHeader) headers: QueryList<SortableHeader> | undefined;
   filter = new FormControl('');
 
-  organisations: OrganisationsModel[];
-  organisationsCopy: OrganisationsModel[];
+  organisations: OrganisationModel[];
+  organisationsCopy: OrganisationModel[];
   organisationsSubscription: Subscription;
 
   constructor(private organisationsService: OrganisationsService) {
@@ -56,8 +56,8 @@ export class AllOrganisationsComponent implements OnDestroy {
     this.organisationsSubscription.unsubscribe();
   }
 
-  onSelect(organisationId: number) {
-    this.organisationsService.changeSelected(organisationId);
+  onSelect(organisation: OrganisationModel) {
+    this.organisationsService.setSelected(organisation);
   }
 
   onDelete(id: number) {
