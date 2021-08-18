@@ -1,1 +1,29 @@
-<p>products works!</p>
+<div fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap.lt-md="4%">
+  <div class="list-group" fxFlex="22%" fxFlex.gt-lg="15%">
+    <a class="list-group-item list-group-item-action bg-secondary text-white" routerLink="all"
+       routerLinkActive="active">
+      <bi name="bag-fill"></bi>
+      {{ 'HOME_PROD_ALL' | tr }}</a>
+
+    <a class="list-group-item list-group-item-action" routerLink="/home/products/create"
+       routerLinkActive="active">
+      <bi name="plus-circle"></bi>
+      {{ 'ADD_2' | tr }}</a>
+
+    <a class="list-group-item list-group-item-action" *ngIf="selectedOrganisation"
+       routerLinkActive="active"><b>{{selectedOrganisation.name}}</b></a>
+
+    <ng-container *ngFor="let product of this.productsCopy">
+      <a class="list-group-item list-group-item-action" routerLink="{{product.id}}"
+         *ngIf="product.id"
+         routerLinkActive="active"> <bi name="caret-right"></bi> {{product.name}}</a>
+    </ng-container>
+  </div>
+  <div fxFlex="76%" fxFlex.gt-lg="82%">
+    <div class="card bg-dark">
+      <div class="card-body">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

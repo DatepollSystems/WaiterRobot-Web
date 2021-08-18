@@ -80,4 +80,15 @@
   "HOME_ORGS_COUNTRY_CODE_INCORRECT": "Landkürzel erforderlich",
 
   "HOME_EVENTS_DATE_INCORRECT": "Das Datum ist inkorrekt"
+  "HOME_PROD_ALL": "Produkte",
+  "HOME_PROD_NAME_INCORRECT": "Der Name muss mehr als 3 Zeichen haben",
+  "HOME_PROD_PRICE": "Preis",
+  "HOME_PROD_PRICE_INCORRECT": "Der Preis ist nicht akzeptabel",
+  "HOME_PROD_ALLERGENS": "Allergene",
+  "HOME_PROD_GROUP_ID": "Gruppe",
+  "HOME_PROD_GROUP_ID_INCORRECT": "Das Produkt muss einer Gruppe zugeordnet sein",
+  "HOME_PROD_PRINTER_ID": "Drucker",
+  "HOME_PROD_PRINTER_ID_INCORRECT": "Das Produkt muss einem Drucker zugeordnet sein",
+  "HOME_PROD_ORGANISATION_ID": "Organisation",
+  "HOME_PROD_ORGANISATION_ID_INCORRECT": "Das Produkt muss einer Organisation zugeordnet sein"
 }
