@@ -79,7 +79,8 @@
   "HOME_ORGS_COUNTRY_CODE": "Landkürzel",
   "HOME_ORGS_COUNTRY_CODE_INCORRECT": "Landkürzel erforderlich",
 
-  "HOME_EVENTS_DATE_INCORRECT": "Das Datum ist inkorrekt"
+  "HOME_EVENTS_DATE_INCORRECT": "Das Datum ist inkorrekt",
+
   "HOME_PROD_ALL": "Produkte",
   "HOME_PROD_NAME_INCORRECT": "Der Name muss mehr als 3 Zeichen haben",
   "HOME_PROD_PRICE": "Preis",

@@ -4,9 +4,9 @@ import {Subscription} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProductsService} from '../../../_services/products.service';
 import {TypeHelper} from 'dfx-helper';
-import {OrganisationsModel} from '../../../_models/organisations';
 import {NgForm} from '@angular/forms';
 import {OrganisationsService} from '../../../_services/organisations.service';
+import {OrganisationModel} from '../../../_models/organisation.model';
 
 @Component({
   selector: 'app-product-edit',
@@ -20,7 +20,7 @@ export class ProductEditComponent implements OnDestroy {
   product: ProductsModel | null | undefined;
   _productSubscription: Subscription | undefined;
 
-  organisations: OrganisationsModel[] | null | undefined;
+  organisations: OrganisationModel[] | null | undefined;
   _organisationsSubscription: Subscription | undefined;
 
   constructor(private router: Router, private route: ActivatedRoute,

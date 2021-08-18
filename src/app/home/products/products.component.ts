@@ -2,8 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ProductsModel} from '../../_models/products';
 import {Subscription} from 'rxjs';
 import {ProductsService} from '../../_services/products.service';
-import {OrganisationsModel} from '../../_models/organisations';
 import {OrganisationsService} from '../../_services/organisations.service';
+import {OrganisationModel} from '../../_models/organisation.model';
 
 @Component({
   selector: 'app-products',
@@ -15,7 +15,7 @@ export class ProductsComponent implements OnDestroy {
   productsCopy: ProductsModel[] | undefined;
   productsSubscription: Subscription;
 
-  selectedOrganisation: OrganisationsModel|undefined;
+  selectedOrganisation: OrganisationModel|null;
   selectedOrganisationSubscription: Subscription;
 
   constructor(private productsService: ProductsService, private organisationsService: OrganisationsService) {
@@ -26,7 +26,7 @@ export class ProductsComponent implements OnDestroy {
     });
 
     this.selectedOrganisation = this.organisationsService.getSelected();
-    this.selectedOrganisationSubscription = this.organisationsService.selectedChange.subscribe((value: OrganisationsModel) => {
+    this.selectedOrganisationSubscription = this.organisationsService.selectedChange.subscribe(value => {
       this.selectedOrganisation = value;
     });
   }
