@@ -1,0 +1,105 @@
+
+<div *ngIf="isEdit && product">
+ <h1>{{'EDIT_2' | tr}} "{{product.name}}"</h1>
+ <div fxLayout="row break" fxLayoutGap="2%" fxLayoutGap.gt-md="1%">
+    <div>
+      <button class="btn btn-sm btn-success" (click)="f.ngSubmit.emit();" [disabled]="!f.valid">
+        <bi name="save"></bi>
+        {{'SAVE' | tr}}</button>
+    </div>
+    <div>
+      <button class="btn btn-sm btn-outline-secondary my-2 my-md-0 disabled">
+        <bi name="clipboard"></bi>
+        {{'COPY' | tr}}</button>
+    </div>
+    <div>
+      <button class="btn btn-sm btn-outline-secondary my-2 my-md-0 disabled">
+        <bi name="save"></bi>
+        {{'EXPORT' | tr}}</button>
+    </div>
+    <div>
+      <button class="btn btn-sm btn-outline-danger my-2 my-md-0" (click)="onDelete(product.id)">
+        <bi name="trash"></bi>
+        {{'DELETE' | tr}}</button>
+    </div>
+  </div>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="space-between center" *ngIf="!isEdit">
+  <h1>{{'ADD_2' | tr}}</h1>
+  <div fxLayout="row break">
+    <div>
+      <button class="btn btn-sm btn-success" (click)="f.ngSubmit.emit();" [disabled]="!f.valid || f != null">
+        <bi name="plus-circle"></bi>
+        {{'ADD' | tr}}</button>
+    </div>
+  </div>
+</div>
+
+<form #f="ngForm" (ngSubmit)="onSave(f)">
+
+        <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%">
+          <div class="form-group" fxFlex="50%">
+            <label for="name">{{'NAME' | tr}}</label>
+            <input ngModel class="form-control bg-dark text-white" required type="text" id="name" name="name"
+                   #nameModel="ngModel"
+                   minlength="5" placeholder="{{'NAME' | tr}}" [ngModel]="isEdit ? product?.name : null">
+
+            <small *ngIf="nameModel.invalid" class="text-danger">
+              {{ 'HOME_PROD_NAME_INCORRECT' | tr }}
+            </small>
+          </div>
+          <div class="form-group" fxFlex="23%">
+            <label for="price">{{'HOME_PROD_PRICE' | tr}}</label>
+            <input ngModel class="form-control bg-dark text-white" required type="number" id="price" name="price"
+                   #dateModel="ngModel"
+                   minlength="3" placeholder="{{'HOME_PROD_PRICE' | tr}}" [ngModel]="isEdit ? product?.price : null">
+
+            <small *ngIf="dateModel.invalid" class="text-danger">
+              {{ 'HOME_PROD_PRICE_INCORRECT' | tr }}
+            </small>
+          </div>
+          <div class="form-group" fxFlex="23%">
+            <label for="allergens">{{'HOME_PROD_ALLERGENS' | tr}}</label>
+            <input ngModel class="form-control bg-dark text-white" type="text" id="allergens" name="allergens"
+                   #streetModel="ngModel" placeholder="{{'HOME_PROD_ALLERGENS' | tr}}"
+                   [ngModel]="isEdit ? product?.allergens : null">
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%" class="mt-2">
+          <div class="form-group" fxFlex="32%">
+            <label for="group_id">{{'HOME_PROD_GROUP_ID' | tr}}</label>
+            <input ngModel class="form-control bg-dark text-white" required type="text" id="group_id"
+                   #streetNumberModel="ngModel"
+                   name="group_id" minlength="1" placeholder="{{'HOME_PROD_GROUP_ID' | tr}}"
+                   [ngModel]="isEdit ? product?.group_id : null">
+            <small *ngIf="streetNumberModel.invalid" class="text-danger">
+              {{ 'HOME_PROD_GROUP_ID_INCORRECT' | tr }}
+            </small>
+          </div>
+          <div class="form-group" fxFlex="32%">
+            <label for="printer_id">{{'HOME_PROD_PRINTER_ID' | tr}}</label>
+            <input ngModel class="form-control bg-dark text-white" required type="text" id="printer_id"
+                   #postalCodeModel="ngModel"
+                   name="printer_id" minlength="1" placeholder="{{'HOME_PROD_PRINTER_ID' | tr}}"
+                   [ngModel]="isEdit ? product?.printer_id : null">
+            <small *ngIf="postalCodeModel.invalid" class="text-danger">
+              {{ 'HOME_PROD_PRINTER_ID_INCORRECT' | tr }}
+            </small>
+          </div>
+          <div class="form-group" fxFlex="32%">
+            <label for="organisation_id">{{'HOME_PROD_ORGANISATION_ID' | tr}}</label>
+            <select ngModel class="form-control bg-dark text-white" required type="text" id="organisation_id"
+                   #countryCodeModel="ngModel" name="organisation_id"
+                    [ngModel]="isEdit ? product?.organisation_id : null">
+              <option class="w-25 l-25" value="organisation.name" *ngFor="let organisation of organisations">{{organisation.name | tr}}</option>
+            </select>
+            <small *ngIf="countryCodeModel.invalid" class="text-danger">
+              {{ 'HOME_PROD_ORGANISATION_ID_INCORRECT' | tr }}
+            </small>
+          </div>
+        </div>
+
+</form>
+
