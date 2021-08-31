@@ -7,7 +7,7 @@ import {UserModel} from '../_models/user.model';
 @Injectable({
   providedIn: 'root',
 })
-export class EventsService extends AModelService<UserModel> {
+export class UsersService extends AModelService<UserModel> {
   constructor(httpService: HttpService) {
     super(httpService, '/config/user');
   }

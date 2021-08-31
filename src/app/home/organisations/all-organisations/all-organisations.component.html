@@ -51,7 +51,7 @@
           <bi name="pencil-square"></bi>
         </a>
         <button type="button" class="btn btn-sm m-1 btn-outline-danger text-white" ngbTooltip="{{'DELETE' | tr}}"
-                (click)="onDelete(organisation.id)">
+                (click)="onDelete(organisation.id)" *ngIf="myUser?.is_admin">
           <bi name="trash"></bi>
         </button>
       </td>

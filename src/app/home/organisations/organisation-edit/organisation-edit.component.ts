@@ -94,8 +94,7 @@ export class OrganisationEditComponent implements OnDestroy {
   }
 
   onSave(f: NgForm) {
-    const values = f.form.value;
-    let org = new OrganisationModel(values);
+    let org = f.form.value;
     console.log(org);
     if (this.isEdit && this.organisation?.id != null) {
       org.id = this.organisation?.id;

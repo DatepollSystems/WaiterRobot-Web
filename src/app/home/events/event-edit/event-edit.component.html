@@ -42,7 +42,7 @@
 
 <div fxLayout="row break" *ngIf="!isEdit">
   <div>
-    <button class="btn btn-sm btn-success" (click)="f.ngSubmit.emit();" [disabled]="!f.valid || f != null">
+    <button class="btn btn-sm btn-success" (click)="f.ngSubmit.emit();" [disabled]="f == null || !f.valid">
       <bi name="plus-circle"></bi>
       {{'ADD' | tr}}</button>
   </div>

@@ -94,14 +94,13 @@ export class EventEditComponent implements OnDestroy {
   }
 
   onSave(f: NgForm) {
-    const values = f.form.value;
-    let org = new EventModel(values);
-    console.log(org);
+    let event = f.form.value;
+    console.log(event);
     if (this.isEdit && this.event?.id != null) {
-      org.id = this.event?.id;
-      this.eventsService.update(org);
+      event.id = this.event?.id;
+      this.eventsService.update(event);
     } else {
-      this.eventsService.create(org);
+      this.eventsService.create(event);
     }
     this.router.navigateByUrl('/home/events/all').then();
   }

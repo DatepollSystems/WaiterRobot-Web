@@ -18,6 +18,10 @@
   "SEARCH": "Suchen",
   "CLEAR": "Löschen",
   "CLEAR_SELECTION": "Auswahl entfernen",
+  "EMAIL": "E-Mail-Adresse",
+  "FIRSTNAME": "Vorname",
+  "SURNAME": "Nachname",
+  "PASSWORD": "Passwort",
 
   "REQUEST_ERROR_CLIENT": "Client fehler",
   "REQUEST_ERROR_SERVER": "Server fehler",
@@ -83,6 +87,13 @@
   "HOME_ORGS_COUNTRY_CODE_INCORRECT": "Landkürzel erforderlich",
 
   "HOME_EVENTS_DATE_INCORRECT": "Das Datum ist inkorrekt",
+
+  "HOME_USERS_ALL": "Alle Benutzer",
+  "HOME_USERS_BIRTHDAY": "Geburtstag",
+  "HOME_USERS_BIRTHDAY_INCORRECT": "Geburtstag inkorrekt",
+  "HOME_USERS_ADMIN": "Admin",
+  "HOME_USERS_NAME_INCORRECT": "Der Name muss mehr als 3 Zeichen haben.",
+  "HOME_USERS_PASSWORD_INCORRECT": "Das Password muss mehr als 6 Zeichen haben.",
 
   "HOME_PROD_ALL": "Produkte",
   "HOME_PROD_NAME_INCORRECT": "Der Name muss mehr als 3 Zeichen haben",

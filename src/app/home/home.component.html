@@ -85,7 +85,7 @@
             <div ngbDropdownMenu aria-labelledby="settingsDropdown">
               <div class="px-3 py-1">
                 <h5>{{'NAV_WELCOME' | tr}}  {{myUser?.firstname}},</h5>
-                <small>{{myUser?.email_address}} <b *ngIf="myUser?.is_admin" (click)="switchAdminMode()">{{'NAV_ADMIN' | tr}}</b> <b *ngIf="this.adminModeChanged" (click)="switchAdminMode()">{{'NAV_ADMIN_SWITCH' | tr}}</b></small>
+                <small>{{myUser?.email_address}} <b *ngIf="myUser?.is_admin" class="clickable" (click)="switchAdminMode()">{{'NAV_ADMIN' | tr}}</b> <b *ngIf="this.adminModeChanged" class="clickable" (click)="switchAdminMode()">{{'NAV_ADMIN_SWITCH' | tr}}</b></small>
               </div>
               <div class="dropdown-divider"></div>
               <button ngbDropdownItem routerLinkActive="active" routerLink="usettings/settings">

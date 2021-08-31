@@ -16,6 +16,11 @@ a:hover {
 
 .clickable {
   cursor: pointer;
+  user-select: none;
+}
+
+.not-selectable {
+  user-select: none;
 }
 
 .sortable-header {
