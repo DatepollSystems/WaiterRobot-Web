@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
+import {ASelectableModelService} from 'dfx-helper';
 
 import {HttpService} from './http.service';
-import {ASelectableModelService} from './a-selectable-model.service';
 
 import {EventModel} from '../_models/event.model';
 import {OrganisationsService} from './organisations.service';
