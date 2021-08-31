@@ -1,6 +1,6 @@
 <div fxLayout="row break" fxLayoutAlign="space-between center">
   <h1>{{'NAV_EVENTS' | tr}}</h1>
-  <div>
+  <div *ngIf="myUser?.is_admin">
     <a routerLink="../create" class="btn btn-outline-success">
       <bi name="plus-circle"></bi>
       {{'ADD_2' | tr}}</a>

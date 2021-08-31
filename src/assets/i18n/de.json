@@ -50,7 +50,9 @@
   "LANGUAGE_PORTUGUES": "Portugués",
 
   "NAV_SETTINGS": "Einstellungen",
-  "NAV_WELCOME": "Willkommen",
+  "NAV_WELCOME": "Hallo",
+  "NAV_ADMIN": "(admin mode)",
+  "NAV_ADMIN_SWITCH": "(user mode)",
   "NAV_USER_SETTINGS": "Benutzereinstellungen",
   "NAV_USER_SESSIONS": "Sessions",
   "NAV_LOGOUT": "Abmelden",
@@ -61,6 +63,7 @@
   "NAV_ORGANISATIONS": "Organisationen",
   "NAV_EVENTS": "Events / Locations",
   "NAV_EVENTS_CHANGE": "ändern",
+  "NAV_USERS": "Benutzerverwaltung",
 
   "HOME_USERSETTINGS_USER_SETTINGS": "Benutzereinstellugen",
   "HOME_USERSETTINGS_USER_SETTINGS_EMAIL": "E-Mail Adresse",

@@ -2,11 +2,30 @@
 <h1 *ngIf="!isEdit">{{'ADD_2' | tr}}</h1>
 
 <div fxLayout="row break" fxLayoutGap="2%" fxLayoutGap.gt-md="1%" *ngIf="isEdit && event">
-  <div *ngIf="active === 1">
-    <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit();" [disabled]="!f.valid">
-      <bi name="save"></bi>
-      {{'SAVE' | tr}}</button>
+  <ng-container *ngIf="myUser?.is_admin">
+    <div *ngIf="active === 1">
+      <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit();" [disabled]="!f.valid">
+        <bi name="save"></bi>
+        {{'SAVE' | tr}}</button>
+    </div>
+    <div>
+      <button class="btn btn-sm btn-outline-danger my-2 my-md-0" (click)="delete(event.id)">
+        <bi name="trash"></bi>
+        {{'DELETE' | tr}}</button>
+    </div>
+  </ng-container>
+
+  <div>
+    <button class="btn btn-sm btn-outline-secondary my-2 my-md-0 disabled">
+      <bi name="clipboard"></bi>
+      {{'COPY' | tr}}</button>
   </div>
+  <div>
+    <button class="btn btn-sm btn-outline-secondary my-2 my-md-0 disabled">
+      <bi name="save"></bi>
+      {{'EXPORT' | tr}}</button>
+  </div>
+
   <div>
     <button class="btn btn-sm btn-primary my-2 my-md-0" (click)="onSelect(event)"
             *ngIf="event.id != selectedEvent?.id">
@@ -18,21 +37,6 @@
       {{'CLEAR_SELECTION' | tr}}
       <bi name="x-circle-fill"></bi>
     </button>
-  </div>
-  <div>
-    <button class="btn btn-sm btn-outline-secondary my-2 my-md-0 disabled">
-      <bi name="clipboard"></bi>
-      {{'COPY' | tr}}</button>
-  </div>
-  <div>
-    <button class="btn btn-sm btn-outline-secondary my-2 my-md-0 disabled">
-      <bi name="save"></bi>
-      {{'EXPORT' | tr}}</button>
-  </div>
-  <div>
-    <button class="btn btn-sm btn-outline-danger my-2 my-md-0" (click)="delete(event.id)">
-      <bi name="trash"></bi>
-      {{'DELETE' | tr}}</button>
   </div>
 </div>
 
@@ -53,7 +57,7 @@
           <div class="form-group" fxFlex="70%">
             <label for="name">{{'NAME' | tr}}</label>
             <input ngModel class="form-control bg-dark text-white" required type="text" id="name" name="name"
-                   #nameModel="ngModel"
+                   #nameModel="ngModel" [disabled]="!myUser?.is_admin"
                    minlength="5" placeholder="{{'NAME' | tr}}" [ngModel]="isEdit ? event?.name : null">
 
             <small *ngIf="nameModel.invalid" class="text-danger">
@@ -63,9 +67,9 @@
 
           <div class="form-group" fxFlex="28%">
             <label for="name">{{'DATE' | tr}}</label>
-            <input ngModel class="form-control bg-dark text-white" required type="text" id="date" name="date"
-                   #dateModel="ngModel"
-                   minlength="3" placeholder="{{'DATE' | tr}}" [ngModel]="isEdit ? event?.name : null">
+            <input ngModel class="form-control bg-dark text-white" type="text" id="date" name="date"
+                   #dateModel="ngModel" [disabled]="!myUser?.is_admin"
+                   minlength="3" placeholder="{{'DATE' | tr}}" [ngModel]="isEdit ? event?.date : null">
 
             <small *ngIf="dateModel.invalid" class="text-danger">
               {{ 'HOME_EVENTS_DATE_INCORRECT' | tr }}
@@ -77,7 +81,7 @@
           <div class="form-group" fxFlex="70%">
             <label for="street">{{'HOME_ORGS_STREET' | tr}}</label>
             <input ngModel class="form-control bg-dark text-white" required type="text" id="street" name="street"
-                   #streetModel="ngModel"
+                   #streetModel="ngModel" [disabled]="!myUser?.is_admin"
                    minlength="3" placeholder="{{'HOME_ORGS_STREET' | tr}}"
                    [ngModel]="isEdit ? event?.street : null">
             <small *ngIf="streetModel.invalid" class="text-danger">
@@ -87,7 +91,7 @@
           <div class="form-group" fxFlex="28%">
             <label for="street_number">{{'HOME_ORGS_STREETNUMBER' | tr}}</label>
             <input ngModel class="form-control bg-dark text-white" required type="text" id="street_number"
-                   #streetNumberModel="ngModel"
+                   #streetNumberModel="ngModel" [disabled]="!myUser?.is_admin"
                    name="street_number" minlength="1" placeholder="{{'HOME_ORGS_STREETNUMBER' | tr}}"
                    [ngModel]="isEdit ? event?.street_number : null">
             <small *ngIf="streetNumberModel.invalid" class="text-danger">
@@ -100,7 +104,7 @@
           <div class="form-group" fxFlex="28%">
             <label for="postal_code">{{'HOME_ORGS_POSTAL_CODE' | tr}}</label>
             <input ngModel class="form-control bg-dark text-white" required type="text" id="postal_code"
-                   #postalCodeModel="ngModel"
+                   #postalCodeModel="ngModel" [disabled]="!myUser?.is_admin"
                    name="postal_code" minlength="1" placeholder="{{'HOME_ORGS_POSTAL_CODE' | tr}}"
                    [ngModel]="isEdit ? event?.postal_code : null">
             <small *ngIf="postalCodeModel.invalid" class="text-danger">
@@ -111,7 +115,7 @@
           <div class="form-group" fxFlex="70%">
             <label for="city">{{'HOME_ORGS_CITY' | tr}}</label>
             <input ngModel class="form-control bg-dark text-white" required type="text" id="city" name="city"
-                   #cityModel="ngModel"
+                   #cityModel="ngModel" [disabled]="!myUser?.is_admin"
                    minlength="4" placeholder="{{'HOME_ORGS_CITY' | tr}}" [ngModel]="isEdit ? event?.city : null">
             <small *ngIf="cityModel.invalid" class="text-danger">
               {{ 'HOME_ORGS_CITY_INCORRECT' | tr }}

@@ -6,7 +6,7 @@
       {{ 'HOME_ORGS_ALL' | tr }}</a>
 
     <a class="list-group-item list-group-item-action" routerLink="/home/organisations/create"
-       routerLinkActive="active">
+       routerLinkActive="active" *ngIf="myUser?.is_admin">
       <bi name="plus-circle"></bi>
       {{ 'ADD_2' | tr }}</a>
 

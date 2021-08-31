@@ -6,6 +6,8 @@ import {compare, SortableHeader, SortEvent} from '../../../_helper/table-sortabl
 
 import {EventsService} from '../../../_services/events.service';
 import {EventModel} from '../../../_models/event.model';
+import {UserModel} from '../../../_models/user.model';
+import {MyUserService} from '../../../_services/myUser.service';
 
 @Component({
   selector: 'app-all-events',
@@ -16,11 +18,19 @@ export class AllEventsComponent implements OnDestroy {
   @ViewChildren(SortableHeader) headers: QueryList<SortableHeader> | undefined;
   filter = new FormControl('');
 
+  myUser: UserModel|null = null;
+  myUserSubscription: Subscription;
+
   events: EventModel[];
   eventsCopy: EventModel[];
   eventsSubscription: Subscription;
 
-  constructor(private eventsService: EventsService) {
+  constructor(private myUserService: MyUserService, private eventsService: EventsService) {
+    this.myUser = this.myUserService.getUser();
+    this.myUserSubscription = this.myUserService.userChange.subscribe(user => {
+      this.myUser = user;
+    });
+
     this.events = this.eventsService.getAll();
     this.eventsCopy = this.events.slice();
     this.eventsSubscription = this.eventsService.allChange.subscribe(value => {
@@ -50,6 +60,7 @@ export class AllEventsComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.myUserSubscription.unsubscribe();
     this.eventsSubscription.unsubscribe();
   }
 

@@ -7,6 +7,8 @@ import {TypeHelper} from 'dfx-helper';
 
 import {OrganisationsService} from '../../../_services/organisations.service';
 import {OrganisationModel} from '../../../_models/organisation.model';
+import {UserModel} from '../../../_models/user.model';
+import {MyUserService} from '../../../_services/myUser.service';
 
 @Component({
   selector: 'app-organisation-edit',
@@ -17,13 +19,24 @@ export class OrganisationEditComponent implements OnDestroy {
   isEdit = false;
   active = 1;
 
+  myUser: UserModel|null = null;
+  myUserSubscription: Subscription;
+
   organisation: OrganisationModel | undefined;
   _organisationSubscription: Subscription | undefined;
 
   selectedOrganisation!: OrganisationModel | null;
   selectedOrganisationSubscription: Subscription | undefined;
 
-  constructor(private router: Router, private route: ActivatedRoute, private organisationsService: OrganisationsService) {
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              private myUserService: MyUserService,
+              private organisationsService: OrganisationsService) {
+    this.myUser = this.myUserService.getUser();
+    this.myUserSubscription = this.myUserService.userChange.subscribe(user => {
+      this.myUser = user;
+    });
+
     this.route.queryParams.subscribe((params => {
       if (params?.tab != null) {
         this.active = TypeHelper.stringToNumber(params?.tab);
@@ -61,6 +74,7 @@ export class OrganisationEditComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.myUserSubscription.unsubscribe();
     this._organisationSubscription?.unsubscribe();
     this.selectedOrganisationSubscription?.unsubscribe();
   }

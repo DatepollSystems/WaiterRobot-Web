@@ -16,16 +16,16 @@
           <a class="nav-link" routerLink="/home">Home <span class="visually-hidden">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="tables" [class.disabled]="!selectedOrganisation">{{'NAV_TABLES' | tr}}</a>
+          <a class="nav-link" routerLink="tables" [class.disabled]="!selectedOrganisation || !selectedEvent">{{'NAV_TABLES' | tr}}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="products" [class.disabled]="!selectedOrganisation">{{'NAV_PRODUCTS' | tr}}</a>
+          <a class="nav-link" routerLink="products" [class.disabled]="!selectedOrganisation || !selectedEvent">{{'NAV_PRODUCTS' | tr}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="printers" [class.disabled]="!selectedOrganisation || !selectedEvent">{{'NAV_PRINTERS' | tr}}</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="waiters" [class.disabled]="!selectedOrganisation">{{'NAV_WAITERS' | tr}}</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="printers" [class.disabled]="!selectedOrganisation">{{'NAV_PRINTERS' | tr}}</a>
         </li>
       </ul>
 
@@ -45,7 +45,7 @@
                 </span>
               </ng-container>
               <div class="dropdown-divider" *ngIf="selectedOrganisation || allEvents!.length > 0"></div>
-              <button ngbDropdownItem routerLinkActive="active" routerLink="events/create">
+              <button ngbDropdownItem routerLinkActive="active" routerLink="events/create" *ngIf="myUser?.is_admin">
                 <b>+</b> {{'ADD_2' | tr}}</button>
               <button ngbDropdownItem routerLinkActive="active" routerLink="events/all">
                 <bi name="gear"></bi>
@@ -61,11 +61,11 @@
             <div ngbDropdownMenu aria-labelledby="organisationSwitcherDropdown">
               <ng-container *ngIf="selectedOrganisation">
                 <button ngbDropdownItem routerLink="organisations/{{selectedOrganisation.id}}">
-                  <b>{{selectedOrganisation.name}}</b>
+                  <b>{{selectedOrganisation.name}}</b> (bearbeiten)
                 </button>
                 <div class="dropdown-divider"></div>
               </ng-container>
-              <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/create">
+              <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/create" *ngIf="myUser?.is_admin">
                 <b>+</b> {{'ADD_2' | tr}}</button>
               <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/all">
                 <bi name="gear"></bi>
@@ -74,14 +74,18 @@
           </div>
         </li>
 
+        <li class="nav-item" *ngIf="myUser?.is_admin">
+          <a class="nav-link" routerLink="users">{{'NAV_USERS' | tr}}</a>
+        </li>
+
         <li class="nav-item">
           <div ngbDropdown display="dynamic">
             <a class="nav-link" id="settingsDropdown"
                ngbDropdownToggle>{{'NAV_SETTINGS' | tr}}</a>
             <div ngbDropdownMenu aria-labelledby="settingsDropdown">
               <div class="px-3 py-1">
-                <h5>{{'NAV_WELCOME' | tr}}</h5>
-                <small><b>vorname.nachname</b></small>
+                <h5>{{'NAV_WELCOME' | tr}}  {{myUser?.firstname}},</h5>
+                <small>{{myUser?.email_address}} <b *ngIf="myUser?.is_admin" (click)="switchAdminMode()">{{'NAV_ADMIN' | tr}}</b> <b *ngIf="this.adminModeChanged" (click)="switchAdminMode()">{{'NAV_ADMIN_SWITCH' | tr}}</b></small>
               </div>
               <div class="dropdown-divider"></div>
               <button ngbDropdownItem routerLinkActive="active" routerLink="usettings/settings">

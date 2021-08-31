@@ -55,3 +55,7 @@ button > bi {
   color: #1e2125;
   background-color: #e9ecef;
 }
+
+.dropdown-toggle, .nav-link {
+  user-select: none;
+}

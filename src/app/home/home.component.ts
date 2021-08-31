@@ -7,6 +7,8 @@ import {OrganisationsService} from '../_services/organisations.service';
 import {OrganisationModel} from '../_models/organisation.model';
 import {EventModel} from '../_models/event.model';
 import {EventsService} from '../_services/events.service';
+import {MyUserService} from '../_services/myUser.service';
+import {UserModel} from '../_models/user.model';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +16,10 @@ import {EventsService} from '../_services/events.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  adminModeChanged = false;
+  myUser: UserModel|null = null;
+  myUserSubscription: Subscription;
+
   selectedOrganisation: OrganisationModel | null;
   selectedOrganisationSubscription;
 
@@ -23,7 +29,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   allEvents: EventModel[] = [];
   allEventsSubscription!: Subscription;
 
-  constructor(private authService: AuthService, private organisationsService: OrganisationsService, private eventsService: EventsService) {
+  constructor(private authService: AuthService,
+              private myUserService: MyUserService,
+              private organisationsService: OrganisationsService,
+              private eventsService: EventsService) {
+    this.myUser = this.myUserService.getUser();
+    this.myUserSubscription = this.myUserService.userChange.subscribe(user => {
+      this.myUser = user;
+    });
+
     this.selectedOrganisation = this.organisationsService.getSelected();
     this.selectedOrganisationSubscription = this.organisationsService.selectedChange.subscribe(value => {
       this.selectedOrganisation = value;
@@ -62,6 +76,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.myUserSubscription.unsubscribe();
     this.selectedOrganisationSubscription.unsubscribe();
     this.allEventsSubscription?.unsubscribe();
     this.selectedEventSubscription?.unsubscribe();
@@ -72,6 +87,14 @@ export class HomeComponent implements OnInit, OnDestroy {
       collapsable.style.display = 'none';
     } else {
       collapsable.style.display = 'block';
+    }
+  }
+
+  switchAdminMode() {
+    if (this.myUser) {
+      this.adminModeChanged = !this.adminModeChanged;
+      this.myUser.is_admin = !this.myUser.is_admin;
+      this.myUserService.setUser(this.myUser);
     }
   }
 
