@@ -15,7 +15,8 @@ build:
   script:
     - rm ./package-lock.json
     - npm install
-    - npm run ngcc
+    - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
+    - mkdir -p dist/WaiterRobot-Web/ # Create dist folder, Angular sometimes does not do it
     - ./node_modules/@angular/cli/bin/ng build --progress false --configuration production
     - cd dist/
     - ls -al
