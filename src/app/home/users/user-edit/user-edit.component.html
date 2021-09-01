@@ -2,7 +2,7 @@
 <h1 *ngIf="!isEdit">{{'ADD_2' | tr}}</h1>
 
 <div fxLayout="row break" fxLayoutGap="2%" fxLayoutGap.gt-md="1%" *ngIf="isEdit && user">
-  <div *ngIf="active === 1">
+  <div>
     <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit();" [disabled]="!f.valid">
       <bi name="save"></bi>
       {{'SAVE' | tr}}</button>
@@ -89,12 +89,6 @@
     </li>
     <li [ngbNavItem]="2">
       <a ngbNavLink>{{'NAV_ORGANISATIONS' | tr}}</a>
-      <ng-template ngbNavContent>
-        Coming soon...
-      </ng-template>
-    </li>
-    <li [ngbNavItem]="3" *ngIf="isEdit">
-      <a ngbNavLink>{{'STATISTICS' | tr}}</a>
       <ng-template ngbNavContent>
         Coming soon...
       </ng-template>

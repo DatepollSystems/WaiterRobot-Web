@@ -3,11 +3,11 @@ import {Subscription} from 'rxjs';
 
 import {AuthService} from '../_services/auth/auth.service';
 import {OrganisationsService} from '../_services/organisations.service';
+import {EventsService} from '../_services/events.service';
+import {MyUserService} from '../_services/myUser.service';
 
 import {OrganisationModel} from '../_models/organisation.model';
 import {EventModel} from '../_models/event.model';
-import {EventsService} from '../_services/events.service';
-import {MyUserService} from '../_services/myUser.service';
 import {UserModel} from '../_models/user.model';
 
 @Component({

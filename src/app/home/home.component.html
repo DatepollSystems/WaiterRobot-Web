@@ -16,13 +16,16 @@
           <a class="nav-link" routerLink="/home">Home <span class="visually-hidden">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="tables" [class.disabled]="!selectedOrganisation || !selectedEvent">{{'NAV_TABLES' | tr}}</a>
+          <a class="nav-link" routerLink="tables"
+             [class.disabled]="!selectedOrganisation || !selectedEvent">{{'NAV_TABLES' | tr}}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="products" [class.disabled]="!selectedOrganisation || !selectedEvent">{{'NAV_PRODUCTS' | tr}}</a>
+          <a class="nav-link" routerLink="products"
+             [class.disabled]="!selectedOrganisation || !selectedEvent">{{'NAV_PRODUCTS' | tr}}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="printers" [class.disabled]="!selectedOrganisation || !selectedEvent">{{'NAV_PRINTERS' | tr}}</a>
+          <a class="nav-link" routerLink="printers"
+             [class.disabled]="!selectedOrganisation || !selectedEvent">{{'NAV_PRINTERS' | tr}}</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="waiters" [class.disabled]="!selectedOrganisation">{{'NAV_WAITERS' | tr}}</a>
@@ -37,10 +40,11 @@
               *ngIf="selectedEvent"><b>{{selectedEvent.name}}</b></span> </a>
             <div ngbDropdownMenu aria-labelledby="eventSwitcherDropdown">
               <button ngbDropdownItem *ngIf="selectedEvent" routerLink="events/{{selectedEvent.id}}">
-                <b>{{selectedEvent.name}}</b><small> (bearbeiten)</small>
+                <b>{{selectedEvent.name}}</b><small> {{'NAV_EDIT' | tr}}</small>
               </button>
               <ng-container *ngFor="let eventM of allEvents">
-                <span class="fake-dropdown-item" *ngIf="eventM.id !== selectedEvent?.id" (click)="onSelectEvent(eventM); $event.stopPropagation()">
+                <span class="fake-dropdown-item" *ngIf="eventM.id !== selectedEvent?.id"
+                      (click)="onSelectEvent(eventM); $event.stopPropagation()">
                   {{eventM.name}}
                 </span>
               </ng-container>
@@ -61,11 +65,12 @@
             <div ngbDropdownMenu aria-labelledby="organisationSwitcherDropdown">
               <ng-container *ngIf="selectedOrganisation">
                 <button ngbDropdownItem routerLink="organisations/{{selectedOrganisation.id}}">
-                  <b>{{selectedOrganisation.name}}</b> (bearbeiten)
+                  <b>{{selectedOrganisation.name}}</b><small> {{'NAV_EDIT' | tr}}</small>
                 </button>
                 <div class="dropdown-divider"></div>
               </ng-container>
-              <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/create" *ngIf="myUser?.is_admin">
+              <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/create"
+                      *ngIf="myUser?.is_admin">
                 <b>+</b> {{'ADD_2' | tr}}</button>
               <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/all">
                 <bi name="gear"></bi>
@@ -75,7 +80,18 @@
         </li>
 
         <li class="nav-item" *ngIf="myUser?.is_admin">
-          <a class="nav-link" routerLink="users">{{'NAV_USERS' | tr}}</a>
+          <div ngbDropdown display="dynamic" placement="bottom-end">
+            <a class="nav-link" id="adminDropDown" ngbDropdownToggle>
+              {{'NAV_INSTANCE_ADMINISTRATION' | tr}}</a>
+            <div ngbDropdownMenu aria-labelledby="adminDropDown">
+              <button ngbDropdownItem routerLinkActive="active" routerLink="users">
+                <bi name="person-badge"></bi>
+                {{'NAV_USERS' | tr}}</button>
+              <button ngbDropdownItem routerLinkActive="active" routerLink="instance">
+                <bi name="gear"></bi>
+                {{'NAV_INSTANCE_SETTINGS' | tr}}</button>
+            </div>
+          </div>
         </li>
 
         <li class="nav-item">
@@ -84,8 +100,11 @@
                ngbDropdownToggle>{{'NAV_SETTINGS' | tr}}</a>
             <div ngbDropdownMenu aria-labelledby="settingsDropdown">
               <div class="px-3 py-1">
-                <h5>{{'NAV_WELCOME' | tr}}  {{myUser?.firstname}},</h5>
-                <small>{{myUser?.email_address}} <b *ngIf="myUser?.is_admin" class="clickable" (click)="switchAdminMode()">{{'NAV_ADMIN' | tr}}</b> <b *ngIf="this.adminModeChanged" class="clickable" (click)="switchAdminMode()">{{'NAV_ADMIN_SWITCH' | tr}}</b></small>
+                <h5>{{'NAV_USER_SETTINGS_WELCOME' | tr}}  {{myUser?.firstname}},</h5>
+                <small>{{myUser?.email_address}} <b *ngIf="myUser?.is_admin" class="clickable"
+                                                    (click)="switchAdminMode()">{{'NAV_USER_SETTINGS_ADMIN' | tr}}</b> <b
+                  *ngIf="this.adminModeChanged" class="clickable"
+                  (click)="switchAdminMode()">{{'NAV_USER_SETTINGS_ADMIN_SWITCH' | tr}}</b></small>
               </div>
               <div class="dropdown-divider"></div>
               <button ngbDropdownItem routerLinkActive="active" routerLink="usettings/settings">

@@ -44,9 +44,9 @@ export class UserEditComponent implements OnDestroy {
           console.log('Create new user');
 
           // Tab 3 is the statistics tab which does not exist on create organisation
-          if (this.active == 3) {
-            this.active = 1;
-          }
+          // if (this.active == 3) {
+          //   this.active = 1;
+          // }
         }
       } else {
         console.log('No user to open');
