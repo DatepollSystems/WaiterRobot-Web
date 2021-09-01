@@ -18,6 +18,10 @@
   "SEARCH": "Suchen",
   "CLEAR": "Löschen",
   "CLEAR_SELECTION": "Auswahl entfernen",
+  "EMAIL": "E-Mail-Adresse",
+  "FIRSTNAME": "Vorname",
+  "SURNAME": "Nachname",
+  "PASSWORD": "Passwort",
 
   "REQUEST_ERROR_CLIENT": "Client fehler",
   "REQUEST_ERROR_SERVER": "Server fehler",
@@ -49,8 +53,14 @@
   "LANGUAGE_ITALIEN": "Italiano",
   "LANGUAGE_PORTUGUES": "Portugués",
 
+  "NAV_EDIT": "(bearbeiten)",
   "NAV_SETTINGS": "Einstellungen",
-  "NAV_WELCOME": "Willkommen",
+  "NAV_USER_SETTINGS_WELCOME": "Hallo",
+  "NAV_USER_SETTINGS_ADMIN": "(admin mode)",
+  "NAV_USER_SETTINGS_ADMIN_SWITCH": "(user mode)",
+  "NAV_INSTANCE_ADMINISTRATION": "Administration",
+  "NAV_INSTANCE_SETTINGS": "Instanz Einstellungen",
+  "NAV_USERS": "Benutzerverwaltung",
   "NAV_USER_SETTINGS": "Benutzereinstellungen",
   "NAV_USER_SESSIONS": "Sessions",
   "NAV_LOGOUT": "Abmelden",
@@ -80,6 +90,13 @@
   "HOME_ORGS_COUNTRY_CODE_INCORRECT": "Landkürzel erforderlich",
 
   "HOME_EVENTS_DATE_INCORRECT": "Das Datum ist inkorrekt",
+
+  "HOME_USERS_ALL": "Alle Benutzer",
+  "HOME_USERS_BIRTHDAY": "Geburtstag",
+  "HOME_USERS_BIRTHDAY_INCORRECT": "Geburtstag inkorrekt",
+  "HOME_USERS_ADMIN": "Admin",
+  "HOME_USERS_NAME_INCORRECT": "Der Name muss mehr als 3 Zeichen haben.",
+  "HOME_USERS_PASSWORD_INCORRECT": "Das Password muss mehr als 6 Zeichen haben.",
 
   "HOME_PROD_ALL": "Produkte",
   "HOME_PROD_NAME_INCORRECT": "Der Name muss mehr als 3 Zeichen haben",

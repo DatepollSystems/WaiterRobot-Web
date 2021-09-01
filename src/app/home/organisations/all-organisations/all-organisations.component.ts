@@ -9,6 +9,8 @@ import {OrganisationModel} from '../../../_models/organisation.model';
 import {OrganisationsService} from '../../../_services/organisations.service';
 import {FormControl} from '@angular/forms';
 import {map} from 'rxjs/operators';
+import {UserModel} from '../../../_models/user.model';
+import {MyUserService} from '../../../_services/myUser.service';
 
 @Component({
   selector: 'app-all-organisations',
@@ -16,6 +18,9 @@ import {map} from 'rxjs/operators';
   styleUrls: ['./all-organisations.component.scss']
 })
 export class AllOrganisationsComponent implements OnDestroy {
+  myUser: UserModel|null = null;
+  myUserSubscription: Subscription;
+
   @ViewChildren(SortableHeader) headers: QueryList<SortableHeader> | undefined;
   filter = new FormControl('');
 
@@ -23,7 +28,12 @@ export class AllOrganisationsComponent implements OnDestroy {
   organisationsCopy: OrganisationModel[];
   organisationsSubscription: Subscription;
 
-  constructor(private organisationsService: OrganisationsService) {
+  constructor(private myUserService: MyUserService, private organisationsService: OrganisationsService) {
+    this.myUser = this.myUserService.getUser();
+    this.myUserSubscription = this.myUserService.userChange.subscribe(user => {
+      this.myUser = user;
+    });
+
     this.organisations = this.organisationsService.getAll();
     this.organisationsCopy = this.organisations.slice();
     this.organisationsSubscription = this.organisationsService.allChange.subscribe(value => {
@@ -53,6 +63,7 @@ export class AllOrganisationsComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.myUserSubscription.unsubscribe();
     this.organisationsSubscription.unsubscribe();
   }
 

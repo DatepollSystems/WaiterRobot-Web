@@ -7,6 +7,8 @@ import {TypeHelper} from 'dfx-helper';
 
 import {EventsService} from '../../../_services/events.service';
 import {EventModel} from '../../../_models/event.model';
+import {UserModel} from '../../../_models/user.model';
+import {MyUserService} from '../../../_services/myUser.service';
 
 @Component({
   selector: 'app-event-edit',
@@ -17,13 +19,24 @@ export class EventEditComponent implements OnDestroy {
   isEdit = false;
   active = 1;
 
+  myUser: UserModel|null = null;
+  myUserSubscription: Subscription;
+
   event: EventModel | undefined;
   _eventSubscription: Subscription | undefined;
 
   selectedEvent!: EventModel | null;
   selectedEventSubscription: Subscription | undefined;
 
-  constructor(private router: Router, private route: ActivatedRoute, private eventsService: EventsService) {
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              private myUserService: MyUserService,
+              private eventsService: EventsService) {
+    this.myUser = this.myUserService.getUser();
+    this.myUserSubscription = this.myUserService.userChange.subscribe(user => {
+      this.myUser = user;
+    });
+
     this.route.queryParams.subscribe((params => {
       if (params?.tab != null) {
         this.active = TypeHelper.stringToNumber(params?.tab);
@@ -61,6 +74,7 @@ export class EventEditComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.myUserSubscription.unsubscribe();
     this._eventSubscription?.unsubscribe();
     this.selectedEventSubscription?.unsubscribe();
   }
@@ -80,14 +94,13 @@ export class EventEditComponent implements OnDestroy {
   }
 
   onSave(f: NgForm) {
-    const values = f.form.value;
-    let org = new EventModel(values);
-    console.log(org);
+    let event = f.form.value;
+    console.log(event);
     if (this.isEdit && this.event?.id != null) {
-      org.id = this.event?.id;
-      this.eventsService.update(org);
+      event.id = this.event?.id;
+      this.eventsService.update(event);
     } else {
-      this.eventsService.create(org);
+      this.eventsService.create(event);
     }
     this.router.navigateByUrl('/home/events/all').then();
   }

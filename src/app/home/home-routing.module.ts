@@ -17,6 +17,7 @@ const homeRoutes: Routes = [
       {path: 'printers', loadChildren: () => import('./printers/printers.module').then((m) => m.PrintersModule)},
       {path: 'tables', loadChildren: () => import('./tables/tables.module').then((m) => m.TablesModule)},
       {path: 'waiters', loadChildren: () => import('./waiters/waiters.module').then((m) => m.WaitersModule)},
+      {path: 'users', loadChildren: () => import('./users/users.module').then((m) => m.UsersModule)},
       {path: 'products', loadChildren: () => import('./products/products.module').then((m) => m.ProductsModule)}
     ],
   },

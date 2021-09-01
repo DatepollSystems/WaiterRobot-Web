@@ -2,11 +2,18 @@
 <h1 *ngIf="!isEdit">{{'ADD_2' | tr}}</h1>
 
 <div fxLayout="row break" fxLayoutGap="2%" fxLayoutGap.gt-md="1%" *ngIf="isEdit && organisation">
-  <div *ngIf="active === 1">
-    <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit();" [disabled]="!f.valid">
-      <bi name="save"></bi>
-      {{'SAVE' | tr}}</button>
-  </div>
+  <ng-container *ngIf="myUser?.is_admin">
+    <div *ngIf="active === 1">
+      <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit();" [disabled]="!f.valid">
+        <bi name="save"></bi>
+        {{'SAVE' | tr}}</button>
+    </div>
+    <div>
+      <button class="btn btn-sm btn-outline-danger my-2 my-md-0" (click)="delete(organisation.id)">
+        <bi name="trash"></bi>
+        {{'DELETE' | tr}}</button>
+    </div>
+  </ng-container>
   <div>
     <button class="btn btn-sm btn-primary my-2 my-md-0" (click)="onSelect(organisation)"
             *ngIf="organisation.id != selectedOrganisation?.id">
@@ -19,16 +26,11 @@
       <bi name="x-circle-fill"></bi>
     </button>
   </div>
-  <div>
-    <button class="btn btn-sm btn-outline-danger my-2 my-md-0" (click)="delete(organisation.id)">
-      <bi name="trash"></bi>
-      {{'DELETE' | tr}}</button>
-  </div>
 </div>
 
 <div fxLayout="row break" *ngIf="!isEdit">
   <div>
-    <button class="btn btn-sm btn-success" (click)="f.ngSubmit.emit();" [disabled]="!f.valid || f != null">
+    <button class="btn btn-sm btn-success" (click)="f.ngSubmit.emit();" [disabled]="f == null || !f.valid">
       <bi name="plus-circle"></bi>
       {{'ADD' | tr}}</button>
   </div>
@@ -43,7 +45,7 @@
           <div class="form-group" fxFlex="100%">
             <label for="name">{{'NAME' | tr}}</label>
             <input ngModel class="form-control bg-dark text-white" required type="text" id="name" name="name"
-                   #nameModel="ngModel"
+                   #nameModel="ngModel" [disabled]="!myUser?.is_admin"
                    minlength="5" placeholder="{{'NAME' | tr}}" [ngModel]="isEdit ? organisation?.name : null">
 
             <small *ngIf="nameModel.invalid" class="text-danger">
@@ -56,7 +58,7 @@
           <div class="form-group" fxFlex="70%">
             <label for="street">{{'HOME_ORGS_STREET' | tr}}</label>
             <input ngModel class="form-control bg-dark text-white" required type="text" id="street" name="street"
-                   #streetModel="ngModel"
+                   #streetModel="ngModel" [disabled]="!myUser?.is_admin"
                    minlength="3" placeholder="{{'HOME_ORGS_STREET' | tr}}"
                    [ngModel]="isEdit ? organisation?.street : null">
             <small *ngIf="streetModel.invalid" class="text-danger">
@@ -66,7 +68,7 @@
           <div class="form-group" fxFlex="28%">
             <label for="street_number">{{'HOME_ORGS_STREETNUMBER' | tr}}</label>
             <input ngModel class="form-control bg-dark text-white" required type="text" id="street_number"
-                   #streetNumberModel="ngModel"
+                   #streetNumberModel="ngModel" [disabled]="!myUser?.is_admin"
                    name="street_number" minlength="1" placeholder="{{'HOME_ORGS_STREETNUMBER' | tr}}"
                    [ngModel]="isEdit ? organisation?.street_number : null">
             <small *ngIf="streetNumberModel.invalid" class="text-danger">
@@ -79,7 +81,7 @@
           <div class="form-group" fxFlex="23%">
             <label for="postal_code">{{'HOME_ORGS_POSTAL_CODE' | tr}}</label>
             <input ngModel class="form-control bg-dark text-white" required type="text" id="postal_code"
-                   #postalCodeModel="ngModel"
+                   #postalCodeModel="ngModel" [disabled]="!myUser?.is_admin"
                    name="postal_code" minlength="1" placeholder="{{'HOME_ORGS_POSTAL_CODE' | tr}}"
                    [ngModel]="isEdit ? organisation?.postal_code : null">
             <small *ngIf="postalCodeModel.invalid" class="text-danger">
@@ -90,7 +92,7 @@
           <div class="form-group" fxFlex="50%">
             <label for="city">{{'HOME_ORGS_CITY' | tr}}</label>
             <input ngModel class="form-control bg-dark text-white" required type="text" id="city" name="city"
-                   #cityModel="ngModel"
+                   #cityModel="ngModel" [disabled]="!myUser?.is_admin"
                    minlength="4" placeholder="{{'HOME_ORGS_CITY' | tr}}" [ngModel]="isEdit ? organisation?.city : null">
             <small *ngIf="cityModel.invalid" class="text-danger">
               {{ 'HOME_ORGS_CITY_INCORRECT' | tr }}
@@ -100,7 +102,7 @@
           <div class="form-group" fxFlex="23%">
             <label for="country_code">{{'HOME_ORGS_COUNTRY_CODE' | tr}}</label>
             <input ngModel class="form-control bg-dark text-white" required type="text" id="country_code"
-                   #countryCodeModel="ngModel"
+                   #countryCodeModel="ngModel" [disabled]="!myUser?.is_admin"
                    name="country_code" minlength="2" placeholder="{{'HOME_ORGS_COUNTRY_CODE' | tr}}"
                    [ngModel]="isEdit ? organisation?.country_code : null">
             <small *ngIf="countryCodeModel.invalid" class="text-danger">

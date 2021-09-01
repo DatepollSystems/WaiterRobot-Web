@@ -16,6 +16,11 @@ a:hover {
 
 .clickable {
   cursor: pointer;
+  user-select: none;
+}
+
+.not-selectable {
+  user-select: none;
 }
 
 .sortable-header {
@@ -54,4 +59,8 @@ button > bi {
 .fake-dropdown-item:hover {
   color: #1e2125;
   background-color: #e9ecef;
+}
+
+.dropdown-toggle, .nav-link {
+  user-select: none;
 }
