@@ -24,8 +24,7 @@ export class MyUserService {
   }
 
   private fetchUser(): void {
-    this.httpService.get('/auth/myself').subscribe((data: any) => {
-        console.log(data);
+    this.httpService.get('/user/myself').subscribe((data: any) => {
         this.setUser(new UserModel(data));
       },
       (error: any) => console.log(error));

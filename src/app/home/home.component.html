@@ -101,7 +101,8 @@
             <div ngbDropdownMenu aria-labelledby="settingsDropdown">
               <div class="px-3 py-1">
                 <h5>{{'NAV_USER_SETTINGS_WELCOME' | tr}}  {{myUser?.firstname}},</h5>
-                <small>{{myUser?.email_address}} <b *ngIf="myUser?.is_admin" class="clickable"
+                <small>{{myUser?.email_address}} <br>
+                  <b *ngIf="myUser?.is_admin" class="clickable"
                                                     (click)="switchAdminMode()">{{'NAV_USER_SETTINGS_ADMIN' | tr}}</b> <b
                   *ngIf="this.adminModeChanged" class="clickable"
                   (click)="switchAdminMode()">{{'NAV_USER_SETTINGS_ADMIN_SWITCH' | tr}}</b></small>

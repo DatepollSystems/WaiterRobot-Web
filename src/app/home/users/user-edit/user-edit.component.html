@@ -1,20 +1,20 @@
-<h1 *ngIf="isEdit && user">{{'EDIT_2' | tr}} "{{user.firstname}} {{user.surname}}"</h1>
-<h1 *ngIf="!isEdit">{{'ADD_2' | tr}}</h1>
+<h1 *ngIf="isEditing && model">{{'EDIT_2' | tr}} "{{model.firstname}} {{model.surname}}"</h1>
+<h1 *ngIf="!isEditing">{{'ADD_2' | tr}}</h1>
 
-<div fxLayout="row break" fxLayoutGap="2%" fxLayoutGap.gt-md="1%" *ngIf="isEdit && user">
+<div fxLayout="row break" fxLayoutGap="2%" fxLayoutGap.gt-md="1%" *ngIf="isEditing && model">
   <div>
     <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit();" [disabled]="!f.valid">
       <bi name="save"></bi>
       {{'SAVE' | tr}}</button>
   </div>
   <div>
-    <button class="btn btn-sm btn-outline-danger my-2 my-md-0" (click)="delete(user.id)">
+    <button class="btn btn-sm btn-outline-danger my-2 my-md-0" (click)="onDelete(model.id)">
       <bi name="trash"></bi>
       {{'DELETE' | tr}}</button>
   </div>
 </div>
 
-<div fxLayout="row break" *ngIf="!isEdit">
+<div fxLayout="row break" *ngIf="!isEditing">
   <div>
     <button class="btn btn-sm btn-success" (click)="f.ngSubmit.emit();" [disabled]="f == null || !f.valid">
       <bi name="plus-circle"></bi>
@@ -23,16 +23,16 @@
 </div>
 
 <form #f="ngForm" (ngSubmit)="onSave(f)">
-  <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs mt-3 bg-dark" (navChange)="onNavChange($event)">
+  <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs mt-3 bg-dark" (navChange)="onTabChange($event)">
     <li [ngbNavItem]="1">
-      <a ngbNavLink>Daten</a>
+      <a ngbNavLink>{{'DATA' | tr}}</a>
       <ng-template ngbNavContent>
         <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%">
           <div class="form-group" fxFlex="50%">
             <label for="firstname">{{'FIRSTNAME' | tr}}</label>
             <input ngModel class="form-control bg-dark text-white" required type="text" id="firstname" name="firstname"
                    #firstnameModel="ngModel"
-                   minlength="3" placeholder="{{'FIRSTNAME' | tr}}" [ngModel]="isEdit ? user?.firstname : null">
+                   minlength="3" placeholder="{{'FIRSTNAME' | tr}}" [ngModel]="isEditing ? model?.firstname : null">
 
             <small *ngIf="firstnameModel.invalid" class="text-danger">
               {{ 'HOME_USERS_NAME_INCORRECT' | tr }}
@@ -44,7 +44,7 @@
             <input ngModel class="form-control bg-dark text-white" required type="text" id="surname" name="surname"
                    #streetModel="ngModel"
                    minlength="3" placeholder="{{'SURNAME' | tr}}"
-                   [ngModel]="isEdit ? user?.surname : null">
+                   [ngModel]="isEditing ? model?.surname : null">
             <small *ngIf="streetModel.invalid" class="text-danger">
               {{ 'HOME_USERS_NAME_INCORRECT' | tr }}
             </small>
@@ -57,7 +57,7 @@
             <input ngModel class="form-control bg-dark text-white" required type="text" id="birthday"
                    #birthdayModel="ngModel"
                    name="birthday" minlength="3" placeholder="{{'HOME_USERS_BIRTHDAY' | tr}}"
-                   [ngModel]="isEdit ? user?.birthday : null">
+                   [ngModel]="isEditing ? model?.birthday : null">
             <small *ngIf="birthdayModel.invalid" class="text-danger">
               {{ 'HOME_USERS_BIRTHDAY_INCORRECT' | tr }}
             </small>
@@ -77,7 +77,7 @@
         <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%" class="mt-2">
           <div class="form-check" fxFlex="100%">
             <input ngModel class="form-check-input" type="checkbox" id="is_admin"
-                   [ngModel]="isEdit ? user?.is_admin : null"
+                   [ngModel]="isEditing ? model?.is_admin : null"
                    name="is_admin" value="">
             <label class="form-check-label" for="is_admin">
               {{'HOME_USERS_ADMIN' | tr}}

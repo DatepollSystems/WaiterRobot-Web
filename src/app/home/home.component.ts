@@ -9,6 +9,7 @@ import {MyUserService} from '../_services/myUser.service';
 import {OrganisationModel} from '../_models/organisation.model';
 import {EventModel} from '../_models/event.model';
 import {UserModel} from '../_models/user.model';
+import {LoggerFactory, TypeHelper} from 'dfx-helper';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,8 @@ import {UserModel} from '../_models/user.model';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  lumber = LoggerFactory.getLogger('HomeComponent')
+
   adminModeChanged = false;
   myUser: UserModel|null = null;
   myUserSubscription: Subscription;
@@ -36,6 +39,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.myUser = this.myUserService.getUser();
     this.myUserSubscription = this.myUserService.userChange.subscribe(user => {
       this.myUser = user;
+      if (this.myUser.is_admin) {
+        this.lumber.info('const', 'Admin status detected');
+      }
     });
 
     this.selectedOrganisation = this.organisationsService.getSelected();
@@ -94,6 +100,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.myUser) {
       this.adminModeChanged = !this.adminModeChanged;
       this.myUser.is_admin = !this.myUser.is_admin;
+      this.lumber.info('switchAdminMode', 'Admin mode switched to ' + TypeHelper.booleanToString(this.myUser.is_admin));
       this.myUserService.setUser(this.myUser);
     }
   }

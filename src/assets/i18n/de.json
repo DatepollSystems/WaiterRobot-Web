@@ -22,6 +22,7 @@
   "FIRSTNAME": "Vorname",
   "SURNAME": "Nachname",
   "PASSWORD": "Passwort",
+  "DATA": "Daten",
 
   "REQUEST_ERROR_CLIENT": "Client fehler",
   "REQUEST_ERROR_SERVER": "Server fehler",
