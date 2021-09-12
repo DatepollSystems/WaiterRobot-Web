@@ -15,12 +15,12 @@ import {AModelEditComponent} from '../../../_helper/a-model-edit.component';
 })
 export class EventEditComponent extends AModelEditComponent<EventModel>{
   override onlyEditingTabs = [2];
-  override redirectUrl = '/home/events/all'
+  override redirectUrl = '/home/events/all';
 
   myUser: UserModel|null = null;
   myUserSubscription: Subscription;
 
-  selectedEvent!: EventModel | null;
+  selectedEvent!: EventModel | undefined;
   selectedEventSubscription: Subscription | undefined;
 
   constructor(route: ActivatedRoute,
@@ -46,7 +46,7 @@ export class EventEditComponent extends AModelEditComponent<EventModel>{
     this.selectedEventSubscription?.unsubscribe();
   }
 
-  onSelect(event: EventModel | null) {
+  onSelect(event: EventModel | undefined): void {
     this.eventsService.setSelected(event);
   }
 }

@@ -51,7 +51,7 @@ export abstract class AModelEditComponent<Model extends AModel> implements OnDes
     });
   }
 
-  private checkTab() {
+  private checkTab(): void {
     if (this.onlyEditingTabs.includes(this.activeTab)) {
       this.activeTab = 1;
     }
@@ -61,18 +61,18 @@ export abstract class AModelEditComponent<Model extends AModel> implements OnDes
     this.modelSubscription?.unsubscribe();
   }
 
-  public onTabChange($event: any) {
+  public onTabChange($event: any): void {
     this.router.navigate(
       [],
       {
         relativeTo: this.route,
         queryParams: {tab: $event.nextId},
-        queryParamsHandling: 'merge',
+        queryParamsHandling: 'merge'
       }).then();
   }
 
-  public onSave(form: NgForm) {
-    let model = form.form.value;
+  public onSave(form: NgForm): void {
+    const model = form.form.value;
     this.lumber.info('onSave', 'Model edit form value object', model);
     if (this.isEditing && this.model?.id != null) {
       model.id = this.model?.id;
@@ -80,15 +80,15 @@ export abstract class AModelEditComponent<Model extends AModel> implements OnDes
     } else {
       this.modelService.create(model);
     }
-    this.redirectTo();
+    this.goToRedirectUrl();
   }
 
-  public onDelete(modelId: number) {
+  public onDelete(modelId: number): void {
     this.modelService.delete(modelId);
-    this.redirectTo();
+    this.goToRedirectUrl();
   }
 
-  private redirectTo() {
+  private goToRedirectUrl(): void {
     this.router.navigateByUrl(this.redirectUrl).then();
   }
 }

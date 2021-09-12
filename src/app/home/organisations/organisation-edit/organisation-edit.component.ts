@@ -23,7 +23,7 @@ export class OrganisationEditComponent extends AModelEditComponent<OrganisationM
   myUser: UserModel|null = null;
   myUserSubscription: Subscription;
 
-  selectedOrganisation!: OrganisationModel | null;
+  selectedOrganisation: OrganisationModel | undefined;
   selectedOrganisationSubscription: Subscription | undefined;
 
   constructor(route: ActivatedRoute,
@@ -38,7 +38,7 @@ export class OrganisationEditComponent extends AModelEditComponent<OrganisationM
     });
 
     this.selectedOrganisation = this.organisationsService.getSelected();
-    this.selectedOrganisationSubscription = this.organisationsService.selectedChange.subscribe((value: OrganisationModel|null) => {
+    this.selectedOrganisationSubscription = this.organisationsService.selectedChange.subscribe(value => {
       this.selectedOrganisation = value;
     });
   }
@@ -49,7 +49,7 @@ export class OrganisationEditComponent extends AModelEditComponent<OrganisationM
     this.selectedOrganisationSubscription?.unsubscribe();
   }
 
-  onSelect(organisation: OrganisationModel | null) {
+  onSelect(organisation: OrganisationModel | undefined) {
     this.organisationsService.setSelected(organisation);
   }
 }

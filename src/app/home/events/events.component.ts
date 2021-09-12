@@ -18,7 +18,7 @@ export class EventsComponent implements OnDestroy {
   events: EventModel[];
   eventsSubscription: Subscription;
 
-  selectedEvent: EventModel | null;
+  selectedEvent: EventModel | undefined;
   selectedEventSubscription: Subscription;
 
   constructor(private myUserService: MyUserService, private eventsService: EventsService) {
@@ -33,7 +33,7 @@ export class EventsComponent implements OnDestroy {
     });
 
     this.selectedEvent = this.eventsService.getSelected();
-    this.selectedEventSubscription = this.eventsService.selectedChange.subscribe((value: EventModel | null) => {
+    this.selectedEventSubscription = this.eventsService.selectedChange.subscribe(value => {
       this.selectedEvent = value;
     });
   }

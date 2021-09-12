@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {ProductsModel} from '../../_models/products';
 import {Subscription} from 'rxjs';
 import {ProductsService} from '../../_services/products.service';
@@ -15,7 +15,7 @@ export class ProductsComponent implements OnDestroy {
   productsCopy: ProductsModel[] | undefined;
   productsSubscription: Subscription;
 
-  selectedOrganisation: OrganisationModel|null;
+  selectedOrganisation: OrganisationModel|undefined;
   selectedOrganisationSubscription: Subscription;
 
   constructor(private productsService: ProductsService, private organisationsService: OrganisationsService) {

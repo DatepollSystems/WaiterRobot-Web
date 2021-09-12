@@ -23,10 +23,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   myUser: UserModel|null = null;
   myUserSubscription: Subscription;
 
-  selectedOrganisation: OrganisationModel | null;
+  selectedOrganisation: OrganisationModel | undefined;
   selectedOrganisationSubscription;
 
-  selectedEvent!: EventModel | null;
+  selectedEvent: EventModel | undefined;
   selectedEventSubscription!: Subscription;
 
   allEvents: EventModel[] = [];
@@ -61,12 +61,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
 
       this.selectedEvent = this.eventsService.getSelected();
-      this.selectedEventSubscription = this.eventsService.selectedChange.subscribe((value: EventModel | null) => {
+      this.selectedEventSubscription = this.eventsService.selectedChange.subscribe(value => {
         this.selectedEvent = value;
       });
     } else {
       this.allEvents = [];
-      this.selectedEvent = null;
+      this.selectedEvent = undefined;
     }
   }
 

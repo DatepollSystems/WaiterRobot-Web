@@ -20,7 +20,7 @@
       <bi name="check2-square"></bi>
       {{'SELECT' | tr}}</button>
 
-    <button class="btn btn-sm btn-primary my-2 my-md-0" (click)="onSelect(null)"
+    <button class="btn btn-sm btn-primary my-2 my-md-0" (click)="onSelect(undefined)"
             *ngIf="model.id == selectedOrganisation?.id">
       {{'CLEAR_SELECTION' | tr}}
       <bi name="x-circle-fill"></bi>

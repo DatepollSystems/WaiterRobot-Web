@@ -19,7 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  private addToken(req: HttpRequest<any>, token: string|null): HttpRequest<any> {
+  private addToken(req: HttpRequest<any>, token: string|undefined): HttpRequest<any> {
     return req.clone({
       setHeaders: {
         'content-type': 'application/json',

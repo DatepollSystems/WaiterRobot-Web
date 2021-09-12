@@ -10,8 +10,8 @@ import {HttpService} from '../http.service';
   providedIn: 'root',
 })
 export class AuthService {
-  private sessionToken: string | null = null;
-  private jwtToken: string | null = null;
+  private sessionToken: string | undefined = undefined;
+  private jwtToken: string | undefined = undefined;
   private jwtTokenExpires: Date;
 
   public redirectUrl: string | null = null;
@@ -37,7 +37,7 @@ export class AuthService {
     this.sessionToken = sessionToken;
   }
 
-  getSessionToken(): string | null {
+  getSessionToken(): string | undefined {
     if (this.sessionToken == null) {
       this.sessionToken = StorageHelper.getString('sessionToken');
     }
@@ -51,7 +51,7 @@ export class AuthService {
     this.jwtTokenExpires.setMinutes(this.jwtTokenExpires.getMinutes() + 50);
   }
 
-  public getJWTToken(): string | null {
+  public getJWTToken(): string | undefined {
     if (this.jwtToken == null) {
       this.jwtToken = StorageHelper.getString('token');
     }
@@ -103,11 +103,11 @@ export class AuthService {
 
 
   public isAuthenticated(): boolean {
-    return this.getSessionToken() != null;
+    return this.getSessionToken() != undefined;
   }
 
   public isJWTTokenValid(): boolean {
-    if (this.getJWTToken() == null) {
+    if (this.getJWTToken() == undefined) {
       return false;
     }
 

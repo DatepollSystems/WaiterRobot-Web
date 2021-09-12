@@ -17,7 +17,7 @@ export class OrganisationsComponent implements OnDestroy {
   organisations: OrganisationModel[];
   organisationsSubscription: Subscription;
 
-  selectedOrganisation: OrganisationModel|null;
+  selectedOrganisation: OrganisationModel|undefined;
   selectedOrganisationSubscription: Subscription;
 
   constructor(private myUserService: MyUserService, private organisationsService: OrganisationsService) {
@@ -32,7 +32,7 @@ export class OrganisationsComponent implements OnDestroy {
     });
 
     this.selectedOrganisation = this.organisationsService.getSelected();
-    this.selectedOrganisationSubscription = this.organisationsService.selectedChange.subscribe((value: OrganisationModel|null) => {
+    this.selectedOrganisationSubscription = this.organisationsService.selectedChange.subscribe(value => {
       this.selectedOrganisation = value;
     });
   }
