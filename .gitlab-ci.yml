@@ -1,4 +1,4 @@
-image: trion/ng-cli-karma
+image: node:latest
 
 stages:
   - build
@@ -13,8 +13,7 @@ build:
     paths:
       - node_modules/
   script:
-    - rm ./package-lock.json
-    - npm install
+    - npm install --loglevel=error --no-progress
     - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
     - mkdir -p dist/WaiterRobot-Web/ # Create dist folder, Angular sometimes does not do it
     - ./node_modules/@angular/cli/bin/ng build --progress false --configuration production
@@ -28,7 +27,7 @@ deploy-dev:
   only:
     - develop
   script:
-    - apt-get update -qq && apt-get install -y -qq zip
+    - apt-get update -qq && apt-get install -y -qq zip openssh-client >> /dev/null
     - eval "$(ssh-agent -s)"
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
@@ -47,7 +46,7 @@ deploy-release:
   except:
     - branches
   script:
-    - apt-get update -qq && apt-get install -y -qq zip
+    - apt-get update -qq && apt-get install -y -qq zip openssh-client >> /dev/null
     - eval "$(ssh-agent -s)"
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
