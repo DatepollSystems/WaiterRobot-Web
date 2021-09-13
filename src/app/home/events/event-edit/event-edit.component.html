@@ -1,138 +1,146 @@
-<h1 *ngIf="isEditing && model">{{'EDIT_2' | tr}} "{{model.name}}"</h1>
-<h1 *ngIf="!isEditing">{{'ADD_2' | tr}}</h1>
+<div [hidden]="isEditing && !modelLoaded">
 
-<div fxLayout="row break" fxLayoutGap="2%" fxLayoutGap.gt-md="1%" *ngIf="isEditing && model">
-  <ng-container *ngIf="myUser?.is_admin">
-    <div *ngIf="activeTab === 1">
-      <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit();" [disabled]="!f.valid">
-        <bi name="save"></bi>
-        {{'SAVE' | tr}}</button>
+  <h1 *ngIf="isEditing && model">{{'EDIT_2' | tr}} "{{model.name}}"</h1>
+  <h1 *ngIf="!isEditing">{{'ADD_2' | tr}}</h1>
+
+  <div fxLayout="row break" fxLayoutGap="2%" fxLayoutGap.gt-md="1%" *ngIf="isEditing && model">
+    <ng-container *ngIf="myUser?.is_admin">
+      <div *ngIf="activeTab === 1">
+        <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit();" [disabled]="!f.valid">
+          <bi name="save"></bi>
+          {{'SAVE' | tr}}</button>
+      </div>
+      <div>
+        <button class="btn btn-sm btn-outline-danger my-2 my-md-0" (click)="onDelete(model.id)">
+          <bi name="trash"></bi>
+          {{'DELETE' | tr}}</button>
+      </div>
+    </ng-container>
+
+    <div>
+      <button class="btn btn-sm btn-outline-secondary my-2 my-md-0 disabled">
+        <bi name="clipboard"></bi>
+        {{'COPY' | tr}}</button>
     </div>
     <div>
-      <button class="btn btn-sm btn-outline-danger my-2 my-md-0" (click)="onDelete(model.id)">
-        <bi name="trash"></bi>
-        {{'DELETE' | tr}}</button>
+      <button class="btn btn-sm btn-outline-secondary my-2 my-md-0 disabled">
+        <bi name="save"></bi>
+        {{'EXPORT' | tr}}</button>
     </div>
-  </ng-container>
 
-  <div>
-    <button class="btn btn-sm btn-outline-secondary my-2 my-md-0 disabled">
-      <bi name="clipboard"></bi>
-      {{'COPY' | tr}}</button>
-  </div>
-  <div>
-    <button class="btn btn-sm btn-outline-secondary my-2 my-md-0 disabled">
-      <bi name="save"></bi>
-      {{'EXPORT' | tr}}</button>
+    <div>
+      <button class="btn btn-sm btn-primary my-2 my-md-0" (click)="onSelect(model)"
+              *ngIf="model.id != selectedEvent?.id">
+        <bi name="check2-square"></bi>
+        {{'SELECT' | tr}}</button>
+
+      <button class="btn btn-sm btn-primary my-2 my-md-0" (click)="onSelect(undefined)"
+              *ngIf="model.id == selectedEvent?.id">
+        {{'CLEAR_SELECTION' | tr}}
+        <bi name="x-circle-fill"></bi>
+      </button>
+    </div>
   </div>
 
-  <div>
-    <button class="btn btn-sm btn-primary my-2 my-md-0" (click)="onSelect(model)"
-            *ngIf="model.id != selectedEvent?.id">
-      <bi name="check2-square"></bi>
-      {{'SELECT' | tr}}</button>
-
-    <button class="btn btn-sm btn-primary my-2 my-md-0" (click)="onSelect(undefined)"
-            *ngIf="model.id == selectedEvent?.id">
-      {{'CLEAR_SELECTION' | tr}}
-      <bi name="x-circle-fill"></bi>
-    </button>
+  <div fxLayout="row break" *ngIf="!isEditing">
+    <div>
+      <button class="btn btn-sm btn-success" (click)="f.ngSubmit.emit();" [disabled]="f == null || !f.valid">
+        <bi name="plus-circle"></bi>
+        {{'ADD' | tr}}</button>
+    </div>
   </div>
+
+  <form #f="ngForm" (ngSubmit)="onSave(f)">
+    <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs mt-3 bg-dark" (navChange)="onTabChange($event)">
+      <li [ngbNavItem]="1">
+        <a ngbNavLink>{{'DATA' | tr}}</a>
+        <ng-template ngbNavContent>
+          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%">
+            <div class="form-group" fxFlex="70%">
+              <label for="name">{{'NAME' | tr}}</label>
+              <input ngModel class="form-control bg-dark text-white" required type="text" id="name" name="name"
+                     #nameModel="ngModel" [disabled]="!myUser?.is_admin"
+                     minlength="5" placeholder="{{'NAME' | tr}}" [ngModel]="isEditing ? model?.name : null">
+
+              <small *ngIf="nameModel.invalid" class="text-danger">
+                {{ 'HOME_ORGS_NAME_INCORRECT' | tr }}
+              </small>
+            </div>
+
+            <div class="form-group" fxFlex="28%">
+              <label for="name">{{'DATE' | tr}}</label>
+              <input ngModel class="form-control bg-dark text-white" type="text" id="date" name="date"
+                     #dateModel="ngModel" [disabled]="!myUser?.is_admin"
+                     minlength="3" placeholder="{{'DATE' | tr}}" [ngModel]="isEditing ? model?.date : null">
+
+              <small *ngIf="dateModel.invalid" class="text-danger">
+                {{ 'HOME_EVENTS_DATE_INCORRECT' | tr }}
+              </small>
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%" class="mt-2">
+            <div class="form-group" fxFlex="70%">
+              <label for="street">{{'HOME_ORGS_STREET' | tr}}</label>
+              <input ngModel class="form-control bg-dark text-white" required type="text" id="street" name="street"
+                     #streetModel="ngModel" [disabled]="!myUser?.is_admin"
+                     minlength="3" placeholder="{{'HOME_ORGS_STREET' | tr}}"
+                     [ngModel]="isEditing ? model?.street : null">
+              <small *ngIf="streetModel.invalid" class="text-danger">
+                {{ 'HOME_ORGS_STREET_INCORRECT' | tr }}
+              </small>
+            </div>
+            <div class="form-group" fxFlex="28%">
+              <label for="street_number">{{'HOME_ORGS_STREETNUMBER' | tr}}</label>
+              <input ngModel class="form-control bg-dark text-white" required type="text" id="street_number"
+                     #streetNumberModel="ngModel" [disabled]="!myUser?.is_admin"
+                     name="street_number" minlength="1" placeholder="{{'HOME_ORGS_STREETNUMBER' | tr}}"
+                     [ngModel]="isEditing ? model?.street_number : null">
+              <small *ngIf="streetNumberModel.invalid" class="text-danger">
+                {{ 'HOME_ORGS_STREETNUMBER_INCORRECT' | tr }}
+              </small>
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%" class="mt-2">
+            <div class="form-group" fxFlex="28%">
+              <label for="postal_code">{{'HOME_ORGS_POSTAL_CODE' | tr}}</label>
+              <input ngModel class="form-control bg-dark text-white" required type="text" id="postal_code"
+                     #postalCodeModel="ngModel" [disabled]="!myUser?.is_admin"
+                     name="postal_code" minlength="1" placeholder="{{'HOME_ORGS_POSTAL_CODE' | tr}}"
+                     [ngModel]="isEditing ? model?.postal_code : null">
+              <small *ngIf="postalCodeModel.invalid" class="text-danger">
+                {{ 'HOME_ORGS_POSTAL_CODE_INCORRECT' | tr }}
+              </small>
+            </div>
+
+            <div class="form-group" fxFlex="70%">
+              <label for="city">{{'HOME_ORGS_CITY' | tr}}</label>
+              <input ngModel class="form-control bg-dark text-white" required type="text" id="city" name="city"
+                     #cityModel="ngModel" [disabled]="!myUser?.is_admin"
+                     minlength="4" placeholder="{{'HOME_ORGS_CITY' | tr}}" [ngModel]="isEditing ? model?.city : null">
+              <small *ngIf="cityModel.invalid" class="text-danger">
+                {{ 'HOME_ORGS_CITY_INCORRECT' | tr }}
+              </small>
+            </div>
+          </div>
+
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="2" *ngIf="isEditing">
+        <a ngbNavLink>{{'STATISTICS' | tr}}</a>
+        <ng-template ngbNavContent>
+          Coming soon...
+        </ng-template>
+      </li>
+    </ul>
+
+    <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
+  </form>
 </div>
 
-<div fxLayout="row break" *ngIf="!isEditing">
-  <div>
-    <button class="btn btn-sm btn-success" (click)="f.ngSubmit.emit();" [disabled]="f == null || !f.valid">
-      <bi name="plus-circle"></bi>
-      {{'ADD' | tr}}</button>
+<div class="spinner-row" *ngIf="isEditing && !modelLoaded">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">{{'LOADING' | tr}}</span>
   </div>
 </div>
-
-<form #f="ngForm" (ngSubmit)="onSave(f)">
-  <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs mt-3 bg-dark" (navChange)="onTabChange($event)">
-    <li [ngbNavItem]="1">
-      <a ngbNavLink>{{'DATA' | tr}}</a>
-      <ng-template ngbNavContent>
-        <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%">
-          <div class="form-group" fxFlex="70%">
-            <label for="name">{{'NAME' | tr}}</label>
-            <input ngModel class="form-control bg-dark text-white" required type="text" id="name" name="name"
-                   #nameModel="ngModel" [disabled]="!myUser?.is_admin"
-                   minlength="5" placeholder="{{'NAME' | tr}}" [ngModel]="isEditing ? model?.name : null">
-
-            <small *ngIf="nameModel.invalid" class="text-danger">
-              {{ 'HOME_ORGS_NAME_INCORRECT' | tr }}
-            </small>
-          </div>
-
-          <div class="form-group" fxFlex="28%">
-            <label for="name">{{'DATE' | tr}}</label>
-            <input ngModel class="form-control bg-dark text-white" type="text" id="date" name="date"
-                   #dateModel="ngModel" [disabled]="!myUser?.is_admin"
-                   minlength="3" placeholder="{{'DATE' | tr}}" [ngModel]="isEditing ? model?.date : null">
-
-            <small *ngIf="dateModel.invalid" class="text-danger">
-              {{ 'HOME_EVENTS_DATE_INCORRECT' | tr }}
-            </small>
-          </div>
-        </div>
-
-        <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%" class="mt-2">
-          <div class="form-group" fxFlex="70%">
-            <label for="street">{{'HOME_ORGS_STREET' | tr}}</label>
-            <input ngModel class="form-control bg-dark text-white" required type="text" id="street" name="street"
-                   #streetModel="ngModel" [disabled]="!myUser?.is_admin"
-                   minlength="3" placeholder="{{'HOME_ORGS_STREET' | tr}}"
-                   [ngModel]="isEditing ? model?.street : null">
-            <small *ngIf="streetModel.invalid" class="text-danger">
-              {{ 'HOME_ORGS_STREET_INCORRECT' | tr }}
-            </small>
-          </div>
-          <div class="form-group" fxFlex="28%">
-            <label for="street_number">{{'HOME_ORGS_STREETNUMBER' | tr}}</label>
-            <input ngModel class="form-control bg-dark text-white" required type="text" id="street_number"
-                   #streetNumberModel="ngModel" [disabled]="!myUser?.is_admin"
-                   name="street_number" minlength="1" placeholder="{{'HOME_ORGS_STREETNUMBER' | tr}}"
-                   [ngModel]="isEditing ? model?.street_number : null">
-            <small *ngIf="streetNumberModel.invalid" class="text-danger">
-              {{ 'HOME_ORGS_STREETNUMBER_INCORRECT' | tr }}
-            </small>
-          </div>
-        </div>
-
-        <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%" class="mt-2">
-          <div class="form-group" fxFlex="28%">
-            <label for="postal_code">{{'HOME_ORGS_POSTAL_CODE' | tr}}</label>
-            <input ngModel class="form-control bg-dark text-white" required type="text" id="postal_code"
-                   #postalCodeModel="ngModel" [disabled]="!myUser?.is_admin"
-                   name="postal_code" minlength="1" placeholder="{{'HOME_ORGS_POSTAL_CODE' | tr}}"
-                   [ngModel]="isEditing ? model?.postal_code : null">
-            <small *ngIf="postalCodeModel.invalid" class="text-danger">
-              {{ 'HOME_ORGS_POSTAL_CODE_INCORRECT' | tr }}
-            </small>
-          </div>
-
-          <div class="form-group" fxFlex="70%">
-            <label for="city">{{'HOME_ORGS_CITY' | tr}}</label>
-            <input ngModel class="form-control bg-dark text-white" required type="text" id="city" name="city"
-                   #cityModel="ngModel" [disabled]="!myUser?.is_admin"
-                   minlength="4" placeholder="{{'HOME_ORGS_CITY' | tr}}" [ngModel]="isEditing ? model?.city : null">
-            <small *ngIf="cityModel.invalid" class="text-danger">
-              {{ 'HOME_ORGS_CITY_INCORRECT' | tr }}
-            </small>
-          </div>
-        </div>
-
-      </ng-template>
-    </li>
-    <li [ngbNavItem]="2" *ngIf="isEditing">
-      <a ngbNavLink>{{'STATISTICS' | tr}}</a>
-      <ng-template ngbNavContent>
-        Coming soon...
-      </ng-template>
-    </li>
-  </ul>
-
-  <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
-
-</form>

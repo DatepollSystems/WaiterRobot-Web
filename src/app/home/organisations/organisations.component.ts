@@ -16,6 +16,7 @@ export class OrganisationsComponent implements OnDestroy {
 
   organisations: OrganisationModel[];
   organisationsSubscription: Subscription;
+  maxOrgsCount = 5;
 
   selectedOrganisation: OrganisationModel|undefined;
   selectedOrganisationSubscription: Subscription;
@@ -26,9 +27,9 @@ export class OrganisationsComponent implements OnDestroy {
       this.myUser = user;
     });
 
-    this.organisations = this.organisationsService.getAll().slice(0, 5);
+    this.organisations = this.organisationsService.getAll();
     this.organisationsSubscription = this.organisationsService.allChange.subscribe((value: OrganisationModel[]) => {
-      this.organisations = value.slice(0, 5);
+      this.organisations = value;
     });
 
     this.selectedOrganisation = this.organisationsService.getSelected();

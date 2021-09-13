@@ -40,6 +40,11 @@ export class AllEventsComponent extends AModelsListComponent<EventModel> {
     return undefined;
   }
 
+  override ngOnDestroy() {
+    super.ngOnDestroy();
+    this.myUserSubscription.unsubscribe();
+  }
+
   onSelect(event: EventModel): void {
     this.eventsService.setSelected(event);
   }

@@ -7,7 +7,13 @@
   </div>
 </div>
 
-<form class="mt-2">
+<div class="spinner-row" *ngIf="!modelsLoaded">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">{{'LOADING' | tr}}</span>
+  </div>
+</div>
+
+<form class="mt-2" [hidden]="!modelsLoaded">
   <div class="input-group">
     <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter"
            placeholder="{{'SEARCH' | tr}}"/>
@@ -18,7 +24,7 @@
   </div>
 </form>
 
-<div class="table-responsive">
+<div class="table-responsive" [hidden]="!modelsLoaded">
   <table class="table table-dark table-hover">
     <thead>
     <tr class="table-dark">
@@ -33,7 +39,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let organisation of organisationsCopy" class="table-dark">
+    <tr *ngFor="let organisation of modelsCopy" class="table-dark">
       <th>{{ organisation.id }}</th>
       <td>{{ organisation.name }}</td>
       <td>{{ organisation.street }}</td>

@@ -23,6 +23,8 @@
   "SURNAME": "Nachname",
   "PASSWORD": "Passwort",
   "DATA": "Daten",
+  "LOADING": "Laden...",
+  "SHOW_MORE": "Mehr anzeigen",
 
   "REQUEST_ERROR_CLIENT": "Client fehler",
   "REQUEST_ERROR_SERVER": "Server fehler",

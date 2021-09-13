@@ -5,7 +5,13 @@
     {{'ADD_2' | tr}}</a>
 </div>
 
-<form class="mt-2">
+<div class="spinner-row" *ngIf="!modelsLoaded">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">{{'LOADING' | tr}}</span>
+  </div>
+</div>
+
+<form class="mt-2" [hidden]="!modelsLoaded">
   <div class="input-group">
     <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter"
            placeholder="{{'SEARCH' | tr}}"/>
@@ -16,7 +22,7 @@
   </div>
 </form>
 
-<div class="table-responsive">
+<div class="table-responsive" [hidden]="!modelsLoaded">
   <table class="table table-dark table-hover">
     <thead>
     <tr class="table-dark">

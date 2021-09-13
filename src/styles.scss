@@ -2,25 +2,12 @@
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
-
-a {
-  text-decoration: none;
-  color: #2196f3;
-}
+@import '~dfx-helper/styles/dfx-helper';
 
 a:hover {
   color: #21b3f2;
   cursor: pointer;
   text-decoration: none;
-}
-
-.clickable {
-  cursor: pointer;
-  user-select: none;
-}
-
-.not-selectable {
-  user-select: none;
 }
 
 .sortable-header {
@@ -63,4 +50,12 @@ button > bi {
 
 .dropdown-toggle, .nav-link {
   user-select: none;
+}
+
+.spinner-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

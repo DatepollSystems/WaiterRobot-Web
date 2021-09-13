@@ -13,18 +13,23 @@ export abstract class AModelsListComponent<Model extends AModel> implements OnDe
   protected lumber = LoggerFactory.getLogger('AModelsListComponent');
 
   @ViewChildren(SortableHeader) headers: QueryList<SortableHeader> | undefined;
-  filter = new FormControl('');
+  public filter = new FormControl('');
 
-  models: Model[];
-  modelsCopy: Model[];
-  modelsSubscription: Subscription;
+  private models: Model[];
+  public modelsCopy: Model[];
+  private modelsSubscription: Subscription;
+  public modelsLoaded = false;
 
   protected constructor(private modelService: AModelService<Model>) {
     this.models = this.modelService.getAll();
     this.modelsCopy = this.models.slice();
+    if (this.models.length > 0) {
+      this.modelsLoaded = true;
+    }
     this.modelsSubscription = this.modelService.allChange.subscribe(value => {
       this.models = value;
       this.modelsCopy = this.models.slice();
+      this.modelsLoaded = true;
     });
 
     this.filter.valueChanges.subscribe(value => {
@@ -43,7 +48,7 @@ export abstract class AModelsListComponent<Model extends AModel> implements OnDe
   }
 
   protected checkFilterForModel(filter: string, model: Model): Model | undefined {
-    this.lumber.error('checkFilterForModel', 'Not implemented!');
+    this.lumber.warning('checkFilterForModel', 'Not implemented!');
     return undefined;
   }
 

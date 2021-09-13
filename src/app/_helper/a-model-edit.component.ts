@@ -19,6 +19,7 @@ export abstract class AModelEditComponent<Model extends AModel> implements OnDes
 
   public model: Model | undefined;
   private modelSubscription: Subscription | undefined;
+  public modelLoaded = false;
 
   protected constructor(protected route: ActivatedRoute,
                         protected router: Router,
@@ -31,14 +32,20 @@ export abstract class AModelEditComponent<Model extends AModel> implements OnDes
     }));
 
     this.route.paramMap.subscribe((params) => {
+      this.modelLoaded = false;
       const id = params.get('id');
       if (id != null) {
         if (TypeHelper.isNumeric(id)) {
           this.isEditing = true;
-          this.lumber.info('const', 'Model to open: ' + id);
-          this.model = this.modelService.getSingle(TypeHelper.stringToNumber(id));
+          const nId = TypeHelper.stringToNumber(id);
+          this.lumber.info('const', 'Model to open: ' + nId);
+          this.model = this.modelService.getSingle(nId);
+          if (this.model?.id == nId) {
+            this.modelLoaded = true;
+          }
           this.modelSubscription = this.modelService.singleChange.subscribe(value => {
             this.model = value;
+            this.modelLoaded = true;
           });
         } else {
           this.isEditing = false;

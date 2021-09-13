@@ -14,11 +14,14 @@
        *ngIf="selectedOrganisation"
        routerLinkActive="active"><b>{{selectedOrganisation.name}}</b></a>
 
-    <ng-container *ngFor="let organisation of this.organisations">
+    <ng-container *ngFor="let organisation of this.organisations.slice(0, maxOrgsCount)">
       <a class="list-group-item list-group-item-action" routerLink="{{organisation.id}}" fxHide.lt-md="true"
          *ngIf="organisation.id != selectedOrganisation?.id"
          routerLinkActive="active">{{organisation.name}}</a>
     </ng-container>
+
+    <a class="list-group-item list-group-item-action" routerLink="all"
+       *ngIf="this.organisations.length > maxOrgsCount">{{'SHOW_MORE' | tr}}</a>
   </div>
   <div fxFlex="76%" fxFlex.gt-lg="82%">
     <div class="card bg-dark">
