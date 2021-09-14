@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
 import {Subscription} from 'rxjs';
 
-import {AModel, AModelService, LoggerFactory, TypeHelper} from 'dfx-helper';
+import {AModel, AModelService, Converter, LoggerFactory, TypeHelper} from 'dfx-helper';
 
 @Component({
   template: ''
@@ -26,7 +26,7 @@ export abstract class AModelEditComponent<Model extends AModel> implements OnDes
                         protected modelService: AModelService<Model>) {
     this.route.queryParams.subscribe((params => {
       if (params?.tab != null) {
-        this.activeTab = TypeHelper.stringToNumber(params?.tab);
+        this.activeTab = Converter.stringToNumber(params?.tab);
         this.checkTab();
       }
     }));
@@ -37,7 +37,7 @@ export abstract class AModelEditComponent<Model extends AModel> implements OnDes
       if (id != null) {
         if (TypeHelper.isNumeric(id)) {
           this.isEditing = true;
-          const nId = TypeHelper.stringToNumber(id);
+          const nId = Converter.stringToNumber(id);
           this.lumber.info('const', 'Model to open: ' + nId);
           this.model = this.modelService.getSingle(nId);
           if (this.model?.id == nId) {

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {TypeHelper} from 'dfx-helper';
+import {Converter} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {WaitersService} from '../../../_services/waiters.service';
@@ -17,8 +17,6 @@ import {QRCodeModal} from '../waiters.component';
   styleUrls: ['./organisation-waiters.component.scss']
 })
 export class OrganisationWaitersComponent extends AModelsListComponent<WaiterModel> {
-  token = '';
-
   selectedOrganisation: OrganisationModel | undefined;
   selectedOrganisationSubscription: Subscription;
 
@@ -39,20 +37,12 @@ export class OrganisationWaitersComponent extends AModelsListComponent<WaiterMod
     if (!this.selectedOrganisation) {
       return;
     }
-    this.models = this.waitersService.getOrganisationWaiters(this.selectedOrganisation.id);
-    this.modelsCopy = this.models.slice();
-    if (this.models.length > 0) {
-      this.modelsLoaded = true;
-    }
-    this.modelsSubscription = this.waitersService.organisationWaitersChange.subscribe(value => {
-      this.models = value;
-      this.modelsCopy = this.models.slice();
-      this.modelsLoaded = true;
-    });
+    this.waitersService.setGetAllUrl('/config/waiter?organisation_id=' + this.selectedOrganisation.id);
+    super.initializeVariables();
   }
 
   protected override checkFilterForModel(filter: string, model: WaiterModel): WaiterModel | undefined {
-    if (TypeHelper.numberToString(model.id) === filter
+    if (Converter.numberToString(model.id) === filter
       || model.name.trim().toLowerCase().includes(filter)) {
       return model;
     }

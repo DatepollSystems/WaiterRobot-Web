@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {Subscription} from 'rxjs';
 
-import {TypeHelper} from 'dfx-helper';
+import {Converter} from 'dfx-helper';
 
 import {AModelsListComponent} from '../../../_helper/a-models-list.component';
 import {EventsService} from '../../../_services/events.service';
@@ -28,7 +28,7 @@ export class AllEventsComponent extends AModelsListComponent<EventModel> {
   }
 
   protected checkFilterForModel(filter: string, model: EventModel): EventModel | undefined {
-    if (TypeHelper.numberToString(model.id) === filter
+    if (Converter.numberToString(model.id) === filter
       || model.name.trim().toLowerCase().includes(filter)
       || model.street.trim().toLowerCase().includes(filter)
       || model.postal_code.trim().toLowerCase().includes(filter)

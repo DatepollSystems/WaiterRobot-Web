@@ -1,11 +1,13 @@
 import {Component, OnDestroy, QueryList, ViewChildren} from '@angular/core';
+import {FormControl} from '@angular/forms';
+
+import {Subscription} from 'rxjs';
+import {Converter} from 'dfx-helper';
+
 import {compare, SortableHeader, SortEvent} from '../../../_helper/table-sortable';
 
-import {FormControl} from '@angular/forms';
-import {Subscription} from 'rxjs';
-import {AllergensModel, ProductsModel} from '../../../_models/products';
 import {ProductsService} from '../../../_services/products.service';
-import {TypeHelper} from 'dfx-helper';
+import {ProductsModel} from '../../../_models/products';
 
 @Component({
   selector: 'app-all-products',
@@ -38,7 +40,7 @@ export class AllProductsComponent implements OnDestroy {
       for (const pro of this.products) {
         if (pro.id == value
           || pro.name.trim().toLowerCase().includes(value)
-          || pro.price === TypeHelper.stringToNumber(value)
+          || pro.price === Converter.stringToNumber(value)
           || pro.organisation_id == value
           || pro.printer_id == value
           || pro.group_id == value) {

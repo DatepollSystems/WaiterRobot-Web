@@ -9,7 +9,7 @@ import {MyUserService} from '../_services/myUser.service';
 import {OrganisationModel} from '../_models/organisation.model';
 import {EventModel} from '../_models/event.model';
 import {UserModel} from '../_models/user.model';
-import {LoggerFactory, TypeHelper} from 'dfx-helper';
+import {Converter, LoggerFactory} from 'dfx-helper';
 
 @Component({
   selector: 'app-home',
@@ -100,7 +100,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.myUser) {
       this.adminModeChanged = !this.adminModeChanged;
       this.myUser.is_admin = !this.myUser.is_admin;
-      this.lumber.info('switchAdminMode', 'Admin mode switched to ' + TypeHelper.booleanToString(this.myUser.is_admin));
+      this.lumber.info('switchAdminMode', 'Admin mode switched to ' + Converter.booleanToString(this.myUser.is_admin));
       this.myUserService.setUser(this.myUser);
     }
   }

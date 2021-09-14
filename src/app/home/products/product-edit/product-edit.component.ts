@@ -3,7 +3,7 @@ import {ProductsModel} from '../../../_models/products';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProductsService} from '../../../_services/products.service';
-import {TypeHelper} from 'dfx-helper';
+import {Converter, TypeHelper} from 'dfx-helper';
 import {NgForm} from '@angular/forms';
 import {OrganisationsService} from '../../../_services/organisations.service';
 import {OrganisationModel} from '../../../_models/organisation.model';
@@ -28,7 +28,7 @@ export class ProductEditComponent implements OnDestroy {
               private organisationsService: OrganisationsService) {
     this.route.queryParams.subscribe((params => {
       if (params?.tab != null) {
-        this.active = TypeHelper.stringToNumber(params?.tab);
+        this.active = Converter.stringToNumber(params?.tab);
       }
     }));
 
@@ -37,7 +37,7 @@ export class ProductEditComponent implements OnDestroy {
       if (id != null) {
         if (TypeHelper.isNumeric(id)) {
           console.log('Prod to open: ' + id);
-          this.product = this.productsService.getSingle(TypeHelper.stringToNumber(id));
+          this.product = this.productsService.getSingle(Converter.stringToNumber(id));
           this._productSubscription = this.productsService.singleChange.subscribe((value: ProductsModel) => {
             this.product = value;
           });

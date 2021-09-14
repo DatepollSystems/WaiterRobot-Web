@@ -1,14 +1,14 @@
 import {Component, Input, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
+
 import {Subscription} from 'rxjs';
-import {LoggerFactory} from 'dfx-helper';
+import {IsMobileService, LoggerFactory} from 'dfx-helper';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {OrganisationsService} from '../../_services/organisations.service';
 import {EventsService} from '../../_services/events.service';
 import {OrganisationModel} from '../../_models/organisation.model';
 import {EventModel} from '../../_models/event.model';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {IsMobileService} from '../../_helper/is-mobile.service';
 import {WaiterModel} from '../../_models/waiter.model';
 
 @Component({
@@ -60,7 +60,7 @@ export class WaitersComponent implements OnDestroy {
 }
 
 @Component({
-  selector: 'ngbd-qrcode-modal',
+  selector: 'qrcode-modal',
   template: `
     <div class="modal-header">
       <h4 class="modal-title" id="modal-qrcode-title">{{'HOME_WAITERS_SHOW_QR_CODE' | tr}} "{{waiter?.name}}"</h4>
