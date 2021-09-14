@@ -111,5 +111,10 @@
   "HOME_PROD_PRINTER_ID": "Drucker",
   "HOME_PROD_PRINTER_ID_INCORRECT": "Das Produkt muss einem Drucker zugeordnet sein",
   "HOME_PROD_ORGANISATION_ID": "Organisation",
-  "HOME_PROD_ORGANISATION_ID_INCORRECT": "Das Produkt muss einer Organisation zugeordnet sein"
+  "HOME_PROD_ORGANISATION_ID_INCORRECT": "Das Produkt muss einer Organisation zugeordnet sein",
+
+  "HOME_WAITERS_NAV_ORGANISATION": "Kellner",
+  "HOME_WAITERS_NAV_EVENTS": "Kellner",
+  "HOME_WAITERS_NAV_SELECT_EVENT": "Kellner für Event/Location anzeigen",
+  "HOME_WAITERS_SHOW_QR_CODE": "Kellner-Login für"
 }

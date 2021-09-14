@@ -15,22 +15,13 @@ export abstract class AModelsListComponent<Model extends AModel> implements OnDe
   @ViewChildren(SortableHeader) headers: QueryList<SortableHeader> | undefined;
   public filter = new FormControl('');
 
-  private models: Model[];
-  public modelsCopy: Model[];
-  private modelsSubscription: Subscription;
+  protected models!: Model[];
+  public modelsCopy!: Model[];
+  protected modelsSubscription!: Subscription;
   public modelsLoaded = false;
 
   protected constructor(private modelService: AModelService<Model>) {
-    this.models = this.modelService.getAll();
-    this.modelsCopy = this.models.slice();
-    if (this.models.length > 0) {
-      this.modelsLoaded = true;
-    }
-    this.modelsSubscription = this.modelService.allChange.subscribe(value => {
-      this.models = value;
-      this.modelsCopy = this.models.slice();
-      this.modelsLoaded = true;
-    });
+    this.initializeVariables();
 
     this.filter.valueChanges.subscribe(value => {
       if (value == null) {
@@ -47,13 +38,26 @@ export abstract class AModelsListComponent<Model extends AModel> implements OnDe
     });
   }
 
+  protected initializeVariables(): void {
+    this.models = this.modelService.getAll();
+    this.modelsCopy = this.models.slice();
+    if (this.models.length > 0) {
+      this.modelsLoaded = true;
+    }
+    this.modelsSubscription = this.modelService.allChange.subscribe(value => {
+      this.models = value;
+      this.modelsCopy = this.models.slice();
+      this.modelsLoaded = true;
+    });
+  }
+
   protected checkFilterForModel(filter: string, model: Model): Model | undefined {
     this.lumber.warning('checkFilterForModel', 'Not implemented!');
     return undefined;
   }
 
   ngOnDestroy(): void {
-    this.modelsSubscription.unsubscribe();
+    this.modelsSubscription?.unsubscribe();
   }
 
   onDelete(id: number): void {

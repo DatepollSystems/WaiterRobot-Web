@@ -16,19 +16,19 @@
           <a class="nav-link" routerLink="/home">Home <span class="visually-hidden">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="tables"
+          <a class="nav-link" routerLink="tables" routerLinkActive="link-active"
              [class.disabled]="!selectedOrganisation || !selectedEvent">{{'NAV_TABLES' | tr}}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="products"
+          <a class="nav-link" routerLink="products" routerLinkActive="link-active"
              [class.disabled]="!selectedOrganisation || !selectedEvent">{{'NAV_PRODUCTS' | tr}}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="printers"
+          <a class="nav-link" routerLink="printers" routerLinkActive="link-active"
              [class.disabled]="!selectedOrganisation || !selectedEvent">{{'NAV_PRINTERS' | tr}}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="waiters" [class.disabled]="!selectedOrganisation">{{'NAV_WAITERS' | tr}}</a>
+          <a class="nav-link" routerLink="waiters" routerLinkActive="link-active" [class.disabled]="!selectedOrganisation">{{'NAV_WAITERS' | tr}}</a>
         </li>
       </ul>
 

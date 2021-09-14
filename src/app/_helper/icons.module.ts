@@ -10,12 +10,15 @@ import {
   PlusCircle,
   Check2Square,
   Clipboard,
-  Save, Trash, PencilSquare, XCircleFill, BagFill, CaretRight, PersonBadge
+  Save, Trash, PencilSquare, XCircleFill, BagFill, CaretRight, PersonBadge, People, CalendarEventFill, Building
 } from 'ng-bootstrap-icons/icons';
 
 // Select some icons (use an object, not an array)
 const icons = {
+  People,
   PeopleFill,
+  CalendarEventFill,
+  Building,
   GearWideConnected,
   FileLock,
   BoxArrowLeft,

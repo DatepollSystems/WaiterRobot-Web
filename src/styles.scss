@@ -10,6 +10,10 @@ a:hover {
   text-decoration: none;
 }
 
+.link-active {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
 .sortable-header {
   cursor: pointer;
 }

@@ -14,7 +14,7 @@ import {SortableHeaderModule} from '../../_helper/table-sortable';
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-const startRoutes: Routes = [
+const userRoutes: Routes = [
   {
     path: '',
     component: UsersComponent,
@@ -28,7 +28,7 @@ const startRoutes: Routes = [
 
 @NgModule({
   declarations: [UsersComponent, UserEditComponent, AllUsersComponent],
-  imports: [CommonModule, DfxTranslateModule, RouterModule.forChild(startRoutes), FlexLayoutModule, IconsModule, SortableHeaderModule, NgbNavModule, FormsModule, NgbTooltipModule, ReactiveFormsModule],
+  imports: [CommonModule, DfxTranslateModule, RouterModule.forChild(userRoutes), FlexLayoutModule, IconsModule, SortableHeaderModule, NgbNavModule, FormsModule, NgbTooltipModule, ReactiveFormsModule],
 })
 export class UsersModule {
 }
