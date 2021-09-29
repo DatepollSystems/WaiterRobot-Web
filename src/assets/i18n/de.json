@@ -25,14 +25,17 @@
   "DATA": "Daten",
   "LOADING": "Laden...",
   "SHOW_MORE": "Mehr anzeigen",
+  "YES": "Ja",
+  "NO": "Nein",
 
   "REQUEST_ERROR_CLIENT": "Client fehler",
   "REQUEST_ERROR_SERVER": "Server fehler",
 
+  "DELETE_CONFIRMATION": "Lösch-Bestätigung",
+
   "ABOUT": "Über",
   "ABOUT_SIGNIN": "Anmelden",
   "ABOUT_SIGNIN_USERNAME": "Benutzername",
-  "ABOUT_SIGNIN_USERNAME_PLACEHOLDER": "vorname.nachname",
   "ABOUT_SIGNIN_PASSWORD": "Passwort",
   "ABOUT_SIGNIN_SUCCESSFUL": "Erfolgreich angemeldet",
   "ABOUT_SIGNIN_TROUBLE_LOGGING_IN": "Probleme beim anmelden oder Passwort vergessen?",
@@ -98,11 +101,11 @@
   "HOME_USERS_BIRTHDAY": "Geburtstag",
   "HOME_USERS_BIRTHDAY_INCORRECT": "Geburtstag inkorrekt",
   "HOME_USERS_ADMIN": "Admin",
-  "HOME_USERS_NAME_INCORRECT": "Der Name muss mehr als 3 Zeichen haben.",
+  "HOME_USERS_NAME_INCORRECT": "Der Name muss aus mehr als 3 Zeichen bestehen.",
   "HOME_USERS_PASSWORD_INCORRECT": "Das Password muss mehr als 6 Zeichen haben.",
 
   "HOME_PROD_ALL": "Produkte",
-  "HOME_PROD_NAME_INCORRECT": "Der Name muss mehr als 3 Zeichen haben",
+  "HOME_PROD_NAME_INCORRECT": "Der Name muss aus mehr als 3 Zeichen bestehen",
   "HOME_PROD_PRICE": "Preis",
   "HOME_PROD_PRICE_INCORRECT": "Der Preis ist nicht akzeptabel",
   "HOME_PROD_ALLERGENS": "Allergene",
@@ -116,5 +119,8 @@
   "HOME_WAITERS_NAV_ORGANISATION": "Kellner",
   "HOME_WAITERS_NAV_EVENTS": "Kellner",
   "HOME_WAITERS_NAV_SELECT_EVENT": "Kellner für Event/Location anzeigen",
-  "HOME_WAITERS_SHOW_QR_CODE": "Kellner-Login für"
+  "HOME_WAITERS_SHOW_QR_CODE": "Kellner-Login für",
+  "HOME_WAITERS_EDIT_QR_CODE": "Login anzeigen",
+  "HOME_WAITERS_EDIT_NAME_INCORRECT": "Der Name muss aus mehr als 3 Zeichen bestehen",
+  "HOME_WAITERS_DELETE_CONFIRMATION": "Willst du wirklich diesen Kellner löschen?"
 }

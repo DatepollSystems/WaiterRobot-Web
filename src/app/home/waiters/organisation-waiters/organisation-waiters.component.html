@@ -1,51 +1,60 @@
 <div fxLayout="row break" fxLayoutAlign="space-between center">
-  <h1>"{{selectedOrganisation?.name}}" {{'HOME_WAITERS_NAV_ORGANISATION' | tr}}</h1>
+  <h1>"{{ selectedOrganisation?.name }}" {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</h1>
   <a routerLink="../create" class="btn btn-outline-success">
     <bi name="plus-circle"></bi>
-    {{'ADD_2' | tr}}</a>
+    {{ 'ADD_2' | tr }}</a
+  >
 </div>
 
-<div class="spinner-row" *ngIf="!modelsLoaded">
+<div class="spinner-row" *ngIf="!entitiesLoaded">
   <div class="spinner-border" role="status">
-    <span class="visually-hidden">{{'LOADING' | tr}}</span>
+    <span class="visually-hidden">{{ 'LOADING' | tr }}</span>
   </div>
 </div>
 
-<form class="mt-2" [hidden]="!modelsLoaded">
+<form class="mt-2" [hidden]="!entitiesLoaded">
   <div class="input-group">
-    <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter"
-           placeholder="{{'SEARCH' | tr}}"/>
-    <button class="btn btn-outline-secondary" type="button" ngbTooltip="{{'CLEAR' | tr}}" placement="bottom"
-            (click)="filter.reset()" *ngIf="filter?.value?.length > 0">
+    <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+    <button
+      class="btn btn-outline-secondary"
+      type="button"
+      ngbTooltip="{{ 'CLEAR' | tr }}"
+      placement="bottom"
+      (click)="filter.reset()"
+      *ngIf="filter?.value?.length > 0"
+    >
       <bi name="x-circle-fill"></bi>
     </button>
   </div>
 </form>
 
-<div class="table-responsive" [hidden]="!modelsLoaded">
+<div class="table-responsive" [hidden]="!entitiesLoaded">
   <table class="table table-dark table-hover">
     <thead>
-    <tr class="table-dark">
-      <th sortable="id" (sort)="onSort($event)">#</th>
-      <th sortable="name" (sort)="onSort($event)" style="min-width: 20vh;">{{'NAME' | tr}}</th>
-      <th style="min-width: 20vh">{{'ACTIONS' | tr}}</th>
-    </tr>
+      <tr class="table-dark">
+        <th sortable="id" (sort)="onSort($event)">#</th>
+        <th sortable="name" (sort)="onSort($event)" style="min-width: 20vh">{{ 'NAME' | tr }}</th>
+        <th style="min-width: 20vh">{{ 'ACTIONS' | tr }}</th>
+      </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let waiter of modelsCopy" class="table-dark clickable" (click)="openQRCode(waiter)">
-      <th>{{ waiter.id }}</th>
-      <td>{{ waiter.name }}</td>
-      <td (click)="$event.stopPropagation()">
-        <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{waiter.id}}"
-           ngbTooltip="{{'EDIT' | tr}}">
-          <bi name="pencil-square"></bi>
-        </a>
-        <button type="button" class="btn btn-sm m-1 btn-outline-danger text-white" ngbTooltip="{{'DELETE' | tr}}"
-                (click)="onDelete(waiter.id)">
-          <bi name="trash"></bi>
-        </button>
-      </td>
-    </tr>
+      <tr *ngFor="let waiter of entitiesCopy" class="table-dark clickable" (click)="openQRCode(waiter)">
+        <th>{{ waiter.id }}</th>
+        <td>{{ waiter.name }}</td>
+        <td (click)="$event.stopPropagation()">
+          <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ waiter.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+            <bi name="pencil-square"></bi>
+          </a>
+          <button
+            type="button"
+            class="btn btn-sm m-1 btn-outline-danger text-white"
+            ngbTooltip="{{ 'DELETE' | tr }}"
+            (click)="onDelete(waiter.id)"
+          >
+            <bi name="trash"></bi>
+          </button>
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>

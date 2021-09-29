@@ -1,33 +1,33 @@
 import {Component} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {Converter} from 'dfx-helper';
+
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
+import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
 import {WaitersService} from '../../../_services/waiters.service';
 import {OrganisationsService} from '../../../_services/organisations.service';
+
 import {OrganisationModel} from '../../../_models/organisation.model';
 import {WaiterModel} from '../../../_models/waiter.model';
 
-import {AModelsListComponent} from '../../../_helper/a-models-list.component';
-import {QRCodeModal} from '../waiters.component';
+import {WaiterQRCodeModal} from '../waiter-qr-code-modal.component';
 
 @Component({
   selector: 'app-organisation-waiters',
   templateUrl: './organisation-waiters.component.html',
-  styleUrls: ['./organisation-waiters.component.scss']
+  styleUrls: ['./organisation-waiters.component.scss'],
 })
-export class OrganisationWaitersComponent extends AModelsListComponent<WaiterModel> {
+export class OrganisationWaitersComponent extends AbstractModelsListComponent<WaiterModel> {
   selectedOrganisation: OrganisationModel | undefined;
   selectedOrganisationSubscription: Subscription;
 
-  constructor(private waitersService: WaitersService,
-              private organisationService: OrganisationsService,
-              private modalService: NgbModal) {
-    super(waitersService);
+  constructor(private waitersService: WaitersService, private organisationsService: OrganisationsService, modal: NgbModal) {
+    super(waitersService, modal);
 
-    this.selectedOrganisation = this.organisationService.getSelected();
+    this.selectedOrganisation = this.organisationsService.getSelected();
     this.initializeVariables();
-    this.selectedOrganisationSubscription = this.organisationService.selectedChange.subscribe(value => {
+    this.selectedOrganisationSubscription = this.organisationsService.selectedChange.subscribe((value) => {
       this.selectedOrganisation = value;
       this.initializeVariables();
     });
@@ -42,15 +42,20 @@ export class OrganisationWaitersComponent extends AModelsListComponent<WaiterMod
   }
 
   protected override checkFilterForModel(filter: string, model: WaiterModel): WaiterModel | undefined {
-    if (Converter.numberToString(model.id) === filter
-      || model.name.trim().toLowerCase().includes(filter)) {
+    if (Converter.numberToString(model.id) === filter || model.name.trim().toLowerCase().includes(filter)) {
       return model;
     }
     return undefined;
   }
 
   public openQRCode(waiter: WaiterModel) {
-    const modalRef = this.modalService.open(QRCodeModal, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg' });
+    const modalRef = this.modal.open(WaiterQRCodeModal, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg'});
     modalRef.componentInstance.waiter = waiter;
+  }
+
+  override ngOnDestroy() {
+    super.ngOnDestroy();
+    // TODO: this.waitersService.flushAll();
+    this.selectedOrganisationSubscription.unsubscribe();
   }
 }

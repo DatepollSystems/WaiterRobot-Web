@@ -1,0 +1,80 @@
+<div [hidden]="isEditing && !entityLoaded">
+  <h1 *ngIf="isEditing && entity">{{ 'EDIT_2' | tr }} "{{ entity.name }}"</h1>
+  <h1 *ngIf="!isEditing">{{ 'ADD_2' | tr }}</h1>
+
+  <div fxLayout="row break" fxLayoutGap="2%" fxLayoutGap.gt-md="1%">
+    <button class="btn btn-sm btn-outline-dark text-white my-2 my-md-0" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
+
+    <ng-container *ngIf="isEditing && entity">
+      <div>
+        <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit()" [disabled]="!f.valid">
+          <bi name="save"></bi>
+          {{ 'SAVE' | tr }}
+        </button>
+      </div>
+      <div>
+        <button class="btn btn-sm btn-outline-danger my-2 my-md-0" (click)="onDelete(entity.id)">
+          <bi name="trash"></bi>
+          {{ 'DELETE' | tr }}
+        </button>
+      </div>
+
+      <div>
+        <button class="btn btn-sm btn-primary my-2 my-md-0" (click)="onShowQRCode(entity)">
+          <bi name="upc-scan"></bi>
+          {{ 'HOME_WAITERS_EDIT_QR_CODE' | tr }}
+        </button>
+      </div>
+    </ng-container>
+
+    <div *ngIf="!isEditing">
+      <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit()" [disabled]="f == null || !f.valid">
+        <bi name="plus-circle"></bi>
+        {{ 'ADD' | tr }}
+      </button>
+    </div>
+  </div>
+
+  <form #f="ngForm" (ngSubmit)="onSave(f)">
+    <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs mt-3 bg-dark" (navChange)="onTabChange($event)">
+      <li [ngbNavItem]="1">
+        <a ngbNavLink>{{ 'DATA' | tr }}</a>
+        <ng-template ngbNavContent>
+          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%">
+            <div class="form-group" fxFlex="100%">
+              <label for="name">{{ 'NAME' | tr }}</label>
+              <input
+                ngModel
+                class="form-control bg-dark text-white"
+                required
+                type="text"
+                id="name"
+                name="name"
+                #nameModel="ngModel"
+                minlength="3"
+                placeholder="{{ 'NAME' | tr }}"
+                [ngModel]="isEditing ? entity?.name : null"
+              />
+
+              <small *ngIf="nameModel.invalid" class="text-danger">
+                {{ 'HOME_WAITERS_EDIT_NAME_INCORRECT' | tr }}
+              </small>
+            </div>
+          </div>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="2" *ngIf="isEditing">
+        <a ngbNavLink>{{ 'STATISTICS' | tr }}</a>
+        <ng-template ngbNavContent> Coming soon... </ng-template>
+      </li>
+    </ul>
+
+    <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
+  </form>
+</div>
+
+<div class="spinner-row" *ngIf="isEditing && !entityLoaded">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">{{ 'LOADING' | tr }}</span>
+  </div>
+</div>

@@ -4,15 +4,19 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
+import {QrCodeModule} from 'ng-qrcode';
 import {DfxTranslateModule} from 'dfx-translate';
-import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {IconsModule} from '../../_helper/icons.module';
 import {SortableHeaderModule} from '../../_helper/table-sortable';
 
-import {QRCodeModal, WaitersComponent} from './waiters.component';
+import {WaitersComponent} from './waiters.component';
 import {OrganisationWaitersComponent} from './organisation-waiters/organisation-waiters.component';
-import {QrCodeModule} from 'ng-qrcode';
+import {EventByIdWaitersComponent} from './event-by-id-waiters/event-by-id-waiters.component';
+import {WaiterEditComponent} from './waiter-edit/waiter-edit.component';
+import {WaiterQRCodeModal} from './waiter-qr-code-modal.component';
+import {QuestionDialogModule} from '../../_helper/question-dialog/question-dialog.module';
 
 const waiterRoutes: Routes = [
   {
@@ -20,14 +24,15 @@ const waiterRoutes: Routes = [
     component: WaitersComponent,
     children: [
       {path: 'organisation', component: OrganisationWaitersComponent},
-      //{path: 'event/:id', component: UserEditComponent},
-      {path: '', pathMatch: 'full', redirectTo: '/home/waiters/organisation'}
-    ]
+      {path: 'event/:id', component: EventByIdWaitersComponent},
+      {path: ':id', component: WaiterEditComponent},
+      {path: '', pathMatch: 'full', redirectTo: '/home/waiters/organisation'},
+    ],
   },
 ];
 
 @NgModule({
-  declarations: [WaitersComponent, OrganisationWaitersComponent, QRCodeModal],
+  declarations: [WaitersComponent, OrganisationWaitersComponent, EventByIdWaitersComponent, WaiterEditComponent, WaiterQRCodeModal],
   imports: [
     CommonModule,
     FlexLayoutModule,
@@ -35,11 +40,12 @@ const waiterRoutes: Routes = [
     NgbTooltipModule,
     IconsModule,
     FormsModule,
+    NgbNavModule,
     ReactiveFormsModule,
     SortableHeaderModule,
     QrCodeModule,
-    RouterModule.forChild(waiterRoutes)
+    QuestionDialogModule,
+    RouterModule.forChild(waiterRoutes),
   ],
 })
-export class WaitersModule {
-}
+export class WaitersModule {}
