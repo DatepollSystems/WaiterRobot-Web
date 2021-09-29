@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
-import {ASelectableModelService} from 'dfx-helper';
 
 import {HttpService} from './http.service';
+import {AbstractSelectedModelService} from './abstract-model.service';
 
 import {OrganisationModel} from '../_models/organisation.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class OrganisationsService extends ASelectableModelService<OrganisationModel> {
+export class OrganisationsService extends AbstractSelectedModelService<OrganisationModel> {
   protected selectedStorageKey = 'selected_org';
 
   constructor(httpService: HttpService) {

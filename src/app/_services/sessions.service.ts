@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
-import {AModelService} from 'dfx-helper';
+
+import {HttpService} from './http.service';
+import {AbstractModelService} from './abstract-model.service';
 
 import {SessionsModel} from '../_models/session.model';
-import {HttpService} from './http.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class SessionsService extends AModelService<SessionsModel>{
+export class SessionsService extends AbstractModelService<SessionsModel> {
   constructor(httpService: HttpService) {
     super(httpService, '/auth/sessions');
   }

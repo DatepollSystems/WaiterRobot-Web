@@ -1,12 +1,10 @@
-import {AModel} from 'dfx-helper';
+import {AbstractEntityModelWithName} from './abstract-entity.model';
 
-export class SessionsModel extends AModel {
-  public readonly name: string;
+export class SessionsModel extends AbstractEntityModelWithName {
   public readonly registered_at: string;
 
   constructor(data: any) {
-    super(data.id);
-    this.name = data.name;
+    super(data.id, data.name);
     this.registered_at = data.registered_at;
   }
 }

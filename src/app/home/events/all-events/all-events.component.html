@@ -1,67 +1,81 @@
-<div fxLayout='row break' fxLayoutAlign='space-between center'>
-  <h1>{{'NAV_EVENTS' | tr}}</h1>
-  <div *ngIf='myUser?.is_admin'>
-    <a routerLink='../create' class='btn btn-outline-success'>
-      <bi name='plus-circle'></bi>
-      {{'ADD_2' | tr}}</a>
+<div fxLayout="row break" fxLayoutAlign="space-between center">
+  <h1>{{ 'NAV_EVENTS' | tr }}</h1>
+  <div *ngIf="myUser?.is_admin">
+    <a routerLink="../create" class="btn btn-outline-success">
+      <bi name="plus-circle"></bi>
+      {{ 'ADD_2' | tr }}</a
+    >
   </div>
 </div>
 
-<div class="spinner-row" *ngIf="!modelsLoaded">
+<div class="spinner-row" *ngIf="!entitiesLoaded">
   <div class="spinner-border" role="status">
-    <span class="visually-hidden">{{'LOADING' | tr}}</span>
+    <span class="visually-hidden">{{ 'LOADING' | tr }}</span>
   </div>
 </div>
 
-<form class='mt-2' [hidden]="!modelsLoaded">
-  <div class='input-group'>
-    <input class='form-control ml-2 bg-dark text-white' type='text' [formControl]='filter'
-           placeholder="{{'SEARCH' | tr}}"/>
-    <button class='btn btn-outline-secondary' type='button' ngbTooltip="{{'CLEAR' | tr}}" placement='bottom'
-            (click)='filter.reset()' *ngIf='filter?.value?.length > 0'>
-      <bi name='x-circle-fill'></bi>
+<form class="mt-2" [hidden]="!entitiesLoaded">
+  <div class="input-group">
+    <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+    <button
+      class="btn btn-outline-secondary"
+      type="button"
+      ngbTooltip="{{ 'CLEAR' | tr }}"
+      placement="bottom"
+      (click)="filter.reset()"
+      *ngIf="filter?.value?.length > 0"
+    >
+      <bi name="x-circle-fill"></bi>
     </button>
   </div>
 </form>
 
-<div class='table-responsive' [hidden]="!modelsLoaded">
-  <table class='table table-dark table-hover'>
+<div class="table-responsive" [hidden]="!entitiesLoaded">
+  <table class="table table-dark table-hover">
     <thead>
-    <tr class='table-dark'>
-      <th sortable='id' (sort)='onSort($event)'>#</th>
-      <th sortable='name' (sort)='onSort($event)' style='min-width: 20vh;'>{{'NAME' | tr}}</th>
-      <th sortable='date' (sort)='onSort($event)'>{{'DATE' | tr}}</th>
-      <th sortable='street' (sort)='onSort($event)'>{{'HOME_ORGS_STREET' | tr}}</th>
-      <th sortable='street_number' (sort)='onSort($event)'>{{'HOME_ORGS_STREETNUMBER' | tr}}</th>
-      <th sortable='postal_code' (sort)='onSort($event)'>{{'HOME_ORGS_POSTAL_CODE' | tr}}</th>
-      <th style='min-width: 15vh' sortable='city' (sort)='onSort($event)'>{{'HOME_ORGS_CITY' | tr}}</th>
-      <th style='min-width: 20vh'>{{'ACTIONS' | tr}}</th>
-    </tr>
+      <tr class="table-dark">
+        <th sortable="id" (sort)="onSort($event)">#</th>
+        <th sortable="name" (sort)="onSort($event)" style="min-width: 20vh">{{ 'NAME' | tr }}</th>
+        <th sortable="date" (sort)="onSort($event)">{{ 'DATE' | tr }}</th>
+        <th sortable="street" (sort)="onSort($event)">{{ 'HOME_ORGS_STREET' | tr }}</th>
+        <th sortable="street_number" (sort)="onSort($event)">{{ 'HOME_ORGS_STREETNUMBER' | tr }}</th>
+        <th sortable="postal_code" (sort)="onSort($event)">{{ 'HOME_ORGS_POSTAL_CODE' | tr }}</th>
+        <th style="min-width: 15vh" sortable="city" (sort)="onSort($event)">{{ 'HOME_ORGS_CITY' | tr }}</th>
+        <th style="min-width: 20vh">{{ 'ACTIONS' | tr }}</th>
+      </tr>
     </thead>
     <tbody>
-    <tr *ngFor='let event of modelsCopy' class='table-dark'>
-      <th>{{ event.id }}</th>
-      <td>{{ event.name }}</td>
-      <td>{{ event.date | date: 'dd.MM.YYYY' }}</td>
-      <td>{{ event.street }}</td>
-      <td>{{ event.street_number }}</td>
-      <td>{{ event.postal_code }}</td>
-      <td>{{ event.city }}</td>
-      <td>
-        <button type='button' class='btn btn-sm m-1 btn-outline-primary text-white' (click)='onSelect(event)'
-                ngbTooltip="{{'SELECT' | tr}}">
-          <bi name='check2-square'></bi>
-        </button>
-        <a class='btn btn-sm m-1 btn-outline-success text-white' routerLink='../{{event.id}}'
-           ngbTooltip="{{'EDIT' | tr}}">
-          <bi name='pencil-square'></bi>
-        </a>
-        <button type='button' class='btn btn-sm m-1 btn-outline-danger text-white' ngbTooltip="{{'DELETE' | tr}}"
-                (click)='onDelete(event.id)' *ngIf='myUser?.is_admin'>
-          <bi name='trash'></bi>
-        </button>
-      </td>
-    </tr>
+      <tr *ngFor="let event of entitiesCopy" class="table-dark">
+        <th>{{ event.id }}</th>
+        <td>{{ event.name }}</td>
+        <td>{{ event.date | date: 'dd.MM.YYYY' }}</td>
+        <td>{{ event.street }}</td>
+        <td>{{ event.street_number }}</td>
+        <td>{{ event.postal_code }}</td>
+        <td>{{ event.city }}</td>
+        <td>
+          <button
+            type="button"
+            class="btn btn-sm m-1 btn-outline-primary text-white"
+            (click)="onSelect(event)"
+            ngbTooltip="{{ 'SELECT' | tr }}"
+          >
+            <bi name="check2-square"></bi>
+          </button>
+          <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ event.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+            <bi name="pencil-square"></bi>
+          </a>
+          <button
+            type="button"
+            class="btn btn-sm m-1 btn-outline-danger text-white"
+            ngbTooltip="{{ 'DELETE' | tr }}"
+            (click)="onDelete(event.id)"
+            *ngIf="myUser?.is_admin"
+          >
+            <bi name="trash"></bi>
+          </button>
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>

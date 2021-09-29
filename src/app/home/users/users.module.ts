@@ -21,14 +21,24 @@ const userRoutes: Routes = [
     children: [
       {path: 'all', component: AllUsersComponent},
       {path: ':id', component: UserEditComponent},
-      {path: '', pathMatch: 'full', redirectTo: '/home/users/all'}
-    ]
+      {path: '', pathMatch: 'full', redirectTo: '/home/users/all'},
+    ],
   },
 ];
 
 @NgModule({
   declarations: [UsersComponent, UserEditComponent, AllUsersComponent],
-  imports: [CommonModule, DfxTranslateModule, RouterModule.forChild(userRoutes), FlexLayoutModule, IconsModule, SortableHeaderModule, NgbNavModule, FormsModule, NgbTooltipModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    DfxTranslateModule,
+    RouterModule.forChild(userRoutes),
+    FlexLayoutModule,
+    IconsModule,
+    SortableHeaderModule,
+    NgbNavModule,
+    FormsModule,
+    NgbTooltipModule,
+    ReactiveFormsModule,
+  ],
 })
-export class UsersModule {
-}
+export class UsersModule {}

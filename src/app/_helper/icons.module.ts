@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
-import { BootstrapIconsModule } from 'ng-bootstrap-icons';
+import {BootstrapIconsModule} from 'ng-bootstrap-icons';
 import {
   BoxArrowLeft,
   FileLock,
@@ -10,7 +10,17 @@ import {
   PlusCircle,
   Check2Square,
   Clipboard,
-  Save, Trash, PencilSquare, XCircleFill, BagFill, CaretRight, PersonBadge, People, CalendarEventFill, Building
+  Save,
+  Trash,
+  PencilSquare,
+  XCircleFill,
+  BagFill,
+  CaretRight,
+  PersonBadge,
+  People,
+  CalendarEventFill,
+  Building,
+  UpcScan,
 } from 'ng-bootstrap-icons/icons';
 
 // Select some icons (use an object, not an array)
@@ -32,15 +42,12 @@ const icons = {
   XCircleFill,
   BagFill,
   CaretRight,
-  PersonBadge
+  PersonBadge,
+  UpcScan,
 };
 
 @NgModule({
-  imports: [
-    BootstrapIconsModule.pick(icons)
-  ],
-  exports: [
-    BootstrapIconsModule
-  ]
+  imports: [BootstrapIconsModule.pick(icons)],
+  exports: [BootstrapIconsModule],
 })
-export class IconsModule { }
+export class IconsModule {}

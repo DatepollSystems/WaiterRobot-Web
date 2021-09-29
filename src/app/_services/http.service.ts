@@ -3,19 +3,16 @@ import {HttpClient} from '@angular/common/http';
 
 import {NotificationService} from './notifications/notification.service';
 import {EnvironmentHelper} from '../_helper/EnvironmentHelper';
-import {AHttpService} from 'dfx-helper';
+import {AbstractHttpService} from 'dfx-helper';
 
 @Injectable({
   providedIn: 'root',
 })
-export class HttpService extends AHttpService {
+export class HttpService extends AbstractHttpService {
   protected apiUrl = EnvironmentHelper.getAPIUrl();
   protected version = '/v1';
 
-  constructor(
-    http: HttpClient,
-    private notificationService: NotificationService
-  ) {
+  constructor(http: HttpClient, private notificationService: NotificationService) {
     super(http);
   }
 

@@ -1,57 +1,66 @@
 <div fxLayout="row break" fxLayoutAlign="space-between center">
-  <h1>{{'HOME_USERS_ALL' | tr}}</h1>
+  <h1>{{ 'HOME_USERS_ALL' | tr }}</h1>
   <a routerLink="../create" class="btn btn-outline-success">
     <bi name="plus-circle"></bi>
-    {{'ADD_2' | tr}}</a>
+    {{ 'ADD_2' | tr }}</a
+  >
 </div>
 
-<div class="spinner-row" *ngIf="!modelsLoaded">
+<div class="spinner-row" *ngIf="!entitiesLoaded">
   <div class="spinner-border" role="status">
-    <span class="visually-hidden">{{'LOADING' | tr}}</span>
+    <span class="visually-hidden">{{ 'LOADING' | tr }}</span>
   </div>
 </div>
 
-<form class="mt-2" [hidden]="!modelsLoaded">
+<form class="mt-2" [hidden]="!entitiesLoaded">
   <div class="input-group">
-    <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter"
-           placeholder="{{'SEARCH' | tr}}"/>
-    <button class="btn btn-outline-secondary" type="button" ngbTooltip="{{'CLEAR' | tr}}" placement="bottom"
-            (click)="filter.reset()" *ngIf="filter?.value?.length > 0">
+    <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+    <button
+      class="btn btn-outline-secondary"
+      type="button"
+      ngbTooltip="{{ 'CLEAR' | tr }}"
+      placement="bottom"
+      (click)="filter.reset()"
+      *ngIf="filter?.value?.length > 0"
+    >
       <bi name="x-circle-fill"></bi>
     </button>
   </div>
 </form>
 
-<div class="table-responsive" [hidden]="!modelsLoaded">
+<div class="table-responsive" [hidden]="!entitiesLoaded">
   <table class="table table-dark table-hover">
     <thead>
-    <tr class="table-dark">
-      <th sortable="id" (sort)="onSort($event)">#</th>
-      <th sortable="name" (sort)="onSort($event)" style="min-width: 20vh;">{{'NAME' | tr}}</th>
-      <th sortable="email_address" (sort)="onSort($event)">{{'EMAIL' | tr}}</th>
-      <th sortable="birthday" (sort)="onSort($event)">{{'HOME_USERS_BIRTHDAY' | tr}}</th>
-      <th sortable="is_admin" (sort)="onSort($event)">{{'HOME_USERS_ADMIN' | tr}}</th>
-      <th style="min-width: 20vh">{{'ACTIONS' | tr}}</th>
-    </tr>
+      <tr class="table-dark">
+        <th sortable="id" (sort)="onSort($event)">#</th>
+        <th sortable="name" (sort)="onSort($event)" style="min-width: 20vh">{{ 'NAME' | tr }}</th>
+        <th sortable="email_address" (sort)="onSort($event)">{{ 'EMAIL' | tr }}</th>
+        <th sortable="birthday" (sort)="onSort($event)">{{ 'HOME_USERS_BIRTHDAY' | tr }}</th>
+        <th sortable="is_admin" (sort)="onSort($event)">{{ 'HOME_USERS_ADMIN' | tr }}</th>
+        <th style="min-width: 20vh">{{ 'ACTIONS' | tr }}</th>
+      </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let user of modelsCopy" class="table-dark">
-      <th>{{ user.id }}</th>
-      <td>{{ user.firstname }} {{ user.surname }}</td>
-      <td>{{ user.email_address }}</td>
-      <td>{{ user.birthday | date: 'dd.MM.YYYY' }}</td>
-      <td>{{ user.is_admin }}</td>
-      <td>
-        <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{user.id}}"
-           ngbTooltip="{{'EDIT' | tr}}">
-          <bi name="pencil-square"></bi>
-        </a>
-        <button type="button" class="btn btn-sm m-1 btn-outline-danger text-white" ngbTooltip="{{'DELETE' | tr}}"
-                (click)="onDelete(user.id)">
-          <bi name="trash"></bi>
-        </button>
-      </td>
-    </tr>
+      <tr *ngFor="let user of entitiesCopy" class="table-dark">
+        <th>{{ user.id }}</th>
+        <td>{{ user.firstname }} {{ user.surname }}</td>
+        <td>{{ user.email_address }}</td>
+        <td>{{ user.birthday | date: 'dd.MM.YYYY' }}</td>
+        <td>{{ user.is_admin }}</td>
+        <td>
+          <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ user.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+            <bi name="pencil-square"></bi>
+          </a>
+          <button
+            type="button"
+            class="btn btn-sm m-1 btn-outline-danger text-white"
+            ngbTooltip="{{ 'DELETE' | tr }}"
+            (click)="onDelete(user.id)"
+          >
+            <bi name="trash"></bi>
+          </button>
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>
