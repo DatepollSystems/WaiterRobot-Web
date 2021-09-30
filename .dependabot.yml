@@ -1,6 +1,5 @@
 version: 2
 updates:
-
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
     directory: "/"
@@ -9,7 +8,7 @@ updates:
       time: "09:00"
       timezone: "Europe/Vienna"
     target-branch: "develop"
-    open-pull-requests-limit: 3
+    open-pull-requests-limit: 20
     labels:
       - "npm"
       - "dependencies"
