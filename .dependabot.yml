@@ -3,7 +3,7 @@ updates:
 
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
-    directory: ""
+    directory: "/"
     schedule:
       interval: "daily"
       time: "09:00"
