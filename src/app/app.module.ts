@@ -11,14 +11,8 @@ import {AuthInterceptor} from './_services/auth/auth-interceptor';
 
 import {AppComponent} from './app.component';
 import {ToastsContainerComponent} from './_services/notifications/toasts-container.component';
-import { BootstrapChipInputComponent } from './bootstrap-chip-input/bootstrap-chip-input.component';
-import {FormsModule} from '@angular/forms';
 @NgModule({
-  declarations: [
-    AppComponent,
-    ToastsContainerComponent,
-    BootstrapChipInputComponent
-  ],
+  declarations: [AppComponent, ToastsContainerComponent],
   imports: [
     AppRoutingModule,
     BrowserModule,
@@ -27,7 +21,6 @@ import {FormsModule} from '@angular/forms';
     NgbModule,
     DfxTranslateModule,
     DfxTranslateModule.setup({defaultLanguage: 'de'}),
-    FormsModule
   ],
   providers: [
     {
@@ -36,7 +29,6 @@ import {FormsModule} from '@angular/forms';
       multi: true,
     },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}

@@ -1,20 +1,18 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
 
-import {Subscription} from 'rxjs';
-import {Converter, LoggerFactory, StringHelper, TypeHelper} from 'dfx-helper';
+import {AbstractEntityWithName, Converter, LoggerFactory, TypeHelper} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
+import {AbstractComponent} from './abstract-component';
 import {AbstractModelService} from '../_services/abstract-model.service';
 import {QuestionDialogComponent} from './question-dialog/question-dialog.component';
-
-import {AbstractEntityModel} from '../_models/abstract-entity.model';
 
 @Component({
   template: '',
 })
-export abstract class AbstractModelEditComponent<EntityType extends AbstractEntityModel> implements OnDestroy {
+export abstract class AbstractModelEditComponent<EntityType extends AbstractEntityWithName<number>> extends AbstractComponent {
   protected abstract redirectUrl: string;
 
   protected lumber = LoggerFactory.getLogger('AModelEditComponent');
@@ -24,7 +22,6 @@ export abstract class AbstractModelEditComponent<EntityType extends AbstractEnti
   protected onlyEditingTabs: number[] = [];
 
   public entity: EntityType | undefined;
-  private entitySubscription: Subscription | undefined;
   public entityLoaded = false;
 
   protected constructor(
@@ -33,6 +30,8 @@ export abstract class AbstractModelEditComponent<EntityType extends AbstractEnti
     protected modelService: AbstractModelService<EntityType>,
     protected modal: NgbModal
   ) {
+    super();
+
     this.route.queryParams.subscribe((params) => {
       if (params?.tab != null) {
         this.activeTab = Converter.stringToNumber(params?.tab);
@@ -51,12 +50,17 @@ export abstract class AbstractModelEditComponent<EntityType extends AbstractEnti
           this.entity = this.modelService.getSingle(nId);
           if (this.entity?.id == nId) {
             this.entityLoaded = true;
+            this.refreshValues();
           }
-          this.entitySubscription = this.modelService.singleChange.subscribe((value) => {
-            this.entity = value;
-            this.entityLoaded = true;
-          });
+          this.autoUnsubscribe(
+            this.modelService.singleChange.subscribe((value) => {
+              this.entity = value;
+              this.entityLoaded = true;
+              this.refreshValues();
+            })
+          );
         } else {
+          this.refreshValues();
           this.isEditing = false;
           this.lumber.info('const', 'Create new model');
           this.checkTab();
@@ -67,15 +71,7 @@ export abstract class AbstractModelEditComponent<EntityType extends AbstractEnti
     });
   }
 
-  private checkTab(): void {
-    if (this.onlyEditingTabs.includes(this.activeTab)) {
-      this.activeTab = 1;
-    }
-  }
-
-  public ngOnDestroy(): void {
-    this.entitySubscription?.unsubscribe();
-  }
+  public refreshValues(): void {}
 
   public onTabChange($event: any): void {
     this.router
@@ -88,15 +84,20 @@ export abstract class AbstractModelEditComponent<EntityType extends AbstractEnti
   }
 
   public onSave(form: NgForm): void {
-    const model = form.form.value;
-    this.lumber.info('onSave', 'Model edit form value object', model);
+    let model = form.form.value;
+    model = this.addFieldsToHttpSaveModel(model);
     if (this.isEditing && this.entity?.id != null) {
       model.id = this.entity?.id;
       this.modelService.update(model);
     } else {
       this.modelService.create(model);
     }
+    this.lumber.info('onSave', 'Model edit form value object', model);
     this.goToRedirectUrl();
+  }
+
+  protected addFieldsToHttpSaveModel(model: any): any {
+    return model;
   }
 
   public onDelete(modelId: number): void {
@@ -117,6 +118,12 @@ export abstract class AbstractModelEditComponent<EntityType extends AbstractEnti
     // We should probably use Angular's location.back();
     // but because this is a fully functional javascript feature we will use it till there is no tomorrow
     history.back();
+  }
+
+  private checkTab(): void {
+    if (this.onlyEditingTabs.includes(this.activeTab)) {
+      this.activeTab = 1;
+    }
   }
 
   private goToRedirectUrl(): void {

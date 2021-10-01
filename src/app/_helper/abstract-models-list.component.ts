@@ -1,20 +1,20 @@
-import {Component, OnDestroy, QueryList, ViewChildren} from '@angular/core';
+import {Component, QueryList, ViewChildren} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Subscription} from 'rxjs';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {LoggerFactory} from 'dfx-helper';
+import {AbstractComponent} from './abstract-component';
+import {AbstractEntityWithName, LoggerFactory} from 'dfx-helper';
 
 import {SortableHeader, SortEvent} from './table-sortable';
 import {AbstractModelService} from '../_services/abstract-model.service';
 
-import {AbstractEntityModel} from '../_models/abstract-entity.model';
 import {QuestionDialogComponent} from './question-dialog/question-dialog.component';
 
 @Component({
   template: '',
 })
-export abstract class AbstractModelsListComponent<EntityType extends AbstractEntityModel> implements OnDestroy {
+export abstract class AbstractModelsListComponent<EntityType extends AbstractEntityWithName<number>> extends AbstractComponent {
   protected lumber = LoggerFactory.getLogger('AModelsListComponent');
 
   @ViewChildren(SortableHeader) headers: QueryList<SortableHeader> | undefined;
@@ -26,6 +26,7 @@ export abstract class AbstractModelsListComponent<EntityType extends AbstractEnt
   public entitiesLoaded = false;
 
   protected constructor(protected modelService: AbstractModelService<EntityType>, protected modal: NgbModal) {
+    super();
     this.initializeVariables();
 
     this.filter.valueChanges.subscribe((value) => {
@@ -49,20 +50,18 @@ export abstract class AbstractModelsListComponent<EntityType extends AbstractEnt
     if (this.entities.length > 0) {
       this.entitiesLoaded = true;
     }
-    this.entitiesSubscription = this.modelService.allChange.subscribe((value) => {
-      this.entities = value;
-      this.entitiesCopy = this.entities.slice();
-      this.entitiesLoaded = true;
-    });
+    this.autoUnsubscribe(
+      this.modelService.allChange.subscribe((value) => {
+        this.entities = value;
+        this.entitiesCopy = this.entities.slice();
+        this.entitiesLoaded = true;
+      })
+    );
   }
 
   protected checkFilterForModel(filter: string, model: EntityType): EntityType | undefined {
     this.lumber.warning('checkFilterForModel', 'Not implemented!');
     return undefined;
-  }
-
-  ngOnDestroy(): void {
-    this.entitiesSubscription?.unsubscribe();
   }
 
   onDelete(modelId: number): void {

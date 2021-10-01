@@ -1,47 +1,44 @@
-import {Component, OnDestroy} from '@angular/core';
-import {OrganisationModel} from '../../_models/organisation.model';
-import {Subscription} from 'rxjs';
-import {OrganisationsService} from '../../_services/organisations.service';
-import {UserModel} from '../../_models/user.model';
+import {Component} from '@angular/core';
+
+import {AbstractComponent} from '../../_helper/abstract-component';
 import {MyUserService} from '../../_services/myUser.service';
+import {OrganisationsService} from '../../_services/organisations.service';
+
+import {OrganisationModel} from '../../_models/organisation.model';
+import {UserModel} from '../../_models/user.model';
 
 @Component({
   selector: 'app-organisations',
   templateUrl: './organisations.component.html',
-  styleUrls: ['./organisations.component.scss']
+  styleUrls: ['./organisations.component.scss'],
 })
-export class OrganisationsComponent implements OnDestroy {
-  myUser: UserModel|null = null;
-  myUserSubscription: Subscription;
-
+export class OrganisationsComponent extends AbstractComponent {
+  myUser: UserModel | null = null;
   organisations: OrganisationModel[];
-  organisationsSubscription: Subscription;
   maxOrgsCount = 5;
-
-  selectedOrganisation: OrganisationModel|undefined;
-  selectedOrganisationSubscription: Subscription;
+  selectedOrganisation: OrganisationModel | undefined;
 
   constructor(private myUserService: MyUserService, private organisationsService: OrganisationsService) {
+    super();
     this.myUser = this.myUserService.getUser();
-    this.myUserSubscription = this.myUserService.userChange.subscribe(user => {
-      this.myUser = user;
-    });
+    this.autoUnsubscribe(
+      this.myUserService.userChange.subscribe((user) => {
+        this.myUser = user;
+      })
+    );
 
     this.organisations = this.organisationsService.getAll();
-    this.organisationsSubscription = this.organisationsService.allChange.subscribe((value: OrganisationModel[]) => {
-      this.organisations = value;
-    });
+    this.autoUnsubscribe(
+      this.organisationsService.allChange.subscribe((value: OrganisationModel[]) => {
+        this.organisations = value;
+      })
+    );
 
     this.selectedOrganisation = this.organisationsService.getSelected();
-    this.selectedOrganisationSubscription = this.organisationsService.selectedChange.subscribe(value => {
-      this.selectedOrganisation = value;
-    });
+    this.autoUnsubscribe(
+      this.organisationsService.selectedChange.subscribe((value) => {
+        this.selectedOrganisation = value;
+      })
+    );
   }
-
-  ngOnDestroy(): void {
-    this.myUserSubscription.unsubscribe();
-    this.organisationsSubscription.unsubscribe();
-    this.selectedOrganisationSubscription.unsubscribe();
-  }
-
 }

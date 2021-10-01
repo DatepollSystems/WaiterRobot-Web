@@ -122,5 +122,7 @@
   "HOME_WAITERS_SHOW_QR_CODE": "Kellner-Login für",
   "HOME_WAITERS_EDIT_QR_CODE": "Login anzeigen",
   "HOME_WAITERS_EDIT_NAME_INCORRECT": "Der Name muss aus mehr als 3 Zeichen bestehen",
+  "HOME_WAITERS_EDIT_EVENTS": "Kellner ausgewählt für Events/Locations",
+  "HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER": "Event-/Locationname",
   "HOME_WAITERS_DELETE_CONFIRMATION": "Willst du wirklich diesen Kellner löschen?"
 }

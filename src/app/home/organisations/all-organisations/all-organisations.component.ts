@@ -18,15 +18,16 @@ import {UserModel} from '../../../_models/user.model';
 })
 export class AllOrganisationsComponent extends AbstractModelsListComponent<OrganisationModel> {
   myUser: UserModel | null = null;
-  myUserSubscription: Subscription;
 
   constructor(modal: NgbModal, private myUserService: MyUserService, private organisationsService: OrganisationsService) {
     super(organisationsService, modal);
 
     this.myUser = this.myUserService.getUser();
-    this.myUserSubscription = this.myUserService.userChange.subscribe((user) => {
-      this.myUser = user;
-    });
+    this.autoUnsubscribe(
+      this.myUserService.userChange.subscribe((user) => {
+        this.myUser = user;
+      })
+    );
   }
 
   protected checkFilterForModel(filter: string, model: OrganisationModel): OrganisationModel | undefined {
@@ -42,11 +43,6 @@ export class AllOrganisationsComponent extends AbstractModelsListComponent<Organ
       return model;
     }
     return undefined;
-  }
-
-  override ngOnDestroy(): void {
-    super.ngOnDestroy();
-    this.myUserSubscription.unsubscribe();
   }
 
   onSelect(organisation: OrganisationModel) {

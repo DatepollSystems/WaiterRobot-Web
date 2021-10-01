@@ -1,6 +1,6 @@
-import {AbstractEntityModelWithName} from './abstract-entity.model';
+import {AbstractEntityWithName} from 'dfx-helper';
 
-export class OrganisationModel extends AbstractEntityModelWithName {
+export class OrganisationModel extends AbstractEntityWithName<number> {
   public readonly street: string;
   public readonly street_number: string;
   public readonly postal_code: string;

@@ -1,0 +1,24 @@
+<div class="form-group" *ngIf="loaded">
+  <label for="typeahead">{{ label | tr }}</label>
+  <div fxLayout="column" fxLayoutGap="2%">
+    <input
+      id="typeahead"
+      name="typeahead"
+      type="text"
+      class="form-control"
+      [ngbTypeahead]="search"
+      [editable]="false"
+      (selectItem)="selectModel($event)"
+      [formControl]="formCtrl"
+      [resultFormatter]="formatter"
+      [inputFormatter]="formatter"
+      placeholder="{{ placeHolder | tr }}"
+    />
+    <div fxLayout="row" fxLayoutGap="1.5%">
+      <button type="button" class="btn btn-primary btn-sm" *ngFor="let model of this.models" (click)="remove(model)">
+        {{ model.name }}
+        <bi name="x-circle-fill"></bi>
+      </button>
+    </div>
+  </div>
+</div>

@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {Converter, TypeHelper} from 'dfx-helper';
-import {Subscription} from 'rxjs';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {WaitersService} from '../../../_services/waiters.service';
@@ -21,7 +20,6 @@ import {WaiterQRCodeModal} from '../waiter-qr-code-modal.component';
 })
 export class EventByIdWaitersComponent extends AbstractModelsListComponent<WaiterModel> {
   event: EventModel | undefined;
-  eventSubscription!: Subscription;
 
   constructor(
     waitersService: WaitersService,
@@ -35,6 +33,7 @@ export class EventByIdWaitersComponent extends AbstractModelsListComponent<Waite
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       if (id != null) {
+        this.entitiesLoaded = false;
         if (TypeHelper.isNumeric(id)) {
           const nId = Converter.stringToNumber(id);
           this.lumber.info('const', 'Model to open: ' + nId);
@@ -42,10 +41,12 @@ export class EventByIdWaitersComponent extends AbstractModelsListComponent<Waite
           if (this.event?.id == nId) {
             this.initializeVariables();
           }
-          this.eventSubscription = this.eventsService.singleChange.subscribe((value) => {
-            this.event = value;
-            this.initializeVariables();
-          });
+          this.autoUnsubscribe(
+            this.eventsService.singleChange.subscribe((value) => {
+              this.event = value;
+              this.initializeVariables();
+            })
+          );
         } else {
           // ERROR
           this.router.navigateByUrl('/home').then();
@@ -76,11 +77,5 @@ export class EventByIdWaitersComponent extends AbstractModelsListComponent<Waite
   public openQRCode(waiter: WaiterModel) {
     const modalRef = this.modal.open(WaiterQRCodeModal, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg'});
     modalRef.componentInstance.waiter = waiter;
-  }
-
-  override ngOnDestroy() {
-    super.ngOnDestroy();
-    // TODO: this.waitersService.clearAll();
-    this.eventSubscription.unsubscribe();
   }
 }

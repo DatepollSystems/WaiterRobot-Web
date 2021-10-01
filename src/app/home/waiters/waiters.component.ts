@@ -1,11 +1,13 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {Subscription} from 'rxjs';
 import {LoggerFactory} from 'dfx-helper';
+
+import {AbstractComponent} from '../../_helper/abstract-component';
 
 import {OrganisationsService} from '../../_services/organisations.service';
 import {EventsService} from '../../_services/events.service';
+
 import {OrganisationModel} from '../../_models/organisation.model';
 import {EventModel} from '../../_models/event.model';
 
@@ -14,41 +16,38 @@ import {EventModel} from '../../_models/event.model';
   templateUrl: './waiters.component.html',
   styleUrls: ['./waiters.component.scss'],
 })
-export class WaitersComponent implements OnDestroy {
+export class WaitersComponent extends AbstractComponent {
   selectedEventToShow = 'default';
 
   selectedOrganisation: OrganisationModel | undefined;
-  selectedOrganisationSubscription: Subscription;
-
   selectedEvent: EventModel | undefined;
-  selectedEventSubscription: Subscription;
-
   allEvents: EventModel[];
-  allEventsSubscription: Subscription;
 
   private log = LoggerFactory.getLogger('WaitersComponent');
 
   constructor(private organisationService: OrganisationsService, private eventsService: EventsService, private router: Router) {
+    super();
+
     this.selectedOrganisation = this.organisationService.getSelected();
-    this.selectedOrganisationSubscription = this.organisationService.selectedChange.subscribe((value) => {
-      this.selectedOrganisation = value;
-    });
+    this.autoUnsubscribe(
+      this.organisationService.selectedChange.subscribe((value) => {
+        this.selectedOrganisation = value;
+      })
+    );
 
     this.selectedEvent = this.eventsService.getSelected();
-    this.selectedEventSubscription = this.eventsService.selectedChange.subscribe((value) => {
-      this.selectedEvent = value;
-    });
+    this.autoUnsubscribe(
+      this.eventsService.selectedChange.subscribe((value) => {
+        this.selectedEvent = value;
+      })
+    );
 
     this.allEvents = this.eventsService.getAll();
-    this.allEventsSubscription = this.eventsService.allChange.subscribe((value) => {
-      this.allEvents = value;
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.selectedOrganisationSubscription.unsubscribe();
-    this.selectedEventSubscription.unsubscribe();
-    this.allEventsSubscription.unsubscribe();
+    this.autoUnsubscribe(
+      this.eventsService.allChange.subscribe((events) => {
+        this.allEvents = events;
+      })
+    );
   }
 
   linkClick() {

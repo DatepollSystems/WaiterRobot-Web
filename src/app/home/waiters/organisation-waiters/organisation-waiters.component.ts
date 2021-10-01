@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {Converter} from 'dfx-helper';
 
+import {Converter} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
@@ -20,17 +19,18 @@ import {WaiterQRCodeModal} from '../waiter-qr-code-modal.component';
 })
 export class OrganisationWaitersComponent extends AbstractModelsListComponent<WaiterModel> {
   selectedOrganisation: OrganisationModel | undefined;
-  selectedOrganisationSubscription: Subscription;
 
   constructor(private waitersService: WaitersService, private organisationsService: OrganisationsService, modal: NgbModal) {
     super(waitersService, modal);
 
     this.selectedOrganisation = this.organisationsService.getSelected();
     this.initializeVariables();
-    this.selectedOrganisationSubscription = this.organisationsService.selectedChange.subscribe((value) => {
-      this.selectedOrganisation = value;
-      this.initializeVariables();
-    });
+    this.autoUnsubscribe(
+      this.organisationsService.selectedChange.subscribe((organisation) => {
+        this.selectedOrganisation = organisation;
+        this.initializeVariables();
+      })
+    );
   }
 
   protected override initializeVariables() {
@@ -51,11 +51,5 @@ export class OrganisationWaitersComponent extends AbstractModelsListComponent<Wa
   public openQRCode(waiter: WaiterModel) {
     const modalRef = this.modal.open(WaiterQRCodeModal, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg'});
     modalRef.componentInstance.waiter = waiter;
-  }
-
-  override ngOnDestroy() {
-    super.ngOnDestroy();
-    // TODO: this.waitersService.flushAll();
-    this.selectedOrganisationSubscription.unsubscribe();
   }
 }

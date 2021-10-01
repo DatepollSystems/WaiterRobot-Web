@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {Subscription} from 'rxjs';
 
 import {Converter} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -18,15 +17,16 @@ import {UserModel} from '../../../_models/user.model';
 })
 export class AllEventsComponent extends AbstractModelsListComponent<EventModel> {
   myUser: UserModel | null = null;
-  myUserSubscription: Subscription;
 
   constructor(modal: NgbModal, private myUserService: MyUserService, private eventsService: EventsService) {
     super(eventsService, modal);
 
     this.myUser = this.myUserService.getUser();
-    this.myUserSubscription = this.myUserService.userChange.subscribe((user) => {
-      this.myUser = user;
-    });
+    this.autoUnsubscribe(
+      this.myUserService.userChange.subscribe((user) => {
+        this.myUser = user;
+      })
+    );
   }
 
   protected checkFilterForModel(filter: string, model: EventModel): EventModel | undefined {
@@ -42,11 +42,6 @@ export class AllEventsComponent extends AbstractModelsListComponent<EventModel> 
       return model;
     }
     return undefined;
-  }
-
-  override ngOnDestroy() {
-    super.ngOnDestroy();
-    this.myUserSubscription.unsubscribe();
   }
 
   onSelect(event: EventModel): void {

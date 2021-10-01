@@ -43,7 +43,7 @@
           <th>{{ waiter.id }}</th>
           <td>{{ waiter.name }}</td>
           <td (click)="$event.stopPropagation()">
-            <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ waiter.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+            <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../../{{ waiter.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
               <bi name="pencil-square"></bi>
             </a>
             <button
