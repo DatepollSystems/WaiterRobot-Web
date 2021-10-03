@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 
-import {AbstractComponent} from '../../_helper/abstract-component';
-import {MyUserService} from '../../_services/myUser.service';
+import {AbstractComponent} from 'dfx-helper';
+
+import {MyUserService} from '../../_services/my-user.service';
 import {OrganisationsService} from '../../_services/organisations.service';
 
 import {OrganisationModel} from '../../_models/organisation.model';
@@ -13,7 +14,7 @@ import {UserModel} from '../../_models/user.model';
   styleUrls: ['./organisations.component.scss'],
 })
 export class OrganisationsComponent extends AbstractComponent {
-  myUser: UserModel | null = null;
+  myUser: UserModel | undefined;
   organisations: OrganisationModel[];
   maxOrgsCount = 5;
   selectedOrganisation: OrganisationModel | undefined;

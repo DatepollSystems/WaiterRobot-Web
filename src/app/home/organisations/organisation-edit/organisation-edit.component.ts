@@ -6,7 +6,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
 
 import {OrganisationsService} from '../../../_services/organisations.service';
-import {MyUserService} from '../../../_services/myUser.service';
+import {MyUserService} from '../../../_services/my-user.service';
 
 import {OrganisationModel} from '../../../_models/organisation.model';
 import {UserModel} from '../../../_models/user.model';
@@ -20,8 +20,7 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
   override onlyEditingTabs = [3];
   override redirectUrl = '/home/organisations/all';
 
-  myUser: UserModel | null = null;
-
+  myUser: UserModel | undefined;
   selectedOrganisation: OrganisationModel | undefined;
 
   constructor(

@@ -5,7 +5,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
 import {EventsService} from '../../../_services/events.service';
-import {MyUserService} from '../../../_services/myUser.service';
+import {MyUserService} from '../../../_services/my-user.service';
 
 import {EventModel} from '../../../_models/event.model';
 import {UserModel} from '../../../_models/user.model';
@@ -19,8 +19,7 @@ export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
   override onlyEditingTabs = [2];
   override redirectUrl = '/home/events/all';
 
-  myUser: UserModel | null = null;
-
+  myUser: UserModel | undefined;
   selectedEvent!: EventModel | undefined;
 
   constructor(

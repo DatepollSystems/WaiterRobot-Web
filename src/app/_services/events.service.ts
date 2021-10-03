@@ -15,8 +15,9 @@ export class EventsService extends AbstractSelectedModelService<EventModel> {
   constructor(httpService: HttpService, private organisationsService: OrganisationsService) {
     super(httpService, '/config/event');
 
+    this.setGetAllUrl('/config/event?organisation_id=' + this.organisationsService.getSelected()?.id);
     this.organisationsService.selectedChange.subscribe((value) => {
-      this.getAllUrl = '/config/event?organisation_id=' + value?.id;
+      this.setGetAllUrl('/config/event?organisation_id=' + value?.id);
     });
   }
 

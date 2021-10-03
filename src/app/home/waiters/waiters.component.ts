@@ -1,9 +1,7 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {LoggerFactory} from 'dfx-helper';
-
-import {AbstractComponent} from '../../_helper/abstract-component';
+import {AbstractComponent, LoggerFactory} from 'dfx-helper';
 
 import {OrganisationsService} from '../../_services/organisations.service';
 import {EventsService} from '../../_services/events.service';

@@ -2,10 +2,9 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
 
-import {AbstractEntityWithName, Converter, LoggerFactory, TypeHelper} from 'dfx-helper';
+import {AbstractComponent, AbstractEntityWithName, Converter, LoggerFactory, TypeHelper} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {AbstractComponent} from './abstract-component';
 import {AbstractModelService} from '../_services/abstract-model.service';
 import {QuestionDialogComponent} from './question-dialog/question-dialog.component';
 
@@ -84,8 +83,11 @@ export abstract class AbstractModelEditComponent<EntityType extends AbstractEnti
   }
 
   public onSave(form: NgForm): void {
+    if (!this.checkFilter()) {
+      return;
+    }
     let model = form.form.value;
-    model = this.addFieldsToHttpSaveModel(model);
+    model = this.addCustomAttributesToModel(model);
     if (this.isEditing && this.entity?.id != null) {
       model.id = this.entity?.id;
       this.modelService.update(model);
@@ -96,8 +98,12 @@ export abstract class AbstractModelEditComponent<EntityType extends AbstractEnti
     this.goToRedirectUrl();
   }
 
-  protected addFieldsToHttpSaveModel(model: any): any {
+  protected addCustomAttributesToModel(model: any): any {
     return model;
+  }
+
+  protected checkFilter(): boolean {
+    return true;
   }
 
   public onDelete(modelId: number): void {

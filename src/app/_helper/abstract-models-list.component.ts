@@ -1,10 +1,8 @@
 import {Component, QueryList, ViewChildren} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {Subscription} from 'rxjs';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {AbstractComponent} from './abstract-component';
-import {AbstractEntityWithName, LoggerFactory} from 'dfx-helper';
+import {AbstractComponent, AbstractEntity, EntityList, IList, LoggerFactory} from 'dfx-helper';
 
 import {SortableHeader, SortEvent} from './table-sortable';
 import {AbstractModelService} from '../_services/abstract-model.service';
@@ -14,15 +12,14 @@ import {QuestionDialogComponent} from './question-dialog/question-dialog.compone
 @Component({
   template: '',
 })
-export abstract class AbstractModelsListComponent<EntityType extends AbstractEntityWithName<number>> extends AbstractComponent {
+export abstract class AbstractModelsListComponent<EntityType extends AbstractEntity<number>> extends AbstractComponent {
   protected lumber = LoggerFactory.getLogger('AModelsListComponent');
 
   @ViewChildren(SortableHeader) headers: QueryList<SortableHeader> | undefined;
   public filter = new FormControl('');
 
-  protected entities!: EntityType[];
-  public entitiesCopy!: EntityType[];
-  protected entitiesSubscription!: Subscription;
+  protected entities!: IList<EntityType>;
+  public entitiesCopy!: IList<EntityType>;
   public entitiesLoaded = false;
 
   protected constructor(protected modelService: AbstractModelService<EntityType>, protected modal: NgbModal) {
@@ -31,11 +28,11 @@ export abstract class AbstractModelsListComponent<EntityType extends AbstractEnt
 
     this.filter.valueChanges.subscribe((value) => {
       if (value == null) {
-        this.entitiesCopy = this.entities.slice();
+        this.entitiesCopy = this.entities.clone();
         return;
       }
       value = value.trim().toLowerCase();
-      this.entitiesCopy = [];
+      this.entitiesCopy = new EntityList<EntityType>();
       for (const model of this.entities) {
         if (this.checkFilterForModel(value, model) !== undefined) {
           this.entitiesCopy.push(model);
@@ -46,14 +43,14 @@ export abstract class AbstractModelsListComponent<EntityType extends AbstractEnt
 
   protected initializeVariables(): void {
     this.entities = this.modelService.getAll();
-    this.entitiesCopy = this.entities.slice();
+    this.entitiesCopy = this.entities.clone();
     if (this.entities.length > 0) {
       this.entitiesLoaded = true;
     }
     this.autoUnsubscribe(
       this.modelService.allChange.subscribe((value) => {
         this.entities = value;
-        this.entitiesCopy = this.entities.slice();
+        this.entitiesCopy = this.entities.clone();
         this.entitiesLoaded = true;
       })
     );
@@ -89,13 +86,15 @@ export abstract class AbstractModelsListComponent<EntityType extends AbstractEnt
     });
 
     if (direction === '' || column === '') {
-      this.entitiesCopy = this.entities.slice();
+      this.entitiesCopy = this.entities.clone();
     } else {
-      this.entitiesCopy = [...this.entities].sort((a, b) => {
-        // @ts-ignore
-        const res = compare(a[column], b[column]);
-        return direction === 'asc' ? res : -res;
-      });
+      this.entitiesCopy = new EntityList<EntityType>(
+        [...this.entities].sort((a, b) => {
+          // @ts-ignore
+          const res = compare(a[column], b[column]);
+          return direction === 'asc' ? res : -res;
+        })
+      );
     }
   }
 }

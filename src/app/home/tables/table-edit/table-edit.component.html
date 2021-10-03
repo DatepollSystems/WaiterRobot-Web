@@ -1,0 +1,108 @@
+<div [hidden]="isEditing && !entityLoaded">
+  <h1 *ngIf="isEditing && entity">{{ 'EDIT_2' | tr }} "{{ entity.name }}"</h1>
+  <h1 *ngIf="!isEditing">{{ 'HOME_TABLES_ADD' | tr }}</h1>
+
+  <div fxLayout="row break" fxLayoutGap="2%" fxLayoutGap.gt-md="1%">
+    <div>
+      <button class="btn btn-sm btn-outline-dark text-white my-2 my-md-0" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
+    </div>
+
+    <ng-container *ngIf="isEditing && entity">
+      <div>
+        <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit()" [disabled]="!f.valid">
+          <bi name="save"></bi>
+          {{ 'SAVE' | tr }}
+        </button>
+      </div>
+      <div>
+        <button class="btn btn-sm btn-outline-danger my-2 my-md-0" (click)="onDelete(entity.id)">
+          <bi name="trash"></bi>
+          {{ 'DELETE' | tr }}
+        </button>
+      </div>
+    </ng-container>
+
+    <div *ngIf="!isEditing">
+      <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit()" [disabled]="f == null || !f.valid">
+        <bi name="plus-circle"></bi>
+        {{ 'ADD' | tr }}
+      </button>
+    </div>
+  </div>
+
+  <form #f="ngForm" (ngSubmit)="onSave(f)">
+    <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs mt-3 bg-dark" (navChange)="onTabChange($event)">
+      <li [ngbNavItem]="1">
+        <a ngbNavLink>{{ 'DATA' | tr }}</a>
+        <ng-template ngbNavContent>
+          <div fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-sm="column">
+            <div class="form-group" fxFlex="25%">
+              <label for="number">{{ 'NUMBER' | tr }}</label>
+              <input
+                ngbAutofocus
+                ngModel
+                class="form-control bg-dark text-white"
+                required
+                type="number"
+                id="number"
+                name="number"
+                #numberMolde="ngModel"
+                minlength="3"
+                placeholder="{{ 'NUMBER' | tr }}"
+                [ngModel]="isEditing ? entity?.name : null"
+              />
+
+              <small *ngIf="numberMolde.invalid" class="text-danger">
+                {{ 'HOME_TABLES_NUMBER_INCORRECT' | tr }}
+              </small>
+            </div>
+
+            <div class="form-group" fxFlex="20%">
+              <label for="seats">{{ 'SEATS' | tr }}</label>
+              <input
+                ngModel
+                class="form-control bg-dark text-white"
+                required
+                type="number"
+                id="seats"
+                name="seats"
+                #seatsModel="ngModel"
+                minlength="3"
+                placeholder="{{ 'SEATS' | tr }}"
+                [ngModel]="isEditing ? entity?.seats : null"
+              />
+              <small *ngIf="seatsModel.invalid" class="text-danger">
+                {{ 'HOME_TABLES_SEATS_INCORRECT' | tr }}
+              </small>
+            </div>
+
+            <div class="form-group" fxFlex="50%">
+              <label for="selectTableGroup">{{ 'HOME_TABLE_GROUPS' | tr }}</label>
+              <div class="input-group">
+                <span class="input-group-text bg-dark text-white" id="selectTableGroup-addon1"><bi name="diagram-3"></bi></span>
+                <select
+                  class="form-select bg-dark text-white"
+                  id="selectTableGroup"
+                  name="selectTableGroup"
+                  [(ngModel)]="selectedTableGroup"
+                  (ngModelChange)="selectTableGroup($event)"
+                >
+                  <option value="default">{{ 'HOME_TABLES_GROUPS_DEFAULT' | tr }}</option>
+                  <option value="{{ tableGroup.id }}" *ngFor="let tableGroup of this.tableGroups">{{ tableGroup.name }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </li>
+    </ul>
+
+    <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
+  </form>
+</div>
+
+<div class="spinner-row" *ngIf="isEditing && !entityLoaded">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">{{ 'LOADING' | tr }}</span>
+  </div>
+</div>

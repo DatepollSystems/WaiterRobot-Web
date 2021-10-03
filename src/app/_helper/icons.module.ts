@@ -21,6 +21,8 @@ import {
   CalendarEventFill,
   Building,
   UpcScan,
+  ColumnsGap,
+  Diagram3,
 } from 'ng-bootstrap-icons/icons';
 
 // Select some icons (use an object, not an array)
@@ -44,6 +46,8 @@ const icons = {
   CaretRight,
   PersonBadge,
   UpcScan,
+  ColumnsGap,
+  Diagram3,
 };
 
 @NgModule({

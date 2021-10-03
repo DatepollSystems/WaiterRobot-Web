@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {AbstractEntityWithName, ArrayHelper} from 'dfx-helper';
+import {AbstractEntityWithName, EntityList, IList} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
@@ -25,9 +25,9 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
   override onlyEditingTabs = [2];
 
   selectedOrganisation: OrganisationModel | undefined;
-  events: EventModel[] = [];
-  preSelectedEvents: EventModel[] = [];
-  selectedEvents: AbstractEntityWithName<number>[] = [];
+  events: IList<EventModel> = new EntityList();
+  preSelectedEvents: IList<EventModel> = new EntityList();
+  selectedEvents: IList<AbstractEntityWithName<number>> = new EntityList();
 
   constructor(
     route: ActivatedRoute,
@@ -42,7 +42,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     this.events = this.eventsService.getAll();
     this.autoUnsubscribe(
       this.eventsService.allChange.subscribe((events) => {
-        this.events = events.slice();
+        this.events = events.clone();
         this.refreshValues();
       })
     );
@@ -50,12 +50,12 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     if (!this.isEditing) {
       console.log('Adding selected model if selected....');
       const selected = this.eventsService.getSelected();
-      this.preSelectedEvents = ArrayHelper.addEntityIfAbsent(this.preSelectedEvents, selected);
-      this.selectedEvents = ArrayHelper.addEntityIfAbsent(this.selectedEvents, selected);
+      this.preSelectedEvents.addIfAbsent(selected);
+      this.selectedEvents.addIfAbsent(selected);
       this.autoUnsubscribe(
         this.eventsService.selectedChange.subscribe((event) => {
-          this.preSelectedEvents = ArrayHelper.addEntityIfAbsent(this.preSelectedEvents, event);
-          this.selectedEvents = ArrayHelper.addEntityIfAbsent(this.selectedEvents, event);
+          this.preSelectedEvents.addIfAbsent(event);
+          this.selectedEvents.addIfAbsent(event);
         })
       );
     }
@@ -74,12 +74,12 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
 
     for (const event of this.events) {
       if (this.entity.event_ids.includes(event.id)) {
-        this.preSelectedEvents = ArrayHelper.addEntityIfAbsent(this.preSelectedEvents, event);
+        this.preSelectedEvents.addIfAbsent(event);
       }
     }
   }
 
-  override addFieldsToHttpSaveModel(model: any): any {
+  override addCustomAttributesToModel(model: any): any {
     model.organisation_id = this.selectedOrganisation?.id;
     const ids = [];
     for (const event of this.selectedEvents) {
@@ -97,7 +97,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     modalRef.componentInstance.waiter = waiter;
   }
 
-  changeSelectedEvents(selectedEvents: AbstractEntityWithName<number>[]) {
+  changeSelectedEvents(selectedEvents: IList<AbstractEntityWithName<number>>) {
     this.selectedEvents = selectedEvents;
   }
 }

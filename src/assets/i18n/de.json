@@ -27,11 +27,17 @@
   "SHOW_MORE": "Mehr anzeigen",
   "YES": "Ja",
   "NO": "Nein",
+  "NUMBER": "Nummer",
+  "SEATS": "Sitze",
 
   "REQUEST_ERROR_CLIENT": "Client fehler",
   "REQUEST_ERROR_SERVER": "Server fehler",
 
   "DELETE_CONFIRMATION": "Lösch-Bestätigung",
+
+  "404_TITLE": "Was du auch immer gesucht hast, wir haben es leider nicht gefunden.",
+  "404_SUBTITLE": "Du kannst entweder zurück gehen oder dir weiterhin dieses tolle Bild einer Katze anschauen.",
+  "404_GO_BACK": "Zurück",
 
   "ABOUT": "Über",
   "ABOUT_SIGNIN": "Anmelden",
@@ -124,5 +130,14 @@
   "HOME_WAITERS_EDIT_NAME_INCORRECT": "Der Name muss aus mehr als 3 Zeichen bestehen",
   "HOME_WAITERS_EDIT_EVENTS": "Kellner ausgewählt für Events/Locations",
   "HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER": "Event-/Locationname",
-  "HOME_WAITERS_DELETE_CONFIRMATION": "Willst du wirklich diesen Kellner löschen?"
+  "HOME_WAITERS_DELETE_CONFIRMATION": "Willst du wirklich diesen Kellner löschen?",
+
+  "HOME_TABLES": "Tische",
+  "HOME_TABLES_ADD": "Neuen Tisch anlegen",
+  "HOME_TABLES_SEATS_INCORRECT": "*pflichtfeld",
+  "HOME_TABLES_NUMBER_INCORRECT": "*pflichtfeld",
+  "HOME_TABLES_GROUPS_DEFAULT": "Wähle eine Tischgruppe aus",
+  "HOME_TABLE_GROUPS": "Tischgruppen",
+  "HOME_TABLE_GROUPS_ADD": "Neu Tischgruppe anlegen",
+  "HOME_TABLE_GROUP_NAME_INCORRECT": "Der Name muss aus mehr als 3 Zeichen bestehen."
 }

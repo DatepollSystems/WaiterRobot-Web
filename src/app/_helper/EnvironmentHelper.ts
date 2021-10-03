@@ -8,4 +8,8 @@ export class EnvironmentHelper {
   public static getWebversion(): string {
     return environment.version;
   }
+
+  public static getProduction(): boolean {
+    return environment.production;
+  }
 }

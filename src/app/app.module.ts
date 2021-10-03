@@ -11,8 +11,10 @@ import {AuthInterceptor} from './_services/auth/auth-interceptor';
 
 import {AppComponent} from './app.component';
 import {ToastsContainerComponent} from './_services/notifications/toasts-container.component';
+import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+
 @NgModule({
-  declarations: [AppComponent, ToastsContainerComponent],
+  declarations: [AppComponent, ToastsContainerComponent, PageNotFoundComponent],
   imports: [
     AppRoutingModule,
     BrowserModule,

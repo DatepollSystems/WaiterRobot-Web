@@ -1,0 +1,60 @@
+<div fxLayout="row break" fxLayoutAlign="space-between center">
+  <h1>{{ 'HOME_TABLE_GROUPS' | tr }}</h1>
+  <a routerLink="../create" class="btn btn-outline-success">
+    <bi name="plus-circle"></bi>
+    {{ 'ADD_2' | tr }}</a
+  >
+</div>
+
+<div class="spinner-row" *ngIf="!entitiesLoaded">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">{{ 'LOADING' | tr }}</span>
+  </div>
+</div>
+
+<form class="mt-2" [hidden]="!entitiesLoaded">
+  <div class="input-group">
+    <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+    <button
+      class="btn btn-outline-secondary"
+      type="button"
+      ngbTooltip="{{ 'CLEAR' | tr }}"
+      placement="bottom"
+      (click)="filter.reset()"
+      *ngIf="filter?.value?.length > 0"
+    >
+      <bi name="x-circle-fill"></bi>
+    </button>
+  </div>
+</form>
+
+<div class="table-responsive" [hidden]="!entitiesLoaded">
+  <table class="table table-dark table-hover">
+    <thead>
+      <tr class="table-dark">
+        <th sortable="name" (sort)="onSort($event)" style="min-width: 20vh">{{ 'NAME' | tr }}</th>
+        <th sortable="seats" (sort)="onSort($event)">{{ 'SEATS' | tr }}</th>
+        <th style="min-width: 20vh">{{ 'ACTIONS' | tr }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tableGroup of entitiesCopy" class="table-dark">
+        <td>{{ tableGroup.name }}</td>
+        <td>{{ tableGroup.seats }}</td>
+        <td>
+          <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ tableGroup.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+            <bi name="pencil-square"></bi>
+          </a>
+          <button
+            type="button"
+            class="btn btn-sm m-1 btn-outline-danger text-white"
+            ngbTooltip="{{ 'DELETE' | tr }}"
+            (click)="onDelete(tableGroup.id)"
+          >
+            <bi name="trash"></bi>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

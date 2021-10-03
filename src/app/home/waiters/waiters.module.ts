@@ -17,7 +17,6 @@ import {EventByIdWaitersComponent} from './event-by-id-waiters/event-by-id-waite
 import {WaiterEditComponent} from './waiter-edit/waiter-edit.component';
 import {WaiterQRCodeModal} from './waiter-qr-code-modal.component';
 import {QuestionDialogModule} from '../../_helper/question-dialog/question-dialog.module';
-import {AppModule} from '../../app.module';
 import {BootstrapChipInputModule} from '../../_helper/bootstrap-chip-input/bootstrap-chip-input.module';
 
 const waiterRoutes: Routes = [

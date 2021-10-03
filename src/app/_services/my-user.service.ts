@@ -9,13 +9,12 @@ import {UserModel} from '../_models/user.model';
 })
 export class MyUserService {
   private loaded = false;
-  private user: UserModel | null = null;
+  private user: UserModel | undefined = undefined;
   public userChange: Subject<UserModel> = new Subject<UserModel>();
 
-  constructor(private httpService: HttpService) {
-  }
+  constructor(private httpService: HttpService) {}
 
-  public getUser(): UserModel | null {
+  public getUser(): UserModel | undefined {
     if (!this.loaded) {
       this.loaded = true;
       this.fetchUser();
@@ -24,10 +23,12 @@ export class MyUserService {
   }
 
   private fetchUser(): void {
-    this.httpService.get('/user/myself').subscribe((data: any) => {
+    this.httpService.get('/user/myself').subscribe(
+      (data: any) => {
         this.setUser(new UserModel(data));
       },
-      (error: any) => console.log(error));
+      (error: any) => console.log(error)
+    );
   }
 
   public setUser(user: UserModel) {

@@ -1,54 +1,54 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs';
+import {Component, OnInit} from '@angular/core';
 
 import {AuthService} from '../_services/auth/auth.service';
 import {OrganisationsService} from '../_services/organisations.service';
 import {EventsService} from '../_services/events.service';
-import {MyUserService} from '../_services/myUser.service';
+import {MyUserService} from '../_services/my-user.service';
 
 import {OrganisationModel} from '../_models/organisation.model';
 import {EventModel} from '../_models/event.model';
 import {UserModel} from '../_models/user.model';
-import {Converter, LoggerFactory} from 'dfx-helper';
+import {AbstractComponent, Converter, LoggerFactory} from 'dfx-helper';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit, OnDestroy {
-  lumber = LoggerFactory.getLogger('HomeComponent')
+export class HomeComponent extends AbstractComponent implements OnInit {
+  lumber = LoggerFactory.getLogger('HomeComponent');
 
   adminModeChanged = false;
-  myUser: UserModel|null = null;
-  myUserSubscription: Subscription;
-
+  myUser: UserModel | undefined;
   selectedOrganisation: OrganisationModel | undefined;
-  selectedOrganisationSubscription;
-
   selectedEvent: EventModel | undefined;
-  selectedEventSubscription!: Subscription;
-
   allEvents: EventModel[] = [];
-  allEventsSubscription!: Subscription;
 
-  constructor(private authService: AuthService,
-              private myUserService: MyUserService,
-              private organisationsService: OrganisationsService,
-              private eventsService: EventsService) {
+  constructor(
+    private authService: AuthService,
+    private myUserService: MyUserService,
+    private organisationsService: OrganisationsService,
+    private eventsService: EventsService
+  ) {
+    super();
+
     this.myUser = this.myUserService.getUser();
-    this.myUserSubscription = this.myUserService.userChange.subscribe(user => {
-      this.myUser = user;
-      if (this.myUser.is_admin) {
-        this.lumber.info('const', 'Admin status detected');
-      }
-    });
+    this.autoUnsubscribe(
+      this.myUserService.userChange.subscribe((user) => {
+        this.myUser = user;
+        if (this.myUser.is_admin) {
+          this.lumber.info('const', 'Admin status detected');
+        }
+      })
+    );
 
     this.selectedOrganisation = this.organisationsService.getSelected();
-    this.selectedOrganisationSubscription = this.organisationsService.selectedChange.subscribe(value => {
-      this.selectedOrganisation = value;
-      this.onEventInit();
-    });
+    this.autoUnsubscribe(
+      this.organisationsService.selectedChange.subscribe((value) => {
+        this.selectedOrganisation = value;
+        this.onEventInit();
+      })
+    );
 
     this.onEventInit();
   }
@@ -56,14 +56,18 @@ export class HomeComponent implements OnInit, OnDestroy {
   onEventInit(): void {
     if (this.selectedOrganisation != null) {
       this.allEvents = this.eventsService.getAll();
-      this.allEventsSubscription = this.eventsService.allChange.subscribe(value => {
-        this.allEvents = value;
-      });
+      this.autoUnsubscribe(
+        this.eventsService.allChange.subscribe((events) => {
+          this.allEvents = events;
+        })
+      );
 
       this.selectedEvent = this.eventsService.getSelected();
-      this.selectedEventSubscription = this.eventsService.selectedChange.subscribe(value => {
-        this.selectedEvent = value;
-      });
+      this.autoUnsubscribe(
+        this.eventsService.selectedChange.subscribe((event) => {
+          this.selectedEvent = event;
+        })
+      );
     } else {
       this.allEvents = [];
       this.selectedEvent = undefined;
@@ -79,13 +83,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
       }
     }, 1);
-  }
-
-  ngOnDestroy() {
-    this.myUserSubscription.unsubscribe();
-    this.selectedOrganisationSubscription.unsubscribe();
-    this.allEventsSubscription?.unsubscribe();
-    this.selectedEventSubscription?.unsubscribe();
   }
 
   toggleNav(collapsable: any): void {

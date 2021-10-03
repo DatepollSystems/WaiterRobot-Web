@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
 
-import {AbstractComponent} from '../../_helper/abstract-component';
+import {AbstractComponent} from 'dfx-helper';
+
 import {EventsService} from '../../_services/events.service';
-import {MyUserService} from '../../_services/myUser.service';
+import {MyUserService} from '../../_services/my-user.service';
 
 import {EventModel} from '../../_models/event.model';
 import {UserModel} from '../../_models/user.model';
@@ -13,7 +14,7 @@ import {UserModel} from '../../_models/user.model';
   styleUrls: ['./events.component.scss'],
 })
 export class EventsComponent extends AbstractComponent {
-  myUser: UserModel | null = null;
+  myUser: UserModel | undefined = undefined;
   events: EventModel[];
   selectedEvent: EventModel | undefined;
 

@@ -66,12 +66,12 @@
                 type="text"
                 id="surname"
                 name="surname"
-                #streetModel="ngModel"
+                #surnameModel="ngModel"
                 minlength="3"
                 placeholder="{{ 'SURNAME' | tr }}"
                 [ngModel]="isEditing ? entity?.surname : null"
               />
-              <small *ngIf="streetModel.invalid" class="text-danger">
+              <small *ngIf="surnameModel.invalid" class="text-danger">
                 {{ 'HOME_USERS_NAME_INCORRECT' | tr }}
               </small>
             </div>

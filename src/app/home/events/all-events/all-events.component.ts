@@ -5,7 +5,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
 import {EventsService} from '../../../_services/events.service';
-import {MyUserService} from '../../../_services/myUser.service';
+import {MyUserService} from '../../../_services/my-user.service';
 
 import {EventModel} from '../../../_models/event.model';
 import {UserModel} from '../../../_models/user.model';
@@ -16,7 +16,7 @@ import {UserModel} from '../../../_models/user.model';
   styleUrls: ['./all-events.component.scss'],
 })
 export class AllEventsComponent extends AbstractModelsListComponent<EventModel> {
-  myUser: UserModel | null = null;
+  myUser: UserModel | undefined;
 
   constructor(modal: NgbModal, private myUserService: MyUserService, private eventsService: EventsService) {
     super(eventsService, modal);
