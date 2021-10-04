@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {Converter, TypeHelper} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {WaitersService} from '../../../_services/waiters.service';
@@ -10,65 +9,24 @@ import {EventsService} from '../../../_services/events.service';
 import {EventModel} from '../../../_models/event.model';
 import {WaiterModel} from '../../../_models/waiter.model';
 
-import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
 import {WaiterQRCodeModal} from '../waiter-qr-code-modal.component';
+import {AbstractModelsListComponentById} from '../../../_helper/abstract-models-list-by-id.component';
 
 @Component({
   selector: 'app-event-by-id-waiters',
   templateUrl: './event-by-id-waiters.component.html',
   styleUrls: ['./event-by-id-waiters.component.scss'],
 })
-export class EventByIdWaitersComponent extends AbstractModelsListComponent<WaiterModel> {
-  event: EventModel | undefined;
+export class EventByIdWaitersComponent extends AbstractModelsListComponentById<WaiterModel, EventModel> {
+  // TODO: Change to event_id
+  override getAllUrl = '/config/waiter?organisation_id=';
 
-  constructor(
-    waitersService: WaitersService,
-    private eventsService: EventsService,
-    private route: ActivatedRoute,
-    private router: Router,
-    modal: NgbModal
-  ) {
-    super(waitersService, modal);
-
-    this.route.paramMap.subscribe((params) => {
-      const id = params.get('id');
-      if (id != null) {
-        this.entitiesLoaded = false;
-        if (TypeHelper.isNumeric(id)) {
-          const nId = Converter.stringToNumber(id);
-          this.lumber.info('const', 'Model to open: ' + nId);
-          this.event = this.eventsService.getSingle(nId);
-          if (this.event?.id == nId) {
-            this.initializeVariables();
-          }
-          this.autoUnsubscribe(
-            this.eventsService.singleChange.subscribe((value) => {
-              this.event = value;
-              this.initializeVariables();
-            })
-          );
-        } else {
-          // ERROR
-          this.router.navigateByUrl('/home').then();
-        }
-      } else {
-        // ERROR
-        this.router.navigateByUrl('/home').then();
-      }
-    });
-  }
-
-  protected override initializeVariables() {
-    if (!this.event) {
-      return;
-    }
-    // TODO: Change to event_id
-    this.modelService.setGetAllUrl('/config/waiter?organisation_id=' + this.event.id);
-    super.initializeVariables();
+  constructor(waitersService: WaitersService, eventsService: EventsService, route: ActivatedRoute, router: Router, modal: NgbModal) {
+    super(waitersService, modal, route, router, eventsService);
   }
 
   protected override checkFilterForModel(filter: string, model: WaiterModel): WaiterModel | undefined {
-    if (Converter.numberToString(model.id) === filter || model.name.trim().toLowerCase().includes(filter)) {
+    if (model.name.trim().toLowerCase().includes(filter)) {
       return model;
     }
     return undefined;

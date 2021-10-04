@@ -67,6 +67,13 @@ export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
     return super.checkFilter();
   }
 
+  override refreshValues() {
+    if (this.isEditing && this.entity) {
+      this.selectedTableGroup = Converter.numberToString(this.entity?.group_id);
+    }
+    super.refreshValues();
+  }
+
   selectTableGroup(value: any) {
     if (value.includes('default')) {
       return;

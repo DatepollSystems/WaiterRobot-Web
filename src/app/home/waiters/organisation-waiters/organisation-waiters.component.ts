@@ -20,13 +20,13 @@ import {WaiterQRCodeModal} from '../waiter-qr-code-modal.component';
 export class OrganisationWaitersComponent extends AbstractModelsListComponent<WaiterModel> {
   selectedOrganisation: OrganisationModel | undefined;
 
-  constructor(private waitersService: WaitersService, private organisationsService: OrganisationsService, modal: NgbModal) {
+  constructor(waitersService: WaitersService, organisationsService: OrganisationsService, modal: NgbModal) {
     super(waitersService, modal);
 
-    this.selectedOrganisation = this.organisationsService.getSelected();
+    this.selectedOrganisation = organisationsService.getSelected();
     this.initializeVariables();
     this.autoUnsubscribe(
-      this.organisationsService.selectedChange.subscribe((organisation) => {
+      organisationsService.selectedChange.subscribe((organisation) => {
         this.selectedOrganisation = organisation;
         this.initializeVariables();
       })
@@ -37,7 +37,7 @@ export class OrganisationWaitersComponent extends AbstractModelsListComponent<Wa
     if (!this.selectedOrganisation) {
       return;
     }
-    this.waitersService.setGetAllUrl('/config/waiter?organisation_id=' + this.selectedOrganisation.id);
+    this.modelService.setGetAllUrl('/config/waiter?organisation_id=' + this.selectedOrganisation.id);
     super.initializeVariables();
   }
 

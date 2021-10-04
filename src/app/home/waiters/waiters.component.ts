@@ -1,62 +1,37 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {AbstractComponent, LoggerFactory} from 'dfx-helper';
-
 import {OrganisationsService} from '../../_services/organisations.service';
 import {EventsService} from '../../_services/events.service';
 
 import {OrganisationModel} from '../../_models/organisation.model';
 import {EventModel} from '../../_models/event.model';
+import {AbstractModelsComponent} from '../../_helper/abstract-models.component';
 
 @Component({
   selector: 'app-waiters',
   templateUrl: './waiters.component.html',
   styleUrls: ['./waiters.component.scss'],
 })
-export class WaitersComponent extends AbstractComponent {
-  selectedEventToShow = 'default';
-
+export class WaitersComponent extends AbstractModelsComponent<EventModel> {
   selectedOrganisation: OrganisationModel | undefined;
   selectedEvent: EventModel | undefined;
-  allEvents: EventModel[];
 
-  private log = LoggerFactory.getLogger('WaitersComponent');
-
-  constructor(private organisationService: OrganisationsService, private eventsService: EventsService, private router: Router) {
-    super();
+  constructor(private organisationService: OrganisationsService, eventsService: EventsService, router: Router) {
+    super(router, eventsService);
 
     this.selectedOrganisation = this.organisationService.getSelected();
     this.autoUnsubscribe(
-      this.organisationService.selectedChange.subscribe((value) => {
-        this.selectedOrganisation = value;
+      this.organisationService.selectedChange.subscribe((organisation) => {
+        this.selectedOrganisation = organisation;
       })
     );
 
-    this.selectedEvent = this.eventsService.getSelected();
+    this.selectedEvent = eventsService.getSelected();
     this.autoUnsubscribe(
-      this.eventsService.selectedChange.subscribe((value) => {
-        this.selectedEvent = value;
+      eventsService.selectedChange.subscribe((event) => {
+        this.selectedEvent = event;
       })
     );
-
-    this.allEvents = this.eventsService.getAll();
-    this.autoUnsubscribe(
-      this.eventsService.allChange.subscribe((events) => {
-        this.allEvents = events;
-      })
-    );
-  }
-
-  linkClick() {
-    this.selectedEventToShow = 'default';
-  }
-
-  showEvent(value: any) {
-    if (value.includes('default')) {
-      return;
-    }
-    this.log.info('showEvent', 'Showing event "' + value + '"');
-    this.router.navigateByUrl(value).then();
   }
 }

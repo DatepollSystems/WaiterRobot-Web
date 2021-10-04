@@ -1,5 +1,5 @@
 <div fxLayout="row break" fxLayoutAlign="space-between center" [hidden]="!entitiesLoaded">
-  <h1>"{{ entity?.name }}" {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</h1>
+  <h1>"{{ entity?.name }}" {{ 'HOME_TABLE_GROUP_TABLES_VIEW' | tr }}</h1>
   <a routerLink="../create" class="btn btn-outline-success">
     <bi name="plus-circle"></bi>
     {{ 'ADD_2' | tr }}</a
@@ -38,17 +38,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let waiter of entitiesCopy" class="table-dark clickable" (click)="openQRCode(waiter)">
-          <td>{{ waiter.name }}</td>
+        <tr *ngFor="let table of entitiesCopy" class="table-dark clickable">
+          <td>{{ table.name }}</td>
           <td (click)="$event.stopPropagation()">
-            <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../../{{ waiter.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+            <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../../../{{ table.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
               <bi name="pencil-square"></bi>
             </a>
             <button
               type="button"
               class="btn btn-sm m-1 btn-outline-danger text-white"
               ngbTooltip="{{ 'DELETE' | tr }}"
-              (click)="onDelete(waiter.id)"
+              (click)="onDelete(table.id)"
             >
               <bi name="trash"></bi>
             </button>

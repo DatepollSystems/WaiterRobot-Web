@@ -25,9 +25,9 @@
     <div class="list-group-item">
       <div class="input-group">
         <span class="input-group-text" id="selectEvent-addon1"><bi name="people"></bi></span>
-        <select class="form-select" id="selectEvent" [(ngModel)]="selectedEventToShow" (ngModelChange)="showEvent($event)">
+        <select class="form-select" id="selectEvent" [(ngModel)]="selectedModelToShow" (ngModelChange)="showModel($event)">
           <option value="default">{{ 'HOME_WAITERS_NAV_SELECT_EVENT' | tr }}</option>
-          <option value="/home/waiters/event/{{ eventModel.id }}" *ngFor="let eventModel of this.allEvents">{{ eventModel.name }}</option>
+          <option value="/home/waiters/event/{{ eventModel.id }}" *ngFor="let eventModel of this.allModels">{{ eventModel.name }}</option>
         </select>
       </div>
     </div>

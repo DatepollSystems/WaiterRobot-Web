@@ -49,7 +49,7 @@
                 #numberMolde="ngModel"
                 minlength="3"
                 placeholder="{{ 'NUMBER' | tr }}"
-                [ngModel]="isEditing ? entity?.name : null"
+                [ngModel]="isEditing ? entity?.number : null"
               />
 
               <small *ngIf="numberMolde.invalid" class="text-danger">

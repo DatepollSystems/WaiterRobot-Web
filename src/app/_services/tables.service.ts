@@ -19,6 +19,10 @@ export class TablesService extends AbstractModelService<TableModel> {
     });
   }
 
+  public setEventGetAllUrl(): void {
+    this.setGetAllUrl('/config/table?event_id=' + this.eventsService.getSelected()?.id);
+  }
+
   protected convert(data: any): TableModel {
     return new TableModel(data);
   }

@@ -139,5 +139,6 @@
   "HOME_TABLES_GROUPS_DEFAULT": "Wähle eine Tischgruppe aus",
   "HOME_TABLE_GROUPS": "Tischgruppen",
   "HOME_TABLE_GROUPS_ADD": "Neu Tischgruppe anlegen",
-  "HOME_TABLE_GROUP_NAME_INCORRECT": "Der Name muss aus mehr als 3 Zeichen bestehen."
+  "HOME_TABLE_GROUP_NAME_INCORRECT": "Der Name muss aus mehr als 3 Zeichen bestehen.",
+  "HOME_TABLE_GROUP_TABLES_VIEW": "Tischgruppe"
 }

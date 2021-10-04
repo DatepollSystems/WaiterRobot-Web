@@ -15,6 +15,7 @@ import {TableGroupsComponent} from './table-groups/table-groups.component';
 import {AllTablesComponent} from './all-tables/all-tables.component';
 import {TableGroupEditComponent} from './table-group-edit/table-group-edit.component';
 import {TableEditComponent} from './table-edit/table-edit.component';
+import {TableGroupByIdTablesComponent} from './table-group-by-id-tables/table-group-by-id-tables.component';
 
 const startRoutes: Routes = [
   {
@@ -25,6 +26,7 @@ const startRoutes: Routes = [
       {path: ':id', component: TableEditComponent},
       {path: 'groups/all', component: TableGroupsComponent},
       {path: 'groups/create', component: TableGroupEditComponent},
+      {path: 'groups/tables/:id', component: TableGroupByIdTablesComponent},
       {path: 'groups/:id', component: TableGroupEditComponent},
       {path: '', pathMatch: 'full', redirectTo: '/home/tables/all'},
     ],
@@ -32,7 +34,14 @@ const startRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [TablesComponent, TableGroupsComponent, AllTablesComponent, TableGroupEditComponent, TableEditComponent],
+  declarations: [
+    TablesComponent,
+    TableGroupsComponent,
+    AllTablesComponent,
+    TableGroupEditComponent,
+    TableEditComponent,
+    TableGroupByIdTablesComponent,
+  ],
   imports: [
     CommonModule,
     DfxTranslateModule,
