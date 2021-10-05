@@ -10,15 +10,26 @@ const homeRoutes: Routes = [
     component: HomeComponent,
     canActivate: [AuthGuard],
     children: [
-      {path: '', pathMatch: 'full', loadChildren: () => import('./start/start.module').then((m) => m.StartModule), data: {preload: true}},
-      {path: 'usettings', loadChildren: () => import('./user-settings/user-settings.module').then((m) => m.UserSettingsModule)},
-      {path: 'organisations', loadChildren: () => import('./organisations/organisations.module').then((m) => m.OrganisationsModule)},
+      {
+        path: '',
+        pathMatch: 'full',
+        loadChildren: () => import('./start/start.module').then((m) => m.StartModule),
+        data: {preload: true},
+      },
+      {
+        path: 'usettings',
+        loadChildren: () => import('./user-settings/user-settings.module').then((m) => m.UserSettingsModule),
+      },
+      {
+        path: 'organisations',
+        loadChildren: () => import('./organisations/organisations.module').then((m) => m.OrganisationsModule),
+      },
       {path: 'events', loadChildren: () => import('./events/events.module').then((m) => m.EventsModule)},
       {path: 'printers', loadChildren: () => import('./printers/printers.module').then((m) => m.PrintersModule)},
       {path: 'tables', loadChildren: () => import('./tables/tables.module').then((m) => m.TablesModule)},
       {path: 'waiters', loadChildren: () => import('./waiters/waiters.module').then((m) => m.WaitersModule)},
       {path: 'users', loadChildren: () => import('./users/users.module').then((m) => m.UsersModule)},
-      {path: 'products', loadChildren: () => import('./products/products.module').then((m) => m.ProductsModule)}
+      {path: 'products', loadChildren: () => import('./products/products.module').then((m) => m.ProductsModule)},
     ],
   },
 ];

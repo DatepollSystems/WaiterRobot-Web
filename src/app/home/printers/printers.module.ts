@@ -12,7 +12,7 @@ import {PrintersComponent} from './printers.component';
 const startRoutes: Routes = [
   {
     path: '',
-    component: PrintersComponent
+    component: PrintersComponent,
   },
 ];
 
@@ -20,5 +20,4 @@ const startRoutes: Routes = [
   declarations: [PrintersComponent],
   imports: [CommonModule, DfxTranslateModule, RouterModule.forChild(startRoutes), FlexLayoutModule, IconsModule],
 })
-export class PrintersModule {
-}
+export class PrintersModule {}

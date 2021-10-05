@@ -14,7 +14,6 @@ import {EventsComponent} from './events.component';
 import {AllEventsComponent} from './all-events/all-events.component';
 import {EventEditComponent} from './event-edit/event-edit.component';
 
-
 const startRoutes: Routes = [
   {
     path: '',
@@ -22,14 +21,24 @@ const startRoutes: Routes = [
     children: [
       {path: 'all', component: AllEventsComponent},
       {path: ':id', component: EventEditComponent},
-      {path: '', pathMatch: 'full', redirectTo: '/home/events/all'}
+      {path: '', pathMatch: 'full', redirectTo: '/home/events/all'},
     ],
   },
 ];
 
 @NgModule({
   declarations: [EventsComponent, AllEventsComponent, EventEditComponent],
-  imports: [CommonModule, DfxTranslateModule, RouterModule.forChild(startRoutes), FlexLayoutModule, SortableHeaderModule, IconsModule, NgbNavModule, FormsModule, NgbTooltipModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    DfxTranslateModule,
+    RouterModule.forChild(startRoutes),
+    FlexLayoutModule,
+    SortableHeaderModule,
+    IconsModule,
+    NgbNavModule,
+    FormsModule,
+    NgbTooltipModule,
+    ReactiveFormsModule,
+  ],
 })
-export class EventsModule {
-}
+export class EventsModule {}

@@ -11,7 +11,7 @@ import {OrganisationModel} from '../../../_models/organisation.model';
 @Component({
   selector: 'app-product-edit',
   templateUrl: './product-edit.component.html',
-  styleUrls: ['./product-edit.component.scss']
+  styleUrls: ['./product-edit.component.scss'],
 })
 export class ProductEditComponent implements OnDestroy {
   isEdit = false;
@@ -23,14 +23,17 @@ export class ProductEditComponent implements OnDestroy {
   organisations: OrganisationModel[] | null | undefined;
   _organisationsSubscription: Subscription | undefined;
 
-  constructor(private router: Router, private route: ActivatedRoute,
-              private productsService: ProductsService,
-              private organisationsService: OrganisationsService) {
-    this.route.queryParams.subscribe((params => {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private productsService: ProductsService,
+    private organisationsService: OrganisationsService
+  ) {
+    this.route.queryParams.subscribe((params) => {
       if (params?.tab != null) {
         this.active = Converter.stringToNumber(params?.tab);
       }
-    }));
+    });
 
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
@@ -42,7 +45,6 @@ export class ProductEditComponent implements OnDestroy {
             this.product = value;
           });
           this.isEdit = true;
-
         } else if (id == 'create') {
           this.organisations = this.organisationsService.getAll();
           this._organisationsSubscription = this.organisationsService.allChange.subscribe((value) => {
@@ -63,13 +65,13 @@ export class ProductEditComponent implements OnDestroy {
   }
 
   onNavChange($event: any) {
-    this.router.navigate(
-      [],
-      {
+    this.router
+      .navigate([], {
         relativeTo: this.route,
         queryParams: {tab: $event.nextId},
         queryParamsHandling: 'merge',
-      }).then();
+      })
+      .then();
   }
 
   onSave(f: NgForm) {

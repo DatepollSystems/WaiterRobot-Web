@@ -9,9 +9,10 @@ import {AbstractModelService} from '../_services/abstract-model.service';
   template: '',
 })
 export abstract class AbstractModelsComponent<EntityType extends AbstractEntityWithName<number>> extends AbstractComponent {
-  selectedModelToShow = 'default';
-  allModels: EntityType[] = [];
   private lumber = LoggerFactory.getLogger('AbstractModelsListComponentById');
+
+  public selectedModelToShow = 'default';
+  public allModels: EntityType[] = [];
 
   protected constructor(protected router: Router, protected modelsService: AbstractModelService<EntityType>) {
     super();
@@ -24,11 +25,11 @@ export abstract class AbstractModelsComponent<EntityType extends AbstractEntityW
     );
   }
 
-  linkClick() {
+  public linkClick() {
     this.selectedModelToShow = 'default';
   }
 
-  showModel(value: any) {
+  public showModel(value: any) {
     if (value.includes('default')) {
       return;
     }

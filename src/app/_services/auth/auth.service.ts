@@ -101,7 +101,6 @@ export class AuthService {
     localStorage.clear();
   }
 
-
   public isAuthenticated(): boolean {
     return this.getSessionToken() != undefined;
   }

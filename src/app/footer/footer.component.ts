@@ -8,11 +8,9 @@ import {TranslateService} from 'dfx-translate';
   styleUrls: ['./footer.component.css'],
 })
 export class FooterComponent {
-    selected: string | null;
+  selected: string | null;
 
-  constructor(
-    private translate: TranslateService
-  ) {
+  constructor(private translate: TranslateService) {
     this.selected = localStorage.getItem('language');
     if (this.selected == null) {
       this.selected = 'de';

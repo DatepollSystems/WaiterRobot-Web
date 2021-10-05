@@ -3,8 +3,8 @@ import {Directive, EventEmitter, Input, NgModule, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 export type SortDirection = 'asc' | 'desc' | '';
-const rotate: { [key: string]: SortDirection } = {'asc': 'desc', 'desc': '', '': 'asc'};
-export const compare = (v1: any, v2: any) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
+const rotate: {[key: string]: SortDirection} = {asc: 'desc', desc: '', '': 'asc'};
+export const compare = (v1: any, v2: any) => (v1 < v2 ? -1 : v1 > v2 ? 1 : 0);
 
 export interface SortEvent {
   column: string;
@@ -17,8 +17,8 @@ export interface SortEvent {
     '[class.sortable-header]': 'true',
     '[class.asc]': 'direction === "asc"',
     '[class.desc]': 'direction === "desc"',
-    '(click)': 'rotate()'
-  }
+    '(click)': 'rotate()',
+  },
 })
 export class SortableHeader {
   @Input() sortable: string = '';
@@ -31,13 +31,9 @@ export class SortableHeader {
   }
 }
 
-
 @NgModule({
   declarations: [SortableHeader],
   imports: [CommonModule],
-  exports: [
-    SortableHeader
-  ]
+  exports: [SortableHeader],
 })
-export class SortableHeaderModule {
-}
+export class SortableHeaderModule {}

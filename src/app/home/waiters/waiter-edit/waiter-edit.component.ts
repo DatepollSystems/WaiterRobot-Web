@@ -43,7 +43,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     this.autoUnsubscribe(
       this.eventsService.allChange.subscribe((events) => {
         this.events = events.clone();
-        this.refreshValues();
+        this.onValuesRefresh();
       })
     );
 
@@ -67,7 +67,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     );
   }
 
-  override refreshValues() {
+  override onValuesRefresh() {
     if (!this.events || !this.entity) {
       return;
     }

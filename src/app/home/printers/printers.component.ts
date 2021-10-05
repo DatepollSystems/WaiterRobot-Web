@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-printers',
   templateUrl: './printers.component.html',
-  styleUrls: ['./printers.component.scss']
+  styleUrls: ['./printers.component.scss'],
 })
 export class PrintersComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

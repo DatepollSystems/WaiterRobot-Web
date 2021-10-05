@@ -16,7 +16,7 @@ export abstract class AbstractModelsListComponentById<
   EntityType extends AbstractEntity<number>
 > extends AbstractModelsListComponent<EntitiesType> {
   protected abstract getAllUrl: string;
-  entity: EntityType | undefined;
+  public entity: EntityType | undefined;
 
   protected constructor(
     modelService: AbstractModelService<EntitiesType>,

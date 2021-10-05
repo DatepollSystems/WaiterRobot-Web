@@ -21,14 +21,24 @@ const startRoutes: Routes = [
     children: [
       {path: 'all', component: AllOrganisationsComponent},
       {path: ':id', component: OrganisationEditComponent},
-      {path: '', pathMatch: 'full', redirectTo: '/home/organisations/all'}
+      {path: '', pathMatch: 'full', redirectTo: '/home/organisations/all'},
     ],
   },
 ];
 
 @NgModule({
   declarations: [OrganisationsComponent, OrganisationEditComponent, AllOrganisationsComponent],
-  imports: [CommonModule, DfxTranslateModule, RouterModule.forChild(startRoutes), FlexLayoutModule, SortableHeaderModule, IconsModule, NgbNavModule, FormsModule, NgbTooltipModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    DfxTranslateModule,
+    RouterModule.forChild(startRoutes),
+    FlexLayoutModule,
+    SortableHeaderModule,
+    IconsModule,
+    NgbNavModule,
+    FormsModule,
+    NgbTooltipModule,
+    ReactiveFormsModule,
+  ],
 })
-export class OrganisationsModule {
-}
+export class OrganisationsModule {}

@@ -15,10 +15,10 @@ import {QuestionDialogComponent} from './question-dialog/question-dialog.compone
 export abstract class AbstractModelsListComponent<EntityType extends AbstractEntity<number>> extends AbstractComponent {
   protected lumber = LoggerFactory.getLogger('AModelsListComponent');
 
-  @ViewChildren(SortableHeader) headers: QueryList<SortableHeader> | undefined;
+  @ViewChildren(SortableHeader) public headers: QueryList<SortableHeader> | undefined;
   public filter = new FormControl('');
 
-  protected entities!: IList<EntityType>;
+  public entities!: IList<EntityType>;
   public entitiesCopy!: IList<EntityType>;
   public entitiesLoaded = false;
 
@@ -61,7 +61,7 @@ export abstract class AbstractModelsListComponent<EntityType extends AbstractEnt
     return undefined;
   }
 
-  onDelete(modelId: number): void {
+  public onDelete(modelId: number): void {
     const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
     modalRef.componentInstance.title = 'DELETE_CONFIRMATION';
     modalRef.result.then(
@@ -74,7 +74,7 @@ export abstract class AbstractModelsListComponent<EntityType extends AbstractEnt
     );
   }
 
-  onSort({column, direction}: SortEvent): boolean | void {
+  public onSort({column, direction}: SortEvent): boolean | void {
     if (this.headers == null) {
       return;
     }

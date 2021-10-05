@@ -13,12 +13,12 @@ import {QuestionDialogComponent} from './question-dialog/question-dialog.compone
 })
 export abstract class AbstractModelEditComponent<EntityType extends AbstractEntityWithName<number>> extends AbstractComponent {
   protected abstract redirectUrl: string;
+  protected onlyEditingTabs: number[] = [];
 
   protected lumber = LoggerFactory.getLogger('AModelEditComponent');
 
   public isEditing = false;
   public activeTab = 1;
-  protected onlyEditingTabs: number[] = [];
 
   public entity: EntityType | undefined;
   public entityLoaded = false;
@@ -49,17 +49,17 @@ export abstract class AbstractModelEditComponent<EntityType extends AbstractEnti
           this.entity = this.modelService.getSingle(nId);
           if (this.entity?.id == nId) {
             this.entityLoaded = true;
-            this.refreshValues();
+            this.onValuesRefresh();
           }
           this.autoUnsubscribe(
             this.modelService.singleChange.subscribe((value) => {
               this.entity = value;
               this.entityLoaded = true;
-              this.refreshValues();
+              this.onValuesRefresh();
             })
           );
         } else {
-          this.refreshValues();
+          this.onValuesRefresh();
           this.isEditing = false;
           this.lumber.info('const', 'Create new model');
           this.checkTab();
@@ -70,7 +70,25 @@ export abstract class AbstractModelEditComponent<EntityType extends AbstractEnti
     });
   }
 
-  public refreshValues(): void {}
+  private checkTab(): void {
+    if (this.onlyEditingTabs.includes(this.activeTab)) {
+      this.activeTab = 1;
+    }
+  }
+
+  private goToRedirectUrl(): void {
+    this.router.navigateByUrl(this.redirectUrl).then();
+  }
+
+  protected onValuesRefresh(): void {}
+
+  protected addCustomAttributesToModel(model: any): any {
+    return model;
+  }
+
+  protected addCustomFilter(model: any): boolean {
+    return true;
+  }
 
   public onTabChange($event: any): void {
     this.router
@@ -83,10 +101,10 @@ export abstract class AbstractModelEditComponent<EntityType extends AbstractEnti
   }
 
   public onSave(form: NgForm): void {
-    if (!this.checkFilter()) {
+    let model = form.form.value;
+    if (!this.addCustomFilter(model)) {
       return;
     }
-    let model = form.form.value;
     model = this.addCustomAttributesToModel(model);
     if (this.isEditing && this.entity?.id != null) {
       model.id = this.entity?.id;
@@ -96,14 +114,6 @@ export abstract class AbstractModelEditComponent<EntityType extends AbstractEnti
     }
     this.lumber.info('onSave', 'Model edit form value object', model);
     this.goToRedirectUrl();
-  }
-
-  protected addCustomAttributesToModel(model: any): any {
-    return model;
-  }
-
-  protected checkFilter(): boolean {
-    return true;
   }
 
   public onDelete(modelId: number): void {
@@ -124,15 +134,5 @@ export abstract class AbstractModelEditComponent<EntityType extends AbstractEnti
     // We should probably use Angular's location.back();
     // but because this is a fully functional javascript feature we will use it till there is no tomorrow
     history.back();
-  }
-
-  private checkTab(): void {
-    if (this.onlyEditingTabs.includes(this.activeTab)) {
-      this.activeTab = 1;
-    }
-  }
-
-  private goToRedirectUrl(): void {
-    this.router.navigateByUrl(this.redirectUrl).then();
   }
 }

@@ -59,19 +59,19 @@ export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
     return model;
   }
 
-  override checkFilter(): boolean {
+  override addCustomFilter(model: any): boolean {
     if (this.selectedTableGroup.includes('default')) {
       this.notificationService.twarning('HOME_TABLES_GROUPS_DEFAULT');
       return false;
     }
-    return super.checkFilter();
+    return super.addCustomFilter(model);
   }
 
-  override refreshValues() {
+  override onValuesRefresh() {
     if (this.isEditing && this.entity) {
       this.selectedTableGroup = Converter.numberToString(this.entity?.group_id);
     }
-    super.refreshValues();
+    super.onValuesRefresh();
   }
 
   selectTableGroup(value: any) {

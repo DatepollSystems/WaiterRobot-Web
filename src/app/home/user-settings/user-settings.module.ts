@@ -19,7 +19,7 @@ const startRoutes: Routes = [
     children: [
       {path: 'settings', component: UserSettingsSubComponent},
       {path: 'sessions', component: SessionsComponent},
-      {path: '', pathMatch: 'full', redirectTo: '/home/usettings/settings'}
+      {path: '', pathMatch: 'full', redirectTo: '/home/usettings/settings'},
     ],
   },
 ];
@@ -28,5 +28,4 @@ const startRoutes: Routes = [
   declarations: [UserSettingsComponent, UserSettingsSubComponent, SessionsComponent],
   imports: [CommonModule, DfxTranslateModule, RouterModule.forChild(startRoutes), FlexLayoutModule, SortableHeaderModule, IconsModule],
 })
-export class UserSettingsModule {
-}
+export class UserSettingsModule {}

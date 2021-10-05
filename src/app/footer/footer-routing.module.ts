@@ -11,13 +11,13 @@ const footerRoutes: Routes = [
     component: InfoComponent,
     children: [
       {path: 'imprint', component: ImprintComponent},
-      {path: 'privacypolicy', component: PrivacyPolicyComponent}
-    ]
-  }
+      {path: 'privacypolicy', component: PrivacyPolicyComponent},
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(footerRoutes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class FooterRoutingModule {}

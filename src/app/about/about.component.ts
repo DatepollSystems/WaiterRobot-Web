@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {AuthService} from '../_services/auth/auth.service';
 import {Router} from '@angular/router';
@@ -7,14 +7,12 @@ import {NotificationService} from '../_services/notifications/notification.servi
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
-  styleUrls: ['./about.component.scss']
+  styleUrls: ['./about.component.scss'],
 })
 export class AboutComponent implements OnInit {
+  constructor(private authService: AuthService, private notificationService: NotificationService, private router: Router) {}
 
-  constructor(private authService: AuthService, private notificationService: NotificationService, private router: Router) { }
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onSignin(form: NgForm): void {
     const username = form.value.username;
@@ -44,5 +42,4 @@ export class AboutComponent implements OnInit {
       }
     );
   }
-
 }

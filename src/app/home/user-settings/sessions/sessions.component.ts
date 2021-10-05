@@ -9,10 +9,9 @@ import {SessionsModel} from '../../../_models/session.model';
 @Component({
   selector: 'app-sessions',
   templateUrl: './sessions.component.html',
-  styleUrls: ['./sessions.component.scss']
+  styleUrls: ['./sessions.component.scss'],
 })
 export class SessionsComponent implements OnDestroy {
-
   constructor(private sessionsService: SessionsService) {
     this.sessions = this.sessionsService.getAll();
     this.sessionsCopy = this.sessions.slice();
@@ -20,8 +19,8 @@ export class SessionsComponent implements OnDestroy {
       this.sessions = value;
       this.sessionsCopy = this.sessions.slice();
     });
-
   }
+
   sessions: SessionsModel[];
   sessionsCopy: SessionsModel[];
   sessionsSubscription: Subscription;
@@ -36,12 +35,12 @@ export class SessionsComponent implements OnDestroy {
     this.sessionsService.delete(id);
   }
 
-  onSort({column, direction}: SortEvent): boolean|void {
+  onSort({column, direction}: SortEvent): boolean | void {
     if (this.headers == null) {
       return;
     }
 
-    this.headers.forEach(header => {
+    this.headers.forEach((header) => {
       if (header.sortable !== column) {
         header.direction = '';
       }

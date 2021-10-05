@@ -8,14 +8,14 @@ import {OrganisationModel} from '../../_models/organisation.model';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.scss']
+  styleUrls: ['./products.component.scss'],
 })
 export class ProductsComponent implements OnDestroy {
   products: ProductsModel[];
   productsCopy: ProductsModel[] | undefined;
   productsSubscription: Subscription;
 
-  selectedOrganisation: OrganisationModel|undefined;
+  selectedOrganisation: OrganisationModel | undefined;
   selectedOrganisationSubscription: Subscription;
 
   constructor(private productsService: ProductsService, private organisationsService: OrganisationsService) {
@@ -26,7 +26,7 @@ export class ProductsComponent implements OnDestroy {
     });
 
     this.selectedOrganisation = this.organisationsService.getSelected();
-    this.selectedOrganisationSubscription = this.organisationsService.selectedChange.subscribe(value => {
+    this.selectedOrganisationSubscription = this.organisationsService.selectedChange.subscribe((value) => {
       this.selectedOrganisation = value;
     });
   }
@@ -35,5 +35,4 @@ export class ProductsComponent implements OnDestroy {
     this.productsSubscription.unsubscribe();
     this.selectedOrganisationSubscription.unsubscribe();
   }
-
 }
