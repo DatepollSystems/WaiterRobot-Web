@@ -14,7 +14,5 @@ updates:
       - "dependencies"
     assignees:
       - "Dafnik"
-    reviewer:
-      - "kaulex"
     commit-message:
       prefix: "[dependabot]"
