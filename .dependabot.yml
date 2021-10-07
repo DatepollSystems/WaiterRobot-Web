@@ -1,18 +1,21 @@
 version: 2
 updates:
   # Maintain dependencies for npm
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "daily"
-      time: "09:00"
-      timezone: "Europe/Vienna"
-    target-branch: "develop"
-    open-pull-requests-limit: 20
+  - package-ecosystem: 'npm'
+    directory: '/'
+    target-branch: 'develop'
     labels:
-      - "npm"
-      - "dependencies"
-    assignees:
-      - "Dafnik"
+      - 'npm'
+      - 'dependencies'
     commit-message:
-      prefix: "[dependabot]"
+      prefix: '[dependabot]'
+    assignees:
+      - 'Dafnik'
+    open-pull-requests-limit: 20
+    schedule:
+      interval: 'daily'
+      time: '09:00'
+      timezone: 'Europe/Vienna'
+    ignore:
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
