@@ -5,10 +5,12 @@ import {OrganisationsService} from '../_services/organisations.service';
 import {EventsService} from '../_services/events.service';
 import {MyUserService} from '../_services/my-user.service';
 
+import {AbstractComponent, Converter, LoggerFactory} from 'dfx-helper';
+import {EnvironmentHelper} from '../_helper/EnvironmentHelper';
+
 import {OrganisationModel} from '../_models/organisation.model';
 import {EventModel} from '../_models/event.model';
 import {UserModel} from '../_models/user.model';
-import {AbstractComponent, Converter, LoggerFactory} from 'dfx-helper';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +18,7 @@ import {AbstractComponent, Converter, LoggerFactory} from 'dfx-helper';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent extends AbstractComponent implements OnInit {
+  environmentType = 'prod';
   lumber = LoggerFactory.getLogger('HomeComponent');
 
   adminModeChanged = false;
@@ -31,6 +34,8 @@ export class HomeComponent extends AbstractComponent implements OnInit {
     private eventsService: EventsService
   ) {
     super();
+
+    this.environmentType = EnvironmentHelper.getType();
 
     this.myUser = this.myUserService.getUser();
     this.autoUnsubscribe(

@@ -1,8 +1,8 @@
 <div fxLayout="row break" fxLayoutAlign="space-between center" [hidden]="!entitiesLoaded">
   <h1>"{{ entity?.name }}" {{ 'HOME_TABLE_GROUP_TABLES_VIEW' | tr }}</h1>
-  <a routerLink="../create" class="btn btn-outline-success">
-    <bi name="plus-circle"></bi>
-    {{ 'ADD_2' | tr }}</a
+  <a routerLink="../../{{ entity?.id }}" class="btn btn-outline-success">
+    <bi name="pencil-square"></bi>
+    {{ 'EDIT' | tr }}</a
   >
 </div>
 

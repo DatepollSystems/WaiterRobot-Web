@@ -36,6 +36,17 @@
         </select>
       </div>
     </div>
+
+    <a
+      *ngFor="let tableGroup of this.allModels"
+      [fxHide.lt-lg]="true"
+      class="list-group-item list-group-item-action"
+      routerLink="/home/tables/groups/tables/{{ tableGroup.id }}"
+      routerLinkActive="active"
+      (click)="linkClick()"
+    >
+      {{ tableGroup.name }}</a
+    >
   </div>
   <div fxFlex="70%" fxFlex.gt-lg="82%">
     <div class="card bg-dark">

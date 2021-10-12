@@ -3,7 +3,8 @@ declare const require: any;
 export const environment = {
   version: require('../../package.json').version,
   production: false,
-  apiUrl: 'http://localhost:3000/api'
+  type: 'dev',
+  apiUrl: 'http://localhost:3000/api',
 };
 
 /*
