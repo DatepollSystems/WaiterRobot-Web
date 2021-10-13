@@ -3,8 +3,10 @@
     <a class="navbar-brand" routerLink="/home">
       <img src="assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="Brand logo" /> WaiterRobot
     </a>
-    <span *ngIf="environmentType === 'dev'" class="badge bg-primary p-2">DEV</span>
-    <span *ngIf="environmentType === 'testing'" class="badge bg-warning text-dark p-2">TESTING</span>
+    <div *ngIf="environmentType !== 'prod'" class="badge bg-warning text-dark me-2 not-selectable">
+      <span *ngIf="environmentType === 'dev'">DEV</span>
+      <span *ngIf="environmentType === 'testing'">TESTING</span>
+    </div>
     <button
       class="navbar-toggler"
       type="button"

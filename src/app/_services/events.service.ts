@@ -2,14 +2,14 @@ import {Injectable} from '@angular/core';
 
 import {HttpService} from './http.service';
 import {OrganisationsService} from './organisations.service';
-import {AbstractSelectedModelService} from './abstract-model.service';
+import {AbstractSelectableModelService} from './abstract-model.service';
 
 import {EventModel} from '../_models/event.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class EventsService extends AbstractSelectedModelService<EventModel> {
+export class EventsService extends AbstractSelectableModelService<EventModel> {
   protected selectedStorageKey = 'selected_event';
 
   constructor(httpService: HttpService, private organisationsService: OrganisationsService) {

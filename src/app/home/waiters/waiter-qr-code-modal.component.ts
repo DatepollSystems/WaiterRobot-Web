@@ -13,11 +13,12 @@ import {WaiterModel} from '../../_models/waiter.model';
     </div>
     <div class="modal-body" fxLayout="row" fxLayoutAlign="center">
       <qr-code
-        value="{{ waiter?.token }}"
-        size="{{ isMobile ? '340' : '700' }}"
+        [value]="waiter?.token"
+        [size]="isMobile ? '340' : '700'"
         errorCorrectionLevel="H"
+        [margin]="1"
         centerImageSrc="./assets/logo.png"
-        centerImageSize="{{ isMobile ? '50' : '100' }}"
+        [centerImageSize]="isMobile ? '50' : '100'"
       >
       </qr-code>
     </div>

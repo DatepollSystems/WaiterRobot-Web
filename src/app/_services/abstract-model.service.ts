@@ -2,7 +2,7 @@ import {AbstractEntity, AbstractEntityService, AbstractSelectableEntityService} 
 
 export abstract class AbstractModelService<EntityType extends AbstractEntity<number>> extends AbstractEntityService<number, EntityType> {}
 
-export abstract class AbstractSelectedModelService<EntityType extends AbstractEntity<number>> extends AbstractSelectableEntityService<
+export abstract class AbstractSelectableModelService<EntityType extends AbstractEntity<number>> extends AbstractSelectableEntityService<
   number,
   EntityType
 > {}
