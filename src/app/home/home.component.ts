@@ -98,7 +98,7 @@ export class HomeComponent extends AbstractComponent implements OnInit {
     }
   }
 
-  switchAdminMode() {
+  switchAdminMode(): void {
     if (this.myUser) {
       this.adminModeChanged = !this.adminModeChanged;
       this.myUser.is_admin = !this.myUser.is_admin;
@@ -111,7 +111,7 @@ export class HomeComponent extends AbstractComponent implements OnInit {
     this.authService.logout();
   }
 
-  onSelectEvent(event: EventModel) {
+  onSelectEvent(event: EventModel): void {
     this.eventsService.setSelected(event);
   }
 }

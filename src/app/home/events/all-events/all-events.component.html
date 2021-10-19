@@ -2,7 +2,7 @@
   <h1>{{ 'NAV_EVENTS' | tr }}</h1>
   <div *ngIf="myUser?.is_admin">
     <a routerLink="../create" class="btn btn-outline-success">
-      <bi name="plus-circle"></bi>
+      <i-bs name="plus-circle"></i-bs>
       {{ 'ADD_2' | tr }}</a
     >
   </div>
@@ -23,9 +23,8 @@
       ngbTooltip="{{ 'CLEAR' | tr }}"
       placement="bottom"
       (click)="filter.reset()"
-      *ngIf="filter?.value?.length > 0"
-    >
-      <bi name="x-circle-fill"></bi>
+      *ngIf="filter?.value?.length > 0">
+      <i-bs name="x-circle-fill"></i-bs>
     </button>
   </div>
 </form>
@@ -58,21 +57,19 @@
             type="button"
             class="btn btn-sm m-1 btn-outline-primary text-white"
             (click)="onSelect(event)"
-            ngbTooltip="{{ 'SELECT' | tr }}"
-          >
-            <bi name="check2-square"></bi>
+            ngbTooltip="{{ 'SELECT' | tr }}">
+            <i-bs name="check2-square"></i-bs>
           </button>
           <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ event.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
-            <bi name="pencil-square"></bi>
+            <i-bs name="pencil-square"></i-bs>
           </a>
           <button
             type="button"
             class="btn btn-sm m-1 btn-outline-danger text-white"
             ngbTooltip="{{ 'DELETE' | tr }}"
             (click)="onDelete(event.id)"
-            *ngIf="myUser?.is_admin"
-          >
-            <bi name="trash"></bi>
+            *ngIf="myUser?.is_admin">
+            <i-bs name="trash"></i-bs>
           </button>
         </td>
       </tr>

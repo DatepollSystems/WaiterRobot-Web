@@ -5,7 +5,7 @@ import {IsMobileService} from 'dfx-helper';
 import {WaiterModel} from '../../_models/waiter.model';
 
 @Component({
-  selector: 'qrcode-modal',
+  selector: 'app-waiter-qrcode-modal',
   template: `
     <div class="modal-header">
       <h4 class="modal-title" id="modal-qrcode-title">{{ 'HOME_WAITERS_SHOW_QR_CODE' | tr }} "{{ waiter?.name }}"</h4>
@@ -18,8 +18,7 @@ import {WaiterModel} from '../../_models/waiter.model';
         errorCorrectionLevel="H"
         [margin]="1"
         centerImageSrc="./assets/logo.png"
-        [centerImageSize]="isMobile ? '50' : '100'"
-      >
+        [centerImageSize]="isMobile ? '50' : '100'">
       </qr-code>
     </div>
     <div class="modal-footer">
@@ -27,7 +26,7 @@ import {WaiterModel} from '../../_models/waiter.model';
     </div>
   `,
 })
-export class WaiterQRCodeModal {
+export class WaiterQRCodeModalComponent {
   @Input() waiter: WaiterModel | undefined;
   isMobile = false;
 

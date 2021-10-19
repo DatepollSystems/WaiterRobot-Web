@@ -18,8 +18,8 @@ export class FooterComponent {
   }
 
   setLang(event: any): void {
-    const oldLanguage = localStorage.getItem('language');
-    this.translate.use(event);
+    // const oldLanguage = localStorage.getItem('language');
+    void this.translate.use(event);
 
     // const snackBarRef = this.snackBar.open(this.translate.translate('LANGUAGE_CHANGED_TO') + this.selected, 'Undo');
     // snackBarRef.onAction().subscribe(() => {

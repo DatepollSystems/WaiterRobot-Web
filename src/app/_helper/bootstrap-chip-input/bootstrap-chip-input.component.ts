@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
@@ -12,7 +12,7 @@ import {AbstractEntityWithName, EntityList, IList} from 'dfx-helper';
 })
 export class BootstrapChipInputComponent implements OnChanges {
   loaded = true;
-  formatter = (result: AbstractEntityWithName<number>) => result.name;
+  formatter = (result: AbstractEntityWithName<number>): string => result.name;
   formCtrl = new FormControl();
 
   /**
@@ -42,9 +42,7 @@ export class BootstrapChipInputComponent implements OnChanges {
   @Output()
   valueChange = new EventEmitter<IList<AbstractEntityWithName<number>>>();
 
-  constructor() {}
-
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(): void {
     this.allModelsToAutoComplete.removeIfPresent(this.models);
   }
 
@@ -56,13 +54,13 @@ export class BootstrapChipInputComponent implements OnChanges {
       map((term) => this.allModelsToAutoComplete.filter((event) => new RegExp(term, 'mi').test(event.name)).slice(0, 10))
     );
 
-  remove(value: AbstractEntityWithName<number>) {
+  remove(value: AbstractEntityWithName<number>): void {
     this.models.removeIfPresent(value);
     this.allModelsToAutoComplete.addIfAbsent(value);
     this.emitChange();
   }
 
-  selectModel(event: any) {
+  selectModel(event: any): void {
     const model = event.item;
     if (!model) {
       return;

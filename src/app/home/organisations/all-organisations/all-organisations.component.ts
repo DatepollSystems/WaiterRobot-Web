@@ -44,7 +44,7 @@ export class AllOrganisationsComponent extends AbstractModelsListComponent<Organ
     return undefined;
   }
 
-  onSelect(organisation: OrganisationModel) {
+  onSelect(organisation: OrganisationModel): void {
     this.organisationsService.setSelected(organisation);
   }
 }

@@ -1,27 +1,41 @@
 <div fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap.lt-md="4%">
   <div class="list-group" fxFlex="22%" fxFlex.gt-lg="15%">
-    <a class="list-group-item list-group-item-action" routerLink="all"
-       routerLinkActive="active">
-      <bi name="building"></bi>
-      {{ 'HOME_ORGS_ALL' | tr }}</a>
+    <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
+      <i-bs name="building"></i-bs>
+      {{ 'HOME_ORGS_ALL' | tr }}</a
+    >
 
-    <a class="list-group-item list-group-item-action" routerLink="/home/organisations/create"
-       routerLinkActive="active" *ngIf="myUser?.is_admin">
-      <bi name="plus-circle"></bi>
-      {{ 'ADD_2' | tr }}</a>
+    <a
+      class="list-group-item list-group-item-action"
+      routerLink="/home/organisations/create"
+      routerLinkActive="active"
+      *ngIf="myUser?.is_admin">
+      <i-bs name="plus-circle"></i-bs>
+      {{ 'ADD_2' | tr }}</a
+    >
 
-    <a class="list-group-item list-group-item-action" routerLink="{{selectedOrganisation?.id}}"
-       *ngIf="selectedOrganisation"
-       routerLinkActive="active"><b>{{selectedOrganisation.name}}</b></a>
+    <a
+      class="list-group-item list-group-item-action"
+      routerLink="{{ selectedOrganisation?.id }}"
+      *ngIf="selectedOrganisation"
+      routerLinkActive="active"
+      ><b>{{ selectedOrganisation.name }}</b></a
+    >
 
     <ng-container *ngFor="let organisation of this.organisations.slice(0, maxOrgsCount)">
-      <a class="list-group-item list-group-item-action" routerLink="{{organisation.id}}" fxHide.lt-md="true"
-         *ngIf="organisation.id != selectedOrganisation?.id"
-         routerLinkActive="active">{{organisation.name}}</a>
+      <a
+        class="list-group-item list-group-item-action"
+        routerLink="{{ organisation.id }}"
+        fxHide.lt-md="true"
+        *ngIf="organisation.id !== selectedOrganisation?.id"
+        routerLinkActive="active"
+        >{{ organisation.name }}</a
+      >
     </ng-container>
 
-    <a class="list-group-item list-group-item-action" routerLink="all"
-       *ngIf="this.organisations.length > maxOrgsCount">{{'SHOW_MORE' | tr}}</a>
+    <a class="list-group-item list-group-item-action" routerLink="all" *ngIf="this.organisations.length > maxOrgsCount">{{
+      'SHOW_MORE' | tr
+    }}</a>
   </div>
   <div fxFlex="76%" fxFlex.gt-lg="82%">
     <div class="card bg-dark">

@@ -5,9 +5,8 @@
       routerLink="organisation"
       *ngIf="selectedOrganisation"
       routerLinkActive="active"
-      (click)="linkClick()"
-    >
-      <bi name="people"></bi>
+      (click)="linkClick()">
+      <i-bs name="people"></i-bs>
       "{{ selectedOrganisation?.name }}" {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</a
     >
 
@@ -16,15 +15,14 @@
       routerLink="event/{{ selectedEvent?.id }}"
       *ngIf="selectedEvent"
       routerLinkActive="active"
-      (click)="linkClick()"
-    >
-      <bi name="people"></bi>
+      (click)="linkClick()">
+      <i-bs name="people"></i-bs>
       "{{ selectedEvent?.name }}" {{ 'HOME_WAITERS_NAV_EVENTS' | tr }}</a
     >
 
     <div class="list-group-item">
       <div class="input-group">
-        <span class="input-group-text" id="selectEvent-addon1"><bi name="people"></bi></span>
+        <span class="input-group-text" id="selectEvent-addon1"><i-bs name="people"></i-bs></span>
         <select class="form-select" id="selectEvent" [(ngModel)]="selectedModelToShow" (ngModelChange)="showModel($event)">
           <option value="default">{{ 'HOME_WAITERS_NAV_SELECT_EVENT' | tr }}</option>
           <option value="/home/waiters/event/{{ eventModel.id }}" *ngFor="let eventModel of this.allModels">{{ eventModel.name }}</option>
@@ -33,7 +31,7 @@
     </div>
 
     <a class="list-group-item list-group-item-action" routerLink="/home/waiters/create" routerLinkActive="active" (click)="linkClick()">
-      <bi name="plus-circle"></bi>
+      <i-bs name="plus-circle"></i-bs>
       {{ 'ADD_2' | tr }}</a
     >
   </div>

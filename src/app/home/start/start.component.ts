@@ -7,7 +7,7 @@ import {EnvironmentHelper} from '../../_helper/EnvironmentHelper';
   styleUrls: ['./start.component.scss'],
 })
 export class StartComponent {
-  isProduction: boolean = true;
+  isProduction = true;
 
   constructor() {
     this.isProduction = EnvironmentHelper.getProduction();

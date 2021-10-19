@@ -25,15 +25,15 @@ export abstract class AbstractModelsComponent<EntityType extends AbstractEntityW
     );
   }
 
-  public linkClick() {
+  public linkClick(): void {
     this.selectedModelToShow = 'default';
   }
 
-  public showModel(value: any) {
+  public showModel(value: string): void {
     if (value.includes('default')) {
       return;
     }
     this.lumber.info('showModel', 'Showing model "' + value + '"');
-    this.router.navigateByUrl(value).then();
+    void this.router.navigateByUrl(value).then();
   }
 }

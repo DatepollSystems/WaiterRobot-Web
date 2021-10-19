@@ -5,7 +5,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {TablesService} from '../../../_services/tables.service';
 import {TableGroupsService} from '../../../_services/table-groups.service';
-import {AbstractModelsListComponentById} from '../../../_helper/abstract-models-list-by-id.component';
+import {AbstractModelsListByIdComponent} from '../../../_helper/abstract-models-list-by-id.component';
 
 import {TableModel} from '../../../_models/table.model';
 import {TableGroupModel} from '../../../_models/table-group.model';
@@ -15,7 +15,7 @@ import {TableGroupModel} from '../../../_models/table-group.model';
   templateUrl: './table-group-by-id-tables.component.html',
   styleUrls: ['./table-group-by-id-tables.component.scss'],
 })
-export class TableGroupByIdTablesComponent extends AbstractModelsListComponentById<TableModel, TableGroupModel> {
+export class TableGroupByIdTablesComponent extends AbstractModelsListByIdComponent<TableModel, TableGroupModel> {
   //TODO: Change to group_id
   override getAllUrl = '/config/table?group_id=';
 

@@ -47,7 +47,7 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
     );
   }
 
-  onSelect(organisation: OrganisationModel | undefined) {
+  onSelect(organisation: OrganisationModel | undefined): void {
     this.organisationsService.setSelected(organisation);
   }
 }

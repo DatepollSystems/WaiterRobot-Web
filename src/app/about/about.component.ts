@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {AuthService} from '../_services/auth/auth.service';
 import {Router} from '@angular/router';
+
+import {AuthService} from '../_services/auth/auth.service';
 import {NotificationService} from '../_services/notifications/notification.service';
 
 @Component({
@@ -9,10 +10,8 @@ import {NotificationService} from '../_services/notifications/notification.servi
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent {
   constructor(private authService: AuthService, private notificationService: NotificationService, private router: Router) {}
-
-  ngOnInit(): void {}
 
   onSignin(form: NgForm): void {
     const username = form.value.username;
@@ -24,7 +23,7 @@ export class AboutComponent implements OnInit {
         this.authService.setSessionToken(data.session_token);
         this.notificationService.tsuccess('ABOUT_SIGNIN_SUCCESSFUL');
         const url = this.authService.redirectUrl != null ? this.authService.redirectUrl : '/home';
-        this.router.navigateByUrl(url).then();
+        void this.router.navigateByUrl(url);
       },
       (error) => {
         console.log(error);

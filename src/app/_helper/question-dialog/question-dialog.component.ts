@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'question-modal',
+  selector: 'app-question-modal',
   template: `
     <div class="modal-header">
       <h4 class="modal-title" id="modal-question-title">{{ (title ? title : question) | tr }}</h4>
@@ -52,7 +52,7 @@ export class QuestionDialogComponent {
 
   constructor(public activeModal: NgbActiveModal) {}
 
-  answerQuestion(value: string) {
+  answerQuestion(value: string): void {
     this.activeModal.close(value);
   }
 }

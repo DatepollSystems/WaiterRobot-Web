@@ -31,7 +31,7 @@ export class MyUserService {
     );
   }
 
-  public setUser(user: UserModel) {
+  public setUser(user: UserModel): void {
     this.user = user;
     this.userChange.next(this.user);
   }

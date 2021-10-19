@@ -1,7 +1,7 @@
 import {Component, OnDestroy, QueryList, ViewChildren} from '@angular/core';
 import {Subscription} from 'rxjs';
 
-import {compare, SortableHeader, SortEvent} from '../../../_helper/table-sortable';
+import {compare, SortableHeaderDirective, SortEvent} from '../../../_helper/table-sortable';
 
 import {SessionsService} from '../../../_services/sessions.service';
 import {SessionsModel} from '../../../_models/session.model';
@@ -25,13 +25,13 @@ export class SessionsComponent implements OnDestroy {
   sessionsCopy: SessionsModel[];
   sessionsSubscription: Subscription;
 
-  @ViewChildren(SortableHeader) headers: QueryList<SortableHeader> | undefined;
+  @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective> | undefined;
 
   ngOnDestroy(): void {
     this.sessionsSubscription.unsubscribe();
   }
 
-  onDelete(id: number) {
+  onDelete(id: number): void {
     this.sessionsService.delete(id);
   }
 
@@ -50,8 +50,7 @@ export class SessionsComponent implements OnDestroy {
       this.sessionsCopy = this.sessions.slice();
     } else {
       this.sessionsCopy = [...this.sessions].sort((a, b) => {
-        // @ts-ignore
-        const res = compare(a[column], b[column]);
+        const res = compare((a as any)[column], (b as any)[column]);
         return direction === 'asc' ? res : -res;
       });
     }

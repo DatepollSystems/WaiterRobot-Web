@@ -10,13 +10,13 @@
     <ng-container *ngIf="isEditing && entity">
       <div>
         <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit()" [disabled]="!f.valid">
-          <bi name="save"></bi>
+          <i-bs name="save"></i-bs>
           {{ 'SAVE' | tr }}
         </button>
       </div>
       <div>
         <button class="btn btn-sm btn-outline-danger my-2 my-md-0" (click)="onDelete(entity.id)">
-          <bi name="trash"></bi>
+          <i-bs name="trash"></i-bs>
           {{ 'DELETE' | tr }}
         </button>
       </div>
@@ -24,8 +24,8 @@
 
     <div *ngIf="!isEditing">
       >
-      <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit()" [disabled]="f == null || !f.valid">
-        <bi name="plus-circle"></bi>
+      <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit()" [disabled]="!f || !f.valid">
+        <i-bs name="plus-circle"></i-bs>
         {{ 'ADD' | tr }}
       </button>
     </div>
@@ -49,8 +49,7 @@
                 #firstnameModel="ngModel"
                 minlength="3"
                 placeholder="{{ 'FIRSTNAME' | tr }}"
-                [ngModel]="isEditing ? entity?.firstname : null"
-              />
+                [ngModel]="isEditing ? entity?.firstname : null" />
 
               <small *ngIf="firstnameModel.invalid" class="text-danger">
                 {{ 'HOME_USERS_NAME_INCORRECT' | tr }}
@@ -69,8 +68,7 @@
                 #surnameModel="ngModel"
                 minlength="3"
                 placeholder="{{ 'SURNAME' | tr }}"
-                [ngModel]="isEditing ? entity?.surname : null"
-              />
+                [ngModel]="isEditing ? entity?.surname : null" />
               <small *ngIf="surnameModel.invalid" class="text-danger">
                 {{ 'HOME_USERS_NAME_INCORRECT' | tr }}
               </small>
@@ -90,10 +88,9 @@
                 name="birthday"
                 minlength="3"
                 placeholder="{{ 'HOME_USERS_BIRTHDAY' | tr }}"
-                [ngModel]="isEditing ? entity?.birthday : null"
-              />
+                [ngModel]="isEditing ? entity?.birthday : null" />
               <small *ngIf="birthdayModel.invalid" class="text-danger">
-                {{ 'HOME_USERS_BIRTHDAY_INCORRECT' | tr }}
+                {{ 'HOME_USERS_birthday_INCORRECT' | tr }}
               </small>
             </div>
 
@@ -107,8 +104,7 @@
                 #passwordModel="ngModel"
                 minLength="6"
                 name="password"
-                placeholder="{{ 'PASSWORD' | tr }}"
-              />
+                placeholder="{{ 'PASSWORD' | tr }}" />
               <small *ngIf="passwordModel.invalid" class="text-danger">
                 {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
               </small>
@@ -124,8 +120,7 @@
                 id="is_admin"
                 [ngModel]="isEditing ? entity?.is_admin : null"
                 name="is_admin"
-                value=""
-              />
+                value="" />
               <label class="form-check-label" for="is_admin">
                 {{ 'HOME_USERS_ADMIN' | tr }}
               </label>
@@ -135,7 +130,7 @@
       </li>
       <li [ngbNavItem]="2">
         <a ngbNavLink>{{ 'NAV_ORGANISATIONS' | tr }}</a>
-        <ng-template ngbNavContent> Coming soon... </ng-template>
+        <ng-template ngbNavContent> Coming soon...</ng-template>
       </li>
     </ul>
 

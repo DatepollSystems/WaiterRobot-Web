@@ -1,4 +1,4 @@
-import {Component, TemplateRef} from '@angular/core';
+import {Component, HostBinding, TemplateRef} from '@angular/core';
 import {NotificationService} from './notification.service';
 
 @Component({
@@ -10,8 +10,7 @@ import {NotificationService} from './notification.service';
       [autohide]="true"
       [animation]="true"
       [delay]="toast.delay || 5000"
-      (hidden)="notificationService.remove(toast)"
-    >
+      (hidden)="notificationService.remove(toast)">
       <ng-template [ngIf]="isTemplate(toast)" [ngIfElse]="text">
         <ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
       </ng-template>
@@ -19,11 +18,14 @@ import {NotificationService} from './notification.service';
       <ng-template #text>{{ toast.textOrTpl }}</ng-template>
     </ngb-toast>
   `,
-  host: {'[class.ngb-toasts]': 'true'},
-  styles: [':host { position: fixed; bottom: 25px; right: 0; margin: 0.5em; z-index: 1200;}']
+  styles: [':host { position: fixed; bottom: 25px; right: 0; margin: 0.5em; z-index: 1200;}'],
 })
 export class ToastsContainerComponent {
+  @HostBinding('class.ngb-toasts') toasts = true;
+
   constructor(public notificationService: NotificationService) {}
 
-  isTemplate(toast: any): boolean { return toast.textOrTpl instanceof TemplateRef; }
+  isTemplate(toast: any): boolean {
+    return toast.textOrTpl instanceof TemplateRef;
+  }
 }

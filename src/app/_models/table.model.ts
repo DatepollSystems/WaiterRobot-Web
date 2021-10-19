@@ -1,7 +1,7 @@
 import {AbstractEntityWithName, Converter} from 'dfx-helper';
 
 export class TableModel extends AbstractEntityWithName<number> {
-  public number: number;
+  public tableNumber: number;
   public seats: number;
   public group_id: number;
   public group_name: string | undefined;
@@ -9,7 +9,7 @@ export class TableModel extends AbstractEntityWithName<number> {
 
   constructor(data: any) {
     super(data.id, Converter.numberToString(data.number));
-    this.number = data.number;
+    this.tableNumber = data.number;
     this.seats = data.seats;
     this.group_id = data.group_id;
     this.event_id = data.event_id;

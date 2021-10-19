@@ -4,7 +4,7 @@ import {FormControl} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {Converter} from 'dfx-helper';
 
-import {compare, SortableHeader, SortEvent} from '../../../_helper/table-sortable';
+import {compare, SortableHeaderDirective, SortEvent} from '../../../_helper/table-sortable';
 
 import {ProductsService} from '../../../_services/products.service';
 import {ProductsModel} from '../../../_models/products';
@@ -12,10 +12,10 @@ import {ProductsModel} from '../../../_models/products';
 @Component({
   selector: 'app-all-products',
   templateUrl: './all-products.component.html',
-  styleUrls: ['./all-products.component.scss']
+  styleUrls: ['./all-products.component.scss'],
 })
 export class AllProductsComponent implements OnDestroy {
-  @ViewChildren(SortableHeader) headers: QueryList<SortableHeader> | undefined;
+  @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective> | undefined;
   filter = new FormControl('');
 
   products: ProductsModel[];
@@ -25,12 +25,12 @@ export class AllProductsComponent implements OnDestroy {
   constructor(private productsService: ProductsService) {
     this.products = this.productsService.getAll();
     this.productsCopy = this.products.slice();
-    this.productsSubscription = this.productsService.allChange.subscribe(value => {
+    this.productsSubscription = this.productsService.allChange.subscribe((value) => {
       this.products = value;
       this.productsCopy = this.products.slice();
     });
 
-    this.filter.valueChanges.subscribe(value => {
+    this.filter.valueChanges.subscribe((value) => {
       if (value == null) {
         this.productsCopy = this.products.slice();
         return;
@@ -38,12 +38,14 @@ export class AllProductsComponent implements OnDestroy {
       value = value.trim().toLowerCase();
       this.productsCopy = [];
       for (const pro of this.products) {
-        if (pro.id == value
-          || pro.name.trim().toLowerCase().includes(value)
-          || pro.price === Converter.stringToNumber(value)
-          || pro.organisation_id == value
-          || pro.printer_id == value
-          || pro.group_id == value) {
+        if (
+          pro.id == value ||
+          pro.name.trim().toLowerCase().includes(value) ||
+          pro.price === Converter.stringToNumber(value) ||
+          pro.organisation_id == value ||
+          pro.printer_id == value ||
+          pro.group_id == value
+        ) {
           this.productsCopy.push(pro);
         }
       }
@@ -54,7 +56,7 @@ export class AllProductsComponent implements OnDestroy {
     this.productsSubscription.unsubscribe();
   }
 
-  onDelete(id: number) {
+  onDelete(id: number): void {
     this.productsService.delete(id);
   }
 
@@ -63,7 +65,7 @@ export class AllProductsComponent implements OnDestroy {
       return;
     }
 
-    this.headers.forEach(header => {
+    this.headers.forEach((header) => {
       if (header.sortable !== column) {
         header.direction = '';
       }
@@ -73,8 +75,7 @@ export class AllProductsComponent implements OnDestroy {
       this.productsCopy = this.products.slice();
     } else {
       this.productsCopy = [...this.products].sort((a, b) => {
-        // @ts-ignore
-        const res = compare(a[column], b[column]);
+        const res = compare((a as any)[column], (b as any)[column]);
         return direction === 'asc' ? res : -res;
       });
     }

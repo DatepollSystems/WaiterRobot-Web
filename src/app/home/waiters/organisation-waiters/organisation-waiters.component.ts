@@ -10,7 +10,7 @@ import {OrganisationsService} from '../../../_services/organisations.service';
 import {OrganisationModel} from '../../../_models/organisation.model';
 import {WaiterModel} from '../../../_models/waiter.model';
 
-import {WaiterQRCodeModal} from '../waiter-qr-code-modal.component';
+import {WaiterQRCodeModalComponent} from '../waiter-qr-code-modal.component';
 
 @Component({
   selector: 'app-organisation-waiters',
@@ -33,11 +33,11 @@ export class OrganisationWaitersComponent extends AbstractModelsListComponent<Wa
     );
   }
 
-  protected override initializeVariables() {
+  protected override initializeVariables(): void {
     if (!this.selectedOrganisation) {
       return;
     }
-    this.modelService.setGetAllUrl('/config/waiter?organisation_id=' + this.selectedOrganisation.id);
+    this.modelService.setGetAllUrl('/config/waiter?organisation_id=' + Converter.numberToString(this.selectedOrganisation.id));
     super.initializeVariables();
   }
 
@@ -48,8 +48,8 @@ export class OrganisationWaitersComponent extends AbstractModelsListComponent<Wa
     return undefined;
   }
 
-  public openQRCode(waiter: WaiterModel) {
-    const modalRef = this.modal.open(WaiterQRCodeModal, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg'});
+  public openQRCode(waiter: WaiterModel): void {
+    const modalRef = this.modal.open(WaiterQRCodeModalComponent, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg'});
     modalRef.componentInstance.waiter = waiter;
   }
 }

@@ -10,21 +10,21 @@
     <ng-container *ngIf="isEditing && entity">
       <div>
         <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit()" [disabled]="!f.valid">
-          <bi name="save"></bi>
+          <i-bs name="save"></i-bs>
           {{ 'SAVE' | tr }}
         </button>
       </div>
       <div>
         <button class="btn btn-sm btn-outline-danger my-2 my-md-0" (click)="onDelete(entity.id)">
-          <bi name="trash"></bi>
+          <i-bs name="trash"></i-bs>
           {{ 'DELETE' | tr }}
         </button>
       </div>
     </ng-container>
 
     <div *ngIf="!isEditing">
-      <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit()" [disabled]="f == null || !f.valid">
-        <bi name="plus-circle"></bi>
+      <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit()" [disabled]="!f || !f.valid">
+        <i-bs name="plus-circle"></i-bs>
         {{ 'ADD' | tr }}
       </button>
     </div>
@@ -49,8 +49,7 @@
                 #numberMolde="ngModel"
                 minlength="3"
                 placeholder="{{ 'NUMBER' | tr }}"
-                [ngModel]="isEditing ? entity?.number : null"
-              />
+                [ngModel]="isEditing ? entity?.tableNumber : null" />
 
               <small *ngIf="numberMolde.invalid" class="text-danger">
                 {{ 'HOME_TABLES_NUMBER_INCORRECT' | tr }}
@@ -69,8 +68,7 @@
                 #seatsModel="ngModel"
                 minlength="3"
                 placeholder="{{ 'SEATS' | tr }}"
-                [ngModel]="isEditing ? entity?.seats : null"
-              />
+                [ngModel]="isEditing ? entity?.seats : null" />
               <small *ngIf="seatsModel.invalid" class="text-danger">
                 {{ 'HOME_TABLES_SEATS_INCORRECT' | tr }}
               </small>
@@ -79,14 +77,13 @@
             <div class="form-group" fxFlex="50%">
               <label for="selectTableGroup">{{ 'HOME_TABLE_GROUPS' | tr }}</label>
               <div class="input-group">
-                <span class="input-group-text bg-dark text-white" id="selectTableGroup-addon1"><bi name="diagram-3"></bi></span>
+                <span class="input-group-text bg-dark text-white" id="selectTableGroup-addon1"><i-bs name="diagram-3"></i-bs></span>
                 <select
                   class="form-select bg-dark text-white"
                   id="selectTableGroup"
                   name="selectTableGroup"
                   [(ngModel)]="selectedTableGroup"
-                  (ngModelChange)="selectTableGroup($event)"
-                >
+                  (ngModelChange)="selectTableGroup($event)">
                   <option value="default">{{ 'HOME_TABLES_GROUPS_DEFAULT' | tr }}</option>
                   <option value="{{ tableGroup.id }}" *ngFor="let tableGroup of this.tableGroups">{{ tableGroup.name }}</option>
                 </select>

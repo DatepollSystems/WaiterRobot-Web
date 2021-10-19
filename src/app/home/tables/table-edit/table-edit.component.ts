@@ -53,31 +53,31 @@ export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
     );
   }
 
-  override addCustomAttributesToModel(model: any): any {
+  override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
     model.event_id = this.selectedEvent?.id;
     model.group_id = Converter.stringToNumber(this.selectedTableGroup);
     return model;
   }
 
-  override addCustomFilter(model: any): boolean {
+  override customCreateAndUpdateFilter(model: any): boolean {
     if (this.selectedTableGroup.includes('default')) {
       this.notificationService.twarning('HOME_TABLES_GROUPS_DEFAULT');
       return false;
     }
-    return super.addCustomFilter(model);
+    return super.customCreateAndUpdateFilter(model);
   }
 
-  override onValuesRefresh() {
+  override onValuesRefresh(): void {
     if (this.isEditing && this.entity) {
       this.selectedTableGroup = Converter.numberToString(this.entity?.group_id);
     }
     super.onValuesRefresh();
   }
 
-  selectTableGroup(value: any) {
+  selectTableGroup(value: string): void {
     if (value.includes('default')) {
       return;
     }
-    this.log.info('selectTableGroup', 'Selecting Table group ', value);
+    this.log.info('selectTableGroup', 'Selecting Table group', value);
   }
 }

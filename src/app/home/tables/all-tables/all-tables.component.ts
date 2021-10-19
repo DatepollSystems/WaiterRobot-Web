@@ -24,13 +24,13 @@ export class AllTablesComponent extends AbstractModelsListComponent<TableModel> 
     this.modelService.setEventGetAllUrl();
   }
 
-  protected override initializeVariables() {
+  protected override initializeVariables(): void {
     this.modelService.setEventGetAllUrl();
     super.initializeVariables();
   }
 
   protected checkFilterForModel(filter: string, model: TableModel): TableModel | undefined {
-    if (Converter.numberToString(model.number) === filter || Converter.numberToString(model.seats) === filter) {
+    if (Converter.numberToString(model.tableNumber) === filter || Converter.numberToString(model.seats) === filter) {
       return model;
     }
     return undefined;

@@ -8,7 +8,7 @@ import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.c
 import {WaitersService} from '../../../_services/waiters.service';
 import {EventsService} from '../../../_services/events.service';
 
-import {WaiterQRCodeModal} from '../waiter-qr-code-modal.component';
+import {WaiterQRCodeModalComponent} from '../waiter-qr-code-modal.component';
 
 import {WaiterModel} from '../../../_models/waiter.model';
 import {EventModel} from '../../../_models/event.model';
@@ -67,7 +67,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     );
   }
 
-  override onValuesRefresh() {
+  override onValuesRefresh(): void {
     if (!this.events || !this.entity) {
       return;
     }
@@ -79,7 +79,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     }
   }
 
-  override addCustomAttributesToModel(model: any): any {
+  override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
     model.organisation_id = this.selectedOrganisation?.id;
     const ids = [];
     for (const event of this.selectedEvents) {
@@ -89,15 +89,15 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     return model;
   }
 
-  onShowQRCode(waiter: WaiterModel) {
+  onShowQRCode(waiter: WaiterModel): void {
     if (this.modal == null) {
       return;
     }
-    const modalRef = this.modal.open(WaiterQRCodeModal, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg'});
+    const modalRef = this.modal.open(WaiterQRCodeModalComponent, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg'});
     modalRef.componentInstance.waiter = waiter;
   }
 
-  changeSelectedEvents(selectedEvents: IList<AbstractEntityWithName<number>>) {
+  changeSelectedEvents(selectedEvents: IList<AbstractEntityWithName<number>>): void {
     this.selectedEvents = selectedEvents;
   }
 }

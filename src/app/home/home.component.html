@@ -15,8 +15,7 @@
       data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent"
       aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
+      aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -27,8 +26,7 @@
       fxLayout="row"
       fxLayout.lt-md="column"
       fxLayoutAlign="space-between"
-      fxLayoutGap="2%"
-    >
+      fxLayoutGap="2%">
       <ul class="navbar-nav">
         <li class="nav-item active">
           <a class="nav-link" routerLink="/home">Home <span class="visually-hidden">(current)</span></a>
@@ -81,8 +79,7 @@
                 <span
                   class="fake-dropdown-item"
                   *ngIf="eventM.id !== selectedEvent?.id"
-                  (click)="onSelectEvent(eventM); $event.stopPropagation()"
-                >
+                  (click)="onSelectEvent(eventM); $event.stopPropagation()">
                   {{ eventM.name }}
                 </span>
               </ng-container>
@@ -91,7 +88,7 @@
                 <b>+</b> {{ 'ADD_2' | tr }}
               </button>
               <button ngbDropdownItem routerLinkActive="active" routerLink="events/all">
-                <bi name="gear"></bi>
+                <i-bs name="gear"></i-bs>
                 {{ 'NAV_SETTINGS' | tr }}
               </button>
             </div>
@@ -118,7 +115,7 @@
                 <b>+</b> {{ 'ADD_2' | tr }}
               </button>
               <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/all">
-                <bi name="gear"></bi>
+                <i-bs name="gear"></i-bs>
                 {{ 'NAV_SETTINGS' | tr }}
               </button>
             </div>
@@ -130,11 +127,11 @@
             <a class="nav-link" id="adminDropDown" ngbDropdownToggle> {{ 'NAV_INSTANCE_ADMINISTRATION' | tr }}</a>
             <div ngbDropdownMenu aria-labelledby="adminDropDown">
               <button ngbDropdownItem routerLinkActive="active" routerLink="users">
-                <bi name="person-badge"></bi>
+                <i-bs name="person-badge"></i-bs>
                 {{ 'NAV_USERS' | tr }}
               </button>
               <button ngbDropdownItem routerLinkActive="active" routerLink="instance">
-                <bi name="gear"></bi>
+                <i-bs name="gear"></i-bs>
                 {{ 'NAV_INSTANCE_SETTINGS' | tr }}
               </button>
             </div>
@@ -157,15 +154,15 @@
               </div>
               <div class="dropdown-divider"></div>
               <button ngbDropdownItem routerLinkActive="active" routerLink="usettings/settings">
-                <bi name="gear-wide-connected"></bi>
+                <i-bs name="gear-wide-connected"></i-bs>
                 {{ 'NAV_USER_SETTINGS' | tr }}
               </button>
               <button ngbDropdownItem routerLinkActive="active" routerLink="usettings/sessions">
-                <bi name="file-lock"></bi>
+                <i-bs name="file-lock"></i-bs>
                 {{ 'NAV_USER_SESSIONS' | tr }}
               </button>
               <button ngbDropdownItem (click)="logout()">
-                <bi name="box-arrow-left"></bi>
+                <i-bs name="box-arrow-left"></i-bs>
                 {{ 'NAV_LOGOUT' | tr }}
               </button>
             </div>

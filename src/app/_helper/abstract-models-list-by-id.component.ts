@@ -11,7 +11,7 @@ import {AbstractModelsListComponent} from './abstract-models-list.component';
 @Component({
   template: '',
 })
-export abstract class AbstractModelsListComponentById<
+export abstract class AbstractModelsListByIdComponent<
   EntitiesType extends AbstractEntity<number>,
   EntityType extends AbstractEntity<number>
 > extends AbstractModelsListComponent<EntitiesType> {
@@ -46,16 +46,16 @@ export abstract class AbstractModelsListComponentById<
           );
         } else {
           // ERROR
-          this.router.navigateByUrl('/home').then();
+          void this.router.navigateByUrl('/home');
         }
       } else {
         // ERROR
-        this.router.navigateByUrl('/home').then();
+        void this.router.navigateByUrl('/home');
       }
     });
   }
 
-  protected override initializeVariables() {
+  protected override initializeVariables(): void {
     if (!this.entity) {
       return;
     }

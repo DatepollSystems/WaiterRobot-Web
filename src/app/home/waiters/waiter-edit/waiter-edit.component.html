@@ -8,28 +8,28 @@
     <ng-container *ngIf="isEditing && entity">
       <div>
         <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit()" [disabled]="!f.valid">
-          <bi name="save"></bi>
+          <i-bs name="save"></i-bs>
           {{ 'SAVE' | tr }}
         </button>
       </div>
       <div>
         <button class="btn btn-sm btn-outline-danger my-2 my-md-0" (click)="onDelete(entity.id)">
-          <bi name="trash"></bi>
+          <i-bs name="trash"></i-bs>
           {{ 'DELETE' | tr }}
         </button>
       </div>
 
       <div>
         <button class="btn btn-sm btn-primary my-2 my-md-0" (click)="onShowQRCode(entity)">
-          <bi name="upc-scan"></bi>
+          <i-bs name="upc-scan"></i-bs>
           {{ 'HOME_WAITERS_EDIT_QR_CODE' | tr }}
         </button>
       </div>
     </ng-container>
 
     <div *ngIf="!isEditing">
-      <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit()" [disabled]="f == null || !f.valid">
-        <bi name="plus-circle"></bi>
+      <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit()" [disabled]="!f || !f.valid">
+        <i-bs name="plus-circle"></i-bs>
         {{ 'ADD' | tr }}
       </button>
     </div>
@@ -53,8 +53,7 @@
                 #nameModel="ngModel"
                 minlength="3"
                 placeholder="{{ 'NAME' | tr }}"
-                [ngModel]="isEditing ? entity?.name : null"
-              />
+                [ngModel]="isEditing ? entity?.name : null" />
 
               <small *ngIf="nameModel.invalid" class="text-danger">
                 {{ 'HOME_WAITERS_EDIT_NAME_INCORRECT' | tr }}
@@ -68,8 +67,7 @@
               [models]="preSelectedEvents"
               [allModelsToAutoComplete]="events"
               (valueChange)="changeSelectedEvents($event)"
-              [label]="'HOME_WAITERS_EDIT_EVENTS'"
-            ></app-bootstrap-chip-input>
+              [label]="'HOME_WAITERS_EDIT_EVENTS'"></app-bootstrap-chip-input>
           </div>
         </ng-template>
       </li>

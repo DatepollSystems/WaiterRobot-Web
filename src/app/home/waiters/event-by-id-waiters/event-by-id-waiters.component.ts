@@ -9,15 +9,15 @@ import {EventsService} from '../../../_services/events.service';
 import {EventModel} from '../../../_models/event.model';
 import {WaiterModel} from '../../../_models/waiter.model';
 
-import {WaiterQRCodeModal} from '../waiter-qr-code-modal.component';
-import {AbstractModelsListComponentById} from '../../../_helper/abstract-models-list-by-id.component';
+import {WaiterQRCodeModalComponent} from '../waiter-qr-code-modal.component';
+import {AbstractModelsListByIdComponent} from '../../../_helper/abstract-models-list-by-id.component';
 
 @Component({
   selector: 'app-event-by-id-waiters',
   templateUrl: './event-by-id-waiters.component.html',
   styleUrls: ['./event-by-id-waiters.component.scss'],
 })
-export class EventByIdWaitersComponent extends AbstractModelsListComponentById<WaiterModel, EventModel> {
+export class EventByIdWaitersComponent extends AbstractModelsListByIdComponent<WaiterModel, EventModel> {
   // TODO: Change to event_id
   override getAllUrl = '/config/waiter?organisation_id=';
 
@@ -32,8 +32,8 @@ export class EventByIdWaitersComponent extends AbstractModelsListComponentById<W
     return undefined;
   }
 
-  public openQRCode(waiter: WaiterModel) {
-    const modalRef = this.modal.open(WaiterQRCodeModal, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg'});
+  public openQRCode(waiter: WaiterModel): void {
+    const modalRef = this.modal.open(WaiterQRCodeModalComponent, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg'});
     modalRef.componentInstance.waiter = waiter;
   }
 }

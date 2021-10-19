@@ -64,17 +64,15 @@ export class ProductEditComponent implements OnDestroy {
     this._productSubscription?.unsubscribe();
   }
 
-  onNavChange($event: any) {
-    this.router
-      .navigate([], {
-        relativeTo: this.route,
-        queryParams: {tab: $event.nextId},
-        queryParamsHandling: 'merge',
-      })
-      .then();
+  onNavChange($event: any): void {
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {tab: $event.nextId},
+      queryParamsHandling: 'merge',
+    });
   }
 
-  onSave(f: NgForm) {
+  onSave(f: NgForm): void {
     const values = f.form.value;
     const prod = new ProductsModel(values);
     console.log(prod);
@@ -84,11 +82,11 @@ export class ProductEditComponent implements OnDestroy {
     } else {
       this.productsService.create(prod);
     }
-    this.router.navigateByUrl('/home/products/all').then();
+    void this.router.navigateByUrl('/home/products/all');
   }
 
-  onDelete(productId: number) {
+  onDelete(productId: number): void {
     this.productsService.delete(productId);
-    this.router.navigateByUrl('/home/products/all').then();
+    void this.router.navigateByUrl('/home/products/all');
   }
 }

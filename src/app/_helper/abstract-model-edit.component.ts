@@ -77,35 +77,34 @@ export abstract class AbstractModelEditComponent<EntityType extends AbstractEnti
   }
 
   private goToRedirectUrl(): void {
-    this.router.navigateByUrl(this.redirectUrl).then();
+    void this.router.navigateByUrl(this.redirectUrl);
   }
 
   protected onValuesRefresh(): void {}
 
-  protected addCustomAttributesToModel(model: any): any {
+  protected addCustomAttributesBeforeCreateAndUpdate(model: any): any {
     return model;
   }
 
-  protected addCustomFilter(model: any): boolean {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected customCreateAndUpdateFilter(model: any): boolean {
     return true;
   }
 
   public onTabChange($event: any): void {
-    this.router
-      .navigate([], {
-        relativeTo: this.route,
-        queryParams: {tab: $event.nextId},
-        queryParamsHandling: 'merge',
-      })
-      .then();
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {tab: $event.nextId},
+      queryParamsHandling: 'merge',
+    });
   }
 
   public onSave(form: NgForm): void {
     let model = form.form.value;
-    if (!this.addCustomFilter(model)) {
+    if (!this.customCreateAndUpdateFilter(model)) {
       return;
     }
-    model = this.addCustomAttributesToModel(model);
+    model = this.addCustomAttributesBeforeCreateAndUpdate(model);
     if (this.isEditing && this.entity?.id != null) {
       model.id = this.entity?.id;
       this.modelService.update(model);
@@ -119,19 +118,16 @@ export abstract class AbstractModelEditComponent<EntityType extends AbstractEnti
   public onDelete(modelId: number): void {
     const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
     modalRef.componentInstance.title = 'DELETE_CONFIRMATION';
-    modalRef.result.then(
-      (result) => {
-        if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
-          this.modelService.delete(modelId);
-          this.goToRedirectUrl();
-        }
-      },
-      () => {}
-    );
+    void modalRef.result.then((result) => {
+      if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
+        this.modelService.delete(modelId);
+        this.goToRedirectUrl();
+      }
+    });
   }
 
   public onGoBack(): void {
-    // We should probably use Angular's location.back();
+    // We should probably use built-in location.back();
     // but because this is a fully functional javascript feature we will use it till there is no tomorrow
     history.back();
   }

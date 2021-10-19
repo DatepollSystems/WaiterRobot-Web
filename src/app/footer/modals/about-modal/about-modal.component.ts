@@ -18,14 +18,14 @@ export class AboutModalComponent {
     this.modalService.open(content, {ariaLabelledBy: 'About modal'});
   }
 
-  public mouseup() {
+  mouseup(): void {
     if (this.timeoutHandler) {
       clearTimeout(this.timeoutHandler);
       this.timeoutHandler = undefined;
     }
   }
 
-  public mousedown() {
+  mousedown(): void {
     this.timeoutHandler = setTimeout(() => {
       this.timeoutHandler = undefined;
       console.log('you have found me');

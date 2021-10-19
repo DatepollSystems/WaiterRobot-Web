@@ -4,7 +4,7 @@ import {FormControl} from '@angular/forms';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AbstractComponent, AbstractEntity, EntityList, IList, LoggerFactory} from 'dfx-helper';
 
-import {SortableHeader, SortEvent} from './table-sortable';
+import {compare, SortableHeaderDirective, SortEvent} from './table-sortable';
 import {AbstractModelService} from '../_services/abstract-model.service';
 
 import {QuestionDialogComponent} from './question-dialog/question-dialog.component';
@@ -15,7 +15,7 @@ import {QuestionDialogComponent} from './question-dialog/question-dialog.compone
 export abstract class AbstractModelsListComponent<EntityType extends AbstractEntity<number>> extends AbstractComponent {
   protected lumber = LoggerFactory.getLogger('AModelsListComponent');
 
-  @ViewChildren(SortableHeader) public headers: QueryList<SortableHeader> | undefined;
+  @ViewChildren(SortableHeaderDirective) public headers: QueryList<SortableHeaderDirective> | undefined;
   public filter = new FormControl('');
 
   public entities!: IList<EntityType>;
@@ -56,6 +56,7 @@ export abstract class AbstractModelsListComponent<EntityType extends AbstractEnt
     );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected checkFilterForModel(filter: string, model: EntityType): EntityType | undefined {
     this.lumber.warning('checkFilterForModel', 'Not implemented!');
     return undefined;
@@ -64,14 +65,11 @@ export abstract class AbstractModelsListComponent<EntityType extends AbstractEnt
   public onDelete(modelId: number): void {
     const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
     modalRef.componentInstance.title = 'DELETE_CONFIRMATION';
-    modalRef.result.then(
-      (result) => {
-        if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
-          this.modelService.delete(modelId);
-        }
-      },
-      () => {}
-    );
+    void modalRef.result.then((result) => {
+      if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
+        this.modelService.delete(modelId);
+      }
+    });
   }
 
   public onSort({column, direction}: SortEvent): boolean | void {
@@ -90,8 +88,7 @@ export abstract class AbstractModelsListComponent<EntityType extends AbstractEnt
     } else {
       this.entitiesCopy = new EntityList<EntityType>(
         [...this.entities].sort((a, b) => {
-          // @ts-ignore
-          const res = compare(a[column], b[column]);
+          const res = compare((a as any)[column], (b as any)[column]);
           return direction === 'asc' ? res : -res;
         })
       );

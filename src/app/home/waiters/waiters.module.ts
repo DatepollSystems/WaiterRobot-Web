@@ -15,7 +15,7 @@ import {WaitersComponent} from './waiters.component';
 import {OrganisationWaitersComponent} from './organisation-waiters/organisation-waiters.component';
 import {EventByIdWaitersComponent} from './event-by-id-waiters/event-by-id-waiters.component';
 import {WaiterEditComponent} from './waiter-edit/waiter-edit.component';
-import {WaiterQRCodeModal} from './waiter-qr-code-modal.component';
+import {WaiterQRCodeModalComponent} from './waiter-qr-code-modal.component';
 import {QuestionDialogModule} from '../../_helper/question-dialog/question-dialog.module';
 import {BootstrapChipInputModule} from '../../_helper/bootstrap-chip-input/bootstrap-chip-input.module';
 
@@ -33,7 +33,13 @@ const waiterRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [WaitersComponent, OrganisationWaitersComponent, EventByIdWaitersComponent, WaiterEditComponent, WaiterQRCodeModal],
+  declarations: [
+    WaitersComponent,
+    OrganisationWaitersComponent,
+    EventByIdWaitersComponent,
+    WaiterEditComponent,
+    WaiterQRCodeModalComponent,
+  ],
   imports: [
     CommonModule,
     FlexLayoutModule,

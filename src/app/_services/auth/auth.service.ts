@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 
-import {BrowserHelper, StorageHelper} from 'dfx-helper';
+import {BrowserHelper, Converter, StorageHelper} from 'dfx-helper';
 
 import {HttpService} from '../http.service';
 
@@ -21,12 +21,24 @@ export class AuthService {
     this.jwtTokenExpires.setMinutes(this.jwtTokenExpires.getMinutes() + 50);
   }
 
-  public sendSignInRequest(username: string, password: string): Observable<any> {
+  static getSessionInformation(): string {
     const browser = BrowserHelper.infos();
+    return (
+      browser.name +
+      ' - ' +
+      Converter.numberToString(browser.majorVersion) +
+      '; OS: ' +
+      browser.os +
+      '; Phone: ' +
+      Converter.booleanToString(browser.mobile)
+    );
+  }
+
+  public sendSignInRequest(username: string, password: string): Observable<any> {
     const signInObject = {
       username,
       password,
-      session_name: browser.name + ' - ' + browser.majorVersion + '; OS: ' + browser.os + '; Phone: ' + browser.mobile,
+      session_name: AuthService.getSessionInformation(),
     };
 
     return this.httpService.post('/auth/login', signInObject, 'sendSignInRequest');
@@ -59,11 +71,9 @@ export class AuthService {
   }
 
   public refreshJWTToken(): Observable<any> {
-    const browser = BrowserHelper.infos();
-
     const object = {
       session_token: this.getSessionToken(),
-      session_information: browser.name + ' - ' + browser.majorVersion + '; OS: ' + browser.os + '; Phone: ' + browser.mobile,
+      session_information: AuthService.getSessionInformation(),
     };
 
     return this.httpService.post('/auth/refresh', object, 'refreshJWTToken').pipe(

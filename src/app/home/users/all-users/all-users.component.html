@@ -1,7 +1,7 @@
 <div fxLayout="row break" fxLayoutAlign="space-between center">
   <h1>{{ 'HOME_USERS_ALL' | tr }}</h1>
   <a routerLink="../create" class="btn btn-outline-success">
-    <bi name="plus-circle"></bi>
+    <i-bs name="plus-circle"></i-bs>
     {{ 'ADD_2' | tr }}</a
   >
 </div>
@@ -21,9 +21,8 @@
       ngbTooltip="{{ 'CLEAR' | tr }}"
       placement="bottom"
       (click)="filter.reset()"
-      *ngIf="filter?.value?.length > 0"
-    >
-      <bi name="x-circle-fill"></bi>
+      *ngIf="filter?.value?.length > 0">
+      <i-bs name="x-circle-fill"></i-bs>
     </button>
   </div>
 </form>
@@ -49,15 +48,14 @@
         <td>{{ user.is_admin }}</td>
         <td>
           <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ user.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
-            <bi name="pencil-square"></bi>
+            <i-bs name="pencil-square"></i-bs>
           </a>
           <button
             type="button"
             class="btn btn-sm m-1 btn-outline-danger text-white"
             ngbTooltip="{{ 'DELETE' | tr }}"
-            (click)="onDelete(user.id)"
-          >
-            <bi name="trash"></bi>
+            (click)="onDelete(user.id)">
+            <i-bs name="trash"></i-bs>
           </button>
         </td>
       </tr>

@@ -11,13 +11,13 @@
       <ng-container *ngIf="myUser?.is_admin">
         <div *ngIf="activeTab === 1">
           <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit()" [disabled]="!f.valid">
-            <bi name="save"></bi>
+            <i-bs name="save"></i-bs>
             {{ 'SAVE' | tr }}
           </button>
         </div>
         <div>
           <button class="btn btn-sm btn-outline-danger my-2 my-md-0" (click)="onDelete(entity.id)">
-            <bi name="trash"></bi>
+            <i-bs name="trash"></i-bs>
             {{ 'DELETE' | tr }}
           </button>
         </div>
@@ -25,33 +25,33 @@
 
       <div>
         <button class="btn btn-sm btn-outline-secondary my-2 my-md-0 disabled">
-          <bi name="clipboard"></bi>
+          <i-bs name="clipboard"></i-bs>
           {{ 'COPY' | tr }}
         </button>
       </div>
       <div>
         <button class="btn btn-sm btn-outline-secondary my-2 my-md-0 disabled">
-          <bi name="save"></bi>
+          <i-bs name="save"></i-bs>
           {{ 'EXPORT' | tr }}
         </button>
       </div>
 
       <div>
-        <button class="btn btn-sm btn-primary my-2 my-md-0" (click)="onSelect(entity)" *ngIf="entity.id != selectedEvent?.id">
-          <bi name="check2-square"></bi>
+        <button class="btn btn-sm btn-primary my-2 my-md-0" (click)="onSelect(entity)" *ngIf="entity.id !== selectedEvent?.id">
+          <i-bs name="check2-square"></i-bs>
           {{ 'SELECT' | tr }}
         </button>
 
-        <button class="btn btn-sm btn-primary my-2 my-md-0" (click)="onSelect(undefined)" *ngIf="entity.id == selectedEvent?.id">
+        <button class="btn btn-sm btn-primary my-2 my-md-0" (click)="onSelect(undefined)" *ngIf="entity.id === selectedEvent?.id">
           {{ 'CLEAR_SELECTION' | tr }}
-          <bi name="x-circle-fill"></bi>
+          <i-bs name="x-circle-fill"></i-bs>
         </button>
       </div>
     </ng-container>
 
     <div *ngIf="!isEditing">
-      <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit()" [disabled]="f == null || !f.valid">
-        <bi name="plus-circle"></bi>
+      <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit()" [disabled]="!f || !f.valid">
+        <i-bs name="plus-circle"></i-bs>
         {{ 'ADD' | tr }}
       </button>
     </div>
@@ -76,8 +76,7 @@
                 [disabled]="!myUser?.is_admin"
                 minlength="5"
                 placeholder="{{ 'NAME' | tr }}"
-                [ngModel]="isEditing ? entity?.name : null"
-              />
+                [ngModel]="isEditing ? entity?.name : null" />
 
               <small *ngIf="nameModel.invalid" class="text-danger">
                 {{ 'HOME_ORGS_NAME_INCORRECT' | tr }}
@@ -96,8 +95,7 @@
                 [disabled]="!myUser?.is_admin"
                 minlength="3"
                 placeholder="{{ 'DATE' | tr }}"
-                [ngModel]="isEditing ? entity?.date : null"
-              />
+                [ngModel]="isEditing ? entity?.date : null" />
 
               <small *ngIf="dateModel.invalid" class="text-danger">
                 {{ 'HOME_EVENTS_DATE_INCORRECT' | tr }}
@@ -119,8 +117,7 @@
                 [disabled]="!myUser?.is_admin"
                 minlength="3"
                 placeholder="{{ 'HOME_ORGS_STREET' | tr }}"
-                [ngModel]="isEditing ? entity?.street : null"
-              />
+                [ngModel]="isEditing ? entity?.street : null" />
               <small *ngIf="streetModel.invalid" class="text-danger">
                 {{ 'HOME_ORGS_STREET_INCORRECT' | tr }}
               </small>
@@ -138,8 +135,7 @@
                 name="street_number"
                 minlength="1"
                 placeholder="{{ 'HOME_ORGS_STREETNUMBER' | tr }}"
-                [ngModel]="isEditing ? entity?.street_number : null"
-              />
+                [ngModel]="isEditing ? entity?.street_number : null" />
               <small *ngIf="streetNumberModel.invalid" class="text-danger">
                 {{ 'HOME_ORGS_STREETNUMBER_INCORRECT' | tr }}
               </small>
@@ -160,8 +156,7 @@
                 name="postal_code"
                 minlength="1"
                 placeholder="{{ 'HOME_ORGS_POSTAL_CODE' | tr }}"
-                [ngModel]="isEditing ? entity?.postal_code : null"
-              />
+                [ngModel]="isEditing ? entity?.postal_code : null" />
               <small *ngIf="postalCodeModel.invalid" class="text-danger">
                 {{ 'HOME_ORGS_POSTAL_CODE_INCORRECT' | tr }}
               </small>
@@ -180,8 +175,7 @@
                 [disabled]="!myUser?.is_admin"
                 minlength="4"
                 placeholder="{{ 'HOME_ORGS_CITY' | tr }}"
-                [ngModel]="isEditing ? entity?.city : null"
-              />
+                [ngModel]="isEditing ? entity?.city : null" />
               <small *ngIf="cityModel.invalid" class="text-danger">
                 {{ 'HOME_ORGS_CITY_INCORRECT' | tr }}
               </small>
@@ -191,7 +185,7 @@
       </li>
       <li [ngbNavItem]="2" *ngIf="isEditing">
         <a ngbNavLink>{{ 'STATISTICS' | tr }}</a>
-        <ng-template ngbNavContent> Coming soon... </ng-template>
+        <ng-template ngbNavContent> Coming soon...</ng-template>
       </li>
     </ul>
 
