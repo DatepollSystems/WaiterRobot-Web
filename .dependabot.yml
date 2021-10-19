@@ -13,8 +13,9 @@ updates:
       - 'Dafnik'
     open-pull-requests-limit: 20
     schedule:
-      interval: 'daily'
-      time: '09:00'
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:30'
       timezone: 'Europe/Vienna'
     ignore:
       - dependency-name: '*'

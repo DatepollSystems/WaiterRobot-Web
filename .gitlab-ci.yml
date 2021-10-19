@@ -72,7 +72,7 @@ deploy-release:
     - apt-get update -qq && apt-get install -y -qq zip openssh-client >> /dev/null
     - eval "$(ssh-agent -s)"
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh && chmod 700 ~/.ssh && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
     - version=$(git describe --tags $(git rev-list --tags --max-count=1))
     - cd dist/
     - zip -r "WaiterRobot-Web-${version}.zip" ./WaiterRobot-Web >> /dev/null
@@ -90,7 +90,7 @@ deploy-dev:
     - apt-get update -qq && apt-get install -y -qq zip openssh-client >> /dev/null
     - eval "$(ssh-agent -s)"
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh && chmod 700 ~/.ssh && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
     - cd dist/
     - zip -r WaiterRobot-Web-dev.zip ./WaiterRobot-Web >> /dev/null
     - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR ./WaiterRobot-Web-dev.zip $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/WaiterRobot/Web-Releases/ > /dev/null
@@ -106,7 +106,7 @@ deploy-testing:
     - eval "$(ssh-agent -s)"
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - echo "$SSH_TESTING_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh && chmod 700 ~/.ssh && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
     - cd dist/
     - zip -r WaiterRobot-Web-testing.zip ./WaiterRobot-Web >> /dev/null
     - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR ./WaiterRobot-Web-testing.zip $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/WaiterRobot/Web-Releases/ > /dev/null
