@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {
+  apple,
   bagFill,
   boxArrowLeft,
   building,
@@ -12,6 +13,7 @@ import {
   fileLock,
   gear,
   gearWideConnected,
+  google,
   NgxBootstrapIconsModule,
   pencilSquare,
   people,
@@ -47,6 +49,8 @@ const icons = {
   upcScan,
   columnsGap,
   diagram3,
+  google,
+  apple,
 };
 
 @NgModule({

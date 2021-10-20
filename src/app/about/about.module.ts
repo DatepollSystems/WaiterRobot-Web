@@ -7,12 +7,13 @@ import {AboutRoutingModule} from './about-routing.module';
 import {AboutComponent} from './about.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTranslateModule} from 'dfx-translate';
-import {FlexModule} from '@angular/flex-layout';
+import {FlexLayoutModule} from '@angular/flex-layout';
 import {FooterModule} from '../footer/footer.module';
+import {IconsModule} from '../_helper/icons.module';
 
 @NgModule({
   declarations: [AboutComponent],
-  imports: [AboutRoutingModule, CommonModule, FormsModule, NgbModule, DfxTranslateModule, FlexModule, FooterModule],
+  imports: [AboutRoutingModule, CommonModule, FormsModule, NgbModule, DfxTranslateModule, FooterModule, FlexLayoutModule, IconsModule],
   providers: [],
 })
 export class AboutModule {}

@@ -1,23 +1,22 @@
-<div class="d-container">
-  <div fxLayout="column" fxLayoutAlign="space-between center">
-    <div fxFlex>
-      <div fxLayout="row" fxLayoutGap="2%">
-        <img src="./../../assets/logo.png" style="height: 110px" />
-        <h1 style="color: white; padding-top: 10%">WaiterRobot</h1>
+<div class="d-container text-white">
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <div>
+      <div fxLayout="row" fxLayoutGap="4.5%">
+        <img alt="WaiterRobot logo" src="./../../assets/logo.png" style="height: 110px" />
+        <h1 fxFlexAlign="center" style="color: white; vertical-align: middle">WaiterRobot</h1>
       </div>
     </div>
   </div>
   <div
-    fxLayout="row"
+    fxLayout="row break"
     fxLayoutGap="2%"
     fxLayoutAlign="center start"
-    fxLayout.lt-md="column"
-    fxLayoutAlign.lt-md="center"
-    style="margin-top: 15px; padding-left: 10px; padding-right: 10px"
-  >
-    <div fxFlex.gt-lg="30%" fxFlex="40%">
+    fxLayout.lt-sm="column"
+    fxLayoutAlign.lt-sm="center"
+    style="padding: 15px 10px">
+    <div fxFlex="45%" fxFlex.gt-lg="30%" fxFlex.lt-md="75%" fxFlex.xs="90%">
       <div fxLayout="column" fxLayoutGap="2%">
-        <div class="card bg-dark text-white">
+        <div class="card bg-dark">
           <div class="card-body">
             <form #f="ngForm" (ngSubmit)="onSignin(f)" fxLayout="column" fxLayoutGap="2%" style="padding-left: 10px; padding-right: 10px">
               <div class="form-floating">
@@ -29,8 +28,7 @@
                   id="username"
                   name="username"
                   minlength="3"
-                  placeholder="{{ 'ABOUT_SIGNIN_USERNAME' | tr }}"
-                />
+                  placeholder="{{ 'ABOUT_SIGNIN_USERNAME' | tr }}" />
                 <label for="username">{{ 'ABOUT_SIGNIN_USERNAME' | tr }}</label>
               </div>
 
@@ -42,8 +40,7 @@
                   type="password"
                   id="password"
                   name="password"
-                  placeholder="{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}"
-                />
+                  placeholder="{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}" />
                 <label for="password">{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}</label>
               </div>
 
@@ -60,33 +57,40 @@
 
         <div class="card bg-dark">
           <div class="card-body">
-            <button class="btn btn-outline-info" style="width: 100%">
-              {{ 'ABOUT_APP_INFO' | tr }}
-            </button>
-          </div>
-        </div>
-
-        <div class="card bg-dark">
-          <div class="card-body" fxLayout="column" fxLayoutGap="3%">
-            <button routerLink="/info/imprint" class="btn btn-outline-info" style="width: 100%">
-              {{ 'ABOUT_IMPRINT' | tr }}
-            </button>
-            <button routerLink="/info/privacypolicy" class="btn btn-outline-info" style="width: 100%">
-              {{ 'ABOUT_PRIVACY_POLICY' | tr }}
-            </button>
+            <h5 class="card-title">{{ 'ABOUT_APP_DISCOVER' | tr }}</h5>
+            <a id="fdroidLogo" class="btn btn-outline-info me-2" target="_blank" rel="noopener" href="https://fdroid.org">
+              <img src="assets/fdroidLogo.svg" alt="" height="16em;" />
+              <img src="assets/fdroidLogo_black.svg" alt="" height="16em;" />
+              F-Droid
+            </a>
+            <a class="btn btn-outline-info me-2" target="_blank" rel="noopener" href="https://store.apple.com">
+              <i-bs name="apple"></i-bs>
+              App Store
+            </a>
+            <a class="btn btn-outline-info" target="_blank" rel="noopener" href="https://play.google.com">
+              <i-bs name="google"></i-bs>
+              Play Store
+            </a>
           </div>
         </div>
       </div>
     </div>
 
-    <div fxFlex="40%" fxFlex.xs="90%">
+    <div fxFlex="45%" fxFlex.gt-lg="30%" fxFlex.lt-md="75%" fxFlex.xs="90%">
       <div fxLayout="column" fxLayoutGap="2%">
-        <div class="card bg-dark text-white">
+        <div class="card bg-dark">
           <div class="card-body">
             <h3 class="card-title">
               > <b><a href="#" target="_blank" rel="noopener">WaiterRobot</a></b>
             </h3>
-            <p class="card-text">Description...</p>
+            <p class="card-text">
+              Hier steht ganz viel text.<br /><br />
+
+              Ein bissl Abstand. Und dann nochmal viel Text, sehr ausführlicher Text, toller Text, guter Text, besonderer Text...<br />
+              Dieser Text ist so toll das die anderen Texte gar nicht wissen was sie tun sollen. Jeder Text will so gut sein wie dieser
+              Text.<br /><br />
+              Nur alle können es nicht. Deswegen bleibt wohl oder übel nur dieser Text.
+            </p>
           </div>
         </div>
 

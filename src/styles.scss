@@ -19,8 +19,12 @@ a:hover {
 }
 
 /* Fix vertical text alignment in buttons with icons */
-button > bi {
-  vertical-align: middle;
+svg.bi {
+  vertical-align: -0.125em;
+}
+
+.btn > img {
+  vertical-align: -0.15em;
 }
 
 .big {
@@ -52,7 +56,8 @@ button > bi {
   background-color: #e9ecef;
 }
 
-.dropdown-toggle, .nav-link {
+.dropdown-toggle,
+.nav-link {
   user-select: none;
 }
 
