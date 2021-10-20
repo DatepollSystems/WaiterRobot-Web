@@ -5,14 +5,14 @@
   padding-top: 6%;
 }
 
-#fdroidLogo img:last-child {
+.customLogo img:last-child {
   display: none;
 }
 
-#fdroidLogo:hover img:last-child {
+.customLogo:hover img:last-child {
   display: inline-block;
 }
 
-#fdroidLogo:hover img:first-child {
+.customLogo:hover img:first-child {
   display: none;
 }
