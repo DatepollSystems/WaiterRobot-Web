@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
 
@@ -6,12 +6,15 @@ import {AbstractComponent, AbstractEntityWithName, Converter, LoggerFactory, Typ
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelService} from '../_services/abstract-model.service';
-import {QuestionDialogComponent} from './question-dialog/question-dialog.component';
+import {QuestionDialogComponent} from '../_shared/question-dialog/question-dialog.component';
 
 @Component({
   template: '',
 })
-export abstract class AbstractModelEditComponent<EntityType extends AbstractEntityWithName<number>> extends AbstractComponent {
+export abstract class AbstractModelEditComponent<EntityType extends AbstractEntityWithName<number>>
+  extends AbstractComponent
+  implements OnInit
+{
   protected abstract redirectUrl: string;
   protected onlyEditingTabs: number[] = [];
 
@@ -30,13 +33,6 @@ export abstract class AbstractModelEditComponent<EntityType extends AbstractEnti
     protected modal: NgbModal
   ) {
     super();
-
-    this.route.queryParams.subscribe((params) => {
-      if (params?.tab != null) {
-        this.activeTab = Converter.stringToNumber(params?.tab);
-        this.checkTab();
-      }
-    });
 
     this.route.paramMap.subscribe((params) => {
       this.entityLoaded = false;
@@ -70,9 +66,22 @@ export abstract class AbstractModelEditComponent<EntityType extends AbstractEnti
     });
   }
 
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      if (params?.tab != null) {
+        this.activeTab = Converter.stringToNumber(params?.tab);
+        this.checkTab();
+      }
+    });
+  }
+
   private checkTab(): void {
-    if (this.onlyEditingTabs.includes(this.activeTab)) {
-      this.activeTab = 1;
+    if (!this.isEditing) {
+      if (this.onlyEditingTabs.includes(this.activeTab)) {
+        this.lumber.info('checkTab', 'Tried to open editing only tab in create mode. Rerouting to tab 1');
+        this.activeTab = 1;
+        this.setTabId(1);
+      }
     }
   }
 
@@ -91,10 +100,10 @@ export abstract class AbstractModelEditComponent<EntityType extends AbstractEnti
     return true;
   }
 
-  public onTabChange($event: any): void {
+  public setTabId(tabId: number): void {
     void this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: {tab: $event.nextId},
+      queryParams: {tab: tabId},
       queryParamsHandling: 'merge',
     });
   }
