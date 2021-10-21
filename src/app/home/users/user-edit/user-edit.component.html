@@ -32,7 +32,7 @@
   </div>
 
   <form #f="ngForm" (ngSubmit)="onSave(f)">
-    <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs mt-3 bg-dark" (navChange)="onTabChange($event)">
+    <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs mt-3 bg-dark" (navChange)="setTabId($event.nextId)">
       <li [ngbNavItem]="1">
         <a ngbNavLink>{{ 'DATA' | tr }}</a>
         <ng-template ngbNavContent>

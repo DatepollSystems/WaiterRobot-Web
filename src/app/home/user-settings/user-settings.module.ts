@@ -5,12 +5,12 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {SortableHeaderModule} from '../../_helper/table-sortable';
+import {SortableHeaderModule} from '../../_shared/table-sortable';
 
 import {UserSettingsComponent} from './user-settings.component';
 import {UserSettingsSubComponent} from './user-settings-sub/user-settings-sub.component';
 import {SessionsComponent} from './sessions/sessions.component';
-import {IconsModule} from '../../_helper/icons.module';
+import {IconsModule} from '../../_shared/icons.module';
 
 const startRoutes: Routes = [
   {

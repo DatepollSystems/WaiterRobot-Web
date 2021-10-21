@@ -5,14 +5,14 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {IconsModule} from '../../_helper/icons.module';
+import {IconsModule} from '../../_shared/icons.module';
 
 import {ProductsComponent} from './products.component';
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AllProductsComponent} from './all-products/all-products.component';
 import {ProductEditComponent} from './product-edit/product-edit.component';
-import {SortableHeaderModule} from '../../_helper/table-sortable';
+import {SortableHeaderModule} from '../../_shared/table-sortable';
 
 const startRoutes: Routes = [
   {

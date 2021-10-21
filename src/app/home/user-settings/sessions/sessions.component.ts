@@ -1,7 +1,7 @@
 import {Component, OnDestroy, QueryList, ViewChildren} from '@angular/core';
 import {Subscription} from 'rxjs';
 
-import {compare, SortableHeaderDirective, SortEvent} from '../../../_helper/table-sortable';
+import {compare, SortableHeaderDirective, SortEvent} from '../../../_shared/table-sortable';
 
 import {SessionsService} from '../../../_services/sessions.service';
 import {SessionsModel} from '../../../_models/session.model';

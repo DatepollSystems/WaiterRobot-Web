@@ -5,8 +5,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {SortableHeaderModule} from '../../_helper/table-sortable';
-import {IconsModule} from '../../_helper/icons.module';
+import {SortableHeaderModule} from '../../_shared/table-sortable';
+import {IconsModule} from '../../_shared/icons.module';
 
 import {OrganisationsComponent} from './organisations.component';
 import {AllOrganisationsComponent} from './all-organisations/all-organisations.component';

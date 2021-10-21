@@ -5,12 +5,12 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {IconsModule} from '../../_helper/icons.module';
+import {IconsModule} from '../../_shared/icons.module';
 
 import {UsersComponent} from './users.component';
 import {AllUsersComponent} from './all-users/all-users.component';
 import {UserEditComponent} from './user-edit/user-edit.component';
-import {SortableHeaderModule} from '../../_helper/table-sortable';
+import {SortableHeaderModule} from '../../_shared/table-sortable';
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 

@@ -4,10 +4,10 @@ import {FormControl} from '@angular/forms';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AbstractComponent, AbstractEntity, EntityList, IList, LoggerFactory} from 'dfx-helper';
 
-import {compare, SortableHeaderDirective, SortEvent} from './table-sortable';
+import {compare, SortableHeaderDirective, SortEvent} from '../_shared/table-sortable';
 import {AbstractModelService} from '../_services/abstract-model.service';
 
-import {QuestionDialogComponent} from './question-dialog/question-dialog.component';
+import {QuestionDialogComponent} from '../_shared/question-dialog/question-dialog.component';
 
 @Component({
   template: '',

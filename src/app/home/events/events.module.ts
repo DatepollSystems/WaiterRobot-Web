@@ -7,8 +7,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {IconsModule} from '../../_helper/icons.module';
-import {SortableHeaderModule} from '../../_helper/table-sortable';
+import {IconsModule} from '../../_shared/icons.module';
+import {SortableHeaderModule} from '../../_shared/table-sortable';
 
 import {EventsComponent} from './events.component';
 import {AllEventsComponent} from './all-events/all-events.component';

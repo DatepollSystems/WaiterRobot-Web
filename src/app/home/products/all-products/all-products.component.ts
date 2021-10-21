@@ -4,7 +4,7 @@ import {FormControl} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {Converter} from 'dfx-helper';
 
-import {compare, SortableHeaderDirective, SortEvent} from '../../../_helper/table-sortable';
+import {compare, SortableHeaderDirective, SortEvent} from '../../../_shared/table-sortable';
 
 import {ProductsService} from '../../../_services/products.service';
 import {ProductsModel} from '../../../_models/products';

@@ -9,7 +9,7 @@ import {HomeRoutingModule} from './home-routing.module';
 
 import {HomeComponent} from './home.component';
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
-import {IconsModule} from '../_helper/icons.module';
+import {IconsModule} from '../_shared/icons.module';
 
 @NgModule({
   declarations: [HomeComponent],
