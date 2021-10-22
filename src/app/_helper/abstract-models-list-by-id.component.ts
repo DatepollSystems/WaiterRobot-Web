@@ -23,23 +23,19 @@ export abstract class AbstractModelsListByIdComponent<
     modal: NgbModal,
     protected route: ActivatedRoute,
     protected router: Router,
-    protected entityService: AbstractEntityService<number, EntityType>
+    protected byIdEntityService: AbstractEntityService<number, EntityType>
   ) {
     super(modelService, modal);
 
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       if (id != null) {
-        this.entitiesLoaded = false;
         if (TypeHelper.isNumeric(id)) {
           const nId = Converter.stringToNumber(id);
           this.lumber.info('const', 'Model to open: ' + nId);
-          this.entity = this.entityService.getSingle(nId);
-          if (this.entity?.id == nId) {
-            this.initializeVariables();
-          }
+          this.entity = this.byIdEntityService.getSingle(nId);
           this.autoUnsubscribe(
-            this.entityService.singleChange.subscribe((entity) => {
+            this.byIdEntityService.singleChange.subscribe((entity) => {
               this.entity = entity;
               this.initializeVariables();
             })
@@ -59,7 +55,7 @@ export abstract class AbstractModelsListByIdComponent<
     if (!this.entity) {
       return;
     }
-    this.modelService.setGetAllUrl(this.getAllUrl + this.entity.id);
+    this.entitiesService.setGetAllUrl(this.getAllUrl + this.entity.id);
     super.initializeVariables();
   }
 }

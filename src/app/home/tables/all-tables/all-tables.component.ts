@@ -18,14 +18,14 @@ import {EventModel} from '../../../_models/event.model';
 export class AllTablesComponent extends AbstractModelsListComponent<TableModel> {
   selectedEvent: EventModel | undefined;
 
-  constructor(protected modelService: TablesService, modal: NgbModal) {
-    super(modelService, modal);
+  constructor(protected entitiesService: TablesService, modal: NgbModal) {
+    super(entitiesService, modal);
 
-    this.modelService.setEventGetAllUrl();
+    this.entitiesService.setSelectedEventGetAllUrl();
   }
 
   protected override initializeVariables(): void {
-    this.modelService.setEventGetAllUrl();
+    this.entitiesService.setSelectedEventGetAllUrl();
     super.initializeVariables();
   }
 

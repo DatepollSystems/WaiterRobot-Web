@@ -1,6 +1,6 @@
-import {AbstractEntityWithName} from 'dfx-helper';
+import {AbstractEntityWithNumberIDAndName} from 'dfx-helper';
 
-export class OrganisationModel extends AbstractEntityWithName<number> {
+export class OrganisationModel extends AbstractEntityWithNumberIDAndName {
   public readonly street: string;
   public readonly street_number: string;
   public readonly postal_code: string;
@@ -8,7 +8,7 @@ export class OrganisationModel extends AbstractEntityWithName<number> {
   public readonly country_code: string;
 
   constructor(data: any) {
-    super(data.id, data.name);
+    super(data.id, data.name, data);
     this.street = data.street;
     this.street_number = data.street_number;
     this.postal_code = data.postal_code;

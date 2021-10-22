@@ -23,8 +23,8 @@ export class AppDownloadBtnListComponent {
     {
       text: 'F-Droid',
       link: 'https://f-droid.org',
-      img: 'assets/fdroidLogo.svg',
-      img2: 'assets/fdroidLogo_black.svg',
+      img: 'assets/store_logos/fdroidLogo.svg',
+      img2: 'assets/store_logos/fdroidLogo_black.svg',
     },
     {
       text: 'App Store',
@@ -34,8 +34,8 @@ export class AppDownloadBtnListComponent {
     {
       text: 'AppGallery',
       link: 'https://appgallery.huawei.com',
-      img: 'assets/appGallery.svg',
-      img2: 'assets/appGallery_black.svg',
+      img: 'assets/store_logos/appGallery.svg',
+      img2: 'assets/store_logos/appGallery_black.svg',
     },
     {
       text: 'Play Store',

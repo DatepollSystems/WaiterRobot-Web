@@ -1,6 +1,6 @@
-import {AbstractEntityWithName, Converter} from 'dfx-helper';
+import {AbstractEntityWithNumberIDAndName, Converter} from 'dfx-helper';
 
-export class TableModel extends AbstractEntityWithName<number> {
+export class TableModel extends AbstractEntityWithNumberIDAndName {
   public tableNumber: number;
   public seats: number;
   public group_id: number;
@@ -8,7 +8,7 @@ export class TableModel extends AbstractEntityWithName<number> {
   public event_id: number;
 
   constructor(data: any) {
-    super(data.id, Converter.numberToString(data.number));
+    super(data.id, Converter.numberToString(data.number), data);
     this.tableNumber = data.number;
     this.seats = data.seats;
     this.group_id = data.group_id;

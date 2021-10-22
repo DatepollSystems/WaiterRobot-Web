@@ -1,6 +1,6 @@
-import {AbstractEntityWithName} from 'dfx-helper';
+import {AbstractEntityWithNumberIDAndName} from 'dfx-helper';
 
-export class UserModel extends AbstractEntityWithName<number> {
+export class UserModel extends AbstractEntityWithNumberIDAndName {
   public readonly email_address: string;
   public readonly firstname: string;
   public readonly surname: string;
@@ -8,7 +8,7 @@ export class UserModel extends AbstractEntityWithName<number> {
   public is_admin: boolean;
 
   constructor(data: any) {
-    super(data.id, data.firstname + ' ' + data.surname);
+    super(data.id, data.firstname + ' ' + data.surname, data);
     this.email_address = data.email_address;
     this.firstname = data.firstname;
     this.surname = data.surname;

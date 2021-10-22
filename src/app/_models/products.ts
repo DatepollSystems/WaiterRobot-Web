@@ -1,6 +1,6 @@
-import {AbstractEntityWithName} from 'dfx-helper';
+import {AbstractEntityWithNumberIDAndName} from 'dfx-helper';
 
-export class ProductsModel extends AbstractEntityWithName<number> {
+export class ProductsModel extends AbstractEntityWithNumberIDAndName {
   public readonly price: number;
   public readonly allergens: Array<AllergensModel>;
   public readonly group_id: number;
@@ -8,7 +8,7 @@ export class ProductsModel extends AbstractEntityWithName<number> {
   public readonly organisation_id: number;
 
   constructor(data: any) {
-    super(data.id, data.name);
+    super(data.id, data.name, data);
     this.price = data.price;
     this.allergens = data.allergens;
     this.group_id = data.group_id;
@@ -17,11 +17,11 @@ export class ProductsModel extends AbstractEntityWithName<number> {
   }
 }
 
-export class AllergensModel extends AbstractEntityWithName<number> {
+export class AllergensModel extends AbstractEntityWithNumberIDAndName {
   public readonly short_name: string;
 
   constructor(data: any) {
-    super(data.id, data.name);
+    super(data.id, data.name, data);
     this.short_name = data.short_name;
   }
 }

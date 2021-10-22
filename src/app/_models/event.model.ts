@@ -1,6 +1,6 @@
-import {AbstractEntityWithName} from 'dfx-helper';
+import {AbstractEntityWithNumberIDAndName} from 'dfx-helper';
 
-export class EventModel extends AbstractEntityWithName<number> {
+export class EventModel extends AbstractEntityWithNumberIDAndName {
   public readonly date: Date | null;
   public readonly street: string;
   public readonly street_number: string;
@@ -8,7 +8,7 @@ export class EventModel extends AbstractEntityWithName<number> {
   public readonly city: string;
 
   constructor(data: any) {
-    super(data.id, data.name);
+    super(data.id, data.name, data);
     this.street = data.street;
     this.street_number = data.street_number;
     this.postal_code = data.postal_code;

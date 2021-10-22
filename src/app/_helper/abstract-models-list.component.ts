@@ -1,4 +1,4 @@
-import {Component, QueryList, ViewChildren} from '@angular/core';
+import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {FormControl} from '@angular/forms';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -12,7 +12,7 @@ import {QuestionDialogComponent} from '../_shared/question-dialog/question-dialo
 @Component({
   template: '',
 })
-export abstract class AbstractModelsListComponent<EntityType extends AbstractEntity<number>> extends AbstractComponent {
+export abstract class AbstractModelsListComponent<EntityType extends AbstractEntity<number>> extends AbstractComponent implements OnInit {
   protected lumber = LoggerFactory.getLogger('AModelsListComponent');
 
   @ViewChildren(SortableHeaderDirective) public headers: QueryList<SortableHeaderDirective> | undefined;
@@ -22,9 +22,8 @@ export abstract class AbstractModelsListComponent<EntityType extends AbstractEnt
   public entitiesCopy!: IList<EntityType>;
   public entitiesLoaded = false;
 
-  protected constructor(protected modelService: AbstractModelService<EntityType>, protected modal: NgbModal) {
+  protected constructor(protected entitiesService: AbstractModelService<EntityType>, protected modal: NgbModal) {
     super();
-    this.initializeVariables();
 
     this.filter.valueChanges.subscribe((value) => {
       if (value == null) {
@@ -41,14 +40,19 @@ export abstract class AbstractModelsListComponent<EntityType extends AbstractEnt
     });
   }
 
+  ngOnInit() {
+    this.initializeVariables();
+  }
+
   protected initializeVariables(): void {
-    this.entities = this.modelService.getAll();
+    this.entities = this.entitiesService.getAll();
     this.entitiesCopy = this.entities.clone();
-    if (this.entities.length > 0) {
-      this.entitiesLoaded = true;
-    }
+    // Don't check because events waiters and org waiters use same list
+    // if (this.entities.length > 0) {
+    //   this.entitiesLoaded = true;
+    // }
     this.autoUnsubscribe(
-      this.modelService.allChange.subscribe((value) => {
+      this.entitiesService.allChange.subscribe((value) => {
         this.entities = value;
         this.entitiesCopy = this.entities.clone();
         this.entitiesLoaded = true;
@@ -67,7 +71,7 @@ export abstract class AbstractModelsListComponent<EntityType extends AbstractEnt
     modalRef.componentInstance.title = 'DELETE_CONFIRMATION';
     void modalRef.result.then((result) => {
       if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
-        this.modelService.delete(modelId);
+        this.entitiesService.delete(modelId);
       }
     });
   }

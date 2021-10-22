@@ -31,14 +31,12 @@
   <table class="table table-dark table-hover">
     <thead>
       <tr class="table-dark">
-        <th sortable="id" (sort)="onSort($event)">#</th>
         <th sortable="name" (sort)="onSort($event)" style="min-width: 20vh">{{ 'NAME' | tr }}</th>
         <th style="min-width: 20vh">{{ 'ACTIONS' | tr }}</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let waiter of entitiesCopy" class="table-dark clickable" (click)="openQRCode(waiter)">
-        <th>{{ waiter.id }}</th>
         <td>{{ waiter.name }}</td>
         <td (click)="$event.stopPropagation()">
           <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ waiter.id }}" ngbTooltip="{{ 'EDIT' | tr }}">

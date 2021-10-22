@@ -19,7 +19,7 @@ export class TablesService extends AbstractModelService<TableModel> {
     });
   }
 
-  public setEventGetAllUrl(): void {
+  public setSelectedEventGetAllUrl(): void {
     this.setGetAllUrl('/config/table?event_id=' + this.eventsService.getSelected()?.id);
   }
 
