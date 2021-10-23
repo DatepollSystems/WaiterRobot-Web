@@ -84,6 +84,7 @@ deploy-dev:
   stage: deploy
   only:
     - branches
+    - develop
   dependencies:
     - build-dev
   script:
