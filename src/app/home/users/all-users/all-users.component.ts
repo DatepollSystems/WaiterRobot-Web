@@ -13,6 +13,8 @@ import {UserModel} from '../../../_models/user.model';
   styleUrls: ['./all-users.component.scss'],
 })
 export class AllUsersComponent extends AbstractModelsListComponent<UserModel> {
+  columnsToDisplay = ['id', 'name', 'email', 'birthday', 'admin', 'actions'];
+
   constructor(usersService: UsersService, modal: NgbModal) {
     super(usersService, modal);
   }

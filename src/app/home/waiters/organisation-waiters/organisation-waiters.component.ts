@@ -32,9 +32,9 @@ export class OrganisationWaitersComponent extends AbstractModelsListComponent<Wa
     this.entitiesService.setSelectedOrganisationGetAllUrl();
   }
 
-  protected override initializeVariables(): void {
+  protected override initializeEntities(): void {
     this.entitiesService.setSelectedOrganisationGetAllUrl();
-    super.initializeVariables();
+    super.initializeEntities();
   }
 
   protected override checkFilterForModel(filter: string, model: WaiterModel): WaiterModel | undefined {

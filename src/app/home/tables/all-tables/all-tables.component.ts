@@ -24,9 +24,9 @@ export class AllTablesComponent extends AbstractModelsListComponent<TableModel> 
     this.entitiesService.setSelectedEventGetAllUrl();
   }
 
-  protected override initializeVariables(): void {
+  protected override initializeEntities(): void {
     this.entitiesService.setSelectedEventGetAllUrl();
-    super.initializeVariables();
+    super.initializeEntities();
   }
 
   protected checkFilterForModel(filter: string, model: TableModel): TableModel | undefined {

@@ -13,6 +13,7 @@ import {UserEditComponent} from './user-edit/user-edit.component';
 import {SortableHeaderModule} from '../../_shared/table-sortable';
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {DfxTableModule} from '../../_shared/table/table-module';
 
 const userRoutes: Routes = [
   {
@@ -39,6 +40,7 @@ const userRoutes: Routes = [
     FormsModule,
     NgbTooltipModule,
     ReactiveFormsModule,
+    DfxTableModule,
   ],
 })
 export class UsersModule {}
