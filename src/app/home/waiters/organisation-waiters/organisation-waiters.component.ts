@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 
-import {Converter} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
@@ -18,6 +17,8 @@ import {WaiterQRCodeModalComponent} from '../waiter-qr-code-modal.component';
   styleUrls: ['./organisation-waiters.component.scss'],
 })
 export class OrganisationWaitersComponent extends AbstractModelsListComponent<WaiterModel> {
+  override columnsToDisplay = ['name', 'actions'];
+
   selectedOrganisation: OrganisationModel | undefined;
 
   constructor(protected entitiesService: WaitersService, organisationsService: OrganisationsService, modal: NgbModal) {
@@ -32,18 +33,10 @@ export class OrganisationWaitersComponent extends AbstractModelsListComponent<Wa
     this.entitiesService.setSelectedOrganisationGetAllUrl();
   }
 
-  protected override initializeVariables(): void {
+  protected override initializeEntities(): void {
     this.entitiesService.setSelectedOrganisationGetAllUrl();
-    super.initializeVariables();
+    super.initializeEntities();
   }
-
-  protected override checkFilterForModel(filter: string, model: WaiterModel): WaiterModel | undefined {
-    if (Converter.numberToString(model.id) === filter || model.name.trim().toLowerCase().includes(filter)) {
-      return model;
-    }
-    return undefined;
-  }
-
   public openQRCode(waiter: WaiterModel): void {
     const modalRef = this.modal.open(WaiterQRCodeModalComponent, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg'});
     modalRef.componentInstance.waiter = waiter;

@@ -30,49 +30,57 @@
 </form>
 
 <div class="table-responsive" [hidden]="!entitiesLoaded">
-  <table class="table table-dark table-hover">
-    <thead>
-      <tr class="table-dark">
-        <th sortable="id" (sort)="onSort($event)">#</th>
-        <th sortable="name" (sort)="onSort($event)" style="min-width: 20vh">{{ 'NAME' | tr }}</th>
-        <th sortable="date" (sort)="onSort($event)">{{ 'DATE' | tr }}</th>
-        <th sortable="street" (sort)="onSort($event)">{{ 'HOME_ORGS_STREET' | tr }}</th>
-        <th sortable="street_number" (sort)="onSort($event)">{{ 'HOME_ORGS_STREETNUMBER' | tr }}</th>
-        <th sortable="postal_code" (sort)="onSort($event)">{{ 'HOME_ORGS_POSTAL_CODE' | tr }}</th>
-        <th style="min-width: 15vh" sortable="city" (sort)="onSort($event)">{{ 'HOME_ORGS_CITY' | tr }}</th>
-        <th style="min-width: 20vh">{{ 'ACTIONS' | tr }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let event of entitiesCopy" class="table-dark">
-        <th>{{ event.id }}</th>
-        <td>{{ event.name }}</td>
-        <td>{{ event.date | date: 'dd.MM.YYYY' }}</td>
-        <td>{{ event.street }}</td>
-        <td>{{ event.street_number }}</td>
-        <td>{{ event.postal_code }}</td>
-        <td>{{ event.city }}</td>
-        <td>
-          <button
-            type="button"
-            class="btn btn-sm m-1 btn-outline-primary text-white"
-            (click)="onSelect(event)"
-            ngbTooltip="{{ 'SELECT' | tr }}">
-            <i-bs name="check2-square"></i-bs>
-          </button>
-          <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ event.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
-            <i-bs name="pencil-square"></i-bs>
-          </a>
-          <button
-            type="button"
-            class="btn btn-sm m-1 btn-outline-danger text-white"
-            ngbTooltip="{{ 'DELETE' | tr }}"
-            (click)="onDelete(event.id)"
-            *ngIf="myUser?.is_admin">
-            <i-bs name="trash"></i-bs>
-          </button>
-        </td>
-      </tr>
-    </tbody>
+  <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort>
+    <ng-container ngbColumnDef="name">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+      <td *ngbCellDef="let event" ngb-cell>{{ event.name }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="date">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'DATE' | tr }}</th>
+      <td *ngbCellDef="let event" ngb-cell>{{ event.date | date: 'dd.MM.YYYY' }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="street">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_STREET' | tr }}</th>
+      <td *ngbCellDef="let event" ngb-cell>{{ event.street }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="postal_code">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_POSTAL_CODE' | tr }}</th>
+      <td *ngbCellDef="let event" ngb-cell>{{ event.postal_code }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="city">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_CITY' | tr }}</th>
+      <td *ngbCellDef="let event" ngb-cell>{{ event.city }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="actions">
+      <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+      <td *ngbCellDef="let event" ngb-cell>
+        <button
+          type="button"
+          class="btn btn-sm m-1 btn-outline-primary text-white"
+          (click)="onSelect(event)"
+          ngbTooltip="{{ 'SELECT' | tr }}">
+          <i-bs name="check2-square"></i-bs>
+        </button>
+        <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ event.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+          <i-bs name="pencil-square"></i-bs>
+        </a>
+        <button
+          type="button"
+          class="btn btn-sm m-1 btn-outline-danger text-white"
+          ngbTooltip="{{ 'DELETE' | tr }}"
+          (click)="onDelete(event.id)"
+          *ngIf="myUser?.is_admin">
+          <i-bs name="trash"></i-bs>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+    <tr *ngbRowDef="let event; columns: columnsToDisplay" ngb-row></tr>
   </table>
 </div>

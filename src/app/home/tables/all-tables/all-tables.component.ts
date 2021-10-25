@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 
-import {Converter} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {TablesService} from '../../../_services/tables.service';
@@ -16,6 +15,8 @@ import {EventModel} from '../../../_models/event.model';
   styleUrls: ['./all-tables.component.scss'],
 })
 export class AllTablesComponent extends AbstractModelsListComponent<TableModel> {
+  override columnsToDisplay = ['number', 'seats', 'actions'];
+
   selectedEvent: EventModel | undefined;
 
   constructor(protected entitiesService: TablesService, modal: NgbModal) {
@@ -24,15 +25,8 @@ export class AllTablesComponent extends AbstractModelsListComponent<TableModel> 
     this.entitiesService.setSelectedEventGetAllUrl();
   }
 
-  protected override initializeVariables(): void {
+  protected override initializeEntities(): void {
     this.entitiesService.setSelectedEventGetAllUrl();
-    super.initializeVariables();
-  }
-
-  protected checkFilterForModel(filter: string, model: TableModel): TableModel | undefined {
-    if (Converter.numberToString(model.tableNumber) === filter || Converter.numberToString(model.seats) === filter) {
-      return model;
-    }
-    return undefined;
+    super.initializeEntities();
   }
 }

@@ -5,10 +5,8 @@ import {RouterModule, Routes} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {DfxTableModule, NgbSortModule} from 'dfx-bootstrap-table';
 import {DfxTranslateModule} from 'dfx-translate';
-
-import {SortableHeaderModule} from '../../_shared/table-sortable';
-import {IconsModule} from '../../_shared/icons.module';
 
 import {TablesComponent} from './tables.component';
 import {TableGroupsComponent} from './table-groups/table-groups.component';
@@ -16,8 +14,9 @@ import {AllTablesComponent} from './all-tables/all-tables.component';
 import {TableGroupEditComponent} from './table-group-edit/table-group-edit.component';
 import {TableEditComponent} from './table-edit/table-edit.component';
 import {TableGroupByIdTablesComponent} from './table-group-by-id-tables/table-group-by-id-tables.component';
+import {IconsModule} from '../../_shared/icons.module';
 
-const startRoutes: Routes = [
+const routes: Routes = [
   {
     path: '',
     component: TablesComponent,
@@ -43,16 +42,18 @@ const startRoutes: Routes = [
     TableGroupByIdTablesComponent,
   ],
   imports: [
+    RouterModule.forChild(routes),
     CommonModule,
-    DfxTranslateModule,
-    RouterModule.forChild(startRoutes),
-    FlexLayoutModule,
-    IconsModule,
     FormsModule,
     ReactiveFormsModule,
+    FlexLayoutModule,
+    DfxTranslateModule,
     NgbNavModule,
     NgbTooltipModule,
-    SortableHeaderModule,
+    DfxTableModule,
+    NgbSortModule,
+    DfxTranslateModule,
+    IconsModule,
   ],
 })
 export class TablesModule {}

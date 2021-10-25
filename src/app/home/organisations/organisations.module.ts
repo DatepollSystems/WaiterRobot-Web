@@ -1,20 +1,20 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {DfxTranslateModule} from 'dfx-translate';
+import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {DfxTableModule, NgbSortModule} from 'dfx-bootstrap-table';
 
-import {SortableHeaderModule} from '../../_shared/table-sortable';
 import {IconsModule} from '../../_shared/icons.module';
 
 import {OrganisationsComponent} from './organisations.component';
 import {AllOrganisationsComponent} from './all-organisations/all-organisations.component';
 import {OrganisationEditComponent} from './organisation-edit/organisation-edit.component';
-import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-const startRoutes: Routes = [
+const routes: Routes = [
   {
     path: '',
     component: OrganisationsComponent,
@@ -29,16 +29,17 @@ const startRoutes: Routes = [
 @NgModule({
   declarations: [OrganisationsComponent, OrganisationEditComponent, AllOrganisationsComponent],
   imports: [
+    RouterModule.forChild(routes),
     CommonModule,
-    DfxTranslateModule,
-    RouterModule.forChild(startRoutes),
-    FlexLayoutModule,
-    SortableHeaderModule,
-    IconsModule,
-    NgbNavModule,
     FormsModule,
-    NgbTooltipModule,
     ReactiveFormsModule,
+    FlexLayoutModule,
+    DfxTranslateModule,
+    NgbNavModule,
+    NgbTooltipModule,
+    DfxTableModule,
+    NgbSortModule,
+    IconsModule,
   ],
 })
 export class OrganisationsModule {}

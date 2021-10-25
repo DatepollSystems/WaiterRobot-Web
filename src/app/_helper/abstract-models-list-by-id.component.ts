@@ -37,7 +37,7 @@ export abstract class AbstractModelsListByIdComponent<
           this.autoUnsubscribe(
             this.byIdEntityService.singleChange.subscribe((entity) => {
               this.entity = entity;
-              this.initializeVariables();
+              this.initializeEntities();
             })
           );
         } else {
@@ -51,11 +51,11 @@ export abstract class AbstractModelsListByIdComponent<
     });
   }
 
-  protected override initializeVariables(): void {
+  protected override initializeEntities(): void {
     if (!this.entity) {
       return;
     }
     this.entitiesService.setGetAllUrl(this.getAllUrl + this.entity.id);
-    super.initializeVariables();
+    super.initializeEntities();
   }
 }
