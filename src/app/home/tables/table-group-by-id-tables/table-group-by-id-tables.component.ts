@@ -16,6 +16,7 @@ import {TableGroupModel} from '../../../_models/table-group.model';
   styleUrls: ['./table-group-by-id-tables.component.scss'],
 })
 export class TableGroupByIdTablesComponent extends AbstractModelsListByIdComponent<TableModel, TableGroupModel> {
+  override columnsToDisplay = ['name', 'seats', 'actions'];
   //TODO: Change to group_id
   override getAllUrl = '/config/table?group_id=';
 
@@ -27,12 +28,5 @@ export class TableGroupByIdTablesComponent extends AbstractModelsListByIdCompone
     modal: NgbModal
   ) {
     super(tablesService, modal, route, router, tableGroupsService);
-  }
-
-  protected override checkFilterForModel(filter: string, model: TableModel): TableModel | undefined {
-    if (model.name.trim().toLowerCase().includes(filter)) {
-      return model;
-    }
-    return undefined;
   }
 }

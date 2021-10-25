@@ -18,18 +18,12 @@ import {AbstractModelsListByIdComponent} from '../../../_helper/abstract-models-
   styleUrls: ['./event-by-id-waiters.component.scss'],
 })
 export class EventByIdWaitersComponent extends AbstractModelsListByIdComponent<WaiterModel, EventModel> {
+  override columnsToDisplay = ['name', 'actions'];
   // TODO: Change to event_id
   override getAllUrl = '/config/waiter?organisation_id=';
 
   constructor(waitersService: WaitersService, eventsService: EventsService, route: ActivatedRoute, router: Router, modal: NgbModal) {
     super(waitersService, modal, route, router, eventsService);
-  }
-
-  protected override checkFilterForModel(filter: string, model: WaiterModel): WaiterModel | undefined {
-    if (model.name.trim().toLowerCase().includes(filter)) {
-      return model;
-    }
-    return undefined;
   }
 
   public openQRCode(waiter: WaiterModel): void {

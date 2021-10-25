@@ -13,22 +13,9 @@ import {UserModel} from '../../../_models/user.model';
   styleUrls: ['./all-users.component.scss'],
 })
 export class AllUsersComponent extends AbstractModelsListComponent<UserModel> {
-  columnsToDisplay = ['id', 'name', 'email', 'birthday', 'admin', 'actions'];
+  columnsToDisplay = ['id', 'name', 'email_address', 'birthday', 'is_admin', 'actions'];
 
   constructor(usersService: UsersService, modal: NgbModal) {
     super(usersService, modal);
-  }
-
-  protected checkFilterForModel(filter: string, model: UserModel): UserModel | undefined {
-    if (
-      Converter.numberToString(model.id) === filter ||
-      model.firstname.trim().toLowerCase().includes(filter) ||
-      model.surname.trim().toLowerCase().includes(filter) ||
-      model.email_address.trim().toLowerCase().includes(filter) ||
-      Converter.booleanToString(model.is_admin).trim().toLowerCase().includes(filter)
-    ) {
-      return model;
-    }
-    return undefined;
   }
 }

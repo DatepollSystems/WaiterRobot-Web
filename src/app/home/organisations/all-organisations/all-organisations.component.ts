@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 
-import {Converter} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
@@ -16,6 +15,8 @@ import {UserModel} from '../../../_models/user.model';
   styleUrls: ['./all-organisations.component.scss'],
 })
 export class AllOrganisationsComponent extends AbstractModelsListComponent<OrganisationModel> {
+  override columnsToDisplay = ['id', 'name', 'street', 'street_number', 'postal_code', 'city', 'country_code', 'actions'];
+
   myUser: UserModel | undefined;
 
   constructor(modal: NgbModal, private myUserService: MyUserService, private organisationsService: OrganisationsService) {
@@ -27,21 +28,6 @@ export class AllOrganisationsComponent extends AbstractModelsListComponent<Organ
         this.myUser = user;
       })
     );
-  }
-
-  protected checkFilterForModel(filter: string, model: OrganisationModel): OrganisationModel | undefined {
-    if (
-      Converter.numberToString(model.id) == filter ||
-      model.name.trim().toLowerCase().includes(filter) ||
-      model.street.trim().toLowerCase().includes(filter) ||
-      model.postal_code.trim().toLowerCase().includes(filter) ||
-      model.city.trim().toLowerCase().includes(filter) ||
-      model.country_code.trim().toLowerCase().includes(filter) ||
-      model.street_number.trim().toLowerCase().includes(filter)
-    ) {
-      return model;
-    }
-    return undefined;
   }
 
   onSelect(organisation: OrganisationModel): void {

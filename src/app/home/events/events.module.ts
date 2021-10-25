@@ -5,10 +5,10 @@ import {RouterModule, Routes} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {DfxTableModule, NgbSortModule} from 'dfx-bootstrap-table';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {IconsModule} from '../../_shared/icons.module';
-import {SortableHeaderModule} from '../../_shared/table-sortable';
 
 import {EventsComponent} from './events.component';
 import {AllEventsComponent} from './all-events/all-events.component';
@@ -29,16 +29,17 @@ const startRoutes: Routes = [
 @NgModule({
   declarations: [EventsComponent, AllEventsComponent, EventEditComponent],
   imports: [
-    CommonModule,
-    DfxTranslateModule,
     RouterModule.forChild(startRoutes),
-    FlexLayoutModule,
-    SortableHeaderModule,
-    IconsModule,
-    NgbNavModule,
+    CommonModule,
     FormsModule,
-    NgbTooltipModule,
     ReactiveFormsModule,
+    FlexLayoutModule,
+    DfxTranslateModule,
+    NgbNavModule,
+    NgbTooltipModule,
+    DfxTableModule,
+    NgbSortModule,
+    IconsModule,
   ],
 })
 export class EventsModule {}

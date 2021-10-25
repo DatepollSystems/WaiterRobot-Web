@@ -28,34 +28,33 @@
 </form>
 
 <div class="table-responsive" [hidden]="!entitiesLoaded">
-  <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource">
+  <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort>
     <ng-container ngbColumnDef="id">
-      <th *ngbHeaderCellDef ngb-header-cell sortable="id" (sort)="onSort($event)">#</th>
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
       <td *ngbCellDef="let user" ngb-cell>{{ user.id }}</td>
     </ng-container>
 
     <ng-container ngbColumnDef="name">
-      <th *ngbHeaderCellDef ngb-header-cell>{{ 'NAME' | tr }}</th>
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
       <td *ngbCellDef="let user" ngb-cell>{{ user.name }}</td>
     </ng-container>
 
-    <ng-container ngbColumnDef="email">
-      <th *ngbHeaderCellDef ngb-header-cell>{{ 'EMAIL' | tr }}</th>
+    <ng-container ngbColumnDef="email_address">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'EMAIL' | tr }}</th>
       <td *ngbCellDef="let user" ngb-cell>{{ user.email_address }}</td>
     </ng-container>
 
     <ng-container ngbColumnDef="birthday">
-      <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_USERS_BIRTHDAY' | tr }}</th>
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_BIRTHDAY' | tr }}</th>
       <td *ngbCellDef="let user" ngb-cell>{{ user.birthday | date: 'dd.MM.YYYY' }}</td>
     </ng-container>
 
-    <ng-container ngbColumnDef="admin">
-      <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_USERS_ADMIN' | tr }}</th>
+    <ng-container ngbColumnDef="is_admin">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ADMIN' | tr }}</th>
       <td *ngbCellDef="let user" ngb-cell>{{ user.is_admin }}</td>
     </ng-container>
 
-    <ng-container ngbColumnDef="actions"
-      >table
+    <ng-container ngbColumnDef="actions">
       <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
       <td *ngbCellDef="let user" ngb-cell>
         <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ user.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
@@ -73,41 +72,5 @@
 
     <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
     <tr *ngbRowDef="let user; columns: columnsToDisplay" ngb-row></tr>
-  </table>
-</div>
-
-<div class="table-responsive" [hidden]="!entitiesLoaded">
-  <table class="table table-dark table-hover">
-    <thead>
-      <tr class="table-dark">
-        <th sortable="id" (sort)="onSort($event)">#</th>
-        <th sortable="name" (sort)="onSort($event)" style="min-width: 20vh">{{ 'NAME' | tr }}</th>
-        <th sortable="email_address" (sort)="onSort($event)">{{ 'EMAIL' | tr }}</th>
-        <th sortable="birthday" (sort)="onSort($event)">{{ 'HOME_USERS_BIRTHDAY' | tr }}</th>
-        <th sortable="is_admin" (sort)="onSort($event)">{{ 'HOME_USERS_ADMIN' | tr }}</th>
-        <th style="min-width: 20vh">{{ 'ACTIONS' | tr }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of entitiesCopy" class="table-dark">
-        <th>{{ user.id }}</th>
-        <td>{{ user.firstname }} {{ user.surname }}</td>
-        <td>{{ user.email_address }}</td>
-        <td>{{ user.birthday | date: 'dd.MM.YYYY' }}</td>
-        <td>{{ user.is_admin }}</td>
-        <td>
-          <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ user.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
-            <i-bs name="pencil-square"></i-bs>
-          </a>
-          <button
-            type="button"
-            class="btn btn-sm m-1 btn-outline-danger text-white"
-            ngbTooltip="{{ 'DELETE' | tr }}"
-            (click)="onDelete(user.id)">
-            <i-bs name="trash"></i-bs>
-          </button>
-        </td>
-      </tr>
-    </tbody>
   </table>
 </div>

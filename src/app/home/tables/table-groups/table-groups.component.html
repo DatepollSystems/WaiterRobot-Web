@@ -28,31 +28,34 @@
 </form>
 
 <div class="table-responsive" [hidden]="!entitiesLoaded">
-  <table class="table table-dark table-hover">
-    <thead>
-      <tr class="table-dark">
-        <th sortable="name" (sort)="onSort($event)" style="min-width: 20vh">{{ 'NAME' | tr }}</th>
-        <th sortable="seats" (sort)="onSort($event)">{{ 'SEATS' | tr }}</th>
-        <th style="min-width: 20vh">{{ 'ACTIONS' | tr }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let tableGroup of entitiesCopy" class="table-dark">
-        <td>{{ tableGroup.name }}</td>
-        <td>{{ tableGroup.seats }}</td>
-        <td>
-          <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ tableGroup.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
-            <i-bs name="pencil-square"></i-bs>
-          </a>
-          <button
-            type="button"
-            class="btn btn-sm m-1 btn-outline-danger text-white"
-            ngbTooltip="{{ 'DELETE' | tr }}"
-            (click)="onDelete(tableGroup.id)">
-            <i-bs name="trash"></i-bs>
-          </button>
-        </td>
-      </tr>
-    </tbody>
+  <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort>
+    <ng-container ngbColumnDef="name">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+      <td *ngbCellDef="let tableGroup" ngb-cell>{{ tableGroup.name }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="seats">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'SEATS' | tr }}</th>
+      <td *ngbCellDef="let tableGroup" ngb-cell>{{ tableGroup.seats }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="actions">
+      <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+      <td *ngbCellDef="let tableGroup" ngb-cell>
+        <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ tableGroup.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+          <i-bs name="pencil-square"></i-bs>
+        </a>
+        <button
+          type="button"
+          class="btn btn-sm m-1 btn-outline-danger text-white"
+          ngbTooltip="{{ 'DELETE' | tr }}"
+          (click)="onDelete(tableGroup.id)">
+          <i-bs name="trash"></i-bs>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+    <tr *ngbRowDef="let tableGroup; columns: columnsToDisplay" ngb-row></tr>
   </table>
 </div>

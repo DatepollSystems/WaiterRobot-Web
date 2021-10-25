@@ -28,31 +28,34 @@
 </form>
 
 <div class="table-responsive" [hidden]="!entitiesLoaded">
-  <table class="table table-dark table-hover">
-    <thead>
-      <tr class="table-dark">
-        <th sortable="number" (sort)="onSort($event)" style="min-width: 20vh">{{ 'NUMBER' | tr }}</th>
-        <th sortable="seats" (sort)="onSort($event)">{{ 'SEATS' | tr }}</th>
-        <th style="min-width: 20vh">{{ 'ACTIONS' | tr }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let tables of entitiesCopy" class="table-dark">
-        <td>{{ tables.tableNumber }}</td>
-        <td>{{ tables.seats }}</td>
-        <td>
-          <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ tables.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
-            <i-bs name="pencil-square"></i-bs>
-          </a>
-          <button
-            type="button"
-            class="btn btn-sm m-1 btn-outline-danger text-white"
-            ngbTooltip="{{ 'DELETE' | tr }}"
-            (click)="onDelete(tables.id)">
-            <i-bs name="trash"></i-bs>
-          </button>
-        </td>
-      </tr>
-    </tbody>
+  <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort>
+    <ng-container ngbColumnDef="number">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NUMBER' | tr }}</th>
+      <td *ngbCellDef="let table" ngb-cell>{{ table.tableNumber }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="seats">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'SEATS' | tr }}</th>
+      <td *ngbCellDef="let table" ngb-cell>{{ table.seats }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="actions">
+      <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+      <td *ngbCellDef="let table" ngb-cell>
+        <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ table.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+          <i-bs name="pencil-square"></i-bs>
+        </a>
+        <button
+          type="button"
+          class="btn btn-sm m-1 btn-outline-danger text-white"
+          ngbTooltip="{{ 'DELETE' | tr }}"
+          (click)="onDelete(table.id)">
+          <i-bs name="trash"></i-bs>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+    <tr *ngbRowDef="let table; columns: columnsToDisplay" ngb-row></tr>
   </table>
 </div>
