@@ -10,11 +10,14 @@ import {HttpService} from '../http.service';
   providedIn: 'root',
 })
 export class AuthService {
+  public static signInUrl = '/auth/signin';
+  public static refreshUrl = '/auth/refresh';
+
   private sessionToken: string | undefined = undefined;
   private jwtToken: string | undefined = undefined;
   private jwtTokenExpires: Date;
 
-  public redirectUrl: string | null = null;
+  public redirectUrl: string | undefined = undefined;
 
   constructor(private httpService: HttpService) {
     this.jwtTokenExpires = new Date();
@@ -34,14 +37,15 @@ export class AuthService {
     );
   }
 
-  public sendSignInRequest(username: string, password: string): Observable<any> {
+  public sendSignInRequest(email: string, password: string): Observable<any> {
     const signInObject = {
-      username,
+      email,
       password,
-      session_name: AuthService.getSessionInformation(),
+      session_information: AuthService.getSessionInformation(),
+      stay_logged_in: true,
     };
 
-    return this.httpService.post('/auth/login', signInObject, 'sendSignInRequest');
+    return this.httpService.post(AuthService.signInUrl, signInObject, 'sendSignInRequest');
   }
 
   public setSessionToken(sessionToken: string): void {
@@ -76,9 +80,9 @@ export class AuthService {
       session_information: AuthService.getSessionInformation(),
     };
 
-    return this.httpService.post('/auth/refresh', object, 'refreshJWTToken').pipe(
+    return this.httpService.post(AuthService.refreshUrl, object, 'refreshJWTToken').pipe(
       tap((data: any) => {
-        this.setJWTToken(data.access_token);
+        this.setJWTToken(data.token);
       })
     );
   }

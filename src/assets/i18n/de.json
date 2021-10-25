@@ -41,7 +41,7 @@
 
   "ABOUT": "Über",
   "ABOUT_SIGNIN": "Anmelden",
-  "ABOUT_SIGNIN_USERNAME": "Benutzername",
+  "ABOUT_SIGNIN_EMAIL_ADDRESS": "E-Mail Adresse",
   "ABOUT_SIGNIN_PASSWORD": "Passwort",
   "ABOUT_SIGNIN_SUCCESSFUL": "Erfolgreich angemeldet",
   "ABOUT_SIGNIN_TROUBLE_LOGGING_IN": "Probleme beim anmelden oder Passwort vergessen?",

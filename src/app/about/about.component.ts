@@ -14,15 +14,15 @@ export class AboutComponent {
   constructor(private authService: AuthService, private notificationService: NotificationService, private router: Router) {}
 
   onSignin(form: NgForm): void {
-    const username = form.value.username;
+    const email = form.value.email;
     const password = form.value.password;
-    this.authService.sendSignInRequest(username, password).subscribe(
+    this.authService.sendSignInRequest(email, password).subscribe(
       (data: any) => {
         console.log(data);
-        this.authService.setJWTToken(data.access_token);
+        this.authService.setJWTToken(data.token);
         this.authService.setSessionToken(data.session_token);
         this.notificationService.tsuccess('ABOUT_SIGNIN_SUCCESSFUL');
-        const url = this.authService.redirectUrl != null ? this.authService.redirectUrl : '/home';
+        const url = this.authService.redirectUrl ? this.authService.redirectUrl : '/home';
         void this.router.navigateByUrl(url);
       },
       (error) => {

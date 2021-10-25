@@ -4,20 +4,21 @@ import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {catchError, filter, switchMap, take} from 'rxjs/operators';
 
 import {AuthService} from './auth.service';
+import {LoggerFactory} from 'dfx-helper';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  private lumber = LoggerFactory.getLogger('AuthInterceptor');
+
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   /**
    * Don't intercept this requests
-   * "assets/i18n" - Language files for DatePoll frontend
-   * "/auth" - Auth routes for login, change password, etc.
    */
-  private paths = ['/auth/login', '/auth/IamLoggedIn', 'assets/i18n'];
+  private paths = [AuthService.signInUrl, AuthService.refreshUrl, 'assets/i18n'];
 
   private isRefreshing = false;
-  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(undefined);
 
   private addToken(req: HttpRequest<any>, token: string | undefined): HttpRequest<any> {
     if (!token) {
@@ -58,11 +59,11 @@ export class AuthInterceptor implements HttpInterceptor {
             }
           } else if (error.error instanceof ErrorEvent) {
             // Client Side Error
-            console.log('Client side error');
+            this.lumber.error('intercept', 'Client side error');
             return throwError(error.error.message);
           } else {
             // Server Side Error
-            console.log('Server side error');
+            this.lumber.error('intercept', 'Server side error');
             return throwError(error.error.message);
           }
         })
@@ -83,29 +84,29 @@ export class AuthInterceptor implements HttpInterceptor {
 
     if (!this.isRefreshing) {
       this.isRefreshing = true;
-      this.refreshTokenSubject.next(null);
+      this.refreshTokenSubject.next(undefined);
 
       return this.authService.refreshJWTToken().pipe(
         switchMap((data: any) => {
-          console.log('authInterceptor | Refreshing JWT token...');
-          console.log(data);
+          this.lumber.error('handle401Error', 'JWT token refreshed', data);
           this.isRefreshing = false;
-          this.refreshTokenSubject.next(data.access_token);
-          return next.handle(this.addToken(request, data.access_token));
+          this.refreshTokenSubject.next(data.token);
+          return next.handle(this.addToken(request, data.token));
         }),
         catchError(() => {
+          this.lumber.error('handle401Error', 'Could not refresh jwt token with session token');
           this.authService.clearStorage();
           window.location.reload();
 
-          return next.handle(this.addToken(request, 'null'));
+          return next.handle(request);
         })
       );
     } else {
       return this.refreshTokenSubject.pipe(
-        filter((token) => token != null),
+        filter((token) => token != undefined),
         take(1),
         switchMap((jwt) => {
-          console.log('authInterceptor | Already refreshing | JWT: ' + jwt);
+          this.lumber.info('handle401Error', 'Already refreshing; JWT: "' + jwt + '"');
           return next.handle(this.addToken(request, jwt));
         })
       );

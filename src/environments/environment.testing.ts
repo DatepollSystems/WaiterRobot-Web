@@ -4,5 +4,5 @@ export const environment = {
   version: require('../../package.json').version,
   production: true,
   type: 'testing',
-  apiUrl: '',
+  apiUrl: 'https://lava.kellner.team/api',
 };
