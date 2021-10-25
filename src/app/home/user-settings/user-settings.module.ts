@@ -1,18 +1,20 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {DfxTranslateModule} from 'dfx-translate';
+import {DfxTableModule, NgbSortModule} from 'dfx-bootstrap-table';
+import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
-import {SortableHeaderModule} from '../../_shared/table-sortable';
+import {IconsModule} from '../../_shared/icons.module';
 
 import {UserSettingsComponent} from './user-settings.component';
 import {UserSettingsSubComponent} from './user-settings-sub/user-settings-sub.component';
 import {SessionsComponent} from './sessions/sessions.component';
-import {IconsModule} from '../../_shared/icons.module';
 
-const startRoutes: Routes = [
+const routes: Routes = [
   {
     path: '',
     component: UserSettingsComponent,
@@ -26,6 +28,16 @@ const startRoutes: Routes = [
 
 @NgModule({
   declarations: [UserSettingsComponent, UserSettingsSubComponent, SessionsComponent],
-  imports: [CommonModule, DfxTranslateModule, RouterModule.forChild(startRoutes), FlexLayoutModule, SortableHeaderModule, IconsModule],
+  imports: [
+    RouterModule.forChild(routes),
+    CommonModule,
+    FlexLayoutModule,
+    ReactiveFormsModule,
+    DfxTranslateModule,
+    NgbTooltipModule,
+    DfxTableModule,
+    NgbSortModule,
+    IconsModule,
+  ],
 })
 export class UserSettingsModule {}

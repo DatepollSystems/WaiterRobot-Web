@@ -29,13 +29,13 @@ export abstract class AbstractModelsListComponent<EntityType extends AbstractEnt
 
     this.filter.valueChanges.subscribe((value) => {
       this.dataSource.filter = value;
-      this.dataSource.sort = this.sort;
     });
   }
 
   protected initializeEntities(): void {
     this.entities = this.entitiesService.getAll();
     this.dataSource = new NgbTableDataSource<EntityType>(this.entities.clone());
+    this.dataSource.sort = this.sort;
     // Don't check because events waiters and org waiters use same list
     // if (this.entities.length > 0) {
     //   this.entitiesLoaded = true;

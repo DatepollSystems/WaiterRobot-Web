@@ -1,20 +1,20 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {DfxTranslateModule} from 'dfx-translate';
+import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {DfxTableModule, NgbSortModule} from 'dfx-bootstrap-table';
 
 import {IconsModule} from '../../_shared/icons.module';
 
 import {ProductsComponent} from './products.component';
-import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AllProductsComponent} from './all-products/all-products.component';
 import {ProductEditComponent} from './product-edit/product-edit.component';
-import {SortableHeaderModule} from '../../_shared/table-sortable';
 
-const startRoutes: Routes = [
+const routes: Routes = [
   {
     path: '',
     component: ProductsComponent,
@@ -29,16 +29,17 @@ const startRoutes: Routes = [
 @NgModule({
   declarations: [ProductsComponent, AllProductsComponent, ProductEditComponent],
   imports: [
+    RouterModule.forChild(routes),
     CommonModule,
-    DfxTranslateModule,
-    RouterModule.forChild(startRoutes),
     FlexLayoutModule,
-    SortableHeaderModule,
-    IconsModule,
-    NgbTooltipModule,
     FormsModule,
     ReactiveFormsModule,
+    DfxTranslateModule,
+    NgbTooltipModule,
     NgbNavModule,
+    DfxTableModule,
+    NgbSortModule,
+    IconsModule,
   ],
 })
 export class ProductsModule {}

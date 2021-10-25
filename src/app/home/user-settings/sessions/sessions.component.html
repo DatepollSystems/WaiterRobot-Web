@@ -1,23 +1,54 @@
-<h1>{{'NAV_USER_SESSIONS' | tr}}</h1>
-<div class="table-responsive">
-  <table class="table table-dark table-striped table-hover">
-    <thead>
-    <tr class="table-dark">
-      <th>#</th>
-      <th sortable="name" (sort)="onSort($event)">{{'NAME' | tr}}</th>
-      <th sortable="registered_at" (sort)="onSort($event)">{{'HOME_USERSETTINGS_SESSIONS_REGISTERED_AT' | tr}}</th>
-      <th>{{'ACTIONS' | tr}}</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let session of sessionsCopy" class="table-dark">
-      <th>{{ session.id }}</th>
-      <td>{{ session.name }}</td>
-      <td>{{ session.registered_at | date: 'HH:mm - dd.MM.YYYY'}}</td>
-      <td>
-        <button type="button" class="btn btn-danger btn-sm" (click)="onDelete(session.id)">{{'DELETE' | tr}}</button>
+<div fxLayout="row break" fxLayoutAlign="start center">
+  <h1>{{ 'NAV_USER_SESSIONS' | tr }}</h1>
+</div>
+
+<div class="spinner-row" *ngIf="!entitiesLoaded">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">{{ 'LOADING' | tr }}</span>
+  </div>
+</div>
+
+<form class="mt-2" [hidden]="!entitiesLoaded">
+  <div class="input-group">
+    <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+    <button
+      class="btn btn-outline-secondary"
+      type="button"
+      ngbTooltip="{{ 'CLEAR' | tr }}"
+      placement="bottom"
+      (click)="filter.reset()"
+      *ngIf="filter?.value?.length > 0">
+      <i-bs name="x-circle-fill"></i-bs>
+    </button>
+  </div>
+</form>
+
+<div class="table-responsive" [hidden]="!entitiesLoaded">
+  <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort>
+    <ng-container ngbColumnDef="name">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+      <td *ngbCellDef="let session" ngb-cell>{{ session.name }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="registered_at">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_REGISTERED_AT' | tr }}</th>
+      <td *ngbCellDef="let session" ngb-cell>{{ session.registered_at | date: 'HH:mm - dd.MM.YYYY' }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="actions">
+      <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+      <td *ngbCellDef="let session" ngb-cell>
+        <button
+          type="button"
+          class="btn btn-sm m-1 btn-outline-danger text-white"
+          ngbTooltip="{{ 'DELETE' | tr }}"
+          (click)="onDelete(session.id)">
+          <i-bs name="trash"></i-bs>
+        </button>
       </td>
-    </tr>
-    </tbody>
+    </ng-container>
+
+    <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+    <tr *ngbRowDef="let table; columns: columnsToDisplay" ngb-row></tr>
   </table>
 </div>

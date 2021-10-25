@@ -1,4 +1,4 @@
-import {AbstractEntityWithNumberIDAndName} from 'dfx-helper';
+import {AbstractEntityWithNumberIDAndName, StringHelper} from 'dfx-helper';
 
 export class ProductsModel extends AbstractEntityWithNumberIDAndName {
   public readonly price: number;
@@ -14,6 +14,18 @@ export class ProductsModel extends AbstractEntityWithNumberIDAndName {
     this.group_id = data.group_id;
     this.printer_id = data.printer_id;
     this.organisation_id = data.organisation_id;
+  }
+
+  private _allergens_short_ames: string | undefined = undefined;
+  public get allergens_short_names(): string {
+    if (!this._allergens_short_ames) {
+      const shortNamesArray = [];
+      for (const allergen of this.allergens) {
+        shortNamesArray.push(allergen.short_name);
+      }
+      this._allergens_short_ames = StringHelper.getImploded(shortNamesArray);
+    }
+    return this._allergens_short_ames;
   }
 }
 
