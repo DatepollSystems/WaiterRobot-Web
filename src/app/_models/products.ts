@@ -1,6 +1,6 @@
-import {AbstractEntityWithNumberIDAndName, StringHelper} from 'dfx-helper';
+import {AEntityWithNumberIDAndName, StringHelper} from 'dfx-helper';
 
-export class ProductsModel extends AbstractEntityWithNumberIDAndName {
+export class ProductsModel extends AEntityWithNumberIDAndName {
   public readonly price: number;
   public readonly allergens: Array<AllergensModel>;
   public readonly group_id: number;
@@ -29,7 +29,7 @@ export class ProductsModel extends AbstractEntityWithNumberIDAndName {
   }
 }
 
-export class AllergensModel extends AbstractEntityWithNumberIDAndName {
+export class AllergensModel extends AEntityWithNumberIDAndName {
   public readonly short_name: string;
 
   constructor(data: any) {

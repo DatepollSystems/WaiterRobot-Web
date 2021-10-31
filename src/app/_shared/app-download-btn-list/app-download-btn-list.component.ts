@@ -42,7 +42,7 @@ export class AppDownloadBtnListComponent {
       link: 'https://play.google.com',
       icon: IconNamesEnum.Google,
     },
-  ]).getShuffeld();
+  ]).shuffle();
 
   @Input()
   showQRCodeButton = true;

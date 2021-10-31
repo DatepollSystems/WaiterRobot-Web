@@ -1,6 +1,6 @@
-import {AbstractEntityWithNumberIDAndName} from 'dfx-helper';
+import {AEntityWithNumberIDAndName} from 'dfx-helper';
 
-export class SessionsModel extends AbstractEntityWithNumberIDAndName {
+export class SessionsModel extends AEntityWithNumberIDAndName {
   public readonly registered_at: string;
 
   constructor(data: any) {

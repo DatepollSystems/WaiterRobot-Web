@@ -3,7 +3,7 @@ import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 
-import {AbstractEntityWithName, EntityList, IList} from 'dfx-helper';
+import {AEntityWithName, EntityList, IList} from 'dfx-helper';
 
 @Component({
   selector: 'app-bootstrap-chip-input',
@@ -12,7 +12,7 @@ import {AbstractEntityWithName, EntityList, IList} from 'dfx-helper';
 })
 export class BootstrapChipInputComponent implements OnChanges {
   loaded = true;
-  formatter = (result: AbstractEntityWithName<number>): string => result.name;
+  formatter = (result: AEntityWithName<number>): string => result.name;
   formCtrl = new FormControl();
 
   /**
@@ -31,22 +31,22 @@ export class BootstrapChipInputComponent implements OnChanges {
    * Already filled in strings
    */
   @Input()
-  models: IList<AbstractEntityWithName<number>> = new EntityList();
+  models: IList<AEntityWithName<number>> = new EntityList();
 
   /**
    * Leave empty to disable autocompletion
    */
   @Input()
-  allModelsToAutoComplete: IList<AbstractEntityWithName<number>> = new EntityList();
+  allModelsToAutoComplete: IList<AEntityWithName<number>> = new EntityList();
 
   @Output()
-  valueChange = new EventEmitter<IList<AbstractEntityWithName<number>>>();
+  valueChange = new EventEmitter<IList<AEntityWithName<number>>>();
 
   ngOnChanges(): void {
     this.allModelsToAutoComplete.removeIfPresent(this.models);
   }
 
-  search: (text$: Observable<string>) => Observable<AbstractEntityWithName<number>[]> = (text$: Observable<string>) =>
+  search: (text$: Observable<string>) => Observable<AEntityWithName<number>[]> = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
@@ -54,7 +54,7 @@ export class BootstrapChipInputComponent implements OnChanges {
       map((term) => this.allModelsToAutoComplete.filter((event) => new RegExp(term, 'mi').test(event.name)).slice(0, 10))
     );
 
-  remove(value: AbstractEntityWithName<number>): void {
+  remove(value: AEntityWithName<number>): void {
     this.models.removeIfPresent(value);
     this.allModelsToAutoComplete.addIfAbsent(value);
     this.emitChange();
@@ -70,7 +70,7 @@ export class BootstrapChipInputComponent implements OnChanges {
     this.formCtrl = new FormControl('');
   }
 
-  private addValue(value: AbstractEntityWithName<number>) {
+  private addValue(value: AEntityWithName<number>) {
     this.allModelsToAutoComplete.removeIfPresent(value);
     this.models.add(value);
     this.emitChange();

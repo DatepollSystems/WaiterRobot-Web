@@ -1,6 +1,6 @@
-import {AbstractEntityWithNumberIDAndName} from 'dfx-helper';
+import {AEntityWithNumberIDAndName} from 'dfx-helper';
 
-export class UserModel extends AbstractEntityWithNumberIDAndName {
+export class UserModel extends AEntityWithNumberIDAndName {
   public readonly email_address: string;
   public readonly firstname: string;
   public readonly surname: string;

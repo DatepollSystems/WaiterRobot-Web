@@ -1,6 +1,6 @@
-import {AbstractEntityWithNumberIDAndName} from 'dfx-helper';
+import {AEntityWithNumberIDAndName} from 'dfx-helper';
 
-export class OrganisationModel extends AbstractEntityWithNumberIDAndName {
+export class OrganisationModel extends AEntityWithNumberIDAndName {
   public readonly street: string;
   public readonly street_number: string;
   public readonly postal_code: string;

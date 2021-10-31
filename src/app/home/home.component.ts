@@ -5,7 +5,7 @@ import {OrganisationsService} from '../_services/organisations.service';
 import {EventsService} from '../_services/events.service';
 import {MyUserService} from '../_services/my-user.service';
 
-import {AbstractComponent, Converter, LoggerFactory} from 'dfx-helper';
+import {AComponent, Converter, LoggerFactory} from 'dfx-helper';
 import {EnvironmentHelper} from '../_helper/EnvironmentHelper';
 
 import {OrganisationModel} from '../_models/organisation.model';
@@ -17,7 +17,7 @@ import {UserModel} from '../_models/user.model';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent extends AbstractComponent implements OnInit {
+export class HomeComponent extends AComponent implements OnInit {
   environmentType = 'prod';
   lumber = LoggerFactory.getLogger('HomeComponent');
 

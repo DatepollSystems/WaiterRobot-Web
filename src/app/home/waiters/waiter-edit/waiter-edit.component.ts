@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {AbstractEntityWithName, EntityList, IList} from 'dfx-helper';
+import {AEntityWithName, EntityList, IList} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
@@ -27,7 +27,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
   selectedOrganisation: OrganisationModel | undefined;
   events: IList<EventModel> = new EntityList();
   preSelectedEvents: IList<EventModel> = new EntityList();
-  selectedEvents: IList<AbstractEntityWithName<number>> = new EntityList();
+  selectedEvents: IList<AEntityWithName<number>> = new EntityList();
 
   constructor(
     route: ActivatedRoute,
@@ -97,7 +97,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     modalRef.componentInstance.waiter = waiter;
   }
 
-  changeSelectedEvents(selectedEvents: IList<AbstractEntityWithName<number>>): void {
+  changeSelectedEvents(selectedEvents: IList<AEntityWithName<number>>): void {
     this.selectedEvents = selectedEvents;
   }
 }

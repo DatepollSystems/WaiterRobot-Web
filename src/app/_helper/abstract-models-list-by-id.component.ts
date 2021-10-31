@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {AbstractEntity, AbstractEntityService, Converter, TypeHelper} from 'dfx-helper';
+import {IEntity, AEntityService, Converter, TypeHelper} from 'dfx-helper';
 
 import {AbstractModelService} from '../_services/abstract-model.service';
 
@@ -12,8 +12,8 @@ import {AbstractModelsListComponent} from './abstract-models-list.component';
   template: '',
 })
 export abstract class AbstractModelsListByIdComponent<
-  EntitiesType extends AbstractEntity<number>,
-  EntityType extends AbstractEntity<number>
+  EntitiesType extends IEntity<number>,
+  EntityType extends IEntity<number>
 > extends AbstractModelsListComponent<EntitiesType> {
   protected abstract getAllUrl: string;
   public entity: EntityType | undefined;
@@ -23,7 +23,7 @@ export abstract class AbstractModelsListByIdComponent<
     modal: NgbModal,
     protected route: ActivatedRoute,
     protected router: Router,
-    protected byIdEntityService: AbstractEntityService<number, EntityType>
+    protected byIdEntityService: AEntityService<number, EntityType>
   ) {
     super(modelService, modal);
 
@@ -31,7 +31,7 @@ export abstract class AbstractModelsListByIdComponent<
       const id = params.get('id');
       if (id != null) {
         if (TypeHelper.isNumeric(id)) {
-          const nId = Converter.stringToNumber(id);
+          const nId = Converter.toNumber(id);
           this.lumber.info('const', 'Model to open: ' + nId);
           this.entity = this.byIdEntityService.getSingle(nId);
           this.autoUnsubscribe(

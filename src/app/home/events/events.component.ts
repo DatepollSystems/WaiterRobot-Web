@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {AbstractComponent} from 'dfx-helper';
+import {AComponent} from 'dfx-helper';
 
 import {EventsService} from '../../_services/events.service';
 import {MyUserService} from '../../_services/my-user.service';
@@ -13,7 +13,7 @@ import {UserModel} from '../../_models/user.model';
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.scss'],
 })
-export class EventsComponent extends AbstractComponent {
+export class EventsComponent extends AComponent {
   myUser: UserModel | undefined = undefined;
   events: EventModel[];
   selectedEvent: EventModel | undefined;

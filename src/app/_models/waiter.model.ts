@@ -1,6 +1,6 @@
-import {AbstractEntityWithNumberIDAndName} from 'dfx-helper';
+import {AEntityWithNumberIDAndName} from 'dfx-helper';
 
-export class WaiterModel extends AbstractEntityWithNumberIDAndName {
+export class WaiterModel extends AEntityWithNumberIDAndName {
   public readonly token: string;
   public readonly organisation_id: number;
   public readonly event_ids: number[];

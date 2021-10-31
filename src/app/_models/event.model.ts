@@ -1,6 +1,6 @@
-import {AbstractEntityWithNumberIDAndName} from 'dfx-helper';
+import {AEntityWithNumberIDAndName} from 'dfx-helper';
 
-export class EventModel extends AbstractEntityWithNumberIDAndName {
+export class EventModel extends AEntityWithNumberIDAndName {
   public readonly date: Date | null;
   public readonly street: string;
   public readonly street_number: string;

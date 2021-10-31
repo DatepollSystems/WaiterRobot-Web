@@ -1,6 +1,6 @@
-import {AbstractEntityWithNumberIDAndName, Converter} from 'dfx-helper';
+import {AEntityWithNumberIDAndName, Converter} from 'dfx-helper';
 
-export class TableModel extends AbstractEntityWithNumberIDAndName {
+export class TableModel extends AEntityWithNumberIDAndName {
   public tableNumber: number;
   public seats: number;
   public group_id: number;

@@ -5,7 +5,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {DfxTableModule, NgbSortModule} from 'dfx-bootstrap-table';
+import {DfxTableModule, DfxSortModule} from 'dfx-bootstrap-table';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {IconsModule} from '../../_shared/icons.module';
@@ -38,7 +38,7 @@ const startRoutes: Routes = [
     NgbNavModule,
     NgbTooltipModule,
     DfxTableModule,
-    NgbSortModule,
+    DfxSortModule,
     IconsModule,
   ],
 })
