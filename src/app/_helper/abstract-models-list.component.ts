@@ -3,7 +3,7 @@ import {FormControl} from '@angular/forms';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
-import {AComponent, IEntity, IList, List, LoggerFactory} from 'dfx-helper';
+import {AComponent, IEntityWithNumberID, IList, List, LoggerFactory} from 'dfx-helper';
 
 import {AbstractModelService} from '../_services/abstract-model.service';
 
@@ -12,7 +12,7 @@ import {QuestionDialogComponent} from '../_shared/question-dialog/question-dialo
 @Component({
   template: '',
 })
-export abstract class AbstractModelsListComponent<EntityType extends IEntity<number>> extends AComponent implements OnInit {
+export abstract class AbstractModelsListComponent<EntityType extends IEntityWithNumberID> extends AComponent implements OnInit {
   protected lumber = LoggerFactory.getLogger('AModelsListComponent');
 
   // Table stuff

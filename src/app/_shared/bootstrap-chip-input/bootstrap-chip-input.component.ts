@@ -3,7 +3,7 @@ import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 
-import {AEntityWithName, EntityList, IList} from 'dfx-helper';
+import {EntityList, IEntityWithNumberIDAndName, IHasName, IList} from 'dfx-helper';
 
 @Component({
   selector: 'app-bootstrap-chip-input',
@@ -12,9 +12,7 @@ import {AEntityWithName, EntityList, IList} from 'dfx-helper';
 })
 export class BootstrapChipInputComponent implements OnChanges {
   loaded = true;
-  formatter = (result: AEntityWithName<number>): string => result.name;
   formCtrl = new FormControl();
-
   /**
    * Key of translation string in language files.
    * Take a look at de.json
@@ -26,27 +24,26 @@ export class BootstrapChipInputComponent implements OnChanges {
    */
   @Input()
   placeHolder = 'ADD';
-
   /**
    * Already filled in strings
    */
   @Input()
-  models: IList<AEntityWithName<number>> = new EntityList();
-
+  models: IList<IEntityWithNumberIDAndName> = new EntityList();
   /**
    * Leave empty to disable autocompletion
    */
   @Input()
-  allModelsToAutoComplete: IList<AEntityWithName<number>> = new EntityList();
-
+  allModelsToAutoComplete: IList<IEntityWithNumberIDAndName> = new EntityList();
   @Output()
-  valueChange = new EventEmitter<IList<AEntityWithName<number>>>();
+  valueChange = new EventEmitter<IList<IEntityWithNumberIDAndName>>();
 
-  ngOnChanges(): void {
-    this.allModelsToAutoComplete.removeIfPresent(this.models);
+  private emitChange(): void {
+    this.valueChange.emit(this.models.clone());
   }
 
-  search: (text$: Observable<string>) => Observable<AEntityWithName<number>[]> = (text$: Observable<string>) =>
+  formatter = (result: IHasName): string => result.name;
+
+  search: (text$: Observable<string>) => Observable<IHasName[]> = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
@@ -54,7 +51,11 @@ export class BootstrapChipInputComponent implements OnChanges {
       map((term) => this.allModelsToAutoComplete.filter((event) => new RegExp(term, 'mi').test(event.name)).slice(0, 10))
     );
 
-  remove(value: AEntityWithName<number>): void {
+  ngOnChanges(): void {
+    this.allModelsToAutoComplete.removeIfPresent(this.models);
+  }
+
+  remove(value: IEntityWithNumberIDAndName): void {
     this.models.removeIfPresent(value);
     this.allModelsToAutoComplete.addIfAbsent(value);
     this.emitChange();
@@ -65,18 +66,9 @@ export class BootstrapChipInputComponent implements OnChanges {
     if (!model) {
       return;
     }
-    console.log('Model detected!');
-    this.addValue(model);
-    this.formCtrl = new FormControl('');
-  }
-
-  private addValue(value: AEntityWithName<number>) {
-    this.allModelsToAutoComplete.removeIfPresent(value);
-    this.models.add(value);
+    this.allModelsToAutoComplete.removeIfPresent(model);
+    this.models.add(model);
     this.emitChange();
-  }
-
-  private emitChange() {
-    this.valueChange.emit(this.models.clone());
+    this.formCtrl = new FormControl('');
   }
 }

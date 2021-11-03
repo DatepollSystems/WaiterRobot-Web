@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
 
-import {AComponent, IEntityWithName, Converter, LoggerFactory, TypeHelper} from 'dfx-helper';
+import {AComponent, Converter, IEntityWithNumberIDAndName, LoggerFactory, TypeHelper} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelService} from '../_services/abstract-model.service';
@@ -11,7 +11,7 @@ import {QuestionDialogComponent} from '../_shared/question-dialog/question-dialo
 @Component({
   template: '',
 })
-export abstract class AbstractModelEditComponent<EntityType extends IEntityWithName<number>> extends AComponent implements OnInit {
+export abstract class AbstractModelEditComponent<EntityType extends IEntityWithNumberIDAndName> extends AComponent implements OnInit {
   protected abstract redirectUrl: string;
   protected onlyEditingTabs: number[] = [];
 

@@ -1,14 +1,14 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {AComponent, IEntityWithName, LoggerFactory} from 'dfx-helper';
+import {AComponent, IEntityWithNumberIDAndName, LoggerFactory} from 'dfx-helper';
 
 import {AbstractModelService} from '../_services/abstract-model.service';
 
 @Component({
   template: '',
 })
-export abstract class AbstractModelsComponent<EntityType extends IEntityWithName<number>> extends AComponent {
+export abstract class AbstractModelsComponent<EntityType extends IEntityWithNumberIDAndName> extends AComponent {
   private lumber = LoggerFactory.getLogger('AbstractModelsListComponentById');
 
   public selectedModelToShow = 'default';
