@@ -8,9 +8,9 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
       <h4 class="modal-title" id="modal-question-title">{{ (title ? title : question) | tr }}</h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
     </div>
-    <div class="modal-body" *ngIf="question">
+    <div class="modal-body" *ngIf="question && !title">
       <p>
-        <strong>{{ question | tr }}</strong>
+        <strong>{{ title | tr }}</strong>
       </p>
     </div>
     <div class="modal-footer">
@@ -28,17 +28,17 @@ export class QuestionDialogComponent {
     {
       icon: 'done',
       answer: 'YES',
-      value: 'yes',
+      value: QuestionDialogComponent.YES_VALUE,
     },
     {
       icon: 'close',
       answer: 'NO',
-      value: 'no',
+      value: QuestionDialogComponent.NO_VALUE,
     },
   ];
 
   @Input()
-  title: string | undefined;
+  question: string | undefined;
 
   @Input()
   answers: {
@@ -48,7 +48,7 @@ export class QuestionDialogComponent {
   }[] = QuestionDialogComponent.YES_NO_ANSWERS;
 
   @Input()
-  question: string | undefined;
+  title: string | undefined;
 
   constructor(public activeModal: NgbActiveModal) {}
 
