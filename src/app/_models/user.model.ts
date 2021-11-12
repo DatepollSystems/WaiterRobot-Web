@@ -13,6 +13,6 @@ export class UserModel extends AEntityWithNumberIDAndName {
     this.firstname = data.firstname;
     this.surname = data.surname;
     this.birthday = new Date(data.birthday);
-    this.is_admin = data.is_admin;
+    this.is_admin = data.role === 'ADMIN';
   }
 }
