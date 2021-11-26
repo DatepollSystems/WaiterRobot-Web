@@ -5,6 +5,7 @@ export class UserModel extends AEntityWithNumberIDAndName {
   public readonly firstname: string;
   public readonly surname: string;
   public readonly birthday: Date;
+  public readonly activated: boolean;
   public is_admin: boolean;
 
   constructor(data: any) {
@@ -13,6 +14,7 @@ export class UserModel extends AEntityWithNumberIDAndName {
     this.firstname = data.firstname;
     this.surname = data.surname;
     this.birthday = new Date(data.birthday);
+    this.activated = data.activated;
     this.is_admin = data.role === 'ADMIN';
   }
 }

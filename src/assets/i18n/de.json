@@ -111,8 +111,10 @@
   "HOME_USERS_BIRTHDAY": "Geburtstag",
   "HOME_USERS_BIRTHDAY_INCORRECT": "Geburtstag inkorrekt",
   "HOME_USERS_ADMIN": "Admin",
+  "HOME_USERS_USER": "User",
   "HOME_USERS_NAME_INCORRECT": "Der Name muss aus mehr als 3 Zeichen bestehen.",
   "HOME_USERS_PASSWORD_INCORRECT": "Das Password muss mehr als 6 Zeichen haben.",
+  "HOME_USERS_EMAIL_INCORRECT": "Die E-Mail Addresse ist invalide.",
 
   "HOME_PROD_ALL": "Produkte",
   "HOME_PROD_NAME_INCORRECT": "Der Name muss aus mehr als 3 Zeichen bestehen",

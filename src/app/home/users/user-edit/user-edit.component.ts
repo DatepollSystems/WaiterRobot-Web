@@ -18,4 +18,16 @@ export class UserEditComponent extends AbstractModelEditComponent<UserModel> {
   constructor(route: ActivatedRoute, router: Router, usersService: UsersService, modal: NgbModal) {
     super(route, router, usersService, modal);
   }
+
+  override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
+    if (model.is_admin) {
+      model.role = 'ADMIN';
+      this.lumber.info('addCustromAttribute', 'Model is admin detected', model);
+    } else {
+      model.role = 'USER';
+      this.lumber.info('addCustromAttribute', 'Model is user detected', model);
+    }
+
+    return super.addCustomAttributesBeforeCreateAndUpdate(model);
+  }
 }
