@@ -19,8 +19,7 @@ build-release:
   script:
     - npm install --loglevel=error --no-progress
     - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
-    - mkdir -p dist/WaiterRobot-Web/ # Create dist folder, Angular sometimes does not do it
-    - ./node_modules/@angular/cli/bin/ng build --progress false --configuration production
+    - npm run build:prod
     - cd dist/
     - ls -al
 
@@ -37,8 +36,7 @@ build-testing:
   script:
     - npm install --loglevel=error --no-progress
     - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
-    - mkdir -p dist/WaiterRobot-Web/ # Create dist folder, Angular sometimes does not do it
-    - ./node_modules/@angular/cli/bin/ng build --progress false --configuration testing
+    - npm run build:testing
     - cd dist/
     - ls -al
 
@@ -55,8 +53,7 @@ build-dev:
   script:
     - npm install --loglevel=error --no-progress
     - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
-    - mkdir -p dist/WaiterRobot-Web/ # Create dist folder, Angular sometimes does not do it
-    - ./node_modules/@angular/cli/bin/ng build --progress false
+    - npm run build:dev
     - cd dist/
     - ls -al
 
