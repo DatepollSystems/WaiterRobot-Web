@@ -51,7 +51,20 @@
 
     <ng-container ngbColumnDef="is_admin">
       <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ADMIN' | tr }}</th>
-      <td *ngbCellDef="let user" ngb-cell>{{ user.is_admin }}</td>
+      <td *ngbCellDef="let user" ngb-cell>
+        <div class="form-check">
+          <input class="form-check-input" onclick="return false;" type="checkbox" [ngModel]="user.is_admin" name="is_admin" value="" />
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="activated">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ACTIVATED' | tr }}</th>
+      <td *ngbCellDef="let user" ngb-cell>
+        <div class="form-check">
+          <input class="form-check-input" onclick="return false;" type="checkbox" [ngModel]="user.activated" name="activated" value="" />
+        </div>
+      </td>
     </ng-container>
 
     <ng-container ngbColumnDef="actions">

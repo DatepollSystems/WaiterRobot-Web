@@ -3,9 +3,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {UsersService} from '../../../_services/users.service';
+import {UsersService} from '../../../_services/models/users.service';
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
 import {UserModel} from '../../../_models/user.model';
+import {DateHelper} from 'dfx-helper';
 
 @Component({
   selector: 'app-user-edit',
@@ -26,6 +27,14 @@ export class UserEditComponent extends AbstractModelEditComponent<UserModel> {
     } else {
       model.role = 'USER';
       this.lumber.info('addCustromAttribute', 'Model is user detected', model);
+    }
+
+    if (model.activated?.length === 0) {
+      model.activated = false;
+    }
+
+    if (model.force_password_change?.length === 0) {
+      model.force_password_change = false;
     }
 
     return super.addCustomAttributesBeforeCreateAndUpdate(model);

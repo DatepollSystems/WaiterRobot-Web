@@ -6,7 +6,7 @@ import {appDownload} from './app-download-btn-list.component';
   selector: 'app-download-qrcode-modal',
   template: `
     <app-qrcode-modal [data]="appLink?.link">
-      <h4 class="modal-title" id="app-download-modal-title">{{ 'ABOUT_APP_QR_CODE_MODAL_TITLE' | tr }} "{{ appLink?.text }}"</h4>
+      <h4 class="modal-title" id="app-download-modal-title">{{ 'ABOUT_APP_QR_CODE_MODAL_TITLE' | tr }} {{ appLink?.text }}</h4>
     </app-qrcode-modal>
   `,
 })

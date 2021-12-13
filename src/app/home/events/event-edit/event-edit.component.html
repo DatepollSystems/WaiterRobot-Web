@@ -85,21 +85,22 @@
 
             <div class="form-group" fxFlex="28%">
               <label for="name">{{ 'DATE' | tr }}</label>
-              <input
-                ngModel
-                class="form-control bg-dark text-white"
-                type="text"
-                id="date"
-                name="date"
-                #dateModel="ngModel"
-                [disabled]="!myUser?.is_admin"
-                minlength="3"
-                placeholder="{{ 'DATE' | tr }}"
-                [ngModel]="isEditing ? entity?.date : null" />
-
-              <small *ngIf="dateModel.invalid" class="text-danger">
-                {{ 'HOME_EVENTS_DATE_INCORRECT' | tr }}
-              </small>
+              <div class="input-group">
+                <input
+                  type="text"
+                  ngbDatepicker
+                  ngModel
+                  class="form-control bg-dark text-white"
+                  id="date"
+                  #datePicker="ngbDatepicker"
+                  name="date"
+                  placeholder="13.12.2021"
+                  [disabled]="!myUser?.is_admin"
+                  [ngModel]="isEditing ? entity?.date : null" />
+                <button class="btn btn-outline-light" (click)="datePicker.toggle()" type="button">
+                  <i-bs name="calendar-date"></i-bs>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -115,7 +116,7 @@
                 name="street"
                 #streetModel="ngModel"
                 [disabled]="!myUser?.is_admin"
-                minlength="3"
+                minlength="1"
                 placeholder="{{ 'HOME_ORGS_STREET' | tr }}"
                 [ngModel]="isEditing ? entity?.street : null" />
               <small *ngIf="streetModel.invalid" class="text-danger">
@@ -173,12 +174,27 @@
                 name="city"
                 #cityModel="ngModel"
                 [disabled]="!myUser?.is_admin"
-                minlength="4"
+                minlength="1"
                 placeholder="{{ 'HOME_ORGS_CITY' | tr }}"
                 [ngModel]="isEditing ? entity?.city : null" />
               <small *ngIf="cityModel.invalid" class="text-danger">
                 {{ 'HOME_ORGS_CITY_INCORRECT' | tr }}
               </small>
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%" class="mt-2">
+            <div class="form-check" *ngIf="isEditing">
+              <input
+                ngModel
+                class="form-check-input"
+                type="checkbox"
+                id="update_waiter_create_token"
+                name="update_waiter_create_token"
+                value="" />
+              <label class="form-check-label" for="update_waiter_create_token">
+                {{ 'HOME_EVENTS_UPDATE_CREATE_WAITER_TOKEN' | tr }}
+              </label>
             </div>
           </div>
         </ng-template>

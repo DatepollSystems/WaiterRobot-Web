@@ -4,11 +4,12 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
-import {EventsService} from '../../../_services/events.service';
+import {EventsService} from '../../../_services/models/events.service';
 import {MyUserService} from '../../../_services/my-user.service';
 
 import {EventModel} from '../../../_models/event.model';
 import {UserModel} from '../../../_models/user.model';
+import {OrganisationsService} from '../../../_services/models/organisations.service';
 
 @Component({
   selector: 'app-event-edit',
@@ -27,7 +28,8 @@ export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
     router: Router,
     modal: NgbModal,
     protected eventsService: EventsService,
-    private myUserService: MyUserService
+    private myUserService: MyUserService,
+    private organisationsService: OrganisationsService
   ) {
     super(route, router, eventsService, modal);
 
@@ -48,5 +50,14 @@ export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
 
   onSelect(event: EventModel | undefined): void {
     this.eventsService.setSelected(event);
+  }
+
+  override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
+    model.organisation_id = this.organisationsService.getSelected()?.id;
+    if (model.update_waiter_create_token?.length === 0) {
+      model.update_waiter_create_token = false;
+    }
+
+    return super.addCustomAttributesBeforeCreateAndUpdate(model);
   }
 }

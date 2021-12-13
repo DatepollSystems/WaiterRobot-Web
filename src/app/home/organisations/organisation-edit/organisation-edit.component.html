@@ -44,7 +44,13 @@
   </div>
 
   <form #form="ngForm" (ngSubmit)="onSave(form)">
-    <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs mt-3 bg-dark" (navChange)="setTabId($event.nextId)">
+    <ul
+      ngbNav
+      #nav="ngbNav"
+      [(activeId)]="activeTab"
+      [destroyOnHide]="false"
+      class="nav-tabs mt-3 bg-dark"
+      (navChange)="setTabId($event.nextId)">
       <li [ngbNavItem]="1">
         <a ngbNavLink>Daten</a>
         <ng-template ngbNavContent>
@@ -80,9 +86,9 @@
                 type="text"
                 id="street"
                 name="street"
+                minlength="1"
                 #streetModel="ngModel"
                 [disabled]="!myUser?.is_admin"
-                minlength="3"
                 placeholder="{{ 'HOME_ORGS_STREET' | tr }}"
                 [ngModel]="isEditing ? entity?.street : null" />
               <small *ngIf="streetModel.invalid" class="text-danger">
@@ -140,7 +146,7 @@
                 name="city"
                 #cityModel="ngModel"
                 [disabled]="!myUser?.is_admin"
-                minlength="4"
+                minlength="1"
                 placeholder="{{ 'HOME_ORGS_CITY' | tr }}"
                 [ngModel]="isEditing ? entity?.city : null" />
               <small *ngIf="cityModel.invalid" class="text-danger">

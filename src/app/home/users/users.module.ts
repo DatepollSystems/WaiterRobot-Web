@@ -4,7 +4,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
-import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDatepickerModule, NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTranslateModule} from 'dfx-translate';
 import {DfxTableModule, DfxSortModule} from 'dfx-bootstrap-table';
 
@@ -40,6 +40,7 @@ const routes: Routes = [
     DfxTableModule,
     DfxSortModule,
     IconsModule,
+    NgbDatepickerModule,
   ],
 })
 export class UsersModule {}

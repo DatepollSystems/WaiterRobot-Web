@@ -4,7 +4,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDateAdapter, NgbDateParserFormatter, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -13,6 +13,7 @@ import {AuthInterceptor} from './_services/auth/auth-interceptor';
 import {AppComponent} from './app.component';
 import {ToastsContainerComponent} from './_services/notifications/toasts-container.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {CustomDateAdapter, CustomDateParserFormatter} from './_services/datepicker-adapter';
 
 @NgModule({
   declarations: [AppComponent, ToastsContainerComponent, PageNotFoundComponent],
@@ -32,6 +33,8 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
       useClass: AuthInterceptor,
       multi: true,
     },
+    {provide: NgbDateAdapter, useClass: CustomDateAdapter},
+    {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter},
   ],
   bootstrap: [AppComponent],
 })
