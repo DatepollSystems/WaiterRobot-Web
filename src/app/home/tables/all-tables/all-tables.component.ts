@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {TablesService} from '../../../_services/tables.service';
+import {TablesService} from '../../../_services/models/tables.service';
 
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
 

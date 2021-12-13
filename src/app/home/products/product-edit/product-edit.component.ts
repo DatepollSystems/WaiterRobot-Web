@@ -2,10 +2,10 @@ import {Component, OnDestroy} from '@angular/core';
 import {ProductsModel} from '../../../_models/products';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ProductsService} from '../../../_services/products.service';
+import {ProductsService} from '../../../_services/models/products.service';
 import {Converter, TypeHelper} from 'dfx-helper';
 import {NgForm} from '@angular/forms';
-import {OrganisationsService} from '../../../_services/organisations.service';
+import {OrganisationsService} from '../../../_services/models/organisations.service';
 import {OrganisationModel} from '../../../_models/organisation.model';
 
 @Component({

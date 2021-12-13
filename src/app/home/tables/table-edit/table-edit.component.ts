@@ -4,12 +4,12 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
-import {EventsService} from '../../../_services/events.service';
-import {TablesService} from '../../../_services/tables.service';
+import {EventsService} from '../../../_services/models/events.service';
+import {TablesService} from '../../../_services/models/tables.service';
 import {EventModel} from '../../../_models/event.model';
 import {TableModel} from '../../../_models/table.model';
 import {TableGroupModel} from '../../../_models/table-group.model';
-import {TableGroupsService} from '../../../_services/table-groups.service';
+import {TableGroupsService} from '../../../_services/models/table-groups.service';
 import {Converter, LoggerFactory} from 'dfx-helper';
 import {NotificationService} from '../../../_services/notifications/notification.service';
 

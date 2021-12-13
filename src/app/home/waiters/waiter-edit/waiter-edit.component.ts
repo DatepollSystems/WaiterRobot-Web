@@ -5,15 +5,15 @@ import {AEntityWithName, EntityList, IList} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
-import {WaitersService} from '../../../_services/waiters.service';
-import {EventsService} from '../../../_services/events.service';
+import {WaitersService} from '../../../_services/models/waiters.service';
+import {EventsService} from '../../../_services/models/events.service';
 
 import {WaiterQRCodeModalComponent} from '../waiter-qr-code-modal.component';
 
 import {WaiterModel} from '../../../_models/waiter.model';
 import {EventModel} from '../../../_models/event.model';
 import {OrganisationModel} from '../../../_models/organisation.model';
-import {OrganisationsService} from '../../../_services/organisations.service';
+import {OrganisationsService} from '../../../_services/models/organisations.service';
 
 @Component({
   selector: 'app-waiter-edit',

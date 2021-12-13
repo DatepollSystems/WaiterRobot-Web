@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 
-import {HttpService} from './http.service';
+import {HttpService} from '../http.service';
 import {AbstractModelService} from './abstract-model.service';
 
-import {TableModel} from '../_models/table.model';
+import {TableModel} from '../../_models/table.model';
 import {EventsService} from './events.service';
 
 @Injectable({

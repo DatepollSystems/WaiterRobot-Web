@@ -5,7 +5,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {AComponent, IEntityWithNumberID, IList, List, LoggerFactory} from 'dfx-helper';
 
-import {AbstractModelService} from '../_services/abstract-model.service';
+import {AbstractModelService} from '../_services/models/abstract-model.service';
 
 import {QuestionDialogComponent} from '../_shared/question-dialog/question-dialog.component';
 

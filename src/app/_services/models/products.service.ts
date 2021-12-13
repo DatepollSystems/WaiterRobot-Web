@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 
-import {HttpService} from './http.service';
+import {HttpService} from '../http.service';
 import {EventsService} from './events.service';
 import {AbstractModelService} from './abstract-model.service';
 
-import {ProductsModel} from '../_models/products';
+import {ProductsModel} from '../../_models/products';
 
 @Injectable({
   providedIn: 'root',

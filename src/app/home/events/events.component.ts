@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 
 import {AComponent} from 'dfx-helper';
 
-import {EventsService} from '../../_services/events.service';
+import {EventsService} from '../../_services/models/events.service';
 import {MyUserService} from '../../_services/my-user.service';
 
 import {EventModel} from '../../_models/event.model';

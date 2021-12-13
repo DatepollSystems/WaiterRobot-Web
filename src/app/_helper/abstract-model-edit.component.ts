@@ -5,7 +5,7 @@ import {NgForm} from '@angular/forms';
 import {AComponent, Converter, IEntityWithNumberIDAndName, LoggerFactory, TypeHelper} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {AbstractModelService} from '../_services/abstract-model.service';
+import {AbstractModelService} from '../_services/models/abstract-model.service';
 import {QuestionDialogComponent} from '../_shared/question-dialog/question-dialog.component';
 
 @Component({

@@ -3,8 +3,8 @@ import {Component} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
-import {WaitersService} from '../../../_services/waiters.service';
-import {OrganisationsService} from '../../../_services/organisations.service';
+import {WaitersService} from '../../../_services/models/waiters.service';
+import {OrganisationsService} from '../../../_services/models/organisations.service';
 
 import {OrganisationModel} from '../../../_models/organisation.model';
 import {WaiterModel} from '../../../_models/waiter.model';

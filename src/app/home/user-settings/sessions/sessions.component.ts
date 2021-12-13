@@ -3,7 +3,7 @@ import {Component} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
-import {SessionsService} from '../../../_services/sessions.service';
+import {SessionsService} from '../../../_services/models/sessions.service';
 import {SessionsModel} from '../../../_models/session.model';
 
 @Component({

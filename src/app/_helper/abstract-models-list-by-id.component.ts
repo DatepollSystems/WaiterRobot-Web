@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AEntityService, Converter, IEntityWithNumberID, TypeHelper} from 'dfx-helper';
 
-import {AbstractModelService} from '../_services/abstract-model.service';
+import {AbstractModelService} from '../_services/models/abstract-model.service';
 
 import {AbstractModelsListComponent} from './abstract-models-list.component';
 

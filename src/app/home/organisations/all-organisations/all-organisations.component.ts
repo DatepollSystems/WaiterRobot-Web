@@ -4,7 +4,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
 import {MyUserService} from '../../../_services/my-user.service';
-import {OrganisationsService} from '../../../_services/organisations.service';
+import {OrganisationsService} from '../../../_services/models/organisations.service';
 
 import {OrganisationModel} from '../../../_models/organisation.model';
 import {UserModel} from '../../../_models/user.model';

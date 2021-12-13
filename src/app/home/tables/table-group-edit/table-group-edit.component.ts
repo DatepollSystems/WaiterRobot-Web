@@ -4,9 +4,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
-import {TableGroupsService} from '../../../_services/table-groups.service';
+import {TableGroupsService} from '../../../_services/models/table-groups.service';
 import {TableGroupModel} from '../../../_models/table-group.model';
-import {EventsService} from '../../../_services/events.service';
+import {EventsService} from '../../../_services/models/events.service';
 import {EventModel} from '../../../_models/event.model';
 
 @Component({

@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 
 import {AComponent, IEntityWithNumberIDAndName, LoggerFactory} from 'dfx-helper';
 
-import {AbstractModelService} from '../_services/abstract-model.service';
+import {AbstractModelService} from '../_services/models/abstract-model.service';
 
 @Component({
   template: '',

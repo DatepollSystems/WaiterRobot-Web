@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 
-import {HttpService} from './http.service';
+import {HttpService} from '../http.service';
 import {AbstractModelService} from './abstract-model.service';
 
-import {WaiterModel} from '../_models/waiter.model';
+import {WaiterModel} from '../../_models/waiter.model';
 import {OrganisationsService} from './organisations.service';
 
 @Injectable({

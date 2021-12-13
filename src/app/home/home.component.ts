@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 
 import {AuthService} from '../_services/auth/auth.service';
-import {OrganisationsService} from '../_services/organisations.service';
-import {EventsService} from '../_services/events.service';
+import {OrganisationsService} from '../_services/models/organisations.service';
+import {EventsService} from '../_services/models/events.service';
 import {MyUserService} from '../_services/my-user.service';
 
 import {AComponent, Converter, LoggerFactory} from 'dfx-helper';

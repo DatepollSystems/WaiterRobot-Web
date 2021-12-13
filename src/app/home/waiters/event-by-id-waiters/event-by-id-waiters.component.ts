@@ -3,8 +3,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {WaitersService} from '../../../_services/waiters.service';
-import {EventsService} from '../../../_services/events.service';
+import {WaitersService} from '../../../_services/models/waiters.service';
+import {EventsService} from '../../../_services/models/events.service';
 
 import {EventModel} from '../../../_models/event.model';
 import {WaiterModel} from '../../../_models/waiter.model';

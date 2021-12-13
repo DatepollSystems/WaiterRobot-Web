@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {ProductsService} from '../../../_services/products.service';
+import {ProductsService} from '../../../_services/models/products.service';
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
 import {ProductsModel} from '../../../_models/products';
 

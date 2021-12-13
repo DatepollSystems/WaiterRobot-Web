@@ -1,8 +1,8 @@
 import {Component, OnDestroy} from '@angular/core';
 import {ProductsModel} from '../../_models/products';
 import {Subscription} from 'rxjs';
-import {ProductsService} from '../../_services/products.service';
-import {OrganisationsService} from '../../_services/organisations.service';
+import {ProductsService} from '../../_services/models/products.service';
+import {OrganisationsService} from '../../_services/models/organisations.service';
 import {OrganisationModel} from '../../_models/organisation.model';
 
 @Component({
