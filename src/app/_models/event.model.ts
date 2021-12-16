@@ -7,6 +7,7 @@ export class EventModel extends AEntityWithNumberIDAndName {
   public readonly postal_code: string;
   public readonly city: string;
   public readonly waiter_create_token: string;
+  public readonly organisation_id: number;
 
   constructor(data: any) {
     super(data.id, data.name, data);
@@ -16,5 +17,6 @@ export class EventModel extends AEntityWithNumberIDAndName {
     this.city = data.city;
     this.date = data.date;
     this.waiter_create_token = data.waiter_create_token;
+    this.organisation_id = data.organisation_id;
   }
 }

@@ -13,7 +13,7 @@ export class WaitersService extends AbstractModelService<WaiterModel> {
   constructor(httpService: HttpService, private organisationService: OrganisationsService) {
     super(httpService, '/config/waiter');
 
-    this.setGetAllUrl('/config/table?event_id=' + this.organisationService.getSelected()?.id);
+    this.setGetAllUrl('/config/waiter?organisation_id=' + this.organisationService.getSelected()?.id);
     this.organisationService.selectedChange.subscribe((org) => {
       this.setGetAllUrl('/config/waiter?organisation_id=' + org?.id);
     });
