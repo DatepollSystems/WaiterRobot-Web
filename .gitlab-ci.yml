@@ -108,7 +108,7 @@ deploy-testing:
     - apt-get update -qq && apt-get install -y -qq zip openssh-client >> /dev/null
     - eval "$(ssh-agent -s)"
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - echo "$SSH_TESTING_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - echo "$SSH_DEMO_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
     - cd dist/
     - zip -r WaiterRobot-Web-testing.zip ./WaiterRobot-Web >> /dev/null
