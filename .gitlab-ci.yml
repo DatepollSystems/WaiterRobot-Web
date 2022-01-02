@@ -58,8 +58,6 @@ build-dev:
     - ls -al
 
 deploy-release:
-  tags:
-    - kaupis
   stage: deploy
   dependencies:
     - build-release
@@ -80,8 +78,6 @@ deploy-release:
     - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR "WaiterRobot-Web-${version}.zip" $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/WaiterRobot/Web-Releases/ > /dev/null
 
 deploy-dev:
-  tags:
-    - kaupis
   stage: deploy
   only:
     - develop
