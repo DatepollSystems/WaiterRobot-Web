@@ -73,7 +73,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     }
 
     for (const event of this.events) {
-      if (this.entity.event_ids.includes(event.id)) {
+      if (this.entity.events.includes(event.id)) {
         this.preSelectedEvents.addIfAbsent(event);
       }
     }
@@ -94,7 +94,8 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
       return;
     }
     const modalRef = this.modal.open(WaiterQRCodeModalComponent, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg'});
-    modalRef.componentInstance.waiter = waiter;
+    modalRef.componentInstance.name = waiter.name;
+    modalRef.componentInstance.token = waiter.token;
   }
 
   changeSelectedEvents(selectedEvents: IList<AEntityWithName<number>>): void {

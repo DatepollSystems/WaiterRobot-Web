@@ -1,15 +1,17 @@
 import {Component, Input} from '@angular/core';
 
 import {WaiterModel} from '../../_models/waiter.model';
+import {EventModel} from '../../_models/event.model';
 
 @Component({
   selector: 'app-waiter-qrcode-modal',
   template: `
-    <app-qrcode-modal [data]="waiter?.token">
-      <h4 class="modal-title" id="modal-qrcode-title">{{ 'HOME_WAITERS_SHOW_QR_CODE' | tr }} "{{ waiter?.name }}"</h4>
+    <app-qrcode-modal [data]="token">
+      <h4 class="modal-title" id="modal-qrcode-title">{{ 'HOME_WAITERS_SHOW_QR_CODE' | tr }} "{{ name }}"</h4>
     </app-qrcode-modal>
   `,
 })
 export class WaiterQRCodeModalComponent {
-  @Input() waiter: WaiterModel | undefined;
+  @Input() token: string = '';
+  @Input() name: string = '';
 }

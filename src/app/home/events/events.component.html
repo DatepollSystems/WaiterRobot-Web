@@ -5,11 +5,6 @@
       {{ 'NAV_EVENTS' | tr }}</a
     >
 
-    <a class="list-group-item list-group-item-action" routerLink="/home/events/create" routerLinkActive="active" *ngIf="myUser?.is_admin">
-      <i-bs name="plus-circle"></i-bs>
-      {{ 'ADD_2' | tr }}</a
-    >
-
     <a class="list-group-item list-group-item-action" routerLink="{{ selectedEvent?.id }}" *ngIf="selectedEvent" routerLinkActive="active"
       ><b>{{ selectedEvent.name }}</b></a
     >

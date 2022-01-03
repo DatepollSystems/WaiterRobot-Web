@@ -88,7 +88,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
       return this.authService.refreshJWTToken().pipe(
         switchMap((data: any) => {
-          this.lumber.error('handle401Error', 'JWT token refreshed', data);
+          this.lumber.info('handle401Error', 'JWT token refreshed');
           this.isRefreshing = false;
           this.refreshTokenSubject.next(data.token);
           return next.handle(this.addToken(request, data.token));

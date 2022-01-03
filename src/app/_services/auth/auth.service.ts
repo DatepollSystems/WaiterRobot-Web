@@ -29,11 +29,11 @@ export class AuthService {
     return (
       browser.name +
       ' - ' +
-      Converter.numberToString(browser.majorVersion) +
+      Converter.toString(browser.majorVersion) +
       '; OS: ' +
       browser.os +
       '; Phone: ' +
-      Converter.booleanToString(browser.mobile)
+      Converter.toString(browser.mobile)
     );
   }
 
@@ -45,7 +45,7 @@ export class AuthService {
       stay_logged_in: true,
     };
 
-    return this.httpService.post(AuthService.signInUrl, signInObject, 'sendSignInRequest');
+    return this.httpService.post(AuthService.signInUrl, signInObject, undefined, 'sendSignInRequest');
   }
 
   public setSessionToken(sessionToken: string): void {
@@ -80,7 +80,7 @@ export class AuthService {
       session_information: AuthService.getSessionInformation(),
     };
 
-    return this.httpService.post(AuthService.refreshUrl, object, 'refreshJWTToken').pipe(
+    return this.httpService.post(AuthService.refreshUrl, object, undefined, 'refreshJWTToken').pipe(
       tap((data: any) => {
         this.setJWTToken(data.token);
       })

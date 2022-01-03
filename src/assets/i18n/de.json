@@ -87,6 +87,7 @@
   "NAV_ORGANISATIONS": "Organisationen",
   "NAV_EVENTS": "Events / Locations",
   "NAV_EVENTS_CHANGE": "ändern",
+  "NAV_EVENTS_NO_EVENTS": "Keine Events verfügbar",
 
   "HOME_USERSETTINGS_USER_SETTINGS": "Benutzereinstellugen",
   "HOME_USERSETTINGS_USER_SETTINGS_EMAIL": "E-Mail Adresse",

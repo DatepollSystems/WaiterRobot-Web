@@ -14,7 +14,7 @@ export class ProductsService extends AbstractModelService<ProductsModel> {
     super(httpService, '/config/product?event_id=' + eventsService.getSelected()?.id);
 
     this.eventsService.selectedChange.subscribe((value) => {
-      this.getAllUrl = '/config/product?event_id=' + value?.id;
+      this.setGetAllUrl('/config/product?event_id=' + value?.id);
     });
   }
 

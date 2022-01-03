@@ -7,15 +7,6 @@
 
     <a
       class="list-group-item list-group-item-action"
-      routerLink="/home/organisations/create"
-      routerLinkActive="active"
-      *ngIf="myUser?.is_admin">
-      <i-bs name="plus-circle"></i-bs>
-      {{ 'ADD_2' | tr }}</a
-    >
-
-    <a
-      class="list-group-item list-group-item-action"
       routerLink="{{ selectedOrganisation?.id }}"
       *ngIf="selectedOrganisation"
       routerLinkActive="active"

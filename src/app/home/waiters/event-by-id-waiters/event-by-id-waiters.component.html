@@ -1,9 +1,17 @@
 <div fxLayout="row break" fxLayoutAlign="space-between center" [hidden]="!entitiesLoaded">
   <h1>"{{ entity?.name }}" {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</h1>
-  <a routerLink="../create" class="btn btn-outline-success">
-    <i-bs name="plus-circle"></i-bs>
-    {{ 'ADD_2' | tr }}</a
-  >
+
+  <div>
+    <button class="btn btn-outline-primary mx-2" (click)="openQRCode(entity)">
+      <i-bs name="upc-scan"></i-bs>
+      {{ 'HOME_WAITERS_EDIT_QR_CODE' | tr }}
+    </button>
+
+    <a routerLink="../create" class="btn btn-outline-success mx-2">
+      <i-bs name="plus-circle"></i-bs>
+      {{ 'ADD_2' | tr }}</a
+    >
+  </div>
 </div>
 
 <div class="spinner-row" *ngIf="!entitiesLoaded">

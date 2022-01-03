@@ -18,7 +18,6 @@ export class AboutComponent {
     const password = form.value.password;
     this.authService.sendSignInRequest(email, password).subscribe(
       (data: any) => {
-        console.log(data);
         this.authService.setJWTToken(data.token);
         this.authService.setSessionToken(data.session_token);
         this.notificationService.tsuccess('ABOUT_SIGNIN_SUCCESSFUL');

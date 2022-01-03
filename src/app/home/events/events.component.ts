@@ -6,7 +6,6 @@ import {EventsService} from '../../_services/models/events.service';
 import {MyUserService} from '../../_services/my-user.service';
 
 import {EventModel} from '../../_models/event.model';
-import {UserModel} from '../../_models/user.model';
 
 @Component({
   selector: 'app-events',
@@ -14,19 +13,11 @@ import {UserModel} from '../../_models/user.model';
   styleUrls: ['./events.component.scss'],
 })
 export class EventsComponent extends AComponent {
-  myUser: UserModel | undefined = undefined;
   events: EventModel[];
   selectedEvent: EventModel | undefined;
 
   constructor(private myUserService: MyUserService, private eventsService: EventsService) {
     super();
-
-    this.myUser = this.myUserService.getUser();
-    this.autoUnsubscribe(
-      this.myUserService.userChange.subscribe((user) => {
-        this.myUser = user;
-      })
-    );
 
     this.events = this.eventsService.getAll().slice(0, 5);
     this.autoUnsubscribe(

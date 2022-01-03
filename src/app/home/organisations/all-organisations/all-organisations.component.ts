@@ -18,6 +18,7 @@ export class AllOrganisationsComponent extends AbstractModelsListComponent<Organ
   override columnsToDisplay = ['id', 'name', 'street', 'street_number', 'postal_code', 'city', 'country_code', 'actions'];
 
   myUser: UserModel | undefined;
+  selectedOrganisation: OrganisationModel | undefined;
 
   constructor(modal: NgbModal, private myUserService: MyUserService, private organisationsService: OrganisationsService) {
     super(organisationsService, modal);
@@ -28,9 +29,16 @@ export class AllOrganisationsComponent extends AbstractModelsListComponent<Organ
         this.myUser = user;
       })
     );
+
+    this.selectedOrganisation = this.organisationsService.getSelected();
+    this.autoUnsubscribe(
+      this.organisationsService.selectedChange.subscribe((organisation) => {
+        this.selectedOrganisation = organisation;
+      })
+    );
   }
 
-  onSelect(organisation: OrganisationModel): void {
+  onSelect(organisation: OrganisationModel | undefined): void {
     this.organisationsService.setSelected(organisation);
   }
 }

@@ -19,15 +19,16 @@ import {AbstractModelsListByIdComponent} from '../../../_helper/abstract-models-
 })
 export class EventByIdWaitersComponent extends AbstractModelsListByIdComponent<WaiterModel, EventModel> {
   override columnsToDisplay = ['name', 'actions'];
-  // TODO: Change to event_id
-  override getAllUrl = '/config/waiter?organisation_id=';
+  override getAllUrl = '/config/waiter?event_id=';
 
   constructor(waitersService: WaitersService, eventsService: EventsService, route: ActivatedRoute, router: Router, modal: NgbModal) {
     super(waitersService, modal, route, router, eventsService);
   }
 
-  public openQRCode(waiter: WaiterModel): void {
+  public openQRCode(event: EventModel | undefined): void {
     const modalRef = this.modal.open(WaiterQRCodeModalComponent, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg'});
-    modalRef.componentInstance.waiter = waiter;
+
+    modalRef.componentInstance.name = event?.name;
+    modalRef.componentInstance.token = event?.waiter_create_token;
   }
 }

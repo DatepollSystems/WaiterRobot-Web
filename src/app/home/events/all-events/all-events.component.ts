@@ -18,6 +18,7 @@ export class AllEventsComponent extends AbstractModelsListComponent<EventModel> 
   override columnsToDisplay = ['name', 'date', 'street', 'postal_code', 'city', 'actions'];
 
   myUser: UserModel | undefined;
+  selectedEvent: EventModel | undefined;
 
   constructor(modal: NgbModal, private myUserService: MyUserService, private eventsService: EventsService) {
     super(eventsService, modal);
@@ -28,9 +29,16 @@ export class AllEventsComponent extends AbstractModelsListComponent<EventModel> 
         this.myUser = user;
       })
     );
+
+    this.selectedEvent = this.eventsService.getSelected();
+    this.autoUnsubscribe(
+      this.eventsService.selectedChange.subscribe((event) => {
+        this.selectedEvent = event;
+      })
+    );
   }
 
-  onSelect(event: EventModel): void {
+  onSelect(event: EventModel | undefined): void {
     this.eventsService.setSelected(event);
   }
 }
