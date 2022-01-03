@@ -54,6 +54,8 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
       this.selectedEvents.addIfAbsent(selected);
       this.autoUnsubscribe(
         this.eventsService.selectedChange.subscribe((event) => {
+          this.preSelectedEvents.removeAll();
+          this.selectedEvents.removeAll();
           this.preSelectedEvents.addIfAbsent(event);
           this.selectedEvents.addIfAbsent(event);
         })

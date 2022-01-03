@@ -10,7 +10,7 @@ import {EntityList, IEntityWithNumberIDAndName, IHasName, IList} from 'dfx-helpe
   templateUrl: './bootstrap-chip-input.component.html',
   styleUrls: ['./bootstrap-chip-input.component.scss'],
 })
-export class BootstrapChipInputComponent implements OnChanges {
+export class BootstrapChipInputComponent {
   loaded = true;
   formCtrl = new FormControl();
   /**
@@ -28,17 +28,26 @@ export class BootstrapChipInputComponent implements OnChanges {
    * Already filled in strings
    */
   @Input()
-  models: IList<IEntityWithNumberIDAndName> = new EntityList();
+  public set models(models: IList<IEntityWithNumberIDAndName>) {
+    this._models = models;
+    this._allModelsToAutoComplete.removeIfPresent(this._models);
+  }
+  _models: IList<IEntityWithNumberIDAndName> = new EntityList();
   /**
    * Leave empty to disable autocompletion
    */
   @Input()
-  allModelsToAutoComplete: IList<IEntityWithNumberIDAndName> = new EntityList();
+  public set allModelsToAutoComplete(models: IList<IEntityWithNumberIDAndName>) {
+    this._allModelsToAutoComplete = models;
+    this._allModelsToAutoComplete.removeIfPresent(this._models);
+  }
+  _allModelsToAutoComplete: IList<IEntityWithNumberIDAndName> = new EntityList();
   @Output()
   valueChange = new EventEmitter<IList<IEntityWithNumberIDAndName>>();
 
   private emitChange(): void {
-    this.valueChange.emit(this.models.clone());
+    console.log(this._models);
+    this.valueChange.emit(this._models.clone());
   }
 
   formatter = (result: IHasName): string => result.name;
@@ -48,16 +57,12 @@ export class BootstrapChipInputComponent implements OnChanges {
       debounceTime(200),
       distinctUntilChanged(),
       filter((term) => term.length >= 1),
-      map((term) => this.allModelsToAutoComplete.filter((event) => new RegExp(term, 'mi').test(event.name)).slice(0, 10))
+      map((term) => this._allModelsToAutoComplete.filter((event) => new RegExp(term, 'mi').test(event.name)).slice(0, 10))
     );
 
-  ngOnChanges(): void {
-    this.allModelsToAutoComplete.removeIfPresent(this.models);
-  }
-
   remove(value: IEntityWithNumberIDAndName): void {
-    this.models.removeIfPresent(value);
-    this.allModelsToAutoComplete.addIfAbsent(value);
+    this._models.removeIfPresent(value);
+    this._allModelsToAutoComplete.addIfAbsent(value);
     this.emitChange();
   }
 
@@ -66,8 +71,8 @@ export class BootstrapChipInputComponent implements OnChanges {
     if (!model) {
       return;
     }
-    this.allModelsToAutoComplete.removeIfPresent(model);
-    this.models.add(model);
+    this._allModelsToAutoComplete.removeIfPresent(model);
+    this._models.add(model);
     this.emitChange();
     this.formCtrl = new FormControl('');
   }
