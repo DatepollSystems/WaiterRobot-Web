@@ -12,12 +12,12 @@
           <div class="form-group">
             <label for="changeLanguage">{{ 'LANGUAGE' | tr }}</label>
             <select class="form-control bg-dark text-white" id="changeLanguage" [(ngModel)]="selected" (ngModelChange)="setLang($event)">
-              <option value="de">{{ 'LANGUAGE_GERMAN' | tr }}</option>
-              <option value="en">{{ 'LANGUAGE_ENGLISH' | tr }}</option>
-              <option value="es">{{ 'LANGUAGE_SPANISH' | tr }}</option>
-              <option value="fr">{{ 'LANGUAGE_FRANCE' | tr }}</option>
-              <option value="it">{{ 'LANGUAGE_ITALIEN' | tr }}</option>
-              <option value="pt">{{ 'LANGUAGE_PORTUGUES' | tr }}</option>
+              <option value="de" class="text-white">{{ 'LANGUAGE_GERMAN' | tr }}</option>
+              <option value="en" class="text-white">{{ 'LANGUAGE_ENGLISH' | tr }}</option>
+              <option value="es" class="text-white">{{ 'LANGUAGE_SPANISH' | tr }}</option>
+              <option value="fr" class="text-white">{{ 'LANGUAGE_FRANCE' | tr }}</option>
+              <option value="it" class="text-white">{{ 'LANGUAGE_ITALIEN' | tr }}</option>
+              <option value="pt" class="text-white">{{ 'LANGUAGE_PORTUGUES' | tr }}</option>
             </select>
           </div>
         </li>
