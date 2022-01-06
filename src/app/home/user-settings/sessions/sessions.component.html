@@ -35,6 +35,11 @@
       <td *ngbCellDef="let session" ngb-cell>{{ session.registered_at | date: 'YYYY.MM.dd - HH:mm:ss' }}</td>
     </ng-container>
 
+    <ng-container ngbColumnDef="updated_at">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_UPDATED_AT' | tr }}</th>
+      <td *ngbCellDef="let session" ngb-cell>{{ session.updated_at | date: 'YYYY.MM.dd - HH:mm:ss' }}</td>
+    </ng-container>
+
     <ng-container ngbColumnDef="actions">
       <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
       <td *ngbCellDef="let session" ngb-cell>

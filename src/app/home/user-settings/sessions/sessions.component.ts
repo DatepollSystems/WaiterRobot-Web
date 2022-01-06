@@ -12,7 +12,7 @@ import {SessionsModel} from '../../../_models/session.model';
   styleUrls: ['./sessions.component.scss'],
 })
 export class SessionsComponent extends AbstractModelsListComponent<SessionsModel> {
-  override columnsToDisplay = ['name', 'registered_at', 'actions'];
+  override columnsToDisplay = ['name', 'registered_at', 'updated_at', 'actions'];
 
   constructor(sessionsService: SessionsService, modal: NgbModal) {
     super(sessionsService, modal);

@@ -94,6 +94,7 @@
   "HOME_USERSETTINGS_USER_SETTINGS_EMAIL_SUBTITLE": "Deine E-Mail-Adresse wird für das Anmelden und das 'Password zurücksetzen' verwendet.",
   "HOME_USERSETTINGS_USER_SETTINGS_EMAIL_SUCCESS": "E-Mail Adresse erfolgreich geändert",
   "HOME_USERSETTINGS_SESSIONS_REGISTERED_AT": "Registriert am",
+  "HOME_USERSETTINGS_SESSIONS_UPDATED_AT": "Zuletzt verwendet am",
   "HOME_USERSETTINGS_USER_SETTINGS_PASSWORD": "Passwort ändern",
   "HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_SUBTITLE": "Warnung: Du solltest ein sicheres Passwort verwenden.",
   "HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_OLD": "Altes Passwort",
