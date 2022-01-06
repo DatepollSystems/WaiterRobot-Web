@@ -32,7 +32,7 @@
 
     <ng-container ngbColumnDef="registered_at">
       <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_REGISTERED_AT' | tr }}</th>
-      <td *ngbCellDef="let session" ngb-cell>{{ session.registered_at | date: 'HH:mm - dd.MM.YYYY' }}</td>
+      <td *ngbCellDef="let session" ngb-cell>{{ session.registered_at | date: 'YYYY.MM.dd - HH:mm:ss' }}</td>
     </ng-container>
 
     <ng-container ngbColumnDef="actions">
@@ -42,6 +42,7 @@
           type="button"
           class="btn btn-sm m-1 btn-outline-danger text-white"
           ngbTooltip="{{ 'DELETE' | tr }}"
+          placement="left"
           (click)="onDelete(session.id)">
           <i-bs name="trash"></i-bs>
         </button>

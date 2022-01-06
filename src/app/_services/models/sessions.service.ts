@@ -10,7 +10,7 @@ import {SessionsModel} from '../../_models/session.model';
 })
 export class SessionsService extends AbstractModelService<SessionsModel> {
   constructor(httpService: HttpService) {
-    super(httpService, '/auth/sessions');
+    super(httpService, '/user/sessions');
   }
 
   protected convert(data: any): SessionsModel {

@@ -1,6 +1,114 @@
-<h1>{{'NAV_USER_SETTINGS' | tr}}</h1>
-Coming soon....
-<h2>{{'HOME_USERSETTINGS_USER_SETTINGS_EMAIL' | tr}}</h2>
-Coming soon....
-<h2>{{'ABOUT_SIGNIN_PASSWORD' | tr}}</h2>
-Coming soon....
+<div fxLayout="column" fxLayoutGap="2%">
+  <h1>{{ 'NAV_USER_SETTINGS' | tr }}</h1>
+
+  <div class="card text-white me-3">
+    <div class="card-body">
+      <h4 class="card-title">{{ 'HOME_USERSETTINGS_USER_SETTINGS_EMAIL' | tr }}</h4>
+      <h6 class="card-subtitle mb-2">{{ 'HOME_USERSETTINGS_USER_SETTINGS_EMAIL_SUBTITLE' | tr }}</h6>
+      <form #emailForm="ngForm" (ngSubmit)="changeEmail(emailForm)">
+        <div fxLayout="column" class="card-text mb-3">
+          <div>
+            <div class="form-group" fxFlex.gt-md="40%">
+              <label for="email">{{ 'EMAIL' | tr }}</label>
+              <input
+                ngModel
+                class="form-control bg-dark text-white mb-1"
+                type="email"
+                id="email"
+                #emailModel="ngModel"
+                (ngModelChange)="emailChange($event)"
+                name="email"
+                [(ngModel)]="emailAddress" />
+              <small *ngIf="emailModel.invalid || !emailAddressValid" class="text-danger">
+                {{ 'HOME_USERS_EMAIL_INCORRECT' | tr }}
+              </small>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-outline-warning" type="submit" [disabled]="!emailForm || !emailForm.valid || !emailAddressValid">
+          {{ 'SAVE' | tr }}
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="card text-white me-3">
+    <div class="card-body">
+      <h4 class="card-title">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD' | tr }}</h4>
+      <h6 class="card-subtitle mb-2">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_SUBTITLE' | tr }}</h6>
+      <form #passwordForm="ngForm" (ngSubmit)="changePassword(passwordForm)">
+        <div fxLayout="column" class="card-text mb-3">
+          <div>
+            <div class="form-group" fxFlex.gt-md="40%">
+              <label for="oldPassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_OLD' | tr }}</label>
+              <input
+                ngModel
+                class="form-control bg-dark text-white mb-1"
+                type="password"
+                id="oldPassword"
+                #passwordModel="ngModel"
+                [minlength]="6"
+                required
+                name="oldPassword"
+                placeholder="{{ 'PASSWORD' | tr }}" />
+              <small *ngIf="passwordModel.invalid" class="text-danger">
+                {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
+              </small>
+            </div>
+          </div>
+
+          <div>
+            <div class="form-group" fxFlex.gt-md="40%">
+              <label for="newPassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | tr }}</label>
+              <input
+                ngModel
+                class="form-control bg-dark text-white mb-1"
+                type="password"
+                id="newPassword"
+                (ngModelChange)="newPasswordsChange($event, undefined)"
+                #newPasswordModel="ngModel"
+                [minlength]="6"
+                required
+                name="newPassword"
+                placeholder="{{ 'PASSWORD' | tr }}" />
+              <small *ngIf="newPasswordModel.invalid" class="text-danger">
+                {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
+              </small>
+            </div>
+          </div>
+
+          <div>
+            <div class="form-group" fxFlex.gt-md="40%">
+              <label for="newPasswordAgain">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_AGAIN' | tr }}</label>
+              <input
+                ngModel
+                class="form-control bg-dark text-white mb-1"
+                type="password"
+                id="newPasswordAgain"
+                (ngModelChange)="newPasswordsChange(undefined, $event)"
+                #newPasswordAgainModel="ngModel"
+                [minlength]="6"
+                required
+                name="newPasswordAgain"
+                placeholder="{{ 'PASSWORD' | tr }}" />
+
+              <div *ngIf="newPasswordAgainModel.invalid">
+                <small class="text-danger">
+                  {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
+                </small>
+              </div>
+              <div *ngIf="!newPasswordsMatch">
+                <small class="text-danger">
+                  {{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_DONT_MATCH' | tr }}
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-outline-danger" type="submit" [disabled]="!passwordForm || !passwordForm.valid || !newPasswordsMatch">
+          {{ 'SAVE' | tr }}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

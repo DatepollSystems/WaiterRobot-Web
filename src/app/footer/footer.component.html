@@ -11,6 +11,7 @@
         <li>
           <div class="form-group">
             <label for="changeLanguage">{{ 'LANGUAGE' | tr }}</label>
+            <!-- Set everywhere text-white class; Bug on macOs where text is not visible -->
             <select class="form-control bg-dark text-white" id="changeLanguage" [(ngModel)]="selected" (ngModelChange)="setLang($event)">
               <option value="de" class="text-white">{{ 'LANGUAGE_GERMAN' | tr }}</option>
               <option value="en" class="text-white">{{ 'LANGUAGE_ENGLISH' | tr }}</option>

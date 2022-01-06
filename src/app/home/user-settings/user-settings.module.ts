@@ -1,6 +1,6 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
@@ -38,6 +38,7 @@ const routes: Routes = [
     DfxTableModule,
     DfxSortModule,
     IconsModule,
+    FormsModule,
   ],
 })
 export class UserSettingsModule {}

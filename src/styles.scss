@@ -20,21 +20,13 @@ a:hover {
   vertical-align: -0.125em;
 }
 
+/** Fix button icon alignment */
 .btn-sm > i-bs > svg.bi {
   vertical-align: -0.22em !important;
 }
 
 a.btn > img {
   vertical-align: -0.15em;
-}
-
-.big {
-  height: 50px;
-  width: 50px;
-}
-
-.fill-red {
-  fill: red;
 }
 
 .fake-dropdown-item {
@@ -68,4 +60,33 @@ a.btn > img {
   justify-content: center;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.bg-darker {
+  background-color: #546e7a;
+}
+
+.bg-darker-1 {
+  background-color: #455a64;
+}
+
+.bg-darker-2 {
+  background-color: #546e7a;
+}
+
+.bg-darker-3 {
+  background-color: #37474f;
+}
+
+.bg-darker-4,
+.card {
+  background-color: #263238;
+}
+
+.bg-darker-5 {
+  background-color: #212121;
+}
+
+.bg-darker-6 {
+  background-color: #000;
 }

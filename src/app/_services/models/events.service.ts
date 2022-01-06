@@ -5,6 +5,7 @@ import {OrganisationsService} from './organisations.service';
 import {AbstractSelectableModelService} from './abstract-model.service';
 
 import {EventModel} from '../../_models/event.model';
+import {HttpParams} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +16,14 @@ export class EventsService extends AbstractSelectableModelService<EventModel> {
   constructor(httpService: HttpService, private organisationsService: OrganisationsService) {
     super(httpService, '/config/event');
 
-    this.setGetAllUrl('/config/event?organisation_id=' + this.organisationsService.getSelected()?.id);
+    const selected = this.organisationsService.getSelected();
+    if (selected) {
+      this.setGetAllParams(new HttpParams().set('organisation_id', selected.id));
+    }
     this.organisationsService.selectedChange.subscribe((value) => {
-      this.setGetAllUrl('/config/event?organisation_id=' + value?.id);
+      if (value) {
+        this.setGetAllParams(new HttpParams().set('organisation_id', value.id));
+      }
     });
   }
 
