@@ -7,11 +7,12 @@ import {IsMobileService} from 'dfx-helper';
   selector: 'app-qrcode-modal',
   template: `
     <div class="modal-header">
-      <ng-content></ng-content>
+      <ng-content select="[header]"></ng-content>
       <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
     </div>
-    <div class="modal-body" fxLayout="row" fxLayoutAlign="center">
+    <div class="modal-body" fxLayout="row break" fxLayoutAlign="center">
       <qr-code [value]="data" [size]="isMobile ? '340' : '700'" errorCorrectionLevel="H" [margin]="1"> </qr-code>
+      <ng-content select="[body]"></ng-content>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark" ngbAutofocus (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>

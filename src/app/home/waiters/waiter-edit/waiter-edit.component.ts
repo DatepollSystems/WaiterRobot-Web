@@ -97,7 +97,8 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     }
     const modalRef = this.modal.open(WaiterQRCodeModalComponent, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg'});
     modalRef.componentInstance.name = waiter.name;
-    modalRef.componentInstance.token = waiter.token;
+    modalRef.componentInstance.token = waiter.signInToken;
+    modalRef.componentInstance.body = 'HOME_WAITERS_EDIT_QR_CODE_DESCRIPTION';
   }
 
   changeSelectedEvents(selectedEvents: IList<AEntityWithName<number>>): void {
