@@ -11,6 +11,7 @@ import {EnvironmentHelper} from '../_helper/EnvironmentHelper';
 import {OrganisationModel} from '../_models/organisation.model';
 import {EventModel} from '../_models/event.model';
 import {UserModel} from '../_models/user.model';
+import {NavigationEnd, Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -28,6 +29,7 @@ export class HomeComponent extends AComponent implements OnInit {
   allEvents: EventModel[] = [];
 
   constructor(
+    private router: Router,
     private authService: AuthService,
     private myUserService: MyUserService,
     private organisationsService: OrganisationsService,
@@ -56,6 +58,12 @@ export class HomeComponent extends AComponent implements OnInit {
     );
 
     this.onEventInit();
+
+    router.events.subscribe((val) => {
+      if (val instanceof NavigationEnd) {
+        this.toggleNav();
+      }
+    });
   }
 
   onEventInit(): void {
@@ -90,7 +98,11 @@ export class HomeComponent extends AComponent implements OnInit {
     }, 1);
   }
 
-  toggleNav(collapsable: any): void {
+  toggleNav(): void {
+    const collapsable = document.getElementById('navbarSupportedContent');
+    if (!collapsable) {
+      return;
+    }
     if (collapsable.style.display === 'block') {
       collapsable.style.display = 'none';
     } else {
