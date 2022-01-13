@@ -13,14 +13,14 @@ import {HttpParams} from '@angular/common/http';
 export class EventsService extends AbstractSelectableModelService<EventModel> {
   protected selectedStorageKey = 'selected_event';
 
-  constructor(httpService: HttpService, private organisationsService: OrganisationsService) {
+  constructor(httpService: HttpService, organisationsService: OrganisationsService) {
     super(httpService, '/config/event');
 
-    const selected = this.organisationsService.getSelected();
+    const selected = organisationsService.getSelected();
     if (selected) {
       this.setGetAllParams(new HttpParams().set('organisation_id', selected.id));
     }
-    this.organisationsService.selectedChange.subscribe((value) => {
+    organisationsService.selectedChange.subscribe((value) => {
       if (value) {
         this.setGetAllParams(new HttpParams().set('organisation_id', value.id));
       }

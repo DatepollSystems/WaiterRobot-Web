@@ -177,7 +177,64 @@
       </li>
       <li [ngbNavItem]="2">
         <a ngbNavLink>{{ 'USER' | tr }}</a>
-        <ng-template ngbNavContent> Coming soon...</ng-template>
+        <ng-template ngbNavContent>
+          <form class="mt-2">
+            <div class="input-group">
+              <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                ngbTooltip="{{ 'CLEAR' | tr }}"
+                placement="bottom"
+                (click)="filter.reset()"
+                *ngIf="filter?.value?.length > 0">
+                <i-bs name="x-circle-fill"></i-bs>
+              </button>
+            </div>
+          </form>
+
+          <div class="table-responsive">
+            <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort>
+              <ng-container ngbColumnDef="name">
+                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+                <td *ngbCellDef="let organisationUser" ngb-cell>{{ organisationUser.name }}</td>
+              </ng-container>
+
+              <ng-container ngbColumnDef="email">
+                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'EMAIL' | tr }}</th>
+                <td *ngbCellDef="let organisationUser" ngb-cell>{{ organisationUser.id }}</td>
+              </ng-container>
+
+              <ng-container ngbColumnDef="role">
+                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_STREET' | tr }}</th>
+                <td *ngbCellDef="let organisationUser" ngb-cell>{{ organisationUser.role }}</td>
+              </ng-container>
+
+              <ng-container ngbColumnDef="actions">
+                <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+                <td *ngbCellDef="let organisationUser" ngb-cell>
+                  <a
+                    class="btn btn-sm m-1 btn-outline-success text-white"
+                    routerLink="../{{ organisationUser.id }}"
+                    ngbTooltip="{{ 'EDIT' | tr }}">
+                    <i-bs name="pencil-square"></i-bs>
+                  </a>
+                  <button
+                    type="button"
+                    class="btn btn-sm m-1 btn-outline-danger text-white"
+                    ngbTooltip="{{ 'DELETE' | tr }}"
+                    (click)="onDelete(organisationUser.id)"
+                    *ngIf="myUser?.is_admin">
+                    <i-bs name="trash"></i-bs>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+              <tr *ngbRowDef="let organisationUser; columns: columnsToDisplay" ngb-row></tr>
+            </table>
+          </div>
+        </ng-template>
       </li>
       <li [ngbNavItem]="3" *ngIf="isEditing">
         <a ngbNavLink>{{ 'STATISTICS' | tr }}</a>

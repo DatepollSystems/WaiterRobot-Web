@@ -1,4 +1,4 @@
-import {AEntityWithNumberIDAndName} from 'dfx-helper';
+import {AEntityWithNumberIDAndName, AEntityWithStringIDAndName} from 'dfx-helper';
 
 export class OrganisationModel extends AEntityWithNumberIDAndName {
   public readonly street: string;
@@ -14,5 +14,18 @@ export class OrganisationModel extends AEntityWithNumberIDAndName {
     this.postal_code = data.postal_code;
     this.city = data.city;
     this.country_code = data.country_code;
+  }
+}
+
+export class OrganisationUserModel extends AEntityWithStringIDAndName {
+  public readonly email_address: string;
+  public readonly role: string;
+  public readonly organisation_id: number;
+
+  constructor(data: any) {
+    super(data.email_address, data.firstname + ' ' + data.surname, data);
+    this.email_address = data.email_address;
+    this.role = data.role;
+    this.organisation_id = data.organisation_id;
   }
 }
