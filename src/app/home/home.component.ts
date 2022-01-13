@@ -61,7 +61,7 @@ export class HomeComponent extends AComponent implements OnInit {
 
     router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
-        this.toggleNav();
+        this.toggleNav('CLOSE');
       }
     });
   }
@@ -98,12 +98,12 @@ export class HomeComponent extends AComponent implements OnInit {
     }, 1);
   }
 
-  toggleNav(): void {
+  toggleNav(status: `OPEN` | 'CLOSE' | undefined = undefined): void {
     const collapsable = document.getElementById('navbarSupportedContent');
     if (!collapsable) {
       return;
     }
-    if (collapsable.style.display === 'block') {
+    if (collapsable.style.display === 'block' || status === 'CLOSE') {
       collapsable.style.display = 'none';
     } else {
       collapsable.style.display = 'block';
