@@ -22,7 +22,12 @@
           </button>
         </div>
       </ng-container>
-
+      <div>
+        <button class="btn btn-sm btn-outline-primary my-2 my-md-0" (click)="openQRCode(entity)">
+          <i-bs name="upc-scan"></i-bs>
+          {{ 'HOME_WAITERS_EDIT_QR_CODE' | tr }}
+        </button>
+      </div>
       <div>
         <button class="btn btn-sm btn-outline-secondary my-2 my-md-0 disabled">
           <i-bs name="clipboard"></i-bs>

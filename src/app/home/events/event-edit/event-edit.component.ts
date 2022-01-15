@@ -4,12 +4,13 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
+import {WaiterQRCodeModalComponent} from '../../waiters/waiter-qr-code-modal.component';
 import {EventsService} from '../../../_services/models/events.service';
 import {MyUserService} from '../../../_services/my-user.service';
+import {OrganisationsService} from '../../../_services/models/organisations.service';
 
 import {EventModel} from '../../../_models/event.model';
 import {UserModel} from '../../../_models/user.model';
-import {OrganisationsService} from '../../../_services/models/organisations.service';
 
 @Component({
   selector: 'app-event-edit',
@@ -50,6 +51,14 @@ export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
 
   onSelect(event: EventModel | undefined): void {
     this.eventsService.setSelected(event);
+  }
+
+  openQRCode(event: EventModel | undefined): void {
+    const modalRef = this.modal.open(WaiterQRCodeModalComponent, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg'});
+
+    modalRef.componentInstance.name = event?.name;
+    modalRef.componentInstance.token = event?.waiter_create_token;
+    modalRef.componentInstance.body = 'HOME_WAITERS_EDIT_EVENTS_QR_CODE_DESCRIPTION';
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
