@@ -152,16 +152,12 @@
         fxLayout="row"
         fxLayoutGap="2%"
         fxLayoutGap.gt-md="0.1%"
-        [class.visually-hidden]="!selectedOrganisation">
+        *ngIf="selectedOrganisation">
         <li class="nav-item">
-          <a class="nav-link" routerLink="tables" routerLinkActive="link-active" [class.visually-hidden]="!selectedEvent">{{
-            'NAV_TABLES' | tr
-          }}</a>
+          <a class="nav-link" routerLink="tables" routerLinkActive="link-active" *ngIf="selectedEvent">{{ 'NAV_TABLES' | tr }}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="products" routerLinkActive="link-active" [class.visually-hidden]="!selectedEvent">{{
-            'NAV_PRODUCTS' | tr
-          }}</a>
+          <a class="nav-link" routerLink="products" routerLinkActive="link-active" *ngIf="selectedEvent">{{ 'NAV_PRODUCTS' | tr }}</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="printers" routerLinkActive="link-active">{{ 'NAV_PRINTERS' | tr }}</a>
