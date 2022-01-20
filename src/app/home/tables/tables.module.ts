@@ -5,7 +5,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {DfxTableModule, DfxSortModule} from 'dfx-bootstrap-table';
+import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {TablesComponent} from './tables.component';

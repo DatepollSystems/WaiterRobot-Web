@@ -6,7 +6,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {DfxTranslateModule} from 'dfx-translate';
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {DfxTableModule, DfxSortModule} from 'dfx-bootstrap-table';
+import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 
 import {IconsModule} from '../../_shared/icons.module';
 import {QuestionDialogModule} from '../../_shared/question-dialog/question-dialog.module';

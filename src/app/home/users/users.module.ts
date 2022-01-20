@@ -6,7 +6,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {NgbDatepickerModule, NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTranslateModule} from 'dfx-translate';
-import {DfxTableModule, DfxSortModule} from 'dfx-bootstrap-table';
+import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 
 import {IconsModule} from '../../_shared/icons.module';
 

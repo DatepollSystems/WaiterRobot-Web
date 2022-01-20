@@ -1,10 +1,12 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
+import {DateHelper} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
 import {WaiterQRCodeModalComponent} from '../../waiters/waiter-qr-code-modal.component';
+
 import {EventsService} from '../../../_services/models/events.service';
 import {MyUserService} from '../../../_services/my-user.service';
 import {OrganisationsService} from '../../../_services/models/organisations.service';
@@ -12,7 +14,6 @@ import {OrganisationsService} from '../../../_services/models/organisations.serv
 import {EventModel} from '../../../_models/event.model';
 import {UserModel} from '../../../_models/user.model';
 import {QrCodeModel} from '../../../_shared/app-qr-code-modal/qr-code.model';
-import {DateHelper} from 'dfx-helper';
 
 @Component({
   selector: 'app-event-edit',
@@ -67,7 +68,7 @@ export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
     if (model.update_waiter_create_token?.length === 0) {
       model.update_waiter_create_token = false;
     }
-    model.date = DateHelper.getDateFormatted(new Date(model.date));
+    model.date = DateHelper.getDateFormatted(model.date);
 
     return super.addCustomAttributesBeforeCreateAndUpdate(model);
   }

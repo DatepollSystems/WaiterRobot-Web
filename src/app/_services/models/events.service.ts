@@ -5,7 +5,6 @@ import {OrganisationsService} from './organisations.service';
 import {AbstractSelectableModelService} from './abstract-model.service';
 
 import {EventModel} from '../../_models/event.model';
-import {HttpParams} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',

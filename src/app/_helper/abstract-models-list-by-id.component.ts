@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {AEntityService, Converter, IEntityWithNumberID, KeyValuePair, TypeHelper} from 'dfx-helper';
+import {AEntityService, Converter, IEntityWithNumberID, TypeHelper} from 'dfx-helper';
 
 import {AbstractModelService} from '../_services/models/abstract-model.service';
 

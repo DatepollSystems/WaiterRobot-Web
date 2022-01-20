@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
@@ -24,6 +24,7 @@ export class BootstrapChipInputComponent {
    */
   @Input()
   placeHolder = 'ADD';
+
   /**
    * Already filled in strings
    */
@@ -32,7 +33,9 @@ export class BootstrapChipInputComponent {
     this._models = models;
     this._allModelsToAutoComplete.removeIfPresent(this._models);
   }
+
   _models: IList<IEntityWithNumberIDAndName> = new EntityList();
+
   /**
    * Leave empty to disable autocompletion
    */
@@ -41,6 +44,7 @@ export class BootstrapChipInputComponent {
     this._allModelsToAutoComplete = models;
     this._allModelsToAutoComplete.removeIfPresent(this._models);
   }
+
   _allModelsToAutoComplete: IList<IEntityWithNumberIDAndName> = new EntityList();
   @Output()
   valueChange = new EventEmitter<IList<IEntityWithNumberIDAndName>>();

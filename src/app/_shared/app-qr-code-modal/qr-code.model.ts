@@ -1,8 +1,3 @@
-import {Component, Input} from '@angular/core';
-
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {IsMobileService} from 'dfx-helper';
-
 export type QrCodePurpose = 'WAITER_SIGN_IN' | 'WAITER_CREATE';
 
 export class QrCodeModel {
