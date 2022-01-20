@@ -16,14 +16,9 @@ export class EventsService extends AbstractSelectableModelService<EventModel> {
   constructor(httpService: HttpService, organisationsService: OrganisationsService) {
     super(httpService, '/config/event');
 
-    const selected = organisationsService.getSelected();
-    if (selected) {
-      this.setGetAllParams(new HttpParams().set('organisation_id', selected.id));
-    }
-    organisationsService.selectedChange.subscribe((value) => {
-      if (value) {
-        this.setGetAllParams(new HttpParams().set('organisation_id', value.id));
-      }
+    this.setGetAllParams([{key: 'organisation_id', value: organisationsService.getSelected()?.id}]);
+    organisationsService.selectedChange.subscribe((org) => {
+      this.setGetAllParams([{key: 'organisation_id', value: org?.id}]);
     });
   }
 

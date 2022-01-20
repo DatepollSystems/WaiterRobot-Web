@@ -8,8 +8,8 @@
     </div>
 
     <ng-container *ngIf="isEditing && entity">
-      <ng-container *ngIf="myUser?.is_admin">
-        <div *ngIf="activeTab === 1">
+      <ng-container *ngIf="myUser?.is_admin && activeTab === 1">
+        <div>
           <button class="btn btn-sm btn-success my-2 my-md-0" (click)="form.ngSubmit.emit()" [disabled]="!form.valid">
             <i-bs name="save"></i-bs>
             {{ 'SAVE' | tr }}
@@ -175,25 +175,75 @@
           </div>
         </ng-template>
       </li>
-      <li [ngbNavItem]="2">
+
+      <li [ngbNavItem]="2" *ngIf="isEditing">
         <a ngbNavLink>{{ 'USER' | tr }}</a>
         <ng-template ngbNavContent>
-          <form class="mt-2">
-            <div class="input-group">
-              <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
-              <button
-                class="btn btn-outline-secondary"
-                type="button"
-                ngbTooltip="{{ 'CLEAR' | tr }}"
-                placement="bottom"
-                (click)="filter.reset()"
-                *ngIf="filter?.value?.length > 0">
-                <i-bs name="x-circle-fill"></i-bs>
-              </button>
-            </div>
-          </form>
+          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-between" fxLayoutGap="1.5%">
+            <form class="mt-2" fxFlex="30%" fxFlex.lt-xl="50%">
+              <div class="input-group">
+                <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  ngbTooltip="{{ 'CLEAR' | tr }}"
+                  placement="bottom"
+                  (click)="filter.reset()"
+                  *ngIf="filter?.value?.length > 0">
+                  <i-bs name="x-circle-fill"></i-bs>
+                </button>
+              </div>
+            </form>
 
-          <div class="table-responsive">
+            <button
+              class="btn mt-2"
+              [class.btn-outline-success]="!showAddOrgUserCollapse"
+              [class.btn-success]="showAddOrgUserCollapse"
+              type="button"
+              (click)="showAddOrgUserCollapse = !showAddOrgUserCollapse">
+              <i-bs name="save"></i-bs>
+              {{ 'ADD_3' | tr }} {{ 'DIALOG' | tr }}
+            </button>
+          </div>
+
+          <div [ngbCollapse]="!showAddOrgUserCollapse" class="mt-3">
+            <div class="card">
+              <div class="card-body">
+                <div fxLayout="row" fxLayoutAlign="space-between end" fxLayout.lt-sm="column" fxLayoutGap="1.5%">
+                  <form fxFlex="30%" fxFlex.lt-xl="60%">
+                    <label for="name">{{ 'EMAIL' | tr }}</label>
+                    <div class="input-group">
+                      <input
+                        class="form-control bg-dark text-white"
+                        required
+                        type="email"
+                        [formControl]="addOrgUserCtrl"
+                        placeholder="{{ 'HOME_ORGS_USERS_EMAIL_PLACEHOLDER' | tr }}"
+                        (ngModelChange)="emailChange($event)" />
+                      <button
+                        class="btn btn-outline-secondary"
+                        type="button"
+                        ngbTooltip="{{ 'CLEAR' | tr }}"
+                        placement="bottom"
+                        (click)="addOrgUserCtrl.reset()"
+                        *ngIf="addOrgUserCtrl?.value?.length > 0">
+                        <i-bs name="x-circle-fill"></i-bs>
+                      </button>
+                    </div>
+                  </form>
+
+                  <div>
+                    <button class="btn btn-success" [disabled]="!addOrgUserValid" type="button" (click)="onAddOrgUser()">
+                      <i-bs name="save"></i-bs>
+                      {{ 'ADD_3' | tr }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-responsive mt-3">
             <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort>
               <ng-container ngbColumnDef="name">
                 <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
@@ -206,25 +256,24 @@
               </ng-container>
 
               <ng-container ngbColumnDef="role">
-                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_STREET' | tr }}</th>
-                <td *ngbCellDef="let organisationUser" ngb-cell>{{ organisationUser.role }}</td>
+                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ROLE' | tr }}</th>
+                <td *ngbCellDef="let organisationUser" ngb-cell>
+                  {{ organisationUser.role }}
+                  <a class="btn btn-sm m-1 btn-outline-success text-white" ngbTooltip="{{ 'EDIT' | tr }}">
+                    <i-bs name="pencil-square"></i-bs>
+                  </a>
+                </td>
               </ng-container>
 
               <ng-container ngbColumnDef="actions">
                 <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
                 <td *ngbCellDef="let organisationUser" ngb-cell>
-                  <a
-                    class="btn btn-sm m-1 btn-outline-success text-white"
-                    routerLink="../{{ organisationUser.id }}"
-                    ngbTooltip="{{ 'EDIT' | tr }}">
-                    <i-bs name="pencil-square"></i-bs>
-                  </a>
                   <button
                     type="button"
                     class="btn btn-sm m-1 btn-outline-danger text-white"
                     ngbTooltip="{{ 'DELETE' | tr }}"
-                    (click)="onDelete(organisationUser.id)"
-                    *ngIf="myUser?.is_admin">
+                    (click)="onOrgUserDelete(organisationUser)"
+                    *ngIf="myUser?.is_admin || this.myUser?.email_address !== organisationUser.email_address">
                     <i-bs name="trash"></i-bs>
                   </button>
                 </td>

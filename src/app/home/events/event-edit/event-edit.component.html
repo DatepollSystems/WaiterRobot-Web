@@ -99,10 +99,10 @@
                   id="date"
                   #datePicker="ngbDatepicker"
                   name="date"
-                  placeholder="13.12.2021"
+                  [placeholder]="myUser?.is_admin ? '13.12.2021' : ''"
                   [disabled]="!myUser?.is_admin"
                   [ngModel]="isEditing ? entity?.date : null" />
-                <button class="btn btn-outline-light" (click)="datePicker.toggle()" type="button">
+                <button class="btn btn-outline-light" (click)="datePicker.toggle()" type="button" *ngIf="myUser?.is_admin">
                   <i-bs name="calendar-date"></i-bs>
                 </button>
               </div>
@@ -189,7 +189,7 @@
           </div>
 
           <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%" class="mt-2">
-            <div class="form-check" *ngIf="isEditing">
+            <div class="form-check" *ngIf="isEditing && myUser?.is_admin">
               <input
                 ngModel
                 class="form-check-input"

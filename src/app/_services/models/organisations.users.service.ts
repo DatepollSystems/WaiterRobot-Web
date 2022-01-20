@@ -1,22 +1,19 @@
 import {Injectable} from '@angular/core';
+import {AEntityService} from 'dfx-helper';
 
 import {HttpService} from '../http.service';
 
 import {OrganisationUserModel} from '../../_models/organisation.model';
-import {OrganisationsService} from './organisations.service';
-import {AEntityService} from 'dfx-helper';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrganisationsUsersService extends AEntityService<string, OrganisationUserModel> {
-  constructor(httpService: HttpService, organisationsService: OrganisationsService) {
-    super(httpService, '/config/organisation');
+  constructor(httpService: HttpService) {
+    super(httpService, '/config/organisation/users');
 
-    const selected = organisationsService.getSelected();
-    if (selected) {
-      this.setGetAllUrl('/config/organisation/' + selected.id + '/users');
-    }
+    this.globalUpdateUrl = '/config/organisation/{organisationId}/user/{uEmail}';
+    this.globalDeleteUrl = '/config/organisation/{organisationId}/user/{uEmail}';
   }
 
   protected convert(data: any): OrganisationUserModel {

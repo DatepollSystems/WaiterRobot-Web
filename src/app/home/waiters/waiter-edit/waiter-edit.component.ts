@@ -14,6 +14,7 @@ import {WaiterModel} from '../../../_models/waiter.model';
 import {EventModel} from '../../../_models/event.model';
 import {OrganisationModel} from '../../../_models/organisation.model';
 import {OrganisationsService} from '../../../_services/models/organisations.service';
+import {QrCodeModel} from '../../../_shared/app-qr-code-modal/qr-code.model';
 
 @Component({
   selector: 'app-waiter-edit',
@@ -43,7 +44,6 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     this.autoUnsubscribe(
       this.eventsService.allChange.subscribe((events) => {
         this.events = events.clone();
-        this.onValuesRefresh();
       })
     );
 
@@ -61,6 +61,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
         })
       );
     }
+
     this.selectedOrganisation = this.organisationsService.getSelected();
     this.autoUnsubscribe(
       this.organisationsService.selectedChange.subscribe((organisation) => {
@@ -69,13 +70,14 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     );
   }
 
-  override onValuesRefresh(): void {
+  override onEntityLoaded(): void {
     if (!this.events || !this.entity) {
       return;
     }
 
     for (const event of this.events) {
       if (this.entity.events.includes(event.id)) {
+        this.selectedEvents.addIfAbsent(event);
         this.preSelectedEvents.addIfAbsent(event);
       }
     }
@@ -97,8 +99,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     }
     const modalRef = this.modal.open(WaiterQRCodeModalComponent, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg'});
     modalRef.componentInstance.name = waiter.name;
-    modalRef.componentInstance.token = waiter.signInToken;
-    modalRef.componentInstance.body = 'HOME_WAITERS_EDIT_QR_CODE_DESCRIPTION';
+    modalRef.componentInstance.qrCodeModel = QrCodeModel.waiterSignIn(waiter.signInToken);
   }
 
   changeSelectedEvents(selectedEvents: IList<AEntityWithName<number>>): void {

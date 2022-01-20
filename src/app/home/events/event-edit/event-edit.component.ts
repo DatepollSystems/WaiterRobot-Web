@@ -11,6 +11,8 @@ import {OrganisationsService} from '../../../_services/models/organisations.serv
 
 import {EventModel} from '../../../_models/event.model';
 import {UserModel} from '../../../_models/user.model';
+import {QrCodeModel} from '../../../_shared/app-qr-code-modal/qr-code.model';
+import {DateHelper} from 'dfx-helper';
 
 @Component({
   selector: 'app-event-edit',
@@ -53,12 +55,11 @@ export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
     this.eventsService.setSelected(event);
   }
 
-  openQRCode(event: EventModel | undefined): void {
+  openQRCode(event: EventModel): void {
     const modalRef = this.modal.open(WaiterQRCodeModalComponent, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg'});
 
-    modalRef.componentInstance.name = event?.name;
-    modalRef.componentInstance.token = event?.waiter_create_token;
-    modalRef.componentInstance.body = 'HOME_WAITERS_EDIT_EVENTS_QR_CODE_DESCRIPTION';
+    modalRef.componentInstance.name = event.name;
+    modalRef.componentInstance.qrCodeModel = QrCodeModel.waiterCreate(event.waiter_create_token);
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
@@ -66,6 +67,7 @@ export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
     if (model.update_waiter_create_token?.length === 0) {
       model.update_waiter_create_token = false;
     }
+    model.date = DateHelper.getDateFormatted(new Date(model.date));
 
     return super.addCustomAttributesBeforeCreateAndUpdate(model);
   }

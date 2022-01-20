@@ -5,7 +5,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {DfxTranslateModule} from 'dfx-translate';
-import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbCollapseModule, NgbModule, NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTableModule, DfxSortModule} from 'dfx-bootstrap-table';
 
 import {IconsModule} from '../../_shared/icons.module';
@@ -40,6 +40,7 @@ const routes: Routes = [
     DfxTableModule,
     DfxSortModule,
     IconsModule,
+    NgbCollapseModule,
   ],
 })
 export class OrganisationsModule {}

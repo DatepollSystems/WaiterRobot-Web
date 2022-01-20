@@ -67,11 +67,10 @@ export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
     return super.customCreateAndUpdateFilter(model);
   }
 
-  override onValuesRefresh(): void {
+  override onEntityLoaded(): void {
     if (this.isEditing && this.entity) {
-      this.selectedTableGroup = Converter.numberToString(this.entity?.group_id);
+      this.selectedTableGroup = Converter.toString(this.entity?.group_id);
     }
-    super.onValuesRefresh();
   }
 
   selectTableGroup(value: string): void {

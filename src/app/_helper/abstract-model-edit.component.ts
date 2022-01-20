@@ -42,17 +42,17 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
           this.entity = this.modelService.getSingle(nId);
           if (this.entity?.id == nId) {
             this.entityLoaded = true;
-            this.onValuesRefresh();
+            this.onEntityLoaded();
           }
           this.autoUnsubscribe(
             this.modelService.singleChange.subscribe((value) => {
               this.entity = value;
               this.entityLoaded = true;
-              this.onValuesRefresh();
+              this.onEntityLoaded();
             })
           );
         } else {
-          this.onValuesRefresh();
+          this.onEntityLoaded();
           this.isEditing = false;
           this.lumber.info('const', 'Create new model');
           this.checkTab();
@@ -86,7 +86,7 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
     void this.router.navigateByUrl(this.redirectUrl);
   }
 
-  protected onValuesRefresh(): void {}
+  protected onEntityLoaded(): void {}
 
   protected addCustomAttributesBeforeCreateAndUpdate(model: any): any {
     return model;

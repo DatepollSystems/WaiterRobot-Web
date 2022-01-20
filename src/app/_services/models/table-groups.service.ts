@@ -13,9 +13,9 @@ export class TableGroupsService extends AbstractModelService<TableGroupModel> {
   constructor(httpService: HttpService, private eventsService: EventsService) {
     super(httpService, '/config/table/group');
 
-    this.setGetAllUrl('/config/table/group?event_id=' + this.eventsService.getSelected()?.id);
+    this.setGetAllParams([{key: 'event_id', value: this.eventsService.getSelected()?.id}]);
     this.eventsService.selectedChange.subscribe((event) => {
-      this.setGetAllUrl('/config/table/group?event_id=' + event?.id);
+      this.setGetAllParams([{key: 'event_id', value: event?.id}]);
     });
   }
 

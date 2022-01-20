@@ -2,6 +2,7 @@
   "CLOSE": "Schließen",
   "ADD": "Erstellen",
   "ADD_2": "Neu Anlegen",
+  "ADD_3": "Hinzufügen",
   "GO_BACK": "Zurück",
   "NAME": "Name",
   "ACTIONS": "Aktionen",
@@ -30,6 +31,9 @@
   "NUMBER": "Nummer",
   "SEATS": "Sitze",
   "INFORMATION": "Information",
+  "ROLE": "Role",
+  "DIALOG": "Dialog",
+  "SHOW_ALL": "Alle anzeigen",
 
   "REQUEST_ERROR_CLIENT": "Client fehler",
   "REQUEST_ERROR_SERVER": "Server fehler",
@@ -86,6 +90,7 @@
   "NAV_WAITERS": "Personal",
   "NAV_PRINTERS": "Drucker",
   "NAV_ORGANISATIONS": "Organisationen",
+  "NAV_ORGANISATIONS_NO_ORGS": "Keine Organisationen verfügbar",
   "NAV_EVENTS": "Events / Locations",
   "NAV_EVENTS_CHANGE": "ändern",
   "NAV_EVENTS_NO_EVENTS": "Keine Events verfügbar",
@@ -117,6 +122,9 @@
   "HOME_ORGS_CITY_INCORRECT": "Stadtname erforderlich",
   "HOME_ORGS_COUNTRY_CODE": "Landkürzel",
   "HOME_ORGS_COUNTRY_CODE_INCORRECT": "Landkürzel erforderlich",
+  "HOME_ORGS_USERS_EMAIL_PLACEHOLDER": "Gib die E-Mail-Adresse des Benutzers ein",
+  "HOME_ORGS_USERS_USER_NOT_FOUND": "E-Mail-Adresse nicht gefunden",
+  "HOME_ORGS_USERS_SELF_REMOVE": "Du kannst dich nicht selbst aus einer Organisation entfernen",
 
   "HOME_EVENTS_UPDATE_CREATE_WAITER_TOKEN": "Personal-Erstellungs QR-Code zurücksetzen",
 
@@ -134,7 +142,7 @@
   "HOME_PROD_ALL": "Produkte",
   "HOME_PROD_NAME_INCORRECT": "Der Name muss aus mehr als 3 Zeichen bestehen",
   "HOME_PROD_PRICE": "Preis",
-  "HOME_PROD_PRICE_INCORRECT": "Der Preis ist nicht akzeptabel",
+  "HOME_PROD_PRICE_INCORRECT": "Der Preis ist inkorrekt",
   "HOME_PROD_ALLERGENS": "Allergene",
   "HOME_PROD_GROUP_ID": "Gruppe",
   "HOME_PROD_GROUP_ID_INCORRECT": "Das Produkt muss einer Gruppe zugeordnet sein",
@@ -151,7 +159,7 @@
   "HOME_WAITERS_EDIT_QR_CODE_DESCRIPTION": "Der QR-Code meldet dich direkt als Personal an.",
   "HOME_WAITERS_EDIT_NAME_INCORRECT": "Der Name muss aus mehr als 3 Zeichen bestehen",
   "HOME_WAITERS_EDIT_EVENTS": "Personal ausgewählt für Events/Locations",
-  "HOME_WAITERS_EDIT_EVENTS_QR_CODE_DESCRIPTION": "Der QR-Code berechtigt Personen einen neuen Personal-Account für das/die ausgewählte Event/Location zu erstellen.",
+  "HOME_WAITERS_EDIT_EVENTS_QR_CODE_DESCRIPTION": "Der QR-Code berechtigt Personen einen neuen Personal-Account für das Event oder die Location zu erstellen.",
   "HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER": "Event-/Locationname",
   "HOME_WAITERS_DELETE_CONFIRMATION": "Willst du wirklich diese Person löschen?",
 

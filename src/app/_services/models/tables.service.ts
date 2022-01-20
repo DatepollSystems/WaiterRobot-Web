@@ -13,14 +13,14 @@ export class TablesService extends AbstractModelService<TableModel> {
   constructor(httpService: HttpService, private eventsService: EventsService) {
     super(httpService, '/config/table');
 
-    this.setGetAllUrl('/config/table?event_id=' + this.eventsService.getSelected()?.id);
+    this.setGetAllParams([{key: 'event_id', value: this.eventsService.getSelected()?.id}]);
     this.eventsService.selectedChange.subscribe((event) => {
-      this.setGetAllUrl('/config/table?event_id=' + event?.id);
+      this.setGetAllParams([{key: 'event_id', value: event?.id}]);
     });
   }
 
   public setSelectedEventGetAllUrl(): void {
-    this.setGetAllUrl('/config/table?event_id=' + this.eventsService.getSelected()?.id);
+    this.setGetAllParams([{key: 'event_id', value: this.eventsService.getSelected()?.id}]);
   }
 
   protected convert(data: any): TableModel {

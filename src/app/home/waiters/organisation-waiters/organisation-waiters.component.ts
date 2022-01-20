@@ -9,8 +9,6 @@ import {OrganisationsService} from '../../../_services/models/organisations.serv
 import {OrganisationModel} from '../../../_models/organisation.model';
 import {WaiterModel} from '../../../_models/waiter.model';
 
-import {WaiterQRCodeModalComponent} from '../waiter-qr-code-modal.component';
-
 @Component({
   selector: 'app-organisation-waiters',
   templateUrl: './organisation-waiters.component.html',
@@ -36,9 +34,5 @@ export class OrganisationWaitersComponent extends AbstractModelsListComponent<Wa
   protected override initializeEntities(): void {
     this.entitiesService.setSelectedOrganisationGetAllUrl();
     super.initializeEntities();
-  }
-  public openQRCode(waiter: WaiterModel): void {
-    const modalRef = this.modal.open(WaiterQRCodeModalComponent, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg'});
-    modalRef.componentInstance.waiter = waiter;
   }
 }

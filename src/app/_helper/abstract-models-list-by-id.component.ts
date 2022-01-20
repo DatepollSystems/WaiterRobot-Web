@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {AEntityService, Converter, IEntityWithNumberID, TypeHelper} from 'dfx-helper';
+import {AEntityService, Converter, IEntityWithNumberID, KeyValuePair, TypeHelper} from 'dfx-helper';
 
 import {AbstractModelService} from '../_services/models/abstract-model.service';
 
@@ -15,7 +15,7 @@ export abstract class AbstractModelsListByIdComponent<
   EntitiesType extends IEntityWithNumberID,
   EntityType extends IEntityWithNumberID
 > extends AbstractModelsListComponent<EntitiesType> {
-  protected abstract getAllUrl: string;
+  protected abstract getAllParam: string;
   public entity: EntityType | undefined;
 
   protected constructor(
@@ -55,7 +55,7 @@ export abstract class AbstractModelsListByIdComponent<
     if (!this.entity) {
       return;
     }
-    this.entitiesService.setGetAllUrl(this.getAllUrl + this.entity.id);
+    this.entitiesService.setGetAllParams([{key: this.getAllParam, value: this.entity.id}]);
     super.initializeEntities();
   }
 }

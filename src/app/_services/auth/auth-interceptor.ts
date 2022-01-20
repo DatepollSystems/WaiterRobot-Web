@@ -1,5 +1,6 @@
 import {HttpClient, HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {catchError, filter, switchMap, take} from 'rxjs/operators';
 
@@ -10,7 +11,7 @@ import {LoggerFactory} from 'dfx-helper';
 export class AuthInterceptor implements HttpInterceptor {
   private lumber = LoggerFactory.getLogger('AuthInterceptor');
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
 
   /**
    * Don't intercept this requests
@@ -96,7 +97,7 @@ export class AuthInterceptor implements HttpInterceptor {
         catchError(() => {
           this.lumber.error('handle401Error', 'Could not refresh jwt token with session token');
           this.authService.clearStorage();
-          window.location.reload();
+          void this.router.navigateByUrl('/about');
 
           return next.handle(request);
         })

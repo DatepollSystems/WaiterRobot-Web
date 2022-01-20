@@ -17,8 +17,7 @@ import {TableGroupModel} from '../../../_models/table-group.model';
 })
 export class TableGroupByIdTablesComponent extends AbstractModelsListByIdComponent<TableModel, TableGroupModel> {
   override columnsToDisplay = ['name', 'seats', 'actions'];
-  //TODO: Change to group_id
-  override getAllUrl = '/config/table?group_id=';
+  override getAllParam = 'group_id';
 
   constructor(
     tablesService: TablesService,

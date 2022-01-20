@@ -25,6 +25,7 @@ export class HomeComponent extends AComponent implements OnInit {
   adminModeChanged = false;
   myUser: UserModel | undefined;
   selectedOrganisation: OrganisationModel | undefined;
+  allOrgs: OrganisationModel[] = [];
   selectedEvent: EventModel | undefined;
   allEvents: EventModel[] = [];
 
@@ -57,6 +58,13 @@ export class HomeComponent extends AComponent implements OnInit {
       })
     );
 
+    this.allOrgs = this.organisationsService.getAll().slice(0, 5);
+    this.autoUnsubscribe(
+      this.organisationsService.allChange.subscribe((orgs) => {
+        this.allOrgs = orgs.slice(0, 5);
+      })
+    );
+
     this.onEventInit();
 
     router.events.subscribe((val) => {
@@ -68,10 +76,10 @@ export class HomeComponent extends AComponent implements OnInit {
 
   onEventInit(): void {
     if (this.selectedOrganisation != null) {
-      this.allEvents = this.eventsService.getAll();
+      this.allEvents = this.eventsService.getAll().slice(0, 5);
       this.autoUnsubscribe(
         this.eventsService.allChange.subscribe((events) => {
-          this.allEvents = events;
+          this.allEvents = events.slice(0, 5);
         })
       );
 
@@ -125,5 +133,9 @@ export class HomeComponent extends AComponent implements OnInit {
 
   onSelectEvent(event: EventModel): void {
     this.eventsService.setSelected(event);
+  }
+
+  onSelectOrg(org: OrganisationModel): void {
+    this.organisationsService.setSelected(org);
   }
 }

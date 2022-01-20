@@ -39,19 +39,28 @@
                   >
                 </a>
                 <div ngbDropdownMenu aria-labelledby="organisationSwitcherDropdown">
-                  <ng-container *ngIf="selectedOrganisation">
-                    <button ngbDropdownItem routerLink="organisations/{{ selectedOrganisation.id }}">
-                      <b>{{ selectedOrganisation.name }}</b
-                      ><small> {{ 'NAV_EDIT' | tr }}</small>
-                    </button>
-                    <div class="dropdown-divider"></div>
+                  <button *ngIf="selectedOrganisation" ngbDropdownItem routerLink="organisations/{{ selectedOrganisation.id }}">
+                    <b>{{ selectedOrganisation.name }}</b
+                    ><small> {{ 'NAV_EDIT' | tr }}</small>
+                  </button>
+                  <span class="fake-dropdown-item unselectable" *ngIf="allOrgs.length === 0">
+                    {{ 'NAV_ORGANISATIONS_NO_ORGS' | tr }}
+                  </span>
+                  <ng-container *ngFor="let orgM of allOrgs">
+                    <span
+                      class="fake-dropdown-item"
+                      *ngIf="orgM.id !== selectedOrganisation?.id"
+                      (click)="onSelectOrg(orgM); $event.stopPropagation()">
+                      {{ orgM.name }}
+                    </span>
                   </ng-container>
+                  <div class="dropdown-divider" *ngIf="selectedOrganisation || allEvents.length > 0"></div>
                   <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/create" *ngIf="myUser?.is_admin">
                     <b>+</b> {{ 'ADD_2' | tr }}
                   </button>
                   <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/all">
-                    <i-bs name="gear"></i-bs>
-                    {{ 'NAV_SETTINGS' | tr }}
+                    <i-bs name="building"></i-bs>
+                    {{ 'SHOW_ALL' | tr }}
                   </button>
                 </div>
               </div>
@@ -81,13 +90,13 @@
                       {{ eventM.name }}
                     </span>
                   </ng-container>
-                  <div class="dropdown-divider" *ngIf="selectedOrganisation || allEvents!.length > 0"></div>
+                  <div class="dropdown-divider" *ngIf="selectedEvent || allEvents.length > 0"></div>
                   <button ngbDropdownItem routerLinkActive="active" routerLink="events/create" *ngIf="myUser?.is_admin">
                     <b>+</b> {{ 'ADD_2' | tr }}
                   </button>
                   <button ngbDropdownItem routerLinkActive="active" routerLink="events/all">
-                    <i-bs name="gear"></i-bs>
-                    {{ 'NAV_SETTINGS' | tr }}
+                    <i-bs name="calendar-event-fill"></i-bs>
+                    {{ 'SHOW_ALL' | tr }}
                   </button>
                 </div>
               </div>

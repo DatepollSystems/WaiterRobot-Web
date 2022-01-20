@@ -11,10 +11,11 @@ import {ProductsModel} from '../../_models/products';
 })
 export class ProductsService extends AbstractModelService<ProductsModel> {
   constructor(httpService: HttpService, private eventsService: EventsService) {
-    super(httpService, '/config/product?event_id=' + eventsService.getSelected()?.id);
+    super(httpService, '/config/product');
 
-    this.eventsService.selectedChange.subscribe((value) => {
-      this.setGetAllUrl('/config/product?event_id=' + value?.id);
+    this.setGetAllParams([{key: 'event_id', value: eventsService.getSelected()?.id}]);
+    this.eventsService.selectedChange.subscribe((event) => {
+      this.setGetAllParams([{key: 'event_id', value: event?.id}]);
     });
   }
 

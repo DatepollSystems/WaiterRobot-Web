@@ -34,6 +34,6 @@ export abstract class AbstractModelsComponent<EntityType extends IEntityWithNumb
       return;
     }
     this.lumber.info('showModel', 'Showing model "' + value + '"');
-    void this.router.navigateByUrl(value).then();
+    void this.router.navigateByUrl(value);
   }
 }
