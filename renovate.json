@@ -1,0 +1,16 @@
+{
+  "groupName": "all",
+  "pinVersions": false,
+  "semanticCommits": true,
+  "semanticPrefix": "renovate",
+  "separateMajorMinor": false,
+  "prHourlyLimit": 2,
+  "labels": ["npm", "dependencies"],
+  "timezone": "Europe/Vienna",
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "schedule": ["after 10pm every weekday", "before 4am every weekday", "every weekend"],
+  "baseBranches": ["develop"],
+  "assignees": ["Dafnik"]
+}
