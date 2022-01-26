@@ -1,7 +1,21 @@
 <nav class="navbar navbar-expand-md bg-dark navbar-dark">
   <div class="container-fluid">
-    <a class="navbar-brand pb-2 ml-md-0 ml-sm-3 ml-0 mr-3" routerLink="/home">
+    <a class="navbar-brand" routerLink="/home" fxLayoutAlign="center center">
       <img src="assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="Brand logo" />
+
+      <ng-container *ngIf="isMobile">
+        <div
+          style="font-size: 12px"
+          *ngIf="showEnvironmentType && environmentType !== 'prod'"
+          (click)="showEnvironmentType = !showEnvironmentType"
+          class="badge bg-warning text-dark ms-3 me-1 not-selectable">
+          <span *ngIf="environmentType === 'dev'">DEV</span>
+          <span *ngIf="environmentType === 'testing'">TESTING</span>
+        </div>
+        <div style="font-size: 12px" *ngIf="myUser?.is_admin" class="badge bg-danger text-dark ms-3 me-1 not-selectable">
+          <span>ADMIN</span>
+        </div>
+      </ng-container>
     </a>
 
     <button
@@ -16,16 +30,20 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse flex-column align-items-start ml-lg-2 ml-0" id="navbarSupportedContent">
-      <div fxLayout="row" fxLayoutAlign="space-between center" fxFill>
-        <div fxFlex>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="d-flex flex-column flex-md-row justify-content-md-between" fxFill>
+        <div>
           <ul class="navbar-nav">
-            <li class="nav-item" fxLayoutAlign="start center">
-              <div style="font-size: 12px" *ngIf="environmentType !== 'prod'" class="badge bg-warning text-dark me-1 not-selectable">
+            <li fxLayoutAlign="start center" *ngIf="!isMobile">
+              <div
+                style="font-size: 12px"
+                *ngIf="showEnvironmentType && environmentType !== 'prod'"
+                (click)="showEnvironmentType = !showEnvironmentType"
+                class="badge bg-warning text-dark ms-1 me-1 not-selectable">
                 <span *ngIf="environmentType === 'dev'">DEV</span>
                 <span *ngIf="environmentType === 'testing'">TESTING</span>
               </div>
-              <div style="font-size: 12px" *ngIf="myUser?.is_admin" class="badge bg-danger text-dark me-1 not-selectable">
+              <div style="font-size: 12px" *ngIf="myUser?.is_admin" class="badge bg-danger text-dark ms-3 me-1 not-selectable">
                 <span>ADMIN</span>
               </div>
             </li>
@@ -39,6 +57,8 @@
                   >
                 </a>
                 <div ngbDropdownMenu aria-labelledby="organisationSwitcherDropdown">
+                  <span> Organisationen </span>
+                  <div class="dropdown-divider"></div>
                   <button *ngIf="selectedOrganisation" ngbDropdownItem routerLink="organisations/{{ selectedOrganisation.id }}">
                     <b>{{ selectedOrganisation.name }}</b
                     ><small> {{ 'NAV_EDIT' | tr }}</small>
@@ -104,7 +124,7 @@
           </ul>
         </div>
 
-        <div fxFlex fxLayout="row" fxLayoutAlign="end center">
+        <div>
           <ul class="navbar-nav">
             <li class="nav-item" *ngIf="myUser?.is_admin">
               <div ngbDropdown display="dynamic" placement="bottom-end">
@@ -155,27 +175,26 @@
           </ul>
         </div>
       </div>
-
-      <ul
-        class="navbar-nav flex-row mb-md-1 mt-md-0 mb-3 mt-2"
-        fxLayout="row"
-        fxLayoutGap="2%"
-        fxLayoutGap.gt-md="0.1%"
-        *ngIf="selectedOrganisation">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="tables" routerLinkActive="link-active" *ngIf="selectedEvent">{{ 'NAV_TABLES' | tr }}</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="products" routerLinkActive="link-active" *ngIf="selectedEvent">{{ 'NAV_PRODUCTS' | tr }}</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="printers" routerLinkActive="link-active">{{ 'NAV_PRINTERS' | tr }}</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="waiters" routerLinkActive="link-active">{{ 'NAV_WAITERS' | tr }}</a>
-        </li>
-      </ul>
     </div>
+  </div>
+</nav>
+
+<nav class="navbar bg-dark navbar-dark pt-0 pb-2" *ngIf="selectedOrganisation">
+  <div class="container-fluid">
+    <ul class="navbar-nav d-flex flex-row justify-content-between justify-content-sm-start" style="width: 100%">
+      <li class="nav-item mx-2">
+        <a class="nav-link" routerLink="tables" routerLinkActive="link-active" *ngIf="selectedEvent">{{ 'NAV_TABLES' | tr }}</a>
+      </li>
+      <li class="nav-item mx-2">
+        <a class="nav-link" routerLink="products" routerLinkActive="link-active" *ngIf="selectedEvent">{{ 'NAV_PRODUCTS' | tr }}</a>
+      </li>
+      <li class="nav-item mx-2">
+        <a class="nav-link" routerLink="printers" routerLinkActive="link-active">{{ 'NAV_PRINTERS' | tr }}</a>
+      </li>
+      <li class="nav-item mx-2">
+        <a class="nav-link" routerLink="waiters" routerLinkActive="link-active">{{ 'NAV_WAITERS' | tr }}</a>
+      </li>
+    </ul>
   </div>
 </nav>
 

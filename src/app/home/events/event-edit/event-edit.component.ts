@@ -25,7 +25,7 @@ export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
   override redirectUrl = '/home/events/all';
 
   myUser: UserModel | undefined;
-  selectedEvent!: EventModel | undefined;
+  selectedEvent: EventModel | undefined;
 
   constructor(
     route: ActivatedRoute,

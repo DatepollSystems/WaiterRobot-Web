@@ -11,7 +11,7 @@ import {IsMobileService} from 'dfx-helper';
       <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
     </div>
     <div class="modal-body" fxLayout="row break" fxLayoutAlign="center">
-      <qr-code [value]="data" [size]="isMobile ? '340' : '700'" errorCorrectionLevel="H" [margin]="1"></qr-code>
+      <qr-code [value]="data" [size]="isMobile ? '340' : '600'" errorCorrectionLevel="H" [margin]="1"></qr-code>
       <ng-content select="[body]"></ng-content>
     </div>
     <div class="modal-footer">

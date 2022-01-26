@@ -5,7 +5,7 @@ import {OrganisationsService} from '../_services/models/organisations.service';
 import {EventsService} from '../_services/models/events.service';
 import {MyUserService} from '../_services/my-user.service';
 
-import {AComponent, Converter, LoggerFactory} from 'dfx-helper';
+import {AComponent, Converter, IsMobileService, LoggerFactory} from 'dfx-helper';
 import {EnvironmentHelper} from '../_helper/EnvironmentHelper';
 
 import {OrganisationModel} from '../_models/organisation.model';
@@ -20,6 +20,7 @@ import {NavigationEnd, Router} from '@angular/router';
 })
 export class HomeComponent extends AComponent implements OnInit {
   environmentType = 'prod';
+  showEnvironmentType = true;
   lumber = LoggerFactory.getLogger('HomeComponent');
 
   adminModeChanged = false;
@@ -29,16 +30,26 @@ export class HomeComponent extends AComponent implements OnInit {
   selectedEvent: EventModel | undefined;
   allEvents: EventModel[] = [];
 
+  isMobile = false;
+
   constructor(
     private router: Router,
     private authService: AuthService,
     private myUserService: MyUserService,
     private organisationsService: OrganisationsService,
-    private eventsService: EventsService
+    private eventsService: EventsService,
+    private isMobileService: IsMobileService
   ) {
     super();
 
     this.environmentType = EnvironmentHelper.getType();
+
+    this.isMobile = this.isMobileService.getIsMobile();
+    this.autoUnsubscribe(
+      this.isMobileService.isMobileChange.subscribe((value) => {
+        this.isMobile = value;
+      })
+    );
 
     this.myUser = this.myUserService.getUser();
     this.autoUnsubscribe(
