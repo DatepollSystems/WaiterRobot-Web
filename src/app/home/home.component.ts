@@ -83,29 +83,6 @@ export class HomeComponent extends AComponent implements OnInit {
         this.toggleNav('CLOSE');
       }
     });
-
-    if (EnvironmentHelper.getProduction()) {
-      console.log(`
-                      .--.       .--.
-            _  \`    \\     /    \`  _
-             \`\\.===. \\.^./ .===./\`
-                    \\/\`"\`\\/
-                 ,  |     |  ,
-                / \`\\|;-.-'|/\` \\
-               /    |::\\  |    \\
-            .-' ,-'\`|:::; |\`'-, '-.
-                |   |::::\\|   |
-                |   |::::;|   |
-                |   \\:::://   |
-                |    \`.://'   |
-               .'             \`.
-            _,'                 \`,_
-      `);
-      console.log(
-        'Hello nice fellow, debugging "compiled" Angular apps is not fun!\n' +
-          'Visit https://gitlab.com/DatePoll/WaiterRobot/WaiterRobot-Web for the source code.'
-      );
-    }
   }
 
   onEventInit(): void {

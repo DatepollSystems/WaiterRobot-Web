@@ -8,7 +8,7 @@ import {EnvironmentHelper} from '../../../_helper/EnvironmentHelper';
   styleUrls: ['./about-modal.component.css'],
 })
 export class AboutModalComponent {
-  frontendVersion = EnvironmentHelper.getWebversion();
+  frontendVersion = EnvironmentHelper.getWebVersion();
 
   timeoutHandler: any;
 

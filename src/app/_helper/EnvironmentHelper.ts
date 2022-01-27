@@ -5,7 +5,7 @@ export class EnvironmentHelper {
     return environment.apiUrl;
   }
 
-  public static getWebversion(): string {
+  public static getWebVersion(): string {
     return environment.version;
   }
 
