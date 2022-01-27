@@ -12,6 +12,7 @@
     (click)="showQRCode(appLink)"
     *ngIf="showQRCodeButton"
     placement="top"
+    attr.aria-label="{{ 'ABOUT_APP_QR_CODE_TOOLTIP' | tr }}"
     ngbTooltip="{{ 'ABOUT_APP_QR_CODE_TOOLTIP' | tr }}">
     <i-bs name="upc-scan"></i-bs>
   </button>
@@ -21,6 +22,7 @@
     class="btn btn-outline-info"
     (click)="copyStoreLink(appLink.link)"
     placement="top"
+    attr.aria-label="{{ 'ABOUT_APP_COPY_TOOLTIP' | tr }}"
     ngbTooltip="{{ 'ABOUT_APP_COPY_TOOLTIP' | tr }}">
     <i-bs name="clipboard"></i-bs>
   </button>
