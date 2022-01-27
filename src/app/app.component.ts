@@ -21,25 +21,24 @@ export class AppComponent implements OnInit {
 
     if (EnvironmentHelper.getProduction()) {
       console.log(`
-                      .--.       .--.
-            _  \`    \\     /    \`  _
-             \`\\.===. \\.^./ .===./\`
-                    \\/\`"\`\\/
-                 ,  |     |  ,
-                / \`\\|;-.-'|/\` \\
-               /    |::\\  |    \\
-            .-' ,-'\`|:::; |\`'-, '-.
-                |   |::::\\|   |
-                |   |::::;|   |
-                |   \\:::://   |
-                |    \`.://'   |
-               .'             \`.
-            _,'                 \`,_
+           .--.       .--.
+ _  \`    \\     /    \`  _
+  \`\\.===. \\.^./ .===./\`
+         \\/\`"\`\\/
+      ,  |     |  ,
+     / \`\\|;-.-'|/\` \\
+    /    |::\\  |    \\
+ .-' ,-'\`|:::; |\`'-, '-.
+     |   |::::\\|   |
+     |   |::::;|   |
+     |   \\:::://   |
+     |    \`.://'   |
+    .'             \`.
+ _,'                 \`,_
+
+ Hello nice fellow, debugging "compiled" Angular apps is not fun!\n
+ Visit https://gitlab.com/DatePoll/WaiterRobot/WaiterRobot-Web for the source code.
       `);
-      console.log(
-        'Hello nice fellow, debugging "compiled" Angular apps is not fun!\n' +
-          'Visit https://gitlab.com/DatePoll/WaiterRobot/WaiterRobot-Web for the source code.'
-      );
     }
   }
 }
