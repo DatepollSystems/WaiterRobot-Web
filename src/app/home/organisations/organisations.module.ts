@@ -13,6 +13,7 @@ import {IconsModule} from '../../_shared/icons.module';
 import {OrganisationsComponent} from './organisations.component';
 import {AllOrganisationsComponent} from './all-organisations/all-organisations.component';
 import {OrganisationEditComponent} from './organisation-edit/organisation-edit.component';
+import {SelectableButtonModule} from '../../_shared/selectable-button/selectable-button.module';
 
 const routes: Routes = [
   {
@@ -41,6 +42,7 @@ const routes: Routes = [
     DfxSortModule,
     IconsModule,
     NgbCollapseModule,
+    SelectableButtonModule,
   ],
 })
 export class OrganisationsModule {}

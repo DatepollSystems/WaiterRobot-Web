@@ -27,7 +27,6 @@ import {
   xCircleFill,
 } from 'ngx-bootstrap-icons';
 
-// Select some icons (use an object, not an array)
 const icons = {
   people,
   peopleFill,

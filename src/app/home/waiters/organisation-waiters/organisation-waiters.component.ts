@@ -20,7 +20,7 @@ export class OrganisationWaitersComponent extends AbstractModelsListComponent<Wa
   selectedOrganisation: OrganisationModel | undefined;
 
   constructor(protected entitiesService: WaitersService, organisationsService: OrganisationsService, modal: NgbModal) {
-    super(entitiesService, modal);
+    super(modal, entitiesService);
 
     this.selectedOrganisation = organisationsService.getSelected();
     this.autoUnsubscribe(

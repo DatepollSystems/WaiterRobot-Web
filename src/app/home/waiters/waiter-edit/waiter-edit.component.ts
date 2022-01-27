@@ -38,7 +38,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     private eventsService: EventsService,
     private organisationsService: OrganisationsService
   ) {
-    super(route, router, waitersService, modal);
+    super(router, route, modal, waitersService);
 
     this.events = this.eventsService.getAll();
     this.autoUnsubscribe(

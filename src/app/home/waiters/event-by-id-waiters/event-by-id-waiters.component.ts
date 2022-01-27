@@ -23,7 +23,7 @@ export class EventByIdWaitersComponent extends AbstractModelsListByIdComponent<W
   override getAllParam = 'event_id';
 
   constructor(waitersService: WaitersService, eventsService: EventsService, route: ActivatedRoute, router: Router, modal: NgbModal) {
-    super(waitersService, modal, route, router, eventsService);
+    super(router, route, modal, waitersService, eventsService);
   }
 
   public openQRCode(event: EventModel | undefined): void {

@@ -29,10 +29,4 @@ export class FooterComponent {
     //   console.log('Language was changed via undo to ' + this.selected);
     // });
   }
-
-  openAboutModal(): void {
-    // this.dialog.open(AboutModalComponent, {
-    //   width: '45vh',
-    // });
-  }
 }

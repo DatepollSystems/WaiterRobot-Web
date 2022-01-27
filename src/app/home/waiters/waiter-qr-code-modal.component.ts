@@ -6,7 +6,7 @@ import {QrCodeModel} from '../../_shared/app-qr-code-modal/qr-code.model';
   selector: 'app-waiter-qrcode-modal',
   template: `
     <app-qrcode-modal [data]="qrCodeModel?.toString()">
-      <h4 class="modal-title" id="modal-qrcode-title" header>{{ 'HOME_WAITERS_SHOW_QR_CODE' | tr }} "{{ name }}"</h4>
+      <h4 class="modal-title" id="modal-qrcode-title" header>{{ 'HOME_WAITERS_SHOW_QR_CODE' | tr }} {{ name }}</h4>
       <div body fxLayout="row" fxLayoutAlign="center" *ngIf="qrCodeModel">
         <div class="card text-dark bg-light mb-3" fxFlex.gt-sm="50%">
           <div class="card-body">

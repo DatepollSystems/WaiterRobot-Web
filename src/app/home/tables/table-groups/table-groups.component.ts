@@ -15,6 +15,6 @@ export class TableGroupsComponent extends AbstractModelsListComponent<TableGroup
   override columnsToDisplay = ['name', 'seats', 'actions'];
 
   constructor(tableGroupsService: TableGroupsService, modal: NgbModal) {
-    super(tableGroupsService, modal);
+    super(modal, tableGroupsService);
   }
 }

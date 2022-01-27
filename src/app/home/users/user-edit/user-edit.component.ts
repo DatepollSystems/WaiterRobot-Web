@@ -16,7 +16,7 @@ export class UserEditComponent extends AbstractModelEditComponent<UserModel> {
   override redirectUrl = '/home/users/all';
 
   constructor(route: ActivatedRoute, router: Router, usersService: UsersService, modal: NgbModal) {
-    super(route, router, usersService, modal);
+    super(router, route, modal, usersService);
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {

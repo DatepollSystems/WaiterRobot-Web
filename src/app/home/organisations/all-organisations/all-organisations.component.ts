@@ -20,8 +20,8 @@ export class AllOrganisationsComponent extends AbstractModelsListComponent<Organ
   myUser: UserModel | undefined;
   selectedOrganisation: OrganisationModel | undefined;
 
-  constructor(modal: NgbModal, private myUserService: MyUserService, private organisationsService: OrganisationsService) {
-    super(organisationsService, modal);
+  constructor(modal: NgbModal, private myUserService: MyUserService, public organisationsService: OrganisationsService) {
+    super(modal, organisationsService);
 
     this.myUser = this.myUserService.getUser();
     this.autoUnsubscribe(

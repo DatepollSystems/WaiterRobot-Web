@@ -1,5 +1,5 @@
 <div [hidden]="isEditing && !entityLoaded">
-  <h1 *ngIf="isEditing && entity">{{ 'EDIT_2' | tr }} "{{ entity.name }}"</h1>
+  <h1 *ngIf="isEditing && entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
   <h1 *ngIf="!isEditing">{{ 'ADD_2' | tr }}</h1>
 
   <div fxLayout="row break" fxLayoutGap="2%" fxLayoutGap.gt-md="1%">

@@ -24,7 +24,7 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
   public entities: IList<EntityType> = new List();
   public entitiesLoaded = false;
 
-  protected constructor(protected entitiesService: AbstractModelService<EntityType>, protected modal: NgbModal) {
+  protected constructor(protected modal: NgbModal, protected entitiesService: AbstractModelService<EntityType>) {
     super();
 
     this.filter.valueChanges.subscribe((value) => {

@@ -15,6 +15,6 @@ export class AllProductsComponent extends AbstractModelsListComponent<ProductsMo
   override columnsToDisplay = ['name', 'price', 'allergens', 'group_id', 'printer_id', 'actions'];
 
   constructor(productsService: ProductsService, modal: NgbModal) {
-    super(productsService, modal);
+    super(modal, productsService);
   }
 }

@@ -26,7 +26,7 @@ export class TableGroupEditComponent extends AbstractModelEditComponent<TableGro
     modal: NgbModal,
     private eventsService: EventsService
   ) {
-    super(route, router, tableGroupsService, modal);
+    super(router, route, modal, tableGroupsService);
 
     this.selectedEvent = this.eventsService.getSelected();
     this.autoUnsubscribe(

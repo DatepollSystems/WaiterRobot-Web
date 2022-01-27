@@ -13,6 +13,7 @@ import {IconsModule} from '../../_shared/icons.module';
 import {EventsComponent} from './events.component';
 import {AllEventsComponent} from './all-events/all-events.component';
 import {EventEditComponent} from './event-edit/event-edit.component';
+import {SelectableButtonModule} from '../../_shared/selectable-button/selectable-button.module';
 
 const startRoutes: Routes = [
   {
@@ -41,6 +42,7 @@ const startRoutes: Routes = [
     DfxSortModule,
     IconsModule,
     NgbDatepickerModule,
+    SelectableButtonModule,
   ],
 })
 export class EventsModule {}

@@ -15,6 +15,6 @@ export class AllUsersComponent extends AbstractModelsListComponent<UserModel> {
   override columnsToDisplay = ['id', 'name', 'email_address', 'birthday', 'is_admin', 'activated', 'actions'];
 
   constructor(usersService: UsersService, modal: NgbModal) {
-    super(usersService, modal);
+    super(modal, usersService);
   }
 }

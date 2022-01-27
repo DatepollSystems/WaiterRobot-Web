@@ -1,42 +1,38 @@
 <div [hidden]="isEditing && !entityLoaded">
-  <h1 *ngIf="isEditing && entity">{{ 'EDIT_2' | tr }} "{{ entity.name }}"</h1>
+  <h1 *ngIf="isEditing && entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
   <h1 *ngIf="!isEditing">{{ 'ADD_2' | tr }}</h1>
 
   <div fxLayout="row break" fxLayoutGap="2%" fxLayoutGap.gt-md="1%">
     <div>
-      <button class="btn btn-sm btn-outline-dark text-white my-2 my-md-0" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
+      <button class="btn btn-sm btn-outline-dark text-white my-2" (click)="onGoBack('/home/organisations/all')">
+        {{ 'GO_BACK' | tr }}
+      </button>
     </div>
 
     <ng-container *ngIf="isEditing && entity">
       <ng-container *ngIf="myUser?.is_admin && activeTab === 1">
         <div>
-          <button class="btn btn-sm btn-success my-2 my-md-0" (click)="form.ngSubmit.emit()" [disabled]="!form.valid">
+          <button class="btn btn-sm btn-success my-2" (click)="form.ngSubmit.emit()" [disabled]="!form.valid">
             <i-bs name="save"></i-bs>
             {{ 'SAVE' | tr }}
           </button>
         </div>
         <div>
-          <button class="btn btn-sm btn-outline-danger my-2 my-md-0" (click)="onDelete(entity.id)">
+          <button class="btn btn-sm btn-outline-danger my-2" (click)="onDelete(entity.id)">
             <i-bs name="trash"></i-bs>
             {{ 'DELETE' | tr }}
           </button>
         </div>
       </ng-container>
-      <div>
-        <button class="btn btn-sm btn-primary my-2 my-md-0" (click)="onSelect(entity)" *ngIf="entity.id !== selectedOrganisation?.id">
-          <i-bs name="check2-square"></i-bs>
-          {{ 'SELECT' | tr }}
-        </button>
-
-        <button class="btn btn-sm btn-primary my-2 my-md-0" (click)="onSelect(undefined)" *ngIf="entity.id === selectedOrganisation?.id">
-          {{ 'CLEAR_SELECTION' | tr }}
-          <i-bs name="x-circle-fill"></i-bs>
-        </button>
-      </div>
+      <selectable-button
+        class="my-2"
+        [selectedEntity]="selectedOrganisation"
+        [entity]="entity"
+        [selectedEntityService]="organisationsService"></selectable-button>
     </ng-container>
 
     <div *ngIf="!isEditing">
-      <button class="btn btn-sm btn-success my-2 my-md-0" (click)="form.ngSubmit.emit()" [disabled]="!form || !form.valid">
+      <button class="btn btn-sm btn-success my-2" (click)="form.ngSubmit.emit()" [disabled]="!form || !form.valid">
         <i-bs name="plus-circle"></i-bs>
         {{ 'ADD' | tr }}
       </button>

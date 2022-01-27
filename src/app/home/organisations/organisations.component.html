@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap.lt-md="4%">
-  <div class="list-group" fxFlex="22%" fxFlex.gt-lg="15%">
+  <div class="list-group" fxFlex="22%" fxFlex.gt-lg="15%" fxHide.lt-md="true">
     <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
       <i-bs name="building"></i-bs>
       {{ 'HOME_ORGS_ALL' | tr }}</a
@@ -17,7 +17,6 @@
       <a
         class="list-group-item list-group-item-action"
         routerLink="{{ organisation.id }}"
-        fxHide.lt-md="true"
         *ngIf="organisation.id !== selectedOrganisation?.id"
         routerLinkActive="active"
         >{{ organisation.name }}</a

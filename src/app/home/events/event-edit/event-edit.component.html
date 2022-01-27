@@ -1,61 +1,54 @@
 <div [hidden]="isEditing && !entityLoaded">
-  <h1 *ngIf="isEditing && entity">{{ 'EDIT_2' | tr }} "{{ entity.name }}"</h1>
+  <h1 *ngIf="isEditing && entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
   <h1 *ngIf="!isEditing">{{ 'ADD_2' | tr }}</h1>
 
   <div fxLayout="row break" fxLayoutGap="2%" fxLayoutGap.gt-md="1%">
     <div>
-      <button class="btn btn-sm btn-outline-dark text-white my-2 my-md-0" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
+      <button class="btn btn-sm btn-outline-dark text-white my-2" (click)="onGoBack('/home/events/all')">{{ 'GO_BACK' | tr }}</button>
     </div>
 
     <ng-container *ngIf="isEditing && entity">
       <ng-container *ngIf="myUser?.is_admin">
         <div *ngIf="activeTab === 1">
-          <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit()" [disabled]="!f.valid">
+          <button class="btn btn-sm btn-success my-2" (click)="f.ngSubmit.emit()" [disabled]="!f.valid">
             <i-bs name="save"></i-bs>
             {{ 'SAVE' | tr }}
           </button>
         </div>
         <div>
-          <button class="btn btn-sm btn-outline-danger my-2 my-md-0" (click)="onDelete(entity.id)">
+          <button class="btn btn-sm btn-outline-danger my-2" (click)="onDelete(entity.id)">
             <i-bs name="trash"></i-bs>
             {{ 'DELETE' | tr }}
           </button>
         </div>
       </ng-container>
+      <selectable-button
+        class="my-2"
+        [selectedEntity]="selectedEvent"
+        [entity]="entity"
+        [selectedEntityService]="eventsService"></selectable-button>
       <div>
-        <button class="btn btn-sm btn-outline-primary my-2 my-md-0" (click)="openQRCode(entity)">
+        <button class="btn btn-sm btn-outline-primary my-2" (click)="openQRCode(entity)">
           <i-bs name="upc-scan"></i-bs>
           {{ 'HOME_WAITERS_EDIT_QR_CODE' | tr }}
         </button>
       </div>
       <div>
-        <button class="btn btn-sm btn-outline-secondary my-2 my-md-0 disabled">
+        <button class="btn btn-sm btn-outline-secondary my-2 disabled">
           <i-bs name="clipboard"></i-bs>
           {{ 'COPY' | tr }}
         </button>
       </div>
       <div>
-        <button class="btn btn-sm btn-outline-secondary my-2 my-md-0 disabled">
+        <button class="btn btn-sm btn-outline-secondary my-2 disabled">
           <i-bs name="save"></i-bs>
           {{ 'EXPORT' | tr }}
-        </button>
-      </div>
-
-      <div>
-        <button class="btn btn-sm btn-primary my-2 my-md-0" (click)="onSelect(entity)" *ngIf="entity.id !== selectedEvent?.id">
-          <i-bs name="check2-square"></i-bs>
-          {{ 'SELECT' | tr }}
-        </button>
-
-        <button class="btn btn-sm btn-primary my-2 my-md-0" (click)="onSelect(undefined)" *ngIf="entity.id === selectedEvent?.id">
-          {{ 'CLEAR_SELECTION' | tr }}
-          <i-bs name="x-circle-fill"></i-bs>
         </button>
       </div>
     </ng-container>
 
     <div *ngIf="!isEditing">
-      <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit()" [disabled]="!f || !f.valid">
+      <button class="btn btn-sm btn-success my-2" (click)="f.ngSubmit.emit()" [disabled]="!f || !f.valid">
         <i-bs name="plus-circle"></i-bs>
         {{ 'ADD' | tr }}
       </button>

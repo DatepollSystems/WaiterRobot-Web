@@ -69,28 +69,17 @@
     <ng-container ngbColumnDef="actions">
       <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
       <td *ngbCellDef="let organisation" ngb-cell>
-        <button
-          *ngIf="selectedOrganisation?.id !== organisation.id"
-          type="button"
-          class="btn btn-sm m-1 btn-outline-primary text-white"
-          (click)="onSelect(organisation)"
-          ngbTooltip="{{ 'SELECT' | tr }}">
-          <i-bs name="check2-square"></i-bs>
-        </button>
-        <button
-          *ngIf="selectedOrganisation?.id === organisation.id"
-          type="button"
-          class="btn btn-sm m-1 btn-primary text-white"
-          (click)="onSelect(undefined)"
-          ngbTooltip="{{ 'CLEAR_SELECTION' | tr }}">
-          <i-bs name="x-circle-fill"></i-bs>
-        </button>
-        <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ organisation.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+        <selectable-button
+          class="me-2"
+          [selectedEntity]="selectedOrganisation"
+          [entity]="organisation"
+          [selectedEntityService]="organisationsService"></selectable-button>
+        <a class="btn btn-sm me-2 btn-outline-success text-white" routerLink="../{{ organisation.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
           <i-bs name="pencil-square"></i-bs>
         </a>
         <button
           type="button"
-          class="btn btn-sm m-1 btn-outline-danger text-white"
+          class="btn btn-sm btn-outline-danger text-white"
           ngbTooltip="{{ 'DELETE' | tr }}"
           (click)="onDelete(organisation.id)"
           *ngIf="myUser?.is_admin">

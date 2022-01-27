@@ -1,5 +1,5 @@
 <div fxLayout="row break" fxLayoutAlign="space-between center" [hidden]="!entitiesLoaded">
-  <h1>"{{ entity?.name }}" {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</h1>
+  <h1>{{ entity?.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</h1>
 
   <div>
     <button class="btn btn-outline-primary mx-2" (click)="openQRCode(entity)">

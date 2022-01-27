@@ -19,13 +19,13 @@ export abstract class AbstractModelsListByIdComponent<
   public entity: EntityType | undefined;
 
   protected constructor(
-    modelService: AbstractModelService<EntitiesType>,
-    modal: NgbModal,
-    protected route: ActivatedRoute,
     protected router: Router,
+    protected route: ActivatedRoute,
+    modal: NgbModal,
+    modelService: AbstractModelService<EntitiesType>,
     protected byIdEntityService: AEntityService<number, EntityType>
   ) {
-    super(modelService, modal);
+    super(modal, modelService);
 
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');

@@ -1,13 +1,13 @@
-<div style="min-height: 90vh">
+<div style="min-height: 90vh" class="bg-darker-5">
   <div fxLayout="row" fxLayout.lt-md="column">
-    <ul class="list-group" fxFlex="20%">
+    <ul class="list-group mx-3 mt-3" fxFlex="20%">
       <a class="list-group-item list-group-item-action" routerLink="imprint" routerLinkActive="active">{{ 'ABOUT_IMPRINT' | tr }}</a>
       <a class="list-group-item list-group-item-action" routerLink="privacypolicy" routerLinkActive="active">{{
         'ABOUT_PRIVACY_POLICY' | tr
       }}</a>
       <a class="list-group-item list-group-item-action" routerLink="/about">{{ 'GO_BACK' | tr }}</a>
     </ul>
-    <div fxFlex="80%">
+    <div fxFlex="80%" class="text-white mt-3">
       <router-outlet></router-outlet>
     </div>
   </div>

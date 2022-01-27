@@ -24,10 +24,10 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
   public entityLoaded = false;
 
   protected constructor(
-    protected route: ActivatedRoute,
     protected router: Router,
-    protected modelService: AbstractModelService<EntityType>,
-    protected modal: NgbModal
+    protected route: ActivatedRoute,
+    protected modal: NgbModal,
+    protected modelService: AbstractModelService<EntityType>
   ) {
     super();
 
@@ -132,7 +132,12 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
     });
   }
 
-  public onGoBack(): void {
+  public onGoBack(url?: string): void {
+    if (url) {
+      void this.router.navigateByUrl(url);
+      return;
+    }
+
     // We should probably use built-in location.back();
     // but because this is a fully functional javascript feature we will use it till there is no tomorrow
     history.back();

@@ -36,7 +36,7 @@ export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
     private tableGroupsService: TableGroupsService,
     private notificationService: NotificationService
   ) {
-    super(route, router, tablesService, modal);
+    super(router, route, modal, tablesService);
 
     this.selectedEvent = this.eventsService.getSelected();
     this.autoUnsubscribe(

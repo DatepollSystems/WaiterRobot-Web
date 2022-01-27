@@ -20,7 +20,7 @@ export class AllTablesComponent extends AbstractModelsListComponent<TableModel> 
   selectedEvent: EventModel | undefined;
 
   constructor(protected entitiesService: TablesService, modal: NgbModal) {
-    super(entitiesService, modal);
+    super(modal, entitiesService);
 
     this.entitiesService.setSelectedEventGetAllUrl();
   }

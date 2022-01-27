@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap.lt-md="4%">
-  <div class="list-group" fxFlex="22%" fxFlex.gt-lg="15%">
+  <div class="list-group" fxFlex="22%" fxFlex.gt-lg="15%" fxHide.lt-md="true">
     <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
       <i-bs name="calendar-event-fill"></i-bs>
       {{ 'NAV_EVENTS' | tr }}</a
@@ -13,7 +13,6 @@
       <a
         class="list-group-item list-group-item-action"
         routerLink="{{ event.id }}"
-        fxHide.lt-md="true"
         *ngIf="event.id !== selectedEvent?.id"
         routerLinkActive="active"
         >{{ event.name }}</a

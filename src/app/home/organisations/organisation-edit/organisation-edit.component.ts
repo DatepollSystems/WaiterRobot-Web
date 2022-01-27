@@ -40,15 +40,15 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
   organisationUsers: IList<OrganisationUserModel> = new EntityList();
 
   constructor(
-    route: ActivatedRoute,
     router: Router,
+    route: ActivatedRoute,
     modal: NgbModal,
     myUserService: MyUserService,
-    protected organisationsService: OrganisationsService,
+    public organisationsService: OrganisationsService,
     protected organisationsUsersService: OrganisationsUsersService,
     protected notificationsService: NotificationService
   ) {
-    super(route, router, organisationsService, modal);
+    super(router, route, modal, organisationsService);
 
     this.myUser = myUserService.getUser();
     this.autoUnsubscribe(
@@ -66,7 +66,7 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
   }
 
   protected onEntityLoaded() {
-    if (this.isEditing && this.entity) {
+    if (this.isEditing && this.entity && this.organisationsUsersService) {
       this.organisationsUsersService.setGetAllParams([{key: 'organisation_id', value: this.entity.id}]);
       this.organisationUsers = this.organisationsUsersService.getAll();
       this.refreshTable();

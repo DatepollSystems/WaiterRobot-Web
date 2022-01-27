@@ -26,6 +26,6 @@ export class TableGroupByIdTablesComponent extends AbstractModelsListByIdCompone
     router: Router,
     modal: NgbModal
   ) {
-    super(tablesService, modal, route, router, tableGroupsService);
+    super(router, route, modal, tablesService, tableGroupsService);
   }
 }

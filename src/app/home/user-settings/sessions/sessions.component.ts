@@ -15,6 +15,6 @@ export class SessionsComponent extends AbstractModelsListComponent<SessionsModel
   override columnsToDisplay = ['name', 'registered_at', 'updated_at', 'actions'];
 
   constructor(sessionsService: SessionsService, modal: NgbModal) {
-    super(sessionsService, modal);
+    super(modal, sessionsService);
   }
 }
