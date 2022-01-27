@@ -7,6 +7,8 @@
     "build:prod": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --configuration production && cp ./LICENSE ./dist/WaiterRobot-Web/",
     "build:testing": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --configuration testing && cp ./LICENSE ./dist/WaiterRobot-Web/",
     "build:dev": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build && cp ./LICENSE ./dist/WaiterRobot-Web/",
+    "build:stats": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --stats-json",
+    "analyze": "webpack-bundle-analyzer dist/WaiterRobot-Web/stats.json",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
