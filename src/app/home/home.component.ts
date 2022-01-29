@@ -12,6 +12,8 @@ import {OrganisationModel} from '../_models/organisation.model';
 import {EventModel} from '../_models/event.model';
 import {UserModel} from '../_models/user.model';
 import {NavigationEnd, Router} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -33,7 +35,8 @@ export class HomeComponent extends AComponent implements OnInit {
   isMobile = false;
 
   constructor(
-    private router: Router,
+    router: Router,
+    private modal: NgbModal,
     private authService: AuthService,
     private myUserService: MyUserService,
     private organisationsService: OrganisationsService,
@@ -117,7 +120,7 @@ export class HomeComponent extends AComponent implements OnInit {
     }, 1);
   }
 
-  toggleNav(status: `OPEN` | 'CLOSE' | undefined = undefined): void {
+  toggleNav(status: 'OPEN' | 'CLOSE' | undefined = undefined): void {
     const collapsable = document.getElementById('navbarSupportedContent');
     if (!collapsable) {
       return;
@@ -133,7 +136,7 @@ export class HomeComponent extends AComponent implements OnInit {
     if (this.myUser) {
       this.adminModeChanged = !this.adminModeChanged;
       this.myUser.is_admin = !this.myUser.is_admin;
-      this.lumber.info('switchAdminMode', 'Admin mode switched to ' + Converter.booleanToString(this.myUser.is_admin));
+      this.lumber.info('switchAdminMode', 'Admin mode switched to ' + Converter.toString(this.myUser.is_admin));
       this.myUserService.setUser(this.myUser);
     }
   }
@@ -148,5 +151,18 @@ export class HomeComponent extends AComponent implements OnInit {
 
   onSelectOrg(org: OrganisationModel): void {
     this.organisationsService.setSelected(org);
+  }
+
+  openUserEmailQRCode(user?: UserModel): void {
+    if (user == null) {
+      return;
+    }
+    const modalRef = this.modal.open(UserEmailQRCodeModalComponent, {
+      ariaLabelledBy: 'modal-user-email-qrcode-title',
+      size: 'lg',
+    });
+
+    modalRef.componentInstance.name = user.name;
+    modalRef.componentInstance.token = user.email_address;
   }
 }

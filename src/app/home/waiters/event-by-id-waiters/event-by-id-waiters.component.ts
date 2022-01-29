@@ -9,9 +9,8 @@ import {EventsService} from '../../../_services/models/events.service';
 import {EventModel} from '../../../_models/event.model';
 import {WaiterModel} from '../../../_models/waiter.model';
 
-import {WaiterQRCodeModalComponent} from '../waiter-qr-code-modal.component';
+import {WaiterCreateQRCodeModalComponent} from '../waiter-create-qr-code-modal.component';
 import {AbstractModelsListByIdComponent} from '../../../_helper/abstract-models-list-by-id.component';
-import {QrCodeModel} from '../../../_shared/app-qr-code-modal/qr-code.model';
 
 @Component({
   selector: 'app-event-by-id-waiters',
@@ -31,9 +30,12 @@ export class EventByIdWaitersComponent extends AbstractModelsListByIdComponent<W
       return;
     }
 
-    const modalRef = this.modal.open(WaiterQRCodeModalComponent, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg'});
+    const modalRef = this.modal.open(WaiterCreateQRCodeModalComponent, {
+      ariaLabelledBy: 'modal-qrcode-title',
+      size: 'lg',
+    });
 
     modalRef.componentInstance.name = event.name;
-    modalRef.componentInstance.qrCodeModel = QrCodeModel.waiterCreate(event.waiter_create_token);
+    modalRef.componentInstance.token = event.waiter_create_token;
   }
 }

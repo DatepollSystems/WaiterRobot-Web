@@ -152,13 +152,17 @@
                 <div ngbDropdownMenu aria-labelledby="settingsDropdown">
                   <div class="px-3 py-1">
                     <h5>{{ 'NAV_USER_SETTINGS_WELCOME' | tr }} {{ myUser?.firstname }},</h5>
-                    <small
-                      >{{ myUser?.email_address }} <br />
+                    <a (click)="openUserEmailQRCode(myUser)">
+                      <u>{{ myUser?.email_address }}</u>
+                      <i-bs name="upc-scan" class="ms-1"></i-bs>
+                    </a>
+                    <small>
+                      <br />
                       <b *ngIf="myUser?.is_admin" class="clickable" (click)="switchAdminMode()">{{ 'NAV_USER_SETTINGS_ADMIN' | tr }}</b>
                       <b *ngIf="this.adminModeChanged" class="clickable" (click)="switchAdminMode()">{{
                         'NAV_USER_SETTINGS_ADMIN_SWITCH' | tr
-                      }}</b></small
-                    >
+                      }}</b>
+                    </small>
                   </div>
                   <div class="dropdown-divider"></div>
                   <button ngbDropdownItem routerLinkActive="active" routerLink="usettings/settings">

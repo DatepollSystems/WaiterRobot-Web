@@ -17,7 +17,8 @@ import {WaitersComponent} from './waiters.component';
 import {OrganisationWaitersComponent} from './organisation-waiters/organisation-waiters.component';
 import {EventByIdWaitersComponent} from './event-by-id-waiters/event-by-id-waiters.component';
 import {WaiterEditComponent} from './waiter-edit/waiter-edit.component';
-import {WaiterQRCodeModalComponent} from './waiter-qr-code-modal.component';
+import {WaiterCreateQRCodeModalComponent} from './waiter-create-qr-code-modal.component';
+import {WaiterSignInQRCodeModalComponent} from './waiter-edit/waiter-sign-in-qr-code-modal.component';
 
 const routes: Routes = [
   {
@@ -38,7 +39,8 @@ const routes: Routes = [
     OrganisationWaitersComponent,
     EventByIdWaitersComponent,
     WaiterEditComponent,
-    WaiterQRCodeModalComponent,
+    WaiterCreateQRCodeModalComponent,
+    WaiterSignInQRCodeModalComponent,
   ],
   imports: [
     RouterModule.forChild(routes),

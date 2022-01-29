@@ -5,16 +5,15 @@ import {AEntityWithName, EntityList, IList} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
+import {WaiterSignInQRCodeModalComponent} from './waiter-sign-in-qr-code-modal.component';
+
 import {WaitersService} from '../../../_services/models/waiters.service';
 import {EventsService} from '../../../_services/models/events.service';
-
-import {WaiterQRCodeModalComponent} from '../waiter-qr-code-modal.component';
+import {OrganisationsService} from '../../../_services/models/organisations.service';
 
 import {WaiterModel} from '../../../_models/waiter.model';
 import {EventModel} from '../../../_models/event.model';
 import {OrganisationModel} from '../../../_models/organisation.model';
-import {OrganisationsService} from '../../../_services/models/organisations.service';
-import {QrCodeModel} from '../../../_shared/app-qr-code-modal/qr-code.model';
 
 @Component({
   selector: 'app-waiter-edit',
@@ -97,9 +96,12 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     if (this.modal == null) {
       return;
     }
-    const modalRef = this.modal.open(WaiterQRCodeModalComponent, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg'});
+    const modalRef = this.modal.open(WaiterSignInQRCodeModalComponent, {
+      ariaLabelledBy: 'modal-qrcode-title',
+      size: 'lg',
+    });
     modalRef.componentInstance.name = waiter.name;
-    modalRef.componentInstance.qrCodeModel = QrCodeModel.waiterSignIn(waiter.signInToken);
+    modalRef.componentInstance.token = waiter.signInToken;
   }
 
   changeSelectedEvents(selectedEvents: IList<AEntityWithName<number>>): void {

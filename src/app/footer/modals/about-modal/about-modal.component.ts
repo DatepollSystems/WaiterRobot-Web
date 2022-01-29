@@ -10,7 +10,8 @@ import {EnvironmentHelper} from '../../../_helper/EnvironmentHelper';
 export class AboutModalComponent {
   frontendVersion = EnvironmentHelper.getWebVersion();
 
-  timeoutHandler: any;
+  clicker = 0;
+  timeoutHandler: any | undefined;
 
   constructor(private modalService: NgbModal) {}
 
@@ -20,6 +21,7 @@ export class AboutModalComponent {
 
   mouseup(): void {
     if (this.timeoutHandler) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       clearTimeout(this.timeoutHandler);
       this.timeoutHandler = undefined;
     }
@@ -42,5 +44,15 @@ export class AboutModalComponent {
       );
       console.log('Secret source cats love you!');
     }, 1000 * 5);
+  }
+
+  clicked(): void {
+    this.clicker++;
+    setTimeout(() => {
+      this.clicker = 0;
+    }, 1000 * 3);
+    if (this.clicker > 6) {
+      document.getElementById('body')?.classList.add('wrapper');
+    }
   }
 }

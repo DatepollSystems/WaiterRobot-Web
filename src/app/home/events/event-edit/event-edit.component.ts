@@ -5,7 +5,7 @@ import {DateHelper} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
-import {WaiterQRCodeModalComponent} from '../../waiters/waiter-qr-code-modal.component';
+import {WaiterCreateQRCodeModalComponent} from '../../waiters/waiter-create-qr-code-modal.component';
 
 import {EventsService} from '../../../_services/models/events.service';
 import {MyUserService} from '../../../_services/my-user.service';
@@ -13,7 +13,6 @@ import {OrganisationsService} from '../../../_services/models/organisations.serv
 
 import {EventModel} from '../../../_models/event.model';
 import {UserModel} from '../../../_models/user.model';
-import {QrCodeModel} from '../../../_shared/app-qr-code-modal/qr-code.model';
 
 @Component({
   selector: 'app-event-edit',
@@ -57,10 +56,13 @@ export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
   }
 
   openQRCode(event: EventModel): void {
-    const modalRef = this.modal.open(WaiterQRCodeModalComponent, {ariaLabelledBy: 'modal-qrcode-title', size: 'lg'});
+    const modalRef = this.modal.open(WaiterCreateQRCodeModalComponent, {
+      ariaLabelledBy: 'modal-qrcode-title',
+      size: 'lg',
+    });
 
     modalRef.componentInstance.name = event.name;
-    modalRef.componentInstance.qrCodeModel = QrCodeModel.waiterCreate(event.waiter_create_token);
+    modalRef.componentInstance.token = event.waiter_create_token;
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {

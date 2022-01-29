@@ -15,7 +15,7 @@
 
     <h4>{{ 'ABOUT_MODAL_TECHNICAL' | tr }}</h4>
     <ul class="list-group list-group-flush">
-      <li (mousedown)="mousedown()" (mouseup)="mouseup()" (mouseleave)="mouseup()" class="list-group-item">
+      <li (mousedown)="mousedown()" (mouseup)="mouseup()" (mouseleave)="mouseup()" (click)="clicked()" class="list-group-item">
         {{ 'ABOUT_MODAL_TECHNICAL_WEB_VERSION' | tr }}: {{ frontendVersion }}
       </li>
       <li class="list-group-item"><a href="#" rel="noopener" target="_blank">WaiterRobot Documentation</a></li>
