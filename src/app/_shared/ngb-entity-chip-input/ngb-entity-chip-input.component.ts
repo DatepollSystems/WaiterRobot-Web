@@ -6,24 +6,25 @@ import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {EntityList, IEntityWithNumberIDAndName, IHasName, IList} from 'dfx-helper';
 
 @Component({
-  selector: 'app-bootstrap-chip-input',
-  templateUrl: './bootstrap-chip-input.component.html',
-  styleUrls: ['./bootstrap-chip-input.component.scss'],
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'ngb-entity-chip-input',
+  templateUrl: './ngb-entity-chip-input.component.html',
+  styleUrls: ['./ngb-entity-chip-input.component.scss'],
 })
-export class BootstrapChipInputComponent {
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+export class NgbEntityChipInput {
   loaded = true;
   formCtrl = new FormControl();
+
   /**
    * Key of translation string in language files.
    * Take a look at de.json
    */
-  @Input()
-  label = 'Input';
+  @Input() label = 'Input';
   /**
    * Key of translation string in language files.
    */
-  @Input()
-  placeHolder = 'ADD';
+  @Input() placeHolder = 'ADD';
 
   /**
    * Already filled in strings
@@ -46,8 +47,7 @@ export class BootstrapChipInputComponent {
   }
 
   _allModelsToAutoComplete: IList<IEntityWithNumberIDAndName> = new EntityList();
-  @Output()
-  valueChange = new EventEmitter<IList<IEntityWithNumberIDAndName>>();
+  @Output() valueChange = new EventEmitter<IList<IEntityWithNumberIDAndName>>();
 
   private emitChange(): void {
     console.log(this._models);
@@ -70,6 +70,7 @@ export class BootstrapChipInputComponent {
     this.emitChange();
   }
 
+  /* eslint-disable @typescript-eslint/no-unsafe-argument */
   selectModel(event: any): void {
     const model = event.item;
     if (!model) {

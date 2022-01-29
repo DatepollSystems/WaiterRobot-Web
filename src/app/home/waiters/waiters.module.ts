@@ -10,7 +10,7 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 
 import {IconsModule} from '../../_shared/icons.module';
 import {QuestionDialogModule} from '../../_shared/question-dialog/question-dialog.module';
-import {BootstrapChipInputModule} from '../../_shared/bootstrap-chip-input/bootstrap-chip-input.module';
+import {NgbEntityChipInputModule} from '../../_shared/ngb-entity-chip-input/ngb-entity-chip-input.module';
 import {AppQrCodeModalModule} from '../../_shared/app-qr-code-modal/app-qr-code-modal.module';
 
 import {WaitersComponent} from './waiters.component';
@@ -54,7 +54,7 @@ const routes: Routes = [
     DfxTableModule,
     DfxSortModule,
     IconsModule,
-    BootstrapChipInputModule,
+    NgbEntityChipInputModule,
     AppQrCodeModalModule,
     QuestionDialogModule,
   ],

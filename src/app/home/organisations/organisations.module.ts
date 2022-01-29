@@ -14,6 +14,9 @@ import {OrganisationsComponent} from './organisations.component';
 import {AllOrganisationsComponent} from './all-organisations/all-organisations.component';
 import {OrganisationEditComponent} from './organisation-edit/organisation-edit.component';
 import {SelectableButtonModule} from '../../_shared/selectable-button/selectable-button.module';
+import {OrganisationUserAddModalComponent} from './organisation-user-add-modal/organisation-user-add-modal.component';
+import {NgbChipInputModule} from '../../_shared/ngb-chip-input/ngb-chip-input.module';
+import {ZXingScannerModule} from '@zxing/ngx-scanner';
 
 const routes: Routes = [
   {
@@ -28,7 +31,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [OrganisationsComponent, OrganisationEditComponent, AllOrganisationsComponent],
+  declarations: [OrganisationsComponent, OrganisationEditComponent, AllOrganisationsComponent, OrganisationUserAddModalComponent],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
@@ -43,6 +46,8 @@ const routes: Routes = [
     IconsModule,
     NgbCollapseModule,
     SelectableButtonModule,
+    ZXingScannerModule,
+    NgbChipInputModule,
   ],
 })
 export class OrganisationsModule {}

@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
-import {EntityList, IList, StringHelper} from 'dfx-helper';
+import {EntityList, IList} from 'dfx-helper';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
 import {QuestionDialogComponent} from '../../../_shared/question-dialog/question-dialog.component';
@@ -16,6 +16,7 @@ import {OrganisationsUsersService} from '../../../_services/models/organisations
 
 import {OrganisationModel, OrganisationUserModel} from '../../../_models/organisation.model';
 import {UserModel} from '../../../_models/user.model';
+import {OrganisationUserAddModalComponent} from '../organisation-user-add-modal/organisation-user-add-modal.component';
 
 @Component({
   selector: 'app-organisation-edit',
@@ -31,9 +32,6 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
   columnsToDisplay = ['name', 'email', 'actions'];
   filter = new FormControl();
   @ViewChild(NgbSort, {static: true}) sort: NgbSort | undefined;
-  showAddOrgUserCollapse = false;
-  addOrgUserCtrl = new FormControl();
-  addOrgUserValid = false;
 
   myUser: UserModel | undefined;
   selectedOrganisation: OrganisationModel | undefined;
@@ -65,7 +63,7 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
     );
   }
 
-  protected onEntityLoaded() {
+  protected onEntityLoaded(): void {
     if (this.isEditing && this.entity && this.organisationsUsersService) {
       this.organisationsUsersService.setGetAllParams([{key: 'organisation_id', value: this.entity.id}]);
       this.organisationUsers = this.organisationsUsersService.getAll();
@@ -83,7 +81,7 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
     }
   }
 
-  refreshTable() {
+  refreshTable(): void {
     this.dataSource = new NgbTableDataSource(this.organisationUsers.clone());
     this.dataSource.sort = this.sort;
   }
@@ -92,27 +90,12 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
     this.organisationsService.setSelected(organisation);
   }
 
-  emailChange(email: string) {
-    this.addOrgUserValid = StringHelper.isEmail(email);
-  }
-
-  onAddOrgUser(): void {
-    this.organisationsUsersService
-      ._update({role: 'ADMIN'}, [
-        {key: 'uEmail', value: this.addOrgUserCtrl.value},
-        {key: 'organisationId', value: this.entity?.id},
-      ])
-      .subscribe(
-        (response: any) => {
-          console.log(response);
-          this.organisationsUsersService.fetchAll();
-        },
-        (error) => {
-          this.notificationsService.twarning('HOME_ORGS_USERS_USER_NOT_FOUND');
-          console.log(error);
-        }
-      );
-    this.addOrgUserCtrl.reset();
+  openAddUserModal(): void {
+    const modalRef = this.modal.open(OrganisationUserAddModalComponent, {
+      ariaLabelledBy: 'modal-title-org-user-add',
+      size: 'lg',
+    });
+    modalRef.componentInstance.entity = this.entity;
   }
 
   onOrgUserDelete(model: OrganisationUserModel): void {

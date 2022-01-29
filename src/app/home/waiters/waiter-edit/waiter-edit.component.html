@@ -61,14 +61,14 @@
               </small>
             </div>
 
-            <app-bootstrap-chip-input
+            <ngb-entity-chip-input
               fxFlex="50%"
               fxFlex.lt-lg="65%"
               [placeHolder]="'HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER'"
               [models]="preSelectedEvents"
               [allModelsToAutoComplete]="events"
               (valueChange)="changeSelectedEvents($event)"
-              [label]="'HOME_WAITERS_EDIT_EVENTS'"></app-bootstrap-chip-input>
+              [label]="'HOME_WAITERS_EDIT_EVENTS'"></ngb-entity-chip-input>
           </div>
         </ng-template>
       </li>

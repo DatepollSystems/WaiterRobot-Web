@@ -191,52 +191,10 @@
               </div>
             </form>
 
-            <button
-              class="btn mt-2"
-              [class.btn-outline-success]="!showAddOrgUserCollapse"
-              [class.btn-success]="showAddOrgUserCollapse"
-              type="button"
-              (click)="showAddOrgUserCollapse = !showAddOrgUserCollapse">
+            <button class="btn btn-secondary mt-2" type="button" (click)="openAddUserModal()">
               <i-bs name="save"></i-bs>
-              {{ 'ADD_3' | tr }} {{ 'DIALOG' | tr }}
+              {{ 'ADD_3' | tr }}
             </button>
-          </div>
-
-          <div [ngbCollapse]="!showAddOrgUserCollapse" class="mt-3">
-            <div class="card">
-              <div class="card-body">
-                <div fxLayout="row" fxLayoutAlign="space-between end" fxLayout.lt-sm="column" fxLayoutGap="1.5%">
-                  <form fxFlex="30%" fxFlex.lt-xl="60%">
-                    <label for="name">{{ 'EMAIL' | tr }}</label>
-                    <div class="input-group">
-                      <input
-                        class="form-control bg-dark text-white"
-                        required
-                        type="email"
-                        [formControl]="addOrgUserCtrl"
-                        placeholder="{{ 'HOME_ORGS_USERS_EMAIL_PLACEHOLDER' | tr }}"
-                        (ngModelChange)="emailChange($event)" />
-                      <button
-                        class="btn btn-outline-secondary"
-                        type="button"
-                        ngbTooltip="{{ 'CLEAR' | tr }}"
-                        placement="bottom"
-                        (click)="addOrgUserCtrl.reset()"
-                        *ngIf="addOrgUserCtrl?.value?.length > 0">
-                        <i-bs name="x-circle-fill"></i-bs>
-                      </button>
-                    </div>
-                  </form>
-
-                  <div>
-                    <button class="btn btn-success" [disabled]="!addOrgUserValid" type="button" (click)="onAddOrgUser()">
-                      <i-bs name="save"></i-bs>
-                      {{ 'ADD_3' | tr }}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div class="table-responsive mt-3">

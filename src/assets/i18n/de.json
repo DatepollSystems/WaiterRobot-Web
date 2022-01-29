@@ -35,6 +35,8 @@
   "DIALOG": "Dialog",
   "SHOW_ALL": "Alle anzeigen",
   "PRINT": "Drucken",
+  "MANUAL_INPUT": "Manuelle Eingabe",
+  "QR_CODE_SCAN": "QR-Code scannen",
 
   "REQUEST_ERROR_CLIENT": "Client fehler",
   "REQUEST_ERROR_SERVER": "Server fehler",
@@ -124,8 +126,9 @@
   "HOME_ORGS_CITY_INCORRECT": "Stadtname erforderlich",
   "HOME_ORGS_COUNTRY_CODE": "Landkürzel",
   "HOME_ORGS_COUNTRY_CODE_INCORRECT": "Landkürzel erforderlich",
+  "HOME_ORGS_USERS_ADD": "Benutzer",
   "HOME_ORGS_USERS_EMAIL_PLACEHOLDER": "Gib die E-Mail-Adresse des Benutzers ein",
-  "HOME_ORGS_USERS_USER_NOT_FOUND": "E-Mail-Adresse nicht gefunden",
+  "HOME_ORGS_USERS_USER_NOT_FOUND": " nicht gefunden",
   "HOME_ORGS_USERS_SELF_REMOVE": "Du kannst dich nicht selbst aus einer Organisation entfernen",
 
   "HOME_EVENTS_UPDATE_CREATE_WAITER_TOKEN": "Personal-Erstellungs QR-Code zurücksetzen",
@@ -136,7 +139,6 @@
   "HOME_USERS_ADMIN": "Admin",
   "HOME_USERS_ACTIVATED": "Aktiviert",
   "HOME_USERS_FORCE_PASSWORD_CHANGE": "Passwort-Änderung erzwingen",
-  "HOME_USERS_USER": "User",
   "HOME_USERS_NAME_INCORRECT": "Der Name muss aus mindestens 3 und maximal 35 Zeichen bestehen.",
   "HOME_USERS_SUR_NAME_INCORRECT": "Der Name muss aus mindestens 4 und maximal 35 Zeichen bestehen.",
   "HOME_USERS_PASSWORD_INCORRECT": "Das Password muss aus mindestens 6 Zeichen bestehen.",
