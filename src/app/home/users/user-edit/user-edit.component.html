@@ -53,7 +53,8 @@
                 email
                 name="email_address"
                 #emailModel="ngModel"
-                minlength="3"
+                minlength="6"
+                maxlength="255"
                 placeholder="{{ 'EMAIL' | tr }}"
                 [ngModel]="isEditing ? entity?.email_address : null" />
 
@@ -73,6 +74,7 @@
                 name="firstname"
                 #firstnameModel="ngModel"
                 minlength="3"
+                maxlength="35"
                 placeholder="{{ 'FIRSTNAME' | tr }}"
                 [ngModel]="isEditing ? entity?.firstname : null" />
 
@@ -91,11 +93,12 @@
                 id="surname"
                 name="surname"
                 #surnameModel="ngModel"
-                minlength="3"
+                minlength="4"
+                maxlength="35"
                 placeholder="{{ 'SURNAME' | tr }}"
                 [ngModel]="isEditing ? entity?.surname : null" />
               <small *ngIf="surnameModel.invalid" class="text-danger">
-                {{ 'HOME_USERS_NAME_INCORRECT' | tr }}
+                {{ 'HOME_USERS_SUR_NAME_INCORRECT' | tr }}
               </small>
             </div>
           </div>

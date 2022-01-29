@@ -22,10 +22,10 @@ export class UserEditComponent extends AbstractModelEditComponent<UserModel> {
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
     if (model.is_admin) {
       model.role = 'ADMIN';
-      this.lumber.info('addCustromAttribute', 'Model is admin detected', model);
+      this.lumber.info('addCustomAttribute', 'Model is admin detected', model);
     } else {
       model.role = 'USER';
-      this.lumber.info('addCustromAttribute', 'Model is user detected', model);
+      this.lumber.info('addCustomAttribute', 'Model is user detected', model);
     }
 
     if (model.activated?.length === 0) {

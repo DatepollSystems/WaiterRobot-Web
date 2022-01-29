@@ -52,6 +52,7 @@
                 name="name"
                 #nameModel="ngModel"
                 minlength="3"
+                maxlength="70"
                 placeholder="{{ 'NAME' | tr }}"
                 [ngModel]="isEditing ? entity?.name : null" />
 
