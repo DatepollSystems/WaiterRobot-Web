@@ -1,5 +1,5 @@
-<div class="form-group">
-  <label for="input">{{ label | tr }}</label>
+<div class="form-group mb-2">
+  <label for="input" *ngIf="label">{{ label | tr }}</label>
   <div fxLayout="column" fxLayoutGap="2%">
     <input
       id="input"

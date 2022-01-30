@@ -5,7 +5,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {DfxTranslateModule} from 'dfx-translate';
-import {NgbCollapseModule, NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 
 import {IconsModule} from '../../_shared/icons.module';
@@ -16,7 +16,7 @@ import {OrganisationEditComponent} from './organisation-edit/organisation-edit.c
 import {SelectableButtonModule} from '../../_shared/selectable-button/selectable-button.module';
 import {OrganisationUserAddModalComponent} from './organisation-user-add-modal/organisation-user-add-modal.component';
 import {NgbChipInputModule} from '../../_shared/ngb-chip-input/ngb-chip-input.module';
-import {ZXingScannerModule} from '@zxing/ngx-scanner';
+import {AppQrCodeScannerModalModule} from '../../_shared/app-qr-code-scanner-modal/app-qr-code-scanner-modal.module';
 
 const routes: Routes = [
   {
@@ -39,15 +39,14 @@ const routes: Routes = [
     ReactiveFormsModule,
     FlexLayoutModule,
     DfxTranslateModule,
-    NgbNavModule,
-    NgbTooltipModule,
     DfxTableModule,
     DfxSortModule,
-    IconsModule,
-    NgbCollapseModule,
-    SelectableButtonModule,
-    ZXingScannerModule,
+    NgbNavModule,
+    NgbTooltipModule,
     NgbChipInputModule,
+    IconsModule,
+    SelectableButtonModule,
+    AppQrCodeScannerModalModule,
   ],
 })
 export class OrganisationsModule {}

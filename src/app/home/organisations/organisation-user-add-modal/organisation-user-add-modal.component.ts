@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
 
-import {AComponent, AEntityWithNumberIDAndName, StringHelper} from 'dfx-helper';
+import {AComponent, AEntityWithNumberIDAndName, LoggerFactory, StringHelper} from 'dfx-helper';
 
 import {NotificationService} from '../../../_services/notifications/notification.service';
 import {OrganisationsUsersService} from '../../../_services/models/organisations.users.service';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TranslateService} from 'dfx-translate';
+import {AppQrCodeScannerModalComponent} from '../../../_shared/app-qr-code-scanner-modal/app-qr-code-scanner-modal.component';
 
 @Component({
   selector: 'app-organisation-user-add-modal',
@@ -14,12 +15,13 @@ import {TranslateService} from 'dfx-translate';
 })
 export class OrganisationUserAddModalComponent extends AComponent {
   entity: AEntityWithNumberIDAndName | undefined;
-
-  active = 1;
   emailAddresses: string[] = [];
+
+  private lumber = LoggerFactory.getLogger('OrganisationUserAddModal');
 
   constructor(
     public activeModal: NgbActiveModal,
+    private modal: NgbModal,
     private translate: TranslateService,
     private notificationService: NotificationService,
     private organisationsUsersService: OrganisationsUsersService
@@ -33,9 +35,20 @@ export class OrganisationUserAddModalComponent extends AComponent {
     this.emailAddresses = emailAddresses;
   }
 
-  scanSuccess($event: string): void {
-    this.emailAddresses.push($event);
-    this.active = 1;
+  openScanModal(): void {
+    const modalRef = this.modal.open(AppQrCodeScannerModalComponent, {
+      ariaLabelledBy: 'modal-qrcode-scanner-title',
+      size: 'lg',
+    });
+    void modalRef.result.then((result) => {
+      if (result && typeof result === 'string') {
+        if (!this.filter(result)) {
+          this.lumber.warning('scanSuccess', 'Scanned qr code ' + result + 'is no email address');
+          return;
+        }
+        this.emailAddresses.push(result);
+      }
+    });
   }
 
   addOrgUser(): void {

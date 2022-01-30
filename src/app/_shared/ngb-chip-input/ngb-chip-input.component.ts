@@ -18,7 +18,7 @@ export class NgbChipInput {
    * Key of translation string in language files.
    * Take a look at de.json
    */
-  @Input() label = 'Input';
+  @Input() label: string | undefined;
   /**
    * Key of translation string in language files.
    */
@@ -42,6 +42,12 @@ export class NgbChipInput {
 
   inputChange(input: string): void {
     if (this.filter != undefined && input) {
+      if (input.includes(',')) {
+        input = input.replace(',', '');
+        this.formCtrl.setValue(input);
+        this.add();
+      }
+
       this.inputValid = this.filter(input) || input.length < 1;
     }
   }

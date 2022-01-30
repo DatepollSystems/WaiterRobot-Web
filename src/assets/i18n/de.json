@@ -37,6 +37,7 @@
   "PRINT": "Drucken",
   "MANUAL_INPUT": "Manuelle Eingabe",
   "QR_CODE_SCAN": "QR-Code scannen",
+  "SCAN": "Scan",
 
   "REQUEST_ERROR_CLIENT": "Client fehler",
   "REQUEST_ERROR_SERVER": "Server fehler",

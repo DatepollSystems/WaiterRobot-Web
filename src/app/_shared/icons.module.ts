@@ -21,6 +21,8 @@ import {
   peopleFill,
   personBadge,
   plusCircle,
+  qrCode,
+  qrCodeScan,
   save,
   trash,
   upcScan,
@@ -52,6 +54,8 @@ const icons = {
   diagram3,
   google,
   apple,
+  qrCode,
+  qrCodeScan,
 };
 
 @NgModule({

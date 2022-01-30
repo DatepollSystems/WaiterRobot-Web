@@ -2,32 +2,22 @@
   <h3 class="modal-title" id="modal-title-org-user-add">{{ 'USER' | tr }} {{ 'ADD_3' | tr | lowercase }}</h3>
   <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
 </div>
-<div class="modal-body">
-  <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav-tabs">
-    <li [ngbNavItem]="1" [destroyOnHide]="true">
-      <a ngbNavLink>{{ 'MANUAL_INPUT' | tr }}</a>
-      <ng-template ngbNavContent>
-        <ngb-chip-input
-          (valueChange)="orgUserChange($event)"
-          [filter]="filter"
-          [models]="emailAddresses"
-          fxFill
-          validationErrorText="HOME_USERS_EMAIL_INCORRECT"
-          placeHolder="HOME_ORGS_USERS_EMAIL_PLACEHOLDER"
-          label="EMAIL"></ngb-chip-input>
-      </ng-template>
-    </li>
-    <li [ngbNavItem]="2">
-      <a ngbNavLink>{{ 'QR_CODE_SCAN' | tr }}</a>
-      <ng-template ngbNavContent>
-        <ng-container *ngIf="active === 2">
-          <zxing-scanner (scanSuccess)="scanSuccess($event)"></zxing-scanner>
-        </ng-container>
-      </ng-template>
-    </li>
-  </ul>
+<div class="modal-body" fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign.gt-sm="space-between start">
+  <div fxFlex="80%" fxFlex.lt-md="100%">
+    <ngb-chip-input
+      (valueChange)="orgUserChange($event)"
+      [filter]="filter"
+      [models]="emailAddresses"
+      validationErrorText="HOME_USERS_EMAIL_INCORRECT"
+      placeHolder="HOME_ORGS_USERS_EMAIL_PLACEHOLDER"></ngb-chip-input>
+  </div>
 
-  <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  <div>
+    <button class="btn btn-outline-secondary" style="width: 100%" (click)="openScanModal()">
+      {{ 'SCAN' | tr }}
+      <i-bs name="qr-code-scan"></i-bs>
+    </button>
+  </div>
 </div>
 <div class="modal-footer">
   <button class="btn btn-success" type="button" (click)="addOrgUser()">
