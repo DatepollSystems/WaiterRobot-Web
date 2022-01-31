@@ -13,6 +13,10 @@ import {IconsModule} from '../../_shared/icons.module';
 import {ProductsComponent} from './products.component';
 import {AllProductsComponent} from './all-products/all-products.component';
 import {ProductEditComponent} from './product-edit/product-edit.component';
+import {ProductGroupsComponent} from './product-groups/product-groups.component';
+import {ProductGroupEditComponent} from './product-group-edit/product-group-edit.component';
+import {ProductGroupByIdProductsComponent} from './product-group-by-id-products/product-group-by-id-products.component';
+import {NgbEntityChipInputModule} from '../../_shared/ngb-entity-chip-input/ngb-entity-chip-input.module';
 
 const routes: Routes = [
   {
@@ -21,13 +25,24 @@ const routes: Routes = [
     children: [
       {path: 'all', component: AllProductsComponent},
       {path: ':id', component: ProductEditComponent},
+      {path: 'groups/all', component: ProductGroupsComponent},
+      {path: 'groups/create', component: ProductGroupEditComponent},
+      {path: 'groups/products/:id', component: ProductGroupByIdProductsComponent},
+      {path: 'groups/:id', component: ProductGroupEditComponent},
       {path: '', pathMatch: 'full', redirectTo: '/home/products/all'},
     ],
   },
 ];
 
 @NgModule({
-  declarations: [ProductsComponent, AllProductsComponent, ProductEditComponent],
+  declarations: [
+    ProductsComponent,
+    AllProductsComponent,
+    ProductEditComponent,
+    ProductGroupsComponent,
+    ProductGroupEditComponent,
+    ProductGroupByIdProductsComponent,
+  ],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
@@ -40,6 +55,7 @@ const routes: Routes = [
     DfxTableModule,
     DfxSortModule,
     IconsModule,
+    NgbEntityChipInputModule,
   ],
 })
 export class ProductsModule {}

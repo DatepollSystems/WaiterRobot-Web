@@ -1,92 +1,104 @@
-import {Component, OnDestroy} from '@angular/core';
-import {ProductsModel} from '../../../_models/products';
-import {Subscription} from 'rxjs';
+import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+
+import {AEntityWithNumberIDAndName, Converter, IEntityWithNumberIDAndName, IList, List, LoggerFactory} from 'dfx-helper';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+
+import {NotificationService} from '../../../_services/notifications/notification.service';
 import {ProductsService} from '../../../_services/models/products.service';
-import {Converter, TypeHelper} from 'dfx-helper';
-import {NgForm} from '@angular/forms';
-import {OrganisationsService} from '../../../_services/models/organisations.service';
-import {OrganisationModel} from '../../../_models/organisation.model';
+import {ProductGroupsService} from '../../../_services/models/product-groups.service';
+import {EventsService} from '../../../_services/models/events.service';
+
+import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
+
+import {EventModel} from '../../../_models/event.model';
+import {ProductGroupModel} from '../../../_models/product-group.model';
+import {ProductModel} from '../../../_models/product.model';
+import {AllergensService} from '../../../_services/models/allergens.service';
 
 @Component({
   selector: 'app-product-edit',
   templateUrl: './product-edit.component.html',
   styleUrls: ['./product-edit.component.scss'],
 })
-export class ProductEditComponent implements OnDestroy {
-  isEdit = false;
-  active = 1;
+export class ProductEditComponent extends AbstractModelEditComponent<ProductModel> {
+  override redirectUrl = '/home/products/all';
 
-  product: ProductsModel | null | undefined;
-  _productSubscription: Subscription | undefined;
+  private log = LoggerFactory.getLogger('ProductEditComponent');
 
-  organisations: OrganisationModel[] | null | undefined;
-  _organisationsSubscription: Subscription | undefined;
+  selectedEvent: EventModel | undefined;
+  productGroups: ProductGroupModel[];
+  selectedProductGroup = 'default';
+
+  allergens: IList<AEntityWithNumberIDAndName>;
+  selectedAllergens: IList<AEntityWithNumberIDAndName> = new List();
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private productsService: ProductsService,
-    private organisationsService: OrganisationsService
+    route: ActivatedRoute,
+    router: Router,
+    productsService: ProductsService,
+    modal: NgbModal,
+    private notificationService: NotificationService,
+    private eventsService: EventsService,
+    private productGroupsService: ProductGroupsService,
+    private allergensService: AllergensService
   ) {
-    this.route.queryParams.subscribe((params) => {
-      if (params?.tab != null) {
-        this.active = Converter.stringToNumber(params?.tab);
-      }
-    });
+    super(router, route, modal, productsService);
 
-    this.route.paramMap.subscribe((params) => {
-      const id = params.get('id');
-      if (id != null) {
-        if (TypeHelper.isNumeric(id)) {
-          console.log('Prod to open: ' + id);
-          this.product = this.productsService.getSingle(Converter.stringToNumber(id));
-          this._productSubscription = this.productsService.singleChange.subscribe((value: ProductsModel) => {
-            this.product = value;
-          });
-          this.isEdit = true;
-        } else if (id == 'create') {
-          this.organisations = this.organisationsService.getAll();
-          this._organisationsSubscription = this.organisationsService.allChange.subscribe((value) => {
-            this.organisations = value;
-          });
-        } else {
-          this.isEdit = false;
-          console.log('Create new prod');
-        }
-      } else {
-        console.log('No prod to open');
-      }
-    });
+    this.selectedEvent = this.eventsService.getSelected();
+    this.autoUnsubscribe(
+      this.eventsService.selectedChange.subscribe((event) => {
+        this.selectedEvent = event;
+      })
+    );
+
+    this.productGroups = this.productGroupsService.getAll();
+    this.autoUnsubscribe(
+      this.productGroupsService.allChange.subscribe((tableGroups) => {
+        this.productGroups = tableGroups;
+      })
+    );
+
+    this.allergens = this.allergensService.getAll();
+    this.autoUnsubscribe(
+      this.allergensService.allChange.subscribe((allergens) => {
+        this.allergens = allergens;
+      })
+    );
   }
 
-  ngOnDestroy(): void {
-    this._productSubscription?.unsubscribe();
-  }
-
-  onNavChange($event: any): void {
-    void this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {tab: $event.nextId},
-      queryParamsHandling: 'merge',
+  override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
+    model.group_id = Converter.toNumber(this.selectedProductGroup);
+    model.allergen_ids = this.selectedAllergens.map((allergen) => {
+      return allergen.id;
     });
+
+    return model;
   }
 
-  onSave(f: NgForm): void {
-    const values = f.form.value;
-    const prod = new ProductsModel(values);
-    console.log(prod);
-    if (this.isEdit && this.product?.id != null) {
-      prod.id = this.product?.id;
-      this.productsService.update(prod);
-    } else {
-      this.productsService.create(prod);
+  override customCreateAndUpdateFilter(model: any): boolean {
+    if (this.selectedProductGroup.includes('default')) {
+      this.notificationService.twarning('HOME_PROD_GROUP_ID_INCORRECT');
+      return false;
     }
-    void this.router.navigateByUrl('/home/products/all');
+    return super.customCreateAndUpdateFilter(model);
   }
 
-  onDelete(productId: number): void {
-    this.productsService.delete(productId);
-    void this.router.navigateByUrl('/home/products/all');
+  override onEntityLoaded(): void {
+    if (this.isEditing && this.entity) {
+      //TODO This isnt working
+      this.selectedProductGroup = Converter.toString(this.entity?.group_id);
+    }
+  }
+
+  selectProductGroup(value: string): void {
+    if (value.includes('default')) {
+      return;
+    }
+    this.log.info('selectTableGroup', 'Selecting product group', value);
+  }
+
+  allergenChange(allergens: IList<IEntityWithNumberIDAndName>): void {
+    this.selectedAllergens = allergens;
   }
 }

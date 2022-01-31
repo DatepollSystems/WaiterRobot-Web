@@ -4,12 +4,12 @@ import {HttpService} from '../http.service';
 import {EventsService} from './events.service';
 import {AbstractModelService} from './abstract-model.service';
 
-import {ProductsModel} from '../../_models/products';
+import {ProductModel} from '../../_models/product.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProductsService extends AbstractModelService<ProductsModel> {
+export class ProductsService extends AbstractModelService<ProductModel> {
   constructor(httpService: HttpService, private eventsService: EventsService) {
     super(httpService, '/config/product');
 
@@ -19,7 +19,11 @@ export class ProductsService extends AbstractModelService<ProductsModel> {
     });
   }
 
-  protected convert(data: any): ProductsModel {
-    return new ProductsModel(data);
+  public setSelectedEventGetAllUrl(): void {
+    this.setGetAllParams([{key: 'event_id', value: this.eventsService.getSelected()?.id}]);
+  }
+
+  protected convert(data: any): ProductModel {
+    return new ProductModel(data);
   }
 }

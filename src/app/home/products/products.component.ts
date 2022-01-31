@@ -1,38 +1,17 @@
-import {Component, OnDestroy} from '@angular/core';
-import {ProductsModel} from '../../_models/products';
-import {Subscription} from 'rxjs';
-import {ProductsService} from '../../_services/models/products.service';
-import {OrganisationsService} from '../../_services/models/organisations.service';
-import {OrganisationModel} from '../../_models/organisation.model';
+import {Component} from '@angular/core';
+import {Router} from '@angular/router';
+
+import {AbstractModelsComponent} from '../../_helper/abstract-models.component';
+import {ProductGroupsService} from '../../_services/models/product-groups.service';
+import {ProductGroupModel} from '../../_models/product-group.model';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss'],
 })
-export class ProductsComponent implements OnDestroy {
-  products: ProductsModel[];
-  productsCopy: ProductsModel[] | undefined;
-  productsSubscription: Subscription;
-
-  selectedOrganisation: OrganisationModel | undefined;
-  selectedOrganisationSubscription: Subscription;
-
-  constructor(private productsService: ProductsService, private organisationsService: OrganisationsService) {
-    this.products = this.productsService.getAll();
-    this.productsSubscription = this.productsService.allChange.subscribe((value: ProductsModel[]) => {
-      this.products = value;
-      this.productsCopy = value.slice(0, 5);
-    });
-
-    this.selectedOrganisation = this.organisationsService.getSelected();
-    this.selectedOrganisationSubscription = this.organisationsService.selectedChange.subscribe((value) => {
-      this.selectedOrganisation = value;
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.productsSubscription.unsubscribe();
-    this.selectedOrganisationSubscription.unsubscribe();
+export class ProductsComponent extends AbstractModelsComponent<ProductGroupModel> {
+  constructor(router: Router, service: ProductGroupsService) {
+    super(router, service);
   }
 }

@@ -1,29 +1,54 @@
 <div fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap.lt-md="4%">
-  <div class="list-group" fxFlex="22%" fxFlex.gt-lg="15%">
-    <a class="list-group-item list-group-item-action bg-secondary text-white" routerLink="all" routerLinkActive="active">
-      <i-bs name="bag-fill"></i-bs>
+  <div class="list-group" fxFlex="28%" fxFlex.gt-lg="15%">
+    <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active" (click)="linkClick()">
+      <i-bs name="columns-gap"></i-bs>
       {{ 'HOME_PROD_ALL' | tr }}</a
     >
 
-    <a class="list-group-item list-group-item-action" routerLink="/home/products/create" routerLinkActive="active">
+    <a class="list-group-item list-group-item-action" routerLink="groups/all" routerLinkActive="active" (click)="linkClick()">
+      <i-bs name="diagram-3"></i-bs>
+      {{ 'HOME_PROD_GROUP' | tr }}</a
+    >
+
+    <a class="list-group-item list-group-item-action" routerLink="/home/products/create" routerLinkActive="active" (click)="linkClick()">
       <i-bs name="plus-circle"></i-bs>
       {{ 'ADD_2' | tr }}</a
     >
 
-    <a class="list-group-item list-group-item-action" *ngIf="selectedOrganisation" routerLinkActive="active"
-      ><b>{{ selectedOrganisation.name }}</b></a
+    <a
+      class="list-group-item list-group-item-action"
+      routerLink="/home/products/groups/create"
+      routerLinkActive="active"
+      (click)="linkClick()">
+      <i-bs name="plus-circle"></i-bs>
+      {{ 'HOME_PROD_GROUPS_ADD' | tr }}</a
     >
 
-    <ng-container *ngFor="let product of this.productsCopy">
-      <a class="list-group-item list-group-item-action" routerLink="{{ product.id }}" *ngIf="product.id" routerLinkActive="active">
-        <i-bs name="caret-right"></i-bs>
-        {{ product.name }}</a
-      >
-    </ng-container>
+    <div class="list-group-item" [fxHide.gt-md]="true">
+      <div class="input-group">
+        <span class="input-group-text" id="selectGroup-addon"><i-bs name="people"></i-bs></span>
+        <select class="form-select" id="selectGroup" [(ngModel)]="selectedModelToShow" (ngModelChange)="showModel($event)">
+          <option value="default">{{ 'HOME_PROD_GROUP' | tr }}</option>
+          <option value="/home/products/groups/products/{{ productGroup.id }}" *ngFor="let productGroup of this.allModels">
+            {{ productGroup.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <a
+      *ngFor="let productGroup of this.allModels"
+      [fxHide.lt-lg]="true"
+      class="list-group-item list-group-item-action"
+      routerLink="/home/products/groups/products/{{ productGroup.id }}"
+      routerLinkActive="active"
+      (click)="linkClick()">
+      {{ productGroup.name }}</a
+    >
   </div>
-  <div fxFlex="76%" fxFlex.gt-lg="82%">
+  <div fxFlex="70%" fxFlex.gt-lg="82%">
     <div class="card bg-dark">
-      <div class="card-body">
+      <div class="card-body px-4">
         <router-outlet></router-outlet>
       </div>
     </div>

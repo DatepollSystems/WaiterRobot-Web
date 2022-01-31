@@ -1,0 +1,63 @@
+<div fxLayout="row break" fxLayoutAlign="space-between center" [hidden]="!entitiesLoaded">
+  <h1>{{ entity?.name }} {{ 'HOME_PROD_GROUP_TABLES_VIEW' | tr }}</h1>
+  <a routerLink="../../{{ entity?.id }}" class="btn btn-outline-success">
+    <i-bs name="pencil-square"></i-bs>
+    {{ 'EDIT' | tr }}</a
+  >
+</div>
+
+<div class="spinner-row" *ngIf="!entitiesLoaded">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">{{ 'LOADING' | tr }}</span>
+  </div>
+</div>
+
+<div [hidden]="!entitiesLoaded">
+  <form class="mt-2">
+    <div class="input-group">
+      <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+      <button
+        class="btn btn-outline-secondary"
+        type="button"
+        ngbTooltip="{{ 'CLEAR' | tr }}"
+        placement="bottom"
+        (click)="filter.reset()"
+        *ngIf="filter?.value?.length > 0">
+        <i-bs name="x-circle-fill"></i-bs>
+      </button>
+    </div>
+  </form>
+
+  <div class="table-responsive">
+    <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort>
+      <ng-container ngbColumnDef="name">
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+        <td *ngbCellDef="let product" ngb-cell>{{ product.name }}</td>
+      </ng-container>
+
+      <ng-container ngbColumnDef="allergens">
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ALLERGENS' | tr }}</th>
+        <td *ngbCellDef="let product" ngb-cell>{{ product.allergens_short_names() }}</td>
+      </ng-container>
+
+      <ng-container ngbColumnDef="actions">
+        <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+        <td *ngbCellDef="let product" ngb-cell>
+          <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../../../{{ product.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+            <i-bs name="pencil-square"></i-bs>
+          </a>
+          <button
+            type="button"
+            class="btn btn-sm m-1 btn-outline-danger text-white"
+            ngbTooltip="{{ 'DELETE' | tr }}"
+            (click)="onDelete(product.id)">
+            <i-bs name="trash"></i-bs>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+      <tr *ngbRowDef="let product; columns: columnsToDisplay" ngb-row></tr>
+    </table>
+  </div>
+</div>

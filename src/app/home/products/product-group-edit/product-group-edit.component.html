@@ -1,6 +1,6 @@
 <div [hidden]="isEditing && !entityLoaded">
   <h1 *ngIf="isEditing && entity">{{ 'EDIT_2' | tr }} "{{ entity.name }}"</h1>
-  <h1 *ngIf="!isEditing">{{ 'HOME_PROD_ADD' | tr }}</h1>
+  <h1 *ngIf="!isEditing">{{ 'HOME_PROD_GROUPS_ADD' | tr }}</h1>
 
   <div fxLayout="row break" fxLayoutGap="2%" fxLayoutGap.gt-md="1%">
     <div>
@@ -35,11 +35,10 @@
       <li [ngbNavItem]="1">
         <a ngbNavLink>{{ 'DATA' | tr }}</a>
         <ng-template ngbNavContent>
-          <div fxLayout="row break" fxLayoutAlign="space-between" fxLayout.lt-sm="column">
-            <div class="form-group" fxFlex="25%" fxFlex.lt-lg="48%">
+          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%">
+            <div class="form-group" fxFlex="50%">
               <label for="name">{{ 'NAME' | tr }}</label>
               <input
-                ngbAutofocus
                 ngModel
                 class="form-control bg-dark text-white"
                 required
@@ -52,33 +51,9 @@
                 [ngModel]="isEditing ? entity?.name : null" />
 
               <small *ngIf="nameModel.invalid" class="text-danger">
-                {{ 'HOME_PROD_NAME_INCORRECT' | tr }}
+                {{ 'HOME_PROD_GROUP_NAME_INCORRECT' | tr }}
               </small>
             </div>
-
-            <div class="form-group" fxFlex="20%" fxFlex.lt-lg="48%">
-              <label for="selectGroup">{{ 'HOME_PROD_GROUP' | tr }}</label>
-              <div class="input-group">
-                <span class="input-group-text bg-dark text-white" id="selectProductGroup-addon"><i-bs name="diagram-3"></i-bs></span>
-                <select
-                  class="form-select bg-dark text-white"
-                  id="selectGroup"
-                  name="selectGroup"
-                  [(ngModel)]="selectedProductGroup"
-                  (ngModelChange)="selectProductGroup($event)">
-                  <option value="default">{{ 'HOME_PROD_GROUPS_DEFAULT' | tr }}</option>
-                  <option value="{{ productGroup.id }}" *ngFor="let productGroup of this.productGroups">{{ productGroup.name }}</option>
-                </select>
-              </div>
-            </div>
-
-            <ngb-entity-chip-input
-              fxFlex="50%"
-              fxFlex.lt-lg="100%"
-              [models]="entity?.allergens"
-              [allModelsToAutoComplete]="allergens"
-              (valueChange)="allergenChange($event)"
-              label="HOME_PROD_ALLERGENS"></ngb-entity-chip-input>
           </div>
         </ng-template>
       </li>

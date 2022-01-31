@@ -1,5 +1,5 @@
 <div fxLayout="row break" fxLayoutAlign="space-between center">
-  <h1>{{ 'HOME_PROD_ALL' | tr }}</h1>
+  <h1>{{ 'HOME_PROD_GROUP' | tr }}</h1>
   <a routerLink="../create" class="btn btn-outline-success">
     <i-bs name="plus-circle"></i-bs>
     {{ 'ADD_2' | tr }}</a
@@ -31,31 +31,26 @@
   <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort>
     <ng-container ngbColumnDef="name">
       <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
-      <td *ngbCellDef="let product" ngb-cell>{{ product.name }}</td>
-    </ng-container>
-
-    <ng-container ngbColumnDef="allergens">
-      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ALLERGENS' | tr }}</th>
-      <td *ngbCellDef="let product" ngb-cell>{{ product.allergens_short_names }}</td>
+      <td *ngbCellDef="let productGroup" ngb-cell>{{ productGroup.name }}</td>
     </ng-container>
 
     <ng-container ngbColumnDef="actions">
       <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
-      <td *ngbCellDef="let product" ngb-cell>
-        <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ product.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+      <td *ngbCellDef="let productGroup" ngb-cell>
+        <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ productGroup.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
           <i-bs name="pencil-square"></i-bs>
         </a>
         <button
           type="button"
           class="btn btn-sm m-1 btn-outline-danger text-white"
           ngbTooltip="{{ 'DELETE' | tr }}"
-          (click)="onDelete(product.id)">
+          (click)="onDelete(productGroup.id)">
           <i-bs name="trash"></i-bs>
         </button>
       </td>
     </ng-container>
 
     <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-    <tr *ngbRowDef="let product; columns: columnsToDisplay" ngb-row></tr>
+    <tr *ngbRowDef="let productGroup; columns: columnsToDisplay" ngb-row></tr>
   </table>
 </div>

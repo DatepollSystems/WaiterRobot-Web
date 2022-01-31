@@ -146,6 +146,12 @@
   "HOME_USERS_EMAIL_INCORRECT": "E-Mail-Adresse inkorrekt.",
 
   "HOME_PROD_ALL": "Produkte",
+  "HOME_PROD_GROUP": "Produktgruppen",
+  "HOME_PROD_ADD": "Neues Produkt anlegen",
+  "HOME_PROD_GROUP_TABLES_VIEW": "Produktgruppe",
+  "HOME_PROD_GROUPS_ADD": "Neue Produktgruppe anlegen",
+  "HOME_PROD_GROUPS_DEFAULT": "Wähle eine Produktgruppe aus",
+  "HOME_PROD_GROUP_NAME_INCORRECT": "Der Name muss aus mindestens 3 Zeichen bestehen.",
   "HOME_PROD_NAME_INCORRECT": "Der Name muss aus mehr als 3 Zeichen bestehen",
   "HOME_PROD_PRICE": "Preis",
   "HOME_PROD_PRICE_INCORRECT": "Der Preis ist inkorrekt",
@@ -175,7 +181,7 @@
   "HOME_TABLES_NUMBER_INCORRECT": "*pflichtfeld",
   "HOME_TABLES_GROUPS_DEFAULT": "Wähle eine Tischgruppe aus",
   "HOME_TABLE_GROUPS": "Tischgruppen",
-  "HOME_TABLE_GROUPS_ADD": "Neu Tischgruppe anlegen",
+  "HOME_TABLE_GROUPS_ADD": "Neue Tischgruppe anlegen",
   "HOME_TABLE_GROUP_NAME_INCORRECT": "Der Name muss aus mehr als 3 Zeichen bestehen.",
   "HOME_TABLE_GROUP_TABLES_VIEW": "Tischgruppe"
 }
