@@ -48,7 +48,7 @@ export class AuthService {
     return this.httpService.post(AuthService.signInUrl, signInObject, undefined, 'sendSignInRequest');
   }
 
-  public setSessionToken(sessionToken: string): void {
+  public setSessionToken(sessionToken: string | undefined): void {
     StorageHelper.set('sessionToken', sessionToken);
     this.sessionToken = sessionToken;
   }
@@ -60,11 +60,13 @@ export class AuthService {
     return this.sessionToken;
   }
 
-  public setJWTToken(jwtToken: string): void {
+  public setJWTToken(jwtToken: string | undefined): void {
     StorageHelper.set('token', jwtToken);
     this.jwtToken = jwtToken;
-    this.jwtTokenExpires = new Date();
-    this.jwtTokenExpires.setMinutes(this.jwtTokenExpires.getMinutes() + 50);
+    if (jwtToken != undefined) {
+      this.jwtTokenExpires = new Date();
+      this.jwtTokenExpires.setMinutes(this.jwtTokenExpires.getMinutes() + 50);
+    }
   }
 
   public getJWTToken(): string | undefined {
@@ -110,8 +112,8 @@ export class AuthService {
   }
 
   public clearStorage(): void {
-    this.setSessionToken('null');
-    this.setJWTToken('null');
+    this.setSessionToken(undefined);
+    this.setJWTToken(undefined);
     localStorage.clear();
   }
 
