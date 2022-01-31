@@ -11,7 +11,7 @@
       (keyup.enter)="add()"
       (keyup.,)="add()"
       placeholder="{{ placeHolder | tr }}" />
-    <small class="text-warning" *ngIf="!inputValid">{{ validationErrorText | tr }}</small>
+    <small class="text-danger" *ngIf="!inputValid">{{ validationErrorText | tr }}</small>
     <div fxLayout="row" fxLayoutGap="1.5%">
       <ng-container *ngIf="this.models.length > 0">
         <button type="button" class="btn btn-primary btn-sm" *ngFor="let model of this.models" (click)="remove(model)">
