@@ -81,7 +81,7 @@
   "NAV_EDIT": "(bearbeiten)",
   "NAV_SETTINGS": "Einstellungen",
   "NAV_USER_SETTINGS_WELCOME": "Hallo",
-  "NAV_USER_SETTINGS_QR_CODE_INFO": "Zeige den QR-Code einem Organisations Administrator",
+  "NAV_USER_SETTINGS_QR_CODE_INFO": "Der QR-Code kann von Organisations Administratoren benutzt werden um dich hinzu zu fügen.",
   "NAV_USER_SETTINGS_ADMIN": "(admin mode)",
   "NAV_USER_SETTINGS_ADMIN_SWITCH": "(user mode)",
   "NAV_INSTANCE_ADMINISTRATION": "Administration",

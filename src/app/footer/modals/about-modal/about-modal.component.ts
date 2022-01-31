@@ -52,7 +52,7 @@ export class AboutModalComponent {
       this.clicker = 0;
     }, 1000 * 3);
     if (this.clicker > 6) {
-      document.getElementById('body')?.classList.add('wrapper');
+      document.getElementById('body')?.classList.add('tilt');
     }
   }
 }
