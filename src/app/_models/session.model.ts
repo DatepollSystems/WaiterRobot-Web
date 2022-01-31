@@ -1,6 +1,6 @@
 import {AEntityWithNumberIDAndName} from 'dfx-helper';
 
-export class SessionsModel extends AEntityWithNumberIDAndName {
+export class SessionModel extends AEntityWithNumberIDAndName {
   public readonly registered_at: string;
   public readonly updated_at: string;
 

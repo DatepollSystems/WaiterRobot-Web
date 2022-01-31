@@ -55,7 +55,7 @@ export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
     model.event_id = this.selectedEvent?.id;
-    model.group_id = Converter.stringToNumber(this.selectedTableGroup);
+    model.group_id = Converter.toString(this.selectedTableGroup);
     return model;
   }
 
