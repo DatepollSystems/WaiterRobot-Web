@@ -30,7 +30,10 @@ export class NgbEntityChipInput {
    * Already filled in strings
    */
   @Input()
-  public set models(models: IList<IEntityWithNumberIDAndName>) {
+  public set models(models: IList<IEntityWithNumberIDAndName> | undefined) {
+    if (models === undefined) {
+      return;
+    }
     this._models = models;
     this._allModelsToAutoComplete.removeIfPresent(this._models);
   }
@@ -61,7 +64,7 @@ export class NgbEntityChipInput {
       debounceTime(200),
       distinctUntilChanged(),
       filter((term) => term.length >= 1),
-      map((term) => this._allModelsToAutoComplete.filter((event) => new RegExp(term, 'mi').test(event.name)).slice(0, 10))
+      map((term) => this._allModelsToAutoComplete.filter((event) => new RegExp(term, 'mi').test(event.name)))
     );
 
   remove(value: IEntityWithNumberIDAndName): void {
