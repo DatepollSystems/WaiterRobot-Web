@@ -15,7 +15,7 @@ import {ProductModel} from '../../../_models/product.model';
   styleUrls: ['./all-products.component.scss'],
 })
 export class AllProductsComponent extends AbstractModelsListComponent<ProductModel> {
-  override columnsToDisplay = ['name', 'allergens', 'actions'];
+  override columnsToDisplay = ['name', 'price', 'allergens', 'actions'];
 
   selectedEvent: EventModel | undefined;
 

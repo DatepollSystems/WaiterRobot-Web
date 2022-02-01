@@ -36,7 +36,7 @@
         <a ngbNavLink>{{ 'DATA' | tr }}</a>
         <ng-template ngbNavContent>
           <div fxLayout="row break" fxLayoutAlign="space-between" fxLayout.lt-sm="column">
-            <div class="form-group" fxFlex="25%" fxFlex.lt-lg="48%">
+            <div class="form-group mb-2" fxFlex="25%" fxFlex.lt-xl="48%">
               <label for="name">{{ 'NAME' | tr }}</label>
               <input
                 ngbAutofocus
@@ -56,29 +56,45 @@
               </small>
             </div>
 
-            <div class="form-group" fxFlex="20%" fxFlex.lt-lg="48%">
+            <div class="form-group mb-2" fxFlex="20%" fxFlex.lt-xl="48%">
               <label for="selectGroup">{{ 'HOME_PROD_GROUP' | tr }}</label>
               <div class="input-group">
                 <span class="input-group-text bg-dark text-white" id="selectProductGroup-addon"><i-bs name="diagram-3"></i-bs></span>
-                <select
-                  class="form-select bg-dark text-white"
-                  id="selectGroup"
-                  name="selectGroup"
-                  [(ngModel)]="selectedProductGroup"
-                  (ngModelChange)="selectProductGroup($event)">
+                <select class="form-select bg-dark text-white" id="selectGroup" name="group_id" [(ngModel)]="selectedProductGroup">
                   <option value="default">{{ 'HOME_PROD_GROUPS_DEFAULT' | tr }}</option>
-                  <option value="{{ productGroup.id }}" *ngFor="let productGroup of this.productGroups">{{ productGroup.name }}</option>
+                  <option [ngValue]="productGroup.id" *ngFor="let productGroup of this.productGroups">{{ productGroup.name }}</option>
                 </select>
               </div>
             </div>
 
+            <div class="form-group mb-2" fxFlex="5%" fxFlex.lt-xl="15%">
+              <label for="price">{{ 'HOME_PROD_PRICE' | tr }}</label>
+              <input
+                ngbAutofocus
+                ngModel
+                class="form-control bg-dark text-white"
+                required
+                type="number"
+                id="price"
+                name="price"
+                #priceModel="ngModel"
+                placeholder="{{ 'NAME' | tr }}"
+                [ngModel]="isEditing ? entity?.price : null" />
+
+              <small *ngIf="priceModel.invalid" class="text-danger">
+                {{ 'HOME_PROD_PRICE_INCORRECT' | tr }}
+              </small>
+            </div>
+
             <ngb-entity-chip-input
-              fxFlex="50%"
-              fxFlex.lt-lg="100%"
+              fxFlex="45%"
+              fxFlex.lt-xl="83%"
+              [dark]="true"
               [models]="entity?.allergens"
               [allModelsToAutoComplete]="allergens"
               (valueChange)="allergenChange($event)"
-              label="HOME_PROD_ALLERGENS"></ngb-entity-chip-input>
+              label="HOME_PROD_ALLERGENS"
+              placeHolder="HOME_PROD_ALLERGENS_PLACEHOLDER"></ngb-entity-chip-input>
           </div>
         </ng-template>
       </li>

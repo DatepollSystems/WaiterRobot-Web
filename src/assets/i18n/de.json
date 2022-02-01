@@ -156,6 +156,7 @@
   "HOME_PROD_PRICE": "Preis",
   "HOME_PROD_PRICE_INCORRECT": "Der Preis ist inkorrekt",
   "HOME_PROD_ALLERGENS": "Allergene",
+  "HOME_PROD_ALLERGENS_PLACEHOLDER": "G, C, D...",
   "HOME_PROD_GROUP_ID": "Gruppe",
   "HOME_PROD_GROUP_ID_INCORRECT": "Das Produkt muss einer Gruppe zugeordnet sein",
   "HOME_PROD_PRINTER_ID": "Drucker",

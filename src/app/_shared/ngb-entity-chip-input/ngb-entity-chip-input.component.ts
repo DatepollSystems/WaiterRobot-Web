@@ -16,6 +16,8 @@ export class NgbEntityChipInput {
   loaded = true;
   formCtrl = new FormControl();
 
+  @Input() dark = false;
+
   /**
    * Key of translation string in language files.
    * Take a look at de.json
@@ -31,7 +33,7 @@ export class NgbEntityChipInput {
    */
   @Input()
   public set models(models: IList<IEntityWithNumberIDAndName> | undefined) {
-    if (models === undefined) {
+    if (models == undefined) {
       return;
     }
     this._models = models;
@@ -76,7 +78,7 @@ export class NgbEntityChipInput {
   /* eslint-disable @typescript-eslint/no-unsafe-argument */
   selectModel(event: any): void {
     const model = event.item;
-    if (!model) {
+    if (model == null) {
       return;
     }
     this._allModelsToAutoComplete.removeIfPresent(model);

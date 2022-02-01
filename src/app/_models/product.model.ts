@@ -6,7 +6,6 @@ export class ProductModel extends AEntityWithNumberIDAndName {
   public readonly allergens: IList<AllergenModel> = new List();
   public readonly group_id: number;
   public readonly printer_id: number;
-  public readonly organisation_id: number;
 
   constructor(data: any) {
     super(data.id, data.name, data);
@@ -18,10 +17,13 @@ export class ProductModel extends AEntityWithNumberIDAndName {
     );
     this.group_id = data.product_group_id;
     this.printer_id = data.printer_id;
-    this.organisation_id = data.organisation_id;
   }
 
-  public get allergens_short_names(): string {
-    return StringHelper.getImploded(this.allergens.map((allergen) => allergen.short_name));
+  private allergensShortName: string | undefined;
+  public allergens_short_names(): string {
+    if (!this.allergensShortName) {
+      this.allergensShortName = StringHelper.getImploded(this.allergens.map((allergen) => allergen.short_name));
+    }
+    return this.allergensShortName;
   }
 }

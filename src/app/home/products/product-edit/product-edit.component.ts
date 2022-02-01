@@ -24,11 +24,9 @@ import {AllergensService} from '../../../_services/models/allergens.service';
 export class ProductEditComponent extends AbstractModelEditComponent<ProductModel> {
   override redirectUrl = '/home/products/all';
 
-  private log = LoggerFactory.getLogger('ProductEditComponent');
-
   selectedEvent: EventModel | undefined;
   productGroups: ProductGroupModel[];
-  selectedProductGroup = 'default';
+  selectedProductGroup: number | undefined;
 
   allergens: IList<AEntityWithNumberIDAndName>;
   selectedAllergens: IList<AEntityWithNumberIDAndName> = new List();
@@ -54,8 +52,8 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
 
     this.productGroups = this.productGroupsService.getAll();
     this.autoUnsubscribe(
-      this.productGroupsService.allChange.subscribe((tableGroups) => {
-        this.productGroups = tableGroups;
+      this.productGroupsService.allChange.subscribe((groups) => {
+        this.productGroups = groups;
       })
     );
 
@@ -68,7 +66,7 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
-    model.group_id = Converter.toNumber(this.selectedProductGroup);
+    model.group_id = Converter.toNumber(model.group_id);
     model.allergen_ids = this.selectedAllergens.map((allergen) => {
       return allergen.id;
     });
@@ -77,7 +75,7 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
   }
 
   override customCreateAndUpdateFilter(model: any): boolean {
-    if (this.selectedProductGroup.includes('default')) {
+    if (!this.selectedProductGroup) {
       this.notificationService.twarning('HOME_PROD_GROUP_ID_INCORRECT');
       return false;
     }
@@ -86,16 +84,9 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
 
   override onEntityLoaded(): void {
     if (this.isEditing && this.entity) {
-      //TODO This isnt working
-      this.selectedProductGroup = Converter.toString(this.entity?.group_id);
+      this.selectedAllergens = this.entity.allergens;
+      this.selectedProductGroup = this.entity?.group_id;
     }
-  }
-
-  selectProductGroup(value: string): void {
-    if (value.includes('default')) {
-      return;
-    }
-    this.log.info('selectTableGroup', 'Selecting product group', value);
   }
 
   allergenChange(allergens: IList<IEntityWithNumberIDAndName>): void {

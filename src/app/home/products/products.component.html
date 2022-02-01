@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap.lt-md="4%">
-  <div class="list-group" fxFlex="28%" fxFlex.gt-lg="15%">
+  <div class="list-group" fxFlex="32%" fxFlex.gt-md="25%" fxFlex.gt-lg="15%">
     <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active" (click)="linkClick()">
       <i-bs name="columns-gap"></i-bs>
       {{ 'HOME_PROD_ALL' | tr }}</a
@@ -24,7 +24,17 @@
       {{ 'HOME_PROD_GROUPS_ADD' | tr }}</a
     >
 
-    <div class="list-group-item" [fxHide.gt-md]="true">
+    <a
+      *ngFor="let productGroup of this.allModels"
+      [fxHide.lt-md]="true"
+      class="list-group-item list-group-item-action"
+      routerLink="/home/products/groups/products/{{ productGroup.id }}"
+      routerLinkActive="active"
+      (click)="linkClick()">
+      {{ productGroup.name }}</a
+    >
+
+    <div class="list-group-item" [fxHide.gt-sm]="true">
       <div class="input-group">
         <span class="input-group-text" id="selectGroup-addon"><i-bs name="people"></i-bs></span>
         <select class="form-select" id="selectGroup" [(ngModel)]="selectedModelToShow" (ngModelChange)="showModel($event)">
@@ -35,18 +45,8 @@
         </select>
       </div>
     </div>
-
-    <a
-      *ngFor="let productGroup of this.allModels"
-      [fxHide.lt-lg]="true"
-      class="list-group-item list-group-item-action"
-      routerLink="/home/products/groups/products/{{ productGroup.id }}"
-      routerLinkActive="active"
-      (click)="linkClick()">
-      {{ productGroup.name }}</a
-    >
   </div>
-  <div fxFlex="70%" fxFlex.gt-lg="82%">
+  <div fxFlex="68%" fxFlex.gt-md="75%" fxFlex.gt-lg="82%">
     <div class="card bg-dark">
       <div class="card-body px-4">
         <router-outlet></router-outlet>

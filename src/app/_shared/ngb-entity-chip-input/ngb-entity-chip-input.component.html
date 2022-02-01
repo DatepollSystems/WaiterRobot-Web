@@ -1,11 +1,13 @@
 <div class="form-group" *ngIf="loaded">
   <label for="typeahead">{{ label | tr }}</label>
-  <div fxLayout="column" fxLayoutGap="2%">
+  <div fxLayout="column" fxLayoutGap.lt-md="2%" fxLayoutGap="0.8%">
     <input
       id="typeahead"
       name="typeahead"
       type="text"
       class="form-control"
+      [class.bg-dark]="dark"
+      [class.text-white]="dark"
       [ngbTypeahead]="search"
       [editable]="false"
       (selectItem)="selectModel($event)"
