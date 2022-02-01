@@ -148,7 +148,7 @@
   "HOME_PROD_ALL": "Produkte",
   "HOME_PROD_GROUP": "Produktgruppen",
   "HOME_PROD_ADD": "Neues Produkt anlegen",
-  "HOME_PROD_GROUP_TABLES_VIEW": "Produktgruppe",
+  "HOME_PROD_GROUP_PRODUCTS_VIEW": "Produktgruppe",
   "HOME_PROD_GROUPS_ADD": "Neue Produktgruppe anlegen",
   "HOME_PROD_GROUPS_DEFAULT": "Wähle eine Produktgruppe aus",
   "HOME_PROD_GROUP_NAME_INCORRECT": "Der Name muss aus mindestens 3 Zeichen bestehen.",
