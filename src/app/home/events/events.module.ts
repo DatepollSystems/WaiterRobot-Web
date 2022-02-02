@@ -9,15 +9,17 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {IconsModule} from '../../_shared/icons.module';
+import {SelectableButtonModule} from '../../_shared/selectable-button/selectable-button.module';
+import {OrganisationSelectedGuard} from '../../_services/guards/organisation-selected-guard.service';
 
 import {EventsComponent} from './events.component';
 import {AllEventsComponent} from './all-events/all-events.component';
 import {EventEditComponent} from './event-edit/event-edit.component';
-import {SelectableButtonModule} from '../../_shared/selectable-button/selectable-button.module';
 
 const startRoutes: Routes = [
   {
     path: '',
+    canActivate: [OrganisationSelectedGuard],
     component: EventsComponent,
     children: [
       {path: 'all', component: AllEventsComponent},

@@ -15,8 +15,8 @@
       [resultFormatter]="formatter"
       [inputFormatter]="formatter"
       placeholder="{{ placeHolder | tr }}" />
-    <div fxLayout="row" fxLayoutGap="1.5%">
-      <button type="button" class="btn btn-primary btn-sm" *ngFor="let model of this._models" (click)="remove(model)">
+    <div fxLayout="row break" fxLayoutGap="1.5%">
+      <button type="button" class="btn btn-primary btn-sm mb-2" *ngFor="let model of this._models" (click)="remove(model)">
         {{ model.name }}
         <i-bs name="x-circle-fill"></i-bs>
       </button>

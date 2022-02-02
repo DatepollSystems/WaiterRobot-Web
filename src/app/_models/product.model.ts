@@ -5,6 +5,7 @@ export class ProductModel extends AEntityWithNumberIDAndName {
   public readonly price: number;
   public readonly allergens: IList<AllergenModel> = new List();
   public readonly group_id: number;
+  public readonly group_name: string;
   public readonly printer_id: number;
 
   constructor(data: any) {
@@ -15,7 +16,8 @@ export class ProductModel extends AEntityWithNumberIDAndName {
         return new AllergenModel(allergen);
       })
     );
-    this.group_id = data.product_group_id;
+    this.group_id = data.group_id;
+    this.group_name = data.group_name;
     this.printer_id = data.printer_id;
   }
 

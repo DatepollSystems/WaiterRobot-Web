@@ -9,6 +9,7 @@ import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 
 import {IconsModule} from '../../_shared/icons.module';
+import {OrganisationSelectedGuard} from '../../_services/guards/organisation-selected-guard.service';
 import {QuestionDialogModule} from '../../_shared/question-dialog/question-dialog.module';
 import {NgbEntityChipInputModule} from '../../_shared/ngb-entity-chip-input/ngb-entity-chip-input.module';
 import {AppQrCodeModalModule} from '../../_shared/app-qr-code-modal/app-qr-code-modal.module';
@@ -24,6 +25,7 @@ const routes: Routes = [
   {
     path: '',
     component: WaitersComponent,
+    canActivate: [OrganisationSelectedGuard],
     children: [
       {path: 'organisation', component: OrganisationWaitersComponent},
       {path: 'event/:id', component: EventByIdWaitersComponent},

@@ -34,6 +34,7 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
 
   protected initializeEntities(): void {
     this.entities = this.entitiesService.getAll();
+    this.lumber.info('initializeEntities', 'Entities loaded', this.entities);
     this.dataSource = new NgbTableDataSource<EntityType>(this.entities.clone());
     this.dataSource.sort = this.sort;
     // Don't check because events waiters and org waiters use same list
@@ -46,6 +47,7 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
         this.dataSource = new NgbTableDataSource<EntityType>(this.entities.clone());
         this.dataSource.sort = this.sort;
         this.entitiesLoaded = true;
+        this.lumber.info('initializeEntities', 'Entities refreshed', this.entities);
       })
     );
   }

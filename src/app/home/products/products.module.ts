@@ -9,6 +9,9 @@ import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 
 import {IconsModule} from '../../_shared/icons.module';
+import {NgbEntityChipInputModule} from '../../_shared/ngb-entity-chip-input/ngb-entity-chip-input.module';
+import {OrganisationSelectedGuard} from '../../_services/guards/organisation-selected-guard.service';
+import {EventSelectedGuardService} from '../../_services/guards/event-selected-guard.service';
 
 import {ProductsComponent} from './products.component';
 import {AllProductsComponent} from './all-products/all-products.component';
@@ -16,11 +19,11 @@ import {ProductEditComponent} from './product-edit/product-edit.component';
 import {ProductGroupsComponent} from './product-groups/product-groups.component';
 import {ProductGroupEditComponent} from './product-group-edit/product-group-edit.component';
 import {ProductGroupByIdProductsComponent} from './product-group-by-id-products/product-group-by-id-products.component';
-import {NgbEntityChipInputModule} from '../../_shared/ngb-entity-chip-input/ngb-entity-chip-input.module';
 
 const routes: Routes = [
   {
     path: '',
+    canActivate: [OrganisationSelectedGuard, EventSelectedGuardService],
     component: ProductsComponent,
     children: [
       {path: 'all', component: AllProductsComponent},
