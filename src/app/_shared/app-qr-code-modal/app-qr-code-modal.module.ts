@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FlexModule} from '@angular/flex-layout';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {DfxTranslateModule} from 'dfx-translate';
 import {NgxPrintModule} from 'ngx-print';
@@ -10,7 +10,7 @@ import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
 
 @NgModule({
   declarations: [AppQrCodeModalComponent],
-  imports: [CommonModule, DfxTranslateModule, FlexModule, NgxPrintModule, NgxQRCodeModule],
+  imports: [CommonModule, DfxTranslateModule, FlexLayoutModule, NgxPrintModule, NgxQRCodeModule],
   exports: [AppQrCodeModalComponent],
 })
 export class AppQrCodeModalModule {}

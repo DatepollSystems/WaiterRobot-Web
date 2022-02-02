@@ -1,6 +1,6 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {FlexModule} from '@angular/flex-layout';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTranslateModule} from 'dfx-translate';
@@ -18,7 +18,7 @@ import {AppQrCodeModalModule} from '../_shared/app-qr-code-modal/app-qr-code-mod
   imports: [
     CommonModule,
     DfxTranslateModule,
-    FlexModule,
+    FlexLayoutModule,
     IconsModule,
     FooterModule,
     NgbDropdownModule,

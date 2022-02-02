@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FlexModule} from '@angular/flex-layout';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {DfxTranslateModule} from 'dfx-translate';
 import {ZXingScannerModule} from '@zxing/ngx-scanner';
@@ -8,7 +8,7 @@ import {AppQrCodeScannerModalComponent} from './app-qr-code-scanner-modal.compon
 
 @NgModule({
   declarations: [AppQrCodeScannerModalComponent],
-  imports: [CommonModule, DfxTranslateModule, FlexModule, ZXingScannerModule],
+  imports: [CommonModule, DfxTranslateModule, FlexLayoutModule, ZXingScannerModule],
   exports: [AppQrCodeScannerModalComponent],
 })
 export class AppQrCodeScannerModalModule {}
