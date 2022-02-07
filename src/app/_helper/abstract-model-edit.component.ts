@@ -30,7 +30,9 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
     protected modelService: AbstractModelService<EntityType>
   ) {
     super();
+  }
 
+  ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.entityLoaded = false;
       const id = params.get('id');
@@ -38,37 +40,78 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
         if (TypeHelper.isNumeric(id)) {
           this.isEditing = true;
           const nId = Converter.toNumber(id);
-          this.lumber.info('const', 'Model to open: ' + nId);
+          this.lumber.info('const', 'Model to open: "' + nId + '"');
           this.entity = this.modelService.getSingle(nId);
           if (this.entity?.id == nId) {
             this.entityLoaded = true;
-            this.onEntityLoaded();
+            this.onModelEdit(this.entity);
           }
           this.autoUnsubscribe(
             this.modelService.singleChange.subscribe((value) => {
               this.entity = value;
               this.entityLoaded = true;
-              this.onEntityLoaded();
+              this.onModelEdit(this.entity);
             })
           );
         } else {
-          this.onEntityLoaded();
-          this.isEditing = false;
           this.lumber.info('const', 'Create new model');
+          this.onModelCreate();
+          this.isEditing = false;
           this.checkTab();
         }
       } else {
-        this.lumber.info('const', 'Nothing to open');
+        this.lumber.warning('const', 'Looks like something with routing is off');
+      }
+    });
+
+    this.route.queryParams.subscribe((params) => {
+      if (params?.tab != null) {
+        this.activeTab = Converter.toNumber(params?.tab);
+        this.checkTab();
       }
     });
   }
 
-  ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      if (params?.tab != null) {
-        this.activeTab = Converter.stringToNumber(params?.tab);
-        this.checkTab();
-      }
+  protected onModelEdit(model: EntityType): void {}
+
+  protected onModelCreate(): void {}
+
+  /**
+   * Adds custom attributes to the create and update model
+   * @param model
+   * @return any
+   */
+  protected addCustomAttributesBeforeCreateAndUpdate(model: any): any {
+    return model;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  /**
+   * Returns true if everything passes, false if not.
+   * If you return false, the model will not be created or updated
+   * @param model
+   * @return boolean
+   */
+  protected createAndUpdateFilter(model: any): boolean {
+    return true;
+  }
+
+  public onGoBack(url?: string): void {
+    if (url) {
+      void this.router.navigateByUrl(url);
+      return;
+    }
+
+    // We should probably use built-in location.back();
+    // but because this is a fully functional javascript feature we will use it till there is no tomorrow
+    history.back();
+  }
+
+  public setTabId(tabId: number): void {
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {tab: tabId},
+      queryParamsHandling: 'merge',
     });
   }
 
@@ -82,32 +125,9 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
     }
   }
 
-  private goToRedirectUrl(): void {
-    void this.router.navigateByUrl(this.redirectUrl);
-  }
-
-  protected onEntityLoaded(): void {}
-
-  protected addCustomAttributesBeforeCreateAndUpdate(model: any): any {
-    return model;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected customCreateAndUpdateFilter(model: any): boolean {
-    return true;
-  }
-
-  public setTabId(tabId: number): void {
-    void this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {tab: tabId},
-      queryParamsHandling: 'merge',
-    });
-  }
-
   public onSave(form: NgForm): void {
     let model = form.form.value;
-    if (!this.customCreateAndUpdateFilter(model)) {
+    if (!this.createAndUpdateFilter(model)) {
       return;
     }
     model = this.addCustomAttributesBeforeCreateAndUpdate(model);
@@ -125,6 +145,7 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
     const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
     modalRef.componentInstance.title = 'DELETE_CONFIRMATION';
     void modalRef.result.then((result) => {
+      this.lumber.info('onDelete', 'Confirm dialog result', result);
       if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
         this.modelService.delete(modelId);
         this.goToRedirectUrl();
@@ -132,14 +153,7 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
     });
   }
 
-  public onGoBack(url?: string): void {
-    if (url) {
-      void this.router.navigateByUrl(url);
-      return;
-    }
-
-    // We should probably use built-in location.back();
-    // but because this is a fully functional javascript feature we will use it till there is no tomorrow
-    history.back();
+  private goToRedirectUrl(): void {
+    void this.router.navigateByUrl(this.redirectUrl);
   }
 }

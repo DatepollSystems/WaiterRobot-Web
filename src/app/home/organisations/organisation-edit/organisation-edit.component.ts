@@ -63,22 +63,20 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
     );
   }
 
-  protected onEntityLoaded(): void {
-    if (this.isEditing && this.entity && this.organisationsUsersService) {
-      this.organisationsUsersService.setGetAllParams([{key: 'organisation_id', value: this.entity.id}]);
-      this.organisationUsers = this.organisationsUsersService.getAll();
-      this.refreshTable();
-      this.autoUnsubscribe(
-        this.organisationsUsersService.allChange.subscribe((value) => {
-          this.organisationUsers = value;
-          this.refreshTable();
-        })
-      );
+  override onModelEdit(model: OrganisationModel): void {
+    this.organisationsUsersService.setGetAllParams([{key: 'organisation_id', value: model.id}]);
+    this.organisationUsers = this.organisationsUsersService.getAll();
+    this.refreshTable();
+    this.autoUnsubscribe(
+      this.organisationsUsersService.allChange.subscribe((value) => {
+        this.organisationUsers = value;
+        this.refreshTable();
+      })
+    );
 
-      this.filter.valueChanges.subscribe((value) => {
-        this.dataSource.filter = value;
-      });
-    }
+    this.filter.valueChanges.subscribe((value) => {
+      this.dataSource.filter = value;
+    });
   }
 
   refreshTable(): void {

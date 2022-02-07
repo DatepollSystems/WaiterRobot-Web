@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {AEntityWithName, EntityList, IList} from 'dfx-helper';
+import {AEntityWithName, AEntityWithNumberIDAndName, EntityList, IList} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
@@ -25,41 +25,25 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
   override onlyEditingTabs = [2];
 
   selectedOrganisation: OrganisationModel | undefined;
-  events: IList<EventModel> = new EntityList();
-  preSelectedEvents: IList<EventModel> = new EntityList();
-  selectedEvents: IList<AEntityWithName<number>> = new EntityList();
+  events: IList<EventModel>;
+  selectedEvents: IList<AEntityWithNumberIDAndName> = new EntityList();
 
   constructor(
     route: ActivatedRoute,
     router: Router,
     waitersService: WaitersService,
     modal: NgbModal,
-    private eventsService: EventsService,
+    public eventsService: EventsService,
     private organisationsService: OrganisationsService
   ) {
     super(router, route, modal, waitersService);
 
     this.events = this.eventsService.getAll();
     this.autoUnsubscribe(
-      this.eventsService.allChange.subscribe((events) => {
-        this.events = events.clone();
+      this.eventsService.allChange.subscribe((models) => {
+        this.events.set(models.clone());
       })
     );
-
-    if (!this.isEditing) {
-      console.log('Adding selected model if selected....');
-      const selected = this.eventsService.getSelected();
-      this.preSelectedEvents.addIfAbsent(selected);
-      this.selectedEvents.addIfAbsent(selected);
-      this.autoUnsubscribe(
-        this.eventsService.selectedChange.subscribe((event) => {
-          this.preSelectedEvents.removeAll();
-          this.selectedEvents.removeAll();
-          this.preSelectedEvents.addIfAbsent(event);
-          this.selectedEvents.addIfAbsent(event);
-        })
-      );
-    }
 
     this.selectedOrganisation = this.organisationsService.getSelected();
     this.autoUnsubscribe(
@@ -69,15 +53,30 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     );
   }
 
-  override onEntityLoaded(): void {
-    if (!this.events || !this.entity) {
+  override onModelCreate() {
+    if (!this.isEditing) {
+      console.log('Adding selected model if selected....');
+      const selected = this.eventsService.getSelected();
+      this.selectedEvents.removeAll();
+      this.selectedEvents.add(selected);
+      this.autoUnsubscribe(
+        this.eventsService.selectedChange.subscribe((event) => {
+          this.selectedEvents.removeAll();
+          this.selectedEvents.add(event);
+        })
+      );
+    }
+  }
+
+  override onModelEdit(model: WaiterModel): void {
+    if (!this.events) {
       return;
     }
 
+    this.selectedEvents.removeAll();
     for (const event of this.events) {
-      if (this.entity.events.includes(event.id)) {
-        this.selectedEvents.addIfAbsent(event);
-        this.preSelectedEvents.addIfAbsent(event);
+      if (model.events.includes(event.id)) {
+        this.selectedEvents.add(event);
       }
     }
   }

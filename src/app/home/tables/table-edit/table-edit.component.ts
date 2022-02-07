@@ -59,18 +59,16 @@ export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
     return model;
   }
 
-  override customCreateAndUpdateFilter(model: any): boolean {
+  override createAndUpdateFilter(model: any): boolean {
     if (this.selectedTableGroup.includes('default')) {
       this.notificationService.twarning('HOME_TABLES_GROUPS_DEFAULT');
       return false;
     }
-    return super.customCreateAndUpdateFilter(model);
+    return super.createAndUpdateFilter(model);
   }
 
-  override onEntityLoaded(): void {
-    if (this.isEditing && this.entity) {
-      this.selectedTableGroup = Converter.toString(this.entity?.group_id);
-    }
+  override onModelEdit(model: TableModel): void {
+    this.selectedTableGroup = Converter.toString(model.group_id);
   }
 
   selectTableGroup(value: string): void {

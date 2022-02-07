@@ -3,7 +3,7 @@ import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 
-import {EntityList, IEntityWithNumberIDAndName, IHasName, IList} from 'dfx-helper';
+import {EntityList, IEntityWithNumberIDAndName, IHasName, IList, LoggerFactory} from 'dfx-helper';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -15,6 +15,8 @@ import {EntityList, IEntityWithNumberIDAndName, IHasName, IList} from 'dfx-helpe
 export class NgbEntityChipInput {
   loaded = true;
   formCtrl = new FormControl();
+
+  logger = LoggerFactory.getLogger('NgbEntityChipInput');
 
   @Input() dark = false;
 
@@ -38,6 +40,8 @@ export class NgbEntityChipInput {
     }
     this._models = models;
     this._allModelsToAutoComplete.removeIfPresent(this._models);
+    this.logger.info('set models', 'Models', this._models);
+    this.logger.info('set models', 'Models to autocomplete', this._allModelsToAutoComplete);
   }
 
   _models: IList<IEntityWithNumberIDAndName> = new EntityList();
@@ -49,13 +53,14 @@ export class NgbEntityChipInput {
   public set allModelsToAutoComplete(models: IList<IEntityWithNumberIDAndName>) {
     this._allModelsToAutoComplete = models;
     this._allModelsToAutoComplete.removeIfPresent(this._models);
+    this.logger.info('set auto', 'Models to autocomplete', this._allModelsToAutoComplete);
   }
 
   _allModelsToAutoComplete: IList<IEntityWithNumberIDAndName> = new EntityList();
   @Output() valueChange = new EventEmitter<IList<IEntityWithNumberIDAndName>>();
 
   private emitChange(): void {
-    console.log(this._models);
+    this.logger.info('emitChange', 'Models', this._models);
     this.valueChange.emit(this._models.clone());
   }
 
@@ -84,6 +89,6 @@ export class NgbEntityChipInput {
     this._allModelsToAutoComplete.removeIfPresent(model);
     this._models.add(model);
     this.emitChange();
-    this.formCtrl = new FormControl('');
+    this.formCtrl.reset();
   }
 }

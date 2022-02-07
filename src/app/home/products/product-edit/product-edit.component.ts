@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {AEntityWithNumberIDAndName, Converter, IEntityWithNumberIDAndName, IList, List, LoggerFactory} from 'dfx-helper';
+import {AEntityWithNumberIDAndName, Converter, IEntityWithNumberIDAndName, IList, List} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {NotificationService} from '../../../_services/notifications/notification.service';
@@ -74,19 +74,17 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
     return model;
   }
 
-  override customCreateAndUpdateFilter(model: any): boolean {
+  override createAndUpdateFilter(model: any): boolean {
     if (!this.selectedProductGroup) {
       this.notificationService.twarning('HOME_PROD_GROUP_ID_INCORRECT');
       return false;
     }
-    return super.customCreateAndUpdateFilter(model);
+    return super.createAndUpdateFilter(model);
   }
 
-  override onEntityLoaded(): void {
-    if (this.isEditing && this.entity) {
-      this.selectedAllergens = this.entity.allergens;
-      this.selectedProductGroup = this.entity?.group_id;
-    }
+  override onModelEdit(model: ProductModel): void {
+    this.selectedAllergens = model.allergens;
+    this.selectedProductGroup = model.group_id;
   }
 
   allergenChange(allergens: IList<IEntityWithNumberIDAndName>): void {
