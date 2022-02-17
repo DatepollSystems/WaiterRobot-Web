@@ -8,10 +8,11 @@ export class TableModel extends AEntityWithNumberIDAndName {
   public event_id: number;
 
   constructor(data: any) {
-    super(data.id, Converter.numberToString(data.number), data);
+    super(data.id as number, Converter.toString(data.number as number), data);
     this.tableNumber = data.number;
     this.seats = data.seats;
     this.group_id = data.group_id;
+    this.group_name = data.group_name;
     this.event_id = data.event_id;
   }
 }

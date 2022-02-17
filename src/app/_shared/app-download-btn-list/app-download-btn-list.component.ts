@@ -44,8 +44,7 @@ export class AppDownloadBtnListComponent {
     },
   ]).shuffle();
 
-  @Input()
-  showQRCodeButton = true;
+  @Input() showQRCodeButton = true;
 
   constructor(private modal: NgbModal) {}
 

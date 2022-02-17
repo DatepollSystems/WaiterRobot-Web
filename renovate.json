@@ -1,10 +1,10 @@
 {
-  "pinVersions": false,
-  "semanticCommits": true,
+  "pinVersions": true,
+  "semanticCommits": "enabled",
   "semanticPrefix": "renovate",
   "separateMajorMinor": false,
   "prHourlyLimit": 2,
-  "labels": ["npm", "dependencies"],
+  "labels": ["dependencies"],
   "timezone": "Europe/Vienna",
   "lockFileMaintenance": {
     "enabled": true

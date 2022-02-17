@@ -38,6 +38,7 @@
   "MANUAL_INPUT": "Manuelle Eingabe",
   "QR_CODE_SCAN": "QR-Code scannen",
   "SCAN": "Scan",
+  "CONTINUOUS_CREATION": "Erstellen fortsetzen",
 
   "REQUEST_ERROR_CLIENT": "Client fehler",
   "REQUEST_ERROR_SERVER": "Server fehler",
@@ -67,6 +68,8 @@
   "ABOUT_MODAL_GENERAL_WEBSITE": "Besuch (https://datepoll.org) die Projekt-Website",
   "ABOUT_MODAL_TECHNICAL": "Technisches",
   "ABOUT_MODAL_TECHNICAL_WEB_VERSION": "Version der Webapplication",
+
+  "MOBILE_LINK": "Downloade die WaiterRobot Kellner App um fortzufahren",
 
   "LANGUAGE": "Sprache",
   "LANGUAGE_CHANGED_TO": "Sprache geändert zu ",
@@ -151,10 +154,10 @@
   "HOME_PROD_GROUP_PRODUCTS_VIEW": "Produktgruppe",
   "HOME_PROD_GROUPS_ADD": "Neue Produktgruppe anlegen",
   "HOME_PROD_GROUPS_DEFAULT": "Wähle eine Produktgruppe aus",
-  "HOME_PROD_GROUP_NAME_INCORRECT": "Der Name muss aus mindestens 3 Zeichen bestehen.",
-  "HOME_PROD_NAME_INCORRECT": "Der Name muss aus mehr als 3 Zeichen bestehen",
+  "HOME_PROD_GROUP_NAME_INCORRECT": "Der Name muss aus mindestens 1 und maximal 60 Zeichen bestehen",
+  "HOME_PROD_NAME_INCORRECT": "Der Name muss aus mindestens 1 und maximal 70 Zeichen bestehen",
   "HOME_PROD_PRICE": "Preis",
-  "HOME_PROD_PRICE_INCORRECT": "Der Preis ist inkorrekt",
+  "HOME_PROD_PRICE_INCORRECT": "Der Preis muss über 0.00 liegen",
   "HOME_PROD_ALLERGENS": "Allergene",
   "HOME_PROD_ALLERGENS_PLACEHOLDER": "G, C, D...",
   "HOME_PROD_GROUP_ID": "Gruppe",
@@ -183,6 +186,6 @@
   "HOME_TABLES_GROUPS_DEFAULT": "Wähle eine Tischgruppe aus",
   "HOME_TABLE_GROUPS": "Tischgruppen",
   "HOME_TABLE_GROUPS_ADD": "Neue Tischgruppe anlegen",
-  "HOME_TABLE_GROUP_NAME_INCORRECT": "Der Name muss aus mehr als 3 Zeichen bestehen.",
+  "HOME_TABLE_GROUP_NAME_INCORRECT": "Der Name muss aus mindestens 1 und maximal 60 Zeichen bestehen.",
   "HOME_TABLE_GROUP_TABLES_VIEW": "Tischgruppe"
 }

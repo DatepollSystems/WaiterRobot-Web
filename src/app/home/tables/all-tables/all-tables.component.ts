@@ -15,7 +15,7 @@ import {EventModel} from '../../../_models/event.model';
   styleUrls: ['./all-tables.component.scss'],
 })
 export class AllTablesComponent extends AbstractModelsListComponent<TableModel> {
-  override columnsToDisplay = ['number', 'seats', 'actions'];
+  override columnsToDisplay = ['groupName', 'number', 'seats', 'actions'];
 
   selectedEvent: EventModel | undefined;
 

@@ -22,6 +22,7 @@ export class ProductModel extends AEntityWithNumberIDAndName {
   }
 
   private allergensShortName: string | undefined;
+
   public allergens_short_names(): string {
     if (!this.allergensShortName) {
       this.allergensShortName = StringHelper.getImploded(this.allergens.map((allergen) => allergen.short_name));

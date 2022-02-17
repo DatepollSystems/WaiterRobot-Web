@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap.lt-md="4%">
-  <div class="list-group" fxFlex="28%" fxFlex.gt-lg="15%">
+  <div class="list-group" fxFlex="30%" fxFlex.gt-md="25%" fxFlex.gt-lg="20%">
     <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active" (click)="linkClick()">
       <i-bs name="columns-gap"></i-bs>
       {{ 'HOME_TABLES' | tr }}</a
@@ -24,12 +24,12 @@
       {{ 'HOME_TABLE_GROUPS_ADD' | tr }}</a
     >
 
-    <div class="list-group-item" [fxHide.gt-md]="true">
+    <div class="list-group-item" [fxHide.gt-md]="allModels.length < 14">
       <div class="input-group">
         <span class="input-group-text" id="selectEvent-addon1"><i-bs name="people"></i-bs></span>
         <select class="form-select" id="selectEvent" [(ngModel)]="selectedModelToShow" (ngModelChange)="showModel($event)">
           <option value="default">{{ 'HOME_TABLE_GROUPS' | tr }}</option>
-          <option value="/home/tables/groups/tables/{{ tableGroup.id }}" *ngFor="let tableGroup of this.allModels">
+          <option value="/home/tables/groups/tables/{{ tableGroup.id }}" *ngFor="let tableGroup of allModels">
             {{ tableGroup.name }}
           </option>
         </select>
@@ -37,7 +37,8 @@
     </div>
 
     <a
-      *ngFor="let tableGroup of this.allModels"
+      *ngFor="let tableGroup of allModels"
+      [fxHide]="allModels.length >= 14"
       [fxHide.lt-lg]="true"
       class="list-group-item list-group-item-action"
       routerLink="/home/tables/groups/tables/{{ tableGroup.id }}"
@@ -46,7 +47,7 @@
       {{ tableGroup.name }}</a
     >
   </div>
-  <div fxFlex="70%" fxFlex.gt-lg="82%">
+  <div fxFlex="69%" fxFlex.gt-md="74%" fxFlex.gt-lg="79%">
     <div class="card bg-dark">
       <div class="card-body px-4">
         <router-outlet></router-outlet>

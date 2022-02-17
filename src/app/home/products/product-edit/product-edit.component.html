@@ -47,7 +47,8 @@
                 id="name"
                 name="name"
                 #nameModel="ngModel"
-                minlength="3"
+                minlength="1"
+                maxlength="70"
                 placeholder="{{ 'NAME' | tr }}"
                 [ngModel]="isEditing ? entity?.name : null" />
 
@@ -70,15 +71,15 @@
             <div class="form-group mb-2" fxFlex="5%" fxFlex.lt-xl="15%">
               <label for="price">{{ 'HOME_PROD_PRICE' | tr }}</label>
               <input
-                ngbAutofocus
                 ngModel
                 class="form-control bg-dark text-white"
                 required
                 type="number"
                 id="price"
                 name="price"
+                min="0"
                 #priceModel="ngModel"
-                placeholder="{{ 'NAME' | tr }}"
+                placeholder="{{ 'HOME_PROD_PRICE' | tr }}"
                 [ngModel]="isEditing ? entity?.price : null" />
 
               <small *ngIf="priceModel.invalid" class="text-danger">
@@ -95,6 +96,17 @@
               (valueChange)="allergenChange($event)"
               label="HOME_PROD_ALLERGENS"
               placeHolder="HOME_PROD_ALLERGENS_PLACEHOLDER"></ngb-entity-chip-input>
+          </div>
+
+          <div class="form-check form-switch mt-2" *ngIf="!isEditing">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="continuousCreation"
+              [(ngModel)]="continuousCreation"
+              [ngModelOptions]="{standalone: true}" />
+            <label class="form-check-label" for="continuousCreation">{{ 'CONTINUOUS_CREATION' | tr }}</label>
           </div>
         </ng-template>
       </li>

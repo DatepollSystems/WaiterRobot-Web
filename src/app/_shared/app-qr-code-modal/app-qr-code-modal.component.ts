@@ -12,14 +12,14 @@ import {NgxQrcodeErrorCorrectionLevels} from '@techiediaries/ngx-qrcode';
       <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
     </div>
     <div class="modal-body" fxLayout="column" fxLayoutAlign="center center">
-      <div class="card text-dark text-center bg-light mb-3" fxFlex.gt-sm="50%">
+      <div class="card text-dark text-center bg-light mb-3" fxFlex.gt-sm="50%" fxFlex="80%">
         <div class="card-body" id="qrcode-print-section" fxLayout="column" fxLayoutAlign="center center">
-          <ngx-qrcode *ngIf="data" [scale]="isMobile ? 8 : 15" [errorCorrectionLevel]="correctionLevel" [margin]="0" [value]="data">
+          <ngx-qrcode *ngIf="data" [scale]="isMobile ? 7 : 15" [errorCorrectionLevel]="correctionLevel" [margin]="0" [value]="data">
           </ngx-qrcode>
           <div style="height: 15px"></div>
           <ng-content select="[body]"></ng-content>
         </div>
-        <div class="card-footer text-muted">
+        <div class="card-footer text-muted font-monospace text-break">
           {{ data }}
           <button class="btn btn-sm btn-outline-primary ms-2" (click)="copy()">
             {{ 'COPY' | tr }}
@@ -48,7 +48,8 @@ export class AppQrCodeModalComponent {
   @Input() showPrintButton = true;
 
   isMobile = false;
-  correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
+
+  @Input() correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
 
   constructor(public activeModal: NgbActiveModal, private isMobileService: IsMobileService) {
     this.isMobile = this.isMobileService.getIsMobile();

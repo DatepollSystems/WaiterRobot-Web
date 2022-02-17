@@ -12,14 +12,14 @@ import {DfxTranslateModule} from 'dfx-translate';
 
 import {AppRoutingModule} from './app-routing.module';
 import {CustomDateAdapter, CustomDateParserFormatter} from './_services/datepicker-adapter';
+import {WINDOW_PROVIDERS} from './_services/windows-provider';
 import {AuthInterceptor} from './_services/auth/auth-interceptor';
 
 import {AppComponent} from './app.component';
 import {ToastsContainerComponent} from './_services/notifications/toasts-container.component';
-import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 
 @NgModule({
-  declarations: [AppComponent, ToastsContainerComponent, PageNotFoundComponent],
+  declarations: [AppComponent, ToastsContainerComponent],
   imports: [
     AppRoutingModule,
     BrowserModule,
@@ -42,6 +42,7 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
     },
     {provide: NgbDateAdapter, useClass: CustomDateAdapter},
     {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter},
+    WINDOW_PROVIDERS,
   ],
   bootstrap: [AppComponent],
 })

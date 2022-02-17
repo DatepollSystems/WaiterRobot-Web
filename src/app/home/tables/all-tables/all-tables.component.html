@@ -29,9 +29,14 @@
 
 <div class="table-responsive" [hidden]="!entitiesLoaded">
   <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort>
+    <ng-container ngbColumnDef="groupName">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_TABLE_GROUP_TABLES_VIEW' | tr }}</th>
+      <td *ngbCellDef="let table" ngb-cell>{{ table.group_name }}</td>
+    </ng-container>
+
     <ng-container ngbColumnDef="number">
       <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NUMBER' | tr }}</th>
-      <td *ngbCellDef="let table" ngb-cell>{{ table.tableNumber }}</td>
+      <td *ngbCellDef="let table" ngb-cell>{{ table.name }}</td>
     </ng-container>
 
     <ng-container ngbColumnDef="seats">

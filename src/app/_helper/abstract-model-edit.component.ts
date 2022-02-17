@@ -20,6 +20,9 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
   public isEditing = false;
   public activeTab = 1;
 
+  public continuousCreation = false;
+  protected continuousUsePropertyNames: string[] = [];
+
   public entity: EntityType | undefined;
   public entityLoaded = false;
 
@@ -60,18 +63,22 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
           this.checkTab();
         }
       } else {
-        this.lumber.warning('const', 'Looks like something with routing is off');
+        this.lumber.info('const', 'Create new model');
+        this.onModelCreate();
+        this.isEditing = false;
+        this.checkTab();
       }
     });
 
     this.route.queryParams.subscribe((params) => {
-      if (params?.tab != null) {
+      if (params?.tab != null && typeof params?.tab === 'string') {
         this.activeTab = Converter.toNumber(params?.tab);
         this.checkTab();
       }
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected onModelEdit(model: EntityType): void {}
 
   protected onModelCreate(): void {}
@@ -85,13 +92,13 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
     return model;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   /**
    * Returns true if everything passes, false if not.
    * If you return false, the model will not be created or updated
    * @param model
    * @return boolean
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected createAndUpdateFilter(model: any): boolean {
     return true;
   }
@@ -127,7 +134,10 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
 
   public onSave(form: NgForm): void {
     let model = form.form.value;
+    this.lumber.info('onSave', 'Continuous creation: "' + this.continuousCreation + '"');
+    this.lumber.info('onSave', 'Model form value object', model);
     if (!this.createAndUpdateFilter(model)) {
+      this.lumber.info('onSave', 'Validation failed');
       return;
     }
     model = this.addCustomAttributesBeforeCreateAndUpdate(model);
@@ -136,8 +146,21 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
       this.modelService.update(model);
     } else {
       this.modelService.create(model);
+      if (this.continuousCreation) {
+        form.resetForm();
+
+        if (this.continuousUsePropertyNames.length > 0) {
+          for (const modelKeyValuePairs of Object.keys(model as Record<string, any>).map((key) => [String(key), model[key]])) {
+            if (this.continuousUsePropertyNames.includes(modelKeyValuePairs[0] as string)) {
+              form.form.patchValue({
+                [modelKeyValuePairs[0]]: modelKeyValuePairs[1],
+              });
+            }
+          }
+        }
+        return;
+      }
     }
-    this.lumber.info('onSave', 'Model edit form value object', model);
     this.goToRedirectUrl();
   }
 

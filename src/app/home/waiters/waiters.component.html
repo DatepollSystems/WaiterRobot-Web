@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap.lt-md="4%">
-  <div class="list-group" fxFlex="29%" fxFlex.gt-lg="15%">
+  <div class="list-group" fxFlex="30%" fxFlex.gt-md="25%" fxFlex.gt-lg="20%">
     <a
       class="list-group-item list-group-item-action"
       routerLink="organisation"
@@ -20,7 +20,7 @@
       {{ selectedEvent?.name }} {{ 'HOME_WAITERS_NAV_EVENTS' | tr }}</a
     >
 
-    <div class="list-group-item">
+    <div class="list-group-item" [fxHide.gt-sm]="true">
       <div class="input-group">
         <span class="input-group-text" id="selectEvent-addon"><i-bs name="people"></i-bs></span>
         <select class="form-select" id="selectEvent" [(ngModel)]="selectedModelToShow" (ngModelChange)="showModel($event)">
@@ -29,9 +29,21 @@
         </select>
       </div>
     </div>
+
+    <ng-container *ngFor="let event of this.allModels">
+      <a
+        *ngIf="event.id !== selectedEvent?.id"
+        [fxHide.lt-md]="true"
+        class="list-group-item list-group-item-action"
+        routerLink="/home/waiters/event/{{ event.id }}"
+        routerLinkActive="active"
+        (click)="linkClick()">
+        {{ event.name }} {{ 'HOME_WAITERS_NAV_EVENTS' | tr }}</a
+      >
+    </ng-container>
   </div>
 
-  <div fxFlex="70%" fxFlex.gt-lg="82%">
+  <div fxFlex="69%" fxFlex.gt-md="74%" fxFlex.gt-lg="79%">
     <div class="card bg-dark">
       <div class="card-body px-4">
         <router-outlet></router-outlet>

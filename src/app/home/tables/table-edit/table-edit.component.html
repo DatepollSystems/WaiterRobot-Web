@@ -46,12 +46,12 @@
                 type="number"
                 id="number"
                 name="number"
-                #numberMolde="ngModel"
+                #numberModel="ngModel"
                 minlength="3"
                 placeholder="{{ 'NUMBER' | tr }}"
                 [ngModel]="isEditing ? entity?.tableNumber : null" />
 
-              <small *ngIf="numberMolde.invalid" class="text-danger">
+              <small *ngIf="numberModel.invalid" class="text-danger">
                 {{ 'HOME_TABLES_NUMBER_INCORRECT' | tr }}
               </small>
             </div>
@@ -81,14 +81,25 @@
                 <select
                   class="form-select bg-dark text-white"
                   id="selectTableGroup"
-                  name="selectTableGroup"
+                  name="group_id"
                   [(ngModel)]="selectedTableGroup"
                   (ngModelChange)="selectTableGroup($event)">
-                  <option value="default">{{ 'HOME_TABLES_GROUPS_DEFAULT' | tr }}</option>
-                  <option value="{{ tableGroup.id }}" *ngFor="let tableGroup of this.tableGroups">{{ tableGroup.name }}</option>
+                  <option [ngValue]="-1">{{ 'HOME_TABLES_GROUPS_DEFAULT' | tr }}</option>
+                  <option [ngValue]="tableGroup.id" *ngFor="let tableGroup of this.tableGroups">{{ tableGroup.name }}</option>
                 </select>
               </div>
             </div>
+          </div>
+
+          <div class="form-check form-switch mt-2" *ngIf="!isEditing">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="continuousCreation"
+              [(ngModel)]="continuousCreation"
+              [ngModelOptions]="{standalone: true}" />
+            <label class="form-check-label" for="continuousCreation">{{ 'CONTINUOUS_CREATION' | tr }}</label>
           </div>
         </ng-template>
       </li>

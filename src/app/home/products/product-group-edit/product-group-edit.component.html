@@ -46,7 +46,8 @@
                 id="name"
                 name="name"
                 #nameModel="ngModel"
-                minlength="3"
+                minlength="1"
+                maxlength="60"
                 placeholder="{{ 'NAME' | tr }}"
                 [ngModel]="isEditing ? entity?.name : null" />
 
@@ -54,6 +55,16 @@
                 {{ 'HOME_PROD_GROUP_NAME_INCORRECT' | tr }}
               </small>
             </div>
+          </div>
+          <div class="form-check form-switch mt-2" *ngIf="!isEditing">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="continuousCreation"
+              [(ngModel)]="continuousCreation"
+              [ngModelOptions]="{standalone: true}" />
+            <label class="form-check-label" for="continuousCreation">{{ 'CONTINUOUS_CREATION' | tr }}</label>
           </div>
         </ng-template>
       </li>

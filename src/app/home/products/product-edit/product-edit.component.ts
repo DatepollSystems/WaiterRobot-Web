@@ -23,6 +23,7 @@ import {AllergensService} from '../../../_services/models/allergens.service';
 })
 export class ProductEditComponent extends AbstractModelEditComponent<ProductModel> {
   override redirectUrl = '/home/products/all';
+  override continuousUsePropertyNames = ['group_id'];
 
   selectedEvent: EventModel | undefined;
   productGroups: ProductGroupModel[];
@@ -66,10 +67,13 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
-    model.group_id = Converter.toNumber(model.group_id);
+    model.group_id = Converter.toNumber(model.group_id as number);
     model.allergen_ids = this.selectedAllergens.map((allergen) => {
       return allergen.id;
     });
+
+    //TODO: printer id
+    model.printer_id = 0;
 
     return model;
   }
