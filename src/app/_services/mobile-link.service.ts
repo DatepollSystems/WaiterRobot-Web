@@ -21,6 +21,12 @@ export class MobileLinkService {
   }
 
   private createMobileLink(): string {
-    return this.window.location.protocol + '//' + this.window.location.hostname + ':' + this.window.location.port + '/mobile-link/';
+    return (
+      this.window.location.protocol +
+      '//' +
+      this.window.location.hostname +
+      (this.window.location.port.length > 0 ? ':' + this.window.location.port : '') +
+      '/mobile-link/'
+    );
   }
 }
