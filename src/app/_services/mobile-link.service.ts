@@ -9,7 +9,7 @@ export class MobileLinkService {
   constructor(@Inject(WINDOW) private window: Window) {}
 
   public createWaiterSignInLink(token: string): string {
-    return this.createWaiterAuthLink(token) + 'SIGNIN';
+    return this.createWaiterAuthLink(token) + 'SIGN_IN';
   }
 
   public createWaiterSignInViaCreateTokenLink(token: string): string {
