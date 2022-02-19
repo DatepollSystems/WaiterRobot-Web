@@ -1,7 +1,7 @@
 <a (click)="openQrCodeInStandalone()" *ngIf="!standalone">
-  <ngx-qrcode *ngIf="data" [scale]="isMobile ? 7 : 10" [errorCorrectionLevel]="correctionLevel" [margin]="0" [value]="data"> </ngx-qrcode>
+  <ngx-qrcode *ngIf="data" [scale]="isMobile ? 6 : 8" [errorCorrectionLevel]="correctionLevel" [margin]="0" [value]="data"> </ngx-qrcode>
 </a>
 
 <div fxLayout="column" fxLayoutAlign="center center" *ngIf="standalone" style="height: 100%">
-  <ngx-qrcode *ngIf="data" [scale]="isMobile ? 7 : 15" [errorCorrectionLevel]="correctionLevel" [margin]="0" [value]="data"> </ngx-qrcode>
+  <ngx-qrcode *ngIf="data" [scale]="isMobile ? 7 : 13" [errorCorrectionLevel]="correctionLevel" [margin]="0" [value]="data"> </ngx-qrcode>
 </div>
