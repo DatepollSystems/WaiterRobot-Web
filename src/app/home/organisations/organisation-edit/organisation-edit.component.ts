@@ -63,7 +63,7 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
     );
   }
 
-  override onModelEdit(model: OrganisationModel): void {
+  override onEntityEdit(model: OrganisationModel): void {
     this.organisationsUsersService.setGetAllParams([{key: 'organisation_id', value: model.id}]);
     this.organisationUsers = this.organisationsUsersService.getAll();
     this.refreshTable();

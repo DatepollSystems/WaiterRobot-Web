@@ -47,24 +47,25 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
           this.entity = this.modelService.getSingle(nId);
           if (this.entity?.id == nId) {
             this.entityLoaded = true;
-            this.onModelEdit(this.entity);
+            this.onEntityEdit(this.entity);
           }
           this.autoUnsubscribe(
             this.modelService.singleChange.subscribe((value) => {
               this.entity = value;
               this.entityLoaded = true;
-              this.onModelEdit(this.entity);
+              this.onEntityEdit(this.entity);
+              this.onEntityUpdate(this.entity);
             })
           );
         } else {
           this.lumber.info('const', 'Create new model');
-          this.onModelCreate();
+          this.onEntityCreate();
           this.isEditing = false;
           this.checkTab();
         }
       } else {
         this.lumber.info('const', 'Create new model');
-        this.onModelCreate();
+        this.onEntityCreate();
         this.isEditing = false;
         this.checkTab();
       }
@@ -79,9 +80,12 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected onModelEdit(model: EntityType): void {}
+  protected onEntityEdit(entity: EntityType): void {}
 
-  protected onModelCreate(): void {}
+  protected onEntityCreate(): void {}
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected onEntityUpdate(entity: EntityType): void {}
 
   /**
    * Adds custom attributes to the create and update model

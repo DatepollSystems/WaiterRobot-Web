@@ -29,6 +29,6 @@ export class WaiterCreateQRCodeModalComponent {
 
   @Input()
   set token(token: string) {
-    this._token = this.mobileLink.createWaiterSignInLink(token);
+    this._token = this.mobileLink.createWaiterSignInViaCreateTokenLink(token);
   }
 }

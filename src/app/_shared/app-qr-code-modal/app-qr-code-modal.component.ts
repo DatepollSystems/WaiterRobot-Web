@@ -14,7 +14,7 @@ import {NgxQrcodeErrorCorrectionLevels} from '@techiediaries/ngx-qrcode';
     <div class="modal-body" fxLayout="column" fxLayoutAlign="center center">
       <div class="card text-dark text-center bg-light mb-3" fxFlex.gt-sm="50%" fxFlex="80%">
         <div class="card-body" id="qrcode-print-section" fxLayout="column" fxLayoutAlign="center center">
-          <ngx-qrcode *ngIf="data" [scale]="isMobile ? 7 : 15" [errorCorrectionLevel]="correctionLevel" [margin]="0" [value]="data">
+          <ngx-qrcode *ngIf="data" [scale]="isMobile ? 7 : 10" [errorCorrectionLevel]="correctionLevel" [margin]="0" [value]="data">
           </ngx-qrcode>
           <div style="height: 15px"></div>
           <ng-content select="[body]"></ng-content>

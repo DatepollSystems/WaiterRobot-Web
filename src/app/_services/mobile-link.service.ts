@@ -9,15 +9,15 @@ export class MobileLinkService {
   constructor(@Inject(WINDOW) private window: Window) {}
 
   public createWaiterSignInLink(token: string): string {
-    return this.createWaiterAuthLink() + 'signIn?token=' + token;
+    return this.createWaiterAuthLink(token) + 'SIGNIN';
   }
 
   public createWaiterSignInViaCreateTokenLink(token: string): string {
-    return this.createWaiterAuthLink() + 'signInViaCreateToken?token=' + token;
+    return this.createWaiterAuthLink(token) + 'CREATE';
   }
 
-  private createWaiterAuthLink(): string {
-    return this.createMobileLink() + 'signIn?purpose=';
+  private createWaiterAuthLink(token: string): string {
+    return this.createMobileLink() + 'signIn' + '?token=' + token + '&purpose=';
   }
 
   private createMobileLink(): string {

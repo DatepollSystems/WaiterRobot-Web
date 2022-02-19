@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {AEntityWithName, AEntityWithNumberIDAndName, EntityList, IList} from 'dfx-helper';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
 import {WaiterSignInQRCodeModalComponent} from './waiter-sign-in-qr-code-modal.component';
@@ -27,6 +27,8 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
   selectedOrganisation: OrganisationModel | undefined;
   events: IList<EventModel>;
   selectedEvents: IList<AEntityWithNumberIDAndName> = new EntityList();
+
+  qrCodeModal: NgbModalRef | undefined;
 
   constructor(
     route: ActivatedRoute,
@@ -53,7 +55,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     );
   }
 
-  override onModelCreate() {
+  override onEntityCreate(): void {
     if (!this.isEditing) {
       console.log('Adding selected model if selected....');
       const selected = this.eventsService.getSelected();
@@ -68,7 +70,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     }
   }
 
-  override onModelEdit(model: WaiterModel): void {
+  override onEntityEdit(model: WaiterModel): void {
     if (!this.events) {
       return;
     }
@@ -78,6 +80,12 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
       if (model.events.includes(event.id)) {
         this.selectedEvents.add(event);
       }
+    }
+  }
+
+  override onEntityUpdate(waiter: WaiterModel): void {
+    if (this.qrCodeModal) {
+      this.qrCodeModal.componentInstance.token = waiter.signInToken;
     }
   }
 
@@ -91,16 +99,17 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     return model;
   }
 
-  onShowQRCode(waiter: WaiterModel): void {
-    if (this.modal == null) {
+  onShowQRCode(): void {
+    if (!this.modal || !this.entity) {
       return;
     }
-    const modalRef = this.modal.open(WaiterSignInQRCodeModalComponent, {
+    this.modelService.getSingle(this.entity.id);
+    this.qrCodeModal = this.modal.open(WaiterSignInQRCodeModalComponent, {
       ariaLabelledBy: 'modal-qrcode-title',
       size: 'lg',
     });
-    modalRef.componentInstance.name = waiter.name;
-    modalRef.componentInstance.token = waiter.signInToken;
+    this.qrCodeModal.componentInstance.name = this.entity.name;
+    this.qrCodeModal.componentInstance.token = this.entity.signInToken;
   }
 
   changeSelectedEvents(selectedEvents: IList<AEntityWithName<number>>): void {

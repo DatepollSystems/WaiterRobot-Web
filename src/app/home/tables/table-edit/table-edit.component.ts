@@ -70,7 +70,7 @@ export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
     return super.createAndUpdateFilter(model);
   }
 
-  override onModelEdit(model: TableModel): void {
+  override onEntityEdit(model: TableModel): void {
     this.selectedTableGroup = Converter.toNumber(model.group_id);
   }
 

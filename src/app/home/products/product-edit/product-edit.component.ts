@@ -86,7 +86,7 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
     return super.createAndUpdateFilter(model);
   }
 
-  override onModelEdit(model: ProductModel): void {
+  override onEntityEdit(model: ProductModel): void {
     this.selectedAllergens = model.allergens;
     this.selectedProductGroup = model.group_id;
   }
