@@ -14,7 +14,6 @@ const homeRoutes: Routes = [
         path: '',
         pathMatch: 'full',
         loadChildren: () => import('./start/start.module').then((m) => m.StartModule),
-        data: {preload: true},
       },
       {
         path: 'usettings',

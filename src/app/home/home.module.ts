@@ -22,8 +22,8 @@ import {AppQrCodeModalModule} from '../_shared/app-qr-code-modal/app-qr-code-mod
     IconsModule,
     FooterModule,
     NgbDropdownModule,
-    AppQrCodeModalModule,
     HomeRoutingModule,
+    AppQrCodeModalModule,
   ],
   exports: [HomeComponent],
 })

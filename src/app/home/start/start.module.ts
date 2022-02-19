@@ -6,12 +6,12 @@ import {DfxTranslateModule} from 'dfx-translate';
 import {RouterModule, Routes} from '@angular/router';
 import {StartComponent} from './start.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {AppBownloadBtnListModule} from '../../_shared/app-download-btn-list/app-bownload-btn-list.module';
+import {AppDownloadBtnListModule} from '../../_shared/app-download-btn-list/app-download-btn-list.module';
 
 const startRoutes: Routes = [{path: '', component: StartComponent}];
 
 @NgModule({
   declarations: [StartComponent],
-  imports: [CommonModule, DfxTranslateModule, RouterModule.forChild(startRoutes), FlexLayoutModule, AppBownloadBtnListModule],
+  imports: [CommonModule, DfxTranslateModule, RouterModule.forChild(startRoutes), FlexLayoutModule, AppDownloadBtnListModule],
 })
 export class StartModule {}

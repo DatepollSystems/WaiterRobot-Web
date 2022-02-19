@@ -9,7 +9,7 @@ import {DfxTranslateModule} from 'dfx-translate';
 
 import {FooterModule} from '../footer/footer.module';
 import {IconsModule} from '../_shared/icons.module';
-import {AppBownloadBtnListModule} from '../_shared/app-download-btn-list/app-bownload-btn-list.module';
+import {AppDownloadBtnListModule} from '../_shared/app-download-btn-list/app-download-btn-list.module';
 import {IsAuthenticatedGuardService} from '../_services/auth/is-authenticated-guard.service';
 
 import {AboutComponent} from './about.component';
@@ -27,7 +27,7 @@ const routes: Routes = [{path: '', component: AboutComponent, canActivate: [IsAu
     DfxTranslateModule,
     FooterModule,
     IconsModule,
-    AppBownloadBtnListModule,
+    AppDownloadBtnListModule,
   ],
 })
 export class AboutModule {}

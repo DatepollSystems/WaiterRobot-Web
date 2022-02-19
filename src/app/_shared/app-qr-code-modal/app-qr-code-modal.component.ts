@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {ClipboardHelper, IsMobileService} from 'dfx-helper';
+import {ClipboardHelper} from 'dfx-helper';
 import {NgxQrcodeErrorCorrectionLevels} from '@techiediaries/ngx-qrcode';
 
 @Component({
@@ -14,8 +14,7 @@ import {NgxQrcodeErrorCorrectionLevels} from '@techiediaries/ngx-qrcode';
     <div class="modal-body" fxLayout="column" fxLayoutAlign="center center">
       <div class="card text-dark text-center bg-light mb-3" fxFlex.gt-sm="50%" fxFlex="80%">
         <div class="card-body" id="qrcode-print-section" fxLayout="column" fxLayoutAlign="center center">
-          <ngx-qrcode *ngIf="data" [scale]="isMobile ? 7 : 10" [errorCorrectionLevel]="correctionLevel" [margin]="0" [value]="data">
-          </ngx-qrcode>
+          <app-qr-code-view [correctionLevel]="correctionLevel" [data]="data"></app-qr-code-view>
           <div style="height: 15px"></div>
           <ng-content select="[body]"></ng-content>
         </div>
@@ -46,13 +45,9 @@ export class AppQrCodeModalComponent {
   @Input() printTitle = 'QR-Code';
   @Input() showPrintButton = true;
 
-  isMobile = false;
-
   @Input() correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
 
-  constructor(public activeModal: NgbActiveModal, private isMobileService: IsMobileService) {
-    this.isMobile = this.isMobileService.getIsMobile();
-  }
+  constructor(public activeModal: NgbActiveModal) {}
 
   copy(): void {
     if (this.data) {

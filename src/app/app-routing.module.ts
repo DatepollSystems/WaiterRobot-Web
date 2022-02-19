@@ -8,6 +8,10 @@ const routes: Routes = [
   {path: 'home', loadChildren: () => import('./home/home.module').then((m) => m.HomeModule)},
   {path: 'mobile-link', loadChildren: () => import('./mobile-link/mobile-link.module').then((m) => m.MobileLinkModule)},
   {
+    path: 'qrcode-view',
+    loadChildren: () => import('./_shared/app-qr-code-view/app-qr-code-view.module').then((m) => m.AppQrCodeViewModule),
+  },
+  {
     path: 'not-found',
     loadChildren: () => import('./page-not-found/page-not-found.module').then((m) => m.PageNotFoundModule),
   },

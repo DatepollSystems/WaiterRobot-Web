@@ -15,4 +15,4 @@ import {AppDownloadQrCodeModalComponent} from './app-download-qr-code-modal.comp
   imports: [CommonModule, DfxTranslateModule, IconsModule, NgbTooltipModule, AppQrCodeModalModule],
   exports: [AppDownloadBtnListComponent],
 })
-export class AppBownloadBtnListModule {}
+export class AppDownloadBtnListModule {}

@@ -6,7 +6,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {FooterModule} from '../footer/footer.module';
-import {AppBownloadBtnListModule} from '../_shared/app-download-btn-list/app-bownload-btn-list.module';
+import {AppDownloadBtnListModule} from '../_shared/app-download-btn-list/app-download-btn-list.module';
 
 import {MobileLinkComponent} from './mobile-link.component';
 
@@ -17,6 +17,6 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [MobileLinkComponent],
-  imports: [RouterModule.forChild(routes), CommonModule, FlexLayoutModule, DfxTranslateModule, AppBownloadBtnListModule, FooterModule],
+  imports: [RouterModule.forChild(routes), CommonModule, FlexLayoutModule, DfxTranslateModule, AppDownloadBtnListModule, FooterModule],
 })
 export class MobileLinkModule {}
