@@ -29,9 +29,8 @@ import {NgxQrcodeErrorCorrectionLevels} from '@techiediaries/ngx-qrcode';
             *ngIf="showPrintButton"
             printSectionId="qrcode-print-section"
             ngxPrint
-            [useExistingCss]="true"
             [printTitle]="printTitle"
-            [printStyle]="{'.qrcode': {'margin-left': '14%'}}">
+            [printStyle]="{'.qrcode': {'margin-left': '21%', 'margin-bottom': '50px', 'margin-top': '150px'}}">
             {{ 'PRINT' | tr }}
           </button>
         </div>
