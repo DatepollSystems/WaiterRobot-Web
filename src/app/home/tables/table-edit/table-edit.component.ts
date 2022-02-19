@@ -23,7 +23,7 @@ import {TableGroupModel} from '../../../_models/table-group.model';
 export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
   private log = LoggerFactory.getLogger('TableEditComponent');
   override redirectUrl = '/home/tables/all';
-  override continuousUsePropertyNames = ['group_id'];
+  override continuousUsePropertyNames = ['group_id', 'seats'];
 
   selectedEvent: EventModel | undefined;
 
