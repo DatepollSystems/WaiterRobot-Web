@@ -5,7 +5,7 @@ import {AppQrCodeViewComponent} from './app-qr-code-view.component';
 import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
-const routes: Routes = [{path: '', component: AppQrCodeViewComponent}];
+const routes: Routes = [{path: 'view', component: AppQrCodeViewComponent}];
 
 @NgModule({
   declarations: [AppQrCodeViewComponent],
