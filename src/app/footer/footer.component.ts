@@ -17,6 +17,10 @@ export class FooterComponent {
     }
   }
 
+  heart(): void {
+    document.getElementById('brand')?.classList.add('spin');
+  }
+
   setLang(event: any): void {
     // const oldLanguage = localStorage.getItem('language');
     void this.translate.use(event);
