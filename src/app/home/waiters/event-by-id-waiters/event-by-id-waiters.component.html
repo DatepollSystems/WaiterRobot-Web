@@ -2,12 +2,12 @@
   <h1>{{ entity?.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</h1>
 
   <div>
-    <button class="btn btn-outline-primary mx-2" (click)="openQRCode(entity)">
+    <button class="btn btn-outline-primary m-1" (click)="openQRCode(entity)">
       <i-bs name="qr-code"></i-bs>
-      {{ 'HOME_WAITERS_EDIT_QR_CODE' | tr }}
+      {{ 'HOME_WAITERS_EVENT_CREATE_QR_CODE' | tr }}
     </button>
 
-    <a routerLink="../../create" class="btn btn-outline-success mx-2">
+    <a routerLink="../../create" class="btn btn-outline-success m-1">
       <i-bs name="plus-circle"></i-bs>
       {{ 'ADD_2' | tr }}</a
     >

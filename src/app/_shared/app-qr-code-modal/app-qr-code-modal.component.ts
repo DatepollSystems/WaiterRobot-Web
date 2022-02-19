@@ -11,27 +11,29 @@ import {NgxQrcodeErrorCorrectionLevels} from '@techiediaries/ngx-qrcode';
       <ng-content select="[header]"></ng-content>
       <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
     </div>
-    <div class="modal-body" fxLayout="column" fxLayoutAlign="center center">
-      <div class="card text-dark text-center bg-light mb-3" fxFlex.gt-sm="50%" fxFlex="80%">
+    <div class="modal-body p-0" fxLayout="row" fxLayoutAlign="center center">
+      <div class="card text-dark text-center bg-light m-0 rounded-0" fxFlex="100">
         <div class="card-body" id="qrcode-print-section" fxLayout="column" fxLayoutAlign="center center">
           <app-qr-code-view [correctionLevel]="correctionLevel" [data]="data"></app-qr-code-view>
           <div style="height: 15px"></div>
           <ng-content select="[body]"></ng-content>
         </div>
-        <div class="card-footer text-muted font-monospace text-break">
+        <div class="card-footer text-muted font-monospace text-break bg-transparent rounded-0 border-bottom-0 pt-4 pb-3">
           {{ data }}
-          <button class="btn btn-sm btn-outline-primary ms-2" (click)="copy()">
-            {{ 'COPY' | tr }}
-          </button>
-          <button
-            class="btn btn-sm btn-outline-secondary ms-2"
-            *ngIf="showPrintButton"
-            printSectionId="qrcode-print-section"
-            ngxPrint
-            [printTitle]="printTitle"
-            [printStyle]="{'.qrcode': {'margin-left': '21%', 'margin-bottom': '50px', 'margin-top': '150px'}}">
-            {{ 'PRINT' | tr }}
-          </button>
+          <div class="mt-2">
+            <button class="btn btn-sm btn-outline-primary ms-2" (click)="copy()">
+              {{ 'COPY' | tr }}
+            </button>
+            <button
+              class="btn btn-sm btn-outline-secondary ms-2"
+              *ngIf="showPrintButton"
+              printSectionId="qrcode-print-section"
+              ngxPrint
+              [printTitle]="printTitle"
+              [printStyle]="{'.qrcode': {'margin-left': '28%', 'margin-bottom': '50px', 'margin-top': '150px'}}">
+              {{ 'PRINT' | tr }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
