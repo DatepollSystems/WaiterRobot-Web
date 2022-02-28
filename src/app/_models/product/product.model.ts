@@ -1,5 +1,5 @@
 import {AEntityWithNumberIDAndName, IList, List, StringHelper} from 'dfx-helper';
-import {AllergenModel} from './allergen.model';
+import {AllergenModel} from '../allergen.model';
 
 export class ProductModel extends AEntityWithNumberIDAndName {
   public readonly price: number;

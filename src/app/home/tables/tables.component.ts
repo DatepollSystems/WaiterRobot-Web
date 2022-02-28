@@ -2,8 +2,8 @@ import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {AbstractModelsComponent} from '../../_helper/abstract-models.component';
-import {TableGroupsService} from '../../_services/models/table-groups.service';
-import {TableGroupModel} from '../../_models/table-group.model';
+import {TableGroupsService} from '../../_services/models/table/table-groups.service';
+import {TableGroupModel} from '../../_models/table/table-group.model';
 
 @Component({
   selector: 'app-tables',

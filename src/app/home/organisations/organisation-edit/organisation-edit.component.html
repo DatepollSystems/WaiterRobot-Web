@@ -240,6 +240,23 @@
         </ng-template>
       </li>
       <li [ngbNavItem]="3" *ngIf="isEditing">
+        <a ngbNavLink>{{ 'SETTINGS' | tr }}</a>
+        <ng-template ngbNavContent>
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="activateWaiterOnSignInViaCreateToken"
+              [checked]="settings?.activateWaiterOnSignInViaCreateToken"
+              (click)="setActivateWaiterOnSignInViaCreateToken()" />
+            <label class="form-check-label" for="activateWaiterOnSignInViaCreateToken">
+              {{ 'HOME_ORGS_SETTINGS_ACTIVATE_WAITER_ON_SIGN_IN_VIA_CREATE_TOKEN' | tr }}</label
+            >
+          </div>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="4" *ngIf="isEditing">
         <a ngbNavLink>{{ 'STATISTICS' | tr }}</a>
         <ng-template ngbNavContent> Coming soon...</ng-template>
       </li>

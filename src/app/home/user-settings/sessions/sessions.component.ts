@@ -3,8 +3,8 @@ import {Component} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
-import {SessionsService} from '../../../_services/models/sessions.service';
-import {SessionModel} from '../../../_models/session.model';
+import {SessionsService} from '../../../_services/models/user/sessions.service';
+import {SessionModel} from '../../../_models/user/session.model';
 
 @Component({
   selector: 'app-sessions',

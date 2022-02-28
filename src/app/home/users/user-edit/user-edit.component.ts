@@ -3,9 +3,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {UsersService} from '../../../_services/models/users.service';
+import {UsersService} from '../../../_services/models/user/users.service';
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
-import {UserModel} from '../../../_models/user.model';
+import {UserModel} from '../../../_models/user/user.model';
 import {DateHelper} from 'dfx-helper';
 
 @Component({

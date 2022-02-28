@@ -2,9 +2,9 @@ import {Component} from '@angular/core';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {ProductGroupsService} from '../../../_services/models/product-groups.service';
+import {ProductGroupsService} from '../../../_services/models/product/product-groups.service';
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
-import {ProductGroupModel} from '../../../_models/product-group.model';
+import {ProductGroupModel} from '../../../_models/product/product-group.model';
 
 @Component({
   selector: 'app-product-groups',

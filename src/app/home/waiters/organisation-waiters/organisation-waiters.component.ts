@@ -4,9 +4,9 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
 import {WaitersService} from '../../../_services/models/waiters.service';
-import {OrganisationsService} from '../../../_services/models/organisations.service';
+import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
 
-import {OrganisationModel} from '../../../_models/organisation.model';
+import {OrganisationModel} from '../../../_models/organisation/organisation.model';
 import {WaiterModel} from '../../../_models/waiter.model';
 
 @Component({

@@ -8,12 +8,12 @@ import {NotificationService} from '../../../_services/notifications/notification
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
 
 import {EventsService} from '../../../_services/models/events.service';
-import {TablesService} from '../../../_services/models/tables.service';
-import {TableGroupsService} from '../../../_services/models/table-groups.service';
+import {TablesService} from '../../../_services/models/table/tables.service';
+import {TableGroupsService} from '../../../_services/models/table/table-groups.service';
 
 import {EventModel} from '../../../_models/event.model';
-import {TableModel} from '../../../_models/table.model';
-import {TableGroupModel} from '../../../_models/table-group.model';
+import {TableModel} from '../../../_models/table/table.model';
+import {TableGroupModel} from '../../../_models/table/table-group.model';
 
 @Component({
   selector: 'app-table-edit',

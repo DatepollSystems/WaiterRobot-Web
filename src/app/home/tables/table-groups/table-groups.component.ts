@@ -2,9 +2,9 @@ import {Component} from '@angular/core';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {TableGroupsService} from '../../../_services/models/table-groups.service';
+import {TableGroupsService} from '../../../_services/models/table/table-groups.service';
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
-import {TableGroupModel} from '../../../_models/table-group.model';
+import {TableGroupModel} from '../../../_models/table/table-group.model';
 
 @Component({
   selector: 'app-table-groups',

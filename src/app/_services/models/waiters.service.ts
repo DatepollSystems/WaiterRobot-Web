@@ -4,7 +4,7 @@ import {HttpService} from '../http.service';
 import {AbstractModelService} from './abstract-model.service';
 
 import {WaiterModel} from '../../_models/waiter.model';
-import {OrganisationsService} from './organisations.service';
+import {OrganisationsService} from './organisation/organisations.service';
 
 @Injectable({
   providedIn: 'root',

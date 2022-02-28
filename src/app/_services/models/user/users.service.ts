@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 
-import {HttpService} from '../http.service';
-import {AbstractModelService} from './abstract-model.service';
+import {HttpService} from '../../http.service';
+import {AbstractModelService} from '../abstract-model.service';
 
-import {UserModel} from '../../_models/user.model';
+import {UserModel} from '../../../_models/user/user.model';
 
 @Injectable({
   providedIn: 'root',

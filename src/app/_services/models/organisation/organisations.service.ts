@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 
-import {HttpService} from '../http.service';
-import {AbstractSelectableModelService} from './abstract-model.service';
+import {HttpService} from '../../http.service';
+import {AbstractSelectableModelService} from '../abstract-model.service';
 
-import {OrganisationModel} from '../../_models/organisation.model';
+import {OrganisationModel} from '../../../_models/organisation/organisation.model';
 
 @Injectable({
   providedIn: 'root',

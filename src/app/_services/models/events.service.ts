@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 
 import {HttpService} from '../http.service';
-import {OrganisationsService} from './organisations.service';
+import {OrganisationsService} from './organisation/organisations.service';
 import {AbstractSelectableModelService} from './abstract-model.service';
 
 import {EventModel} from '../../_models/event.model';

@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {AEntityService} from 'dfx-helper';
 
-import {HttpService} from '../http.service';
+import {HttpService} from '../../http.service';
 
-import {OrganisationUserModel} from '../../_models/organisation.model';
+import {OrganisationUserModel} from '../../../_models/organisation/organisation-user.model';
 
 @Injectable({
   providedIn: 'root',

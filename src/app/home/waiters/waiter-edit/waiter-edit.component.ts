@@ -9,11 +9,11 @@ import {WaiterSignInQRCodeModalComponent} from './waiter-sign-in-qr-code-modal.c
 
 import {WaitersService} from '../../../_services/models/waiters.service';
 import {EventsService} from '../../../_services/models/events.service';
-import {OrganisationsService} from '../../../_services/models/organisations.service';
+import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
 
 import {WaiterModel} from '../../../_models/waiter.model';
 import {EventModel} from '../../../_models/event.model';
-import {OrganisationModel} from '../../../_models/organisation.model';
+import {OrganisationModel} from '../../../_models/organisation/organisation.model';
 
 @Component({
   selector: 'app-waiter-edit',

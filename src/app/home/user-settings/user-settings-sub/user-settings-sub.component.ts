@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {UpdateEmailDto, UpdatePasswordDto, UserSettingsService} from '../../../_services/models/user-settings.service';
+import {UpdateEmailDto, UpdatePasswordDto, UserSettingsService} from '../../../_services/models/user/user-settings.service';
 import {NotificationService} from '../../../_services/notifications/notification.service';
 import {AComponent, StringHelper} from 'dfx-helper';
-import {MyUserService} from '../../../_services/my-user.service';
+import {MyUserService} from '../../../_services/auth/my-user.service';
 
 @Component({
   selector: 'app-user-settings-sub',

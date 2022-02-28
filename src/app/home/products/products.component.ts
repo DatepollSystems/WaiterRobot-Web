@@ -2,8 +2,8 @@ import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {AbstractModelsComponent} from '../../_helper/abstract-models.component';
-import {ProductGroupsService} from '../../_services/models/product-groups.service';
-import {ProductGroupModel} from '../../_models/product-group.model';
+import {ProductGroupsService} from '../../_services/models/product/product-groups.service';
+import {ProductGroupModel} from '../../_models/product/product-group.model';
 
 @Component({
   selector: 'app-products',

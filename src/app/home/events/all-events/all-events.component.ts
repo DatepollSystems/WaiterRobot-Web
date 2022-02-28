@@ -4,10 +4,10 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
 import {EventsService} from '../../../_services/models/events.service';
-import {MyUserService} from '../../../_services/my-user.service';
+import {MyUserService} from '../../../_services/auth/my-user.service';
 
 import {EventModel} from '../../../_models/event.model';
-import {UserModel} from '../../../_models/user.model';
+import {UserModel} from '../../../_models/user/user.model';
 
 @Component({
   selector: 'app-all-events',

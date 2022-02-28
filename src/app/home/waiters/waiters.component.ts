@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {OrganisationsService} from '../../_services/models/organisations.service';
+import {OrganisationsService} from '../../_services/models/organisation/organisations.service';
 import {EventsService} from '../../_services/models/events.service';
 
-import {OrganisationModel} from '../../_models/organisation.model';
+import {OrganisationModel} from '../../_models/organisation/organisation.model';
 import {EventModel} from '../../_models/event.model';
 import {AbstractModelsComponent} from '../../_helper/abstract-models.component';
 

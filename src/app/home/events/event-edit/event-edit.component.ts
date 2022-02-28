@@ -8,11 +8,11 @@ import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.c
 import {WaiterCreateQRCodeModalComponent} from '../../waiters/waiter-create-qr-code-modal.component';
 
 import {EventsService} from '../../../_services/models/events.service';
-import {MyUserService} from '../../../_services/my-user.service';
-import {OrganisationsService} from '../../../_services/models/organisations.service';
+import {MyUserService} from '../../../_services/auth/my-user.service';
+import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
 
 import {EventModel} from '../../../_models/event.model';
-import {UserModel} from '../../../_models/user.model';
+import {UserModel} from '../../../_models/user/user.model';
 
 @Component({
   selector: 'app-event-edit',

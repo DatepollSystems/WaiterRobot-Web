@@ -3,12 +3,12 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {ProductsService} from '../../../_services/models/products.service';
-import {ProductGroupsService} from '../../../_services/models/product-groups.service';
+import {ProductsService} from '../../../_services/models/product/products.service';
+import {ProductGroupsService} from '../../../_services/models/product/product-groups.service';
 import {AbstractModelsListByIdComponent} from '../../../_helper/abstract-models-list-by-id.component';
 
-import {ProductModel} from '../../../_models/product.model';
-import {ProductGroupModel} from '../../../_models/product-group.model';
+import {ProductModel} from '../../../_models/product/product.model';
+import {ProductGroupModel} from '../../../_models/product/product-group.model';
 
 @Component({
   selector: 'app-product-group-by-id-products',

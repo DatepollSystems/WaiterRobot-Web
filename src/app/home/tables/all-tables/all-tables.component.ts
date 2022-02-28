@@ -2,11 +2,11 @@ import {Component} from '@angular/core';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {TablesService} from '../../../_services/models/tables.service';
+import {TablesService} from '../../../_services/models/table/tables.service';
 
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
 
-import {TableModel} from '../../../_models/table.model';
+import {TableModel} from '../../../_models/table/table.model';
 import {EventModel} from '../../../_models/event.model';
 
 @Component({

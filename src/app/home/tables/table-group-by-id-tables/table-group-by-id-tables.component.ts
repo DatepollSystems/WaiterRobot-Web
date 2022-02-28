@@ -3,12 +3,12 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {TablesService} from '../../../_services/models/tables.service';
-import {TableGroupsService} from '../../../_services/models/table-groups.service';
+import {TablesService} from '../../../_services/models/table/tables.service';
+import {TableGroupsService} from '../../../_services/models/table/table-groups.service';
 import {AbstractModelsListByIdComponent} from '../../../_helper/abstract-models-list-by-id.component';
 
-import {TableModel} from '../../../_models/table.model';
-import {TableGroupModel} from '../../../_models/table-group.model';
+import {TableModel} from '../../../_models/table/table.model';
+import {TableGroupModel} from '../../../_models/table/table-group.model';
 
 @Component({
   selector: 'app-table-group-by-id-tables',

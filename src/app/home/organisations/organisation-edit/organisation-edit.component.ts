@@ -10,13 +10,16 @@ import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.c
 import {QuestionDialogComponent} from '../../../_shared/question-dialog/question-dialog.component';
 
 import {NotificationService} from '../../../_services/notifications/notification.service';
-import {OrganisationsService} from '../../../_services/models/organisations.service';
-import {MyUserService} from '../../../_services/my-user.service';
-import {OrganisationsUsersService} from '../../../_services/models/organisations.users.service';
+import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
+import {MyUserService} from '../../../_services/auth/my-user.service';
+import {OrganisationsUsersService} from '../../../_services/models/organisation/organisations-users.service';
 
-import {OrganisationModel, OrganisationUserModel} from '../../../_models/organisation.model';
-import {UserModel} from '../../../_models/user.model';
+import {OrganisationModel} from '../../../_models/organisation/organisation.model';
+import {UserModel} from '../../../_models/user/user.model';
 import {OrganisationUserAddModalComponent} from '../organisation-user-add-modal/organisation-user-add-modal.component';
+import {OrganisationsSettingsService} from '../../../_services/models/organisation/organisations-settings.service';
+import {OrganisationSettingsModel} from '../../../_models/organisation/organisation-settings.model';
+import {OrganisationUserModel} from '../../../_models/organisation/organisation-user.model';
 
 @Component({
   selector: 'app-organisation-edit',
@@ -24,7 +27,7 @@ import {OrganisationUserAddModalComponent} from '../organisation-user-add-modal/
   styleUrls: ['./organisation-edit.component.scss'],
 })
 export class OrganisationEditComponent extends AbstractModelEditComponent<OrganisationModel> {
-  override onlyEditingTabs = [2, 3];
+  override onlyEditingTabs = [2, 3, 4];
   override redirectUrl = '/home/organisations/all';
 
   // User org stuff
@@ -32,6 +35,8 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
   columnsToDisplay = ['name', 'email', 'actions'];
   filter = new FormControl();
   @ViewChild(NgbSort, {static: true}) sort: NgbSort | undefined;
+
+  settings: OrganisationSettingsModel | undefined;
 
   myUser: UserModel | undefined;
   selectedOrganisation: OrganisationModel | undefined;
@@ -43,6 +48,7 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
     modal: NgbModal,
     myUserService: MyUserService,
     public organisationsService: OrganisationsService,
+    public organisationsSettingsService: OrganisationsSettingsService,
     protected organisationsUsersService: OrganisationsUsersService,
     protected notificationsService: NotificationService
   ) {
@@ -64,6 +70,10 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
   }
 
   override onEntityEdit(model: OrganisationModel): void {
+    this.filter.valueChanges.subscribe((value) => {
+      this.dataSource.filter = value;
+    });
+
     this.organisationsUsersService.setGetAllParams([{key: 'organisation_id', value: model.id}]);
     this.organisationUsers = this.organisationsUsersService.getAll();
     this.refreshTable();
@@ -74,9 +84,12 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
       })
     );
 
-    this.filter.valueChanges.subscribe((value) => {
-      this.dataSource.filter = value;
-    });
+    this.settings = this.organisationsSettingsService.getSettings(model.id);
+    this.autoUnsubscribe(
+      this.organisationsSettingsService.settingsChange.subscribe((value) => {
+        this.settings = value;
+      })
+    );
   }
 
   refreshTable(): void {
@@ -117,5 +130,14 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
           );
       }
     });
+  }
+
+  setActivateWaiterOnSignInViaCreateToken() {
+    if (this.entity) {
+      this.organisationsSettingsService.setActivateWaiterOnSignInViaCreateToken(
+        this.entity.id,
+        !this.settings?.activateWaiterOnSignInViaCreateToken
+      );
+    }
   }
 }
