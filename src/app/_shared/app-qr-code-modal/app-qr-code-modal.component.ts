@@ -2,7 +2,6 @@ import {Component, Input} from '@angular/core';
 
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {ClipboardHelper} from 'dfx-helper';
-import {NgxQrcodeErrorCorrectionLevels} from '@techiediaries/ngx-qrcode';
 
 @Component({
   selector: 'app-qrcode-modal',
@@ -14,7 +13,7 @@ import {NgxQrcodeErrorCorrectionLevels} from '@techiediaries/ngx-qrcode';
     <div class="modal-body p-0" fxLayout="row" fxLayoutAlign="center center">
       <div class="card text-dark text-center bg-light m-0 rounded-0" fxFlex="100">
         <div class="card-body" id="qrcode-print-section" fxLayout="column" fxLayoutAlign="center center">
-          <app-qr-code-view [correctionLevel]="correctionLevel" [data]="data"></app-qr-code-view>
+          <app-qr-code-view [data]="data"></app-qr-code-view>
           <div style="height: 15px"></div>
           <ng-content select="[body]"></ng-content>
         </div>
@@ -46,8 +45,6 @@ export class AppQrCodeModalComponent {
   @Input() data: string | undefined;
   @Input() printTitle = 'QR-Code';
   @Input() showPrintButton = true;
-
-  @Input() correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
 
   constructor(public activeModal: NgbActiveModal) {}
 

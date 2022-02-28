@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NgxQrcodeErrorCorrectionLevels} from '@techiediaries/ngx-qrcode';
 import {QrCodeService} from '../../_services/qr-code.service';
-import {IsMobileService, LoggerFactory} from 'dfx-helper';
+import {AComponent, IsMobileService, LoggerFactory} from 'dfx-helper';
 import {Router} from '@angular/router';
 
 @Component({
@@ -9,9 +8,8 @@ import {Router} from '@angular/router';
   templateUrl: './app-qr-code-view.component.html',
   styleUrls: ['./app-qr-code-view.component.scss'],
 })
-export class AppQrCodeViewComponent implements OnInit {
+export class AppQrCodeViewComponent extends AComponent implements OnInit {
   @Input() data: string | undefined;
-  @Input() correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
 
   isMobile = false;
   standalone = false;
@@ -19,7 +17,13 @@ export class AppQrCodeViewComponent implements OnInit {
   logger = LoggerFactory.getLogger('QrCodeViewComponent');
 
   constructor(private router: Router, private qrCodeService: QrCodeService, private isMobileService: IsMobileService) {
+    super();
     this.isMobile = this.isMobileService.getIsMobile();
+    this.autoUnsubscribe(
+      this.isMobileService.isMobileChange.subscribe((isMobile) => {
+        this.isMobile = isMobile;
+      })
+    );
   }
 
   ngOnInit(): void {

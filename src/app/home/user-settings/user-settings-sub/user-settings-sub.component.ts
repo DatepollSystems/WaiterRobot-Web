@@ -33,17 +33,17 @@ export class UserSettingsSubComponent extends AComponent {
     );
   }
 
-  emailChange(email: string) {
+  emailChange(email: string): void {
     this.emailAddressValid = StringHelper.isEmail(email);
   }
 
-  changeEmail(form: NgForm) {
-    this.userSettingsService.changeEmail(new UpdateEmailDto(form.form.value.email)).subscribe(() => {
+  changeEmail(form: NgForm): void {
+    this.userSettingsService.changeEmail(new UpdateEmailDto(form.form.value.email as string)).subscribe(() => {
       this.notificationService.tsuccess('HOME_USERSETTINGS_USER_SETTINGS_EMAIL_SUCCESS');
     });
   }
 
-  newPasswordsChange(password: string | undefined, passwordAgain: string | undefined) {
+  newPasswordsChange(password: string | undefined, passwordAgain: string | undefined): void {
     if (password) {
       this.newPassword = password;
     }
@@ -52,18 +52,28 @@ export class UserSettingsSubComponent extends AComponent {
     }
     if (this.newPassword.trim().length > 0 && this.newPasswordAgain.trim().length > 0) {
       this.newPasswordsMatch = this.newPassword === this.newPasswordAgain;
+      if (this.newPasswordsMatch) {
+        if (this.newPassword.toLowerCase() === 'do the barrel roll') {
+          document.getElementById('body')?.classList.add('roll');
+          setTimeout(() => {
+            document.getElementById('body')?.classList.remove('roll');
+          }, 4100);
+        }
+      }
     }
   }
 
-  changePassword(form: NgForm) {
-    this.userSettingsService.changePassword(new UpdatePasswordDto(form.form.value.oldPassword, form.form.value.newPassword)).subscribe(
-      () => {
-        this.notificationService.tsuccess('HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_SUCCESS');
-        form.resetForm();
-      },
-      () => {
-        this.notificationService.twarning('HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_ERROR');
-      }
-    );
+  changePassword(form: NgForm): void {
+    this.userSettingsService
+      .changePassword(new UpdatePasswordDto(form.form.value.oldPassword as string, form.form.value.newPassword as string))
+      .subscribe(
+        () => {
+          this.notificationService.tsuccess('HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_SUCCESS');
+          form.resetForm();
+        },
+        () => {
+          this.notificationService.twarning('HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_ERROR');
+        }
+      );
   }
 }
