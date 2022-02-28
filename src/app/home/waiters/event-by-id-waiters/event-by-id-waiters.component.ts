@@ -18,7 +18,7 @@ import {AbstractModelsListByIdComponent} from '../../../_helper/abstract-models-
   styleUrls: ['./event-by-id-waiters.component.scss'],
 })
 export class EventByIdWaitersComponent extends AbstractModelsListByIdComponent<WaiterModel, EventModel> {
-  override columnsToDisplay = ['name', 'actions'];
+  override columnsToDisplay = ['name', 'activated', 'actions'];
   override getAllParam = 'event_id';
 
   constructor(waitersService: WaitersService, eventsService: EventsService, route: ActivatedRoute, router: Router, modal: NgbModal) {

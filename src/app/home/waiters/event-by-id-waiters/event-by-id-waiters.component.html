@@ -43,6 +43,15 @@
         <td *ngbCellDef="let waiter" ngb-cell>{{ waiter.name }}</td>
       </ng-container>
 
+      <ng-container ngbColumnDef="activated">
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ACTIVATED' | tr }}</th>
+        <td *ngbCellDef="let waiter" ngb-cell>
+          <div class="form-check">
+            <input class="form-check-input" onclick="return false;" type="checkbox" [ngModel]="waiter.activated" name="activated" />
+          </div>
+        </td>
+      </ng-container>
+
       <ng-container ngbColumnDef="actions">
         <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
         <td *ngbCellDef="let waiter" ngb-cell>

@@ -15,7 +15,7 @@ import {WaiterModel} from '../../../_models/waiter.model';
   styleUrls: ['./organisation-waiters.component.scss'],
 })
 export class OrganisationWaitersComponent extends AbstractModelsListComponent<WaiterModel> {
-  override columnsToDisplay = ['name', 'actions'];
+  override columnsToDisplay = ['name', 'activated', 'actions'];
 
   selectedOrganisation: OrganisationModel | undefined;
 
