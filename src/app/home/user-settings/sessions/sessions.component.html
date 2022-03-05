@@ -1,5 +1,6 @@
-<div fxLayout="row break" fxLayoutAlign="start center">
+<div fxLayout="row break" fxLayoutAlign="space-between center">
   <h1>{{ 'NAV_USER_SESSIONS' | tr }}</h1>
+  <button class="btn btn-outline-danger" (click)="deleteAll()">{{ 'DELETE_ALL' | tr }}</button>
 </div>
 
 <div class="spinner-row" *ngIf="!entitiesLoaded">
