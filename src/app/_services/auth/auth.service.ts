@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 
 import {BrowserHelper, Converter, StorageHelper} from 'dfx-helper';
-
 import {HttpService} from '../http.service';
 
 @Injectable({
@@ -19,7 +20,7 @@ export class AuthService {
 
   public redirectUrl: string | undefined = undefined;
 
-  constructor(private httpService: HttpService) {
+  constructor(private httpService: HttpService, private router: Router) {
     this.jwtTokenExpires = new Date();
     this.jwtTokenExpires.setMinutes(this.jwtTokenExpires.getMinutes() + 50);
   }
@@ -90,31 +91,26 @@ export class AuthService {
   }
 
   public logout(): void {
-    // const object = {
-    //   session_token: this.getSessionToken(),
-    // };
-    //
-    // this.http.post(this.apiUrl + '/v1/user/myself/session/logoutCurrentSession', object, {headers: this.httpHeaders}).subscribe(
-    //   (data: any) => {
-    //     console.log(data);
-    //     console.log('authService | Logout successful');
-    //
-    //     this.clearCookies();
-    //     window.location.reload();
-    //   },
-    //   (error) => {
-    //     this.clearCookies();
-    //     console.log(error);
-    //   }
-    // );
-    this.clearStorage();
-    window.location.reload();
+    const object = {
+      session_token: this.getSessionToken(),
+    };
+
+    this.httpService.post('/auth/logout', object).subscribe(
+      () => {
+        this.clearStorage();
+        void this.router.navigateByUrl('/about');
+      },
+      () => {
+        this.clearStorage();
+        void this.router.navigateByUrl('/about');
+      }
+    );
   }
 
   public clearStorage(): void {
     this.setSessionToken(undefined);
     this.setJWTToken(undefined);
-    localStorage.clear();
+    StorageHelper.removeAll();
   }
 
   public isAuthenticated(): boolean {
