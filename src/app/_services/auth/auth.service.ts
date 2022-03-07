@@ -11,7 +11,7 @@ import {HttpService} from '../http.service';
   providedIn: 'root',
 })
 export class AuthService {
-  public static signInUrl = '/auth/signin';
+  public static signInUrl = '/auth/signIn';
   public static refreshUrl = '/auth/refresh';
 
   private sessionToken: string | undefined = undefined;
@@ -91,20 +91,20 @@ export class AuthService {
   }
 
   public logout(): void {
-    const object = {
-      session_token: this.getSessionToken(),
-    };
-
-    this.httpService.post('/auth/logout', object).subscribe(
-      () => {
-        this.clearStorage();
-        void this.router.navigateByUrl('/about');
-      },
-      () => {
-        this.clearStorage();
-        void this.router.navigateByUrl('/about');
-      }
-    );
+    this.httpService
+      .post('/auth/logout', {
+        session_token: this.getSessionToken(),
+      })
+      .subscribe(
+        () => {
+          this.clearStorage();
+          void this.router.navigateByUrl('/about');
+        },
+        () => {
+          this.clearStorage();
+          void this.router.navigateByUrl('/about');
+        }
+      );
   }
 
   public clearStorage(): void {
