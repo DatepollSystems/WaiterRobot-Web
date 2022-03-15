@@ -11,7 +11,7 @@ import {HttpService} from '../http.service';
   providedIn: 'root',
 })
 export class AuthService {
-  public static signInUrl = '/auth/signin';
+  public static signInUrl = '/auth/signIn';
   public static refreshUrl = '/auth/refresh';
 
   private sessionToken: string | undefined = undefined;
