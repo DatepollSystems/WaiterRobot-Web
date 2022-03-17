@@ -21,7 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(undefined);
 
-  private addToken(req: HttpRequest<any>, token: string | undefined): HttpRequest<any> {
+  private static addToken(req: HttpRequest<any>, token: string | undefined): HttpRequest<any> {
     if (!token) {
       token = '';
     }
@@ -46,7 +46,7 @@ export class AuthInterceptor implements HttpInterceptor {
       return next.handle(req);
     } else {
       if (this.authService.isJWTTokenValid()) {
-        req = this.addToken(req, this.authService.getJWTToken());
+        req = AuthInterceptor.addToken(req, this.authService.getJWTToken());
       }
 
       return next.handle(req).pipe(
@@ -73,15 +73,15 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   private handle401Error(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    /* When a session token was cancelled and this users decides to logout he gets an error and can't logout. This checks the url,
+    /* When a session token was cancelled and the user decides to log out he gets an error and can't log out. This checks the url,
      * clears the cookies and reloads the site. If the Angular app now checks isAuthenticated in the auth guard the
      * app will route to sign in.
      */
-    // if (request.url.includes('/logoutCurrentSession')) {
-    //   this.authService.clearStorage();
-    //
-    //   window.location.reload();
-    // }
+    if (request.url.includes('/logout')) {
+      this.authService.clearStorage();
+
+      window.location.reload();
+    }
 
     if (!this.isRefreshing) {
       this.isRefreshing = true;
@@ -92,12 +92,12 @@ export class AuthInterceptor implements HttpInterceptor {
           this.lumber.info('handle401Error', 'JWT token refreshed');
           this.isRefreshing = false;
           this.refreshTokenSubject.next(data.token);
-          return next.handle(this.addToken(request, data.token));
+          return next.handle(AuthInterceptor.addToken(request, data.token));
         }),
         catchError(() => {
           this.lumber.error('handle401Error', 'Could not refresh jwt token with session token');
           this.authService.clearStorage();
-          void this.router.navigateByUrl('/about');
+          window.location.reload();
 
           return next.handle(request);
         })
@@ -108,7 +108,7 @@ export class AuthInterceptor implements HttpInterceptor {
         take(1),
         switchMap((jwt) => {
           this.lumber.info('handle401Error', 'Already refreshing; JWT: "' + jwt + '"');
-          return next.handle(this.addToken(request, jwt));
+          return next.handle(AuthInterceptor.addToken(request, jwt));
         })
       );
     }

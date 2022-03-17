@@ -20,6 +20,7 @@ import {EventByIdWaitersComponent} from './event-by-id-waiters/event-by-id-waite
 import {WaiterEditComponent} from './waiter-edit/waiter-edit.component';
 import {WaiterCreateQRCodeModalComponent} from './waiter-create-qr-code-modal.component';
 import {WaiterSignInQRCodeModalComponent} from './waiter-edit/waiter-sign-in-qr-code-modal.component';
+import {DuplicateOrganisationWaitersComponent} from './duplicate-organisation-waiters/duplicate-organisation-waiters.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,8 @@ const routes: Routes = [
     canActivate: [OrganisationSelectedGuard],
     children: [
       {path: 'organisation', component: OrganisationWaitersComponent},
+      {path: 'organisation/duplicates', component: DuplicateOrganisationWaitersComponent},
+      {path: 'organisation/duplicates/:name', component: DuplicateOrganisationWaitersComponent},
       {path: 'event/:id', component: EventByIdWaitersComponent},
       {path: ':id', component: WaiterEditComponent},
       {path: '', pathMatch: 'full', redirectTo: '/home/waiters/organisation'},
@@ -39,6 +42,7 @@ const routes: Routes = [
   declarations: [
     WaitersComponent,
     OrganisationWaitersComponent,
+    DuplicateOrganisationWaitersComponent,
     EventByIdWaitersComponent,
     WaiterEditComponent,
     WaiterCreateQRCodeModalComponent,

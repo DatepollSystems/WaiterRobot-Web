@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {AEntityWithNumberIDAndName, Converter, IEntityWithNumberIDAndName, IList, List} from 'dfx-helper';
+import {AEntityWithNumberIDAndName, Converter, EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {NotificationService} from '../../../_services/notifications/notification.service';
@@ -29,8 +29,8 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
   productGroups: ProductGroupModel[];
   selectedProductGroup: number | undefined;
 
-  allergens: IList<AEntityWithNumberIDAndName>;
-  selectedAllergens: IList<AEntityWithNumberIDAndName> = new List();
+  allergens: IEntityList<AEntityWithNumberIDAndName>;
+  selectedAllergens: IEntityList<AEntityWithNumberIDAndName> = new EntityList();
 
   constructor(
     route: ActivatedRoute,
@@ -45,25 +45,13 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
     super(router, route, modal, productsService);
 
     this.selectedEvent = this.eventsService.getSelected();
-    this.autoUnsubscribe(
-      this.eventsService.selectedChange.subscribe((event) => {
-        this.selectedEvent = event;
-      })
-    );
+    this.autoUnsubscribe(this.eventsService.selectedChange.subscribe((event) => (this.selectedEvent = event)));
 
     this.productGroups = this.productGroupsService.getAll();
-    this.autoUnsubscribe(
-      this.productGroupsService.allChange.subscribe((groups) => {
-        this.productGroups = groups;
-      })
-    );
+    this.autoUnsubscribe(this.productGroupsService.allChange.subscribe((groups) => (this.productGroups = groups)));
 
-    this.allergens = this.allergensService.getAll();
-    this.autoUnsubscribe(
-      this.allergensService.allChange.subscribe((allergens) => {
-        this.allergens = allergens;
-      })
-    );
+    this.allergens = new EntityList(this.allergensService.getAll());
+    this.autoUnsubscribe(this.allergensService.allChange.subscribe((allergens) => (this.allergens = allergens)));
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
@@ -91,7 +79,7 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
     this.selectedProductGroup = model.group_id;
   }
 
-  allergenChange(allergens: IList<IEntityWithNumberIDAndName>): void {
+  allergenChange(allergens: IEntityList<IEntityWithNumberIDAndName>): void {
     this.selectedAllergens = allergens;
   }
 }

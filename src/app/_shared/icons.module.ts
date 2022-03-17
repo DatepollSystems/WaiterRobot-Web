@@ -20,11 +20,14 @@ import {
   people,
   peopleFill,
   personBadge,
+  personBoundingBox,
+  personXFill,
   plusCircle,
   qrCode,
   qrCodeScan,
   save,
   trash,
+  union,
   upcScan,
   xCircleFill,
 } from 'ngx-bootstrap-icons';
@@ -49,6 +52,7 @@ const icons = {
   bagFill,
   caretRight,
   personBadge,
+  personXFill,
   upcScan,
   columnsGap,
   diagram3,
@@ -56,6 +60,8 @@ const icons = {
   apple,
   qrCode,
   qrCodeScan,
+  personBoundingBox,
+  union,
 };
 
 @NgModule({

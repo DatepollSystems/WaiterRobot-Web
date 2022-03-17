@@ -1,9 +1,9 @@
-import {AEntityWithNumberIDAndName, IList, List, StringHelper} from 'dfx-helper';
+import {AEntityWithNumberIDAndName, EntityList, IEntityList, StringHelper} from 'dfx-helper';
 import {AllergenModel} from '../allergen.model';
 
 export class ProductModel extends AEntityWithNumberIDAndName {
   public readonly price: number;
-  public readonly allergens: IList<AllergenModel> = new List();
+  public readonly allergens: IEntityList<AllergenModel> = new EntityList();
   public readonly group_id: number;
   public readonly group_name: string;
   public readonly printer_id: number;
