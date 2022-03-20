@@ -5,6 +5,8 @@ stages:
   - deploy
 
 build-release:
+  tags:
+    - 'dafnik'
   only:
     - tags
   except:
@@ -24,6 +26,8 @@ build-release:
     - ls -al
 
 build-testing:
+  tags:
+    - 'dafnik'
   only:
     - develop
   stage: build
@@ -41,6 +45,8 @@ build-testing:
     - ls -al
 
 build-dev:
+  tags:
+    - 'dafnik'
   stage: build
   only:
     - branches
@@ -58,6 +64,8 @@ build-dev:
     - ls -al
 
 deploy-release:
+  tags:
+    - 'dafnik'
   stage: deploy
   dependencies:
     - build-release
@@ -78,6 +86,8 @@ deploy-release:
     - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR "WaiterRobot-Web-${version}.zip" $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/WaiterRobot/Web-Releases/ > /dev/null
 
 deploy-dev:
+  tags:
+    - 'dafnik'
   stage: deploy
   only:
     - develop
