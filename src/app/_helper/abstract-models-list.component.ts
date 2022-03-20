@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
+import {NgbPaginator, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {AComponent, IEntityWithNumberID, IList, List, LoggerFactory} from 'dfx-helper';
 
 import {AbstractModelService} from '../_services/models/abstract-model.service';
@@ -17,6 +17,7 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
 
   // Table stuff
   @ViewChild(NgbSort, {static: true}) sort: NgbSort | undefined;
+  @ViewChild(NgbPaginator, {static: true}) paginator: NgbPaginator | undefined;
   protected abstract columnsToDisplay: string[];
   public filter = new FormControl();
   public dataSource: NgbTableDataSource<EntityType> = new NgbTableDataSource();
@@ -36,7 +37,12 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
     this.entities = this.entitiesService.getAll();
     this.lumber.info('initializeEntities', 'Entities loaded', this.entities);
     this.dataSource = new NgbTableDataSource<EntityType>(this.entities.clone());
-    this.dataSource.sort = this.sort;
+    if (this.sort) {
+      this.dataSource.sort = this.sort;
+    }
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+    }
     // Don't check because events waiters and org waiters use same list
     // if (this.entities.length > 0) {
     //   this.entitiesLoaded = true;

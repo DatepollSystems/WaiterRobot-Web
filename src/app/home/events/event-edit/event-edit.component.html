@@ -134,7 +134,7 @@
                 name="street_number"
                 minlength="1"
                 placeholder="{{ 'HOME_ORGS_STREETNUMBER' | tr }}"
-                [ngModel]="isEditing ? entity?.street_number : null" />
+                [ngModel]="isEditing ? entity?.streetNumber : null" />
               <small *ngIf="streetNumberModel.invalid" class="text-danger">
                 {{ 'HOME_ORGS_STREETNUMBER_INCORRECT' | tr }}
               </small>
@@ -155,7 +155,7 @@
                 name="postal_code"
                 minlength="1"
                 placeholder="{{ 'HOME_ORGS_POSTAL_CODE' | tr }}"
-                [ngModel]="isEditing ? entity?.postal_code : null" />
+                [ngModel]="isEditing ? entity?.postalCode : null" />
               <small *ngIf="postalCodeModel.invalid" class="text-danger">
                 {{ 'HOME_ORGS_POSTAL_CODE_INCORRECT' | tr }}
               </small>

@@ -15,7 +15,7 @@ import {UserModel} from '../../../_models/user/user.model';
   styleUrls: ['./all-events.component.scss'],
 })
 export class AllEventsComponent extends AbstractModelsListComponent<EventModel> {
-  override columnsToDisplay = ['name', 'date', 'street', 'postal_code', 'city', 'actions'];
+  override columnsToDisplay = ['name', 'date', 'street', 'streetNumber', 'postalCode', 'city', 'actions'];
 
   myUser: UserModel | undefined;
   selectedEvent: EventModel | undefined;

@@ -46,9 +46,14 @@
       <td *ngbCellDef="let event" ngb-cell>{{ event.street }}</td>
     </ng-container>
 
-    <ng-container ngbColumnDef="postal_code">
+    <ng-container ngbColumnDef="streetNumber">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_STREETNUMBER' | tr }}</th>
+      <td *ngbCellDef="let event" ngb-cell>{{ event.streetNumber }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="postalCode">
       <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_POSTAL_CODE' | tr }}</th>
-      <td *ngbCellDef="let event" ngb-cell>{{ event.postal_code }}</td>
+      <td *ngbCellDef="let event" ngb-cell>{{ event.postalCode }}</td>
     </ng-container>
 
     <ng-container ngbColumnDef="city">

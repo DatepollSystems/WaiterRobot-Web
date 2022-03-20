@@ -15,7 +15,7 @@ import {UserModel} from '../../../_models/user/user.model';
   styleUrls: ['./all-organisations.component.scss'],
 })
 export class AllOrganisationsComponent extends AbstractModelsListComponent<OrganisationModel> {
-  override columnsToDisplay = ['id', 'name', 'street', 'street_number', 'postal_code', 'city', 'country_code', 'actions'];
+  override columnsToDisplay = ['id', 'name', 'street', 'streetNumber', 'postalCode', 'city', 'countryCode', 'actions'];
 
   myUser: UserModel | undefined;
   selectedOrganisation: OrganisationModel | undefined;
