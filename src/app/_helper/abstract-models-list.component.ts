@@ -33,8 +33,17 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
     });
   }
 
+  ngOnInit(): void {
+    this.initializeEntities();
+  }
+
+  protected onEntitiesLoaded(): void {}
+
   protected initializeEntities(): void {
     this.entities = this.entitiesService.getAll();
+    if (this.entities.length > 0) {
+      this.onEntitiesLoaded();
+    }
     this.lumber.info('initializeEntities', 'Entities loaded', this.entities);
     this.dataSource = new NgbTableDataSource<EntityType>(this.entities.clone());
     if (this.sort) {
@@ -50,16 +59,13 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
     this.autoUnsubscribe(
       this.entitiesService.allChange.subscribe((value) => {
         this.entities = value;
+        this.onEntitiesLoaded();
         this.dataSource = new NgbTableDataSource<EntityType>(this.entities.clone());
         this.dataSource.sort = this.sort;
         this.entitiesLoaded = true;
         this.lumber.info('initializeEntities', 'Entities refreshed', this.entities);
       })
     );
-  }
-
-  ngOnInit(): void {
-    this.initializeEntities();
   }
 
   public onDelete(modelId: number): void {

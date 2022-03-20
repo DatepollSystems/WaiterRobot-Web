@@ -1,17 +1,17 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {AEntityWithName, AEntityWithNumberIDAndName, EntityList, IList} from 'dfx-helper';
+import {EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfx-helper';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
 import {WaiterSignInQRCodeModalComponent} from './waiter-sign-in-qr-code-modal.component';
 
-import {WaitersService} from '../../../_services/models/waiters.service';
+import {WaitersService} from '../../../_services/models/waiter/waiters.service';
 import {EventsService} from '../../../_services/models/events.service';
 import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
 
-import {WaiterModel} from '../../../_models/waiter.model';
+import {WaiterModel} from '../../../_models/waiter/waiter.model';
 import {EventModel} from '../../../_models/event.model';
 import {OrganisationModel} from '../../../_models/organisation/organisation.model';
 
@@ -25,8 +25,9 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
   override onlyEditingTabs = [2];
 
   selectedOrganisation: OrganisationModel | undefined;
-  events: IList<EventModel>;
-  selectedEvents: IList<AEntityWithNumberIDAndName> = new EntityList();
+  events: IEntityList<EventModel> = new EntityList();
+  preSelectedEvents: IEntityList<IEntityWithNumberIDAndName> | undefined = undefined;
+  selectedEvents: IEntityList<IEntityWithNumberIDAndName> = new EntityList();
 
   qrCodeModal: NgbModalRef | undefined;
 
@@ -43,27 +44,26 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     this.events = this.eventsService.getAll();
     this.autoUnsubscribe(
       this.eventsService.allChange.subscribe((models) => {
-        this.events.set(models.clone());
+        this.events = models;
+        if (this.isEditing && this.entity) {
+          this.onEntityEdit(this.entity);
+        }
       })
     );
 
     this.selectedOrganisation = this.organisationsService.getSelected();
-    this.autoUnsubscribe(
-      this.organisationsService.selectedChange.subscribe((organisation) => {
-        this.selectedOrganisation = organisation;
-      })
-    );
+    this.autoUnsubscribe(this.organisationsService.selectedChange.subscribe((organisation) => (this.selectedOrganisation = organisation)));
   }
 
   override onEntityCreate(): void {
     if (!this.isEditing) {
       console.log('Adding selected model if selected....');
       const selected = this.eventsService.getSelected();
-      this.selectedEvents.removeAll();
+      this.preSelectedEvents = new EntityList(selected);
       this.selectedEvents.add(selected);
       this.autoUnsubscribe(
         this.eventsService.selectedChange.subscribe((event) => {
-          this.selectedEvents.removeAll();
+          this.preSelectedEvents = new EntityList(event);
           this.selectedEvents.add(event);
         })
       );
@@ -71,16 +71,14 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
   }
 
   override onEntityEdit(model: WaiterModel): void {
-    if (!this.events) {
-      return;
-    }
-
-    this.selectedEvents.removeAll();
+    const selected = [];
     for (const event of this.events) {
       if (model.events.includes(event.id)) {
-        this.selectedEvents.add(event);
+        selected.push(event);
       }
     }
+    this.preSelectedEvents = new EntityList(selected);
+    this.lumber.log('onEntityEdit', 'Mapped waiter events into selectedEvents', this.preSelectedEvents);
   }
 
   override onEntityUpdate(waiter: WaiterModel): void {
@@ -112,7 +110,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     this.qrCodeModal.componentInstance.token = this.entity.signInToken;
   }
 
-  changeSelectedEvents(selectedEvents: IList<AEntityWithName<number>>): void {
+  changeSelectedEvents(selectedEvents: IEntityList<IEntityWithNumberIDAndName>): void {
     this.selectedEvents = selectedEvents;
   }
 }

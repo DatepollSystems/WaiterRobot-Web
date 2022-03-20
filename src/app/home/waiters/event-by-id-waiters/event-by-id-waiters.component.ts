@@ -3,11 +3,11 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {WaitersService} from '../../../_services/models/waiters.service';
+import {WaitersService} from '../../../_services/models/waiter/waiters.service';
 import {EventsService} from '../../../_services/models/events.service';
 
 import {EventModel} from '../../../_models/event.model';
-import {WaiterModel} from '../../../_models/waiter.model';
+import {WaiterModel} from '../../../_models/waiter/waiter.model';
 
 import {WaiterCreateQRCodeModalComponent} from '../waiter-create-qr-code-modal.component';
 import {AbstractModelsListByIdComponent} from '../../../_helper/abstract-models-list-by-id.component';

@@ -42,6 +42,9 @@
   "SCAN": "Scan",
   "CONTINUOUS_CREATION": "Erstellen fortsetzen",
   "SETTINGS": "Einstellungen",
+  "COUNT": "Anzahl",
+  "MERGE": "Zusammenfügen",
+  "IGNORE": "Ignorieren",
 
   "REQUEST_ERROR_CLIENT": "Client fehler",
   "REQUEST_ERROR_SERVER": "Server fehler",
@@ -175,6 +178,7 @@
   "HOME_WAITERS_NAV_SELECT_EVENT": "Personal für Event/Location anzeigen",
   "HOME_WAITERS_SHOW_QR_CODE": "Personal-Login für",
   "HOME_WAITERS_EVENT_CREATE_QR_CODE": "Registriereren",
+  "HOME_WAITERS_DUPLICATES": "Duplikatsfinder",
   "HOME_WAITERS_EDIT_QR_CODE": "Login anzeigen",
   "HOME_WAITERS_EDIT_QR_CODE_DESCRIPTION": "Der QR-Code meldet dich direkt als Personal an.",
   "HOME_WAITERS_EDIT_NAME_INCORRECT": "Der Name muss aus mindestens 3 und maximal 70 Zeichen bestehen.",

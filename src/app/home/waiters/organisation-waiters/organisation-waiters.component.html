@@ -1,9 +1,15 @@
 <div fxLayout="row break" fxLayoutAlign="space-between center">
   <h1>{{ selectedOrganisation?.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</h1>
-  <a routerLink="../create" class="btn btn-outline-success">
-    <i-bs name="plus-circle"></i-bs>
-    {{ 'ADD_2' | tr }}</a
-  >
+  <div>
+    <a routerLink="./duplicates" class="btn btn-outline-secondary me-2">
+      <i-bs name="person-bounding-box"></i-bs>
+      {{ 'HOME_WAITERS_DUPLICATES' | tr }}</a
+    >
+    <a routerLink="../create" class="btn btn-outline-success">
+      <i-bs name="plus-circle"></i-bs>
+      {{ 'ADD_2' | tr }}</a
+    >
+  </div>
 </div>
 
 <div class="spinner-row" *ngIf="!entitiesLoaded">

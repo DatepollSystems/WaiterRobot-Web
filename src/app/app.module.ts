@@ -17,6 +17,7 @@ import {AuthInterceptor} from './_services/auth/auth-interceptor';
 
 import {AppComponent} from './app.component';
 import {ToastsContainerComponent} from './_services/notifications/toasts-container.component';
+import {DfxHelperModule} from 'dfx-helper';
 
 @NgModule({
   declarations: [AppComponent, ToastsContainerComponent],
@@ -27,7 +28,7 @@ import {ToastsContainerComponent} from './_services/notifications/toasts-contain
     HttpClientModule,
     FlexLayoutModule,
     NgbModule,
-    DfxTranslateModule,
+    DfxHelperModule.setup(),
     DfxTranslateModule.setup({defaultLanguage: 'de'}),
   ],
   providers: [
