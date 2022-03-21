@@ -8,7 +8,7 @@ import {SessionModel} from '../../../_models/user/session.model';
 @Injectable({
   providedIn: 'root',
 })
-export class SessionsService extends AbstractModelService<SessionModel> {
+export class UserSessionsService extends AbstractModelService<SessionModel> {
   constructor(httpService: HttpService) {
     super(httpService, '/user/sessions');
   }

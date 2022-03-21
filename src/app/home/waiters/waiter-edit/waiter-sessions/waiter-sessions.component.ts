@@ -2,20 +2,21 @@ import {Component} from '@angular/core';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
-import {UserSessionsService} from '../../../_services/models/user/user-sessions.service';
-import {SessionModel} from '../../../_models/user/session.model';
-import {QuestionDialogComponent} from '../../../_shared/question-dialog/question-dialog.component';
+import {AbstractModelsListComponent} from '../../../../_helper/abstract-models-list.component';
+import {UserSessionsService} from '../../../../_services/models/user/user-sessions.service';
+import {SessionModel} from '../../../../_models/user/session.model';
+import {QuestionDialogComponent} from '../../../../_shared/question-dialog/question-dialog.component';
+import {WaiterSessionsService} from '../../../../_services/models/waiter/waiter-sessions.service';
 
 @Component({
-  selector: 'app-sessions',
-  templateUrl: './sessions.component.html',
-  styleUrls: ['./sessions.component.scss'],
+  selector: 'app-waiter-sessions',
+  templateUrl: './waiter-sessions.component.html',
+  styles: [],
 })
-export class SessionsComponent extends AbstractModelsListComponent<SessionModel> {
+export class WaiterSessionsComponent extends AbstractModelsListComponent<SessionModel> {
   override columnsToDisplay = ['name', 'registered_at', 'updated_at', 'actions'];
 
-  constructor(sessionsService: UserSessionsService, modal: NgbModal) {
+  constructor(sessionsService: WaiterSessionsService, modal: NgbModal) {
     super(modal, sessionsService);
   }
 

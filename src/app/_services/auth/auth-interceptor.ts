@@ -6,6 +6,7 @@ import {catchError, filter, switchMap, take} from 'rxjs/operators';
 
 import {AuthService} from './auth.service';
 import {LoggerFactory} from 'dfx-helper';
+import {EnvironmentHelper} from '../../_helper/EnvironmentHelper';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -96,8 +97,10 @@ export class AuthInterceptor implements HttpInterceptor {
         }),
         catchError(() => {
           this.lumber.error('handle401Error', 'Could not refresh jwt token with session token');
-          this.authService.clearStorage();
-          window.location.reload();
+          if (EnvironmentHelper.getProduction()) {
+            this.authService.clearStorage();
+            window.location.reload();
+          }
 
           return next.handle(request);
         })

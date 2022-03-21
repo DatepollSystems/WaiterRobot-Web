@@ -87,7 +87,13 @@
           </div>
         </ng-template>
       </li>
-      <li [ngbNavItem]="2" *ngIf="isEditing">
+      <li [ngbNavItem]="2" *ngIf="isEditing && entity" [destroyOnHide]="true">
+        <a ngbNavLink>{{ 'NAV_USER_SESSIONS' | tr }}</a>
+        <ng-template ngbNavContent>
+          <app-waiter-sessions></app-waiter-sessions>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="3" *ngIf="false && isEditing">
         <a ngbNavLink>{{ 'STATISTICS' | tr }}</a>
         <ng-template ngbNavContent> Coming soon...</ng-template>
       </li>

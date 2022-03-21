@@ -14,6 +14,7 @@ import {OrganisationsService} from '../../../_services/models/organisation/organ
 import {WaiterModel} from '../../../_models/waiter/waiter.model';
 import {EventModel} from '../../../_models/event.model';
 import {OrganisationModel} from '../../../_models/organisation/organisation.model';
+import {WaiterSessionsService} from '../../../_services/models/waiter/waiter-sessions.service';
 
 @Component({
   selector: 'app-waiter-edit',
@@ -22,7 +23,7 @@ import {OrganisationModel} from '../../../_models/organisation/organisation.mode
 })
 export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel> {
   override redirectUrl = '/home/waiters/organisation';
-  override onlyEditingTabs = [2];
+  override onlyEditingTabs = [2, 3];
 
   selectedOrganisation: OrganisationModel | undefined;
   events: IEntityList<EventModel> = new EntityList();
@@ -36,6 +37,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     router: Router,
     waitersService: WaitersService,
     modal: NgbModal,
+    private waiterSessionService: WaiterSessionsService,
     public eventsService: EventsService,
     private organisationsService: OrganisationsService
   ) {
@@ -71,6 +73,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
   }
 
   override onEntityEdit(model: WaiterModel): void {
+    this.waiterSessionService.setGetAllWaiterId(model.id);
     const selected = [];
     for (const event of this.events) {
       if (model.events.includes(event.id)) {

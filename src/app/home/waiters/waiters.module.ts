@@ -21,6 +21,7 @@ import {WaiterEditComponent} from './waiter-edit/waiter-edit.component';
 import {WaiterCreateQRCodeModalComponent} from './waiter-create-qr-code-modal.component';
 import {WaiterSignInQRCodeModalComponent} from './waiter-edit/waiter-sign-in-qr-code-modal.component';
 import {DuplicateOrganisationWaitersComponent} from './duplicate-organisation-waiters/duplicate-organisation-waiters.component';
+import {WaiterSessionsComponent} from './waiter-edit/waiter-sessions/waiter-sessions.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,7 @@ const routes: Routes = [
     DuplicateOrganisationWaitersComponent,
     EventByIdWaitersComponent,
     WaiterEditComponent,
+    WaiterSessionsComponent,
     WaiterCreateQRCodeModalComponent,
     WaiterSignInQRCodeModalComponent,
   ],
