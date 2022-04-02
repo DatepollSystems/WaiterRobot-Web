@@ -38,7 +38,7 @@ export class ProductGroupEditComponent extends AbstractModelEditComponent<Produc
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
-    model.event_id = this.selectedEvent?.id;
+    model.eventId = this.selectedEvent?.id;
     return model;
   }
 }

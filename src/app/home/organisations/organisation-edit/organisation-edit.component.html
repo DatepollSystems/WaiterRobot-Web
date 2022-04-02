@@ -92,16 +92,16 @@
               </small>
             </div>
             <div class="form-group" fxFlex="28%">
-              <label for="street_number">{{ 'HOME_ORGS_STREETNUMBER' | tr }}</label>
+              <label for="streetNumber">{{ 'HOME_ORGS_STREETNUMBER' | tr }}</label>
               <input
                 ngModel
                 class="form-control bg-dark text-white"
                 required
                 type="text"
-                id="street_number"
+                id="streetNumber"
                 #streetNumberModel="ngModel"
                 [disabled]="!myUser?.isAdmin"
-                name="street_number"
+                name="streetNumber"
                 minlength="1"
                 placeholder="{{ 'HOME_ORGS_STREETNUMBER' | tr }}"
                 [ngModel]="isEditing ? entity?.streetNumber : null" />
@@ -113,16 +113,16 @@
 
           <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%" class="mt-2">
             <div class="form-group" fxFlex="23%">
-              <label for="postal_code">{{ 'HOME_ORGS_POSTAL_CODE' | tr }}</label>
+              <label for="postalCode">{{ 'HOME_ORGS_POSTAL_CODE' | tr }}</label>
               <input
                 ngModel
                 class="form-control bg-dark text-white"
                 required
                 type="text"
-                id="postal_code"
+                id="postalCode"
                 #postalCodeModel="ngModel"
                 [disabled]="!myUser?.isAdmin"
-                name="postal_code"
+                name="postalCode"
                 minlength="1"
                 placeholder="{{ 'HOME_ORGS_POSTAL_CODE' | tr }}"
                 [ngModel]="isEditing ? entity?.postalCode : null" />
@@ -151,16 +151,16 @@
             </div>
 
             <div class="form-group" fxFlex="23%">
-              <label for="country_code">{{ 'HOME_ORGS_COUNTRY_CODE' | tr }}</label>
+              <label for="countryCode">{{ 'HOME_ORGS_COUNTRY_CODE' | tr }}</label>
               <input
                 ngModel
                 class="form-control bg-dark text-white"
                 required
                 type="text"
-                id="country_code"
+                id="countryCode"
                 #countryCodeModel="ngModel"
                 [disabled]="!myUser?.isAdmin"
-                name="country_code"
+                name="countryCode"
                 minlength="2"
                 placeholder="{{ 'HOME_ORGS_COUNTRY_CODE' | tr }}"
                 [ngModel]="isEditing ? entity?.countryCode : null" />

@@ -51,7 +51,7 @@
                 type="email"
                 id="email"
                 email
-                name="email_address"
+                name="emailAddress"
                 #emailModel="ngModel"
                 minlength="6"
                 maxlength="255"
@@ -153,10 +153,10 @@
                 ngModel
                 class="form-check-input"
                 type="checkbox"
-                id="is_admin"
+                id="isAdmin"
                 [ngModel]="isEditing ? entity?.isAdmin : null"
-                name="is_admin" />
-              <label class="form-check-label" for="is_admin">
+                name="isAdmin" />
+              <label class="form-check-label" for="isAdmin">
                 {{ 'HOME_USERS_ADMIN' | tr }}
               </label>
             </div>
@@ -179,10 +179,10 @@
                 ngModel
                 class="form-check-input"
                 type="checkbox"
-                id="force_password_change"
+                id="forcePasswordChange"
                 [ngModel]="isEditing ? entity?.forcePasswordChange : null"
                 name="force_password_change" />
-              <label class="form-check-label" for="force_password_change">
+              <label class="form-check-label" for="forcePasswordChange">
                 {{ 'HOME_USERS_FORCE_PASSWORD_CHANGE' | tr }}
               </label>
             </div>

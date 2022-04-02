@@ -91,12 +91,12 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
-    model.organisation_id = this.selectedOrganisation?.id;
+    model.organisationId = this.selectedOrganisation?.id;
     const ids = [];
     for (const event of this.selectedEvents) {
       ids.push(event.id);
     }
-    model.event_ids = ids;
+    model.eventIds = ids;
     return model;
   }
 

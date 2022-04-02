@@ -66,9 +66,9 @@ export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
-    model.organisation_id = this.organisationsService.getSelected()?.id;
-    if (model.update_waiter_create_token?.length === 0) {
-      model.update_waiter_create_token = false;
+    model.organisationId = this.organisationsService.getSelected()?.id;
+    if (model.updateWaiterCreateToken?.length === 0) {
+      model.updateWaiterCreateToken = false;
     }
     model.date = DateHelper.getDateFormatted(model.date);
 

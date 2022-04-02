@@ -37,7 +37,7 @@ export class TableGroupEditComponent extends AbstractModelEditComponent<TableGro
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
-    model.event_id = this.selectedEvent?.id;
+    model.eventId = this.selectedEvent?.id;
     return model;
   }
 }

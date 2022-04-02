@@ -55,13 +55,13 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
-    model.group_id = Converter.toNumber(model.group_id as number);
-    model.allergen_ids = this.selectedAllergens.map((allergen) => {
+    model.groupId = Converter.toNumber(model.groupId as number);
+    model.allergenIds = this.selectedAllergens.map((allergen) => {
       return allergen.id;
     });
 
     //TODO: printer id
-    model.printer_id = 0;
+    model.printerId = 0;
 
     return model;
   }
