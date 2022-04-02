@@ -5,6 +5,7 @@ import {AbstractModelService} from '../abstract-model.service';
 import {OrganisationsService} from '../organisation/organisations.service';
 
 import {DuplicateWaiterModel} from '../../../_models/waiter/duplicate-waiter.model';
+import {DuplicateWaiterResponse} from '../../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,7 @@ export class DuplicateWaitersService extends AbstractModelService<DuplicateWaite
   }
 
   protected convert(jsonData: any): DuplicateWaiterModel {
-    return new DuplicateWaiterModel(jsonData);
+    return new DuplicateWaiterModel(jsonData as DuplicateWaiterResponse);
   }
 
   public merge(mergeDto: {waiter_id: number; waiter_ids: number[]}): void {

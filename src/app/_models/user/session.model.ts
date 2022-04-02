@@ -1,12 +1,12 @@
 import {AEntityWithNumberIDAndName} from 'dfx-helper';
 
 export class SessionModel extends AEntityWithNumberIDAndName {
-  public readonly registered_at: string;
-  public readonly updated_at: string;
+  public readonly registeredAt: string;
+  public readonly updatedAt: string;
 
   constructor(data: any) {
     super(data.id, data.description, data);
-    this.registered_at = data.created_at;
-    this.updated_at = data.updated_at;
+    this.registeredAt = data.created_at;
+    this.updatedAt = data.updated_at;
   }
 }

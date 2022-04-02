@@ -58,7 +58,7 @@ export class HomeComponent extends AComponent implements OnInit {
     this.autoUnsubscribe(
       this.myUserService.userChange.subscribe((user) => {
         this.myUser = user;
-        if (this.myUser.is_admin) {
+        if (this.myUser.isAdmin) {
           this.lumber.info('const', 'Admin status detected');
         }
       })
@@ -135,8 +135,8 @@ export class HomeComponent extends AComponent implements OnInit {
   switchAdminMode(): void {
     if (this.myUser) {
       this.adminModeChanged = !this.adminModeChanged;
-      this.myUser.is_admin = !this.myUser.is_admin;
-      this.lumber.info('switchAdminMode', 'Admin mode switched to ' + Converter.toString(this.myUser.is_admin));
+      this.myUser.isAdmin = !this.myUser.isAdmin;
+      this.lumber.info('switchAdminMode', 'Admin mode switched to ' + Converter.toString(this.myUser.isAdmin));
       this.myUserService.setUser(this.myUser);
     }
   }
@@ -163,6 +163,6 @@ export class HomeComponent extends AComponent implements OnInit {
     });
 
     modalRef.componentInstance.name = user.name;
-    modalRef.componentInstance.token = user.email_address;
+    modalRef.componentInstance.token = user.emailAddress;
   }
 }

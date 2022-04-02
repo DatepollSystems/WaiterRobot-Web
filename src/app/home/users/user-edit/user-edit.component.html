@@ -56,7 +56,7 @@
                 minlength="6"
                 maxlength="255"
                 placeholder="{{ 'EMAIL' | tr }}"
-                [ngModel]="isEditing ? entity?.email_address : null" />
+                [ngModel]="isEditing ? entity?.emailAddress : null" />
 
               <small *ngIf="emailModel.invalid" class="text-danger">
                 {{ 'HOME_USERS_EMAIL_INCORRECT' | tr }}
@@ -154,7 +154,7 @@
                 class="form-check-input"
                 type="checkbox"
                 id="is_admin"
-                [ngModel]="isEditing ? entity?.is_admin : null"
+                [ngModel]="isEditing ? entity?.isAdmin : null"
                 name="is_admin" />
               <label class="form-check-label" for="is_admin">
                 {{ 'HOME_USERS_ADMIN' | tr }}
@@ -180,7 +180,7 @@
                 class="form-check-input"
                 type="checkbox"
                 id="force_password_change"
-                [ngModel]="isEditing ? entity?.force_password_change : null"
+                [ngModel]="isEditing ? entity?.forcePasswordChange : null"
                 name="force_password_change" />
               <label class="form-check-label" for="force_password_change">
                 {{ 'HOME_USERS_FORCE_PASSWORD_CHANGE' | tr }}

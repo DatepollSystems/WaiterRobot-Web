@@ -1,6 +1,6 @@
 <div fxLayout="row break" fxLayoutAlign="space-between center">
   <h1>{{ 'HOME_ORGS_ALL' | tr }}</h1>
-  <div *ngIf="myUser?.is_admin">
+  <div *ngIf="myUser?.isAdmin">
     <a routerLink="../create" class="btn btn-outline-success">
       <i-bs name="plus-circle"></i-bs>
       {{ 'ADD_2' | tr }}</a
@@ -82,7 +82,7 @@
           class="btn btn-sm btn-outline-danger text-white"
           ngbTooltip="{{ 'DELETE' | tr }}"
           (click)="onDelete(organisation.id)"
-          *ngIf="myUser?.is_admin">
+          *ngIf="myUser?.isAdmin">
           <i-bs name="trash"></i-bs>
         </button>
       </td>

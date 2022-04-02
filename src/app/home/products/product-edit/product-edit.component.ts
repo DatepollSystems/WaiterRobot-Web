@@ -76,7 +76,7 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
 
   override onEntityEdit(model: ProductModel): void {
     this.selectedAllergens = model.allergens;
-    this.selectedProductGroup = model.group_id;
+    this.selectedProductGroup = model.groupId;
   }
 
   allergenChange(allergens: IEntityList<IEntityWithNumberIDAndName>): void {

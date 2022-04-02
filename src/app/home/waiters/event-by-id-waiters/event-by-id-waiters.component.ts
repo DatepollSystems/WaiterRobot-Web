@@ -36,6 +36,6 @@ export class EventByIdWaitersComponent extends AbstractModelsListByIdComponent<W
     });
 
     modalRef.componentInstance.name = event.name;
-    modalRef.componentInstance.token = event.waiter_create_token;
+    modalRef.componentInstance.token = event.waiterCreateToken;
   }
 }

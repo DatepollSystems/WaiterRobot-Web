@@ -1,14 +1,15 @@
 import {AEntityWithStringIDAndName} from 'dfx-helper';
+import {OrganisationUserResponse} from '../waiterrobot-backend';
 
 export class OrganisationUserModel extends AEntityWithStringIDAndName {
-  public readonly email_address: string;
+  public readonly emailAddress: string;
   public readonly role: string;
-  public readonly organisation_id: number;
+  public readonly organisationId: number;
 
-  constructor(data: any) {
-    super(data.email_address, data.firstname + ' ' + data.surname, data);
-    this.email_address = data.email_address;
+  constructor(data: OrganisationUserResponse) {
+    super(data.emailAddress, data.firstname + ' ' + data.surname, data);
+    this.emailAddress = data.emailAddress;
     this.role = data.role;
-    this.organisation_id = data.organisation_id;
+    this.organisationId = data.organisationId;
   }
 }

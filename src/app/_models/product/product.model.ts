@@ -4,9 +4,9 @@ import {AllergenModel} from '../allergen.model';
 export class ProductModel extends AEntityWithNumberIDAndName {
   public readonly price: number;
   public readonly allergens: IEntityList<AllergenModel> = new EntityList();
-  public readonly group_id: number;
-  public readonly group_name: string;
-  public readonly printer_id: number;
+  public readonly groupId: number;
+  public readonly groupName: string;
+  public readonly printerId: number;
 
   constructor(data: any) {
     super(data.id, data.name, data);
@@ -16,16 +16,16 @@ export class ProductModel extends AEntityWithNumberIDAndName {
         return new AllergenModel(allergen);
       })
     );
-    this.group_id = data.group_id;
-    this.group_name = data.group_name;
-    this.printer_id = data.printer_id;
+    this.groupId = data.groupId;
+    this.groupName = data.groupName;
+    this.printerId = data.printerId;
   }
 
   private allergensShortName: string | undefined;
 
   public allergens_short_names(): string {
     if (!this.allergensShortName) {
-      this.allergensShortName = StringHelper.getImploded(this.allergens.map((allergen) => allergen.short_name));
+      this.allergensShortName = StringHelper.getImploded(this.allergens.map((allergen) => allergen.shortName));
     }
     return this.allergensShortName;
   }

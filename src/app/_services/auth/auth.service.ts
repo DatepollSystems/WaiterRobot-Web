@@ -6,6 +6,7 @@ import {tap} from 'rxjs/operators';
 
 import {BrowserHelper, Converter, StorageHelper} from 'dfx-helper';
 import {HttpService} from '../http.service';
+import {JWTResponse} from '../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
@@ -42,8 +43,8 @@ export class AuthService {
     const signInObject = {
       email,
       password,
-      session_information: AuthService.getSessionInformation(),
-      stay_logged_in: true,
+      sessionInformation: AuthService.getSessionInformation(),
+      stayLoggedIn: true,
     };
 
     return this.httpService.post(AuthService.signInUrl, signInObject, undefined, 'sendSignInRequest');
@@ -79,8 +80,8 @@ export class AuthService {
 
   public refreshJWTToken(): Observable<any> {
     const object = {
-      session_token: this.getSessionToken(),
-      session_information: AuthService.getSessionInformation(),
+      sessionToken: this.getSessionToken(),
+      sessionInformation: AuthService.getSessionInformation(),
     };
 
     return this.httpService.post(AuthService.refreshUrl, object, undefined, 'refreshJWTToken').pipe(
@@ -98,11 +99,11 @@ export class AuthService {
       .subscribe(
         () => {
           this.clearStorage();
-          void this.router.navigateByUrl('/about');
+          window.location.reload();
         },
         () => {
           this.clearStorage();
-          void this.router.navigateByUrl('/about');
+          window.location.reload();
         }
       );
   }

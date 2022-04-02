@@ -28,7 +28,7 @@ export class AboutComponent implements OnInit {
     this.authService.sendSignInRequest(email, password).subscribe(
       (data: any) => {
         this.authService.setJWTToken(data.token as string);
-        this.authService.setSessionToken(data.session_token as string);
+        this.authService.setSessionToken(data.sessionToken as string);
         this.notificationService.tsuccess('ABOUT_SIGNIN_SUCCESSFUL');
         const url = this.authService.redirectUrl ? this.authService.redirectUrl : '/home';
         void this.router.navigateByUrl(url);

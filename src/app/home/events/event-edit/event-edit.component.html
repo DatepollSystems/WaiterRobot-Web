@@ -8,7 +8,7 @@
     </div>
 
     <ng-container *ngIf="isEditing && entity">
-      <ng-container *ngIf="myUser?.is_admin">
+      <ng-container *ngIf="myUser?.isAdmin">
         <div *ngIf="activeTab === 1">
           <button class="btn btn-sm btn-success my-2" (click)="f.ngSubmit.emit()" [disabled]="!f.valid">
             <i-bs name="save"></i-bs>
@@ -71,7 +71,7 @@
                 id="name"
                 name="name"
                 #nameModel="ngModel"
-                [disabled]="!myUser?.is_admin"
+                [disabled]="!myUser?.isAdmin"
                 minlength="5"
                 placeholder="{{ 'NAME' | tr }}"
                 [ngModel]="isEditing ? entity?.name : null" />
@@ -92,10 +92,10 @@
                   id="date"
                   #datePicker="ngbDatepicker"
                   name="date"
-                  [placeholder]="myUser?.is_admin ? '13.12.2021' : ''"
-                  [disabled]="!myUser?.is_admin"
+                  [placeholder]="myUser?.isAdmin ? '13.12.2021' : ''"
+                  [disabled]="!myUser?.isAdmin"
                   [ngModel]="isEditing ? entity?.date : null" />
-                <button class="btn btn-outline-light" (click)="datePicker.toggle()" type="button" *ngIf="myUser?.is_admin">
+                <button class="btn btn-outline-light" (click)="datePicker.toggle()" type="button" *ngIf="myUser?.isAdmin">
                   <i-bs name="calendar-date"></i-bs>
                 </button>
               </div>
@@ -113,7 +113,7 @@
                 id="street"
                 name="street"
                 #streetModel="ngModel"
-                [disabled]="!myUser?.is_admin"
+                [disabled]="!myUser?.isAdmin"
                 minlength="1"
                 placeholder="{{ 'HOME_ORGS_STREET' | tr }}"
                 [ngModel]="isEditing ? entity?.street : null" />
@@ -130,7 +130,7 @@
                 type="text"
                 id="street_number"
                 #streetNumberModel="ngModel"
-                [disabled]="!myUser?.is_admin"
+                [disabled]="!myUser?.isAdmin"
                 name="street_number"
                 minlength="1"
                 placeholder="{{ 'HOME_ORGS_STREETNUMBER' | tr }}"
@@ -151,7 +151,7 @@
                 type="text"
                 id="postal_code"
                 #postalCodeModel="ngModel"
-                [disabled]="!myUser?.is_admin"
+                [disabled]="!myUser?.isAdmin"
                 name="postal_code"
                 minlength="1"
                 placeholder="{{ 'HOME_ORGS_POSTAL_CODE' | tr }}"
@@ -171,7 +171,7 @@
                 id="city"
                 name="city"
                 #cityModel="ngModel"
-                [disabled]="!myUser?.is_admin"
+                [disabled]="!myUser?.isAdmin"
                 minlength="1"
                 placeholder="{{ 'HOME_ORGS_CITY' | tr }}"
                 [ngModel]="isEditing ? entity?.city : null" />
@@ -182,7 +182,7 @@
           </div>
 
           <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%" class="mt-2">
-            <div class="form-check" *ngIf="isEditing && myUser?.is_admin">
+            <div class="form-check" *ngIf="isEditing && myUser?.isAdmin">
               <input
                 ngModel
                 class="form-check-input"

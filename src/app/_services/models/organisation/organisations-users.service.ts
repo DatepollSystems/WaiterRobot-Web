@@ -4,6 +4,7 @@ import {AEntityService} from 'dfx-helper';
 import {HttpService} from '../../http.service';
 
 import {OrganisationUserModel} from '../../../_models/organisation/organisation-user.model';
+import {OrganisationUserResponse} from '../../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,6 @@ export class OrganisationsUsersService extends AEntityService<string, Organisati
   }
 
   protected convert(data: any): OrganisationUserModel {
-    return new OrganisationUserModel(data);
+    return new OrganisationUserModel(data as OrganisationUserResponse);
   }
 }

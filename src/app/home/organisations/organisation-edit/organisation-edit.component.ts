@@ -116,7 +116,7 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
       if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
         this.organisationsUsersService
           ._delete(model.id, [
-            {key: 'organisationId', value: model.organisation_id},
+            {key: 'organisationId', value: model.organisationId},
             {key: 'uEmail', value: model.id},
           ])
           .subscribe(

@@ -62,7 +62,7 @@ export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
     });
 
     modalRef.componentInstance.name = event.name;
-    modalRef.componentInstance.token = event.waiter_create_token;
+    modalRef.componentInstance.token = event.waiterCreateToken;
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {

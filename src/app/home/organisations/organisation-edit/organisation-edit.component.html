@@ -10,7 +10,7 @@
     </div>
 
     <ng-container *ngIf="isEditing && entity">
-      <ng-container *ngIf="myUser?.is_admin && activeTab === 1">
+      <ng-container *ngIf="myUser?.isAdmin && activeTab === 1">
         <div>
           <button class="btn btn-sm btn-success my-2" (click)="form.ngSubmit.emit()" [disabled]="!form.valid">
             <i-bs name="save"></i-bs>
@@ -61,7 +61,7 @@
                 id="name"
                 name="name"
                 #nameModel="ngModel"
-                [disabled]="!myUser?.is_admin"
+                [disabled]="!myUser?.isAdmin"
                 minlength="5"
                 placeholder="{{ 'NAME' | tr }}"
                 [ngModel]="isEditing ? entity?.name : null" />
@@ -84,7 +84,7 @@
                 name="street"
                 minlength="1"
                 #streetModel="ngModel"
-                [disabled]="!myUser?.is_admin"
+                [disabled]="!myUser?.isAdmin"
                 placeholder="{{ 'HOME_ORGS_STREET' | tr }}"
                 [ngModel]="isEditing ? entity?.street : null" />
               <small *ngIf="streetModel.invalid" class="text-danger">
@@ -100,7 +100,7 @@
                 type="text"
                 id="street_number"
                 #streetNumberModel="ngModel"
-                [disabled]="!myUser?.is_admin"
+                [disabled]="!myUser?.isAdmin"
                 name="street_number"
                 minlength="1"
                 placeholder="{{ 'HOME_ORGS_STREETNUMBER' | tr }}"
@@ -121,7 +121,7 @@
                 type="text"
                 id="postal_code"
                 #postalCodeModel="ngModel"
-                [disabled]="!myUser?.is_admin"
+                [disabled]="!myUser?.isAdmin"
                 name="postal_code"
                 minlength="1"
                 placeholder="{{ 'HOME_ORGS_POSTAL_CODE' | tr }}"
@@ -141,7 +141,7 @@
                 id="city"
                 name="city"
                 #cityModel="ngModel"
-                [disabled]="!myUser?.is_admin"
+                [disabled]="!myUser?.isAdmin"
                 minlength="1"
                 placeholder="{{ 'HOME_ORGS_CITY' | tr }}"
                 [ngModel]="isEditing ? entity?.city : null" />
@@ -159,7 +159,7 @@
                 type="text"
                 id="country_code"
                 #countryCodeModel="ngModel"
-                [disabled]="!myUser?.is_admin"
+                [disabled]="!myUser?.isAdmin"
                 name="country_code"
                 minlength="2"
                 placeholder="{{ 'HOME_ORGS_COUNTRY_CODE' | tr }}"
@@ -227,7 +227,7 @@
                     class="btn btn-sm m-1 btn-outline-danger text-white"
                     ngbTooltip="{{ 'DELETE' | tr }}"
                     (click)="onOrgUserDelete(organisationUser)"
-                    *ngIf="myUser?.is_admin || this.myUser?.email_address !== organisationUser.email_address">
+                    *ngIf="myUser?.isAdmin || this.myUser?.emailAddress !== organisationUser.email_address">
                     <i-bs name="trash"></i-bs>
                   </button>
                 </td>

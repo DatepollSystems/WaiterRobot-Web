@@ -12,7 +12,7 @@
           <span *ngIf="environmentType === 'dev'">DEV</span>
           <span *ngIf="environmentType === 'testing'">TESTING</span>
         </div>
-        <div style="font-size: 12px" *ngIf="myUser?.is_admin" class="badge bg-danger text-dark ms-3 me-1 not-selectable">
+        <div style="font-size: 12px" *ngIf="myUser?.isAdmin" class="badge bg-danger text-dark ms-3 me-1 not-selectable">
           <span>ADMIN</span>
         </div>
       </ng-container>
@@ -43,7 +43,7 @@
                 <span *ngIf="environmentType === 'dev'">DEV</span>
                 <span *ngIf="environmentType === 'testing'">TESTING</span>
               </div>
-              <div style="font-size: 12px" *ngIf="myUser?.is_admin" class="badge bg-danger text-dark ms-3 me-1 not-selectable">
+              <div style="font-size: 12px" *ngIf="myUser?.isAdmin" class="badge bg-danger text-dark ms-3 me-1 not-selectable">
                 <span>ADMIN</span>
               </div>
             </li>
@@ -76,7 +76,7 @@
                     </span>
                   </ng-container>
                   <div class="dropdown-divider"></div>
-                  <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/create" *ngIf="myUser?.is_admin">
+                  <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/create" *ngIf="myUser?.isAdmin">
                     <b>+</b> {{ 'ADD_2' | tr }}
                   </button>
                   <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/all">
@@ -115,7 +115,7 @@
                     </span>
                   </ng-container>
                   <div class="dropdown-divider"></div>
-                  <button ngbDropdownItem routerLinkActive="active" routerLink="events/create" *ngIf="myUser?.is_admin">
+                  <button ngbDropdownItem routerLinkActive="active" routerLink="events/create" *ngIf="myUser?.isAdmin">
                     <b>+</b> {{ 'ADD_2' | tr }}
                   </button>
                   <button ngbDropdownItem routerLinkActive="active" routerLink="events/all">
@@ -130,7 +130,7 @@
 
         <div>
           <ul class="navbar-nav">
-            <li class="nav-item" *ngIf="myUser?.is_admin">
+            <li class="nav-item" *ngIf="myUser?.isAdmin">
               <div ngbDropdown display="dynamic">
                 <a class="nav-link" id="adminDropDown" ngbDropdownToggle> {{ 'NAV_INSTANCE_ADMINISTRATION' | tr }}</a>
                 <div ngbDropdownMenu aria-labelledby="adminDropDown">
@@ -153,12 +153,12 @@
                   <div class="px-3 py-1">
                     <h5>{{ 'NAV_USER_SETTINGS_WELCOME' | tr }} {{ myUser?.firstname }},</h5>
                     <a (click)="openUserEmailQRCode(myUser)">
-                      <u>{{ myUser?.email_address }}</u>
+                      <u>{{ myUser?.emailAddress }}</u>
                       <i-bs name="qr-code" class="ms-1"></i-bs>
                     </a>
                     <small>
                       <br />
-                      <b *ngIf="myUser?.is_admin" class="clickable" (click)="switchAdminMode()">{{ 'NAV_USER_SETTINGS_ADMIN' | tr }}</b>
+                      <b *ngIf="myUser?.isAdmin" class="clickable" (click)="switchAdminMode()">{{ 'NAV_USER_SETTINGS_ADMIN' | tr }}</b>
                       <b *ngIf="this.adminModeChanged" class="clickable" (click)="switchAdminMode()">{{
                         'NAV_USER_SETTINGS_ADMIN_SWITCH' | tr
                       }}</b>

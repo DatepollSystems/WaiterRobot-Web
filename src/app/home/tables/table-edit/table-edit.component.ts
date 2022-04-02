@@ -71,7 +71,7 @@ export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
   }
 
   override onEntityEdit(model: TableModel): void {
-    this.selectedTableGroup = Converter.toNumber(model.group_id);
+    this.selectedTableGroup = Converter.toNumber(model.groupId);
   }
 
   selectTableGroup(value: number): void {
