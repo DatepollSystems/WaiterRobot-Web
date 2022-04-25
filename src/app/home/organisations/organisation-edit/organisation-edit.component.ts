@@ -74,7 +74,7 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
       this.dataSource.filter = value;
     });
 
-    this.organisationsUsersService.setGetAllParams([{key: 'organisation_id', value: model.id}]);
+    this.organisationsUsersService.setGetAllParams([{key: 'organisationId', value: model.id}]);
     this.organisationUsers = this.organisationsUsersService.getAll();
     this.refreshTable();
     this.autoUnsubscribe(

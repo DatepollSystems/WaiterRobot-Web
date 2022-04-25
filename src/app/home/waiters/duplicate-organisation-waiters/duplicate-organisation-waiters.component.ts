@@ -98,8 +98,8 @@ export class DuplicateOrganisationWaitersComponent extends AbstractModelsListCom
     }
 
     const mergeDto = {
-      waiter_id: this.selectedDuplicateWaiter?.id,
-      waiter_ids: this.duplicateWaitersToMerge.map((value) => value.id),
+      waiterId: this.selectedDuplicateWaiter?.id,
+      waiterIds: this.duplicateWaitersToMerge.map((value) => value.id),
     };
     this.entitiesService.merge(mergeDto);
     if (this.continueMerge && this.entities.length > 1) {

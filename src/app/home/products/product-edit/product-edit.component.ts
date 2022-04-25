@@ -23,7 +23,7 @@ import {AllergensService} from '../../../_services/models/allergens.service';
 })
 export class ProductEditComponent extends AbstractModelEditComponent<ProductModel> {
   override redirectUrl = '/home/products/all';
-  override continuousUsePropertyNames = ['group_id'];
+  override continuousUsePropertyNames = ['groupId'];
 
   selectedEvent: EventModel | undefined;
   productGroups: ProductGroupModel[];

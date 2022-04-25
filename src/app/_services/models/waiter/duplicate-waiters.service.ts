@@ -13,9 +13,9 @@ import {DuplicateWaiterResponse} from '../../../_models/waiterrobot-backend';
 export class DuplicateWaitersService extends AbstractModelService<DuplicateWaiterModel> {
   constructor(httpService: HttpService, private organisationService: OrganisationsService) {
     super(httpService, '/config/waiter/duplicates');
-    this.setGetAllParams([{key: 'organisation_id', value: this.organisationService.getSelected()?.id}]);
+    this.setGetAllParams([{key: 'organisationId', value: this.organisationService.getSelected()?.id}]);
     this.organisationService.selectedChange.subscribe((org) => {
-      this.setGetAllParams([{key: 'organisation_id', value: org?.id}]);
+      this.setGetAllParams([{key: 'organisationId', value: org?.id}]);
     });
   }
 
@@ -23,7 +23,7 @@ export class DuplicateWaitersService extends AbstractModelService<DuplicateWaite
     return new DuplicateWaiterModel(jsonData as DuplicateWaiterResponse);
   }
 
-  public merge(mergeDto: {waiter_id: number; waiter_ids: number[]}): void {
+  public merge(mergeDto: {waiterId: number; waiterIds: number[]}): void {
     this.httpService.put('/config/waiter/duplicates/merge', mergeDto).subscribe(
       () => this.getAll(),
       (error) => console.log(error)

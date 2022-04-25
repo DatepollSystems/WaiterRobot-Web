@@ -26,7 +26,7 @@ export class OrganisationsSettingsService {
 
   private fetchSettings(organisationId: number): void {
     this.httpService
-      .get('/config/organisation/settings', new HttpParams().set('organisation_id', organisationId))
+      .get('/config/organisation/settings', new HttpParams().set('organisationId', organisationId))
       .subscribe((data: unknown) => {
         this.setSettings(new OrganisationSettingsModel(data));
       });

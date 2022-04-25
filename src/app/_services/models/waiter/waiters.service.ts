@@ -12,14 +12,14 @@ import {OrganisationsService} from '../organisation/organisations.service';
 export class WaitersService extends AbstractModelService<WaiterModel> {
   constructor(httpService: HttpService, private organisationService: OrganisationsService) {
     super(httpService, '/config/waiter');
-    this.setGetAllParams([{key: 'organisation_id', value: this.organisationService.getSelected()?.id}]);
+    this.setGetAllParams([{key: 'organisationId', value: this.organisationService.getSelected()?.id}]);
     this.organisationService.selectedChange.subscribe((org) => {
-      this.setGetAllParams([{key: 'organisation_id', value: org?.id}]);
+      this.setGetAllParams([{key: 'organisationId', value: org?.id}]);
     });
   }
 
   public setSelectedOrganisationGetAllUrl(): void {
-    this.setGetAllParams([{key: 'organisation_id', value: this.organisationService.getSelected()?.id}]);
+    this.setGetAllParams([{key: 'organisationId', value: this.organisationService.getSelected()?.id}]);
   }
 
   protected convert(jsonData: any): WaiterModel {

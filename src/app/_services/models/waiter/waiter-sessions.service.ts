@@ -12,7 +12,7 @@ import {WaitersService} from './waiters.service';
 export class WaiterSessionsService extends AbstractModelService<SessionModel> {
   constructor(httpService: HttpService, waitersService: WaitersService) {
     super(httpService, '/config/waiter/session');
-    waitersService.singleChange.subscribe((waiter) => this.setGetAllParams([{key: 'waiter_id', value: waiter?.id}]));
+    waitersService.singleChange.subscribe((waiter) => this.setGetAllParams([{key: 'waiterId', value: waiter?.id}]));
   }
 
   protected convert(data: any): SessionModel {
@@ -20,6 +20,6 @@ export class WaiterSessionsService extends AbstractModelService<SessionModel> {
   }
 
   public setGetAllWaiterId(id: number): void {
-    this.setGetAllParams([{key: 'waiter_id', value: id}]);
+    this.setGetAllParams([{key: 'waiterId', value: id}]);
   }
 }

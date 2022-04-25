@@ -17,7 +17,7 @@ import {ProductGroupModel} from '../../../_models/product/product-group.model';
 })
 export class ProductGroupByIdProductsComponent extends AbstractModelsListByIdComponent<ProductModel, ProductGroupModel> {
   override columnsToDisplay = ['name', 'price', 'allergens', 'actions'];
-  override getAllParam = 'group_id';
+  override getAllParam = 'groupId';
 
   constructor(service: ProductsService, groupsService: ProductGroupsService, route: ActivatedRoute, router: Router, modal: NgbModal) {
     super(router, route, modal, service, groupsService);
