@@ -13,7 +13,7 @@ export class CustomDateAdapter extends NgbDateAdapter<string> {
 
   fromModel(value: string | null): NgbDateStruct | null {
     if (value) {
-      let date = value.split(this.DELIMITER);
+      const date = value.split(this.DELIMITER);
       return {
         year: parseInt(date[0], 10),
         month: parseInt(date[1], 10),

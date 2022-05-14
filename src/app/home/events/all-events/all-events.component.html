@@ -64,11 +64,11 @@
     <ng-container ngbColumnDef="actions">
       <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
       <td *ngbCellDef="let event" ngb-cell>
-        <selectable-button
+        <app-selectable-button
           class="me-2"
           [selectedEntity]="selectedEvent"
           [entity]="event"
-          [selectedEntityService]="eventsService"></selectable-button>
+          [selectedEntityService]="eventsService"></app-selectable-button>
         <a class="btn btn-sm me-2 btn-outline-success text-white" routerLink="../{{ event.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
           <i-bs name="pencil-square"></i-bs>
         </a>

@@ -1,4 +1,5 @@
 import {AEntityWithNumberIDAndName} from 'dfx-helper';
+import {GetEventOrLocationResponse} from './waiterrobot-backend';
 
 export class EventModel extends AEntityWithNumberIDAndName {
   public readonly date: string | null;
@@ -9,7 +10,7 @@ export class EventModel extends AEntityWithNumberIDAndName {
   public readonly waiterCreateToken: string;
   public readonly organisationId: number;
 
-  constructor(data: any) {
+  constructor(data: GetEventOrLocationResponse) {
     super(data.id, data.name, data);
     this.street = data.street;
     this.streetNumber = data.streetNumber;

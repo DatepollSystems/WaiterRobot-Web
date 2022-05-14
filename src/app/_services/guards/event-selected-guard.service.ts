@@ -8,6 +8,7 @@ import {EventsService} from '../models/events.service';
 export class EventSelectedGuardService implements CanActivate {
   constructor(private eventService: EventsService, private router: Router) {}
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this.eventService.getSelected() == undefined) {
       void this.router.navigate(['/home']);

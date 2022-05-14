@@ -21,7 +21,7 @@ export class FooterComponent {
     document.getElementById('brand')?.classList.add('spin');
   }
 
-  setLang(event: any): void {
+  setLang(event: string): void {
     // const oldLanguage = localStorage.getItem('language');
     void this.translate.use(event);
 

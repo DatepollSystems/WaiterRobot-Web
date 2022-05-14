@@ -51,10 +51,6 @@ export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
     );
   }
 
-  onSelect(event: EventModel | undefined): void {
-    this.eventsService.setSelected(event);
-  }
-
   openQRCode(event: EventModel): void {
     const modalRef = this.modal.open(WaiterCreateQRCodeModalComponent, {
       ariaLabelledBy: 'modal-qrcode-title',
@@ -70,7 +66,7 @@ export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
     if (model.updateWaiterCreateToken?.length === 0) {
       model.updateWaiterCreateToken = false;
     }
-    model.date = DateHelper.getDateFormatted(model.date);
+    model.date = DateHelper.getFormatted(model.date as Date | null);
 
     return super.addCustomAttributesBeforeCreateAndUpdate(model);
   }

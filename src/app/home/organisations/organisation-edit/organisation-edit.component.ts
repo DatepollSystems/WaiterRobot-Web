@@ -8,16 +8,14 @@ import {EntityList, IList} from 'dfx-helper';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
 import {QuestionDialogComponent} from '../../../_shared/question-dialog/question-dialog.component';
-
-import {NotificationService} from '../../../_services/notifications/notification.service';
 import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
 import {MyUserService} from '../../../_services/auth/my-user.service';
 import {OrganisationsUsersService} from '../../../_services/models/organisation/organisations-users.service';
+import {OrganisationsSettingsService} from '../../../_services/models/organisation/organisations-settings.service';
 
 import {OrganisationModel} from '../../../_models/organisation/organisation.model';
 import {UserModel} from '../../../_models/user/user.model';
 import {OrganisationUserAddModalComponent} from '../organisation-user-add-modal/organisation-user-add-modal.component';
-import {OrganisationsSettingsService} from '../../../_services/models/organisation/organisations-settings.service';
 import {OrganisationSettingsModel} from '../../../_models/organisation/organisation-settings.model';
 import {OrganisationUserModel} from '../../../_models/organisation/organisation-user.model';
 
@@ -49,8 +47,7 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
     myUserService: MyUserService,
     public organisationsService: OrganisationsService,
     public organisationsSettingsService: OrganisationsSettingsService,
-    protected organisationsUsersService: OrganisationsUsersService,
-    protected notificationsService: NotificationService
+    protected organisationsUsersService: OrganisationsUsersService
   ) {
     super(router, route, modal, organisationsService);
 
@@ -97,10 +94,6 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
     this.dataSource.sort = this.sort;
   }
 
-  onSelect(organisation: OrganisationModel | undefined): void {
-    this.organisationsService.setSelected(organisation);
-  }
-
   openAddUserModal(): void {
     const modalRef = this.modal.open(OrganisationUserAddModalComponent, {
       ariaLabelledBy: 'modal-title-org-user-add',
@@ -132,7 +125,7 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
     });
   }
 
-  setActivateWaiterOnSignInViaCreateToken() {
+  setActivateWaiterOnSignInViaCreateToken(): void {
     if (this.entity) {
       this.organisationsSettingsService.setActivateWaiterOnSignInViaCreateToken(
         this.entity.id,

@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
 
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
-
 import {BrowserHelper, Converter, StorageHelper} from 'dfx-helper';
+
 import {HttpService} from '../http.service';
+import {NullHelper} from '../../_helper/NullHelper';
 import {JWTResponse} from '../../_models/waiterrobot-backend';
 
 @Injectable({
@@ -21,7 +21,7 @@ export class AuthService {
 
   public redirectUrl: string | undefined = undefined;
 
-  constructor(private httpService: HttpService, private router: Router) {
+  constructor(private httpService: HttpService) {
     this.jwtTokenExpires = new Date();
     this.jwtTokenExpires.setMinutes(this.jwtTokenExpires.getMinutes() + 50);
   }
@@ -86,7 +86,8 @@ export class AuthService {
 
     return this.httpService.post(AuthService.refreshUrl, object, undefined, 'refreshJWTToken').pipe(
       tap((data: any) => {
-        this.setJWTToken(data.token);
+        const jwtResponse = data as JWTResponse;
+        this.setJWTToken(NullHelper.nullToUndefined(jwtResponse.token));
       })
     );
   }

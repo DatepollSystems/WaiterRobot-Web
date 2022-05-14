@@ -37,8 +37,4 @@ export class AllEventsComponent extends AbstractModelsListComponent<EventModel> 
       })
     );
   }
-
-  onSelect(event: EventModel | undefined): void {
-    this.eventsService.setSelected(event);
-  }
 }

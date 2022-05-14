@@ -22,11 +22,11 @@
           </button>
         </div>
       </ng-container>
-      <selectable-button
+      <app-selectable-button
         class="my-2"
         [selectedEntity]="selectedEvent"
         [entity]="entity"
-        [selectedEntityService]="eventsService"></selectable-button>
+        [selectedEntityService]="eventsService"></app-selectable-button>
       <div>
         <button class="btn btn-sm btn-outline-primary my-2" (click)="openQRCode(entity)">
           <i-bs name="qr-code"></i-bs>

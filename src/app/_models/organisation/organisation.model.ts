@@ -1,4 +1,5 @@
 import {AEntityWithNumberIDAndName} from 'dfx-helper';
+import {GetOrganisationResponse} from '../waiterrobot-backend';
 
 export class OrganisationModel extends AEntityWithNumberIDAndName {
   public readonly street: string;
@@ -7,7 +8,7 @@ export class OrganisationModel extends AEntityWithNumberIDAndName {
   public readonly city: string;
   public readonly countryCode: string;
 
-  constructor(data: any) {
+  constructor(data: GetOrganisationResponse) {
     super(data.id, data.name, data);
     this.street = data.street;
     this.streetNumber = data.streetNumber;

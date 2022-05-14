@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+
 // Generated using typescript-generator version 2.35.1025 on 2022-03-24 12:09:45.
 
 export interface CreateAllergenDto {
@@ -96,7 +97,7 @@ export interface GetAllergenResponse {
 export interface GetEventOrLocationResponse {
   readonly id: number;
   readonly name: string;
-  readonly date: Date | null;
+  readonly date: string | null;
   readonly street: string;
   readonly streetNumber: string;
   readonly postalCode: string;
@@ -262,8 +263,8 @@ export interface SessionResponse {
   readonly id: number;
   readonly description: string;
   readonly entityId: number;
-  readonly createdAt: Date | null;
-  readonly updatedAt: Date | null;
+  readonly createdAt: string;
+  readonly updatedAt: string;
 }
 
 export interface SignInWithPasswordChangeDto extends ISignInWithPasswordChangeDto {

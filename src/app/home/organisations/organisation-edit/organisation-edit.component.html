@@ -24,11 +24,11 @@
           </button>
         </div>
       </ng-container>
-      <selectable-button
+      <app-selectable-button
         class="my-2"
         [selectedEntity]="selectedOrganisation"
         [entity]="entity"
-        [selectedEntityService]="organisationsService"></selectable-button>
+        [selectedEntityService]="organisationsService"></app-selectable-button>
     </ng-container>
 
     <div *ngIf="!isEditing">

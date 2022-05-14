@@ -1,12 +1,13 @@
 import {AEntityWithNumberIDAndName} from 'dfx-helper';
+import {SessionResponse} from '../waiterrobot-backend';
 
 export class SessionModel extends AEntityWithNumberIDAndName {
   public readonly registeredAt: string;
   public readonly updatedAt: string;
 
-  constructor(data: any) {
+  constructor(data: SessionResponse) {
     super(data.id, data.description, data);
-    this.registeredAt = data.created_at;
-    this.updatedAt = data.updated_at;
+    this.registeredAt = data.createdAt;
+    this.updatedAt = data.updatedAt;
   }
 }

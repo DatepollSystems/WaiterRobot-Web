@@ -7,6 +7,8 @@ import {catchError, filter, switchMap, take} from 'rxjs/operators';
 import {AuthService} from './auth.service';
 import {LoggerFactory} from 'dfx-helper';
 import {EnvironmentHelper} from '../../_helper/EnvironmentHelper';
+import {JWTResponse} from '../../_models/waiterrobot-backend';
+import {NullHelper} from '../../_helper/NullHelper';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -89,11 +91,11 @@ export class AuthInterceptor implements HttpInterceptor {
       this.refreshTokenSubject.next(undefined);
 
       return this.authService.refreshJWTToken().pipe(
-        switchMap((data: any) => {
+        switchMap((data: JWTResponse) => {
           this.lumber.info('handle401Error', 'JWT token refreshed');
           this.isRefreshing = false;
           this.refreshTokenSubject.next(data.token);
-          return next.handle(AuthInterceptor.addToken(request, data.token));
+          return next.handle(AuthInterceptor.addToken(request, NullHelper.nullToUndefined(data.token)));
         }),
         catchError(() => {
           this.lumber.error('handle401Error', 'Could not refresh jwt token with session token');
@@ -109,7 +111,7 @@ export class AuthInterceptor implements HttpInterceptor {
       return this.refreshTokenSubject.pipe(
         filter((token) => token != undefined),
         take(1),
-        switchMap((jwt) => {
+        switchMap((jwt: string) => {
           this.lumber.info('handle401Error', 'Already refreshing; JWT: "' + jwt + '"');
           return next.handle(AuthInterceptor.addToken(request, jwt));
         })

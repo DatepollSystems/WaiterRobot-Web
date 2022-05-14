@@ -44,25 +44,25 @@
         rdf:about=''>
         <dc:format>image/svg+xml</dc:format>
         <dc:type
-          rdf:resource='http://purl.org/dc/dcmitype/StillImage' />
+          rdf:resource='https://purl.org/dc/dcmitype/StillImage' />
         <dc:title></dc:title>
         <cc:license
-          rdf:resource='http://creativecommons.org/licenses/by-sa/3.0/' />
+          rdf:resource='https://creativecommons.org/licenses/by-sa/3.0/' />
       </cc:Work>
       <cc:License
-        rdf:about='http://creativecommons.org/licenses/by-sa/3.0/'>
+        rdf:about='https://creativecommons.org/licenses/by-sa/3.0/'>
         <cc:permits
-          rdf:resource='http://creativecommons.org/ns#Reproduction' />
+          rdf:resource='https://creativecommons.org/ns#Reproduction' />
         <cc:permits
-          rdf:resource='http://creativecommons.org/ns#Distribution' />
+          rdf:resource='https://creativecommons.org/ns#Distribution' />
         <cc:requires
-          rdf:resource='http://creativecommons.org/ns#Notice' />
+          rdf:resource='https://creativecommons.org/ns#Notice' />
         <cc:requires
-          rdf:resource='http://creativecommons.org/ns#Attribution' />
+          rdf:resource='https://creativecommons.org/ns#Attribution' />
         <cc:permits
-          rdf:resource='http://creativecommons.org/ns#DerivativeWorks' />
+          rdf:resource='https://creativecommons.org/ns#DerivativeWorks' />
         <cc:requires
-          rdf:resource='http://creativecommons.org/ns#ShareAlike' />
+          rdf:resource='https://creativecommons.org/ns#ShareAlike' />
       </cc:License>
     </rdf:RDF>
   </metadata>

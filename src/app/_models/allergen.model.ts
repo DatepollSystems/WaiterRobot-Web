@@ -1,9 +1,10 @@
 import {AEntityWithNumberIDAndName} from 'dfx-helper';
+import {GetAllergenResponse} from './waiterrobot-backend';
 
 export class AllergenModel extends AEntityWithNumberIDAndName {
   public readonly shortName: string;
 
-  constructor(data: any) {
+  constructor(data: GetAllergenResponse) {
     super(data.id, data.name + ' (' + data.shortName + ')', data);
     this.shortName = data.shortName;
   }

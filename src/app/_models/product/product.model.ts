@@ -1,5 +1,6 @@
 import {AEntityWithNumberIDAndName, EntityList, IEntityList, StringHelper} from 'dfx-helper';
 import {AllergenModel} from '../allergen.model';
+import {GetAllergenResponse} from '../waiterrobot-backend';
 
 export class ProductModel extends AEntityWithNumberIDAndName {
   public readonly price: number;
@@ -12,7 +13,7 @@ export class ProductModel extends AEntityWithNumberIDAndName {
     super(data.id, data.name, data);
     this.price = data.price;
     this.allergens.add(
-      data.allergens.map((allergen: any) => {
+      data.allergens.map((allergen: GetAllergenResponse) => {
         return new AllergenModel(allergen);
       })
     );

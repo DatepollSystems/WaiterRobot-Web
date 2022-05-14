@@ -4,10 +4,10 @@ import {AEntityWithName} from 'dfx-helper';
 import {AbstractSelectableModelService} from '../../_services/models/abstract-model.service';
 
 @Component({
-  selector: 'selectable-button',
+  selector: 'app-selectable-button',
   template: `
     <button
-      *ngIf="selectedEntity?.id != entity?.id"
+      *ngIf="selectedEntity?.id !== entity?.id"
       type="button"
       class="btn btn-sm btn-outline-primary text-white"
       (click)="onSelect(entity)"
@@ -16,7 +16,7 @@ import {AbstractSelectableModelService} from '../../_services/models/abstract-mo
       <i-bs name="check2-square"></i-bs>
     </button>
     <button
-      *ngIf="selectedEntity?.id == entity?.id"
+      *ngIf="selectedEntity?.id === entity?.id"
       type="button"
       class="btn btn-sm btn-primary text-white"
       (click)="onSelect(undefined)"
