@@ -14,7 +14,10 @@ export class WaitersService extends AbstractModelService<WaiterModel> {
     super(httpService, '/config/waiter');
     this.setGetAllParams([{key: 'organisationId', value: this.organisationService.getSelected()?.id}]);
     this.organisationService.selectedChange.subscribe((org) => {
-      this.setGetAllParams([{key: 'organisationId', value: org?.id}]);
+      if (org) {
+        this.setGetAllParams([{key: 'organisationId', value: org?.id}]);
+        this.getAll();
+      }
     });
   }
 

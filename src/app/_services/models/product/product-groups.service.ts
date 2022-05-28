@@ -15,7 +15,10 @@ export class ProductGroupsService extends AbstractModelService<ProductGroupModel
 
     this.setGetAllParams([{key: 'eventId', value: this.eventsService.getSelected()?.id}]);
     this.eventsService.selectedChange.subscribe((event) => {
-      this.setGetAllParams([{key: 'eventId', value: event?.id}]);
+      if (event) {
+        this.setGetAllParams([{key: 'eventId', value: event?.id}]);
+        this.getAll();
+      }
     });
   }
 

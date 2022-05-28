@@ -15,7 +15,10 @@ export class DuplicateWaitersService extends AbstractModelService<DuplicateWaite
     super(httpService, '/config/waiter/duplicates');
     this.setGetAllParams([{key: 'organisationId', value: this.organisationService.getSelected()?.id}]);
     this.organisationService.selectedChange.subscribe((org) => {
-      this.setGetAllParams([{key: 'organisationId', value: org?.id}]);
+      if (org) {
+        this.setGetAllParams([{key: 'organisationId', value: org?.id}]);
+        this.getAll();
+      }
     });
   }
 
