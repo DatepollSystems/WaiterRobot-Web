@@ -23,7 +23,7 @@ _success=false
 shutdown () {
   if [ $_success = false ]; then
     printf "\nYour WaiterRobot frontend installation did not complete successfully.\n"
-    printf "Please report your issue at https://gitlab.com/DatePoll/WaiterRobot/WaiterRobot-Backend/issues\n\n"
+    printf "Please report your issue at https://gitlab.com/DatePoll/WaiterRobot/WaiterRobot-Frontend/issues\n\n"
   fi
   rm -rf "$INSTALL_TEMP_DIRECTORY"
 }
@@ -153,9 +153,15 @@ main () {
     (rm -rf "${INSTALL_TEMP_DIRECTORY}" && mkdir "${INSTALL_TEMP_DIRECTORY}") & spinner $!
     printf "${GREEN}Successfully${NC} cleared tmp folder [${GREEN}✓${NC}]\n"
 
-    # Download release
+    # Download compiled code
     printf "${BLUE}Downloading${NC} WaiterRobot-Web-${VERSION}.zip"
     curl -s -L ${FRONTEND_DOWNLOAD_URL} --output "${INSTALL_TEMP_DIRECTORY}/WaiterRobot-Web-${VERSION}.zip" & spinner $!
+
+    # Check if zip is corrupted
+    if ! zip --test "${INSTALL_TEMP_DIRECTORY}/WaiterRobot-Web-${VERSION}.zip" | grep -q 'OK'; then
+      errorAndExit "Could not download zip file or zip is corrupted"
+    fi
+
     printf "${GREEN}Successfully${NC} downloaded WaiterRobot-Web-${VERSION} [${GREEN}✓${NC}]\n"
 
     # Unzip downloaded release
