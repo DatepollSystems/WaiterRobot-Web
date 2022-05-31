@@ -1,194 +1,213 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-set -o errexit
-set -o nounset
-set -o pipefail
+# exit the script on command errors or unset variables
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+# shellcheck disable=SC2039
+if set -o pipefail 2> /dev/null; then
+  set -euo pipefail
+fi
+# define how strings with spaces or tabs are iterated
+IFS="$(echo t | tr t \\t)"
 
-# Formatting escape codes.
+# Formatting and color codes.
 RED='\033[0;31m'
 BLUE='\033[1;34m'
 GREEN='\033[1;32m'
 BOLD='\033[1m'
 UNDERLINE='\033[4m'
-NC='\033[0m' # No Color
+RESET='\033[0m' # Reset color and formatting
 
-# Print an error message and exit the program.
-errorAndExit() {
-  printf "\n${RED}ERROR:${NC} %s\n" "$1"
-  exit 1;
-}
+# Define variables
+SCRIPT_VERSION='1.0.0'
+VERSION=latest
+FORCE=false
 
-# Set up an exit handler so we can print a help message on failures.
-_success=false
-shutdown () {
-  if [ $_success = false ]; then
-    printf "\nYour WaiterRobot frontend installation did not complete successfully.\n"
-    printf "Please report your issue at https://gitlab.com/DatePoll/WaiterRobot/WaiterRobot-Frontend/issues\n\n"
-  fi
-  rm -rf "$INSTALL_TEMP_DIRECTORY"
-}
-trap shutdown INT TERM ABRT EXIT
-
-# Define install and tmp folder
 if ! [ "${FRONTEND_INSTALL_DIRECTORY:-}" ]; then
   FRONTEND_INSTALL_DIRECTORY="$(pwd)/waiterrobot-web"
 fi
 INSTALL_TEMP_DIRECTORY="$(pwd)/waiterrobot-web-tmp"
 
+printHelp() {
+  printf "${BOLD}${UNDERLINE}WaiterRobot-Web installation help${RESET} (${GREEN}v${SCRIPT_VERSION})${RESET}\n"
+  printf "Usage: ./frontend.sh -v [version] -f\n"
+  printf "  -v ['dev', 'rc']    (optional) select a specific version to install\n"
+  printf "  -f                  (optional) force install without asking questions\n"
+  _success=true
+  exit 0
+}
+
+while getopts "v:fsh" opt; do
+  case "${opt}" in
+  h)
+    printHelp
+    ;;
+  f)
+    printf "  ${BOLD}-f was triggered, force install without asking questions${RESET}\n"
+    FORCE=true
+    ;;
+  v)
+    printf "  ${BOLD}-v was triggered, with parameter $OPTARG ${RESET}\n"
+    if [ "$OPTARG" = "rc" ]; then
+      VERSION=rc
+    elif [ "$OPTARG" = "dev" ]; then
+      VERSION=testing
+    else
+      printHelp
+    fi
+    ;;
+  \?)
+    printHelp
+    ;;
+  :)
+    printHelp
+    ;;
+  esac
+done
+
+# Print an error message and exit the program.
+errorAndExit() {
+  printf "\n${RED}ERROR:${RESET} %s\n" "$1"
+  exit 1
+}
+
+# Set up an exit handler so we can print a help message on failures.
+_success=false
+shutdown() {
+  if [ $_success = false ]; then
+    printf "\nYour installation did not complete successfully.\n"
+    printf "Please report any issues encountered at https://gitlab.com/DatePoll/WaiterRobot/WaiterRobot-Frontend/issues\n\n"
+  fi
+  rm -rf "$INSTALL_TEMP_DIRECTORY"
+}
+trap shutdown INT TERM ABRT EXIT
+
 # Activity spinner for background processes.
 spinner() {
-  local -r delay='0.3'
-  local spinstr='\|/-'
-  local temp
-  while ps -p "$1" >> /dev/null; do
-    temp="${spinstr#?}"
-    printf " [${BLUE}%c${NC}]  " "${spinstr}"
-    spinstr=${temp}${spinstr%"${temp}"}
-    sleep "${delay}"
+  spinDelay='0.3'
+  spinStr='\|/-'
+  spinTemp=''
+  while ps -p "$1" >>/dev/null; do
+    spinTemp="${spinStr#?}"
+    printf " [${BLUE}%c${RESET}]  " "${spinStr}"
+    spinStr=${spinTemp}${spinStr%"${spinTemp}"}
+    sleep "${spinDelay}"
     printf "\b\b\b\b\b\b"
   done
   printf "\r"
 }
 
-# Check for a required tool, or exituccess
+# Check for a required tool, or exit
 requireTool() {
-  which "$1" >> /dev/null && EC=$? || EC=$?
+  which "$1" >>/dev/null && EC=$? || EC=$?
   if [ $EC != 0 ]; then
     errorAndExit "Could not locate \"$1\", which is required for installation."
   fi
 }
 
-# Check sudo permissions
-checkPermissions() {
-    echo -en "Checking for sufficient permissions... "
-    if [ "$(id -u)" -ne "0" ]; then
-    echo -e "\e[31mfailed\e[0m"
-    errorAndExit "Unsufficient permissions. Sudo required!"
-    fi
-    echo -e "\e[32mOK\e[0m"
+checkSudoPermissions() {
+  printf "${BLUE}Checking${RESET} for sufficient permissions..." & spinner $!
+  if [ "$(id -u)" -ne 0 ]; then
+    errorAndExit "Insufficient permissions. Sudo required!"
+  fi
+  printf "${GREEN}Successfully${RESET} acquired sudo permissions [${GREEN}✓${RESET}]\n"
 }
 
-# Define version and check args for it
-VERSION=latest
-FORCE=false
-
-while getopts "v:fsh" opt; do
-    case "${opt}" in
-        h)
-            printf "${BOLD}WaiterRobot-Web install help${NC}:\n"
-            printf "Usage: ./frontend.sh -v [version] -f\n"
-            printf "    -v ['dev', 'rc']    (optional) selects a specific version to install\n"
-            printf "    -f                  (optional) force install DatePoll-Frontend without asking for confirmation\n"
-            _success=true
-            exit 1;
-        ;;
-        f)
-            echo "-f was triggered, force install..."
-            FORCE=true
-        ;;
-        v)
-            echo "-v was triggered, Parameter: $OPTARG" >&2
-            if [ "$OPTARG" == "rc" ]
-            then
-                VERSION=rc
-            elif [ "$OPTARG" == "dev" ]
-            then
-                VERSION=testing
-            else
-                errorAndExit "Option -v $OPTARG argument incorrect. Please use: rc - Release candidate or dev - development version"
-            fi
-        ;;
-        \?)
-            errorAndExit "Option -v $OPTARG argument incorrect. Please use: rc - Release candidate or dev - development version"
-        ;;
-        :)
-            errorAndExit "Option -v $OPTARG requires an argument. Examples: rc - Release candidate, dev - development version"
-        ;;
+# Determine operating system & architecture (and exit if not supported)
+checkSystemArchitecture() {
+  printf "${BLUE}Checking${RESET} for supported architecture..." & spinner $!
+  case $(uname -s) in
+  "Linux")
+    case "$(uname -m)" in
+    "x86_64") printf "${GREEN}Successfully${RESET} found supported architecture [${GREEN}✓${RESET}]\n";;
+    *) errorAndExit "Unsupported CPU architecture $(uname -m)" ;;
     esac
-done
+    ;;
+  *) errorAndExit "Unsupported operating system $(uname -s)" ;;
+  esac
+}
 
-main () {
-    # Confirm install with user input
-    if [ $FORCE == false ]; then
-        read -p "Are you sure you want to install / update WaiterRobot-Web? [y/N] " prompt
-        if [[ $prompt != "y" && $prompt != "Y" && $prompt != "yes" && $prompt != "Yes" ]]
-        then
-            _success=true
-            errorAndExit "User aborted. Next time press ['y', 'Y', 'yes', 'Yes'] to continue"
-        fi
+# Confirm install with user input or -f argument
+confirmToContinue() {
+  if [ $FORCE = false ]; then
+    printf "${BOLD}Are you sure you want to install / update WaiterRobot-Web? [y/N]${RESET} "
+    read -r prompt
+    # Convert to uppercase
+    prompt=$(echo "$prompt" | tr '[:lower:]' '[:upper:]')
+    if [ "$prompt" != "Y" ] && [ "$prompt" != "YES" ] && [ "$prompt" != "YE" ]; then
+      _success=true
+      errorAndExit "User aborted. Next time type ['y', 'yes', 'ye] to continue"
     fi
+  fi
+}
 
-    # Check for sufficient permissions
-    #checkPermissions
+main() {
+  confirmToContinue
 
-    # Check if required tools are installed
-    requireTool "curl"
-    requireTool "mkdir"
-    requireTool "chmod"
-    requireTool "mv"
-    requireTool "rm"
-    requireTool "unzip"
+  printf "Info: Using version ${BOLD}${VERSION}${RESET}\n"
 
-     # Determine operating system & architecture (and exit if not supported)
-    case $(uname -s) in
-        "Linux")
-        case "$(uname -m)" in
-        "x86_64")
-            ;;
-        *)
-            errorAndExit "Unsupported CPU architecture $(uname -m)"
-            ;;
-        esac
-        ;;
-        *)
-        errorAndExit "Unsupported operating system $(uname -s)"
-        ;;
-    esac
+  # Check for sufficient permissions
+  #checkSudoPermissions
 
-    printf "Using version: ${BOLD}${VERSION}${NC}\n"
+  # Check if required tools are installed
+  printf "${BLUE}Checking${RESET} for required tools..." & spinner $!
+  requireTool "curl"
+  requireTool "mkdir"
+  requireTool "chmod"
+  requireTool "mv"
+  requireTool "rm"
+  requireTool "zip"
+  requireTool "unzip"
+  printf "${GREEN}Successfully${RESET} found all required tools [${GREEN}✓${RESET}]\n"
 
-    FRONTEND_DOWNLOAD_URL="https://releases.datepoll.org/WaiterRobot/Web-Releases/WaiterRobot-Web-${VERSION}.zip"
+  checkSystemArchitecture
 
-    printf "${BLUE}Clearing${NC} tmp folder"
-    (rm -rf "${INSTALL_TEMP_DIRECTORY}" && mkdir "${INSTALL_TEMP_DIRECTORY}") & spinner $!
-    printf "${GREEN}Successfully${NC} cleared tmp folder [${GREEN}✓${NC}]\n"
+  FRONTEND_DOWNLOAD_URL="https://releases.datepoll.org/WaiterRobot/Web-Releases/WaiterRobot-Web-${VERSION}.zip"
 
-    # Download compiled code
-    printf "${BLUE}Downloading${NC} WaiterRobot-Web-${VERSION}.zip"
-    curl -s -L ${FRONTEND_DOWNLOAD_URL} --output "${INSTALL_TEMP_DIRECTORY}/WaiterRobot-Web-${VERSION}.zip" & spinner $!
+  printf "${BLUE}Clearing${RESET} tmp folder"
+  (rm -rf "${INSTALL_TEMP_DIRECTORY}" && mkdir "${INSTALL_TEMP_DIRECTORY}") &
+  spinner $!
+  printf "${GREEN}Successfully${RESET} cleared tmp folder [${GREEN}✓${RESET}]\n"
 
-    # Check if zip is corrupted
-    if ! zip --test "${INSTALL_TEMP_DIRECTORY}/WaiterRobot-Web-${VERSION}.zip" | grep -q 'OK'; then
-      errorAndExit "Could not download zip file or zip is corrupted"
-    fi
+  # Download compiled code
+  printf "${BLUE}Downloading${RESET} WaiterRobot-Web-${VERSION}.zip"
+  (curl -s -L ${FRONTEND_DOWNLOAD_URL} --output "${INSTALL_TEMP_DIRECTORY}/WaiterRobot-Web-${VERSION}.zip") &
+  spinner $!
 
-    printf "${GREEN}Successfully${NC} downloaded WaiterRobot-Web-${VERSION} [${GREEN}✓${NC}]\n"
+  # Check if zip is corrupted
+  if ! zip --test "${INSTALL_TEMP_DIRECTORY}/WaiterRobot-Web-${VERSION}.zip" | grep -q 'OK'; then
+    errorAndExit "Could not download file or zip is corrupted"
+  fi
 
-    # Unzip downloaded release
-    printf "${BLUE}Unzipping${NC} WaiterRobot-Web-${VERSION}.zip... "
-    unzip -qq "${INSTALL_TEMP_DIRECTORY}/WaiterRobot-Web-${VERSION}.zip" -d "${INSTALL_TEMP_DIRECTORY}/" & spinner $!
-    printf "${GREEN}Successfully${NC} unzipped WaiterRobot-Web-${VERSION}.zip [${GREEN}✓${NC}]\n"
+  printf "${GREEN}Successfully${RESET} downloaded WaiterRobot-Web-${VERSION} [${GREEN}✓${RESET}]\n"
 
-    # Recreate frontend install folder
-    printf "${BLUE}Clearing${NC} frontend install folder... "
-    (rm -rf "$FRONTEND_INSTALL_DIRECTORY" && mkdir "$FRONTEND_INSTALL_DIRECTORY") & spinner $!
-    printf "${GREEN}Successfully${NC} cleared frontend install folder [${GREEN}✓${NC}]\n"
+  # Unzip downloaded release
+  printf "${BLUE}Unzipping${RESET} WaiterRobot-Web-${VERSION}.zip... "
+  (unzip -qq "${INSTALL_TEMP_DIRECTORY}/WaiterRobot-Web-${VERSION}.zip" -d "${INSTALL_TEMP_DIRECTORY}/") &
+  spinner $!
+  printf "${GREEN}Successfully${RESET} unzipped WaiterRobot-Web-${VERSION}.zip [${GREEN}✓${RESET}]\n"
 
-    # Move files into place
-    printf "${BLUE}Moving${NC} files into place... "
-    mv ./waiterrobot-web-tmp/WaiterRobot-Web/* ./waiterrobot-web/ & spinner $!
-    printf "${GREEN}Successfully${NC} moved files into place [${GREEN}✓${NC}]\n"
+  # Recreate frontend install folder
+  printf "${BLUE}Clearing${RESET} frontend install folder... "
+  (rm -rf "$FRONTEND_INSTALL_DIRECTORY" && mkdir "$FRONTEND_INSTALL_DIRECTORY") &
+  spinner $!
+  printf "${GREEN}Successfully${RESET} cleared frontend install folder [${GREEN}✓${RESET}]\n"
 
-    # Set 777 permissions
-    printf "${BLUE}Applying${NC} permissions... "
-    chmod -R 777 "$FRONTEND_INSTALL_DIRECTORY" 2>/dev/null & spinner $!
-    printf "${GREEN}Successfully${NC} applied permissions [${GREEN}✓${NC}]\n"
+  # Move files into place
+  printf "${BLUE}Moving${RESET} files into place... "
+  (mv ./waiterrobot-web-tmp/WaiterRobot-Web/* ./waiterrobot-web/) &
+  spinner $!
+  printf "${GREEN}Successfully${RESET} moved files into place [${GREEN}✓${RESET}]\n"
 
-    _success=true
+  # Set 777 permissions
+  printf "${BLUE}Applying${RESET} permissions... "
+  (chmod -R 777 "$FRONTEND_INSTALL_DIRECTORY" 2>/dev/null) &
+  spinner $!
+  printf "${GREEN}Successfully${RESET} applied permissions [${GREEN}✓${RESET}]\n"
 
-    printf "${GREEN}Finished${NC} the frontend update ${BOLD}flawlessly${NC}.\n"
-    printf "Visit ${UNDERLINE}https://gitlab.com/Datepoll/WaiterRobot/WaiterRobot-Web/-/releases${NC} to learn more about the latest updates."
-    printf "\n\n"
+  printf "${GREEN}Finished${RESET} the frontend update ${BOLD}flawlessly${RESET}.\n"
+  printf "Visit ${UNDERLINE}https://gitlab.com/Datepoll/WaiterRobot/WaiterRobot-Web/-/releases${RESET} to learn more about the latest updates.\n\n"
+
+  _success=true
 }
 
 main
