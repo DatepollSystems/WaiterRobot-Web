@@ -3,7 +3,7 @@
 # exit the script on command errors or unset variables
 # http://redsymbol.net/articles/unofficial-bash-strict-mode/
 # shellcheck disable=SC2039
-if set -o pipefail 2> /dev/null; then
+if set -o pipefail 2>/dev/null; then
   set -euo pipefail
 fi
 # define how strings with spaces or tabs are iterated
@@ -105,7 +105,8 @@ requireTool() {
 }
 
 checkSudoPermissions() {
-  printf "${BLUE}Checking${RESET} for sufficient permissions..." & spinner $!
+  printf "${BLUE}Checking${RESET} for sufficient permissions..." &
+  spinner $!
   if [ "$(id -u)" -ne 0 ]; then
     errorAndExit "Insufficient permissions. Sudo required!"
   fi
@@ -114,11 +115,12 @@ checkSudoPermissions() {
 
 # Determine operating system & architecture (and exit if not supported)
 checkSystemArchitecture() {
-  printf "${BLUE}Checking${RESET} for supported architecture..." & spinner $!
+  printf "${BLUE}Checking${RESET} for supported architecture..." &
+  spinner $!
   case $(uname -s) in
   "Linux")
     case "$(uname -m)" in
-    "x86_64") printf "${GREEN}Successfully${RESET} found supported architecture [${GREEN}✓${RESET}]\n";;
+    "x86_64") printf "${GREEN}Successfully${RESET} found supported architecture [${GREEN}✓${RESET}]\n" ;;
     *) errorAndExit "Unsupported CPU architecture $(uname -m)" ;;
     esac
     ;;
@@ -143,13 +145,15 @@ confirmToContinue() {
 main() {
   confirmToContinue
 
-  printf "Info: Using version ${BOLD}${VERSION}${RESET}\n"
+  printf "Info: Script version: ${BOLD}${GREEN}${SCRIPT_VERSION}${RESET}\n"
+  printf "Info: Downloading version: ${BOLD}${VERSION}${RESET}\n"
 
   # Check for sufficient permissions
   #checkSudoPermissions
 
   # Check if required tools are installed
-  printf "${BLUE}Checking${RESET} for required tools..." & spinner $!
+  printf "${BLUE}Checking${RESET} for required tools..." &
+  spinner $!
   requireTool "curl"
   requireTool "mkdir"
   requireTool "chmod"
