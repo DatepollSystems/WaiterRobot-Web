@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -9,7 +9,7 @@ import {FormControl} from '@angular/forms';
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class NgbChipInput {
-  formCtrl = new FormControl();
+  formCtrl = new UntypedFormControl();
 
   inputValid = true;
   @Input() filter: ((input: string) => boolean) | undefined;

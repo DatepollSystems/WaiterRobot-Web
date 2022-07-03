@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -31,7 +31,7 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
   // User org stuff
   dataSource: NgbTableDataSource<OrganisationUserModel> = new NgbTableDataSource();
   columnsToDisplay = ['name', 'email', 'actions'];
-  filter = new FormControl();
+  filter = new UntypedFormControl();
   @ViewChild(NgbSort, {static: true}) sort: NgbSort | undefined;
 
   settings: OrganisationSettingsModel | undefined;

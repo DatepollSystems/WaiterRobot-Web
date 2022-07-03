@@ -27,7 +27,7 @@
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets", "src/site.webmanifest"],
             "styles": ["src/styles.scss"],
-            "allowedCommonJsDependencies": ["qrcode"],
+            "allowedCommonJsDependencies": ["@cordobo/qrcode"],
             "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
@@ -133,8 +133,7 @@
       }
     }
   },
-  "defaultProject": "WaiterRobot-Web",
   "cli": {
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": ["@angular-eslint/schematics"]
   }
 }

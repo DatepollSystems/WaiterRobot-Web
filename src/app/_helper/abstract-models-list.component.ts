@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgbPaginator, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
@@ -19,7 +19,7 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
   @ViewChild(NgbSort, {static: true}) sort: NgbSort | undefined;
   @ViewChild(NgbPaginator, {static: true}) paginator: NgbPaginator | undefined;
   protected abstract columnsToDisplay: string[];
-  public filter = new FormControl();
+  public filter = new UntypedFormControl();
   public dataSource: NgbTableDataSource<EntityType> = new NgbTableDataSource();
 
   public entities: IList<EntityType> = new List();
