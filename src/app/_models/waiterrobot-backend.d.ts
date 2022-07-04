@@ -1,91 +1,39 @@
 /* tslint:disable */
 /* eslint-disable */
 
-// Generated using typescript-generator version 2.35.1025 on 2022-03-24 12:09:45.
+// Generated using typescript-generator version 2.36.1070 on 2022-07-04 20:55:43.
+
+export interface ErrorResponse {
+  readonly message: string;
+  readonly code: number;
+  readonly codeName: string;
+}
+
+export interface IdAndNameResponse {
+  readonly id: number;
+  readonly name: string;
+}
+
+export interface IdResponse {
+  readonly id: number;
+}
+
+export interface PaginatedResponseDto<T> {
+  readonly numberOfItems: number;
+  readonly numberOfPages: number;
+  readonly list: T[];
+}
+
+export interface AllergenDto {
+  readonly id: number;
+  readonly name: string;
+  readonly shortName: string;
+}
 
 export interface CreateAllergenDto {
   readonly name: string;
   readonly shortName: string;
   readonly global: boolean | null;
-}
-
-export interface CreateEventOrLocationDto {
-  readonly name: string;
-  readonly street: string;
-  readonly streetNumber: string;
-  readonly postalCode: string;
-  readonly city: string;
-  readonly date: Date | null;
-  readonly organisationId: number;
-}
-
-export interface CreateMediatorDto {
-  readonly address: string;
-  readonly name: string;
-  readonly pdfCreator: boolean;
-  readonly organisationId: number;
-}
-
-export interface CreateOrganisationDto {
-  readonly name: string;
-  readonly street: string;
-  readonly streetNumber: string;
-  readonly postalCode: string;
-  readonly city: string;
-  readonly countryCode: string;
-}
-
-export interface CreatePrinterDto {
-  readonly name: string;
-  readonly printerName: string;
-  readonly eventId: number;
-  readonly mediatorId: number;
-}
-
-export interface CreateProductDto {
-  readonly name: string;
-  readonly allergenIds: number[];
-  readonly price: number;
-  readonly groupId: number;
-  readonly printerId: number | null;
-}
-
-export interface CreateProductGroupDto {
-  readonly name: string;
-  readonly eventId: number;
-}
-
-export interface CreateTableDto {
-  readonly number: number;
-  readonly seats: number;
-  readonly groupId: number;
-}
-
-export interface CreateTableGroupDto {
-  readonly name: string;
-  readonly eventId: number;
-}
-
-export interface CreateUserDto {
-  readonly firstname: string;
-  readonly surname: string;
-  readonly birthday: Date;
-  readonly emailAddress: string;
-  readonly password: string;
-  readonly activated: boolean;
-  readonly role: UserGlobalRole;
-}
-
-export interface CreateWaiterDto {
-  readonly name: string;
-  readonly activated: boolean;
-  readonly eventIds: number[];
-  readonly organisationId: number;
-}
-
-export interface DuplicateWaiterResponse {
-  readonly name: string;
-  readonly waiters: IdAndNameResponse[];
 }
 
 export interface GetAllergenResponse {
@@ -94,127 +42,23 @@ export interface GetAllergenResponse {
   readonly shortName: string;
 }
 
-export interface GetEventOrLocationResponse {
+export interface UpdateAllergenDto {
   readonly id: number;
   readonly name: string;
-  readonly date: string | null;
-  readonly street: string;
-  readonly streetNumber: string;
-  readonly postalCode: string;
-  readonly city: string;
-  readonly waiterCreateToken: string;
-  readonly organisationId: number;
-}
-
-export interface GetMediatorResponse {
-  readonly id: number;
-  readonly name: string;
-  readonly address: string;
-  readonly pdfCreator: boolean;
-  readonly organisationId: number;
-  readonly printers: number[];
-}
-
-export interface GetMyselfResponse {
-  readonly id: number;
-  readonly emailAddress: string;
-  readonly firstname: string;
-  readonly surname: string;
-  readonly birthday: Date;
-  readonly role: UserGlobalRole;
-}
-
-export interface GetOrganisationResponse {
-  readonly id: number;
-  readonly name: string;
-  readonly street: string;
-  readonly streetNumber: string;
-  readonly postalCode: string;
-  readonly city: string;
-  readonly countryCode: string;
-}
-
-export interface GetPrinterResponse {
-  readonly id: number;
-  readonly name: string;
-  readonly eventId: number;
-  readonly mediatorId: number;
-  readonly mediatorName: string;
-  readonly productGroups: number[];
-}
-
-export interface GetProductGroupResponse {
-  readonly id: number;
-  readonly name: string;
-  readonly printerId: number | null;
-  readonly eventId: number;
-}
-
-export interface GetProductResponse {
-  readonly id: number;
-  readonly name: string;
-  readonly price: number;
-  readonly groupId: number;
-  readonly groupName: string;
-  readonly allergens: GetAllergenResponse[];
-}
-
-export interface GetTableGroupResponse {
-  readonly id: number;
-  readonly name: string;
-  readonly eventId: number;
-}
-
-export interface GetTableResponse {
-  readonly id: number;
-  readonly number: number;
-  readonly seats: number;
-  readonly groupId: number;
-  readonly groupName: string;
-  readonly eventId: number;
-}
-
-export interface GetUserResponse {
-  readonly id: number;
-  readonly firstname: string;
-  readonly surname: string;
-  readonly emailAddress: string;
-  readonly activated: boolean;
-  readonly forcePasswordChange: boolean;
-  readonly birthday: Date;
-  readonly role: UserGlobalRole;
-}
-
-export interface GetWaiterMyselfResponse {
-  readonly id: number;
-  readonly name: string;
-  readonly organisationId: number;
-  readonly organisationName: string;
-  readonly eventIds: number[];
-}
-
-export interface GetWaiterResponse {
-  readonly id: number;
-  readonly name: string;
-  readonly signInToken: string;
-  readonly activated: boolean;
-  readonly deleted: boolean;
-  readonly organisationId: number;
-  readonly events: number[];
+  readonly shortName: string;
+  readonly global: boolean | null;
 }
 
 export interface ISignInDto {
-  readonly stayLoggedIn: boolean;
   readonly authIdentifier: string;
   readonly sessionInformation: string;
+  readonly stayLoggedIn: boolean;
 }
 
 export interface ISignInWithPasswordChangeDto extends ISignInWithPasswordDto {
   readonly newPassword: string;
   readonly oldPassword: string;
 }
-
-export interface DefaultImpls {}
 
 export interface ISignInWithPasswordDto extends ISignInDto {
   readonly password: string;
@@ -229,9 +73,129 @@ export interface LogoutDto {
   readonly sessionToken: string;
 }
 
-export interface MergeWaiterDto {
-  readonly waiterId: number;
-  readonly waiterIds: number[];
+export interface RefreshJWTWithSessionTokenDto {
+  readonly sessionToken: string;
+  readonly sessionInformation: string;
+}
+
+export interface SessionResponse {
+  readonly id: number;
+  readonly description: string;
+  readonly entityId: number;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+}
+
+export interface SignInWithPasswordChangeDto extends ISignInWithPasswordChangeDto {
+  readonly email: string;
+}
+
+export interface UserSignInDto extends ISignInWithPasswordDto {
+  readonly email: string;
+}
+
+export interface WaiterSignInCreateDto {
+  readonly waiterCreateToken: string;
+  readonly name: string;
+  readonly sessionInformation: string;
+}
+
+export interface WaiterSignInDto extends ISignInDto {
+  readonly token: string;
+}
+
+export interface CreateEventOrLocationDto {
+  readonly name: string;
+  readonly street: string;
+  readonly streetNumber: string;
+  readonly postalCode: string;
+  readonly city: string;
+  readonly date: string | null;
+  readonly organisationId: number;
+}
+
+export interface GetEventOrLocationResponse {
+  readonly id: number;
+  readonly name: string;
+  readonly date: string | null;
+  readonly street: string;
+  readonly streetNumber: string;
+  readonly postalCode: string;
+  readonly city: string;
+  readonly waiterCreateToken: string;
+  readonly organisationId: number;
+}
+
+export interface UpdateEventOrLocationDto {
+  readonly id: number;
+  readonly name: string;
+  readonly street: string;
+  readonly streetNumber: string;
+  readonly postalCode: string;
+  readonly city: string;
+  readonly date: string | null;
+  readonly updateWaiterCreateToken: boolean | null;
+}
+
+export interface CreateMediatorDto {
+  readonly address: string;
+  readonly name: string;
+  readonly pdfCreator: boolean;
+  readonly organisationId: number;
+}
+
+export interface GetMediatorResponse {
+  readonly id: number;
+  readonly name: string;
+  readonly address: string;
+  readonly pdfCreator: boolean;
+  readonly organisationId: number;
+  readonly active: boolean;
+  readonly lastContact: string | null;
+  readonly printers: number[];
+}
+
+export interface UpdateMediatorDto {
+  readonly id: number;
+  readonly address: string;
+  readonly name: string;
+  readonly pdfCreator: boolean;
+  readonly organisationId: number;
+}
+
+export interface CreateOrderDto {
+  readonly tableId: number;
+  readonly products: ProductDto[];
+}
+
+export interface ProductDto {
+  readonly id: number;
+  readonly amount: number;
+}
+
+export interface ProductWithNameDto extends Mergeable<ProductWithNameDto> {
+  readonly id: number;
+  readonly name: string;
+  readonly amount: number;
+}
+
+export interface CreateOrganisationDto {
+  readonly name: string;
+  readonly street: string;
+  readonly streetNumber: string;
+  readonly postalCode: string;
+  readonly city: string;
+  readonly countryCode: string;
+}
+
+export interface GetOrganisationResponse {
+  readonly id: number;
+  readonly name: string;
+  readonly street: string;
+  readonly streetNumber: string;
+  readonly postalCode: string;
+  readonly city: string;
+  readonly countryCode: string;
 }
 
 export interface OrganisationSettingBooleanSetDto {
@@ -254,53 +218,6 @@ export interface OrganisationUserResponse {
   readonly organisationId: number;
 }
 
-export interface RefreshJWTWithSessionTokenDto {
-  readonly sessionToken: string;
-  readonly sessionInformation: string;
-}
-
-export interface SessionResponse {
-  readonly id: number;
-  readonly description: string;
-  readonly entityId: number;
-  readonly createdAt: string;
-  readonly updatedAt: string;
-}
-
-export interface SignInWithPasswordChangeDto extends ISignInWithPasswordChangeDto {
-  readonly email: string;
-}
-
-export interface UpdateAllergenDto {
-  readonly id: number;
-  readonly name: string;
-  readonly shortName: string;
-  readonly global: boolean | null;
-}
-
-export interface UpdateEmailDto {
-  readonly emailAddress: string;
-}
-
-export interface UpdateEventOrLocationDto {
-  readonly id: number;
-  readonly name: string;
-  readonly street: string;
-  readonly streetNumber: string;
-  readonly postalCode: string;
-  readonly city: string;
-  readonly date: Date | null;
-  readonly updateWaiterCreateToken: boolean | null;
-}
-
-export interface UpdateMediatorDto {
-  readonly id: number;
-  readonly address: string;
-  readonly name: string;
-  readonly pdfCreator: boolean;
-  readonly organisationId: number;
-}
-
 export interface UpdateOrganisationDto {
   readonly id: number;
   readonly name: string;
@@ -311,9 +228,20 @@ export interface UpdateOrganisationDto {
   readonly countryCode: string;
 }
 
-export interface UpdatePasswordDto {
-  readonly newPassword: string;
-  readonly oldPassword: string;
+export interface CreatePrinterDto {
+  readonly name: string;
+  readonly printerName: string;
+  readonly eventId: number;
+  readonly mediatorId: number;
+}
+
+export interface GetPrinterResponse {
+  readonly id: number;
+  readonly name: string;
+  readonly eventId: number;
+  readonly mediatorId: number;
+  readonly mediatorName: string;
+  readonly productGroups: number[];
 }
 
 export interface UpdatePrinterDto {
@@ -322,6 +250,42 @@ export interface UpdatePrinterDto {
   readonly printerName: string;
   readonly eventId: number;
   readonly mediatorId: number;
+}
+
+export interface CreateProductDto {
+  readonly name: string;
+  readonly allergenIds: number[];
+  readonly price: number;
+  readonly groupId: number;
+  readonly printerId: number | null;
+}
+
+export interface CreateProductGroupDto {
+  readonly name: string;
+  readonly eventId: number;
+}
+
+export interface GetProductGroupResponse {
+  readonly id: number;
+  readonly name: string;
+  readonly printerId: number | null;
+  readonly eventId: number;
+}
+
+export interface GetProductResponse {
+  readonly id: number;
+  readonly name: string;
+  readonly price: number;
+  readonly allergens: GetAllergenResponse[];
+}
+
+export interface GetProductWithGroupResponse {
+  readonly id: number;
+  readonly name: string;
+  readonly price: number;
+  readonly groupId: number;
+  readonly groupName: string;
+  readonly allergens: GetAllergenResponse[];
 }
 
 export interface UpdateProductDto {
@@ -338,6 +302,32 @@ export interface UpdateProductGroupDto {
   readonly name: string;
 }
 
+export interface CreateTableDto {
+  readonly number: number;
+  readonly seats: number;
+  readonly groupId: number;
+}
+
+export interface CreateTableGroupDto {
+  readonly name: string;
+  readonly eventId: number;
+}
+
+export interface GetTableGroupResponse {
+  readonly id: number;
+  readonly name: string;
+  readonly eventId: number;
+}
+
+export interface GetTableResponse {
+  readonly id: number;
+  readonly number: number;
+  readonly seats: number;
+  readonly groupId: number;
+  readonly groupName: string;
+  readonly eventId: number;
+}
+
 export interface UpdateTableDto {
   readonly id: number;
   readonly number: number;
@@ -348,6 +338,45 @@ export interface UpdateTableDto {
 export interface UpdateTableGroupDto {
   readonly id: number;
   readonly name: string;
+}
+
+export interface CreateUserDto {
+  readonly firstname: string;
+  readonly surname: string;
+  readonly birthday: Date;
+  readonly emailAddress: string;
+  readonly password: string;
+  readonly activated: boolean;
+  readonly role: UserGlobalRole;
+}
+
+export interface GetMyselfResponse {
+  readonly id: number;
+  readonly emailAddress: string;
+  readonly firstname: string;
+  readonly surname: string;
+  readonly birthday: Date;
+  readonly role: UserGlobalRole;
+}
+
+export interface GetUserResponse {
+  readonly id: number;
+  readonly firstname: string;
+  readonly surname: string;
+  readonly emailAddress: string;
+  readonly activated: boolean;
+  readonly forcePasswordChange: boolean;
+  readonly birthday: Date;
+  readonly role: UserGlobalRole;
+}
+
+export interface UpdateEmailDto {
+  readonly emailAddress: string;
+}
+
+export interface UpdatePasswordDto {
+  readonly newPassword: string;
+  readonly oldPassword: string;
 }
 
 export interface UpdateUserDto {
@@ -362,6 +391,41 @@ export interface UpdateUserDto {
   readonly password: string | null;
 }
 
+export interface CreateWaiterDto {
+  readonly name: string;
+  readonly activated: boolean;
+  readonly eventIds: number[];
+  readonly organisationId: number;
+}
+
+export interface DuplicateWaiterResponse {
+  readonly name: string;
+  readonly waiters: IdAndNameResponse[];
+}
+
+export interface GetWaiterMyselfResponse {
+  readonly id: number;
+  readonly name: string;
+  readonly organisationId: number;
+  readonly organisationName: string;
+  readonly eventIds: number[];
+}
+
+export interface GetWaiterResponse {
+  readonly id: number;
+  readonly name: string;
+  readonly signInToken: string;
+  readonly activated: boolean;
+  readonly deleted: boolean;
+  readonly organisationId: number;
+  readonly events: number[];
+}
+
+export interface MergeWaiterDto {
+  readonly waiterId: number;
+  readonly waiterIds: number[];
+}
+
 export interface UpdateWaiterDto {
   readonly id: number;
   readonly activated: boolean;
@@ -370,35 +434,36 @@ export interface UpdateWaiterDto {
   readonly updateToken: boolean | null;
 }
 
-export interface UserSignInDto extends ISignInWithPasswordDto {
-  readonly email: string;
+export interface WebSocketDto<T> {
+  readonly messageObjectId: WebSocketMessageTypes;
+  readonly httpStatus: number;
+  readonly body: T;
 }
 
-export interface WaiterSignInCreateDto {
-  readonly waiterCreateToken: string;
-  readonly name: string;
-  readonly sessionInformation: string;
+export interface FileDto {
+  readonly mime: string;
+  readonly data: string;
 }
 
-export interface WaiterSignInDto extends ISignInDto {
-  readonly token: string;
+export interface RegisterMediatorDto {
+  readonly mediatorId: number;
 }
 
-export interface IdAndNameResponse {
-  readonly id: number;
-  readonly name: string;
-}
+export interface Mergeable<T> {}
 
-export interface IdResponse {
-  readonly id: number;
-}
-
-export interface PaginatedResponseDto<T> {
-  readonly numberOfItems: number;
-  readonly numberOfPages: number;
-  readonly list: T[];
-}
+export type UserOrganisationRole = 'ADMIN' | 'MEMBER';
 
 export type UserGlobalRole = 'ADMIN' | 'USER';
 
-export type UserOrganisationRole = 'ADMIN' | 'MEMBER';
+export type WebSocketMessageTypes =
+  | 'BM_PRINT_PDF'
+  | 'MB_PRINTED_PDF'
+  | 'MB_PRINT_ERROR'
+  | 'MB_HELLO'
+  | 'BM_HELLO'
+  | 'MB_PRINT_PDF_TEST'
+  | 'MB_REGISTER_MEDIATOR'
+  | 'BM_REGISTER_MEDIATOR_SUCCESS'
+  | 'BM_ERROR'
+  | 'MB_ERROR'
+  | 'MB_PING';
