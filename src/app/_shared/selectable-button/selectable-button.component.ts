@@ -31,14 +31,20 @@ export class SelectableButtonComponent {
   selectedEntity: AEntityWithName<string | number> | undefined;
 
   @Input()
-  selectedEntityService: AbstractSelectableModelService<any> | undefined = undefined;
+  selectedEntityService: AbstractSelectableModelService<any> | undefined;
 
   @Input()
   entity: AEntityWithName<string | number> | undefined;
+
+  @Input()
+  onClickFunc: ((entity: any | undefined) => void) | undefined;
 
   constructor() {}
 
   onSelect(entity: any | undefined): void {
     this.selectedEntityService?.setSelected(entity);
+    if (this.onClickFunc) {
+      this.onClickFunc(entity);
+    }
   }
 }

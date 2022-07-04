@@ -5,6 +5,7 @@ import {OrganisationsService} from './organisation/organisations.service';
 import {AbstractSelectableModelService} from './abstract-model.service';
 
 import {EventModel} from '../../_models/event.model';
+import {GetEventOrLocationResponse} from '../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
@@ -18,11 +19,10 @@ export class EventsService extends AbstractSelectableModelService<EventModel> {
     this.setGetAllParams([{key: 'organisationId', value: organisationsService.getSelected()?.id}]);
     organisationsService.selectedChange.subscribe((org) => {
       this.setGetAllParams([{key: 'organisationId', value: org?.id}]);
-      this.setSelected(undefined);
     });
   }
 
-  protected convert(data: any): EventModel {
+  protected convert(data: GetEventOrLocationResponse): EventModel {
     return new EventModel(data);
   }
 }

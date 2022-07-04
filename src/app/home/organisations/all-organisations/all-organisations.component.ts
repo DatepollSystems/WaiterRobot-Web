@@ -5,6 +5,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
 import {MyUserService} from '../../../_services/auth/my-user.service';
 import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
+import {EventsService} from '../../../_services/models/events.service';
 
 import {OrganisationModel} from '../../../_models/organisation/organisation.model';
 import {UserModel} from '../../../_models/user/user.model';
@@ -20,7 +21,12 @@ export class AllOrganisationsComponent extends AbstractModelsListComponent<Organ
   myUser: UserModel | undefined;
   selectedOrganisation: OrganisationModel | undefined;
 
-  constructor(modal: NgbModal, private myUserService: MyUserService, public organisationsService: OrganisationsService) {
+  constructor(
+    modal: NgbModal,
+    private myUserService: MyUserService,
+    public organisationsService: OrganisationsService,
+    private eventsService: EventsService
+  ) {
     super(modal, organisationsService);
 
     this.myUser = this.myUserService.getUser();
@@ -37,4 +43,8 @@ export class AllOrganisationsComponent extends AbstractModelsListComponent<Organ
       })
     );
   }
+
+  onSelect = (entity: any | undefined) => {
+    this.eventsService.setSelected(undefined);
+  };
 }

@@ -151,6 +151,7 @@ export class HomeComponent extends AComponent implements OnInit {
 
   onSelectOrg(org: OrganisationModel): void {
     this.organisationsService.setSelected(org);
+    this.eventsService.setSelected(undefined);
   }
 
   openUserEmailQRCode(user?: UserModel): void {

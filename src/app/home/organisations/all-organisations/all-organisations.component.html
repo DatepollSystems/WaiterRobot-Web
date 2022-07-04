@@ -73,7 +73,8 @@
           class="me-2"
           [selectedEntity]="selectedOrganisation"
           [entity]="organisation"
-          [selectedEntityService]="organisationsService"></app-selectable-button>
+          [selectedEntityService]="organisationsService"
+          [onClickFunc]="onSelect"></app-selectable-button>
         <a class="btn btn-sm me-2 btn-outline-success text-white" routerLink="../{{ organisation.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
           <i-bs name="pencil-square"></i-bs>
         </a>
