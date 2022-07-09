@@ -37,18 +37,15 @@ export class QuestionDialogComponent {
     },
   ];
 
-  @Input()
-  question: string | undefined;
+  @Input() question: string | undefined;
 
-  @Input()
-  answers: {
+  @Input() answers: {
     icon: string | null;
     answer: string;
     value: string;
   }[] = QuestionDialogComponent.YES_NO_ANSWERS;
 
-  @Input()
-  title: string | undefined;
+  @Input() title: string | undefined;
 
   constructor(public activeModal: NgbActiveModal) {}
 

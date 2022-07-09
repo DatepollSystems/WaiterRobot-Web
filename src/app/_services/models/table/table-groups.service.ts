@@ -5,6 +5,7 @@ import {AbstractModelService} from '../abstract-model.service';
 
 import {TableGroupModel} from '../../../_models/table/table-group.model';
 import {EventsService} from '../events.service';
+import {GetTableGroupResponse} from '../../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,6 @@ export class TableGroupsService extends AbstractModelService<TableGroupModel> {
   }
 
   protected convert(data: any): TableGroupModel {
-    return new TableGroupModel(data);
+    return new TableGroupModel(data as GetTableGroupResponse);
   }
 }

@@ -5,6 +5,7 @@ import {AbstractModelService} from '../abstract-model.service';
 
 import {SessionModel} from '../../../_models/user/session.model';
 import {WaitersService} from './waiters.service';
+import {SessionResponse} from '../../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class WaiterSessionsService extends AbstractModelService<SessionModel> {
   }
 
   protected convert(data: any): SessionModel {
-    return new SessionModel(data);
+    return new SessionModel(data as SessionResponse);
   }
 
   public setGetAllWaiterId(id: number): void {

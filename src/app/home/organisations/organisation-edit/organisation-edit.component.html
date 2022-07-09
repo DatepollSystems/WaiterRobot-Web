@@ -62,7 +62,8 @@
                 name="name"
                 #nameModel="ngModel"
                 [disabled]="!myUser?.isAdmin"
-                minlength="5"
+                minlength="4"
+                maxlength="40"
                 placeholder="{{ 'NAME' | tr }}"
                 [ngModel]="isEditing ? entity?.name : null" />
 
@@ -82,7 +83,8 @@
                 type="text"
                 id="street"
                 name="street"
-                minlength="1"
+                minlength="4"
+                maxlength="80"
                 #streetModel="ngModel"
                 [disabled]="!myUser?.isAdmin"
                 placeholder="{{ 'HOME_ORGS_STREET' | tr }}"
@@ -103,6 +105,7 @@
                 [disabled]="!myUser?.isAdmin"
                 name="streetNumber"
                 minlength="1"
+                maxlength="20"
                 placeholder="{{ 'HOME_ORGS_STREETNUMBER' | tr }}"
                 [ngModel]="isEditing ? entity?.streetNumber : null" />
               <small *ngIf="streetNumberModel.invalid" class="text-danger">
@@ -123,7 +126,8 @@
                 #postalCodeModel="ngModel"
                 [disabled]="!myUser?.isAdmin"
                 name="postalCode"
-                minlength="1"
+                minlength="2"
+                maxlength="16"
                 placeholder="{{ 'HOME_ORGS_POSTAL_CODE' | tr }}"
                 [ngModel]="isEditing ? entity?.postalCode : null" />
               <small *ngIf="postalCodeModel.invalid" class="text-danger">
@@ -142,7 +146,8 @@
                 name="city"
                 #cityModel="ngModel"
                 [disabled]="!myUser?.isAdmin"
-                minlength="1"
+                minlength="4"
+                maxlength="60"
                 placeholder="{{ 'HOME_ORGS_CITY' | tr }}"
                 [ngModel]="isEditing ? entity?.city : null" />
               <small *ngIf="cityModel.invalid" class="text-danger">
@@ -162,6 +167,7 @@
                 [disabled]="!myUser?.isAdmin"
                 name="countryCode"
                 minlength="2"
+                maxlength="4"
                 placeholder="{{ 'HOME_ORGS_COUNTRY_CODE' | tr }}"
                 [ngModel]="isEditing ? entity?.countryCode : null" />
               <small *ngIf="countryCodeModel.invalid" class="text-danger">

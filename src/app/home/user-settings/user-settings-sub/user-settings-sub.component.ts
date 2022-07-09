@@ -66,14 +66,14 @@ export class UserSettingsSubComponent extends AComponent {
   changePassword(form: NgForm): void {
     this.userSettingsService
       .changePassword(new UpdatePasswordDto(form.form.value.oldPassword as string, form.form.value.newPassword as string))
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.notificationService.tsuccess('HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_SUCCESS');
           form.resetForm();
         },
-        () => {
+        error: () => {
           this.notificationService.twarning('HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_ERROR');
-        }
-      );
+        },
+      });
   }
 }

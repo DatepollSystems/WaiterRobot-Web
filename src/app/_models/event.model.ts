@@ -2,7 +2,7 @@ import {AEntityWithNumberIDAndName} from 'dfx-helper';
 import {GetEventOrLocationResponse} from './waiterrobot-backend';
 
 export class EventModel extends AEntityWithNumberIDAndName {
-  public readonly date: string | null;
+  public readonly date?: string;
   public readonly street: string;
   public readonly streetNumber: string;
   public readonly postalCode: string;

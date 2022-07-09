@@ -4,6 +4,7 @@ import {HttpService} from '../../http.service';
 import {AbstractSelectableModelService} from '../abstract-model.service';
 
 import {OrganisationModel} from '../../../_models/organisation/organisation.model';
+import {GetOrganisationResponse} from '../../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,6 @@ export class OrganisationsService extends AbstractSelectableModelService<Organis
   }
 
   protected convert(data: any): OrganisationModel {
-    return new OrganisationModel(data);
+    return new OrganisationModel(data as GetOrganisationResponse);
   }
 }

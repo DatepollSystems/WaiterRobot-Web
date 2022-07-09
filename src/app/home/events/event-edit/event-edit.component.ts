@@ -23,8 +23,8 @@ export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
   override onlyEditingTabs = [2];
   override redirectUrl = '/home/events/all';
 
-  myUser: UserModel | undefined;
-  selectedEvent: EventModel | undefined;
+  myUser?: UserModel;
+  selectedEvent?: EventModel;
 
   constructor(
     route: ActivatedRoute,

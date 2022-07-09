@@ -5,6 +5,7 @@ import {AbstractModelService} from '../abstract-model.service';
 
 import {WaiterModel} from '../../../_models/waiter/waiter.model';
 import {OrganisationsService} from '../organisation/organisations.service';
+import {GetWaiterResponse} from '../../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,7 @@ export class WaitersService extends AbstractModelService<WaiterModel> {
     this.setGetAllParams([{key: 'organisationId', value: this.organisationService.getSelected()?.id}]);
   }
 
-  protected convert(jsonData: any): WaiterModel {
-    return new WaiterModel(jsonData);
+  protected convert(data: any): WaiterModel {
+    return new WaiterModel(data as GetWaiterResponse);
   }
 }

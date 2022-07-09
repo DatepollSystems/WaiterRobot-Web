@@ -5,6 +5,7 @@ import {AbstractModelService} from '../abstract-model.service';
 
 import {TableModel} from '../../../_models/table/table.model';
 import {EventsService} from '../events.service';
+import {GetTableResponse} from '../../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +28,6 @@ export class TablesService extends AbstractModelService<TableModel> {
   }
 
   protected convert(data: any): TableModel {
-    return new TableModel(data);
+    return new TableModel(data as GetTableResponse);
   }
 }

@@ -58,16 +58,16 @@ export class OrganisationUserAddModalComponent extends AComponent {
           {key: 'uEmail', value: email},
           {key: 'organisationId', value: this.entity?.id},
         ])
-        .subscribe(
-          (response: any) => {
+        .subscribe({
+          next: (response: any) => {
             console.log(response);
             this.organisationsUsersService.fetchAll();
           },
-          (error) => {
+          error: (error) => {
             this.notificationService.warning(email + this.translate.translate('HOME_ORGS_USERS_USER_NOT_FOUND'));
             console.log(error);
-          }
-        );
+          },
+        });
     }
 
     this.activeModal.close();

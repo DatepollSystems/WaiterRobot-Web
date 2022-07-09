@@ -66,25 +66,23 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
       this.autoUnsubscribe(
         this.eventsService.selectedChange.subscribe((event) => {
           this.preSelectedEvents = new EntityList(event);
-          this.selectedEvents.add(event);
+          this.selectedEvents.addIfAbsent(event);
         })
       );
     }
   }
 
-  override onEntityEdit(model: WaiterModel): void {
-    this.waiterSessionService.setGetAllWaiterId(model.id);
+  override onEntityEdit(waiter: WaiterModel): void {
+    this.waiterSessionService.setGetAllWaiterId(waiter.id);
     const selected = [];
     for (const event of this.events) {
-      if (model.events.includes(event.id)) {
+      if (waiter.events.includes(event.id)) {
         selected.push(event);
       }
     }
     this.preSelectedEvents = new EntityList(selected);
     this.lumber.log('onEntityEdit', 'Mapped waiter events into selectedEvents', this.preSelectedEvents);
-  }
 
-  override onEntityUpdate(waiter: WaiterModel): void {
     if (this.qrCodeModal) {
       this.qrCodeModal.componentInstance.token = waiter.signInToken;
     }
@@ -92,11 +90,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
     model.organisationId = this.selectedOrganisation?.id;
-    const ids = [];
-    for (const event of this.selectedEvents) {
-      ids.push(event.id);
-    }
-    model.eventIds = ids;
+    model.eventIds = this.selectedEvents.map((event) => event.id);
     return model;
   }
 

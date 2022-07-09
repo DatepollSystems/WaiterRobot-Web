@@ -22,7 +22,7 @@ export class EventsService extends AbstractSelectableModelService<EventModel> {
     });
   }
 
-  protected convert(data: GetEventOrLocationResponse): EventModel {
-    return new EventModel(data);
+  protected convert(data: any): EventModel {
+    return new EventModel(data as GetEventOrLocationResponse);
   }
 }

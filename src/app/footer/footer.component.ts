@@ -25,7 +25,7 @@ export class FooterComponent {
     // const oldLanguage = localStorage.getItem('language');
     void this.translate.use(event);
 
-    // const snackBarRef = this.snackBar.open(this.translate.translate('LANGUAGE_CHANGED_TO') + this.selected, 'Undo');
+    // const snackBarRef = this.snackBar.open(this.transslate.translate('LANGUAGE_CHANGED_TO') + this.selected, 'Undo');
     // snackBarRef.onAction().subscribe(() => {
     //   this.selected = oldLanguage;
     //   this.translate.use(oldLanguage);

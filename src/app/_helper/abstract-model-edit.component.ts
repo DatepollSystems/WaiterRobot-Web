@@ -54,7 +54,6 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
               this.entity = value;
               this.entityLoaded = true;
               this.onEntityEdit(this.entity);
-              this.onEntityUpdate(this.entity);
             })
           );
         } else {
@@ -83,9 +82,6 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
   protected onEntityEdit(entity: EntityType): void {}
 
   protected onEntityCreate(): void {}
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected onEntityUpdate(entity: EntityType): void {}
 
   /**
    * Adds custom attributes to the create and update model

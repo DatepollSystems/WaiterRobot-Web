@@ -59,7 +59,7 @@ export class AuthInterceptor implements HttpInterceptor {
               case 401:
                 return this.handle401Error(req, next);
               default:
-                return throwError(error.message);
+                return throwError(error.error.message);
             }
           } else if (error.error instanceof ErrorEvent) {
             // Client Side Error

@@ -2,19 +2,20 @@ import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 
 import {HttpService} from '../http.service';
-import {UserModel} from '../../_models/user/user.model';
+import {GetMyselfResponse} from '../../_models/waiterrobot-backend';
+import {MyUserModel} from '../../_models/user/my-user.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MyUserService {
   private loaded = false;
-  private user: UserModel | undefined = undefined;
-  public userChange: Subject<UserModel> = new Subject<UserModel>();
+  private user: MyUserModel | undefined = undefined;
+  public userChange: Subject<MyUserModel> = new Subject<MyUserModel>();
 
   constructor(private httpService: HttpService) {}
 
-  public getUser(): UserModel | undefined {
+  public getUser(): MyUserModel | undefined {
     if (!this.loaded) {
       this.loaded = true;
       this.fetchUser();
@@ -23,15 +24,15 @@ export class MyUserService {
   }
 
   private fetchUser(): void {
-    this.httpService.get('/user/myself').subscribe(
-      (data: any) => {
-        this.setUser(new UserModel(data));
+    this.httpService.get('/user/myself').subscribe({
+      next: (data: any) => {
+        this.setUser(new MyUserModel(data as GetMyselfResponse));
       },
-      (error: any) => console.log(error)
-    );
+      error: (error: any) => console.log(error),
+    });
   }
 
-  public setUser(user: UserModel): void {
+  public setUser(user: MyUserModel): void {
     this.user = user;
     this.userChange.next(this.user);
   }

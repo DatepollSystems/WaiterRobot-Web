@@ -5,6 +5,7 @@ import {EventsService} from '../events.service';
 import {AbstractModelService} from '../abstract-model.service';
 
 import {ProductModel} from '../../../_models/product/product.model';
+import {GetProductWithGroupResponse} from '../../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +28,6 @@ export class ProductsService extends AbstractModelService<ProductModel> {
   }
 
   protected convert(data: any): ProductModel {
-    return new ProductModel(data);
+    return new ProductModel(data as GetProductWithGroupResponse);
   }
 }

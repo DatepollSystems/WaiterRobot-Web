@@ -44,7 +44,7 @@ export class AllOrganisationsComponent extends AbstractModelsListComponent<Organ
     );
   }
 
-  onSelect = (entity: any | undefined) => {
+  onSelect = () => {
     this.eventsService.setSelected(undefined);
   };
 }

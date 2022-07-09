@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {AuthService} from '../_services/auth/auth.service';
 import {NotificationService} from '../_services/notifications/notification.service';
 import {UIHelper} from 'dfx-helper';
+import {JWTResponse} from '../_models/waiterrobot-backend';
 
 @Component({
   selector: 'app-about',
@@ -25,15 +26,15 @@ export class AboutComponent implements OnInit {
   onSignin(form: NgForm): void {
     const email = form.value.email as string;
     const password = form.value.password as string;
-    this.authService.sendSignInRequest(email, password).subscribe(
-      (data: any) => {
-        this.authService.setJWTToken(data.token as string);
-        this.authService.setSessionToken(data.sessionToken as string);
+    this.authService.sendSignInRequest(email, password).subscribe({
+      next: (data: JWTResponse) => {
+        this.authService.setJWTToken(data.token);
+        this.authService.setSessionToken(data.sessionToken);
         this.notificationService.tsuccess('ABOUT_SIGNIN_SUCCESSFUL');
         const url = this.authService.redirectUrl ? this.authService.redirectUrl : '/home';
         void this.router.navigateByUrl(url);
       },
-      (error) => {
+      error: (error) => {
         console.log(error);
 
         // if (error.error.error_code != null) {
@@ -46,7 +47,7 @@ export class AboutComponent implements OnInit {
         //   }
         // }
         // this.router.navigateByUrl('/auth/signin', {state: {routingReason: 'loginFailed', username, password}});
-      }
-    );
+      },
+    });
   }
 }

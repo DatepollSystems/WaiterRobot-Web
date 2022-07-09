@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-// Generated using typescript-generator version 2.36.1070 on 2022-07-04 20:55:43.
+// Generated using typescript-generator version 2.36.1070 on 2022-07-09 14:29:56.
 
 export interface ErrorResponse {
   readonly message: string;
@@ -33,7 +33,7 @@ export interface AllergenDto {
 export interface CreateAllergenDto {
   readonly name: string;
   readonly shortName: string;
-  readonly global: boolean | null;
+  readonly global?: boolean;
 }
 
 export interface GetAllergenResponse {
@@ -46,7 +46,7 @@ export interface UpdateAllergenDto {
   readonly id: number;
   readonly name: string;
   readonly shortName: string;
-  readonly global: boolean | null;
+  readonly global?: boolean;
 }
 
 export interface ISignInDto {
@@ -65,8 +65,8 @@ export interface ISignInWithPasswordDto extends ISignInDto {
 }
 
 export interface JWTResponse {
-  readonly token: string | null;
-  readonly sessionToken: string | null;
+  readonly token?: string;
+  readonly sessionToken?: string;
 }
 
 export interface LogoutDto {
@@ -82,8 +82,8 @@ export interface SessionResponse {
   readonly id: number;
   readonly description: string;
   readonly entityId: number;
-  readonly createdAt: string;
-  readonly updatedAt: string;
+  readonly createdAt: DateAsString;
+  readonly updatedAt: DateAsString;
 }
 
 export interface SignInWithPasswordChangeDto extends ISignInWithPasswordChangeDto {
@@ -110,14 +110,14 @@ export interface CreateEventOrLocationDto {
   readonly streetNumber: string;
   readonly postalCode: string;
   readonly city: string;
-  readonly date: string | null;
+  readonly date?: DateAsString;
   readonly organisationId: number;
 }
 
 export interface GetEventOrLocationResponse {
   readonly id: number;
   readonly name: string;
-  readonly date: string | null;
+  readonly date?: DateAsString;
   readonly street: string;
   readonly streetNumber: string;
   readonly postalCode: string;
@@ -133,8 +133,8 @@ export interface UpdateEventOrLocationDto {
   readonly streetNumber: string;
   readonly postalCode: string;
   readonly city: string;
-  readonly date: string | null;
-  readonly updateWaiterCreateToken: boolean | null;
+  readonly date?: DateAsString;
+  readonly updateWaiterCreateToken?: boolean;
 }
 
 export interface CreateMediatorDto {
@@ -151,7 +151,7 @@ export interface GetMediatorResponse {
   readonly pdfCreator: boolean;
   readonly organisationId: number;
   readonly active: boolean;
-  readonly lastContact: string | null;
+  readonly lastContact?: DateAsString;
   readonly printers: number[];
 }
 
@@ -257,7 +257,7 @@ export interface CreateProductDto {
   readonly allergenIds: number[];
   readonly price: number;
   readonly groupId: number;
-  readonly printerId: number | null;
+  readonly printerId?: number;
 }
 
 export interface CreateProductGroupDto {
@@ -268,7 +268,7 @@ export interface CreateProductGroupDto {
 export interface GetProductGroupResponse {
   readonly id: number;
   readonly name: string;
-  readonly printerId: number | null;
+  readonly printerId?: number;
   readonly eventId: number;
 }
 
@@ -294,7 +294,7 @@ export interface UpdateProductDto {
   readonly allergenIds: number[];
   readonly price: number;
   readonly groupId: number;
-  readonly printerId: number | null;
+  readonly printerId?: number;
 }
 
 export interface UpdateProductGroupDto {
@@ -343,7 +343,7 @@ export interface UpdateTableGroupDto {
 export interface CreateUserDto {
   readonly firstname: string;
   readonly surname: string;
-  readonly birthday: Date;
+  readonly birthday: DateAsString;
   readonly emailAddress: string;
   readonly password: string;
   readonly activated: boolean;
@@ -355,7 +355,7 @@ export interface GetMyselfResponse {
   readonly emailAddress: string;
   readonly firstname: string;
   readonly surname: string;
-  readonly birthday: Date;
+  readonly birthday: DateAsString;
   readonly role: UserGlobalRole;
 }
 
@@ -366,7 +366,7 @@ export interface GetUserResponse {
   readonly emailAddress: string;
   readonly activated: boolean;
   readonly forcePasswordChange: boolean;
-  readonly birthday: Date;
+  readonly birthday: DateAsString;
   readonly role: UserGlobalRole;
 }
 
@@ -383,12 +383,12 @@ export interface UpdateUserDto {
   readonly id: number;
   readonly firstname: string;
   readonly surname: string;
-  readonly birthday: Date;
+  readonly birthday: DateAsString;
   readonly emailAddress: string;
   readonly role: UserGlobalRole;
   readonly activated: boolean;
   readonly forcePasswordChange: boolean;
-  readonly password: string | null;
+  readonly password?: string;
 }
 
 export interface CreateWaiterDto {
@@ -431,7 +431,7 @@ export interface UpdateWaiterDto {
   readonly activated: boolean;
   readonly name: string;
   readonly eventIds: number[];
-  readonly updateToken: boolean | null;
+  readonly updateToken?: boolean;
 }
 
 export interface WebSocketDto<T> {
@@ -450,6 +450,8 @@ export interface RegisterMediatorDto {
 }
 
 export interface Mergeable<T> {}
+
+export type DateAsString = string;
 
 export type UserOrganisationRole = 'ADMIN' | 'MEMBER';
 

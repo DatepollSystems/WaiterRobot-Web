@@ -14,10 +14,10 @@ import {OrganisationsUsersService} from '../../../_services/models/organisation/
 import {OrganisationsSettingsService} from '../../../_services/models/organisation/organisations-settings.service';
 
 import {OrganisationModel} from '../../../_models/organisation/organisation.model';
-import {UserModel} from '../../../_models/user/user.model';
 import {OrganisationUserAddModalComponent} from '../organisation-user-add-modal/organisation-user-add-modal.component';
 import {OrganisationSettingsModel} from '../../../_models/organisation/organisation-settings.model';
 import {OrganisationUserModel} from '../../../_models/organisation/organisation-user.model';
+import {MyUserModel} from '../../../_models/user/my-user.model';
 
 @Component({
   selector: 'app-organisation-edit',
@@ -36,7 +36,7 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
 
   settings: OrganisationSettingsModel | undefined;
 
-  myUser: UserModel | undefined;
+  myUser?: MyUserModel;
   selectedOrganisation: OrganisationModel | undefined;
   organisationUsers: IList<OrganisationUserModel> = new EntityList();
 
@@ -112,15 +112,15 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
             {key: 'organisationId', value: model.organisationId},
             {key: 'uEmail', value: model.id},
           ])
-          .subscribe(
-            (response: any) => {
+          .subscribe({
+            next: (response: any) => {
               console.log(response);
               this.organisationsUsersService.fetchAll();
             },
-            (error) => {
+            error: (error) => {
               console.log(error);
-            }
-          );
+            },
+          });
       }
     });
   }

@@ -6,7 +6,7 @@ import {BrowserHelper, Converter, StorageHelper} from 'dfx-helper';
 
 import {HttpService} from '../http.service';
 import {NullHelper} from '../../_helper/NullHelper';
-import {JWTResponse} from '../../_models/waiterrobot-backend';
+import {JWTResponse, RefreshJWTWithSessionTokenDto, UserSignInDto} from '../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
@@ -45,7 +45,7 @@ export class AuthService {
       password,
       sessionInformation: AuthService.getSessionInformation(),
       stayLoggedIn: true,
-    };
+    } as UserSignInDto;
 
     return this.httpService.post(AuthService.signInUrl, signInObject, undefined, 'sendSignInRequest');
   }
@@ -82,7 +82,7 @@ export class AuthService {
     const object = {
       sessionToken: this.getSessionToken(),
       sessionInformation: AuthService.getSessionInformation(),
-    };
+    } as RefreshJWTWithSessionTokenDto;
 
     return this.httpService.post(AuthService.refreshUrl, object, undefined, 'refreshJWTToken').pipe(
       tap((data: any) => {
@@ -97,16 +97,16 @@ export class AuthService {
       .post('/auth/logout', {
         session_token: this.getSessionToken(),
       })
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.clearStorage();
           window.location.reload();
         },
-        () => {
+        error: () => {
           this.clearStorage();
           window.location.reload();
-        }
-      );
+        },
+      });
   }
 
   public clearStorage(): void {

@@ -27,9 +27,9 @@ export class DuplicateWaitersService extends AbstractModelService<DuplicateWaite
   }
 
   public merge(mergeDto: {waiterId: number; waiterIds: number[]}): void {
-    this.httpService.put('/config/waiter/duplicates/merge', mergeDto).subscribe(
-      () => this.getAll(),
-      (error) => console.log(error)
-    );
+    this.httpService.put('/config/waiter/duplicates/merge', mergeDto).subscribe({
+      next: () => this.getAll(),
+      error: (error) => console.log(error),
+    });
   }
 }
