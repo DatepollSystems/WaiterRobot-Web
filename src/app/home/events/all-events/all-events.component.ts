@@ -7,7 +7,7 @@ import {EventsService} from '../../../_services/models/events.service';
 import {MyUserService} from '../../../_services/auth/my-user.service';
 
 import {EventModel} from '../../../_models/event.model';
-import {UserModel} from '../../../_models/user/user.model';
+import {MyUserModel} from 'src/app/_models/user/my-user.model';
 
 @Component({
   selector: 'app-all-events',
@@ -17,8 +17,8 @@ import {UserModel} from '../../../_models/user/user.model';
 export class AllEventsComponent extends AbstractModelsListComponent<EventModel> {
   override columnsToDisplay = ['name', 'date', 'street', 'streetNumber', 'postalCode', 'city', 'actions'];
 
-  myUser: UserModel | undefined;
-  selectedEvent: EventModel | undefined;
+  myUser?: MyUserModel;
+  selectedEvent?: EventModel;
 
   constructor(modal: NgbModal, private myUserService: MyUserService, public eventsService: EventsService) {
     super(modal, eventsService);

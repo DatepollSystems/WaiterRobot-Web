@@ -12,7 +12,7 @@ import {MyUserService} from '../../../_services/auth/my-user.service';
 import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
 
 import {EventModel} from '../../../_models/event.model';
-import {UserModel} from '../../../_models/user/user.model';
+import {MyUserModel} from 'src/app/_models/user/my-user.model';
 
 @Component({
   selector: 'app-event-edit',
@@ -23,7 +23,7 @@ export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
   override onlyEditingTabs = [2];
   override redirectUrl = '/home/events/all';
 
-  myUser?: UserModel;
+  myUser?: MyUserModel;
   selectedEvent?: EventModel;
 
   constructor(

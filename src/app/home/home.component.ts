@@ -14,6 +14,7 @@ import {UserModel} from '../_models/user/user.model';
 import {NavigationEnd, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.component';
+import {MyUserModel} from '../_models/user/my-user.model';
 
 @Component({
   selector: 'app-home',
@@ -26,10 +27,10 @@ export class HomeComponent extends AComponent implements OnInit {
   lumber = LoggerFactory.getLogger('HomeComponent');
 
   adminModeChanged = false;
-  myUser: UserModel | undefined;
-  selectedOrganisation: OrganisationModel | undefined;
+  myUser?: MyUserModel;
+  selectedOrganisation?: OrganisationModel;
   allOrgs: OrganisationModel[] = [];
-  selectedEvent: EventModel | undefined;
+  selectedEvent?: EventModel;
   allEvents: EventModel[] = [];
 
   isMobile = false;

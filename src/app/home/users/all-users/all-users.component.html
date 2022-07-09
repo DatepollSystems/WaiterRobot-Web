@@ -41,7 +41,7 @@
 
     <ng-container ngbColumnDef="email_address">
       <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'EMAIL' | tr }}</th>
-      <td *ngbCellDef="let user" ngb-cell>{{ user.email_address }}</td>
+      <td *ngbCellDef="let user" ngb-cell>{{ user.emailAddress }}</td>
     </ng-container>
 
     <ng-container ngbColumnDef="birthday">
@@ -53,7 +53,7 @@
       <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ADMIN' | tr }}</th>
       <td *ngbCellDef="let user" ngb-cell>
         <div class="form-check">
-          <input class="form-check-input" onclick="return false;" type="checkbox" [ngModel]="user.is_admin" name="is_admin" value="" />
+          <input class="form-check-input" onclick="return false;" type="checkbox" [ngModel]="user.isAdmin" name="is_admin" value="" />
         </div>
       </td>
     </ng-container>

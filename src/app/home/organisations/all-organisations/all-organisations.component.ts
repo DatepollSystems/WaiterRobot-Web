@@ -8,7 +8,7 @@ import {OrganisationsService} from '../../../_services/models/organisation/organ
 import {EventsService} from '../../../_services/models/events.service';
 
 import {OrganisationModel} from '../../../_models/organisation/organisation.model';
-import {UserModel} from '../../../_models/user/user.model';
+import {MyUserModel} from 'src/app/_models/user/my-user.model';
 
 @Component({
   selector: 'app-all-organisations',
@@ -18,8 +18,8 @@ import {UserModel} from '../../../_models/user/user.model';
 export class AllOrganisationsComponent extends AbstractModelsListComponent<OrganisationModel> {
   override columnsToDisplay = ['id', 'name', 'street', 'streetNumber', 'postalCode', 'city', 'countryCode', 'actions'];
 
-  myUser: UserModel | undefined;
-  selectedOrganisation: OrganisationModel | undefined;
+  myUser?: MyUserModel;
+  selectedOrganisation?: OrganisationModel;
 
   constructor(
     modal: NgbModal,
