@@ -53,7 +53,7 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
             this.modelService.singleChange.subscribe((value) => {
               this.entity = value;
               this.entityLoaded = true;
-              this.onEntityEdit(this.entity);
+              this.onEntityEdit(this.entity!);
             })
           );
         } else {
@@ -143,9 +143,9 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
     model = this.addCustomAttributesBeforeCreateAndUpdate(model);
     if (this.isEditing && this.entity?.id != null) {
       model.id = this.entity?.id;
-      this.modelService.update(model);
+      this.modelService.update(model).subscribe();
     } else {
-      this.modelService.create(model);
+      void this.modelService.create(model).subscribe();
       if (this.continuousCreation) {
         form.resetForm();
 
@@ -170,7 +170,7 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
     void modalRef.result.then((result) => {
       this.lumber.info('onDelete', 'Confirm dialog result', result);
       if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
-        this.modelService.delete(modelId);
+        this.modelService.delete(modelId).subscribe();
         this.goToRedirectUrl();
       }
     });

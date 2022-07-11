@@ -97,11 +97,10 @@ export class DuplicateOrganisationWaitersComponent extends AbstractModelsListCom
       return;
     }
 
-    const mergeDto = {
+    this.entitiesService.merge({
       waiterId: this.selectedDuplicateWaiter?.id,
       waiterIds: this.duplicateWaitersToMerge.map((value) => value.id),
-    };
-    this.entitiesService.merge(mergeDto);
+    });
     if (this.continueMerge && this.entities.length > 1) {
       let next: DuplicateWaiterModel | undefined = undefined;
       let i = 0;

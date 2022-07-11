@@ -1,17 +1,17 @@
 import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
-import {HttpService} from '../../http.service';
+import {GetProductWithGroupResponse} from '../../../_models/waiterrobot-backend';
 import {EventsService} from '../events.service';
 import {AbstractModelService} from '../abstract-model.service';
 
 import {ProductModel} from '../../../_models/product/product.model';
-import {GetProductWithGroupResponse} from '../../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService extends AbstractModelService<ProductModel> {
-  constructor(httpService: HttpService, private eventsService: EventsService) {
+  constructor(httpService: HttpClient, private eventsService: EventsService) {
     super(httpService, '/config/product');
 
     this.setGetAllParams([{key: 'eventId', value: eventsService.getSelected()?.id}]);

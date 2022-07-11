@@ -75,7 +75,7 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
     void modalRef.result.then((result) => {
       this.lumber.info('onDelete', 'Question dialog result:', result);
       if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
-        this.entitiesService.delete(modelId);
+        this.entitiesService.delete(modelId).subscribe();
       }
     });
   }

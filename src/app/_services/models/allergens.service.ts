@@ -1,15 +1,16 @@
 import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
-import {HttpService} from '../http.service';
-import {AbstractModelService} from './abstract-model.service';
-import {AllergenModel} from '../../_models/allergen.model';
 import {GetAllergenResponse} from '../../_models/waiterrobot-backend';
+import {AbstractModelService} from './abstract-model.service';
+
+import {AllergenModel} from '../../_models/allergen.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AllergensService extends AbstractModelService<AllergenModel> {
-  constructor(httpService: HttpService) {
+  constructor(httpService: HttpClient) {
     super(httpService, '/config/allergen');
   }
 

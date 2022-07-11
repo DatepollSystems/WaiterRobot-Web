@@ -26,7 +26,7 @@ export class SessionsComponent extends AbstractModelsListComponent<SessionModel>
       this.lumber.info('onDelete', 'Question dialog result:', result);
       if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
         for (const session of this.entities) {
-          this.entitiesService.delete(session.id);
+          this.entitiesService.delete(session.id).subscribe();
         }
       }
     });

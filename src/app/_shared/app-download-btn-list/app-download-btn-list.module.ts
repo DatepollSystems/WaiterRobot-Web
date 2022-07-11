@@ -9,10 +9,11 @@ import {AppQrCodeModalModule} from '../app-qr-code-modal/app-qr-code-modal.modul
 
 import {AppDownloadBtnListComponent} from './app-download-btn-list.component';
 import {AppDownloadQrCodeModalComponent} from './app-download-qr-code-modal.component';
+import {TrackByModule} from 'dfx-helper';
 
 @NgModule({
   declarations: [AppDownloadBtnListComponent, AppDownloadQrCodeModalComponent],
-  imports: [CommonModule, DfxTranslateModule, IconsModule, NgbTooltipModule, AppQrCodeModalModule],
+  imports: [CommonModule, DfxTranslateModule, IconsModule, NgbTooltipModule, AppQrCodeModalModule, TrackByModule],
   exports: [AppDownloadBtnListComponent],
 })
 export class AppDownloadBtnListModule {}

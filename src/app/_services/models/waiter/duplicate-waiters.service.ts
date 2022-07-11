@@ -1,18 +1,18 @@
 import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
-import {HttpService} from '../../http.service';
+import {DuplicateWaiterResponse, MergeWaiterDto} from '../../../_models/waiterrobot-backend';
 import {AbstractModelService} from '../abstract-model.service';
 import {OrganisationsService} from '../organisation/organisations.service';
 
 import {DuplicateWaiterModel} from '../../../_models/waiter/duplicate-waiter.model';
-import {DuplicateWaiterResponse} from '../../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DuplicateWaitersService extends AbstractModelService<DuplicateWaiterModel> {
-  constructor(httpService: HttpService, private organisationService: OrganisationsService) {
-    super(httpService, '/config/waiter/duplicates');
+  constructor(httpClient: HttpClient, private organisationService: OrganisationsService) {
+    super(httpClient, '/config/waiter/duplicates');
     this.setGetAllParams([{key: 'organisationId', value: this.organisationService.getSelected()?.id}]);
     this.organisationService.selectedChange.subscribe((org) => {
       if (org) {
@@ -26,8 +26,8 @@ export class DuplicateWaitersService extends AbstractModelService<DuplicateWaite
     return new DuplicateWaiterModel(jsonData as DuplicateWaiterResponse);
   }
 
-  public merge(mergeDto: {waiterId: number; waiterIds: number[]}): void {
-    this.httpService.put('/config/waiter/duplicates/merge', mergeDto).subscribe({
+  public merge(mergeDto: MergeWaiterDto): void {
+    this.httpClient.put('/config/waiter/duplicates/merge', mergeDto).subscribe({
       next: () => this.getAll(),
       error: (error) => console.log(error),
     });

@@ -1,26 +1,20 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from '../../http.service';
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+
+import {UpdateEmailDto, UpdatePasswordDto} from '../../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserSettingsService {
-  constructor(private httpService: HttpService) {}
+  constructor(private httpService: HttpClient) {}
 
   public changeEmail(dto: UpdateEmailDto): Observable<any> {
-    return this.httpService.put('/user/email', dto, undefined, 'updateEmail');
+    return this.httpService.put('/user/email', dto);
   }
 
   public changePassword(dto: UpdatePasswordDto): Observable<any> {
-    return this.httpService.put('/user/password', dto, undefined, 'updatePassword');
+    return this.httpService.put('/user/password', dto);
   }
-}
-
-export class UpdatePasswordDto {
-  constructor(public readonly old_password: string, public readonly new_password: string) {}
-}
-
-export class UpdateEmailDto {
-  constructor(public readonly email_address: string) {}
 }

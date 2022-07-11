@@ -13,7 +13,7 @@
       ><b>{{ selectedOrganisation.name }}</b></a
     >
 
-    <ng-container *ngFor="let organisation of this.organisations.slice(0, maxOrgsCount)">
+    <ng-container *ngFor="let organisation of this.organisations.slice(0, maxOrgsCount); trackById">
       <a
         class="list-group-item list-group-item-action"
         routerLink="{{ organisation.id }}"

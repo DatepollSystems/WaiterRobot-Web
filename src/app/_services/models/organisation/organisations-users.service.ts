@@ -1,16 +1,17 @@
 import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+
 import {AEntityService} from 'dfx-helper';
 
-import {HttpService} from '../../http.service';
+import {OrganisationUserResponse} from '../../../_models/waiterrobot-backend';
 
 import {OrganisationUserModel} from '../../../_models/organisation/organisation-user.model';
-import {OrganisationUserResponse} from '../../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrganisationsUsersService extends AEntityService<string, OrganisationUserModel> {
-  constructor(httpService: HttpService) {
+  constructor(httpService: HttpClient) {
     super(httpService, '/config/organisation/users');
 
     this.globalUpdateUrl = '/config/organisation/{organisationId}/user/{uEmail}';

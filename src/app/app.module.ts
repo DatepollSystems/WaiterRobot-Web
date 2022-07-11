@@ -8,16 +8,17 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {NgbDateAdapter, NgbDateParserFormatter, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {BaseUrlInterceptor, DfxHelperModule, LoggingInterceptor, PostPutJsonContentTypeInterceptor, TrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {AppRoutingModule} from './app-routing.module';
 import {CustomDateAdapter, CustomDateParserFormatter} from './_services/datepicker-adapter';
 import {WINDOW_PROVIDERS} from './_services/windows-provider';
-import {AuthInterceptor} from './_services/auth/auth-interceptor';
 
+import {AuthInterceptor} from './_services/auth/auth-interceptor';
 import {AppComponent} from './app.component';
 import {ToastsContainerComponent} from './_services/notifications/toasts-container.component';
-import {DfxHelperModule} from 'dfx-helper';
+import {EnvironmentHelper} from './_helper/EnvironmentHelper';
 
 @NgModule({
   declarations: [AppComponent, ToastsContainerComponent],
@@ -28,13 +29,29 @@ import {DfxHelperModule} from 'dfx-helper';
     HttpClientModule,
     FlexLayoutModule,
     NgbModule,
-    DfxHelperModule.setup(),
+    DfxHelperModule.setup({baseUrl: EnvironmentHelper.getAPIUrl(), baseUrlIgnorePaths: ['assets/i18n']}),
     DfxTranslateModule.setup({defaultLanguage: 'de'}),
+    TrackByModule,
   ],
   providers: [
     {
       provide: LOCALE_ID,
       useValue: 'de-AT',
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: BaseUrlInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: PostPutJsonContentTypeInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoggingInterceptor,
+      multi: true,
     },
     {
       provide: HTTP_INTERCEPTORS,

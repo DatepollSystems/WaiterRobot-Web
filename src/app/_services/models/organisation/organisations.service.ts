@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
-import {HttpService} from '../../http.service';
+import {GetOrganisationResponse} from '../../../_models/waiterrobot-backend';
 import {AbstractSelectableModelService} from '../abstract-model.service';
 
 import {OrganisationModel} from '../../../_models/organisation/organisation.model';
-import {GetOrganisationResponse} from '../../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,7 @@ import {GetOrganisationResponse} from '../../../_models/waiterrobot-backend';
 export class OrganisationsService extends AbstractSelectableModelService<OrganisationModel> {
   protected selectedStorageKey = 'selected_org';
 
-  constructor(httpService: HttpService) {
+  constructor(httpService: HttpClient) {
     super(httpService, '/config/organisation');
   }
 

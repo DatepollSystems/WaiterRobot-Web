@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
+
 import {Subject} from 'rxjs';
 
-import {HttpService} from '../../http.service';
 import {OrganisationSettingsModel} from '../../../_models/organisation/organisation-settings.model';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class OrganisationsSettingsService {
   private _settings: OrganisationSettingsModel | undefined;
   public settingsChange: Subject<OrganisationSettingsModel> = new Subject<OrganisationSettingsModel>();
 
-  constructor(private httpService: HttpService) {}
+  constructor(private httpService: HttpClient) {}
 
   public getSettings(organisationId: number): OrganisationSettingsModel | undefined {
     this.fetchSettings(organisationId);
@@ -26,7 +26,7 @@ export class OrganisationsSettingsService {
 
   private fetchSettings(organisationId: number): void {
     this.httpService
-      .get('/config/organisation/settings', new HttpParams().set('organisationId', organisationId))
+      .get('/config/organisation/settings', {params: new HttpParams().set('organisationId', organisationId)})
       .subscribe((data: unknown) => {
         this.setSettings(new OrganisationSettingsModel(data));
       });
@@ -36,8 +36,10 @@ export class OrganisationsSettingsService {
     const dto = {
       value: value,
     };
-    this.httpService.put('/config/organisation/' + organisationId + '/setting/' + key, dto).subscribe(() => {
-      this.fetchSettings(organisationId);
+    this.httpService.put(`/config/organisation/${organisationId}/setting/${key}`, dto).subscribe({
+      next: () => {
+        this.fetchSettings(organisationId);
+      },
     });
   }
 

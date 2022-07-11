@@ -17,6 +17,7 @@ import {SelectableButtonModule} from '../../_shared/selectable-button/selectable
 import {OrganisationUserAddModalComponent} from './organisation-user-add-modal/organisation-user-add-modal.component';
 import {NgbChipInputModule} from '../../_shared/ngb-chip-input/ngb-chip-input.module';
 import {AppQrCodeScannerModalModule} from '../../_shared/app-qr-code-scanner-modal/app-qr-code-scanner-modal.module';
+import {TrackByModule} from 'dfx-helper';
 
 const routes: Routes = [
   {
@@ -48,6 +49,7 @@ const routes: Routes = [
     SelectableButtonModule,
     AppQrCodeScannerModalModule,
     DfxPaginationModule,
+    TrackByModule,
   ],
 })
 export class OrganisationsModule {}

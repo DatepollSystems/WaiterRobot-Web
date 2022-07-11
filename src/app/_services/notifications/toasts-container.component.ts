@@ -5,7 +5,7 @@ import {NotificationService} from './notification.service';
   selector: 'app-toasts',
   template: `
     <ngb-toast
-      *ngFor="let toast of notificationService.toasts"
+      *ngFor="let toast of notificationService.toasts; trackByProperty: 'textOrTpl'"
       [class]="toast.classname"
       [autohide]="true"
       [animation]="true"

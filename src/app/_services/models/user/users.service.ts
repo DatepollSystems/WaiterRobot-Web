@@ -1,17 +1,19 @@
 import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
-import {HttpService} from '../../http.service';
+import {GetUserResponse} from '../../../_models/waiterrobot-backend';
 import {AbstractModelService} from '../abstract-model.service';
 
 import {UserModel} from '../../../_models/user/user.model';
-import {GetUserResponse} from '../../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService extends AbstractModelService<UserModel> {
-  constructor(httpService: HttpService) {
-    super(httpService, '/config/user');
+  url = '/config/user';
+
+  constructor(httpService: HttpClient) {
+    super(httpService);
   }
 
   protected convert(data: any): UserModel {

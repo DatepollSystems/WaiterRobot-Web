@@ -1,8 +1,10 @@
 import {Component} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {UpdateEmailDto, UpdatePasswordDto, UserSettingsService} from '../../../_services/models/user/user-settings.service';
-import {NotificationService} from '../../../_services/notifications/notification.service';
+
 import {AComponent, StringHelper} from 'dfx-helper';
+
+import {UserSettingsService} from '../../../_services/models/user/user-settings.service';
+import {NotificationService} from '../../../_services/notifications/notification.service';
 import {MyUserService} from '../../../_services/auth/my-user.service';
 
 @Component({
@@ -38,7 +40,7 @@ export class UserSettingsSubComponent extends AComponent {
   }
 
   changeEmail(form: NgForm): void {
-    this.userSettingsService.changeEmail(new UpdateEmailDto(form.form.value.email as string)).subscribe(() => {
+    this.userSettingsService.changeEmail({emailAddress: form.form.value.email as string}).subscribe(() => {
       this.notificationService.tsuccess('HOME_USERSETTINGS_USER_SETTINGS_EMAIL_SUCCESS');
     });
   }
@@ -65,7 +67,7 @@ export class UserSettingsSubComponent extends AComponent {
 
   changePassword(form: NgForm): void {
     this.userSettingsService
-      .changePassword(new UpdatePasswordDto(form.form.value.oldPassword as string, form.form.value.newPassword as string))
+      .changePassword({oldPassword: form.form.value.oldPassword as string, newPassword: form.form.value.newPassword as string})
       .subscribe({
         next: () => {
           this.notificationService.tsuccess('HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_SUCCESS');

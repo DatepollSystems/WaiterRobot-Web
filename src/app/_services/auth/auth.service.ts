@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {BrowserHelper, Converter, StorageHelper} from 'dfx-helper';
 
-import {HttpService} from '../http.service';
-import {NullHelper} from '../../_helper/NullHelper';
 import {JWTResponse, RefreshJWTWithSessionTokenDto, UserSignInDto} from '../../_models/waiterrobot-backend';
 
 @Injectable({
@@ -21,7 +20,7 @@ export class AuthService {
 
   public redirectUrl: string | undefined = undefined;
 
-  constructor(private httpService: HttpService) {
+  constructor(private httpClient: HttpClient) {
     this.jwtTokenExpires = new Date();
     this.jwtTokenExpires.setMinutes(this.jwtTokenExpires.getMinutes() + 50);
   }
@@ -47,7 +46,7 @@ export class AuthService {
       stayLoggedIn: true,
     } as UserSignInDto;
 
-    return this.httpService.post(AuthService.signInUrl, signInObject, undefined, 'sendSignInRequest');
+    return this.httpClient.post(AuthService.signInUrl, signInObject);
   }
 
   public setSessionToken(sessionToken: string | undefined): void {
@@ -84,16 +83,15 @@ export class AuthService {
       sessionInformation: AuthService.getSessionInformation(),
     } as RefreshJWTWithSessionTokenDto;
 
-    return this.httpService.post(AuthService.refreshUrl, object, undefined, 'refreshJWTToken').pipe(
-      tap((data: any) => {
-        const jwtResponse = data as JWTResponse;
-        this.setJWTToken(NullHelper.nullToUndefined(jwtResponse.token));
+    return this.httpClient.post(AuthService.refreshUrl, object).pipe(
+      tap((response: JWTResponse) => {
+        this.setJWTToken(response.token);
       })
     );
   }
 
   public logout(): void {
-    this.httpService
+    this.httpClient
       .post('/auth/logout', {
         session_token: this.getSessionToken(),
       })

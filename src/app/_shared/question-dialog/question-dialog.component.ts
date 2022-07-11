@@ -15,7 +15,11 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark" ngbAutofocus (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
-      <button *ngFor="let answer of answers" (click)="answerQuestion(answer.value)" type="button" class="btn btn-outline-secondary">
+      <button
+        *ngFor="let answer of answers; trackByProperty: 'value'"
+        (click)="answerQuestion(answer.value)"
+        type="button"
+        class="btn btn-outline-secondary">
         {{ answer.answer | tr }}
       </button>
     </div>

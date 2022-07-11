@@ -1,16 +1,16 @@
 import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
-import {HttpService} from '../../http.service';
+import {SessionResponse} from '../../../_models/waiterrobot-backend';
 import {AbstractModelService} from '../abstract-model.service';
 
 import {SessionModel} from '../../../_models/user/session.model';
-import {SessionResponse} from '../../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserSessionsService extends AbstractModelService<SessionModel> {
-  constructor(httpService: HttpService) {
+  constructor(httpService: HttpClient) {
     super(httpService, '/user/sessions');
   }
 

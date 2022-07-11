@@ -1,17 +1,17 @@
 import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
-import {HttpService} from '../../http.service';
+import {GetWaiterResponse} from '../../../_models/waiterrobot-backend';
 import {AbstractModelService} from '../abstract-model.service';
+import {OrganisationsService} from '../organisation/organisations.service';
 
 import {WaiterModel} from '../../../_models/waiter/waiter.model';
-import {OrganisationsService} from '../organisation/organisations.service';
-import {GetWaiterResponse} from '../../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WaitersService extends AbstractModelService<WaiterModel> {
-  constructor(httpService: HttpService, private organisationService: OrganisationsService) {
+  constructor(httpService: HttpClient, private organisationService: OrganisationsService) {
     super(httpService, '/config/waiter');
     this.setGetAllParams([{key: 'organisationId', value: this.organisationService.getSelected()?.id}]);
     this.organisationService.selectedChange.subscribe((org) => {
