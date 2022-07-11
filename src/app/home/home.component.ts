@@ -155,8 +155,8 @@ export class HomeComponent extends AComponent implements OnInit {
     this.eventsService.setSelected(undefined);
   }
 
-  openUserEmailQRCode(user?: UserModel): void {
-    if (user == null) {
+  openUserEmailQRCode(user?: MyUserModel): void {
+    if (!user) {
       return;
     }
     const modalRef = this.modal.open(UserEmailQRCodeModalComponent, {
