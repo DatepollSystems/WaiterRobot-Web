@@ -1,14 +1,23 @@
 <div style="min-height: 90vh" class="bg-darker-5">
-  <div fxLayout="row" fxLayout.lt-md="column">
-    <ul class="list-group mx-3 mt-3" fxFlex="20%">
+  <div fxLayout="row" fxLayout.lt-md="column" class="container">
+    <ul class="list-group mx-3 mt-3" fxFlex="29%">
       <a class="list-group-item list-group-item-action" routerLink="imprint" routerLinkActive="active">{{ 'ABOUT_IMPRINT' | tr }}</a>
       <a class="list-group-item list-group-item-action" routerLink="privacypolicy" routerLinkActive="active">{{
         'ABOUT_PRIVACY_POLICY' | tr
       }}</a>
+      <a class="list-group-item list-group-item-action" routerLink="mobile-privacypolicy" routerLinkActive="active">{{
+        'ABOUT_MOBILE_PRIVACY_POLICY' | tr
+      }}</a>
       <a class="list-group-item list-group-item-action" routerLink="/about">{{ 'GO_BACK' | tr }}</a>
     </ul>
-    <div fxFlex="80%" class="text-white mt-3">
-      <router-outlet></router-outlet>
+    <div fxFlex="70%" class="text-white my-3 px-3">
+      <div class="card p-3">
+        <div class="card-body">
+          <div class="card-text">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

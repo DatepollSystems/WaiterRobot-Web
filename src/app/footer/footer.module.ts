@@ -11,6 +11,7 @@ import {InfoComponent} from './info/info.component';
 import {PrivacyPolicyComponent} from './info/privacy-policy/privacy-policy.component';
 import {FooterComponent} from './footer.component';
 import {AboutModalComponent} from './modals/about-modal/about-modal.component';
+import {MobilePrivacyPolicyComponent} from './info/mobile-privacy-policy/mobile-privacy-policy.component';
 
 const routes: Routes = [
   {
@@ -19,12 +20,20 @@ const routes: Routes = [
     children: [
       {path: 'imprint', component: ImprintComponent},
       {path: 'privacypolicy', component: PrivacyPolicyComponent},
+      {path: 'mobile-privacypolicy', component: MobilePrivacyPolicyComponent},
     ],
   },
 ];
 
 @NgModule({
-  declarations: [FooterComponent, AboutModalComponent, InfoComponent, ImprintComponent, PrivacyPolicyComponent],
+  declarations: [
+    FooterComponent,
+    AboutModalComponent,
+    InfoComponent,
+    ImprintComponent,
+    PrivacyPolicyComponent,
+    MobilePrivacyPolicyComponent,
+  ],
   imports: [RouterModule.forChild(routes), CommonModule, FormsModule, FlexLayoutModule, DfxTranslateModule],
   exports: [FooterComponent],
 })
