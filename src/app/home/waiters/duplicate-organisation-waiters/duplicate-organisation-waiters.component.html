@@ -71,7 +71,7 @@
       <div class="list-group">
         <button
           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-          *ngFor="let currentDuplicateWaiter of duplicateWaiter?.waiters"
+          *ngFor="let currentDuplicateWaiter of duplicateWaiter?.waiters; trackById"
           (click)="selectDuplicateWaiter(currentDuplicateWaiter)"
           [class.active]="isSelected(currentDuplicateWaiter)">
           <div>

@@ -63,7 +63,9 @@
                 <span class="input-group-text bg-dark text-white" id="selectProductGroup-addon"><i-bs name="diagram-3"></i-bs></span>
                 <select class="form-select bg-dark text-white" id="selectGroup" name="groupId" [(ngModel)]="selectedProductGroup">
                   <option value="default">{{ 'HOME_PROD_GROUPS_DEFAULT' | tr }}</option>
-                  <option [ngValue]="productGroup.id" *ngFor="let productGroup of this.productGroups">{{ productGroup.name }}</option>
+                  <option [ngValue]="productGroup.id" *ngFor="let productGroup of this.productGroups; trackById">
+                    {{ productGroup.name }}
+                  </option>
                 </select>
               </div>
             </div>

@@ -4,6 +4,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {DfxTranslateModule} from 'dfx-translate';
+import {DfxTrackByModule} from 'dfx-helper';
 import {NgbTypeaheadModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {IconsModule} from '../icons.module';
@@ -12,7 +13,16 @@ import {NgbEntityChipInput} from './ngb-entity-chip-input.component';
 
 @NgModule({
   declarations: [NgbEntityChipInput],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, FlexLayoutModule, DfxTranslateModule, NgbTypeaheadModule, IconsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FlexLayoutModule,
+    DfxTranslateModule,
+    DfxTrackByModule,
+    NgbTypeaheadModule,
+    IconsModule,
+  ],
   exports: [NgbEntityChipInput],
 })
 export class NgbEntityChipInputModule {}

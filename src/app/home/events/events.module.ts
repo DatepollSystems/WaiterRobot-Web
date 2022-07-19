@@ -6,6 +6,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {NgbDatepickerModule, NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {IconsModule} from '../../_shared/icons.module';
@@ -15,7 +16,6 @@ import {OrganisationSelectedGuard} from '../../_services/guards/organisation-sel
 import {EventsComponent} from './events.component';
 import {AllEventsComponent} from './all-events/all-events.component';
 import {EventEditComponent} from './event-edit/event-edit.component';
-
 const startRoutes: Routes = [
   {
     path: '',
@@ -37,6 +37,7 @@ const startRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
+    DfxTrackByModule,
     DfxTranslateModule,
     NgbNavModule,
     NgbTooltipModule,

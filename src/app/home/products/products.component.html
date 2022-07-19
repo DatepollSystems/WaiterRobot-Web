@@ -29,7 +29,7 @@
         <span class="input-group-text" id="selectGroup-addon"><i-bs name="people"></i-bs></span>
         <select class="form-select" id="selectGroup" [(ngModel)]="selectedModelToShow" (ngModelChange)="showModel($event)">
           <option value="default">{{ 'HOME_PROD_GROUP' | tr }}</option>
-          <option value="/home/products/groups/products/{{ productGroup.id }}" *ngFor="let productGroup of this.allModels">
+          <option value="/home/products/groups/products/{{ productGroup.id }}" *ngFor="let productGroup of this.allModels; trackById">
             {{ productGroup.name }}
           </option>
         </select>
@@ -37,7 +37,7 @@
     </div>
 
     <a
-      *ngFor="let productGroup of this.allModels"
+      *ngFor="let productGroup of this.allModels; trackById"
       [fxHide]="allModels.length >= 14"
       [fxHide.lt-lg]="true"
       class="list-group-item list-group-item-action"

@@ -3,6 +3,7 @@ import {NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
+import {DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {IconsModule} from '../_shared/icons.module';
@@ -18,6 +19,7 @@ import {AppQrCodeModalModule} from '../_shared/app-qr-code-modal/app-qr-code-mod
   imports: [
     CommonModule,
     DfxTranslateModule,
+    DfxTrackByModule,
     FlexLayoutModule,
     IconsModule,
     FooterModule,

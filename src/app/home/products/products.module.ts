@@ -4,8 +4,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
-import {DfxTranslateModule} from 'dfx-translate';
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {DfxTranslateModule} from 'dfx-translate';
+import {DfxTrackByModule} from 'dfx-helper';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 
 import {IconsModule} from '../../_shared/icons.module';
@@ -53,6 +54,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     DfxTranslateModule,
+    DfxTrackByModule,
     NgbTooltipModule,
     NgbNavModule,
     DfxTableModule,

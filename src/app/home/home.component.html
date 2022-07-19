@@ -67,7 +67,7 @@
                   <span class="fake-dropdown-item unselectable" *ngIf="allOrgs.length === 0">
                     {{ 'NAV_ORGANISATIONS_NO_ORGS' | tr }}
                   </span>
-                  <ng-container *ngFor="let orgM of allOrgs">
+                  <ng-container *ngFor="let orgM of allOrgs; trackById">
                     <span
                       class="fake-dropdown-item"
                       *ngIf="orgM.id !== selectedOrganisation?.id"

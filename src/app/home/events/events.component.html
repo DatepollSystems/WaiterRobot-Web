@@ -9,7 +9,7 @@
       ><b>{{ selectedEvent.name }}</b></a
     >
 
-    <ng-container *ngFor="let event of this.events">
+    <ng-container *ngFor="let event of this.events; trackById">
       <a
         class="list-group-item list-group-item-action"
         routerLink="{{ event.id }}"

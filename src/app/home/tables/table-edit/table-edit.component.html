@@ -85,7 +85,7 @@
                   [(ngModel)]="selectedTableGroup"
                   (ngModelChange)="selectTableGroup($event)">
                   <option [ngValue]="-1">{{ 'HOME_TABLES_GROUPS_DEFAULT' | tr }}</option>
-                  <option [ngValue]="tableGroup.id" *ngFor="let tableGroup of this.tableGroups">{{ tableGroup.name }}</option>
+                  <option [ngValue]="tableGroup.id" *ngFor="let tableGroup of this.tableGroups; trackById">{{ tableGroup.name }}</option>
                 </select>
               </div>
             </div>

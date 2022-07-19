@@ -6,6 +6,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {IconsModule} from '../../_shared/icons.module';
@@ -57,6 +58,7 @@ const routes: Routes = [
     DfxTableModule,
     DfxSortModule,
     DfxTranslateModule,
+    DfxTrackByModule,
     IconsModule,
   ],
 })
