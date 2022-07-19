@@ -27,7 +27,7 @@ import {ClipboardHelper} from 'dfx-helper';
               class="btn btn-sm btn-outline-secondary ms-2"
               *ngIf="showPrintButton"
               printSectionId="qrcode-print-section"
-              ngxPrint
+              dfxPrint
               [printTitle]="printTitle"
               [printStyle]="{'.qrcode': {'margin-left': '28%', 'margin-bottom': '50px', 'margin-top': '150px'}}">
               {{ 'PRINT' | tr }}

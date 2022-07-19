@@ -8,7 +8,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {NgbDateAdapter, NgbDateParserFormatter, NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {BaseUrlInterceptor, DfxHelperModule, LoggingInterceptor, PostPutJsonContentTypeInterceptor, TrackByModule} from 'dfx-helper';
+import {BaseUrlInterceptor, DfxHelperModule, LoggingInterceptor, PostPutJsonContentTypeInterceptor} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -29,9 +29,8 @@ import {EnvironmentHelper} from './_helper/EnvironmentHelper';
     HttpClientModule,
     FlexLayoutModule,
     NgbModule,
-    DfxHelperModule.setup({baseUrl: EnvironmentHelper.getAPIUrl(), baseUrlIgnorePaths: ['assets/i18n']}),
+    DfxHelperModule.setup({baseUrl: EnvironmentHelper.getAPIUrl(), baseUrlInterceptorIgnorePaths: ['assets/i18n']}),
     DfxTranslateModule.setup({defaultLanguage: 'de'}),
-    TrackByModule,
   ],
   providers: [
     {

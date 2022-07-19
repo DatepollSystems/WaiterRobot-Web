@@ -5,6 +5,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {DfxTranslateModule} from 'dfx-translate';
+import {DfxTrackByModule} from 'dfx-helper';
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 
@@ -17,7 +18,6 @@ import {SelectableButtonModule} from '../../_shared/selectable-button/selectable
 import {OrganisationUserAddModalComponent} from './organisation-user-add-modal/organisation-user-add-modal.component';
 import {NgbChipInputModule} from '../../_shared/ngb-chip-input/ngb-chip-input.module';
 import {AppQrCodeScannerModalModule} from '../../_shared/app-qr-code-scanner-modal/app-qr-code-scanner-modal.module';
-import {TrackByModule} from 'dfx-helper';
 
 const routes: Routes = [
   {
@@ -42,14 +42,14 @@ const routes: Routes = [
     DfxTranslateModule,
     DfxTableModule,
     DfxSortModule,
+    DfxPaginationModule,
+    DfxTrackByModule,
     NgbNavModule,
     NgbTooltipModule,
     NgbChipInputModule,
     IconsModule,
     SelectableButtonModule,
     AppQrCodeScannerModalModule,
-    DfxPaginationModule,
-    TrackByModule,
   ],
 })
 export class OrganisationsModule {}
