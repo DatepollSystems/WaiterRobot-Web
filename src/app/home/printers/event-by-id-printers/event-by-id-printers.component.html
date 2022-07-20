@@ -44,8 +44,8 @@
       </ng-container>
 
       <ng-container ngbColumnDef="productGroups">
-        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_GROUP' | tr }}</th>
-        <td *ngbCellDef="let printer" ngb-cell>{{ onMap(printer.productGroups) }}</td>
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_ALL' | tr }}</th>
+        <td *ngbCellDef="let printer" ngb-cell>{{ onMap(printer.products) }}</td>
       </ng-container>
 
       <ng-container ngbColumnDef="actions">

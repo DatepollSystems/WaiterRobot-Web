@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.36.1070 on 2022-07-20 16:03:42.
+
+// Generated using typescript-generator version 2.36.1070 on 2022-07-20 20:40:57.
 
 export interface ErrorResponse {
   readonly message: string;
@@ -226,7 +227,7 @@ export interface GetPrinterResponse {
   readonly name: string;
   readonly printerName: string;
   readonly eventId: number;
-  readonly productGroups: GetProductGroupMinResponse[];
+  readonly products: GetProductMinResponse[];
 }
 
 export interface UpdatePrinterDto {
@@ -241,12 +242,18 @@ export interface CreateProductDto {
   readonly allergenIds: number[];
   readonly price: number;
   readonly groupId: number;
-  readonly printerId?: number;
+  readonly printerId: number;
 }
 
 export interface CreateProductGroupDto {
   readonly name: string;
   readonly eventId: number;
+}
+
+export interface GetProductGroupMaxResponse {
+  readonly id: number;
+  readonly name: string;
+  readonly products: GetProductResponse[];
 }
 
 export interface GetProductGroupMinResponse {
@@ -257,8 +264,21 @@ export interface GetProductGroupMinResponse {
 export interface GetProductGroupResponse {
   readonly id: number;
   readonly name: string;
-  readonly printerId?: number;
   readonly eventId: number;
+}
+
+export interface GetProductMaxResponse {
+  readonly id: number;
+  readonly name: string;
+  readonly price: number;
+  readonly group: GetProductGroupMinResponse;
+  readonly printer: GetPrinterMinResponse;
+  readonly allergens: GetAllergenResponse[];
+}
+
+export interface GetProductMinResponse {
+  readonly id: number;
+  readonly name: string;
 }
 
 export interface GetProductResponse {
@@ -268,27 +288,19 @@ export interface GetProductResponse {
   readonly allergens: GetAllergenResponse[];
 }
 
-export interface GetProductWithGroupResponse {
-  readonly id: number;
-  readonly name: string;
-  readonly price: number;
-  readonly groupId: number;
-  readonly groupName: string;
-  readonly allergens: GetAllergenResponse[];
-}
-
 export interface UpdateProductDto {
   readonly id: number;
   readonly name: string;
   readonly allergenIds: number[];
   readonly price: number;
   readonly groupId: number;
-  readonly printerId?: number;
+  readonly printerId: number;
 }
 
 export interface UpdateProductGroupDto {
   readonly id: number;
   readonly name: string;
+  readonly printerId?: number;
 }
 
 export interface CreateTableDto {

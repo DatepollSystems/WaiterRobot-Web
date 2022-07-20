@@ -1,14 +1,16 @@
 import {AEntityWithNumberIDAndName, EntityList, IEntityList, StringHelper} from 'dfx-helper';
 import {AllergenModel} from '../allergen.model';
-import {GetAllergenResponse, GetProductWithGroupResponse} from '../waiterrobot-backend';
+import {GetAllergenResponse, GetProductMaxResponse} from '../waiterrobot-backend';
 
 export class ProductModel extends AEntityWithNumberIDAndName {
   public readonly price: number;
   public readonly allergens: IEntityList<AllergenModel> = new EntityList();
   public readonly groupId: number;
   public readonly groupName: string;
+  public readonly printerId: number;
+  public readonly printerName: string;
 
-  constructor(data: GetProductWithGroupResponse) {
+  constructor(data: GetProductMaxResponse) {
     super(data.id, data.name, data);
     this.price = data.price;
     this.allergens.add(
@@ -16,8 +18,10 @@ export class ProductModel extends AEntityWithNumberIDAndName {
         return new AllergenModel(allergen);
       })
     );
-    this.groupId = data.groupId;
-    this.groupName = data.groupName;
+    this.groupId = data.group.id;
+    this.groupName = data.group.name;
+    this.printerId = data.printer.id;
+    this.printerName = data.printer.name;
   }
 
   private allergensShortName: string | undefined;

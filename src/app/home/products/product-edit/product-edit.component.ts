@@ -15,6 +15,8 @@ import {EventModel} from '../../../_models/event.model';
 import {ProductGroupModel} from '../../../_models/product/product-group.model';
 import {ProductModel} from '../../../_models/product/product.model';
 import {AllergensService} from '../../../_services/models/allergens.service';
+import {PrintersService} from '../../../_services/models/printers.service';
+import {PrinterModel} from '../../../_models/printer.model';
 
 @Component({
   selector: 'app-product-edit',
@@ -23,24 +25,26 @@ import {AllergensService} from '../../../_services/models/allergens.service';
 })
 export class ProductEditComponent extends AbstractModelEditComponent<ProductModel> {
   override redirectUrl = '/home/products/all';
-  override continuousUsePropertyNames = ['groupId'];
+  override continuousUsePropertyNames = ['groupId', 'printerId'];
 
   selectedEvent: EventModel | undefined;
   productGroups: ProductGroupModel[];
   selectedProductGroup: number | undefined;
+  printers: PrinterModel[];
+  selectedPrinter?: number;
 
   allergens: IEntityList<AEntityWithNumberIDAndName>;
-  selectedAllergens: IEntityList<AEntityWithNumberIDAndName> = new EntityList();
 
   constructor(
     route: ActivatedRoute,
     router: Router,
     productsService: ProductsService,
     modal: NgbModal,
+    allergensService: AllergensService,
+    printersService: PrintersService,
     private notificationService: NotificationService,
     private eventsService: EventsService,
-    private productGroupsService: ProductGroupsService,
-    allergensService: AllergensService
+    private productGroupsService: ProductGroupsService
   ) {
     super(router, route, modal, productsService);
 
@@ -52,16 +56,20 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
 
     this.allergens = new EntityList(allergensService.getAll());
     this.autoUnsubscribe(allergensService.allChange.subscribe((allergens) => (this.allergens = allergens)));
+
+    this.printers = printersService.getAll();
+    this.autoUnsubscribe(printersService.allChange.subscribe((printers) => (this.printers = printers)));
   }
+
+  selectedAllergens: IEntityList<AEntityWithNumberIDAndName> = new EntityList();
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
     model.groupId = Converter.toNumber(model.groupId as number);
+    model.printerId = Converter.toNumber(model.printerId as number);
+
     model.allergenIds = this.selectedAllergens.map((allergen) => {
       return allergen.id;
     });
-
-    //TODO: printer id
-    model.printerId = 0;
 
     return model;
   }
@@ -71,12 +79,17 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
       this.notificationService.twarning('HOME_PROD_GROUP_ID_INCORRECT');
       return false;
     }
+    if (!this.selectedPrinter) {
+      this.notificationService.twarning('HOME_PROD_PRINTER_ID_INCORRECT');
+      return false;
+    }
     return super.createAndUpdateFilter(model);
   }
 
   override onEntityEdit(model: ProductModel): void {
     this.selectedAllergens = model.allergens;
     this.selectedProductGroup = model.groupId;
+    this.selectedPrinter = model.printerId;
   }
 
   allergenChange(allergens: IEntityList<IEntityWithNumberIDAndName>): void {

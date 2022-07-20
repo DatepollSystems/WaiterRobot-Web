@@ -40,6 +40,11 @@
         <td *ngbCellDef="let product" ngb-cell>{{ product.price | currency: 'EUR' }}</td>
       </ng-container>
 
+      <ng-container ngbColumnDef="printer">
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_PRINTERS' | tr }}</th>
+        <td *ngbCellDef="let product" ngb-cell>{{ product.printerName }}</td>
+      </ng-container>
+
       <ng-container ngbColumnDef="allergens">
         <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_ALLERGENS' | tr }}</th>
         <td *ngbCellDef="let product" ngb-cell>{{ product.allergens_short_names() }}</td>

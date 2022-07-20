@@ -11,6 +11,7 @@ import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.c
 
 import {EventModel} from '../../../_models/event.model';
 import {ProductGroupModel} from '../../../_models/product/product-group.model';
+import {Converter} from 'dfx-helper';
 
 @Component({
   selector: 'app-product-group-edit',
@@ -22,7 +23,7 @@ export class ProductGroupEditComponent extends AbstractModelEditComponent<Produc
 
   selectedEvent?: EventModel;
   printers: PrinterModel[];
-  selectedPrinter?: number;
+  updatePrinter = false;
 
   constructor(
     route: ActivatedRoute,
@@ -47,6 +48,12 @@ export class ProductGroupEditComponent extends AbstractModelEditComponent<Produc
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
     model.eventId = this.selectedEvent?.id;
-    return model;
+    console.log('test', model.printerId);
+    if (this.updatePrinter) {
+      model.printerId = Converter.toNumber(model.printerId as string);
+    } else {
+      model.printerId = undefined;
+    }
+    return super.addCustomAttributesBeforeCreateAndUpdate(model);
   }
 }

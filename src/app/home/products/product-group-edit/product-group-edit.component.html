@@ -55,7 +55,39 @@
                 {{ 'HOME_PROD_GROUP_NAME_INCORRECT' | tr }}
               </small>
             </div>
+
+            <div fxFlex="50%" [hidden]="!isEditing">
+              <div class="form-group mb-2">
+                <label for="printerId">{{ 'NAV_PRINTERS' | tr }}</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-dark text-white" id="printerId-addon"><i-bs name="diagram-3"></i-bs></span>
+                  <select
+                    class="form-select bg-dark text-white"
+                    [ngModel]="undefined"
+                    id="printerId"
+                    name="printerId"
+                    [disabled]="!updatePrinter">
+                    <option [ngValue]="undefined">{{ 'HOME_PROD_PRINTER_SELECT_DEFAULT' | tr }}</option>
+                    <option [ngValue]="printer.id" *ngFor="let printer of this.printers; trackById">
+                      {{ printer.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-check form-switch mt-2">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="updatePrinter"
+                  [(ngModel)]="updatePrinter"
+                  [ngModelOptions]="{standalone: true}" />
+                <label class="form-check-label" for="updatePrinter">{{ 'HOME_PROD_GROUP_PRINTER_UPDATE' | tr }}</label>
+              </div>
+            </div>
           </div>
+
           <div class="form-check form-switch mt-2" *ngIf="!isEditing">
             <input
               class="form-check-input"

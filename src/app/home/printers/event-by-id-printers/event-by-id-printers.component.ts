@@ -7,7 +7,7 @@ import {AbstractModelsListByIdComponent} from '../../../_helper/abstract-models-
 
 import {EventModel} from '../../../_models/event.model';
 import {PrinterModel} from '../../../_models/printer.model';
-import {GetPrinterMinResponse, GetProductGroupMinResponse} from '../../../_models/waiterrobot-backend';
+import {GetProductMinResponse} from '../../../_models/waiterrobot-backend';
 
 import {EventsService} from '../../../_services/models/events.service';
 import {PrintersService} from '../../../_services/models/printers.service';
@@ -25,9 +25,9 @@ export class EventByIdPrintersComponent extends AbstractModelsListByIdComponent<
     super(router, route, modal, printersService, eventsService);
   }
 
-  onMap(printers: GetProductGroupMinResponse[]): string {
+  onMap(products: GetProductMinResponse[]): string {
     return StringHelper.getImploded(
-      printers.map((pg) => pg.name),
+      products.map((pg) => pg.name),
       20
     );
   }
