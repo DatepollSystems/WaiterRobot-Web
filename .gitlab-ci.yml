@@ -5,8 +5,6 @@ stages:
   - deploy
 
 build-release:
-  tags:
-    - 'dafnik'
   only:
     - tags
   except:
@@ -26,8 +24,6 @@ build-release:
     - ls -al
 
 build-testing:
-  tags:
-    - 'dafnik'
   only:
     - develop
   stage: build
@@ -45,8 +41,6 @@ build-testing:
     - ls -al
 
 build-dev:
-  tags:
-    - 'dafnik'
   stage: build
   only:
     - branches
