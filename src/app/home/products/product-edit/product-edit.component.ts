@@ -40,7 +40,7 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
     private notificationService: NotificationService,
     private eventsService: EventsService,
     private productGroupsService: ProductGroupsService,
-    private allergensService: AllergensService
+    allergensService: AllergensService
   ) {
     super(router, route, modal, productsService);
 
@@ -50,8 +50,8 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
     this.productGroups = this.productGroupsService.getAll();
     this.autoUnsubscribe(this.productGroupsService.allChange.subscribe((groups) => (this.productGroups = groups)));
 
-    this.allergens = new EntityList(this.allergensService.getAll());
-    this.autoUnsubscribe(this.allergensService.allChange.subscribe((allergens) => (this.allergens = allergens)));
+    this.allergens = new EntityList(allergensService.getAll());
+    this.autoUnsubscribe(allergensService.allChange.subscribe((allergens) => (this.allergens = allergens)));
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {

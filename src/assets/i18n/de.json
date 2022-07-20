@@ -45,6 +45,8 @@
   "COUNT": "Anzahl",
   "MERGE": "Zusammenfügen",
   "IGNORE": "Ignorieren",
+  "ACTIVE": "Aktiv",
+  "LAST_CONTACT": "Letzter Kontakt",
 
   "REQUEST_ERROR_CLIENT": "Client fehler",
   "REQUEST_ERROR_SERVER": "Server fehler",
@@ -197,5 +199,11 @@
   "HOME_TABLE_GROUPS": "Tischgruppen",
   "HOME_TABLE_GROUPS_ADD": "Neue Tischgruppe anlegen",
   "HOME_TABLE_GROUP_NAME_INCORRECT": "Der Name muss aus mindestens 1 und maximal 60 Zeichen bestehen.",
-  "HOME_TABLE_GROUP_TABLES_VIEW": "Tischgruppe"
+  "HOME_TABLE_GROUP_TABLES_VIEW": "Tischgruppe",
+
+  "HOME_PRINTER_NAV_MEDIATOR": "Mediators",
+  "HOME_PRINTER_NAV_SELECT_EVENT": "Drucker für Event/Location anzeigen",
+  "HOME_PRINTER_NAME": "Druckername",
+  "HOME_PRINTER_NAME_INCORRECT": "Der Name muss aus mindestens 1 und maximal 120 Zeichen bestehen",
+  "HOME_PRINTER_NAME_NAME_INCORRECT": "Der Druckername muss aus mindestens 1 und maximal 70 Zeichen bestehen"
 }

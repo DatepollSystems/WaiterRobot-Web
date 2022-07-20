@@ -1,7 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-
-// Generated using typescript-generator version 2.36.1070 on 2022-07-09 14:29:56.
+// Generated using typescript-generator version 2.36.1070 on 2022-07-20 16:03:42.
 
 export interface ErrorResponse {
   readonly message: string;
@@ -137,30 +136,13 @@ export interface UpdateEventOrLocationDto {
   readonly updateWaiterCreateToken?: boolean;
 }
 
-export interface CreateMediatorDto {
-  readonly address: string;
-  readonly name: string;
-  readonly pdfCreator: boolean;
-  readonly organisationId: number;
-}
-
 export interface GetMediatorResponse {
-  readonly id: number;
-  readonly name: string;
-  readonly address: string;
-  readonly pdfCreator: boolean;
+  readonly id: string;
+  readonly name?: string;
   readonly organisationId: number;
   readonly active: boolean;
   readonly lastContact?: DateAsString;
-  readonly printers: number[];
-}
-
-export interface UpdateMediatorDto {
-  readonly id: number;
-  readonly address: string;
-  readonly name: string;
-  readonly pdfCreator: boolean;
-  readonly organisationId: number;
+  readonly printers: GetPrinterMinResponse[];
 }
 
 export interface CreateOrderDto {
@@ -232,16 +214,19 @@ export interface CreatePrinterDto {
   readonly name: string;
   readonly printerName: string;
   readonly eventId: number;
-  readonly mediatorId: number;
+}
+
+export interface GetPrinterMinResponse {
+  readonly id: number;
+  readonly name: string;
 }
 
 export interface GetPrinterResponse {
   readonly id: number;
   readonly name: string;
+  readonly printerName: string;
   readonly eventId: number;
-  readonly mediatorId: number;
-  readonly mediatorName: string;
-  readonly productGroups: number[];
+  readonly productGroups: GetProductGroupMinResponse[];
 }
 
 export interface UpdatePrinterDto {
@@ -249,7 +234,6 @@ export interface UpdatePrinterDto {
   readonly name: string;
   readonly printerName: string;
   readonly eventId: number;
-  readonly mediatorId: number;
 }
 
 export interface CreateProductDto {
@@ -263,6 +247,11 @@ export interface CreateProductDto {
 export interface CreateProductGroupDto {
   readonly name: string;
   readonly eventId: number;
+}
+
+export interface GetProductGroupMinResponse {
+  readonly id: number;
+  readonly name: string;
 }
 
 export interface GetProductGroupResponse {
@@ -459,13 +448,15 @@ export type UserGlobalRole = 'ADMIN' | 'USER';
 
 export type WebSocketMessageTypes =
   | 'BM_PRINT_PDF'
+  | 'MB_REGISTER_PRINTER'
+  | 'BM_REGISTERED_PRINTER_SUCCESSFUL'
+  | 'MB_UNREGISTER_PRINTER'
+  | 'BM_UNREGISTERED_PRINTER_SUCCESSFUL'
   | 'MB_PRINTED_PDF'
   | 'MB_PRINT_ERROR'
   | 'MB_HELLO'
   | 'BM_HELLO'
   | 'MB_PRINT_PDF_TEST'
-  | 'MB_REGISTER_MEDIATOR'
-  | 'BM_REGISTER_MEDIATOR_SUCCESS'
   | 'BM_ERROR'
   | 'MB_ERROR'
   | 'MB_PING';

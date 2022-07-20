@@ -16,7 +16,7 @@ export class DuplicateWaitersService extends AbstractModelService<DuplicateWaite
     this.setGetAllParams([{key: 'organisationId', value: this.organisationService.getSelected()?.id}]);
     this.organisationService.selectedChange.subscribe((org) => {
       if (org) {
-        this.setGetAllParams([{key: 'organisationId', value: org?.id}]);
+        this.setGetAllParams([{key: 'organisationId', value: org.id}]);
         this.getAll();
       }
     });

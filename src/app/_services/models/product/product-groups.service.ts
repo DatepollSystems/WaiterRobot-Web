@@ -11,13 +11,13 @@ import {ProductGroupModel} from '../../../_models/product/product-group.model';
   providedIn: 'root',
 })
 export class ProductGroupsService extends AbstractModelService<ProductGroupModel> {
-  constructor(httpService: HttpClient, private eventsService: EventsService) {
+  constructor(httpService: HttpClient, eventsService: EventsService) {
     super(httpService, '/config/product/group');
 
-    this.setGetAllParams([{key: 'eventId', value: this.eventsService.getSelected()?.id}]);
-    this.eventsService.selectedChange.subscribe((event) => {
+    this.setGetAllParams([{key: 'eventId', value: eventsService.getSelected()?.id}]);
+    eventsService.selectedChange.subscribe((event) => {
       if (event) {
-        this.setGetAllParams([{key: 'eventId', value: event?.id}]);
+        this.setGetAllParams([{key: 'eventId', value: event.id}]);
         this.getAll();
       }
     });

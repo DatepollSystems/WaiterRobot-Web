@@ -23,8 +23,10 @@ import {
   personBoundingBox,
   personXFill,
   plusCircle,
+  printer,
   qrCode,
   qrCodeScan,
+  router,
   save,
   trash,
   union,
@@ -62,6 +64,8 @@ const icons = {
   qrCodeScan,
   personBoundingBox,
   union,
+  router,
+  printer,
 };
 
 @NgModule({

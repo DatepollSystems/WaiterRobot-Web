@@ -176,7 +176,7 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
     });
   }
 
-  private goToRedirectUrl(): void {
+  protected goToRedirectUrl(): void {
     void this.router.navigateByUrl(this.redirectUrl);
   }
 }

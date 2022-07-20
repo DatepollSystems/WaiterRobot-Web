@@ -3,16 +3,14 @@ import {UntypedFormControl} from '@angular/forms';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgbPaginator, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
-import {AComponent, IEntityWithNumberID, IList, List, LoggerFactory} from 'dfx-helper';
-
-import {AbstractModelService} from '../_services/models/abstract-model.service';
+import {AComponent, AEntityService, IEntity, IList, List, LoggerFactory, StringOrNumber} from 'dfx-helper';
 
 import {QuestionDialogComponent} from '../_shared/question-dialog/question-dialog.component';
 
 @Component({
   template: '',
 })
-export abstract class AbstractModelsListComponent<EntityType extends IEntityWithNumberID> extends AComponent implements OnInit {
+export abstract class AbstractModelsListComponent<EntityType extends IEntity<StringOrNumber>> extends AComponent implements OnInit {
   protected lumber = LoggerFactory.getLogger('AModelsListComponent');
 
   // Table stuff
@@ -25,7 +23,7 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
   public entities: IList<EntityType> = new List();
   public entitiesLoaded = false;
 
-  protected constructor(protected modal: NgbModal, protected entitiesService: AbstractModelService<EntityType>) {
+  protected constructor(protected modal: NgbModal, protected entitiesService: AEntityService<StringOrNumber, EntityType>) {
     super();
 
     this.filter.valueChanges.subscribe((value) => {

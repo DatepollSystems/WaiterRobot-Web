@@ -1,18 +1,16 @@
-import {AEntityWithNumberIDAndName} from 'dfx-helper';
-import {GetMediatorResponse} from './waiterrobot-backend';
+import {AEntityWithStringID} from 'dfx-helper';
+import {DateAsString, GetMediatorResponse, GetPrinterMinResponse} from './waiterrobot-backend';
 
-export class MediatorModel extends AEntityWithNumberIDAndName {
-  public readonly address: string;
-  public readonly pdfCreator: boolean;
+export class MediatorModel extends AEntityWithStringID {
+  public readonly name?: string;
   public readonly organisationId: number;
   public readonly active: boolean;
-  public readonly lastContact?: string;
-  public readonly printers: number[];
+  public readonly lastContact?: DateAsString;
+  public readonly printers: GetPrinterMinResponse[];
 
   constructor(data: GetMediatorResponse) {
-    super(data.id, data.name, data);
-    this.address = data.address;
-    this.pdfCreator = data.pdfCreator;
+    super(data.id, data);
+    this.name = data.name;
     this.organisationId = data.organisationId;
     this.active = data.active;
     this.lastContact = data.lastContact;
