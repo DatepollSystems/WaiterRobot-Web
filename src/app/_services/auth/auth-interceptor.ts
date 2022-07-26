@@ -99,7 +99,7 @@ export class AuthInterceptor implements HttpInterceptor {
         }),
         catchError(() => {
           this.lumber.error('handle401Error', 'Could not refresh jwt token with session token');
-          if (EnvironmentHelper.getProduction()) {
+          if (EnvironmentHelper.getType() === 'prod') {
             this.authService.clearStorage();
             window.location.reload();
           }

@@ -112,9 +112,9 @@ export class DuplicateOrganisationWaitersComponent extends AbstractModelsListCom
         }
       }
       if (i > 98) {
-        this.lumber.error('merge', 'Could not find another duplicate waiter', this.entities);
+        this.lumber.warning('merge', 'Could not find another duplicate waiter', this.entities);
       } else {
-        void this.router.navigateByUrl('/home/waiters/organisation/duplicates/"' + next?.name + '"');
+        void this.router.navigateByUrl('/home/waiters/organisation/duplicates/"' + next!.name + '"');
         return;
       }
     }
