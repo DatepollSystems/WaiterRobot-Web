@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {QrCodeService} from '../../_services/qr-code.service';
-import {AComponent, IsMobileService, LoggerFactory} from 'dfx-helper';
 import {Router} from '@angular/router';
+import {AComponent, IsMobileService, LoggerFactory} from 'dfx-helper';
+import {QrCodeService} from '../../_services/qr-code.service';
 
 @Component({
   selector: 'app-qr-code-view',

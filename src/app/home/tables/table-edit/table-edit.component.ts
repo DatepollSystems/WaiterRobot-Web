@@ -3,17 +3,17 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Converter, LoggerFactory} from 'dfx-helper';
-
-import {NotificationService} from '../../../_services/notifications/notification.service';
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
 
-import {EventsService} from '../../../_services/models/events.service';
-import {TablesService} from '../../../_services/models/table/tables.service';
-import {TableGroupsService} from '../../../_services/models/table/table-groups.service';
-
 import {EventModel} from '../../../_models/event.model';
-import {TableModel} from '../../../_models/table/table.model';
 import {TableGroupModel} from '../../../_models/table/table-group.model';
+import {TableModel} from '../../../_models/table/table.model';
+
+import {EventsService} from '../../../_services/models/events.service';
+import {TableGroupsService} from '../../../_services/models/table/table-groups.service';
+import {TablesService} from '../../../_services/models/table/tables.service';
+
+import {NotificationService} from '../../../_services/notifications/notification.service';
 
 @Component({
   selector: 'app-table-edit',

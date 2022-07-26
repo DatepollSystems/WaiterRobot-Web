@@ -1,20 +1,20 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-
-import {EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfx-helper';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
+import {EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfx-helper';
+
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
-import {WaiterSignInQRCodeModalComponent} from './waiter-sign-in-qr-code-modal.component';
-
-import {WaitersService} from '../../../_services/models/waiter/waiters.service';
-import {EventsService} from '../../../_services/models/events.service';
-import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
-
-import {WaiterModel} from '../../../_models/waiter/waiter.model';
 import {EventModel} from '../../../_models/event.model';
 import {OrganisationModel} from '../../../_models/organisation/organisation.model';
+
+import {WaiterModel} from '../../../_models/waiter/waiter.model';
+import {EventsService} from '../../../_services/models/events.service';
+import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
 import {WaiterSessionsService} from '../../../_services/models/waiter/waiter-sessions.service';
+
+import {WaitersService} from '../../../_services/models/waiter/waiters.service';
+import {WaiterSignInQRCodeModalComponent} from './waiter-sign-in-qr-code-modal.component';
 
 @Component({
   selector: 'app-waiter-edit',
@@ -27,7 +27,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
 
   selectedOrganisation: OrganisationModel | undefined;
   events: IEntityList<EventModel> = new EntityList();
-  preSelectedEvents: IEntityList<IEntityWithNumberIDAndName> | undefined = undefined;
+  preSelectedEvents?: IEntityList<IEntityWithNumberIDAndName>;
   selectedEvents: IEntityList<IEntityWithNumberIDAndName> = new EntityList();
 
   qrCodeModal: NgbModalRef | undefined;
@@ -81,6 +81,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
       }
     }
     this.preSelectedEvents = new EntityList(selected);
+    this.selectedEvents.addIfAbsent(selected);
     this.lumber.log('onEntityEdit', 'Mapped waiter events into selectedEvents', this.preSelectedEvents);
 
     if (this.qrCodeModal) {

@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 
 import {AEntityService} from 'dfx-helper';
 
-import {OrganisationUserResponse} from '../../../_models/waiterrobot-backend';
-
 import {OrganisationUserModel} from '../../../_models/organisation/organisation-user.model';
+
+import {OrganisationUserResponse} from '../../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',

@@ -1,24 +1,24 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
-import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
+import {EventSelectedGuardService} from '../../_services/guards/event-selected-guard.service';
+import {OrganisationSelectedGuard} from '../../_services/guards/organisation-selected-guard.service';
 
 import {IconsModule} from '../../_shared/icons.module';
-import {OrganisationSelectedGuard} from '../../_services/guards/organisation-selected-guard.service';
-import {EventSelectedGuardService} from '../../_services/guards/event-selected-guard.service';
-
-import {TablesComponent} from './tables.component';
-import {TableGroupsComponent} from './table-groups/table-groups.component';
 import {AllTablesComponent} from './all-tables/all-tables.component';
-import {TableGroupEditComponent} from './table-group-edit/table-group-edit.component';
 import {TableEditComponent} from './table-edit/table-edit.component';
 import {TableGroupByIdTablesComponent} from './table-group-by-id-tables/table-group-by-id-tables.component';
+import {TableGroupEditComponent} from './table-group-edit/table-group-edit.component';
+import {TableGroupsComponent} from './table-groups/table-groups.component';
+
+import {TablesComponent} from './tables.component';
 
 const routes: Routes = [
   {

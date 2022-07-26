@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+
+import {TableGroupModel} from '../../../_models/table/table-group.model';
 
 import {GetTableGroupResponse} from '../../../_models/waiterrobot-backend';
 import {AbstractModelService} from '../abstract-model.service';
 import {EventsService} from '../events.service';
-
-import {TableGroupModel} from '../../../_models/table/table-group.model';
 
 @Injectable({
   providedIn: 'root',

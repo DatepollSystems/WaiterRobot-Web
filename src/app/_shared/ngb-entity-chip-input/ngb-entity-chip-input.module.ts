@@ -1,11 +1,11 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {NgbTypeaheadModule} from '@ng-bootstrap/ng-bootstrap';
+import {DfxTrackByModule} from 'dfx-helper';
 
 import {DfxTranslateModule} from 'dfx-translate';
-import {DfxTrackByModule} from 'dfx-helper';
-import {NgbTypeaheadModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {IconsModule} from '../icons.module';
 

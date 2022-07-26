@@ -1,14 +1,14 @@
 import {Component} from '@angular/core';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {MyUserModel} from 'src/app/_models/user/my-user.model';
 
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
-import {MyUserService} from '../../../_services/auth/my-user.service';
-import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
-import {EventsService} from '../../../_services/models/events.service';
 
 import {OrganisationModel} from '../../../_models/organisation/organisation.model';
-import {MyUserModel} from 'src/app/_models/user/my-user.model';
+import {MyUserService} from '../../../_services/auth/my-user.service';
+import {EventsService} from '../../../_services/models/events.service';
+import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
 
 @Component({
   selector: 'app-all-organisations',

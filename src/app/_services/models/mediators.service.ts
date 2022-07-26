@@ -1,13 +1,13 @@
-import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 
 import {AEntityService} from 'dfx-helper';
+
+import {MediatorModel} from '../../_models/mediator.model';
 
 import {GetMediatorResponse} from '../../_models/waiterrobot-backend';
 
 import {OrganisationsService} from './organisation/organisations.service';
-
-import {MediatorModel} from '../../_models/mediator.model';
 
 @Injectable({
   providedIn: 'root',

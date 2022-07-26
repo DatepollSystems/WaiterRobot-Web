@@ -1,22 +1,22 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-
-import {AEntityWithNumberIDAndName, Converter, EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {NotificationService} from '../../../_services/notifications/notification.service';
-import {ProductsService} from '../../../_services/models/product/products.service';
-import {ProductGroupsService} from '../../../_services/models/product/product-groups.service';
-import {EventsService} from '../../../_services/models/events.service';
+import {AEntityWithNumberIDAndName, Converter, EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfx-helper';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
 
 import {EventModel} from '../../../_models/event.model';
+import {PrinterModel} from '../../../_models/printer.model';
 import {ProductGroupModel} from '../../../_models/product/product-group.model';
 import {ProductModel} from '../../../_models/product/product.model';
 import {AllergensService} from '../../../_services/models/allergens.service';
+import {EventsService} from '../../../_services/models/events.service';
 import {PrintersService} from '../../../_services/models/printers.service';
-import {PrinterModel} from '../../../_models/printer.model';
+import {ProductGroupsService} from '../../../_services/models/product/product-groups.service';
+import {ProductsService} from '../../../_services/models/product/products.service';
+
+import {NotificationService} from '../../../_services/notifications/notification.service';
 
 @Component({
   selector: 'app-product-edit',

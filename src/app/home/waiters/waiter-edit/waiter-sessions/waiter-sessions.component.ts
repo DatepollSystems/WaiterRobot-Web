@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-
-import {QuestionDialogComponent} from '../../../../_shared/question-dialog/question-dialog.component';
-import {WaiterSessionsService} from '../../../../_services/models/waiter/waiter-sessions.service';
 import {AbstractModelsListComponent} from '../../../../_helper/abstract-models-list.component';
 
 import {SessionModel} from '../../../../_models/user/session.model';
+import {WaiterSessionsService} from '../../../../_services/models/waiter/waiter-sessions.service';
+
+import {QuestionDialogComponent} from '../../../../_shared/question-dialog/question-dialog.component';
 
 @Component({
   selector: 'app-waiter-sessions',

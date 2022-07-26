@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AComponent, AEntityWithNumberIDAndName, LoggerFactory, StringHelper} from 'dfx-helper';
+import {TranslateService} from 'dfx-translate';
+import {OrganisationsUsersService} from '../../../_services/models/organisation/organisations-users.service';
 
 import {NotificationService} from '../../../_services/notifications/notification.service';
-import {OrganisationsUsersService} from '../../../_services/models/organisation/organisations-users.service';
-import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {TranslateService} from 'dfx-translate';
 import {AppQrCodeScannerModalComponent} from '../../../_shared/app-qr-code-scanner-modal/app-qr-code-scanner-modal.component';
 
 @Component({

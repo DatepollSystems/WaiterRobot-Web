@@ -1,20 +1,20 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
-
-import {AuthService} from '../_services/auth/auth.service';
-import {OrganisationsService} from '../_services/models/organisation/organisations.service';
-import {EventsService} from '../_services/models/events.service';
-import {MyUserService} from '../_services/auth/my-user.service';
-
-import {AComponent, Converter, IsMobileService, LoggerFactory} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
+import {AComponent, Converter, IsMobileService, LoggerFactory} from 'dfx-helper';
+
 import {EnvironmentHelper} from '../_helper/EnvironmentHelper';
-import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.component';
+import {EventModel} from '../_models/event.model';
 
 import {OrganisationModel} from '../_models/organisation/organisation.model';
-import {EventModel} from '../_models/event.model';
 import {MyUserModel} from '../_models/user/my-user.model';
+
+import {AuthService} from '../_services/auth/auth.service';
+import {MyUserService} from '../_services/auth/my-user.service';
+import {EventsService} from '../_services/models/events.service';
+import {OrganisationsService} from '../_services/models/organisation/organisations.service';
+import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.component';
 
 @Component({
   selector: 'app-home',

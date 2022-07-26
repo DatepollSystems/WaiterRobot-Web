@@ -1,8 +1,8 @@
 import {Component, Input} from '@angular/core';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ClipboardHelper, IList, List} from 'dfx-helper';
 
 import {IconName, IconNamesEnum} from 'ngx-bootstrap-icons';
-import {ClipboardHelper, IList, List} from 'dfx-helper';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AppDownloadQrCodeModalComponent} from './app-download-qr-code-modal.component';
 
 export type appDownload = {

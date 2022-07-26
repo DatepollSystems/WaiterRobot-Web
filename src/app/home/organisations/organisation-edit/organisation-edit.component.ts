@@ -7,17 +7,17 @@ import {NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {EntityList, IList} from 'dfx-helper';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
-import {QuestionDialogComponent} from '../../../_shared/question-dialog/question-dialog.component';
-import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
-import {MyUserService} from '../../../_services/auth/my-user.service';
-import {OrganisationsUsersService} from '../../../_services/models/organisation/organisations-users.service';
-import {OrganisationsSettingsService} from '../../../_services/models/organisation/organisations-settings.service';
-
-import {OrganisationModel} from '../../../_models/organisation/organisation.model';
-import {OrganisationUserAddModalComponent} from '../organisation-user-add-modal/organisation-user-add-modal.component';
 import {OrganisationSettingsModel} from '../../../_models/organisation/organisation-settings.model';
 import {OrganisationUserModel} from '../../../_models/organisation/organisation-user.model';
+
+import {OrganisationModel} from '../../../_models/organisation/organisation.model';
 import {MyUserModel} from '../../../_models/user/my-user.model';
+import {MyUserService} from '../../../_services/auth/my-user.service';
+import {OrganisationsSettingsService} from '../../../_services/models/organisation/organisations-settings.service';
+import {OrganisationsUsersService} from '../../../_services/models/organisation/organisations-users.service';
+import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
+import {QuestionDialogComponent} from '../../../_shared/question-dialog/question-dialog.component';
+import {OrganisationUserAddModalComponent} from '../organisation-user-add-modal/organisation-user-add-modal.component';
 
 @Component({
   selector: 'app-organisation-edit',

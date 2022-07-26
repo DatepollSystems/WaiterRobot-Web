@@ -4,10 +4,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
-import {TableGroupsService} from '../../../_services/models/table/table-groups.service';
+import {EventModel} from '../../../_models/event.model';
 import {TableGroupModel} from '../../../_models/table/table-group.model';
 import {EventsService} from '../../../_services/models/events.service';
-import {EventModel} from '../../../_models/event.model';
+import {TableGroupsService} from '../../../_services/models/table/table-groups.service';
 
 @Component({
   selector: 'app-table-group-edit',

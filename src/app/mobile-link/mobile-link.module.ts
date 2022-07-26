@@ -4,9 +4,9 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {RouterModule, Routes} from '@angular/router';
 
 import {DfxTranslateModule} from 'dfx-translate';
+import {AppDownloadBtnListModule} from '../_shared/app-download-btn-list/app-download-btn-list.module';
 
 import {FooterModule} from '../footer/footer.module';
-import {AppDownloadBtnListModule} from '../_shared/app-download-btn-list/app-download-btn-list.module';
 
 import {MobileLinkComponent} from './mobile-link.component';
 

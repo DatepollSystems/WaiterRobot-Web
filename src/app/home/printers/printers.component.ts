@@ -1,11 +1,10 @@
 import {Component} from '@angular/core';
-import {OrganisationModel} from '../../_models/organisation/organisation.model';
-import {EventModel} from '../../_models/event.model';
-import {OrganisationsService} from '../../_services/models/organisation/organisations.service';
-import {EventsService} from '../../_services/models/events.service';
 import {Router} from '@angular/router';
-import {AComponent} from 'dfx-helper';
 import {AbstractModelsComponent} from '../../_helper/abstract-models.component';
+import {EventModel} from '../../_models/event.model';
+import {OrganisationModel} from '../../_models/organisation/organisation.model';
+import {EventsService} from '../../_services/models/events.service';
+import {OrganisationsService} from '../../_services/models/organisation/organisations.service';
 
 @Component({
   selector: 'app-printers',

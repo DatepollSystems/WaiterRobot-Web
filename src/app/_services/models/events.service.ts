@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-
-import {GetEventOrLocationResponse} from '../../_models/waiterrobot-backend';
-import {OrganisationsService} from './organisation/organisations.service';
-import {AbstractSelectableModelService} from './abstract-model.service';
+import {Injectable} from '@angular/core';
 
 import {EventModel} from '../../_models/event.model';
+
+import {GetEventOrLocationResponse} from '../../_models/waiterrobot-backend';
+import {AbstractSelectableModelService} from './abstract-model.service';
+import {OrganisationsService} from './organisation/organisations.service';
 
 @Injectable({
   providedIn: 'root',

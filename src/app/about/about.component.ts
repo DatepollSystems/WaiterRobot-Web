@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {Router} from '@angular/router';
+import {UIHelper} from 'dfx-helper';
+import {JWTResponse} from '../_models/waiterrobot-backend';
 
 import {AuthService} from '../_services/auth/auth.service';
 import {NotificationService} from '../_services/notifications/notification.service';
-import {UIHelper} from 'dfx-helper';
-import {JWTResponse} from '../_models/waiterrobot-backend';
 
 @Component({
   selector: 'app-about',

@@ -11,8 +11,9 @@ import {AbstractSelectableModelService} from '../../_services/models/abstract-mo
       type="button"
       class="btn btn-sm btn-outline-primary text-white"
       (click)="onSelect(entity)"
-      attr.aria-label="{{ 'SELECT' | tr }}"
-      ngbTooltip="{{ 'SELECT' | tr }}">
+      attr.aria-label="{{ 'SELECT' | tr }}">
+      <!-- TODO: Bootstrap 5.2.0 alignment bug -->
+      <!-- ngbTooltip="{{ 'SELECT' | tr }}"-->
       <i-bs name="check2-square"></i-bs>
     </button>
     <button
@@ -20,8 +21,9 @@ import {AbstractSelectableModelService} from '../../_services/models/abstract-mo
       type="button"
       class="btn btn-sm btn-primary text-white"
       (click)="onSelect(undefined)"
-      attr.aria-label="{{ 'CLEAR_SELECTION' | tr }}"
-      ngbTooltip="{{ 'CLEAR_SELECTION' | tr }}">
+      attr.aria-label="{{ 'CLEAR_SELECTION' | tr }}">
+      <!-- TODO: Bootstrap 5.2.0 alignment bug -->
+      <!-- ngbTooltip="{{ 'CLEAR_SELECTION' | tr }}"-->
       <i-bs name="x-circle-fill"></i-bs>
     </button>
   `,

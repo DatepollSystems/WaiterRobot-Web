@@ -17,24 +17,38 @@ import {PrintersService} from '../../../_services/models/printers.service';
   styleUrls: ['./printer-edit.component.scss'],
 })
 export class PrinterEditComponent extends AbstractModelEditComponent<PrinterModel> {
-  override redirectUrl = '/home/printers/event/';
+  override redirectUrl = '/home/printers/mediators';
   override onlyEditingTabs = [2];
 
   selectedEvent?: EventModel;
+  events: EventModel[];
 
   constructor(route: ActivatedRoute, router: Router, printersSerivce: PrintersService, modal: NgbModal, eventsService: EventsService) {
     super(router, route, modal, printersSerivce);
 
     this.selectedEvent = eventsService.getSelected();
     this.autoUnsubscribe(eventsService.selectedChange.subscribe((event) => (this.selectedEvent = event)));
+
+    this.events = eventsService.getAll();
+    this.autoUnsubscribe(
+      eventsService.allChange.subscribe((events) => {
+        this.events = events;
+      })
+    );
+  }
+
+  protected createAndUpdateFilter(model: any): boolean {
+    if (model) {
+      console.log(model);
+      return false;
+    }
+
+    return super.createAndUpdateFilter(model);
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
-    model.eventId = this.selectedEvent?.id;
-    return model;
-  }
+    this.redirectUrl = '/home/printers/event/' + model.eventId;
 
-  override goToRedirectUrl(): void {
-    void this.router.navigateByUrl(this.redirectUrl + this.selectedEvent?.id);
+    return super.addCustomAttributesBeforeCreateAndUpdate(model);
   }
 }

@@ -2,10 +2,10 @@ import {Component} from '@angular/core';
 
 import {AComponent} from 'dfx-helper';
 
-import {EventsService} from '../../_services/models/events.service';
+import {EventModel} from '../../_models/event.model';
 import {MyUserService} from '../../_services/auth/my-user.service';
 
-import {EventModel} from '../../_models/event.model';
+import {EventsService} from '../../_services/models/events.service';
 
 @Component({
   selector: 'app-events',

@@ -1,18 +1,18 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
-import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {NgbDatepickerModule, NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {DfxTranslateModule} from 'dfx-translate';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxTranslateModule} from 'dfx-translate';
 
 import {IconsModule} from '../../_shared/icons.module';
-
-import {UsersComponent} from './users.component';
 import {AllUsersComponent} from './all-users/all-users.component';
 import {UserEditComponent} from './user-edit/user-edit.component';
+
+import {UsersComponent} from './users.component';
 
 const routes: Routes = [
   {

@@ -1,18 +1,18 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-
-import {DateHelper} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
-import {WaiterCreateQRCodeModalComponent} from '../../waiters/waiter-create-qr-code-modal.component';
+import {DateHelper} from 'dfx-helper';
+import {MyUserModel} from 'src/app/_models/user/my-user.model';
 
-import {EventsService} from '../../../_services/models/events.service';
-import {MyUserService} from '../../../_services/auth/my-user.service';
-import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
+import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
 
 import {EventModel} from '../../../_models/event.model';
-import {MyUserModel} from 'src/app/_models/user/my-user.model';
+import {MyUserService} from '../../../_services/auth/my-user.service';
+
+import {EventsService} from '../../../_services/models/events.service';
+import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
+import {WaiterCreateQRCodeModalComponent} from '../../waiters/waiter-create-qr-code-modal.component';
 
 @Component({
   selector: 'app-event-edit',

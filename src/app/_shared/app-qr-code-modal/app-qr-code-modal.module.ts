@@ -1,12 +1,12 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
-
-import {DfxTranslateModule} from 'dfx-translate';
 import {DfxPrintModule} from 'dfx-helper';
 
-import {AppQrCodeModalComponent} from './app-qr-code-modal.component';
+import {DfxTranslateModule} from 'dfx-translate';
 import {AppQrCodeViewModule} from '../app-qr-code-view/app-qr-code-view.module';
+
+import {AppQrCodeModalComponent} from './app-qr-code-modal.component';
 
 @NgModule({
   declarations: [AppQrCodeModalComponent],

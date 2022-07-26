@@ -1,18 +1,18 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
-import {FlexLayoutModule} from '@angular/flex-layout';
+import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 
 import {DfxTranslateModule} from 'dfx-translate';
-import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {IconsModule} from '../../_shared/icons.module';
+import {SessionsComponent} from './sessions/sessions.component';
+import {UserSettingsSubComponent} from './user-settings-sub/user-settings-sub.component';
 
 import {UserSettingsComponent} from './user-settings.component';
-import {UserSettingsSubComponent} from './user-settings-sub/user-settings-sub.component';
-import {SessionsComponent} from './sessions/sessions.component';
 
 const routes: Routes = [
   {

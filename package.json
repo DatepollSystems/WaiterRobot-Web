@@ -34,6 +34,7 @@
     "@angular/platform-browser-dynamic": "14.0.6",
     "@angular/router": "14.0.6",
     "@ng-bootstrap/ng-bootstrap": "13.0.0-beta.1",
+    "@popperjs/core": "^2.11.5",
     "@zxing/browser": "0.1.1",
     "@zxing/library": "0.19.1",
     "@zxing/ngx-scanner": "3.6.2",
@@ -48,7 +49,7 @@
     "zone.js": "0.11.6"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "14.0.6",
+    "@angular-devkit/build-angular": "^14.1.0",
     "@angular-eslint/builder": "14.0.2",
     "@angular-eslint/eslint-plugin": "14.0.2",
     "@angular-eslint/eslint-plugin-template": "14.0.2",

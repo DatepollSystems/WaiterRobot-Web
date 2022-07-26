@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Observable} from 'rxjs';
-import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 
 import {EntityList, IEntityList, IEntityWithNumberIDAndName, IHasName, LoggerFactory} from 'dfx-helper';
+import {Observable} from 'rxjs';
+import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

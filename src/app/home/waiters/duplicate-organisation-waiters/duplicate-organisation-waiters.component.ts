@@ -5,8 +5,8 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfx-helper';
 
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
-import {DuplicateWaitersService} from '../../../_services/models/waiter/duplicate-waiters.service';
 import {DuplicateWaiterModel} from '../../../_models/waiter/duplicate-waiter.model';
+import {DuplicateWaitersService} from '../../../_services/models/waiter/duplicate-waiters.service';
 
 @Component({
   selector: 'app-duplicate-organisation-waiters',

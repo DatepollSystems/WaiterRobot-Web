@@ -1,14 +1,14 @@
 import {HttpClient, HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
+import {LoggerFactory} from 'dfx-helper';
 
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {catchError, filter, switchMap, take} from 'rxjs/operators';
-import {LoggerFactory} from 'dfx-helper';
-
-import {AuthService} from './auth.service';
 import {EnvironmentHelper} from '../../_helper/EnvironmentHelper';
 import {JWTResponse} from '../../_models/waiterrobot-backend';
+
+import {AuthService} from './auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

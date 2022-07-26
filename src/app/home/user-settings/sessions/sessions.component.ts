@@ -3,8 +3,8 @@ import {Component} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
-import {UserSessionsService} from '../../../_services/models/user/user-sessions.service';
 import {SessionModel} from '../../../_models/user/session.model';
+import {UserSessionsService} from '../../../_services/models/user/user-sessions.service';
 import {QuestionDialogComponent} from '../../../_shared/question-dialog/question-dialog.component';
 
 @Component({

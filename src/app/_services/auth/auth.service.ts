@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {BrowserHelper, Converter, StorageHelper} from 'dfx-helper';
 
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
-import {BrowserHelper, Converter, StorageHelper} from 'dfx-helper';
 
 import {JWTResponse, RefreshJWTWithSessionTokenDto, UserSignInDto} from '../../_models/waiterrobot-backend';
 

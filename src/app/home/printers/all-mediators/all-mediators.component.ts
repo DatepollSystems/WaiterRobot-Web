@@ -1,14 +1,14 @@
 import {Component} from '@angular/core';
-
-import {StringHelper} from 'dfx-helper';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {MediatorsService} from '../../../_services/models/mediators.service';
+import {StringHelper} from 'dfx-helper';
 
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
 
 import {MediatorModel} from '../../../_models/mediator.model';
 import {GetPrinterMinResponse} from '../../../_models/waiterrobot-backend';
+
+import {MediatorsService} from '../../../_services/models/mediators.service';
 
 @Component({
   selector: 'app-all-mediators',

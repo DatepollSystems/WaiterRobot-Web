@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+
+import {AllergenModel} from '../../_models/allergen.model';
 
 import {GetAllergenResponse} from '../../_models/waiterrobot-backend';
 import {AbstractModelService} from './abstract-model.service';
-
-import {AllergenModel} from '../../_models/allergen.model';
 
 @Injectable({
   providedIn: 'root',

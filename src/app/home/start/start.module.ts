@@ -1,12 +1,12 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-
-import {DfxTranslateModule} from 'dfx-translate';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {RouterModule, Routes} from '@angular/router';
-import {StartComponent} from './start.component';
-import {FlexLayoutModule} from '@angular/flex-layout';
+
+import {DfxTranslateModule} from 'dfx-translate';
 import {AppDownloadBtnListModule} from '../../_shared/app-download-btn-list/app-download-btn-list.module';
+import {StartComponent} from './start.component';
 
 const startRoutes: Routes = [{path: '', component: StartComponent}];
 
