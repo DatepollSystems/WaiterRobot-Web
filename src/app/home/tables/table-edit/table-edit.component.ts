@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {Converter, LoggerFactory} from 'dfx-helper';
+import {LoggerFactory} from 'dfx-helper';
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
 
 import {EventModel} from '../../../_models/event.model';
@@ -25,11 +25,10 @@ export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
   override redirectUrl = '/home/tables/all';
   override continuousUsePropertyNames = ['groupId', 'seats'];
 
-  selectedEvent: EventModel | undefined;
+  selectedEvent?: EventModel;
 
   tableGroups: TableGroupModel[];
-
-  selectedTableGroup = -1;
+  selectedTableGroup?: number;
 
   constructor(
     route: ActivatedRoute,
@@ -58,12 +57,12 @@ export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
-    model.eventId = this.selectedEvent?.id;
+    model.eventId = this.selectedEvent!.id;
     return model;
   }
 
   override createAndUpdateFilter(model: any): boolean {
-    if (this.selectedTableGroup === -1) {
+    if (!this.selectedTableGroup) {
       this.notificationService.twarning('HOME_TABLES_GROUPS_DEFAULT');
       return false;
     }
@@ -71,7 +70,7 @@ export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
   }
 
   override onEntityEdit(model: TableModel): void {
-    this.selectedTableGroup = Converter.toNumber(model.groupId);
+    this.selectedTableGroup = model.groupId;
   }
 
   selectTableGroup(value: number): void {

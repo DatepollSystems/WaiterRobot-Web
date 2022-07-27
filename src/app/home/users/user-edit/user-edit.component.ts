@@ -28,7 +28,7 @@ export class UserEditComponent extends AbstractModelEditComponent<UserModel> {
       model.role = 'USER';
       this.lumber.info('addCustomAttribute', 'Model is user detected');
     }
-    model.birthday = DateHelper.getFormatted(model.birthday as string | null);
+    model.birthday = DateHelper.getFormatted(model.birthday as string);
 
     return super.addCustomAttributesBeforeCreateAndUpdate(model);
   }

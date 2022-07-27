@@ -17,7 +17,7 @@ import {TableGroupsService} from '../../../_services/models/table/table-groups.s
 export class TableGroupEditComponent extends AbstractModelEditComponent<TableGroupModel> {
   override redirectUrl = '/home/tables/groups/all';
 
-  selectedEvent: EventModel | undefined;
+  selectedEvent?: EventModel;
 
   constructor(
     route: ActivatedRoute,
@@ -37,7 +37,7 @@ export class TableGroupEditComponent extends AbstractModelEditComponent<TableGro
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
-    model.eventId = this.selectedEvent?.id;
+    model.eventId = this.selectedEvent!.id;
     return model;
   }
 }

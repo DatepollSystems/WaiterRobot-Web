@@ -2,20 +2,20 @@
   <h1 *ngIf="isEditing && entity">{{ 'EDIT_2' | tr }} "{{ entity.name }}"</h1>
   <h1 *ngIf="!isEditing">{{ 'HOME_TABLES_ADD' | tr }}</h1>
 
-  <div fxLayout="row break" fxLayoutGap="2%" fxLayoutGap.gt-md="1%">
+  <div fxLayout="row break" fxLayoutGap="3% grid" fxLayoutGap.gt-md="1% grid">
     <div>
-      <button class="btn btn-sm btn-outline-dark text-white my-2 my-md-0" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
+      <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
     </div>
 
     <ng-container *ngIf="isEditing && entity">
       <div>
-        <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit()" [disabled]="!f.valid">
+        <button class="btn btn-sm btn-success" (click)="f.ngSubmit.emit()" [disabled]="!f.valid">
           <i-bs name="save"></i-bs>
           {{ 'SAVE' | tr }}
         </button>
       </div>
       <div>
-        <button class="btn btn-sm btn-outline-danger my-2 my-md-0" (click)="onDelete(entity.id)">
+        <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
           <i-bs name="trash"></i-bs>
           {{ 'DELETE' | tr }}
         </button>
@@ -23,7 +23,7 @@
     </ng-container>
 
     <div *ngIf="!isEditing">
-      <button class="btn btn-sm btn-success my-2 my-md-0" (click)="f.ngSubmit.emit()" [disabled]="!f || !f.valid">
+      <button class="btn btn-sm btn-success" (click)="f.ngSubmit.emit()" [disabled]="!f || !f.valid">
         <i-bs name="plus-circle"></i-bs>
         {{ 'ADD' | tr }}
       </button>
@@ -83,8 +83,9 @@
                   id="selectTableGroup"
                   name="groupId"
                   [(ngModel)]="selectedTableGroup"
-                  (ngModelChange)="selectTableGroup($event)">
-                  <option [ngValue]="-1">{{ 'HOME_TABLES_GROUPS_DEFAULT' | tr }}</option>
+                  (ngModelChange)="selectTableGroup($event)"
+                  required>
+                  <option [ngValue]="undefined" disabled>{{ 'HOME_TABLES_GROUPS_DEFAULT' | tr }}</option>
                   <option [ngValue]="tableGroup.id" *ngFor="let tableGroup of this.tableGroups; trackById">{{ tableGroup.name }}</option>
                 </select>
               </div>

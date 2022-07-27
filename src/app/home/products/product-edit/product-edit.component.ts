@@ -29,7 +29,7 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
 
   selectedEvent: EventModel | undefined;
   productGroups: ProductGroupModel[];
-  selectedProductGroup: number | undefined;
+  selectedProductGroup?: number;
   printers: PrinterModel[];
   selectedPrinter?: number;
 
@@ -57,6 +57,7 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
     this.allergens = new EntityList(allergensService.getAll());
     this.autoUnsubscribe(allergensService.allChange.subscribe((allergens) => (this.allergens = allergens)));
 
+    printersService.setSelectedEventGetAllUrl();
     this.printers = printersService.getAll();
     this.autoUnsubscribe(printersService.allChange.subscribe((printers) => (this.printers = printers)));
   }

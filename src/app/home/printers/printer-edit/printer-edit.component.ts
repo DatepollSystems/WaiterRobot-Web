@@ -37,15 +37,6 @@ export class PrinterEditComponent extends AbstractModelEditComponent<PrinterMode
     );
   }
 
-  protected createAndUpdateFilter(model: any): boolean {
-    if (model) {
-      console.log(model);
-      return false;
-    }
-
-    return super.createAndUpdateFilter(model);
-  }
-
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
     this.redirectUrl = '/home/printers/event/' + model.eventId;
 
