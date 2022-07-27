@@ -106,7 +106,7 @@
                   <span class="fake-dropdown-item unselectable" *ngIf="allEvents.length === 0">
                     {{ 'NAV_EVENTS_NO_EVENTS' | tr }}
                   </span>
-                  <ng-container *ngFor="let eventM of allEvents">
+                  <ng-container *ngFor="let eventM of allEvents; trackById">
                     <span
                       class="fake-dropdown-item"
                       *ngIf="eventM.id !== selectedEvent?.id"
