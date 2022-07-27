@@ -10,6 +10,7 @@ import {DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 import {EventSelectedGuardService} from '../../_services/guards/event-selected-guard.service';
 import {OrganisationSelectedGuard} from '../../_services/guards/organisation-selected-guard.service';
+import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
 
 import {IconsModule} from '../../_shared/icons.module';
 import {NgbEntityChipInputModule} from '../../_shared/ngb-entity-chip-input/ngb-entity-chip-input.module';
@@ -61,6 +62,7 @@ const routes: Routes = [
     DfxSortModule,
     IconsModule,
     NgbEntityChipInputModule,
+    AppEntitiesLayoutComponent,
   ],
 })
 export class ProductsModule {}

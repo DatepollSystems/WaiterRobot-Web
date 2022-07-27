@@ -1,5 +1,5 @@
-<div fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap.lt-md="4%">
-  <div class="list-group" fxFlex="22%" fxFlex.gt-lg="15%">
+<app-entities-layout-component>
+  <div class="list-group" nav>
     <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
       <i-bs name="people-fill"></i-bs>
       {{ 'HOME_USERS_ALL' | tr }}</a
@@ -10,11 +10,4 @@
       {{ 'ADD_2' | tr }}</a
     >
   </div>
-  <div fxFlex="76%" fxFlex.gt-lg="82%">
-    <div class="card bg-dark">
-      <div class="card-body px-4">
-        <router-outlet></router-outlet>
-      </div>
-    </div>
-  </div>
-</div>
+</app-entities-layout-component>

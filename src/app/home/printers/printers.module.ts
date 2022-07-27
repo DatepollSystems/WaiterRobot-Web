@@ -8,6 +8,7 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 
 import {DfxTranslateModule} from 'dfx-translate';
 import {OrganisationSelectedGuard} from '../../_services/guards/organisation-selected-guard.service';
+import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
 
 import {IconsModule} from '../../_shared/icons.module';
 import {AllMediatorsComponent} from './all-mediators/all-mediators.component';
@@ -44,6 +45,7 @@ const startRoutes: Routes = [
     DfxTableModule,
     DfxSortModule,
     NgbNavModule,
+    AppEntitiesLayoutComponent,
   ],
 })
 export class PrintersModule {}

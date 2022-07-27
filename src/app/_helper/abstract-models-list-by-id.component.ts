@@ -31,8 +31,9 @@ export abstract class AbstractModelsListByIdComponent<
       const id = params.get('id');
       if (id != null) {
         if (TypeHelper.isNumeric(id)) {
+          this.subscriptions.forEach((sub) => sub.unsubscribe());
           const nId = Converter.toNumber(id);
-          this.lumber.info('const', 'Model to open: ' + nId);
+          this.lumber.info('const', 'Entity to open: ' + nId);
           this.entity = this.byIdEntityService.getSingle(nId);
           this.autoUnsubscribe(
             this.byIdEntityService.singleChange.subscribe((entity) => {

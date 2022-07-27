@@ -1,5 +1,5 @@
-<div fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap.lt-md="4%">
-  <div class="list-group" fxFlex="30%" fxFlex.gt-md="25%" fxFlex.gt-lg="20%">
+<app-entities-layout-component>
+  <div class="list-group" nav>
     <a
       class="list-group-item list-group-item-action"
       routerLink="organisation"
@@ -42,12 +42,4 @@
       >
     </ng-container>
   </div>
-
-  <div fxFlex="69%" fxFlex.gt-md="74%" fxFlex.gt-lg="79%">
-    <div class="card bg-dark">
-      <div class="card-body px-4">
-        <router-outlet></router-outlet>
-      </div>
-    </div>
-  </div>
-</div>
+</app-entities-layout-component>

@@ -21,6 +21,7 @@ export class DuplicateOrganisationWaitersComponent extends AbstractModelsListCom
   duplicateWaitersToMerge: IEntityList<IEntityWithNumberIDAndName> = new EntityList<IEntityWithNumberIDAndName>();
   continueMerge = true;
 
+  //TODO: Ignore feature
   ignoreFeature = false;
   automaticIgnoreOnSave = true;
 

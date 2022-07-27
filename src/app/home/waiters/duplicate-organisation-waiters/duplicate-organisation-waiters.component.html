@@ -57,7 +57,7 @@
 </div>
 
 <div [hidden]="!entitiesLoaded || duplicateWaiter === undefined">
-  <div class="mb-2" fxLayout="row" fxLayoutGap="0.5%">
+  <div class="my-3" fxLayout="row" fxLayoutGap="3%" fxLayoutGap.gt-md="1%">
     <a routerLink="../" class="btn btn-sm btn-outline-secondary">{{ 'GO_BACK' | tr }}</a>
     <button
       class="btn btn-sm btn-success"

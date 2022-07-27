@@ -9,6 +9,7 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 import {OrganisationSelectedGuard} from '../../_services/guards/organisation-selected-guard.service';
+import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
 import {AppQrCodeModalModule} from '../../_shared/app-qr-code-modal/app-qr-code-modal.module';
 
 import {IconsModule} from '../../_shared/icons.module';
@@ -67,6 +68,7 @@ const routes: Routes = [
     NgbEntityChipInputModule,
     AppQrCodeModalModule,
     QuestionDialogModule,
+    AppEntitiesLayoutComponent,
   ],
 })
 export class WaitersModule {}
