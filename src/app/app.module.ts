@@ -8,6 +8,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {NgbDateAdapter, NgbDateParserFormatter, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {LoadingBarRouterModule} from '@ngx-loading-bar/router';
 import {BaseUrlInterceptor, DfxHelperModule, DfxTrackByModule, LoggingInterceptor, PostPutJsonContentTypeInterceptor} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 import {EnvironmentHelper} from './_helper/EnvironmentHelper';
@@ -32,6 +33,7 @@ import {AppComponent} from './app.component';
     DfxHelperModule.setup({baseUrl: EnvironmentHelper.getAPIUrl(), baseUrlInterceptorIgnorePaths: ['assets/i18n']}),
     DfxTranslateModule.setup({defaultLanguage: 'de'}),
     DfxTrackByModule,
+    LoadingBarRouterModule,
   ],
   providers: [
     {

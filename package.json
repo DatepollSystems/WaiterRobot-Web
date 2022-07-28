@@ -34,6 +34,8 @@
     "@angular/platform-browser-dynamic": "14.0.6",
     "@angular/router": "14.0.6",
     "@ng-bootstrap/ng-bootstrap": "13.0.0-beta.1",
+    "@ngx-loading-bar/core": "^6.0.2",
+    "@ngx-loading-bar/router": "^6.0.2",
     "@popperjs/core": "^2.11.5",
     "@zxing/browser": "0.1.1",
     "@zxing/library": "0.19.1",
