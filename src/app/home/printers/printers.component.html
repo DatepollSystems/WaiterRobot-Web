@@ -7,12 +7,12 @@
 
     <a
       class="list-group-item list-group-item-action"
-      routerLink="event/{{ selectedEvent?.id }}"
+      routerLink="event/{{ selectedEvent.id }}"
       *ngIf="selectedEvent"
       routerLinkActive="active"
       (click)="linkClick()">
       <i-bs name="printer"></i-bs>
-      {{ selectedEvent?.name }} {{ 'NAV_PRINTERS' | tr }}</a
+      {{ selectedEvent.name }} {{ 'NAV_PRINTERS' | tr }}</a
     >
 
     <div class="list-group-item" [fxHide.gt-sm]="true">
