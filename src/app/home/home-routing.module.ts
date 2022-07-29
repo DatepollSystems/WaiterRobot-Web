@@ -17,18 +17,42 @@ const homeRoutes: Routes = [
       },
       {
         path: 'usettings',
+        title: 'Settings',
         loadChildren: () => import('./user-settings/user-settings.module').then((m) => m.UserSettingsModule),
       },
       {
         path: 'organisations',
+        title: 'Organisations',
+        data: {preload: true},
         loadChildren: () => import('./organisations/organisations.module').then((m) => m.OrganisationsModule),
       },
-      {path: 'events', loadChildren: () => import('./events/events.module').then((m) => m.EventsModule)},
-      {path: 'printers', loadChildren: () => import('./printers/printers.module').then((m) => m.PrintersModule)},
-      {path: 'tables', loadChildren: () => import('./tables/tables.module').then((m) => m.TablesModule)},
-      {path: 'waiters', loadChildren: () => import('./waiters/waiters.module').then((m) => m.WaitersModule)},
-      {path: 'users', loadChildren: () => import('./users/users.module').then((m) => m.UsersModule)},
-      {path: 'products', loadChildren: () => import('./products/products.module').then((m) => m.ProductsModule)},
+      {
+        path: 'events',
+        title: 'Events',
+        data: {preload: true},
+        loadChildren: () => import('./events/events.module').then((m) => m.EventsModule),
+      },
+      {
+        path: 'printers',
+        title: 'Printers',
+        loadChildren: () => import('./printers/printers.module').then((m) => m.PrintersModule),
+      },
+      {
+        path: 'tables',
+        title: 'Tables',
+        loadChildren: () => import('./tables/tables.module').then((m) => m.TablesModule),
+      },
+      {
+        path: 'waiters',
+        title: 'Waiters',
+        loadChildren: () => import('./waiters/waiters.module').then((m) => m.WaitersModule),
+      },
+      {path: 'users', title: 'Users', loadChildren: () => import('./users/users.module').then((m) => m.UsersModule)},
+      {
+        path: 'products',
+        title: 'Products',
+        loadChildren: () => import('./products/products.module').then((m) => m.ProductsModule),
+      },
     ],
   },
 ];

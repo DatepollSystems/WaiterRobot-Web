@@ -18,9 +18,9 @@ const routes: Routes = [
     path: 'info',
     component: InfoComponent,
     children: [
-      {path: 'imprint', component: ImprintComponent},
-      {path: 'privacypolicy', component: PrivacyPolicyComponent},
-      {path: 'mobile-privacypolicy', component: MobilePrivacyPolicyComponent},
+      {path: 'imprint', title: 'Imprint', component: ImprintComponent},
+      {path: 'privacypolicy', title: 'Privacy policy', component: PrivacyPolicyComponent},
+      {path: 'mobile-privacypolicy', title: 'Privacy policy', component: MobilePrivacyPolicyComponent},
     ],
   },
 ];
