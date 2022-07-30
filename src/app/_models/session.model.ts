@@ -1,5 +1,5 @@
 import {AEntityWithNumberIDAndName} from 'dfx-helper';
-import {SessionResponse} from '../waiterrobot-backend';
+import {SessionResponse} from './waiterrobot-backend';
 
 export class SessionModel extends AEntityWithNumberIDAndName {
   public readonly registeredAt: string;
