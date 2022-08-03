@@ -68,6 +68,8 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
     model.groupId = Converter.toNumber(model.groupId as number);
     model.printerId = Converter.toNumber(model.printerId as number);
 
+    model.price = model.price * 100;
+
     model.allergenIds = this.selectedAllergens.map((allergen) => {
       return allergen.id;
     });

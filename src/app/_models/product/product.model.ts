@@ -12,7 +12,7 @@ export class ProductModel extends AEntityWithNumberIDAndName {
 
   constructor(data: GetProductMaxResponse) {
     super(data.id, data.name, data);
-    this.price = data.price;
+    this.price = data.price / 100;
     this.allergens.add(
       data.allergens.map((allergen: GetAllergenResponse) => {
         return new AllergenModel(allergen);
