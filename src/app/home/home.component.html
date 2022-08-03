@@ -196,7 +196,7 @@
       <li class="nav-item mx-2" *ngIf="selectedEvent">
         <a class="nav-link" routerLink="products" routerLinkActive="link-active">{{ 'NAV_PRODUCTS' | tr }}</a>
       </li>
-      <li class="nav-item mx-2">
+      <li class="nav-item mx-2" *ngIf="myUser?.isAdmin">
         <a class="nav-link" routerLink="printers" routerLinkActive="link-active">{{ 'NAV_PRINTERS' | tr }}</a>
       </li>
       <li class="nav-item mx-2">
