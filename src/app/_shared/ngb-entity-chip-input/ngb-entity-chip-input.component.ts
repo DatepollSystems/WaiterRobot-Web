@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 
-import {EntityList, IEntityList, IEntityWithNumberIDAndName, IHasName, LoggerFactory} from 'dfx-helper';
+import {EntityList, IEntityList, IEntityWithName, IEntityWithNumberIDAndName, IHasName, LoggerFactory, StringOrNumber} from 'dfx-helper';
 import {Observable} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 
@@ -28,9 +29,12 @@ export class NgbEntityChipInput {
    * Key of translation string in language files.
    */
   @Input() placeHolder = 'ADD';
-  _models: IEntityList<IEntityWithNumberIDAndName> = new EntityList();
-  _allModelsToAutoComplete: IEntityList<IEntityWithNumberIDAndName> = new EntityList();
-  @Output() valueChange = new EventEmitter<IEntityList<IEntityWithNumberIDAndName>>();
+
+  _models: IEntityList<IEntityWithName<StringOrNumber>> = new EntityList();
+  _allModelsToAutoComplete: IEntityList<IEntityWithName<StringOrNumber>> = new EntityList();
+
+  @Output() valueChange = new EventEmitter<IEntityList<IEntityWithName<StringOrNumber>>>();
+
   formatter = (result: IHasName): string => result.name;
   search: (text$: Observable<string>) => Observable<IHasName[]> = (text$: Observable<string>) =>
     text$.pipe(
@@ -51,7 +55,7 @@ export class NgbEntityChipInput {
    * Already filled in strings
    */
   @Input()
-  public set models(models: IEntityList<IEntityWithNumberIDAndName> | undefined) {
+  public set models(models: IEntityList<IEntityWithName<StringOrNumber>> | undefined) {
     if (models == undefined) {
       return;
     }
@@ -63,17 +67,17 @@ export class NgbEntityChipInput {
    * Leave empty to disable autocompletion
    */
   @Input()
-  public set allModelsToAutoComplete(models: IEntityList<IEntityWithNumberIDAndName>) {
+  public set allModelsToAutoComplete(models: IEntityList<IEntityWithName<StringOrNumber>>) {
     this._allModelsToAutoComplete.set(models);
     this.logger.info('set auto', 'Models to autocomplete', this._allModelsToAutoComplete);
   }
 
   private emitChange(): void {
     this.logger.info('emitChange', 'Models', this._models);
-    this.valueChange.emit(this._models.clone() as IEntityList<IEntityWithNumberIDAndName>);
+    this.valueChange.emit(this._models.clone() as IEntityList<IEntityWithName<StringOrNumber>>);
   }
 
-  selectModel(event: any): void {
+  selectModel(event: NgbTypeaheadSelectItemEvent<IEntityWithName<StringOrNumber>>): void {
     const model = event.item;
     if (model == null) {
       return;
@@ -85,8 +89,8 @@ export class NgbEntityChipInput {
     setTimeout(() => (this.modelName = ''), 2);
   }
 
-  remove(value: IEntityWithNumberIDAndName): void {
-    this._models.removeIfPresent(value);
+  remove(value: IEntityWithName<StringOrNumber>): void {
+    this._models.remove(value);
     this.emitChange();
   }
 }

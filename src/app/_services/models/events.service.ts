@@ -11,10 +11,11 @@ import {OrganisationsService} from './organisation/organisations.service';
   providedIn: 'root',
 })
 export class EventsService extends AbstractSelectableModelService<EventModel> {
+  override url = '/config/event';
   protected selectedStorageKey = 'selected_event';
 
   constructor(httpService: HttpClient, organisationsService: OrganisationsService) {
-    super(httpService, '/config/event');
+    super(httpService);
 
     this.setGetAllParams([{key: 'organisationId', value: organisationsService.getSelected()?.id}]);
     organisationsService.selectedChange.subscribe((org) => {

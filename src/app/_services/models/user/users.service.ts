@@ -10,7 +10,7 @@ import {AbstractModelService} from '../abstract-model.service';
   providedIn: 'root',
 })
 export class UsersService extends AbstractModelService<UserModel> {
-  url = '/config/user';
+  override url = '/config/user';
 
   constructor(httpService: HttpClient) {
     super(httpService);

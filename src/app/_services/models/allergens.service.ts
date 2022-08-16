@@ -10,8 +10,10 @@ import {AbstractModelService} from './abstract-model.service';
   providedIn: 'root',
 })
 export class AllergensService extends AbstractModelService<AllergenModel> {
+  override url = '/config/allergen';
+
   constructor(httpService: HttpClient) {
-    super(httpService, '/config/allergen');
+    super(httpService);
   }
 
   protected convert(data: any): AllergenModel {

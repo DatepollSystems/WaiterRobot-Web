@@ -2,7 +2,15 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {AEntityWithNumberIDAndName, Converter, EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfx-helper';
+import {
+  AEntityWithNumberIDAndName,
+  Converter,
+  EntityList,
+  IEntityList,
+  IEntityWithName,
+  IEntityWithNumberIDAndName,
+  StringOrNumber,
+} from 'dfx-helper';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
 
@@ -95,7 +103,7 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
     this.selectedPrinter = model.printerId;
   }
 
-  allergenChange(allergens: IEntityList<IEntityWithNumberIDAndName>): void {
-    this.selectedAllergens = allergens;
+  allergenChange(allergens: IEntityList<IEntityWithName<StringOrNumber>>): void {
+    this.selectedAllergens = allergens as IEntityList<IEntityWithNumberIDAndName>;
   }
 }

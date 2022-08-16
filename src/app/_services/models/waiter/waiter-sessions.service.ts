@@ -11,8 +11,10 @@ import {WaitersService} from './waiters.service';
   providedIn: 'root',
 })
 export class WaiterSessionsService extends AbstractModelService<SessionModel> {
+  url = '/config/waiter/session';
+
   constructor(httpService: HttpClient, waitersService: WaitersService) {
-    super(httpService, '/config/waiter/session');
+    super(httpService);
     waitersService.singleChange.subscribe((waiter) => this.setGetAllParams([{key: 'waiterId', value: waiter?.id}]));
   }
 

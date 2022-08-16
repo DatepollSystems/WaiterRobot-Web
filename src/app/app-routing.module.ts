@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {CustomPreloadStrategy} from './custom-preload.strategy';
+import {DfxPreloadStrategy} from 'dfx-helper';
 
 const routes: Routes = [
   {path: '', redirectTo: '/about', pathMatch: 'full'},
@@ -25,7 +25,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {preloadingStrategy: CustomPreloadStrategy})],
+  imports: [RouterModule.forRoot(routes, {preloadingStrategy: DfxPreloadStrategy})],
   exports: [RouterModule],
+  providers: [DfxPreloadStrategy],
 })
 export class AppRoutingModule {}

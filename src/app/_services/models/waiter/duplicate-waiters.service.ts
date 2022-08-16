@@ -11,8 +11,10 @@ import {OrganisationsService} from '../organisation/organisations.service';
   providedIn: 'root',
 })
 export class DuplicateWaitersService extends AbstractModelService<DuplicateWaiterModel> {
+  url = '/config/waiter/duplicates';
+
   constructor(httpClient: HttpClient, private organisationService: OrganisationsService) {
-    super(httpClient, '/config/waiter/duplicates');
+    super(httpClient);
     this.setGetAllParams([{key: 'organisationId', value: this.organisationService.getSelected()?.id}]);
     this.organisationService.selectedChange.subscribe((org) => {
       if (org) {

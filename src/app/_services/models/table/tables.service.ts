@@ -11,8 +11,10 @@ import {EventsService} from '../events.service';
   providedIn: 'root',
 })
 export class TablesService extends AbstractModelService<TableModel> {
+  override url = '/config/table';
+
   constructor(httpService: HttpClient, private eventsService: EventsService) {
-    super(httpService, '/config/table');
+    super(httpService);
 
     this.setGetAllParams([{key: 'eventId', value: this.eventsService.getSelected()?.id}]);
     this.eventsService.selectedChange.subscribe((event) => {

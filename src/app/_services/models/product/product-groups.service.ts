@@ -11,8 +11,10 @@ import {EventsService} from '../events.service';
   providedIn: 'root',
 })
 export class ProductGroupsService extends AbstractModelService<ProductGroupModel> {
+  override url = '/config/product/group';
+
   constructor(httpService: HttpClient, eventsService: EventsService) {
-    super(httpService, '/config/product/group');
+    super(httpService);
 
     this.setGetAllParams([{key: 'eventId', value: eventsService.getSelected()?.id}]);
     eventsService.selectedChange.subscribe((event) => {

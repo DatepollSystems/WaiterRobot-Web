@@ -11,8 +11,10 @@ import {OrganisationUserResponse} from '../../../_models/waiterrobot-backend';
   providedIn: 'root',
 })
 export class OrganisationsUsersService extends AEntityService<string, OrganisationUserModel> {
+  override url = '/config/organisation/users';
+
   constructor(httpService: HttpClient) {
-    super(httpService, '/config/organisation/users');
+    super(httpService);
 
     this.globalUpdateUrl = '/config/organisation/{organisationId}/user/{uEmail}';
     this.globalDeleteUrl = '/config/organisation/{organisationId}/user/{uEmail}';

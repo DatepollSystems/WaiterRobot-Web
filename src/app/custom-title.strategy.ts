@@ -1,17 +1,12 @@
 import {Injectable} from '@angular/core';
-import {RouterStateSnapshot, TitleStrategy} from '@angular/router';
 import {Title} from '@angular/platform-browser';
+import {AbstractTitleStrategy} from 'dfx-helper';
 
 @Injectable()
-export class CustomTitleStrategy extends TitleStrategy {
-  constructor(private readonly title: Title) {
-    super();
-  }
+export class CustomTitleStrategy extends AbstractTitleStrategy {
+  override titlePrefix = 'WaiterRobot - ';
 
-  override updateTitle(routerState: RouterStateSnapshot) {
-    const title = this.buildTitle(routerState);
-    if (title !== undefined) {
-      this.title.setTitle(`WaiterRobot - ${title}`);
-    }
+  constructor(title: Title) {
+    super(title);
   }
 }

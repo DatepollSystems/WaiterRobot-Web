@@ -10,8 +10,10 @@ import {AbstractModelService} from '../abstract-model.service';
   providedIn: 'root',
 })
 export class UserSessionsService extends AbstractModelService<SessionModel> {
+  override url = '/user/sessions';
+
   constructor(httpService: HttpClient) {
-    super(httpService, '/user/sessions');
+    super(httpService);
   }
 
   protected convert(data: any): SessionModel {

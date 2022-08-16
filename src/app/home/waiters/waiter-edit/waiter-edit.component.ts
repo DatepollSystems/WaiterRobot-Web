@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
-import {EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfx-helper';
+import {EntityList, IEntityList, IEntityWithName, IEntityWithNumberIDAndName, StringOrNumber} from 'dfx-helper';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
 import {EventModel} from '../../../_models/event.model';
@@ -81,8 +81,10 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
       }
     }
     this.preSelectedEvents = new EntityList(selected);
-    this.selectedEvents.addIfAbsent(selected);
-    this.lumber.log('onEntityEdit', 'Mapped waiter events into selectedEvents', this.preSelectedEvents);
+    this.selectedEvents.set(selected);
+    this.lumber.log('onEntityEdit', 'Mapped waiter events into selectedEvents');
+    this.lumber.log('onEntityEdit', 'Preselected events', this.preSelectedEvents);
+    this.lumber.log('onEntityEdit', 'Waiter events', waiter.events);
 
     if (this.qrCodeModal) {
       this.qrCodeModal.componentInstance.token = waiter.signInToken;
@@ -108,7 +110,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     this.qrCodeModal.componentInstance.token = this.entity.signInToken;
   }
 
-  changeSelectedEvents(selectedEvents: IEntityList<IEntityWithNumberIDAndName>): void {
-    this.selectedEvents = selectedEvents;
+  changeSelectedEvents(selectedEvents: IEntityList<IEntityWithName<StringOrNumber>>): void {
+    this.selectedEvents = selectedEvents as IEntityList<IEntityWithNumberIDAndName>;
   }
 }

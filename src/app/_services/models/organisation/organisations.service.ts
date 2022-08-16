@@ -10,10 +10,11 @@ import {AbstractSelectableModelService} from '../abstract-model.service';
   providedIn: 'root',
 })
 export class OrganisationsService extends AbstractSelectableModelService<OrganisationModel> {
+  override url = '/config/organisation';
   protected selectedStorageKey = 'selected_org';
 
   constructor(httpService: HttpClient) {
-    super(httpService, '/config/organisation');
+    super(httpService);
   }
 
   protected convert(data: any): OrganisationModel {

@@ -11,8 +11,10 @@ import {OrganisationsService} from '../organisation/organisations.service';
   providedIn: 'root',
 })
 export class WaitersService extends AbstractModelService<WaiterModel> {
+  override url = '/config/waiter';
+
   constructor(httpService: HttpClient, private organisationService: OrganisationsService) {
-    super(httpService, '/config/waiter');
+    super(httpService);
     this.setGetAllParams([{key: 'organisationId', value: this.organisationService.getSelected()?.id}]);
     this.organisationService.selectedChange.subscribe((org) => {
       if (org) {
