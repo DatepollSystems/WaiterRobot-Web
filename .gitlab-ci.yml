@@ -17,7 +17,7 @@ build-release:
     paths:
       - node_modules/
   script:
-    - npm install --loglevel=error --no-progress
+    - npm install --force --loglevel=error --no-progress
     - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
     - npm run build:prod
     - cd dist/
@@ -34,7 +34,7 @@ build-testing:
     paths:
       - node_modules/
   script:
-    - npm install --loglevel=error --no-progress
+    - npm install --force --loglevel=error --no-progress
     - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
     - npm run build:testing
     - cd dist/
@@ -51,7 +51,7 @@ build-dev:
     paths:
       - node_modules/
   script:
-    - npm install --loglevel=error --no-progress
+    - npm install --force  --loglevel=error --no-progress
     - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
     - npm run build:dev
     - cd dist/

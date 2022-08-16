@@ -135,12 +135,12 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
   public onSave(form: NgForm): void {
     let model = form.form.value;
     this.lumber.info('onSave', 'Continuous creation: "' + this.continuousCreation + '"');
-    this.lumber.info('onSave', 'Model form value object', model);
     if (!this.createAndUpdateFilter(model)) {
       this.lumber.info('onSave', 'Validation failed');
       return;
     }
     model = this.addCustomAttributesBeforeCreateAndUpdate(model);
+    this.lumber.info('onSave', 'Model form value object', model);
     if (this.isEditing && this.entity?.id != null) {
       model.id = this.entity?.id;
       this.modelService.update(model).subscribe();
