@@ -20,26 +20,26 @@ export type appDownload = {
 })
 export class AppDownloadBtnListComponent {
   appDownloadLinks: IList<appDownload> = new List([
-    {
-      text: 'F-Droid',
-      link: 'https://f-droid.org',
-      img: 'assets/store_logos/fdroidLogo.svg',
-      img2: 'assets/store_logos/fdroidLogo_black.svg',
-    },
+    // {
+    //   text: 'F-Droid',
+    //   link: 'https://f-droid.org',
+    //   img: 'assets/store_logos/fdroidLogo.svg',
+    //   img2: 'assets/store_logos/fdroidLogo_black.svg',
+    // },
+    // {
+    //   text: 'AppGallery',
+    //   link: 'https://appgallery.huawei.com',
+    //   img: 'assets/store_logos/appGallery.svg',
+    //   img2: 'assets/store_logos/appGallery_black.svg',
+    // },
     {
       text: 'App Store',
-      link: 'https://store.apple.com',
+      link: 'https://apps.apple.com/at/app/waiterrobot/id1610157234',
       icon: IconNamesEnum.Apple,
     },
     {
-      text: 'AppGallery',
-      link: 'https://appgallery.huawei.com',
-      img: 'assets/store_logos/appGallery.svg',
-      img2: 'assets/store_logos/appGallery_black.svg',
-    },
-    {
       text: 'Play Store',
-      link: 'https://play.google.com',
+      link: 'https://play.google.com/store/apps/details?id=org.datepollsystems.waiterrobot.android',
       icon: IconNamesEnum.Google,
     },
   ]).shuffle();
