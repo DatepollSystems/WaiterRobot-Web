@@ -111,6 +111,8 @@
   "NAV_EVENTS_CHANGE": "ändern",
   "NAV_EVENTS_NO_EVENTS": "Keine Events verfügbar",
 
+  "HOME_START_STATISTICS": "Server-Statistiken",
+
   "HOME_USERSETTINGS_USER_SETTINGS": "Benutzereinstellugen",
   "HOME_USERSETTINGS_USER_SETTINGS_EMAIL": "E-Mail-Adresse ändern",
   "HOME_USERSETTINGS_USER_SETTINGS_EMAIL_SUBTITLE": "Deine E-Mail-Adresse wird für das Anmelden und das 'Password zurücksetzen' verwendet.",
