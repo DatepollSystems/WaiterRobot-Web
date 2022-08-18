@@ -19,7 +19,7 @@ export type appDownload = {
   styleUrls: ['./app-download-btn-list.component.scss'],
 })
 export class AppDownloadBtnListComponent {
-  appDownloadLinks: IList<appDownload> = new List([
+  appDownloadLinks: IList<appDownload> = new List<appDownload>([
     // {
     //   text: 'F-Droid',
     //   link: 'https://f-droid.org',
