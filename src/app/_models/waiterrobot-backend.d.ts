@@ -1,7 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-
-// Generated using typescript-generator version 2.36.1070 on 2022-07-20 20:40:57.
+// Generated using typescript-generator version 2.36.1070 on 2022-08-20 13:53:03.
 
 export interface ErrorResponse {
   readonly message: string;
@@ -22,6 +21,12 @@ export interface PaginatedResponseDto<T> {
   readonly numberOfItems: number;
   readonly numberOfPages: number;
   readonly list: T[];
+}
+
+export interface JsonInfoResponse {
+  readonly info: string;
+  readonly version: string;
+  readonly serverTime: DateAsString;
 }
 
 export interface AllergenDto {
@@ -104,6 +109,38 @@ export interface WaiterSignInDto extends ISignInDto {
   readonly token: string;
 }
 
+export interface BillProductResponse {
+  readonly id: number;
+  readonly name: string;
+  readonly pricePerPiece: number;
+  readonly price: number;
+  readonly amount: number;
+}
+
+export interface GetBillForTableResponse {
+  readonly tableId: number;
+  readonly tableNumber: number;
+  readonly priceSum: number;
+  readonly products: BillProductResponse[];
+}
+
+export interface PayBillDto {
+  readonly products: PayBillProductDto[];
+}
+
+export interface PayBillProductDto {
+  readonly id: number;
+  readonly amount: number;
+}
+
+export interface PayBillResponse {
+  readonly billId: number;
+  readonly tableId: number;
+  readonly tableNumber: number;
+  readonly priceSum: number;
+  readonly products: BillProductResponse[];
+}
+
 export interface CreateEventOrLocationDto {
   readonly name: string;
   readonly street: string;
@@ -148,15 +185,30 @@ export interface GetMediatorResponse {
 
 export interface CreateOrderDto {
   readonly tableId: number;
-  readonly products: ProductDto[];
+  readonly products: CreateOrderProductDto[];
 }
 
-export interface ProductDto {
+export interface CreateOrderProductDto {
   readonly id: number;
   readonly amount: number;
 }
 
-export interface ProductWithNameDto extends Mergeable<ProductWithNameDto> {
+export interface OrderDto {
+  readonly tableNumber: number;
+  readonly waiterId: number;
+  readonly orderId: number;
+  readonly orderProducts: OrderProductDto[];
+}
+
+export interface OrderProductDto extends Mergeable<OrderProductDto> {
+  readonly id: number;
+  readonly name: string;
+  readonly note?: string;
+  readonly amount: number;
+  readonly printerId: number;
+}
+
+export interface ProductWithNameDto {
   readonly id: number;
   readonly name: string;
   readonly amount: number;
@@ -211,6 +263,12 @@ export interface UpdateOrganisationDto {
   readonly countryCode: string;
 }
 
+export interface PrintOrderDto {
+  readonly tableNumber: number;
+  readonly waiter: GetWaiterMinResponse;
+  readonly products: OrderProductDto[];
+}
+
 export interface CreatePrinterDto {
   readonly name: string;
   readonly printerName: string;
@@ -243,6 +301,7 @@ export interface CreateProductDto {
   readonly price: number;
   readonly groupId: number;
   readonly printerId: number;
+  readonly soldOut: boolean;
 }
 
 export interface CreateProductGroupDto {
@@ -271,6 +330,7 @@ export interface GetProductMaxResponse {
   readonly id: number;
   readonly name: string;
   readonly price: number;
+  readonly soldOut: boolean;
   readonly group: GetProductGroupMinResponse;
   readonly printer: GetPrinterMinResponse;
   readonly allergens: GetAllergenResponse[];
@@ -285,6 +345,7 @@ export interface GetProductResponse {
   readonly id: number;
   readonly name: string;
   readonly price: number;
+  readonly soldOut: boolean;
   readonly allergens: GetAllergenResponse[];
 }
 
@@ -295,6 +356,7 @@ export interface UpdateProductDto {
   readonly price: number;
   readonly groupId: number;
   readonly printerId: number;
+  readonly soldOut: boolean;
 }
 
 export interface UpdateProductGroupDto {
@@ -404,6 +466,11 @@ export interface DuplicateWaiterResponse {
   readonly waiters: IdAndNameResponse[];
 }
 
+export interface GetWaiterMinResponse {
+  readonly id: number;
+  readonly name: string;
+}
+
 export interface GetWaiterMyselfResponse {
   readonly id: number;
   readonly name: string;
@@ -465,7 +532,7 @@ export type WebSocketMessageTypes =
   | 'MB_UNREGISTER_PRINTER'
   | 'BM_UNREGISTERED_PRINTER_SUCCESSFUL'
   | 'MB_PRINTED_PDF'
-  | 'MB_PRINT_ERROR'
+  | 'MB_PRINT_PDF_ERROR'
   | 'MB_HELLO'
   | 'BM_HELLO'
   | 'MB_PRINT_PDF_TEST'

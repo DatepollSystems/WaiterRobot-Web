@@ -9,10 +9,12 @@ export class ProductModel extends AEntityWithNumberIDAndName {
   public readonly groupName: string;
   public readonly printerId: number;
   public readonly printerName: string;
+  public readonly soldOut: boolean;
 
   constructor(data: GetProductMaxResponse) {
     super(data.id, data.name, data);
     this.price = data.price / 100;
+    this.soldOut = data.soldOut;
     this.allergens.add(
       data.allergens.map((allergen: GetAllergenResponse) => {
         return new AllergenModel(allergen);

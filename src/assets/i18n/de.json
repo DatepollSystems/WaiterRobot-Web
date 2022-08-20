@@ -111,7 +111,7 @@
   "NAV_EVENTS_CHANGE": "ändern",
   "NAV_EVENTS_NO_EVENTS": "Keine Events verfügbar",
 
-  "HOME_START_STATISTICS": "Server-Statistiken",
+  "HOME_START_STATISTICS": "DevTools",
 
   "HOME_USERSETTINGS_USER_SETTINGS": "Benutzereinstellugen",
   "HOME_USERSETTINGS_USER_SETTINGS_EMAIL": "E-Mail-Adresse ändern",
@@ -170,6 +170,8 @@
   "HOME_PROD_NAME_INCORRECT": "Der Name muss aus mindestens 1 und maximal 70 Zeichen bestehen",
   "HOME_PROD_PRICE": "Preis",
   "HOME_PROD_PRICE_INCORRECT": "Der Preis muss über 0.00 liegen",
+  "HOME_PROD_AVAILABLE": "Verfügbar",
+  "HOME_PROD_SOLD_OUT": "Ausverkauft",
   "HOME_PROD_ALLERGENS": "Allergene",
   "HOME_PROD_ALLERGENS_PLACEHOLDER": "G, C, D...",
   "HOME_PROD_GROUP_ID": "Gruppe",
