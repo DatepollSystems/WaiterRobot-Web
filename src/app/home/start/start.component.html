@@ -1,21 +1,29 @@
 <div fxLayout="column" fxLayoutGap="1.5%" fxLayout.gt-md="row" fxLayoutAlign="end">
-  <div class="card bg-dark">
+  <div class="card bg-dark p-2">
     <div class="card-body">
       <h5 class="card-title">{{ 'ABOUT_APP_DISCOVER' | tr }}</h5>
       <app-download-btn-list></app-download-btn-list>
     </div>
   </div>
 
-  <div class="card bg-dark">
+  <div class="card bg-dark p-2 pe-5" *ngIf="myUser?.isAdmin">
     <div class="card-body">
       <h5 class="card-title">{{ 'HOME_START_STATISTICS' | tr }}</h5>
-      <p>Ping: {{ responseTime }}ms</p>
+      <ul class="list-unstyled pt-2">
+        <li>Status: {{ status }}</li>
+        <li>
+          Ping: {{ responseTime }}ms <small placement="top" ngbTooltip="Last ping">({{ lastPing | date: 'HH:mm:ss zzz' }})</small>
+        </li>
+        <li>Backend time: {{ serverTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)':'UTC' }}</li>
+        <li>Backend version: {{ serverVersion }}</li>
+        <li>Backend info: {{ serverInfo }}</li>
+      </ul>
     </div>
   </div>
 </div>
 
 <div fxLayout="row" fxLayoutAlign="center" *ngIf="!isProduction">
   <div class="mt-5 pt-5">
-    <h1 style="font-size: 60px; word-break: break-all">WaiterRobot-DEV</h1>
+    <h1 style="font-size: 60px; word-break: break-all">WaiterRobot-{{ type | uppercase }}</h1>
   </div>
 </div>

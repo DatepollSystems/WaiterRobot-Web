@@ -3,6 +3,7 @@ import {NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {RouterModule, Routes} from '@angular/router';
+import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {DfxTranslateModule} from 'dfx-translate';
 import {AppDownloadBtnListModule} from '../../_shared/app-download-btn-list/app-download-btn-list.module';
@@ -12,6 +13,13 @@ const startRoutes: Routes = [{path: '', component: StartComponent}];
 
 @NgModule({
   declarations: [StartComponent],
-  imports: [CommonModule, DfxTranslateModule, RouterModule.forChild(startRoutes), FlexLayoutModule, AppDownloadBtnListModule],
+  imports: [
+    CommonModule,
+    DfxTranslateModule,
+    RouterModule.forChild(startRoutes),
+    FlexLayoutModule,
+    AppDownloadBtnListModule,
+    NgbTooltipModule,
+  ],
 })
 export class StartModule {}
