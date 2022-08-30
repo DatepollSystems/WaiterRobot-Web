@@ -1,23 +1,51 @@
-<div fxLayout="column" fxLayoutGap="1.5%" fxLayout.gt-md="row" fxLayoutAlign="end">
-  <div class="card bg-dark p-2">
-    <div class="card-body">
-      <h5 class="card-title">{{ 'ABOUT_APP_DISCOVER' | tr }}</h5>
-      <app-download-btn-list></app-download-btn-list>
+<div fxLayout="column" fxLayoutGap="1.5%" fxLayout.gt-sm="row" fxLayoutAlign="end">
+  <div>
+    <div class="card bg-dark p-2">
+      <div class="card-body">
+        <h5 class="card-title">{{ 'ABOUT_APP_DISCOVER' | tr }}</h5>
+        <app-download-btn-list></app-download-btn-list>
+      </div>
     </div>
   </div>
 
-  <div class="card bg-dark p-2 pe-5" *ngIf="myUser?.isAdmin">
-    <div class="card-body">
-      <h5 class="card-title">{{ 'HOME_START_STATISTICS' | tr }}</h5>
-      <ul class="list-unstyled pt-2">
-        <li>Status: {{ status }}</li>
-        <li>
-          Ping: {{ responseTime }}ms <small placement="top" ngbTooltip="Last ping">({{ lastPing | date: 'HH:mm:ss zzz' }})</small>
-        </li>
-        <li>Backend time: {{ serverTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)':'UTC' }}</li>
-        <li>Backend version: {{ serverVersion }}</li>
-        <li>Backend info: {{ serverInfo }}</li>
-      </ul>
+  <div>
+    <div class="card bg-dark p-2 pe-5" *ngIf="myUser?.isAdmin">
+      <div class="card-body">
+        <h4 class="card-title">{{ 'HOME_START_STATISTICS' | tr }}</h4>
+        <ul class="list-unstyled py-2">
+          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+            Status: <span [class.text-success]="status === 'Online'" [class.text-danger]="status === 'Offline'">{{ status }}</span>
+          </li>
+          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+            Local time: <span>{{ localTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
+          </li>
+        </ul>
+
+        <h5>Backend</h5>
+        <ul class="list-unstyled" *ngIf="status === 'Online'">
+          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+            Time: <span>{{ serverTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)':'UTC' }}</span>
+          </li>
+          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+            Started: <span>{{ serverStartTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)':'UTC' }}</span>
+          </li>
+          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+            Uptime: <span>{{ localTime | timespan: serverStartTime }}</span>
+          </li>
+          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+            Version: <span>{{ serverVersion }}</span>
+          </li>
+          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+            Info: <span class="ms-md-5" style="white-space: nowrap">"{{ serverInfo }}"</span>
+          </li>
+          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+            Ping:
+            <span
+              >{{ responseTime }}ms <small placement="bottom" ngbTooltip="Last ping">({{ lastPing | date: 'HH:mm:ss' }}) </small></span
+            >
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

@@ -27,6 +27,7 @@ export interface JsonInfoResponse {
   readonly info: string;
   readonly version: string;
   readonly serverTime: DateAsString;
+  readonly serverStartTime: DateAsString;
 }
 
 export interface AllergenDto {

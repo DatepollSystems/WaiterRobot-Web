@@ -19,11 +19,13 @@ export class StartComponent extends AComponent implements OnDestroy {
   responseTime?: number;
   lastPing?: Date;
   status: 'Online' | 'Offline' = 'Online';
+  localTime = new Date();
+  serverStartTime?: string;
   serverTime?: string;
   serverVersion?: string;
   serverInfo?: string;
 
-  byPassLogginInterceptor = new ByPassInterceptorBuilder().logging().enable();
+  byPassLoggingInterceptor = new ByPassInterceptorBuilder().logging().enable();
 
   myUser?: MyUserModel;
 
@@ -34,20 +36,22 @@ export class StartComponent extends AComponent implements OnDestroy {
     this.type = EnvironmentHelper.getType();
 
     this.getPing();
-    this.responseFetchInterval = setInterval(() => this.getPing(), 1000 * 5);
+    this.responseFetchInterval = window.setInterval(() => this.getPing(), 1000 * 5);
 
     this.myUser = myUserService.getUser();
     this.autoUnsubscribe(myUserService.userChange.subscribe((user) => (this.myUser = user)));
   }
 
   getPing(): void {
+    this.localTime = new Date();
     const startMs = new Date().getTime();
-    this.httpClient.get<JsonInfoResponse>('/json', {context: this.byPassLogginInterceptor}).subscribe({
+    this.httpClient.get<JsonInfoResponse>('/json', {context: this.byPassLoggingInterceptor}).subscribe({
       next: (response: JsonInfoResponse) => {
         this.lastPing = new Date();
         this.responseTime = this.lastPing.getTime() - startMs;
         this.status = 'Online';
         this.serverTime = response.serverTime;
+        this.serverStartTime = response.serverStartTime;
         this.serverVersion = response.version;
         this.serverInfo = response.info;
       },
@@ -55,7 +59,7 @@ export class StartComponent extends AComponent implements OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.responseFetchInterval) {
       clearInterval(this.responseFetchInterval);
     }
