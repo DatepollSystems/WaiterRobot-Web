@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {ClipboardHelper} from 'dfx-helper';
 
 @Component({
@@ -18,9 +18,17 @@ import {ClipboardHelper} from 'dfx-helper';
           <ng-content select="[body]"></ng-content>
         </div>
         <div class="card-footer text-muted font-monospace text-break bg-transparent rounded-0 border-bottom-0 pt-4 pb-3">
-          {{ data }}
+          <span *ngIf="dataType === 'TEXT'">{{ data }}</span>
+          <a *ngIf="dataType === 'URL'" [href]="data" rel="noopener" target="_blank">{{ data }}</a>
           <div class="mt-2">
-            <button class="btn btn-sm btn-outline-primary ms-2" (click)="copy()">
+            <button
+              class="btn btn-sm btn-outline-primary ms-2"
+              (click)="copy(t)"
+              ngbTooltip="Copied!"
+              placement="left"
+              [autoClose]="false"
+              triggers="manual"
+              #t="ngbTooltip">
               {{ 'COPY' | tr }}
             </button>
             <button
@@ -42,15 +50,20 @@ import {ClipboardHelper} from 'dfx-helper';
   `,
 })
 export class AppQrCodeModalComponent {
+  @Input() dataType: 'URL' | 'TEXT' = 'URL';
   @Input() data: string | undefined;
   @Input() printTitle = 'QR-Code';
   @Input() showPrintButton = true;
 
   constructor(public activeModal: NgbActiveModal) {}
 
-  copy(): void {
+  copy(t: NgbTooltip): void {
     if (this.data) {
+      t.open();
       ClipboardHelper.copy(this.data);
+      setTimeout(() => {
+        t.close();
+      }, 1000);
     }
   }
 }

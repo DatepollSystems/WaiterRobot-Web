@@ -8,6 +8,7 @@ import {DfxTranslateModule} from 'dfx-translate';
 import {AppQrCodeModalModule} from '../_shared/app-qr-code-modal/app-qr-code-modal.module';
 
 import {IconsModule} from '../_shared/icons.module';
+import {OfflineModule} from '../_shared/offline.directive';
 import {FooterModule} from '../footer/footer.module';
 import {HomeRoutingModule} from './home-routing.module';
 
@@ -26,6 +27,7 @@ import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.componen
     NgbDropdownModule,
     HomeRoutingModule,
     AppQrCodeModalModule,
+    OfflineModule,
   ],
   exports: [HomeComponent],
 })

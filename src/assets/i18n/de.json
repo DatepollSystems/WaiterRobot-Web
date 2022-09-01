@@ -47,9 +47,12 @@
   "IGNORE": "Ignorieren",
   "ACTIVE": "Aktiv",
   "LAST_CONTACT": "Letzter Kontakt",
+  "WARNING": "Warnung",
 
   "REQUEST_ERROR_CLIENT": "Client fehler",
   "REQUEST_ERROR_SERVER": "Server fehler",
+
+  "OFFLINE": "Keine Verbindung zum Internet.",
 
   "DELETE_CONFIRMATION": "Lösch-Bestätigung",
 

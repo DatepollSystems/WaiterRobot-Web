@@ -1,5 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {StorageHelper} from 'dfx-helper';
 
 import {Subject} from 'rxjs';
 import {MyUserModel} from '../../_models/user/my-user.model';
@@ -18,20 +19,24 @@ export class MyUserService {
 
   public getUser(): MyUserModel | undefined {
     if (!this.loaded) {
-      this.loaded = true;
+      this.user = StorageHelper.getObject('myuser') as MyUserModel;
       this.fetchUser();
     }
     return this.user;
   }
 
   private fetchUser(): void {
-    this.httpClient.get('/user/myself').subscribe({
-      next: (data: any) => this.setUser(new MyUserModel(data as GetMyselfResponse)),
+    this.httpClient.get<GetMyselfResponse>('/user/myself').subscribe({
+      next: (data) => {
+        this.loaded = true;
+        this.setUser(new MyUserModel(data));
+      },
     });
   }
 
   public setUser(user: MyUserModel): void {
     this.user = user;
     this.userChange.next(this.user);
+    StorageHelper.set('myuser', this.user);
   }
 }

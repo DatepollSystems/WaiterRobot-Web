@@ -207,6 +207,10 @@
 </nav>
 
 <main class="container-fluid text-white bg-darker-5 pb-5">
+  <div class="alert alert-warning" role="alert" offline>
+    <b>{{ 'INFORMATION' | tr }}!</b> {{ 'OFFLINE' | tr }}
+  </div>
+
   <router-outlet></router-outlet>
 </main>
 
