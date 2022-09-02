@@ -48,6 +48,7 @@
   "ACTIVE": "Aktiv",
   "LAST_CONTACT": "Letzter Kontakt",
   "WARNING": "Warnung",
+  "SELECTED": "Ausgewählt",
 
   "REQUEST_ERROR_CLIENT": "Client fehler",
   "REQUEST_ERROR_SERVER": "Server fehler",
@@ -200,10 +201,13 @@
   "HOME_WAITERS_DELETE_CONFIRMATION": "Willst du wirklich diese Person löschen?",
 
   "HOME_TABLES": "Tische",
+  "HOME_TABLE": "Tisch",
   "HOME_TABLES_ADD": "Neuen Tisch anlegen",
   "HOME_TABLES_SEATS_INCORRECT": "*pflichtfeld",
   "HOME_TABLES_NUMBER_INCORRECT": "*pflichtfeld",
   "HOME_TABLES_GROUPS_DEFAULT": "Wähle eine Tischgruppe aus",
+  "HOME_TABLES_PRINT": "Ausdrücken",
+  "HOME_TABLE_GROUP": "Tischgruppe",
   "HOME_TABLE_GROUPS": "Tischgruppen",
   "HOME_TABLE_GROUPS_ADD": "Neue Tischgruppe anlegen",
   "HOME_TABLE_GROUP_NAME_INCORRECT": "Der Name muss aus mindestens 1 und maximal 60 Zeichen bestehen.",

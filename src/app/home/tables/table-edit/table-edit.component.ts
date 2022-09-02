@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {LoggerFactory} from 'dfx-helper';
+import {Converter, LoggerFactory, TypeHelper} from 'dfx-helper';
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
 
 import {EventModel} from '../../../_models/event.model';
@@ -54,6 +54,16 @@ export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
         this.tableGroups = tableGroups;
       })
     );
+
+    this.route.queryParams.subscribe((params) => {
+      const id = params.group;
+      if (id != null) {
+        if (TypeHelper.isNumeric(id)) {
+          this.selectedTableGroup = Converter.toNumber(id);
+          this.log.info('constructor', 'Selected table group: ' + id);
+        }
+      }
+    });
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {

@@ -28,6 +28,7 @@ import {
   qrCodeScan,
   router,
   save,
+  table,
   trash,
   union,
   upcScan,
@@ -66,6 +67,7 @@ const icons = {
   union,
   router,
   printer,
+  table,
 };
 
 @NgModule({

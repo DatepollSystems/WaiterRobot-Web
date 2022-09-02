@@ -1,3 +1,4 @@
+import {SelectionModel} from '@angular/cdk/collections';
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UntypedFormControl} from '@angular/forms';
 
@@ -23,6 +24,8 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntity<Str
   public entities: IList<EntityType> = new List();
   public entitiesLoaded = false;
 
+  public selection?: SelectionModel<EntityType>;
+
   protected constructor(protected modal: NgbModal, protected entitiesService: AEntityService<StringOrNumber, EntityType>) {
     super();
 
@@ -33,6 +36,11 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntity<Str
 
   ngOnInit(): void {
     this.initializeEntities();
+  }
+
+  protected setSelectable(): void {
+    this.columnsToDisplay.unshift('select');
+    this.selection = new SelectionModel<EntityType>(true, []);
   }
 
   protected onEntitiesLoaded(): void {}
@@ -76,5 +84,22 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntity<Str
         this.entitiesService.delete(modelId).subscribe();
       }
     });
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  public isAllSelected(): boolean {
+    const numSelected = this.selection!.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  public toggleAllRows(): void {
+    if (this.isAllSelected()) {
+      this.selection!.clear();
+      return;
+    }
+
+    this.selection!.select(...this.dataSource.data);
   }
 }

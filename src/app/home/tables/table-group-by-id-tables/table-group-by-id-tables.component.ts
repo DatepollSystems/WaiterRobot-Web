@@ -27,5 +27,7 @@ export class TableGroupByIdTablesComponent extends AbstractModelsListByIdCompone
     modal: NgbModal
   ) {
     super(router, route, modal, tablesService, tableGroupsService);
+
+    this.setSelectable();
   }
 }

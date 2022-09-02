@@ -7,12 +7,9 @@ import {Directive, HostBinding, HostListener} from '@angular/core';
   selector: '[offline]',
 })
 export class OfflineDirective {
-  @HostBinding('class')
-  get isOffline(): string {
-    if (!this._isOffline) {
-      return 'd-none';
-    }
-    return '';
+  @HostBinding('hidden')
+  get hidden(): boolean {
+    return !this._isOffline;
   }
 
   private _isOffline = false;

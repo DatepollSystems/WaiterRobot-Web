@@ -16,7 +16,7 @@ import {ProductsService} from '../../../_services/models/product/products.servic
   styleUrls: ['./product-group-by-id-products.component.scss'],
 })
 export class ProductGroupByIdProductsComponent extends AbstractModelsListByIdComponent<ProductModel, ProductGroupModel> {
-  override columnsToDisplay = ['name', 'price', 'printer', 'allergens', 'actions'];
+  override columnsToDisplay = ['name', 'price', 'soldOut', 'printer', 'allergens', 'actions'];
   override getAllParam = 'groupId';
 
   constructor(service: ProductsService, groupsService: ProductGroupsService, route: ActivatedRoute, router: Router, modal: NgbModal) {
