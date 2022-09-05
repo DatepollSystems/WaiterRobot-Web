@@ -15,6 +15,13 @@
   </div>
 
   <div>
+    <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection!.hasValue()" (click)="onDeleteSelected()">
+      <i-bs name="trash"></i-bs>
+      {{ 'DELETE' | tr }}
+    </button>
+  </div>
+
+  <div>
     <a routerLink="../../{{ entity?.id }}" class="btn btn-sm btn-outline-secondary" [class.disabled]="!selection!.hasValue()">
       <i-bs name="table"></i-bs>
       {{ 'HOME_TABLES_PRINT' | tr }}
@@ -29,7 +36,7 @@
 </div>
 
 <div [hidden]="!entitiesLoaded">
-  <form class="mt-2">
+  <form>
     <div class="input-group">
       <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
       <button
@@ -45,7 +52,8 @@
   </form>
 
   <div class="table-responsive">
-    <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort>
+    <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
+      >
       <ng-container ngbColumnDef="select">
         <th *ngbHeaderCellDef ngb-header-cell>
           <div class="form-check">

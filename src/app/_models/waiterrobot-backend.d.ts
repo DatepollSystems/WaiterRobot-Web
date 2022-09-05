@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.36.1070 on 2022-08-20 13:53:03.
+// Generated using typescript-generator version 2.36.1070 on 2022-09-05 21:32:35.
 
 export interface ErrorResponse {
   readonly message: string;
@@ -56,9 +56,9 @@ export interface UpdateAllergenDto {
 }
 
 export interface ISignInDto {
+  readonly stayLoggedIn: boolean;
   readonly authIdentifier: string;
   readonly sessionInformation: string;
-  readonly stayLoggedIn: boolean;
 }
 
 export interface ISignInWithPasswordChangeDto extends ISignInWithPasswordDto {
@@ -152,6 +152,11 @@ export interface CreateEventOrLocationDto {
   readonly organisationId: number;
 }
 
+export interface GetEventOrLocationMinResponse {
+  readonly id: number;
+  readonly name: string;
+}
+
 export interface GetEventOrLocationResponse {
   readonly id: number;
   readonly name: string;
@@ -173,6 +178,11 @@ export interface UpdateEventOrLocationDto {
   readonly city: string;
   readonly date?: DateAsString;
   readonly updateWaiterCreateToken?: boolean;
+}
+
+export interface FcmMessageDto {
+  readonly fcmToken: string;
+  readonly data: {[index: string]: string};
 }
 
 export interface GetMediatorResponse {
@@ -467,6 +477,11 @@ export interface DuplicateWaiterResponse {
   readonly waiters: IdAndNameResponse[];
 }
 
+export interface GetWaiterFcmTokenResponse {
+  readonly id: number;
+  readonly fcmToken: string;
+}
+
 export interface GetWaiterMinResponse {
   readonly id: number;
   readonly name: string;
@@ -487,7 +502,7 @@ export interface GetWaiterResponse {
   readonly activated: boolean;
   readonly deleted: boolean;
   readonly organisationId: number;
-  readonly events: number[];
+  readonly events: GetEventOrLocationMinResponse[];
 }
 
 export interface MergeWaiterDto {
@@ -501,6 +516,10 @@ export interface UpdateWaiterDto {
   readonly name: string;
   readonly eventIds: number[];
   readonly updateToken?: boolean;
+}
+
+export interface WaiterFcmTokenDto {
+  readonly fcmToken: string;
 }
 
 export interface WebSocketDto<T> {

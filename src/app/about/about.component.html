@@ -42,7 +42,7 @@
               </button>
 
               <div style="text-align: center; margin-top: 5px">
-                <a routerLink="/auth/signin">{{ 'ABOUT_SIGNIN_TROUBLE_LOGGING_IN' | tr }}</a>
+                <a (click)="onForgotPassword()" routerLink="/about">{{ 'ABOUT_SIGNIN_TROUBLE_LOGGING_IN' | tr }}</a>
               </div>
             </form>
           </div>

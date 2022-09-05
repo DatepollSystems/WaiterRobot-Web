@@ -111,14 +111,16 @@ export class HomeComponent extends AComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      if (window.innerWidth < 992) {
-        const navContent = document.getElementById('navbarSupportedContent');
-        if (navContent != null) {
-          navContent.style.display = 'none';
+    this.autoClear(
+      window.setTimeout(() => {
+        if (window.innerWidth < 992) {
+          const navContent = document.getElementById('navbarSupportedContent');
+          if (navContent != null) {
+            navContent.style.display = 'none';
+          }
         }
-      }
-    }, 1);
+      }, 1)
+    );
   }
 
   toggleNav(status: 'OPEN' | 'CLOSE' | undefined = undefined): void {

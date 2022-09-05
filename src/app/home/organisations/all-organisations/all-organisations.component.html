@@ -30,7 +30,7 @@
 </form>
 
 <div class="table-responsive" [hidden]="!entitiesLoaded">
-  <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort>
+  <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
     <ng-container ngbColumnDef="id">
       <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
       <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.id }}</td>
@@ -63,7 +63,7 @@
 
     <ng-container ngbColumnDef="countryCode">
       <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_COUNTRY_CODE' | tr }}</th>
-      <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.countryCode }}</td>
+      <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.countryCode | uppercase }}</td>
     </ng-container>
 
     <ng-container ngbColumnDef="actions">

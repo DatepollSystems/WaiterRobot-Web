@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Component, OnDestroy} from '@angular/core';
+import {Component} from '@angular/core';
 import {AComponent, BrowserHelper, ByPassInterceptorBuilder} from 'dfx-helper';
 import {EnvironmentHelper} from '../../_helper/EnvironmentHelper';
 import {MyUserModel} from '../../_models/user/my-user.model';
@@ -11,15 +11,13 @@ import {MyUserService} from '../../_services/auth/my-user.service';
   templateUrl: './start.component.html',
   styleUrls: ['./start.component.scss'],
 })
-export class StartComponent extends AComponent implements OnDestroy {
+export class StartComponent extends AComponent {
   isProduction = true;
   type: string;
 
   localTime = new Date();
-  localTimeInterval?: number;
   browserInfos: ReturnType<typeof BrowserHelper.infos>;
 
-  responseFetchInterval?: number;
   responseTime?: number;
   lastPing?: Date;
   refreshIn = 5;
@@ -36,14 +34,16 @@ export class StartComponent extends AComponent implements OnDestroy {
     this.isProduction = EnvironmentHelper.getProduction();
     this.type = EnvironmentHelper.getType();
 
-    this.localTimeInterval = window.setInterval(() => {
-      this.localTime = new Date();
-      this.refreshIn--;
-    }, 1000);
+    this.autoClearInterval(
+      window.setInterval(() => {
+        this.localTime = new Date();
+        this.refreshIn--;
+      }, 1000)
+    );
 
     this.getPing();
 
-    this.responseFetchInterval = window.setInterval(() => this.getPing(), 1000 * 5);
+    this.autoClearInterval(window.setInterval(() => this.getPing(), 1000 * 5));
 
     this.myUser = myUserService.getUser();
     this.autoUnsubscribe(myUserService.userChange.subscribe((user) => (this.myUser = user)));
@@ -64,10 +64,5 @@ export class StartComponent extends AComponent implements OnDestroy {
       },
       error: () => (this.status = 'Offline'),
     });
-  }
-
-  ngOnDestroy(): void {
-    window.clearInterval(this.responseFetchInterval);
-    window.clearInterval(this.localTimeInterval);
   }
 }

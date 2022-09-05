@@ -14,11 +14,13 @@ import {IconsModule} from '../_shared/icons.module';
 import {FooterModule} from '../footer/footer.module';
 
 import {AboutComponent} from './about.component';
+import {AppAccountNotActivatedDialog} from './account-not-activated-dialog.component';
+import {AppForgotPasswordDialog} from './forgot-password-dialog.component';
 
 const routes: Routes = [{path: '', component: AboutComponent, canActivate: [IsAuthenticatedGuardService]}];
 
 @NgModule({
-  declarations: [AboutComponent],
+  declarations: [AboutComponent, AppAccountNotActivatedDialog, AppForgotPasswordDialog],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,

@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-  <div class="container-fluid">
+  <div class="container-xxxl">
     <a class="navbar-brand" routerLink="/home" fxLayoutAlign="center center">
       <img id="brand" src="assets/logo.png" width="30" height="30" class="d-inline-block align-top ms-2" alt="Brand logo" />
 
@@ -188,7 +188,7 @@
 </nav>
 
 <nav class="navbar bg-dark navbar-dark pt-0 pb-2" *ngIf="selectedOrganisation">
-  <div class="container-fluid">
+  <div class="container-xxxl">
     <ul class="navbar-nav d-flex flex-row justify-content-sm-start" [class.justify-content-between]="selectedEvent" fxFill>
       <li class="nav-item mx-2" *ngIf="selectedEvent">
         <a class="nav-link" routerLink="tables" routerLinkActive="link-active">{{ 'NAV_TABLES' | tr }}</a>
@@ -211,7 +211,9 @@
     <b>{{ 'INFORMATION' | tr }}!</b> {{ 'OFFLINE' | tr }}
   </div>
 
-  <router-outlet></router-outlet>
+  <div class="container-xxxl">
+    <router-outlet></router-outlet>
+  </div>
 </main>
 
 <app-footer></app-footer>

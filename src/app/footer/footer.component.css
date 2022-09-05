@@ -3,14 +3,14 @@
   color: white;
 }
 
-#footerHeaderContainer {
-  padding: 18px 25px 15px 15px;
+.footerHeaderContainer {
+  padding-top: 18px;
+  padding-bottom: 15px;
 }
 
 #footerBarContainer {
   background-color: #455a64;
   padding-top: 18px;
-  padding-left: 15px;
   padding-bottom: 15px;
   color: rgba(255, 255, 255, 0.8);
 }
@@ -27,6 +27,7 @@ ul {
 
 li {
   color: white;
+  text-align: end;
 }
 
 li a {

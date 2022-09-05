@@ -22,6 +22,8 @@ export class AllTablesComponent extends AbstractModelsListComponent<TableModel> 
   constructor(protected entitiesService: TablesService, modal: NgbModal) {
     super(modal, entitiesService);
 
+    this.setSelectable();
+
     this.entitiesService.setSelectedEventGetAllUrl();
   }
 

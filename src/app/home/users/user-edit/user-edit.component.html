@@ -137,16 +137,25 @@
                 type="password"
                 id="password"
                 #passwordModel="ngModel"
+                [disabled]="!updatePassword && isEditing"
                 [minlength]="isEditing ? 0 : 6"
                 [required]="!isEditing"
                 name="password"
-                placeholder="{{ 'PASSWORD' | tr }}" />
-              <small *ngIf="!passwordModel.value || passwordModel.value?.length < 1" class="text-info">
-                Das Passwort wird nur geändert wenn das Feld befüllt ist
-              </small>
+                placeholder="*******" />
               <small *ngIf="passwordModel.invalid" class="text-danger">
                 {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
               </small>
+
+              <div class="form-check form-switch mt-2" *ngIf="isEditing">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="updatePassword"
+                  [(ngModel)]="updatePassword"
+                  [ngModelOptions]="{standalone: true}" />
+                <label class="form-check-label" for="updatePassword">Passwort ändern</label>
+              </div>
             </div>
           </div>
 
@@ -157,7 +166,7 @@
                 class="form-check-input"
                 type="checkbox"
                 id="isAdmin"
-                [ngModel]="isEditing ? entity?.isAdmin : null"
+                [ngModel]="isEditing ? entity?.isAdmin : false"
                 name="isAdmin" />
               <label class="form-check-label" for="isAdmin">
                 {{ 'HOME_USERS_ADMIN' | tr }}
@@ -170,7 +179,7 @@
                 class="form-check-input"
                 type="checkbox"
                 id="activated"
-                [ngModel]="isEditing ? entity?.activated : null"
+                [ngModel]="isEditing ? entity?.activated : false"
                 name="activated" />
               <label class="form-check-label" for="activated">
                 {{ 'HOME_USERS_ACTIVATED' | tr }}
@@ -183,8 +192,8 @@
                 class="form-check-input"
                 type="checkbox"
                 id="forcePasswordChange"
-                [ngModel]="isEditing ? entity?.forcePasswordChange : null"
-                name="force_password_change" />
+                [ngModel]="isEditing ? entity?.forcePasswordChange : false"
+                name="forcePasswordChange" />
               <label class="form-check-label" for="forcePasswordChange">
                 {{ 'HOME_USERS_FORCE_PASSWORD_CHANGE' | tr }}
               </label>

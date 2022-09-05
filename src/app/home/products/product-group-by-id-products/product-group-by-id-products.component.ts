@@ -21,5 +21,7 @@ export class ProductGroupByIdProductsComponent extends AbstractModelsListByIdCom
 
   constructor(service: ProductsService, groupsService: ProductGroupsService, route: ActivatedRoute, router: Router, modal: NgbModal) {
     super(router, route, modal, service, groupsService);
+
+    this.setSelectable();
   }
 }

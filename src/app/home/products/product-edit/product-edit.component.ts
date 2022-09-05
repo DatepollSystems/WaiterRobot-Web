@@ -10,6 +10,7 @@ import {
   IEntityWithName,
   IEntityWithNumberIDAndName,
   StringOrNumber,
+  TypeHelper,
 } from 'dfx-helper';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
@@ -68,6 +69,16 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
     printersService.setSelectedEventGetAllUrl();
     this.printers = printersService.getAll();
     this.autoUnsubscribe(printersService.allChange.subscribe((printers) => (this.printers = printers)));
+
+    route.queryParams.subscribe((params) => {
+      const id = params.group;
+      if (id != null) {
+        if (TypeHelper.isNumeric(id)) {
+          this.selectedProductGroup = Converter.toNumber(id);
+          this.lumber.info('constructor', 'Selected product group: ' + id);
+        }
+      }
+    });
   }
 
   selectedAllergens: IEntityList<AEntityWithNumberIDAndName> = new EntityList();

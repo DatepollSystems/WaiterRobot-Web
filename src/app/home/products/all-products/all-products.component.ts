@@ -22,6 +22,8 @@ export class AllProductsComponent extends AbstractModelsListComponent<ProductMod
   constructor(protected entitiesService: ProductsService, modal: NgbModal) {
     super(modal, entitiesService);
 
+    this.setSelectable();
+
     this.entitiesService.setSelectedEventGetAllUrl();
   }
 

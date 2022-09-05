@@ -2,7 +2,7 @@
   <h1 *ngIf="isEditing && entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
   <h1 *ngIf="!isEditing">{{ 'ADD_2' | tr }}</h1>
 
-  <div fxLayout="row break" fxLayoutGap="3% grid" fxLayoutGap.gt-md="1% grid">
+  <app-btn-toolbar>
     <div>
       <button class="btn btn-sm btn-dark text-white" (click)="onGoBack('/home/organisations/all')">
         {{ 'GO_BACK' | tr }}
@@ -39,7 +39,7 @@
         {{ 'ADD' | tr }}
       </button>
     </div>
-  </div>
+  </app-btn-toolbar>
 
   <form #form="ngForm" (ngSubmit)="onSave(form)">
     <ul
@@ -47,7 +47,7 @@
       #nav="ngbNav"
       [(activeId)]="activeTab"
       [destroyOnHide]="false"
-      class="nav-tabs mt-3 bg-dark"
+      class="nav-tabs bg-dark"
       (navChange)="setTabId($event.nextId)">
       <li [ngbNavItem]="1">
         <a ngbNavLink>Daten</a>

@@ -1,11 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {Router} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {UIHelper} from 'dfx-helper';
 import {JWTResponse} from '../_models/waiterrobot-backend';
 
 import {AuthService} from '../_services/auth/auth.service';
 import {NotificationService} from '../_services/notifications/notification.service';
+import {AppAccountNotActivatedDialog} from './account-not-activated-dialog.component';
+import {AppForgotPasswordDialog} from './forgot-password-dialog.component';
 
 @Component({
   selector: 'app-about',
@@ -13,7 +16,12 @@ import {NotificationService} from '../_services/notifications/notification.servi
   styleUrls: ['./about.component.scss'],
 })
 export class AboutComponent implements OnInit {
-  constructor(private authService: AuthService, private notificationService: NotificationService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private notificationService: NotificationService,
+    private router: Router,
+    private modal: NgbModal
+  ) {}
 
   ngOnInit(): void {
     if (UIHelper.getApproxCurrentDate().getMonth() === 5) {
@@ -21,6 +29,10 @@ export class AboutComponent implements OnInit {
     } else {
       document.getElementById('brand')?.classList.add('text-white');
     }
+  }
+
+  onForgotPassword(): void {
+    this.modal.open(AppForgotPasswordDialog);
   }
 
   onSignin(form: NgForm): void {
@@ -35,18 +47,14 @@ export class AboutComponent implements OnInit {
         void this.router.navigateByUrl(url);
       },
       error: (error) => {
-        console.log(error);
+        if (error?.error?.codeName === 'ACCOUNT_NOT_ACTIVATED') {
+          //|| error.error.error_code === 'change_password'
+          this.modal.open(AppAccountNotActivatedDialog);
 
-        // if (error.error.error_code != null) {
-        //   if (error.error.error_code === 'not_activated' || error.error.error_code === 'change_password') {
-        //     this.router.navigateByUrl('/auth/signin', {
-        //       state: {routingReason: 'forward', state: error.error.error_code, username, password},
-        //     });
-        //
-        //     return;
-        //   }
-        // }
-        // this.router.navigateByUrl('/auth/signin', {state: {routingReason: 'loginFailed', username, password}});
+          return;
+        }
+
+        this.notificationService.terror('ABOUT_SIGNIN_FAILED');
       },
     });
   }

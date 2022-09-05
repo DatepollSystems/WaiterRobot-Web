@@ -6,11 +6,13 @@ import {AbstractModelsListByIdComponent} from '../../../_helper/abstract-models-
 
 import {EventModel} from '../../../_models/event.model';
 import {WaiterModel} from '../../../_models/waiter/waiter.model';
+import {GetWaiterMinResponse} from '../../../_models/waiterrobot-backend';
 import {EventsService} from '../../../_services/models/events.service';
 
 import {WaitersService} from '../../../_services/models/waiter/waiters.service';
 
 import {WaiterCreateQRCodeModalComponent} from '../waiter-create-qr-code-modal.component';
+import {getEventsName} from '../waiters.module';
 
 @Component({
   selector: 'app-event-by-id-waiters',
@@ -18,11 +20,13 @@ import {WaiterCreateQRCodeModalComponent} from '../waiter-create-qr-code-modal.c
   styleUrls: ['./event-by-id-waiters.component.scss'],
 })
 export class EventByIdWaitersComponent extends AbstractModelsListByIdComponent<WaiterModel, EventModel> {
-  override columnsToDisplay = ['name', 'activated', 'actions'];
+  override columnsToDisplay = ['name', 'activated', 'events', 'actions'];
   override getAllParam = 'eventId';
 
   constructor(waitersService: WaitersService, eventsService: EventsService, route: ActivatedRoute, router: Router, modal: NgbModal) {
     super(router, route, modal, waitersService, eventsService);
+
+    this.setSelectable();
   }
 
   public openQRCode(event: EventModel | undefined): void {
@@ -38,4 +42,6 @@ export class EventByIdWaitersComponent extends AbstractModelsListByIdComponent<W
     modalRef.componentInstance.name = event.name;
     modalRef.componentInstance.token = event.waiterCreateToken;
   }
+
+  public getEventsName = (events: GetWaiterMinResponse[]) => getEventsName(events);
 }

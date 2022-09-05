@@ -14,6 +14,7 @@ import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar/app-btn-tool
 import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
 
 import {IconsModule} from '../../_shared/icons.module';
+import {QuestionDialogModule} from '../../_shared/question-dialog/question-dialog.module';
 import {AllTablesComponent} from './all-tables/all-tables.component';
 import {TableEditComponent} from './table-edit/table-edit.component';
 import {TableGroupByIdTablesComponent} from './table-group-by-id-tables/table-group-by-id-tables.component';
@@ -64,6 +65,7 @@ const routes: Routes = [
     IconsModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
+    QuestionDialogModule,
   ],
 })
 export class TablesModule {}

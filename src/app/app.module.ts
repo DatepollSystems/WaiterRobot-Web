@@ -5,8 +5,8 @@ import localeDeExtra from '@angular/common/locales/extra/de';
 import {LOCALE_ID, NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {BrowserModule} from '@angular/platform-browser';
-import {TitleStrategy} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {TitleStrategy} from '@angular/router';
 
 import {NgbDateAdapter, NgbDateParserFormatter, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {LoadingBarRouterModule} from '@ngx-loading-bar/router';
@@ -18,10 +18,10 @@ import {AuthInterceptor} from './_services/auth/auth-interceptor';
 import {CustomDateAdapter, CustomDateParserFormatter} from './_services/datepicker-adapter';
 import {ToastsContainerComponent} from './_services/notifications/toasts-container.component';
 import {WINDOW_PROVIDERS} from './_services/windows-provider';
-import {CustomTitleStrategy} from './custom-title.strategy';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
+import {CustomTitleStrategy} from './custom-title.strategy';
 
 @NgModule({
   declarations: [AppComponent, ToastsContainerComponent],
@@ -30,7 +30,7 @@ import {AppComponent} from './app.component';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FlexLayoutModule,
+    FlexLayoutModule, //.withConfig({disableDefaultBps: true}),
     NgbModule,
     DfxHelperModule.setup({baseUrl: EnvironmentHelper.getAPIUrl(), baseUrlInterceptorIgnorePaths: ['assets/i18n']}),
     DfxTranslateModule.setup({defaultLanguage: 'de'}),
@@ -68,6 +68,7 @@ import {AppComponent} from './app.component';
     },
     {provide: NgbDateAdapter, useClass: CustomDateAdapter},
     {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter},
+    //CUSTOM_BREAKPOINT_PROVIDER,
     WINDOW_PROVIDERS,
   ],
   bootstrap: [AppComponent],

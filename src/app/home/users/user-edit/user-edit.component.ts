@@ -16,6 +16,8 @@ import {UsersService} from '../../../_services/models/user/users.service';
 export class UserEditComponent extends AbstractModelEditComponent<UserModel> {
   override redirectUrl = '/home/users/all';
 
+  updatePassword = false;
+
   constructor(route: ActivatedRoute, router: Router, usersService: UsersService, modal: NgbModal) {
     super(router, route, modal, usersService);
   }
@@ -29,6 +31,10 @@ export class UserEditComponent extends AbstractModelEditComponent<UserModel> {
       this.lumber.info('addCustomAttribute', 'Model is user detected');
     }
     model.birthday = DateHelper.getFormatted(model.birthday as string);
+
+    if (!this.updatePassword && this.isEditing) {
+      model.password = null;
+    }
 
     return super.addCustomAttributesBeforeCreateAndUpdate(model);
   }

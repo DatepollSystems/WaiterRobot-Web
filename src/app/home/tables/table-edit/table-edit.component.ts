@@ -55,7 +55,7 @@ export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
       })
     );
 
-    this.route.queryParams.subscribe((params) => {
+    route.queryParams.subscribe((params) => {
       const id = params.group;
       if (id != null) {
         if (TypeHelper.isNumeric(id)) {

@@ -27,6 +27,10 @@ a.btn > img {
   vertical-align: -0.15em;
 }
 
+.cdk-cell {
+  vertical-align: middle;
+}
+
 .fake-dropdown-item {
   cursor: pointer;
   display: block;
@@ -89,6 +93,27 @@ a.btn > img {
 
 .card {
   background-color: #263238 !important;
+}
+
+.navbar > .container-xxxl {
+  display: flex;
+  flex-wrap: inherit;
+  align-items: center;
+  justify-content: space-between;
+}
+.container-xxxl {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  width: 100%;
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  margin-right: auto;
+  margin-left: auto;
+}
+@media (min-width: 1800px) {
+  .container-xxxl {
+    max-width: 1700px;
+  }
 }
 
 @-webkit-keyframes roll {

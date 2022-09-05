@@ -1,10 +1,20 @@
-<div fxLayout="row break" fxLayoutAlign="space-between center">
-  <h1>{{ 'HOME_PROD_ALL' | tr }}</h1>
-  <a routerLink="../create" class="btn btn-outline-success">
-    <i-bs name="plus-circle"></i-bs>
-    {{ 'ADD_2' | tr }}</a
-  >
-</div>
+<h1>{{ 'HOME_PROD_ALL' | tr }}</h1>
+
+<app-btn-toolbar>
+  <div>
+    <a routerLink="../create" class="btn btn-sm btn-outline-success">
+      <i-bs name="plus-circle"></i-bs>
+      {{ 'ADD_2' | tr }}</a
+    >
+  </div>
+
+  <div>
+    <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection!.hasValue()" (click)="onDeleteSelected()">
+      <i-bs name="trash"></i-bs>
+      {{ 'DELETE' | tr }}
+    </button>
+  </div>
+</app-btn-toolbar>
 
 <div class="spinner-row" *ngIf="!entitiesLoaded">
   <div class="spinner-border" role="status">
@@ -12,7 +22,7 @@
   </div>
 </div>
 
-<form class="mt-2" [hidden]="!entitiesLoaded">
+<form [hidden]="!entitiesLoaded">
   <div class="input-group">
     <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
     <button
@@ -28,7 +38,31 @@
 </form>
 
 <div class="table-responsive" [hidden]="!entitiesLoaded">
-  <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort>
+  <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="groupName" ngbSortDirection="asc">
+    <ng-container ngbColumnDef="select">
+      <th *ngbHeaderCellDef ngb-header-cell>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            name="checked"
+            (change)="$event ? toggleAllRows() : null"
+            [checked]="selection!.hasValue() && isAllSelected()" />
+        </div>
+      </th>
+      <td *ngbCellDef="let tableGroup" ngb-cell>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            name="checked"
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection!.toggle(tableGroup) : null"
+            [checked]="selection!.isSelected(tableGroup)" />
+        </div>
+      </td>
+    </ng-container>
+
     <ng-container ngbColumnDef="name">
       <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
       <td *ngbCellDef="let product" ngb-cell>{{ product.name }}</td>

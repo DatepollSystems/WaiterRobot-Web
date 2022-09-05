@@ -8,6 +8,7 @@ import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-
 import {DfxTrackByModule} from 'dfx-helper';
 
 import {DfxTranslateModule} from 'dfx-translate';
+import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
 import {AppQrCodeScannerModalModule} from '../../_shared/app-qr-code-scanner-modal/app-qr-code-scanner-modal.module';
 
@@ -52,6 +53,7 @@ const routes: Routes = [
     SelectableButtonModule,
     AppQrCodeScannerModalModule,
     AppEntitiesLayoutComponent,
+    AppBtnToolbarComponent,
   ],
 })
 export class OrganisationsModule {}

@@ -4,14 +4,14 @@ import {UntypedFormControl} from '@angular/forms';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgbPaginator, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
-import {AComponent, AEntityService, IEntity, IList, List, LoggerFactory, StringOrNumber} from 'dfx-helper';
+import {AComponent, AEntityService, IEntityWithName, IList, List, LoggerFactory, StringHelper, StringOrNumber} from 'dfx-helper';
 
 import {QuestionDialogComponent} from '../_shared/question-dialog/question-dialog.component';
 
 @Component({
   template: '',
 })
-export abstract class AbstractModelsListComponent<EntityType extends IEntity<StringOrNumber>> extends AComponent implements OnInit {
+export abstract class AbstractModelsListComponent<EntityType extends IEntityWithName<StringOrNumber>> extends AComponent implements OnInit {
   protected lumber = LoggerFactory.getLogger('AModelsListComponent');
 
   // Table stuff
@@ -58,6 +58,9 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntity<Str
     if (this.paginator) {
       this.dataSource.paginator = this.paginator;
     }
+    if (this.selection) {
+      this.selection = new SelectionModel<EntityType>(true, []);
+    }
     // Don't check because events waiters and org waiters use same list
     // if (this.entities.length > 0) {
     //   this.entitiesLoaded = true;
@@ -68,6 +71,9 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntity<Str
         this.onEntitiesLoaded();
         this.dataSource = new NgbTableDataSource<EntityType>(this.entities.clone());
         this.dataSource.sort = this.sort;
+        if (this.selection) {
+          this.selection = new SelectionModel<EntityType>(true, []);
+        }
         this.entitiesLoaded = true;
         this.lumber.info('initializeEntities', 'Entities refreshed', this.entities);
       })
@@ -79,9 +85,25 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntity<Str
     const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
     modalRef.componentInstance.title = 'DELETE_CONFIRMATION';
     void modalRef.result.then((result) => {
-      this.lumber.info('onDelete', 'Question dialog result:', result);
+      this.lumber.info('onDelete', 'Question dialog result:', result?.toString());
       if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
         this.entitiesService.delete(modelId).subscribe();
+      }
+    });
+  }
+
+  public onDeleteSelected(): void {
+    this.lumber.info('onDeleteSelected', 'Opening delete question dialog');
+    this.lumber.info('onDeleteSelected', 'Selected entities:', this.selection!.selected);
+    const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
+    modalRef.componentInstance.title = 'DELETE_ALL';
+    modalRef.componentInstance.info = StringHelper.getImploded(this.selection!.selected.map((it) => it.name));
+    void modalRef.result.then((result) => {
+      this.lumber.info('onDeleteSelected', 'Question dialog result:', result);
+      if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
+        for (const selected of this.selection!.selected) {
+          this.entitiesService.delete(selected.id).subscribe();
+        }
       }
     });
   }

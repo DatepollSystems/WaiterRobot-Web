@@ -65,6 +65,9 @@
   "ABOUT_SIGNIN_EMAIL_ADDRESS": "E-Mail Adresse",
   "ABOUT_SIGNIN_PASSWORD": "Passwort",
   "ABOUT_SIGNIN_SUCCESSFUL": "Erfolgreich angemeldet",
+  "ABOUT_SIGNIN_FAILED": "Anmelden fehlgeschlagen!",
+  "ABOUT_SIGNIN_FORGOT_PASSWORD": "Sollten Sie Ihr Passwort vergessen haben kontaktieren Sie die Impressum E-Mail Adresse.",
+  "ABOUT_SIGNIN_FAILED_ACCOUNT_NOT_ACTIVATED": "Ihr Account ist nicht aktiviert. Kontaktieren Sie die Impressum E-Mail Adresse wenn Sie glauben dass das ein Fehler ist.",
   "ABOUT_SIGNIN_TROUBLE_LOGGING_IN": "Probleme beim anmelden oder Passwort vergessen?",
   "ABOUT_APP_DISCOVER": "Mobile Apps fürs Personal",
   "ABOUT_APP_QR_CODE_MODAL_TITLE": "Store-Link für ",
@@ -164,6 +167,7 @@
   "HOME_USERS_EMAIL_INCORRECT": "E-Mail-Adresse inkorrekt.",
 
   "HOME_PROD_ALL": "Produkte",
+  "HOME_PROD": "Produkt",
   "HOME_PROD_GROUP": "Produktgruppen",
   "HOME_PROD_ADD": "Neues Produkt anlegen",
   "HOME_PROD_PRINTER_SELECT_DEFAULT": "Wähle einen Drucker aus",

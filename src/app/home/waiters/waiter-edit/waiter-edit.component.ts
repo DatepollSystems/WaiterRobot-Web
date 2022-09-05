@@ -76,7 +76,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     this.waiterSessionService.setGetAllWaiterId(waiter.id);
     const selected = [];
     for (const event of this.events) {
-      if (waiter.events.includes(event.id)) {
+      if (waiter.events.map((it) => it.id).includes(event.id)) {
         selected.push(event);
       }
     }
