@@ -11,6 +11,7 @@ build-release:
     - branches
   stage: build
   artifacts:
+    expire_in: 1 week
     paths:
       - dist/
   cache:
@@ -28,6 +29,7 @@ build-testing:
     - develop
   stage: build
   artifacts:
+    expire_in: 1 week
     paths:
       - dist/
   cache:
@@ -45,6 +47,7 @@ build-dev:
   only:
     - branches
   artifacts:
+    expire_in: 1 week
     paths:
       - dist/
   cache:
