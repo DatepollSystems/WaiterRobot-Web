@@ -5,7 +5,6 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
 import {SessionModel} from '../../../_models/session.model';
 import {UserSessionsService} from '../../../_services/models/user/user-sessions.service';
-import {QuestionDialogComponent} from '../../../_shared/question-dialog/question-dialog.component';
 
 @Component({
   selector: 'app-sessions',
@@ -13,22 +12,11 @@ import {QuestionDialogComponent} from '../../../_shared/question-dialog/question
   styleUrls: ['./sessions.component.scss'],
 })
 export class SessionsComponent extends AbstractModelsListComponent<SessionModel> {
-  override columnsToDisplay = ['name', 'registered_at', 'updated_at', 'actions'];
+  override columnsToDisplay = ['name', 'registeredAt', 'updatedAt', 'actions'];
 
   constructor(sessionsService: UserSessionsService, modal: NgbModal) {
     super(modal, sessionsService);
-  }
 
-  deleteAll(): void {
-    const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
-    modalRef.componentInstance.title = 'DELETE_CONFIRMATION';
-    void modalRef.result.then((result) => {
-      this.lumber.info('onDelete', 'Question dialog result:', result);
-      if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
-        for (const session of this.entities) {
-          this.entitiesService.delete(session.id).subscribe();
-        }
-      }
-    });
+    this.setSelectable();
   }
 }

@@ -1,5 +1,5 @@
 import {SelectionModel} from '@angular/cdk/collections';
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {UntypedFormControl} from '@angular/forms';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -11,13 +11,17 @@ import {QuestionDialogComponent} from '../_shared/question-dialog/question-dialo
 @Component({
   template: '',
 })
-export abstract class AbstractModelsListComponent<EntityType extends IEntityWithName<StringOrNumber>> extends AComponent implements OnInit {
+export abstract class AbstractModelsListComponent<EntityType extends IEntityWithName<StringOrNumber>>
+  extends AComponent
+  implements AfterViewInit
+{
   protected lumber = LoggerFactory.getLogger('AModelsListComponent');
 
   // Table stuff
   @ViewChild(NgbSort, {static: true}) sort: NgbSort | undefined;
   @ViewChild(NgbPaginator, {static: true}) paginator: NgbPaginator | undefined;
   protected abstract columnsToDisplay: string[];
+  protected sortingDataAccessors?: Map<string, (it: EntityType) => any>;
   public filter = new UntypedFormControl();
   public dataSource: NgbTableDataSource<EntityType> = new NgbTableDataSource();
 
@@ -34,7 +38,7 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
     });
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.initializeEntities();
   }
 
@@ -53,6 +57,16 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
     this.lumber.info('initializeEntities', 'Entities loaded', this.entities);
     this.dataSource = new NgbTableDataSource<EntityType>(this.entities.clone());
     if (this.sort) {
+      if (this.sortingDataAccessors) {
+        this.dataSource.sortingDataAccessor = (item, property) => {
+          const fun = this.sortingDataAccessors?.get(property);
+          if (!fun) {
+            // @ts-ignore
+            return item[property];
+          }
+          return fun(item);
+        };
+      }
       this.dataSource.sort = this.sort;
     }
     if (this.paginator) {
@@ -70,6 +84,16 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
         this.entities = value;
         this.onEntitiesLoaded();
         this.dataSource = new NgbTableDataSource<EntityType>(this.entities.clone());
+        if (this.sortingDataAccessors) {
+          this.dataSource.sortingDataAccessor = (item, property) => {
+            const fun = this.sortingDataAccessors?.get(property);
+            if (!fun) {
+              // @ts-ignore
+              return item[property];
+            }
+            return fun(item);
+          };
+        }
         this.dataSource.sort = this.sort;
         if (this.selection) {
           this.selection = new SelectionModel<EntityType>(true, []);
@@ -78,6 +102,13 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
         this.lumber.info('initializeEntities', 'Entities refreshed', this.entities);
       })
     );
+  }
+
+  public onDeleteAll(): void {
+    if (!this.isAllSelected()) {
+      this.toggleAllRows();
+    }
+    this.onDeleteSelected();
   }
 
   public onDelete(modelId: number): void {

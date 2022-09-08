@@ -16,5 +16,7 @@ export class ProductGroupsComponent extends AbstractModelsListComponent<ProductG
 
   constructor(groups: ProductGroupsService, modal: NgbModal) {
     super(modal, groups);
+
+    this.setSelectable();
   }
 }

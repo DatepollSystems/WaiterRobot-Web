@@ -7,6 +7,7 @@ import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {catchError, filter, switchMap, take} from 'rxjs/operators';
 import {EnvironmentHelper} from '../../_helper/EnvironmentHelper';
 import {JWTResponse} from '../../_models/waiterrobot-backend';
+import {NotificationService} from '../notifications/notification.service';
 
 import {AuthService} from './auth.service';
 
@@ -14,7 +15,12 @@ import {AuthService} from './auth.service';
 export class AuthInterceptor implements HttpInterceptor {
   private lumber = LoggerFactory.getLogger('AuthInterceptor');
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService,
+    private notificationService: NotificationService
+  ) {}
 
   /**
    * Don't intercept this requests
@@ -100,6 +106,9 @@ export class AuthInterceptor implements HttpInterceptor {
         catchError(() => {
           this.lumber.error('handle401Error', 'Could not refresh jwt token with session token');
           if (EnvironmentHelper.getType() === 'prod') {
+            this.notificationService.warning(
+              'Normally you would have been logged out because something did not work during the session refresh. But for debugging purposes nothing happened!'
+            );
             this.authService.clearStorage();
             window.location.reload();
           }

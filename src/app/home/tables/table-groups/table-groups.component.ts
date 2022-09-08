@@ -16,5 +16,7 @@ export class TableGroupsComponent extends AbstractModelsListComponent<TableGroup
 
   constructor(tableGroupsService: TableGroupsService, modal: NgbModal) {
     super(modal, tableGroupsService);
+
+    this.setSelectable();
   }
 }

@@ -14,7 +14,7 @@ import {QuestionDialogComponent} from '../../../../_shared/question-dialog/quest
   styles: [],
 })
 export class WaiterSessionsComponent extends AbstractModelsListComponent<SessionModel> {
-  override columnsToDisplay = ['name', 'registered_at', 'updated_at', 'actions'];
+  override columnsToDisplay = ['name', 'registeredAt', 'updatedAt', 'actions'];
 
   constructor(sessionsService: WaiterSessionsService, modal: NgbModal) {
     super(modal, sessionsService);
