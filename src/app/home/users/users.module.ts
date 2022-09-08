@@ -7,6 +7,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {NgbDatepickerModule, NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTranslateModule} from 'dfx-translate';
+import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
 
 import {IconsModule} from '../../_shared/icons.module';
@@ -43,6 +44,7 @@ const routes: Routes = [
     IconsModule,
     NgbDatepickerModule,
     AppEntitiesLayoutComponent,
+    AppBtnToolbarComponent,
   ],
 })
 export class UsersModule {}

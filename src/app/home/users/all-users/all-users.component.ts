@@ -16,5 +16,6 @@ export class AllUsersComponent extends AbstractModelsListComponent<UserModel> {
 
   constructor(usersService: UsersService, modal: NgbModal) {
     super(modal, usersService);
+    this.setSelectable();
   }
 }

@@ -9,6 +9,7 @@ import {DfxTrackByModule} from 'dfx-helper';
 
 import {DfxTranslateModule} from 'dfx-translate';
 import {OrganisationSelectedGuard} from '../../_services/guards/organisation-selected-guard.service';
+import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
 
 import {IconsModule} from '../../_shared/icons.module';
@@ -48,6 +49,7 @@ const startRoutes: Routes = [
     DfxSortModule,
     DfxTrackByModule,
     AppEntitiesLayoutComponent,
+    AppBtnToolbarComponent,
   ],
 })
 export class PrintersModule {}

@@ -12,9 +12,7 @@ import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
       <p *ngIf="question">
         <strong>{{ question | tr }}</strong>
       </p>
-      <p *ngIf="info">
-        {{ info }}
-      </p>
+      <div *ngIf="info" [innerHTML]="info"></div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark" ngbAutofocus (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>

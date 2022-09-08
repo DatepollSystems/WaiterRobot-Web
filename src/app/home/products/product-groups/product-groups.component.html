@@ -21,7 +21,7 @@
   </div>
 </div>
 
-<form class="mt-2" [hidden]="!entitiesLoaded">
+<form [hidden]="!entitiesLoaded">
   <div class="input-group">
     <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
     <button

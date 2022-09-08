@@ -1,13 +1,13 @@
-<div fxLayout="row break" fxLayoutAlign="space-between center" [hidden]="!entitiesLoaded">
-  <h1>{{ entity?.name }} {{ 'NAV_PRINTERS' | tr }}</h1>
+<h1>{{ entity?.name }} {{ 'NAV_PRINTERS' | tr }}</h1>
 
+<app-btn-toolbar>
   <div>
-    <a routerLink="../../create" class="btn btn-outline-success m-1">
+    <a routerLink="../../create" class="btn btn-sm btn-outline-success m-1">
       <i-bs name="plus-circle"></i-bs>
       {{ 'ADD_2' | tr }}</a
     >
   </div>
-</div>
+</app-btn-toolbar>
 
 <div class="spinner-row" *ngIf="!entitiesLoaded">
   <div class="spinner-border" role="status">
@@ -16,7 +16,7 @@
 </div>
 
 <div [hidden]="!entitiesLoaded">
-  <form class="mt-2">
+  <form>
     <div class="input-group">
       <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
       <button

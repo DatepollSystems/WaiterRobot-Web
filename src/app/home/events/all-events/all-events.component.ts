@@ -23,6 +23,8 @@ export class AllEventsComponent extends AbstractModelsListComponent<EventModel> 
   constructor(modal: NgbModal, private myUserService: MyUserService, public eventsService: EventsService) {
     super(modal, eventsService);
 
+    this.setSelectable();
+
     this.myUser = this.myUserService.getUser();
     this.autoUnsubscribe(
       this.myUserService.userChange.subscribe((user) => {

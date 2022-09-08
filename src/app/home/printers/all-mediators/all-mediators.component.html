@@ -1,6 +1,4 @@
-<div fxLayout="row break" fxLayoutAlign="space-between center">
-  <h1>{{ 'HOME_PRINTER_NAV_MEDIATOR' | tr }}</h1>
-</div>
+<h1>{{ 'HOME_PRINTER_NAV_MEDIATOR' | tr }}</h1>
 
 <div class="spinner-row" *ngIf="!entitiesLoaded">
   <div class="spinner-border" role="status">
@@ -8,7 +6,7 @@
   </div>
 </div>
 
-<form class="mt-2" [hidden]="!entitiesLoaded">
+<form [hidden]="!entitiesLoaded">
   <div class="input-group">
     <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
     <button

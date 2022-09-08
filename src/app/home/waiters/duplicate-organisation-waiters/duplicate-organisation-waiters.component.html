@@ -1,6 +1,4 @@
-<div fxLayout="row break" fxLayoutAlign="space-between center">
-  <h1>{{ 'HOME_WAITERS_DUPLICATES' | tr }} {{ selectedDuplicateWaiter ? selectedDuplicateWaiter.name : duplicateWaiter?.name }}</h1>
-</div>
+<h1>{{ 'HOME_WAITERS_DUPLICATES' | tr }} {{ selectedDuplicateWaiter ? selectedDuplicateWaiter.name : duplicateWaiter?.name }}</h1>
 
 <div class="spinner-row" *ngIf="!entitiesLoaded">
   <div class="spinner-border" role="status">
@@ -9,7 +7,7 @@
 </div>
 
 <div [hidden]="!entitiesLoaded || duplicateWaiter !== undefined">
-  <form class="mt-2">
+  <form>
     <div class="input-group">
       <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
       <button

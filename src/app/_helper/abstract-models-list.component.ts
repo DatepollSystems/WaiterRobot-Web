@@ -128,7 +128,11 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
     this.lumber.info('onDeleteSelected', 'Selected entities:', this.selection!.selected);
     const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
     modalRef.componentInstance.title = 'DELETE_ALL';
-    modalRef.componentInstance.info = StringHelper.getImploded(this.selection!.selected.map((it) => it.name));
+    modalRef.componentInstance.info = `<ol><li>${StringHelper.getImploded(
+      this.selection!.selected.map((it) => it.name),
+      undefined,
+      '</li><li>'
+    )}</li></ol>`;
     void modalRef.result.then((result) => {
       this.lumber.info('onDeleteSelected', 'Question dialog result:', result);
       if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {

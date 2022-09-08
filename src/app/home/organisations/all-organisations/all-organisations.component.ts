@@ -28,6 +28,7 @@ export class AllOrganisationsComponent extends AbstractModelsListComponent<Organ
     private eventsService: EventsService
   ) {
     super(modal, organisationsService);
+    this.setSelectable();
 
     this.myUser = this.myUserService.getUser();
     this.autoUnsubscribe(
