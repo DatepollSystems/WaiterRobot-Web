@@ -31,9 +31,9 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <div class="d-flex flex-column flex-md-row justify-content-md-between" fxFill>
+      <div class="d-flex flex-column flex-md-row justify-content-md-between" fxFill [class.container-xxxl]="isMobile">
         <div>
-          <ul class="navbar-nav">
+          <ul class="navbar-nav" [class.mobile-background-0]="isMobile">
             <li fxLayoutAlign="start center" *ngIf="!isMobile">
               <div
                 style="font-size: 12px"
@@ -43,7 +43,7 @@
                 <span *ngIf="environmentType === 'dev'">DEV</span>
                 <span *ngIf="environmentType === 'testing'">TESTING</span>
               </div>
-              <div style="font-size: 12px" *ngIf="myUser?.isAdmin" class="badge bg-danger text-dark ms-3 me-1 not-selectable">
+              <div style="font-size: 12px" *ngIf="myUser?.isAdmin" class="badge bg-danger text-dark ms-1 me-1 not-selectable">
                 <span>ADMIN</span>
               </div>
             </li>
@@ -129,7 +129,7 @@
         </div>
 
         <div>
-          <ul class="navbar-nav">
+          <ul class="navbar-nav" [class.mobile-background-1]="isMobile">
             <li class="nav-item" *ngIf="myUser?.isAdmin">
               <div ngbDropdown display="dynamic">
                 <a class="nav-link" id="adminDropDown" ngbDropdownToggle> {{ 'NAV_INSTANCE_ADMINISTRATION' | tr }}</a>
@@ -189,7 +189,11 @@
 
 <nav class="navbar bg-dark navbar-dark pt-0 pb-2" *ngIf="selectedOrganisation">
   <div class="container-xxxl">
-    <ul class="navbar-nav d-flex flex-row justify-content-sm-start" [class.justify-content-between]="selectedEvent" fxFill>
+    <ul
+      class="navbar-nav d-flex flex-row justify-content-sm-start"
+      [class.justify-content-between]="selectedEvent"
+      fxFill
+      [class.container-xxxl]="isMobile">
       <li class="nav-item mx-2" *ngIf="selectedEvent">
         <a class="nav-link" routerLink="tables" routerLinkActive="link-active">{{ 'NAV_TABLES' | tr }}</a>
       </li>

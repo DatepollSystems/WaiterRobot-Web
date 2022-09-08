@@ -32,7 +32,11 @@ import {CustomTitleStrategy} from './custom-title.strategy';
     HttpClientModule,
     FlexLayoutModule, //.withConfig({disableDefaultBps: true}),
     NgbModule,
-    DfxHelperModule.setup({baseUrl: EnvironmentHelper.getAPIUrl(), baseUrlInterceptorIgnorePaths: ['assets/i18n']}),
+    DfxHelperModule.setup({
+      isMobileBreakpoint: 767,
+      baseUrl: EnvironmentHelper.getAPIUrl(),
+      baseUrlInterceptorIgnorePaths: ['assets/i18n'],
+    }),
     DfxTranslateModule.setup({defaultLanguage: 'de'}),
     DfxTrackByModule,
     LoadingBarRouterModule,
