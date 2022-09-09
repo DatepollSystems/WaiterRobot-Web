@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Component} from '@angular/core';
-import {AComponent, BrowserHelper, ByPassInterceptorBuilder} from 'dfx-helper';
+import {AComponent, BrowserHelper, BrowserInfo, ByPassInterceptorBuilder} from 'dfx-helper';
 import {EnvironmentHelper} from '../../_helper/EnvironmentHelper';
 import {MyUserModel} from '../../_models/user/my-user.model';
 import {JsonInfoResponse} from '../../_models/waiterrobot-backend';
@@ -16,7 +16,7 @@ export class StartComponent extends AComponent {
   type: string;
 
   localTime = new Date();
-  browserInfos: ReturnType<typeof BrowserHelper.infos>;
+  browserInfos: BrowserInfo;
 
   responseTime?: number;
   lastPing?: Date;

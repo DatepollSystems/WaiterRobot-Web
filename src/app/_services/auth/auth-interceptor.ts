@@ -106,11 +106,13 @@ export class AuthInterceptor implements HttpInterceptor {
         catchError(() => {
           this.lumber.error('handle401Error', 'Could not refresh jwt token with session token');
           if (EnvironmentHelper.getType() === 'prod') {
-            this.notificationService.warning(
-              'Normally you would have been logged out because something did not work during the session refresh. But for debugging purposes nothing happened!'
-            );
             this.authService.clearStorage();
             window.location.reload();
+          } else {
+            this.notificationService.warning(
+              'Something did not work out during the session refresh! Normally you would have been logged out and the window would have been force complete refreshed but for debugging purposes nothing happened!',
+              25 * 1000
+            );
           }
 
           return next.handle(request);

@@ -24,8 +24,8 @@ export class NotificationService {
     this.success(this.translator.translate(translationKey));
   }
 
-  warning(str: string): void {
-    this.show(str, {classname: 'bg-warning text-dark', delay: this.delay});
+  warning(str: string, delay?: number): void {
+    this.show(str, {classname: 'bg-warning text-dark', delay: delay ?? this.delay});
   }
 
   twarning(translationKey: string): void {

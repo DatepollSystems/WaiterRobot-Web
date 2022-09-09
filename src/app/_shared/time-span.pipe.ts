@@ -1,5 +1,5 @@
 import {NgModule, Pipe, PipeTransform} from '@angular/core';
-import {RememberResult, TypeHelper} from 'dfx-helper';
+import {TypeHelper} from 'dfx-helper';
 
 @Pipe({
   name: 'timespan',
