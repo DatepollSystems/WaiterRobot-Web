@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
@@ -21,7 +21,7 @@ import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.componen
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent extends AComponent implements OnInit {
+export class HomeComponent extends AComponent implements OnInit, AfterViewInit {
   environmentType = 'prod';
   showEnvironmentType = true;
   lumber = LoggerFactory.getLogger('HomeComponent');
@@ -121,6 +121,36 @@ export class HomeComponent extends AComponent implements OnInit {
         }
       }, 1)
     );
+  }
+
+  ngAfterViewInit(): void {
+    const slider = document.getElementById('overflow-container');
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+
+    if (!slider) {
+      return;
+    }
+
+    slider.addEventListener('mousedown', (e: MouseEvent) => {
+      isDown = true;
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeft = slider.scrollLeft;
+    });
+    slider.addEventListener('mouseleave', () => {
+      isDown = false;
+    });
+    slider.addEventListener('mouseup', () => {
+      isDown = false;
+    });
+    slider.addEventListener('mousemove', (e: MouseEvent) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = x - startX; // * 2 scroll-fast
+      slider.scrollLeft = scrollLeft - walk;
+    });
   }
 
   toggleNav(status: 'OPEN' | 'CLOSE' | undefined = undefined): void {
