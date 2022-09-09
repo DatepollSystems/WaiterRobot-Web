@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.36.1070 on 2022-09-05 21:32:35.
+// Generated using typescript-generator version 2.36.1070 on 2022-09-09 16:36:09.
 
 export interface ErrorResponse {
   readonly message: string;
@@ -56,9 +56,9 @@ export interface UpdateAllergenDto {
 }
 
 export interface ISignInDto {
-  readonly stayLoggedIn: boolean;
   readonly authIdentifier: string;
   readonly sessionInformation: string;
+  readonly stayLoggedIn: boolean;
 }
 
 export interface ISignInWithPasswordChangeDto extends ISignInWithPasswordDto {
@@ -201,7 +201,19 @@ export interface CreateOrderDto {
 
 export interface CreateOrderProductDto {
   readonly id: number;
+  readonly note?: string;
   readonly amount: number;
+}
+
+export interface GetOrderResponse {
+  readonly id: number;
+  readonly orderId: number;
+  readonly table: GetTableMinResponse;
+  readonly product: GetProductMinResponse;
+  readonly waiter: GetWaiterMinResponse;
+  readonly note?: string;
+  readonly amount: number;
+  readonly printState: PrintState;
 }
 
 export interface OrderDto {
@@ -393,6 +405,11 @@ export interface GetTableGroupResponse {
   readonly eventId: number;
 }
 
+export interface GetTableMinResponse {
+  readonly id: number;
+  readonly number: number;
+}
+
 export interface GetTableResponse {
   readonly id: number;
   readonly number: number;
@@ -540,6 +557,8 @@ export interface RegisterMediatorDto {
 export interface Mergeable<T> {}
 
 export type DateAsString = string;
+
+export type PrintState = 'PRINTED' | 'SENT_TO_PRINT' | 'BLOCKED' | 'IN_QUEUE';
 
 export type UserOrganisationRole = 'ADMIN' | 'MEMBER';
 
