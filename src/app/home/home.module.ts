@@ -1,3 +1,4 @@
+import {DragDropModule} from '@angular/cdk/drag-drop';
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -10,6 +11,7 @@ import {AppQrCodeModalModule} from '../_shared/app-qr-code-modal/app-qr-code-mod
 import {IconsModule} from '../_shared/icons.module';
 import {OfflineModule} from '../_shared/offline.directive';
 import {FooterModule} from '../footer/footer.module';
+import {AppNavbarScrollableComponent} from './app-navbar-scrollable/app-navbar-scrollable.component';
 import {HomeRoutingModule} from './home-routing.module';
 
 import {HomeComponent} from './home.component';
@@ -28,6 +30,8 @@ import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.componen
     HomeRoutingModule,
     AppQrCodeModalModule,
     OfflineModule,
+    DragDropModule,
+    AppNavbarScrollableComponent,
   ],
   exports: [HomeComponent],
 })

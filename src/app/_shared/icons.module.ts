@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {
   apple,
+  arrowClockwise,
   bagFill,
   boxArrowLeft,
   building,
@@ -16,6 +17,7 @@ import {
   gearWideConnected,
   google,
   NgxBootstrapIconsModule,
+  pencilFill,
   pencilSquare,
   people,
   peopleFill,
@@ -68,6 +70,8 @@ const icons = {
   router,
   printer,
   table,
+  pencilFill,
+  arrowClockwise,
 };
 
 @NgModule({

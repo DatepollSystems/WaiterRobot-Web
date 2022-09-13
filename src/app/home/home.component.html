@@ -187,32 +187,11 @@
   </div>
 </nav>
 
-<nav class="navbar bg-dark navbar-dark pt-0 pb-2" *ngIf="selectedOrganisation">
-  <div class="container-xxxl">
-    <ul
-      id="overflow-container"
-      class="navbar-nav d-flex flex-row justify-content-sm-start overflow-auto user-select-none"
-      [class.justify-content-between]="selectedEvent"
-      fxFill
-      [class.container-xxxl]="isMobile">
-      <li class="nav-item mx-3" *ngIf="selectedEvent">
-        <a class="nav-link" draggable="false" routerLink="tables" routerLinkActive="link-active">{{ 'NAV_TABLES' | tr }}</a>
-      </li>
-      <li class="nav-item mx-3" *ngIf="selectedEvent">
-        <a class="nav-link" draggable="false" routerLink="products" routerLinkActive="link-active">{{ 'NAV_PRODUCTS' | tr }}</a>
-      </li>
-      <li class="nav-item mx-3" *ngIf="myUser?.isAdmin">
-        <a class="nav-link" draggable="false" routerLink="printers" routerLinkActive="link-active">{{ 'NAV_PRINTERS' | tr }}</a>
-      </li>
-      <li class="nav-item mx-3">
-        <a class="nav-link" draggable="false" routerLink="waiters" routerLinkActive="link-active">{{ 'NAV_WAITERS' | tr }}</a>
-      </li>
-      <li class="nav-item mx-3">
-        <a class="nav-link" draggable="false" routerLink="orders" routerLinkActive="link-active">{{ 'NAV_ORDERS' | tr }}</a>
-      </li>
-    </ul>
-  </div>
-</nav>
+<app-navbar-scrollable
+  [justifyContentBetween]="!!selectedEvent"
+  [isMobile]="isMobile"
+  [items]="navItems"
+  *ngIf="selectedOrganisation"></app-navbar-scrollable>
 
 <main class="container-fluid text-white bg-darker-5 pb-5">
   <div class="alert alert-warning" role="alert" offline>

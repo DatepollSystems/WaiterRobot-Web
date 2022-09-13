@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
@@ -14,6 +14,7 @@ import {AuthService} from '../_services/auth/auth.service';
 import {MyUserService} from '../_services/auth/my-user.service';
 import {EventsService} from '../_services/models/events.service';
 import {OrganisationsService} from '../_services/models/organisation/organisations.service';
+import {NavItem} from './app-navbar-scrollable/app-navbar-scrollable.component';
 import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.component';
 
 @Component({
@@ -21,7 +22,7 @@ import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.componen
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent extends AComponent implements OnInit, AfterViewInit {
+export class HomeComponent extends AComponent implements OnInit {
   environmentType = 'prod';
   showEnvironmentType = true;
   lumber = LoggerFactory.getLogger('HomeComponent');
@@ -34,6 +35,8 @@ export class HomeComponent extends AComponent implements OnInit, AfterViewInit {
   allEvents: EventModel[] = [];
 
   isMobile = false;
+
+  navItems!: NavItem[];
 
   constructor(
     router: Router,
@@ -62,6 +65,7 @@ export class HomeComponent extends AComponent implements OnInit, AfterViewInit {
         if (this.myUser.isAdmin) {
           this.lumber.info('const', 'Admin status detected');
         }
+        this.setNavItems();
       })
     );
 
@@ -70,6 +74,7 @@ export class HomeComponent extends AComponent implements OnInit, AfterViewInit {
       this.organisationsService.selectedChange.subscribe((value) => {
         this.selectedOrganisation = value;
         this.onEventInit();
+        this.setNavItems();
       })
     );
 
@@ -87,6 +92,8 @@ export class HomeComponent extends AComponent implements OnInit, AfterViewInit {
         this.toggleNav('CLOSE');
       }
     });
+
+    this.setNavItems();
   }
 
   onEventInit(): void {
@@ -102,6 +109,7 @@ export class HomeComponent extends AComponent implements OnInit, AfterViewInit {
       this.autoUnsubscribe(
         this.eventsService.selectedChange.subscribe((event) => {
           this.selectedEvent = event;
+          this.setNavItems();
         })
       );
     } else {
@@ -123,34 +131,14 @@ export class HomeComponent extends AComponent implements OnInit, AfterViewInit {
     );
   }
 
-  ngAfterViewInit(): void {
-    const slider = document.getElementById('overflow-container');
-    let isDown = false;
-    let startX = 0;
-    let scrollLeft = 0;
-
-    if (!slider) {
-      return;
-    }
-
-    slider.addEventListener('mousedown', (e: MouseEvent) => {
-      isDown = true;
-      startX = e.pageX - slider.offsetLeft;
-      scrollLeft = slider.scrollLeft;
-    });
-    slider.addEventListener('mouseleave', () => {
-      isDown = false;
-    });
-    slider.addEventListener('mouseup', () => {
-      isDown = false;
-    });
-    slider.addEventListener('mousemove', (e: MouseEvent) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - slider.offsetLeft;
-      const walk = x - startX; // * 2 scroll-fast
-      slider.scrollLeft = scrollLeft - walk;
-    });
+  setNavItems(): void {
+    this.navItems = [
+      {text: 'NAV_TABLES', routerLink: 'tables', show: !!this.selectedEvent},
+      {text: 'NAV_PRODUCTS', routerLink: 'products', show: !!this.selectedEvent},
+      {text: 'NAV_PRINTERS', routerLink: 'printers', show: !!this.myUser?.isAdmin},
+      {text: 'NAV_WAITERS', routerLink: 'waiters', show: true},
+      {text: 'NAV_ORDERS', routerLink: 'orders', show: true},
+    ];
   }
 
   toggleNav(status: 'OPEN' | 'CLOSE' | undefined = undefined): void {

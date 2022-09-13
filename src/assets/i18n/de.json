@@ -20,6 +20,7 @@
   "SEARCH": "Suchen",
   "CLEAR": "Löschen",
   "CLEAR_SELECTION": "Auswahl entfernen",
+  "RESET": "Zurücksetzen",
   "EMAIL": "E-Mail-Adresse",
   "FIRSTNAME": "Vorname",
   "SURNAME": "Nachname",
@@ -98,6 +99,7 @@
   "LANGUAGE_PORTUGUES": "Portugués",
 
   "NAV_EDIT": "(bearbeiten)",
+  "NAV_EDIT_CUSTOMIZE": "Bearbeite deine Navigationsleiste",
   "NAV_USER_SETTINGS_WELCOME": "Hallo",
   "NAV_USER_SETTINGS_QR_CODE_INFO": "Der QR-Code kann von Organisations Administratoren benutzt werden um dich hinzu zu fügen.",
   "NAV_USER_SETTINGS_ADMIN": "(admin mode)",
