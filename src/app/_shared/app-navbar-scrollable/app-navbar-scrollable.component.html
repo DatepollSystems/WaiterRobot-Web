@@ -51,8 +51,16 @@
           </button>
         </div>
       </app-btn-toolbar>
-      <div cdkDropList class="list" (cdkDropListDropped)="drop($event)">
-        <div class="box" *ngFor="let item of _itemsCopy" cdkDrag>{{ item.text | tr }}</div>
+      <div
+        class="list"
+        [class.h-list]="!_isMobile"
+        [class.v-list]="_isMobile"
+        cdkDropList
+        [cdkDropListOrientation]="_isMobile ? 'vertical' : 'horizontal'"
+        (cdkDropListDropped)="drop($event)">
+        <div class="box" [class.h-box]="!_isMobile" [class.v-box]="_isMobile" *ngFor="let item of _itemsCopy" cdkDrag>
+          {{ item.text | tr }}
+        </div>
       </div>
     </div>
   </div>
