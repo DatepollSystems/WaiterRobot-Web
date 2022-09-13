@@ -16,6 +16,7 @@ import {
   gear,
   gearWideConnected,
   google,
+  listUl,
   NgxBootstrapIconsModule,
   pencilFill,
   pencilSquare,
@@ -72,6 +73,7 @@ const icons = {
   table,
   pencilFill,
   arrowClockwise,
+  listUl,
 };
 
 @NgModule({

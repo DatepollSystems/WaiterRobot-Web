@@ -226,5 +226,7 @@
   "HOME_PRINTER_NAME_INCORRECT": "Der Name muss aus mindestens 1 und maximal 120 Zeichen bestehen",
   "HOME_PRINTER_NAME_NAME_INCORRECT": "Der Druckername muss aus mindestens 1 und maximal 70 Zeichen bestehen",
   "HOME_PRINTER_SELECT_EVENT_DEFAULT": "Wähle ein Event aus",
-  "HOME_PRINTER_SELECT_EVENT_INCORRECT": "Es muss ein Event ausgewählt sein"
+  "HOME_PRINTER_SELECT_EVENT_INCORRECT": "Es muss ein Event ausgewählt sein",
+
+  "HOME_ORDERS_ALL": "Alle Bestellungen"
 }

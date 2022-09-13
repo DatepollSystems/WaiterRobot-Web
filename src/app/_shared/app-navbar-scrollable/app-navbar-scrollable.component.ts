@@ -10,8 +10,8 @@ import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {StorageHelper} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar/app-btn-toolbar.component';
-import {IconsModule} from '../../_shared/icons.module';
+import {AppBtnToolbarComponent} from '../app-btn-toolbar/app-btn-toolbar.component';
+import {IconsModule} from '../icons.module';
 
 @Component({
   selector: 'app-navbar-scrollable',

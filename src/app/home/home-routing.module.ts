@@ -15,6 +15,7 @@ const homeRoutes: Routes = [
         pathMatch: 'full',
         loadChildren: () => import('./start/start.module').then((m) => m.StartModule),
       },
+      {path: 'users', title: 'Users', loadChildren: () => import('./users/users.module').then((m) => m.UsersModule)},
       {
         path: 'usettings',
         title: 'Settings',
@@ -47,11 +48,15 @@ const homeRoutes: Routes = [
         title: 'Waiters',
         loadChildren: () => import('./waiters/waiters.module').then((m) => m.WaitersModule),
       },
-      {path: 'users', title: 'Users', loadChildren: () => import('./users/users.module').then((m) => m.UsersModule)},
       {
         path: 'products',
         title: 'Products',
         loadChildren: () => import('./products/products.module').then((m) => m.ProductsModule),
+      },
+      {
+        path: 'orders',
+        title: 'Orders',
+        loadChildren: () => import('./orders/orders.module').then((m) => m.OrdersModule),
       },
     ],
   },

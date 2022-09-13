@@ -63,7 +63,7 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
     this.productGroups = this.productGroupsService.getAll();
     this.autoUnsubscribe(this.productGroupsService.allChange.subscribe((groups) => (this.productGroups = groups)));
 
-    this.allergens = new EntityList(allergensService.getAll());
+    this.allergens = allergensService.getAll();
     this.autoUnsubscribe(allergensService.allChange.subscribe((allergens) => (this.allergens = allergens)));
 
     printersService.setSelectedEventGetAllUrl();

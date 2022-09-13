@@ -16,7 +16,7 @@
           <a class="nav-link" draggable="false" routerLinkActive="active" [routerLink]="item.routerLink">{{ item.text | tr }}</a>
         </li>
       </ng-container>
-      <li class="nav-item me-2" ngbTooltip="{{ 'NAV_EDIT_CUSTOMIZE' | tr }}" placement="right" *ngIf="_edible">
+      <li class="nav-item me-2" ngbTooltip="{{ 'NAV_EDIT_CUSTOMIZE' | tr }}" placement="bottom" *ngIf="_edible">
         <a class="nav-link" draggable="false" routerLinkActive="active" (click)="onEdit()">
           <i-bs name="pencil-fill"></i-bs>
         </a>
