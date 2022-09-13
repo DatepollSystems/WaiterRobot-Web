@@ -3,10 +3,6 @@
   scroll-behavior: smooth;
 }
 
-.overflow-container:hover {
-  cursor: grabbing;
-}
-
 .overflow-auto::-webkit-scrollbar {
   display: none;
 }

@@ -90,6 +90,7 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
   savedPreferencesChange = new EventEmitter<NavItem[]>();
 
   editMode = false;
+  showEditArrow = false;
 
   constructor() {
     const savedPrefStr = StorageHelper.getString(this._preferencesStorageKey);
@@ -130,11 +131,23 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
     });
   }
 
+  onMouseEnter(): void {
+    if (!this._edible) {
+      return;
+    }
+    this.showEditArrow = true;
+  }
+
+  onMouseLeave(): void {
+    this.showEditArrow = false;
+  }
+
   onEdit(): void {
     this._itemsCopy = this._itemsToView.slice();
     if (this._savedItems) {
       this._itemsCopy.unshift(...this._savedItems.slice());
     }
+    this.showEditArrow = false;
     this.editMode = true;
   }
 

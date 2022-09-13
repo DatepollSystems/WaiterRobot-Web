@@ -5,7 +5,9 @@
       fxFill
       class="navbar-nav d-flex flex-row justify-content-sm-start overflow-container overflow-auto user-select-none"
       [class.justify-content-between]="_justifyContentBetween"
-      [class.container-xxxl]="_isMobile">
+      [class.container-xxxl]="_isMobile"
+      (mouseenter)="onMouseEnter()"
+      (mouseleave)="onMouseLeave()">
       <ng-container *ngFor="let item of _savedItems">
         <li class="nav-item me-3" *ngIf="item.show">
           <a class="nav-link" draggable="false" routerLinkActive="active" [routerLink]="item.routerLink">{{ item.text | tr }}</a>
@@ -16,7 +18,7 @@
           <a class="nav-link" draggable="false" routerLinkActive="active" [routerLink]="item.routerLink">{{ item.text | tr }}</a>
         </li>
       </ng-container>
-      <li class="nav-item me-2" ngbTooltip="{{ 'NAV_EDIT_CUSTOMIZE' | tr }}" placement="bottom" *ngIf="_edible">
+      <li class="nav-item me-2" ngbTooltip="{{ 'NAV_EDIT_CUSTOMIZE' | tr }}" placement="bottom" *ngIf="_edible && showEditArrow">
         <a class="nav-link" draggable="false" routerLinkActive="active" (click)="onEdit()">
           <i-bs name="pencil-fill"></i-bs>
         </a>
