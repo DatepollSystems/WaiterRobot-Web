@@ -14,11 +14,9 @@ export class AuthService {
   public static signInUrl = '/auth/signIn';
   public static refreshUrl = '/auth/refresh';
 
-  private sessionToken: string | undefined = undefined;
-  private jwtToken: string | undefined = undefined;
+  private sessionToken?: string;
+  private jwtToken?: string;
   private jwtTokenExpires: Date;
-
-  public redirectUrl: string | undefined = undefined;
 
   constructor(private httpClient: HttpClient) {
     this.jwtTokenExpires = new Date();

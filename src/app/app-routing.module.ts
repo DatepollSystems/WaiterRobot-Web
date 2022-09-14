@@ -4,7 +4,7 @@ import {DfxPreloadStrategy} from 'dfx-helper';
 
 const routes: Routes = [
   {path: '', redirectTo: '/about', pathMatch: 'full'},
-  {path: '', loadChildren: () => import('./footer/footer.module').then((m) => m.FooterModule)},
+  {path: 'info', loadChildren: () => import('./footer/footer.module').then((m) => m.FooterModule)},
   {path: 'about', title: 'About', loadChildren: () => import('./about/about.module').then((m) => m.AboutModule)},
   {path: 'home', title: 'Home', loadChildren: () => import('./home/home.module').then((m) => m.HomeModule)},
   {

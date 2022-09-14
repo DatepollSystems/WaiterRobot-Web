@@ -15,7 +15,7 @@ import {AboutModalComponent} from './modals/about-modal/about-modal.component';
 
 const routes: Routes = [
   {
-    path: 'info',
+    path: '',
     component: InfoComponent,
     children: [
       {path: 'imprint', title: 'Imprint', component: ImprintComponent},
