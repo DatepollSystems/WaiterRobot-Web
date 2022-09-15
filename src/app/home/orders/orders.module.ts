@@ -7,18 +7,21 @@ import {RouterModule, Routes} from '@angular/router';
 import {NgbDatepickerModule, NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTranslateModule} from 'dfx-translate';
+
+import {EventSelectedGuard} from '../../_services/guards/event-selected-guard.service';
 import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
 
 import {IconsModule} from '../../_shared/icons.module';
-import {AllOrdersComponent} from './all-orders/all-orders.component';
 
+import {AllOrdersComponent} from './all-orders/all-orders.component';
 import {OrdersComponent} from './orders.component';
 
 const routes: Routes = [
   {
     path: '',
     component: OrdersComponent,
+    canActivate: [EventSelectedGuard],
     children: [
       {path: 'all', component: AllOrdersComponent},
       {path: '', pathMatch: 'full', redirectTo: '/home/orders/all'},

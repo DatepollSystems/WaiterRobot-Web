@@ -20,6 +20,7 @@ import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.componen
 @NgModule({
   declarations: [HomeComponent, UserEmailQRCodeModalComponent],
   imports: [
+    HomeRoutingModule,
     CommonModule,
     DfxTranslateModule,
     DfxTrackByModule,
@@ -27,7 +28,6 @@ import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.componen
     IconsModule,
     FooterModule,
     NgbDropdownModule,
-    HomeRoutingModule,
     AppQrCodeModalModule,
     OfflineModule,
     DragDropModule,

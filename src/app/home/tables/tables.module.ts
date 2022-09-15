@@ -8,7 +8,7 @@ import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
-import {EventSelectedGuardService} from '../../_services/guards/event-selected-guard.service';
+import {EventSelectedGuard} from '../../_services/guards/event-selected-guard.service';
 import {OrganisationSelectedGuard} from '../../_services/guards/organisation-selected-guard.service';
 import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
@@ -27,7 +27,7 @@ const routes: Routes = [
   {
     path: '',
     component: TablesComponent,
-    canActivate: [OrganisationSelectedGuard, EventSelectedGuardService],
+    canActivate: [OrganisationSelectedGuard, EventSelectedGuard],
     children: [
       {path: 'all', component: AllTablesComponent},
       {path: ':id', component: TableEditComponent},

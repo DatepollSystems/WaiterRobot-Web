@@ -8,15 +8,16 @@ import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTrackByModule, StringHelper} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
+
 import {GetWaiterMinResponse} from '../../_models/waiterrobot-backend';
 import {OrganisationSelectedGuard} from '../../_services/guards/organisation-selected-guard.service';
 import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
 import {AppQrCodeModalModule} from '../../_shared/app-qr-code-modal/app-qr-code-modal.module';
-
 import {IconsModule} from '../../_shared/icons.module';
 import {NgbEntityChipInputModule} from '../../_shared/ngb-entity-chip-input/ngb-entity-chip-input.module';
 import {QuestionDialogModule} from '../../_shared/question-dialog/question-dialog.module';
+
 import {DuplicateOrganisationWaitersComponent} from './duplicate-organisation-waiters/duplicate-organisation-waiters.component';
 import {EventByIdWaitersComponent} from './event-by-id-waiters/event-by-id-waiters.component';
 import {OrganisationWaitersComponent} from './organisation-waiters/organisation-waiters.component';
@@ -24,7 +25,6 @@ import {WaiterCreateQRCodeModalComponent} from './waiter-create-qr-code-modal.co
 import {WaiterEditComponent} from './waiter-edit/waiter-edit.component';
 import {WaiterSessionsComponent} from './waiter-edit/waiter-sessions/waiter-sessions.component';
 import {WaiterSignInQRCodeModalComponent} from './waiter-edit/waiter-sign-in-qr-code-modal.component';
-
 import {WaitersComponent} from './waiters.component';
 
 const routes: Routes = [

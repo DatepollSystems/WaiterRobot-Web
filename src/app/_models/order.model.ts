@@ -1,12 +1,5 @@
-import {AEntityWithNumberIDAndName} from 'dfx-helper';
-import {
-  GetOrderResponse,
-  GetProductMinResponse,
-  GetTableMinResponse,
-  GetWaiterMinResponse,
-  PrintState,
-  SessionResponse,
-} from './waiterrobot-backend';
+import {AEntityWithNumberIDAndName, Converter} from 'dfx-helper';
+import {GetOrderResponse, GetProductMinResponse, GetTableMinResponse, GetWaiterMinResponse, PrintState} from './waiterrobot-backend';
 
 export class OrderModel extends AEntityWithNumberIDAndName {
   public readonly orderId: number;
@@ -18,7 +11,7 @@ export class OrderModel extends AEntityWithNumberIDAndName {
   public readonly printState: PrintState;
 
   constructor(data: GetOrderResponse) {
-    super(data.id, String(data.orderId), data);
+    super(data.id, Converter.toString(data.id), data);
     this.orderId = data.orderId;
     this.table = data.table;
     this.product = data.product;

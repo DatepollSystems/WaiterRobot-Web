@@ -1,16 +1,15 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import {CanActivate, Router} from '@angular/router';
 import {EventsService} from '../models/events.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class EventSelectedGuardService implements CanActivate {
+export class EventSelectedGuard implements CanActivate {
   constructor(private eventService: EventsService, private router: Router) {}
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (this.eventService.getSelected() == undefined) {
+  canActivate(): boolean {
+    if (!this.eventService.getSelected()) {
       void this.router.navigate(['/home']);
       return false;
     } else {
