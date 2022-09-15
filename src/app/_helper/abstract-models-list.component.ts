@@ -55,26 +55,7 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
       this.onEntitiesLoaded();
     }
     this.lumber.info('initializeEntities', 'Entities loaded', this.entities);
-    this.dataSource = new NgbTableDataSource<EntityType>(this.entities.clone());
-    if (this.sort) {
-      if (this.sortingDataAccessors) {
-        this.dataSource.sortingDataAccessor = (item, property) => {
-          const fun = this.sortingDataAccessors?.get(property);
-          if (!fun) {
-            // @ts-ignore
-            return item[property];
-          }
-          return fun(item);
-        };
-      }
-      this.dataSource.sort = this.sort;
-    }
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
-    }
-    if (this.selection) {
-      this.selection = new SelectionModel<EntityType>(true, []);
-    }
+    this.setDatasource();
     // Don't check because events waiters and org waiters use same list
     // if (this.entities.length > 0) {
     //   this.entitiesLoaded = true;
@@ -83,25 +64,33 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
       this.entitiesService.allChange.subscribe((value) => {
         this.entities = value;
         this.onEntitiesLoaded();
-        this.dataSource = new NgbTableDataSource<EntityType>(this.entities.clone());
-        if (this.sortingDataAccessors) {
-          this.dataSource.sortingDataAccessor = (item, property) => {
-            const fun = this.sortingDataAccessors?.get(property);
-            if (!fun) {
-              // @ts-ignore
-              return item[property];
-            }
-            return fun(item);
-          };
-        }
-        this.dataSource.sort = this.sort;
-        if (this.selection) {
-          this.selection = new SelectionModel<EntityType>(true, []);
-        }
+        this.setDatasource();
         this.entitiesLoaded = true;
         this.lumber.info('initializeEntities', 'Entities refreshed', this.entities);
       })
     );
+  }
+
+  private setDatasource(): void {
+    this.dataSource = new NgbTableDataSource<EntityType>(this.entities.clone());
+
+    if (this.sortingDataAccessors) {
+      this.dataSource.sortingDataAccessor = (item, property) => {
+        const fun = this.sortingDataAccessors?.get(property);
+        if (!fun) {
+          // @ts-ignore
+          return item[property];
+        }
+        return fun(item);
+      };
+    }
+    this.dataSource.sort = this.sort;
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+    }
+    if (this.selection) {
+      this.selection = new SelectionModel<EntityType>(true, []);
+    }
   }
 
   public onDeleteAll(): void {
@@ -124,19 +113,24 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
   }
 
   public onDeleteSelected(): void {
+    if (!this.selection) {
+      this.lumber.error('onDeleteSelected', 'Enable selectable with this.setSelectable()');
+      return;
+    }
+
     this.lumber.info('onDeleteSelected', 'Opening delete question dialog');
-    this.lumber.info('onDeleteSelected', 'Selected entities:', this.selection!.selected);
+    this.lumber.info('onDeleteSelected', 'Selected entities:', this.selection.selected);
     const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
     modalRef.componentInstance.title = 'DELETE_ALL';
     modalRef.componentInstance.info = `<ol><li>${StringHelper.getImploded(
-      this.selection!.selected.map((it) => it.name),
+      this.selection.selected.map((it) => it.name),
       undefined,
       '</li><li>'
     )}</li></ol>`;
     void modalRef.result.then((result) => {
       this.lumber.info('onDeleteSelected', 'Question dialog result:', result);
       if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
-        for (const selected of this.selection!.selected) {
+        for (const selected of this.selection?.selected ?? []) {
           this.entitiesService.delete(selected.id).subscribe();
         }
       }
@@ -145,7 +139,7 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
 
   /** Whether the number of selected elements matches the total number of rows. */
   public isAllSelected(): boolean {
-    const numSelected = this.selection!.selected.length;
+    const numSelected = this.selection?.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
@@ -153,10 +147,10 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   public toggleAllRows(): void {
     if (this.isAllSelected()) {
-      this.selection!.clear();
+      this.selection?.clear();
       return;
     }
 
-    this.selection!.select(...this.dataSource.data);
+    this.selection?.select(...this.dataSource.data);
   }
 }
