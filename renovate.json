@@ -1,12 +1,10 @@
 {
   "pinVersions": true,
   "semanticCommits": "enabled",
-  "semanticPrefix": "renovate",
+  "semanticPrefix": "deps",
   "separateMajorMinor": false,
-  "prHourlyLimit": 2,
   "labels": ["dependencies"],
   "timezone": "Europe/Vienna",
-  "schedule": ["after 10pm every weekday", "before 4am every weekday", "every weekend"],
   "baseBranches": ["develop"],
   "assignees": ["Dafnik"],
   "ignoreDeps": ["typescript"],
@@ -19,5 +17,12 @@
       "matchUpdateTypes": ["major"],
       "groupName": "major-risky-update"
     }
+  ],
+  "extends": [
+    "config:base",
+    ":preserveSemverRanges",
+    ":dependencyDashboard",
+    ":rebaseStalePrs",
+    ":enableVulnerabilityAlertsWithLabel('security')"
   ]
 }
