@@ -6,9 +6,6 @@
   "prHourlyLimit": 2,
   "labels": ["dependencies"],
   "timezone": "Europe/Vienna",
-  "lockFileMaintenance": {
-    "enabled": true
-  },
   "schedule": ["after 10pm every weekday", "before 4am every weekday", "every weekend"],
   "baseBranches": ["develop"],
   "assignees": ["Dafnik"],
