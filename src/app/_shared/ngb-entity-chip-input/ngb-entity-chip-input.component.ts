@@ -1,10 +1,9 @@
-import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
-import {NgbTypeahead, NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 
-import {EntityList, IEntityList, IEntityWithName, IHasName, LoggerFactory, StringOrNumber} from 'dfx-helper';
-import {merge, Observable, Subject} from 'rxjs';
+import {EntityList, IEntityList, IEntityWithName, IEntityWithNumberIDAndName, IHasName, LoggerFactory, StringOrNumber} from 'dfx-helper';
+import {Observable} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
-import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -18,11 +17,6 @@ export class NgbEntityChipInput {
   modelName = '';
 
   logger = LoggerFactory.getLogger('NgbEntityChipInput');
-
-  @Input() set showOnClick(value: BooleanInput) {
-    this._showOnClick = coerceBooleanProperty(value);
-  }
-  _showOnClick = false;
 
   @Input() dark = false;
 
@@ -41,17 +35,11 @@ export class NgbEntityChipInput {
 
   @Output() valueChange = new EventEmitter<IEntityList<IEntityWithName<StringOrNumber>>>();
 
-  @ViewChild('instance', {static: true}) instance!: NgbTypeahead;
-  focus$ = new Subject<string>();
-  click$ = new Subject<string>();
-
   formatter = (result: IHasName): string => result.name;
-  search: (text$: Observable<string>) => Observable<IHasName[]> = (text$: Observable<string>) => {
-    const debouncedText$ = text$.pipe(debounceTime(100), distinctUntilChanged());
-    const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
-    const inputFocus$ = this.focus$;
-
-    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+  search: (text$: Observable<string>) => Observable<IHasName[]> = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
       filter((term) => term.length >= 1),
       map((term) =>
         this._allModelsToAutoComplete.filter((event) => {
@@ -62,7 +50,6 @@ export class NgbEntityChipInput {
         })
       )
     );
-  };
 
   /**
    * Already filled in strings
