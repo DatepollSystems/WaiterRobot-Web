@@ -14,6 +14,9 @@
       [resultFormatter]="formatter"
       [inputFormatter]="formatter"
       [value]="modelName"
+      (focus)="_showOnClick ? focus$.next($any($event).target.value) : undefined"
+      (click)="_showOnClick ? click$.next($any($event).target.value) : undefined"
+      #instance="ngbTypeahead"
       placeholder="{{ placeHolder | tr }}" />
     <div fxLayout="row break" fxLayoutGap="1.5%" class="mt-1">
       <button type="button" class="btn btn-primary btn-sm mb-2" *ngFor="let model of this._models; trackById" (click)="remove(model)">
