@@ -11,7 +11,7 @@ import {IsAuthenticatedGuardService} from '../_services/auth/is-authenticated-gu
 import {AppDownloadBtnListModule} from '../_shared/app-download-btn-list/app-download-btn-list.module';
 import {AppLogoWithTextComponent} from '../_shared/app-logo-with-text.component';
 import {IconsModule} from '../_shared/icons.module';
-import {FooterModule} from '../footer/footer.module';
+import {FooterModule} from '../_shared/footer/footer.module';
 
 import {AboutComponent} from './about.component';
 import {AppAccountNotActivatedDialog} from './account-not-activated-dialog.component';

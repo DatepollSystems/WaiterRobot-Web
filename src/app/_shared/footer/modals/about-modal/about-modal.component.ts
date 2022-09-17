@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {EnvironmentHelper} from '../../../_helper/EnvironmentHelper';
+import {EnvironmentHelper} from '../../../../_helper/EnvironmentHelper';
 
 @Component({
   selector: 'app-about-modal',

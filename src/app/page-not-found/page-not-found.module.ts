@@ -5,7 +5,7 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {DfxTranslateModule} from 'dfx-translate';
 import {AppLogoWithTextComponent} from '../_shared/app-logo-with-text.component';
-import {FooterModule} from '../footer/footer.module';
+import {FooterModule} from '../_shared/footer/footer.module';
 
 import {PageNotFoundComponent} from './page-not-found.component';
 

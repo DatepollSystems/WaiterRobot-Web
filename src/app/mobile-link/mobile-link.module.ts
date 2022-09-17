@@ -7,7 +7,7 @@ import {DfxTranslateModule} from 'dfx-translate';
 import {AppDownloadBtnListModule} from '../_shared/app-download-btn-list/app-download-btn-list.module';
 import {AppLogoWithTextComponent} from '../_shared/app-logo-with-text.component';
 
-import {FooterModule} from '../footer/footer.module';
+import {FooterModule} from '../_shared/footer/footer.module';
 
 import {MobileLinkComponent} from './mobile-link.component';
 

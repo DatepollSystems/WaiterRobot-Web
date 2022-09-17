@@ -10,7 +10,7 @@ import {AppQrCodeModalModule} from '../_shared/app-qr-code-modal/app-qr-code-mod
 
 import {IconsModule} from '../_shared/icons.module';
 import {OfflineModule} from '../_shared/offline.directive';
-import {FooterModule} from '../footer/footer.module';
+import {FooterModule} from '../_shared/footer/footer.module';
 import {AppNavbarScrollableComponent} from '../_shared/app-navbar-scrollable/app-navbar-scrollable.component';
 import {HomeRoutingModule} from './home-routing.module';
 
