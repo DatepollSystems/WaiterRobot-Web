@@ -4,7 +4,7 @@ import {AbstractTitleStrategy} from 'dfx-helper';
 
 @Injectable()
 export class CustomTitleStrategy extends AbstractTitleStrategy {
-  override titlePrefix = 'WaiterRobot - ';
+  override titlePrefix = 'kellner.team - ';
 
   constructor(title: Title) {
     super(title);
