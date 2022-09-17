@@ -13,31 +13,31 @@
       <div class="card-body">
         <h5 class="card-title">{{ 'HOME_START_STATISTICS' | tr }}</h5>
         <ul class="list-unstyled py-2">
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap="2%" fxLayoutGap="2%" class="mb-2">
-            Local time: <span>{{ localTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
+          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+            Local time: <span class="ms-3">{{ localTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap="2%" class="mb-2">
+          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
             OS: <span>{{ browserInfos.os }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap="2%" class="mb-2">
+          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
             OS version: <span>{{ browserInfos.osVersion }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap="2%" class="mb-2">
+          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
             Browser: <span>{{ browserInfos.name }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap="2%" class="mb-2">
+          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
             Browser version: <span>{{ browserInfos.version }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap="2%" class="mb-2">
+          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
             Mobile: <span>{{ browserInfos.mobile }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap="2%" class="mb-2">
+          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
             Screen size: <span>{{ browserInfos.screenSize }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap="2%" class="mb-2">
+          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
             Local storage: <span>{{ browserInfos.localStorage }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap="2%" class="mb-2">
+          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
             Cookies: <span>{{ browserInfos.cookies }}</span>
           </li>
         </ul>
@@ -48,10 +48,10 @@
       <div class="card-body">
         <h5>Backend</h5>
         <ul class="list-unstyled">
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap="2%" class="mb-2">
+          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
             Status: <span [class.text-success]="status === 'Online'" [class.text-danger]="status === 'Offline'">{{ status }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap="2%" class="mb-2">
+          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
             Ping:
             <div fxLayout="row">
               <div *ngIf="lastPing">
@@ -63,19 +63,19 @@
             </div>
           </li>
           <ng-container *ngIf="status === 'Online'">
-            <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap="2%" class="mb-2">
+            <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
               Time: <span>{{ serverInfoResponse?.serverTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)':'UTC' }}</span>
             </li>
-            <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap="2%" class="mb-2">
+            <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
               Started: <span>{{ serverInfoResponse?.serverStartTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
             </li>
-            <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap="2%" class="mb-2">
+            <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
               Uptime: <span>{{ localTime | timespan: serverInfoResponse?.serverStartTime }}</span>
             </li>
-            <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap="2%" class="mb-2">
+            <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
               Version: <span>{{ serverInfoResponse?.version }}</span>
             </li>
-            <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap="2%" class="mb-2">
+            <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
               Info: <span class="ms-md-5" style="white-space: nowrap">"{{ serverInfoResponse?.info }}"</span>
             </li>
           </ng-container>

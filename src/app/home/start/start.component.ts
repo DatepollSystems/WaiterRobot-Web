@@ -43,7 +43,7 @@ export class StartComponent extends AComponent {
 
     this.getPing();
 
-    this.autoClearInterval(window.setInterval(() => this.getPing(), 1000 * 5));
+    this.autoClearInterval(window.setInterval(() => this.getPing(), 1000 * 6));
 
     this.myUser = myUserService.getUser();
     this.autoUnsubscribe(myUserService.userChange.subscribe((user) => (this.myUser = user)));
@@ -52,7 +52,7 @@ export class StartComponent extends AComponent {
   }
 
   getPing(): void {
-    this.refreshIn = 5;
+    this.refreshIn = 6;
     this.localTime = new Date();
     const startMs = new Date().getTime();
     this.httpClient.get<JsonInfoResponse>('/json', {context: this.byPassLoggingInterceptor}).subscribe({

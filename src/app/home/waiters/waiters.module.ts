@@ -11,9 +11,9 @@ import {DfxTranslateModule} from 'dfx-translate';
 
 import {GetWaiterMinResponse} from '../../_models/waiterrobot-backend';
 import {OrganisationSelectedGuard} from '../../_services/guards/organisation-selected-guard.service';
-import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar/app-btn-toolbar.component';
+import {AppBtnToolbarComponent} from '../../_shared/btn-toolbar/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
-import {AppQrCodeModalModule} from '../../_shared/app-qr-code-modal/app-qr-code-modal.module';
+import {AppQrCodeModalModule} from '../../_shared/qr-code-modal/app-qr-code-modal.module';
 import {IconsModule} from '../../_shared/icons.module';
 import {NgbEntityChipInputModule} from '../../_shared/ngb-entity-chip-input/ngb-entity-chip-input.module';
 import {QuestionDialogModule} from '../../_shared/question-dialog/question-dialog.module';

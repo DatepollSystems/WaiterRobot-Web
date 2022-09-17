@@ -14,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: 'qrcode',
-    loadChildren: () => import('./_shared/app-qr-code-view/app-qr-code-view.module').then((m) => m.AppQrCodeViewModule),
+    loadChildren: () => import('./_shared/qr-code-view/app-qr-code-view.module').then((m) => m.AppQrCodeViewModule),
   },
   {
     path: 'not-found',

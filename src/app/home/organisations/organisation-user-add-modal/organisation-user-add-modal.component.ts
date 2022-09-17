@@ -6,7 +6,7 @@ import {TranslateService} from 'dfx-translate';
 import {OrganisationsUsersService} from '../../../_services/models/organisation/organisations-users.service';
 
 import {NotificationService} from '../../../_services/notifications/notification.service';
-import {AppQrCodeScannerModalComponent} from '../../../_shared/app-qr-code-scanner-modal/app-qr-code-scanner-modal.component';
+import {AppQrCodeScannerModalComponent} from '../../../_shared/qr-code-scanner-modal/app-qr-code-scanner-modal.component';
 
 @Component({
   selector: 'app-organisation-user-add-modal',

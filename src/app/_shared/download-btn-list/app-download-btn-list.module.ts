@@ -4,7 +4,7 @@ import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTrackByModule} from 'dfx-helper';
 
 import {DfxTranslateModule} from 'dfx-translate';
-import {AppQrCodeModalModule} from '../app-qr-code-modal/app-qr-code-modal.module';
+import {AppQrCodeModalModule} from '../qr-code-modal/app-qr-code-modal.module';
 
 import {IconsModule} from '../icons.module';
 

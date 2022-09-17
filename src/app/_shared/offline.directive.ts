@@ -1,9 +1,9 @@
-import {NgModule, Pipe, PipeTransform} from '@angular/core';
-import {TypeHelper} from 'dfx-helper';
+import {NgModule} from '@angular/core';
 
 import {Directive, HostBinding, HostListener} from '@angular/core';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[offline]',
 })
 export class OfflineDirective {

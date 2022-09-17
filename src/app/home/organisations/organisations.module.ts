@@ -8,9 +8,9 @@ import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-
 import {DfxTrackByModule} from 'dfx-helper';
 
 import {DfxTranslateModule} from 'dfx-translate';
-import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar/app-btn-toolbar.component';
+import {AppBtnToolbarComponent} from '../../_shared/btn-toolbar/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
-import {AppQrCodeScannerModalModule} from '../../_shared/app-qr-code-scanner-modal/app-qr-code-scanner-modal.module';
+import {AppQrCodeScannerModalModule} from '../../_shared/qr-code-scanner-modal/app-qr-code-scanner-modal.module';
 
 import {IconsModule} from '../../_shared/icons.module';
 import {NgbChipInputModule} from '../../_shared/ngb-chip-input/ngb-chip-input.module';

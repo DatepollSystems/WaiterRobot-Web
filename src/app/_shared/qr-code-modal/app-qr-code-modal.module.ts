@@ -5,7 +5,7 @@ import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxPrintModule} from 'dfx-helper';
 
 import {DfxTranslateModule} from 'dfx-translate';
-import {AppQrCodeViewModule} from '../app-qr-code-view/app-qr-code-view.module';
+import {AppQrCodeViewModule} from '../qr-code-view/app-qr-code-view.module';
 
 import {AppQrCodeModalComponent} from './app-qr-code-modal.component';
 

@@ -6,7 +6,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {DfxTranslateModule} from 'dfx-translate';
-import {AppDownloadBtnListModule} from '../../_shared/app-download-btn-list/app-download-btn-list.module';
+import {AppDownloadBtnListModule} from '../../_shared/download-btn-list/app-download-btn-list.module';
 import {StartComponent} from './start.component';
 import {TimeSpanModule} from '../../_shared/time-span.pipe';
 

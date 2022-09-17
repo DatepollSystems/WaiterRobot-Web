@@ -14,7 +14,7 @@ import {AuthService} from '../_services/auth/auth.service';
 import {MyUserService} from '../_services/auth/my-user.service';
 import {EventsService} from '../_services/models/events.service';
 import {OrganisationsService} from '../_services/models/organisation/organisations.service';
-import {NavItem} from '../_shared/app-navbar-scrollable/app-navbar-scrollable.component';
+import {NavItem} from '../_shared/navbar-scrollable/app-navbar-scrollable.component';
 import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.component';
 
 @Component({

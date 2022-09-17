@@ -55,6 +55,7 @@
   "REQUEST_ERROR_SERVER": "Server fehler",
 
   "OFFLINE": "Keine Verbindung zum Internet.",
+  "SERVER_OFFLINE": "Verbindung zum Server fehlgeschlagen.",
 
   "DELETE_CONFIRMATION": "Lösch-Bestätigung",
 
