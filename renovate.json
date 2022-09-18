@@ -1,0 +1,28 @@
+{
+  "pinVersions": true,
+  "semanticCommits": "enabled",
+  "semanticPrefix": "deps",
+  "separateMajorMinor": false,
+  "labels": ["dependencies"],
+  "timezone": "Europe/Vienna",
+  "baseBranches": ["develop"],
+  "assignees": ["Dafnik"],
+  "ignoreDeps": ["typescript"],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "minor-updates"
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "groupName": "major-risky-update"
+    }
+  ],
+  "extends": [
+    "config:base",
+    ":preserveSemverRanges",
+    ":dependencyDashboard",
+    ":rebaseStalePrs",
+    ":enableVulnerabilityAlertsWithLabel('security')"
+  ]
+}

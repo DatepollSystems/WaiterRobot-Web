@@ -1,0 +1,67 @@
+<nav class="navbar bg-dark navbar-dark pt-0 pb-2 ps-md-3">
+  <div class="container-xxxl">
+    <ul
+      *ngIf="!editMode"
+      fxFill
+      class="navbar-nav d-flex flex-row justify-content-sm-start overflow-container overflow-auto user-select-none"
+      [class.justify-content-between]="_justifyContentBetween"
+      [class.container-xxxl]="_isMobile"
+      (mouseenter)="onMouseEnter()"
+      (mouseleave)="onMouseLeave()">
+      <ng-container *ngFor="let item of _savedItems">
+        <li class="nav-item me-3" *ngIf="item.show">
+          <a class="nav-link" draggable="false" routerLinkActive="active" [routerLink]="item.routerLink">{{ item.text | tr }}</a>
+        </li>
+      </ng-container>
+      <ng-container *ngFor="let item of _itemsToView">
+        <li class="nav-item me-3" *ngIf="item.show">
+          <a class="nav-link" draggable="false" routerLinkActive="active" [routerLink]="item.routerLink">{{ item.text | tr }}</a>
+        </li>
+      </ng-container>
+      <li
+        class="nav-item me-2"
+        ngbTooltip="{{ 'NAV_EDIT_CUSTOMIZE' | tr }}"
+        placement="bottom"
+        *ngIf="_edible && (showEditArrow || _isMobile)">
+        <a class="nav-link" draggable="false" routerLinkActive="active" (click)="onEdit()">
+          <i-bs name="pencil-fill"></i-bs>
+        </a>
+      </li>
+    </ul>
+
+    <div *ngIf="editMode" style="width: 100%">
+      <h5 class="text-white-50">{{ 'NAV_EDIT_CUSTOMIZE' | tr }}</h5>
+      <app-btn-toolbar>
+        <div>
+          <button class="btn btn-sm btn-success" (click)="onSave()">
+            <i-bs name="save"></i-bs>
+            {{ 'SAVE' | tr }}
+          </button>
+        </div>
+        <div>
+          <button class="btn btn-sm btn-outline-primary" (click)="onReset()">
+            <i-bs name="arrow-clockwise"></i-bs>
+            {{ 'RESET' | tr }}
+          </button>
+        </div>
+        <div>
+          <button class="btn btn-sm btn-outline-secondary" (click)="onClose()">
+            <i-bs name="trash"></i-bs>
+            {{ 'CLOSE' | tr }}
+          </button>
+        </div>
+      </app-btn-toolbar>
+      <div
+        class="list"
+        [class.h-list]="!_isMobile"
+        [class.v-list]="_isMobile"
+        cdkDropList
+        [cdkDropListOrientation]="_isMobile ? 'vertical' : 'horizontal'"
+        (cdkDropListDropped)="drop($event)">
+        <div class="box" [class.h-box]="!_isMobile" [class.v-box]="_isMobile" *ngFor="let item of _itemsCopy" cdkDrag>
+          {{ item.text | tr }}
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

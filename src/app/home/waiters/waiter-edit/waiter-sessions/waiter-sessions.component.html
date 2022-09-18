@@ -1,0 +1,62 @@
+<div class="spinner-row" *ngIf="!entitiesLoaded">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">{{ 'LOADING' | tr }}</span>
+  </div>
+</div>
+
+<form [hidden]="!entitiesLoaded" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap.lt-md="1.5%" fxLayoutAlign.gt-sm="space-between center">
+  <div fxFlex.gt-sm="70%">
+    <div class="input-group mt-2">
+      <input class="form-control bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+      <button
+        class="btn btn-outline-secondary"
+        type="button"
+        ngbTooltip="{{ 'CLEAR' | tr }}"
+        placement="bottom"
+        (click)="filter.reset()"
+        *ngIf="filter?.value?.length > 0">
+        <i-bs name="x-circle-fill"></i-bs>
+      </button>
+    </div>
+  </div>
+
+  <div>
+    <button class="btn btn-outline-danger" (click)="deleteAll()">{{ 'DELETE_ALL' | tr }}</button>
+  </div>
+</form>
+
+<div class="table-responsive" [hidden]="!entitiesLoaded">
+  <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="updatedAt" ngbSortDirection="desc">
+    <ng-container ngbColumnDef="name">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+      <td *ngbCellDef="let session" ngb-cell>{{ session.name }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="registeredAt">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_REGISTERED_AT' | tr }}</th>
+      <td *ngbCellDef="let session" ngb-cell>{{ session.registeredAt | date: 'YYYY.MM.dd - HH:mm:ss' }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="updatedAt">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_UPDATED_AT' | tr }}</th>
+      <td *ngbCellDef="let session" ngb-cell>{{ session.updatedAt | date: 'YYYY.MM.dd - HH:mm:ss' }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="actions">
+      <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+      <td *ngbCellDef="let session" ngb-cell>
+        <button
+          type="button"
+          class="btn btn-sm m-1 btn-outline-danger text-white"
+          ngbTooltip="{{ 'DELETE' | tr }}"
+          placement="left"
+          (click)="onDelete(session.id)">
+          <i-bs name="trash"></i-bs>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+    <tr *ngbRowDef="let table; columns: columnsToDisplay" ngb-row></tr>
+  </table>
+</div>

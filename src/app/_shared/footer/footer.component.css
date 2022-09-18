@@ -1,0 +1,40 @@
+#footerContainer {
+  background-color: #607d8b;
+  color: white;
+}
+
+.footerHeaderContainer {
+  padding-top: 18px;
+  padding-bottom: 15px;
+}
+
+#footerBarContainer {
+  background-color: #455a64;
+  padding-top: 18px;
+  padding-bottom: 15px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-heading {
+  font-size: 24px;
+  margin-bottom: 24px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  color: white;
+  text-align: end;
+}
+
+li a {
+  color: #eeeeee;
+}
+
+li a:hover {
+  color: #bdbdbd;
+  cursor: pointer;
+}

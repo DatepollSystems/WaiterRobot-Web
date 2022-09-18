@@ -1,0 +1,11 @@
+.customLogo img:last-child {
+  display: none;
+}
+
+.customLogo:hover img:last-child {
+  display: inline-block;
+}
+
+.customLogo:hover img:first-child {
+  display: none;
+}

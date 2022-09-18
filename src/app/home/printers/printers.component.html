@@ -1,0 +1,42 @@
+<app-entities-layout-component>
+  <div class="list-group" nav>
+    <a class="list-group-item list-group-item-action" routerLink="mediators" routerLinkActive="active">
+      <i-bs name="router"></i-bs>
+      {{ 'HOME_PRINTER_NAV_MEDIATOR' | tr }}</a
+    >
+
+    <a
+      class="list-group-item list-group-item-action"
+      routerLink="event/{{ selectedEvent.id }}"
+      *ngIf="selectedEvent"
+      routerLinkActive="active"
+      (click)="linkClick()">
+      <i-bs name="printer"></i-bs>
+      {{ selectedEvent.name }} {{ 'NAV_PRINTERS' | tr }}</a
+    >
+
+    <div class="list-group-item" [fxHide.gt-sm]="true">
+      <div class="input-group">
+        <span class="input-group-text" id="selectEvent-addon"><i-bs name="people"></i-bs></span>
+        <select class="form-select" id="selectEvent" [(ngModel)]="selectedModelToShow" (ngModelChange)="showModel($event)">
+          <option value="default">{{ 'HOME_PRINTER_NAV_SELECT_EVENT' | tr }}</option>
+          <option value="/home/printers/event/{{ eventModel.id }}" *ngFor="let eventModel of this.allModels; trackById">
+            {{ eventModel.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <ng-container *ngFor="let event of this.allModels; trackById">
+      <a
+        [fxHide.lt-md]="true"
+        *ngIf="event.id !== selectedEvent?.id"
+        class="list-group-item list-group-item-action"
+        routerLink="/home/printers/event/{{ event.id }}"
+        routerLinkActive="active"
+        (click)="linkClick()">
+        {{ event.name }} {{ 'NAV_PRINTERS' | tr }}</a
+      >
+    </ng-container>
+  </div>
+</app-entities-layout-component>

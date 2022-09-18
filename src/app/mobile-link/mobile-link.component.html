@@ -1,0 +1,20 @@
+<div class="d-container text-white">
+  <app-logo-with-text></app-logo-with-text>
+  <div
+    fxLayout="row"
+    fxLayoutGap="2%"
+    fxLayoutAlign="center start"
+    fxLayout.lt-sm="column"
+    fxLayoutAlign.lt-sm="center"
+    style="padding: 15px 10px">
+    <div class="card bg-dark">
+      <div class="card-body">
+        <p class="card-text text-center">
+          {{ 'MOBILE_LINK' | tr }}
+        </p>
+        <app-download-btn-list [showQRCodeButton]="false"></app-download-btn-list>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

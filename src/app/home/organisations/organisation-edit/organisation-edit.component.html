@@ -1,0 +1,281 @@
+<div [hidden]="isEditing && !entityLoaded">
+  <h1 *ngIf="isEditing && entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
+  <h1 *ngIf="!isEditing">{{ 'ADD_2' | tr }}</h1>
+
+  <app-btn-toolbar>
+    <div>
+      <button class="btn btn-sm btn-dark text-white" (click)="onGoBack('/home/organisations/all')">
+        {{ 'GO_BACK' | tr }}
+      </button>
+    </div>
+
+    <ng-container *ngIf="isEditing && entity">
+      <ng-container *ngIf="myUser?.isAdmin && activeTab === 1">
+        <div>
+          <button class="btn btn-sm btn-success" (click)="form.ngSubmit.emit()" [disabled]="!form.valid">
+            <i-bs name="save"></i-bs>
+            {{ 'SAVE' | tr }}
+          </button>
+        </div>
+        <div>
+          <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
+            <i-bs name="trash"></i-bs>
+            {{ 'DELETE' | tr }}
+          </button>
+        </div>
+      </ng-container>
+      <div>
+        <app-selectable-button
+          class="my-2"
+          [selectedEntity]="selectedOrganisation"
+          [entity]="entity"
+          [selectedEntityService]="organisationsService"></app-selectable-button>
+      </div>
+    </ng-container>
+
+    <div *ngIf="!isEditing">
+      <button class="btn btn-sm btn-success" (click)="form.ngSubmit.emit()" [disabled]="!form || !form.valid">
+        <i-bs name="plus-circle"></i-bs>
+        {{ 'ADD' | tr }}
+      </button>
+    </div>
+  </app-btn-toolbar>
+
+  <form #form="ngForm" (ngSubmit)="onSave(form)">
+    <ul
+      ngbNav
+      #nav="ngbNav"
+      [(activeId)]="activeTab"
+      [destroyOnHide]="false"
+      class="nav-tabs bg-dark"
+      (navChange)="setTabId($event.nextId)">
+      <li [ngbNavItem]="1">
+        <a ngbNavLink>Daten</a>
+        <ng-template ngbNavContent>
+          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%">
+            <div class="form-group" fxFlex="100%">
+              <label for="name">{{ 'NAME' | tr }}</label>
+              <input
+                ngModel
+                class="form-control bg-dark text-white"
+                required
+                type="text"
+                id="name"
+                name="name"
+                #nameModel="ngModel"
+                [disabled]="!myUser?.isAdmin"
+                minlength="4"
+                maxlength="40"
+                placeholder="{{ 'NAME' | tr }}"
+                [ngModel]="isEditing ? entity?.name : null" />
+
+              <small *ngIf="nameModel.invalid" class="text-danger">
+                {{ 'HOME_ORGS_NAME_INCORRECT' | tr }}
+              </small>
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%" class="mt-2">
+            <div class="form-group" fxFlex="70%">
+              <label for="street">{{ 'HOME_ORGS_STREET' | tr }}</label>
+              <input
+                ngModel
+                class="form-control bg-dark text-white"
+                required
+                type="text"
+                id="street"
+                name="street"
+                minlength="4"
+                maxlength="80"
+                #streetModel="ngModel"
+                [disabled]="!myUser?.isAdmin"
+                placeholder="{{ 'HOME_ORGS_STREET' | tr }}"
+                [ngModel]="isEditing ? entity?.street : null" />
+              <small *ngIf="streetModel.invalid" class="text-danger">
+                {{ 'HOME_ORGS_STREET_INCORRECT' | tr }}
+              </small>
+            </div>
+            <div class="form-group" fxFlex="28%">
+              <label for="streetNumber">{{ 'HOME_ORGS_STREETNUMBER' | tr }}</label>
+              <input
+                ngModel
+                class="form-control bg-dark text-white"
+                required
+                type="text"
+                id="streetNumber"
+                #streetNumberModel="ngModel"
+                [disabled]="!myUser?.isAdmin"
+                name="streetNumber"
+                minlength="1"
+                maxlength="20"
+                placeholder="{{ 'HOME_ORGS_STREETNUMBER' | tr }}"
+                [ngModel]="isEditing ? entity?.streetNumber : null" />
+              <small *ngIf="streetNumberModel.invalid" class="text-danger">
+                {{ 'HOME_ORGS_STREETNUMBER_INCORRECT' | tr }}
+              </small>
+            </div>
+          </div>
+
+          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%" class="mt-2">
+            <div class="form-group" fxFlex="23%">
+              <label for="postalCode">{{ 'HOME_ORGS_POSTAL_CODE' | tr }}</label>
+              <input
+                ngModel
+                class="form-control bg-dark text-white"
+                required
+                type="text"
+                id="postalCode"
+                #postalCodeModel="ngModel"
+                [disabled]="!myUser?.isAdmin"
+                name="postalCode"
+                minlength="2"
+                maxlength="16"
+                placeholder="{{ 'HOME_ORGS_POSTAL_CODE' | tr }}"
+                [ngModel]="isEditing ? entity?.postalCode : null" />
+              <small *ngIf="postalCodeModel.invalid" class="text-danger">
+                {{ 'HOME_ORGS_POSTAL_CODE_INCORRECT' | tr }}
+              </small>
+            </div>
+
+            <div class="form-group" fxFlex="50%">
+              <label for="city">{{ 'HOME_ORGS_CITY' | tr }}</label>
+              <input
+                ngModel
+                class="form-control bg-dark text-white"
+                required
+                type="text"
+                id="city"
+                name="city"
+                #cityModel="ngModel"
+                [disabled]="!myUser?.isAdmin"
+                minlength="4"
+                maxlength="60"
+                placeholder="{{ 'HOME_ORGS_CITY' | tr }}"
+                [ngModel]="isEditing ? entity?.city : null" />
+              <small *ngIf="cityModel.invalid" class="text-danger">
+                {{ 'HOME_ORGS_CITY_INCORRECT' | tr }}
+              </small>
+            </div>
+
+            <div class="form-group" fxFlex="23%">
+              <label for="countryCode">{{ 'HOME_ORGS_COUNTRY_CODE' | tr }}</label>
+              <input
+                ngModel
+                class="form-control bg-dark text-white"
+                required
+                type="text"
+                id="countryCode"
+                #countryCodeModel="ngModel"
+                [disabled]="!myUser?.isAdmin"
+                name="countryCode"
+                minlength="2"
+                maxlength="4"
+                placeholder="{{ 'HOME_ORGS_COUNTRY_CODE' | tr }}"
+                [ngModel]="isEditing ? entity?.countryCode : null" />
+              <small *ngIf="countryCodeModel.invalid" class="text-danger">
+                {{ 'HOME_ORGS_COUNTRY_CODE_INCORRECT' | tr }}
+              </small>
+            </div>
+          </div>
+        </ng-template>
+      </li>
+
+      <li [ngbNavItem]="2" *ngIf="isEditing">
+        <a ngbNavLink>{{ 'USER' | tr }}</a>
+        <ng-template ngbNavContent>
+          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-between" fxLayoutGap="1.5%">
+            <form class="mt-2" fxFlex="30%" fxFlex.lt-xl="50%">
+              <div class="input-group">
+                <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  ngbTooltip="{{ 'CLEAR' | tr }}"
+                  placement="bottom"
+                  (click)="filter.reset()"
+                  *ngIf="filter?.value?.length > 0">
+                  <i-bs name="x-circle-fill"></i-bs>
+                </button>
+              </div>
+            </form>
+
+            <button class="btn btn-secondary mt-2" type="button" (click)="openAddUserModal()">
+              <i-bs name="save"></i-bs>
+              {{ 'ADD_3' | tr }}
+            </button>
+          </div>
+
+          <div class="table-responsive mt-3">
+            <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort>
+              <ng-container ngbColumnDef="name">
+                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+                <td *ngbCellDef="let organisationUser" ngb-cell>{{ organisationUser.name }}</td>
+              </ng-container>
+
+              <ng-container ngbColumnDef="email">
+                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'EMAIL' | tr }}</th>
+                <td *ngbCellDef="let organisationUser" ngb-cell>{{ organisationUser.id }}</td>
+              </ng-container>
+
+              <ng-container ngbColumnDef="role">
+                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ROLE' | tr }}</th>
+                <td *ngbCellDef="let organisationUser" ngb-cell>
+                  {{ organisationUser.role }}
+                  <a class="btn btn-sm m-1 btn-outline-success text-white" ngbTooltip="{{ 'EDIT' | tr }}">
+                    <i-bs name="pencil-square"></i-bs>
+                  </a>
+                </td>
+              </ng-container>
+
+              <ng-container ngbColumnDef="actions">
+                <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+                <td *ngbCellDef="let organisationUser" ngb-cell>
+                  <button
+                    type="button"
+                    class="btn btn-sm m-1 btn-outline-danger text-white"
+                    ngbTooltip="{{ 'DELETE' | tr }}"
+                    (click)="onOrgUserDelete(organisationUser)"
+                    *ngIf="myUser?.isAdmin || this.myUser?.emailAddress !== organisationUser.email_address">
+                    <i-bs name="trash"></i-bs>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+              <tr *ngbRowDef="let organisationUser; columns: columnsToDisplay" ngb-row></tr>
+            </table>
+          </div>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="3" *ngIf="isEditing">
+        <a ngbNavLink>{{ 'SETTINGS' | tr }}</a>
+        <ng-template ngbNavContent>
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="activateWaiterOnSignInViaCreateToken"
+              [checked]="settings?.activateWaiterOnSignInViaCreateToken"
+              (click)="setActivateWaiterOnSignInViaCreateToken()" />
+            <label class="form-check-label" for="activateWaiterOnSignInViaCreateToken">
+              {{ 'HOME_ORGS_SETTINGS_ACTIVATE_WAITER_ON_SIGN_IN_VIA_CREATE_TOKEN' | tr }}</label
+            >
+          </div>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="4" *ngIf="isEditing">
+        <a ngbNavLink>{{ 'STATISTICS' | tr }}</a>
+        <ng-template ngbNavContent> Coming soon...</ng-template>
+      </li>
+    </ul>
+
+    <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
+  </form>
+</div>
+
+<div class="spinner-row" *ngIf="isEditing && !entityLoaded">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">{{ 'LOADING' | tr }}</span>
+  </div>
+</div>

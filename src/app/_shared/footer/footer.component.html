@@ -1,0 +1,51 @@
+<footer id="footerContainer">
+  <div class="container-sm footerHeaderContainer">
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between">
+      <div>
+        <h3>
+          <a href="https://datepollsystems.org/projects/waiterrobot" rel="noopener" style="color: white" target="_blank">WaiterRobot</a>
+        </h3>
+      </div>
+      <div fxFlex="20%">
+        <ul>
+          <li>
+            <app-about-modal></app-about-modal>
+          </li>
+          <li>
+            <div class="form-group">
+              <label for="changeLanguage">{{ 'LANGUAGE' | tr }}</label>
+              <!-- Set everywhere text-white class; Bug on macOs where text is not visible -->
+              <select class="form-control bg-dark text-white" id="changeLanguage" [(ngModel)]="selected" (ngModelChange)="setLang($event)">
+                <option value="de" class="text-white">{{ 'LANGUAGE_GERMAN' | tr }}</option>
+                <option value="en" class="text-white">{{ 'LANGUAGE_ENGLISH' | tr }}</option>
+                <option value="es" class="text-white">{{ 'LANGUAGE_SPANISH' | tr }}</option>
+                <option value="fr" class="text-white">{{ 'LANGUAGE_FRANCE' | tr }}</option>
+                <option value="it" class="text-white">{{ 'LANGUAGE_ITALIEN' | tr }}</option>
+                <option value="pt" class="text-white">{{ 'LANGUAGE_PORTUGUES' | tr }}</option>
+              </select>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="footerBarContainer">
+    <div class="container-sm">
+      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between">
+        <div>
+          <div style="float: left">Made with&nbsp;</div>
+          <div style="float: left; color: red" (click)="heart()">&hearts;&nbsp;</div>
+          <div style="float: left">
+            by
+            <a href="https://datepollsystems.org" rel="noopener" style="color: white" target="_blank">DatePoll-Systems</a>
+          </div>
+        </div>
+
+        <div>
+          <a routerLink="/info/imprint" style="color: white"> {{ 'ABOUT_IMPRINT' | tr }} & {{ 'ABOUT_PRIVACY_POLICY' | tr }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

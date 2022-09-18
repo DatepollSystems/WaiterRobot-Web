@@ -1,0 +1,109 @@
+<h1>{{ 'HOME_ORDERS_ALL' | tr }}</h1>
+
+<div class="spinner-row" *ngIf="!entitiesLoaded">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">{{ 'LOADING' | tr }}</span>
+  </div>
+</div>
+
+<form [hidden]="!entitiesLoaded">
+  <div class="input-group">
+    <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+    <button
+      class="btn btn-outline-secondary"
+      type="button"
+      ngbTooltip="{{ 'CLEAR' | tr }}"
+      placement="bottom"
+      (click)="filter.reset()"
+      *ngIf="filter?.value?.length > 0">
+      <i-bs name="x-circle-fill"></i-bs>
+    </button>
+  </div>
+</form>
+
+<div class="table-responsive" [hidden]="!entitiesLoaded">
+  <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="id" ngbSortDirection="asc">
+    <ng-container ngbColumnDef="select">
+      <th *ngbHeaderCellDef ngb-header-cell>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            name="checked"
+            (change)="$event ? toggleAllRows() : null"
+            [checked]="selection!.hasValue() && isAllSelected()" />
+        </div>
+      </th>
+      <td *ngbCellDef="let selectable" ngb-cell>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            name="checked"
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection!.toggle(selectable) : null"
+            [checked]="selection!.isSelected(selectable)" />
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="id">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
+      <td *ngbCellDef="let order" ngb-cell>{{ order.id }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="orderId">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+      <td *ngbCellDef="let order" ngb-cell>{{ order.orderId }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="table">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'TABLE' | tr }}</th>
+      <td *ngbCellDef="let order" ngb-cell>{{ order.table.name }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="product">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'PRODUCT' | tr }}</th>
+      <td *ngbCellDef="let order" ngb-cell>{{ order.product.name }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="waiter">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+      <td *ngbCellDef="let order" ngb-cell>{{ order.waiter.name }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="note">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+      <td *ngbCellDef="let order" ngb-cell>{{ order.note }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="amount">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'AMOUNT' | tr }}</th>
+      <td *ngbCellDef="let order" ngb-cell>{{ order.amount }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="state">
+      <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | tr }}</th>
+      <td *ngbCellDef="let order" ngb-cell>{{ order.state }}</td>
+    </ng-container>
+
+    <ng-container ngbColumnDef="actions">
+      <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+      <td *ngbCellDef="let order" ngb-cell>
+        <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ order.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+          <i-bs name="pencil-square"></i-bs>
+        </a>
+        <button
+          type="button"
+          class="btn btn-sm m-1 btn-outline-danger text-white"
+          ngbTooltip="{{ 'DELETE' | tr }}"
+          (click)="onDelete(order.id)">
+          <i-bs name="trash"></i-bs>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+    <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row></tr>
+  </table>
+</div>
