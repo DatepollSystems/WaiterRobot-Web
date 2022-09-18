@@ -4,5 +4,5 @@ export const environment = {
   version: require('../../package.json').version,
   production: true,
   type: 'prod',
-  apiUrl: '',
+  apiUrl: 'https://kellner.team/api/v1',
 };
