@@ -52,14 +52,14 @@ export class HomeComponent extends AComponent implements OnInit {
     this.environmentType = EnvironmentHelper.getType();
 
     this.isMobile = this.isMobileService.getIsMobile();
-    this.autoUnsubscribe(
+    this.unsubscribe(
       this.isMobileService.isMobileChange.subscribe((value) => {
         this.isMobile = value;
       })
     );
 
     this.myUser = this.myUserService.getUser();
-    this.autoUnsubscribe(
+    this.unsubscribe(
       this.myUserService.userChange.subscribe((user) => {
         this.myUser = user;
         if (this.myUser.isAdmin) {
@@ -70,7 +70,7 @@ export class HomeComponent extends AComponent implements OnInit {
     );
 
     this.selectedOrganisation = this.organisationsService.getSelected();
-    this.autoUnsubscribe(
+    this.unsubscribe(
       this.organisationsService.selectedChange.subscribe((value) => {
         this.selectedOrganisation = value;
         this.onEventInit();
@@ -79,7 +79,7 @@ export class HomeComponent extends AComponent implements OnInit {
     );
 
     this.allOrgs = this.organisationsService.getAll().slice(0, 5);
-    this.autoUnsubscribe(
+    this.unsubscribe(
       this.organisationsService.allChange.subscribe((orgs) => {
         this.allOrgs = orgs.slice(0, 5);
       })
@@ -99,14 +99,14 @@ export class HomeComponent extends AComponent implements OnInit {
   onEventInit(): void {
     if (this.selectedOrganisation != null) {
       this.allEvents = this.eventsService.getAll().slice(0, 5);
-      this.autoUnsubscribe(
+      this.unsubscribe(
         this.eventsService.allChange.subscribe((events) => {
           this.allEvents = events.slice(0, 5);
         })
       );
 
       this.selectedEvent = this.eventsService.getSelected();
-      this.autoUnsubscribe(
+      this.unsubscribe(
         this.eventsService.selectedChange.subscribe((event) => {
           this.selectedEvent = event;
           this.setNavItems();
@@ -119,7 +119,7 @@ export class HomeComponent extends AComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.autoClear(
+    this.clearTimeout(
       window.setTimeout(() => {
         if (window.innerWidth < 992) {
           const navContent = document.getElementById('navbarSupportedContent');
@@ -137,7 +137,7 @@ export class HomeComponent extends AComponent implements OnInit {
       {text: 'NAV_PRODUCTS', routerLink: 'products', show: !!this.selectedEvent},
       {text: 'NAV_PRINTERS', routerLink: 'printers', show: !!this.myUser?.isAdmin},
       {text: 'NAV_WAITERS', routerLink: 'waiters', show: true},
-      {text: 'NAV_ORDERS', routerLink: 'orders', show: true},
+      {text: 'NAV_ORDERS', routerLink: 'orders', show: !!this.selectedEvent},
     ];
   }
 
