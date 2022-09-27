@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Component} from '@angular/core';
-import {AComponent, BrowserHelper, BrowserInfo, ByPassInterceptorBuilder} from 'dfx-helper';
+import {AComponent, BrowserHelper, BrowserInfo} from 'dfx-helper';
 import {EnvironmentHelper} from '../../_helper/EnvironmentHelper';
 import {MyUserModel} from '../../_models/user/my-user.model';
 import {JsonInfoResponse} from '../../_models/waiterrobot-backend';
@@ -23,8 +23,6 @@ export class StartComponent extends AComponent {
   refreshIn = 5;
   status: 'Online' | 'Offline' = 'Online';
   serverInfoResponse?: JsonInfoResponse;
-
-  byPassLoggingInterceptor = new ByPassInterceptorBuilder().logging().enable();
 
   myUser?: MyUserModel;
 
@@ -55,7 +53,7 @@ export class StartComponent extends AComponent {
     this.refreshIn = 6;
     this.localTime = new Date();
     const startMs = new Date().getTime();
-    this.httpClient.get<JsonInfoResponse>('/json', {context: this.byPassLoggingInterceptor}).subscribe({
+    this.httpClient.get<JsonInfoResponse>('/json').subscribe({
       next: (response: JsonInfoResponse) => {
         this.lastPing = new Date();
         this.responseTime = this.lastPing.getTime() - startMs - 2; // Minus 2 because it takes ~ 2ms to convert the message
