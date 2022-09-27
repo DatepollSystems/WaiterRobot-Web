@@ -50,6 +50,8 @@
   "LAST_CONTACT": "Letzter Kontakt",
   "WARNING": "Warnung",
   "SELECTED": "Ausgewählt",
+  "AMOUNT": "Anzahl",
+  "STATE": "Status",
 
   "REQUEST_ERROR_CLIENT": "Client fehler",
   "REQUEST_ERROR_SERVER": "Server fehler",
@@ -230,5 +232,7 @@
   "HOME_PRINTER_SELECT_EVENT_DEFAULT": "Wähle ein Event aus",
   "HOME_PRINTER_SELECT_EVENT_INCORRECT": "Es muss ein Event ausgewählt sein",
 
-  "HOME_ORDERS_ALL": "Alle Bestellungen"
+  "HOME_ORDERS_ALL": "Alle Bestellungen",
+  "HOME_ORDER_ID": "Order Nr.",
+  "HOME_ORDER_NOTE": "Notiz"
 }
