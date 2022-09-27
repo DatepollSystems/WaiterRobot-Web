@@ -5,7 +5,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 
 import {NgbDatepickerModule, NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {EventSelectedGuard} from '../../_services/guards/event-selected-guard.service';
@@ -46,6 +46,7 @@ const routes: Routes = [
     IconsModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
+    DfxPaginationModule,
   ],
 })
 export class OrdersModule {}

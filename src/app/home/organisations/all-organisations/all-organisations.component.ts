@@ -31,14 +31,14 @@ export class AllOrganisationsComponent extends AbstractModelsListComponent<Organ
     this.setSelectable();
 
     this.myUser = this.myUserService.getUser();
-    this.autoUnsubscribe(
+    this.unsubscribe(
       this.myUserService.userChange.subscribe((user) => {
         this.myUser = user;
       })
     );
 
     this.selectedOrganisation = this.organisationsService.getSelected();
-    this.autoUnsubscribe(
+    this.unsubscribe(
       this.organisationsService.selectedChange.subscribe((organisation) => {
         this.selectedOrganisation = organisation;
       })

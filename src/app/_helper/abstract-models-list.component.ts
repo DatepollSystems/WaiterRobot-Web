@@ -18,8 +18,8 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
   protected lumber = LoggerFactory.getLogger('AModelsListComponent');
 
   // Table stuff
-  @ViewChild(NgbSort, {static: true}) sort: NgbSort | undefined;
-  @ViewChild(NgbPaginator, {static: true}) paginator: NgbPaginator | undefined;
+  @ViewChild(NgbSort, {static: true}) sort?: NgbSort;
+  @ViewChild(NgbPaginator, {static: true}) paginator?: NgbPaginator;
   protected abstract columnsToDisplay: string[];
   protected sortingDataAccessors?: Map<string, (it: EntityType) => any>;
   public filter = new UntypedFormControl();
@@ -60,7 +60,7 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
     // if (this.entities.length > 0) {
     //   this.entitiesLoaded = true;
     // }
-    this.autoUnsubscribe(
+    this.unsubscribe(
       this.entitiesService.allChange.subscribe((value) => {
         this.entities = value;
         this.onEntitiesLoaded();
@@ -84,7 +84,9 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
         return fun(item);
       };
     }
-    this.dataSource.sort = this.sort;
+    if (this.sort) {
+      this.dataSource.sort = this.sort;
+    }
     if (this.paginator) {
       this.dataSource.paginator = this.paginator;
     }
