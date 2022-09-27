@@ -4,19 +4,20 @@ stages:
   - build
   - deploy
 
+cache:
+  paths:
+    - node_modules/
+
 build-release:
+  stage: build
   only:
     - tags
   except:
     - branches
-  stage: build
   artifacts:
     expire_in: 1 week
     paths:
       - dist/
-  cache:
-    paths:
-      - node_modules/
   script:
     - npm install --force --loglevel=error --no-progress
     - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
@@ -25,16 +26,13 @@ build-release:
     - ls -al
 
 build-testing:
+  stage: build
   only:
     - develop
-  stage: build
   artifacts:
     expire_in: 1 week
     paths:
       - dist/
-  cache:
-    paths:
-      - node_modules/
   script:
     - npm install --force --loglevel=error --no-progress
     - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
@@ -50,9 +48,6 @@ build-dev:
     expire_in: 1 week
     paths:
       - dist/
-  cache:
-    paths:
-      - node_modules/
   script:
     - npm install --force  --loglevel=error --no-progress
     - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
@@ -61,15 +56,15 @@ build-dev:
     - ls -al
 
 deploy-release:
-  tags:
-    - 'dafnik'
   stage: deploy
+  needs: ['build-release']
   dependencies:
     - build-release
   only:
     - tags
   except:
     - branches
+  cache: {}
   script:
     - apt-get update -qq && apt-get install -y -qq zip openssh-client >> /dev/null
     - eval "$(ssh-agent -s)"
@@ -83,13 +78,13 @@ deploy-release:
     - scp -P $SSH_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR "WaiterRobot-Web-${version}.zip" $SSH_USERNAME@$SSH_HOST:/var/www/datepoll-share/WaiterRobot/Web-Releases/ > /dev/null
 
 deploy-dev:
-  tags:
-    - 'dafnik'
   stage: deploy
-  only:
-    - develop
+  needs: ['build-dev']
   dependencies:
     - build-dev
+  only:
+    - develop
+  cache: {}
   script:
     - apt-get update -qq && apt-get install -y -qq zip openssh-client >> /dev/null
     - eval "$(ssh-agent -s)"
@@ -103,10 +98,12 @@ deploy-testing:
   tags:
     - kaupis
   stage: deploy
+  needs: ['build-testing']
   dependencies:
     - build-testing
   only:
     - develop
+  cache: {}
   script:
     - apt-get update -qq && apt-get install -y -qq zip openssh-client >> /dev/null
     - eval "$(ssh-agent -s)"
