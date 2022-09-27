@@ -6,10 +6,8 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxTrackByModule, StringHelper} from 'dfx-helper';
+import {DfxImplodePipeModule, DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
-
-import {GetWaiterMinResponse} from '../../_models/waiterrobot-backend';
 import {OrganisationSelectedGuard} from '../../_services/guards/organisation-selected-guard.service';
 import {AppBtnToolbarComponent} from '../../_shared/btn-toolbar/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
@@ -72,13 +70,7 @@ const routes: Routes = [
     QuestionDialogModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
+    DfxImplodePipeModule,
   ],
 })
 export class WaitersModule {}
-
-export function getEventsName(events: GetWaiterMinResponse[]): string {
-  return StringHelper.getImploded(
-    events.map((it) => it.name),
-    25
-  );
-}

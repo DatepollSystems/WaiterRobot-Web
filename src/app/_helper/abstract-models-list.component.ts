@@ -4,7 +4,7 @@ import {UntypedFormControl} from '@angular/forms';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgbPaginator, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
-import {AComponent, AEntityService, IEntityWithName, IList, List, LoggerFactory, StringHelper, StringOrNumber} from 'dfx-helper';
+import {AComponent, AEntityService, IEntityWithName, IList, imploderBuilder, List, loggerOf, StringOrNumber} from 'dfx-helper';
 
 import {QuestionDialogComponent} from '../_shared/question-dialog/question-dialog.component';
 
@@ -15,7 +15,7 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
   extends AComponent
   implements AfterViewInit
 {
-  protected lumber = LoggerFactory.getLogger('AModelsListComponent');
+  protected lumber = loggerOf('AModelsListComponent');
 
   // Table stuff
   @ViewChild(NgbSort, {static: true}) sort?: NgbSort;
@@ -124,11 +124,11 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
     this.lumber.info('onDeleteSelected', 'Selected entities:', this.selection.selected);
     const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
     modalRef.componentInstance.title = 'DELETE_ALL';
-    modalRef.componentInstance.info = `<ol><li>${StringHelper.getImploded(
-      this.selection.selected.map((it) => it.name),
-      undefined,
-      '</li><li>'
-    )}</li></ol>`;
+    const list = imploderBuilder()
+      .mappedSource(this.selection.selected, (it) => it.name)
+      .separator('</li><li>')
+      .build();
+    modalRef.componentInstance.info = `<ol><li>${list}</li></ol>`;
     void modalRef.result.then((result) => {
       this.lumber.info('onDeleteSelected', 'Question dialog result:', result);
       if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {

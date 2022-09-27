@@ -1,4 +1,4 @@
-import {AEntityWithNumberIDAndName, EntityList, IEntityList, StringHelper} from 'dfx-helper';
+import {AEntityWithNumberIDAndName, EntityList, IEntityList, imploderBuilder} from 'dfx-helper';
 import {AllergenModel} from '../allergen.model';
 import {GetAllergenResponse, GetProductMaxResponse} from '../waiterrobot-backend';
 
@@ -30,7 +30,10 @@ export class ProductModel extends AEntityWithNumberIDAndName {
 
   public allergens_short_names(): string {
     if (!this.allergensShortName) {
-      this.allergensShortName = StringHelper.getImploded(this.allergens.map((allergen) => allergen.shortName));
+      this.allergensShortName = imploderBuilder()
+        .mappedSource(this.allergens, (it) => it.shortName)
+        .separator(', ')
+        .build();
     }
     return this.allergensShortName;
   }

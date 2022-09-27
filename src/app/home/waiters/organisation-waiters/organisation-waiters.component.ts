@@ -1,16 +1,14 @@
 import {Component} from '@angular/core';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {StringHelper} from 'dfx-helper';
 
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
 
 import {OrganisationModel} from '../../../_models/organisation/organisation.model';
 import {WaiterModel} from '../../../_models/waiter/waiter.model';
-import {GetWaiterMinResponse} from '../../../_models/waiterrobot-backend';
+import {GetEventOrLocationMinResponse} from '../../../_models/waiterrobot-backend';
 import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
 import {WaitersService} from '../../../_services/models/waiter/waiters.service';
-import {getEventsName} from '../waiters.module';
 
 @Component({
   selector: 'app-organisation-waiters',
@@ -28,7 +26,7 @@ export class OrganisationWaitersComponent extends AbstractModelsListComponent<Wa
     this.setSelectable();
 
     this.selectedOrganisation = organisationsService.getSelected();
-    this.autoUnsubscribe(
+    this.unsubscribe(
       organisationsService.selectedChange.subscribe((org) => {
         this.selectedOrganisation = org;
       })
@@ -41,5 +39,5 @@ export class OrganisationWaitersComponent extends AbstractModelsListComponent<Wa
     super.initializeEntities();
   }
 
-  public getEventsName = (events: GetWaiterMinResponse[]) => getEventsName(events);
+  onMap = (it: GetEventOrLocationMinResponse) => it.name;
 }
