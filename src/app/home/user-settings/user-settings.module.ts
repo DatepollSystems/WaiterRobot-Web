@@ -21,7 +21,7 @@ const routes: Routes = [
     component: UserSettingsComponent,
     children: [
       {path: 'settings', component: UserSettingsSubComponent},
-      {path: 'sessions', title: 'Sessions', component: SessionsComponent},
+      {path: 'sessions', title: 'NAV_USER_SESSIONS', component: SessionsComponent},
       {path: '', pathMatch: 'full', redirectTo: '/home/usettings/settings'},
     ],
   },
