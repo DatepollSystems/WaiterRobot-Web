@@ -10,7 +10,7 @@ import {TitleStrategy} from '@angular/router';
 
 import {NgbDateAdapter, NgbDateParserFormatter, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {LoadingBarRouterModule} from '@ngx-loading-bar/router';
-import {BaseUrlInterceptor, DfxHelperModule, DfxTrackByModule, LoggingInterceptor, PostPutJsonContentTypeInterceptor} from 'dfx-helper';
+import {BaseUrlInterceptor, DfxHelperModule, DfxTrackByModule, LoggingInterceptor, PostPutJsonContentType} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 import {EnvironmentHelper} from './_helper/EnvironmentHelper';
 
@@ -58,7 +58,7 @@ import {CustomTitleStrategy} from './custom-title.strategy';
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: PostPutJsonContentTypeInterceptor,
+      useClass: PostPutJsonContentType,
       multi: true,
     },
     {

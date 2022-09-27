@@ -1,14 +1,14 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
-
 import {RouterModule, Routes} from '@angular/router';
-import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
+import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {DfxTimeSpanPipe} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
+
 import {AppDownloadBtnListModule} from '../../_shared/download-btn-list/app-download-btn-list.module';
 import {StartComponent} from './start.component';
-import {TimeSpanModule} from '../../_shared/time-span.pipe';
 
 const startRoutes: Routes = [{path: '', component: StartComponent}];
 
@@ -21,7 +21,7 @@ const startRoutes: Routes = [{path: '', component: StartComponent}];
     FlexLayoutModule,
     AppDownloadBtnListModule,
     NgbTooltipModule,
-    TimeSpanModule,
+    DfxTimeSpanPipe,
   ],
 })
 export class StartModule {}
