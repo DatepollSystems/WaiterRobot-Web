@@ -106,5 +106,5 @@
     <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
     <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row></tr>
   </table>
-  <ngb-paginator [collectionSize]="dataSource.data.length"></ngb-paginator>
+  <ngb-paginator [collectionSize]="dataSource.data.length" [pageSizes]="[100, 250, 500, 1000, 2000]" [pageSize]="250"></ngb-paginator>
 </div>
