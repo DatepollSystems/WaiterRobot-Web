@@ -50,7 +50,7 @@ const homeRoutes: Routes = [
       },
       {
         path: 'products',
-        title: 'NAV_PRODUCRS',
+        title: 'NAV_PRODUCTS',
         loadChildren: () => import('./products/products.module').then((m) => m.ProductsModule),
       },
       {
