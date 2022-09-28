@@ -1,6 +1,5 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {RouterModule, Routes} from '@angular/router';
 
 import {DfxTranslateModule} from 'dfx-translate';
@@ -21,7 +20,6 @@ const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
-    FlexLayoutModule,
     DfxTranslateModule,
     AppDownloadBtnListModule,
     AppLogoWithTextComponent,

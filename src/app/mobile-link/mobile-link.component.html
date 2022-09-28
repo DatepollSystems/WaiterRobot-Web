@@ -1,15 +1,9 @@
 <div class="d-container text-white">
   <app-logo-with-text></app-logo-with-text>
-  <div
-    fxLayout="row"
-    fxLayoutGap="2%"
-    fxLayoutAlign="center start"
-    fxLayout.lt-sm="column"
-    fxLayoutAlign.lt-sm="center"
-    style="padding: 15px 10px">
-    <div class="card bg-dark">
+  <div style="padding: 15px 10px">
+    <div class="card bg-dark mx-auto col-11 col-md-6 col-lg-4">
       <div class="card-body">
-        <p class="card-text text-center">
+        <p class="card-text">
           {{ 'MOBILE_LINK' | tr }}
         </p>
         <app-download-btn-list [showQRCodeButton]="false"></app-download-btn-list>
