@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
-import {EntityList, IEntityList, IEntityWithName, IEntityWithNumberIDAndName, StringOrNumber} from 'dfx-helper';
+import {EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfx-helper';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
 import {EventModel} from '../../../_models/event.model';
@@ -60,11 +60,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     if (!this.isEditing) {
       console.log('Adding selected model if selected....');
       this.selectedEvents.add(this.eventsService.getSelected());
-      this.unsubscribe(
-        this.eventsService.selectedChange.subscribe((event) => {
-          this.selectedEvents.addIfAbsent(event);
-        })
-      );
+      this.unsubscribe(this.eventsService.selectedChange.subscribe((event) => this.selectedEvents.addIfAbsent(event)));
     }
   }
 

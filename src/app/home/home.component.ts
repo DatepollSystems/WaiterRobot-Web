@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {AComponent, Converter, IsMobileService, LoggerFactory} from 'dfx-helper';
+import {AComponent, Converter, IsMobileService, loggerOf} from 'dfx-helper';
 
 import {EnvironmentHelper} from '../_helper/EnvironmentHelper';
 import {EventModel} from '../_models/event.model';
@@ -25,7 +25,7 @@ import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.componen
 export class HomeComponent extends AComponent implements OnInit {
   environmentType = 'prod';
   showEnvironmentType = true;
-  lumber = LoggerFactory.getLogger('HomeComponent');
+  lumber = loggerOf('HomeComponent');
 
   adminModeChanged = false;
   myUser?: MyUserModel;
@@ -51,38 +51,26 @@ export class HomeComponent extends AComponent implements OnInit {
 
     this.environmentType = EnvironmentHelper.getType();
 
-    this.isMobile = this.isMobileService.getIsMobile();
-    this.unsubscribe(
-      this.isMobileService.isMobileChange.subscribe((value) => {
-        this.isMobile = value;
-      })
-    );
-
+    this.isMobile = this.isMobileService.isMobile;
     this.myUser = this.myUserService.getUser();
+    this.selectedOrganisation = this.organisationsService.getSelected();
+    this.allOrgs = this.organisationsService.getAll().slice(0, 5);
+
     this.unsubscribe(
+      this.isMobileService.isMobileChange.subscribe((value) => (this.isMobile = value)),
       this.myUserService.userChange.subscribe((user) => {
         this.myUser = user;
         if (this.myUser.isAdmin) {
           this.lumber.info('const', 'Admin status detected');
         }
         this.setNavItems();
-      })
-    );
-
-    this.selectedOrganisation = this.organisationsService.getSelected();
-    this.unsubscribe(
+      }),
       this.organisationsService.selectedChange.subscribe((value) => {
         this.selectedOrganisation = value;
         this.onEventInit();
         this.setNavItems();
-      })
-    );
-
-    this.allOrgs = this.organisationsService.getAll().slice(0, 5);
-    this.unsubscribe(
-      this.organisationsService.allChange.subscribe((orgs) => {
-        this.allOrgs = orgs.slice(0, 5);
-      })
+      }),
+      this.organisationsService.allChange.subscribe((it) => (this.allOrgs = it.slice(0, 5)))
     );
 
     this.onEventInit();

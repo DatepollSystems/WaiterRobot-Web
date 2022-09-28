@@ -1,19 +1,19 @@
 import {HttpClient, HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {LoggerFactory} from 'dfx-helper';
 
-import {BehaviorSubject, Observable, throwError} from 'rxjs';
-import {catchError, filter, switchMap, take} from 'rxjs/operators';
-import {EnvironmentHelper} from '../../_helper/EnvironmentHelper';
+import {loggerOf} from 'dfx-helper';
+import {BehaviorSubject, Observable, throwError, catchError, filter, switchMap, take} from 'rxjs';
+
 import {JWTResponse} from '../../_models/waiterrobot-backend';
-import {NotificationService} from '../notifications/notification.service';
 
+import {EnvironmentHelper} from '../../_helper/EnvironmentHelper';
+import {NotificationService} from '../notifications/notification.service';
 import {AuthService} from './auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  private lumber = LoggerFactory.getLogger('AuthInterceptor');
+  private lumber = loggerOf('AuthInterceptor');
 
   constructor(
     private http: HttpClient,

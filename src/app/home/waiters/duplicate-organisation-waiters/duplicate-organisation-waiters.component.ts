@@ -30,7 +30,7 @@ export class DuplicateOrganisationWaitersComponent extends AbstractModelsListCom
   }
 
   protected override onEntitiesLoaded(): void {
-    this.autoUnsubscribe(
+    this.unsubscribe(
       this.route.paramMap.subscribe((params) => {
         let name = params.get('name');
         if (name != null) {

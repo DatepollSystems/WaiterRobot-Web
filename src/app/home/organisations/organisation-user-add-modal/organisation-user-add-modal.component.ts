@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {AComponent, AEntityWithNumberIDAndName, LoggerFactory, StringHelper} from 'dfx-helper';
+import {AComponent, AEntityWithNumberIDAndName, loggerOf, StringHelper} from 'dfx-helper';
 import {TranslateService} from 'dfx-translate';
 import {OrganisationsUsersService} from '../../../_services/models/organisation/organisations-users.service';
 
@@ -17,7 +17,7 @@ export class OrganisationUserAddModalComponent extends AComponent {
   entity: AEntityWithNumberIDAndName | undefined;
   emailAddresses: string[] = [];
 
-  private lumber = LoggerFactory.getLogger('OrganisationUserAddModal');
+  private lumber = loggerOf('OrganisationUserAddModal');
 
   constructor(
     public activeModal: NgbActiveModal,

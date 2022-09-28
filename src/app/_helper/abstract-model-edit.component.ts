@@ -3,7 +3,7 @@ import {NgForm} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {AComponent, Converter, IEntityWithNumberIDAndName, LoggerFactory, TypeHelper} from 'dfx-helper';
+import {AComponent, Converter, IEntityWithNumberIDAndName, loggerOf, TypeHelper} from 'dfx-helper';
 
 import {AbstractModelService} from '../_services/models/abstract-model.service';
 import {QuestionDialogComponent} from '../_shared/question-dialog/question-dialog.component';
@@ -15,7 +15,7 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
   protected abstract redirectUrl: string;
   protected onlyEditingTabs: number[] = [];
 
-  protected lumber = LoggerFactory.getLogger('AModelEditComponent');
+  protected lumber = loggerOf('AModelEditComponent');
 
   public isEditing = false;
   public activeTab = 1;
@@ -49,7 +49,7 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
             this.entityLoaded = true;
             this.onEntityEdit(this.entity);
           }
-          this.autoUnsubscribe(
+          this.unsubscribe(
             this.modelService.singleChange.subscribe((value) => {
               this.entity = value;
               this.entityLoaded = true;

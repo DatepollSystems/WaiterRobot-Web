@@ -31,20 +31,18 @@ export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
     router: Router,
     modal: NgbModal,
     public eventsService: EventsService,
-    private myUserService: MyUserService,
-    private organisationsService: OrganisationsService
+    private organisationsService: OrganisationsService,
+    myUserService: MyUserService
   ) {
     super(router, route, modal, eventsService);
 
-    this.myUser = this.myUserService.getUser();
-    this.autoUnsubscribe(
-      this.myUserService.userChange.subscribe((user) => {
-        this.myUser = user;
-      })
-    );
-
+    this.myUser = myUserService.getUser();
     this.selectedEvent = this.eventsService.getSelected();
-    this.autoUnsubscribe(
+
+    this.unsubscribe(
+      myUserService.userChange.subscribe((user) => {
+        this.myUser = user;
+      }),
       this.eventsService.selectedChange.subscribe((value) => {
         this.selectedEvent = value;
       })

@@ -16,21 +16,15 @@ export class EventsComponent extends AComponent {
   events: EventModel[];
   selectedEvent: EventModel | undefined;
 
-  constructor(private myUserService: MyUserService, private eventsService: EventsService) {
+  constructor(myUserService: MyUserService, eventsService: EventsService) {
     super();
 
-    this.events = this.eventsService.getAll().slice(0, 5);
-    this.autoUnsubscribe(
-      this.eventsService.allChange.subscribe((value: EventModel[]) => {
-        this.events = value.slice(0, 5);
-      })
-    );
+    this.events = eventsService.getAll().slice(0, 5);
+    this.selectedEvent = eventsService.getSelected();
 
-    this.selectedEvent = this.eventsService.getSelected();
-    this.autoUnsubscribe(
-      this.eventsService.selectedChange.subscribe((value) => {
-        this.selectedEvent = value;
-      })
+    this.unsubscribe(
+      eventsService.allChange.subscribe((it) => (this.events = it.slice(0, 5))),
+      eventsService.selectedChange.subscribe((it) => (this.selectedEvent = it))
     );
   }
 }

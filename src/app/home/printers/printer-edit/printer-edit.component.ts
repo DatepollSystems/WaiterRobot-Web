@@ -27,13 +27,11 @@ export class PrinterEditComponent extends AbstractModelEditComponent<PrinterMode
     super(router, route, modal, printersSerivce);
 
     this.selectedEvent = eventsService.getSelected();
-    this.autoUnsubscribe(eventsService.selectedChange.subscribe((event) => (this.selectedEvent = event)));
-
     this.events = eventsService.getAll();
-    this.autoUnsubscribe(
-      eventsService.allChange.subscribe((events) => {
-        this.events = events;
-      })
+
+    this.unsubscribe(
+      eventsService.selectedChange.subscribe((it) => (this.selectedEvent = it)),
+      eventsService.allChange.subscribe((it) => (this.events = it))
     );
   }
 

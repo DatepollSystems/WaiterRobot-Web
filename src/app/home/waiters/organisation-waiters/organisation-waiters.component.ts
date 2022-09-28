@@ -26,11 +26,7 @@ export class OrganisationWaitersComponent extends AbstractModelsListComponent<Wa
     this.setSelectable();
 
     this.selectedOrganisation = organisationsService.getSelected();
-    this.unsubscribe(
-      organisationsService.selectedChange.subscribe((org) => {
-        this.selectedOrganisation = org;
-      })
-    );
+    this.unsubscribe(organisationsService.selectedChange.subscribe((it) => (this.selectedOrganisation = it)));
     this.entitiesService.setSelectedOrganisationGetAllUrl();
   }
 

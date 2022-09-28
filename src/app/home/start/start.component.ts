@@ -32,7 +32,7 @@ export class StartComponent extends AComponent {
     this.isProduction = EnvironmentHelper.getProduction();
     this.type = EnvironmentHelper.getType();
 
-    this.autoClearInterval(
+    this.clearInterval(
       window.setInterval(() => {
         this.localTime = new Date();
         this.refreshIn--;
@@ -41,10 +41,10 @@ export class StartComponent extends AComponent {
 
     this.getPing();
 
-    this.autoClearInterval(window.setInterval(() => this.getPing(), 1000 * 6));
+    this.clearInterval(window.setInterval(() => this.getPing(), 1000 * 6));
 
     this.myUser = myUserService.getUser();
-    this.autoUnsubscribe(myUserService.userChange.subscribe((user) => (this.myUser = user)));
+    this.unsubscribe(myUserService.userChange.subscribe((user) => (this.myUser = user)));
 
     this.browserInfos = BrowserHelper.infos();
   }

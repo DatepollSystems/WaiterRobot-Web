@@ -21,15 +21,15 @@ export class UserSettingsSubComponent extends AComponent {
   emailAddress: string | undefined = '';
 
   constructor(
+    myUserService: MyUserService,
     private notificationService: NotificationService,
-    private myUserService: MyUserService,
     private userSettingsService: UserSettingsService
   ) {
     super();
 
-    this.emailAddress = this.myUserService.getUser()?.emailAddress;
-    this.autoUnsubscribe(
-      this.myUserService.userChange.subscribe((user) => {
+    this.emailAddress = myUserService.getUser()?.emailAddress;
+    this.unsubscribe(
+      myUserService.userChange.subscribe((user) => {
         this.emailAddress = user.emailAddress;
       })
     );
@@ -57,7 +57,7 @@ export class UserSettingsSubComponent extends AComponent {
       if (this.newPasswordsMatch) {
         if (this.newPassword.toLowerCase() === 'do the barrel roll') {
           document.getElementById('body')?.classList.add('roll');
-          this.autoClear(
+          this.clearTimeout(
             window.setTimeout(() => {
               document.getElementById('body')?.classList.remove('roll');
             }, 4100)
