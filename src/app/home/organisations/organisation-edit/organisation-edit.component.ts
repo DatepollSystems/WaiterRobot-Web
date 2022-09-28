@@ -70,13 +70,11 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
     this.settings = this.organisationsSettingsService.getSettings(model.id);
     this.refreshTable();
     this.unsubscribe(
-      this.organisationsUsersService.allChange.subscribe((value) => {
-        this.organisationUsers = value;
+      this.organisationsUsersService.allChange.subscribe((it) => {
+        this.organisationUsers = it;
         this.refreshTable();
       }),
-      this.organisationsSettingsService.settingsChange.subscribe((value) => {
-        this.settings = value;
-      })
+      this.organisationsSettingsService.settingsChange.subscribe((it) => (this.settings = it))
     );
   }
 

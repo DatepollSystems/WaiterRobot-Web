@@ -46,13 +46,13 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     this.selectedOrganisation = this.organisationsService.getSelected();
 
     this.unsubscribe(
-      this.eventsService.allChange.subscribe((models) => {
-        this.events = models;
+      this.eventsService.allChange.subscribe((it) => {
+        this.events = it;
         if (this.isEditing && this.entity) {
           this.onEntityEdit(this.entity);
         }
       }),
-      this.organisationsService.selectedChange.subscribe((organisation) => (this.selectedOrganisation = organisation))
+      this.organisationsService.selectedChange.subscribe((it) => (this.selectedOrganisation = it))
     );
   }
 
@@ -60,7 +60,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     if (!this.isEditing) {
       console.log('Adding selected model if selected....');
       this.selectedEvents.add(this.eventsService.getSelected());
-      this.unsubscribe(this.eventsService.selectedChange.subscribe((event) => this.selectedEvents.addIfAbsent(event)));
+      this.unsubscribe(this.eventsService.selectedChange.subscribe((it) => this.selectedEvents.addIfAbsent(it)));
     }
   }
 
@@ -102,7 +102,5 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
 
   formatter = (it: unknown) => (it as IEntityWithNumberIDAndName).name;
 
-  changeSelectedEvents(selectedEvents: any[]): void {
-    this.selectedEvents = new EntityList(selectedEvents);
-  }
+  changeSelectedEvents = (selectedEvents: any[]) => (this.selectedEvents = new EntityList(selectedEvents));
 }

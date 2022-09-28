@@ -16,9 +16,9 @@ export class DuplicateWaitersService extends AbstractModelService<DuplicateWaite
   constructor(httpClient: HttpClient, private organisationService: OrganisationsService) {
     super(httpClient);
     this.setGetAllParams([{key: 'organisationId', value: this.organisationService.getSelected()?.id}]);
-    this.organisationService.selectedChange.subscribe((org) => {
-      if (org) {
-        this.setGetAllParams([{key: 'organisationId', value: org.id}]);
+    this.organisationService.selectedChange.subscribe((it) => {
+      if (it) {
+        this.setGetAllParams([{key: 'organisationId', value: it.id}]);
         this.getAll();
       }
     });
