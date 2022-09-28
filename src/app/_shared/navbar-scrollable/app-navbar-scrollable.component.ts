@@ -2,7 +2,6 @@ import {AfterViewInit, Component, EventEmitter, Input, Output} from '@angular/co
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {CdkDragDrop, DragDropModule, moveItemInArray} from '@angular/cdk/drag-drop';
 
@@ -10,22 +9,13 @@ import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {StorageHelper} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {AppBtnToolbarComponent} from '../btn-toolbar/app-btn-toolbar.component';
+import {AppBtnToolbarComponent} from '../app-btn-toolbar.component';
 import {IconsModule} from '../icons.module';
 
 @Component({
   selector: 'app-navbar-scrollable',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    DragDropModule,
-    FlexLayoutModule,
-    DfxTranslateModule,
-    NgbTooltipModule,
-    IconsModule,
-    AppBtnToolbarComponent,
-  ],
+  imports: [CommonModule, RouterModule, DragDropModule, DfxTranslateModule, IconsModule, NgbTooltipModule, AppBtnToolbarComponent],
   templateUrl: './app-navbar-scrollable.component.html',
   styleUrls: ['./app-navbar-scrollable.component.scss'],
 })

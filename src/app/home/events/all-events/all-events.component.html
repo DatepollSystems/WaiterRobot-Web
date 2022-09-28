@@ -1,6 +1,6 @@
 <h1>{{ 'NAV_EVENTS' | tr }}</h1>
 
-<app-btn-toolbar *ngIf="myUser?.isAdmin">
+<btn-toolbar *ngIf="myUser?.isAdmin">
   <div>
     <a routerLink="../create" class="btn btn-sm btn-outline-success">
       <i-bs name="plus-circle"></i-bs>
@@ -14,7 +14,7 @@
       {{ 'DELETE' | tr }}
     </button>
   </div>
-</app-btn-toolbar>
+</btn-toolbar>
 
 <div class="spinner-row" *ngIf="!entitiesLoaded">
   <div class="spinner-border" role="status">
@@ -96,11 +96,11 @@
     <ng-container ngbColumnDef="actions">
       <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
       <td *ngbCellDef="let event" ngb-cell>
-        <app-selectable-button
+        <selectable-button
           class="me-2"
           [selectedEntity]="selectedEvent"
           [entity]="event"
-          [selectedEntityService]="eventsService"></app-selectable-button>
+          [selectedEntityService]="eventsService"></selectable-button>
         <a class="btn btn-sm me-2 btn-outline-success text-white" routerLink="../{{ event.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
           <i-bs name="pencil-square"></i-bs>
         </a>

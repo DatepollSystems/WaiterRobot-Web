@@ -27,7 +27,6 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
 
   selectedOrganisation: OrganisationModel | undefined;
   events: IEntityList<EventModel> = new EntityList();
-  preSelectedEvents?: IEntityList<IEntityWithNumberIDAndName>;
   selectedEvents: IEntityList<IEntityWithNumberIDAndName> = new EntityList();
 
   qrCodeModal: NgbModalRef | undefined;
@@ -44,28 +43,25 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     super(router, route, modal, waitersService);
 
     this.events = this.eventsService.getAll();
-    this.autoUnsubscribe(
+    this.selectedOrganisation = this.organisationsService.getSelected();
+
+    this.unsubscribe(
       this.eventsService.allChange.subscribe((models) => {
         this.events = models;
         if (this.isEditing && this.entity) {
           this.onEntityEdit(this.entity);
         }
-      })
+      }),
+      this.organisationsService.selectedChange.subscribe((organisation) => (this.selectedOrganisation = organisation))
     );
-
-    this.selectedOrganisation = this.organisationsService.getSelected();
-    this.autoUnsubscribe(this.organisationsService.selectedChange.subscribe((organisation) => (this.selectedOrganisation = organisation)));
   }
 
   override onEntityCreate(): void {
     if (!this.isEditing) {
       console.log('Adding selected model if selected....');
-      const selected = this.eventsService.getSelected();
-      this.preSelectedEvents = new EntityList(selected);
-      this.selectedEvents.add(selected);
-      this.autoUnsubscribe(
+      this.selectedEvents.add(this.eventsService.getSelected());
+      this.unsubscribe(
         this.eventsService.selectedChange.subscribe((event) => {
-          this.preSelectedEvents = new EntityList(event);
           this.selectedEvents.addIfAbsent(event);
         })
       );
@@ -80,10 +76,8 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
         selected.push(event);
       }
     }
-    this.preSelectedEvents = new EntityList(selected);
     this.selectedEvents.set(selected);
     this.lumber.log('onEntityEdit', 'Mapped waiter events into selectedEvents');
-    this.lumber.log('onEntityEdit', 'Preselected events', this.preSelectedEvents);
     this.lumber.log('onEntityEdit', 'Waiter events', waiter.events);
 
     if (this.qrCodeModal) {
@@ -110,7 +104,9 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     this.qrCodeModal.componentInstance.token = this.entity.signInToken;
   }
 
-  changeSelectedEvents(selectedEvents: IEntityList<IEntityWithName<StringOrNumber>>): void {
-    this.selectedEvents = selectedEvents as IEntityList<IEntityWithNumberIDAndName>;
+  formatter = (it: unknown) => (it as IEntityWithNumberIDAndName).name;
+
+  changeSelectedEvents(selectedEvents: any[]): void {
+    this.selectedEvents = new EntityList(selectedEvents);
   }
 }

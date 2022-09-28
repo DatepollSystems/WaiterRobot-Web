@@ -10,11 +10,11 @@ import {DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 import {EventSelectedGuard} from '../../_services/guards/event-selected-guard.service';
 import {OrganisationSelectedGuard} from '../../_services/guards/organisation-selected-guard.service';
-import {AppBtnToolbarComponent} from '../../_shared/btn-toolbar/app-btn-toolbar.component';
+import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
+import {ChipInput} from '../../_shared/chip-input/chip-input.component';
 
 import {IconsModule} from '../../_shared/icons.module';
-import {NgbEntityChipInputModule} from '../../_shared/ngb-entity-chip-input/ngb-entity-chip-input.module';
 import {AllProductsComponent} from './all-products/all-products.component';
 import {ProductEditComponent} from './product-edit/product-edit.component';
 import {ProductGroupByIdProductsComponent} from './product-group-by-id-products/product-group-by-id-products.component';
@@ -62,9 +62,9 @@ const routes: Routes = [
     DfxTableModule,
     DfxSortModule,
     IconsModule,
-    NgbEntityChipInputModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
+    ChipInput,
   ],
 })
 export class ProductsModule {}

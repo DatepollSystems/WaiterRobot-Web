@@ -1,4 +1,4 @@
-<app-entities-layout-component>
+<entities-layout-component>
   <div class="list-group" nav>
     <a
       class="list-group-item list-group-item-action"
@@ -20,7 +20,7 @@
       {{ selectedEvent.name }} {{ 'HOME_WAITERS_NAV_EVENTS' | tr }}</a
     >
 
-    <div class="list-group-item" [fxHide.gt-sm]="true">
+    <div class="list-group-item d-block d-sm-none">
       <div class="input-group">
         <span class="input-group-text" id="selectEvent-addon"><i-bs name="people"></i-bs></span>
         <select class="form-select" id="selectEvent" [(ngModel)]="selectedModelToShow" (ngModelChange)="showModel($event)">
@@ -35,8 +35,7 @@
     <ng-container *ngFor="let event of this.allModels; trackById">
       <a
         *ngIf="event.id !== selectedEvent?.id"
-        [fxHide.lt-md]="true"
-        class="list-group-item list-group-item-action"
+        class="list-group-item list-group-item-action d-sm-none d-md-block"
         routerLink="/home/waiters/event/{{ event.id }}"
         routerLinkActive="active"
         (click)="linkClick()">
@@ -44,4 +43,4 @@
       >
     </ng-container>
   </div>
-</app-entities-layout-component>
+</entities-layout-component>

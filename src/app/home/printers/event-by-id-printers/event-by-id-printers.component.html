@@ -1,13 +1,13 @@
 <h1>{{ entity?.name }} {{ 'NAV_PRINTERS' | tr }}</h1>
 
-<app-btn-toolbar>
+<btn-toolbar>
   <div>
     <a routerLink="../../create" class="btn btn-sm btn-outline-success m-1">
       <i-bs name="plus-circle"></i-bs>
       {{ 'ADD_2' | tr }}</a
     >
   </div>
-</app-btn-toolbar>
+</btn-toolbar>
 
 <div class="spinner-row" *ngIf="!entitiesLoaded">
   <div class="spinner-border" role="status">

@@ -2,8 +2,7 @@
   <div class="container-xxxl">
     <ul
       *ngIf="!editMode"
-      fxFill
-      class="navbar-nav d-flex flex-row justify-content-sm-start overflow-container overflow-auto user-select-none"
+      class="navbar-nav d-flex flex-row flex-fill justify-content-sm-start overflow-container overflow-auto user-select-none"
       [class.justify-content-between]="_justifyContentBetween"
       [class.container-xxxl]="_isMobile"
       (mouseenter)="onMouseEnter()"
@@ -31,7 +30,7 @@
 
     <div *ngIf="editMode" style="width: 100%">
       <h5 class="text-white-50">{{ 'NAV_EDIT_CUSTOMIZE' | tr }}</h5>
-      <app-btn-toolbar>
+      <btn-toolbar>
         <div>
           <button class="btn btn-sm btn-success" (click)="onSave()">
             <i-bs name="save"></i-bs>
@@ -50,7 +49,7 @@
             {{ 'CLOSE' | tr }}
           </button>
         </div>
-      </app-btn-toolbar>
+      </btn-toolbar>
       <div
         class="list"
         [class.h-list]="!_isMobile"

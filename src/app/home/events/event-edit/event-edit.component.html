@@ -2,7 +2,7 @@
   <h1 *ngIf="isEditing && entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
   <h1 *ngIf="!isEditing">{{ 'ADD_2' | tr }}</h1>
 
-  <app-btn-toolbar>
+  <btn-toolbar>
     <div>
       <button class="btn btn-sm btn-dark text-white" (click)="onGoBack('/home/events/all')">{{ 'GO_BACK' | tr }}</button>
     </div>
@@ -23,11 +23,11 @@
         </div>
       </ng-container>
       <div>
-        <app-selectable-button
+        <selectable-button
           class="my-2"
           [selectedEntity]="selectedEvent"
           [entity]="entity"
-          [selectedEntityService]="eventsService"></app-selectable-button>
+          [selectedEntityService]="eventsService"></selectable-button>
       </div>
       <div>
         <button class="btn btn-sm btn-outline-primary" (click)="openQRCode(entity)">
@@ -55,7 +55,7 @@
         {{ 'ADD' | tr }}
       </button>
     </div>
-  </app-btn-toolbar>
+  </btn-toolbar>
 
   <form #f="ngForm" (ngSubmit)="onSave(f)">
     <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs bg-dark" (navChange)="setTabId($event.nextId)">
@@ -183,7 +183,7 @@
             </div>
           </div>
 
-          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%" class="mt-2">
+          <div class="d-flex flex-column flex-md-row gap-2 gap-md-4 mt-2">
             <div class="form-check" *ngIf="isEditing && myUser?.isAdmin">
               <input
                 ngModel

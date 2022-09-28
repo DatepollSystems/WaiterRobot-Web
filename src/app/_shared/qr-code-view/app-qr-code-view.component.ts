@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {AComponent, IsMobileService, LoggerFactory} from 'dfx-helper';
+import {AComponent, IsMobileService, loggerOf} from 'dfx-helper';
 import {QrCodeService} from '../../_services/qr-code.service';
 
 @Component({
@@ -14,12 +14,12 @@ export class AppQrCodeViewComponent extends AComponent implements OnInit {
   isMobile = false;
   standalone = false;
 
-  logger = LoggerFactory.getLogger('QrCodeViewComponent');
+  logger = loggerOf('QrCodeViewComponent');
 
   constructor(private router: Router, private qrCodeService: QrCodeService, private isMobileService: IsMobileService) {
     super();
-    this.isMobile = this.isMobileService.getIsMobile();
-    this.autoUnsubscribe(
+    this.isMobile = this.isMobileService.isMobile;
+    this.unsubscribe(
       this.isMobileService.isMobileChange.subscribe((isMobile) => {
         this.isMobile = isMobile;
       })

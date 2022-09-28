@@ -7,7 +7,7 @@ import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 
 import {DfxTranslateModule} from 'dfx-translate';
-import {AppBtnToolbarComponent} from '../../_shared/btn-toolbar/app-btn-toolbar.component';
+import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar.component';
 
 import {IconsModule} from '../../_shared/icons.module';
 import {SessionsComponent} from './sessions/sessions.component';

@@ -2,7 +2,7 @@
   <h1 *ngIf="isEditing && entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
   <h1 *ngIf="!isEditing">{{ 'HOME_PROD_ADD' | tr }}</h1>
 
-  <app-btn-toolbar>
+  <btn-toolbar>
     <div>
       <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
     </div>
@@ -28,7 +28,7 @@
         {{ 'ADD' | tr }}
       </button>
     </div>
-  </app-btn-toolbar>
+  </btn-toolbar>
 
   <form #f="ngForm" (ngSubmit)="onSave(f)">
     <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs bg-dark" (navChange)="setTabId($event.nextId)">
@@ -76,14 +76,17 @@
               </small>
             </div>
 
-            <ngb-entity-chip-input
+            <chip-input
+              *ngIf="entity"
               fxFlex="40%"
-              [dark]="true"
-              [models]="entity?.allergens"
+              dark="true"
+              editable="false"
+              label="{{ 'HOME_PROD_ALLERGENS' | tr }}"
+              placeholder="{{ 'HOME_PROD_ALLERGENS_PLACEHOLDER' | tr }}"
+              [models]="entity!.allergens"
               [allModelsToAutoComplete]="allergens"
-              (valueChange)="allergenChange($event)"
-              label="HOME_PROD_ALLERGENS"
-              placeHolder="HOME_PROD_ALLERGENS_PLACEHOLDER"></ngb-entity-chip-input>
+              [formatter]="formatter"
+              (valueChange)="allergenChange($event)"></chip-input>
           </div>
 
           <div fxLayout="row break" fxLayoutGap="2%" fxLayout.lt-sm="column">
@@ -114,7 +117,7 @@
             </div>
           </div>
 
-          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%" class="mt-2">
+          <div class="d-flex flex-column flex-md-row gap-2 gap-md-4 mt-2">
             <div class="form-check">
               <input
                 ngModel

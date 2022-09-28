@@ -55,47 +55,49 @@
 </div>
 
 <div [hidden]="!entitiesLoaded || duplicateWaiter === undefined">
-  <div class="my-3" fxLayout="row" fxLayoutGap="3%" fxLayoutGap.gt-md="1%">
-    <a routerLink="../" class="btn btn-sm btn-outline-secondary">{{ 'GO_BACK' | tr }}</a>
-    <button
-      class="btn btn-sm btn-success"
-      (click)="merge()"
-      [disabled]="duplicateWaitersToMerge.length < 1 || selectedDuplicateWaiter === undefined">
-      {{ 'SAVE' | tr }}
-    </button>
-  </div>
-  <div fxLayout="row" fxLayout.lt-md="column">
-    <div fxFlex="30%">
-      <div class="list-group">
-        <button
-          class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-          *ngFor="let currentDuplicateWaiter of duplicateWaiter?.waiters; trackById"
-          (click)="selectDuplicateWaiter(currentDuplicateWaiter)"
-          [class.active]="isSelected(currentDuplicateWaiter)">
-          <div>
-            <input
-              class="form-check-input me-1"
-              type="checkbox"
-              *ngIf="currentDuplicateWaiter.id !== selectedDuplicateWaiter?.id"
-              [checked]="isSelectedToMerge(currentDuplicateWaiter)"
-              (click)="selectDuplicateWaiterToMerge(currentDuplicateWaiter, $event)" />
-            {{ currentDuplicateWaiter.name }}
-          </div>
-          <button class="btn btn-sm btn-warning" (click)="$event.stopPropagation()" *ngIf="ignoreFeature">
-            <i-bs name="person-x-fill"></i-bs>
-            {{ 'IGNORE' | tr }}
-          </button>
+  <btn-toolbar>
+    <div>
+      <a routerLink="../" class="btn btn-sm btn-outline-secondary">{{ 'GO_BACK' | tr }}</a>
+    </div>
+    <div>
+      <button
+        class="btn btn-sm btn-success"
+        (click)="merge()"
+        [disabled]="duplicateWaitersToMerge.length < 1 || selectedDuplicateWaiter === undefined">
+        {{ 'SAVE' | tr }}
+      </button>
+    </div>
+  </btn-toolbar>
+  <div class="col-12 col-md-4">
+    <div class="list-group">
+      <button
+        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+        *ngFor="let currentDuplicateWaiter of duplicateWaiter?.waiters; trackById"
+        (click)="selectDuplicateWaiter(currentDuplicateWaiter)"
+        [class.active]="isSelected(currentDuplicateWaiter)">
+        <div>
+          <input
+            class="form-check-input me-1"
+            type="checkbox"
+            *ngIf="currentDuplicateWaiter.id !== selectedDuplicateWaiter?.id"
+            [checked]="isSelectedToMerge(currentDuplicateWaiter)"
+            (click)="selectDuplicateWaiterToMerge(currentDuplicateWaiter, $event)" />
+          {{ currentDuplicateWaiter.name }}
+        </div>
+        <button class="btn btn-sm btn-warning" (click)="$event.stopPropagation()" *ngIf="ignoreFeature">
+          <i-bs name="person-x-fill"></i-bs>
+          {{ 'IGNORE' | tr }}
         </button>
-      </div>
-      <div class="text-danger mt-2" *ngIf="selectedDuplicateWaiter === undefined">Wähle den richtigen Namen aus</div>
-      <div
-        class="text-danger mt-2"
-        *ngIf="!(duplicateWaitersToMerge.length > 1 || (duplicateWaitersToMerge.length > 0 && this.selectedDuplicateWaiter !== undefined))">
-        Markiere mindestens zwei Namen welche du zusammenführen willst
-      </div>
+      </button>
+    </div>
+    <div class="text-danger mt-2" *ngIf="selectedDuplicateWaiter === undefined">Wähle den richtigen Namen aus</div>
+    <div
+      class="text-danger mt-2"
+      *ngIf="!(duplicateWaitersToMerge.length > 1 || (duplicateWaitersToMerge.length > 0 && this.selectedDuplicateWaiter !== undefined))">
+      Markiere mindestens zwei Namen welche du zusammenführen willst
     </div>
   </div>
-  <div fxLayout="column" fxLayoutGap="0.4%" class="mt-4">
+  <div class="d-flex flex-column flex-md-row gap-2 gap-md-4 mt-4">
     <div class="form-check form-switch" *ngIf="ignoreFeature">
       <input
         ngModel

@@ -1,6 +1,6 @@
 <h1 [hidden]="!entitiesLoaded">"{{ entity?.name }}" {{ 'HOME_TABLE_GROUP_TABLES_VIEW' | tr }}</h1>
 
-<app-btn-toolbar>
+<btn-toolbar>
   <div>
     <a routerLink="../../../create" [queryParams]="{group: entity?.id}" class="btn btn-sm btn-outline-success">
       <i-bs name="plus-circle"></i-bs>
@@ -27,7 +27,7 @@
       {{ 'HOME_TABLES_PRINT' | tr }}
     </a>
   </div>
-</app-btn-toolbar>
+</btn-toolbar>
 
 <div class="spinner-row" *ngIf="!entitiesLoaded">
   <div class="spinner-border" role="status">

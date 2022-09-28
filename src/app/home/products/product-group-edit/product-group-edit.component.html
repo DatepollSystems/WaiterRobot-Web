@@ -2,7 +2,7 @@
   <h1 *ngIf="isEditing && entity">{{ 'EDIT_2' | tr }} "{{ entity.name }}"</h1>
   <h1 *ngIf="!isEditing">{{ 'HOME_PROD_GROUPS_ADD' | tr }}</h1>
 
-  <app-btn-toolbar>
+  <btn-toolbar>
     <div>
       <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
     </div>
@@ -28,7 +28,7 @@
         {{ 'ADD' | tr }}
       </button>
     </div>
-  </app-btn-toolbar>
+  </btn-toolbar>
 
   <form #f="ngForm" (ngSubmit)="onSave(f)">
     <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs bg-dark" (navChange)="setTabId($event.nextId)">

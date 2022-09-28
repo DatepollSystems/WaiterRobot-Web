@@ -1,0 +1,33 @@
+<div class="form-group mb-2">
+  <label for="input" *ngIf="label">{{ label }}</label>
+  <div class="d-flex flex-column gap-2">
+    <input
+      id="input"
+      name="input"
+      type="text"
+      class="form-control"
+      placeholder="{{ placeholder }}"
+      (ngModelChange)="inputChange($event)"
+      (keyup.enter)="_editable ? add() : null"
+      (keyup.,)="_editable ? add() : null"
+      (keyup.space)="_editable ? add() : null"
+      (selectItem)="selectModel($event)"
+      [formControl]="formCtrl"
+      [ngbTypeahead]="search"
+      [editable]="_editable"
+      [resultFormatter]="formatter"
+      [inputFormatter]="formatter"
+      [value]="modelInput"
+      [class.bg-dark]="_dark"
+      [class.text-white]="_dark" />
+    <small class="text-danger" *ngIf="!inputValid">{{ validationErrorText }}</small>
+    <div class="d-flex flex-row flex-wrap gap-2">
+      <ng-container *ngIf="this._models.length > 0">
+        <button type="button" class="btn btn-primary btn-sm mb-2" *ngFor="let model of this._models" (click)="remove(model)">
+          {{ formatter(model) }}
+          <i-bs name="x-circle-fill"></i-bs>
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</div>
