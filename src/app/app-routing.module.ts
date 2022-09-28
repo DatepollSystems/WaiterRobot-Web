@@ -18,7 +18,7 @@ const routes: Routes = [
   {
     path: 'not-found',
     title: '404',
-    loadComponent: () => import('./page-not-found/page-not-found.component').then((mod) => mod.PageNotFoundComponent),
+    loadComponent: () => import('./page-not-found/page-not-found.component').then((m) => m.PageNotFoundComponent),
   },
   {path: '**', redirectTo: '/not-found'},
 ];
