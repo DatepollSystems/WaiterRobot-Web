@@ -21,4 +21,6 @@ export class AllOrdersComponent extends AbstractModelsListComponent<OrderModel> 
     this.sortingDataAccessors.set('product', (it) => it.product.name);
     this.sortingDataAccessors.set('waiter', (it) => it.waiter.name);
   }
+
+  trackBy = (index: number, t: OrderModel) => t.id;
 }
