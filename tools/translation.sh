@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/sh
 main () {
  node ./tools/generateTranslation.js https://translate.dafnik.me/translate de en
  node ./tools/generateTranslation.js https://translate.dafnik.me/translate de fr

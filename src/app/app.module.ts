@@ -3,7 +3,6 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import {LOCALE_ID, NgModule} from '@angular/core';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TitleStrategy} from '@angular/router';
@@ -30,7 +29,6 @@ import {CustomTitleStrategy} from './custom-title.strategy';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FlexLayoutModule, //.withConfig({disableDefaultBps: true}),
     NgbModule,
     DfxHelperModule.setup({
       isMobileBreakpoint: 767,
@@ -73,7 +71,6 @@ import {CustomTitleStrategy} from './custom-title.strategy';
     },
     {provide: NgbDateAdapter, useClass: CustomDateAdapter},
     {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter},
-    //CUSTOM_BREAKPOINT_PROVIDER,
     WINDOW_PROVIDERS,
   ],
   bootstrap: [AppComponent],
