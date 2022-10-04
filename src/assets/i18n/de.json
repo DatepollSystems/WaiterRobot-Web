@@ -52,6 +52,7 @@
   "SELECTED": "Ausgewählt",
   "AMOUNT": "Anzahl",
   "STATE": "Status",
+  "WHOLE": "Gesamt",
 
   "REQUEST_ERROR_CLIENT": "Client fehler",
   "REQUEST_ERROR_SERVER": "Server fehler",
@@ -124,6 +125,7 @@
   "NAV_EVENTS_CHANGE": "ändern",
   "NAV_EVENTS_NO_EVENTS": "Keine Events verfügbar",
   "NAV_ORDERS": "Bestellungen",
+  "NAV_STATISTICS": "Statistiken",
 
   "HOME_START_STATISTICS": "DevTools",
 

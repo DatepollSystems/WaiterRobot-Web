@@ -1,40 +1,38 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownModule, NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {BarChartModule, PieChartModule} from '@swimlane/ngx-charts';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {EventSelectedGuard} from '../../_services/guards/event-selected-guard.service';
 import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
-
 import {IconsModule} from '../../_shared/icons.module';
 
-import {AllOrdersComponent} from './all-orders/all-orders.component';
-import {OrdersComponent} from './orders.component';
+import {StatisticsComponent} from './statistics.component';
+import {SumProductsStatisticsComponent} from './sum-product-statistics/sum-products-statistics.component';
+import {SumStatisticsComponent} from './sum-statistics/sum-statistics.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: OrdersComponent,
+    component: StatisticsComponent,
     canActivate: [EventSelectedGuard],
     children: [
-      {path: 'all', component: AllOrdersComponent},
-      {path: '', pathMatch: 'full', redirectTo: '/home/orders/all'},
+      {path: 'sum', component: SumStatisticsComponent},
+      {path: '', pathMatch: 'full', redirectTo: '/home/statistics/sum'},
     ],
   },
 ];
 
 @NgModule({
-  declarations: [OrdersComponent, AllOrdersComponent],
+  declarations: [StatisticsComponent, SumStatisticsComponent, SumProductsStatisticsComponent],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
     NgbTooltipModule,
     DfxTranslateModule,
     DfxTableModule,
@@ -43,6 +41,10 @@ const routes: Routes = [
     IconsModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
+    PieChartModule,
+    NgbNavModule,
+    NgbDropdownModule,
+    BarChartModule,
   ],
 })
-export class OrdersModule {}
+export class StatisticsModule {}

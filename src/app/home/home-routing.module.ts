@@ -58,6 +58,11 @@ const homeRoutes: Routes = [
         title: 'NAV_ORDERS',
         loadChildren: () => import('./orders/orders.module').then((m) => m.OrdersModule),
       },
+      {
+        path: 'statistics',
+        title: 'NAV_STATISTICS',
+        loadChildren: () => import('./statistics/statistics.module').then((m) => m.StatisticsModule),
+      },
     ],
   },
 ];
