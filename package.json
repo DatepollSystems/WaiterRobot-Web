@@ -15,8 +15,8 @@
     "e2e": "ng e2e",
     "ngcc": "ngcc --properties es2020 browser module main --async false --first-only --create-ivy-entry-points",
     "prepare": "husky install && npm run translate:types",
-    "translate:types": "npm exec generateTranslationType ./src/assets/i18n/de.json",
-    "translate:reset": "npm exec resetTranslationType"
+    "translate:types": "translate-cli generateTypes",
+    "translate:reset": "translate-cli resetTypes"
   },
   "private": true,
   "husky": {
@@ -48,9 +48,8 @@
     "bootstrap": "5.2.2",
     "dfx-bootstrap-table": "1.3.0",
     "dfx-helper": "4.6.0",
-    "dfx-translate": "1.3.1",
+    "dfx-translate": "1.4.0",
     "ngx-bootstrap-icons": "1.9.1",
-    "remove": "^0.1.5",
     "rxjs": "7.5.7",
     "tslib": "2.4.0",
     "zone.js": "0.11.8"
