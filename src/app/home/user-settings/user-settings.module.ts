@@ -14,6 +14,7 @@ import {SessionsComponent} from './sessions/sessions.component';
 import {UserSettingsSubComponent} from './user-settings-sub/user-settings-sub.component';
 
 import {UserSettingsComponent} from './user-settings.component';
+import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
 
 const routes: Routes = [
   {
@@ -41,6 +42,7 @@ const routes: Routes = [
     IconsModule,
     FormsModule,
     AppBtnToolbarComponent,
+    AppEntitiesLayoutComponent,
   ],
 })
 export class UserSettingsModule {}

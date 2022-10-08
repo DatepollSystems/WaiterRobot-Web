@@ -18,7 +18,6 @@
     "translate:types": "npm exec generateTranslationType ./src/assets/i18n/de.json",
     "translate:reset": "npm exec resetTranslationType"
   },
-  "type": "module",
   "private": true,
   "husky": {
     "hooks": {
