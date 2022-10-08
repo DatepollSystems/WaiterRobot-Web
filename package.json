@@ -14,7 +14,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "ngcc": "ngcc --properties es2020 browser module main --async false --first-only --create-ivy-entry-points",
-    "prepare": "husky install && npm run translate:types",
+    "prepare": "husky install",
     "translate:types": "translate-cli generateTypes",
     "translate:reset": "translate-cli resetTypes"
   },
