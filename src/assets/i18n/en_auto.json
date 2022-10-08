@@ -1,4 +1,5 @@
 {
+  "404": "Not found",
   "CLOSE": "Close",
   "ADD": "Create",
   "ADD_2": "New",
@@ -50,6 +51,9 @@
   "LAST_CONTACT": "Last contact",
   "WARNING": "Warning",
   "SELECTED": "Selected",
+  "AMOUNT": "Number",
+  "STATE": "Status",
+  "WHOLE": "Total",
   "REQUEST_ERROR_CLIENT": "Client error",
   "REQUEST_ERROR_SERVER": "Server error",
   "OFFLINE": "No connection to the internet.",
@@ -113,6 +117,7 @@
   "NAV_EVENTS_CHANGE": "change",
   "NAV_EVENTS_NO_EVENTS": "No events available",
   "NAV_ORDERS": "Orders",
+  "NAV_STATISTICS": "Statistics",
   "HOME_START_STATISTICS": "Dextools",
   "HOME_USERSETTINGS_USER_SETTINGS": "User settings",
   "HOME_USERSETTINGS_USER_SETTINGS_EMAIL": "Change email address",
@@ -211,5 +216,7 @@
   "HOME_PRINTER_NAME_NAME_INCORRECT": "The printer name must consist of at least 1 and maximum 70 characters",
   "HOME_PRINTER_SELECT_EVENT_DEFAULT": "Choose an event",
   "HOME_PRINTER_SELECT_EVENT_INCORRECT": "It must be selected an event",
-  "HOME_ORDERS_ALL": "All orders"
+  "HOME_ORDERS_ALL": "All orders",
+  "HOME_ORDER_ID": "Order nr.",
+  "HOME_ORDER_NOTE": "Not applicable"
 }
