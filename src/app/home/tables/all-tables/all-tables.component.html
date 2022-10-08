@@ -88,13 +88,13 @@
           type="button"
           class="btn btn-sm m-1 btn-outline-danger text-white"
           ngbTooltip="{{ 'DELETE' | tr }}"
-          (click)="onDelete(table.id)">
+          (click)="onDelete(table.id, $event)">
           <i-bs name="trash"></i-bs>
         </button>
       </td>
     </ng-container>
 
     <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-    <tr *ngbRowDef="let table; columns: columnsToDisplay" ngb-row></tr>
+    <tr *ngbRowDef="let table; columns: columnsToDisplay" ngb-row routerLink="../{{ table.id }}"></tr>
   </table>
 </div>

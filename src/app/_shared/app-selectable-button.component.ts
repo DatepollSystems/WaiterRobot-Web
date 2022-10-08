@@ -15,7 +15,7 @@ import {IconsModule} from './icons.module';
       *ngIf="selectedEntity?.id !== entity?.id"
       type="button"
       class="btn btn-sm btn-outline-primary text-white"
-      (click)="onSelect(entity)"
+      (click)="onSelect(entity); $event.stopPropagation()"
       attr.aria-label="{{ 'SELECT' | tr }}"
       ngbTooltip="{{ 'SELECT' | tr }}"
       placement="end">
@@ -25,7 +25,7 @@ import {IconsModule} from './icons.module';
       *ngIf="selectedEntity?.id === entity?.id"
       type="button"
       class="btn btn-sm btn-primary text-white"
-      (click)="onSelect(undefined)"
+      (click)="onSelect(undefined); $event.stopPropagation()"
       attr.aria-label="{{ 'CLEAR_SELECTION' | tr }}"
       ngbTooltip="{{ 'CLEAR_SELECTION' | tr }}"
       placement="end">

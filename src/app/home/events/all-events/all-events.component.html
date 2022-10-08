@@ -108,7 +108,7 @@
           type="button"
           class="btn btn-sm btn-outline-danger text-white"
           ngbTooltip="{{ 'DELETE' | tr }}"
-          (click)="onDelete(event.id)"
+          (click)="onDelete(event.id, $event)"
           *ngIf="myUser?.isAdmin">
           <i-bs name="trash"></i-bs>
         </button>
@@ -116,6 +116,6 @@
     </ng-container>
 
     <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-    <tr *ngbRowDef="let event; columns: columnsToDisplay" ngb-row></tr>
+    <tr *ngbRowDef="let event; columns: columnsToDisplay" ngb-row routerLink="../{{ event.id }}"></tr>
   </table>
 </div>

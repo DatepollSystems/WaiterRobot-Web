@@ -102,7 +102,8 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
     this.onDeleteSelected();
   }
 
-  public onDelete(modelId: number): void {
+  public onDelete(modelId: number, event?: MouseEvent): void {
+    event?.stopPropagation();
     this.lumber.info('onDelete', 'Opening delete question dialog');
     const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
     modalRef.componentInstance.title = 'DELETE_CONFIRMATION';

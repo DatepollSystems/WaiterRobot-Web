@@ -36,8 +36,4 @@ export class AllOrganisationsComponent extends AbstractModelsListComponent<Organ
     this.selectedOrganisation = this.organisationsService.getSelected();
     this.unsubscribe(this.organisationsService.selectedChange.subscribe((it) => (this.selectedOrganisation = it)));
   }
-
-  onSelect = (): void => {
-    this.eventsService.setSelected(undefined);
-  };
 }
