@@ -1,16 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import 'assets/styles/custom-bootstrap';
+
 /* Importing Bootstrap SCSS file. */
+@import '../node_modules/bootstrap/scss/bootstrap';
 
 a:hover {
   color: #21b3f2;
   cursor: pointer;
   text-decoration: none;
-}
-
-/* Fix white row below footer */
-.cdk-describedby-message-container {
-  display: none;
 }
 
 /* Fix vertical text alignment in buttons with icons */
@@ -25,6 +23,11 @@ a:hover {
 
 a.btn > img {
   vertical-align: -0.15em;
+}
+
+/* Fix white row below footer */
+.cdk-describedby-message-container {
+  display: none;
 }
 
 .cdk-cell {
@@ -91,16 +94,13 @@ a.btn > img {
   animation: spinner 0.8s linear infinite;
 }
 
-.card {
-  background-color: #263238 !important;
-}
-
 .navbar > .container-xxxl {
   display: flex;
   flex-wrap: inherit;
   align-items: center;
   justify-content: space-between;
 }
+
 .container-xxxl {
   --bs-gutter-x: 1.5rem;
   --bs-gutter-y: 0;
@@ -110,6 +110,7 @@ a.btn > img {
   margin-right: auto;
   margin-left: auto;
 }
+
 @media (min-width: 1800px) {
   .container-xxxl {
     max-width: 1700px;

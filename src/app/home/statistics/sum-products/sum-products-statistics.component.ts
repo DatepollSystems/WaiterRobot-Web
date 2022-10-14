@@ -1,6 +1,6 @@
+import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {Component} from '@angular/core';
-import {LegendPosition} from '@swimlane/ngx-charts';
+import {Component, Input} from '@angular/core';
 
 import {AComponent} from 'dfx-helper';
 import {EventsService} from '../../../_services/models/events.service';
@@ -11,25 +11,24 @@ import {EventsService} from '../../../_services/models/events.service';
   styleUrls: ['./sum-products-statistics.component.scss'],
 })
 export class SumProductsStatisticsComponent extends AComponent {
-  chartType: 'PIE' | 'BAR' = 'BAR';
+  @Input() set standalone(it: BooleanInput) {
+    this._standalone = coerceBooleanProperty(it);
+  }
+  _standalone = false;
 
-  sumProducts?: {name: string; value: number}[];
+  sumDtos?: {name: string; value: number}[];
 
   constructor(http: HttpClient, eventsServie: EventsService) {
     super();
 
     this.unsubscribe(
       http
-        .get<typeof this.sumProducts>('/config/statistics/sumProducts', {
+        .get<typeof this.sumDtos>('/config/statistics/sumProducts', {
           params: new HttpParams().set('eventId', eventsServie.getSelected()!.id),
         })
-        .subscribe((it) => (this.sumProducts = it))
+        .subscribe((it) => {
+          this.sumDtos = this._standalone ? it : it?.slice(0, 20);
+        })
     );
   }
-
-  setChartType(it: typeof this.chartType) {
-    this.chartType = it;
-  }
-
-  position = LegendPosition.Below;
 }

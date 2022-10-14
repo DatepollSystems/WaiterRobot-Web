@@ -3,6 +3,7 @@ import {
   apple,
   arrowClockwise,
   bagFill,
+  barChartLineFill,
   boxArrowLeft,
   building,
   calendarDate,
@@ -26,6 +27,7 @@ import {
   personBadge,
   personBoundingBox,
   personXFill,
+  pieChartFill,
   plusCircle,
   printer,
   qrCode,
@@ -76,6 +78,8 @@ const icons = {
   arrowClockwise,
   listUl,
   graphUp,
+  pieChartFill,
+  barChartLineFill,
 };
 
 @NgModule({

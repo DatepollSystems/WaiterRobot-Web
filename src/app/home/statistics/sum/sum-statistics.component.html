@@ -1,0 +1,52 @@
+<div class="card h-100">
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <h4><ng-content></ng-content></h4>
+      </div>
+      <div class="col text-end">
+        <div ngbDropdown class="d-inline-block">
+          <button type="button" class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle>Diagram mode</button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button ngbDropdownItem (click)="setChartType('BAR')"><i-bs name="bar-chart-line-fill"></i-bs> Bar Chart</button>
+            <button ngbDropdownItem (click)="setChartType('PIE')"><i-bs name="pie-chart-fill"></i-bs> Pie Chart</button>
+            <button ngbDropdownItem (click)="setChartType('TEXT')"><i-bs name="list-ul"></i-bs> Text</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="chartType === 'PIE'">
+      <div style="height: 50vh">
+        <ngx-charts-pie-chart scheme="cool" [results]="sumDtos" [labels]="true" [trimLabels]="false"></ngx-charts-pie-chart>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="chartType === 'BAR'">
+      <div style="height: 50vh">
+        <ngx-charts-bar-horizontal
+          scheme="cool"
+          [barPadding]="16"
+          [maxXAxisTickLength]="16"
+          [showDataLabel]="true"
+          [showGridLines]="true"
+          [xAxis]="true"
+          [yAxis]="true"
+          [trimXAxisTicks]="false"
+          [results]="sumDtos"
+          [legend]="false"></ngx-charts-bar-horizontal>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="chartType === 'TEXT'">
+      <ul class="list-group list-group-flush">
+        <li *ngFor="let dto of sumDtos" class="d-flex justify-content-between list-group-item">
+          <span>{{ dto.name }}</span>
+          <span>{{ dto.value }}</span>
+        </li>
+      </ul>
+    </ng-container>
+
+    <ng-content select="[bottom]"></ng-content>
+  </div>
+</div>

@@ -11,10 +11,14 @@ import {EventSelectedGuard} from '../../_services/guards/event-selected-guard.se
 import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
 import {IconsModule} from '../../_shared/icons.module';
+import {StatisticsCountCardComponent} from './count-card/statistics-count-card.component';
+import {HomeStatisticsComponent} from './home/home-statistics.component';
 
 import {StatisticsComponent} from './statistics.component';
-import {SumProductsStatisticsComponent} from './sum-product-statistics/sum-products-statistics.component';
-import {SumStatisticsComponent} from './sum-statistics/sum-statistics.component';
+import {StatisticsSumProductgroupsComponent} from './sum-productgroups/statistics-sum-productgroups.component';
+import {SumProductsPerWaiterStatisticsComponent} from './sum-products-per-waiter/sum-products-per-waiter-statistics.component';
+import {SumProductsStatisticsComponent} from './sum-products/sum-products-statistics.component';
+import {SumStatisticsComponent} from './sum/sum-statistics.component';
 
 const routes: Routes = [
   {
@@ -22,14 +26,22 @@ const routes: Routes = [
     component: StatisticsComponent,
     canActivate: [EventSelectedGuard],
     children: [
-      {path: 'sum', component: SumStatisticsComponent},
+      {path: 'sum', component: HomeStatisticsComponent},
       {path: '', pathMatch: 'full', redirectTo: '/home/statistics/sum'},
     ],
   },
 ];
 
 @NgModule({
-  declarations: [StatisticsComponent, SumStatisticsComponent, SumProductsStatisticsComponent],
+  declarations: [
+    StatisticsComponent,
+    HomeStatisticsComponent,
+    SumStatisticsComponent,
+    SumProductsStatisticsComponent,
+    SumProductsPerWaiterStatisticsComponent,
+    StatisticsCountCardComponent,
+    StatisticsSumProductgroupsComponent,
+  ],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,

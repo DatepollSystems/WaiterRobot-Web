@@ -26,12 +26,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets", "src/site.webmanifest"],
-            "styles": [
-              "src/styles.scss",
-              "node_modules/bootstrap/scss/bootstrap.scss",
-              "node_modules/dfx-helper/styles/helper.scss",
-              "node_modules/dfx-helper/styles/colors.scss"
-            ],
+            "styles": ["src/styles.scss", "node_modules/dfx-helper/styles/helper.scss", "node_modules/dfx-helper/styles/colors.scss"],
             "allowedCommonJsDependencies": ["@cordobo/qrcode"],
             "scripts": [],
             "vendorChunk": true,

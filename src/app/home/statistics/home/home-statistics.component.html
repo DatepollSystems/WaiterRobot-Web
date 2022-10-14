@@ -1,0 +1,52 @@
+<h1>{{ 'WHOLE' | tr }} {{ 'NAV_STATISTICS' | tr }}</h1>
+
+<div class="row mb-4 row-cols-4 gy-3">
+  <div class="col">
+    <app-statistics-count-card [count]="countDto?.orderedProducts">Verkaufte Produkte</app-statistics-count-card>
+  </div>
+
+  <div class="col">
+    <app-statistics-count-card [count]="countDto?.orders">Bestellungen</app-statistics-count-card>
+  </div>
+
+  <div class="col">
+    <app-statistics-count-card [count]="countDto?.turnover">
+      <span>approx. Umsatz</span>
+      <span valuePrefix>€</span>
+    </app-statistics-count-card>
+  </div>
+
+  <div class="col">
+    <div class="card h-100">
+      <div class="card-body text-center d-flex flex-column justify-content-center">
+        <h4>Größter Umsatz</h4>
+        <p style="font-size: 3rem">{{ countDto?.bestWaiter?.name }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card h-100">
+      <div class="card-body text-center d-flex flex-column justify-content-center">
+        <h4>Meist gekauftes Produkt</h4>
+        <p style="font-size: 3rem">{{ countDto?.bestProduct?.name }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-6">
+    <app-statistics-sum-productgroups></app-statistics-sum-productgroups>
+  </div>
+  <div class="col-6">
+    <app-sum-products-statistics></app-sum-products-statistics>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-6">
+    <app-sum-products-per-waiter-statistics></app-sum-products-per-waiter-statistics>
+  </div>
+  <div class="col-6"></div>
+</div>
