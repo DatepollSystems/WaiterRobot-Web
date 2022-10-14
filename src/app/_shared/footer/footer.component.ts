@@ -12,7 +12,7 @@ import {QuestionDialogComponent} from '../question-dialog/question-dialog.compon
 export class FooterComponent {
   selected: string;
 
-  constructor(private translate: TranslateService, private location: Location, private modal: NgbModal) {
+  constructor(private translate: TranslateService, private modal: NgbModal) {
     this.selected = this.translate.getSelectedLanguage();
   }
 
@@ -28,7 +28,7 @@ export class FooterComponent {
     modalRef.componentInstance.title = 'LANGUAGE_RELOAD';
     void modalRef.result.then((result) => {
       if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
-        this.location.reload();
+        window.location.reload();
       }
     });
 
