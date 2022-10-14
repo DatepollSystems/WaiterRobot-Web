@@ -95,6 +95,7 @@
   "LANGUAGE_FRANCE": "Français francesa francesa francesa francesa",
   "LANGUAGE_ITALIEN": "Italiano",
   "LANGUAGE_PORTUGUES": "Portugués",
+  "LANGUAGE_RELOAD": "Volver a cargar la configuración del idioma?",
   "NAV_EDIT": "(edit)",
   "NAV_EDIT_CUSTOMIZE": "Editar su barra de navegación",
   "NAV_USER_SETTINGS_WELCOME": "Hola",
@@ -218,5 +219,15 @@
   "HOME_PRINTER_SELECT_EVENT_INCORRECT": "Debe ser seleccionado un evento",
   "HOME_ORDERS_ALL": "Todas las órdenes",
   "HOME_ORDER_ID": "Orden nr.",
-  "HOME_ORDER_NOTE": "No aplicable"
+  "HOME_ORDER_NOTE": "No aplicable",
+  "HOME_STATISTICS_SELLED_PRODUCTS": "Productos vendidos",
+  "HOME_STATISTICS_ORDERS": "Órdenes",
+  "HOME_STATISTICS_TURNOVER": "aprox",
+  "HOME_STATISTICS_BEST_WAITER": "Mayor volumen de negocios",
+  "HOME_STATISTICS_BEST_PRODUCT": "Producto más comprado",
+  "HOME_STATISTICS_BAR_CHART": "Gráfico de barras",
+  "HOME_STATISTICS_PIE_CHART": "Gráfico de tartas",
+  "HOME_STATISTICS_TEXT_CHART": "Gráfico de texto",
+  "HOME_STATISTICS_NO_DATA": "No hay datos disponibles,",
+  "HOME_STATISTICS_PRODUCTS_PER_WAITER": "Productos por camarero"
 }

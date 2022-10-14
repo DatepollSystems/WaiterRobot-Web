@@ -237,5 +237,16 @@
 
   "HOME_ORDERS_ALL": "Alle Bestellungen",
   "HOME_ORDER_ID": "Order Nr.",
-  "HOME_ORDER_NOTE": "Notiz"
+  "HOME_ORDER_NOTE": "Notiz",
+
+  "HOME_STATISTICS_SELLED_PRODUCTS": "Verkaufte Produkte",
+  "HOME_STATISTICS_ORDERS": "Bestellungen",
+  "HOME_STATISTICS_TURNOVER": "approx. Umsatz",
+  "HOME_STATISTICS_BEST_WAITER": "Größter Umsatz",
+  "HOME_STATISTICS_BEST_PRODUCT": "Meist gekauftes Produkt",
+  "HOME_STATISTICS_BAR_CHART": "Bar chart",
+  "HOME_STATISTICS_PIE_CHART": "Pie chart",
+  "HOME_STATISTICS_TEXT_CHART": "Text chart",
+  "HOME_STATISTICS_NO_DATA": "Keine Daten verfügbar,",
+  "HOME_STATISTICS_PRODUCTS_PER_WAITER": "Produkte pro Kellner"
 }

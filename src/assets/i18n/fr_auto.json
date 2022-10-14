@@ -95,6 +95,7 @@
   "LANGUAGE_FRANCE": "Français",
   "LANGUAGE_ITALIEN": "Italiano",
   "LANGUAGE_PORTUGUES": "Portugués",
+  "LANGUAGE_RELOAD": "Recharger la page pour charger les paramètres linguistiques?",
   "NAV_EDIT": "(edit)",
   "NAV_EDIT_CUSTOMIZE": "Éditez votre barre de navigation",
   "NAV_USER_SETTINGS_WELCOME": "Bonjour",
@@ -218,5 +219,15 @@
   "HOME_PRINTER_SELECT_EVENT_INCORRECT": "Il doit être sélectionné",
   "HOME_ORDERS_ALL": "Toutes les commandes",
   "HOME_ORDER_ID": "Commande nr.",
-  "HOME_ORDER_NOTE": "Sans objet"
+  "HOME_ORDER_NOTE": "Sans objet",
+  "HOME_STATISTICS_SELLED_PRODUCTS": "Produits vendus",
+  "HOME_STATISTICS_ORDERS": "Ordonnances",
+  "HOME_STATISTICS_TURNOVER": "environ",
+  "HOME_STATISTICS_BEST_WAITER": "Le plus grand chiffre d ' affaires",
+  "HOME_STATISTICS_BEST_PRODUCT": "Le plus acheté produit",
+  "HOME_STATISTICS_BAR_CHART": "Bar chart",
+  "HOME_STATISTICS_PIE_CHART": "Charte",
+  "HOME_STATISTICS_TEXT_CHART": "Graphique",
+  "HOME_STATISTICS_NO_DATA": "Aucune donnée disponible,",
+  "HOME_STATISTICS_PRODUCTS_PER_WAITER": "Produits par serveur"
 }

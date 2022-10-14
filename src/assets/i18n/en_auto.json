@@ -95,6 +95,7 @@
   "LANGUAGE_FRANCE": "Français",
   "LANGUAGE_ITALIEN": "Italiano",
   "LANGUAGE_PORTUGUES": "Portugués",
+  "LANGUAGE_RELOAD": "Reload the page to load language settings?",
   "NAV_EDIT": "(edit)",
   "NAV_EDIT_CUSTOMIZE": "Edit your navigation bar",
   "NAV_USER_SETTINGS_WELCOME": "Hello",
@@ -218,5 +219,15 @@
   "HOME_PRINTER_SELECT_EVENT_INCORRECT": "It must be selected an event",
   "HOME_ORDERS_ALL": "All orders",
   "HOME_ORDER_ID": "Order nr.",
-  "HOME_ORDER_NOTE": "Not applicable"
+  "HOME_ORDER_NOTE": "Not applicable",
+  "HOME_STATISTICS_SELLED_PRODUCTS": "Sold products",
+  "HOME_STATISTICS_ORDERS": "Orders",
+  "HOME_STATISTICS_TURNOVER": "approx",
+  "HOME_STATISTICS_BEST_WAITER": "Largest turnover",
+  "HOME_STATISTICS_BEST_PRODUCT": "Most bought product",
+  "HOME_STATISTICS_BAR_CHART": "Bar chart",
+  "HOME_STATISTICS_PIE_CHART": "Pie chart",
+  "HOME_STATISTICS_TEXT_CHART": "Text chart",
+  "HOME_STATISTICS_NO_DATA": "No data available,",
+  "HOME_STATISTICS_PRODUCTS_PER_WAITER": "Products per waiter"
 }

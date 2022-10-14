@@ -95,6 +95,7 @@
   "LANGUAGE_FRANCE": "Français",
   "LANGUAGE_ITALIEN": "Italiano",
   "LANGUAGE_PORTUGUES": "Portugués",
+  "LANGUAGE_RELOAD": "Ricaricare la pagina per caricare le impostazioni della lingua?",
   "NAV_EDIT": "(modifica)",
   "NAV_EDIT_CUSTOMIZE": "Modifica la barra di navigazione",
   "NAV_USER_SETTINGS_WELCOME": "Pronto",
@@ -218,5 +219,15 @@
   "HOME_PRINTER_SELECT_EVENT_INCORRECT": "Deve essere selezionato un evento",
   "HOME_ORDERS_ALL": "Tutti gli ordini",
   "HOME_ORDER_ID": "Ordine nr.",
-  "HOME_ORDER_NOTE": "Privo di oggetto"
+  "HOME_ORDER_NOTE": "Privo di oggetto",
+  "HOME_STATISTICS_SELLED_PRODUCTS": "Prodotti venduti",
+  "HOME_STATISTICS_ORDERS": "Ordini",
+  "HOME_STATISTICS_TURNOVER": "ca",
+  "HOME_STATISTICS_BEST_WAITER": "Fatturato maggiore",
+  "HOME_STATISTICS_BEST_PRODUCT": "Prodotto più acquistato",
+  "HOME_STATISTICS_BAR_CHART": "Grafico a barre",
+  "HOME_STATISTICS_PIE_CHART": "Grafico della torta",
+  "HOME_STATISTICS_TEXT_CHART": "Grafico del testo",
+  "HOME_STATISTICS_NO_DATA": "Nessun dato disponibile,",
+  "HOME_STATISTICS_PRODUCTS_PER_WAITER": "Prodotti per cameriere"
 }
