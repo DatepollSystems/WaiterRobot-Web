@@ -11,7 +11,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
       <div>
         <div fxLayout="row" fxLayoutGap="4.5%">
           <img alt="kellner.team logo" src="../../assets/logo.svg" height="110" width="110" />
-          <h1 id="brand" fxFlexAlign="center" style="vertical-align: middle; padding-top: 10px">WaiterRobot</h1>
+          <h1 id="brand" fxFlexAlign="center" style="vertical-align: middle; padding-top: 10px">kellner.team</h1>
         </div>
       </div>
     </div>
