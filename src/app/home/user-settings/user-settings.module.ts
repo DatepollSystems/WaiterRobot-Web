@@ -7,13 +7,14 @@ import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 
 import {DfxTranslateModule} from 'dfx-translate';
-import {AppBtnToolbarComponent} from '../../_shared/btn-toolbar/app-btn-toolbar.component';
+import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar.component';
 
 import {IconsModule} from '../../_shared/icons.module';
 import {SessionsComponent} from './sessions/sessions.component';
 import {UserSettingsSubComponent} from './user-settings-sub/user-settings-sub.component';
 
 import {UserSettingsComponent} from './user-settings.component';
+import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
 
 const routes: Routes = [
   {
@@ -21,7 +22,7 @@ const routes: Routes = [
     component: UserSettingsComponent,
     children: [
       {path: 'settings', component: UserSettingsSubComponent},
-      {path: 'sessions', title: 'Sessions', component: SessionsComponent},
+      {path: 'sessions', title: 'NAV_USER_SESSIONS', component: SessionsComponent},
       {path: '', pathMatch: 'full', redirectTo: '/home/usettings/settings'},
     ],
   },
@@ -41,6 +42,7 @@ const routes: Routes = [
     IconsModule,
     FormsModule,
     AppBtnToolbarComponent,
+    AppEntitiesLayoutComponent,
   ],
 })
 export class UserSettingsModule {}

@@ -17,19 +17,17 @@ export class OrganisationsComponent extends AComponent {
   maxOrgsCount = 5;
   selectedOrganisation: OrganisationModel | undefined;
 
-  constructor(private myUserService: MyUserService, private organisationsService: OrganisationsService) {
+  constructor(myUserService: MyUserService, organisationsService: OrganisationsService) {
     super();
 
-    this.organisations = this.organisationsService.getAll();
-    this.autoUnsubscribe(
-      this.organisationsService.allChange.subscribe((value: OrganisationModel[]) => {
-        this.organisations = value;
-      })
-    );
+    this.organisations = organisationsService.getAll();
+    this.selectedOrganisation = organisationsService.getSelected();
 
-    this.selectedOrganisation = this.organisationsService.getSelected();
-    this.autoUnsubscribe(
-      this.organisationsService.selectedChange.subscribe((value) => {
+    this.unsubscribe(
+      organisationsService.allChange.subscribe((value: OrganisationModel[]) => {
+        this.organisations = value;
+      }),
+      organisationsService.selectedChange.subscribe((value) => {
         this.selectedOrganisation = value;
       })
     );

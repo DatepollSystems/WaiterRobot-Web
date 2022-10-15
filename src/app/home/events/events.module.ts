@@ -9,11 +9,11 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 import {OrganisationSelectedGuard} from '../../_services/guards/organisation-selected-guard.service';
-import {AppBtnToolbarComponent} from '../../_shared/btn-toolbar/app-btn-toolbar.component';
+import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
 
 import {IconsModule} from '../../_shared/icons.module';
-import {SelectableButtonModule} from '../../_shared/selectable-button/selectable-button.module';
+import {AppSelectableButtonComponent} from '../../_shared/app-selectable-button.component';
 import {AllEventsComponent} from './all-events/all-events.component';
 import {EventEditComponent} from './event-edit/event-edit.component';
 
@@ -48,7 +48,7 @@ const startRoutes: Routes = [
     DfxSortModule,
     IconsModule,
     NgbDatepickerModule,
-    SelectableButtonModule,
+    AppSelectableButtonComponent,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
   ],

@@ -24,16 +24,12 @@ export class TableGroupEditComponent extends AbstractModelEditComponent<TableGro
     router: Router,
     tableGroupsService: TableGroupsService,
     modal: NgbModal,
-    private eventsService: EventsService
+    eventsService: EventsService
   ) {
     super(router, route, modal, tableGroupsService);
 
-    this.selectedEvent = this.eventsService.getSelected();
-    this.autoUnsubscribe(
-      this.eventsService.selectedChange.subscribe((event) => {
-        this.selectedEvent = event;
-      })
-    );
+    this.selectedEvent = eventsService.getSelected();
+    this.unsubscribe(eventsService.selectedChange.subscribe((it) => (this.selectedEvent = it)));
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {

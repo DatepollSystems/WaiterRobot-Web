@@ -2,7 +2,7 @@
   <h1 *ngIf="isEditing && entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
   <h1 *ngIf="!isEditing">{{ 'ADD_2' | tr }}</h1>
 
-  <app-btn-toolbar>
+  <btn-toolbar>
     <div>
       <button class="btn btn-sm btn-dark text-white" (click)="onGoBack('/home/organisations/all')">
         {{ 'GO_BACK' | tr }}
@@ -25,11 +25,11 @@
         </div>
       </ng-container>
       <div>
-        <app-selectable-button
+        <selectable-button
           class="my-2"
           [selectedEntity]="selectedOrganisation"
           [entity]="entity"
-          [selectedEntityService]="organisationsService"></app-selectable-button>
+          [selectedEntityService]="organisationsService"></selectable-button>
       </div>
     </ng-container>
 
@@ -39,7 +39,7 @@
         {{ 'ADD' | tr }}
       </button>
     </div>
-  </app-btn-toolbar>
+  </btn-toolbar>
 
   <form #form="ngForm" (ngSubmit)="onSave(form)">
     <ul

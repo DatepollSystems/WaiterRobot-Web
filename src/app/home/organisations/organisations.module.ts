@@ -3,18 +3,19 @@ import {NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
+
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTrackByModule} from 'dfx-helper';
-
 import {DfxTranslateModule} from 'dfx-translate';
-import {AppBtnToolbarComponent} from '../../_shared/btn-toolbar/app-btn-toolbar.component';
+
+import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
+import {ChipInput} from '../../_shared/chip-input/chip-input.component';
 import {AppQrCodeScannerModalModule} from '../../_shared/qr-code-scanner-modal/app-qr-code-scanner-modal.module';
 
 import {IconsModule} from '../../_shared/icons.module';
-import {NgbChipInputModule} from '../../_shared/ngb-chip-input/ngb-chip-input.module';
-import {SelectableButtonModule} from '../../_shared/selectable-button/selectable-button.module';
+import {AppSelectableButtonComponent} from '../../_shared/app-selectable-button.component';
 import {AllOrganisationsComponent} from './all-organisations/all-organisations.component';
 import {OrganisationEditComponent} from './organisation-edit/organisation-edit.component';
 import {OrganisationUserAddModalComponent} from './organisation-user-add-modal/organisation-user-add-modal.component';
@@ -48,12 +49,12 @@ const routes: Routes = [
     DfxTrackByModule,
     NgbNavModule,
     NgbTooltipModule,
-    NgbChipInputModule,
     IconsModule,
-    SelectableButtonModule,
+    AppSelectableButtonComponent,
     AppQrCodeScannerModalModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
+    ChipInput,
   ],
 })
 export class OrganisationsModule {}

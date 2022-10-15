@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {UIHelper} from 'dfx-helper';
 import {JWTResponse} from '../_models/waiterrobot-backend';
@@ -16,23 +16,14 @@ import {AppForgotPasswordDialog} from './forgot-password-dialog.component';
   styleUrls: ['./about.component.scss'],
 })
 export class AboutComponent implements OnInit {
-  private returnUrl?: string;
-
   constructor(
-    private authService: AuthService,
-    private notificationService: NotificationService,
     private router: Router,
-    private route: ActivatedRoute,
-    private modal: NgbModal
+    private modal: NgbModal,
+    private authService: AuthService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      if (params.returnUrl) {
-        this.returnUrl = params.returnUrl;
-      }
-    });
-
     if (UIHelper.getApproxCurrentDate().getMonth() === 5) {
       document.getElementById('brand')?.classList.add('rainbow-text');
     } else {
@@ -52,8 +43,8 @@ export class AboutComponent implements OnInit {
         this.authService.setJWTToken(data.token);
         this.authService.setSessionToken(data.sessionToken);
         this.notificationService.tsuccess('ABOUT_SIGNIN_SUCCESSFUL');
-        const url = this.returnUrl ?? '/home';
-        void this.router.navigateByUrl(url);
+
+        void this.router.navigateByUrl('/home');
       },
       error: (error) => {
         if (error?.error?.codeName === 'ACCOUNT_NOT_ACTIVATED') {

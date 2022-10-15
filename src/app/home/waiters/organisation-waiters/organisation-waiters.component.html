@@ -1,6 +1,6 @@
 <h1>{{ selectedOrganisation?.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</h1>
 
-<app-btn-toolbar>
+<btn-toolbar>
   <div>
     <a routerLink="../create" class="btn btn-sm btn-outline-success">
       <i-bs name="plus-circle"></i-bs>
@@ -21,7 +21,7 @@
       {{ 'DELETE' | tr }}
     </button>
   </div>
-</app-btn-toolbar>
+</btn-toolbar>
 
 <div class="spinner-row" *ngIf="!entitiesLoaded">
   <div class="spinner-border" role="status">
@@ -86,7 +86,7 @@
 
     <ng-container ngbColumnDef="events">
       <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_EVENTS' | tr }}</th>
-      <td *ngbCellDef="let waiter" ngb-cell>{{ getEventsName(waiter.events) }}</td>
+      <td *ngbCellDef="let waiter" ngb-cell>{{ waiter.events | implodeMapped: onMap:', ':20:'...' }}</td>
     </ng-container>
 
     <ng-container ngbColumnDef="actions">
@@ -99,13 +99,13 @@
           type="button"
           class="btn btn-sm m-1 btn-outline-danger text-white"
           ngbTooltip="{{ 'DELETE' | tr }}"
-          (click)="onDelete(waiter.id)">
+          (click)="onDelete(waiter.id, $event)">
           <i-bs name="trash"></i-bs>
         </button>
       </td>
     </ng-container>
 
     <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-    <tr *ngbRowDef="let waiter; columns: columnsToDisplay" ngb-row></tr>
+    <tr *ngbRowDef="let waiter; columns: columnsToDisplay" ngb-row routerLink="../{{ waiter.id }}"></tr>
   </table>
 </div>

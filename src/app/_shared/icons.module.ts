@@ -3,6 +3,7 @@ import {
   apple,
   arrowClockwise,
   bagFill,
+  barChartLineFill,
   boxArrowLeft,
   building,
   calendarDate,
@@ -16,6 +17,7 @@ import {
   gear,
   gearWideConnected,
   google,
+  graphUp,
   listUl,
   NgxBootstrapIconsModule,
   pencilFill,
@@ -25,6 +27,7 @@ import {
   personBadge,
   personBoundingBox,
   personXFill,
+  pieChartFill,
   plusCircle,
   printer,
   qrCode,
@@ -74,6 +77,9 @@ const icons = {
   pencilFill,
   arrowClockwise,
   listUl,
+  graphUp,
+  pieChartFill,
+  barChartLineFill,
 };
 
 @NgModule({

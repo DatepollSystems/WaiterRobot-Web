@@ -17,21 +17,15 @@ export class WaitersComponent extends AbstractModelsComponent<EventModel> {
   selectedOrganisation: OrganisationModel | undefined;
   selectedEvent: EventModel | undefined;
 
-  constructor(private organisationService: OrganisationsService, eventsService: EventsService, router: Router) {
+  constructor(organisationService: OrganisationsService, eventsService: EventsService, router: Router) {
     super(router, eventsService);
 
-    this.selectedOrganisation = this.organisationService.getSelected();
-    this.autoUnsubscribe(
-      this.organisationService.selectedChange.subscribe((organisation) => {
-        this.selectedOrganisation = organisation;
-      })
-    );
-
+    this.selectedOrganisation = organisationService.getSelected();
     this.selectedEvent = eventsService.getSelected();
-    this.autoUnsubscribe(
-      eventsService.selectedChange.subscribe((event) => {
-        this.selectedEvent = event;
-      })
+
+    this.unsubscribe(
+      organisationService.selectedChange.subscribe((it) => (this.selectedOrganisation = it)),
+      eventsService.selectedChange.subscribe((it) => (this.selectedEvent = it))
     );
   }
 }

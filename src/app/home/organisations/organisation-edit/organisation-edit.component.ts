@@ -52,17 +52,11 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
     super(router, route, modal, organisationsService);
 
     this.myUser = myUserService.getUser();
-    this.autoUnsubscribe(
-      myUserService.userChange.subscribe((user) => {
-        this.myUser = user;
-      })
-    );
-
     this.selectedOrganisation = this.organisationsService.getSelected();
-    this.autoUnsubscribe(
-      this.organisationsService.selectedChange.subscribe((value) => {
-        this.selectedOrganisation = value;
-      })
+
+    this.unsubscribe(
+      myUserService.userChange.subscribe((it) => (this.myUser = it)),
+      this.organisationsService.selectedChange.subscribe((it) => (this.selectedOrganisation = it))
     );
   }
 
@@ -73,19 +67,14 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
 
     this.organisationsUsersService.setGetAllParams([{key: 'organisationId', value: model.id}]);
     this.organisationUsers = this.organisationsUsersService.getAll();
-    this.refreshTable();
-    this.autoUnsubscribe(
-      this.organisationsUsersService.allChange.subscribe((value) => {
-        this.organisationUsers = value;
-        this.refreshTable();
-      })
-    );
-
     this.settings = this.organisationsSettingsService.getSettings(model.id);
-    this.autoUnsubscribe(
-      this.organisationsSettingsService.settingsChange.subscribe((value) => {
-        this.settings = value;
-      })
+    this.refreshTable();
+    this.unsubscribe(
+      this.organisationsUsersService.allChange.subscribe((it) => {
+        this.organisationUsers = it;
+        this.refreshTable();
+      }),
+      this.organisationsSettingsService.settingsChange.subscribe((it) => (this.settings = it))
     );
   }
 

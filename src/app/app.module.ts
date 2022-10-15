@@ -3,14 +3,13 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import {LOCALE_ID, NgModule} from '@angular/core';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TitleStrategy} from '@angular/router';
 
 import {NgbDateAdapter, NgbDateParserFormatter, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {LoadingBarRouterModule} from '@ngx-loading-bar/router';
-import {BaseUrlInterceptor, DfxHelperModule, DfxTrackByModule, LoggingInterceptor, PostPutJsonContentTypeInterceptor} from 'dfx-helper';
+import {BaseUrlInterceptor, DfxHelperModule, DfxTrackByModule, LoggingInterceptor, PostPutJsonContentType} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 import {EnvironmentHelper} from './_helper/EnvironmentHelper';
 
@@ -30,14 +29,14 @@ import {CustomTitleStrategy} from './custom-title.strategy';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FlexLayoutModule, //.withConfig({disableDefaultBps: true}),
     NgbModule,
     DfxHelperModule.setup({
       isMobileBreakpoint: 767,
       baseUrl: EnvironmentHelper.getAPIUrl(),
       baseUrlInterceptorIgnorePaths: ['assets/i18n'],
+      loggingInterceptorIgnorePaths: ['json', '/auth/signIn'],
     }),
-    DfxTranslateModule.setup({defaultLanguage: 'de'}),
+    DfxTranslateModule.setup({defaultLanguage: 'de', languagesWithAutoTranslation: ['en', 'es', 'fr', 'it', 'pt']}),
     DfxTrackByModule,
     LoadingBarRouterModule,
   ],
@@ -57,7 +56,7 @@ import {CustomTitleStrategy} from './custom-title.strategy';
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: PostPutJsonContentTypeInterceptor,
+      useClass: PostPutJsonContentType,
       multi: true,
     },
     {
@@ -72,7 +71,6 @@ import {CustomTitleStrategy} from './custom-title.strategy';
     },
     {provide: NgbDateAdapter, useClass: CustomDateAdapter},
     {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter},
-    //CUSTOM_BREAKPOINT_PROVIDER,
     WINDOW_PROVIDERS,
   ],
   bootstrap: [AppComponent],

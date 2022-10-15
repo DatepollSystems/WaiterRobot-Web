@@ -1,6 +1,6 @@
 <h1 [hidden]="!entitiesLoaded">"{{ entity?.name }}" {{ 'HOME_TABLE_GROUP_TABLES_VIEW' | tr }}</h1>
 
-<app-btn-toolbar>
+<btn-toolbar>
   <div>
     <a routerLink="../../../create" [queryParams]="{group: entity?.id}" class="btn btn-sm btn-outline-success">
       <i-bs name="plus-circle"></i-bs>
@@ -27,7 +27,7 @@
       {{ 'HOME_TABLES_PRINT' | tr }}
     </a>
   </div>
-</app-btn-toolbar>
+</btn-toolbar>
 
 <div class="spinner-row" *ngIf="!entitiesLoaded">
   <div class="spinner-border" role="status">
@@ -80,32 +80,32 @@
 
       <ng-container ngbColumnDef="name">
         <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
-        <td *ngbCellDef="let tableGroup" ngb-cell>{{ tableGroup.name }}</td>
+        <td *ngbCellDef="let table" ngb-cell>{{ table.name }}</td>
       </ng-container>
 
       <ng-container ngbColumnDef="seats">
         <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'SEATS' | tr }}</th>
-        <td *ngbCellDef="let tableGroup" ngb-cell>{{ tableGroup.seats }}</td>
+        <td *ngbCellDef="let table" ngb-cell>{{ table.seats }}</td>
       </ng-container>
 
       <ng-container ngbColumnDef="actions">
         <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
-        <td *ngbCellDef="let tableGroup" ngb-cell>
-          <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../../../{{ tableGroup.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+        <td *ngbCellDef="let table" ngb-cell>
+          <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../../../{{ table.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
             <i-bs name="pencil-square"></i-bs>
           </a>
           <button
             type="button"
             class="btn btn-sm m-1 btn-outline-danger text-white"
             ngbTooltip="{{ 'DELETE' | tr }}"
-            (click)="onDelete(tableGroup.id)">
+            (click)="onDelete(table.id, $event)">
             <i-bs name="trash"></i-bs>
           </button>
         </td>
       </ng-container>
 
       <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-      <tr *ngbRowDef="let tableGroup; columns: columnsToDisplay" ngb-row></tr>
+      <tr *ngbRowDef="let table; columns: columnsToDisplay" ngb-row routerLink="../../../{{ table.id }}"></tr>
     </table>
   </div>
 </div>

@@ -1,18 +1,18 @@
+import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {CommonModule} from '@angular/common';
-import {Component} from '@angular/core';
-import {FlexLayoutModule} from '@angular/flex-layout';
+import {Component, Input} from '@angular/core';
 import {RouterModule} from '@angular/router';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, FlexLayoutModule, RouterModule],
-  selector: 'app-entities-layout-component',
+  imports: [CommonModule, RouterModule],
+  selector: 'entities-layout-component',
   template: `
-    <div fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap.lt-md="4%">
-      <div fxFlex="30%" fxFlex.gt-md="25%" fxFlex.gt-lg="20%">
+    <div class="d-flex flex-column flex-lg-row gap-3">
+      <div class="col-lg-4 col-xl-3" *ngIf="_showNav">
         <ng-content select="[nav]"></ng-content>
       </div>
-      <div fxFlex="69%" fxFlex.gt-md="74%" fxFlex.gt-lg="79%">
+      <div [class.col-lg-8]="_showNav" [class.col-xl-9]="_showNav" [class.col]="!_showNav">
         <div class="card bg-dark">
           <div class="card-body px-4">
             <router-outlet></router-outlet>
@@ -22,4 +22,9 @@ import {RouterModule} from '@angular/router';
     </div>
   `,
 })
-export class AppEntitiesLayoutComponent {}
+export class AppEntitiesLayoutComponent {
+  @Input() set showNav(it: BooleanInput) {
+    this._showNav = coerceBooleanProperty(it);
+  }
+  _showNav = true;
+}

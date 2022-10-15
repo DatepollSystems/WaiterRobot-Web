@@ -6,13 +6,12 @@ import {AbstractModelsListByIdComponent} from '../../../_helper/abstract-models-
 
 import {EventModel} from '../../../_models/event.model';
 import {WaiterModel} from '../../../_models/waiter/waiter.model';
-import {GetWaiterMinResponse} from '../../../_models/waiterrobot-backend';
+import {GetEventOrLocationMinResponse} from '../../../_models/waiterrobot-backend';
 import {EventsService} from '../../../_services/models/events.service';
 
 import {WaitersService} from '../../../_services/models/waiter/waiters.service';
 
 import {WaiterCreateQRCodeModalComponent} from '../waiter-create-qr-code-modal.component';
-import {getEventsName} from '../waiters.module';
 
 @Component({
   selector: 'app-event-by-id-waiters',
@@ -29,7 +28,7 @@ export class EventByIdWaitersComponent extends AbstractModelsListByIdComponent<W
     this.setSelectable();
   }
 
-  public openQRCode(event: EventModel | undefined): void {
+  openQRCode(event: EventModel | undefined): void {
     if (!event) {
       return;
     }
@@ -43,5 +42,5 @@ export class EventByIdWaitersComponent extends AbstractModelsListByIdComponent<W
     modalRef.componentInstance.token = event.waiterCreateToken;
   }
 
-  public getEventsName = (events: GetWaiterMinResponse[]) => getEventsName(events);
+  onMap = (it: GetEventOrLocationMinResponse) => it.name;
 }

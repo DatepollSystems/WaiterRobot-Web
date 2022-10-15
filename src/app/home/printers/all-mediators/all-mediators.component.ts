@@ -1,8 +1,6 @@
 import {Component} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {StringHelper} from 'dfx-helper';
-
 import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
 
 import {MediatorModel} from '../../../_models/mediator.model';
@@ -22,10 +20,5 @@ export class AllMediatorsComponent extends AbstractModelsListComponent<MediatorM
     super(modal, mediatorsService);
   }
 
-  onMap(printers: GetPrinterMinResponse[]): string {
-    return StringHelper.getImploded(
-      printers.map((printer) => printer.name),
-      20
-    );
-  }
+  onMap = (it: GetPrinterMinResponse) => it.name;
 }

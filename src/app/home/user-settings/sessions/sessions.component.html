@@ -1,13 +1,13 @@
 <h1>{{ 'NAV_USER_SESSIONS' | tr }}</h1>
 
-<app-btn-toolbar>
+<btn-toolbar>
   <div>
     <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection!.hasValue()" (click)="onDeleteSelected()">
       <i-bs name="trash"></i-bs>
       {{ 'DELETE' | tr }}
     </button>
   </div>
-</app-btn-toolbar>
+</btn-toolbar>
 
 <div class="spinner-row" *ngIf="!entitiesLoaded">
   <div class="spinner-border" role="status">

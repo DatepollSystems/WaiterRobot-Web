@@ -31,19 +31,16 @@ export class ProductGroupEditComponent extends AbstractModelEditComponent<Produc
     groupsService: ProductGroupsService,
     modal: NgbModal,
     printersService: PrintersService,
-    private eventsService: EventsService
+    eventsService: EventsService
   ) {
     super(router, route, modal, groupsService);
 
-    this.selectedEvent = this.eventsService.getSelected();
-    this.autoUnsubscribe(
-      this.eventsService.selectedChange.subscribe((event) => {
-        this.selectedEvent = event;
-      })
-    );
-
+    this.selectedEvent = eventsService.getSelected();
     this.printers = printersService.getAll();
-    this.autoUnsubscribe(printersService.allChange.subscribe((printers) => (this.printers = printers)));
+    this.unsubscribe(
+      eventsService.selectedChange.subscribe((it) => (this.selectedEvent = it)),
+      printersService.allChange.subscribe((it) => (this.printers = it))
+    );
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {

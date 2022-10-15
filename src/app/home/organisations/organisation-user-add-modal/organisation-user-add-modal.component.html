@@ -4,12 +4,12 @@
 </div>
 <div class="modal-body" fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign.gt-sm="space-between start">
   <div fxFlex="80%" fxFlex.lt-md="100%">
-    <ngb-chip-input
+    <chip-input
       (valueChange)="orgUserChange($event)"
-      [filter]="filter"
+      [validator]="filter"
       [models]="emailAddresses"
-      validationErrorText="HOME_USERS_EMAIL_INCORRECT"
-      placeHolder="HOME_ORGS_USERS_EMAIL_PLACEHOLDER"></ngb-chip-input>
+      validationErrorText="{{ 'HOME_USERS_EMAIL_INCORRECT' | tr }}"
+      placeholder="{{ 'HOME_ORGS_USERS_EMAIL_PLACEHOLDER' | tr }}"></chip-input>
   </div>
 
   <div>

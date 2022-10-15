@@ -50,6 +50,9 @@
   "LAST_CONTACT": "Letzter Kontakt",
   "WARNING": "Warnung",
   "SELECTED": "Ausgewählt",
+  "AMOUNT": "Anzahl",
+  "STATE": "Status",
+  "WHOLE": "Gesamt",
 
   "REQUEST_ERROR_CLIENT": "Client fehler",
   "REQUEST_ERROR_SERVER": "Server fehler",
@@ -59,6 +62,7 @@
 
   "DELETE_CONFIRMATION": "Lösch-Bestätigung",
 
+  "404": "Nicht gefunden",
   "404_TITLE": "Was du auch immer gesucht hast, wir haben es leider nicht gefunden.",
   "404_GO_BACK": "Einen Schritt zurück",
 
@@ -98,6 +102,7 @@
   "LANGUAGE_FRANCE": "Français",
   "LANGUAGE_ITALIEN": "Italiano",
   "LANGUAGE_PORTUGUES": "Portugués",
+  "LANGUAGE_RELOAD": "Lade die Seite neu um Spracheinstellungen zu laden?",
 
   "NAV_EDIT": "(bearbeiten)",
   "NAV_EDIT_CUSTOMIZE": "Bearbeite deine Navigationsleiste",
@@ -121,6 +126,7 @@
   "NAV_EVENTS_CHANGE": "ändern",
   "NAV_EVENTS_NO_EVENTS": "Keine Events verfügbar",
   "NAV_ORDERS": "Bestellungen",
+  "NAV_STATISTICS": "Statistiken",
 
   "HOME_START_STATISTICS": "DevTools",
 
@@ -229,5 +235,18 @@
   "HOME_PRINTER_SELECT_EVENT_DEFAULT": "Wähle ein Event aus",
   "HOME_PRINTER_SELECT_EVENT_INCORRECT": "Es muss ein Event ausgewählt sein",
 
-  "HOME_ORDERS_ALL": "Alle Bestellungen"
+  "HOME_ORDERS_ALL": "Alle Bestellungen",
+  "HOME_ORDER_ID": "Order Nr.",
+  "HOME_ORDER_NOTE": "Notiz",
+
+  "HOME_STATISTICS_SELLED_PRODUCTS": "Verkaufte Produkte",
+  "HOME_STATISTICS_ORDERS": "Bestellungen",
+  "HOME_STATISTICS_TURNOVER": "approx. Umsatz",
+  "HOME_STATISTICS_BEST_WAITER": "Größter Umsatz",
+  "HOME_STATISTICS_BEST_PRODUCT": "Meist gekauftes Produkt",
+  "HOME_STATISTICS_BAR_CHART": "Bar chart",
+  "HOME_STATISTICS_PIE_CHART": "Pie chart",
+  "HOME_STATISTICS_TEXT_CHART": "Text chart",
+  "HOME_STATISTICS_NO_DATA": "Keine Daten verfügbar.",
+  "HOME_STATISTICS_PRODUCTS_PER_WAITER": "Produkte pro Kellner"
 }

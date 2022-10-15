@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 
 import {TranslateService} from 'dfx-translate';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {QuestionDialogComponent} from '../question-dialog/question-dialog.component';
 
 @Component({
   selector: 'app-footer',
@@ -8,13 +10,10 @@ import {TranslateService} from 'dfx-translate';
   styleUrls: ['./footer.component.css'],
 })
 export class FooterComponent {
-  selected: string | null;
+  selected: string;
 
-  constructor(private translate: TranslateService) {
-    this.selected = localStorage.getItem('language');
-    if (this.selected == null) {
-      this.selected = 'de';
-    }
+  constructor(private translate: TranslateService, private modal: NgbModal) {
+    this.selected = this.translate.getSelectedLanguage();
   }
 
   heart(): void {
@@ -24,6 +23,14 @@ export class FooterComponent {
   setLang(event: string): void {
     // const oldLanguage = localStorage.getItem('language');
     void this.translate.use(event);
+
+    const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'md'});
+    modalRef.componentInstance.title = 'LANGUAGE_RELOAD';
+    void modalRef.result.then((result) => {
+      if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
+        window.location.reload();
+      }
+    });
 
     // const snackBarRef = this.snackBar.open(this.transslate.translate('LANGUAGE_CHANGED_TO') + this.selected, 'Undo');
     // snackBarRef.onAction().subscribe(() => {

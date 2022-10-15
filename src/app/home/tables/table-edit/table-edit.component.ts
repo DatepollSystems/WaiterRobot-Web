@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {Converter, LoggerFactory, TypeHelper} from 'dfx-helper';
+import {Converter, loggerOf, TypeHelper} from 'dfx-helper';
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
 
 import {EventModel} from '../../../_models/event.model';
@@ -21,7 +21,7 @@ import {NotificationService} from '../../../_services/notifications/notification
   styleUrls: ['./table-edit.component.scss'],
 })
 export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
-  private log = LoggerFactory.getLogger('TableEditComponent');
+  private log = loggerOf('TableEditComponent');
   override redirectUrl = '/home/tables/all';
   override continuousUsePropertyNames = ['groupId', 'seats'];
 
@@ -35,22 +35,19 @@ export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
     router: Router,
     tablesService: TablesService,
     modal: NgbModal,
-    private eventsService: EventsService,
-    private tableGroupsService: TableGroupsService,
+    eventsService: EventsService,
+    tableGroupsService: TableGroupsService,
     private notificationService: NotificationService
   ) {
     super(router, route, modal, tablesService);
 
-    this.selectedEvent = this.eventsService.getSelected();
-    this.autoUnsubscribe(
-      this.eventsService.selectedChange.subscribe((event) => {
+    this.selectedEvent = eventsService.getSelected();
+    this.tableGroups = tableGroupsService.getAll();
+    this.unsubscribe(
+      eventsService.selectedChange.subscribe((event) => {
         this.selectedEvent = event;
-      })
-    );
-
-    this.tableGroups = this.tableGroupsService.getAll();
-    this.autoUnsubscribe(
-      this.tableGroupsService.allChange.subscribe((tableGroups) => {
+      }),
+      tableGroupsService.allChange.subscribe((tableGroups) => {
         this.tableGroups = tableGroups;
       })
     );

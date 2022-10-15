@@ -45,7 +45,7 @@
 
     <ng-container ngbColumnDef="printers">
       <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_PRINTERS' | tr }}</th>
-      <td *ngbCellDef="let mediator" ngb-cell>{{ onMap(mediator.printers) }}</td>
+      <td *ngbCellDef="let mediator" ngb-cell>{{ mediator.printers | implodeMapped: onMap:', ':20:'...' }}</td>
     </ng-container>
 
     <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>

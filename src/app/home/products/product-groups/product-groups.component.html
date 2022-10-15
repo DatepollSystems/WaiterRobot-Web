@@ -1,6 +1,6 @@
 <h1>{{ 'HOME_PROD_GROUP' | tr }}</h1>
 
-<app-btn-toolbar>
+<btn-toolbar>
   <div>
     <a routerLink="../create" class="btn btn-sm btn-outline-success">
       <i-bs name="plus-circle"></i-bs>
@@ -13,7 +13,7 @@
       {{ 'DELETE' | tr }}
     </button>
   </div>
-</app-btn-toolbar>
+</btn-toolbar>
 
 <div class="spinner-row" *ngIf="!entitiesLoaded">
   <div class="spinner-border" role="status">
@@ -77,13 +77,13 @@
           type="button"
           class="btn btn-sm m-1 btn-outline-danger text-white"
           ngbTooltip="{{ 'DELETE' | tr }}"
-          (click)="onDelete(productGroup.id)">
+          (click)="onDelete(productGroup.id, $event)">
           <i-bs name="trash"></i-bs>
         </button>
       </td>
     </ng-container>
 
     <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-    <tr *ngbRowDef="let productGroup; columns: columnsToDisplay" ngb-row></tr>
+    <tr *ngbRowDef="let productGroup; columns: columnsToDisplay" ngb-row routerLink="../{{ productGroup.id }}"></tr>
   </table>
 </div>

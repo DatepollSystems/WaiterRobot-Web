@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Component} from '@angular/core';
-import {AComponent, BrowserHelper, BrowserInfo, ByPassInterceptorBuilder} from 'dfx-helper';
+import {AComponent, BrowserHelper, BrowserInfo} from 'dfx-helper';
 import {EnvironmentHelper} from '../../_helper/EnvironmentHelper';
 import {MyUserModel} from '../../_models/user/my-user.model';
 import {JsonInfoResponse} from '../../_models/waiterrobot-backend';
@@ -24,8 +24,6 @@ export class StartComponent extends AComponent {
   status: 'Online' | 'Offline' = 'Online';
   serverInfoResponse?: JsonInfoResponse;
 
-  byPassLoggingInterceptor = new ByPassInterceptorBuilder().logging().enable();
-
   myUser?: MyUserModel;
 
   constructor(private httpClient: HttpClient, myUserService: MyUserService) {
@@ -34,7 +32,7 @@ export class StartComponent extends AComponent {
     this.isProduction = EnvironmentHelper.getProduction();
     this.type = EnvironmentHelper.getType();
 
-    this.autoClearInterval(
+    this.clearInterval(
       window.setInterval(() => {
         this.localTime = new Date();
         this.refreshIn--;
@@ -43,10 +41,10 @@ export class StartComponent extends AComponent {
 
     this.getPing();
 
-    this.autoClearInterval(window.setInterval(() => this.getPing(), 1000 * 6));
+    this.clearInterval(window.setInterval(() => this.getPing(), 1000 * 6));
 
     this.myUser = myUserService.getUser();
-    this.autoUnsubscribe(myUserService.userChange.subscribe((user) => (this.myUser = user)));
+    this.unsubscribe(myUserService.userChange.subscribe((user) => (this.myUser = user)));
 
     this.browserInfos = BrowserHelper.infos();
   }
@@ -55,7 +53,7 @@ export class StartComponent extends AComponent {
     this.refreshIn = 6;
     this.localTime = new Date();
     const startMs = new Date().getTime();
-    this.httpClient.get<JsonInfoResponse>('/json', {context: this.byPassLoggingInterceptor}).subscribe({
+    this.httpClient.get<JsonInfoResponse>('/json').subscribe({
       next: (response: JsonInfoResponse) => {
         this.lastPing = new Date();
         this.responseTime = this.lastPing.getTime() - startMs - 2; // Minus 2 because it takes ~ 2ms to convert the message

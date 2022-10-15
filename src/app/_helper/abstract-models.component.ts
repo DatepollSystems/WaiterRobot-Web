@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {AComponent, IEntityWithNumberIDAndName, LoggerFactory} from 'dfx-helper';
+import {AComponent, IEntityWithNumberIDAndName, loggerOf} from 'dfx-helper';
 
 import {AbstractModelService} from '../_services/models/abstract-model.service';
 
@@ -9,7 +9,7 @@ import {AbstractModelService} from '../_services/models/abstract-model.service';
   template: '',
 })
 export abstract class AbstractModelsComponent<EntityType extends IEntityWithNumberIDAndName> extends AComponent {
-  private lumber = LoggerFactory.getLogger('AbstractModelsListComponentById');
+  private lumber = loggerOf('AbstractModelsListComponentById');
 
   public selectedModelToShow = 'default';
   public allModels: EntityType[] = [];
@@ -18,11 +18,7 @@ export abstract class AbstractModelsComponent<EntityType extends IEntityWithNumb
     super();
 
     this.allModels = this.modelsService.getAll();
-    this.autoUnsubscribe(
-      modelsService.allChange.subscribe((models) => {
-        this.allModels = models;
-      })
-    );
+    this.unsubscribe(modelsService.allChange.subscribe((it) => (this.allModels = it)));
   }
 
   public linkClick(): void {

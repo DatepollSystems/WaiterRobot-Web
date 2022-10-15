@@ -11,9 +11,16 @@ import {OrdersService} from '../../../_services/models/orders.service';
   styleUrls: ['./all-orders.component.scss'],
 })
 export class AllOrdersComponent extends AbstractModelsListComponent<OrderModel> {
-  override columnsToDisplay = ['id', 'orderId', 'table', 'product', 'waiter', 'note', 'amount', 'state'];
+  override columnsToDisplay = ['id', 'orderId', 'table', 'product', 'waiter', 'note', 'amount', 'printState'];
 
   constructor(ordersService: OrdersService, modal: NgbModal) {
     super(modal, ordersService);
+
+    this.sortingDataAccessors = new Map();
+    this.sortingDataAccessors.set('table', (it) => it.table.number);
+    this.sortingDataAccessors.set('product', (it) => it.product.name);
+    this.sortingDataAccessors.set('waiter', (it) => it.waiter.name);
   }
+
+  trackBy = (index: number, t: OrderModel) => t.id;
 }

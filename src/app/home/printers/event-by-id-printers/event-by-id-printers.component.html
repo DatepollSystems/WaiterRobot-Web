@@ -1,13 +1,13 @@
 <h1>{{ entity?.name }} {{ 'NAV_PRINTERS' | tr }}</h1>
 
-<app-btn-toolbar>
+<btn-toolbar>
   <div>
     <a routerLink="../../create" class="btn btn-sm btn-outline-success m-1">
       <i-bs name="plus-circle"></i-bs>
       {{ 'ADD_2' | tr }}</a
     >
   </div>
-</app-btn-toolbar>
+</btn-toolbar>
 
 <div class="spinner-row" *ngIf="!entitiesLoaded">
   <div class="spinner-border" role="status">
@@ -45,7 +45,7 @@
 
       <ng-container ngbColumnDef="productGroups">
         <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_ALL' | tr }}</th>
-        <td *ngbCellDef="let printer" ngb-cell>{{ onMap(printer.products) }}</td>
+        <td *ngbCellDef="let printer" ngb-cell>{{ printer.products | implodeMapped: onMap:', ':20:'...' }}</td>
       </ng-container>
 
       <ng-container ngbColumnDef="actions">
@@ -58,14 +58,14 @@
             type="button"
             class="btn btn-sm m-1 btn-outline-danger text-white"
             ngbTooltip="{{ 'DELETE' | tr }}"
-            (click)="onDelete(printer.id)">
+            (click)="onDelete(printer.id, $event)">
             <i-bs name="trash"></i-bs>
           </button>
         </td>
       </ng-container>
 
       <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-      <tr *ngbRowDef="let printer; columns: columnsToDisplay" ngb-row></tr>
+      <tr *ngbRowDef="let printer; columns: columnsToDisplay" ngb-row routerLink="../../{{ printer.id }}"></tr>
     </table>
   </div>
 </div>

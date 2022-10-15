@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {AComponent, Converter, IsMobileService, LoggerFactory} from 'dfx-helper';
+import {AComponent, Converter, IsMobileService, loggerOf} from 'dfx-helper';
 
 import {EnvironmentHelper} from '../_helper/EnvironmentHelper';
 import {EventModel} from '../_models/event.model';
@@ -25,7 +25,7 @@ import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.componen
 export class HomeComponent extends AComponent implements OnInit {
   environmentType = 'prod';
   showEnvironmentType = true;
-  lumber = LoggerFactory.getLogger('HomeComponent');
+  lumber = loggerOf('HomeComponent');
 
   adminModeChanged = false;
   myUser?: MyUserModel;
@@ -51,38 +51,26 @@ export class HomeComponent extends AComponent implements OnInit {
 
     this.environmentType = EnvironmentHelper.getType();
 
-    this.isMobile = this.isMobileService.getIsMobile();
-    this.autoUnsubscribe(
-      this.isMobileService.isMobileChange.subscribe((value) => {
-        this.isMobile = value;
-      })
-    );
-
+    this.isMobile = this.isMobileService.isMobile;
     this.myUser = this.myUserService.getUser();
-    this.autoUnsubscribe(
+    this.selectedOrganisation = this.organisationsService.getSelected();
+    this.allOrgs = this.organisationsService.getAll().slice(0, 5);
+
+    this.unsubscribe(
+      this.isMobileService.isMobileChange.subscribe((value) => (this.isMobile = value)),
       this.myUserService.userChange.subscribe((user) => {
         this.myUser = user;
         if (this.myUser.isAdmin) {
           this.lumber.info('const', 'Admin status detected');
         }
         this.setNavItems();
-      })
-    );
-
-    this.selectedOrganisation = this.organisationsService.getSelected();
-    this.autoUnsubscribe(
+      }),
       this.organisationsService.selectedChange.subscribe((value) => {
         this.selectedOrganisation = value;
         this.onEventInit();
         this.setNavItems();
-      })
-    );
-
-    this.allOrgs = this.organisationsService.getAll().slice(0, 5);
-    this.autoUnsubscribe(
-      this.organisationsService.allChange.subscribe((orgs) => {
-        this.allOrgs = orgs.slice(0, 5);
-      })
+      }),
+      this.organisationsService.allChange.subscribe((it) => (this.allOrgs = it.slice(0, 5)))
     );
 
     this.onEventInit();
@@ -99,14 +87,14 @@ export class HomeComponent extends AComponent implements OnInit {
   onEventInit(): void {
     if (this.selectedOrganisation != null) {
       this.allEvents = this.eventsService.getAll().slice(0, 5);
-      this.autoUnsubscribe(
+      this.unsubscribe(
         this.eventsService.allChange.subscribe((events) => {
           this.allEvents = events.slice(0, 5);
         })
       );
 
       this.selectedEvent = this.eventsService.getSelected();
-      this.autoUnsubscribe(
+      this.unsubscribe(
         this.eventsService.selectedChange.subscribe((event) => {
           this.selectedEvent = event;
           this.setNavItems();
@@ -119,7 +107,7 @@ export class HomeComponent extends AComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.autoClear(
+    this.clearTimeout(
       window.setTimeout(() => {
         if (window.innerWidth < 992) {
           const navContent = document.getElementById('navbarSupportedContent');
@@ -137,7 +125,8 @@ export class HomeComponent extends AComponent implements OnInit {
       {text: 'NAV_PRODUCTS', routerLink: 'products', show: !!this.selectedEvent},
       {text: 'NAV_PRINTERS', routerLink: 'printers', show: !!this.myUser?.isAdmin},
       {text: 'NAV_WAITERS', routerLink: 'waiters', show: true},
-      {text: 'NAV_ORDERS', routerLink: 'orders', show: true},
+      {text: 'NAV_ORDERS', routerLink: 'orders', show: !!this.selectedEvent},
+      //{text: 'NAV_STATISTICS', routerLink: 'statistics', show: !!this.selectedEvent},
     ];
   }
 

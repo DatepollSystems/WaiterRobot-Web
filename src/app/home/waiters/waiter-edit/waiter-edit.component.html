@@ -2,7 +2,7 @@
   <h1 *ngIf="isEditing && entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
   <h1 *ngIf="!isEditing">{{ 'ADD_2' | tr }}</h1>
 
-  <app-btn-toolbar>
+  <btn-toolbar>
     <div>
       <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
     </div>
@@ -35,15 +35,15 @@
         {{ 'ADD' | tr }}
       </button>
     </div>
-  </app-btn-toolbar>
+  </btn-toolbar>
 
   <form #f="ngForm" (ngSubmit)="onSave(f)">
     <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs bg-dark" (navChange)="setTabId($event.nextId)">
       <li [ngbNavItem]="1">
         <a ngbNavLink>{{ 'DATA' | tr }}</a>
         <ng-template ngbNavContent>
-          <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="2%">
-            <div class="form-group" fxFlex="50%" fxFlex.lt-lg="35%">
+          <div class="row g-3">
+            <div class="form-group col-sm-12 col-md-4 col-lg-5 col-xl-6">
               <label for="name">{{ 'NAME' | tr }}</label>
               <input
                 ngModel
@@ -63,17 +63,19 @@
               </small>
             </div>
 
-            <ngb-entity-chip-input
-              fxFlex="50%"
-              fxFlex.lt-lg="65%"
-              [placeHolder]="'HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER'"
-              [models]="preSelectedEvents"
+            <chip-input
+              class="col-sm-12 col-md-8 col-lg-7 col-xl-6"
+              placeholder="{{ 'HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER' | tr }}"
+              label="{{ 'HOME_WAITERS_EDIT_EVENTS' | tr }}"
+              editable="false"
+              [models]="selectedEvents"
               [allModelsToAutoComplete]="events"
-              (valueChange)="changeSelectedEvents($event)"
-              [label]="'HOME_WAITERS_EDIT_EVENTS'"></ngb-entity-chip-input>
+              [formatter]="formatter"
+              (valueChange)="changeSelectedEvents($event)">
+            </chip-input>
           </div>
 
-          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%" class="mt-2">
+          <div class="d-flex flex-column flex-md-row gap-2 gap-md-4 mt-2">
             <div class="form-check">
               <input
                 ngModel

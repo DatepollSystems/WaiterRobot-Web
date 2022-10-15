@@ -1,0 +1,6 @@
+<app-sum-statistics [sumDtos]="sumDtos" chartType="PIE">
+  <span>{{ 'HOME_PROD_ALL' | tr }}</span>
+  <div bottom class="d-flex justify-content-end" *ngIf="!_standalone">
+    <button class="btn btn-info">{{ 'SHOW_MORE' | tr }}</button>
+  </div>
+</app-sum-statistics>

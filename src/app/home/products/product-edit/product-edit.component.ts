@@ -1,17 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-
-import {
-  AEntityWithNumberIDAndName,
-  Converter,
-  EntityList,
-  IEntityList,
-  IEntityWithName,
-  IEntityWithNumberIDAndName,
-  StringOrNumber,
-  TypeHelper,
-} from 'dfx-helper';
+import {AEntityWithNumberIDAndName, Converter, EntityList, IEntityList, IEntityWithNumberIDAndName, TypeHelper} from 'dfx-helper';
 
 import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
 
@@ -42,7 +32,7 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
   printers: PrinterModel[];
   selectedPrinter?: number;
 
-  allergens: IEntityList<AEntityWithNumberIDAndName>;
+  allergens: IEntityList<AEntityWithNumberIDAndName> = new EntityList();
 
   constructor(
     route: ActivatedRoute,
@@ -51,24 +41,25 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
     modal: NgbModal,
     allergensService: AllergensService,
     printersService: PrintersService,
-    private notificationService: NotificationService,
-    private eventsService: EventsService,
-    private productGroupsService: ProductGroupsService
+    eventsService: EventsService,
+    productGroupsService: ProductGroupsService,
+    private notificationService: NotificationService
   ) {
     super(router, route, modal, productsService);
 
-    this.selectedEvent = this.eventsService.getSelected();
-    this.autoUnsubscribe(this.eventsService.selectedChange.subscribe((event) => (this.selectedEvent = event)));
-
-    this.productGroups = this.productGroupsService.getAll();
-    this.autoUnsubscribe(this.productGroupsService.allChange.subscribe((groups) => (this.productGroups = groups)));
-
+    this.selectedEvent = eventsService.getSelected();
+    this.productGroups = productGroupsService.getAll();
     this.allergens = allergensService.getAll();
-    this.autoUnsubscribe(allergensService.allChange.subscribe((allergens) => (this.allergens = allergens)));
 
     printersService.setSelectedEventGetAllUrl();
     this.printers = printersService.getAll();
-    this.autoUnsubscribe(printersService.allChange.subscribe((printers) => (this.printers = printers)));
+
+    this.unsubscribe(
+      eventsService.selectedChange.subscribe((it) => (this.selectedEvent = it)),
+      productGroupsService.allChange.subscribe((it) => (this.productGroups = it)),
+      allergensService.allChange.subscribe((it) => (this.allergens = it)),
+      printersService.allChange.subscribe((it) => (this.printers = it))
+    );
 
     route.queryParams.subscribe((params) => {
       const id = params.group;
@@ -108,13 +99,13 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
     return super.createAndUpdateFilter(model);
   }
 
-  override onEntityEdit(model: ProductModel): void {
-    this.selectedAllergens = model.allergens;
-    this.selectedProductGroup = model.groupId;
-    this.selectedPrinter = model.printerId;
+  override onEntityEdit(it: ProductModel): void {
+    this.selectedAllergens = it.allergens;
+    this.selectedProductGroup = it.groupId;
+    this.selectedPrinter = it.printerId;
   }
 
-  allergenChange(allergens: IEntityList<IEntityWithName<StringOrNumber>>): void {
-    this.selectedAllergens = allergens as IEntityList<IEntityWithNumberIDAndName>;
-  }
+  formatter = (it: unknown) => (it as IEntityWithNumberIDAndName).name;
+
+  allergenChange = (allergens: any[]) => (this.selectedAllergens = new EntityList(allergens));
 }

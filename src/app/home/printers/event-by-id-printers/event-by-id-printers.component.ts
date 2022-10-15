@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {StringHelper} from 'dfx-helper';
 
 import {AbstractModelsListByIdComponent} from '../../../_helper/abstract-models-list-by-id.component';
 
@@ -25,10 +24,5 @@ export class EventByIdPrintersComponent extends AbstractModelsListByIdComponent<
     super(router, route, modal, printersService, eventsService);
   }
 
-  onMap(products: GetProductMinResponse[]): string {
-    return StringHelper.getImploded(
-      products.map((pg) => pg.name),
-      20
-    );
-  }
+  onMap = (product: GetProductMinResponse) => product.name;
 }

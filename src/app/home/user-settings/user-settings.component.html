@@ -1,5 +1,5 @@
-<div fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" fxLayoutGap.lt-md="4%">
-  <div class="list-group" fxFlex="25%" fxFlex.gt-lg="15%">
+<entities-layout-component>
+  <div class="list-group" nav>
     <a class="list-group-item list-group-item-action" routerLink="settings" routerLinkActive="active">
       <i-bs name="gear-wide-connected"></i-bs>
       {{ 'NAV_USER_SETTINGS' | tr }}</a
@@ -9,11 +9,4 @@
       {{ 'NAV_USER_SESSIONS' | tr }}</a
     >
   </div>
-  <div fxFlex="74%" fxFlex.gt-lg="82%">
-    <div class="card bg-dark">
-      <div class="card-body px-4">
-        <router-outlet></router-outlet>
-      </div>
-    </div>
-  </div>
-</div>
+</entities-layout-component>
