@@ -3,7 +3,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {AComponent} from 'dfx-helper';
-import {GetProductMinResponse, GetWaiterMinResponse} from '../../../_models/waiterrobot-backend';
+import {GetProductMinResponse} from '../../../_models/waiterrobot-backend';
 import {EventsService} from '../../../_services/models/events.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class HomeStatisticsComponent extends AComponent {
     orderedProducts: number;
     orders: number;
     turnover: number;
-    bestWaiter: GetWaiterMinResponse;
+    bestWaiter: {name: string; value: number};
     bestProduct: GetProductMinResponse;
   };
 
