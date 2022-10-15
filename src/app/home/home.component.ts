@@ -126,7 +126,7 @@ export class HomeComponent extends AComponent implements OnInit {
       {text: 'NAV_PRINTERS', routerLink: 'printers', show: !!this.myUser?.isAdmin},
       {text: 'NAV_WAITERS', routerLink: 'waiters', show: true},
       {text: 'NAV_ORDERS', routerLink: 'orders', show: !!this.selectedEvent},
-      {text: 'NAV_STATISTICS', routerLink: 'statistics', show: !!this.selectedEvent},
+      //{text: 'NAV_STATISTICS', routerLink: 'statistics', show: !!this.selectedEvent},
     ];
   }
 
