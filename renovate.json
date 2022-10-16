@@ -21,11 +21,5 @@
       "groupName": "major-risky-update"
     }
   ],
-  "extends": [
-    "config:base",
-    ":preserveSemverRanges",
-    ":dependencyDashboard",
-    ":rebaseStalePrs",
-    ":enableVulnerabilityAlertsWithLabel('security')"
-  ]
+  "extends": ["config:base", ":preserveSemverRanges", ":rebaseStalePrs", ":enableVulnerabilityAlertsWithLabel('security')"]
 }
