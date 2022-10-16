@@ -3,7 +3,6 @@ import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {AComponent} from 'dfx-helper';
-import {GetProductMinResponse} from '../../../_models/waiterrobot-backend';
 import {EventsService} from '../../../_services/models/events.service';
 
 @Component({
@@ -17,7 +16,7 @@ export class HomeStatisticsComponent extends AComponent {
     orders: number;
     turnover: number;
     bestWaiter: {name: string; value: number};
-    bestProduct: GetProductMinResponse;
+    bestProduct: {name: string; value: number};
   };
 
   constructor(public route: ActivatedRoute, http: HttpClient, eventsService: EventsService) {
@@ -32,6 +31,9 @@ export class HomeStatisticsComponent extends AComponent {
           this.countDto = it;
           if (this.countDto) {
             this.countDto.turnover = this.countDto.turnover / 100;
+            if (this.countDto.bestWaiter) {
+              this.countDto.bestWaiter.value = this.countDto.bestWaiter.value / 100;
+            }
           }
         })
     );

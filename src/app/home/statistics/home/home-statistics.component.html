@@ -1,6 +1,6 @@
 <h1>{{ 'WHOLE' | tr }} {{ 'NAV_STATISTICS' | tr }}</h1>
 
-<div class="row mb-4 row-cols-4 gy-3">
+<div class="row mb-4 row-cols-1 row-cols-md-2 row-cols-xl-4 gy-3">
   <div class="col">
     <app-statistics-count-card [count]="countDto?.orderedProducts">{{ 'HOME_STATISTICS_SELLED_PRODUCTS' | tr }}</app-statistics-count-card>
   </div>
@@ -18,9 +18,9 @@
 
   <div class="col">
     <div class="card h-100">
-      <div class="card-body text-center d-flex flex-column justify-content-center">
+      <div class="card-body text-center d-flex flex-column gap-2">
         <h4>{{ 'HOME_STATISTICS_BEST_WAITER' | tr }}</h4>
-        <p style="font-size: 3rem">{{ countDto?.bestWaiter?.name ?? '-' }}</p>
+        <p style="font-size: 2rem">{{ countDto?.bestWaiter?.name ?? '-' }} ({{ countDto?.bestWaiter?.value }}€)</p>
       </div>
     </div>
   </div>
@@ -29,24 +29,24 @@
     <div class="card h-100">
       <div class="card-body text-center d-flex flex-column justify-content-center">
         <h4>{{ 'HOME_STATISTICS_BEST_PRODUCT' | tr }}</h4>
-        <p style="font-size: 3rem">{{ countDto?.bestProduct?.name ?? '-' }}</p>
+        <p style="font-size: 2rem">{{ countDto?.bestProduct?.name ?? '-' }} ({{ countDto?.bestProduct?.value }}x)</p>
       </div>
     </div>
   </div>
 </div>
 
-<div class="row mb-4">
-  <div class="col-6">
+<div class="row mb-4 row-cols-1 row-cols-lg-2 gy-2">
+  <div class="col">
     <app-statistics-sum-productgroups></app-statistics-sum-productgroups>
   </div>
-  <div class="col-6">
+  <div class="col">
     <app-sum-products-statistics></app-sum-products-statistics>
   </div>
 </div>
 
 <div class="row">
-  <div class="col-6">
+  <div class="col">
     <app-sum-products-per-waiter-statistics></app-sum-products-per-waiter-statistics>
   </div>
-  <div class="col-6"></div>
+  <div class="col"></div>
 </div>
