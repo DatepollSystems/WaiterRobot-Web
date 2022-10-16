@@ -1,5 +1,5 @@
 #footerContainer {
-  background-color: #607d8b;
+  background-color: var(--primary-7);
   color: white;
 }
 
@@ -9,7 +9,7 @@
 }
 
 #footerBarContainer {
-  background-color: #455a64;
+  background-color: var(--primary-8);
   padding-top: 18px;
   padding-bottom: 15px;
   color: rgba(255, 255, 255, 0.8);

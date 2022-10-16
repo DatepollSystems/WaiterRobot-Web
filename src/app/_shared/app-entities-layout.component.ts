@@ -13,14 +13,15 @@ import {RouterModule} from '@angular/router';
         <ng-content select="[nav]"></ng-content>
       </div>
       <div [class.col-lg-8]="_showNav" [class.col-xl-9]="_showNav" [class.col]="!_showNav">
-        <div class="card bg-dark">
-          <div class="card-body px-4">
+        <div class="card bg">
+          <div class="card-body px-3 px-md-4">
             <router-outlet></router-outlet>
           </div>
         </div>
       </div>
     </div>
   `,
+  styles: ['.bg {background-color: var(--primary-8)}'],
 })
 export class AppEntitiesLayoutComponent {
   @Input() set showNav(it: BooleanInput) {

@@ -38,7 +38,7 @@
 </form>
 
 <div class="table-responsive" [hidden]="!entitiesLoaded">
-  <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="id" ngbSortDirection="asc">
+  <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="id" ngbSortDirection="asc">
     <ng-container ngbColumnDef="select">
       <th *ngbHeaderCellDef ngb-header-cell>
         <div class="form-check">

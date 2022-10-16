@@ -1,15 +1,9 @@
 <div class="d-container text-white">
-  <app-logo-with-text></app-logo-with-text>
-  <div
-    fxLayout="row break"
-    fxLayoutGap="2%"
-    fxLayoutAlign="center start"
-    fxLayout.lt-sm="column"
-    fxLayoutAlign.lt-sm="center"
-    style="padding: 15px 10px">
-    <div fxFlex="45%" fxFlex.gt-lg="30%" fxFlex.lt-md="75%" fxFlex.xs="90%">
-      <div fxLayout="column" fxLayoutGap="2%">
-        <div class="card bg-dark">
+  <div class="container-md">
+    <app-logo-with-text></app-logo-with-text>
+    <div class="row row-cols-1 row-cols-lg-2 justify-content-around px-3">
+      <div class="col row gy-4">
+        <div class="card bg-dark pt-2">
           <div class="card-body">
             <form #f="ngForm" (ngSubmit)="onSignin(f)" fxLayout="column" fxLayoutGap="2%" style="padding-left: 10px; padding-right: 10px">
               <div class="form-floating">
@@ -55,10 +49,8 @@
           </div>
         </div>
       </div>
-    </div>
 
-    <div fxFlex="45%" fxFlex.gt-lg="30%" fxFlex.lt-md="75%" fxFlex.xs="90%">
-      <div fxLayout="column" fxLayoutGap="2%">
+      <div class="col row gy-4">
         <div class="card bg-dark">
           <div class="card-body">
             <h3 class="card-title">

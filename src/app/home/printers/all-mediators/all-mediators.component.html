@@ -22,7 +22,7 @@
 </form>
 
 <div class="table-responsive" [hidden]="!entitiesLoaded">
-  <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort>
+  <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort>
     <ng-container ngbColumnDef="id">
       <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
       <td *ngbCellDef="let mediator" ngb-cell>{{ mediator.id }}</td>

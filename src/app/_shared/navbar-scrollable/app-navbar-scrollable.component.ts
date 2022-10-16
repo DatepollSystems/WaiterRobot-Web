@@ -17,7 +17,7 @@ import {IconsModule} from '../icons.module';
   standalone: true,
   imports: [CommonModule, RouterModule, DragDropModule, DfxTranslateModule, IconsModule, NgbTooltipModule, AppBtnToolbarComponent],
   templateUrl: './app-navbar-scrollable.component.html',
-  styleUrls: ['./app-navbar-scrollable.component.scss'],
+  styleUrls: ['./app-navbar-scrollable.component.css'],
 })
 export class AppNavbarScrollableComponent implements AfterViewInit {
   @Input()

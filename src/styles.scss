@@ -2,9 +2,6 @@
 
 @import 'assets/styles/custom-bootstrap';
 
-/* Importing Bootstrap SCSS file. */
-@import '../node_modules/bootstrap/scss/bootstrap';
-
 a:hover {
   color: #21b3f2;
   cursor: pointer;
@@ -41,7 +38,7 @@ a.btn > img {
   padding: 0.25rem 1rem;
   clear: both;
   font-weight: 400;
-  color: #212529;
+  color: #ffffff;
   text-align: inherit;
   text-decoration: none;
   white-space: nowrap;
@@ -50,8 +47,8 @@ a.btn > img {
 }
 
 .fake-dropdown-item:hover {
-  color: #1e2125;
-  background-color: #e9ecef;
+  color: #fff;
+  background-color: var(--primary-6);
 }
 
 .dropdown-toggle,
@@ -104,16 +101,16 @@ a.btn > img {
 .container-xxxl {
   --bs-gutter-x: 1.5rem;
   --bs-gutter-y: 0;
-  width: 100%;
-  padding-right: calc(var(--bs-gutter-x) * 0.5) !important;
-  padding-left: calc(var(--bs-gutter-x) * 0.5) !important;
-  margin-right: auto;
-  margin-left: auto;
+  width: 99%;
+  padding-right: calc(var(--bs-gutter-x) * 0.15) !important;
+  padding-left: calc(var(--bs-gutter-x) * 0.15) !important;
 }
 
 @media (min-width: 1800px) {
   .container-xxxl {
     max-width: 1700px;
+    margin-right: auto;
+    margin-left: auto;
   }
 }
 

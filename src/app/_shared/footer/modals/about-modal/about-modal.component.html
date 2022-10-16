@@ -4,7 +4,7 @@
 <ng-template #content let-modal>
   <div class="modal-header">
     <h3 class="modal-title" id="modal-basic-title">{{ 'ABOUT' | tr }}</h3>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="modal.dismiss()"></button>
   </div>
   <div class="modal-body">
     <h4>{{ 'ABOUT_MODAL_GENERAL' | tr }}</h4>
@@ -27,6 +27,6 @@
     </ul>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" ngbAutofocus (click)="modal.close()">{{ 'CLOSE' | tr }}</button>
+    <button type="button" class="btn btn-outline-secondary" ngbAutofocus (click)="modal.close()">{{ 'CLOSE' | tr }}</button>
   </div>
 </ng-template>

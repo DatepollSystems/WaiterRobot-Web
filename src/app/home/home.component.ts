@@ -20,7 +20,7 @@ import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.componen
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent extends AComponent implements OnInit {
   environmentType = 'prod';

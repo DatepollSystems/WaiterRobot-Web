@@ -2,9 +2,8 @@
   <div class="container-xxxl">
     <ul
       *ngIf="!editMode"
-      class="navbar-nav d-flex flex-row flex-fill justify-content-sm-start overflow-container overflow-auto user-select-none"
+      class="navbar-nav d-flex flex-row flex-fill justify-content-sm-start overflow-container overflow-auto user-select-none ps-3 ps-md-0"
       [class.justify-content-between]="_justifyContentBetween"
-      [class.container-xxxl]="_isMobile"
       (mouseenter)="onMouseEnter()"
       (mouseleave)="onMouseLeave()">
       <ng-container *ngFor="let item of _savedItems">

@@ -6,7 +6,7 @@ import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
   template: `
     <div class="modal-header">
       <h4 class="modal-title" id="modal-question-title">{{ (title ? title : question) | tr }}</h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.close()"></button>
+      <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.close()"></button>
     </div>
     <div class="modal-body" *ngIf="question || info">
       <p *ngIf="question">
@@ -15,7 +15,7 @@ import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
       <div *ngIf="info" [innerHTML]="info"></div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" ngbAutofocus (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
+      <button type="button" class="btn btn-outline-secondary" ngbAutofocus (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
       <button
         *ngFor="let answer of answers; trackByProperty: 'value'"
         (click)="answerQuestion(answer.value)"

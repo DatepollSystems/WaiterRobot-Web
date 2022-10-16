@@ -1,22 +1,15 @@
 /**
    * Backgrounds
    */
-$color-bg-darkest: #13141b;
-$color-bg-darker: #1b1e27;
-$color-bg-dark: #232837;
 $color-bg-med: #2f3646;
 $color-bg-light: #455066;
-$color-bg-lighter: #5b6882;
 
 /**
    * Text
    */
 $color-text-dark: #72809b;
-$color-text-med-dark: #919db5;
 $color-text-med: #a0aabe;
-$color-text-med-light: #d9dce1;
 $color-text-light: #f0f1f6;
-$color-text-lighter: #fff;
 
 ::ng-deep .ngx-charts {
   text {

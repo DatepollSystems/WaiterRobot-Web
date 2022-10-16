@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h3 class="modal-title" id="modal-title-org-user-add">{{ 'USER' | tr }} {{ 'ADD_3' | tr | lowercase }}</h3>
-  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+  <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.dismiss()"></button>
 </div>
 <div class="modal-body" fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign.gt-sm="space-between start">
   <div fxFlex="80%" fxFlex.lt-md="100%">
@@ -23,5 +23,5 @@
   <button class="btn btn-success" type="button" (click)="addOrgUser()">
     {{ 'ADD_3' | tr }}
   </button>
-  <button type="button" class="btn btn-outline-dark" ngbAutofocus (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
+  <button type="button" class="btn btn-outline-secondary" ngbAutofocus (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
 </div>

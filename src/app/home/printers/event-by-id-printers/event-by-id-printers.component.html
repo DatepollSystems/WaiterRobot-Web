@@ -32,7 +32,7 @@
   </form>
 
   <div class="table-responsive">
-    <table ngb-table class="table-dark" [hover]="true" [dataSource]="dataSource" ngb-sort>
+    <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort>
       <ng-container ngbColumnDef="name">
         <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
         <td *ngbCellDef="let printer" ngb-cell>{{ printer.name }}</td>
