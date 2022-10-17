@@ -31,7 +31,7 @@
     </div>
 
     <ng-container *ngIf="chartType === 'PIE' && sumDtos && sumDtos.length > 0">
-      <div style="height: 50vh">
+      <div style="height: 45vh">
         <ngx-charts-pie-chart scheme="cool" [results]="sumDtos" [labels]="true" [trimLabels]="false"></ngx-charts-pie-chart>
       </div>
     </ng-container>
