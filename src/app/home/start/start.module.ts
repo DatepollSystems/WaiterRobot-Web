@@ -8,6 +8,7 @@ import {DfxTimeSpanPipe} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {AppDownloadBtnListModule} from '../../_shared/download-btn-list/app-download-btn-list.module';
+import {IconsModule} from '../../_shared/icons.module';
 import {StartComponent} from './start.component';
 
 const startRoutes: Routes = [{path: '', component: StartComponent}];
@@ -23,6 +24,7 @@ const startRoutes: Routes = [{path: '', component: StartComponent}];
     NgbTooltipModule,
     DfxTimeSpanPipe,
     NgbDropdownModule,
+    IconsModule,
   ],
 })
 export class StartModule {}

@@ -90,6 +90,7 @@ export class StartComponent extends AComponent {
 
   selectOrg(it: OrganisationModel): void {
     this.organisationsService.setSelected(it);
+    this.eventsService.setSelected(undefined);
   }
 
   selectEvent(it: EventModel): void {

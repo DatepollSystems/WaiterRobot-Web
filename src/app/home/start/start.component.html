@@ -1,10 +1,10 @@
 <div class="row row-cols-1 row-cols-lg-2 justify-content-between gy-4">
   <div class="col-12 col-xl-7">
-    <div class="card bg-dark p-2 mb-2" *ngIf="!selectedOrganisation || !selectedEvent">
+    <div class="card bg-dark p-2 mb-2">
       <div class="card-body">
         <h5 class="card-title">{{ 'HOME_START_SETUP' | tr }}</h5>
-        <div class="d-flex flex-md-column align-items-center justify-content-between mb-5" *ngIf="!selectedOrganisation">
-          <p class="mb-1 text-center">Wähle eine Organisation aus.</p>
+        <div class="d-flex flex-column flex-lg-row align-items-center justify-content-between mb-5" *ngIf="!selectedOrganisation">
+          <p class="mb-1 mb-lg-0 text-center">Wähle eine Organisation aus.</p>
           <div ngbDropdown>
             <button type="button" class="btn btn-outline-secondary" id="orgSelect" ngbDropdownToggle>Organisation auswählen</button>
             <div ngbDropdownMenu aria-labelledby="orgSelect">
@@ -12,16 +12,43 @@
             </div>
           </div>
         </div>
-        <div class="d-flex flex-md-column align-items-center justify-content-between" *ngIf="!selectedEvent">
-          <p class="mb-1 text-center">Wähle ein Event aus um Tische oder Produkte zu konfigurieren.</p>
-          <div ngbDropdown>
-            <button type="button" class="btn btn-outline-secondary" id="eventSelect" ngbDropdownToggle [disabled]="!selectedOrganisation">
-              Event auswählen
-            </button>
-            <div ngbDropdownMenu aria-labelledby="eventSelect">
-              <button ngbDropdownItem *ngFor="let event of events" (click)="selectEvent(event)">{{ event.name }}</button>
+        <div class="d-flex flex-column flex-lg-row align-items-center justify-content-between" *ngIf="!selectedEvent">
+          <p class="mb-1 mb-lg-0 text-center">Wähle ein Event aus um Tische oder Produkte zu konfigurieren.</p>
+          <button class="btn btn-outline-secondary" (click)="selectEvent(events[0])" *ngIf="events.length === 1; else eventSelectDropdown">
+            {{ events[0].name }} auswählen
+          </button>
+          <ng-template #eventSelectDropdown>
+            <div ngbDropdown>
+              <button type="button" class="btn btn-outline-secondary" id="eventSelect" ngbDropdownToggle [disabled]="!selectedOrganisation">
+                Event auswählen
+              </button>
+              <div ngbDropdownMenu aria-labelledby="eventSelect">
+                <button ngbDropdownItem *ngFor="let event of events" (click)="selectEvent(event)">{{ event.name }}</button>
+              </div>
             </div>
-          </div>
+          </ng-template>
+        </div>
+        <div class="d-flex gap-2 flex-wrap" *ngIf="selectedEvent && selectedOrganisation">
+          <a class="btn btn-outline-light btn-sm" routerLink="tables/create">
+            <i-bs name="plus-circle"></i-bs>
+            Tisch anlegen</a
+          >
+          <a class="btn btn-outline-light btn-sm" routerLink="products/create">
+            <i-bs name="plus-circle"></i-bs>
+            Produkt anlegen</a
+          >
+          <a class="btn btn-outline-light btn-sm" routerLink="waiters/create">
+            <i-bs name="plus-circle"></i-bs>
+            Kellner anlegen</a
+          >
+          <a class="btn btn-outline-light btn-sm" routerLink="tables/groups/create">
+            <i-bs name="plus-circle"></i-bs>
+            Tischgruppe anlegen</a
+          >
+          <a class="btn btn-outline-light btn-sm" routerLink="products/groups/create">
+            <i-bs name="plus-circle"></i-bs>
+            Produktgruppe anlegen</a
+          >
         </div>
       </div>
     </div>
@@ -112,7 +139,7 @@
 </div>
 
 <div fxLayout="row" fxLayoutAlign="center" *ngIf="!isProduction">
-  <div class="mt-5 pt-5">
-    <h1 style="font-size: 60px; word-break: break-all">kellner.team-{{ type | uppercase }}</h1>
+  <div class="mt-5 pt-5 text-break text-center">
+    <h1 style="font-size: 60px">kellner.team {{ type | uppercase }}</h1>
   </div>
 </div>
