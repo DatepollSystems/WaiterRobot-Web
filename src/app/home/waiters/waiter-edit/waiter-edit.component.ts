@@ -23,7 +23,7 @@ import {WaiterSignInQRCodeModalComponent} from './waiter-sign-in-qr-code-modal.c
 })
 export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel> {
   override redirectUrl = '/home/waiters/organisation';
-  override onlyEditingTabs = [2, 3];
+  override onlyEditingTabs = [2];
 
   selectedOrganisation: OrganisationModel | undefined;
   events: IEntityList<EventModel> = new EntityList();

@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {RouterModule, Routes} from '@angular/router';
 
-import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTimeSpanPipe} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
@@ -22,6 +22,7 @@ const startRoutes: Routes = [{path: '', component: StartComponent}];
     AppDownloadBtnListModule,
     NgbTooltipModule,
     DfxTimeSpanPipe,
+    NgbDropdownModule,
   ],
 })
 export class StartModule {}

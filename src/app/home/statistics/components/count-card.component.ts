@@ -3,11 +3,24 @@ import {Component, Input} from '@angular/core';
 import {Thread} from 'dfx-helper';
 
 @Component({
+  template: `
+    <div class="card clickable" (click)="click()">
+      <div class="card-body text-center d-flex flex-column gap-2">
+        <h4><ng-content></ng-content></h4>
+        <p class="heading">{{ countS }}<ng-content select="[valuePrefix]"></ng-content></p>
+      </div>
+    </div>
+  `,
+  styles: [
+    `
+      .heading {
+        font-size: 3rem;
+      }
+    `,
+  ],
   selector: 'app-statistics-count-card',
-  templateUrl: './statistics-count-card.component.html',
-  styleUrls: ['./statistics-count-card.component.scss'],
 })
-export class StatisticsCountCardComponent {
+export class CountCardComponent {
   @Input() set count(it: NumberInput) {
     this._count = coerceNumberProperty(it);
     this.click().then();

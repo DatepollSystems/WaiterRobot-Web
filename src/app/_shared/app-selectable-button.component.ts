@@ -18,17 +18,19 @@ import {IconsModule} from './icons.module';
       (click)="onSelect(entity); $event.stopPropagation()"
       attr.aria-label="{{ 'SELECT' | tr }}"
       ngbTooltip="{{ 'SELECT' | tr }}"
-      placement="end">
+      placement="start"
+      container="body">
       <i-bs name="check2-square"></i-bs>
     </button>
     <button
       *ngIf="selectedEntity?.id === entity?.id"
       type="button"
-      class="btn btn-sm btn-primary text-white"
+      class="btn btn-sm btn-primary"
       (click)="onSelect(undefined); $event.stopPropagation()"
       attr.aria-label="{{ 'CLEAR_SELECTION' | tr }}"
       ngbTooltip="{{ 'CLEAR_SELECTION' | tr }}"
-      placement="end">
+      placement="start"
+      container="body">
       <i-bs name="x-circle-fill"></i-bs>
     </button>
   `,

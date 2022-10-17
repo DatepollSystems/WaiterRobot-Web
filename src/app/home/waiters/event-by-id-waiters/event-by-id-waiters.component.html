@@ -2,13 +2,6 @@
 
 <btn-toolbar>
   <div>
-    <button class="btn btn-sm btn-outline-primary" (click)="openQRCode(entity)">
-      <i-bs name="qr-code"></i-bs>
-      {{ 'HOME_WAITERS_EVENT_CREATE_QR_CODE' | tr }}
-    </button>
-  </div>
-
-  <div>
     <a routerLink="../../create" class="btn btn-sm btn-outline-success">
       <i-bs name="plus-circle"></i-bs>
       {{ 'ADD_2' | tr }}</a
@@ -19,6 +12,13 @@
     <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection!.hasValue()" (click)="onDeleteSelected()">
       <i-bs name="trash"></i-bs>
       {{ 'DELETE' | tr }}
+    </button>
+  </div>
+
+  <div>
+    <button class="btn btn-sm btn-outline-primary" (click)="openQRCode(entity)">
+      <i-bs name="qr-code"></i-bs>
+      {{ 'HOME_WAITERS_EVENT_CREATE_QR_CODE' | tr }}
     </button>
   </div>
 </btn-toolbar>

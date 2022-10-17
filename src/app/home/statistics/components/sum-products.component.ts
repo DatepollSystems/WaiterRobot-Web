@@ -6,14 +6,21 @@ import {AComponent} from 'dfx-helper';
 import {EventsService} from '../../../_services/models/events.service';
 
 @Component({
-  selector: 'app-sum-products-statistics',
-  templateUrl: './sum-products-statistics.component.html',
-  styleUrls: ['./sum-products-statistics.component.scss'],
+  template: `
+    <app-sum-statistics [sumDtos]="sumDtos">
+      <span>{{ 'HOME_PROD_ALL' | tr }}</span>
+      <div bottom class="d-flex justify-content-end" *ngIf="!_standalone">
+        <button class="btn btn-info">{{ 'SHOW_MORE' | tr }}</button>
+      </div>
+    </app-sum-statistics>
+  `,
+  selector: 'app-statistics-sum-products',
 })
-export class SumProductsStatisticsComponent extends AComponent {
+export class SumProductsComponent extends AComponent {
   @Input() set standalone(it: BooleanInput) {
     this._standalone = coerceBooleanProperty(it);
   }
+
   _standalone = false;
 
   sumDtos?: {name: string; value: number}[];

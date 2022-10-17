@@ -25,7 +25,7 @@ import {OrganisationUserAddModalComponent} from '../organisation-user-add-modal/
   styleUrls: ['./organisation-edit.component.scss'],
 })
 export class OrganisationEditComponent extends AbstractModelEditComponent<OrganisationModel> {
-  override onlyEditingTabs = [2, 3, 4];
+  override onlyEditingTabs = [2, 3];
   override redirectUrl = '/home/organisations/all';
 
   // User org stuff

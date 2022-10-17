@@ -1,5 +1,31 @@
-<div fxLayout="column" fxLayoutGap="1.5%" fxLayout.gt-sm="row" fxLayoutAlign="end">
-  <div>
+<div class="row row-cols-1 row-cols-lg-2 justify-content-between gy-4">
+  <div class="col-12 col-xl-7">
+    <div class="card bg-dark p-2 mb-2" *ngIf="!selectedOrganisation || !selectedEvent">
+      <div class="card-body">
+        <h5 class="card-title">{{ 'HOME_START_SETUP' | tr }}</h5>
+        <div class="d-flex flex-md-column align-items-center justify-content-between mb-5" *ngIf="!selectedOrganisation">
+          <p class="mb-1 text-center">Wähle eine Organisation aus.</p>
+          <div ngbDropdown>
+            <button type="button" class="btn btn-outline-secondary" id="orgSelect" ngbDropdownToggle>Organisation auswählen</button>
+            <div ngbDropdownMenu aria-labelledby="orgSelect">
+              <button ngbDropdownItem *ngFor="let org of organisations" (click)="selectOrg(org)">{{ org.name }}</button>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex flex-md-column align-items-center justify-content-between" *ngIf="!selectedEvent">
+          <p class="mb-1 text-center">Wähle ein Event aus um Tische oder Produkte zu konfigurieren.</p>
+          <div ngbDropdown>
+            <button type="button" class="btn btn-outline-secondary" id="eventSelect" ngbDropdownToggle [disabled]="!selectedOrganisation">
+              Event auswählen
+            </button>
+            <div ngbDropdownMenu aria-labelledby="eventSelect">
+              <button ngbDropdownItem *ngFor="let event of events" (click)="selectEvent(event)">{{ event.name }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="card bg-dark p-2">
       <div class="card-body">
         <h5 class="card-title">{{ 'ABOUT_APP_DISCOVER' | tr }}</h5>
@@ -8,50 +34,50 @@
     </div>
   </div>
 
-  <div fxLayout="column" fxLayoutGap="1.5%">
-    <div class="card bg-dark p-2 pe-5" *ngIf="myUser?.isAdmin || type !== 'prod'">
+  <div class="col-12 col-xl-4">
+    <div class="card bg-dark p-2 mb-3" *ngIf="myUser?.isAdmin">
       <div class="card-body">
         <h5 class="card-title">{{ 'HOME_START_STATISTICS' | tr }}</h5>
         <ul class="list-unstyled py-2">
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
-            Local time: <span class="ms-3">{{ localTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
+            Local time: <span>{{ localTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             OS: <span>{{ browserInfos.os }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             OS version: <span>{{ browserInfos.osVersion }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             Browser: <span>{{ browserInfos.name }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             Browser version: <span>{{ browserInfos.version }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             Mobile: <span>{{ browserInfos.mobile }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             Screen size: <span>{{ browserInfos.screenSize }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             Local storage: <span>{{ browserInfos.localStorage }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             Cookies: <span>{{ browserInfos.cookies }}</span>
           </li>
         </ul>
       </div>
     </div>
 
-    <div class="card bg-dark p-2 pe-5" *ngIf="myUser?.isAdmin || type !== 'prod'">
+    <div class="card bg-dark p-2" *ngIf="myUser?.isAdmin">
       <div class="card-body">
         <h5>Backend</h5>
         <ul class="list-unstyled">
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             Status: <span [class.text-success]="status === 'Online'" [class.text-danger]="status === 'Offline'">{{ status }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             Ping:
             <div fxLayout="row">
               <div *ngIf="lastPing">
@@ -63,19 +89,19 @@
             </div>
           </li>
           <ng-container *ngIf="status === 'Online'">
-            <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+            <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
               Time: <span>{{ serverInfoResponse?.serverTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)':'UTC' }}</span>
             </li>
-            <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+            <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
               Started: <span>{{ serverInfoResponse?.serverStartTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
             </li>
-            <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+            <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
               Uptime: <span>{{ localTime | timespan: serverInfoResponse?.serverStartTime }}</span>
             </li>
-            <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+            <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
               Version: <span>{{ serverInfoResponse?.version }}</span>
             </li>
-            <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+            <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
               Info: <span class="ms-md-5" style="white-space: nowrap">"{{ serverInfoResponse?.info }}"</span>
             </li>
           </ng-container>

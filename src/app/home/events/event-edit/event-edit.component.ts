@@ -20,7 +20,6 @@ import {WaiterCreateQRCodeModalComponent} from '../../waiters/waiter-create-qr-c
   styleUrls: ['./event-edit.component.scss'],
 })
 export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
-  override onlyEditingTabs = [2];
   override redirectUrl = '/home/events/all';
 
   myUser?: MyUserModel;

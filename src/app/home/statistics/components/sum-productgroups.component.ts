@@ -5,11 +5,10 @@ import {AComponent} from 'dfx-helper';
 import {EventsService} from '../../../_services/models/events.service';
 
 @Component({
-  selector: 'app-sum-products-per-waiter-statistics',
-  templateUrl: './sum-products-per-waiter-statistics.component.html',
-  styleUrls: ['./sum-products-per-waiter-statistics.component.scss'],
+  template: ` <app-sum-statistics [sumDtos]="sumDtos" chartType="PIE">{{ 'HOME_PROD_GROUP' | tr }}</app-sum-statistics> `,
+  selector: 'app-statistics-sum-productgroups',
 })
-export class SumProductsPerWaiterStatisticsComponent extends AComponent {
+export class SumProductgroupsComponent extends AComponent {
   sumDtos?: {name: string; value: number}[];
 
   constructor(http: HttpClient, eventsServie: EventsService) {
@@ -17,7 +16,7 @@ export class SumProductsPerWaiterStatisticsComponent extends AComponent {
 
     this.unsubscribe(
       http
-        .get<typeof this.sumDtos>('/config/statistics/sumProductsPerWaiter', {
+        .get<typeof this.sumDtos>('/config/statistics/sumProductGroups', {
           params: new HttpParams().set('eventId', eventsServie.getSelected()!.id),
         })
         .subscribe((it) => (this.sumDtos = it))

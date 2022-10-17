@@ -27,7 +27,6 @@ $primary-1: #bed6e1;
 }
 
 $custom-colors: (
-  'primary': $primary,
   'dark': $primary-8,
 );
 
@@ -60,6 +59,12 @@ $dropdown-link-color: $text-color;
 $dropdown-link-hover-color: $text-color;
 $dropdown-link-hover-bg: $primary-6;
 $dropdown-header-color: $primary-1;
+
+$nav-tabs-border-color: $primary-5;
+$nav-tabs-link-active-bg: $primary-7;
+$nav-tabs-link-active-border-color: $primary-5;
+$nav-tabs-link-hover-border-color: $primary-5;
+$nav-tabs-link-active-color: $text-color;
 
 // 4. Include any default map overrides here
 

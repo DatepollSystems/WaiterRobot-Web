@@ -115,10 +115,8 @@
                     </span>
                   </ng-container>
                   <div class="dropdown-divider"></div>
-                  <button ngbDropdownItem routerLinkActive="active" routerLink="events/create" *ngIf="myUser?.isAdmin">
-                    <b>+</b> {{ 'ADD_2' | tr }}
-                  </button>
-                  <button ngbDropdownItem routerLinkActive="active" routerLink="events/all">
+                  <button ngbDropdownItem routerLink="events/create" *ngIf="myUser?.isAdmin"><b>+</b> {{ 'ADD_2' | tr }}</button>
+                  <button ngbDropdownItem routerLink="events/all">
                     <i-bs name="calendar-event-fill"></i-bs>
                     {{ 'SHOW_ALL' | tr }}
                   </button>
