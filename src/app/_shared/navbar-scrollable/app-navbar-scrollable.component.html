@@ -17,7 +17,7 @@
         </li>
       </ng-container>
       <li
-        class="nav-item me-2"
+        class="nav-item me-3"
         ngbTooltip="{{ 'NAV_EDIT_CUSTOMIZE' | tr }}"
         placement="bottom"
         *ngIf="_edible && (showEditArrow || _isMobile)">
@@ -27,8 +27,8 @@
       </li>
     </ul>
 
-    <div *ngIf="editMode" style="width: 100%">
-      <h5 class="text-white-50">{{ 'NAV_EDIT_CUSTOMIZE' | tr }}</h5>
+    <div *ngIf="editMode" class="edit-container">
+      <h5 class="text-white">{{ 'NAV_EDIT_CUSTOMIZE' | tr }}</h5>
       <btn-toolbar>
         <div>
           <button class="btn btn-sm btn-success" (click)="onSave()">
@@ -37,7 +37,7 @@
           </button>
         </div>
         <div>
-          <button class="btn btn-sm btn-outline-primary" (click)="onReset()">
+          <button class="btn btn-sm btn-outline-danger" (click)="onReset()">
             <i-bs name="arrow-clockwise"></i-bs>
             {{ 'RESET' | tr }}
           </button>
