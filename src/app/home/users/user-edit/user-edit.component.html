@@ -211,8 +211,4 @@
   </form>
 </div>
 
-<div class="spinner-row" *ngIf="isEditing && !entityLoaded">
-  <div class="spinner-border" role="status">
-    <span class="visually-hidden">{{ 'LOADING' | tr }}</span>
-  </div>
-</div>
+<app-spinner-row [loading]="isEditing && !entityLoaded"></app-spinner-row>

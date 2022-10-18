@@ -24,6 +24,7 @@ import {WaiterEditComponent} from './waiter-edit/waiter-edit.component';
 import {WaiterSessionsComponent} from './waiter-edit/waiter-sessions/waiter-sessions.component';
 import {WaiterSignInQRCodeModalComponent} from './waiter-edit/waiter-sign-in-qr-code-modal.component';
 import {WaitersComponent} from './waiters.component';
+import {AppSpinnerRowComponent} from '../../_shared/app-spinner-row.component';
 
 const routes: Routes = [
   {
@@ -70,6 +71,7 @@ const routes: Routes = [
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
     ChipInput,
+    AppSpinnerRowComponent,
   ],
 })
 export class WaitersModule {}

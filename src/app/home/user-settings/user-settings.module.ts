@@ -15,6 +15,7 @@ import {UserSettingsSubComponent} from './user-settings-sub/user-settings-sub.co
 
 import {UserSettingsComponent} from './user-settings.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
+import {AppSpinnerRowComponent} from '../../_shared/app-spinner-row.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,7 @@ const routes: Routes = [
     FormsModule,
     AppBtnToolbarComponent,
     AppEntitiesLayoutComponent,
+    AppSpinnerRowComponent,
   ],
 })
 export class UserSettingsModule {}

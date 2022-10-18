@@ -14,6 +14,7 @@ import {AllUsersComponent} from './all-users/all-users.component';
 import {UserEditComponent} from './user-edit/user-edit.component';
 
 import {UsersComponent} from './users.component';
+import {AppSpinnerRowComponent} from '../../_shared/app-spinner-row.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,7 @@ const routes: Routes = [
     NgbDatepickerModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
+    AppSpinnerRowComponent,
   ],
 })
 export class UsersModule {}

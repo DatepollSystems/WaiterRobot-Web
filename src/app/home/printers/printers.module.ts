@@ -18,6 +18,7 @@ import {EventByIdPrintersComponent} from './event-by-id-printers/event-by-id-pri
 import {PrinterEditComponent} from './printer-edit/printer-edit.component';
 
 import {PrintersComponent} from './printers.component';
+import {AppSpinnerRowComponent} from '../../_shared/app-spinner-row.component';
 
 const startRoutes: Routes = [
   {
@@ -51,6 +52,7 @@ const startRoutes: Routes = [
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
     DfxImplodePipeModule,
+    AppSpinnerRowComponent,
   ],
 })
 export class PrintersModule {}

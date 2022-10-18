@@ -22,6 +22,7 @@ import {ProductGroupEditComponent} from './product-group-edit/product-group-edit
 import {ProductGroupsComponent} from './product-groups/product-groups.component';
 
 import {ProductsComponent} from './products.component';
+import {AppSpinnerRowComponent} from '../../_shared/app-spinner-row.component';
 
 const routes: Routes = [
   {
@@ -65,6 +66,7 @@ const routes: Routes = [
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
     ChipInput,
+    AppSpinnerRowComponent,
   ],
 })
 export class ProductsModule {}

@@ -22,6 +22,7 @@ import {TableGroupEditComponent} from './table-group-edit/table-group-edit.compo
 import {TableGroupsComponent} from './table-groups/table-groups.component';
 
 import {TablesComponent} from './tables.component';
+import {AppSpinnerRowComponent} from '../../_shared/app-spinner-row.component';
 
 const routes: Routes = [
   {
@@ -66,6 +67,7 @@ const routes: Routes = [
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
     QuestionDialogModule,
+    AppSpinnerRowComponent,
   ],
 })
 export class TablesModule {}

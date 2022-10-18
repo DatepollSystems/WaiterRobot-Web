@@ -18,6 +18,7 @@ import {AllEventsComponent} from './all-events/all-events.component';
 import {EventEditComponent} from './event-edit/event-edit.component';
 
 import {EventsComponent} from './events.component';
+import {AppSpinnerRowComponent} from '../../_shared/app-spinner-row.component';
 
 const startRoutes: Routes = [
   {
@@ -51,6 +52,7 @@ const startRoutes: Routes = [
     AppSelectableButtonComponent,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
+    AppSpinnerRowComponent,
   ],
 })
 export class EventsModule {}

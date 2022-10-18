@@ -15,6 +15,7 @@ import {IconsModule} from '../../_shared/icons.module';
 
 import {AllOrdersComponent} from './all-orders/all-orders.component';
 import {OrdersComponent} from './orders.component';
+import {AppSpinnerRowComponent} from '../../_shared/app-spinner-row.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,7 @@ const routes: Routes = [
     IconsModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
+    AppSpinnerRowComponent,
   ],
 })
 export class OrdersModule {}

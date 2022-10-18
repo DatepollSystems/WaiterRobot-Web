@@ -21,6 +21,7 @@ import {OrganisationEditComponent} from './organisation-edit/organisation-edit.c
 import {OrganisationUserAddModalComponent} from './organisation-user-add-modal/organisation-user-add-modal.component';
 
 import {OrganisationsComponent} from './organisations.component';
+import {AppSpinnerRowComponent} from '../../_shared/app-spinner-row.component';
 
 const routes: Routes = [
   {
@@ -55,6 +56,7 @@ const routes: Routes = [
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
     ChipInput,
+    AppSpinnerRowComponent,
   ],
 })
 export class OrganisationsModule {}

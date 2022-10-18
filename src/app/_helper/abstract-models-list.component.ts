@@ -33,9 +33,11 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
   protected constructor(protected modal: NgbModal, protected entitiesService: AEntityService<StringOrNumber, EntityType>) {
     super();
 
-    this.filter.valueChanges.subscribe((value) => {
-      this.dataSource.filter = value;
-    });
+    this.unsubscribe(
+      this.filter.valueChanges.subscribe((value) => {
+        this.dataSource.filter = value;
+      })
+    );
   }
 
   ngAfterViewInit(): void {

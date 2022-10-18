@@ -16,11 +16,7 @@
   </div>
 </btn-toolbar>
 
-<div class="spinner-row" *ngIf="!entitiesLoaded">
-  <div class="spinner-border" role="status">
-    <span class="visually-hidden">{{ 'LOADING' | tr }}</span>
-  </div>
-</div>
+<app-spinner-row [loading]="!entitiesLoaded"></app-spinner-row>
 
 <form [hidden]="!entitiesLoaded">
   <div class="input-group">

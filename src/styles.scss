@@ -56,14 +56,6 @@ a.btn > img {
   user-select: none;
 }
 
-.spinner-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
 /* Loading animation for buttons */
 .btn.spinner {
   position: relative !important;
