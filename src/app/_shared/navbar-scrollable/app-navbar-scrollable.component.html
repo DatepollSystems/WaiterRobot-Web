@@ -69,7 +69,7 @@
         cdkDropList
         [cdkDropListOrientation]="_isMobile ? 'vertical' : 'horizontal'"
         (cdkDropListDropped)="drop($event)">
-        <div [class.h-box]="!_isMobile" [class.v-box]="_isMobile" *ngFor="let item of _itemsCopy" cdkDrag>
+        <div class="box" [class.h-box]="!_isMobile" [class.v-box]="_isMobile" *ngFor="let item of _itemsCopy" cdkDrag>
           <span *ngIf="!item.bookmark; else notBookmark">{{ item.text | tr }}</span>
           <ng-template #notBookmark>
             <span>{{ item.text }}</span>
