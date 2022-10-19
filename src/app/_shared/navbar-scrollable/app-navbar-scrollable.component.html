@@ -109,9 +109,10 @@
             name="name"
             #nameModel="ngModel"
             minlength="3"
+            maxlength="35"
             placeholder="{{ 'NAME' | tr }}" />
           <small *ngIf="nameModel.invalid" class="text-danger">
-            {{ 'HOME_ORGS_NAME_INCORRECT' | tr }}
+            {{ 'NAV_EDIT_BOOKMARK_ADD_INVALID' | tr }}
           </small>
         </div>
       </div>
