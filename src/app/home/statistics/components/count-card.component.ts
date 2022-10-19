@@ -35,7 +35,7 @@ export class CountCardComponent {
   _count = 0;
 
   // How long you want the animation to take, in ms
-  animationDuration = 2000;
+  animationDuration = 4000;
   // Calculate how long each ‘frame’ should last if we want to update the animation 60 times per second 1000/60
   frameDuration = 16.6;
   // Use that to calculate how many frames we need to complete the animation
