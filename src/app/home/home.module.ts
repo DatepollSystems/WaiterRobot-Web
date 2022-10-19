@@ -5,12 +5,12 @@ import {NgModule} from '@angular/core';
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTrackByModule, HideIfOnlineDirective, HideIfPingSucceedsDirective} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
-
-import {AppQrCodeModalModule} from '../_shared/qr-code-modal/app-qr-code-modal.module';
-import {IconsModule} from '../_shared/icons.module';
 import {FooterModule} from '../_shared/footer/footer.module';
-import {HomeRoutingModule} from './home-routing.module';
+
+import {IconsModule} from '../_shared/icons.module';
 import {AppNavbarScrollableComponent} from '../_shared/navbar-scrollable/app-navbar-scrollable.component';
+import {AppQrCodeModalComponent} from '../_shared/qr-code/app-qr-code-modal.component';
+import {HomeRoutingModule} from './home-routing.module';
 
 import {HomeComponent} from './home.component';
 import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.component';
@@ -24,12 +24,12 @@ import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.componen
     NgbDropdownModule,
     DfxTranslateModule,
     DfxTrackByModule,
+    HideIfOnlineDirective,
+    HideIfPingSucceedsDirective,
     IconsModule,
     FooterModule,
     AppNavbarScrollableComponent,
-    AppQrCodeModalModule,
-    HideIfOnlineDirective,
-    HideIfPingSucceedsDirective,
+    AppQrCodeModalComponent,
   ],
   exports: [HomeComponent],
 })

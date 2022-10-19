@@ -11,9 +11,10 @@ import {DfxTranslateModule} from 'dfx-translate';
 import {OrganisationSelectedGuard} from '../../_services/guards/organisation-selected-guard.service';
 import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
+import {AppSpinnerRowComponent} from '../../_shared/app-spinner-row.component';
 import {ChipInput} from '../../_shared/chip-input/chip-input.component';
-import {AppQrCodeModalModule} from '../../_shared/qr-code-modal/app-qr-code-modal.module';
 import {IconsModule} from '../../_shared/icons.module';
+import {AppQrCodeModalComponent} from '../../_shared/qr-code/app-qr-code-modal.component';
 import {QuestionDialogModule} from '../../_shared/question-dialog/question-dialog.module';
 
 import {DuplicateOrganisationWaitersComponent} from './duplicate-organisation-waiters/duplicate-organisation-waiters.component';
@@ -24,7 +25,6 @@ import {WaiterEditComponent} from './waiter-edit/waiter-edit.component';
 import {WaiterSessionsComponent} from './waiter-edit/waiter-sessions/waiter-sessions.component';
 import {WaiterSignInQRCodeModalComponent} from './waiter-edit/waiter-sign-in-qr-code-modal.component';
 import {WaitersComponent} from './waiters.component';
-import {AppSpinnerRowComponent} from '../../_shared/app-spinner-row.component';
 
 const routes: Routes = [
   {
@@ -66,12 +66,12 @@ const routes: Routes = [
     DfxSortModule,
     DfxImplodePipeModule,
     IconsModule,
-    AppQrCodeModalModule,
     QuestionDialogModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
     ChipInput,
     AppSpinnerRowComponent,
+    AppQrCodeModalComponent,
   ],
 })
 export class WaitersModule {}

@@ -8,7 +8,14 @@
       (mouseleave)="onMouseLeave()">
       <ng-container *ngFor="let item of _savedItems">
         <li class="nav-item me-3" *ngIf="item.show">
-          <a class="nav-link" draggable="false" routerLinkActive="active" [routerLink]="item.routerLink">{{ item.text | tr }}</a>
+          <a class="nav-link" draggable="false" routerLinkActive="active" [routerLink]="item.routerLink">
+            <span *ngIf="!item.bookmark; else notBookmark">
+              {{ item.text | tr }}
+            </span>
+            <ng-template #notBookmark>
+              {{ item.text }}
+            </ng-template>
+          </a>
         </li>
       </ng-container>
       <ng-container *ngFor="let item of _itemsToView">
@@ -43,6 +50,12 @@
           </button>
         </div>
         <div>
+          <button class="btn btn-sm btn-outline-info" (click)="openModal(bookMarkModalContent)">
+            <i-bs name="star-fill"></i-bs>
+            Lesezeichen
+          </button>
+        </div>
+        <div>
           <button class="btn btn-sm btn-outline-secondary" (click)="onClose()">
             <i-bs name="trash"></i-bs>
             {{ 'CLOSE' | tr }}
@@ -56,10 +69,58 @@
         cdkDropList
         [cdkDropListOrientation]="_isMobile ? 'vertical' : 'horizontal'"
         (cdkDropListDropped)="drop($event)">
-        <div class="box" [class.h-box]="!_isMobile" [class.v-box]="_isMobile" *ngFor="let item of _itemsCopy" cdkDrag>
-          {{ item.text | tr }}
+        <div [class.h-box]="!_isMobile" [class.v-box]="_isMobile" *ngFor="let item of _itemsCopy" cdkDrag>
+          <span *ngIf="!item.bookmark; else notBookmark">{{ item.text | tr }}</span>
+          <ng-template #notBookmark>
+            <span>{{ item.text }}</span>
+          </ng-template>
+          <button
+            class="btn btn-sm btn-secondary ms-2"
+            *ngIf="item.bookmark"
+            aria-label="Delete bookmark"
+            (click)="removeBookmark(item)"
+            ngbTooltip="Delete bookmark"
+            placement="bottom">
+            <i-bs name="trash"></i-bs>
+          </button>
         </div>
       </div>
     </div>
   </div>
 </nav>
+
+<ng-template #bookMarkModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add new bookmark</h4>
+    <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="modal.close(undefined)"></button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-3">
+        <div>URL: {{ router.url }}</div>
+        <div class="form-group">
+          <label for="name">{{ 'NAME' | tr }}</label>
+          <input
+            ngModel
+            class="form-control bg-dark text-white"
+            required
+            type="text"
+            id="name"
+            name="name"
+            #nameModel="ngModel"
+            minlength="3"
+            placeholder="{{ 'NAME' | tr }}" />
+          <small *ngIf="nameModel.invalid" class="text-danger">
+            {{ 'HOME_ORGS_NAME_INCORRECT' | tr }}
+          </small>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.close(undefined)">Close</button>
+    <button type="button" class="btn btn-outline-success" [disabled]="nameModel.invalid" (click)="modal.close(nameModel.value)">
+      Save
+    </button>
+  </div>
+</ng-template>

@@ -39,6 +39,7 @@ import {
   union,
   upcScan,
   xCircleFill,
+  starFill,
 } from 'ngx-bootstrap-icons';
 
 const icons = {
@@ -80,6 +81,7 @@ const icons = {
   graphUp,
   pieChartFill,
   barChartLineFill,
+  starFill,
 };
 
 @NgModule({

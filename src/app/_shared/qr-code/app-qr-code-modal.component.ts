@@ -1,10 +1,12 @@
+import {NgIf} from '@angular/common';
 import {Component, Input} from '@angular/core';
 
-import {NgbActiveModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {ClipboardHelper} from 'dfx-helper';
+import {NgbActiveModal, NgbTooltip, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {ClipboardHelper, DfxPrintDirective} from 'dfx-helper';
+import {DfxTranslateModule} from 'dfx-translate';
+import {AppQrCodeViewComponent} from './app-qr-code-view.component';
 
 @Component({
-  selector: 'app-qrcode-modal',
   template: `
     <div class="modal-header">
       <ng-content select="[header]"></ng-content>
@@ -12,7 +14,7 @@ import {ClipboardHelper} from 'dfx-helper';
     </div>
     <div class="modal-body">
       <div class="d-flex flex-column align-items-center" id="qrcode-print-section">
-        <div class="col" style="border-radius: 15px; border-width: 5px; background-color: white; padding: 15px">
+        <div class="col">
           <app-qr-code-view [data]="data"></app-qr-code-view>
         </div>
         <div class="col mt-3">
@@ -54,6 +56,9 @@ import {ClipboardHelper} from 'dfx-helper';
       <button type="button" class="btn btn-outline-secondary" ngbAutofocus (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
     </div>
   `,
+  selector: 'app-qrcode-modal',
+  standalone: true,
+  imports: [NgIf, DfxTranslateModule, DfxPrintDirective, AppQrCodeViewComponent, NgbTooltipModule],
 })
 export class AppQrCodeModalComponent {
   @Input() dataType: 'URL' | 'TEXT' = 'URL';

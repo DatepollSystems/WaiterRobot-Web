@@ -1,11 +1,11 @@
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {CommonModule} from '@angular/common';
 import {Component, Input} from '@angular/core';
-import {RouterModule} from '@angular/router';
+import {RouterOutlet} from '@angular/router';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterOutlet],
   selector: 'entities-layout-component',
   template: `
     <div class="d-flex flex-column flex-lg-row gap-3">

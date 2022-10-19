@@ -12,8 +12,8 @@ const routes: Routes = [
     loadChildren: () => import('./mobile-link/mobile-link.module').then((m) => m.MobileLinkModule),
   },
   {
-    path: 'qrcode',
-    loadChildren: () => import('./_shared/qr-code-view/app-qr-code-view.module').then((m) => m.AppQrCodeViewModule),
+    path: 'qrcode/view',
+    loadComponent: () => import('./_shared/qr-code/app-qr-code-view.component').then((c) => c.AppQrCodeViewComponent),
   },
   {
     path: 'not-found',

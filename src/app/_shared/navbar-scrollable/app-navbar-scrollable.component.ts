@@ -1,11 +1,11 @@
-import {AfterViewInit, Component, EventEmitter, Input, Output} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {RouterModule} from '@angular/router';
-
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {CdkDragDrop, DragDropModule, moveItemInArray} from '@angular/cdk/drag-drop';
+import {NgForOf, NgIf} from '@angular/common';
+import {AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLinkActive, RouterLinkWithHref} from '@angular/router';
 
-import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {StorageHelper} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
@@ -15,7 +15,18 @@ import {IconsModule} from '../icons.module';
 @Component({
   selector: 'app-navbar-scrollable',
   standalone: true,
-  imports: [CommonModule, RouterModule, DragDropModule, DfxTranslateModule, IconsModule, NgbTooltipModule, AppBtnToolbarComponent],
+  imports: [
+    NgIf,
+    NgForOf,
+    RouterLinkWithHref,
+    RouterLinkActive,
+    DragDropModule,
+    DfxTranslateModule,
+    IconsModule,
+    NgbTooltipModule,
+    AppBtnToolbarComponent,
+    FormsModule,
+  ],
   templateUrl: './app-navbar-scrollable.component.html',
   styleUrls: ['./app-navbar-scrollable.component.css'],
 })
@@ -38,12 +49,14 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
   set edible(value: BooleanInput) {
     this._edible = coerceBooleanProperty(value);
   }
+
   _edible = true;
 
   @Input()
   set preferencesStorageKey(value: string) {
     this._preferencesStorageKey = value;
   }
+
   _preferencesStorageKey = 'nav_pref';
 
   @Input()
@@ -53,7 +66,7 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
     if (this._savedItems) {
       this._savedItems = this._savedItems.filter((it) => {
         for (const newItem of this._items) {
-          if (newItem.text === it.text) {
+          if (it.bookmark || newItem.text === it.text) {
             return true;
           }
         }
@@ -82,7 +95,7 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
   editMode = false;
   showEditArrow = false;
 
-  constructor() {
+  constructor(public router: Router, private modalService: NgbModal) {
     const savedPrefStr = StorageHelper.getString(this._preferencesStorageKey);
     if (savedPrefStr) {
       this._savedItems = JSON.parse(savedPrefStr) as NavItem[];
@@ -164,10 +177,24 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
   drop(event: CdkDragDrop<NavItem[]>): void {
     moveItemInArray(this._itemsCopy, event.previousIndex, event.currentIndex);
   }
+
+  openModal(content: TemplateRef<any>): void {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      if (result) {
+        console.log(result);
+        this._itemsCopy.push({text: result as string, routerLink: this.router.url, show: true, bookmark: true});
+      }
+    });
+  }
+
+  removeBookmark(item: NavItem): void {
+    this._itemsCopy.splice(this._itemsCopy.indexOf(item), 1);
+  }
 }
 
 export type NavItem = {
   text: string;
   routerLink: string;
   show: boolean;
+  bookmark?: boolean;
 };

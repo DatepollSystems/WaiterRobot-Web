@@ -12,7 +12,6 @@ import {DfxTranslateModule} from 'dfx-translate';
 import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
 import {ChipInput} from '../../_shared/chip-input/chip-input.component';
-import {AppQrCodeScannerModalModule} from '../../_shared/qr-code-scanner-modal/app-qr-code-scanner-modal.module';
 
 import {IconsModule} from '../../_shared/icons.module';
 import {AppSelectableButtonComponent} from '../../_shared/app-selectable-button.component';
@@ -52,7 +51,6 @@ const routes: Routes = [
     NgbTooltipModule,
     IconsModule,
     AppSelectableButtonComponent,
-    AppQrCodeScannerModalModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
     ChipInput,

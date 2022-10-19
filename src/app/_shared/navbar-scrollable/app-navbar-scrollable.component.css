@@ -20,6 +20,11 @@
   scrollbar-width: none; /* Firefox */
 }
 
+.nav-link {
+  word-break: keep-all;
+  white-space: nowrap;
+}
+
 .v-list {
   width: 250px;
   max-width: 100%;

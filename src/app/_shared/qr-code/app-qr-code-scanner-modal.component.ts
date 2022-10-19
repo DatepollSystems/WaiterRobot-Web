@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {ZXingScannerModule} from '@zxing/ngx-scanner';
+import {DfxTranslateModule} from 'dfx-translate';
 
 @Component({
-  selector: 'app-qrcode-scanner-modal',
   template: `
     <div class="modal-header">
       <h4 class="modal-title" id="modal-qrcode-scanner-title">{{ 'QR_CODE_SCAN' | tr }}</h4>
@@ -15,6 +16,9 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
       <button type="button" class="btn btn-outline-secondary" ngbAutofocus (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
     </div>
   `,
+  selector: 'app-qrcode-scanner-modal',
+  standalone: true,
+  imports: [DfxTranslateModule, ZXingScannerModule],
 })
 export class AppQrCodeScannerModalComponent {
   constructor(public activeModal: NgbActiveModal) {}
