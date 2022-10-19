@@ -3,6 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Component, Input} from '@angular/core';
 
 import {AComponent} from 'dfx-helper';
+import {StatisticsSumResponse} from '../../../_models/waiterrobot-backend';
 import {EventsService} from '../../../_services/models/events.service';
 
 @Component({
@@ -23,7 +24,7 @@ export class SumProductsComponent extends AComponent {
 
   _standalone = false;
 
-  sumDtos?: {name: string; value: number}[];
+  sumDtos?: StatisticsSumResponse[];
 
   constructor(http: HttpClient, eventsServie: EventsService) {
     super();

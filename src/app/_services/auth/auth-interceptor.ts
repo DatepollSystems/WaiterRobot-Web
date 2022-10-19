@@ -3,11 +3,11 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {loggerOf} from 'dfx-helper';
-import {BehaviorSubject, Observable, throwError, catchError, filter, switchMap, take} from 'rxjs';
-
-import {JWTResponse} from '../../_models/waiterrobot-backend';
+import {BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError} from 'rxjs';
 
 import {EnvironmentHelper} from '../../_helper/EnvironmentHelper';
+
+import {JWTResponse} from '../../_models/waiterrobot-backend';
 import {NotificationService} from '../notifications/notification.service';
 import {AuthService} from './auth.service';
 
@@ -25,7 +25,7 @@ export class AuthInterceptor implements HttpInterceptor {
   /**
    * Don't intercept this requests
    */
-  private paths = [AuthService.signInUrl, AuthService.refreshUrl, 'assets/i18n'];
+  private paths = [AuthService.signInUrl, AuthService.signInPwChangeUrl, AuthService.refreshUrl, 'assets/i18n'];
 
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(undefined);

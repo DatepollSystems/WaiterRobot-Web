@@ -2,6 +2,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Component} from '@angular/core';
 
 import {AComponent} from 'dfx-helper';
+import {StatisticsSumResponse} from '../../../_models/waiterrobot-backend';
 import {EventsService} from '../../../_services/models/events.service';
 
 @Component({
@@ -9,7 +10,7 @@ import {EventsService} from '../../../_services/models/events.service';
   selector: 'app-statistics-sum-productgroups',
 })
 export class SumProductgroupsComponent extends AComponent {
-  sumDtos?: {name: string; value: number}[];
+  sumDtos?: StatisticsSumResponse[];
 
   constructor(http: HttpClient, eventsServie: EventsService) {
     super();

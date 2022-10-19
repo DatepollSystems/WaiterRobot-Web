@@ -59,8 +59,12 @@ export class StartComponent extends AComponent {
     this.myUser = myUserService.getUser();
     this.selectedOrganisation = organisationsService.getSelected();
     this.organisations = organisationsService.getAll();
-    this.selectedEvent = eventsService.getSelected();
-    this.events = eventsService.getAll();
+    if (this.selectedOrganisation) {
+      this.selectedEvent = eventsService.getSelected();
+      this.events = eventsService.getAll();
+    } else {
+      this.events = [];
+    }
 
     this.unsubscribe(
       myUserService.userChange.subscribe((user) => (this.myUser = user)),

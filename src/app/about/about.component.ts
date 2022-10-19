@@ -9,6 +9,7 @@ import {AuthService} from '../_services/auth/auth.service';
 import {NotificationService} from '../_services/notifications/notification.service';
 import {AppAccountNotActivatedDialog} from './account-not-activated-dialog.component';
 import {AppForgotPasswordDialog} from './forgot-password-dialog.component';
+import {AppPasswordChangeDialogComponent} from './password-change-dialog.component';
 
 @Component({
   selector: 'app-about',
@@ -35,21 +36,40 @@ export class AboutComponent implements OnInit {
     this.modal.open(AppForgotPasswordDialog);
   }
 
+  onSuccessfulSignIn = (response: JWTResponse) => {
+    this.authService.setJWTToken(response.token);
+    this.authService.setSessionToken(response.sessionToken);
+    this.notificationService.tsuccess('ABOUT_SIGNIN_SUCCESSFUL');
+
+    void this.router.navigateByUrl('/home');
+  };
+
   onSignin(form: NgForm): void {
     const email = form.value.email as string;
     const password = form.value.password as string;
     this.authService.sendSignInRequest(email, password).subscribe({
-      next: (data: JWTResponse) => {
-        this.authService.setJWTToken(data.token);
-        this.authService.setSessionToken(data.sessionToken);
-        this.notificationService.tsuccess('ABOUT_SIGNIN_SUCCESSFUL');
-
-        void this.router.navigateByUrl('/home');
-      },
+      next: (response) => this.onSuccessfulSignIn(response),
       error: (error) => {
         if (error?.error?.codeName === 'ACCOUNT_NOT_ACTIVATED') {
-          //|| error.error.error_code === 'change_password'
           this.modal.open(AppAccountNotActivatedDialog);
+          return;
+        }
+
+        if (error?.error?.codeName === 'PASSWORD_CHANGE_REQUIRED') {
+          this.modal.open(AppPasswordChangeDialogComponent)?.result?.then((result) => {
+            if (result) {
+              if (result === password) {
+                this.notificationService.terror('ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_FAILED');
+                return;
+              }
+              this.authService.sendSignInWithPasswordChangeRequest(email, password, result).subscribe({
+                next: (response) => this.onSuccessfulSignIn(response),
+                error: () => {
+                  this.notificationService.terror('ABOUT_SIGNIN_FAILED');
+                },
+              });
+            }
+          });
 
           return;
         }

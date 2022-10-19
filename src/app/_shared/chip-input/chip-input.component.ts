@@ -1,12 +1,11 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {BooleanInput, coerceBooleanProperty, coerceNumberProperty, NumberInput} from '@angular/cdk/coercion';
 import {CommonModule} from '@angular/common';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormsModule, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
+import {NgbModule, NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {TypeHelper} from 'dfx-helper';
 
-import {Observable, debounceTime, distinctUntilChanged, filter, map} from 'rxjs';
-import {BooleanInput, coerceBooleanProperty, coerceNumberProperty, NumberInput} from '@angular/cdk/coercion';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import {NgbModule, NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
+import {debounceTime, distinctUntilChanged, filter, map, Observable} from 'rxjs';
 
 import {IconsModule} from '../icons.module';
 
@@ -19,7 +18,7 @@ type inputTypes = inputType[];
   templateUrl: './chip-input.component.html',
   styleUrls: ['./chip-input.component.scss'],
   standalone: true,
-  imports: [CommonModule, NgbModule, FormsModule, ReactiveFormsModule, FlexLayoutModule, IconsModule],
+  imports: [CommonModule, NgbModule, FormsModule, ReactiveFormsModule, IconsModule],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class ChipInput {

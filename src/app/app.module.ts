@@ -34,7 +34,7 @@ import {CustomTitleStrategy} from './custom-title.strategy';
       isMobileBreakpoint: 767,
       baseUrl: EnvironmentHelper.getAPIUrl(),
       baseUrlInterceptorIgnorePaths: ['assets/i18n'],
-      loggingInterceptorIgnorePaths: ['json', '/auth/signIn'],
+      loggingInterceptorIgnorePaths: ['json', '/auth/signIn', '/auth/signInPwChange'],
     }),
     DfxTranslateModule.setup({defaultLanguage: 'de', languagesWithAutoTranslation: ['en', 'es', 'fr', 'it', 'pt']}),
     DfxTrackByModule,

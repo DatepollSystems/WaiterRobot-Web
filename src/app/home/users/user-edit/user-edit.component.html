@@ -138,8 +138,8 @@
                 id="password"
                 #passwordModel="ngModel"
                 [disabled]="!updatePassword && isEditing"
-                [minlength]="isEditing ? 0 : 6"
-                [required]="!isEditing"
+                minlength="6"
+                [required]="!isEditing || updatePassword"
                 name="password"
                 placeholder="*******" />
               <small *ngIf="passwordModel.invalid" class="text-danger">

@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {StatisticsSumResponse} from '../../../../_models/waiterrobot-backend';
 
 @Component({
   selector: 'app-sum-statistics',
@@ -10,7 +11,7 @@ export class SumStatisticsComponent {
   chartType: 'PIE' | 'BAR' | 'TEXT' = 'BAR';
 
   @Input()
-  sumDtos?: {name: string; value: number}[];
+  sumDtos?: StatisticsSumResponse[];
 
   setChartType(it: typeof this.chartType) {
     this.chartType = it;

@@ -1,6 +1,5 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {RouterModule, Routes} from '@angular/router';
 
 import {NgbDropdownModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
@@ -19,7 +18,6 @@ const startRoutes: Routes = [{path: '', component: StartComponent}];
     CommonModule,
     DfxTranslateModule,
     RouterModule.forChild(startRoutes),
-    FlexLayoutModule,
     AppDownloadBtnListModule,
     NgbTooltipModule,
     DfxTimeSpanPipe,

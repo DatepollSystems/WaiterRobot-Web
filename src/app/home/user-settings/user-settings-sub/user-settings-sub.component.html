@@ -8,7 +8,7 @@
       <form #emailForm="ngForm" (ngSubmit)="changeEmail(emailForm)">
         <div fxLayout="column" class="card-text mb-3">
           <div>
-            <div class="form-group" fxFlex.gt-md="40%">
+            <div class="form-group col-12 col-md-3">
               <label for="email">{{ 'EMAIL' | tr }}</label>
               <input
                 ngModel
@@ -39,7 +39,7 @@
       <form #passwordForm="ngForm" (ngSubmit)="changePassword(passwordForm)">
         <div fxLayout="column" class="card-text mb-3">
           <div>
-            <div class="form-group" fxFlex.gt-md="40%">
+            <div class="form-group col-12 col-md-4">
               <label for="oldPassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_OLD' | tr }}</label>
               <input
                 ngModel
@@ -58,7 +58,7 @@
           </div>
 
           <div>
-            <div class="form-group" fxFlex.gt-md="40%">
+            <div class="form-group col-12 col-md-4">
               <label for="newPassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | tr }}</label>
               <input
                 ngModel
@@ -78,7 +78,7 @@
           </div>
 
           <div>
-            <div class="form-group" fxFlex.gt-md="40%">
+            <div class="form-group col-12 col-md-4">
               <label for="newPasswordAgain">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_AGAIN' | tr }}</label>
               <input
                 ngModel

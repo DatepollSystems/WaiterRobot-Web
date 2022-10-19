@@ -3,6 +3,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {AComponent} from 'dfx-helper';
+import {StatisticsCountResponse} from 'src/app/_models/waiterrobot-backend';
 import {EventsService} from '../../_services/models/events.service';
 
 @Component({
@@ -31,7 +32,7 @@ import {EventsService} from '../../_services/models/events.service';
         <div class="card h-100">
           <div class="card-body text-center d-flex flex-column gap-2">
             <h4>{{ 'HOME_STATISTICS_BEST_WAITER' | tr }}</h4>
-            <p style="font-size: 2rem">{{ countDto?.bestWaiter?.name ?? '-' }} ({{ countDto?.bestWaiter?.value }}€)</p>
+            <p style="font-size: 2rem">{{ countDto?.bestWaiter?.name ?? '-' }} ({{ countDto?.bestWaiter?.value }})</p>
           </div>
         </div>
       </div>
@@ -65,13 +66,7 @@ import {EventsService} from '../../_services/models/events.service';
   selector: 'app-statistics-overview',
 })
 export class StatisticsOverviewComponent extends AComponent {
-  countDto?: {
-    orderedProducts: number;
-    orders: number;
-    turnover: number;
-    bestWaiter: {name: string; value: number};
-    bestProduct: {name: string; value: number};
-  };
+  countDto?: StatisticsCountResponse;
 
   constructor(public route: ActivatedRoute, http: HttpClient, eventsService: EventsService) {
     super();
@@ -84,10 +79,7 @@ export class StatisticsOverviewComponent extends AComponent {
         .subscribe((it) => {
           this.countDto = it;
           if (this.countDto) {
-            this.countDto.turnover = this.countDto.turnover / 100;
-            if (this.countDto.bestWaiter) {
-              this.countDto.bestWaiter.value = this.countDto.bestWaiter.value / 100;
-            }
+            this.countDto.turnover = this.countDto.turnover ?? 0 / 100;
           }
         })
     );

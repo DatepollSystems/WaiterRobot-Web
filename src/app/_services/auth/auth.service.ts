@@ -5,13 +5,14 @@ import {BrowserHelper, Converter, StorageHelper} from 'dfx-helper';
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 
-import {JWTResponse, RefreshJWTWithSessionTokenDto, UserSignInDto} from '../../_models/waiterrobot-backend';
+import {JWTResponse, RefreshJWTWithSessionTokenDto, SignInWithPasswordChangeDto, UserSignInDto} from '../../_models/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   public static signInUrl = '/auth/signIn';
+  public static signInPwChangeUrl = '/auth/signInPwChange';
   public static refreshUrl = '/auth/refresh';
 
   private sessionToken?: string;
@@ -36,16 +37,22 @@ export class AuthService {
     );
   }
 
-  public sendSignInRequest(email: string, password: string): Observable<any> {
-    const signInObject = {
+  public sendSignInRequest = (email: string, password: string) =>
+    this.httpClient.post<JWTResponse>(AuthService.signInUrl, {
       email,
       password,
       sessionInformation: AuthService.getSessionInformation(),
       stayLoggedIn: true,
-    } as UserSignInDto;
+    } as UserSignInDto);
 
-    return this.httpClient.post(AuthService.signInUrl, signInObject);
-  }
+  public sendSignInWithPasswordChangeRequest = (email: string, oldPassword: string, newPassword: string) =>
+    this.httpClient.post<JWTResponse>(AuthService.signInPwChangeUrl, {
+      email,
+      oldPassword,
+      newPassword,
+      sessionInformation: AuthService.getSessionInformation(),
+      stayLoggedIn: true,
+    } as SignInWithPasswordChangeDto);
 
   public setSessionToken(sessionToken: string | undefined): void {
     StorageHelper.set('sessionToken', sessionToken);
