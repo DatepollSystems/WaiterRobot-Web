@@ -49,10 +49,10 @@
             {{ 'RESET' | tr }}
           </button>
         </div>
-        <div>
+        <div *ngIf="_allowBookmarks">
           <button class="btn btn-sm btn-outline-info" (click)="openModal(bookMarkModalContent)">
             <i-bs name="star-fill"></i-bs>
-            Lesezeichen
+            {{ 'NAV_EDIT_BOOKMARK' | tr }}
           </button>
         </div>
         <div>
@@ -91,7 +91,7 @@
 
 <ng-template #bookMarkModalContent let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Add new bookmark</h4>
+    <h4 class="modal-title" id="modal-basic-title">{{ 'NAV_EDIT_BOOKMARK_ADD' | tr }}</h4>
     <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="modal.close(undefined)"></button>
   </div>
   <div class="modal-body">
@@ -118,9 +118,9 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="modal.close(undefined)">Close</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.close(undefined)">{{ 'CLOSE' | tr }}</button>
     <button type="button" class="btn btn-outline-success" [disabled]="nameModel.invalid" (click)="modal.close(nameModel.value)">
-      Save
+      {{ 'SAVE' | tr }}
     </button>
   </div>
 </ng-template>

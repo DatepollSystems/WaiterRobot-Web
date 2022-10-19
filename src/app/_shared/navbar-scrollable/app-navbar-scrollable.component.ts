@@ -53,6 +53,13 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
   _edible = true;
 
   @Input()
+  set allowBookmarks(value: BooleanInput) {
+    this._allowBookmarks = coerceBooleanProperty(value);
+  }
+
+  _allowBookmarks = true;
+
+  @Input()
   set preferencesStorageKey(value: string) {
     this._preferencesStorageKey = value;
   }

@@ -107,6 +107,8 @@
 
   "NAV_EDIT": "(bearbeiten)",
   "NAV_EDIT_CUSTOMIZE": "Bearbeite deine Navigationsleiste",
+  "NAV_EDIT_BOOKMARK": "Lesezeichen",
+  "NAV_EDIT_BOOKMARK_ADD": "Lesezeichen hinzufügen",
   "NAV_USER_SETTINGS_WELCOME": "Hallo",
   "NAV_USER_SETTINGS_QR_CODE_INFO": "Der QR-Code kann von Organisations Administratoren benutzt werden um dich hinzu zu fügen.",
   "NAV_USER_SETTINGS_ADMIN": "(admin mode)",
