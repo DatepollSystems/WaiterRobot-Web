@@ -112,6 +112,7 @@
   "NAV_EDIT_BOOKMARK": "Lesezeichen",
   "NAV_EDIT_BOOKMARK_ADD": "Lesezeichen hinzufügen",
   "NAV_EDIT_BOOKMARK_ADD_INVALID": "Der Lesezeichenname muss aus mindestens 3 und maximal 35 Zeichen bestehen",
+  "NAV_EDIT_BOOKMARK_DELETE": "Lesezeichen löschen",
   "NAV_USER_SETTINGS_WELCOME": "Hallo",
   "NAV_USER_SETTINGS_QR_CODE_INFO": "Der QR-Code kann von Organisations Administratoren benutzt werden um dich hinzu zu fügen.",
   "NAV_USER_SETTINGS_ADMIN": "(admin mode)",

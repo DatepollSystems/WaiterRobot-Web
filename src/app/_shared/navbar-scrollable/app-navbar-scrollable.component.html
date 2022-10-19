@@ -77,9 +77,8 @@
           <button
             class="btn btn-sm btn-secondary ms-2"
             *ngIf="item.bookmark"
-            aria-label="Delete bookmark"
             (click)="removeBookmark(item)"
-            ngbTooltip="Delete bookmark"
+            ngbTooltip="{{ 'NAV_EDIT_BOOKMARK_DELETE' | tr }}"
             placement="bottom">
             <i-bs name="trash"></i-bs>
           </button>
