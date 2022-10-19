@@ -65,7 +65,7 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
         class="btn btn-outline-success"
         [disabled]="f.invalid || !f || !newPasswordsMatch"
         (click)="activeModal.close(newPassword)">
-        {{ 'SAVE' | tr }}
+        {{ 'ABOUT_SIGNIN' | tr }}
       </button>
     </div>
   `,
