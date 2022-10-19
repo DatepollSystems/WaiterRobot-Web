@@ -3,7 +3,7 @@ import {CdkDragDrop, DragDropModule, moveItemInArray} from '@angular/cdk/drag-dr
 import {NgForOf, NgIf} from '@angular/common';
 import {AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {ActivatedRoute, Router, RouterLinkActive, RouterLinkWithHref} from '@angular/router';
+import {Router, RouterLinkActive, RouterLinkWithHref} from '@angular/router';
 
 import {NgbModal, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {StorageHelper} from 'dfx-helper';
