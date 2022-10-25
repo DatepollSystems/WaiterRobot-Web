@@ -77,13 +77,12 @@
             </div>
 
             <chip-input
-              *ngIf="entity"
               fxFlex="40%"
               dark="true"
               editable="false"
               label="{{ 'HOME_PROD_ALLERGENS' | tr }}"
               placeholder="{{ 'HOME_PROD_ALLERGENS_PLACEHOLDER' | tr }}"
-              [models]="entity!.allergens"
+              [models]="entity?.allergens"
               [allModelsToAutoComplete]="allergens"
               [formatter]="formatter"
               (valueChange)="allergenChange($event)"></chip-input>

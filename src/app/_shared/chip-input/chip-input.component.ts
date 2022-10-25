@@ -53,7 +53,10 @@ export class ChipInput {
    * Already filled in strings
    */
   @Input()
-  public set models(models: inputTypes) {
+  public set models(models: inputTypes | undefined) {
+    if (!models) {
+      return;
+    }
     this._models = models;
   }
 
