@@ -1,12 +1,18 @@
-image: node:lts-gallium
+image: guergeiro/pnpm:16
 
 stages:
   - build
   - deploy
 
 cache:
+  key:
+    files:
+      - pnpm-lock.yaml
   paths:
-    - node_modules/
+    - .pnpm-store
+
+before_script:
+  - pnpm config set store-dir .pnpm-store
 
 build-release:
   stage: build
@@ -19,9 +25,9 @@ build-release:
     paths:
       - dist/
   script:
-    - npm install --force --loglevel=error --no-progress
-    - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
-    - npm run build:prod
+    - pnpm install --loglevel=error
+    - pnpm ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
+    - pnpm build:prod
     - cd dist/
     - ls -al
 
@@ -34,9 +40,9 @@ build-testing:
     paths:
       - dist/
   script:
-    - npm install --force --loglevel=error --no-progress
-    - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
-    - npm run build:testing
+    - pnpm install --loglevel=error
+    - pnpm ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
+    - pnpm build:testing
     - cd dist/
     - ls -al
 
@@ -50,8 +56,8 @@ build-dev:
       - dist/
   script:
     - npm install --force  --loglevel=error --no-progress
-    - npm run ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
-    - npm run build:dev
+    - pnpm ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
+    - pnpm build:dev
     - cd dist/
     - ls -al
 
