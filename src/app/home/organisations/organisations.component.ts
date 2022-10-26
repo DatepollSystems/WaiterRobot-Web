@@ -2,10 +2,10 @@ import {Component} from '@angular/core';
 
 import {AComponent} from 'dfx-helper';
 
-import {OrganisationModel} from '../../_models/organisation/organisation.model';
+import {OrganisationModel} from './_models/organisation.model';
 
-import {MyUserService} from '../../_services/auth/my-user.service';
-import {OrganisationsService} from '../../_services/models/organisation/organisations.service';
+import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
+import {OrganisationsService} from './_services/organisations.service';
 
 @Component({
   selector: 'app-organisations',

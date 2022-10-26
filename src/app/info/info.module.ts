@@ -5,7 +5,7 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {FooterModule} from '../_shared/footer/footer.module';
+import {FooterModule} from '../_shared/ui/footer/footer.module';
 
 import {ImprintComponent} from './imprint/imprint.component';
 import {InfoComponent} from './info.component';

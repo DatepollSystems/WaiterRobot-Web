@@ -3,15 +3,15 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Converter} from 'dfx-helper';
-import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
+import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
 
-import {EventModel} from '../../../_models/event.model';
-import {PrinterModel} from '../../../_models/printer.model';
-import {ProductGroupModel} from '../../../_models/product/product-group.model';
+import {EventModel} from '../../events/_models/event.model';
+import {PrinterModel} from '../../printers/_models/printer.model';
+import {ProductGroupModel} from '../_models/product-group.model';
 
-import {EventsService} from '../../../_services/models/events.service';
-import {PrintersService} from '../../../_services/models/printers.service';
-import {ProductGroupsService} from '../../../_services/models/product/product-groups.service';
+import {EventsService} from '../../events/_services/events.service';
+import {PrintersService} from '../../printers/_services/printers.service';
+import {ProductGroupsService} from '../_services/product-groups.service';
 
 @Component({
   selector: 'app-product-group-edit',

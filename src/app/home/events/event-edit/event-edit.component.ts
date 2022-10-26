@@ -3,15 +3,15 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {DateHelper} from 'dfx-helper';
-import {MyUserModel} from 'src/app/_models/user/my-user.model';
+import {MyUserModel} from 'src/app/_shared/services/auth/user/my-user.model';
 
-import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
+import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
 
-import {EventModel} from '../../../_models/event.model';
-import {MyUserService} from '../../../_services/auth/my-user.service';
+import {EventModel} from '../_models/event.model';
+import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
 
-import {EventsService} from '../../../_services/models/events.service';
-import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
+import {EventsService} from '../_services/events.service';
+import {OrganisationsService} from '../../organisations/_services/organisations.service';
 import {WaiterCreateQRCodeModalComponent} from '../../waiters/waiter-create-qr-code-modal.component';
 
 @Component({

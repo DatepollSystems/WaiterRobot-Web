@@ -3,13 +3,13 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
+import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
 
-import {EventModel} from '../../../_models/event.model';
-import {PrinterModel} from '../../../_models/printer.model';
+import {EventModel} from '../../events/_models/event.model';
+import {PrinterModel} from '../_models/printer.model';
 
-import {EventsService} from '../../../_services/models/events.service';
-import {PrintersService} from '../../../_services/models/printers.service';
+import {EventsService} from '../../events/_services/events.service';
+import {PrintersService} from '../_services/printers.service';
 
 @Component({
   selector: 'app-printer-edit',

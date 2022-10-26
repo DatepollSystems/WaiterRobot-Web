@@ -3,8 +3,8 @@ import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {AComponent} from 'dfx-helper';
-import {StatisticsCountResponse} from 'src/app/_models/waiterrobot-backend';
-import {EventsService} from '../../_services/models/events.service';
+import {StatisticsCountResponse} from 'src/app/_shared/waiterrobot-backend';
+import {EventsService} from '../events/_services/events.service';
 
 @Component({
   template: `

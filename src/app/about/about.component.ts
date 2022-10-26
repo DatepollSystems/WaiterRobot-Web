@@ -3,10 +3,10 @@ import {NgForm} from '@angular/forms';
 import {Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {UIHelper} from 'dfx-helper';
-import {JWTResponse} from '../_models/waiterrobot-backend';
+import {JWTResponse} from '../_shared/waiterrobot-backend';
 
-import {AuthService} from '../_services/auth/auth.service';
-import {NotificationService} from '../_services/notifications/notification.service';
+import {AuthService} from '../_shared/services/auth/auth.service';
+import {NotificationService} from '../notifications/notification.service';
 import {AppAccountNotActivatedDialog} from './account-not-activated-dialog.component';
 import {AppForgotPasswordDialog} from './forgot-password-dialog.component';
 import {AppPasswordChangeDialogComponent} from './password-change-dialog.component';

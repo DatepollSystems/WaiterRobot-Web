@@ -3,10 +3,10 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
 import {DfxTranslateModule} from 'dfx-translate';
-import {AppDownloadBtnListModule} from '../_shared/download-btn-list/app-download-btn-list.module';
-import {AppLogoWithTextComponent} from '../_shared/app-logo-with-text.component';
+import {AppDownloadBtnListModule} from '../_shared/ui/download-btn-list/app-download-btn-list.module';
+import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
 
-import {FooterModule} from '../_shared/footer/footer.module';
+import {FooterModule} from '../_shared/ui/footer/footer.module';
 
 import {MobileLinkComponent} from './mobile-link.component';
 

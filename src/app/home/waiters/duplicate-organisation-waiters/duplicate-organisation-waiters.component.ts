@@ -4,9 +4,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfx-helper';
 
-import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
-import {DuplicateWaiterModel} from '../../../_models/waiter/duplicate-waiter.model';
-import {DuplicateWaitersService} from '../../../_services/models/waiter/duplicate-waiters.service';
+import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
+import {DuplicateWaiterModel} from '../_models/duplicate-waiter.model';
+import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
 
 @Component({
   selector: 'app-duplicate-organisation-waiters',

@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {MobileLinkService} from '../../_services/mobile-link.service';
+import {MobileLinkService} from '../../_shared/services/mobile-link.service';
 
 @Component({
   selector: 'app-waiter-create-qrcode-modal',

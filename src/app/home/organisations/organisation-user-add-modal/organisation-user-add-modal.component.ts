@@ -3,10 +3,10 @@ import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AComponent, AEntityWithNumberIDAndName, loggerOf, StringHelper} from 'dfx-helper';
 import {TranslateService} from 'dfx-translate';
-import {OrganisationsUsersService} from '../../../_services/models/organisation/organisations-users.service';
+import {OrganisationsUsersService} from '../_services/organisations-users.service';
 
-import {NotificationService} from '../../../_services/notifications/notification.service';
-import {AppQrCodeScannerModalComponent} from '../../../_shared/qr-code/app-qr-code-scanner-modal.component';
+import {NotificationService} from '../../../notifications/notification.service';
+import {AppQrCodeScannerModalComponent} from '../../../_shared/ui/qr-code/app-qr-code-scanner-modal.component';
 
 @Component({
   selector: 'app-organisation-user-add-modal',

@@ -8,21 +8,24 @@ import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
-import {EventSelectedGuard} from '../../_services/guards/event-selected-guard.service';
-import {OrganisationSelectedGuard} from '../../_services/guards/organisation-selected-guard.service';
-import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar.component';
-import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
-import {ChipInput} from '../../_shared/chip-input/chip-input.component';
 
-import {IconsModule} from '../../_shared/icons.module';
+import {EventSelectedGuard} from '../../_shared/services/guards/event-selected-guard.service';
+import {OrganisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard.service';
+import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
+import {ChipInput} from '../../_shared/ui/chip-input/chip-input.component';
+import {IconsModule} from '../../_shared/ui/icons.module';
+
 import {AllProductsComponent} from './all-products/all-products.component';
 import {ProductEditComponent} from './product-edit/product-edit.component';
 import {ProductGroupByIdProductsComponent} from './product-group-by-id-products/product-group-by-id-products.component';
 import {ProductGroupEditComponent} from './product-group-edit/product-group-edit.component';
 import {ProductGroupsComponent} from './product-groups/product-groups.component';
-
 import {ProductsComponent} from './products.component';
-import {AppSpinnerRowComponent} from '../../_shared/app-spinner-row.component';
+import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
+import {AllergensService} from './_services/allergens.service';
+import {ProductsService} from './_services/products.service';
+import {ProductGroupsService} from './_services/product-groups.service';
 
 const routes: Routes = [
   {
@@ -50,6 +53,7 @@ const routes: Routes = [
     ProductGroupEditComponent,
     ProductGroupByIdProductsComponent,
   ],
+  providers: [AllergensService, ProductsService, ProductGroupsService],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,

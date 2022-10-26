@@ -7,15 +7,15 @@ import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {EventSelectedGuard} from '../../_services/guards/event-selected-guard.service';
-import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar.component';
-import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
-
-import {IconsModule} from '../../_shared/icons.module';
+import {EventSelectedGuard} from '../../_shared/services/guards/event-selected-guard.service';
+import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
+import {IconsModule} from '../../_shared/ui/icons.module';
 
 import {AllOrdersComponent} from './all-orders/all-orders.component';
 import {OrdersComponent} from './orders.component';
-import {AppSpinnerRowComponent} from '../../_shared/app-spinner-row.component';
+import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
+import {OrdersService} from './_services/orders.service';
 
 const routes: Routes = [
   {
@@ -31,6 +31,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [OrdersComponent, AllOrdersComponent],
+  providers: [OrdersService],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,

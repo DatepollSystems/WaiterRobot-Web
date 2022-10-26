@@ -3,10 +3,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {DateHelper} from 'dfx-helper';
-import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
-import {UserModel} from '../../../_models/user/user.model';
+import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
+import {UserModel} from '../_models/user.model';
 
-import {UsersService} from '../../../_services/models/user/users.service';
+import {UsersService} from '../_services/users.service';
 
 @Component({
   selector: 'app-user-edit',

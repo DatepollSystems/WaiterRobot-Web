@@ -2,8 +2,8 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Component} from '@angular/core';
 
 import {AComponent} from 'dfx-helper';
-import {StatisticsSumResponse} from '../../../_models/waiterrobot-backend';
-import {EventsService} from '../../../_services/models/events.service';
+import {StatisticsSumResponse} from '../../../_shared/waiterrobot-backend';
+import {EventsService} from '../../events/_services/events.service';
 
 @Component({
   template: ` <app-sum-statistics [sumDtos]="sumDtos" chartType="PIE">{{ 'HOME_PROD_GROUP' | tr }}</app-sum-statistics> `,

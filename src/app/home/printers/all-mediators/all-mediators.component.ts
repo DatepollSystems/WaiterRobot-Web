@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
+import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
 
-import {MediatorModel} from '../../../_models/mediator.model';
-import {GetPrinterMinResponse} from '../../../_models/waiterrobot-backend';
+import {MediatorModel} from '../_models/mediator.model';
+import {GetPrinterMinResponse} from '../../../_shared/waiterrobot-backend';
 
-import {MediatorsService} from '../../../_services/models/mediators.service';
+import {MediatorsService} from '../_services/mediators.service';
 
 @Component({
   selector: 'app-all-mediators',

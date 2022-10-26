@@ -8,14 +8,14 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxImplodePipeModule, DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {OrganisationSelectedGuard} from '../../_services/guards/organisation-selected-guard.service';
-import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar.component';
-import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
-import {AppSpinnerRowComponent} from '../../_shared/app-spinner-row.component';
-import {ChipInput} from '../../_shared/chip-input/chip-input.component';
-import {IconsModule} from '../../_shared/icons.module';
-import {AppQrCodeModalComponent} from '../../_shared/qr-code/app-qr-code-modal.component';
-import {QuestionDialogModule} from '../../_shared/question-dialog/question-dialog.module';
+import {OrganisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard.service';
+import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
+import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
+import {ChipInput} from '../../_shared/ui/chip-input/chip-input.component';
+import {IconsModule} from '../../_shared/ui/icons.module';
+import {AppQrCodeModalComponent} from '../../_shared/ui/qr-code/app-qr-code-modal.component';
+import {QuestionDialogModule} from '../../_shared/ui/question-dialog/question-dialog.module';
 
 import {DuplicateOrganisationWaitersComponent} from './duplicate-organisation-waiters/duplicate-organisation-waiters.component';
 import {EventByIdWaitersComponent} from './event-by-id-waiters/event-by-id-waiters.component';
@@ -25,6 +25,10 @@ import {WaiterEditComponent} from './waiter-edit/waiter-edit.component';
 import {WaiterSessionsComponent} from './waiter-edit/waiter-sessions/waiter-sessions.component';
 import {WaiterSignInQRCodeModalComponent} from './waiter-edit/waiter-sign-in-qr-code-modal.component';
 import {WaitersComponent} from './waiters.component';
+
+import {WaitersService} from './_services/waiters.service';
+import {WaiterSessionsService} from './_services/waiter-sessions.service';
+import {DuplicateWaitersService} from './_services/duplicate-waiters.service';
 
 const routes: Routes = [
   {
@@ -53,6 +57,7 @@ const routes: Routes = [
     WaiterCreateQRCodeModalComponent,
     WaiterSignInQRCodeModalComponent,
   ],
+  providers: [WaitersService, WaiterSessionsService, DuplicateWaitersService],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,

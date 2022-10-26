@@ -4,16 +4,16 @@ import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 import {EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfx-helper';
 
-import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
-import {EventModel} from '../../../_models/event.model';
-import {OrganisationModel} from '../../../_models/organisation/organisation.model';
+import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
+import {EventModel} from '../../events/_models/event.model';
+import {OrganisationModel} from '../../organisations/_models/organisation.model';
 
-import {WaiterModel} from '../../../_models/waiter/waiter.model';
-import {EventsService} from '../../../_services/models/events.service';
-import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
-import {WaiterSessionsService} from '../../../_services/models/waiter/waiter-sessions.service';
+import {WaiterModel} from '../_models/waiter.model';
+import {EventsService} from '../../events/_services/events.service';
+import {OrganisationsService} from '../../organisations/_services/organisations.service';
+import {WaiterSessionsService} from '../_services/waiter-sessions.service';
 
-import {WaitersService} from '../../../_services/models/waiter/waiters.service';
+import {WaitersService} from '../_services/waiters.service';
 import {WaiterSignInQRCodeModalComponent} from './waiter-sign-in-qr-code-modal.component';
 
 @Component({

@@ -2,12 +2,12 @@ import {Component} from '@angular/core';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
+import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
 
-import {EventModel} from '../../../_models/event.model';
-import {ProductModel} from '../../../_models/product/product.model';
+import {EventModel} from '../../events/_models/event.model';
+import {ProductModel} from '../_models/product.model';
 
-import {ProductsService} from '../../../_services/models/product/products.service';
+import {ProductsService} from '../_services/products.service';
 
 @Component({
   selector: 'app-all-products',

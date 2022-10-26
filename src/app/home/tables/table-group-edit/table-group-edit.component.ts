@@ -3,11 +3,11 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
-import {EventModel} from '../../../_models/event.model';
-import {TableGroupModel} from '../../../_models/table/table-group.model';
-import {EventsService} from '../../../_services/models/events.service';
-import {TableGroupsService} from '../../../_services/models/table/table-groups.service';
+import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
+import {EventModel} from '../../events/_models/event.model';
+import {TableGroupModel} from '../_models/table-group.model';
+import {EventsService} from '../../events/_services/events.service';
+import {TableGroupsService} from '../_services/table-groups.service';
 
 @Component({
   selector: 'app-table-group-edit',

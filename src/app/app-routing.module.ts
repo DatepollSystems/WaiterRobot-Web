@@ -13,7 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'qrcode/view',
-    loadComponent: () => import('./_shared/qr-code/app-qr-code-view.component').then((c) => c.AppQrCodeViewComponent),
+    loadComponent: () => import('./_shared/ui/qr-code/app-qr-code-view.component').then((c) => c.AppQrCodeViewComponent),
   },
   {
     path: 'not-found',

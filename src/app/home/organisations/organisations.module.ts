@@ -9,18 +9,18 @@ import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-
 import {DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar.component';
-import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
-import {ChipInput} from '../../_shared/chip-input/chip-input.component';
+import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
+import {ChipInput} from '../../_shared/ui/chip-input/chip-input.component';
 
-import {IconsModule} from '../../_shared/icons.module';
-import {AppSelectableButtonComponent} from '../../_shared/app-selectable-button.component';
+import {IconsModule} from '../../_shared/ui/icons.module';
+import {AppSelectableButtonComponent} from '../../_shared/ui/app-selectable-button.component';
 import {AllOrganisationsComponent} from './all-organisations/all-organisations.component';
 import {OrganisationEditComponent} from './organisation-edit/organisation-edit.component';
 import {OrganisationUserAddModalComponent} from './organisation-user-add-modal/organisation-user-add-modal.component';
 
 import {OrganisationsComponent} from './organisations.component';
-import {AppSpinnerRowComponent} from '../../_shared/app-spinner-row.component';
+import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
 
 const routes: Routes = [
   {

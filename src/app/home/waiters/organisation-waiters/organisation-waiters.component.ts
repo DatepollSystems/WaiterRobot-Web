@@ -2,13 +2,13 @@ import {Component} from '@angular/core';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
+import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
 
-import {OrganisationModel} from '../../../_models/organisation/organisation.model';
-import {WaiterModel} from '../../../_models/waiter/waiter.model';
-import {GetEventOrLocationMinResponse} from '../../../_models/waiterrobot-backend';
-import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
-import {WaitersService} from '../../../_services/models/waiter/waiters.service';
+import {OrganisationModel} from '../../organisations/_models/organisation.model';
+import {WaiterModel} from '../_models/waiter.model';
+import {GetEventOrLocationMinResponse} from '../../../_shared/waiterrobot-backend';
+import {OrganisationsService} from '../../organisations/_services/organisations.service';
+import {WaitersService} from '../_services/waiters.service';
 
 @Component({
   selector: 'app-organisation-waiters',

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 
-import {EnvironmentHelper} from './_helper/EnvironmentHelper';
+import {EnvironmentHelper} from './_shared/EnvironmentHelper';
 
 @Component({
   selector: 'app-root',

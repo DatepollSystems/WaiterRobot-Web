@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
-import {ProductGroupModel} from '../../../_models/product/product-group.model';
+import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
+import {ProductGroupModel} from '../_models/product-group.model';
 
-import {ProductGroupsService} from '../../../_services/models/product/product-groups.service';
+import {ProductGroupsService} from '../_services/product-groups.service';
 
 @Component({
   selector: 'app-product-groups',

@@ -6,17 +6,17 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {EntityList, IList} from 'dfx-helper';
 
-import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
-import {OrganisationSettingsModel} from '../../../_models/organisation/organisation-settings.model';
-import {OrganisationUserModel} from '../../../_models/organisation/organisation-user.model';
+import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
+import {OrganisationSettingsModel} from '../_models/organisation-settings.model';
+import {OrganisationUserModel} from '../_models/organisation-user.model';
 
-import {OrganisationModel} from '../../../_models/organisation/organisation.model';
-import {MyUserModel} from '../../../_models/user/my-user.model';
-import {MyUserService} from '../../../_services/auth/my-user.service';
-import {OrganisationsSettingsService} from '../../../_services/models/organisation/organisations-settings.service';
-import {OrganisationsUsersService} from '../../../_services/models/organisation/organisations-users.service';
-import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
-import {QuestionDialogComponent} from '../../../_shared/question-dialog/question-dialog.component';
+import {OrganisationModel} from '../_models/organisation.model';
+import {MyUserModel} from '../../../_shared/services/auth/user/my-user.model';
+import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
+import {OrganisationsSettingsService} from '../_services/organisations-settings.service';
+import {OrganisationsUsersService} from '../_services/organisations-users.service';
+import {OrganisationsService} from '../_services/organisations.service';
+import {QuestionDialogComponent} from '../../../_shared/ui/question-dialog/question-dialog.component';
 import {OrganisationUserAddModalComponent} from '../organisation-user-add-modal/organisation-user-add-modal.component';
 
 @Component({

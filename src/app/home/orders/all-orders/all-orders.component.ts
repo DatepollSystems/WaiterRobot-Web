@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {AbstractModelsListComponent} from '../../../_helper/abstract-models-list.component';
-import {OrderModel} from '../../../_models/order.model';
-import {OrdersService} from '../../../_services/models/orders.service';
+import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
+import {OrderModel} from '../_models/order.model';
+import {OrdersService} from '../_services/orders.service';
 
 @Component({
   selector: 'app-all-orders',

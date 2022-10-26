@@ -8,13 +8,13 @@ import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
-import {EventSelectedGuard} from '../../_services/guards/event-selected-guard.service';
-import {OrganisationSelectedGuard} from '../../_services/guards/organisation-selected-guard.service';
-import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar.component';
-import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
+import {EventSelectedGuard} from '../../_shared/services/guards/event-selected-guard.service';
+import {OrganisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard.service';
+import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 
-import {IconsModule} from '../../_shared/icons.module';
-import {QuestionDialogModule} from '../../_shared/question-dialog/question-dialog.module';
+import {IconsModule} from '../../_shared/ui/icons.module';
+import {QuestionDialogModule} from '../../_shared/ui/question-dialog/question-dialog.module';
 import {AllTablesComponent} from './all-tables/all-tables.component';
 import {TableEditComponent} from './table-edit/table-edit.component';
 import {TableGroupByIdTablesComponent} from './table-group-by-id-tables/table-group-by-id-tables.component';
@@ -22,7 +22,9 @@ import {TableGroupEditComponent} from './table-group-edit/table-group-edit.compo
 import {TableGroupsComponent} from './table-groups/table-groups.component';
 
 import {TablesComponent} from './tables.component';
-import {AppSpinnerRowComponent} from '../../_shared/app-spinner-row.component';
+import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
+import {TablesService} from './_services/tables.service';
+import {TableGroupsService} from './_services/table-groups.service';
 
 const routes: Routes = [
   {
@@ -69,5 +71,6 @@ const routes: Routes = [
     QuestionDialogModule,
     AppSpinnerRowComponent,
   ],
+  providers: [TablesService, TableGroupsService],
 })
 export class TablesModule {}

@@ -3,8 +3,8 @@ import {Component} from '@angular/core';
 
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {AppLogoWithTextComponent} from '../_shared/app-logo-with-text.component';
-import {FooterModule} from '../_shared/footer/footer.module';
+import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
+import {FooterModule} from '../_shared/ui/footer/footer.module';
 
 @Component({
   selector: 'app-page-not-found',

@@ -9,14 +9,14 @@ import {TitleStrategy} from '@angular/router';
 
 import {NgbDateAdapter, NgbDateParserFormatter, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {LoadingBarRouterModule} from '@ngx-loading-bar/router';
-import {BaseUrlInterceptor, DfxHelperModule, DfxTrackByModule, LoggingInterceptor, PostPutJsonContentType} from 'dfx-helper';
+import {BaseUrlInterceptor, DfxHelperModule, DfxTrackByModule, LoggingInterceptor, PostPutJsonContentTypeInterceptor} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
-import {EnvironmentHelper} from './_helper/EnvironmentHelper';
+import {EnvironmentHelper} from './_shared/EnvironmentHelper';
 
-import {AuthInterceptor} from './_services/auth/auth-interceptor';
-import {CustomDateAdapter, CustomDateParserFormatter} from './_services/datepicker-adapter';
-import {ToastsContainerComponent} from './_services/notifications/toasts-container.component';
-import {WINDOW_PROVIDERS} from './_services/windows-provider';
+import {AuthInterceptor} from './_shared/services/auth/auth-interceptor';
+import {CustomDateAdapter, CustomDateParserFormatter} from './_shared/services/datepicker-adapter';
+import {ToastsContainerComponent} from './notifications/toasts-container.component';
+import {WINDOW_PROVIDERS} from './_shared/services/windows-provider';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -56,7 +56,7 @@ import {CustomTitleStrategy} from './custom-title.strategy';
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: PostPutJsonContentType,
+      useClass: PostPutJsonContentTypeInterceptor,
       multi: true,
     },
     {

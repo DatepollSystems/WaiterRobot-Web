@@ -6,11 +6,11 @@ import {RouterModule, Routes} from '@angular/router';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {IsAuthenticatedGuardService} from '../_services/auth/is-authenticated-guard.service';
-import {AppLogoWithTextComponent} from '../_shared/app-logo-with-text.component';
-import {AppDownloadBtnListModule} from '../_shared/download-btn-list/app-download-btn-list.module';
-import {FooterModule} from '../_shared/footer/footer.module';
-import {IconsModule} from '../_shared/icons.module';
+import {IsAuthenticatedGuardService} from '../_shared/services/auth/is-authenticated-guard.service';
+import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
+import {AppDownloadBtnListModule} from '../_shared/ui/download-btn-list/app-download-btn-list.module';
+import {FooterModule} from '../_shared/ui/footer/footer.module';
+import {IconsModule} from '../_shared/ui/icons.module';
 
 import {AboutComponent} from './about.component';
 import {AppAccountNotActivatedDialog} from './account-not-activated-dialog.component';

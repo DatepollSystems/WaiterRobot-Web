@@ -12,6 +12,7 @@
   "EDIT_2": "Bearbeite",
   "SELECT": "Auswählen",
   "COPY": "Kopieren",
+  "COPIED": "Kopiert!",
   "EXPORT": "Exportieren",
   "DATE": "Datum",
   "SAVE": "Speichern",
@@ -92,7 +93,7 @@
   "ABOUT_MODAL_GENERAL_WEBSITE": "Besuch (https://datepollsystems.org) die Projekt-Website",
   "ABOUT_MODAL_TECHNICAL": "Technisches",
   "ABOUT_MODAL_TECHNICAL_WEB_VERSION": "Version der Webapplication",
-  "ABOUT_MODAL_TECHNICAL_USED_LIBRARIES": "Verwendete Bibliotheken",
+  "ABOUT_MODAL_TECHNICAL_USED_LIBRARIES": "Bibliotheken",
 
   "MOBILE_LINK": "Downloade die WaiterRobot Kellner App um fortzufahren",
 

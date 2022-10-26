@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {StatisticsSumResponse} from '../../../../_models/waiterrobot-backend';
+import {StatisticsSumResponse} from '../../../../_shared/waiterrobot-backend';
 
 @Component({
   selector: 'app-sum-statistics',

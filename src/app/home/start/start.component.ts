@@ -1,14 +1,14 @@
 import {HttpClient} from '@angular/common/http';
 import {Component} from '@angular/core';
 import {AComponent, BrowserHelper, BrowserInfo} from 'dfx-helper';
-import {EnvironmentHelper} from '../../_helper/EnvironmentHelper';
-import {EventModel} from '../../_models/event.model';
-import {OrganisationModel} from '../../_models/organisation/organisation.model';
-import {MyUserModel} from '../../_models/user/my-user.model';
-import {JsonInfoResponse} from '../../_models/waiterrobot-backend';
-import {MyUserService} from '../../_services/auth/my-user.service';
-import {EventsService} from '../../_services/models/events.service';
-import {OrganisationsService} from '../../_services/models/organisation/organisations.service';
+import {EnvironmentHelper} from '../../_shared/EnvironmentHelper';
+import {EventModel} from '../events/_models/event.model';
+import {OrganisationModel} from '../organisations/_models/organisation.model';
+import {MyUserModel} from '../../_shared/services/auth/user/my-user.model';
+import {JsonInfoResponse} from '../../_shared/waiterrobot-backend';
+import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
+import {EventsService} from '../events/_services/events.service';
+import {OrganisationsService} from '../organisations/_services/organisations.service';
 
 @Component({
   selector: 'app-start',
