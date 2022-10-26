@@ -84,10 +84,10 @@ dependencies:
   '@zxing/ngx-scanner': 3.6.2_vrs3fa3jdcjygxwpyofdn7pv3y
   angularx-qrcode: 14.0.0_@angular+core@14.2.7
   bootstrap: 5.2.2_@popperjs+core@2.11.6
-  dfx-bootstrap-table: 1.3.0_sduimuguq4tvihtd77k6i37hva
-  dfx-helper: 4.6.1_bdnnqok5r7kasvbmdf4tyesgce
-  dfx-translate: 1.4.0_bdnnqok5r7kasvbmdf4tyesgce
-  ngx-bootstrap-icons: 1.9.1_hziutw63p6srxucgucaytgznoq
+  dfx-bootstrap-table: 1.3.0_k7bkqmkb75r7pfx26utv6vckn4
+  dfx-helper: 4.6.1_f2mipkww652lm3xgqqfbsmwye4
+  dfx-translate: 1.4.0_f2mipkww652lm3xgqqfbsmwye4
+  ngx-bootstrap-icons: 1.9.1_aaupshc3v455velby5cf2mmuay
   rxjs: 7.5.7
   tslib: 2.4.0
   zone.js: 0.11.8
@@ -3999,8 +3999,8 @@ packages:
       tslib: 2.4.0
     dev: false
 
-  /dfx-helper/4.6.0_bdnnqok5r7kasvbmdf4tyesgce:
-    resolution: {integrity: sha512-o2oRM59N8kFI7LmLkdJL/5VeIkhsApjcpzif8V3YZ6TxT8o6xNXGbUbI7XkL5Bq+VAO6Z9t9ZpdtXeFpiW/zug==}
+  /dfx-helper/4.6.1_f2mipkww652lm3xgqqfbsmwye4:
+    resolution: {integrity: sha512-ofnz3Q6EFnhpjVggyOO9gi706lpMh6yI3LPVg5k0gSCLc5n+7njRi0o/ImYP1QASFm23ZkF6BgelMj3mfLyrXg==}
     peerDependencies:
       '@angular/common': 4 - 14
       '@angular/core': 4 - 14
