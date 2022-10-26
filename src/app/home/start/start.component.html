@@ -106,7 +106,7 @@
           </li>
           <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             Ping:
-            <div fxLayout="row">
+            <div class="d-flex">
               <div *ngIf="lastPing">
                 {{ responseTime }}ms&nbsp;
                 <span placement="bottom" ngbTooltip="Last ping">({{ lastPing | date: 'HH:mm:ss' }})</span>
@@ -138,7 +138,7 @@
   </div>
 </div>
 
-<div fxLayout="row" fxLayoutAlign="center" *ngIf="type !== 'prod'">
+<div class="d-flex justify-content-center" *ngIf="type !== 'prod'">
   <div class="mt-5 pt-5 text-break text-center">
     <h1 style="font-size: 60px">kellner.team {{ type | uppercase }}</h1>
   </div>

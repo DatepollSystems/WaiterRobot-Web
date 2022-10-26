@@ -35,8 +35,8 @@
       <li [ngbNavItem]="1">
         <a ngbNavLink>{{ 'DATA' | tr }}</a>
         <ng-template ngbNavContent>
-          <div fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-sm="column">
-            <div class="form-group" fxFlex="25%">
+          <div class="d-flex flex-column flex-md-row gap-4 mb-3">
+            <div class="form-group col-12 col-md-3">
               <label for="number">{{ 'NUMBER' | tr }}</label>
               <input
                 ngbAutofocus
@@ -56,7 +56,7 @@
               </small>
             </div>
 
-            <div class="form-group" fxFlex="20%">
+            <div class="form-group col-12 col-md-3">
               <label for="seats">{{ 'SEATS' | tr }}</label>
               <input
                 ngModel
@@ -74,7 +74,7 @@
               </small>
             </div>
 
-            <div class="form-group" fxFlex="50%">
+            <div class="form-group col">
               <label for="selectTableGroup">{{ 'HOME_TABLE_GROUPS' | tr }}</label>
               <div class="input-group">
                 <span class="input-group-text bg-dark text-white" id="selectTableGroup-addon1"><i-bs name="diagram-3"></i-bs></span>

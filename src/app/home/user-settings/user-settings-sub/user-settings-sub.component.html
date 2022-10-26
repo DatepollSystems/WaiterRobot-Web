@@ -1,12 +1,12 @@
-<div fxLayout="column" fxLayoutGap="2%">
+<div class="d-flex flex-column">
   <h1>{{ 'NAV_USER_SETTINGS' | tr }}</h1>
 
-  <div class="card text-white">
+  <div class="card text-white mb-3">
     <div class="card-body">
       <h4 class="card-title">{{ 'HOME_USERSETTINGS_USER_SETTINGS_EMAIL' | tr }}</h4>
       <h6 class="card-subtitle mb-2">{{ 'HOME_USERSETTINGS_USER_SETTINGS_EMAIL_SUBTITLE' | tr }}</h6>
       <form #emailForm="ngForm" (ngSubmit)="changeEmail(emailForm)">
-        <div fxLayout="column" class="card-text mb-3">
+        <div class="d-flex flex-column card-text mb-3">
           <div>
             <div class="form-group col-12 col-md-3">
               <label for="email">{{ 'EMAIL' | tr }}</label>
@@ -37,7 +37,7 @@
       <h4 class="card-title">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD' | tr }}</h4>
       <h6 class="card-subtitle mb-2">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_SUBTITLE' | tr }}</h6>
       <form #passwordForm="ngForm" (ngSubmit)="changePassword(passwordForm)">
-        <div fxLayout="column" class="card-text mb-3">
+        <div class="d-flex flex-column card-text mb-3">
           <div>
             <div class="form-group col-12 col-md-4">
               <label for="oldPassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_OLD' | tr }}</label>

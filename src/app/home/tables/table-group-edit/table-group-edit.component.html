@@ -35,8 +35,8 @@
       <li [ngbNavItem]="1">
         <a ngbNavLink>{{ 'DATA' | tr }}</a>
         <ng-template ngbNavContent>
-          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%">
-            <div class="form-group" fxFlex="100%">
+          <div class="d-flex flex-column flex-md-row gap-4 mb-3">
+            <div class="form-group col">
               <label for="name">{{ 'NAME' | tr }}</label>
               <input
                 ngModel

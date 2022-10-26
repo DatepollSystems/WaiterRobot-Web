@@ -14,7 +14,6 @@ specifiers:
   '@angular/compiler': 14.2.7
   '@angular/compiler-cli': 14.2.7
   '@angular/core': 14.2.7
-  '@angular/flex-layout': 14.0.0-beta.41
   '@angular/forms': 14.2.7
   '@angular/localize': 14.2.7
   '@angular/platform-browser': 14.2.7
@@ -68,7 +67,6 @@ dependencies:
   '@angular/common': 14.2.7_mhxwww7bfpzvikl64i6lpyc2ua
   '@angular/compiler': 14.2.7_@angular+core@14.2.7
   '@angular/core': 14.2.7_rxjs@7.5.7+zone.js@0.11.8
-  '@angular/flex-layout': 14.0.0-beta.41_lrmfj5mmjfnqvr52qnubypx2ce
   '@angular/forms': 14.2.7_ly4fm4bdvhbah77mnplcqiulwi
   '@angular/localize': 14.2.7_zducr4yjmnzgbutnyeml6uurqa
   '@angular/platform-browser': 14.2.7_kbr7ogish5x5hzkphqt6t2txom
@@ -503,23 +501,6 @@ packages:
       rxjs: 7.5.7
       tslib: 2.4.0
       zone.js: 0.11.8
-
-  /@angular/flex-layout/14.0.0-beta.41_lrmfj5mmjfnqvr52qnubypx2ce:
-    resolution: {integrity: sha512-x1YcxqkdFlcbVXEy9ebCgW/F+7n/MXkEkwEcVEIPf5v5qn7HZsjQxgIj35Lf0amvMyF7h35prpoxO1uX5+ntFg==}
-    peerDependencies:
-      '@angular/cdk': ^14.0.0
-      '@angular/common': ^14.0.0
-      '@angular/core': ^14.0.0
-      '@angular/platform-browser': ^14.0.0
-      rxjs: ^6.5.3 || ^7.4.0
-    dependencies:
-      '@angular/cdk': 14.2.5_f2mipkww652lm3xgqqfbsmwye4
-      '@angular/common': 14.2.7_mhxwww7bfpzvikl64i6lpyc2ua
-      '@angular/core': 14.2.7_rxjs@7.5.7+zone.js@0.11.8
-      '@angular/platform-browser': 14.2.7_kbr7ogish5x5hzkphqt6t2txom
-      rxjs: 7.5.7
-      tslib: 2.4.0
-    dev: false
 
   /@angular/forms/14.2.7_ly4fm4bdvhbah77mnplcqiulwi:
     resolution: {integrity: sha512-tEhCIE4mzlD2S0bYE+4e4RG7lOIeRZjjcKw0nlpwE0AneM03gzFlQvbHLDi3qeu8Kc7XkF6C3FJQI/Q7nMiARg==}

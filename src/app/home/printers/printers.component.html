@@ -15,7 +15,7 @@
       {{ selectedEvent.name }} {{ 'NAV_PRINTERS' | tr }}</a
     >
 
-    <div class="list-group-item" [fxHide.gt-sm]="true">
+    <div class="list-group-item d-lg-none">
       <div class="input-group">
         <span class="input-group-text" id="selectEvent-addon"><i-bs name="people"></i-bs></span>
         <select class="form-select" id="selectEvent" [(ngModel)]="selectedModelToShow" (ngModelChange)="showModel($event)">
@@ -29,9 +29,8 @@
 
     <ng-container *ngFor="let event of this.allModels; trackById">
       <a
-        [fxHide.lt-md]="true"
         *ngIf="event.id !== selectedEvent?.id"
-        class="list-group-item list-group-item-action"
+        class="list-group-item list-group-item-action d-none d-lg-block"
         routerLink="/home/printers/event/{{ event.id }}"
         routerLinkActive="active"
         (click)="linkClick()">

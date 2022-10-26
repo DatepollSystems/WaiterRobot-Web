@@ -35,8 +35,8 @@
       <li [ngbNavItem]="1">
         <a ngbNavLink>{{ 'DATA' | tr }}</a>
         <ng-template ngbNavContent>
-          <div fxLayout="row break" fxLayoutAlign="space-between" fxLayout.lt-sm="column">
-            <div class="form-group mb-2" fxFlex="40%">
+          <div class="d-flex flex-column flex-md-row gap-4 mb-3">
+            <div class="form-group col">
               <label for="name">{{ 'NAME' | tr }}</label>
               <input
                 ngbAutofocus
@@ -57,7 +57,7 @@
               </small>
             </div>
 
-            <div class="form-group mb-2" fxFlex="15%" fxFlex.lt-xl="15%">
+            <div class="form-group col-12 col-md-3 col-lg-2">
               <label for="price">{{ 'HOME_PROD_PRICE' | tr }}</label>
               <input
                 ngModel
@@ -77,7 +77,7 @@
             </div>
 
             <chip-input
-              fxFlex="40%"
+              class="col"
               dark="true"
               editable="false"
               label="{{ 'HOME_PROD_ALLERGENS' | tr }}"
@@ -88,8 +88,8 @@
               (valueChange)="allergenChange($event)"></chip-input>
           </div>
 
-          <div fxLayout="row break" fxLayoutGap="2%" fxLayout.lt-sm="column">
-            <div class="form-group mb-2" fxFlex="20%" fxFlex.lt-xl="48%">
+          <div class="d-flex flex-column flex-md-row gap-4 mb-3">
+            <div class="form-group col">
               <label for="selectGroup">{{ 'HOME_PROD_GROUP' | tr }}</label>
               <div class="input-group">
                 <span class="input-group-text bg-dark text-white" id="selectProductGroup-addon"><i-bs name="diagram-3"></i-bs></span>
@@ -102,7 +102,7 @@
               </div>
             </div>
 
-            <div class="form-group mb-2" fxFlex="20%" fxFlex.lt-xl="48%">
+            <div class="form-group col">
               <label for="selectPrinter">{{ 'NAV_PRINTERS' | tr }}</label>
               <div class="input-group">
                 <span class="input-group-text bg-dark text-white" id="selectPrinter-addon"><i-bs name="diagram-3"></i-bs></span>

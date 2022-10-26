@@ -1,6 +1,5 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 
@@ -26,6 +25,7 @@ import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component
 import {AllergensService} from './_services/allergens.service';
 import {ProductsService} from './_services/products.service';
 import {ProductGroupsService} from './_services/product-groups.service';
+import {PrintersService} from '../printers/_services/printers.service';
 
 const routes: Routes = [
   {
@@ -53,11 +53,10 @@ const routes: Routes = [
     ProductGroupEditComponent,
     ProductGroupByIdProductsComponent,
   ],
-  providers: [AllergensService, ProductsService, ProductGroupsService],
+  providers: [AllergensService, ProductsService, ProductGroupsService, PrintersService],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
-    FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
     DfxTranslateModule,

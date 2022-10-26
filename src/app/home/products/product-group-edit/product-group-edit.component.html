@@ -35,8 +35,8 @@
       <li [ngbNavItem]="1">
         <a ngbNavLink>{{ 'DATA' | tr }}</a>
         <ng-template ngbNavContent>
-          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%">
-            <div class="form-group" fxFlex="50%">
+          <div class="d-flex flex-column flex-md-row gap-4 mb-4">
+            <div class="form-group col">
               <label for="name">{{ 'NAME' | tr }}</label>
               <input
                 ngModel
@@ -56,7 +56,7 @@
               </small>
             </div>
 
-            <div fxFlex="50%" [hidden]="!isEditing">
+            <div class="col" [hidden]="!isEditing">
               <div class="form-group mb-2">
                 <label for="printerId">{{ 'NAV_PRINTERS' | tr }}</label>
                 <div class="input-group">

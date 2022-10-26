@@ -1,6 +1,5 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 
@@ -40,7 +39,6 @@ const startRoutes: Routes = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    FlexLayoutModule,
     DfxTrackByModule,
     DfxTranslateModule,
     NgbNavModule,
