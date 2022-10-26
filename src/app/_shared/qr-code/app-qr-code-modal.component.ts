@@ -2,7 +2,7 @@ import {NgIf} from '@angular/common';
 import {Component, Input} from '@angular/core';
 
 import {NgbActiveModal, NgbTooltip, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {ClipboardHelper, DfxPrintDirective} from 'dfx-helper';
+import {ClipboardHelper, DfxCutPipe, DfxPrintDirective} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 import {AppQrCodeViewComponent} from './app-qr-code-view.component';
 
@@ -25,9 +25,9 @@ import {AppQrCodeViewComponent} from './app-qr-code-view.component';
       <hr />
 
       <div class="d-flex flex-column align-items-center text-muted font-monospace text-break pt-4 pb-3">
-        <span class="col" *ngIf="dataType === 'TEXT'">{{ data }}</span>
+        <span class="col" *ngIf="dataType === 'TEXT'">{{ data | cut: 30:'..' }}</span>
         <div class="col text-center">
-          <a *ngIf="dataType === 'URL'" [href]="data" rel="noopener" target="_blank">{{ data }}</a>
+          <a *ngIf="dataType === 'URL'" [href]="data" rel="noopener" target="_blank">{{ data | cut: 30:'..' }}</a>
         </div>
         <div class="col mt-2">
           <button
@@ -58,7 +58,7 @@ import {AppQrCodeViewComponent} from './app-qr-code-view.component';
   `,
   selector: 'app-qrcode-modal',
   standalone: true,
-  imports: [NgIf, DfxTranslateModule, DfxPrintDirective, AppQrCodeViewComponent, NgbTooltipModule],
+  imports: [NgIf, DfxTranslateModule, DfxPrintDirective, AppQrCodeViewComponent, NgbTooltipModule, DfxCutPipe],
 })
 export class AppQrCodeModalComponent {
   @Input() dataType: 'URL' | 'TEXT' = 'URL';
