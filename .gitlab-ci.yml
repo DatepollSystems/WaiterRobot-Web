@@ -55,7 +55,7 @@ build-dev:
     paths:
       - dist/
   script:
-    - npm install --force  --loglevel=error --no-progress
+    - pnpm install --loglevel=error
     - pnpm ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
     - pnpm build:dev
     - cd dist/
