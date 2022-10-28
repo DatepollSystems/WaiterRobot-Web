@@ -9,6 +9,13 @@
   </div>
 
   <div>
+    <button class="btn btn-sm btn-outline-secondary" [class.disabled]="!selection!.hasValue()" (click)="printSelectedTables()">
+      <i-bs name="trash"></i-bs>
+      {{ 'PRINT' | tr }}
+    </button>
+  </div>
+
+  <div>
     <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection!.hasValue()" (click)="onDeleteSelected()">
       <i-bs name="trash"></i-bs>
       {{ 'DELETE' | tr }}
