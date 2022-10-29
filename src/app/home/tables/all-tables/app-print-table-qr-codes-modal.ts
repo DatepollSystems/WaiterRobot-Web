@@ -1,9 +1,11 @@
+import {NgForOf} from '@angular/common';
 import {Component, Input} from '@angular/core';
 import {NgbActiveModal, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
-import {DfxPrintDirective} from 'dfx-helper';
 import {QRCodeModule} from 'angularx-qrcode';
-import {NgForOf} from '@angular/common';
+import {DfxPrintDirective} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
+import html2canvas from 'html2canvas';
+import {jsPDF} from 'jspdf';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {IconsModule} from '../../../_shared/ui/icons.module';
 import {TableModel} from '../_models/table.model';
@@ -31,6 +33,13 @@ import {TableModel} from '../_models/table.model';
           </button>
         </div>
 
+        <div>
+          <button class="btn btn-sm btn-primary" (click)="pdf()">
+            <i-bs name="printer"></i-bs>
+            {{ 'PDF' | tr }}
+          </button>
+        </div>
+
         <div ngbDropdown class="d-inline-block">
           <button type="button" class="btn btn-sm btn-outline-secondary" id="qrCodeSizeDropdown" ngbDropdownToggle>
             Size: {{ qrCodeSize }}
@@ -43,14 +52,25 @@ import {TableModel} from '../_models/table.model';
         </div>
       </btn-toolbar>
 
-      <div id="qrcode-print-section" class="main">
-        <div class="d-flex flex-wrap">
+      <div id="htmlData" class="main">
+        <div class="d-flex flex-wrap justify-content-center">
           <div *ngFor="let mytable of tables" class="qr-code" [style.padding]="getQrCodePadding() + 'px'">
-            <qrcode [width]="getQrCodeSize()" errorCorrectionLevel="M" [margin]="0" [qrdata]="parser(mytable)" elementType="img"></qrcode>
+            <qrcode
+              [width]="getQrCodeSize()"
+              errorCorrectionLevel="M"
+              [margin]="0"
+              [qrdata]="parser(mytable)"
+              elementType="canvas"></qrcode>
 
-            <span class="text-black">Table: {{ mytable.tableNumber }}</span>
-            <br />
-            <span class="text-black">Tablegroup: {{ mytable.groupName }}</span>
+            <div class="text-center">
+              <span class="text-black"
+                >Tisch: <b>{{ mytable.tableNumber }}</b></span
+              >
+              <br />
+              <span class="text-black"
+                >Gruppe: <b>{{ mytable.groupName }}</b></span
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -79,13 +99,91 @@ import {TableModel} from '../_models/table.model';
 export class AppPrintTableQrCodesModalComponent {
   @Input() tables?: TableModel[];
 
-  qrCodeSize: 'SM' | 'MD' | 'LG' = 'MD';
+  qrCodeSize: 'SM' | 'MD' | 'LG' = 'SM';
 
   constructor(public activeModal: NgbActiveModal) {}
 
   parser = (table: TableModel): string => {
     return JSON.stringify({id: table.tableNumber, groupId: table.groupId});
   };
+
+  pdf(): void {
+    let DATA: any = document.getElementById('htmlData');
+    // html2canvas(DATA, {scale: 1.5}).then((canvas) => {
+    //   let fileWidth = 208;
+    //   let fileHeight = (canvas.height * fileWidth) / canvas.width;
+    //   const FILEURI = canvas.toDataURL('image/png');
+    //   let PDF = new jsPDF('p', 'mm', 'a4');
+    //   let position = 0;
+    //   PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
+    //   PDF.save('angular-demo.pdf');
+    // });
+
+    // html2canvas(DATA, {scale: 1.5}).then(canvas => {
+    //   const imgData = canvas.toDataURL('image/png');
+    //   const imgWidth = this.getQrCodeSize();
+    //   const pageHeight = 260;
+    //   const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    //   let heightLeft = imgHeight;
+    //   const doc = new jsPDF('p', 'mm');
+    //   let position = 0;
+    //   doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+    //   heightLeft -= pageHeight;
+    //   while (heightLeft >= 0) {
+    //     position = heightLeft - imgHeight;
+    //     doc.addPage();
+    //     doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+    //     heightLeft -= pageHeight;
+    //   }
+    //   doc.save('download.pdf');
+    // });
+
+    html2canvas(DATA, {}).then((canvas) => {
+      //! MAKE YOUR PDF
+      const pdf = new jsPDF('p', 'pt', 'letter');
+
+      const downCalc = 1157;
+
+      for (let i = 0; i <= DATA.clientHeight / downCalc; i++) {
+        //! This is all just html2canvas stuff
+        let srcImg = canvas;
+        let sX = 0;
+        let sY = downCalc * i; // start 980 pixels down for every new page
+        let sWidth = 900;
+        let sHeight = downCalc;
+        let dX = 0;
+        let dY = 0;
+        let dWidth = 900;
+        let dHeight = downCalc;
+
+        const onePageCanvas = document.createElement('canvas');
+        onePageCanvas.setAttribute('width', '900px');
+        onePageCanvas.setAttribute('height', `${downCalc}px`);
+        let ctx = onePageCanvas.getContext('2d');
+        // details on this usage of this function:
+        // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images#Slicing
+        ctx?.drawImage(srcImg, sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight);
+
+        // document.body.appendChild(canvas);
+        let canvasDataURL = onePageCanvas.toDataURL('image/png', 1);
+
+        let width = onePageCanvas.width;
+        let height = onePageCanvas.clientHeight;
+
+        //! If we're on anything other than the first page,
+        // add another page
+        if (i > 0) {
+          pdf.addPage([612, 791]); //8.5" x 11" in pts (in*72)
+        }
+        //! now we declare that we're working on that page
+        pdf.setPage(i + 1);
+        //! now we add content to that page!
+        pdf.addImage(canvasDataURL, 'PNG', 0, 0, width * 0.62, height * 0.62);
+      }
+      //! after the for loop is finished running, we save the pdf.
+      pdf.save('test.pdf');
+    });
+  }
 
   getQrCodeSize = () => {
     switch (this.qrCodeSize) {
@@ -103,11 +201,11 @@ export class AppPrintTableQrCodesModalComponent {
   getQrCodePadding = () => {
     switch (this.qrCodeSize) {
       case 'SM':
-        return 10;
+        return 15;
       case 'MD':
         return 15;
       case 'LG':
-        return 50;
+        return 20;
       default:
         throw Error('Uknown qr code size');
     }
