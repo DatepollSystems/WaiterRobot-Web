@@ -9,7 +9,11 @@ const routes: Routes = [
   {path: 'home', loadChildren: () => import('./home/home.module').then((m) => m.HomeModule)},
   {
     path: 'mobile-link',
-    loadChildren: () => import('./mobile-link/mobile-link.module').then((m) => m.MobileLinkModule),
+    loadChildren: () => import('./mobile-link/mobile-link.component').then((m) => m.MobileLinkModule),
+  },
+  {
+    path: 'ml',
+    loadChildren: () => import('./mobile-link/mobile-link.component').then((m) => m.MobileLinkModule),
   },
   {
     path: 'qrcode/view',

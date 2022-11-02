@@ -16,6 +16,10 @@ export class MobileLinkService {
     return this.createWaiterAuthLink(token) + 'CREATE';
   }
 
+  public createTableLink(tableId: string): string {
+    return this.createMobileLink() + 't/' + tableId;
+  }
+
   private createWaiterAuthLink(token: string): string {
     return this.createMobileLink() + 'signIn' + '?token=' + token + '&purpose=';
   }
@@ -26,7 +30,7 @@ export class MobileLinkService {
       '//' +
       this.window.location.hostname +
       (this.window.location.port.length > 0 ? ':' + this.window.location.port : '') +
-      '/mobile-link/'
+      '/ml/'
     );
   }
 }
