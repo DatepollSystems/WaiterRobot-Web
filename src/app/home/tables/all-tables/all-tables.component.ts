@@ -41,9 +41,8 @@ export class AllTablesComponent extends AbstractModelsListComponent<TableModel> 
     const test = this.selection?.selected;
     test?.push(...(this.selection?.selected ?? []));
     test?.push(...(this.selection?.selected ?? []));
-    test?.push(...(this.selection?.selected ?? []));
-    test?.push(...(this.selection?.selected ?? []));
-    test?.push(...(this.selection?.selected ?? []));
+    // test?.push(...(this.selection?.selected ?? []));
     modalRef.componentInstance.tables = test;
+    // Da Hagmann ist a gieriger Hund
   };
 }

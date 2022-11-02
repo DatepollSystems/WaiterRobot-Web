@@ -1,8 +1,8 @@
-import {NgForOf} from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
 import {Component, Input} from '@angular/core';
 import {NgbActiveModal, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {QRCodeModule} from 'angularx-qrcode';
-import {DfxPrintDirective} from 'dfx-helper';
+import {DateHelper, DfxPrintDirective} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 import html2canvas from 'html2canvas';
 import {jsPDF} from 'jspdf';
@@ -19,42 +19,28 @@ import {TableModel} from '../_models/table.model';
     <div class="modal-body">
       <btn-toolbar>
         <div>
-          <button
-            class="btn btn-sm btn-primary"
-            printSectionId="qrcode-print-section"
-            print
-            [styleSheetFiles]="['/assets/styles/bootstrap-grid.min.css']"
-            [printStyle]="{
-              '.qr-code': {padding: getQrCodePadding() + 'px', 'border-style': 'dashed', 'border-color': '#ccc', 'border-width': '1px'}
-            }"
-            [printTitle]="'print'">
+          <button class="btn btn-sm btn-primary" (click)="pdf()" [class.spinner]="generating" [disabled]="generating">
             <i-bs name="printer"></i-bs>
-            {{ 'PRINT' | tr }}
-          </button>
-        </div>
-
-        <div>
-          <button class="btn btn-sm btn-primary" (click)="pdf()">
-            <i-bs name="printer"></i-bs>
-            {{ 'PDF' | tr }}
+            {{ 'Generate PDF' | tr }}
           </button>
         </div>
 
         <div ngbDropdown class="d-inline-block">
-          <button type="button" class="btn btn-sm btn-outline-secondary" id="qrCodeSizeDropdown" ngbDropdownToggle>
+          <button type="button" class="btn btn-sm btn-outline-secondary" id="qrCodeSizeDropdown" ngbDropdownToggle [disabled]="generating">
             Size: {{ qrCodeSize }}
           </button>
           <div ngbDropdownMenu aria-labelledby="qrCodeSizeDropdown">
             <button ngbDropdownItem (click)="qrCodeSize = 'SM'">Small</button>
             <button ngbDropdownItem (click)="qrCodeSize = 'MD'">Middle</button>
-            <button ngbDropdownItem (click)="qrCodeSize = 'LG'">Large</button>
           </div>
         </div>
       </btn-toolbar>
 
-      <div id="htmlData" class="main">
+      <div class="alert alert-info" role="alert" *ngIf="generating"><strong>Attention!</strong> Please do not close this window.</div>
+
+      <div class="main">
         <div class="d-flex flex-wrap justify-content-center">
-          <div *ngFor="let mytable of tables" class="qr-code" [style.padding]="getQrCodePadding() + 'px'">
+          <div *ngFor="let mytable of tables" class="qr-code">
             <qrcode
               [width]="getQrCodeSize()"
               errorCorrectionLevel="M"
@@ -89,17 +75,19 @@ import {TableModel} from '../_models/table.model';
         border-style: dashed;
         border-color: #ccc;
         border-width: 1px;
+        padding: 31px;
       }
     `,
   ],
   selector: 'app-print-table-qr-codes-modal',
   standalone: true,
-  imports: [DfxPrintDirective, QRCodeModule, NgForOf, DfxTranslateModule, AppBtnToolbarComponent, IconsModule, NgbDropdownModule],
+  imports: [DfxPrintDirective, QRCodeModule, NgForOf, DfxTranslateModule, AppBtnToolbarComponent, IconsModule, NgbDropdownModule, NgIf],
 })
 export class AppPrintTableQrCodesModalComponent {
   @Input() tables?: TableModel[];
 
-  qrCodeSize: 'SM' | 'MD' | 'LG' = 'SM';
+  qrCodeSize: 'SM' | 'MD' = 'MD';
+  generating = false;
 
   constructor(public activeModal: NgbActiveModal) {}
 
@@ -107,105 +95,45 @@ export class AppPrintTableQrCodesModalComponent {
     return JSON.stringify({id: table.tableNumber, groupId: table.groupId});
   };
 
-  pdf(): void {
-    let DATA: any = document.getElementById('htmlData');
-    // html2canvas(DATA, {scale: 1.5}).then((canvas) => {
-    //   let fileWidth = 208;
-    //   let fileHeight = (canvas.height * fileWidth) / canvas.width;
-    //   const FILEURI = canvas.toDataURL('image/png');
-    //   let PDF = new jsPDF('p', 'mm', 'a4');
-    //   let position = 0;
-    //   PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
-    //   PDF.save('angular-demo.pdf');
-    // });
+  async pdf(): Promise<void> {
+    this.generating = true;
 
-    // html2canvas(DATA, {scale: 1.5}).then(canvas => {
-    //   const imgData = canvas.toDataURL('image/png');
-    //   const imgWidth = this.getQrCodeSize();
-    //   const pageHeight = 260;
-    //   const imgHeight = (canvas.height * imgWidth) / canvas.width;
-    //   let heightLeft = imgHeight;
-    //   const doc = new jsPDF('p', 'mm');
-    //   let position = 0;
-    //   doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-    //   heightLeft -= pageHeight;
-    //   while (heightLeft >= 0) {
-    //     position = heightLeft - imgHeight;
-    //     doc.addPage();
-    //     doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-    //     heightLeft -= pageHeight;
-    //   }
-    //   doc.save('download.pdf');
-    // });
+    const qrCodeDivs = document.getElementsByClassName('qr-code');
+    const pdf = new jsPDF('p', 'pt', 'a4', true);
 
-    html2canvas(DATA, {}).then((canvas) => {
-      //! MAKE YOUR PDF
-      const pdf = new jsPDF('p', 'pt', 'letter');
+    const width = this.getQrCodeSize() + 31;
 
-      const downCalc = 1157;
+    let x = 0;
+    let y = 0;
 
-      for (let i = 0; i <= DATA.clientHeight / downCalc; i++) {
-        //! This is all just html2canvas stuff
-        let srcImg = canvas;
-        let sX = 0;
-        let sY = downCalc * i; // start 980 pixels down for every new page
-        let sWidth = 900;
-        let sHeight = downCalc;
-        let dX = 0;
-        let dY = 0;
-        let dWidth = 900;
-        let dHeight = downCalc;
-
-        const onePageCanvas = document.createElement('canvas');
-        onePageCanvas.setAttribute('width', '900px');
-        onePageCanvas.setAttribute('height', `${downCalc}px`);
-        let ctx = onePageCanvas.getContext('2d');
-        // details on this usage of this function:
-        // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images#Slicing
-        ctx?.drawImage(srcImg, sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight);
-
-        // document.body.appendChild(canvas);
-        let canvasDataURL = onePageCanvas.toDataURL('image/png', 1);
-
-        let width = onePageCanvas.width;
-        let height = onePageCanvas.clientHeight;
-
-        //! If we're on anything other than the first page,
-        // add another page
-        if (i > 0) {
-          pdf.addPage([612, 791]); //8.5" x 11" in pts (in*72)
-        }
-        //! now we declare that we're working on that page
-        pdf.setPage(i + 1);
-        //! now we add content to that page!
-        pdf.addImage(canvasDataURL, 'PNG', 0, 0, width * 0.62, height * 0.62);
+    for (let i = 0; i < qrCodeDivs.length; i++) {
+      const qrcode = qrCodeDivs.item(i);
+      if (qrcode) {
+        const canvas = await html2canvas(qrcode as HTMLElement);
+        const FILEURI = canvas.toDataURL('image/png');
+        pdf.addImage(FILEURI, 'PNG', x, y, width, width + 30);
+        x += width;
       }
-      //! after the for loop is finished running, we save the pdf.
-      pdf.save('test.pdf');
-    });
+      if (x > 500) {
+        x = 0;
+        y += width + 30;
+      }
+      if (y > 600) {
+        pdf.addPage();
+        x = 0;
+        y = 0;
+      }
+    }
+    pdf.save(`tables-${DateHelper.getFormattedWithHoursMinutesAndSeconds(new Date()) ?? ''}.json`);
+    this.generating = false;
   }
 
   getQrCodeSize = () => {
     switch (this.qrCodeSize) {
       case 'SM':
-        return 100;
+        return 118;
       case 'MD':
-        return 200;
-      case 'LG':
-        return 300;
-      default:
-        throw Error('Uknown qr code size');
-    }
-  };
-
-  getQrCodePadding = () => {
-    switch (this.qrCodeSize) {
-      case 'SM':
-        return 15;
-      case 'MD':
-        return 15;
-      case 'LG':
-        return 20;
+        return 167;
       default:
         throw Error('Uknown qr code size');
     }
