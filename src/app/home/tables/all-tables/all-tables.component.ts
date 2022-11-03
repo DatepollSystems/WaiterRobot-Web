@@ -38,11 +38,10 @@ export class AllTablesComponent extends AbstractModelsListComponent<TableModel> 
       ariaLabelledBy: 'app-tables-qr-codes-title',
       size: 'lg',
     });
-    const test = this.selection?.selected;
-    test?.push(...(this.selection?.selected ?? []));
-    test?.push(...(this.selection?.selected ?? []));
+    //const test = this.selection?.selected;
     // test?.push(...(this.selection?.selected ?? []));
-    modalRef.componentInstance.tables = test;
-    // Da Hagmann ist a gieriger Hund
+    // test?.push(...(this.selection?.selected ?? []));
+    // test?.push(...(this.selection?.selected ?? []));
+    modalRef.componentInstance.tables = this.selection?.selected;
   };
 }
