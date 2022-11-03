@@ -7,13 +7,9 @@
       <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
     </div>
 
+    <app-btn-model-edit-confirm [form]="f" [editing]="isEditing"></app-btn-model-edit-confirm>
+
     <ng-container *ngIf="isEditing && entity">
-      <div>
-        <button class="btn btn-sm btn-success" (click)="f.ngSubmit.emit()" [disabled]="!f.valid">
-          <i-bs name="save"></i-bs>
-          {{ 'SAVE' | tr }}
-        </button>
-      </div>
       <div>
         <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
           <i-bs name="trash"></i-bs>
@@ -21,16 +17,9 @@
         </button>
       </div>
     </ng-container>
-
-    <div *ngIf="!isEditing">
-      <button class="btn btn-sm btn-success" (click)="f.ngSubmit.emit()" [disabled]="!f || !f.valid">
-        <i-bs name="plus-circle"></i-bs>
-        {{ 'ADD' | tr }}
-      </button>
-    </div>
   </btn-toolbar>
 
-  <form #f="ngForm" (ngSubmit)="onSave(f)">
+  <form id="ngForm" #f="ngForm" (ngSubmit)="onSave(f)">
     <ul
       ngbNav
       #nav="ngbNav"

@@ -11,7 +11,7 @@ import {EventSelectedGuard} from '../../_shared/services/guards/event-selected-g
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {CountUpDirective} from '../../_shared/ui/count-up.directive';
-import {IconsModule} from '../../_shared/ui/icons.module';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {CountCardComponent} from './components/count-card.component';
 import {SumProductgroupsComponent} from './components/sum-productgroups.component';
 import {SumProductsPerWaiterComponent} from './components/sum-products-per-waiter.component';
@@ -51,7 +51,7 @@ const routes: Routes = [
     DfxTableModule,
     DfxSortModule,
     DfxPaginationModule,
-    IconsModule,
+    AppIconsModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
     PieChartModule,

@@ -12,7 +12,7 @@ import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {ChipInput} from '../../_shared/ui/chip-input/chip-input.component';
 
-import {IconsModule} from '../../_shared/ui/icons.module';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSelectableButtonComponent} from '../../_shared/ui/app-selectable-button.component';
 import {AllOrganisationsComponent} from './all-organisations/all-organisations.component';
 import {OrganisationEditComponent} from './organisation-edit/organisation-edit.component';
@@ -20,6 +20,7 @@ import {OrganisationUserAddModalComponent} from './organisation-user-add-modal/o
 
 import {OrganisationsComponent} from './organisations.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
+import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
 
 const routes: Routes = [
   {
@@ -47,12 +48,13 @@ const routes: Routes = [
     DfxTrackByModule,
     NgbNavModule,
     NgbTooltipModule,
-    IconsModule,
+    ChipInput,
+    AppIconsModule,
     AppSelectableButtonComponent,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
-    ChipInput,
     AppSpinnerRowComponent,
+    AppBtnModelEditConfirmComponent,
   ],
 })
 export class OrganisationsModule {}

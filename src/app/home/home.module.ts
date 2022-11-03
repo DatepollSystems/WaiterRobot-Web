@@ -7,7 +7,7 @@ import {DfxTrackByModule, HideIfOnlineDirective, HideIfPingSucceedsDirective} fr
 import {DfxTranslateModule} from 'dfx-translate';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
 
-import {IconsModule} from '../_shared/ui/icons.module';
+import {AppIconsModule} from '../_shared/ui/icons.module';
 import {AppNavbarScrollableComponent} from '../_shared/ui/navbar-scrollable/app-navbar-scrollable.component';
 import {AppQrCodeModalComponent} from '../_shared/ui/qr-code/app-qr-code-modal.component';
 import {HomeRoutingModule} from './home-routing.module';
@@ -26,7 +26,7 @@ import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.componen
     DfxTrackByModule,
     HideIfOnlineDirective,
     HideIfPingSucceedsDirective,
-    IconsModule,
+    AppIconsModule,
     FooterModule,
     AppNavbarScrollableComponent,
     AppQrCodeModalComponent,

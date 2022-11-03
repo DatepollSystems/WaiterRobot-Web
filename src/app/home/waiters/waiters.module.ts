@@ -13,7 +13,7 @@ import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
 import {ChipInput} from '../../_shared/ui/chip-input/chip-input.component';
-import {IconsModule} from '../../_shared/ui/icons.module';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppQrCodeModalComponent} from '../../_shared/ui/qr-code/app-qr-code-modal.component';
 import {QuestionDialogModule} from '../../_shared/ui/question-dialog/question-dialog.module';
 
@@ -29,6 +29,7 @@ import {WaitersComponent} from './waiters.component';
 import {WaitersService} from './_services/waiters.service';
 import {WaiterSessionsService} from './_services/waiter-sessions.service';
 import {DuplicateWaitersService} from './_services/duplicate-waiters.service';
+import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
 
 const routes: Routes = [
   {
@@ -70,13 +71,14 @@ const routes: Routes = [
     DfxTableModule,
     DfxSortModule,
     DfxImplodePipeModule,
-    IconsModule,
+    AppIconsModule,
     QuestionDialogModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
     ChipInput,
     AppSpinnerRowComponent,
     AppQrCodeModalComponent,
+    AppBtnModelEditConfirmComponent,
   ],
 })
 export class WaitersModule {}

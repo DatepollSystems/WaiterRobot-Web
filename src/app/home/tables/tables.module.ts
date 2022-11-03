@@ -12,7 +12,7 @@ import {OrganisationSelectedGuard} from '../../_shared/services/guards/organisat
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 
-import {IconsModule} from '../../_shared/ui/icons.module';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {QuestionDialogModule} from '../../_shared/ui/question-dialog/question-dialog.module';
 import {AllTablesComponent} from './all-tables/all-tables.component';
 import {TableEditComponent} from './table-edit/table-edit.component';
@@ -24,6 +24,8 @@ import {TablesComponent} from './tables.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
 import {TablesService} from './_services/tables.service';
 import {TableGroupsService} from './_services/table-groups.service';
+import {DfxAutofocus} from '../../_shared/ui/autofocus.directive';
+import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
 
 const routes: Routes = [
   {
@@ -63,11 +65,13 @@ const routes: Routes = [
     DfxSortModule,
     DfxTranslateModule,
     DfxTrackByModule,
-    IconsModule,
+    AppIconsModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
     QuestionDialogModule,
     AppSpinnerRowComponent,
+    DfxAutofocus,
+    AppBtnModelEditConfirmComponent,
   ],
   providers: [TablesService, TableGroupsService],
 })

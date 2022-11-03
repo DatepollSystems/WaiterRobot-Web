@@ -11,7 +11,7 @@ import {DfxTranslateModule} from 'dfx-translate';
 import {OrganisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard.service';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
-import {IconsModule} from '../../_shared/ui/icons.module';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
 
 import {AllMediatorsComponent} from './all-mediators/all-mediators.component';
 import {EventByIdPrintersComponent} from './event-by-id-printers/event-by-id-printers.component';
@@ -21,6 +21,7 @@ import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component
 
 import {MediatorsService} from './_services/mediators.service';
 import {PrintersService} from './_services/printers.service';
+import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
 
 const startRoutes: Routes = [
   {
@@ -43,7 +44,6 @@ const startRoutes: Routes = [
     CommonModule,
     RouterModule.forChild(startRoutes),
     FormsModule,
-    IconsModule,
     ReactiveFormsModule,
     NgbTooltipModule,
     NgbNavModule,
@@ -51,10 +51,12 @@ const startRoutes: Routes = [
     DfxTableModule,
     DfxSortModule,
     DfxTrackByModule,
+    DfxImplodePipeModule,
+    AppIconsModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
-    DfxImplodePipeModule,
     AppSpinnerRowComponent,
+    AppBtnModelEditConfirmComponent,
   ],
 })
 export class PrintersModule {}

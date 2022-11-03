@@ -7,7 +7,7 @@ import {TypeHelper} from 'dfx-helper';
 
 import {debounceTime, distinctUntilChanged, filter, map, Observable} from 'rxjs';
 
-import {IconsModule} from '../icons.module';
+import {AppIconsModule} from '../icons.module';
 
 type inputType = any | string;
 type inputTypes = inputType[];
@@ -18,7 +18,7 @@ type inputTypes = inputType[];
   templateUrl: './chip-input.component.html',
   styleUrls: ['./chip-input.component.scss'],
   standalone: true,
-  imports: [CommonModule, NgbModule, FormsModule, ReactiveFormsModule, IconsModule],
+  imports: [CommonModule, NgbModule, FormsModule, ReactiveFormsModule, AppIconsModule],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class ChipInput {

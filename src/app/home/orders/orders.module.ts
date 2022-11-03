@@ -10,7 +10,7 @@ import {DfxTranslateModule} from 'dfx-translate';
 import {EventSelectedGuard} from '../../_shared/services/guards/event-selected-guard.service';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
-import {IconsModule} from '../../_shared/ui/icons.module';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
 
 import {AllOrdersComponent} from './all-orders/all-orders.component';
 import {OrdersComponent} from './orders.component';
@@ -42,7 +42,7 @@ const routes: Routes = [
     DfxTableModule,
     DfxSortModule,
     DfxPaginationModule,
-    IconsModule,
+    AppIconsModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
     AppSpinnerRowComponent,

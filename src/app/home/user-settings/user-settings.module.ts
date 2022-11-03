@@ -11,7 +11,7 @@ import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
 
-import {IconsModule} from '../../_shared/ui/icons.module';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
 
 import {SessionsComponent} from './sessions/sessions.component';
 import {UserSettingsSubComponent} from './user-settings-sub/user-settings-sub.component';
@@ -43,7 +43,7 @@ const routes: Routes = [
     NgbTooltipModule,
     DfxTableModule,
     DfxSortModule,
-    IconsModule,
+    AppIconsModule,
     FormsModule,
     AppBtnToolbarComponent,
     AppEntitiesLayoutComponent,

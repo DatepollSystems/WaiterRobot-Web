@@ -10,7 +10,7 @@ import {StorageHelper} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {AppBtnToolbarComponent} from '../app-btn-toolbar.component';
-import {IconsModule} from '../icons.module';
+import {AppIconsModule} from '../icons.module';
 
 @Component({
   selector: 'app-navbar-scrollable',
@@ -22,7 +22,7 @@ import {IconsModule} from '../icons.module';
     RouterLinkActive,
     DragDropModule,
     DfxTranslateModule,
-    IconsModule,
+    AppIconsModule,
     NgbTooltipModule,
     AppBtnToolbarComponent,
     FormsModule,

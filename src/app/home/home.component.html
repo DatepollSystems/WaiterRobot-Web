@@ -194,11 +194,11 @@
 <main class="container-fluid text-white pb-5 bg">
   <div class="container-xxxl">
     <div class="alert alert-warning" role="alert" hideIfOnline>
-      <b>{{ 'INFORMATION' | tr }}!</b> {{ 'OFFLINE' | tr }}
+      {{ 'OFFLINE' | tr }}
     </div>
 
     <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="/json">
-      <b>{{ 'INFORMATION' | tr }}!</b> {{ 'SERVER_OFFLINE' | tr }}
+      {{ 'SERVER_OFFLINE' | tr }}
     </div>
 
     <router-outlet></router-outlet>

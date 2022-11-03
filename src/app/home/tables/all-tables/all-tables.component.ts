@@ -8,7 +8,7 @@ import {EventModel} from '../../events/_models/event.model';
 import {TableModel} from '../_models/table.model';
 
 import {TablesService} from '../_services/tables.service';
-import {AppPrintTableQrCodesModalComponent} from './app-print-table-qr-codes-modal';
+import {AppPrintTableQrCodesModalComponent} from '../_ui/app-print-table-qr-codes-modal';
 
 @Component({
   selector: 'app-all-tables',
@@ -33,15 +33,13 @@ export class AllTablesComponent extends AbstractModelsListComponent<TableModel> 
     super.initializeEntities();
   }
 
-  printSelectedTables = () => {
+  printSelectedTables(): void {
     const modalRef = this.modal.open(AppPrintTableQrCodesModalComponent, {
       ariaLabelledBy: 'app-tables-qr-codes-title',
       size: 'lg',
     });
-    //const test = this.selection?.selected;
-    // test?.push(...(this.selection?.selected ?? []));
-    // test?.push(...(this.selection?.selected ?? []));
-    // test?.push(...(this.selection?.selected ?? []));
-    modalRef.componentInstance.tables = this.selection?.selected;
-  };
+    modalRef.componentInstance.tables = this.selection?.selected.sort(function (a, b) {
+      return a.groupName.localeCompare(b.groupName) || a.tableNumber - b.tableNumber;
+    });
+  }
 }

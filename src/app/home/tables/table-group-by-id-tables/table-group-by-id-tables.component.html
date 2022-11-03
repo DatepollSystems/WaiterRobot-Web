@@ -22,10 +22,10 @@
   </div>
 
   <div>
-    <a routerLink="../../{{ entity?.id }}" class="btn btn-sm btn-outline-secondary" [class.disabled]="!selection!.hasValue()">
+    <button class="btn btn-sm btn-outline-secondary" [class.disabled]="!selection!.hasValue()" (click)="printSelectedTables()">
       <i-bs name="table"></i-bs>
       {{ 'HOME_TABLES_PRINT' | tr }}
-    </a>
+    </button>
   </div>
 </btn-toolbar>
 

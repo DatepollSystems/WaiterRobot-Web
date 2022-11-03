@@ -9,13 +9,14 @@ import {DfxTranslateModule} from 'dfx-translate';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 
-import {IconsModule} from '../../_shared/ui/icons.module';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AllUsersComponent} from './all-users/all-users.component';
 import {UserEditComponent} from './user-edit/user-edit.component';
 
 import {UsersComponent} from './users.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
 import {UsersService} from './_services/users.service';
+import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
 
 const routes: Routes = [
   {
@@ -42,11 +43,12 @@ const routes: Routes = [
     DfxTranslateModule,
     NgbNavModule,
     NgbTooltipModule,
-    IconsModule,
+    AppIconsModule,
     NgbDatepickerModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
     AppSpinnerRowComponent,
+    AppBtnModelEditConfirmComponent,
   ],
 })
 export class UsersModule {}

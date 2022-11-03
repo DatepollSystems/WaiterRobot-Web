@@ -88,4 +88,4 @@ const icons = {
   imports: [NgxBootstrapIconsModule.pick(icons)],
   exports: [NgxBootstrapIconsModule],
 })
-export class IconsModule {}
+export class AppIconsModule {}

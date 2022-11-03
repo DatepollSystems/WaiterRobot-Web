@@ -6,7 +6,7 @@ import {AEntityWithName} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {AbstractSelectableModelService} from '../services/abstract-model.service';
-import {IconsModule} from './icons.module';
+import {AppIconsModule} from './icons.module';
 
 @Component({
   template: `
@@ -35,7 +35,7 @@ import {IconsModule} from './icons.module';
   `,
   selector: 'selectable-button',
   standalone: true,
-  imports: [NgIf, DfxTranslateModule, IconsModule, NgbTooltipModule],
+  imports: [NgIf, DfxTranslateModule, AppIconsModule, NgbTooltipModule],
 })
 export class AppSelectableButtonComponent {
   @Input() selectedEntity?: AEntityWithName<string | number> | undefined;

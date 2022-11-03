@@ -9,6 +9,7 @@ import {TableModel} from '../_models/table.model';
 import {TableGroupsService} from '../_services/table-groups.service';
 
 import {TablesService} from '../_services/tables.service';
+import {AppPrintTableQrCodesModalComponent} from '../_ui/app-print-table-qr-codes-modal';
 
 @Component({
   selector: 'app-table-group-by-id-tables',
@@ -29,5 +30,15 @@ export class TableGroupByIdTablesComponent extends AbstractModelsListByIdCompone
     super(router, route, modal, tablesService, tableGroupsService);
 
     this.setSelectable();
+  }
+
+  printSelectedTables(): void {
+    const modalRef = this.modal.open(AppPrintTableQrCodesModalComponent, {
+      ariaLabelledBy: 'app-tables-qr-codes-title',
+      size: 'lg',
+    });
+    modalRef.componentInstance.tables = this.selection?.selected.sort(function (a, b) {
+      return a.groupName.localeCompare(b.groupName) || a.tableNumber - b.tableNumber;
+    });
   }
 }

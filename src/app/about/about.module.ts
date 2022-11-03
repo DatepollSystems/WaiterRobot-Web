@@ -10,7 +10,7 @@ import {IsAuthenticatedGuardService} from '../_shared/services/auth/is-authentic
 import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
 import {AppDownloadBtnListModule} from '../_shared/ui/download-btn-list/app-download-btn-list.module';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
-import {IconsModule} from '../_shared/ui/icons.module';
+import {AppIconsModule} from '../_shared/ui/icons.module';
 
 import {AboutComponent} from './about.component';
 import {AppAccountNotActivatedDialog} from './account-not-activated-dialog.component';
@@ -28,7 +28,7 @@ const routes: Routes = [{path: '', component: AboutComponent, canActivate: [IsAu
     NgbModule,
     DfxTranslateModule,
     FooterModule,
-    IconsModule,
+    AppIconsModule,
     AppDownloadBtnListModule,
     AppLogoWithTextComponent,
   ],

@@ -13,7 +13,7 @@ import {OrganisationSelectedGuard} from '../../_shared/services/guards/organisat
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {ChipInput} from '../../_shared/ui/chip-input/chip-input.component';
-import {IconsModule} from '../../_shared/ui/icons.module';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
 
 import {AllProductsComponent} from './all-products/all-products.component';
 import {ProductEditComponent} from './product-edit/product-edit.component';
@@ -26,6 +26,7 @@ import {AllergensService} from './_services/allergens.service';
 import {ProductsService} from './_services/products.service';
 import {ProductGroupsService} from './_services/product-groups.service';
 import {PrintersService} from '../printers/_services/printers.service';
+import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
 
 const routes: Routes = [
   {
@@ -65,11 +66,12 @@ const routes: Routes = [
     NgbNavModule,
     DfxTableModule,
     DfxSortModule,
-    IconsModule,
+    AppIconsModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
     ChipInput,
     AppSpinnerRowComponent,
+    AppBtnModelEditConfirmComponent,
   ],
 })
 export class ProductsModule {}
