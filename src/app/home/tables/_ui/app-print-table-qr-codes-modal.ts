@@ -16,7 +16,7 @@ import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
 @Component({
   template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="app-tables-qr-codes-title">{{ 'QRCODE' | tr }}</h4>
+      <h4 class="modal-title" id="app-tables-qr-codes-title">{{ 'HOME_TABLE_PRINT_TITLE' | tr }}</h4>
       <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.dismiss()"></button>
     </div>
     <div class="modal-body">
@@ -24,17 +24,17 @@ import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
         <div>
           <button class="btn btn-sm btn-primary" (click)="pdf()" [class.spinner]="generating" [disabled]="generating">
             <i-bs name="printer"></i-bs>
-            {{ 'Generate PDF' | tr }}
+            {{ 'HOME_TABLE_PRINT_GENERATE' | tr }}
           </button>
         </div>
 
         <div ngbDropdown class="d-inline-block">
           <button type="button" class="btn btn-sm btn-outline-secondary" id="qrCodeSizeDropdown" ngbDropdownToggle [disabled]="generating">
-            Size: {{ qrCodeSize === 'SM' ? 'Small' : 'Middle' }}
+            {{ 'SIZE' | tr }}: {{ (qrCodeSize === 'SM' ? 'HOME_TABLE_PRINT_SM' : 'HOME_TABLE_PRINT_MD') | tr }}
           </button>
           <div ngbDropdownMenu aria-labelledby="qrCodeSizeDropdown">
-            <button ngbDropdownItem (click)="qrCodeSize = 'SM'">Small</button>
-            <button ngbDropdownItem (click)="qrCodeSize = 'MD'">Middle</button>
+            <button ngbDropdownItem (click)="qrCodeSize = 'SM'">{{ 'HOME_TABLE_PRINT_SM' | tr }}</button>
+            <button ngbDropdownItem (click)="qrCodeSize = 'MD'">{{ 'HOME_TABLE_PRINT_MD' | tr }}</button>
           </div>
         </div>
       </btn-toolbar>
@@ -47,7 +47,7 @@ import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
         [value]="progress"
         [showValue]="true"></ngb-progressbar>
 
-      <div class="alert alert-info" role="alert" *ngIf="generating"><strong>Attention!</strong> Please do not close this window.</div>
+      <div class="alert alert-info" role="alert" *ngIf="generating">{{ 'DO_NOT_CLOSE_WINDOW' | tr }}!</div>
 
       <div class="main">
         <div class="d-flex flex-wrap justify-content-center">
@@ -143,11 +143,15 @@ export class AppPrintTableQrCodesModalComponent {
         y += width + this.getQrCodePadding();
       }
       if (y > 760) {
-        pdf.addPage();
+        // Do not add page if it is the last round of the loop and the last qr code line on a page
+        if (i + 1 < qrCodeDivs.length) {
+          pdf.addPage();
+        }
         x = 0;
         y = 0;
       }
       this.progress += steps;
+      console.log(this.progress);
     }
     pdf.save(`tables-${DateHelper.getFormattedWithHoursMinutesAndSeconds(new Date()) ?? ''}.pdf`);
     this.generating = false;

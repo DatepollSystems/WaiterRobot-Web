@@ -204,7 +204,7 @@
   "HOME_TABLES_SEATS_INCORRECT": "* champ obligatoire",
   "HOME_TABLES_NUMBER_INCORRECT": "* champ obligatoire",
   "HOME_TABLES_GROUPS_DEFAULT": "Sélectionner un groupe de table",
-  "HOME_TABLES_PRINT": "Express",
+  "HOME_TABLE_PRINT": "Express",
   "HOME_TABLE_GROUP": "Table group",
   "HOME_TABLE_GROUPS": "Groupes de table",
   "HOME_TABLE_GROUPS_ADD": "Nouveau groupe de table",

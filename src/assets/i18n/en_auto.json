@@ -204,7 +204,7 @@
   "HOME_TABLES_SEATS_INCORRECT": "* mandatory field",
   "HOME_TABLES_NUMBER_INCORRECT": "* mandatory field",
   "HOME_TABLES_GROUPS_DEFAULT": "Select a table group",
-  "HOME_TABLES_PRINT": "Express",
+  "HOME_TABLE_PRINT": "Express",
   "HOME_TABLE_GROUP": "Table group",
   "HOME_TABLE_GROUPS": "Table groups",
   "HOME_TABLE_GROUPS_ADD": "New table group",

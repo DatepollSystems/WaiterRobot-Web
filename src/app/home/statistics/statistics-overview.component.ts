@@ -56,7 +56,7 @@ import {EventsService} from '../events/_services/events.service';
       </div>
     </div>
 
-    <div class="row">
+    <div class="row mb-4 row-cols-1 row-cols-lg-2 gy-2">
       <div class="col">
         <app-statistics-sum-products-per-waiter></app-statistics-sum-products-per-waiter>
       </div>
