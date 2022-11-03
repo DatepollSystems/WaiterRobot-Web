@@ -1,15 +1,15 @@
 import {NgForOf, NgIf} from '@angular/common';
 import {Component, Input} from '@angular/core';
 
-import {NgbActiveModal, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
 import {QRCodeModule} from 'angularx-qrcode';
 import {Converter, DateHelper, DfxPrintDirective} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
-import html2canvas from 'html2canvas';
+import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
 
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
-import {IconsModule} from '../../../_shared/ui/icons.module';
+import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {TableModel} from '../_models/table.model';
 import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
 
@@ -39,11 +39,19 @@ import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
         </div>
       </btn-toolbar>
 
+      <ngb-progressbar
+        *ngIf="progress"
+        type="primary"
+        class="my-2"
+        textType="white"
+        [value]="progress"
+        [showValue]="true"></ngb-progressbar>
+
       <div class="alert alert-info" role="alert" *ngIf="generating"><strong>Attention!</strong> Please do not close this window.</div>
 
       <div class="main">
         <div class="d-flex flex-wrap justify-content-center">
-          <div *ngFor="let mytable of tables" class="qr-code-list">
+          <div *ngFor="let mytable of tables" class="qr-code-item">
             <qrcode
               [width]="getQrCodeSize()"
               errorCorrectionLevel="Q"
@@ -52,17 +60,8 @@ import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
               cssClass="text-center"
               elementType="canvas"></qrcode>
 
-            <div class="text-center text-black">
-              <span
-                >Nr: <b>{{ mytable.tableNumber }}</b></span
-              >&nbsp;
-              <span
-                >Gr: <b>{{ mytable.groupName }}</b></span
-              >
-
-              <div>
-                <small><u>https://kellner.team</u></small>
-              </div>
+            <div class="text-center text-black qr-code-label">
+              <b>{{ mytable.groupName }} - {{ mytable.tableNumber }}</b>
             </div>
           </div>
         </div>
@@ -78,23 +77,38 @@ import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
         background-color: #ffffff;
       }
 
-      .qr-code-list {
+      .qr-code-item {
         border-style: dashed;
         border-color: #ccc;
         border-width: 1px;
-        padding: 31px 31px 20px 31px;
+        padding: 15px 31px 15px 31px;
+      }
+
+      .qr-code-label {
+        font-size: 40px;
       }
     `,
   ],
   selector: 'app-print-table-qr-codes-modal',
   standalone: true,
-  imports: [DfxPrintDirective, QRCodeModule, NgForOf, DfxTranslateModule, AppBtnToolbarComponent, IconsModule, NgbDropdownModule, NgIf],
+  imports: [
+    DfxPrintDirective,
+    QRCodeModule,
+    NgForOf,
+    DfxTranslateModule,
+    AppBtnToolbarComponent,
+    AppIconsModule,
+    NgbDropdownModule,
+    NgIf,
+    NgbProgressbarModule,
+  ],
 })
 export class AppPrintTableQrCodesModalComponent {
   @Input() tables?: TableModel[];
 
   qrCodeSize: 'SM' | 'MD' = 'MD';
   generating = false;
+  progress?: number;
 
   constructor(public activeModal: NgbActiveModal, private mobileLink: MobileLinkService) {}
 
@@ -104,8 +118,9 @@ export class AppPrintTableQrCodesModalComponent {
 
   async pdf(): Promise<void> {
     this.generating = true;
+    this.progress = 1;
 
-    const qrCodeDivs = document.getElementsByClassName('qr-code-list');
+    const qrCodeDivs = document.getElementsByClassName('qr-code-item');
     const pdf = new jsPDF('p', 'pt', 'a4', true);
 
     const width = this.getQrCodeSize() + 31;
@@ -113,26 +128,30 @@ export class AppPrintTableQrCodesModalComponent {
     let x = 0;
     let y = 0;
 
+    const steps = 100 / qrCodeDivs.length;
+
     for (let i = 0; i < qrCodeDivs.length; i++) {
       const qrcode = qrCodeDivs.item(i);
       if (qrcode) {
-        const canvas = await html2canvas(qrcode as HTMLElement, {scale: 2});
-        const FILEURI = canvas.toDataURL('image/jpeg', 0.5);
-        pdf.addImage(FILEURI, 'JPEG', x, y, width, width + 35);
+        const canvas = await toJpeg(qrcode as HTMLElement, {quality: 0.7, backgroundColor: '#FFFFFF'});
+
+        pdf.addImage(canvas, 'JPEG', x, y, width, width + this.getQrCodePadding());
         x += width;
       }
       if (x > 500) {
         x = 0;
-        y += width + 30;
+        y += width + this.getQrCodePadding();
       }
-      if (y > 600) {
+      if (y > 760) {
         pdf.addPage();
         x = 0;
         y = 0;
       }
+      this.progress += steps;
     }
     pdf.save(`tables-${DateHelper.getFormattedWithHoursMinutesAndSeconds(new Date()) ?? ''}.pdf`);
     this.generating = false;
+    this.progress = undefined;
   }
 
   getQrCodeSize = () => {
@@ -141,6 +160,17 @@ export class AppPrintTableQrCodesModalComponent {
         return 118;
       case 'MD':
         return 167;
+      default:
+        throw Error('Uknown qr code size');
+    }
+  };
+
+  getQrCodePadding = () => {
+    switch (this.qrCodeSize) {
+      case 'SM':
+        return 20;
+      case 'MD':
+        return 13;
       default:
         throw Error('Uknown qr code size');
     }
