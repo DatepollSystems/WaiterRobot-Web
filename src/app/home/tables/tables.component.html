@@ -39,7 +39,7 @@
     <a
       *ngFor="let tableGroup of allModels; trackById"
       [class.d-lg-none]="allModels.length >= 14"
-      class="list-group-item list-group-item-action d-lg-block"
+      class="list-group-item list-group-item-action d-none d-lg-block"
       routerLink="/home/tables/groups/tables/{{ tableGroup.id }}"
       routerLinkActive="active"
       (click)="linkClick()">
