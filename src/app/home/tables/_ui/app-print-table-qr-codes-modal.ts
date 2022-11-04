@@ -47,6 +47,8 @@ import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
         [value]="progress"
         [showValue]="true"></ngb-progressbar>
 
+      <div class="alert alert-info mb-2" role="alert">Deaktiviere mögliche Seitenränder beim drucken.</div>
+
       <div class="alert alert-info" role="alert" *ngIf="generating">{{ 'DO_NOT_CLOSE_WINDOW' | tr }}!</div>
 
       <div class="main">
