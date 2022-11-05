@@ -1,32 +1,25 @@
 <h1 [hidden]="!entitiesLoaded">"{{ entity?.name }}" {{ 'HOME_TABLE_GROUP_TABLES_VIEW' | tr }}</h1>
 
 <btn-toolbar>
-  <div>
-    <a routerLink="../../../create" [queryParams]="{group: entity?.id}" class="btn btn-sm btn-outline-success">
-      <i-bs name="plus-circle"></i-bs>
-      {{ 'HOME_TABLE' | tr }} {{ 'ADD_3' | tr | lowercase }}</a
-    >
-  </div>
-  <div>
-    <a routerLink="../../{{ entity?.id }}" class="btn btn-sm btn-outline-primary">
-      <i-bs name="pencil-square"></i-bs>
-      {{ 'HOME_TABLE_GROUP' | tr }} {{ 'EDIT' | tr | lowercase }}</a
-    >
-  </div>
+  <a routerLink="../../../create" [queryParams]="{group: entity?.id}" class="btn btn-sm btn-outline-success">
+    <i-bs name="plus-circle"></i-bs>
+    {{ 'HOME_TABLE' | tr }} {{ 'ADD_3' | tr | lowercase }}</a
+  >
 
-  <div>
-    <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection!.hasValue()" (click)="onDeleteSelected()">
-      <i-bs name="trash"></i-bs>
-      {{ 'DELETE' | tr }}
-    </button>
-  </div>
+  <a routerLink="../../{{ entity?.id }}" class="btn btn-sm btn-outline-primary">
+    <i-bs name="pencil-square"></i-bs>
+    {{ 'HOME_TABLE_GROUP' | tr }} {{ 'EDIT' | tr | lowercase }}</a
+  >
 
-  <div>
-    <button class="btn btn-sm btn-outline-secondary" [class.disabled]="!selection!.hasValue()" (click)="printSelectedTables()">
-      <i-bs name="table"></i-bs>
-      {{ 'HOME_TABLE_PRINT' | tr }}
-    </button>
-  </div>
+  <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection!.hasValue()" (click)="onDeleteSelected()">
+    <i-bs name="trash"></i-bs>
+    {{ 'DELETE' | tr }}
+  </button>
+
+  <button class="btn btn-sm btn-outline-secondary" [class.disabled]="!selection!.hasValue()" (click)="printSelectedTables()">
+    <i-bs name="table"></i-bs>
+    {{ 'HOME_TABLE_PRINT' | tr }}
+  </button>
 </btn-toolbar>
 
 <app-spinner-row [loading]="!entitiesLoaded"></app-spinner-row>
