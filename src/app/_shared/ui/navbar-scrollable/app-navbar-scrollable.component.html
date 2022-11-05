@@ -37,31 +37,27 @@
     <div *ngIf="editMode" class="edit-container">
       <h5 class="text-white">{{ 'NAV_EDIT_CUSTOMIZE' | tr }}</h5>
       <btn-toolbar>
-        <div>
-          <button class="btn btn-sm btn-success" (click)="onSave()">
-            <i-bs name="save"></i-bs>
-            {{ 'SAVE' | tr }}
-          </button>
-        </div>
-        <div>
-          <button class="btn btn-sm btn-outline-danger" (click)="onReset()">
-            <i-bs name="arrow-clockwise"></i-bs>
-            {{ 'RESET' | tr }}
-          </button>
-        </div>
-        <div *ngIf="_allowBookmarks">
-          <button class="btn btn-sm btn-outline-info" (click)="openModal(bookMarkModalContent)">
-            <i-bs name="star-fill"></i-bs>
-            {{ 'NAV_EDIT_BOOKMARK' | tr }}
-          </button>
-        </div>
-        <div>
-          <button class="btn btn-sm btn-outline-secondary" (click)="onClose()">
-            <i-bs name="trash"></i-bs>
-            {{ 'CLOSE' | tr }}
-          </button>
-        </div>
+        <button class="btn btn-sm btn-outline-secondary" (click)="onClose()">
+          <i-bs name="trash"></i-bs>
+          {{ 'CLOSE' | tr }}
+        </button>
+
+        <button class="btn btn-sm btn-success" (click)="onSave()">
+          <i-bs name="save"></i-bs>
+          {{ 'SAVE' | tr }}
+        </button>
+
+        <button class="btn btn-sm btn-outline-danger" (click)="onReset()">
+          <i-bs name="arrow-clockwise"></i-bs>
+          {{ 'RESET' | tr }}
+        </button>
+
+        <button class="btn btn-sm btn-outline-info" (click)="openModal(bookMarkModalContent)" *ngIf="_allowBookmarks">
+          <i-bs name="star-fill"></i-bs>
+          {{ 'NAV_EDIT_BOOKMARK' | tr }}
+        </button>
       </btn-toolbar>
+
       <div
         class="list"
         [class.h-list]="!_isMobile"
