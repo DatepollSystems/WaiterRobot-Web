@@ -5,8 +5,8 @@ import {RouterModule, Routes} from '@angular/router';
 import {NgbDropdownModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTimeSpanPipe} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
+import {AppDownloadBtnListComponent} from '../../_shared/ui/app-download-btn-list.component';
 
-import {AppDownloadBtnListModule} from '../../_shared/ui/download-btn-list/app-download-btn-list.module';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {StartComponent} from './start.component';
 
@@ -18,7 +18,7 @@ const startRoutes: Routes = [{path: '', component: StartComponent}];
     CommonModule,
     DfxTranslateModule,
     RouterModule.forChild(startRoutes),
-    AppDownloadBtnListModule,
+    AppDownloadBtnListComponent,
     NgbTooltipModule,
     DfxTimeSpanPipe,
     NgbDropdownModule,

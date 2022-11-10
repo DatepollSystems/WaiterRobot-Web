@@ -9,14 +9,12 @@ import {FooterModule} from '../_shared/ui/footer/footer.module';
 
 import {AppIconsModule} from '../_shared/ui/icons.module';
 import {AppNavbarScrollableComponent} from '../_shared/ui/navbar-scrollable/app-navbar-scrollable.component';
-import {AppQrCodeModalComponent} from '../_shared/ui/qr-code/app-qr-code-modal.component';
 import {HomeRoutingModule} from './home-routing.module';
 
 import {HomeComponent} from './home.component';
-import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.component';
 
 @NgModule({
-  declarations: [HomeComponent, UserEmailQRCodeModalComponent],
+  declarations: [HomeComponent],
   imports: [
     HomeRoutingModule,
     CommonModule,
@@ -29,8 +27,6 @@ import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.componen
     AppIconsModule,
     FooterModule,
     AppNavbarScrollableComponent,
-    AppQrCodeModalComponent,
   ],
-  exports: [HomeComponent],
 })
 export class HomeModule {}

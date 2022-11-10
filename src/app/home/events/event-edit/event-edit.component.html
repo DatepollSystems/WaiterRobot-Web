@@ -24,10 +24,7 @@
           [selectedEntityService]="eventsService"></selectable-button>
       </div>
       <div>
-        <button class="btn btn-sm btn-outline-primary" (click)="openQRCode(entity)">
-          <i-bs name="qr-code"></i-bs>
-          {{ 'HOME_WAITERS_EVENT_CREATE_QR_CODE' | tr }}
-        </button>
+        <app-btn-waiter-create-qrcode [token]="entity.waiterCreateToken"></app-btn-waiter-create-qrcode>
       </div>
       <!--      <div>-->
       <!--        <button class="btn btn-sm btn-outline-secondary disabled">-->

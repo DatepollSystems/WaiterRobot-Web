@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {
   apple,
   arrowClockwise,
+  arrowLeft,
   bagFill,
   barChartLineFill,
   boxArrowLeft,
@@ -82,6 +83,7 @@ const icons = {
   pieChartFill,
   barChartLineFill,
   starFill,
+  arrowLeft,
 };
 
 @NgModule({

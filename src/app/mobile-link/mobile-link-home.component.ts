@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {DfxTranslateModule} from 'dfx-translate';
-
-import {AppDownloadBtnListModule} from '../_shared/ui/download-btn-list/app-download-btn-list.module';
+import {AppDownloadBtnListComponent} from '../_shared/ui/app-download-btn-list.component';
 
 @Component({
   template: `
@@ -12,6 +11,6 @@ import {AppDownloadBtnListModule} from '../_shared/ui/download-btn-list/app-down
   `,
   standalone: true,
   selector: 'app-mobile-link-home',
-  imports: [AppDownloadBtnListModule, DfxTranslateModule],
+  imports: [AppDownloadBtnListComponent, DfxTranslateModule],
 })
 export class MobileLinkHomeComponent {}

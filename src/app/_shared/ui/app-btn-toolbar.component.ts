@@ -1,8 +1,9 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild} from '@angular/core';
+import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild} from '@angular/core';
 
 @Component({
   template: `
-    <div class="pb-3 pt-1">
+    <div [class.pb-3]="_padding" [class.pt-1]="_padding">
       <div
         #contentWrapper
         id="overflow-container"
@@ -41,8 +42,12 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild
 export class AppBtnToolbarComponent implements AfterViewInit {
   @ViewChild('contentWrapper') content!: ElementRef;
 
+  @Input() set padding(it: BooleanInput) {
+    this._padding = coerceBooleanProperty(it);
+  }
+  _padding = true;
+
   ngAfterViewInit(): void {
-    console.log(this.content.nativeElement.children);
     for (const child of this.content.nativeElement.children) {
       child.draggable = false;
       child.style.wordBreak = 'keep-all';

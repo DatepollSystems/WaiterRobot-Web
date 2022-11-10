@@ -10,9 +10,6 @@ import {EventsService} from '../../events/_services/events.service';
   template: `
     <app-sum-statistics [sumDtos]="sumDtos">
       <span>{{ 'HOME_PROD_ALL' | tr }}</span>
-      <div bottom class="d-flex justify-content-end" *ngIf="!_standalone">
-        <button class="btn btn-info">{{ 'SHOW_MORE' | tr }}</button>
-      </div>
     </app-sum-statistics>
   `,
   selector: 'app-statistics-sum-products',

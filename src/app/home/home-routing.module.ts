@@ -22,6 +22,11 @@ const homeRoutes: Routes = [
         loadChildren: () => import('./user-settings/user-settings.module').then((m) => m.UserSettingsModule),
       },
       {
+        path: 'qrcode/view',
+        title: 'QR-Code',
+        loadComponent: () => import('../_shared/ui/qr-code/app-qr-code.component').then((m) => m.AppQrCodeViewComponent),
+      },
+      {
         path: 'organisations',
         title: 'NAV_ORGANISATIONS',
         data: {preload: true},

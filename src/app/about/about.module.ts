@@ -7,8 +7,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {IsAuthenticatedGuardService} from '../_shared/services/auth/is-authenticated-guard.service';
+import {AppDownloadBtnListComponent} from '../_shared/ui/app-download-btn-list.component';
 import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
-import {AppDownloadBtnListModule} from '../_shared/ui/download-btn-list/app-download-btn-list.module';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
 import {AppIconsModule} from '../_shared/ui/icons.module';
 
@@ -29,7 +29,7 @@ const routes: Routes = [{path: '', component: AboutComponent, canActivate: [IsAu
     DfxTranslateModule,
     FooterModule,
     AppIconsModule,
-    AppDownloadBtnListModule,
+    AppDownloadBtnListComponent,
     AppLogoWithTextComponent,
   ],
 })

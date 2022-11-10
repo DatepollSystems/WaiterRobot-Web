@@ -16,10 +16,6 @@ const routes: Routes = [
     loadChildren: () => import('./mobile-link/mobile-link.component').then((m) => m.MobileLinkModule),
   },
   {
-    path: 'qrcode/view',
-    loadComponent: () => import('./_shared/ui/qr-code/app-qr-code-view.component').then((c) => c.AppQrCodeViewComponent),
-  },
-  {
     path: 'not-found',
     title: '404',
     loadComponent: () => import('./page-not-found/page-not-found.component').then((m) => m.PageNotFoundComponent),

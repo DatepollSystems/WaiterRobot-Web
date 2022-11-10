@@ -9,28 +9,27 @@ import {DfxImplodePipeModule, DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {OrganisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard.service';
+import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
 import {ChipInput} from '../../_shared/ui/chip-input/chip-input.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {AppQrCodeModalComponent} from '../../_shared/ui/qr-code/app-qr-code-modal.component';
+import {AppBtnQrCodeComponent} from '../../_shared/ui/qr-code/app-btn-qr-code.component';
 import {QuestionDialogModule} from '../../_shared/ui/question-dialog/question-dialog.module';
+import {DuplicateWaitersService} from './_services/duplicate-waiters.service';
+import {WaiterSessionsService} from './_services/waiter-sessions.service';
+
+import {WaitersService} from './_services/waiters.service';
+import {BtnWaiterCreateQrCodeComponenteee} from './_shared/btn-waiter-create-qr-code.component';
 
 import {DuplicateOrganisationWaitersComponent} from './duplicate-organisation-waiters/duplicate-organisation-waiters.component';
 import {EventByIdWaitersComponent} from './event-by-id-waiters/event-by-id-waiters.component';
 import {OrganisationWaitersComponent} from './organisation-waiters/organisation-waiters.component';
-import {WaiterCreateQRCodeModalComponent} from './waiter-create-qr-code-modal.component';
+import {BtnWaiterSignInQrCodeComponent} from './waiter-edit/btn-waiter-sign-in-qr-code.component';
 import {WaiterEditComponent} from './waiter-edit/waiter-edit.component';
 import {WaiterSessionsComponent} from './waiter-edit/waiter-sessions/waiter-sessions.component';
-import {BtnWaiterSignInQrCodeComponent} from './waiter-edit/btn-waiter-sign-in-qr-code.component';
 import {WaitersComponent} from './waiters.component';
-
-import {WaitersService} from './_services/waiters.service';
-import {WaiterSessionsService} from './_services/waiter-sessions.service';
-import {DuplicateWaitersService} from './_services/duplicate-waiters.service';
-import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
-import {AppBtnQrCodeModule} from '../../_shared/ui/btn-qr-code/app-btn-qr-code.module';
 
 const routes: Routes = [
   {
@@ -56,7 +55,6 @@ const routes: Routes = [
     EventByIdWaitersComponent,
     WaiterEditComponent,
     WaiterSessionsComponent,
-    WaiterCreateQRCodeModalComponent,
     BtnWaiterSignInQrCodeComponent,
   ],
   providers: [WaitersService, WaiterSessionsService, DuplicateWaitersService],
@@ -78,9 +76,9 @@ const routes: Routes = [
     AppBtnToolbarComponent,
     ChipInput,
     AppSpinnerRowComponent,
-    AppQrCodeModalComponent,
     AppBtnModelEditConfirmComponent,
-    AppBtnQrCodeModule,
+    AppBtnQrCodeComponent,
+    BtnWaiterCreateQrCodeComponenteee,
   ],
 })
 export class WaitersModule {}

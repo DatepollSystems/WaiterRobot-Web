@@ -5,12 +5,7 @@ import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
 @Component({
   selector: 'app-btn-waiter-signin-qrcode',
   template: `
-    <app-btn-qrcode [data]="_token">
-      <span *appBtnQrCodeContent>{{ 'HOME_WAITERS_EDIT_QR_CODE' | tr }}</span>
-      <ng-container info>
-        {{ 'HOME_WAITERS_EDIT_QR_CODE_DESCRIPTION' | tr }}
-      </ng-container>
-    </app-btn-qrcode>
+    <app-btn-qrcode [data]="_token" text="HOME_WAITERS_EDIT_QR_CODE" info="HOME_WAITERS_EDIT_QR_CODE_DESCRIPTION"></app-btn-qrcode>
   `,
 })
 export class BtnWaiterSignInQrCodeComponent {

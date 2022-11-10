@@ -3,15 +3,15 @@ import {Component, Input} from '@angular/core';
 
 import {NgbActiveModal, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
 import {QRCodeModule} from 'angularx-qrcode';
-import {Converter, DateHelper, DfxPrintDirective} from 'dfx-helper';
+import {Converter, DateHelper, DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
+import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
 
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {TableModel} from '../_models/table.model';
-import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
 
 @Component({
   template: `
@@ -53,7 +53,7 @@ import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
 
       <div class="main">
         <div class="d-flex flex-wrap justify-content-center">
-          <div *ngFor="let mytable of tables" class="qr-code-item">
+          <div *ngFor="let mytable of tables; trackById" class="qr-code-item">
             <qrcode
               [width]="getQrCodeSize()"
               errorCorrectionLevel="Q"
@@ -94,15 +94,15 @@ import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
   selector: 'app-print-table-qr-codes-modal',
   standalone: true,
   imports: [
-    DfxPrintDirective,
-    QRCodeModule,
     NgForOf,
+    NgIf,
+    NgbDropdownModule,
+    NgbProgressbarModule,
     DfxTranslateModule,
+    DfxTrackByModule,
+    QRCodeModule,
     AppBtnToolbarComponent,
     AppIconsModule,
-    NgbDropdownModule,
-    NgIf,
-    NgbProgressbarModule,
   ],
 })
 export class AppPrintTableQrCodesModalComponent {

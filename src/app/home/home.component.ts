@@ -1,21 +1,21 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AComponent, Converter, IsMobileService, loggerOf} from 'dfx-helper';
 
 import {EnvironmentHelper} from '../_shared/EnvironmentHelper';
-import {EventModel} from './events/_models/event.model';
-
-import {OrganisationModel} from './organisations/_models/organisation.model';
-import {MyUserModel} from '../_shared/services/auth/user/my-user.model';
 
 import {AuthService} from '../_shared/services/auth/auth.service';
+import {MyUserModel} from '../_shared/services/auth/user/my-user.model';
 import {MyUserService} from '../_shared/services/auth/user/my-user.service';
-import {EventsService} from './events/_services/events.service';
-import {OrganisationsService} from './organisations/_services/organisations.service';
+import {QrCodeService} from '../_shared/services/qr-code.service';
+import {WINDOW} from '../_shared/services/windows-provider';
 import {NavItem} from '../_shared/ui/navbar-scrollable/app-navbar-scrollable.component';
-import {UserEmailQRCodeModalComponent} from './user-email-qr-code-modal.component';
+import {EventModel} from './events/_models/event.model';
+import {EventsService} from './events/_services/events.service';
+
+import {OrganisationModel} from './organisations/_models/organisation.model';
+import {OrganisationsService} from './organisations/_services/organisations.service';
 
 @Component({
   selector: 'app-home',
@@ -40,12 +40,13 @@ export class HomeComponent extends AComponent implements OnInit {
 
   constructor(
     router: Router,
-    private modal: NgbModal,
+    @Inject(WINDOW) private window: Window,
     private authService: AuthService,
     private myUserService: MyUserService,
     private organisationsService: OrganisationsService,
     private eventsService: EventsService,
-    private isMobileService: IsMobileService
+    private isMobileService: IsMobileService,
+    private qrCodeService: QrCodeService
   ) {
     super();
 
@@ -108,8 +109,8 @@ export class HomeComponent extends AComponent implements OnInit {
 
   ngOnInit(): void {
     this.clearTimeout(
-      window.setTimeout(() => {
-        if (window.innerWidth < 992) {
+      this.window.setTimeout(() => {
+        if (this.window.innerWidth < 992) {
           const navContent = document.getElementById('navbarSupportedContent');
           if (navContent != null) {
             navContent.style.display = 'none';
@@ -168,12 +169,6 @@ export class HomeComponent extends AComponent implements OnInit {
     if (!user) {
       return;
     }
-    const modalRef = this.modal.open(UserEmailQRCodeModalComponent, {
-      ariaLabelledBy: 'modal-user-email-qrcode-title',
-      size: 'lg',
-    });
-
-    modalRef.componentInstance.name = user.name;
-    modalRef.componentInstance.token = user.emailAddress;
+    this.qrCodeService.openQRCodePage({data: user?.emailAddress, info: 'NAV_USER_SETTINGS_QR_CODE_INFO', text: user.name});
   }
 }
