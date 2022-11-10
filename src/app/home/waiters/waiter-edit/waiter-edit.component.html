@@ -10,19 +10,12 @@
     <app-btn-model-edit-confirm [form]="f" [editing]="isEditing"></app-btn-model-edit-confirm>
 
     <ng-container *ngIf="isEditing && entity">
-      <div>
-        <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
-          <i-bs name="trash"></i-bs>
-          {{ 'DELETE' | tr }}
-        </button>
-      </div>
+      <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
+        <i-bs name="trash"></i-bs>
+        {{ 'DELETE' | tr }}
+      </button>
 
-      <div>
-        <button class="btn btn-sm btn-primary" (click)="onShowQRCode()">
-          <i-bs name="qr-code"></i-bs>
-          {{ 'HOME_WAITERS_EDIT_QR_CODE' | tr }}
-        </button>
-      </div>
+      <app-btn-waiter-signin-qrcode [token]="entity.signInToken"></app-btn-waiter-signin-qrcode>
     </ng-container>
   </btn-toolbar>
 

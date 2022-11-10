@@ -53,7 +53,7 @@ export class CountUpDirective {
       const currentCount = Math.round(countTo * progress);
 
       // If the current count has changed, update the element
-      if (parseInt(this.el.nativeElement.innerText, 10) !== currentCount) {
+      if (parseInt(this.el.nativeElement.innerText as string, 10) !== currentCount) {
         this.el.nativeElement.innerText = currentCount;
       }
 

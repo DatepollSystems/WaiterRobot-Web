@@ -218,7 +218,7 @@
   "HOME_WAITERS_EVENT_CREATE_QR_CODE": "Registriereren",
   "HOME_WAITERS_DUPLICATES": "Duplikatsfinder",
   "HOME_WAITERS_EDIT_QR_CODE": "Login anzeigen",
-  "HOME_WAITERS_EDIT_QR_CODE_DESCRIPTION": "Der QR-Code meldet dich direkt als Personal an.",
+  "HOME_WAITERS_EDIT_QR_CODE_DESCRIPTION": "Der Link meldet dich direkt als Personal an.",
   "HOME_WAITERS_EDIT_NAME_INCORRECT": "Der Name muss aus mindestens 3 und maximal 70 Zeichen bestehen.",
   "HOME_WAITERS_EDIT_EVENTS": "Personal ausgewählt für Events/Locations",
   "HOME_WAITERS_EDIT_EVENTS_QR_CODE_DESCRIPTION": "Der QR-Code berechtigt Personen einen neuen Personal-Account für das Event oder die Location zu erstellen.",

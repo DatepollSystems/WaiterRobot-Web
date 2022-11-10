@@ -14,7 +14,6 @@ import {OrganisationsService} from '../../organisations/_services/organisations.
 import {WaiterSessionsService} from '../_services/waiter-sessions.service';
 
 import {WaitersService} from '../_services/waiters.service';
-import {WaiterSignInQRCodeModalComponent} from './waiter-sign-in-qr-code-modal.component';
 
 @Component({
   selector: 'app-waiter-edit',
@@ -87,20 +86,9 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     return model;
   }
 
-  onShowQRCode(): void {
-    if (!this.modal || !this.entity) {
-      return;
-    }
-    this.modelService.getSingle(this.entity.id);
-    this.qrCodeModal = this.modal.open(WaiterSignInQRCodeModalComponent, {
-      ariaLabelledBy: 'modal-qrcode-title',
-      size: 'lg',
-    });
-    this.qrCodeModal.componentInstance.name = this.entity.name;
-    this.qrCodeModal.componentInstance.token = this.entity.signInToken;
-  }
+  formatter = (it: unknown): string => (it as IEntityWithNumberIDAndName).name;
 
-  formatter = (it: unknown) => (it as IEntityWithNumberIDAndName).name;
-
-  changeSelectedEvents = (selectedEvents: any[]) => (this.selectedEvents = new EntityList(selectedEvents));
+  changeSelectedEvents = (selectedEvents: any[]): void => {
+    this.selectedEvents = new EntityList(selectedEvents);
+  };
 }

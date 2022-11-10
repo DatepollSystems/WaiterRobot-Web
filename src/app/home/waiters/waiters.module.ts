@@ -23,13 +23,14 @@ import {OrganisationWaitersComponent} from './organisation-waiters/organisation-
 import {WaiterCreateQRCodeModalComponent} from './waiter-create-qr-code-modal.component';
 import {WaiterEditComponent} from './waiter-edit/waiter-edit.component';
 import {WaiterSessionsComponent} from './waiter-edit/waiter-sessions/waiter-sessions.component';
-import {WaiterSignInQRCodeModalComponent} from './waiter-edit/waiter-sign-in-qr-code-modal.component';
+import {BtnWaiterSignInQrCodeComponent} from './waiter-edit/btn-waiter-sign-in-qr-code.component';
 import {WaitersComponent} from './waiters.component';
 
 import {WaitersService} from './_services/waiters.service';
 import {WaiterSessionsService} from './_services/waiter-sessions.service';
 import {DuplicateWaitersService} from './_services/duplicate-waiters.service';
 import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
+import {AppBtnQrCodeModule} from '../../_shared/ui/btn-qr-code/app-btn-qr-code.module';
 
 const routes: Routes = [
   {
@@ -56,7 +57,7 @@ const routes: Routes = [
     WaiterEditComponent,
     WaiterSessionsComponent,
     WaiterCreateQRCodeModalComponent,
-    WaiterSignInQRCodeModalComponent,
+    BtnWaiterSignInQrCodeComponent,
   ],
   providers: [WaitersService, WaiterSessionsService, DuplicateWaitersService],
   imports: [
@@ -79,6 +80,7 @@ const routes: Routes = [
     AppSpinnerRowComponent,
     AppQrCodeModalComponent,
     AppBtnModelEditConfirmComponent,
+    AppBtnQrCodeModule,
   ],
 })
 export class WaitersModule {}

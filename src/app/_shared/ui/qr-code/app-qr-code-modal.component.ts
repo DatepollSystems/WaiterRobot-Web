@@ -5,6 +5,8 @@ import {NgbActiveModal, NgbTooltip, NgbTooltipModule} from '@ng-bootstrap/ng-boo
 import {ClipboardHelper, DfxCutPipe, DfxPrintDirective} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 import {AppQrCodeViewComponent} from './app-qr-code-view.component';
+import {CopyDirective} from '../copy.directive';
+import {AppBtnToolbarComponent} from '../app-btn-toolbar.component';
 
 @Component({
   template: `
@@ -24,31 +26,35 @@ import {AppQrCodeViewComponent} from './app-qr-code-view.component';
 
       <hr />
 
-      <div class="d-flex flex-column align-items-center text-muted font-monospace text-break pt-4 pb-3">
+      <div class="d-flex flex-column align-items-center text-muted font-monospace text-break pt-4 pb-3 gap-2">
         <span class="col" *ngIf="dataType === 'TEXT'">{{ data | cut: 43:'..' }}</span>
         <div class="col text-center">
           <a *ngIf="dataType === 'URL'" [href]="data" rel="noopener" target="_blank">{{ data | cut: 43:'..' }}</a>
         </div>
-        <div class="col mt-2">
-          <button
-            class="btn btn-sm btn-primary ms-2"
-            (click)="copy(t)"
-            ngbTooltip="{{ 'COPIED' | tr }}"
-            placement="left"
-            [autoClose]="false"
-            triggers="manual"
-            #t="ngbTooltip">
-            {{ 'COPY' | tr }}
-          </button>
-          <button
-            class="btn btn-sm btn-outline-secondary ms-2"
-            *ngIf="showPrintButton"
-            printSectionId="qrcode-print-section"
-            print
-            [printTitle]="printTitle"
-            [printStyle]="{'.qrcode': {'margin-left': '28%', 'margin-bottom': '50px', 'margin-top': '150px'}}">
-            {{ 'PRINT' | tr }}
-          </button>
+        <div class="col">
+          <btn-toolbar>
+            <button
+              [copyable]="data"
+              #c="copy"
+              class="btn btn-sm btn-primary ms-2"
+              (click)="c.copy(t)"
+              ngbTooltip="{{ 'COPIED' | tr }}"
+              #t="ngbTooltip"
+              autoClose="false"
+              triggers="manual"
+              placement="left">
+              {{ 'COPY' | tr }}
+            </button>
+            <button
+              class="btn btn-sm btn-outline-secondary ms-2"
+              *ngIf="showPrintButton"
+              printSectionId="qrcode-print-section"
+              print
+              [printTitle]="printTitle"
+              [printStyle]="{'.qrcode': {'margin-left': '28%', 'margin-bottom': '50px', 'margin-top': '150px'}}">
+              {{ 'PRINT' | tr }}
+            </button>
+          </btn-toolbar>
         </div>
       </div>
     </div>
@@ -58,7 +64,16 @@ import {AppQrCodeViewComponent} from './app-qr-code-view.component';
   `,
   selector: 'app-qrcode-modal',
   standalone: true,
-  imports: [NgIf, DfxTranslateModule, DfxPrintDirective, DfxCutPipe, NgbTooltipModule, AppQrCodeViewComponent],
+  imports: [
+    NgIf,
+    DfxTranslateModule,
+    DfxPrintDirective,
+    DfxCutPipe,
+    NgbTooltipModule,
+    AppQrCodeViewComponent,
+    CopyDirective,
+    AppBtnToolbarComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppQrCodeModalComponent {
