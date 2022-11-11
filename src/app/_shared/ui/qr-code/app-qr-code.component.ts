@@ -106,6 +106,7 @@ export class AppQrCodeViewComponent extends AComponent {
   ) {
     super();
     this.$isMobile = isMobileService.isMobileChange;
+    isMobileService.getIsMobile();
 
     this.qrCodeData = qrCodeService.getQRCodeData();
 
