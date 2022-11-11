@@ -7,7 +7,6 @@ import {AComponent, DateHelper, DfxCutPipe, IsMobileService} from 'dfx-helper';
 import {DfxTranslateModule, TranslateService} from 'dfx-translate';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
-import {Subject} from 'rxjs';
 import {qrCodeData, QrCodeService} from '../../services/qr-code.service';
 
 import {WINDOW} from '../../services/windows-provider';
@@ -20,7 +19,7 @@ import {AppIconsModule} from '../icons.module';
     <div *ngIf="qrCodeData" class="my-container d-flex flex-row flex-wrap gap-5 align-items-center justify-content-center h-100">
       <div id="qrcode" class="qrcode-rounded">
         <qrcode
-          [width]="($isMobile | async) ? 300 : 600"
+          [width]="isMobile ? 300 : 600"
           errorCorrectionLevel="M"
           [margin]="0"
           colorLight="#f6f6f6"
@@ -96,7 +95,7 @@ import {AppIconsModule} from '../icons.module';
 })
 export class AppQrCodeViewComponent extends AComponent {
   qrCodeData?: qrCodeData;
-  $isMobile: Subject<boolean>;
+  isMobile: boolean;
 
   constructor(
     @Inject(WINDOW) private window: Window,
@@ -105,8 +104,8 @@ export class AppQrCodeViewComponent extends AComponent {
     qrCodeService: QrCodeService
   ) {
     super();
-    this.$isMobile = isMobileService.isMobileChange;
-    isMobileService.getIsMobile();
+    this.isMobile = isMobileService.isMobile;
+    this.unsubscribe(isMobileService.isMobileChange.subscribe((it) => (this.isMobile = it)));
 
     this.qrCodeData = qrCodeService.getQRCodeData();
 
