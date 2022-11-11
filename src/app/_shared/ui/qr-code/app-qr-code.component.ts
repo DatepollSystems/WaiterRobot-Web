@@ -37,7 +37,7 @@ import {AppIconsModule} from '../icons.module';
         </div>
         <div class="card-footer text-muted">
           <btn-toolbar padding="false">
-            <button class="btn btn-sm btn-secondary" (click)="close()">
+            <button class="btn btn-sm btn-secondary" (click)="back()">
               <i-bs name="arrow-left"></i-bs>
               {{ 'GO_BACK' | tr }}
             </button>
@@ -111,7 +111,7 @@ export class AppQrCodeViewComponent extends AComponent {
     this.qrCodeData = qrCodeService.getQRCodeData();
 
     if (!this.qrCodeData) {
-      this.close();
+      this.back();
     }
   }
 
@@ -121,12 +121,12 @@ export class AppQrCodeViewComponent extends AComponent {
     const canvas = await toJpeg(qrCode, {quality: 0.7, backgroundColor: '#FFFFFF'});
     pdf.addImage(canvas, 'JPEG', 70, 20, 450, 450);
 
-    if (this.qrCodeData!.info.length > 0) {
-      const text = this.translator.translate(this.qrCodeData!.info);
+    if (this.qrCodeData?.info && this.qrCodeData?.info?.length > 0) {
+      const text = this.translator.translate(this.qrCodeData.info);
 
       let height = 500;
       for (const chunk of this.chunkString(text, 50)) {
-        let xOffset = pdf.internal.pageSize.width / 2 - (pdf.getStringUnitWidth(chunk) * pdf.getFontSize()) / 2;
+        const xOffset = pdf.internal.pageSize.width / 2 - (pdf.getStringUnitWidth(chunk) * pdf.getFontSize()) / 2;
         pdf.text(chunk, xOffset, height);
         height += 20;
       }
@@ -135,7 +135,7 @@ export class AppQrCodeViewComponent extends AComponent {
     pdf.save(`qrcode-${DateHelper.getFormattedWithHoursMinutesAndSeconds(new Date()) ?? ''}.pdf`);
   }
 
-  close = (): void => this.window.self.close();
+  back = (): void => this.window.history.back();
 
   chunkString(str: string, len: number): string[] {
     const input = str.trim().split(' ');
