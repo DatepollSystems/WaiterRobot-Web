@@ -5,7 +5,7 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxImplodePipeModule, DfxTrackByModule} from 'dfx-helper';
+import {DfxImplodeMapped, DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {OrganisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard.service';
@@ -51,12 +51,12 @@ const startRoutes: Routes = [
     DfxTableModule,
     DfxSortModule,
     DfxTrackByModule,
-    DfxImplodePipeModule,
     AppIconsModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
     AppSpinnerRowComponent,
     AppBtnModelEditConfirmComponent,
+    DfxImplodeMapped,
   ],
 })
 export class PrintersModule {}

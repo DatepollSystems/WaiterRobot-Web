@@ -24,5 +24,5 @@ export class EventByIdPrintersComponent extends AbstractModelsListByIdComponent<
     super(router, route, modal, printersService, eventsService);
   }
 
-  onMap = (product: GetProductMinResponse) => product.name;
+  onMap = (product: GetProductMinResponse): string => product.name;
 }

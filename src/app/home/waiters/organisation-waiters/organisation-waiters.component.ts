@@ -35,5 +35,5 @@ export class OrganisationWaitersComponent extends AbstractModelsListComponent<Wa
     super.initializeEntities();
   }
 
-  onMap = (it: GetEventOrLocationMinResponse) => it.name;
+  onMap = (it: GetEventOrLocationMinResponse): string => it.name;
 }

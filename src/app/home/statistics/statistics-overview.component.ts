@@ -74,7 +74,7 @@ export class StatisticsOverviewComponent extends AComponent {
     this.unsubscribe(
       http
         .get<typeof this.countDto>('/config/statistics/counts', {
-          params: new HttpParams().set('eventId', eventsService.getSelected()!.id),
+          params: new HttpParams().set('eventId', eventsService.getSelected()?.id ?? ''),
         })
         .subscribe((it) => {
           this.countDto = it;

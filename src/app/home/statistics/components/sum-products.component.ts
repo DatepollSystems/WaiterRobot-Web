@@ -29,7 +29,7 @@ export class SumProductsComponent extends AComponent {
     this.unsubscribe(
       http
         .get<typeof this.sumDtos>('/config/statistics/sumProducts', {
-          params: new HttpParams().set('eventId', eventsServie.getSelected()!.id),
+          params: new HttpParams().set('eventId', eventsServie.getSelected()?.id ?? ''),
         })
         .subscribe((it) => {
           this.sumDtos = this._standalone ? it : it?.slice(0, 20);

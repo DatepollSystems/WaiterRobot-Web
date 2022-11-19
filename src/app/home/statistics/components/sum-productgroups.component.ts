@@ -18,7 +18,7 @@ export class SumProductgroupsComponent extends AComponent {
     this.unsubscribe(
       http
         .get<typeof this.sumDtos>('/config/statistics/sumProductGroups', {
-          params: new HttpParams().set('eventId', eventsServie.getSelected()!.id),
+          params: new HttpParams().set('eventId', eventsServie.getSelected()?.id ?? ''),
         })
         .subscribe((it) => (this.sumDtos = it))
     );

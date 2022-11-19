@@ -8,7 +8,6 @@ import {ClipboardHelper} from 'dfx-helper';
   exportAs: 'copy',
   standalone: true,
 })
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class CopyDirective {
   @Input() copyable?: string;
 

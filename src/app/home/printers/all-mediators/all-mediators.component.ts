@@ -20,5 +20,5 @@ export class AllMediatorsComponent extends AbstractModelsListComponent<MediatorM
     super(modal, mediatorsService);
   }
 
-  onMap = (it: GetPrinterMinResponse) => it.name;
+  onMap = (it: GetPrinterMinResponse): string => it.name;
 }

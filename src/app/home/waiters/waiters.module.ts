@@ -5,7 +5,7 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxImplodePipeModule, DfxTrackByModule} from 'dfx-helper';
+import {DfxImplodeMapped, DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {OrganisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard.service';
@@ -69,7 +69,6 @@ const routes: Routes = [
     DfxTranslateModule,
     DfxTableModule,
     DfxSortModule,
-    DfxImplodePipeModule,
     AppIconsModule,
     QuestionDialogModule,
     AppEntitiesLayoutComponent,
@@ -79,6 +78,7 @@ const routes: Routes = [
     AppBtnModelEditConfirmComponent,
     AppBtnQrCodeComponent,
     BtnWaiterCreateQrCodeComponenteee,
+    DfxImplodeMapped,
   ],
 })
 export class WaitersModule {}

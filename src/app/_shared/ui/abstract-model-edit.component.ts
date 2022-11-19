@@ -53,7 +53,7 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
             this.modelService.singleChange.subscribe((value) => {
               this.entity = value;
               this.entityLoaded = true;
-              this.onEntityEdit(this.entity!);
+              this.onEntityEdit(value);
             })
           );
         } else {

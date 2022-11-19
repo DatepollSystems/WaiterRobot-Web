@@ -105,7 +105,7 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
     this.selectedPrinter = it.printerId;
   }
 
-  formatter = (it: unknown) => (it as IEntityWithNumberIDAndName).name;
+  formatter = (it: unknown): string => (it as IEntityWithNumberIDAndName).name;
 
-  allergenChange = (allergens: any[]) => (this.selectedAllergens = new EntityList(allergens));
+  allergenChange = (allergens: any[]): IEntityList<AEntityWithNumberIDAndName> => (this.selectedAllergens = new EntityList(allergens));
 }

@@ -36,7 +36,7 @@ export class AboutComponent implements OnInit {
     this.modal.open(AppForgotPasswordDialog);
   }
 
-  onSuccessfulSignIn = (response: JWTResponse) => {
+  onSuccessfulSignIn = (response: JWTResponse): void => {
     this.authService.setJWTToken(response.token);
     this.authService.setSessionToken(response.sessionToken);
     this.notificationService.tsuccess('ABOUT_SIGNIN_SUCCESSFUL');
@@ -56,13 +56,13 @@ export class AboutComponent implements OnInit {
         }
 
         if (error?.error?.codeName === 'PASSWORD_CHANGE_REQUIRED') {
-          this.modal.open(AppPasswordChangeDialogComponent)?.result?.then((result) => {
+          void this.modal.open(AppPasswordChangeDialogComponent)?.result?.then((result) => {
             if (result) {
               if (result === password) {
                 this.notificationService.terror('ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_FAILED');
                 return;
               }
-              this.authService.sendSignInWithPasswordChangeRequest(email, password, result).subscribe({
+              this.authService.sendSignInWithPasswordChangeRequest(email, password, result as string).subscribe({
                 next: (response) => this.onSuccessfulSignIn(response),
                 error: () => {
                   this.notificationService.terror('ABOUT_SIGNIN_FAILED');

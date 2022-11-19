@@ -13,7 +13,7 @@ export class SumStatisticsComponent {
   @Input()
   sumDtos?: StatisticsSumResponse[];
 
-  setChartType(it: typeof this.chartType) {
+  setChartType(it: typeof this.chartType): void {
     this.chartType = it;
   }
 }

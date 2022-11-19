@@ -3,7 +3,7 @@ import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {QRCodeModule} from 'angularx-qrcode';
-import {AComponent, DateHelper, DfxCutPipe, IsMobileService} from 'dfx-helper';
+import {AComponent, DateHelper, DfxCut, IsMobileService} from 'dfx-helper';
 import {DfxTranslateModule, TranslateService} from 'dfx-translate';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
@@ -85,11 +85,11 @@ import {AppIconsModule} from '../icons.module';
     AsyncPipe,
     QRCodeModule,
     DfxTranslateModule,
-    DfxCutPipe,
     NgbTooltipModule,
     AppIconsModule,
     AppBtnToolbarComponent,
     CopyDirective,
+    DfxCut,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

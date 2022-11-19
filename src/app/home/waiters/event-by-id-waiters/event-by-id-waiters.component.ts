@@ -26,5 +26,5 @@ export class EventByIdWaitersComponent extends AbstractModelsListByIdComponent<W
     this.setSelectable();
   }
 
-  onMap = (it: GetEventOrLocationMinResponse) => it.name;
+  onMap = (it: GetEventOrLocationMinResponse): string => it.name;
 }

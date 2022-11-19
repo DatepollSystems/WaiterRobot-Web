@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
-import {DfxTrackByModule, HideIfOnlineDirective, HideIfPingSucceedsDirective} from 'dfx-helper';
+import {DfxHideIfOnline, DfxHideIfPingSucceeds, DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
 
@@ -22,8 +22,8 @@ import {HomeComponent} from './home.component';
     NgbDropdownModule,
     DfxTranslateModule,
     DfxTrackByModule,
-    HideIfOnlineDirective,
-    HideIfPingSucceedsDirective,
+    DfxHideIfOnline,
+    DfxHideIfPingSucceeds,
     AppIconsModule,
     FooterModule,
     AppNavbarScrollableComponent,

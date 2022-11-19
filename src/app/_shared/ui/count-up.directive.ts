@@ -31,10 +31,10 @@ export class CountUpDirective {
   totalFrames = Math.round(this._animationDuration / this.frameDuration);
 
   // An ease-out function that slows the count as it progresses
-  easeOutQuad = (t: number) => t * (2 - t);
+  easeOutQuad = (t: number): number => t * (2 - t);
 
   // The animation function, which takes an Element
-  animateCountUp = () => {
+  animateCountUp = (): void => {
     if (this.counterRunning) {
       return;
     }

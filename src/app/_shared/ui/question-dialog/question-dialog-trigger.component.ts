@@ -30,7 +30,7 @@ export class QuestionDialogTriggerComponent {
     }
     void modalRef.result.then((result) => {
       if (this.onClose) {
-        this.onClose(result);
+        this.onClose(result as answerType);
       }
     });
   }
