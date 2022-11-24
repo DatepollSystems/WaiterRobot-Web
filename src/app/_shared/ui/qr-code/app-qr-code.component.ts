@@ -3,7 +3,7 @@ import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {QRCodeModule} from 'angularx-qrcode';
-import {AComponent, DateHelper, DfxCut, IsMobileService, WINDOW} from 'dfx-helper';
+import {DateHelper, DfxCut, IsMobileService, WINDOW} from 'dfx-helper';
 import {DfxTranslateModule, TranslateService} from 'dfx-translate';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
@@ -92,7 +92,7 @@ import {AppIconsModule} from '../icons.module';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppQrCodeViewComponent extends AComponent {
+export class AppQrCodeViewComponent {
   qrCodeData?: qrCodeData;
   $isMobile: any;
 
@@ -102,9 +102,7 @@ export class AppQrCodeViewComponent extends AComponent {
     isMobileService: IsMobileService,
     qrCodeService: QrCodeService
   ) {
-    super();
     this.$isMobile = isMobileService.$isMobileChange;
-    this.unsubscribe(isMobileService.isMobileChange.subscribe((it) => (this.isMobile = it)));
 
     this.qrCodeData = qrCodeService.getQRCodeData();
 
