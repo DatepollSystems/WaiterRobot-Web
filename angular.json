@@ -27,7 +27,7 @@
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets", "src/site.webmanifest"],
             "styles": ["src/styles.scss", "node_modules/dfx-helper/styles/helper.scss", "node_modules/dfx-helper/styles/colors.scss"],
-            "allowedCommonJsDependencies": ["@cordobo/qrcode", "clone-deep"],
+            "allowedCommonJsDependencies": ["qrcode", "clone-deep"],
             "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
