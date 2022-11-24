@@ -22,9 +22,9 @@ import {DfxTranslateModule} from 'dfx-translate';
 import {EnvironmentHelper} from './app/_shared/EnvironmentHelper';
 import {AuthInterceptor} from './app/_shared/services/auth/auth-interceptor';
 import {CustomDateAdapter, CustomDateParserFormatter} from './app/_shared/services/datepicker-adapter';
-import {ROUTES} from './app/app-routing.module';
 
 import {AppComponent} from './app/app.component';
+import {ROUTES} from './app/app.routes';
 
 import {CustomTitleStrategy} from './app/custom-title.strategy';
 
@@ -72,8 +72,8 @@ bootstrapApplication(AppComponent, {
     },
     {provide: NgbDateAdapter, useClass: CustomDateAdapter},
     {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter},
-    WINDOW_PROVIDERS,
     provideHttpClient(withInterceptorsFromDi()),
+    WINDOW_PROVIDERS,
   ],
 }).catch((err) => console.error(err));
 

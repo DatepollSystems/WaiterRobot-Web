@@ -1,6 +1,4 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {DfxPreloadStrategy} from 'dfx-helper';
+import {Routes} from '@angular/router';
 
 export const ROUTES: Routes = [
   {path: '', redirectTo: '/about', pathMatch: 'full'},
@@ -22,10 +20,3 @@ export const ROUTES: Routes = [
   },
   {path: '**', redirectTo: '/not-found'},
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(ROUTES, {preloadingStrategy: DfxPreloadStrategy})],
-  exports: [RouterModule],
-  providers: [DfxPreloadStrategy],
-})
-export class AppRoutingModule {}
