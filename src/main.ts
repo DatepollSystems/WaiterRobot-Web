@@ -1,6 +1,6 @@
 import {registerLocaleData} from '@angular/common';
 
-import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi} from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import {importProvidersFrom, LOCALE_ID} from '@angular/core';
@@ -11,11 +11,11 @@ import {provideRouter, TitleStrategy, withPreloading} from '@angular/router';
 import {NgbDateAdapter, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 
 import {
-  BaseUrlInterceptor,
+  baseUrlInterceptor,
   DfxHelperModule,
   DfxPreloadStrategy,
-  LoggingInterceptor,
-  PostPutJsonContentTypeInterceptor,
+  loggingInterceptor,
+  postPutJsonContentTypeInterceptor,
   WINDOW_PROVIDERS,
 } from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
@@ -52,27 +52,15 @@ bootstrapApplication(AppComponent, {
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: BaseUrlInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: PostPutJsonContentTypeInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LoggingInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
     },
     {provide: NgbDateAdapter, useClass: CustomDateAdapter},
     {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter},
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(
+      withInterceptorsFromDi(),
+      withInterceptors([baseUrlInterceptor, postPutJsonContentTypeInterceptor, loggingInterceptor])
+    ),
     WINDOW_PROVIDERS,
   ],
 }).catch((err) => console.error(err));
