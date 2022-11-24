@@ -1,12 +1,21 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
+import {LoadingBarRouterModule} from '@ngx-loading-bar/router';
 
 import {EnvironmentHelper} from './_shared/EnvironmentHelper';
+import {ToastsContainerComponent} from './notifications/toasts-container.component';
 
 @Component({
+  template: `
+    <ngx-loading-bar [includeSpinner]="false" color="#7599AA"></ngx-loading-bar>
+
+    <router-outlet></router-outlet>
+
+    <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+  `,
+  standalone: true,
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  imports: [ToastsContainerComponent, LoadingBarRouterModule],
 })
 export class AppComponent implements OnInit {
   constructor(private router: Router) {}

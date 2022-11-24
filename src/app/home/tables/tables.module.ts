@@ -5,7 +5,7 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxTrackByModule} from 'dfx-helper';
+import {DfxAutofocus, DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 import {EventSelectedGuard} from '../../_shared/services/guards/event-selected-guard.service';
 import {OrganisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard.service';
@@ -24,7 +24,6 @@ import {TablesComponent} from './tables.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
 import {TablesService} from './_services/tables.service';
 import {TableGroupsService} from './_services/table-groups.service';
-import {DfxAutofocus} from '../../_shared/ui/autofocus.directive';
 import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
 
 const routes: Routes = [
@@ -65,12 +64,12 @@ const routes: Routes = [
     DfxSortModule,
     DfxTranslateModule,
     DfxTrackByModule,
+    DfxAutofocus,
     AppIconsModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
     QuestionDialogModule,
     AppSpinnerRowComponent,
-    DfxAutofocus,
     AppBtnModelEditConfirmComponent,
   ],
   providers: [TablesService, TableGroupsService],

@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {DfxPreloadStrategy} from 'dfx-helper';
 
-const routes: Routes = [
+export const ROUTES: Routes = [
   {path: '', redirectTo: '/about', pathMatch: 'full'},
   {path: 'info', title: 'INFORMATION', loadChildren: () => import('./info/info.module').then((m) => m.InfoModule)},
   {path: 'about', loadChildren: () => import('./about/about.module').then((m) => m.AboutModule)},
@@ -24,7 +24,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {preloadingStrategy: DfxPreloadStrategy})],
+  imports: [RouterModule.forRoot(ROUTES, {preloadingStrategy: DfxPreloadStrategy})],
   exports: [RouterModule],
   providers: [DfxPreloadStrategy],
 })

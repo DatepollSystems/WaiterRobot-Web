@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 
-import {AComponent, Converter, IsMobileService, loggerOf} from 'dfx-helper';
+import {AComponent, Converter, IsMobileService, loggerOf, WINDOW} from 'dfx-helper';
 
 import {EnvironmentHelper} from '../_shared/EnvironmentHelper';
 
@@ -9,7 +9,6 @@ import {AuthService} from '../_shared/services/auth/auth.service';
 import {MyUserModel} from '../_shared/services/auth/user/my-user.model';
 import {MyUserService} from '../_shared/services/auth/user/my-user.service';
 import {QrCodeService} from '../_shared/services/qr-code.service';
-import {WINDOW} from '../_shared/services/windows-provider';
 import {NavItem} from '../_shared/ui/navbar-scrollable/app-navbar-scrollable.component';
 import {EventModel} from './events/_models/event.model';
 import {EventsService} from './events/_services/events.service';

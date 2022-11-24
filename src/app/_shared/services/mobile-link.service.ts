@@ -1,6 +1,5 @@
 import {Inject, Injectable} from '@angular/core';
-
-import {WINDOW} from './windows-provider';
+import {WINDOW} from 'dfx-helper';
 
 @Injectable({
   providedIn: 'root',

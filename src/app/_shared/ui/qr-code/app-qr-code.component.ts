@@ -3,13 +3,12 @@ import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {QRCodeModule} from 'angularx-qrcode';
-import {AComponent, DateHelper, DfxCut, IsMobileService} from 'dfx-helper';
+import {AComponent, DateHelper, DfxCut, IsMobileService, WINDOW} from 'dfx-helper';
 import {DfxTranslateModule, TranslateService} from 'dfx-translate';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
 import {qrCodeData, QrCodeService} from '../../services/qr-code.service';
 
-import {WINDOW} from '../../services/windows-provider';
 import {AppBtnToolbarComponent} from '../app-btn-toolbar.component';
 import {CopyDirective} from '../copy.directive';
 import {AppIconsModule} from '../icons.module';
@@ -19,7 +18,7 @@ import {AppIconsModule} from '../icons.module';
     <div *ngIf="qrCodeData" class="my-container d-flex flex-row flex-wrap gap-5 align-items-center justify-content-center h-100">
       <div id="qrcode" class="qrcode-rounded">
         <qrcode
-          [width]="isMobile ? 300 : 600"
+          [width]="($isMobile | async) ? 300 : 600"
           errorCorrectionLevel="M"
           [margin]="0"
           colorLight="#f6f6f6"
@@ -32,7 +31,7 @@ import {AppIconsModule} from '../icons.module';
         <div class="card-body">
           <p *ngIf="qrCodeData.info.length > 0" id="info-text" class="card-text">{{ qrCodeData.info | tr }}</p>
 
-          <a [href]="qrCodeData.data" target="_blank" rel="noopener">{{ qrCodeData.data | cut: 43:'..' }}</a>
+          <a [href]="qrCodeData.data" target="_blank" rel="noopener">{{ qrCodeData.data | cut : 43 : '..' }}</a>
         </div>
         <div class="card-footer text-muted">
           <btn-toolbar padding="false">
@@ -95,7 +94,7 @@ import {AppIconsModule} from '../icons.module';
 })
 export class AppQrCodeViewComponent extends AComponent {
   qrCodeData?: qrCodeData;
-  isMobile: boolean;
+  $isMobile: any;
 
   constructor(
     @Inject(WINDOW) private window: Window,
@@ -104,7 +103,7 @@ export class AppQrCodeViewComponent extends AComponent {
     qrCodeService: QrCodeService
   ) {
     super();
-    this.isMobile = isMobileService.isMobile;
+    this.$isMobile = isMobileService.$isMobileChange;
     this.unsubscribe(isMobileService.isMobileChange.subscribe((it) => (this.isMobile = it)));
 
     this.qrCodeData = qrCodeService.getQRCodeData();

@@ -10,7 +10,6 @@ import {DfxTranslateModule} from 'dfx-translate';
 import {EventSelectedGuard} from '../../_shared/services/guards/event-selected-guard.service';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
-import {CountUpDirective} from '../../_shared/ui/count-up.directive';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {CountCardComponent} from './components/count-card.component';
 import {SumProductgroupsComponent} from './components/sum-productgroups.component';
@@ -20,6 +19,7 @@ import {SumStatisticsComponent} from './components/sum/sum-statistics.component'
 import {StatisticsOverviewComponent} from './statistics-overview.component';
 
 import {StatisticsComponent} from './statistics.component';
+import {DfxCountUp} from 'dfx-helper';
 
 const routes: Routes = [
   {
@@ -51,6 +51,7 @@ const routes: Routes = [
     DfxTableModule,
     DfxSortModule,
     DfxPaginationModule,
+    DfxCountUp,
     AppIconsModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
@@ -58,7 +59,6 @@ const routes: Routes = [
     NgbNavModule,
     NgbDropdownModule,
     BarChartModule,
-    CountUpDirective,
   ],
 })
 export class StatisticsModule {}
