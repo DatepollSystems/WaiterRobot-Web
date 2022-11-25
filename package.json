@@ -46,7 +46,7 @@
     "angularx-qrcode": "^15.0.0",
     "bootstrap": "5.2.3",
     "dfx-bootstrap-table": "1.4.0",
-    "dfx-helper": "4.7.1",
+    "dfx-helper": "4.7.2",
     "dfx-translate": "1.5.0",
     "html-to-image": "^1.10.8",
     "jspdf": "^2.5.1",

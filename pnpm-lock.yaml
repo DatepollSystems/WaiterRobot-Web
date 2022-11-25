@@ -37,7 +37,7 @@ specifiers:
   angularx-qrcode: ^15.0.0
   bootstrap: 5.2.3
   dfx-bootstrap-table: 1.4.0
-  dfx-helper: 4.7.1
+  dfx-helper: 4.7.2
   dfx-translate: 1.5.0
   eslint: 8.28.0
   eslint-config-prettier: 8.5.0
@@ -86,7 +86,7 @@ dependencies:
   angularx-qrcode: 15.0.0_@angular+core@15.0.1
   bootstrap: 5.2.3_@popperjs+core@2.11.6
   dfx-bootstrap-table: 1.4.0_x4zaglgnfnqhx5kuuheyx2n45e
-  dfx-helper: 4.7.1_2xbrhm2e4u3gng4hffmsgahlnq
+  dfx-helper: 4.7.2_2xbrhm2e4u3gng4hffmsgahlnq
   dfx-translate: 1.5.0_2xbrhm2e4u3gng4hffmsgahlnq
   html-to-image: 1.10.8
   jspdf: 2.5.1
@@ -3885,8 +3885,8 @@ packages:
       tslib: 2.4.1
     dev: false
 
-  /dfx-helper/4.7.1_2xbrhm2e4u3gng4hffmsgahlnq:
-    resolution: {integrity: sha512-Uwn2KRm0jjCNGkK5AdFb0Wx22CzP4ZEOWKGzhSnRR96rQiPiz0vBImUFs3XGMbtA7xM5z1vXGwTzY43QWBZjfA==}
+  /dfx-helper/4.7.2_2xbrhm2e4u3gng4hffmsgahlnq:
+    resolution: {integrity: sha512-Ica3enQmWlOMJ1xvBH1pkq84eh7yA8G2fyOr5wUFTzS7saq1V/3K5TsBEv7aq8frVlk1Sr0xL2E47GHe9fYUZg==}
     peerDependencies:
       '@angular/common': 4 - 15
       '@angular/core': 4 - 15

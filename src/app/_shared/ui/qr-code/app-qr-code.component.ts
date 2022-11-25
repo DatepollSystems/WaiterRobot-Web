@@ -102,7 +102,7 @@ export class AppQrCodeViewComponent {
     isMobileService: IsMobileService,
     qrCodeService: QrCodeService
   ) {
-    this.$isMobile = isMobileService.$isMobileChange;
+    this.$isMobile = isMobileService.$isMobile;
 
     this.qrCodeData = qrCodeService.getQRCodeData();
 
