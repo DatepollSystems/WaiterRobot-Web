@@ -3,7 +3,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {AEntityWithName} from 'dfx-helper';
-import {DfxTranslateModule} from 'dfx-translate';
+import {DfxTr} from 'dfx-translate';
 
 import {AbstractSelectableModelService} from '../services/abstract-model.service';
 import {AppIconsModule} from './icons.module';
@@ -35,7 +35,7 @@ import {AppIconsModule} from './icons.module';
   `,
   selector: 'selectable-button',
   standalone: true,
-  imports: [NgIf, DfxTranslateModule, AppIconsModule, NgbTooltipModule],
+  imports: [NgIf, DfxTr, AppIconsModule, NgbTooltipModule],
 })
 export class AppSelectableButtonComponent {
   @Input() selectedEntity?: AEntityWithName<string | number> | undefined;

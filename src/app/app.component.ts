@@ -1,5 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {NavigationEnd, Router} from '@angular/router';
+import {Component} from '@angular/core';
 import {LoadingBarRouterModule} from '@ngx-loading-bar/router';
 
 import {EnvironmentHelper} from './_shared/EnvironmentHelper';
@@ -17,17 +16,8 @@ import {ToastsContainerComponent} from './notifications/toasts-container.compone
   selector: 'app-root',
   imports: [ToastsContainerComponent, LoadingBarRouterModule],
 })
-export class AppComponent implements OnInit {
-  constructor(private router: Router) {}
-
-  ngOnInit(): void {
-    this.router.events.subscribe((evt) => {
-      if (!(evt instanceof NavigationEnd)) {
-        return;
-      }
-      window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
-    });
-
+export class AppComponent {
+  constructor() {
     if (EnvironmentHelper.getProduction()) {
       console.log(`
            .--.       .--.

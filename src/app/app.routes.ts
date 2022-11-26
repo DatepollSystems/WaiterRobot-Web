@@ -2,7 +2,7 @@ import {Routes} from '@angular/router';
 
 export const ROUTES: Routes = [
   {path: '', redirectTo: '/about', pathMatch: 'full'},
-  {path: 'info', title: 'INFORMATION', loadChildren: () => import('./info/info.module').then((m) => m.InfoModule)},
+  {path: 'info', title: 'INFORMATION', loadChildren: () => import('./info/info.routes').then((m) => m.ROUTES)},
   {path: 'about', loadChildren: () => import('./about/about.module').then((m) => m.AboutModule)},
   {path: 'home', loadChildren: () => import('./home/home.module').then((m) => m.HomeModule)},
   {

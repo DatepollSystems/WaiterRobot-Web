@@ -4,7 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {DfxTranslateModule} from 'dfx-translate';
+import {DfxTr} from 'dfx-translate';
 
 import {IsAuthenticatedGuardService} from '../_shared/services/auth/is-authenticated-guard.service';
 import {AppDownloadBtnListComponent} from '../_shared/ui/app-download-btn-list.component';
@@ -17,16 +17,16 @@ import {AppAccountNotActivatedDialog} from './account-not-activated-dialog.compo
 import {AppForgotPasswordDialog} from './forgot-password-dialog.component';
 import {AppPasswordChangeDialogComponent} from './password-change-dialog.component';
 
-const routes: Routes = [{path: '', component: AboutComponent, canActivate: [IsAuthenticatedGuardService]}];
+const ROUTES: Routes = [{path: '', component: AboutComponent, canActivate: [IsAuthenticatedGuardService]}];
 
 @NgModule({
   declarations: [AboutComponent, AppAccountNotActivatedDialog, AppForgotPasswordDialog, AppPasswordChangeDialogComponent],
   imports: [
-    RouterModule.forChild(routes),
+    RouterModule.forChild(ROUTES),
     CommonModule,
     FormsModule,
     NgbModule,
-    DfxTranslateModule,
+    DfxTr,
     FooterModule,
     AppIconsModule,
     AppDownloadBtnListComponent,
