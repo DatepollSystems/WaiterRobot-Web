@@ -6,7 +6,7 @@ import {UserModel} from '../_models/user.model';
 import {GetUserResponse} from '../../../_shared/waiterrobot-backend';
 import {AbstractModelService} from '../../../_shared/services/abstract-model.service';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class UsersService extends AbstractModelService<UserModel> {
   override url = '/config/user';
 

@@ -37,7 +37,7 @@ export type appDownload = {
         (click)="showQRCode(appLink)"
         *ngIf="showQRCodeButton"
         placement="top"
-        aria-label="{{ 'ABOUT_APP_QR_CODE_TOOLTIP' | tr }}"
+        attr.aria-label="{{ 'ABOUT_APP_QR_CODE_TOOLTIP' | tr }}"
         ngbTooltip="{{ 'ABOUT_APP_QR_CODE_TOOLTIP' | tr }}">
         <i-bs name="upc-scan"></i-bs>
       </button>
