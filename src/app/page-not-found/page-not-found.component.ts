@@ -14,7 +14,7 @@ import {NgOptimizedImage} from '@angular/common';
         <app-logo-with-text></app-logo-with-text>
         <div class="d-flex flex-column align-items-center gap-4" style="margin-top: 5%; padding-bottom: 10%">
           <div>
-            <img style="max-width: 100%" fill ngSrc="assets/404.webp" priority alt="Image of cat which hides" />
+            <img style="max-width: 100%" src="assets/404.webp" alt="Image of cat which hides" />
           </div>
           <div class="text-center">
             <h2>{{ '404_TITLE' | tr }}</h2>
