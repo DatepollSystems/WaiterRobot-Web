@@ -10,7 +10,7 @@ import {AppIconsModule} from '../icons.module';
   template: `
     <ng-template #popContent>
       <p>{{ info | tr }}</p>
-      <a [href]="data" target="_blank" rel="noopener">{{ data | cut: 43:'..' }}</a>
+      <a [href]="data" target="_blank" rel="noopener">{{ data | cut : 43 : '..' }}</a>
     </ng-template>
     <ng-template #popTitle>
       <b>{{ text | tr }}</b>
@@ -34,6 +34,7 @@ import {AppIconsModule} from '../icons.module';
         (click)="c.copy(t)"
         [copyable]="data"
         #c="copy"
+        aria-label="Copy link"
         ngbTooltip="{{ 'COPIED' | tr }}"
         #t="ngbTooltip"
         autoClose="false"

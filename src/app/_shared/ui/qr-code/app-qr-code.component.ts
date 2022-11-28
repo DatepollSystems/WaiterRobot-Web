@@ -54,6 +54,7 @@ import {AppIconsModule} from '../icons.module';
               #t="ngbTooltip"
               autoClose="false"
               triggers="manual"
+              aria-label="Copy link"
               placement="right">
               <i-bs name="clipboard" aria-label="Copy content to clipboard"></i-bs>
               {{ 'COPY' | tr }}
