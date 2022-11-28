@@ -27,7 +27,7 @@ import {OrganisationsService} from './organisations/_services/organisations.serv
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {AppIconsModule} from '../_shared/ui/icons.module';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
-import {NgForOf, NgIf} from '@angular/common';
+import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import {DfxTr} from 'dfx-translate';
 
 @Component({
@@ -49,6 +49,7 @@ import {DfxTr} from 'dfx-translate';
     AppIconsModule,
     FooterModule,
     AppNavbarScrollableComponent,
+    NgOptimizedImage,
   ],
 })
 export class HomeComponent extends AComponent implements OnInit {

@@ -1,4 +1,4 @@
-import {NgForOf, NgIf} from '@angular/common';
+import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {NgbModal, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTrackByModule, IList, List} from 'dfx-helper';
@@ -26,8 +26,8 @@ export type appDownload = {
       aria-label="App download infos">
       <a class="btn btn-outline-info" [class.customLogo]="appLink.img" target="_blank" rel="noopener" href="{{ appLink.link }}">
         <i-bs *ngIf="appLink.icon" [name]="appLink.icon"></i-bs>
-        <img *ngIf="appLink.img" src="{{ appLink.img }}" alt="" height="16em;" />
-        <img *ngIf="appLink.img2" src="{{ appLink.img2 }}" alt="" height="16em;" />
+        <img *ngIf="appLink.img" ngSrc="{{ appLink.img }}" alt="" height="16em;" width="16em;" />
+        <img *ngIf="appLink.img2" ngSrc="{{ appLink.img2 }}" alt="" height="16em;" width="16em;" />
         {{ appLink.text }}
       </a>
 
@@ -75,7 +75,7 @@ export type appDownload = {
   selector: 'app-download-btn-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgIf, NgForOf, NgbTooltipModule, DfxTranslateModule, DfxTrackByModule, AppIconsModule, CopyDirective],
+  imports: [NgIf, NgForOf, NgbTooltipModule, DfxTranslateModule, DfxTrackByModule, AppIconsModule, CopyDirective, NgOptimizedImage],
 })
 export class AppDownloadBtnListComponent {
   appDownloadLinks: IList<appDownload> = new List<appDownload>([

@@ -4,6 +4,7 @@ import {DfxTr} from 'dfx-translate';
 
 import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
+import {NgOptimizedImage} from '@angular/common';
 
 @Component({
   selector: 'app-page-not-found',
@@ -13,7 +14,7 @@ import {FooterModule} from '../_shared/ui/footer/footer.module';
         <app-logo-with-text></app-logo-with-text>
         <div class="d-flex flex-column align-items-center gap-4" style="margin-top: 5%; padding-bottom: 10%">
           <div>
-            <img style="max-width: 100%" src="assets/404.jpeg" alt="Image of cat which hides" />
+            <img style="max-width: 100%" fill ngSrc="assets/404.webp" priority alt="Image of cat which hides" />
           </div>
           <div class="text-center">
             <h2>{{ '404_TITLE' | tr }}</h2>
@@ -30,6 +31,6 @@ import {FooterModule} from '../_shared/ui/footer/footer.module';
   `,
   styleUrls: ['../about/about.component.scss'],
   standalone: true,
-  imports: [AppLogoWithTextComponent, FooterModule, DfxTr],
+  imports: [AppLogoWithTextComponent, FooterModule, DfxTr, NgOptimizedImage],
 })
 export class PageNotFoundComponent {}
