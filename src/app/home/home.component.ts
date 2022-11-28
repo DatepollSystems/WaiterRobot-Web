@@ -1,7 +1,16 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {NavigationEnd, Router} from '@angular/router';
+import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 
-import {AComponent, Converter, IsMobileService, loggerOf, WINDOW} from 'dfx-helper';
+import {
+  AComponent,
+  Converter,
+  DfxHideIfOnline,
+  DfxHideIfPingSucceeds,
+  DfxTrackByModule,
+  IsMobileService,
+  loggerOf,
+  WINDOW,
+} from 'dfx-helper';
 
 import {EnvironmentHelper} from '../_shared/EnvironmentHelper';
 
@@ -9,17 +18,38 @@ import {AuthService} from '../_shared/services/auth/auth.service';
 import {MyUserModel} from '../_shared/services/auth/user/my-user.model';
 import {MyUserService} from '../_shared/services/auth/user/my-user.service';
 import {QrCodeService} from '../_shared/services/qr-code.service';
-import {NavItem} from '../_shared/ui/navbar-scrollable/app-navbar-scrollable.component';
+import {AppNavbarScrollableComponent, NavItem} from '../_shared/ui/navbar-scrollable/app-navbar-scrollable.component';
 import {EventModel} from './events/_models/event.model';
 import {EventsService} from './events/_services/events.service';
 
 import {OrganisationModel} from './organisations/_models/organisation.model';
 import {OrganisationsService} from './organisations/_services/organisations.service';
+import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
+import {AppIconsModule} from '../_shared/ui/icons.module';
+import {FooterModule} from '../_shared/ui/footer/footer.module';
+import {NgForOf, NgIf} from '@angular/common';
+import {DfxTr} from 'dfx-translate';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
+  standalone: true,
+  imports: [
+    NgIf,
+    NgForOf,
+    RouterLink,
+    RouterLinkActive,
+    RouterOutlet,
+    NgbDropdownModule,
+    DfxTr,
+    DfxTrackByModule,
+    DfxHideIfOnline,
+    DfxHideIfPingSucceeds,
+    AppIconsModule,
+    FooterModule,
+    AppNavbarScrollableComponent,
+  ],
 })
 export class HomeComponent extends AComponent implements OnInit {
   environmentType = 'prod';
@@ -168,6 +198,10 @@ export class HomeComponent extends AComponent implements OnInit {
     if (!user) {
       return;
     }
-    this.qrCodeService.openQRCodePage({data: user?.emailAddress, info: 'NAV_USER_SETTINGS_QR_CODE_INFO', text: user.name});
+    this.qrCodeService.openQRCodePage({
+      data: user?.emailAddress,
+      info: 'NAV_USER_SETTINGS_QR_CODE_INFO',
+      text: user.name,
+    });
   }
 }

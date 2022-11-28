@@ -1,6 +1,6 @@
 import {registerLocaleData} from '@angular/common';
 
-import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi} from '@angular/common/http';
+import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import {importProvidersFrom, LOCALE_ID} from '@angular/core';
@@ -20,7 +20,7 @@ import {
 } from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 import {EnvironmentHelper} from './app/_shared/EnvironmentHelper';
-import {AuthInterceptor} from './app/_shared/services/auth/auth-interceptor';
+import {authInterceptor} from './app/_shared/services/auth/auth-interceptor';
 import {CustomDateAdapter, CustomDateParserFormatter} from './app/_shared/services/datepicker-adapter';
 
 import {AppComponent} from './app/app.component';
@@ -50,17 +50,9 @@ bootstrapApplication(AppComponent, {
       provide: TitleStrategy,
       useClass: CustomTitleStrategy,
     },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
     {provide: NgbDateAdapter, useClass: CustomDateAdapter},
     {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter},
-    provideHttpClient(
-      withInterceptorsFromDi(),
-      withInterceptors([baseUrlInterceptor, postPutJsonContentTypeInterceptor, loggingInterceptor])
-    ),
+    provideHttpClient(withInterceptors([baseUrlInterceptor, postPutJsonContentTypeInterceptor, loggingInterceptor, authInterceptor])),
     WINDOW_PROVIDERS,
   ],
 }).catch((err) => console.error(err));

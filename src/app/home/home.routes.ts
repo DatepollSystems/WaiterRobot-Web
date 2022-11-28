@@ -1,25 +1,26 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {AuthGuard} from '../_shared/services/auth/auth-guard.service';
+import {Routes} from '@angular/router';
+import {isAuthenticated} from '../_shared/services/auth/is-authenticated.guard';
 
-import {HomeComponent} from './home.component';
-
-const homeRoutes: Routes = [
+export const ROUTES: Routes = [
   {
     path: '',
-    component: HomeComponent,
-    canActivate: [AuthGuard],
+    loadComponent: () => import('./home.component').then((c) => c.HomeComponent),
+    canActivate: [isAuthenticated],
     children: [
       {
         path: '',
         pathMatch: 'full',
-        loadChildren: () => import('./start/start.module').then((m) => m.StartModule),
+        loadComponent: () => import('./start/start.component').then((c) => c.StartComponent),
       },
-      {path: 'users', title: 'NAV_USERS', loadChildren: () => import('./users/users.module').then((m) => m.UsersModule)},
+      {
+        path: 'users',
+        title: 'NAV_USERS',
+        loadChildren: () => import('./users/users.routes').then((m) => m.ROUTES),
+      },
       {
         path: 'usettings',
         title: 'NAV_USER_SETTINGS',
-        loadChildren: () => import('./user-settings/user-settings.module').then((m) => m.UserSettingsModule),
+        loadChildren: () => import('./user-settings/user-settings.routes').then((m) => m.ROUTES),
       },
       {
         path: 'qrcode/view',
@@ -71,9 +72,3 @@ const homeRoutes: Routes = [
     ],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(homeRoutes)],
-  exports: [RouterModule],
-})
-export class HomeRoutingModule {}

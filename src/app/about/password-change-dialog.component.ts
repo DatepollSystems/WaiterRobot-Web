@@ -1,8 +1,10 @@
 import {Component} from '@angular/core';
+import {NgIf} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {DfxTr} from 'dfx-translate';
 
 @Component({
-  selector: 'app-account-not-activated-modal',
   template: `
     <div class="modal-header">
       <h4 class="modal-title" id="modal-question-title">{{ 'ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_INFO' | tr }}</h4>
@@ -69,6 +71,9 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
       </button>
     </div>
   `,
+  selector: 'app-account-not-activated-modal',
+  standalone: true,
+  imports: [DfxTr, NgIf, FormsModule],
 })
 export class AppPasswordChangeDialogComponent {
   newPasswordsMatch = false;

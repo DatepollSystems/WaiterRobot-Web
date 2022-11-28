@@ -1,16 +1,19 @@
 import {Component} from '@angular/core';
-import {NgForm} from '@angular/forms';
+import {FormsModule, NgForm} from '@angular/forms';
 
 import {AComponent, StringHelper} from 'dfx-helper';
 import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
 
 import {UserSettingsService} from '../_services/user-settings.service';
 import {NotificationService} from '../../../notifications/notification.service';
+import {NgIf} from '@angular/common';
+import {DfxTr} from 'dfx-translate';
 
 @Component({
   selector: 'app-user-settings-sub',
   templateUrl: './user-settings-sub.component.html',
-  styleUrls: ['./user-settings-sub.component.scss'],
+  imports: [FormsModule, NgIf, DfxTr],
+  standalone: true,
 })
 export class UserSettingsSubComponent extends AComponent {
   newPasswordsMatch = false;

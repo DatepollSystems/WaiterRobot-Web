@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
+import {DfxTr} from 'dfx-translate';
 
 @Component({
   template: `
@@ -40,6 +41,6 @@ import {FooterModule} from '../_shared/ui/footer/footer.module';
   ],
   selector: 'app-info',
   standalone: true,
-  imports: [FooterModule, RouterLink, RouterOutlet, RouterLinkActive],
+  imports: [FooterModule, RouterLink, RouterOutlet, RouterLinkActive, DfxTr],
 })
 export class InfoComponent {}

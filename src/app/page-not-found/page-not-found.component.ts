@@ -1,7 +1,6 @@
-import {CommonModule} from '@angular/common';
 import {Component} from '@angular/core';
 
-import {DfxTranslateModule} from 'dfx-translate';
+import {DfxTr} from 'dfx-translate';
 
 import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
@@ -31,6 +30,6 @@ import {FooterModule} from '../_shared/ui/footer/footer.module';
   `,
   styleUrls: ['../about/about.component.scss'],
   standalone: true,
-  imports: [CommonModule, DfxTranslateModule, AppLogoWithTextComponent, FooterModule],
+  imports: [AppLogoWithTextComponent, FooterModule, DfxTr],
 })
 export class PageNotFoundComponent {}

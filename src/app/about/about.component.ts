@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {NgForm} from '@angular/forms';
-import {Router} from '@angular/router';
+import {FormsModule, NgForm} from '@angular/forms';
+import {Router, RouterLink} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {UIHelper} from 'dfx-helper';
 import {JWTResponse} from '../_shared/waiterrobot-backend';
@@ -10,11 +10,17 @@ import {NotificationService} from '../notifications/notification.service';
 import {AppAccountNotActivatedDialog} from './account-not-activated-dialog.component';
 import {AppForgotPasswordDialog} from './forgot-password-dialog.component';
 import {AppPasswordChangeDialogComponent} from './password-change-dialog.component';
+import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
+import {AppDownloadBtnListComponent} from '../_shared/ui/app-download-btn-list.component';
+import {DfxTr} from 'dfx-translate';
+import {FooterModule} from '../_shared/ui/footer/footer.module';
 
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
+  standalone: true,
+  imports: [FormsModule, RouterLink, DfxTr, AppLogoWithTextComponent, AppDownloadBtnListComponent, FooterModule],
 })
 export class AboutComponent implements OnInit {
   constructor(

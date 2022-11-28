@@ -1,6 +1,12 @@
-import {HttpClient} from '@angular/common/http';
 import {Component} from '@angular/core';
-import {AComponent, BrowserHelper, BrowserInfo} from 'dfx-helper';
+import {DatePipe, NgForOf, NgIf, UpperCasePipe} from '@angular/common';
+import {RouterLink} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+
+import {NgbDropdownModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {DfxTr} from 'dfx-translate';
+import {AComponent, BrowserHelper, BrowserInfo, DfxTimeSpan} from 'dfx-helper';
+
 import {EnvironmentHelper} from '../../_shared/EnvironmentHelper';
 import {EventModel} from '../events/_models/event.model';
 import {OrganisationModel} from '../organisations/_models/organisation.model';
@@ -8,12 +14,27 @@ import {MyUserModel} from '../../_shared/services/auth/user/my-user.model';
 import {JsonInfoResponse} from '../../_shared/waiterrobot-backend';
 import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
 import {EventsService} from '../events/_services/events.service';
+import {AppDownloadBtnListComponent} from '../../_shared/ui/app-download-btn-list.component';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {OrganisationsService} from '../organisations/_services/organisations.service';
 
 @Component({
   selector: 'app-start',
   templateUrl: './start.component.html',
-  styleUrls: ['./start.component.scss'],
+  imports: [
+    NgIf,
+    NgForOf,
+    DatePipe,
+    UpperCasePipe,
+    RouterLink,
+    NgbTooltipModule,
+    NgbDropdownModule,
+    DfxTimeSpan,
+    DfxTr,
+    AppDownloadBtnListComponent,
+    AppIconsModule,
+  ],
+  standalone: true,
 })
 export class StartComponent extends AComponent {
   isProduction = true;

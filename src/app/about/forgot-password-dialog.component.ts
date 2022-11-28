@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {DfxTr} from 'dfx-translate';
 
 @Component({
-  selector: 'app-forgot-password-modal',
   template: `
     <div class="modal-header">
       <h4 class="modal-title" id="modal-question-title">{{ 'INFORMATION' | tr }}</h4>
@@ -15,6 +15,9 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
       <button type="button" class="btn btn-outline-secondary" ngbAutofocus (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
     </div>
   `,
+  selector: 'app-forgot-password-modal',
+  imports: [DfxTr],
+  standalone: true,
 })
 export class AppForgotPasswordDialog {
   constructor(public activeModal: NgbActiveModal) {}

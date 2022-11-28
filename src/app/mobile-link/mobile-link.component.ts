@@ -1,5 +1,5 @@
-import {Component, NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Component} from '@angular/core';
+import {RouterOutlet, Routes} from '@angular/router';
 import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
 
@@ -19,10 +19,12 @@ import {FooterModule} from '../_shared/ui/footer/footer.module';
   `,
   styleUrls: ['../about/about.component.scss'],
   selector: 'app-mobile-link',
+  standalone: true,
+  imports: [AppLogoWithTextComponent, FooterModule, RouterOutlet],
 })
 export class MobileLinkComponent {}
 
-const routes: Routes = [
+export const ROUTES: Routes = [
   {
     path: '',
     component: MobileLinkComponent,
@@ -38,9 +40,3 @@ const routes: Routes = [
     ],
   },
 ];
-
-@NgModule({
-  declarations: [MobileLinkComponent],
-  imports: [RouterModule.forChild(routes), AppLogoWithTextComponent, FooterModule],
-})
-export class MobileLinkModule {}

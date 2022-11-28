@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {BrowserHelper, Converter, StorageHelper} from 'dfx-helper';
+import {Inject, Injectable} from '@angular/core';
+import {BrowserHelper, Converter, StorageHelper, WINDOW} from 'dfx-helper';
 
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
@@ -19,7 +19,7 @@ export class AuthService {
   private jwtToken?: string;
   private jwtTokenExpires: Date;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, @Inject(WINDOW) private window: Window) {
     this.jwtTokenExpires = new Date();
     this.jwtTokenExpires.setMinutes(this.jwtTokenExpires.getMinutes() + 50);
   }
@@ -103,11 +103,11 @@ export class AuthService {
       .subscribe({
         next: () => {
           this.clearStorage();
-          window.location.reload();
+          this.window.location.reload();
         },
         error: () => {
           this.clearStorage();
-          window.location.reload();
+          this.window.location.reload();
         },
       });
   }
