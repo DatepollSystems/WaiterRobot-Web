@@ -1,11 +1,11 @@
 name: Testing
+on:
+  push:
+    branches:
+      - develop
 
 jobs:
   build-testing:
-    on:
-      push:
-        branches:
-          - develop
     name: Build testing
     runs-on: ubuntu-latest
     strategy:
