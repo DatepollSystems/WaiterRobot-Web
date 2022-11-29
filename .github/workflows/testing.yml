@@ -24,6 +24,20 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
+      - name: get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
       - name: install dependencies
         run: pnpm install
 
@@ -40,7 +54,7 @@ jobs:
         uses: garygrossgarten/github-action-scp@release
         with:
           local: ./dist/WaiterRobot-Web-testing.zip
-          remote: /var/www/datepoll-share/WaiterRobot/Web-Releases/WaiterRobot-Web-testing
+          remote: /var/www/datepoll-share/WaiterRobot/Web-Releases/WaiterRobot-Web-testing.zip
           host: ${{ secrets.RELEASES_SSH_HOST }}
           port: ${{ secrets.RELEASES_SSH_PORT }}
           username: ${{ secrets.RELEASES_SSH_USER }}
