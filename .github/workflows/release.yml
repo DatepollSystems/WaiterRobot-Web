@@ -1,12 +1,12 @@
 name: Testing
 on:
   push:
-    branches:
-      - develop
+    tags:
+      - '*'
 
 jobs:
   build-testing:
-    name: Build testing
+    name: Build release
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -44,18 +44,30 @@ jobs:
       - name: build
         run: |
           pnpm ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
-          pnpm build:testing
+          pnpm build:prod
 
       - name: prepare deployment
         run: |
+          echo "version=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_OUTPUT
           cd dist/
-          zip -r WaiterRobot-Web-testing.zip ./WaiterRobot-Web >> /dev/null
+          zip -r "WaiterRobot-Web-${version}.zip" ./WaiterRobot-Web >> /dev/null
+          cp "WaiterRobot-Web-${version}.zip" WaiterRobot-Web-latest.zip
 
-      - name: copy build to release server
+      - name: copy versioned build to release server
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: ./dist/WaiterRobot-Web-testing.zip
-          remote: /var/www/datepoll-share/WaiterRobot/Web-Releases/WaiterRobot-Web-testing.zip
+          local: './dist/WaiterRobot-Web-${version}.zip'
+          remote: '/var/www/datepoll-share/WaiterRobot/Web-Releases/WaiterRobot-Web-${version}.zip'
+          host: ${{ secrets.RELEASES_SSH_HOST }}
+          port: ${{ secrets.RELEASES_SSH_PORT }}
+          username: ${{ secrets.RELEASES_SSH_USER }}
+          privateKey: ${{ secrets.RELEASES_SSH_PRIVATE_KEY }}
+
+      - name: copy latest build to release server
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: ./dist/WaiterRobot-Web-latest.zip
+          remote: /var/www/datepoll-share/WaiterRobot/Web-Releases/WaiterRobot-Web-latest.zip
           host: ${{ secrets.RELEASES_SSH_HOST }}
           port: ${{ secrets.RELEASES_SSH_PORT }}
           username: ${{ secrets.RELEASES_SSH_USER }}
