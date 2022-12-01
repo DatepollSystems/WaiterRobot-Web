@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 
 import {UpdateEmailDto, UpdatePasswordDto} from '../../../_shared/waiterrobot-backend';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class UserSettingsService {
   constructor(private httpService: HttpClient) {}
 

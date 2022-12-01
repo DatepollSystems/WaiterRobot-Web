@@ -9,6 +9,7 @@ import {OrganisationModel} from '../_models/organisation.model';
 import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
 import {EventsService} from '../../events/_services/events.service';
 import {OrganisationsService} from '../_services/organisations.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-all-organisations',
@@ -18,7 +19,7 @@ import {OrganisationsService} from '../_services/organisations.service';
 export class AllOrganisationsComponent extends AbstractModelsListComponent<OrganisationModel> {
   override columnsToDisplay = ['id', 'name', 'street', 'streetNumber', 'postalCode', 'city', 'countryCode', 'actions'];
 
-  myUser?: MyUserModel;
+  myUser$: Observable<MyUserModel>;
   selectedOrganisation?: OrganisationModel;
 
   constructor(
@@ -30,8 +31,7 @@ export class AllOrganisationsComponent extends AbstractModelsListComponent<Organ
     super(modal, organisationsService);
     this.setSelectable();
 
-    this.myUser = this.myUserService.getUser();
-    this.unsubscribe(this.myUserService.userChange.subscribe((it) => (this.myUser = it)));
+    this.myUser$ = this.myUserService.getUser$();
 
     this.selectedOrganisation = this.organisationsService.getSelected();
     this.unsubscribe(this.organisationsService.selectedChange.subscribe((it) => (this.selectedOrganisation = it)));

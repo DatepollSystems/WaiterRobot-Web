@@ -21,6 +21,7 @@ import {OrganisationUserAddModalComponent} from './organisation-user-add-modal/o
 import {OrganisationsComponent} from './organisations.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
 import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
+import {NgSub} from '../../_shared/ui/ng-sub.directive';
 
 const routes: Routes = [
   {
@@ -55,6 +56,7 @@ const routes: Routes = [
     AppBtnToolbarComponent,
     AppSpinnerRowComponent,
     AppBtnModelEditConfirmComponent,
+    NgSub,
   ],
 })
 export class OrganisationsModule {}

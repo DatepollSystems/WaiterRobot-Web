@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
-
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {MyUserModel} from 'src/app/_shared/services/auth/user/my-user.model';
+import {Observable} from 'rxjs';
 
 import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
 
-import {EventModel} from '../_models/event.model';
-import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
 import {EventsService} from '../_services/events.service';
+import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
+import {EventModel} from '../_models/event.model';
+import {MyUserModel} from 'src/app/_shared/services/auth/user/my-user.model';
 
 @Component({
   selector: 'app-all-events',
@@ -17,7 +17,7 @@ import {EventsService} from '../_services/events.service';
 export class AllEventsComponent extends AbstractModelsListComponent<EventModel> {
   override columnsToDisplay = ['name', 'date', 'street', 'streetNumber', 'postalCode', 'city', 'actions'];
 
-  myUser?: MyUserModel;
+  myUser$: Observable<MyUserModel>;
   selectedEvent?: EventModel;
 
   constructor(modal: NgbModal, myUserService: MyUserService, public eventsService: EventsService) {
@@ -25,12 +25,9 @@ export class AllEventsComponent extends AbstractModelsListComponent<EventModel> 
 
     this.setSelectable();
 
-    this.myUser = myUserService.getUser();
+    this.myUser$ = myUserService.getUser$();
     this.selectedEvent = this.eventsService.getSelected();
 
-    this.unsubscribe(
-      myUserService.userChange.subscribe((it) => (this.myUser = it)),
-      this.eventsService.selectedChange.subscribe((it) => (this.selectedEvent = it))
-    );
+    this.unsubscribe(this.eventsService.selectedChange.subscribe((it) => (this.selectedEvent = it)));
   }
 }

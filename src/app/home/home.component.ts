@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 
 import {
@@ -29,6 +29,8 @@ import {AppIconsModule} from '../_shared/ui/icons.module';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
 import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import {DfxTr} from 'dfx-translate';
+import {Observable, tap} from 'rxjs';
+import {NgSub} from '../_shared/ui/ng-sub.directive';
 
 @Component({
   selector: 'app-home',
@@ -50,9 +52,10 @@ import {DfxTr} from 'dfx-translate';
     FooterModule,
     AppNavbarScrollableComponent,
     NgOptimizedImage,
+    NgSub,
   ],
 })
-export class HomeComponent extends AComponent implements OnInit {
+export class HomeComponent extends AComponent {
   environmentType = 'prod';
   showEnvironmentType = true;
   lumber = loggerOf('HomeComponent');
@@ -64,7 +67,7 @@ export class HomeComponent extends AComponent implements OnInit {
   selectedEvent?: EventModel;
   allEvents: EventModel[] = [];
 
-  isMobile = false;
+  isMobile$: Observable<boolean>;
 
   navItems!: NavItem[];
 
@@ -82,19 +85,27 @@ export class HomeComponent extends AComponent implements OnInit {
 
     this.environmentType = EnvironmentHelper.getType();
 
-    this.isMobile = this.isMobileService.isMobile;
-    this.myUser = this.myUserService.getUser();
+    this.isMobile$ = this.isMobileService.$isMobile.pipe(
+      tap((it) => {
+        if (it) {
+          const navContent = document.getElementById('navbarSupportedContent');
+          if (navContent != null) {
+            navContent.style.display = 'none';
+          }
+        }
+      })
+    );
+
     this.selectedOrganisation = this.organisationsService.getSelected();
     this.allOrgs = this.organisationsService.getAll().slice(0, 5);
 
     this.unsubscribe(
-      this.isMobileService.isMobileChange.subscribe((value) => (this.isMobile = value)),
-      this.myUserService.userChange.subscribe((user) => {
-        this.myUser = user;
-        if (this.myUser.isAdmin) {
+      this.myUserService.getUser$().subscribe((it) => {
+        this.myUser = it;
+        this.setNavItems();
+        if (it.isAdmin) {
           this.lumber.info('const', 'Admin status detected');
         }
-        this.setNavItems();
       }),
       this.organisationsService.selectedChange.subscribe((value) => {
         this.selectedOrganisation = value;
@@ -137,19 +148,6 @@ export class HomeComponent extends AComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    this.clearTimeout(
-      this.window.setTimeout(() => {
-        if (this.window.innerWidth < 992) {
-          const navContent = document.getElementById('navbarSupportedContent');
-          if (navContent != null) {
-            navContent.style.display = 'none';
-          }
-        }
-      }, 1)
-    );
-  }
-
   setNavItems(): void {
     this.navItems = [
       {text: 'NAV_TABLES', routerLink: 'tables', show: !!this.selectedEvent},
@@ -174,12 +172,13 @@ export class HomeComponent extends AComponent implements OnInit {
   }
 
   switchAdminMode(): void {
-    if (this.myUser) {
-      this.adminModeChanged = !this.adminModeChanged;
-      this.myUser.isAdmin = !this.myUser.isAdmin;
-      this.lumber.info('switchAdminMode', 'Admin mode switched to ' + Converter.toString(this.myUser.isAdmin));
-      this.myUserService.setUser(this.myUser);
+    if (!this.myUser) {
+      return;
     }
+    this.adminModeChanged = !this.adminModeChanged;
+    this.myUser.isAdmin = !this.myUser.isAdmin;
+    this.lumber.info('switchAdminMode', 'Admin mode switched to ' + Converter.toString(this.myUser.isAdmin));
+    this.myUserService.manualUserChange.next(this.myUser);
   }
 
   logout(): void {

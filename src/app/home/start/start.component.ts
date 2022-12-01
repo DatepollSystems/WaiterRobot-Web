@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {DatePipe, NgForOf, NgIf, UpperCasePipe} from '@angular/common';
+import {AsyncPipe, DatePipe, NgForOf, NgIf, UpperCasePipe} from '@angular/common';
 import {RouterLink} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 
@@ -10,13 +10,14 @@ import {AComponent, BrowserHelper, BrowserInfo, DfxTimeSpan} from 'dfx-helper';
 import {EnvironmentHelper} from '../../_shared/EnvironmentHelper';
 import {EventModel} from '../events/_models/event.model';
 import {OrganisationModel} from '../organisations/_models/organisation.model';
-import {MyUserModel} from '../../_shared/services/auth/user/my-user.model';
 import {JsonInfoResponse} from '../../_shared/waiterrobot-backend';
 import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
 import {EventsService} from '../events/_services/events.service';
 import {AppDownloadBtnListComponent} from '../../_shared/ui/app-download-btn-list.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {OrganisationsService} from '../organisations/_services/organisations.service';
+import {catchError, EMPTY, interval, map, Observable, share, switchMap, tap, timer} from 'rxjs';
+import {MyUserModel} from '../../_shared/services/auth/user/my-user.model';
 
 @Component({
   selector: 'app-start',
@@ -33,6 +34,7 @@ import {OrganisationsService} from '../organisations/_services/organisations.ser
     DfxTr,
     AppDownloadBtnListComponent,
     AppIconsModule,
+    AsyncPipe,
   ],
   standalone: true,
 })
@@ -40,23 +42,25 @@ export class StartComponent extends AComponent {
   isProduction = true;
   type: string;
 
-  localTime = new Date();
+  localTime$: Observable<Date>;
   browserInfos: BrowserInfo;
 
+  serverInfo$: Observable<JsonInfoResponse>;
+  startMs = 0;
   responseTime?: number;
   lastPing?: Date;
   refreshIn = 5;
   status: 'Online' | 'Offline' = 'Online';
-  serverInfoResponse?: JsonInfoResponse;
 
-  myUser?: MyUserModel;
+  myUser$: Observable<MyUserModel>;
+
   selectedOrganisation?: OrganisationModel;
   organisations: OrganisationModel[];
   selectedEvent?: EventModel;
   events: EventModel[];
 
   constructor(
-    private httpClient: HttpClient,
+    httpClient: HttpClient,
     myUserService: MyUserService,
     private eventsService: EventsService,
     private organisationsService: OrganisationsService
@@ -66,18 +70,31 @@ export class StartComponent extends AComponent {
     this.isProduction = EnvironmentHelper.getProduction();
     this.type = EnvironmentHelper.getType();
 
-    this.clearInterval(
-      window.setInterval(() => {
-        this.localTime = new Date();
-        this.refreshIn--;
-      }, 1000)
+    this.myUser$ = myUserService.getUser$();
+
+    this.localTime$ = interval(1000).pipe(
+      map(() => new Date()),
+      tap(() => this.refreshIn--),
+      share()
     );
 
-    this.getPing();
+    this.serverInfo$ = timer(0, 5000).pipe(
+      map(() => (this.startMs = new Date().getTime())),
+      switchMap(() => httpClient.get<JsonInfoResponse>('/json')),
+      tap(() => {
+        this.status = 'Online';
+        this.refreshIn = 5;
+        this.lastPing = new Date();
+        this.responseTime = this.lastPing.getTime() - this.startMs - 2; // Minus 2 because it takes ~ 2ms to convert the message
+      }),
+      catchError(() => {
+        this.refreshIn = 5;
+        this.status = 'Offline';
+        return EMPTY;
+      }),
+      share()
+    );
 
-    this.clearInterval(window.setInterval(() => this.getPing(), 1000 * 6));
-
-    this.myUser = myUserService.getUser();
     this.selectedOrganisation = organisationsService.getSelected();
     this.organisations = organisationsService.getAll();
     if (this.selectedOrganisation) {
@@ -88,7 +105,6 @@ export class StartComponent extends AComponent {
     }
 
     this.unsubscribe(
-      myUserService.userChange.subscribe((user) => (this.myUser = user)),
       eventsService.selectedChange.subscribe((it) => (this.selectedEvent = it)),
       organisationsService.selectedChange.subscribe((it) => (this.selectedOrganisation = it)),
       organisationsService.allChange.subscribe((it) => (this.organisations = it)),
@@ -96,21 +112,6 @@ export class StartComponent extends AComponent {
     );
 
     this.browserInfos = BrowserHelper.infos();
-  }
-
-  getPing(): void {
-    this.refreshIn = 6;
-    this.localTime = new Date();
-    const startMs = new Date().getTime();
-    this.httpClient.get<JsonInfoResponse>('/json').subscribe({
-      next: (response: JsonInfoResponse) => {
-        this.lastPing = new Date();
-        this.responseTime = this.lastPing.getTime() - startMs - 2; // Minus 2 because it takes ~ 2ms to convert the message
-        this.status = 'Online';
-        this.serverInfoResponse = response;
-      },
-      error: () => (this.status = 'Offline'),
-    });
   }
 
   selectOrg(it: OrganisationModel): void {

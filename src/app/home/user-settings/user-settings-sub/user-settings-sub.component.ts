@@ -30,12 +30,7 @@ export class UserSettingsSubComponent extends AComponent {
   ) {
     super();
 
-    this.emailAddress = myUserService.getUser()?.emailAddress;
-    this.unsubscribe(
-      myUserService.userChange.subscribe((user) => {
-        this.emailAddress = user.emailAddress;
-      })
-    );
+    this.unsubscribe(myUserService.getUser$().subscribe((it) => (this.emailAddress = it.emailAddress)));
   }
 
   emailChange(email: string): void {
