@@ -38,15 +38,15 @@ import {AppIconsModule} from './icons.module';
   imports: [NgIf, DfxTr, AppIconsModule, NgbTooltipModule],
 })
 export class AppSelectableButtonComponent {
-  @Input() selectedEntity?: AEntityWithName<string | number> | undefined;
+  @Input() selectedEntity?: AEntityWithName<string | number>;
+
+  @Input() entity?: AEntityWithName<string | number>;
 
   @Input() selectedEntityService!: AbstractSelectableModelService<any>;
 
-  @Input() entity?: AEntityWithName<string | number> | undefined;
-
   @Output() selectEntity = new EventEmitter<any>();
 
-  onSelect(entity: any | undefined): void {
+  onSelect(entity?: any): void {
     this.selectedEntityService.setSelected(entity);
     this.selectEntity.next(entity);
   }
