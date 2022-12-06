@@ -1,5 +1,6 @@
-import {ChangeDetectorRef, Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
-import {BehaviorSubject, combineLatest, map, Observable, of, Subject, Subscription} from 'rxjs';
+import {ChangeDetectorRef, Directive, Input, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
+import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
+import {ADirective} from 'dfx-helper';
 
 /**
  * Author https://github.com/pauloRohling/ng-sub
@@ -18,9 +19,8 @@ export class NgSubContext<T> {
   standalone: true,
 })
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
-export class NgSub<T> implements OnInit, OnDestroy {
-  private subscribable$: Array<Observable<T> | BehaviorSubject<T> | Subject<T>>;
-  private subscription: Subscription;
+export class NgSub<T> extends ADirective implements OnInit {
+  private subscribable$: Observable<T> | BehaviorSubject<T> | Subject<T>;
   private readonly context: NgSubContext<T>;
 
   constructor(
@@ -28,30 +28,26 @@ export class NgSub<T> implements OnInit, OnDestroy {
     private templateRef: TemplateRef<NgSubContext<T>>,
     private changeDetector: ChangeDetectorRef
   ) {
-    this.subscribable$ = [of({} as T)];
-    this.subscription = new Subscription();
+    super();
+
+    this.subscribable$ = of({} as T);
     this.context = new NgSubContext<T>();
   }
 
   @Input()
-  set ngSub(inputSubscribable: Observable<T> | BehaviorSubject<T> | Subject<T> | Array<Observable<T> | BehaviorSubject<T> | Subject<T>>) {
-    const isArray = Array.isArray(inputSubscribable);
-    this.subscribable$ = isArray ? inputSubscribable : [inputSubscribable];
-    this.subscription.unsubscribe();
-    this.subscription = combineLatest(this.subscribable$)
-      .pipe(map((values) => (isArray ? values : values[0])))
-      .subscribe((values: any) => {
-        this.context.$implicit = values;
-        this.context.ngSub = values;
+  set ngSub(inputSubscribable: Observable<T> | BehaviorSubject<T> | Subject<T>) {
+    this.subscribable$ = inputSubscribable;
+    this.unsubscribeAll();
+    this.unsubscribe(
+      this.subscribable$.subscribe((value) => {
+        this.context.$implicit = value;
+        this.context.ngSub = value;
         this.changeDetector.markForCheck();
-      });
+      })
+    );
   }
 
   ngOnInit(): void {
     this.viewContainer.createEmbeddedView(this.templateRef, this.context);
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }

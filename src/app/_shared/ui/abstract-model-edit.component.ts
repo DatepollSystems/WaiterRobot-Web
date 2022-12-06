@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AComponent, Converter, IEntityWithNumberIDAndName, loggerOf, TypeHelper} from 'dfx-helper';
+import {tap} from 'rxjs';
 
 import {AbstractModelService} from '../services/abstract-model.service';
 import {QuestionDialogComponent} from './question-dialog/question-dialog.component';
@@ -123,12 +124,10 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
   }
 
   private checkTab(): void {
-    if (!this.isEditing) {
-      if (this.onlyEditingTabs.includes(this.activeTab)) {
-        this.lumber.info('checkTab', 'Tried to open editing only tab in create mode. Rerouting to tab 1');
-        this.activeTab = 1;
-        this.setTabId(1);
-      }
+    if (!this.isEditing && this.onlyEditingTabs.includes(this.activeTab)) {
+      this.lumber.info('checkTab', 'Tried to open editing only tab in create mode. Rerouting to tab 1');
+      this.activeTab = 1;
+      this.setTabId(1);
     }
   }
 
@@ -141,39 +140,42 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
     }
     model = this.addCustomAttributesBeforeCreateAndUpdate(model);
     this.lumber.info('onSave', 'Model form value object', model);
-    if (this.isEditing && this.entity?.id != null) {
-      model.id = this.entity?.id;
-      this.modelService.update(model).subscribe();
-    } else {
-      void this.modelService.create(model).subscribe();
-      if (this.continuousCreation) {
-        form.resetForm();
 
-        if (this.continuousUsePropertyNames.length > 0) {
-          for (const modelKeyValuePairs of Object.keys(model as Record<string, any>).map((key) => [String(key), model[key]])) {
-            if (this.continuousUsePropertyNames.includes(modelKeyValuePairs[0] as string)) {
-              form.form.patchValue({
-                [modelKeyValuePairs[0]]: modelKeyValuePairs[1],
-              });
+    const methode = this.isEditing && this.entity?.id != null ? this.modelService.update(model) : this.modelService.create(model);
+
+    methode
+      .pipe(
+        tap(() => {
+          if (this.continuousCreation) {
+            form.resetForm();
+
+            if (this.continuousUsePropertyNames.length > 0) {
+              for (const modelKeyValuePairs of Object.keys(model as Record<string, any>).map((key) => [String(key), model[key]])) {
+                if (this.continuousUsePropertyNames.includes(modelKeyValuePairs[0] as string)) {
+                  form.form.patchValue({
+                    [modelKeyValuePairs[0]]: modelKeyValuePairs[1],
+                  });
+                }
+              }
             }
           }
-        }
-        return;
-      }
+        })
+      )
+      .subscribe();
+    if (!this.continuousCreation) {
+      this.goToRedirectUrl();
     }
-    this.goToRedirectUrl();
   }
 
-  public onDelete(modelId: number): void {
+  public async onDelete(modelId: number): Promise<void> {
     const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
     modalRef.componentInstance.title = 'DELETE_CONFIRMATION';
-    void modalRef.result.then((result) => {
-      this.lumber.info('onDelete', 'Confirm dialog result', result);
-      if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
-        this.modelService.delete(modelId).subscribe();
-        this.goToRedirectUrl();
-      }
-    });
+    const result = await modalRef.result;
+    this.lumber.info('onDelete', 'Confirm dialog result', result);
+    if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
+      this.modelService.delete(modelId).subscribe();
+      this.goToRedirectUrl();
+    }
   }
 
   protected goToRedirectUrl(): void {

@@ -80,8 +80,7 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
       this.dataSource.sortingDataAccessor = (item, property) => {
         const fun = this.sortingDataAccessors?.get(property);
         if (!fun) {
-          // @ts-ignore
-          return item[property];
+          return item[property as keyof EntityType];
         }
         return fun(item);
       };
