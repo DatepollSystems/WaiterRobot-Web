@@ -12,6 +12,7 @@ import {OrganisationsService} from '../../organisations/_services/organisations.
 import {EventModel} from '../_models/event.model';
 
 import {EventsService} from '../_services/events.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-event-edit',
@@ -21,7 +22,7 @@ import {EventsService} from '../_services/events.service';
 export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
   override redirectUrl = '/home/events/all';
 
-  myUser?: MyUserModel;
+  myUser$: Observable<MyUserModel>;
   selectedEvent?: EventModel;
 
   constructor(
@@ -34,13 +35,10 @@ export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
   ) {
     super(router, route, modal, eventsService);
 
-    this.myUser = myUserService.getUser();
+    this.myUser$ = myUserService.getUser$();
     this.selectedEvent = this.eventsService.getSelected();
 
     this.unsubscribe(
-      myUserService.userChange.subscribe((user) => {
-        this.myUser = user;
-      }),
       this.eventsService.selectedChange.subscribe((value) => {
         this.selectedEvent = value;
       })

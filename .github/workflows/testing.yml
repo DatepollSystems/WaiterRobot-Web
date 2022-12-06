@@ -1,0 +1,70 @@
+name: Testing
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build-testing:
+    name: Build testing
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16]
+    steps:
+      - uses: actions/checkout@master
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7
+
+      - name: use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: install dependencies
+        run: pnpm install
+
+      - name: build
+        run: |
+          pnpm ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
+          pnpm build:testing
+
+      - name: prepare deployment
+        run: |
+          cd dist/
+          zip -r WaiterRobot-Web-testing.zip ./WaiterRobot-Web >> /dev/null
+
+      - name: copy build to release server
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: ./dist/WaiterRobot-Web-testing.zip
+          remote: /var/www/datepoll-share/WaiterRobot/Web-Releases/WaiterRobot-Web-testing.zip
+          host: ${{ secrets.RELEASES_SSH_HOST }}
+          port: ${{ secrets.RELEASES_SSH_PORT }}
+          username: ${{ secrets.RELEASES_SSH_USER }}
+          privateKey: ${{ secrets.RELEASES_SSH_PRIVATE_KEY }}
+#      - name: fetching new version on test server
+#        uses: appleboy/ssh-action@master
+#        with:
+#            host: ${{ secrets.DEMO_SSH_HOST }}
+#            username: ${{ secrets.DEMO_SSH_USER }}
+#            key: ${{ secrets.DEMO_SSH_PRIVATE_KEY }}
+#            port: ${{ secrets.DEMO_SSH_PORT }}
+#            script: cd /opt/waiterrobot-web && ./frontend.sh -v dev -f

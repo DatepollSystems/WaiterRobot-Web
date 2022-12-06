@@ -18,6 +18,7 @@ import {OrganisationsUsersService} from '../_services/organisations-users.servic
 import {OrganisationsService} from '../_services/organisations.service';
 import {QuestionDialogComponent} from '../../../_shared/ui/question-dialog/question-dialog.component';
 import {OrganisationUserAddModalComponent} from '../organisation-user-add-modal/organisation-user-add-modal.component';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-organisation-edit',
@@ -36,7 +37,7 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
 
   settings: OrganisationSettingsModel | undefined;
 
-  myUser?: MyUserModel;
+  myUser$: Observable<MyUserModel>;
   selectedOrganisation: OrganisationModel | undefined;
   organisationUsers: IList<OrganisationUserModel> = new EntityList();
 
@@ -51,13 +52,10 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
   ) {
     super(router, route, modal, organisationsService);
 
-    this.myUser = myUserService.getUser();
+    this.myUser$ = myUserService.getUser$();
     this.selectedOrganisation = this.organisationsService.getSelected();
 
-    this.unsubscribe(
-      myUserService.userChange.subscribe((it) => (this.myUser = it)),
-      this.organisationsService.selectedChange.subscribe((it) => (this.selectedOrganisation = it))
-    );
+    this.unsubscribe(this.organisationsService.selectedChange.subscribe((it) => (this.selectedOrganisation = it)));
   }
 
   override onEntityEdit(model: OrganisationModel): void {

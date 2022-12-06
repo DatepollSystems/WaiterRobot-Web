@@ -61,13 +61,13 @@
     </div>
   </div>
 
-  <div class="col-12 col-xl-4">
-    <div class="card bg-dark p-2 mb-3" *ngIf="myUser?.isAdmin">
+  <div class="col-12 col-xl-4" *ngIf="myUser$ | async as myUser">
+    <div class="card bg-dark p-2 mb-3" *ngIf="myUser.isAdmin">
       <div class="card-body">
         <h5 class="card-title">{{ 'HOME_START_STATISTICS' | tr }}</h5>
         <ul class="list-unstyled py-2">
           <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-            Local time: <span>{{ localTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
+            Local time: <span>{{ localTime$ | async | date : 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
           </li>
           <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             OS: <span>{{ browserInfos.os }}</span>
@@ -97,7 +97,7 @@
       </div>
     </div>
 
-    <div class="card bg-dark p-2" *ngIf="myUser?.isAdmin">
+    <div class="card bg-dark p-2" *ngIf="myUser.isAdmin">
       <div class="card-body">
         <h5>Backend</h5>
         <ul class="list-unstyled">
@@ -109,27 +109,27 @@
             <div class="d-flex">
               <div *ngIf="lastPing">
                 {{ responseTime }}ms&nbsp;
-                <span placement="bottom" ngbTooltip="Last ping">({{ lastPing | date: 'HH:mm:ss' }})</span>
+                <span placement="bottom" ngbTooltip="Last ping">({{ lastPing | date : 'HH:mm:ss' }})</span>
               </div>
               <div *ngIf="!lastPing">Unavailable</div>
               <div placement="bottom" ngbTooltip="Next refresh" aria-label="Next refresh in">&nbsp;&nbsp;/&nbsp;&nbsp;{{ refreshIn }}s</div>
             </div>
           </li>
-          <ng-container *ngIf="status === 'Online'">
+          <ng-container *ngIf="serverInfo$ | async as serverInfo">
             <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-              Time: <span>{{ serverInfoResponse?.serverTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)':'UTC' }}</span>
+              Time: <span>{{ serverInfo.serverTime | date : 'YYYY-MM-dd HH:mm:ss (zzz)' : 'UTC' }}</span>
             </li>
             <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-              Started: <span>{{ serverInfoResponse?.serverStartTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
+              Started: <span>{{ serverInfo.serverStartTime | date : 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
             </li>
             <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-              Uptime: <span>{{ localTime | timespan: serverInfoResponse?.serverStartTime }}</span>
+              Uptime: <span>{{ localTime$ | async | timespan : serverInfo.serverStartTime }}</span>
             </li>
             <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-              Version: <span>{{ serverInfoResponse?.version }}</span>
+              Version: <span>{{ serverInfo.version }}</span>
             </li>
             <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-              Info: <span class="ms-md-5" style="white-space: nowrap">"{{ serverInfoResponse?.info }}"</span>
+              Info: <span class="ms-md-5" style="white-space: nowrap">"{{ serverInfo.info }}"</span>
             </li>
           </ng-container>
         </ul>

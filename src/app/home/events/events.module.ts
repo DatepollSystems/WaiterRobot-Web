@@ -20,6 +20,7 @@ import {AllEventsComponent} from './all-events/all-events.component';
 import {EventEditComponent} from './event-edit/event-edit.component';
 
 import {EventsComponent} from './events.component';
+import {NgSub} from '../../_shared/ui/ng-sub.directive';
 
 const startRoutes: Routes = [
   {
@@ -55,6 +56,7 @@ const startRoutes: Routes = [
     AppSpinnerRowComponent,
     AppBtnModelEditConfirmComponent,
     BtnWaiterCreateQrCodeComponenteee,
+    NgSub,
   ],
 })
 export class EventsModule {}
