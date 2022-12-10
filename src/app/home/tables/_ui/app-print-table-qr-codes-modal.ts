@@ -96,13 +96,13 @@ import {TableModel} from '../_models/table.model';
   imports: [
     NgForOf,
     NgIf,
-    NgbDropdownModule,
     NgbProgressbarModule,
     DfxTranslateModule,
     DfxTrackByModule,
     QRCodeModule,
     AppBtnToolbarComponent,
     AppIconsModule,
+    NgbDropdownModule,
   ],
 })
 export class AppPrintTableQrCodesModalComponent {

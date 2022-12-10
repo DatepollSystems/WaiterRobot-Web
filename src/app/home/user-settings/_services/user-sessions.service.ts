@@ -6,7 +6,7 @@ import {SessionModel} from '../_models/session.model';
 import {SessionResponse} from '../../../_shared/waiterrobot-backend';
 import {AbstractModelService} from '../../../_shared/services/abstract-model.service';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class UserSessionsService extends AbstractModelService<SessionModel> {
   override url = '/user/sessions';
 

@@ -20,7 +20,7 @@ specifiers:
   '@angular/platform-browser': 15.0.2
   '@angular/platform-browser-dynamic': 15.0.2
   '@angular/router': 15.0.2
-  '@ng-bootstrap/ng-bootstrap': 13.1.1
+  '@ng-bootstrap/ng-bootstrap': 14.0.0
   '@ngx-loading-bar/core': 6.0.2
   '@ngx-loading-bar/router': 6.0.2
   '@popperjs/core': 2.11.6
@@ -75,7 +75,7 @@ dependencies:
   '@angular/platform-browser': 15.0.2_c53tiokkldbnrdbarlei26dgcq
   '@angular/platform-browser-dynamic': 15.0.2_35pdmxna5zlo6jyg6u37zetaoe
   '@angular/router': 15.0.2_5wu52grs7aans5dk4ai6xt2mze
-  '@ng-bootstrap/ng-bootstrap': 13.1.1_odbwld7opobqndyne7dohrdozy
+  '@ng-bootstrap/ng-bootstrap': 14.0.0_odbwld7opobqndyne7dohrdozy
   '@ngx-loading-bar/core': 6.0.2_yimwdfz6vz6wg5zg3grti3klq4
   '@ngx-loading-bar/router': 6.0.2_wseza7vo7chopzqq6vgtkhmz4a
   '@popperjs/core': 2.11.6
@@ -2027,14 +2027,14 @@ packages:
     resolution: {integrity: sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==}
     dev: true
 
-  /@ng-bootstrap/ng-bootstrap/13.1.1_odbwld7opobqndyne7dohrdozy:
-    resolution: {integrity: sha512-R6qnmFKT2EwwijBHw7rUXqyo5W90OImHOv7BlsxMNnZLIksWIhqwU00k4UBTfRTnd6JsTPuj/co3MaP61ajILA==}
+  /@ng-bootstrap/ng-bootstrap/14.0.0_odbwld7opobqndyne7dohrdozy:
+    resolution: {integrity: sha512-QOYt1MBqAVVrjYSIf4gGXzRRJFzVKuD7ya2yFmeqN0YV2t3kB+IfUaNlfT3PTakHxLOS9ujLXeDiaTps5ST5TA==}
     peerDependencies:
-      '@angular/common': ^14.1.0
-      '@angular/core': ^14.1.0
-      '@angular/forms': ^14.1.0
-      '@angular/localize': ^14.1.0
-      '@popperjs/core': ^2.10.2
+      '@angular/common': ^15.0.0
+      '@angular/core': ^15.0.0
+      '@angular/forms': ^15.0.0
+      '@angular/localize': ^15.0.0
+      '@popperjs/core': ^2.11.6
       rxjs: ^6.5.3 || ^7.4.0
     dependencies:
       '@angular/common': 15.0.2_pzwybxg44vqvol3naaqoey4hwi
