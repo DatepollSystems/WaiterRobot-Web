@@ -11,7 +11,7 @@ import {AppIconsModule} from './icons.module';
 @Component({
   template: `
     <button
-      *ngIf="selectedEntity?.id !== entity?.id"
+      *ngIf="selectedEntity?.id !== entity?.id; else deselect"
       type="button"
       class="btn btn-sm btn-outline-primary text-white"
       (click)="onSelect(entity); $event.stopPropagation()"
@@ -21,17 +21,18 @@ import {AppIconsModule} from './icons.module';
       container="body">
       <i-bs name="check2-square"></i-bs>
     </button>
-    <button
-      *ngIf="selectedEntity?.id === entity?.id"
-      type="button"
-      class="btn btn-sm btn-primary"
-      (click)="onSelect(undefined); $event.stopPropagation()"
-      attr.aria-label="{{ 'CLEAR_SELECTION' | tr }}"
-      ngbTooltip="{{ 'CLEAR_SELECTION' | tr }}"
-      placement="start"
-      container="body">
-      <i-bs name="x-circle-fill"></i-bs>
-    </button>
+    <ng-template #deselect>
+      <button
+        type="button"
+        class="btn btn-sm btn-primary"
+        (click)="onSelect(undefined); $event.stopPropagation()"
+        attr.aria-label="{{ 'CLEAR_SELECTION' | tr }}"
+        ngbTooltip="{{ 'CLEAR_SELECTION' | tr }}"
+        placement="start"
+        container="body">
+        <i-bs name="x-circle-fill"></i-bs>
+      </button>
+    </ng-template>
   `,
   selector: 'selectable-button',
   standalone: true,

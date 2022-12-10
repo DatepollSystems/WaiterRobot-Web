@@ -21,5 +21,5 @@
       "groupName": "major-risky-update"
     }
   ],
-  "extends": ["config:base", ":preserveSemverRanges", ":rebaseStalePrs"]
+  "extends": ["config:base", ":preserveSemverRanges", ":rebaseStalePrs", ":disableDependencyDashboard"]
 }
