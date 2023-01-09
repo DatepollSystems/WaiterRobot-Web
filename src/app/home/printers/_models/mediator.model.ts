@@ -1,4 +1,4 @@
-import {AEntityWithStringID, IHasName} from 'dfx-helper';
+import {AEntityWithStringID, IHasName} from 'dfts-helper';
 import {DateAsString, GetMediatorResponse, GetPrinterMinResponse} from '../../../_shared/waiterrobot-backend';
 
 export class MediatorModel extends AEntityWithStringID implements IHasName {

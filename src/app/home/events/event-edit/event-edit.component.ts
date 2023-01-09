@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {d_format} from 'dfts-helper';
+import {Observable} from 'rxjs';
 
-import {DateHelper} from 'dfx-helper';
 import {MyUserModel} from 'src/app/_shared/services/auth/user/my-user.model';
 import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
 
@@ -12,7 +13,6 @@ import {OrganisationsService} from '../../organisations/_services/organisations.
 import {EventModel} from '../_models/event.model';
 
 import {EventsService} from '../_services/events.service';
-import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-event-edit',
@@ -50,7 +50,7 @@ export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
     if (model.updateWaiterCreateToken?.length === 0) {
       model.updateWaiterCreateToken = false;
     }
-    model.date = DateHelper.getFormatted(model.date as Date | null);
+    model.date = d_format(model.date as Date | null);
 
     return super.addCustomAttributesBeforeCreateAndUpdate(model);
   }

@@ -1,4 +1,4 @@
-import {AEntityWithStringIDAndName} from 'dfx-helper';
+import {AEntityWithStringIDAndName} from 'dfts-helper';
 import {OrganisationUserResponse} from '../../../_shared/waiterrobot-backend';
 
 export class OrganisationUserModel extends AEntityWithStringIDAndName {

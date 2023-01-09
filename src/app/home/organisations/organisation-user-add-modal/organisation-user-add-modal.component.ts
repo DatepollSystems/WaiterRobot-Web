@@ -1,12 +1,13 @@
 import {Component} from '@angular/core';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {AEntityWithNumberIDAndName, loggerOf, s_isEmail} from 'dfts-helper';
 
-import {AComponent, AEntityWithNumberIDAndName, loggerOf, StringHelper} from 'dfx-helper';
+import {AComponent} from 'dfx-helper';
 import {TranslateService} from 'dfx-translate';
-import {OrganisationsUsersService} from '../_services/organisations-users.service';
+import {AppQrCodeScannerModalComponent} from '../../../_shared/ui/qr-code/app-qr-code-scanner-modal.component';
 
 import {NotificationService} from '../../../notifications/notification.service';
-import {AppQrCodeScannerModalComponent} from '../../../_shared/ui/qr-code/app-qr-code-scanner-modal.component';
+import {OrganisationsUsersService} from '../_services/organisations-users.service';
 
 @Component({
   selector: 'app-organisation-user-add-modal',
@@ -29,7 +30,7 @@ export class OrganisationUserAddModalComponent extends AComponent {
     super();
   }
 
-  filter = (input: string): boolean => StringHelper.isEmail(input);
+  filter = (input: string): boolean => s_isEmail(input);
 
   orgUserChange(emailAddresses: string[]): void {
     this.emailAddresses = emailAddresses;

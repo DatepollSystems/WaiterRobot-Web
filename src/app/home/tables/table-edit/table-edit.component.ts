@@ -2,18 +2,18 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {Converter, loggerOf, TypeHelper} from 'dfx-helper';
+import {loggerOf, n_from, n_is} from 'dfts-helper';
 import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
 
+import {NotificationService} from '../../../notifications/notification.service';
+
 import {EventModel} from '../../events/_models/event.model';
-import {TableGroupModel} from '../_models/table-group.model';
-import {TableModel} from '../_models/table.model';
 
 import {EventsService} from '../../events/_services/events.service';
+import {TableGroupModel} from '../_models/table-group.model';
+import {TableModel} from '../_models/table.model';
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TablesService} from '../_services/tables.service';
-
-import {NotificationService} from '../../../notifications/notification.service';
 
 @Component({
   selector: 'app-table-edit',
@@ -55,8 +55,8 @@ export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
     route.queryParams.subscribe((params) => {
       const id = params.group;
       if (id != null) {
-        if (TypeHelper.isNumeric(id)) {
-          this.selectedTableGroup = Converter.toNumber(id);
+        if (n_is(id)) {
+          this.selectedTableGroup = n_from(id);
           this.log.info('constructor', 'Selected table group: ' + id);
         }
       }

@@ -1,4 +1,4 @@
-import {AEntityWithNumberIDAndName, Converter} from 'dfx-helper';
+import {AEntityWithNumberIDAndName, s_from} from 'dfts-helper';
 import {GetTableResponse} from '../../../_shared/waiterrobot-backend';
 
 export class TableModel extends AEntityWithNumberIDAndName {
@@ -9,7 +9,7 @@ export class TableModel extends AEntityWithNumberIDAndName {
   public eventId: number;
 
   constructor(data: GetTableResponse) {
-    super(data.id, Converter.toString(data.number), data);
+    super(data.id, s_from(data.number), data);
     this.tableNumber = data.number;
     this.seats = data.seats;
     this.groupId = data.groupId;

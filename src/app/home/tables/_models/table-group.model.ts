@@ -1,4 +1,4 @@
-import {AEntityWithNumberIDAndName} from 'dfx-helper';
+import {AEntityWithNumberIDAndName} from 'dfts-helper';
 import {GetTableGroupResponse} from '../../../_shared/waiterrobot-backend';
 
 export class TableGroupModel extends AEntityWithNumberIDAndName {

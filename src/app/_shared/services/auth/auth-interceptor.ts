@@ -1,13 +1,14 @@
 import {HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest} from '@angular/common/http';
 import {inject} from '@angular/core';
+import {loggerOf} from 'dfts-helper';
 
-import {loggerOf, WINDOW} from 'dfx-helper';
+import {WINDOW} from 'dfx-helper';
 import {BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError} from 'rxjs';
+import {NotificationService} from '../../../notifications/notification.service';
 
 import {EnvironmentHelper} from '../../EnvironmentHelper';
 
 import {JWTResponse} from '../../waiterrobot-backend';
-import {NotificationService} from '../../../notifications/notification.service';
 import {AuthService} from './auth.service';
 
 /**

@@ -1,4 +1,4 @@
-import {AEntityWithNumberIDAndName, Converter} from 'dfx-helper';
+import {AEntityWithNumberIDAndName, s_from} from 'dfts-helper';
 import {
   GetOrderResponse,
   GetProductMinResponse,
@@ -17,7 +17,7 @@ export class OrderModel extends AEntityWithNumberIDAndName {
   public readonly printState: PrintState;
 
   constructor(data: GetOrderResponse) {
-    super(data.id, Converter.toString(data.id), data);
+    super(data.id, s_from(data.id), data);
     this.orderId = data.orderId;
     this.table = data.table;
     this.product = data.product;

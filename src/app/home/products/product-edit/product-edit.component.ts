@@ -1,21 +1,21 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {AEntityWithNumberIDAndName, Converter, EntityList, IEntityList, IEntityWithNumberIDAndName, TypeHelper} from 'dfx-helper';
+import {AEntityWithNumberIDAndName, EntityList, IEntityList, IEntityWithNumberIDAndName, n_from, n_is} from 'dfts-helper';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
 
+import {NotificationService} from '../../../notifications/notification.service';
+
 import {EventModel} from '../../events/_models/event.model';
+import {EventsService} from '../../events/_services/events.service';
 import {PrinterModel} from '../../printers/_models/printer.model';
+import {PrintersService} from '../../printers/_services/printers.service';
 import {ProductGroupModel} from '../_models/product-group.model';
 import {ProductModel} from '../_models/product.model';
 import {AllergensService} from '../_services/allergens.service';
-import {EventsService} from '../../events/_services/events.service';
-import {PrintersService} from '../../printers/_services/printers.service';
 import {ProductGroupsService} from '../_services/product-groups.service';
 import {ProductsService} from '../_services/products.service';
-
-import {NotificationService} from '../../../notifications/notification.service';
 
 @Component({
   selector: 'app-product-edit',
@@ -64,8 +64,8 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
     route.queryParams.subscribe((params) => {
       const id = params.group;
       if (id != null) {
-        if (TypeHelper.isNumeric(id)) {
-          this.selectedProductGroup = Converter.toNumber(id);
+        if (n_is(id)) {
+          this.selectedProductGroup = n_from(id);
           this.lumber.info('constructor', 'Selected product group: ' + id);
         }
       }
@@ -75,8 +75,8 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
   selectedAllergens: IEntityList<AEntityWithNumberIDAndName> = new EntityList();
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
-    model.groupId = Converter.toNumber(model.groupId as number);
-    model.printerId = Converter.toNumber(model.printerId as number);
+    model.groupId = n_from(model.groupId as number);
+    model.printerId = n_from(model.printerId as number);
 
     model.price = model.price * 100;
 

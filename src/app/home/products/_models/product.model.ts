@@ -1,6 +1,6 @@
-import {AEntityWithNumberIDAndName, EntityList, IEntityList, imploderBuilder} from 'dfx-helper';
-import {AllergenModel} from './allergen.model';
+import {AEntityWithNumberIDAndName, EntityList, IEntityList, s_imploder} from 'dfts-helper';
 import {GetAllergenResponse, GetProductMaxResponse} from '../../../_shared/waiterrobot-backend';
+import {AllergenModel} from './allergen.model';
 
 export class ProductModel extends AEntityWithNumberIDAndName {
   public readonly price: number;
@@ -30,7 +30,7 @@ export class ProductModel extends AEntityWithNumberIDAndName {
 
   public allergens_short_names(): string {
     if (!this.allergensShortName) {
-      this.allergensShortName = imploderBuilder()
+      this.allergensShortName = s_imploder()
         .mappedSource(this.allergens, (it) => it.shortName)
         .separator(', ')
         .build();

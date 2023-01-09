@@ -1,6 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Inject, Injectable} from '@angular/core';
-import {BrowserHelper, Converter, StorageHelper, WINDOW} from 'dfx-helper';
+import {i_complete, s_from, s_fromStorage, st_removeAll, st_set} from 'dfts-helper';
+import {WINDOW} from 'dfx-helper';
 
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
@@ -25,16 +26,8 @@ export class AuthService {
   }
 
   static getSessionInformation(): string {
-    const browser = BrowserHelper.infos();
-    return (
-      browser.name +
-      ' - ' +
-      Converter.toString(browser.majorVersion) +
-      '; OS: ' +
-      browser.os +
-      '; Phone: ' +
-      Converter.toString(browser.mobile)
-    );
+    const browser = i_complete();
+    return browser.name + ' - ' + s_from(browser.majorVersion) + '; OS: ' + browser.os + '; Phone: ' + s_from(browser.mobile);
   }
 
   public sendSignInRequest = (email: string, password: string) =>
@@ -55,19 +48,19 @@ export class AuthService {
     } as SignInWithPasswordChangeDto);
 
   public setSessionToken(sessionToken: string | undefined): void {
-    StorageHelper.set('sessionToken', sessionToken);
+    st_set('sessionToken', sessionToken);
     this.sessionToken = sessionToken;
   }
 
   getSessionToken(): string | undefined {
     if (this.sessionToken == null) {
-      this.sessionToken = StorageHelper.getString('sessionToken');
+      this.sessionToken = s_fromStorage('sessionToken');
     }
     return this.sessionToken;
   }
 
   public setJWTToken(jwtToken: string | undefined): void {
-    StorageHelper.set('token', jwtToken);
+    st_set('token', jwtToken);
     this.jwtToken = jwtToken;
     if (jwtToken != undefined) {
       this.jwtTokenExpires = new Date();
@@ -77,7 +70,7 @@ export class AuthService {
 
   public getJWTToken(): string | undefined {
     if (this.jwtToken == null) {
-      this.jwtToken = StorageHelper.getString('token');
+      this.jwtToken = s_fromStorage('token');
     }
     return this.jwtToken;
   }
@@ -115,7 +108,7 @@ export class AuthService {
   public clearStorage(): void {
     this.setSessionToken(undefined);
     this.setJWTToken(undefined);
-    StorageHelper.removeAll();
+    st_removeAll();
   }
 
   public isAuthenticated(): boolean {

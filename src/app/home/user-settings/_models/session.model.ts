@@ -1,4 +1,4 @@
-import {AEntityWithNumberIDAndName} from 'dfx-helper';
+import {AEntityWithNumberIDAndName} from 'dfts-helper';
 import {SessionResponse} from '../../../_shared/waiterrobot-backend';
 
 export class SessionModel extends AEntityWithNumberIDAndName {

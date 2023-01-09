@@ -2,7 +2,8 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {AEntityService, Converter, IEntityWithNumberID, IEntityWithNumberIDAndName, TypeHelper} from 'dfx-helper';
+import {IEntityWithNumberID, IEntityWithNumberIDAndName, n_from, n_is} from 'dfts-helper';
+import {AEntityService} from 'dfx-helper';
 
 import {AbstractModelService} from '../services/abstract-model.service';
 
@@ -29,9 +30,9 @@ export abstract class AbstractModelsListByIdComponent<
 
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
-      if (id != null && TypeHelper.isNumeric(id)) {
+      if (id != null && n_is(id)) {
         this.unsubscribeAll();
-        const nId = Converter.toNumber(id);
+        const nId = n_from(id);
         this.lumber.info('const', 'Entity to open: ' + nId);
         this.entity = this.byIdEntityService.getSingle(nId);
         this.unsubscribe(

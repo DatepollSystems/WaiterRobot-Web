@@ -2,18 +2,17 @@ import {Component, OnInit} from '@angular/core';
 import {FormsModule, NgForm} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {UIHelper} from 'dfx-helper';
-import {JWTResponse} from '../_shared/waiterrobot-backend';
+import {DfxTr} from 'dfx-translate';
 
 import {AuthService} from '../_shared/services/auth/auth.service';
+import {AppDownloadBtnListComponent} from '../_shared/ui/app-download-btn-list.component';
+import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
+import {FooterModule} from '../_shared/ui/footer/footer.module';
+import {JWTResponse} from '../_shared/waiterrobot-backend';
 import {NotificationService} from '../notifications/notification.service';
 import {AppAccountNotActivatedDialog} from './account-not-activated-dialog.component';
 import {AppForgotPasswordDialog} from './forgot-password-dialog.component';
 import {AppPasswordChangeDialogComponent} from './password-change-dialog.component';
-import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
-import {AppDownloadBtnListComponent} from '../_shared/ui/app-download-btn-list.component';
-import {DfxTr} from 'dfx-translate';
-import {FooterModule} from '../_shared/ui/footer/footer.module';
 
 @Component({
   selector: 'app-about',
@@ -31,7 +30,7 @@ export class AboutComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (UIHelper.getApproxCurrentDate().getMonth() === 5) {
+    if (new Date().getMonth() === 5) {
       document.getElementById('brand')?.classList.add('rainbow-text');
     } else {
       document.getElementById('brand')?.classList.add('text-white');

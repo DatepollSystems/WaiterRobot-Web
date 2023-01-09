@@ -1,13 +1,14 @@
+import {NgIf} from '@angular/common';
 import {Component} from '@angular/core';
 import {FormsModule, NgForm} from '@angular/forms';
+import {s_isEmail} from 'dfts-helper';
 
-import {AComponent, StringHelper} from 'dfx-helper';
+import {AComponent} from 'dfx-helper';
+import {DfxTr} from 'dfx-translate';
 import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
+import {NotificationService} from '../../../notifications/notification.service';
 
 import {UserSettingsService} from '../_services/user-settings.service';
-import {NotificationService} from '../../../notifications/notification.service';
-import {NgIf} from '@angular/common';
-import {DfxTr} from 'dfx-translate';
 
 @Component({
   selector: 'app-user-settings-sub',
@@ -34,7 +35,7 @@ export class UserSettingsSubComponent extends AComponent {
   }
 
   emailChange(email: string): void {
-    this.emailAddressValid = StringHelper.isEmail(email);
+    this.emailAddressValid = s_isEmail(email);
   }
 
   changeEmail(form: NgForm): void {

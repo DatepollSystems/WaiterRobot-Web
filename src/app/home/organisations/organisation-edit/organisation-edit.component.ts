@@ -3,22 +3,22 @@ import {UntypedFormControl} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {EntityList, IList} from 'dfts-helper';
 import {NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
-import {EntityList, IList} from 'dfx-helper';
+import {Observable} from 'rxjs';
+import {MyUserModel} from '../../../_shared/services/auth/user/my-user.model';
+import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
+import {QuestionDialogComponent} from '../../../_shared/ui/question-dialog/question-dialog.component';
 import {OrganisationSettingsModel} from '../_models/organisation-settings.model';
 import {OrganisationUserModel} from '../_models/organisation-user.model';
 
 import {OrganisationModel} from '../_models/organisation.model';
-import {MyUserModel} from '../../../_shared/services/auth/user/my-user.model';
-import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
 import {OrganisationsSettingsService} from '../_services/organisations-settings.service';
 import {OrganisationsUsersService} from '../_services/organisations-users.service';
 import {OrganisationsService} from '../_services/organisations.service';
-import {QuestionDialogComponent} from '../../../_shared/ui/question-dialog/question-dialog.component';
 import {OrganisationUserAddModalComponent} from '../organisation-user-add-modal/organisation-user-add-modal.component';
-import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-organisation-edit',

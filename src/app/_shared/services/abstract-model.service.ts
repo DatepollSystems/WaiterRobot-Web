@@ -1,4 +1,5 @@
-import {AEntityService, ASelectableEntityService, IEntityWithNumberID} from 'dfx-helper';
+import {IEntityWithNumberID} from 'dfts-helper';
+import {AEntityService, ASelectableEntityService} from 'dfx-helper';
 
 export abstract class AbstractModelService<EntityType extends IEntityWithNumberID> extends AEntityService<number, EntityType> {}
 

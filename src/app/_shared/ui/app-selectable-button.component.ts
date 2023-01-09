@@ -2,7 +2,7 @@ import {NgIf} from '@angular/common';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {AEntityWithName} from 'dfx-helper';
+import {AEntityWithName} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {AbstractSelectableModelService} from '../services/abstract-model.service';

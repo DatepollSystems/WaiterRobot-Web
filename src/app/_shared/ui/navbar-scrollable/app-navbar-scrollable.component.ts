@@ -6,7 +6,7 @@ import {FormsModule} from '@angular/forms';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 
 import {NgbModal, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {StorageHelper} from 'dfx-helper';
+import {s_fromStorage, st_remove, st_set} from 'dfts-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {AppBtnToolbarComponent} from '../app-btn-toolbar.component';
@@ -103,7 +103,7 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
   showEditArrow = false;
 
   constructor(public router: Router, private modalService: NgbModal) {
-    const savedPrefStr = StorageHelper.getString(this._preferencesStorageKey);
+    const savedPrefStr = s_fromStorage(this._preferencesStorageKey);
     if (savedPrefStr) {
       this._savedItems = JSON.parse(savedPrefStr) as NavItem[];
     }
@@ -166,14 +166,14 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
   }
 
   onReset(): void {
-    StorageHelper.remove(this._preferencesStorageKey);
+    st_remove(this._preferencesStorageKey);
     this._savedItems = undefined;
     this.items = this._items.slice();
     this.onClose();
   }
 
   onSave(): void {
-    StorageHelper.set(this._preferencesStorageKey, JSON.stringify(this._itemsCopy));
+    st_set(this._preferencesStorageKey, JSON.stringify(this._itemsCopy));
     this._savedItems = this._itemsCopy.slice();
     this.items = this._items;
 

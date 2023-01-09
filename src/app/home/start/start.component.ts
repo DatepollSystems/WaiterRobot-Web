@@ -1,23 +1,24 @@
-import {Component} from '@angular/core';
 import {AsyncPipe, DatePipe, NgForOf, NgIf, UpperCasePipe} from '@angular/common';
-import {RouterLink} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
+import {Component} from '@angular/core';
+import {RouterLink} from '@angular/router';
 
 import {NgbDropdownModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {i_complete} from 'dfts-helper';
+import {AComponent, DfxTimeSpan} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {AComponent, BrowserHelper, BrowserInfo, DfxTimeSpan} from 'dfx-helper';
+import {catchError, EMPTY, interval, map, Observable, share, switchMap, tap, timer} from 'rxjs';
 
 import {EnvironmentHelper} from '../../_shared/EnvironmentHelper';
-import {EventModel} from '../events/_models/event.model';
-import {OrganisationModel} from '../organisations/_models/organisation.model';
-import {JsonInfoResponse} from '../../_shared/waiterrobot-backend';
+import {MyUserModel} from '../../_shared/services/auth/user/my-user.model';
 import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
-import {EventsService} from '../events/_services/events.service';
 import {AppDownloadBtnListComponent} from '../../_shared/ui/app-download-btn-list.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
+import {JsonInfoResponse} from '../../_shared/waiterrobot-backend';
+import {EventModel} from '../events/_models/event.model';
+import {EventsService} from '../events/_services/events.service';
+import {OrganisationModel} from '../organisations/_models/organisation.model';
 import {OrganisationsService} from '../organisations/_services/organisations.service';
-import {catchError, EMPTY, interval, map, Observable, share, switchMap, tap, timer} from 'rxjs';
-import {MyUserModel} from '../../_shared/services/auth/user/my-user.model';
 
 @Component({
   selector: 'app-start',
@@ -43,7 +44,7 @@ export class StartComponent extends AComponent {
   type: string;
 
   localTime$: Observable<Date>;
-  browserInfos: BrowserInfo;
+  browserInfos = i_complete();
 
   serverInfo$: Observable<JsonInfoResponse>;
   startMs = 0;
@@ -110,8 +111,6 @@ export class StartComponent extends AComponent {
       organisationsService.allChange.subscribe((it) => (this.organisations = it)),
       eventsService.allChange.subscribe((it) => (this.events = it))
     );
-
-    this.browserInfos = BrowserHelper.infos();
   }
 
   selectOrg(it: OrganisationModel): void {

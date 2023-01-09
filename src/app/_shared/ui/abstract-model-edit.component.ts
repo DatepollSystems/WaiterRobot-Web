@@ -2,8 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {IEntityWithNumberIDAndName, loggerOf, n_from, n_is} from 'dfts-helper';
 
-import {AComponent, Converter, IEntityWithNumberIDAndName, loggerOf, TypeHelper} from 'dfx-helper';
+import {AComponent} from 'dfx-helper';
 import {tap} from 'rxjs';
 
 import {AbstractModelService} from '../services/abstract-model.service';
@@ -41,12 +42,12 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
       this.entityLoaded = false;
       const id = params.get('id');
       if (id != null) {
-        if (TypeHelper.isNumeric(id)) {
+        if (n_is(id)) {
           this.isEditing = true;
-          const nId = Converter.toNumber(id);
+          const nId = n_from(id);
           this.lumber.info('const', 'Model to open: "' + nId + '"');
           this.entity = this.modelService.getSingle(nId);
-          if (this.entity?.id == nId) {
+          if (this.entity && this.entity?.id == nId) {
             this.entityLoaded = true;
             this.onEntityEdit(this.entity);
           }
@@ -73,7 +74,7 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
 
     this.route.queryParams.subscribe((params) => {
       if (params?.tab != null && typeof params?.tab === 'string') {
-        this.activeTab = Converter.toNumber(params?.tab);
+        this.activeTab = n_from(params?.tab);
         this.checkTab();
       }
     });

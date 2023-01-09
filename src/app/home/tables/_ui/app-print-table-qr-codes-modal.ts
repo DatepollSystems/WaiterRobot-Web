@@ -3,7 +3,8 @@ import {Component, Input} from '@angular/core';
 
 import {NgbActiveModal, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
 import {QRCodeModule} from 'angularx-qrcode';
-import {Converter, DateHelper, DfxTrackByModule} from 'dfx-helper';
+import {d_formatWithHoursMinutesAndSeconds, s_from} from 'dfts-helper';
+import {DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
@@ -115,7 +116,7 @@ export class AppPrintTableQrCodesModalComponent {
   constructor(public activeModal: NgbActiveModal, private mobileLink: MobileLinkService) {}
 
   parser = (table: TableModel): string => {
-    return this.mobileLink.createTableLink(Converter.toString(table.id));
+    return this.mobileLink.createTableLink(s_from(table.id));
   };
 
   async pdf(): Promise<void> {
@@ -155,7 +156,7 @@ export class AppPrintTableQrCodesModalComponent {
       this.progress += steps;
       console.log(this.progress);
     }
-    pdf.save(`tables-${DateHelper.getFormattedWithHoursMinutesAndSeconds(new Date()) ?? ''}.pdf`);
+    pdf.save(`tables-${d_formatWithHoursMinutesAndSeconds(new Date()) ?? ''}.pdf`);
     this.generating = false;
     this.progress = undefined;
   }

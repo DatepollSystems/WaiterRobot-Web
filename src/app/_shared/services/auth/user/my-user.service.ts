@@ -1,10 +1,10 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {o_fromStorage, st_set} from 'dfts-helper';
 import {filter, map, merge, Observable, share, startWith, Subject, tap} from 'rxjs';
-import {StorageHelper} from 'dfx-helper';
+import {GetMyselfResponse} from '../../../waiterrobot-backend';
 
 import {MyUserModel} from './my-user.model';
-import {GetMyselfResponse} from '../../../waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +17,8 @@ export class MyUserService {
   public getUser$(): Observable<MyUserModel> {
     return merge(
       this.httpClient.get<GetMyselfResponse>('/user/myself').pipe(
-        tap((it) => StorageHelper.set('myuser_2', it)),
-        startWith(StorageHelper.getObject('myuser_2') as GetMyselfResponse),
+        tap((it) => st_set('myuser_2', it)),
+        startWith(o_fromStorage('myuser_2') as GetMyselfResponse),
         filter((it) => it != undefined),
         map((it) => new MyUserModel(it)),
         share()

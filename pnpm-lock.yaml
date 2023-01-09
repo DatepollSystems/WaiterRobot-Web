@@ -36,8 +36,9 @@ specifiers:
   '@zxing/ngx-scanner': 3.8.0
   angularx-qrcode: ^15.0.0
   bootstrap: 5.2.3
+  dfts-helper: ^0.0.1
   dfx-bootstrap-table: 1.4.0
-  dfx-helper: 4.7.2
+  dfx-helper: 5.0.0-beta.0
   dfx-translate: 1.5.0
   eslint: 8.31.0
   eslint-config-prettier: 8.6.0
@@ -85,8 +86,9 @@ dependencies:
   '@zxing/ngx-scanner': 3.8.0_epysgmc4rlyjwv2tfgij52zbfu
   angularx-qrcode: 15.0.0_@angular+core@15.0.4
   bootstrap: 5.2.3_@popperjs+core@2.11.6
+  dfts-helper: 0.0.1_tslib@2.4.1
   dfx-bootstrap-table: 1.4.0_zrh2l6e74zjwmtxfvx5qbzcv3m
-  dfx-helper: 4.7.2_fbpzarz5tzwyhbfyo4dgitdwqu
+  dfx-helper: 5.0.0-beta.0_ocmsly3fap6xrkycgrj6nkzkte
   dfx-translate: 1.5.0_fbpzarz5tzwyhbfyo4dgitdwqu
   html-to-image: 1.10.8
   jspdf: 2.5.1
@@ -3947,6 +3949,14 @@ packages:
     resolution: {integrity: sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==}
     dev: true
 
+  /dfts-helper/0.0.1_tslib@2.4.1:
+    resolution: {integrity: sha512-2KhCfjjZTjIxFmS9GVY1dz9shAugKVLP+IbbA0YqagNxjzrpl+3GKiJy1BXNKmAtJmBN9nYpL9kzsmHdgFojyA==}
+    peerDependencies:
+      tslib: 2.4.1
+    dependencies:
+      tslib: 2.4.1
+    dev: false
+
   /dfx-bootstrap-table/1.4.0_zrh2l6e74zjwmtxfvx5qbzcv3m:
     resolution: {integrity: sha512-mpLxWME4EmfRN81TtjTkxIPRa4Oynud+g+UCCxve4+EXluxy1x4lKvbM5ZafYdESbP8+DmE9NjPjGaufp0woMg==}
     peerDependencies:
@@ -3966,15 +3976,23 @@ packages:
       tslib: 2.4.1
     dev: false
 
-  /dfx-helper/4.7.2_fbpzarz5tzwyhbfyo4dgitdwqu:
-    resolution: {integrity: sha512-Ica3enQmWlOMJ1xvBH1pkq84eh7yA8G2fyOr5wUFTzS7saq1V/3K5TsBEv7aq8frVlk1Sr0xL2E47GHe9fYUZg==}
+  /dfx-helper/5.0.0-beta.0_ocmsly3fap6xrkycgrj6nkzkte:
+    resolution: {integrity: sha512-qXPuU3pvwDi/ZGdMmlPRZiHdj5tAL3xskWYAkoqtoKbFLSwpbskcZARp79UOiROVNUFI/YdNVCq5vByKcznWyw==}
     peerDependencies:
-      '@angular/common': 4 - 15
-      '@angular/core': 4 - 15
+      '@angular/cdk': 9 - 15
+      '@angular/common': 9 - 15
+      '@angular/core': 9 - 15
+      '@angular/platform-browser': 9 - 15
+      '@angular/router': 9 - 15
+      dfts-helper: 0.0.1
       rxjs: 2 - 7
     dependencies:
+      '@angular/cdk': 15.0.3_fbpzarz5tzwyhbfyo4dgitdwqu
       '@angular/common': 15.0.4_2kx3gifw2v5d4j22ydwztvu5ey
       '@angular/core': 15.0.4_rxjs@7.8.0+zone.js@0.12.0
+      '@angular/platform-browser': 15.0.4_bwwplqn6fknm3semymfqlvw5bm
+      '@angular/router': 15.0.4_xkplghntscucsztvq3p7ejhl3e
+      dfts-helper: 0.0.1_tslib@2.4.1
       rxjs: 7.8.0
       tslib: 2.4.1
     dev: false

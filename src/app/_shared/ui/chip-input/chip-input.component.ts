@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormsModule, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
 import {NgbModule, NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
-import {TypeHelper} from 'dfx-helper';
+import {s_is} from 'dfts-helper';
 
 import {debounceTime, distinctUntilChanged, filter, map, Observable} from 'rxjs';
 
@@ -130,7 +130,7 @@ export class ChipInput {
   }
 
   inputChange(input?: inputType): void {
-    if (!input || !TypeHelper.isString(input)) {
+    if (!input || !s_is(input)) {
       return;
     }
 

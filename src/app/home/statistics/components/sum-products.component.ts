@@ -23,13 +23,13 @@ export class SumProductsComponent extends AComponent {
 
   sumDtos?: StatisticsSumResponse[];
 
-  constructor(http: HttpClient, eventsServie: EventsService) {
+  constructor(http: HttpClient, eventsService: EventsService) {
     super();
 
     this.unsubscribe(
       http
         .get<typeof this.sumDtos>('/config/statistics/sumProducts', {
-          params: new HttpParams().set('eventId', eventsServie.getSelected()?.id ?? ''),
+          params: new HttpParams().set('eventId', eventsService.getSelected()?.id ?? ''),
         })
         .subscribe((it) => {
           this.sumDtos = this._standalone ? it : it?.slice(0, 20);

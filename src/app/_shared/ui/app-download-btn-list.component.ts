@@ -1,7 +1,8 @@
 import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {NgbModal, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {DfxTrackByModule, IList, List} from 'dfx-helper';
+import {a_shuffle} from 'dfts-helper';
+import {DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {IconName, IconNamesEnum} from 'ngx-bootstrap-icons';
@@ -79,7 +80,7 @@ export type appDownload = {
   imports: [NgIf, NgForOf, NgbTooltipModule, DfxTranslateModule, DfxTrackByModule, AppIconsModule, CopyDirective, NgOptimizedImage],
 })
 export class AppDownloadBtnListComponent {
-  appDownloadLinks: IList<appDownload> = new List<appDownload>([
+  appDownloadLinks: appDownload[] = a_shuffle([
     // {
     //   text: 'F-Droid',
     //   link: 'https://f-droid.org',
@@ -102,7 +103,7 @@ export class AppDownloadBtnListComponent {
       link: 'https://play.google.com/store/apps/details?id=org.datepollsystems.waiterrobot.android',
       icon: IconNamesEnum.Google,
     },
-  ]).shuffle();
+  ]);
 
   @Input() showQRCodeButton = true;
 

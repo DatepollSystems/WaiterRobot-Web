@@ -1,16 +1,15 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-
-import {EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfx-helper';
+import {EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfts-helper';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
 import {EventModel} from '../../events/_models/event.model';
+import {EventsService} from '../../events/_services/events.service';
 import {OrganisationModel} from '../../organisations/_models/organisation.model';
+import {OrganisationsService} from '../../organisations/_services/organisations.service';
 
 import {WaiterModel} from '../_models/waiter.model';
-import {EventsService} from '../../events/_services/events.service';
-import {OrganisationsService} from '../../organisations/_services/organisations.service';
 import {WaiterSessionsService} from '../_services/waiter-sessions.service';
 
 import {WaitersService} from '../_services/waiters.service';

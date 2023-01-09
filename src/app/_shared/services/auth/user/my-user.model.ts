@@ -1,4 +1,4 @@
-import {AEntityWithNumberIDAndName} from 'dfx-helper';
+import {AEntityWithNumberIDAndName} from 'dfts-helper';
 import {GetMyselfResponse} from '../../../waiterrobot-backend';
 
 export class MyUserModel extends AEntityWithNumberIDAndName {

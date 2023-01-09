@@ -3,7 +3,8 @@ import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {QRCodeModule} from 'angularx-qrcode';
-import {DateHelper, DfxCut, IsMobileService, WINDOW} from 'dfx-helper';
+import {d_format} from 'dfts-helper';
+import {DfxCut, IsMobileService, WINDOW} from 'dfx-helper';
 import {DfxTranslateModule, TranslateService} from 'dfx-translate';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
@@ -103,7 +104,7 @@ export class AppQrCodeViewComponent {
     isMobileService: IsMobileService,
     qrCodeService: QrCodeService
   ) {
-    this.$isMobile = isMobileService.$isMobile;
+    this.$isMobile = isMobileService.isMobile$();
 
     this.qrCodeData = qrCodeService.getQRCodeData();
 
@@ -129,7 +130,7 @@ export class AppQrCodeViewComponent {
       }
     }
 
-    pdf.save(`qrcode-${DateHelper.getFormattedWithHoursMinutesAndSeconds(new Date()) ?? ''}.pdf`);
+    pdf.save(`qrcode-${d_format(new Date())}.pdf`);
   }
 
   back = (): void => this.window.history.back();

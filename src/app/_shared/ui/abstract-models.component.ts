@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
+import {IEntityWithNumberIDAndName, loggerOf} from 'dfts-helper';
 
-import {AComponent, IEntityWithNumberIDAndName, loggerOf} from 'dfx-helper';
+import {AComponent} from 'dfx-helper';
 
 import {AbstractModelService} from '../services/abstract-model.service';
 

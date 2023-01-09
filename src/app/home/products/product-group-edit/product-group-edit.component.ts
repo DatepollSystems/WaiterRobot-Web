@@ -2,15 +2,15 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {Converter} from 'dfx-helper';
+import {n_from} from 'dfts-helper';
 import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
 
 import {EventModel} from '../../events/_models/event.model';
-import {PrinterModel} from '../../printers/_models/printer.model';
-import {ProductGroupModel} from '../_models/product-group.model';
 
 import {EventsService} from '../../events/_services/events.service';
+import {PrinterModel} from '../../printers/_models/printer.model';
 import {PrintersService} from '../../printers/_services/printers.service';
+import {ProductGroupModel} from '../_models/product-group.model';
 import {ProductGroupsService} from '../_services/product-groups.service';
 
 @Component({
@@ -47,7 +47,7 @@ export class ProductGroupEditComponent extends AbstractModelEditComponent<Produc
     model.eventId = this.selectedEvent?.id;
     console.log('test', model.printerId);
     if (this.updatePrinter) {
-      model.printerId = Converter.toNumber(model.printerId as string);
+      model.printerId = n_from(model.printerId as string);
     } else {
       model.printerId = undefined;
     }

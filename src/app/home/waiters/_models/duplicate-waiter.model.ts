@@ -1,4 +1,4 @@
-import {AEntityWithNumberIDAndName, EntityList, EntityWithNumberIDAndName, IEntityList, IEntityWithNumberIDAndName} from 'dfx-helper';
+import {AEntityWithNumberIDAndName, EntityList, EntityWithNumberIDAndName, IEntityList, IEntityWithNumberIDAndName} from 'dfts-helper';
 import {DuplicateWaiterResponse} from '../../../_shared/waiterrobot-backend';
 
 export class DuplicateWaiterModel extends AEntityWithNumberIDAndName {

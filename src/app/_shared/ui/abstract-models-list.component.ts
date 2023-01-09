@@ -3,8 +3,9 @@ import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {UntypedFormControl} from '@angular/forms';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {IEntityWithName, IList, List, loggerOf, s_imploder, StringOrNumber} from 'dfts-helper';
 import {NgbPaginator, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
-import {AComponent, AEntityService, IEntityWithName, IList, imploderBuilder, List, loggerOf, StringOrNumber} from 'dfx-helper';
+import {AComponent, AEntityService} from 'dfx-helper';
 
 import {QuestionDialogComponent} from './question-dialog/question-dialog.component';
 
@@ -126,7 +127,7 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
     this.lumber.info('onDeleteSelected', 'Selected entities:', this.selection.selected);
     const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
     modalRef.componentInstance.title = 'DELETE_ALL';
-    const list = imploderBuilder()
+    const list = s_imploder()
       .mappedSource(this.selection.selected, (it) => it.name)
       .separator('</li><li>')
       .build();

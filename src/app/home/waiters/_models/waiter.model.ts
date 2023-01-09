@@ -1,4 +1,4 @@
-import {AEntityWithNumberIDAndName} from 'dfx-helper';
+import {AEntityWithNumberIDAndName} from 'dfts-helper';
 import {GetWaiterMinResponse, GetWaiterResponse} from '../../../_shared/waiterrobot-backend';
 
 export class WaiterModel extends AEntityWithNumberIDAndName {

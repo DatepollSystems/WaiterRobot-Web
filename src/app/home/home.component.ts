@@ -1,16 +1,12 @@
+import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import {Component, Inject} from '@angular/core';
 import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
+import {loggerOf, s_from} from 'dfts-helper';
 
-import {
-  AComponent,
-  Converter,
-  DfxHideIfOnline,
-  DfxHideIfPingSucceeds,
-  DfxTrackByModule,
-  IsMobileService,
-  loggerOf,
-  WINDOW,
-} from 'dfx-helper';
+import {AComponent, DfxHideIfOnline, DfxHideIfPingSucceeds, DfxTrackByModule, IsMobileService, WINDOW} from 'dfx-helper';
+import {DfxTr} from 'dfx-translate';
+import {Observable, tap} from 'rxjs';
 
 import {EnvironmentHelper} from '../_shared/EnvironmentHelper';
 
@@ -18,19 +14,15 @@ import {AuthService} from '../_shared/services/auth/auth.service';
 import {MyUserModel} from '../_shared/services/auth/user/my-user.model';
 import {MyUserService} from '../_shared/services/auth/user/my-user.service';
 import {QrCodeService} from '../_shared/services/qr-code.service';
+import {FooterModule} from '../_shared/ui/footer/footer.module';
+import {AppIconsModule} from '../_shared/ui/icons.module';
 import {AppNavbarScrollableComponent, NavItem} from '../_shared/ui/navbar-scrollable/app-navbar-scrollable.component';
+import {NgSub} from '../_shared/ui/ng-sub.directive';
 import {EventModel} from './events/_models/event.model';
 import {EventsService} from './events/_services/events.service';
 
 import {OrganisationModel} from './organisations/_models/organisation.model';
 import {OrganisationsService} from './organisations/_services/organisations.service';
-import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
-import {AppIconsModule} from '../_shared/ui/icons.module';
-import {FooterModule} from '../_shared/ui/footer/footer.module';
-import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
-import {DfxTr} from 'dfx-translate';
-import {Observable, tap} from 'rxjs';
-import {NgSub} from '../_shared/ui/ng-sub.directive';
 
 @Component({
   selector: 'app-home',
@@ -85,7 +77,7 @@ export class HomeComponent extends AComponent {
 
     this.environmentType = EnvironmentHelper.getType();
 
-    this.isMobile$ = this.isMobileService.$isMobile.pipe(
+    this.isMobile$ = this.isMobileService.isMobile$().pipe(
       tap((it) => {
         if (it) {
           const navContent = document.getElementById('navbarSupportedContent');
@@ -177,7 +169,7 @@ export class HomeComponent extends AComponent {
     }
     this.adminModeChanged = !this.adminModeChanged;
     this.myUser.isAdmin = !this.myUser.isAdmin;
-    this.lumber.info('switchAdminMode', 'Admin mode switched to ' + Converter.toString(this.myUser.isAdmin));
+    this.lumber.info('switchAdminMode', 'Admin mode switched to ' + s_from(this.myUser.isAdmin));
     this.myUserService.manualUserChange.next(this.myUser);
   }
 
@@ -201,7 +193,7 @@ export class HomeComponent extends AComponent {
     this.qrCodeService.openQRCodePage({
       data: user?.emailAddress,
       info: 'NAV_USER_SETTINGS_QR_CODE_INFO',
-      text: user.name,
+      text: `${user.firstname} ${user.surname}`,
     });
   }
 }

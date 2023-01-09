@@ -1,19 +1,19 @@
+import {NgIf} from '@angular/common';
 import {Component} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbDatepickerModule, NgbModal, NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
-import {DateHelper} from 'dfx-helper';
+import {d_from} from 'dfts-helper';
+import {DfxTr} from 'dfx-translate';
 import {AbstractModelEditComponent} from '../../_shared/ui/abstract-model-edit.component';
+import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
+import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {UserModel} from './_models/user.model';
 
 import {UsersService} from './_services/users.service';
-import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
-import {NgIf} from '@angular/common';
-import {DfxTr} from 'dfx-translate';
-import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {FormsModule} from '@angular/forms';
-import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
 
 @Component({
   template: `
@@ -252,7 +252,7 @@ export class UserEditComponent extends AbstractModelEditComponent<UserModel> {
       model.role = 'USER';
       this.lumber.info('addCustomAttribute', 'Model is user detected');
     }
-    model.birthday = DateHelper.getFormatted(model.birthday as string);
+    model.birthday = d_from(model.birthday as string);
 
     if (!this.updatePassword && this.isEditing) {
       model.password = null;

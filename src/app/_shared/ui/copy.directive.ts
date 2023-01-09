@@ -1,6 +1,6 @@
 import {Directive, Input} from '@angular/core';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {ClipboardHelper} from 'dfx-helper';
+import {cl_copy} from 'dfts-helper';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -14,7 +14,7 @@ export class CopyDirective {
   copy(t: NgbTooltip): void {
     if (this.copyable) {
       t.open();
-      ClipboardHelper.copy(this.copyable);
+      cl_copy(this.copyable);
       setTimeout(() => {
         t.close();
       }, 1000);

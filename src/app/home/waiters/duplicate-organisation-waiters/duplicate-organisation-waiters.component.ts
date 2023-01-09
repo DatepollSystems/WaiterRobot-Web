@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfx-helper';
+import {EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfts-helper';
 
 import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
 import {DuplicateWaiterModel} from '../_models/duplicate-waiter.model';
