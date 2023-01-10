@@ -7,21 +7,20 @@ import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
+import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
 
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
+import {AppSelectableButtonComponent} from '../../_shared/ui/app-selectable-button.component';
+import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
 import {ChipInput} from '../../_shared/ui/chip-input/chip-input.component';
 
 import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {AppSelectableButtonComponent} from '../../_shared/ui/app-selectable-button.component';
 import {AllOrganisationsComponent} from './all-organisations/all-organisations.component';
 import {OrganisationEditComponent} from './organisation-edit/organisation-edit.component';
 import {OrganisationUserAddModalComponent} from './organisation-user-add-modal/organisation-user-add-modal.component';
 
 import {OrganisationsComponent} from './organisations.component';
-import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
-import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
-import {NgSub} from '../../_shared/ui/ng-sub.directive';
 
 const routes: Routes = [
   {
@@ -56,7 +55,6 @@ const routes: Routes = [
     AppBtnToolbarComponent,
     AppSpinnerRowComponent,
     AppBtnModelEditConfirmComponent,
-    NgSub,
   ],
 })
 export class OrganisationsModule {}

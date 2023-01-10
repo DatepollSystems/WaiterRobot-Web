@@ -5,7 +5,7 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {NgbDatepickerModule, NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxTrackByModule} from 'dfx-helper';
+import {DfxTrackByModule, NgSub} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 import {OrganisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard.service';
 import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
@@ -20,7 +20,6 @@ import {AllEventsComponent} from './all-events/all-events.component';
 import {EventEditComponent} from './event-edit/event-edit.component';
 
 import {EventsComponent} from './events.component';
-import {NgSub} from '../../_shared/ui/ng-sub.directive';
 
 const startRoutes: Routes = [
   {

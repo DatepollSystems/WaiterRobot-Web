@@ -4,7 +4,7 @@ import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from 
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {loggerOf, s_from} from 'dfts-helper';
 
-import {AComponent, DfxHideIfOnline, DfxHideIfPingSucceeds, DfxTrackByModule, IsMobileService, WINDOW} from 'dfx-helper';
+import {AComponent, DfxHideIfOnline, DfxHideIfPingSucceeds, DfxTrackByModule, IsMobileService, NgSub, WINDOW} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {Observable, tap} from 'rxjs';
 
@@ -17,7 +17,6 @@ import {QrCodeService} from '../_shared/services/qr-code.service';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
 import {AppIconsModule} from '../_shared/ui/icons.module';
 import {AppNavbarScrollableComponent, NavItem} from '../_shared/ui/navbar-scrollable/app-navbar-scrollable.component';
-import {NgSub} from '../_shared/ui/ng-sub.directive';
 import {EventModel} from './events/_models/event.model';
 import {EventsService} from './events/_services/events.service';
 
