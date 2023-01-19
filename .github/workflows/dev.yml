@@ -44,15 +44,10 @@ jobs:
           name: WaiterRobot-Web-testing
           path: ./dist/WaiterRobot-Web
 
-      - name: dist lookup
-        run: |
-          cd dist
-          ls -la 
-          cd -
-
       - name: make zip
         run: |
           cd dist/
+          ls -la
           zip -r WaiterRobot-Web-testing.zip ./WaiterRobot-Web >> /dev/null
           cd -
 
