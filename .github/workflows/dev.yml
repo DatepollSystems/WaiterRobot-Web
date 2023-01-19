@@ -53,7 +53,7 @@ jobs:
       - name: copy build to release server
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: ./dist/WaiterRobot-Web-testing.zip
+          local: ./WaiterRobot-Web-testing.zip
           remote: /var/www/datepoll-share/WaiterRobot/Web-Releases/WaiterRobot-Web-testing.zip
           host: ${{ secrets.RELEASES_SSH_HOST }}
           port: ${{ secrets.RELEASES_SSH_PORT }}
