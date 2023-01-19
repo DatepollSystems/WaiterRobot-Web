@@ -42,13 +42,13 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: WaiterRobot-Web-testing
-          path: ./dist
+          path: ./dist/WaiterRobot-Web
 
       - name: dist lookup
         run: cd dist && ls -la && cd -
 
       - name: make zip
-        run: zip -r WaiterRobot-Web-testing.zip ./dist >> /dev/null
+        run: zip -r WaiterRobot-Web-testing.zip ./dist/WaiterRobot-Web >> /dev/null
 
       - name: copy build to release server
         uses: garygrossgarten/github-action-scp@release
