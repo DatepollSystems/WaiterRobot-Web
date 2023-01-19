@@ -1,42 +1,22 @@
 name: Testing
+
 on:
   push:
     branches:
-      - develop
+      - '*' # matches every branch that doesn't contain a '/'
+      - '*/*' # matches every branch containing a single '/'
+      - '**' # matches every branch
+      - '!main'
 
 jobs:
   build-testing:
     name: Build testing
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16]
     steps:
       - uses: actions/checkout@master
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 7
-
-      - name: use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-
-      - name: get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      - uses: actions/cache@v3
-        name: setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+      - name: setup node and pnpm
+        uses: ./.github/actions/setup-node-pnpm
 
       - name: install dependencies
         run: pnpm install
@@ -46,10 +26,27 @@ jobs:
           pnpm ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
           pnpm build:testing
 
-      - name: prepare deployment
-        run: |
-          cd dist/
-          zip -r WaiterRobot-Web-testing.zip ./WaiterRobot-Web >> /dev/null
+      - uses: actions/upload-artifact@master
+        name: create ${{ matrix.lib }} artifact
+        with:
+          name: WaiterRobot-Web-testing
+          path: ./dist/WaiterRobot-Web
+          retention-days: 1
+
+  deploy-testing:
+    name: Deploy testing
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@master
+        with:
+          name: WaiterRobot-Web-testing
+          path: ./dist
+
+      - name: dist lookup
+        run: cd dist && ls -la && cd -
+
+      - name: make zip
+        run: zip -r WaiterRobot-Web-testing.zip ./dist >> /dev/null
 
       - name: copy build to release server
         uses: garygrossgarten/github-action-scp@release
@@ -60,6 +57,7 @@ jobs:
           port: ${{ secrets.RELEASES_SSH_PORT }}
           username: ${{ secrets.RELEASES_SSH_USER }}
           privateKey: ${{ secrets.RELEASES_SSH_PRIVATE_KEY }}
+
       - name: fetching new version on test server
         uses: appleboy/ssh-action@master
         with:

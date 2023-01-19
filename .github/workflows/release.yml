@@ -1,4 +1,5 @@
-name: Testing
+name: Release
+
 on:
   push:
     tags:
@@ -14,29 +15,11 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 7
+      - name: setup node and pnpm
+        uses: ./.github/actions/setup-node-pnpm
 
-      - name: use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-
-      - name: get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      - uses: actions/cache@v3
-        name: setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+      - name: install dependencies
+        run: pnpm install --ignore-scripts
 
       - name: install dependencies
         run: pnpm install
@@ -46,28 +29,44 @@ jobs:
           pnpm ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
           pnpm build:prod
 
-      - name: prepare deployment
+      - uses: actions/upload-artifact@master
+        name: create ${{ matrix.lib }} artifact
+        with:
+          name: WaiterRobot-Web-prod
+          path: ./dist/WaiterRobot-Web
+          retention-days: 1
+
+  deploy-prod:
+    name: Deploy prod
+    runs-on: ubuntu-latest
+    steps:
+      - name: get WaiterRobot-Web version
+        id: get-version
+        shell: bash
         run: |
-          echo "version=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_OUTPUT
-          cd dist/
-          zip -r "WaiterRobot-Web-${version}.zip" ./WaiterRobot-Web >> /dev/null
-          cp "WaiterRobot-Web-${version}.zip" WaiterRobot-Web-latest.zip
+          echo "VERSION=$(node -p "require('./dist/package.json').version")" >> $GITHUB_OUTPUT
+          echo "version: $VERSION"
 
-      - name: copy versioned build to release server
+      - name: zipping
+        shell: bash
+        run: |
+          mkdir releases
+          zip -r "WaiterRobot-Web-latest.zip" ./dist >> /dev/null
+          zip -r "WaiterRobot-Web-v${{ steps.get-version.outputs.VERSION }}.zip" ./dist >> /dev/null
+          mv "WaiterRobot-Web-latest.zip" ./releases
+          mv "WaiterRobot-Web-v${{ steps.get-version.outputs.VERSION }}.zip" ./releases
+
+      - name: releases lookup
+        run: |
+          cd releases
+          ls -la
+          cd -
+
+      - name: move zips to release server
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: './dist/WaiterRobot-Web-${version}.zip'
-          remote: '/var/www/datepoll-share/WaiterRobot/Web-Releases/WaiterRobot-Web-${version}.zip'
-          host: ${{ secrets.RELEASES_SSH_HOST }}
-          port: ${{ secrets.RELEASES_SSH_PORT }}
-          username: ${{ secrets.RELEASES_SSH_USER }}
-          privateKey: ${{ secrets.RELEASES_SSH_PRIVATE_KEY }}
-
-      - name: copy latest build to release server
-        uses: garygrossgarten/github-action-scp@release
-        with:
-          local: ./dist/WaiterRobot-Web-latest.zip
-          remote: /var/www/datepoll-share/WaiterRobot/Web-Releases/WaiterRobot-Web-latest.zip
+          local: ./releases
+          remote: /var/www/datepoll-share/WaiterRobot/Web-Releases
           host: ${{ secrets.RELEASES_SSH_HOST }}
           port: ${{ secrets.RELEASES_SSH_PORT }}
           username: ${{ secrets.RELEASES_SSH_USER }}
