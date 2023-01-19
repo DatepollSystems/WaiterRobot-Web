@@ -34,6 +34,7 @@ jobs:
           retention-days: 1
 
   deploy-testing:
+    needs: [build-testing]
     name: Deploy testing
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop'
