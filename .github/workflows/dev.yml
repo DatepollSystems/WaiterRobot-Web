@@ -36,6 +36,7 @@ jobs:
   deploy-testing:
     name: Deploy testing
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
     steps:
       - uses: actions/download-artifact@master
         with:
