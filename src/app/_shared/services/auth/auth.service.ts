@@ -32,7 +32,7 @@ export class AuthService {
 
   public sendSignInRequest = (email: string, password: string) =>
     this.httpClient.post<JWTResponse>(AuthService.signInUrl, {
-      token: email,
+      email,
       password,
       sessionInformation: AuthService.getSessionInformation(),
       stayLoggedIn: true,
