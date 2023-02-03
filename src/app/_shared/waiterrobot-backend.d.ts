@@ -97,7 +97,7 @@ export interface SignInWithPasswordChangeDto extends ISignInWithPasswordChangeDt
 }
 
 export interface UserSignInDto extends ISignInWithPasswordDto {
-  email: string;
+  token: string;
 }
 
 export interface WaiterSignInCreateDto {
