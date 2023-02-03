@@ -61,8 +61,8 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
                   switchMap((data: JWTResponse) => {
                     lumber.info('handle401Error', 'JWT token refreshed');
                     isRefreshing = false;
-                    refreshTokenSubject.next(data.token);
-                    return next(addToken(req, data.token));
+                    refreshTokenSubject.next(data.accessToken);
+                    return next(addToken(req, data.accessToken));
                   }),
                   catchError(() => {
                     lumber.error('handle401Error', 'Could not refresh jwt token with session token');

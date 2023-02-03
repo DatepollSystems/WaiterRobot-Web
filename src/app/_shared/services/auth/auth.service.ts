@@ -12,7 +12,7 @@ import {JWTResponse, RefreshJWTWithSessionTokenDto, SignInWithPasswordChangeDto,
   providedIn: 'root',
 })
 export class AuthService {
-  public static signInUrl = '/auth/signIn';
+  public static signInUrl = '/auth/login';
   public static signInPwChangeUrl = '/auth/signInPwChange';
   public static refreshUrl = '/auth/refresh';
 
@@ -77,13 +77,14 @@ export class AuthService {
 
   public refreshJWTToken(): Observable<any> {
     const object = {
-      sessionToken: this.getSessionToken(),
+      refreshToken: this.getSessionToken(),
       sessionInformation: AuthService.getSessionInformation(),
     } as RefreshJWTWithSessionTokenDto;
 
-    return this.httpClient.post(AuthService.refreshUrl, object).pipe(
-      tap((response: JWTResponse) => {
-        this.setJWTToken(response.token);
+    return this.httpClient.post<JWTResponse>(AuthService.refreshUrl, object).pipe(
+      tap((response) => {
+        this.setJWTToken(response.accessToken);
+        this.setSessionToken(response.refreshToken);
       })
     );
   }
@@ -91,7 +92,7 @@ export class AuthService {
   public logout(): void {
     this.httpClient
       .post('/auth/logout', {
-        session_token: this.getSessionToken(),
+        refreshToken: this.getSessionToken(),
       })
       .subscribe({
         next: () => {

@@ -42,8 +42,8 @@ export class AboutComponent implements OnInit {
   }
 
   onSuccessfulSignIn = (response: JWTResponse): void => {
-    this.authService.setJWTToken(response.token);
-    this.authService.setSessionToken(response.sessionToken);
+    this.authService.setJWTToken(response.accessToken);
+    this.authService.setSessionToken(response.refreshToken);
     this.notificationService.tsuccess('ABOUT_SIGNIN_SUCCESSFUL');
 
     void this.router.navigateByUrl('/home');

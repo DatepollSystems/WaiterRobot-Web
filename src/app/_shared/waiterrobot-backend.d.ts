@@ -71,8 +71,8 @@ export interface ISignInWithPasswordDto extends ISignInDto {
 }
 
 export interface JWTResponse {
-  token?: string;
-  sessionToken?: string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 export interface LogoutDto {
@@ -80,7 +80,7 @@ export interface LogoutDto {
 }
 
 export interface RefreshJWTWithSessionTokenDto {
-  sessionToken: string;
+  refreshToken: string;
   sessionInformation: string;
 }
 
