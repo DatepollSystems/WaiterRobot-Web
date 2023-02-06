@@ -5,8 +5,8 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxImplodeMapped, DfxTrackByModule} from 'dfx-helper';
-import {DfxTranslateModule} from 'dfx-translate';
+import {DfxImplodePipe, DfxTrackByModule} from 'dfx-helper';
+import {DfxTr, DfxTranslateModule} from 'dfx-translate';
 
 import {OrganisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard.service';
 import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
@@ -15,6 +15,7 @@ import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.c
 import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
 import {ChipInput} from '../../_shared/ui/chip-input/chip-input.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
+import {ArrayMapNamePipePipe} from '../../_shared/ui/name-map.pipe';
 import {AppBtnQrCodeComponent} from '../../_shared/ui/qr-code/app-btn-qr-code.component';
 import {QuestionDialogModule} from '../../_shared/ui/question-dialog/question-dialog.module';
 import {DuplicateWaitersService} from './_services/duplicate-waiters.service';
@@ -78,7 +79,9 @@ const routes: Routes = [
     AppBtnModelEditConfirmComponent,
     AppBtnQrCodeComponent,
     BtnWaiterCreateQrCodeComponenteee,
-    DfxImplodeMapped,
+    ArrayMapNamePipePipe,
+    DfxImplodePipe,
+    DfxTr,
   ],
 })
 export class WaitersModule {}

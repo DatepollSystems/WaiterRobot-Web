@@ -3,7 +3,7 @@ import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AEntityWithNumberIDAndName, loggerOf, s_isEmail} from 'dfts-helper';
 
 import {AComponent} from 'dfx-helper';
-import {TranslateService} from 'dfx-translate';
+import {dfxTranslate$} from 'dfx-translate';
 import {AppQrCodeScannerModalComponent} from '../../../_shared/ui/qr-code/app-qr-code-scanner-modal.component';
 
 import {NotificationService} from '../../../notifications/notification.service';
@@ -18,12 +18,13 @@ export class OrganisationUserAddModalComponent extends AComponent {
   entity: AEntityWithNumberIDAndName | undefined;
   emailAddresses: string[] = [];
 
+  translate$ = dfxTranslate$();
+
   private lumber = loggerOf('OrganisationUserAddModal');
 
   constructor(
     public activeModal: NgbActiveModal,
     private modal: NgbModal,
-    private translate: TranslateService,
     private notificationService: NotificationService,
     private organisationsUsersService: OrganisationsUsersService
   ) {
@@ -65,7 +66,9 @@ export class OrganisationUserAddModalComponent extends AComponent {
             this.organisationsUsersService.fetchAll();
           },
           error: (error) => {
-            this.notificationService.warning(email + this.translate.translate('HOME_ORGS_USERS_USER_NOT_FOUND'));
+            this.translate$('HOME_ORGS_USERS_USER_NOT_FOUND').subscribe((translation) =>
+              this.notificationService.warning(email + translation)
+            );
             console.log(error);
           },
         });

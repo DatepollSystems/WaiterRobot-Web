@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {NgbPopoverModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {DfxCut} from 'dfx-helper';
+import {DfxCutPipe} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 import {QrCodeService} from '../../services/qr-code.service';
 import {CopyDirective} from '../copy.directive';
@@ -10,7 +10,7 @@ import {AppIconsModule} from '../icons.module';
   template: `
     <ng-template #popContent>
       <p>{{ info | tr }}</p>
-      <a [href]="data" target="_blank" rel="noopener">{{ data | cut : 43 : '..' }}</a>
+      <a [href]="data" target="_blank" rel="noopener">{{ data | s_cut : 43 : '..' }}</a>
     </ng-template>
     <ng-template #popTitle>
       <b>{{ text | tr }}</b>
@@ -45,7 +45,7 @@ import {AppIconsModule} from '../icons.module';
     </div>
   `,
   standalone: true,
-  imports: [CopyDirective, NgbTooltipModule, DfxTranslateModule, AppIconsModule, NgbPopoverModule, DfxCut],
+  imports: [CopyDirective, NgbTooltipModule, DfxTranslateModule, AppIconsModule, NgbPopoverModule, DfxCutPipe],
   selector: 'app-btn-qrcode',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

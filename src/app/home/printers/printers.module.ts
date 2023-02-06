@@ -5,23 +5,24 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxImplodeMapped, DfxTrackByModule} from 'dfx-helper';
+import {DfxImplodePipe, DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {OrganisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard.service';
+import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
+import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
+import {ArrayMapNamePipePipe} from '../../_shared/ui/name-map.pipe';
+
+import {MediatorsService} from './_services/mediators.service';
+import {PrintersService} from './_services/printers.service';
 
 import {AllMediatorsComponent} from './all-mediators/all-mediators.component';
 import {EventByIdPrintersComponent} from './event-by-id-printers/event-by-id-printers.component';
 import {PrinterEditComponent} from './printer-edit/printer-edit.component';
 import {PrintersComponent} from './printers.component';
-import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
-
-import {MediatorsService} from './_services/mediators.service';
-import {PrintersService} from './_services/printers.service';
-import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
 
 const startRoutes: Routes = [
   {
@@ -56,7 +57,8 @@ const startRoutes: Routes = [
     AppBtnToolbarComponent,
     AppSpinnerRowComponent,
     AppBtnModelEditConfirmComponent,
-    DfxImplodeMapped,
+    ArrayMapNamePipePipe,
+    DfxImplodePipe,
   ],
 })
 export class PrintersModule {}

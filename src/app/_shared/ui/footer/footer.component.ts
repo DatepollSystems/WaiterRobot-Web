@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
-
-import {TranslateService} from 'dfx-translate';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+
+import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
 import {QuestionDialogComponent} from '../question-dialog/question-dialog.component';
 
 @Component({
@@ -11,11 +11,10 @@ import {QuestionDialogComponent} from '../question-dialog/question-dialog.compon
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterComponent {
-  selected: string;
+  selected$ = inject(TranslateStore).selectedLanguage$;
+  setLanguage = dfxTranslateSetLanguage();
 
-  constructor(private translate: TranslateService, private modal: NgbModal) {
-    this.selected = this.translate.getSelectedLanguage();
-  }
+  constructor(private modal: NgbModal) {}
 
   heart(): void {
     document.getElementById('brand')?.classList.add('spin');
@@ -23,7 +22,7 @@ export class FooterComponent {
 
   setLang(event: string): void {
     // const oldLanguage = localStorage.getItem('language');
-    void this.translate.use(event);
+    this.setLanguage(event);
 
     const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'md'});
     modalRef.componentInstance.title = 'LANGUAGE_RELOAD';

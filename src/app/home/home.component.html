@@ -1,4 +1,4 @@
-<ng-container *ngSub="isMobile$ as isMobile">
+<ng-container *ngSub="isMobile$; let isMobile">
   <nav class="navbar navbar-expand-md bg-dark navbar-dark">
     <div class="container-xxxl">
       <a class="navbar-brand align-items-center" routerLink="/home">
@@ -199,9 +199,9 @@
       {{ 'OFFLINE' | tr }}
     </div>
 
-    <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="/json">
-      {{ 'SERVER_OFFLINE' | tr }}
-    </div>
+    <!--    <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="/json" [refreshTime]="1000">-->
+    <!--      {{ 'SERVER_OFFLINE' | tr }}-->
+    <!--    </div>-->
 
     <router-outlet></router-outlet>
   </div>

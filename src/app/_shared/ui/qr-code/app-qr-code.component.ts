@@ -1,11 +1,11 @@
 import {AsyncPipe, NgIf} from '@angular/common';
-import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, Inject} from '@angular/core';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {QRCodeModule} from 'angularx-qrcode';
 import {d_format} from 'dfts-helper';
-import {DfxCut, IsMobileService, WINDOW} from 'dfx-helper';
-import {DfxTranslateModule, TranslateService} from 'dfx-translate';
+import {DfxCutPipe, IsMobileService, WINDOW} from 'dfx-helper';
+import {DfxTr, dfxTranslate} from 'dfx-translate';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
 import {qrCodeData, QrCodeService} from '../../services/qr-code.service';
@@ -19,7 +19,7 @@ import {AppIconsModule} from '../icons.module';
     <div *ngIf="qrCodeData" class="my-container d-flex flex-row flex-wrap gap-5 align-items-center justify-content-center h-100">
       <div id="qrcode" class="qrcode-rounded">
         <qrcode
-          [width]="($isMobile | async) ? 300 : 600"
+          [width]="(isMobile$ | async) ? 300 : 600"
           errorCorrectionLevel="M"
           [margin]="0"
           colorLight="#f6f6f6"
@@ -32,7 +32,7 @@ import {AppIconsModule} from '../icons.module';
         <div class="card-body">
           <p *ngIf="qrCodeData.info.length > 0" id="info-text" class="card-text">{{ qrCodeData.info | tr }}</p>
 
-          <a [href]="qrCodeData.data" target="_blank" rel="noopener">{{ qrCodeData.data | cut : 43 : '..' }}</a>
+          <a [href]="qrCodeData.data" target="_blank" rel="noopener">{{ qrCodeData.data | s_cut : 43 : '..' }}</a>
         </div>
         <div class="card-footer text-muted">
           <btn-toolbar padding="false">
@@ -81,31 +81,16 @@ import {AppIconsModule} from '../icons.module';
   ],
   selector: 'app-qr-code',
   standalone: true,
-  imports: [
-    NgIf,
-    AsyncPipe,
-    QRCodeModule,
-    DfxTranslateModule,
-    NgbTooltipModule,
-    AppIconsModule,
-    AppBtnToolbarComponent,
-    CopyDirective,
-    DfxCut,
-  ],
+  imports: [NgIf, AsyncPipe, QRCodeModule, NgbTooltipModule, AppIconsModule, AppBtnToolbarComponent, CopyDirective, DfxCutPipe, DfxTr],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppQrCodeViewComponent {
   qrCodeData?: qrCodeData;
-  $isMobile: any;
+  isMobile$ = inject(IsMobileService).isMobile$;
 
-  constructor(
-    @Inject(WINDOW) private window: Window,
-    private translator: TranslateService,
-    isMobileService: IsMobileService,
-    qrCodeService: QrCodeService
-  ) {
-    this.$isMobile = isMobileService.isMobile$();
+  translate = dfxTranslate();
 
+  constructor(qrCodeService: QrCodeService, @Inject(WINDOW) private window?: Window) {
     this.qrCodeData = qrCodeService.getQRCodeData();
 
     if (!this.qrCodeData) {
@@ -120,7 +105,7 @@ export class AppQrCodeViewComponent {
     pdf.addImage(canvas, 'JPEG', 70, 20, 450, 450);
 
     if (this.qrCodeData?.info && this.qrCodeData?.info?.length > 0) {
-      const text = this.translator.translate(this.qrCodeData.info);
+      const text = await this.translate(this.qrCodeData.info);
 
       let height = 500;
       for (const chunk of this.chunkString(text, 50)) {
@@ -133,7 +118,7 @@ export class AppQrCodeViewComponent {
     pdf.save(`qrcode-${d_format(new Date())}.pdf`);
   }
 
-  back = (): void => this.window.history.back();
+  back = (): void => this.window?.history.back();
 
   chunkString(str: string, len: number): string[] {
     const input = str.trim().split(' ');

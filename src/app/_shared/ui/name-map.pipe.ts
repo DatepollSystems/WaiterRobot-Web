@@ -1,19 +1,24 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {IHasName} from 'dfts-helper';
+import {IHasName, UndefinedOrNullOr} from 'dfts-helper';
 
 @Pipe({
-  name: 'nameMap',
+  name: 'a_mapName',
   standalone: true,
   pure: true,
 })
-export class NameMapPipe implements PipeTransform {
-  transform(it: IHasName): string;
-  transform(it: IHasName[]): string[];
+export class ArrayMapNamePipePipe implements PipeTransform {
+  transform(it: UndefinedOrNullOr<IHasName[]>): string[] | undefined {
+    return it?.map((it) => it.name);
+  }
+}
 
-  transform(it: IHasName | IHasName[]): string | string[] {
-    if (Array.isArray(it)) {
-      return it.map((it) => it.name);
-    }
-    return it.name;
+@Pipe({
+  name: 'mapName',
+  standalone: true,
+  pure: true,
+})
+export class MapNamePipe implements PipeTransform {
+  transform(it: UndefinedOrNullOr<IHasName>): string {
+    return it?.name ?? '';
   }
 }

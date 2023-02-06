@@ -36,12 +36,12 @@
 
     <ng-container ngbColumnDef="lastContact">
       <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'LAST_CONTACT' | tr }}</th>
-      <td *ngbCellDef="let mediator" ngb-cell>{{ mediator.lastContact | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
+      <td *ngbCellDef="let mediator" ngb-cell>{{ mediator.lastContact | date : 'dd.MM.YYYY HH:mm:ss' }}</td>
     </ng-container>
 
     <ng-container ngbColumnDef="printers">
       <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_PRINTERS' | tr }}</th>
-      <td *ngbCellDef="let mediator" ngb-cell>{{ mediator.printers | implodeMapped: onMap:', ':20:'...' }}</td>
+      <td *ngbCellDef="let mediator" ngb-cell>{{ mediator.printers | a_mapName | s_implode : ', ' : 20 : '...' }}</td>
     </ng-container>
 
     <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>

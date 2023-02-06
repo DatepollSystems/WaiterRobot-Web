@@ -1,12 +1,12 @@
 import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
-import {Component, Inject} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {loggerOf, s_from} from 'dfts-helper';
 
-import {AComponent, DfxHideIfOnline, DfxHideIfPingSucceeds, DfxTrackByModule, IsMobileService, NgSub, WINDOW} from 'dfx-helper';
+import {AComponent, DfxHideIfOnline, DfxHideIfPingSucceeds, DfxTrackByModule, IsMobileService, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {Observable, tap} from 'rxjs';
+import {tap} from 'rxjs';
 
 import {EnvironmentHelper} from '../_shared/EnvironmentHelper';
 
@@ -58,34 +58,30 @@ export class HomeComponent extends AComponent {
   selectedEvent?: EventModel;
   allEvents: EventModel[] = [];
 
-  isMobile$: Observable<boolean>;
+  isMobile$ = inject(IsMobileService).isMobile$.pipe(
+    tap((it) => {
+      if (it) {
+        const navContent = document.getElementById('navbarSupportedContent');
+        if (navContent != null) {
+          navContent.style.display = 'none';
+        }
+      }
+    })
+  );
 
   navItems!: NavItem[];
 
   constructor(
     router: Router,
-    @Inject(WINDOW) private window: Window,
     private authService: AuthService,
     private myUserService: MyUserService,
     private organisationsService: OrganisationsService,
     private eventsService: EventsService,
-    private isMobileService: IsMobileService,
     private qrCodeService: QrCodeService
   ) {
     super();
 
     this.environmentType = EnvironmentHelper.getType();
-
-    this.isMobile$ = this.isMobileService.isMobile$().pipe(
-      tap((it) => {
-        if (it) {
-          const navContent = document.getElementById('navbarSupportedContent');
-          if (navContent != null) {
-            navContent.style.display = 'none';
-          }
-        }
-      })
-    );
 
     this.selectedOrganisation = this.organisationsService.getSelected();
     this.allOrgs = this.organisationsService.getAll().slice(0, 5);

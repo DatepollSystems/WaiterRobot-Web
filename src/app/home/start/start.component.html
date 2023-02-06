@@ -123,7 +123,7 @@
               Started: <span>{{ serverInfo.serverStartTime | date : 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
             </li>
             <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-              Uptime: <span>{{ localTime$ | async | timespan : serverInfo.serverStartTime }}</span>
+              Uptime: <span>{{ localTime$ | async | d_timespan : serverInfo.serverStartTime }}</span>
             </li>
             <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
               Version: <span>{{ serverInfo.version }}</span>

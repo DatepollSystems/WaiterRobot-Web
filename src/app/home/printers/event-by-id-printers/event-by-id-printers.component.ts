@@ -5,10 +5,9 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AbstractModelsListByIdComponent} from '../../../_shared/ui/abstract-models-list-by-id.component';
 
 import {EventModel} from '../../events/_models/event.model';
-import {PrinterModel} from '../_models/printer.model';
-import {GetProductMinResponse} from '../../../_shared/waiterrobot-backend';
 
 import {EventsService} from '../../events/_services/events.service';
+import {PrinterModel} from '../_models/printer.model';
 import {PrintersService} from '../_services/printers.service';
 
 @Component({
@@ -23,6 +22,4 @@ export class EventByIdPrintersComponent extends AbstractModelsListByIdComponent<
   constructor(printersService: PrintersService, eventsService: EventsService, route: ActivatedRoute, router: Router, modal: NgbModal) {
     super(router, route, modal, printersService, eventsService);
   }
-
-  onMap = (product: GetProductMinResponse): string => product.name;
 }

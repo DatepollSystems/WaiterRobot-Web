@@ -5,9 +5,8 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
 
 import {OrganisationModel} from '../../organisations/_models/organisation.model';
-import {WaiterModel} from '../_models/waiter.model';
-import {GetEventOrLocationMinResponse} from '../../../_shared/waiterrobot-backend';
 import {OrganisationsService} from '../../organisations/_services/organisations.service';
+import {WaiterModel} from '../_models/waiter.model';
 import {WaitersService} from '../_services/waiters.service';
 
 @Component({
@@ -34,6 +33,4 @@ export class OrganisationWaitersComponent extends AbstractModelsListComponent<Wa
     this.entitiesService.setSelectedOrganisationGetAllUrl();
     super.initializeEntities();
   }
-
-  onMap = (it: GetEventOrLocationMinResponse): string => it.name;
 }

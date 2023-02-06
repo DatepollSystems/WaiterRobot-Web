@@ -38,8 +38,8 @@ specifiers:
   bootstrap: 5.2.3
   dfts-helper: ^0.0.6
   dfx-bootstrap-table: 1.4.0
-  dfx-helper: 5.0.0-beta.0
-  dfx-translate: 1.6.4
+  dfx-helper: 5.0.1
+  dfx-translate: 2.0.3
   eslint: 8.33.0
   eslint-config-prettier: 8.6.0
   eslint-plugin-import: latest
@@ -89,8 +89,8 @@ dependencies:
   bootstrap: 5.2.3_@popperjs+core@2.11.6
   dfts-helper: 0.0.6_tslib@2.5.0
   dfx-bootstrap-table: 1.4.0_hswhxwvoqfeicqi2vokjmz54h4
-  dfx-helper: 5.0.0-beta.0_n6rxxxc6kqynrenxjpdem4irha
-  dfx-translate: 1.6.4_pubfhxqcqejsenz5amhpwt3pua
+  dfx-helper: 5.0.1_n6rxxxc6kqynrenxjpdem4irha
+  dfx-translate: 2.0.3_pubfhxqcqejsenz5amhpwt3pua
   html-to-image: 1.10.8
   jspdf: 2.5.1
   ngx-bootstrap-icons: 1.9.1_uv6uyeurdrzrhsp6bgc27pnjdu
@@ -117,7 +117,7 @@ devDependencies:
   eslint: 8.33.0
   eslint-config-prettier: 8.6.0_eslint@8.33.0
   eslint-plugin-import: 2.27.5_ufewo3pl5nnmz6lltvjrdi2hii
-  eslint-plugin-jsdoc: 39.7.4_eslint@8.33.0
+  eslint-plugin-jsdoc: 39.8.0_eslint@8.33.0
   eslint-plugin-prefer-arrow: 1.2.3_eslint@8.33.0
   husky: 8.0.3
   jasmine-core: 4.5.0
@@ -4187,15 +4187,15 @@ packages:
       tslib: 2.5.0
     dev: false
 
-  /dfx-helper/5.0.0-beta.0_n6rxxxc6kqynrenxjpdem4irha:
-    resolution: {integrity: sha512-qXPuU3pvwDi/ZGdMmlPRZiHdj5tAL3xskWYAkoqtoKbFLSwpbskcZARp79UOiROVNUFI/YdNVCq5vByKcznWyw==}
+  /dfx-helper/5.0.1_n6rxxxc6kqynrenxjpdem4irha:
+    resolution: {integrity: sha512-31nHyHTfIKzdUwIg3OLrCeIx7RouEA7L+4pHA7n6Xm+ASVsb6mW5fPASQThnjwrKXFUsi9DVUiAe2elGEprvxQ==}
     peerDependencies:
       '@angular/cdk': 9 - 15
       '@angular/common': 9 - 15
       '@angular/core': 9 - 15
       '@angular/platform-browser': 9 - 15
       '@angular/router': 9 - 15
-      dfts-helper: 0.0.1
+      dfts-helper: 0.0.7
       rxjs: 2 - 7
     dependencies:
       '@angular/cdk': 15.1.2_pubfhxqcqejsenz5amhpwt3pua
@@ -4208,8 +4208,8 @@ packages:
       tslib: 2.5.0
     dev: false
 
-  /dfx-translate/1.6.4_pubfhxqcqejsenz5amhpwt3pua:
-    resolution: {integrity: sha512-82EJiRfSEDti9p3sUYVKW7pAwaUUpHuGQNxsF8VDl+nVAmxHo/WdmtMIdaicuTP4U/yIadXkRBMz5ddCFzX2xA==}
+  /dfx-translate/2.0.3_pubfhxqcqejsenz5amhpwt3pua:
+    resolution: {integrity: sha512-XGpEDvABh5aeVBUHnnZztkHh1HfYGfbaJMzJsp2nTsbXP63CWr3sK4Lxzt6qViHB9VUUlsu3OrVZ9yBd7vVctQ==}
     hasBin: true
     peerDependencies:
       '@angular/common': 4 - 15
@@ -4645,8 +4645,8 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-plugin-jsdoc/39.7.4_eslint@8.33.0:
-    resolution: {integrity: sha512-2eJcWGKRyNQFa37UIpGcAdOp3wtES8vV3mlnFmEmJCuBNyFhK6cMhbZgMkLoLjKnipoxsN9GbfZZ+8nPY8ETZQ==}
+  /eslint-plugin-jsdoc/39.8.0_eslint@8.33.0:
+    resolution: {integrity: sha512-ZwGmk0jJoJD/NILeDRBKrpq/PCgddUdATjeU5JGTqTzKsOWfeaHOnaAwZjuOh7T8EB4hSoZ/9pR4+Qns2ldQVg==}
     engines: {node: ^14 || ^16 || ^17 || ^18 || ^19}
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0

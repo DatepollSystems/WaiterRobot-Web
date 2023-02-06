@@ -1,11 +1,11 @@
 import {AsyncPipe, DatePipe, NgForOf, NgIf, UpperCasePipe} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
-import {Component} from '@angular/core';
+import {Component, OnChanges, SimpleChanges} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
 import {NgbDropdownModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {i_complete} from 'dfts-helper';
-import {AComponent, DfxTimeSpan} from 'dfx-helper';
+import {AComponent, DfxTimeSpanPipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {catchError, EMPTY, interval, map, Observable, share, switchMap, tap, timer} from 'rxjs';
 
@@ -31,7 +31,7 @@ import {OrganisationsService} from '../organisations/_services/organisations.ser
     RouterLink,
     NgbTooltipModule,
     NgbDropdownModule,
-    DfxTimeSpan,
+    DfxTimeSpanPipe,
     DfxTr,
     AppDownloadBtnListComponent,
     AppIconsModule,
@@ -39,7 +39,7 @@ import {OrganisationsService} from '../organisations/_services/organisations.ser
   ],
   standalone: true,
 })
-export class StartComponent extends AComponent {
+export class StartComponent extends AComponent implements OnChanges {
   isProduction = true;
   type: string;
 
@@ -120,5 +120,9 @@ export class StartComponent extends AComponent {
 
   selectEvent(it: EventModel): void {
     this.eventsService.setSelected(it);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('rendered');
   }
 }

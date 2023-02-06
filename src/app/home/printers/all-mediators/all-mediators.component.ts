@@ -4,7 +4,6 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
 
 import {MediatorModel} from '../_models/mediator.model';
-import {GetPrinterMinResponse} from '../../../_shared/waiterrobot-backend';
 
 import {MediatorsService} from '../_services/mediators.service';
 
@@ -19,6 +18,4 @@ export class AllMediatorsComponent extends AbstractModelsListComponent<MediatorM
   constructor(modal: NgbModal, mediatorsService: MediatorsService) {
     super(modal, mediatorsService);
   }
-
-  onMap = (it: GetPrinterMinResponse): string => it.name;
 }

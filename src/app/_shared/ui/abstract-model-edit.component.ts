@@ -38,46 +38,50 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      this.entityLoaded = false;
-      const id = params.get('id');
-      if (id != null) {
-        if (n_is(id)) {
-          this.isEditing = true;
-          const nId = n_from(id);
-          this.lumber.info('const', 'Model to open: "' + nId + '"');
-          this.entity = this.modelService.getSingle(nId);
-          if (this.entity && this.entity?.id == nId) {
-            this.entityLoaded = true;
-            this.onEntityEdit(this.entity);
-          }
-          this.unsubscribe(
-            this.modelService.singleChange.subscribe((value) => {
-              this.entity = value;
+    this.unsubscribe(
+      this.route.paramMap.subscribe((params) => {
+        this.entityLoaded = false;
+        const id = params.get('id');
+        if (id != null) {
+          if (n_is(id)) {
+            this.isEditing = true;
+            const nId = n_from(id);
+            this.lumber.info('const', 'Model to open: "' + nId + '"');
+            this.entity = this.modelService.getSingle(nId);
+            if (this.entity && this.entity?.id == nId) {
               this.entityLoaded = true;
-              this.onEntityEdit(value);
-            })
-          );
+              this.onEntityEdit(this.entity);
+            }
+            this.unsubscribe(
+              this.modelService.singleChange.subscribe((value) => {
+                this.entity = value;
+                this.entityLoaded = true;
+                this.onEntityEdit(value);
+              })
+            );
+          } else {
+            this.lumber.info('const', 'Create new model');
+            this.onEntityCreate();
+            this.isEditing = false;
+            this.checkTab();
+          }
         } else {
           this.lumber.info('const', 'Create new model');
           this.onEntityCreate();
           this.isEditing = false;
           this.checkTab();
         }
-      } else {
-        this.lumber.info('const', 'Create new model');
-        this.onEntityCreate();
-        this.isEditing = false;
-        this.checkTab();
-      }
-    });
+      })
+    );
 
-    this.route.queryParams.subscribe((params) => {
-      if (params?.tab != null && typeof params?.tab === 'string') {
-        this.activeTab = n_from(params?.tab);
-        this.checkTab();
-      }
-    });
+    this.unsubscribe(
+      this.route.queryParams.subscribe((params) => {
+        if (params?.tab != null && typeof params?.tab === 'string') {
+          this.activeTab = n_from(params?.tab);
+          this.checkTab();
+        }
+      })
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

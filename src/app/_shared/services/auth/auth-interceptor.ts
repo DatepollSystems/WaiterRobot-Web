@@ -50,7 +50,7 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
               if (req.url.includes('/logout')) {
                 authService.clearStorage();
 
-                inject(WINDOW).location.reload();
+                inject(WINDOW)?.location.reload();
               }
 
               if (!isRefreshing) {
@@ -68,7 +68,7 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
                     lumber.error('handle401Error', 'Could not refresh jwt token with session token');
                     if (EnvironmentHelper.getType() === 'prod') {
                       authService.clearStorage();
-                      inject(WINDOW).location.reload();
+                      inject(WINDOW)?.location.reload();
                     } else {
                       inject(NotificationService).warning(
                         'Something did not work out during the session refresh! Normally you would have been logged out and the window would have been force complete refreshed but for debugging purposes nothing happened!',

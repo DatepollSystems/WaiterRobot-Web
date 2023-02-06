@@ -3,7 +3,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AbstractModelsListByIdComponent} from '../../../_shared/ui/abstract-models-list-by-id.component';
-import {GetEventOrLocationMinResponse} from '../../../_shared/waiterrobot-backend';
 
 import {EventModel} from '../../events/_models/event.model';
 import {EventsService} from '../../events/_services/events.service';
@@ -25,6 +24,4 @@ export class EventByIdWaitersComponent extends AbstractModelsListByIdComponent<W
 
     this.setSelectable();
   }
-
-  onMap = (it: GetEventOrLocationMinResponse): string => it.name;
 }
