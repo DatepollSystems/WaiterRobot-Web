@@ -18,7 +18,7 @@ import {
   postPutJsonContentTypeInterceptor,
   WINDOW_PROVIDERS,
 } from 'dfx-helper';
-import {DfxTranslateModule} from 'dfx-translate';
+import {DfxTranslateModule, provideDfxTranslate, withAutoTranslatedLanguages, withDefaultLanguage} from 'dfx-translate';
 import {EnvironmentHelper} from './app/_shared/EnvironmentHelper';
 import {authInterceptor} from './app/_shared/services/auth/auth-interceptor';
 import {CustomDateAdapter, CustomDateParserFormatter} from './app/_shared/services/datepicker-adapter';
@@ -36,9 +36,9 @@ bootstrapApplication(AppComponent, {
         baseUrl: EnvironmentHelper.getAPIUrl(),
         baseUrlInterceptorIgnorePaths: ['assets/i18n'],
         loggingInterceptorIgnorePaths: ['json', '/auth/signIn', '/auth/signInPwChange'],
-      }),
-      DfxTranslateModule.setup({defaultLanguage: 'de', languagesWithAutoTranslation: ['en', 'es', 'fr', 'it', 'pt']})
+      })
     ),
+    provideDfxTranslate(withDefaultLanguage('de'), withAutoTranslatedLanguages(['en', 'es', 'fr', 'it', 'pt'])),
     provideAnimations(),
     DfxPreloadStrategy,
     provideRouter(ROUTES, withPreloading(DfxPreloadStrategy)),
