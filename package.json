@@ -47,7 +47,7 @@
     "bootstrap": "5.2.3",
     "dfts-helper": "^0.0.6",
     "dfx-bootstrap-table": "1.4.0",
-    "dfx-helper": "5.0.1",
+    "dfx-helper": "5.0.2",
     "dfx-translate": "2.0.3",
     "html-to-image": "^1.10.8",
     "jspdf": "^2.5.1",

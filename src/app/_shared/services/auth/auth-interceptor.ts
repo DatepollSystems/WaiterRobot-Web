@@ -21,6 +21,8 @@ const refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(undef
 
 export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   const authService = inject(AuthService);
+  const notificationService = inject(NotificationService);
+  const window = inject(WINDOW);
   const lumber = loggerOf('authInterceptor');
 
   let toIntercept = true;
@@ -50,7 +52,7 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
               if (req.url.includes('/logout')) {
                 authService.clearStorage();
 
-                inject(WINDOW)?.location.reload();
+                window?.location.reload();
               }
 
               if (!isRefreshing) {
@@ -68,9 +70,9 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
                     lumber.error('handle401Error', 'Could not refresh jwt token with session token');
                     if (EnvironmentHelper.getType() === 'prod') {
                       authService.clearStorage();
-                      inject(WINDOW)?.location.reload();
+                      window?.location.reload();
                     } else {
-                      inject(NotificationService).warning(
+                      notificationService.warning(
                         'Something did not work out during the session refresh! Normally you would have been logged out and the window would have been force complete refreshed but for debugging purposes nothing happened!',
                         25 * 1000
                       );
