@@ -5,7 +5,7 @@ import {RouterOutlet} from '@angular/router';
 
 @Component({
   template: `
-    <div class="d-flex flex-column flex-lg-row gap-3">
+    <div class="row g-3">
       <div class="col-lg-4 col-xl-3" *ngIf="_showNav">
         <ng-content select="[nav]"></ng-content>
       </div>

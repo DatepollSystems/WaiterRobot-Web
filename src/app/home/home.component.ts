@@ -4,7 +4,7 @@ import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from 
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {loggerOf, s_from} from 'dfts-helper';
 
-import {AComponent, DfxHideIfOnline, DfxHideIfPingSucceeds, DfxTrackByModule, IsMobileService, NgSub} from 'dfx-helper';
+import {AComponent, DfxHideIfOnline, DfxTrackByModule, IsMobileService, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {tap} from 'rxjs';
 
@@ -22,6 +22,7 @@ import {EventsService} from './events/_services/events.service';
 
 import {OrganisationModel} from './organisations/_models/organisation.model';
 import {OrganisationsService} from './organisations/_services/organisations.service';
+import {DfxHideIfPingSucceeds} from '../_shared/ui/ping';
 
 @Component({
   selector: 'app-home',

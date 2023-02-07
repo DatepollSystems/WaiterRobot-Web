@@ -93,16 +93,22 @@ a.btn > img {
 .container-xxxl {
   --bs-gutter-x: 1.5rem;
   --bs-gutter-y: 0;
-  width: 99%;
-  padding-right: calc(var(--bs-gutter-x) * 0.15) !important;
-  padding-left: calc(var(--bs-gutter-x) * 0.15) !important;
+  width: 100%;
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  margin-right: auto;
+  margin-left: auto;
 }
 
 @media (min-width: 1800px) {
-  .container-xxxl {
-    max-width: 1700px;
-    margin-right: auto;
-    margin-left: auto;
+  .container-xxxl,
+  .container-xxl,
+  .container-xl,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container {
+    max-width: 1710px;
   }
 }
 

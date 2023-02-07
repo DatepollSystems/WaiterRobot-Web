@@ -203,6 +203,10 @@
     <!--      {{ 'SERVER_OFFLINE' | tr }}-->
     <!--    </div>-->
 
+    <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="/json">
+      {{ 'SERVER_OFFLINE' | tr }}
+    </div>
+
     <router-outlet></router-outlet>
   </div>
 </main>
