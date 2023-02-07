@@ -1,15 +1,13 @@
 import {Component} from '@angular/core';
-
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Observable} from 'rxjs';
 import {MyUserModel} from 'src/app/_shared/services/auth/user/my-user.model';
+import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
 
 import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
+import {EventsService} from '../../events/_services/events.service';
 
 import {OrganisationModel} from '../_models/organisation.model';
-import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
-import {EventsService} from '../../events/_services/events.service';
 import {OrganisationsService} from '../_services/organisations.service';
-import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-all-organisations',
@@ -23,12 +21,11 @@ export class AllOrganisationsComponent extends AbstractModelsListComponent<Organ
   selectedOrganisation?: OrganisationModel;
 
   constructor(
-    modal: NgbModal,
     private myUserService: MyUserService,
     public organisationsService: OrganisationsService,
     private eventsService: EventsService
   ) {
-    super(modal, organisationsService);
+    super(organisationsService);
     this.setSelectable();
 
     this.myUser$ = this.myUserService.getUser$();

@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
 
@@ -15,7 +14,7 @@ import {MediatorsService} from '../_services/mediators.service';
 export class AllMediatorsComponent extends AbstractModelsListComponent<MediatorModel> {
   override columnsToDisplay = ['id', 'name', 'active', 'lastContact', 'printers'];
 
-  constructor(modal: NgbModal, mediatorsService: MediatorsService) {
-    super(modal, mediatorsService);
+  constructor(mediatorsService: MediatorsService) {
+    super(mediatorsService);
   }
 }

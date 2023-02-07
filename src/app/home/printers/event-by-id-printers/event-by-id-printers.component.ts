@@ -1,6 +1,4 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelsListByIdComponent} from '../../../_shared/ui/abstract-models-list-by-id.component';
 
@@ -19,7 +17,7 @@ export class EventByIdPrintersComponent extends AbstractModelsListByIdComponent<
   override columnsToDisplay = ['name', 'printerName', 'productGroups', 'actions'];
   override getAllParam = 'eventId';
 
-  constructor(printersService: PrintersService, eventsService: EventsService, route: ActivatedRoute, router: Router, modal: NgbModal) {
-    super(router, route, modal, printersService, eventsService);
+  constructor(printersService: PrintersService, eventsService: EventsService) {
+    super(printersService, eventsService);
   }
 }

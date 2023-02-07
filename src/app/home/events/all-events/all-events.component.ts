@@ -1,13 +1,12 @@
 import {Component} from '@angular/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Observable} from 'rxjs';
+import {MyUserModel} from 'src/app/_shared/services/auth/user/my-user.model';
+import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
 
 import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
+import {EventModel} from '../_models/event.model';
 
 import {EventsService} from '../_services/events.service';
-import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
-import {EventModel} from '../_models/event.model';
-import {MyUserModel} from 'src/app/_shared/services/auth/user/my-user.model';
 
 @Component({
   selector: 'app-all-events',
@@ -20,8 +19,8 @@ export class AllEventsComponent extends AbstractModelsListComponent<EventModel> 
   myUser$: Observable<MyUserModel>;
   selectedEvent?: EventModel;
 
-  constructor(modal: NgbModal, myUserService: MyUserService, public eventsService: EventsService) {
-    super(modal, eventsService);
+  constructor(myUserService: MyUserService, public eventsService: EventsService) {
+    super(eventsService);
 
     this.setSelectable();
 

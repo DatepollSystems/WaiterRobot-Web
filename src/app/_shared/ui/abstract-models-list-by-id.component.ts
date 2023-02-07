@@ -1,7 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {IEntityWithNumberID, IEntityWithNumberIDAndName, n_from, n_isNumeric} from 'dfts-helper';
 import {AEntityService} from 'dfx-helper';
 
@@ -19,14 +17,11 @@ export abstract class AbstractModelsListByIdComponent<
   protected abstract getAllParam: string;
   public entity: EntityType | undefined;
 
-  protected constructor(
-    protected router: Router,
-    protected route: ActivatedRoute,
-    modal: NgbModal,
-    modelService: AbstractModelService<EntitiesType>,
-    protected byIdEntityService: AEntityService<number, EntityType>
-  ) {
-    super(modal, modelService);
+  protected router = inject(Router);
+  protected route = inject(ActivatedRoute);
+
+  protected constructor(modelService: AbstractModelService<EntitiesType>, protected byIdEntityService: AEntityService<number, EntityType>) {
+    super(modelService);
 
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');

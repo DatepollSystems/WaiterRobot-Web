@@ -1,18 +1,18 @@
+import {DatePipe, NgIf} from '@angular/common';
 import {Component} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
 
-import {NgbModal, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxTr} from 'dfx-translate';
 import {AbstractModelsListComponent} from '../../_shared/ui/abstract-models-list.component';
+import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {UserModel} from './_models/user.model';
 
 import {UsersService} from './_services/users.service';
-import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {DfxTr} from 'dfx-translate';
-import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
-import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
-import {RouterLink} from '@angular/router';
-import {DatePipe, NgIf} from '@angular/common';
 
 @Component({
   template: `
@@ -162,8 +162,8 @@ import {DatePipe, NgIf} from '@angular/common';
 export class AllUsersComponent extends AbstractModelsListComponent<UserModel> {
   override columnsToDisplay = ['id', 'name', 'email_address', 'birthday', 'is_admin', 'activated', 'actions'];
 
-  constructor(usersService: UsersService, modal: NgbModal) {
-    super(modal, usersService);
+  constructor(usersService: UsersService) {
+    super(usersService);
     this.setSelectable();
   }
 }

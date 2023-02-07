@@ -1,12 +1,10 @@
 import {Component} from '@angular/core';
-
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AbstractModelsListComponent} from '../../../../_shared/ui/abstract-models-list.component';
+
+import {QuestionDialogComponent} from '../../../../_shared/ui/question-dialog/question-dialog.component';
 
 import {SessionModel} from '../../../user-settings/_models/session.model';
 import {WaiterSessionsService} from '../../_services/waiter-sessions.service';
-
-import {QuestionDialogComponent} from '../../../../_shared/ui/question-dialog/question-dialog.component';
 
 @Component({
   selector: 'app-waiter-sessions',
@@ -16,8 +14,8 @@ import {QuestionDialogComponent} from '../../../../_shared/ui/question-dialog/qu
 export class WaiterSessionsComponent extends AbstractModelsListComponent<SessionModel> {
   override columnsToDisplay = ['name', 'registeredAt', 'updatedAt', 'actions'];
 
-  constructor(sessionsService: WaiterSessionsService, modal: NgbModal) {
-    super(modal, sessionsService);
+  constructor(sessionsService: WaiterSessionsService) {
+    super(sessionsService);
   }
 
   deleteAll(): void {

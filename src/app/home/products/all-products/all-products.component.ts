@@ -1,7 +1,5 @@
 import {Component} from '@angular/core';
 
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-
 import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
 
 import {EventModel} from '../../events/_models/event.model';
@@ -19,8 +17,8 @@ export class AllProductsComponent extends AbstractModelsListComponent<ProductMod
 
   selectedEvent: EventModel | undefined;
 
-  constructor(protected entitiesService: ProductsService, modal: NgbModal) {
-    super(modal, entitiesService);
+  constructor(protected entitiesService: ProductsService) {
+    super(entitiesService);
 
     this.setSelectable();
 

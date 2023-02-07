@@ -1,7 +1,5 @@
 import {Component} from '@angular/core';
 
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-
 import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
 
 import {OrganisationModel} from '../../organisations/_models/organisation.model';
@@ -19,8 +17,8 @@ export class OrganisationWaitersComponent extends AbstractModelsListComponent<Wa
 
   selectedOrganisation: OrganisationModel | undefined;
 
-  constructor(protected entitiesService: WaitersService, organisationsService: OrganisationsService, modal: NgbModal) {
-    super(modal, entitiesService);
+  constructor(protected entitiesService: WaitersService, organisationsService: OrganisationsService) {
+    super(entitiesService);
 
     this.setSelectable();
 

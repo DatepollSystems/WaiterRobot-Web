@@ -1,7 +1,4 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AbstractModelsListByIdComponent} from '../../../_shared/ui/abstract-models-list-by-id.component';
 import {TableGroupModel} from '../_models/table-group.model';
 
@@ -20,14 +17,8 @@ export class TableGroupByIdTablesComponent extends AbstractModelsListByIdCompone
   override columnsToDisplay = ['name', 'seats', 'actions'];
   override getAllParam = 'groupId';
 
-  constructor(
-    tablesService: TablesService,
-    tableGroupsService: TableGroupsService,
-    route: ActivatedRoute,
-    router: Router,
-    modal: NgbModal
-  ) {
-    super(router, route, modal, tablesService, tableGroupsService);
+  constructor(tablesService: TablesService, tableGroupsService: TableGroupsService) {
+    super(tablesService, tableGroupsService);
 
     this.setSelectable();
   }

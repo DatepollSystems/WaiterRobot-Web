@@ -1,6 +1,4 @@
 import {Component} from '@angular/core';
-
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
 import {TableGroupModel} from '../_models/table-group.model';
 
@@ -14,8 +12,8 @@ import {TableGroupsService} from '../_services/table-groups.service';
 export class TableGroupsComponent extends AbstractModelsListComponent<TableGroupModel> {
   override columnsToDisplay = ['name', 'seats', 'actions'];
 
-  constructor(tableGroupsService: TableGroupsService, modal: NgbModal) {
-    super(modal, tableGroupsService);
+  constructor(tableGroupsService: TableGroupsService) {
+    super(tableGroupsService);
 
     this.setSelectable();
   }

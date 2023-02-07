@@ -1,7 +1,5 @@
 import {Component} from '@angular/core';
 
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-
 import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
 import {EventModel} from '../../events/_models/event.model';
 
@@ -20,8 +18,8 @@ export class AllTablesComponent extends AbstractModelsListComponent<TableModel> 
 
   selectedEvent: EventModel | undefined;
 
-  constructor(protected entitiesService: TablesService, modal: NgbModal) {
-    super(modal, entitiesService);
+  constructor(protected entitiesService: TablesService) {
+    super(entitiesService);
 
     this.setSelectable();
 

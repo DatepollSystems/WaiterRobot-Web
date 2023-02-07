@@ -1,6 +1,4 @@
 import {Component} from '@angular/core';
-
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
 import {OrderModel} from '../_models/order.model';
 import {OrdersService} from '../_services/orders.service';
@@ -13,8 +11,8 @@ import {OrdersService} from '../_services/orders.service';
 export class AllOrdersComponent extends AbstractModelsListComponent<OrderModel> {
   override columnsToDisplay = ['id', 'orderId', 'table', 'product', 'waiter', 'note', 'amount', 'printState'];
 
-  constructor(ordersService: OrdersService, modal: NgbModal) {
-    super(modal, ordersService);
+  constructor(ordersService: OrdersService) {
+    super(ordersService);
 
     this.sortingDataAccessors = new Map();
     this.sortingDataAccessors.set('table', (it) => it.table.number);

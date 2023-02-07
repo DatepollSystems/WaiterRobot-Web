@@ -1,5 +1,5 @@
 import {SelectionModel} from '@angular/cdk/collections';
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, inject, ViewChild} from '@angular/core';
 import {UntypedFormControl} from '@angular/forms';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -31,7 +31,9 @@ export abstract class AbstractModelsListComponent<EntityType extends IEntityWith
 
   public selection?: SelectionModel<EntityType>;
 
-  protected constructor(protected modal: NgbModal, protected entitiesService: AEntityService<StringOrNumber, EntityType>) {
+  protected modal = inject(NgbModal);
+
+  protected constructor(protected entitiesService: AEntityService<StringOrNumber, EntityType>) {
     super();
 
     this.unsubscribe(

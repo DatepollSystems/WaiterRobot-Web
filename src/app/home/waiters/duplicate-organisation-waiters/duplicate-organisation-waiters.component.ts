@@ -1,7 +1,5 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfts-helper';
 
 import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
@@ -25,8 +23,8 @@ export class DuplicateOrganisationWaitersComponent extends AbstractModelsListCom
   ignoreFeature = false;
   automaticIgnoreOnSave = true;
 
-  constructor(modal: NgbModal, protected entitiesService: DuplicateWaitersService, private route: ActivatedRoute, private router: Router) {
-    super(modal, entitiesService);
+  constructor(protected entitiesService: DuplicateWaitersService, private route: ActivatedRoute, private router: Router) {
+    super(entitiesService);
   }
 
   protected override onEntitiesLoaded(): void {

@@ -1,17 +1,17 @@
+import {DatePipe, NgIf} from '@angular/common';
 import {Component} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
 
-import {NgbModal, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelsListComponent} from '../../_shared/ui/abstract-models-list.component';
+import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {SessionModel} from './_models/session.model';
 import {UserSessionsService} from './_services/user-sessions.service';
-import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {DatePipe, NgIf} from '@angular/common';
-import {ReactiveFormsModule} from '@angular/forms';
-import {DfxTr} from 'dfx-translate';
-import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
-import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 
 @Component({
   template: `
@@ -121,8 +121,8 @@ import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component
 export class SessionsComponent extends AbstractModelsListComponent<SessionModel> {
   override columnsToDisplay = ['name', 'registeredAt', 'updatedAt', 'actions'];
 
-  constructor(sessionsService: UserSessionsService, modal: NgbModal) {
-    super(modal, sessionsService);
+  constructor(sessionsService: UserSessionsService) {
+    super(sessionsService);
 
     this.setSelectable();
   }
