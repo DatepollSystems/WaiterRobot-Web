@@ -186,8 +186,9 @@ export class HomeComponent extends AComponent {
     if (!user) {
       return;
     }
+
     this.qrCodeService.openQRCodePage({
-      data: user?.emailAddress,
+      data: user.emailAddress,
       info: 'NAV_USER_SETTINGS_QR_CODE_INFO',
       text: `${user.firstname} ${user.surname}`,
     });
