@@ -1,7 +1,4 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {n_from} from 'dfts-helper';
 import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
 
@@ -25,15 +22,8 @@ export class ProductGroupEditComponent extends AbstractModelEditComponent<Produc
   printers: PrinterModel[];
   updatePrinter = false;
 
-  constructor(
-    route: ActivatedRoute,
-    router: Router,
-    groupsService: ProductGroupsService,
-    modal: NgbModal,
-    printersService: PrintersService,
-    eventsService: EventsService
-  ) {
-    super(router, route, modal, groupsService);
+  constructor(groupsService: ProductGroupsService, printersService: PrintersService, eventsService: EventsService) {
+    super(groupsService);
 
     this.selectedEvent = eventsService.getSelected();
     this.printers = printersService.getAll();

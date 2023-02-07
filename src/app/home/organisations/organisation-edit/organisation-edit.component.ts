@@ -1,12 +1,7 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, inject, ViewChild} from '@angular/core';
 import {UntypedFormControl} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {EntityList, IList} from 'dfts-helper';
 import {NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
-import {Observable} from 'rxjs';
-import {MyUserModel} from '../../../_shared/services/auth/user/my-user.model';
 import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
@@ -37,22 +32,17 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
 
   settings: OrganisationSettingsModel | undefined;
 
-  myUser$: Observable<MyUserModel>;
+  myUser$ = inject(MyUserService).getUser$();
   selectedOrganisation: OrganisationModel | undefined;
   organisationUsers: IList<OrganisationUserModel> = new EntityList();
 
   constructor(
-    router: Router,
-    route: ActivatedRoute,
-    modal: NgbModal,
-    myUserService: MyUserService,
     public organisationsService: OrganisationsService,
     public organisationsSettingsService: OrganisationsSettingsService,
     protected organisationsUsersService: OrganisationsUsersService
   ) {
-    super(router, route, modal, organisationsService);
+    super(organisationsService);
 
-    this.myUser$ = myUserService.getUser$();
     this.selectedOrganisation = this.organisationsService.getSelected();
 
     this.unsubscribe(this.organisationsService.selectedChange.subscribe((it) => (this.selectedOrganisation = it)));

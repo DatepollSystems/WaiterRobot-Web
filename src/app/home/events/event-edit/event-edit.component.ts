@@ -1,10 +1,5 @@
-import {Component} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Component, inject} from '@angular/core';
 import {d_format} from 'dfts-helper';
-import {Observable} from 'rxjs';
-
-import {MyUserModel} from 'src/app/_shared/services/auth/user/my-user.model';
 import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
@@ -22,20 +17,11 @@ import {EventsService} from '../_services/events.service';
 export class EventEditComponent extends AbstractModelEditComponent<EventModel> {
   override redirectUrl = '/home/events/all';
 
-  myUser$: Observable<MyUserModel>;
+  myUser$ = inject(MyUserService).getUser$();
   selectedEvent?: EventModel;
 
-  constructor(
-    route: ActivatedRoute,
-    router: Router,
-    modal: NgbModal,
-    public eventsService: EventsService,
-    private organisationsService: OrganisationsService,
-    myUserService: MyUserService
-  ) {
-    super(router, route, modal, eventsService);
-
-    this.myUser$ = myUserService.getUser$();
+  constructor(public eventsService: EventsService, private organisationsService: OrganisationsService) {
+    super(eventsService);
     this.selectedEvent = this.eventsService.getSelected();
 
     this.unsubscribe(

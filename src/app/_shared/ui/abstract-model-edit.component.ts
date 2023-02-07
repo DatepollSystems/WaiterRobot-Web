@@ -29,14 +29,13 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
   public entity: EntityType | undefined;
   public entityLoaded = false;
 
-  location = inject(Location);
+  protected location = inject(Location);
 
-  protected constructor(
-    protected router: Router,
-    protected route: ActivatedRoute,
-    protected modal: NgbModal,
-    protected modelService: AbstractModelService<EntityType>
-  ) {
+  protected router = inject(Router);
+  protected route = inject(ActivatedRoute);
+  protected modal = inject(NgbModal);
+
+  protected constructor(protected modelService: AbstractModelService<EntityType>) {
     super();
   }
 

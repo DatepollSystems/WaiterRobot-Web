@@ -1,7 +1,5 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {AEntityWithNumberIDAndName, EntityList, IEntityList, IEntityWithNumberIDAndName, n_from, n_is} from 'dfts-helper';
+import {AEntityWithNumberIDAndName, EntityList, IEntityList, IEntityWithNumberIDAndName, n_from, n_isNumeric} from 'dfts-helper';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
 
@@ -35,17 +33,14 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
   allergens: IEntityList<AEntityWithNumberIDAndName> = new EntityList();
 
   constructor(
-    route: ActivatedRoute,
-    router: Router,
     productsService: ProductsService,
-    modal: NgbModal,
     allergensService: AllergensService,
     printersService: PrintersService,
     eventsService: EventsService,
     productGroupsService: ProductGroupsService,
     private notificationService: NotificationService
   ) {
-    super(router, route, modal, productsService);
+    super(productsService);
 
     this.selectedEvent = eventsService.getSelected();
     this.productGroups = productGroupsService.getAll();
@@ -58,18 +53,15 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
       eventsService.selectedChange.subscribe((it) => (this.selectedEvent = it)),
       productGroupsService.allChange.subscribe((it) => (this.productGroups = it)),
       allergensService.allChange.subscribe((it) => (this.allergens = it)),
-      printersService.allChange.subscribe((it) => (this.printers = it))
-    );
-
-    route.queryParams.subscribe((params) => {
-      const id = params.group;
-      if (id != null) {
-        if (n_is(id)) {
+      printersService.allChange.subscribe((it) => (this.printers = it)),
+      this.route.queryParams.subscribe((params) => {
+        const id = params.group;
+        if (n_isNumeric(id)) {
           this.selectedProductGroup = n_from(id);
           this.lumber.info('constructor', 'Selected product group: ' + id);
         }
-      }
-    });
+      })
+    );
   }
 
   selectedAllergens: IEntityList<AEntityWithNumberIDAndName> = new EntityList();

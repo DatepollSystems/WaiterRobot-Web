@@ -1,8 +1,5 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {loggerOf, n_from, n_is} from 'dfts-helper';
+import {loggerOf, n_from, n_isNumeric} from 'dfts-helper';
 import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
 
 import {NotificationService} from '../../../notifications/notification.service';
@@ -31,15 +28,12 @@ export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
   selectedTableGroup?: number;
 
   constructor(
-    route: ActivatedRoute,
-    router: Router,
     tablesService: TablesService,
-    modal: NgbModal,
     eventsService: EventsService,
     tableGroupsService: TableGroupsService,
     private notificationService: NotificationService
   ) {
-    super(router, route, modal, tablesService);
+    super(tablesService);
 
     this.selectedEvent = eventsService.getSelected();
     this.tableGroups = tableGroupsService.getAll();
@@ -49,18 +43,15 @@ export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
       }),
       tableGroupsService.allChange.subscribe((tableGroups) => {
         this.tableGroups = tableGroups;
-      })
-    );
-
-    route.queryParams.subscribe((params) => {
-      const id = params.group;
-      if (id != null) {
-        if (n_is(id)) {
+      }),
+      this.route.queryParams.subscribe((params) => {
+        const id = params.group;
+        if (n_isNumeric(id)) {
           this.selectedTableGroup = n_from(id);
           this.log.info('constructor', 'Selected table group: ' + id);
         }
-      }
-    });
+      })
+    );
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {

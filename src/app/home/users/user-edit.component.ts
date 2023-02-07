@@ -1,9 +1,8 @@
 import {NgIf} from '@angular/common';
 import {Component} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
 
-import {NgbDatepickerModule, NgbModal, NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDatepickerModule, NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 import {d_from} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
 import {AbstractModelEditComponent} from '../../_shared/ui/abstract-model-edit.component';
@@ -240,8 +239,8 @@ export class UserEditComponent extends AbstractModelEditComponent<UserModel> {
 
   updatePassword = false;
 
-  constructor(route: ActivatedRoute, router: Router, usersService: UsersService, modal: NgbModal) {
-    super(router, route, modal, usersService);
+  constructor(usersService: UsersService) {
+    super(usersService);
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {

@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import {EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfts-helper';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
@@ -30,15 +29,12 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
   qrCodeModal: NgbModalRef | undefined;
 
   constructor(
-    route: ActivatedRoute,
-    router: Router,
     waitersService: WaitersService,
-    modal: NgbModal,
     private waiterSessionService: WaiterSessionsService,
     public eventsService: EventsService,
     private organisationsService: OrganisationsService
   ) {
-    super(router, route, modal, waitersService);
+    super(waitersService);
 
     this.events = this.eventsService.getAll();
     this.selectedOrganisation = this.organisationsService.getSelected();

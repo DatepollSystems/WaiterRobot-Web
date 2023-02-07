@@ -1,14 +1,11 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
 
 import {EventModel} from '../../events/_models/event.model';
-import {PrinterModel} from '../_models/printer.model';
 
 import {EventsService} from '../../events/_services/events.service';
+import {PrinterModel} from '../_models/printer.model';
 import {PrintersService} from '../_services/printers.service';
 
 @Component({
@@ -23,8 +20,8 @@ export class PrinterEditComponent extends AbstractModelEditComponent<PrinterMode
   selectedEvent?: EventModel;
   events: EventModel[];
 
-  constructor(route: ActivatedRoute, router: Router, printersSerivce: PrintersService, modal: NgbModal, eventsService: EventsService) {
-    super(router, route, modal, printersSerivce);
+  constructor(printersService: PrintersService, eventsService: EventsService) {
+    super(printersService);
 
     this.selectedEvent = eventsService.getSelected();
     this.events = eventsService.getAll();
