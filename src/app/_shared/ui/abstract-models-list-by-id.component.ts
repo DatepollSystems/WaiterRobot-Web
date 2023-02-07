@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {IEntityWithNumberID, IEntityWithNumberIDAndName, n_from, n_is} from 'dfts-helper';
+import {IEntityWithNumberID, IEntityWithNumberIDAndName, n_from, n_isNumeric} from 'dfts-helper';
 import {AEntityService} from 'dfx-helper';
 
 import {AbstractModelService} from '../services/abstract-model.service';
@@ -30,7 +30,7 @@ export abstract class AbstractModelsListByIdComponent<
 
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
-      if (id != null && n_is(id)) {
+      if (id != null && n_isNumeric(id)) {
         this.unsubscribeAll();
         const nId = n_from(id);
         this.lumber.info('const', 'Entity to open: ' + nId);
@@ -42,7 +42,7 @@ export abstract class AbstractModelsListByIdComponent<
           })
         );
       } else {
-        // ERROR
+        this.lumber.error('const', 'Entity not abel to open', id);
         void this.router.navigateByUrl('/home');
       }
     });

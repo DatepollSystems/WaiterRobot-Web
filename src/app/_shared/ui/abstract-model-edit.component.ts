@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Location} from '@angular/common';
+import {Component, inject, OnInit} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {IEntityWithNumberIDAndName, loggerOf, n_from, n_is} from 'dfts-helper';
+import {IEntityWithNumberIDAndName, loggerOf, n_from, n_isNumeric} from 'dfts-helper';
 
 import {AComponent} from 'dfx-helper';
 import {tap} from 'rxjs';
@@ -16,6 +17,7 @@ import {QuestionDialogComponent} from './question-dialog/question-dialog.compone
 export abstract class AbstractModelEditComponent<EntityType extends IEntityWithNumberIDAndName> extends AComponent implements OnInit {
   protected abstract redirectUrl: string;
   protected onlyEditingTabs: number[] = [];
+  protected continuousUsePropertyNames: string[] = [];
 
   protected lumber = loggerOf('AModelEditComponent');
 
@@ -23,10 +25,11 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
   public activeTab = 1;
 
   public continuousCreation = false;
-  protected continuousUsePropertyNames: string[] = [];
 
   public entity: EntityType | undefined;
   public entityLoaded = false;
+
+  location = inject(Location);
 
   protected constructor(
     protected router: Router,
@@ -43,7 +46,7 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
         this.entityLoaded = false;
         const id = params.get('id');
         if (id != null) {
-          if (n_is(id)) {
+          if (n_isNumeric(id)) {
             this.isEditing = true;
             const nId = n_from(id);
             this.lumber.info('const', 'Model to open: "' + nId + '"');
@@ -60,13 +63,13 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
               })
             );
           } else {
-            this.lumber.info('const', 'Create new model');
+            this.lumber.info('const', 'Create new model', typeof id);
             this.onEntityCreate();
             this.isEditing = false;
             this.checkTab();
           }
         } else {
-          this.lumber.info('const', 'Create new model');
+          this.lumber.info('const', 'Create new model', typeof id);
           this.onEntityCreate();
           this.isEditing = false;
           this.checkTab();
@@ -115,9 +118,7 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
       return;
     }
 
-    // We should probably use built-in location.back();
-    // but because this is a fully functional javascript feature we will use it till there is no tomorrow
-    history.back();
+    this.location.back();
   }
 
   public setTabId(tabId: number): void {
