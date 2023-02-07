@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {Router} from '@angular/router';
 import {IEntityWithNumberIDAndName, loggerOf} from 'dfts-helper';
 
@@ -15,7 +15,9 @@ export abstract class AbstractModelsComponent<EntityType extends IEntityWithNumb
   public selectedModelToShow = 'default';
   public allModels: EntityType[] = [];
 
-  protected constructor(protected router: Router, protected modelsService: AbstractModelService<EntityType>) {
+  protected router = inject(Router);
+
+  protected constructor(protected modelsService: AbstractModelService<EntityType>) {
     super();
 
     this.allModels = this.modelsService.getAll();

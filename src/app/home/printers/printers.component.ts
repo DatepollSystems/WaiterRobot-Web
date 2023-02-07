@@ -1,13 +1,12 @@
 import {Component} from '@angular/core';
-import {Router} from '@angular/router';
 
 import {AbstractModelsComponent} from '../../_shared/ui/abstract-models.component';
 
-import {EventsService} from '../events/_services/events.service';
-import {OrganisationsService} from '../organisations/_services/organisations.service';
-
 import {EventModel} from '../events/_models/event.model';
+
+import {EventsService} from '../events/_services/events.service';
 import {OrganisationModel} from '../organisations/_models/organisation.model';
+import {OrganisationsService} from '../organisations/_services/organisations.service';
 
 @Component({
   selector: 'app-printers',
@@ -18,8 +17,8 @@ export class PrintersComponent extends AbstractModelsComponent<EventModel> {
   selectedOrganisation: OrganisationModel | undefined;
   selectedEvent: EventModel | undefined;
 
-  constructor(organisationService: OrganisationsService, eventsService: EventsService, router: Router) {
-    super(router, eventsService);
+  constructor(organisationService: OrganisationsService, eventsService: EventsService) {
+    super(eventsService);
 
     this.selectedOrganisation = organisationService.getSelected();
     this.selectedEvent = eventsService.getSelected();
