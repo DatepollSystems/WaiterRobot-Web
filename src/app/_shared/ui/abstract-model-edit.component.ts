@@ -44,29 +44,22 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
       this.route.paramMap.subscribe((params) => {
         this.entityLoaded = false;
         const id = params.get('id');
-        if (id != null) {
-          if (n_isNumeric(id)) {
-            this.isEditing = true;
-            const nId = n_from(id);
-            this.lumber.info('const', 'Model to open: "' + nId + '"');
-            this.entity = this.modelService.getSingle(nId);
-            if (this.entity && this.entity?.id == nId) {
-              this.entityLoaded = true;
-              this.onEntityEdit(this.entity);
-            }
-            this.unsubscribe(
-              this.modelService.singleChange.subscribe((value) => {
-                this.entity = value;
-                this.entityLoaded = true;
-                this.onEntityEdit(value);
-              })
-            );
-          } else {
-            this.lumber.info('const', 'Create new model', typeof id);
-            this.onEntityCreate();
-            this.isEditing = false;
-            this.checkTab();
+        if (n_isNumeric(id)) {
+          this.isEditing = true;
+          const nId = n_from(id);
+          this.lumber.info('const', 'Model to open: "' + nId + '"');
+          this.entity = this.modelService.getSingle(nId);
+          if (this.entity && this.entity?.id == nId) {
+            this.entityLoaded = true;
+            this.onEntityEdit(this.entity);
           }
+          this.unsubscribe(
+            this.modelService.singleChange.subscribe((value) => {
+              this.entity = value;
+              this.entityLoaded = true;
+              this.onEntityEdit(value);
+            })
+          );
         } else {
           this.lumber.info('const', 'Create new model', typeof id);
           this.onEntityCreate();
