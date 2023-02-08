@@ -1,12 +1,12 @@
 import {Routes} from '@angular/router';
 
-import {OrganisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard.service';
+import {organisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard';
 
 export const ROUTES: Routes = [
   {
     path: '',
     loadComponent: () => import('./printers.component').then((c) => c.PrintersComponent),
-    canActivate: [OrganisationSelectedGuard],
+    canActivate: [organisationSelectedGuard],
     children: [
       {path: 'mediators', loadComponent: () => import('./all-mediators.component').then((c) => c.AllMediatorsComponent)},
       {path: 'event/:id', loadComponent: () => import('./event-by-id-printers.component').then((c) => c.EventByIdPrintersComponent)},

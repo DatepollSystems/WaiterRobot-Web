@@ -5,15 +5,21 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxTrackByModule} from 'dfx-helper';
+import {DfxImplodePipe, DfxImplodePluckedPipe, DfxTrackByModule, ImplodeMappedPipe} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {EventSelectedGuard} from '../../_shared/services/guards/event-selected-guard.service';
-import {OrganisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard.service';
+import {eventSelectedGuard} from '../../_shared/services/guards/event-selected-guard';
+import {organisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard';
+import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
+import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
 import {ChipInput} from '../../_shared/ui/chip-input/chip-input.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
+import {DfxArrayPluck} from '../../_shared/ui/pluck.pipe';
+import {AllergensService} from './_services/allergens.service';
+import {ProductGroupsService} from './_services/product-groups.service';
+import {ProductsService} from './_services/products.service';
 
 import {AllProductsComponent} from './all-products/all-products.component';
 import {ProductEditComponent} from './product-edit/product-edit.component';
@@ -21,17 +27,11 @@ import {ProductGroupByIdProductsComponent} from './product-group-by-id-products/
 import {ProductGroupEditComponent} from './product-group-edit/product-group-edit.component';
 import {ProductGroupsComponent} from './product-groups/product-groups.component';
 import {ProductsComponent} from './products.component';
-import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
-import {AllergensService} from './_services/allergens.service';
-import {ProductsService} from './_services/products.service';
-import {ProductGroupsService} from './_services/product-groups.service';
-import {PrintersService} from '../printers/_services/printers.service';
-import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
 
 const routes: Routes = [
   {
     path: '',
-    canActivate: [OrganisationSelectedGuard, EventSelectedGuard],
+    canActivate: [organisationSelectedGuard, eventSelectedGuard],
     component: ProductsComponent,
     children: [
       {path: 'all', component: AllProductsComponent},
@@ -54,7 +54,7 @@ const routes: Routes = [
     ProductGroupEditComponent,
     ProductGroupByIdProductsComponent,
   ],
-  providers: [AllergensService, ProductsService, ProductGroupsService, PrintersService],
+  providers: [AllergensService, ProductsService, ProductGroupsService],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
@@ -72,6 +72,10 @@ const routes: Routes = [
     ChipInput,
     AppSpinnerRowComponent,
     AppBtnModelEditConfirmComponent,
+    DfxImplodePipe,
+    DfxImplodePluckedPipe,
+    ImplodeMappedPipe,
+    DfxArrayPluck,
   ],
 })
 export class ProductsModule {}

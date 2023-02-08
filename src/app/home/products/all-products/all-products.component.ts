@@ -1,32 +1,21 @@
 import {Component} from '@angular/core';
+import {AbstractModelsListComponentV2} from '../../../_shared/ui/abstract-models-list.component-v2';
+import {GetAllergenResponse, GetProductMaxResponse} from '../../../_shared/waiterrobot-backend';
 
-import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
-
-import {EventModel} from '../../events/_models/event.model';
-import {ProductModel} from '../_models/product.model';
-
-import {ProductsService} from '../_services/products.service';
+import {ProductsServiceV2} from '../_services/products.service';
 
 @Component({
   selector: 'app-all-products',
   templateUrl: './all-products.component.html',
-  styleUrls: ['./all-products.component.scss'],
 })
-export class AllProductsComponent extends AbstractModelsListComponent<ProductModel> {
+export class AllProductsComponent extends AbstractModelsListComponentV2<GetProductMaxResponse> {
   override columnsToDisplay = ['name', 'price', 'soldOut', 'groupName', 'printer', 'allergens', 'actions'];
 
-  selectedEvent: EventModel | undefined;
-
-  constructor(protected entitiesService: ProductsService) {
+  constructor(entitiesService: ProductsServiceV2) {
     super(entitiesService);
 
     this.setSelectable();
-
-    this.entitiesService.setSelectedEventGetAllUrl();
   }
 
-  protected override initializeEntities(): void {
-    this.entitiesService.setSelectedEventGetAllUrl();
-    super.initializeEntities();
-  }
+  onMap = (it: GetAllergenResponse): string => it.shortName;
 }

@@ -1,7 +1,10 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {s_from} from 'dfts-helper';
+import {filter, map, Observable, switchMap} from 'rxjs';
+import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle, notNullAndUndefined} from '../../../_shared/services/abstract-entity.service';
 import {AbstractModelService} from '../../../_shared/services/abstract-model.service';
-import {GetProductMaxResponse} from '../../../_shared/waiterrobot-backend';
+import {GetProductGroupResponse, GetProductMaxResponse, GetProductResponse} from '../../../_shared/waiterrobot-backend';
 
 import {EventsService} from '../../events/_services/events.service';
 
@@ -29,5 +32,55 @@ export class ProductsService extends AbstractModelService<ProductModel> {
 
   protected convert(data: any): ProductModel {
     return new ProductModel(data as GetProductMaxResponse);
+  }
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ProductsServiceV2
+  implements
+    HasGetAll<GetProductMaxResponse>,
+    HasGetSingle<GetProductMaxResponse>,
+    HasDelete<GetProductResponse>,
+    HasGetByParent<GetProductMaxResponse, GetProductGroupResponse>
+{
+  url = '/config/product';
+
+  constructor(private httpClient: HttpClient, private eventsService: EventsService) {}
+
+  priceMap = map((p: GetProductMaxResponse[]) =>
+    p.map((ps) => {
+      ps.price = ps.price / 100;
+      return ps;
+    })
+  );
+
+  getAll$(): Observable<GetProductMaxResponse[]> {
+    return this.eventsService.getSelected$.pipe(
+      filter(notNullAndUndefined),
+      switchMap((selected) =>
+        this.httpClient
+          .get<GetProductMaxResponse[]>(`${this.url}`, {params: new HttpParams().set('eventId', selected.id)})
+          .pipe(this.priceMap)
+      )
+    );
+  }
+
+  getByParent$(id: number): Observable<GetProductMaxResponse[]> {
+    return this.httpClient.get<GetProductMaxResponse[]>(`${this.url}`, {params: new HttpParams().set('groupId', id)}).pipe(this.priceMap);
+  }
+
+  getSingle$(id: number): Observable<GetProductMaxResponse> {
+    return this.httpClient.get<GetProductMaxResponse>(`${this.url}/${s_from(id)}`).pipe(
+      map((ps) => {
+        ps.price = ps.price / 100;
+        return ps;
+      })
+    );
+  }
+
+  delete$(id: number): Observable<unknown> {
+    return this.httpClient.delete(`${this.url}/${s_from(id)}`);
   }
 }

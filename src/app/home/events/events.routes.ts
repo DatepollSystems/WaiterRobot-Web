@@ -1,10 +1,10 @@
 import {Routes} from '@angular/router';
-import {OrganisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard.service';
+import {organisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard';
 
 export const ROUTES: Routes = [
   {
     path: '',
-    canActivate: [OrganisationSelectedGuard],
+    canActivate: [organisationSelectedGuard],
     loadComponent: () => import('./events.component').then((c) => c.EventsComponent),
     children: [
       {path: 'all', loadComponent: () => import('./all-events.component').then((c) => c.AllEventsComponent)},

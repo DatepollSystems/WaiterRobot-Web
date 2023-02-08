@@ -8,7 +8,7 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe, DfxTrackByModule} from 'dfx-helper';
 import {DfxTr, DfxTranslateModule} from 'dfx-translate';
 
-import {OrganisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard.service';
+import {organisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard';
 import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
@@ -35,7 +35,7 @@ const routes: Routes = [
   {
     path: '',
     component: WaitersComponent,
-    canActivate: [OrganisationSelectedGuard],
+    canActivate: [organisationSelectedGuard],
     children: [
       {path: 'organisation', component: OrganisationWaitersComponent},
       {path: 'organisation/duplicates', component: DuplicateOrganisationWaitersComponent},

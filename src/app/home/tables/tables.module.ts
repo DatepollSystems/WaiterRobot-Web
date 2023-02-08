@@ -7,13 +7,17 @@ import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxAutofocus, DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
-import {EventSelectedGuard} from '../../_shared/services/guards/event-selected-guard.service';
-import {OrganisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard.service';
+import {eventSelectedGuard} from '../../_shared/services/guards/event-selected-guard';
+import {organisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard';
+import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
+import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
 
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {QuestionDialogModule} from '../../_shared/ui/question-dialog/question-dialog.module';
+import {TableGroupsService} from './_services/table-groups.service';
+import {TablesService} from './_services/tables.service';
 import {AllTablesComponent} from './all-tables/all-tables.component';
 import {TableEditComponent} from './table-edit/table-edit.component';
 import {TableGroupByIdTablesComponent} from './table-group-by-id-tables/table-group-by-id-tables.component';
@@ -21,16 +25,12 @@ import {TableGroupEditComponent} from './table-group-edit/table-group-edit.compo
 import {TableGroupsComponent} from './table-groups/table-groups.component';
 
 import {TablesComponent} from './tables.component';
-import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
-import {TablesService} from './_services/tables.service';
-import {TableGroupsService} from './_services/table-groups.service';
-import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
 
 const routes: Routes = [
   {
     path: '',
     component: TablesComponent,
-    canActivate: [OrganisationSelectedGuard, EventSelectedGuard],
+    canActivate: [organisationSelectedGuard, eventSelectedGuard],
     children: [
       {path: 'all', component: AllTablesComponent},
       {path: ':id', component: TableEditComponent},

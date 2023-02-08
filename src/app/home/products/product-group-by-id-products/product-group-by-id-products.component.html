@@ -1,29 +1,29 @@
-<app-spinner-row [show]="!entitiesLoaded"></app-spinner-row>
+<ng-container *ngIf="entities$ | async as entities; else loading">
+  <ng-container *ngIf="entity$ | async as entity">
+    <h1>{{ entity?.name }} {{ 'HOME_PROD_GROUP_PRODUCTS_VIEW' | tr }}</h1>
 
-<div [hidden]="!entitiesLoaded">
-  <h1>{{ entity?.name }} {{ 'HOME_PROD_GROUP_PRODUCTS_VIEW' | tr }}</h1>
+    <btn-toolbar>
+      <div>
+        <a routerLink="../../../create" [queryParams]="{group: entity?.id}" class="btn btn-sm btn-outline-success">
+          <i-bs name="plus-circle"></i-bs>
+          {{ 'HOME_PROD' | tr }} {{ 'ADD_3' | tr | lowercase }}</a
+        >
+      </div>
+      <div>
+        <a routerLink="../../{{ entity?.id }}" class="btn btn-sm btn-outline-primary">
+          <i-bs name="pencil-square"></i-bs>
+          {{ 'HOME_PROD_GROUP' | tr }} {{ 'EDIT' | tr | lowercase }}</a
+        >
+      </div>
 
-  <btn-toolbar>
-    <div>
-      <a routerLink="../../../create" [queryParams]="{group: entity?.id}" class="btn btn-sm btn-outline-success">
-        <i-bs name="plus-circle"></i-bs>
-        {{ 'HOME_PROD' | tr }} {{ 'ADD_3' | tr | lowercase }}</a
-      >
-    </div>
-    <div>
-      <a routerLink="../../{{ entity?.id }}" class="btn btn-sm btn-outline-primary">
-        <i-bs name="pencil-square"></i-bs>
-        {{ 'HOME_PROD_GROUP' | tr }} {{ 'EDIT' | tr | lowercase }}</a
-      >
-    </div>
-
-    <div>
-      <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection!.hasValue()" (click)="onDeleteSelected()">
-        <i-bs name="trash"></i-bs>
-        {{ 'DELETE' | tr }}
-      </button>
-    </div>
-  </btn-toolbar>
+      <div>
+        <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection!.hasValue()" (click)="onDeleteSelected()">
+          <i-bs name="trash"></i-bs>
+          {{ 'DELETE' | tr }}
+        </button>
+      </div>
+    </btn-toolbar>
+  </ng-container>
 
   <form>
     <div class="input-group">
@@ -34,14 +34,14 @@
         ngbTooltip="{{ 'CLEAR' | tr }}"
         placement="bottom"
         (click)="filter.reset()"
-        *ngIf="filter?.value?.length > 0">
+        *ngIf="(filter?.value?.length ?? 0) > 0">
         <i-bs name="x-circle-fill"></i-bs>
       </button>
     </div>
   </form>
 
   <div class="table-responsive">
-    <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
+    <table ngb-table [hover]="true" [dataSource]="entities" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
       <ng-container ngbColumnDef="select">
         <th *ngbHeaderCellDef ngb-header-cell>
           <div class="form-check">
@@ -88,7 +88,7 @@
 
       <ng-container ngbColumnDef="allergens">
         <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_ALLERGENS' | tr }}</th>
-        <td *ngbCellDef="let product" ngb-cell>{{ product.allergens_short_names() }}</td>
+        <td *ngbCellDef="let product" ngb-cell>{{ product.allergens | a_pluck : 'shortName' | s_implode : ', ' }}</td>
       </ng-container>
 
       <ng-container ngbColumnDef="actions">
@@ -111,4 +111,8 @@
       <tr *ngbRowDef="let product; columns: columnsToDisplay" ngb-row routerLink="../../../{{ product.id }}"></tr>
     </table>
   </div>
-</div>
+</ng-container>
+
+<ng-template #loading>
+  <app-spinner-row></app-spinner-row>
+</ng-template>

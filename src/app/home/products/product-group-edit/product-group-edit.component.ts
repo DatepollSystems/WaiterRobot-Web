@@ -35,7 +35,6 @@ export class ProductGroupEditComponent extends AbstractModelEditComponent<Produc
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
     model.eventId = this.selectedEvent?.id;
-    console.log('test', model.printerId);
     if (this.updatePrinter) {
       model.printerId = n_from(model.printerId as string);
     } else {
