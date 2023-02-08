@@ -196,15 +196,14 @@
 <main class="container-fluid text-white pb-5 bg">
   <div class="container-xxxl">
     <div class="alert alert-warning" role="alert" hideIfOnline>
+      <i-bs name="wifi-off"></i-bs>
       {{ 'OFFLINE' | tr }}
     </div>
 
-    <!--    <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="/json" [refreshTime]="10000">-->
-    <!--      {{ 'SERVER_OFFLINE' | tr }}-->
-    <!--    </div>-->
-
-    <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="/json">
-      {{ 'SERVER_OFFLINE' | tr }}
+    <div hideIfOffline>
+      <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="/json">
+        {{ 'SERVER_OFFLINE' | tr }}
+      </div>
     </div>
 
     <router-outlet></router-outlet>

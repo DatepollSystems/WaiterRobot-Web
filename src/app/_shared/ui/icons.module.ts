@@ -40,6 +40,7 @@ import {
   trash,
   union,
   upcScan,
+  wifiOff,
   xCircleFill,
 } from 'ngx-bootstrap-icons';
 
@@ -84,6 +85,7 @@ const icons = {
   barChartLineFill,
   starFill,
   arrowLeft,
+  wifiOff,
 };
 
 @NgModule({

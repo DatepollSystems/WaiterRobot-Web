@@ -81,18 +81,21 @@ export class StartComponent extends AComponent implements OnChanges {
 
     this.serverInfo$ = timer(0, 5000).pipe(
       map(() => (this.startMs = new Date().getTime())),
-      switchMap(() => httpClient.get<JsonInfoResponse>('/json')),
-      tap(() => {
-        this.status = 'Online';
-        this.refreshIn = 5;
-        this.lastPing = new Date();
-        this.responseTime = this.lastPing.getTime() - this.startMs - 2; // Minus 2 because it takes ~ 2ms to convert the message
-      }),
-      catchError(() => {
-        this.refreshIn = 5;
-        this.status = 'Offline';
-        return EMPTY;
-      }),
+      switchMap(() =>
+        httpClient.get<JsonInfoResponse>('/json').pipe(
+          tap(() => {
+            this.status = 'Online';
+            this.refreshIn = 5;
+            this.lastPing = new Date();
+            this.responseTime = this.lastPing.getTime() - this.startMs - 2; // Minus 2 because it takes ~ 2ms to convert the message
+          }),
+          catchError(() => {
+            this.refreshIn = 5;
+            this.status = 'Offline';
+            return EMPTY;
+          })
+        )
+      ),
       share()
     );
 

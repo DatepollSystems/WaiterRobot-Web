@@ -1,6 +1,6 @@
 import {Injectable, TemplateRef} from '@angular/core';
 import {dfxTranslate$} from 'dfx-translate';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, first} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class NotificationService {
@@ -17,7 +17,9 @@ export class NotificationService {
   }
 
   tinfo(translationKey: string): void {
-    this.translate(translationKey).subscribe((translation) => this.info(translation));
+    this.translate(translationKey)
+      .pipe(first())
+      .subscribe((translation) => this.info(translation));
   }
 
   success(str: string): void {
@@ -25,7 +27,9 @@ export class NotificationService {
   }
 
   tsuccess(translationKey: string): void {
-    this.translate(translationKey).subscribe((translation) => this.success(translation));
+    this.translate(translationKey)
+      .pipe(first())
+      .subscribe((translation) => this.success(translation));
   }
 
   warning(str: string, delay?: number): void {
@@ -33,7 +37,9 @@ export class NotificationService {
   }
 
   twarning(translationKey: string): void {
-    this.translate(translationKey).subscribe((translation) => this.warning(translation));
+    this.translate(translationKey)
+      .pipe(first())
+      .subscribe((translation) => this.warning(translation));
   }
 
   error(str: string): void {
@@ -41,7 +47,9 @@ export class NotificationService {
   }
 
   terror(translationKey: string): void {
-    this.translate(translationKey).subscribe((translation) => this.error(translation));
+    this.translate(translationKey)
+      .pipe(first())
+      .subscribe((translation) => this.error(translation));
   }
 
   private show(textOrTpl: string | TemplateRef<any>, options: any = {}): void {

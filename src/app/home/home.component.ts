@@ -4,7 +4,7 @@ import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from 
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {loggerOf, s_from} from 'dfts-helper';
 
-import {AComponent, DfxHideIfOnline, DfxTrackByModule, IsMobileService, NgSub} from 'dfx-helper';
+import {AComponent, DfxHideIfOffline, DfxHideIfOnline, DfxTrackByModule, IsMobileService, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {tap} from 'rxjs';
 
@@ -45,6 +45,7 @@ import {DfxHideIfPingSucceeds} from '../_shared/ui/ping';
     AppNavbarScrollableComponent,
     NgOptimizedImage,
     NgSub,
+    DfxHideIfOffline,
   ],
 })
 export class HomeComponent extends AComponent {
