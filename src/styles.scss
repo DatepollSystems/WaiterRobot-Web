@@ -2,6 +2,12 @@
 
 @import 'assets/styles/custom-bootstrap';
 
+html,
+body {
+  overscroll-behavior: auto;
+  background: var(--primary-9);
+}
+
 a:hover {
   color: #21b3f2;
   cursor: pointer;
