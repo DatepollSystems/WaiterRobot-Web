@@ -20,7 +20,7 @@ export class TableGroupEditComponent extends AbstractModelEditComponent<TableGro
     super(tableGroupsService);
 
     this.selectedEvent = eventsService.getSelected();
-    this.unsubscribe(eventsService.selectedChange.subscribe((it) => (this.selectedEvent = it)));
+    this.unsubscribe(eventsService.getSelected$.subscribe((it) => (this.selectedEvent = it)));
   }
 
   override addCustomAttributesBeforeCreateAndUpdate(model: any): any {

@@ -13,7 +13,7 @@ import {AppBtnQrCodeComponent} from '../../../_shared/ui/qr-code/app-btn-qr-code
   imports: [AppBtnQrCodeComponent],
   standalone: true,
 })
-export class BtnWaiterCreateQrCodeComponenteee {
+export class BtnWaiterCreateQrCodeComponent {
   @Input()
   set token(token: string) {
     this._token = this.mobileLink.createWaiterSignInViaCreateTokenLink(token);

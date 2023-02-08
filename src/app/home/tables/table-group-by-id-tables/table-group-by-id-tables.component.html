@@ -1,4 +1,4 @@
-<app-spinner-row [loading]="!entitiesLoaded"></app-spinner-row>
+<app-spinner-row [show]="!entitiesLoaded"></app-spinner-row>
 
 <div [hidden]="!entitiesLoaded">
   <h1>"{{ entity?.name }}" {{ 'HOME_TABLE_GROUP_TABLES_VIEW' | tr }}</h1>

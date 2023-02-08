@@ -26,7 +26,7 @@ import {UserSessionsService} from './_services/user-sessions.service';
       </div>
     </btn-toolbar>
 
-    <app-spinner-row [loading]="!entitiesLoaded"></app-spinner-row>
+    <app-spinner-row [show]="!entitiesLoaded"></app-spinner-row>
 
     <form [hidden]="!entitiesLoaded">
       <div class="input-group">

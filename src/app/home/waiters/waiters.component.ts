@@ -23,8 +23,8 @@ export class WaitersComponent extends AbstractModelsComponent<EventModel> {
     this.selectedEvent = eventsService.getSelected();
 
     this.unsubscribe(
-      organisationService.selectedChange.subscribe((it) => (this.selectedOrganisation = it)),
-      eventsService.selectedChange.subscribe((it) => (this.selectedEvent = it))
+      organisationService.getSelected$.subscribe((it) => (this.selectedOrganisation = it)),
+      eventsService.getSelected$.subscribe((it) => (this.selectedEvent = it))
     );
   }
 }

@@ -13,7 +13,7 @@
   <app-btn-waiter-create-qrcode *ngIf="entity" [token]="entity.waiterCreateToken"></app-btn-waiter-create-qrcode>
 </btn-toolbar>
 
-<app-spinner-row [loading]="!entitiesLoaded"></app-spinner-row>
+<app-spinner-row [show]="!entitiesLoaded"></app-spinner-row>
 
 <div [hidden]="!entitiesLoaded">
   <form>

@@ -1,4 +1,4 @@
-<app-spinner-row [loading]="!entitiesLoaded"></app-spinner-row>
+<app-spinner-row [show]="!entitiesLoaded"></app-spinner-row>
 
 <div [hidden]="!entitiesLoaded">
   <h1>{{ entity?.name }} {{ 'HOME_PROD_GROUP_PRODUCTS_VIEW' | tr }}</h1>
@@ -73,7 +73,7 @@
 
       <ng-container ngbColumnDef="price">
         <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_PRICE' | tr }}</th>
-        <td *ngbCellDef="let product" ngb-cell>{{ product.price | currency: 'EUR' }}</td>
+        <td *ngbCellDef="let product" ngb-cell>{{ product.price | currency : 'EUR' }}</td>
       </ng-container>
 
       <ng-container ngbColumnDef="soldOut">

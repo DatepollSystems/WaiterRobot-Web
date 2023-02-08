@@ -1,12 +1,14 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {PrinterModel} from '../_models/printer.model';
-import {GetPrinterResponse} from '../../../_shared/waiterrobot-backend';
 
 import {AbstractModelService} from '../../../_shared/services/abstract-model.service';
+import {GetPrinterResponse} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
+import {PrinterModel} from '../_models/printer.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PrintersService extends AbstractModelService<PrinterModel> {
   url = '/config/printer';
 

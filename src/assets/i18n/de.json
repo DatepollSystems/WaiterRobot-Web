@@ -56,6 +56,7 @@
   "WHOLE": "Gesamt",
   "SIZE": "Größe",
   "DO_NOT_CLOSE_WINDOW": "Schließe das Fenster nicht",
+  "SELECT": "Auswählen",
 
   "REQUEST_ERROR_CLIENT": "Client fehler",
   "REQUEST_ERROR_SERVER": "Server fehler",
@@ -173,6 +174,7 @@
   "HOME_ORGS_USERS_SELF_REMOVE": "Du kannst dich nicht selbst aus einer Organisation entfernen",
   "HOME_ORGS_SETTINGS_ACTIVATE_WAITER_ON_SIGN_IN_VIA_CREATE_TOKEN": "Aktiviere standardmäßig Kellner welche sich selbst \"registrieren\"",
 
+  "HOME_EVENTS_SELECT": "Event auswählen",
   "HOME_EVENTS_UPDATE_CREATE_WAITER_TOKEN": "Personal-Erstellungs QR-Code zurücksetzen",
 
   "HOME_USERS_ALL": "Alle Benutzer",

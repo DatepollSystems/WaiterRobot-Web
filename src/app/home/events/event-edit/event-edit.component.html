@@ -18,6 +18,7 @@
       </div>
       <div>
         <selectable-button
+          *ngSub="selectedEvent$ as selectedEvent"
           class="my-2"
           [selectedEntity]="selectedEvent"
           [entity]="entity"
@@ -189,4 +190,4 @@
   </form>
 </div>
 
-<app-spinner-row [loading]="isEditing && !entityLoaded"></app-spinner-row>
+<app-spinner-row [show]="isEditing && !entityLoaded"></app-spinner-row>

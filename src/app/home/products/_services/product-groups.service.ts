@@ -1,11 +1,11 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-
-import {ProductGroupModel} from '../_models/product-group.model';
+import {AbstractModelService} from '../../../_shared/services/abstract-model.service';
 
 import {GetProductGroupResponse} from '../../../_shared/waiterrobot-backend';
-import {AbstractModelService} from '../../../_shared/services/abstract-model.service';
 import {EventsService} from '../../events/_services/events.service';
+
+import {ProductGroupModel} from '../_models/product-group.model';
 
 @Injectable()
 export class ProductGroupsService extends AbstractModelService<ProductGroupModel> {
@@ -15,7 +15,7 @@ export class ProductGroupsService extends AbstractModelService<ProductGroupModel
     super(httpService);
 
     this.setGetAllParams([{key: 'eventId', value: eventsService.getSelected()?.id}]);
-    eventsService.selectedChange.subscribe((event) => {
+    eventsService.getSelected$.subscribe((event) => {
       if (event) {
         this.setGetAllParams([{key: 'eventId', value: event.id}]);
         this.getAll();

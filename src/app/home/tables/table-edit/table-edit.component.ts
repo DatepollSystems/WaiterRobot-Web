@@ -38,7 +38,7 @@ export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
     this.selectedEvent = eventsService.getSelected();
     this.tableGroups = tableGroupsService.getAll();
     this.unsubscribe(
-      eventsService.selectedChange.subscribe((event) => {
+      eventsService.getSelected$.subscribe((event) => {
         this.selectedEvent = event;
       }),
       tableGroupsService.allChange.subscribe((tableGroups) => {

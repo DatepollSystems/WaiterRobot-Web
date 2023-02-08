@@ -1,30 +1,30 @@
+import {AsyncPipe} from '@angular/common';
 import {Component} from '@angular/core';
+import {RouterLink, RouterLinkActive} from '@angular/router';
+import {DfxTr} from 'dfx-translate';
 
-import {AComponent} from 'dfx-helper';
-
-import {EventModel} from './_models/event.model';
-import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
-
-import {EventsService} from './_services/events.service';
+import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
+import {AppListNavItemsComponent} from '../../_shared/ui/app-list-nav-items.component';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
+import {getEventsOrderedBySelectedFn} from './_services/getEventsOrderedBySelectedFn';
 
 @Component({
+  template: `
+    <entities-layout-component>
+      <div class="list-group" nav>
+        <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
+          <i-bs name="calendar-event-fill"></i-bs>
+          {{ 'NAV_EVENTS' | tr }}
+        </a>
+
+        <app-list-nav-items path="/home/events/" [entities]="events$ | async"></app-list-nav-items>
+      </div>
+    </entities-layout-component>
+  `,
   selector: 'app-events',
-  templateUrl: './events.component.html',
-  styleUrls: ['./events.component.scss'],
+  standalone: true,
+  imports: [AsyncPipe, RouterLink, RouterLinkActive, DfxTr, AppIconsModule, AppEntitiesLayoutComponent, AppListNavItemsComponent],
 })
-export class EventsComponent extends AComponent {
-  events: EventModel[];
-  selectedEvent: EventModel | undefined;
-
-  constructor(myUserService: MyUserService, eventsService: EventsService) {
-    super();
-
-    this.events = eventsService.getAll().slice(0, 5);
-    this.selectedEvent = eventsService.getSelected();
-
-    this.unsubscribe(
-      eventsService.allChange.subscribe((it) => (this.events = it.slice(0, 5))),
-      eventsService.selectedChange.subscribe((it) => (this.selectedEvent = it))
-    );
-  }
+export class EventsComponent {
+  events$ = getEventsOrderedBySelectedFn()();
 }

@@ -1,6 +1,6 @@
 <h1>{{ 'HOME_ORDERS_ALL' | tr }}</h1>
 
-<app-spinner-row [loading]="!entitiesLoaded"></app-spinner-row>
+<app-spinner-row [show]="!entitiesLoaded"></app-spinner-row>
 
 <form [hidden]="!entitiesLoaded">
   <div class="input-group">

@@ -30,19 +30,17 @@ export const ROUTES: Routes = [
       {
         path: 'organisations',
         title: 'NAV_ORGANISATIONS',
-        data: {preload: true},
-        loadChildren: () => import('./organisations/organisations.module').then((m) => m.OrganisationsModule),
+        loadChildren: () => import('./organisations/organisations.routes').then((m) => m.ROUTES),
       },
       {
         path: 'events',
         title: 'NAV_EVENTS',
-        data: {preload: true},
-        loadChildren: () => import('./events/events.module').then((m) => m.EventsModule),
+        loadChildren: () => import('./events/events.routes').then((m) => m.ROUTES),
       },
       {
         path: 'printers',
         title: 'NAV_PRINTERS',
-        loadChildren: () => import('./printers/printers.module').then((m) => m.PrintersModule),
+        loadChildren: () => import('./printers/printers.routes').then((m) => m.ROUTES),
       },
       {
         path: 'tables',

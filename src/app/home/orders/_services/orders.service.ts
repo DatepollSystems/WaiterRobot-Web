@@ -1,11 +1,11 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {OrderModel} from '../_models/order.model';
-
-import {GetOrderResponse} from '../../../_shared/waiterrobot-backend';
 
 import {AbstractModelService} from '../../../_shared/services/abstract-model.service';
+
+import {GetOrderResponse} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
+import {OrderModel} from '../_models/order.model';
 
 @Injectable()
 export class OrdersService extends AbstractModelService<OrderModel> {
@@ -15,7 +15,7 @@ export class OrdersService extends AbstractModelService<OrderModel> {
     super(httpService);
 
     this.setGetAllParams([{key: 'eventId', value: this.eventsService.getSelected()?.id}]);
-    this.eventsService.selectedChange.subscribe((event) => {
+    this.eventsService.getSelected$.subscribe((event) => {
       if (event) {
         this.setGetAllParams([{key: 'eventId', value: event.id}]);
         this.getAll();

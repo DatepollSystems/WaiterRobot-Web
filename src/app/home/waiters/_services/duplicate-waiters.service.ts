@@ -1,11 +1,11 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-
-import {DuplicateWaiterModel} from '../_models/duplicate-waiter.model';
+import {AbstractModelService} from '../../../_shared/services/abstract-model.service';
 
 import {DuplicateWaiterResponse, MergeWaiterDto} from '../../../_shared/waiterrobot-backend';
-import {AbstractModelService} from '../../../_shared/services/abstract-model.service';
 import {OrganisationsService} from '../../organisations/_services/organisations.service';
+
+import {DuplicateWaiterModel} from '../_models/duplicate-waiter.model';
 
 @Injectable()
 export class DuplicateWaitersService extends AbstractModelService<DuplicateWaiterModel> {
@@ -14,7 +14,7 @@ export class DuplicateWaitersService extends AbstractModelService<DuplicateWaite
   constructor(httpClient: HttpClient, private organisationService: OrganisationsService) {
     super(httpClient);
     this.setGetAllParams([{key: 'organisationId', value: this.organisationService.getSelected()?.id}]);
-    this.organisationService.selectedChange.subscribe((it) => {
+    this.organisationService.getSelected$.subscribe((it) => {
       if (it) {
         this.setGetAllParams([{key: 'organisationId', value: it.id}]);
         this.getAll();

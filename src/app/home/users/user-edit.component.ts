@@ -218,7 +218,7 @@ import {UsersService} from './_services/users.service';
       </form>
     </div>
 
-    <app-spinner-row [loading]="isEditing && !entityLoaded"></app-spinner-row>
+    <app-spinner-row [show]="isEditing && !entityLoaded"></app-spinner-row>
   `,
   selector: 'app-user-edit',
   imports: [

@@ -1,11 +1,11 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-
-import {TableModel} from '../_models/table.model';
+import {AbstractModelService} from '../../../_shared/services/abstract-model.service';
 
 import {GetTableResponse} from '../../../_shared/waiterrobot-backend';
-import {AbstractModelService} from '../../../_shared/services/abstract-model.service';
 import {EventsService} from '../../events/_services/events.service';
+
+import {TableModel} from '../_models/table.model';
 
 @Injectable()
 export class TablesService extends AbstractModelService<TableModel> {
@@ -15,7 +15,7 @@ export class TablesService extends AbstractModelService<TableModel> {
     super(httpService);
 
     this.setGetAllParams([{key: 'eventId', value: this.eventsService.getSelected()?.id}]);
-    this.eventsService.selectedChange.subscribe((event) => {
+    this.eventsService.getSelected$.subscribe((event) => {
       if (event) {
         this.setGetAllParams([{key: 'eventId', value: event.id}]);
         this.getAll();

@@ -34,7 +34,7 @@ import {UsersService} from './_services/users.service';
       </div>
     </btn-toolbar>
 
-    <app-spinner-row [loading]="!entitiesLoaded"></app-spinner-row>
+    <app-spinner-row [show]="!entitiesLoaded"></app-spinner-row>
 
     <form [hidden]="!entitiesLoaded">
       <div class="input-group">

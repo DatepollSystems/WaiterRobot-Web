@@ -1,6 +1,6 @@
 <h1>{{ 'HOME_WAITERS_DUPLICATES' | tr }} {{ selectedDuplicateWaiter ? selectedDuplicateWaiter.name : duplicateWaiter?.name }}</h1>
 
-<app-spinner-row [loading]="!entitiesLoaded"></app-spinner-row>
+<app-spinner-row [show]="!entitiesLoaded"></app-spinner-row>
 
 <div [hidden]="!entitiesLoaded || duplicateWaiter !== undefined">
   <form>

@@ -1,4 +1,4 @@
-<div [hidden]="isEditing && !entityLoaded" *ngSub="myUser$; let myUser">
+<div [hidden]="isEditing && !entityLoaded" *ngSub="myUser$ as myUser">
   <h1 *ngIf="isEditing && entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
   <h1 *ngIf="!isEditing">{{ 'ADD_2' | tr }}</h1>
 
@@ -257,4 +257,4 @@
   </form>
 </div>
 
-<app-spinner-row [loading]="isEditing && !entityLoaded"></app-spinner-row>
+<app-spinner-row [show]="isEditing && !entityLoaded"></app-spinner-row>

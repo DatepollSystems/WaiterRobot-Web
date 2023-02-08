@@ -109,8 +109,8 @@ export class StartComponent extends AComponent implements OnChanges {
     }
 
     this.unsubscribe(
-      eventsService.selectedChange.subscribe((it) => (this.selectedEvent = it)),
-      organisationsService.selectedChange.subscribe((it) => (this.selectedOrganisation = it)),
+      eventsService.getSelected$.subscribe((it) => (this.selectedEvent = it)),
+      organisationsService.getSelected$.subscribe((it) => (this.selectedOrganisation = it)),
       organisationsService.allChange.subscribe((it) => (this.organisations = it)),
       eventsService.allChange.subscribe((it) => (this.events = it))
     );

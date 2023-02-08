@@ -1,14 +1,12 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {NgIf} from '@angular/common';
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
-import {DfxTranslateModule} from 'dfx-translate';
+import {NgIf} from '@angular/common';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {AppSpinnerComponent} from './app-spinner.component';
 
 @Component({
   template: `
-    <div class="b-spinner-row" *ngIf="_loading">
-      <div class="spinner-border">
-        <span class="visually-hidden">{{ 'LOADING' | tr }}</span>
-      </div>
+    <div class="b-spinner-row" *ngIf="_show">
+      <app-spinner></app-spinner>
     </div>
   `,
   styles: [
@@ -23,15 +21,15 @@ import {DfxTranslateModule} from 'dfx-translate';
     `,
   ],
   selector: 'app-spinner-row',
-  imports: [NgIf, DfxTranslateModule],
+  imports: [NgIf, AppSpinnerComponent],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppSpinnerRowComponent {
   @Input()
-  set loading(it: BooleanInput) {
-    this._loading = coerceBooleanProperty(it);
+  set show(it: BooleanInput) {
+    this._show = coerceBooleanProperty(it);
   }
 
-  _loading!: boolean;
+  _show = true;
 }

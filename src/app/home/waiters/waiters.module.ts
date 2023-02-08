@@ -5,7 +5,7 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxImplodePipe, DfxTrackByModule} from 'dfx-helper';
+import {DfxArrayMapNamePipe, DfxImplodePipe, DfxTrackByModule} from 'dfx-helper';
 import {DfxTr, DfxTranslateModule} from 'dfx-translate';
 
 import {OrganisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard.service';
@@ -15,14 +15,13 @@ import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.c
 import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
 import {ChipInput} from '../../_shared/ui/chip-input/chip-input.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {ArrayMapNamePipePipe} from '../../_shared/ui/name-map.pipe';
 import {AppBtnQrCodeComponent} from '../../_shared/ui/qr-code/app-btn-qr-code.component';
 import {QuestionDialogModule} from '../../_shared/ui/question-dialog/question-dialog.module';
 import {DuplicateWaitersService} from './_services/duplicate-waiters.service';
 import {WaiterSessionsService} from './_services/waiter-sessions.service';
 
 import {WaitersService} from './_services/waiters.service';
-import {BtnWaiterCreateQrCodeComponenteee} from './_shared/btn-waiter-create-qr-code.component';
+import {BtnWaiterCreateQrCodeComponent} from './_shared/btn-waiter-create-qr-code.component';
 
 import {DuplicateOrganisationWaitersComponent} from './duplicate-organisation-waiters/duplicate-organisation-waiters.component';
 import {EventByIdWaitersComponent} from './event-by-id-waiters/event-by-id-waiters.component';
@@ -78,10 +77,10 @@ const routes: Routes = [
     AppSpinnerRowComponent,
     AppBtnModelEditConfirmComponent,
     AppBtnQrCodeComponent,
-    BtnWaiterCreateQrCodeComponenteee,
-    ArrayMapNamePipePipe,
+    BtnWaiterCreateQrCodeComponent,
     DfxImplodePipe,
     DfxTr,
+    DfxArrayMapNamePipe,
   ],
 })
 export class WaitersModule {}

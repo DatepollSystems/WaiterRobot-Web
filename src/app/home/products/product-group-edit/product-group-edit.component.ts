@@ -28,7 +28,7 @@ export class ProductGroupEditComponent extends AbstractModelEditComponent<Produc
     this.selectedEvent = eventsService.getSelected();
     this.printers = printersService.getAll();
     this.unsubscribe(
-      eventsService.selectedChange.subscribe((it) => (this.selectedEvent = it)),
+      eventsService.getSelected$.subscribe((it) => (this.selectedEvent = it)),
       printersService.allChange.subscribe((it) => (this.printers = it))
     );
   }

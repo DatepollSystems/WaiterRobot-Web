@@ -1,10 +1,19 @@
+import {NgIf} from '@angular/common';
 import {Component, inject, ViewChild} from '@angular/core';
-import {UntypedFormControl} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
+import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {EntityList, IList} from 'dfts-helper';
-import {NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
+import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
+import {NgSub} from 'dfx-helper';
+import {DfxTr} from 'dfx-translate';
 import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
+import {AppBtnModelEditConfirmComponent} from '../../../_shared/ui/app-btn-model-edit-confirm.component';
+import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
+import {AppSelectableButtonComponent} from '../../../_shared/ui/app-selectable-button.component';
+import {AppSpinnerRowComponent} from '../../../_shared/ui/app-spinner-row.component';
+import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {QuestionDialogComponent} from '../../../_shared/ui/question-dialog/question-dialog.component';
 import {OrganisationSettingsModel} from '../_models/organisation-settings.model';
 import {OrganisationUserModel} from '../_models/organisation-user.model';
@@ -13,12 +22,32 @@ import {OrganisationModel} from '../_models/organisation.model';
 import {OrganisationsSettingsService} from '../_services/organisations-settings.service';
 import {OrganisationsUsersService} from '../_services/organisations-users.service';
 import {OrganisationsService} from '../_services/organisations.service';
-import {OrganisationUserAddModalComponent} from '../organisation-user-add-modal/organisation-user-add-modal.component';
+import {OrganisationUserAddModalComponent} from '../organisation-user-add-modal.component';
 
 @Component({
   selector: 'app-organisation-edit',
   templateUrl: './organisation-edit.component.html',
-  styleUrls: ['./organisation-edit.component.scss'],
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    AppIconsModule,
+    NgSub,
+    NgIf,
+    NgbNav,
+    NgbNavItem,
+    NgbNavContent,
+    NgbNavLink,
+    NgbTooltip,
+    NgbNavOutlet,
+    DfxTr,
+    DfxTableModule,
+    DfxSortModule,
+    AppBtnToolbarComponent,
+    AppBtnModelEditConfirmComponent,
+    AppSelectableButtonComponent,
+    AppSpinnerRowComponent,
+  ],
 })
 export class OrganisationEditComponent extends AbstractModelEditComponent<OrganisationModel> {
   override onlyEditingTabs = [2, 3];
@@ -45,7 +74,7 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<Organi
 
     this.selectedOrganisation = this.organisationsService.getSelected();
 
-    this.unsubscribe(this.organisationsService.selectedChange.subscribe((it) => (this.selectedOrganisation = it)));
+    this.unsubscribe(this.organisationsService.getSelected$.subscribe((it) => (this.selectedOrganisation = it)));
   }
 
   override onEntityEdit(model: OrganisationModel): void {

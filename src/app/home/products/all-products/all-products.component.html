@@ -16,7 +16,7 @@
   </div>
 </btn-toolbar>
 
-<app-spinner-row [loading]="!entitiesLoaded"></app-spinner-row>
+<app-spinner-row [show]="!entitiesLoaded"></app-spinner-row>
 
 <form [hidden]="!entitiesLoaded">
   <div class="input-group">
@@ -66,7 +66,7 @@
 
     <ng-container ngbColumnDef="price">
       <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_PRICE' | tr }}</th>
-      <td *ngbCellDef="let product" ngb-cell>{{ product.price | currency: 'EUR' }}</td>
+      <td *ngbCellDef="let product" ngb-cell>{{ product.price | currency : 'EUR' }}</td>
     </ng-container>
 
     <ng-container ngbColumnDef="soldOut">

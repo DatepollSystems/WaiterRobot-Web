@@ -46,7 +46,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
           this.onEntityEdit(this.entity);
         }
       }),
-      this.organisationsService.selectedChange.subscribe((it) => (this.selectedOrganisation = it))
+      this.organisationsService.getSelected$.subscribe((it) => (this.selectedOrganisation = it))
     );
   }
 
@@ -54,7 +54,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel>
     if (!this.isEditing) {
       console.log('Adding selected model if selected....');
       this.selectedEvents.add(this.eventsService.getSelected());
-      this.unsubscribe(this.eventsService.selectedChange.subscribe((it) => this.selectedEvents.addIfAbsent(it)));
+      this.unsubscribe(this.eventsService.getSelected$.subscribe((it) => this.selectedEvents.addIfAbsent(it)));
     }
   }
 

@@ -1,35 +1,29 @@
+import {AsyncPipe} from '@angular/common';
 import {Component} from '@angular/core';
-
-import {AbstractModelsComponent} from '../../_shared/ui/abstract-models.component';
-
-import {EventModel} from '../events/_models/event.model';
-
-import {EventsService} from '../events/_services/events.service';
-import {OrganisationModel} from '../organisations/_models/organisation.model';
-import {OrganisationsService} from '../organisations/_services/organisations.service';
+import {RouterLink, RouterLinkActive} from '@angular/router';
+import {DfxTr} from 'dfx-translate';
+import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
+import {AppListNavItemsComponent} from '../../_shared/ui/app-list-nav-items.component';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
+import {getEventsOrderedBySelectedFn} from '../events/_services/getEventsOrderedBySelectedFn';
 
 @Component({
+  template: `
+    <entities-layout-component>
+      <div class="list-group" nav>
+        <a class="list-group-item list-group-item-action" routerLink="mediators" routerLinkActive="active">
+          <i-bs name="router"></i-bs>
+          {{ 'HOME_PRINTER_NAV_MEDIATOR' | tr }}</a
+        >
+
+        <app-list-nav-items path="/home/printers/event/" [entities]="events$ | async"></app-list-nav-items>
+      </div>
+    </entities-layout-component>
+  `,
   selector: 'app-printers',
-  templateUrl: './printers.component.html',
-  styleUrls: ['./printers.component.scss'],
+  standalone: true,
+  imports: [AsyncPipe, RouterLink, RouterLinkActive, DfxTr, AppIconsModule, AppEntitiesLayoutComponent, AppListNavItemsComponent],
 })
-export class PrintersComponent extends AbstractModelsComponent<EventModel> {
-  selectedOrganisation: OrganisationModel | undefined;
-  selectedEvent: EventModel | undefined;
-
-  constructor(organisationService: OrganisationsService, eventsService: EventsService) {
-    super(eventsService);
-
-    this.selectedOrganisation = organisationService.getSelected();
-    this.selectedEvent = eventsService.getSelected();
-
-    this.unsubscribe(
-      organisationService.selectedChange.subscribe((organisation) => {
-        this.selectedOrganisation = organisation;
-      }),
-      eventsService.selectedChange.subscribe((event) => {
-        this.selectedEvent = event;
-      })
-    );
-  }
+export class PrintersComponent {
+  events$ = getEventsOrderedBySelectedFn()();
 }

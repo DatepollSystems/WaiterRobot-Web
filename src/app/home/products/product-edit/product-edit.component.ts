@@ -50,7 +50,7 @@ export class ProductEditComponent extends AbstractModelEditComponent<ProductMode
     this.printers = printersService.getAll();
 
     this.unsubscribe(
-      eventsService.selectedChange.subscribe((it) => (this.selectedEvent = it)),
+      eventsService.getSelected$.subscribe((it) => (this.selectedEvent = it)),
       productGroupsService.allChange.subscribe((it) => (this.productGroups = it)),
       allergensService.allChange.subscribe((it) => (this.allergens = it)),
       printersService.allChange.subscribe((it) => (this.printers = it)),

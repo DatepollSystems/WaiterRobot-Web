@@ -4,7 +4,7 @@ import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from 
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {loggerOf, s_from} from 'dfts-helper';
 
-import {AComponent, DfxHideIfOffline, DfxHideIfOnline, DfxTrackByModule, IsMobileService, NgSub} from 'dfx-helper';
+import {AComponent, DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingSucceeds, DfxTrackByModule, IsMobileService, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {tap} from 'rxjs';
 
@@ -22,7 +22,6 @@ import {EventsService} from './events/_services/events.service';
 
 import {OrganisationModel} from './organisations/_models/organisation.model';
 import {OrganisationsService} from './organisations/_services/organisations.service';
-import {DfxHideIfPingSucceeds} from '../_shared/ui/ping';
 
 @Component({
   selector: 'app-home',
@@ -96,7 +95,7 @@ export class HomeComponent extends AComponent {
           this.lumber.info('const', 'Admin status detected');
         }
       }),
-      this.organisationsService.selectedChange.subscribe((value) => {
+      this.organisationsService.getSelected$.subscribe((value) => {
         this.selectedOrganisation = value;
         this.onEventInit();
         this.setNavItems();
@@ -126,7 +125,7 @@ export class HomeComponent extends AComponent {
 
       this.selectedEvent = this.eventsService.getSelected();
       this.unsubscribe(
-        this.eventsService.selectedChange.subscribe((event) => {
+        this.eventsService.getSelected$.subscribe((event) => {
           this.selectedEvent = event;
           this.setNavItems();
         })

@@ -3,13 +3,15 @@ import {Injectable} from '@angular/core';
 
 import {AEntityService} from 'dfx-helper';
 
-import {MediatorModel} from '../_models/mediator.model';
-
 import {GetMediatorResponse} from '../../../_shared/waiterrobot-backend';
 
 import {OrganisationsService} from '../../organisations/_services/organisations.service';
 
-@Injectable()
+import {MediatorModel} from '../_models/mediator.model';
+
+@Injectable({
+  providedIn: 'root',
+})
 export class MediatorsService extends AEntityService<string, MediatorModel> {
   url = '/config/mediator';
 
@@ -17,7 +19,7 @@ export class MediatorsService extends AEntityService<string, MediatorModel> {
     super(httpService);
 
     this.setGetAllParams([{key: 'organisationId', value: organisationsService.getSelected()?.id}]);
-    organisationsService.selectedChange.subscribe((org) => {
+    organisationsService.getSelected$.subscribe((org) => {
       this.setGetAllParams([{key: 'organisationId', value: org?.id}]);
     });
   }
