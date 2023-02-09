@@ -1,4 +1,4 @@
-import {HasIDAndName} from 'dfts-helper';
+import {HasIDAndName, IHasID} from 'dfts-helper';
 import {Observable} from 'rxjs';
 
 export interface HasGetAll<T> {
@@ -15,6 +15,14 @@ export interface HasGetSingle<T extends HasIDAndName<T['id']>> {
 
 export interface HasDelete<T extends HasIDAndName<T['id']>> {
   delete$(id: T['id']): Observable<unknown>;
+}
+
+export interface HasCreate<CreateDTOType, ResponseType extends IHasID<ResponseType['id']>> {
+  create$(dto: CreateDTOType): Observable<ResponseType>;
+}
+
+export interface HasUpdate<UpdateDTOType extends IHasID<UpdateDTOType['id']>, ResponseType extends IHasID<ResponseType['id']>> {
+  update$(dto: UpdateDTOType): Observable<ResponseType>;
 }
 
 export const notNull = <T>(value: T | null): value is T => value !== null;

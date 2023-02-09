@@ -26,18 +26,18 @@ export abstract class AbstractModelsListComponentV2<EntityType extends HasIDAndN
 
   protected modal = inject(NgbModal);
 
-  entities$?: Observable<NgbTableDataSource<EntityType>>;
+  dataSource$: Observable<NgbTableDataSource<EntityType>> = of(new NgbTableDataSource<EntityType>());
 
   protected entities?: NgbTableDataSource<EntityType>;
 
   protected constructor(@Inject(null) protected entitiesService: HasGetAll<EntityType> & HasDelete<EntityType>) {}
 
   ngAfterViewInit(): void {
-    this.entities$ = this.getDataSource(this.entitiesService.getAll$());
+    this.dataSource$ = this.getDataSource(this.entitiesService.getAll$());
   }
 
-  protected getDataSource(entities$: Observable<EntityType[]>): Observable<NgbTableDataSource<EntityType>> {
-    return combineLatest([this.filter.valueChanges.pipe(filter(notNullAndUndefined), startWith('')), entities$]).pipe(
+  protected getDataSource(entitiesStream: Observable<EntityType[]>): Observable<NgbTableDataSource<EntityType>> {
+    return combineLatest([this.filter.valueChanges.pipe(startWith(''), filter(notNullAndUndefined)), entitiesStream]).pipe(
       switchMap(([filterTerm, all]) => {
         const dataSource = new NgbTableDataSource<EntityType>(all.slice());
 
@@ -59,7 +59,7 @@ export abstract class AbstractModelsListComponentV2<EntityType extends HasIDAndN
         if (this.selection) {
           this.selection = new SelectionModel<EntityType>(true, []);
         }
-        dataSource.filter = filterTerm;
+        dataSource.filter = filterTerm ?? '';
 
         return of(dataSource);
       }),

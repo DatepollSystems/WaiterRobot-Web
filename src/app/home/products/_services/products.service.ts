@@ -2,9 +2,24 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {s_from} from 'dfts-helper';
 import {filter, map, Observable, switchMap} from 'rxjs';
-import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle, notNullAndUndefined} from '../../../_shared/services/abstract-entity.service';
+import {
+  HasCreate,
+  HasDelete,
+  HasGetAll,
+  HasGetByParent,
+  HasGetSingle,
+  HasUpdate,
+  notNullAndUndefined,
+} from '../../../_shared/services/abstract-entity.service';
 import {AbstractModelService} from '../../../_shared/services/abstract-model.service';
-import {GetProductGroupResponse, GetProductMaxResponse, GetProductResponse} from '../../../_shared/waiterrobot-backend';
+import {
+  CreateProductDto,
+  GetProductGroupResponse,
+  GetProductMaxResponse,
+  GetProductResponse,
+  IdResponse,
+  UpdateProductDto,
+} from '../../../_shared/waiterrobot-backend';
 
 import {EventsService} from '../../events/_services/events.service';
 
@@ -43,7 +58,9 @@ export class ProductsServiceV2
     HasGetAll<GetProductMaxResponse>,
     HasGetSingle<GetProductMaxResponse>,
     HasDelete<GetProductResponse>,
-    HasGetByParent<GetProductMaxResponse, GetProductGroupResponse>
+    HasGetByParent<GetProductMaxResponse, GetProductGroupResponse>,
+    HasCreate<CreateProductDto, IdResponse>,
+    HasUpdate<UpdateProductDto, IdResponse>
 {
   url = '/config/product';
 
@@ -78,6 +95,14 @@ export class ProductsServiceV2
         return ps;
       })
     );
+  }
+
+  create$(dto: CreateProductDto): Observable<IdResponse> {
+    return this.httpClient.post<IdResponse>(this.url, dto);
+  }
+
+  update$(dto: UpdateProductDto): Observable<IdResponse> {
+    return this.httpClient.put<IdResponse>(this.url, dto);
   }
 
   delete$(id: number): Observable<unknown> {

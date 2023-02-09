@@ -16,24 +16,24 @@
   </div>
 </btn-toolbar>
 
-<ng-container *ngIf="entities$ | async as entities; else loading">
-  <form>
-    <div class="input-group">
-      <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
-      <button
-        class="btn btn-outline-secondary"
-        type="button"
-        ngbTooltip="{{ 'CLEAR' | tr }}"
-        placement="bottom"
-        (click)="filter.reset()"
-        *ngIf="(filter?.value?.length ?? 0) > 0">
-        <i-bs name="x-circle-fill"></i-bs>
-      </button>
-    </div>
-  </form>
+<form>
+  <div class="input-group">
+    <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+    <button
+      class="btn btn-outline-secondary"
+      type="button"
+      ngbTooltip="{{ 'CLEAR' | tr }}"
+      placement="bottom"
+      (click)="filter.reset()"
+      *ngIf="(filter?.value?.length ?? 0) > 0">
+      <i-bs name="x-circle-fill"></i-bs>
+    </button>
+  </div>
+</form>
 
+<ng-container *ngIf="dataSource$ | async as dataSource; else loading">
   <div class="table-responsive">
-    <table ngb-table [hover]="true" [dataSource]="entities" ngb-sort ngbSortActive="groupName" ngbSortDirection="asc">
+    <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="groupName" ngbSortDirection="asc">
       <ng-container ngbColumnDef="select">
         <th *ngbHeaderCellDef ngb-header-cell>
           <div class="form-check">
@@ -85,7 +85,7 @@
 
       <ng-container ngbColumnDef="allergens">
         <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_ALLERGENS' | tr }}</th>
-        <td *ngbCellDef="let product" ngb-cell>{{ product.allergens | s_implodeMapped : onMap : ', ' }}</td>
+        <td *ngbCellDef="let product" ngb-cell>{{ product.allergens | a_pluck : 'shortName' | s_implode : ', ' }}</td>
       </ng-container>
 
       <ng-container ngbColumnDef="actions">

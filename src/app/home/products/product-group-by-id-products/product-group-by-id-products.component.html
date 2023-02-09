@@ -1,30 +1,30 @@
-<ng-container *ngIf="entities$ | async as entities; else loading">
-  <ng-container *ngIf="entity$ | async as entity">
-    <h1>{{ entity?.name }} {{ 'HOME_PROD_GROUP_PRODUCTS_VIEW' | tr }}</h1>
+<ng-container *ngIf="entity$ | async as entity">
+  <h1>{{ entity?.name }} {{ 'HOME_PROD_GROUP_PRODUCTS_VIEW' | tr }}</h1>
 
-    <btn-toolbar>
-      <div>
-        <a routerLink="../../../create" [queryParams]="{group: entity?.id}" class="btn btn-sm btn-outline-success">
-          <i-bs name="plus-circle"></i-bs>
-          {{ 'HOME_PROD' | tr }} {{ 'ADD_3' | tr | lowercase }}</a
-        >
-      </div>
-      <div>
-        <a routerLink="../../{{ entity?.id }}" class="btn btn-sm btn-outline-primary">
-          <i-bs name="pencil-square"></i-bs>
-          {{ 'HOME_PROD_GROUP' | tr }} {{ 'EDIT' | tr | lowercase }}</a
-        >
-      </div>
+  <btn-toolbar>
+    <div>
+      <a routerLink="../../../create" [queryParams]="{group: entity?.id}" class="btn btn-sm btn-outline-success">
+        <i-bs name="plus-circle"></i-bs>
+        {{ 'HOME_PROD' | tr }} {{ 'ADD_3' | tr | lowercase }}</a
+      >
+    </div>
+    <div>
+      <a routerLink="../../{{ entity?.id }}" class="btn btn-sm btn-outline-primary">
+        <i-bs name="pencil-square"></i-bs>
+        {{ 'HOME_PROD_GROUP' | tr }} {{ 'EDIT' | tr | lowercase }}</a
+      >
+    </div>
 
-      <div>
-        <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection!.hasValue()" (click)="onDeleteSelected()">
-          <i-bs name="trash"></i-bs>
-          {{ 'DELETE' | tr }}
-        </button>
-      </div>
-    </btn-toolbar>
-  </ng-container>
+    <div>
+      <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection!.hasValue()" (click)="onDeleteSelected()">
+        <i-bs name="trash"></i-bs>
+        {{ 'DELETE' | tr }}
+      </button>
+    </div>
+  </btn-toolbar>
+</ng-container>
 
+<ng-container *ngIf="dataSource$ | async as dataSource; else loading">
   <form>
     <div class="input-group">
       <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
@@ -41,7 +41,7 @@
   </form>
 
   <div class="table-responsive">
-    <table ngb-table [hover]="true" [dataSource]="entities" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
+    <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
       <ng-container ngbColumnDef="select">
         <th *ngbHeaderCellDef ngb-header-cell>
           <div class="form-check">
