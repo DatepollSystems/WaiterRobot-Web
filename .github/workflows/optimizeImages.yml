@@ -4,7 +4,7 @@ name: Compress Images
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 4 * * 7' # At 04:00 on Sundays.
+    - cron: '00 4 * * sun' # At 04:00 on Sundays.
 jobs:
   build:
     name: calibreapp/image-actions
