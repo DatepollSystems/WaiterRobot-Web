@@ -1,5 +1,6 @@
 import {HasIDAndName, IHasID} from 'dfts-helper';
 import {Observable} from 'rxjs';
+import {IdResponse} from '../waiterrobot-backend';
 
 export interface HasGetAll<T> {
   getAll$(): Observable<T[]>;
@@ -16,6 +17,9 @@ export interface HasGetSingle<T extends HasIDAndName<T['id']>> {
 export interface HasDelete<T extends HasIDAndName<T['id']>> {
   delete$(id: T['id']): Observable<unknown>;
 }
+
+export interface HasCreateWithIdResponse<CreateDTOType> extends HasCreate<CreateDTOType, IdResponse> {}
+export interface HasUpdateWithIdResponse<UpdateDTOType extends IHasID<UpdateDTOType['id']>> extends HasUpdate<UpdateDTOType, IdResponse> {}
 
 export interface HasCreate<CreateDTOType, ResponseType extends IHasID<ResponseType['id']>> {
   create$(dto: CreateDTOType): Observable<ResponseType>;

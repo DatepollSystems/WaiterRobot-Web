@@ -3,12 +3,12 @@ import {Injectable} from '@angular/core';
 import {s_from} from 'dfts-helper';
 import {filter, map, Observable, switchMap} from 'rxjs';
 import {
-  HasCreate,
+  HasCreateWithIdResponse,
   HasDelete,
   HasGetAll,
   HasGetByParent,
   HasGetSingle,
-  HasUpdate,
+  HasUpdateWithIdResponse,
   notNullAndUndefined,
 } from '../../../_shared/services/abstract-entity.service';
 import {AbstractModelService} from '../../../_shared/services/abstract-model.service';
@@ -41,10 +41,6 @@ export class ProductsService extends AbstractModelService<ProductModel> {
     });
   }
 
-  public setSelectedEventGetAllUrl(): void {
-    this.setGetAllParams([{key: 'eventId', value: this.eventsService.getSelected()?.id}]);
-  }
-
   protected convert(data: any): ProductModel {
     return new ProductModel(data as GetProductMaxResponse);
   }
@@ -57,10 +53,10 @@ export class ProductsServiceV2
   implements
     HasGetAll<GetProductMaxResponse>,
     HasGetSingle<GetProductMaxResponse>,
-    HasDelete<GetProductResponse>,
+    HasCreateWithIdResponse<CreateProductDto>,
+    HasUpdateWithIdResponse<UpdateProductDto>,
     HasGetByParent<GetProductMaxResponse, GetProductGroupResponse>,
-    HasCreate<CreateProductDto, IdResponse>,
-    HasUpdate<UpdateProductDto, IdResponse>
+    HasDelete<GetProductResponse>
 {
   url = '/config/product';
 

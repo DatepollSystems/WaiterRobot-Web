@@ -14,6 +14,7 @@ export class PrintersService extends AbstractModelService<PrinterModel> {
 
   constructor(httpService: HttpClient, private eventsService: EventsService) {
     super(httpService);
+    this.setSelectedEventGetAllUrl();
   }
 
   public setSelectedEventGetAllUrl(): void {

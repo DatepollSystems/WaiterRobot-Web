@@ -13,6 +13,7 @@ import {organisationSelectedGuard} from '../../_shared/services/guards/organisat
 import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
+import {AppModelEditSaveBtn} from '../../_shared/ui/app-model-edit-save-btn.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
 import {ChipInput} from '../../_shared/ui/chip-input/chip-input.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
@@ -22,6 +23,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
 import {ProductsService} from './_services/products.service';
 
 import {AllProductsComponent} from './all-products/all-products.component';
+import {ProductEditFormComponent} from './product-edit/product-edit-form/product-edit-form.component';
 import {ProductEditComponent} from './product-edit/product-edit.component';
 import {ProductGroupByIdProductsComponent} from './product-group-by-id-products/product-group-by-id-products.component';
 import {ProductGroupEditComponent} from './product-group-edit/product-group-edit.component';
@@ -76,6 +78,8 @@ const routes: Routes = [
     DfxImplodePluckedPipe,
     ImplodeMappedPipe,
     DfxArrayPluck,
+    ProductEditFormComponent,
+    AppModelEditSaveBtn,
   ],
 })
 export class ProductsModule {}
