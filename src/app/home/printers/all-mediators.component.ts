@@ -7,7 +7,7 @@ import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelsListComponent} from '../../_shared/ui/abstract-models-list.component';
-import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
+import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 
 import {MediatorModel} from './_models/mediator.model';

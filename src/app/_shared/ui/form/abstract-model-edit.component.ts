@@ -8,8 +8,8 @@ import {IEntityWithNumberIDAndName, loggerOf, n_from, n_isNumeric} from 'dfts-he
 import {AComponent} from 'dfx-helper';
 import {tap} from 'rxjs';
 
-import {AbstractModelService} from '../services/abstract-model.service';
-import {QuestionDialogComponent} from './question-dialog/question-dialog.component';
+import {AbstractModelService} from '../../services/abstract-model.service';
+import {QuestionDialogComponent} from '../question-dialog/question-dialog.component';
 
 @Component({
   template: '',

@@ -8,7 +8,7 @@ import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelsListComponent} from '../../_shared/ui/abstract-models-list.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
-import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
+import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {SessionModel} from './_models/session.model';
 import {UserSessionsService} from './_services/user-sessions.service';

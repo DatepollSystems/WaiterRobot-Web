@@ -9,10 +9,10 @@ import {DfxArrayMapNamePipe, DfxImplodePipe, DfxTrackByModule} from 'dfx-helper'
 import {DfxTr, DfxTranslateModule} from 'dfx-translate';
 
 import {organisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard';
-import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
+import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/form/app-btn-model-edit-confirm.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
-import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
+import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {ChipInput} from '../../_shared/ui/chip-input/chip-input.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppBtnQrCodeComponent} from '../../_shared/ui/qr-code/app-btn-qr-code.component';

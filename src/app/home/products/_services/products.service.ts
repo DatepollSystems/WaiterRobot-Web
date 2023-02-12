@@ -1,7 +1,7 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {s_from} from 'dfts-helper';
-import {filter, map, Observable, switchMap} from 'rxjs';
+import {BehaviorSubject, filter, map, Observable, switchMap} from 'rxjs';
 import {
   HasCreateWithIdResponse,
   HasDelete,
@@ -11,7 +11,6 @@ import {
   HasUpdateWithIdResponse,
   notNullAndUndefined,
 } from '../../../_shared/services/abstract-entity.service';
-import {AbstractModelService} from '../../../_shared/services/abstract-model.service';
 import {
   CreateProductDto,
   GetProductGroupResponse,
@@ -22,34 +21,12 @@ import {
 } from '../../../_shared/waiterrobot-backend';
 
 import {EventsService} from '../../events/_services/events.service';
-
-import {ProductModel} from '../_models/product.model';
-
-@Injectable()
-export class ProductsService extends AbstractModelService<ProductModel> {
-  override url = '/config/product';
-
-  constructor(httpService: HttpClient, private eventsService: EventsService) {
-    super(httpService);
-
-    this.setGetAllParams([{key: 'eventId', value: eventsService.getSelected()?.id}]);
-    this.eventsService.getSelected$.subscribe((event) => {
-      if (event) {
-        this.setGetAllParams([{key: 'eventId', value: event.id}]);
-        this.getAll();
-      }
-    });
-  }
-
-  protected convert(data: any): ProductModel {
-    return new ProductModel(data as GetProductMaxResponse);
-  }
-}
+import {tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProductsServiceV2
+export class ProductsService
   implements
     HasGetAll<GetProductMaxResponse>,
     HasGetSingle<GetProductMaxResponse>,
@@ -69,19 +46,29 @@ export class ProductsServiceV2
     })
   );
 
+  triggerGet$ = new BehaviorSubject(true);
+
   getAll$(): Observable<GetProductMaxResponse[]> {
-    return this.eventsService.getSelected$.pipe(
-      filter(notNullAndUndefined),
-      switchMap((selected) =>
-        this.httpClient
-          .get<GetProductMaxResponse[]>(`${this.url}`, {params: new HttpParams().set('eventId', selected.id)})
-          .pipe(this.priceMap)
+    return this.triggerGet$.pipe(
+      switchMap(() =>
+        this.eventsService.getSelected$.pipe(
+          filter(notNullAndUndefined),
+          switchMap((selected) =>
+            this.httpClient
+              .get<GetProductMaxResponse[]>(`${this.url}`, {params: new HttpParams().set('eventId', selected.id)})
+              .pipe(this.priceMap)
+          )
+        )
       )
     );
   }
 
   getByParent$(id: number): Observable<GetProductMaxResponse[]> {
-    return this.httpClient.get<GetProductMaxResponse[]>(`${this.url}`, {params: new HttpParams().set('groupId', id)}).pipe(this.priceMap);
+    return this.triggerGet$.pipe(
+      switchMap(() =>
+        this.httpClient.get<GetProductMaxResponse[]>(`${this.url}`, {params: new HttpParams().set('groupId', id)}).pipe(this.priceMap)
+      )
+    );
   }
 
   getSingle$(id: number): Observable<GetProductMaxResponse> {
@@ -94,14 +81,14 @@ export class ProductsServiceV2
   }
 
   create$(dto: CreateProductDto): Observable<IdResponse> {
-    return this.httpClient.post<IdResponse>(this.url, dto);
+    return this.httpClient.post<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
   }
 
   update$(dto: UpdateProductDto): Observable<IdResponse> {
-    return this.httpClient.put<IdResponse>(this.url, dto);
+    return this.httpClient.put<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
   }
 
   delete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${s_from(id)}`);
+    return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(tap(() => this.triggerGet$.next(true)));
   }
 }

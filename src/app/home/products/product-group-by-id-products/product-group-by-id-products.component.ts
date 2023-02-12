@@ -3,7 +3,7 @@ import {AbstractModelsListByIdComponentV2} from '../../../_shared/ui/abstract-mo
 import {GetProductGroupResponse, GetProductMaxResponse} from '../../../_shared/waiterrobot-backend';
 import {ProductGroupsService} from '../_services/product-groups.service';
 
-import {ProductsServiceV2} from '../_services/products.service';
+import {ProductsService} from '../_services/products.service';
 
 @Component({
   selector: 'app-product-group-by-id-products',
@@ -13,7 +13,7 @@ import {ProductsServiceV2} from '../_services/products.service';
 export class ProductGroupByIdProductsComponent extends AbstractModelsListByIdComponentV2<GetProductMaxResponse, GetProductGroupResponse> {
   override columnsToDisplay = ['name', 'price', 'soldOut', 'printer', 'allergens', 'actions'];
 
-  constructor(service: ProductsServiceV2, groupsService: ProductGroupsService) {
+  constructor(service: ProductsService, groupsService: ProductGroupsService) {
     super(service, groupsService);
 
     this.setSelectable();

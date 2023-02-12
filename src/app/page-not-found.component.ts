@@ -2,8 +2,8 @@ import {Component} from '@angular/core';
 
 import {DfxTr} from 'dfx-translate';
 
-import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
-import {FooterModule} from '../_shared/ui/footer/footer.module';
+import {AppLogoWithTextComponent} from './_shared/ui/app-logo-with-text.component';
+import {FooterModule} from './_shared/ui/footer/footer.module';
 import {NgOptimizedImage} from '@angular/common';
 
 @Component({
@@ -29,7 +29,7 @@ import {NgOptimizedImage} from '@angular/common';
     </div>
     <app-footer></app-footer>
   `,
-  styleUrls: ['../about/about.component.scss'],
+  styleUrls: ['./about/about.component.scss'],
   standalone: true,
   imports: [AppLogoWithTextComponent, FooterModule, DfxTr, NgOptimizedImage],
 })

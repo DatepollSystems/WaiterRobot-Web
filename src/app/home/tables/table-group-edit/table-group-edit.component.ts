@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
+import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {EventModel} from '../../events/_models/event.model';
 import {EventsService} from '../../events/_services/events.service';
 import {TableGroupModel} from '../_models/table-group.model';

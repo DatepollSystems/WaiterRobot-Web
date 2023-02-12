@@ -5,10 +5,10 @@ import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-b
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AbstractModelEditComponent} from '../../_shared/ui/abstract-model-edit.component';
-import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
+import {AbstractModelEditComponent} from '../../_shared/ui/form/abstract-model-edit.component';
+import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/form/app-btn-model-edit-confirm.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
-import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
+import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 
 import {EventModel} from '../events/_models/event.model';

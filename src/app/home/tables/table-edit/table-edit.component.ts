@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {loggerOf, n_from, n_isNumeric} from 'dfts-helper';
-import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
+import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 
 import {NotificationService} from '../../../notifications/notification.service';
 

@@ -2,12 +2,12 @@ import {Location} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Inject, inject, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {HasIDAndName, IHasID, loggerOf, n_from, n_isNumeric, s_is} from 'dfts-helper';
+import {HasIDAndName, IHasID, loggerOf, n_from, n_isNumeric, s_from, s_is} from 'dfts-helper';
 import {combineLatest, map, Observable, of, switchMap, tap} from 'rxjs';
-import {HasCreateWithIdResponse, HasDelete, HasGetSingle, HasUpdateWithIdResponse} from '../services/abstract-entity.service';
+import {HasCreateWithIdResponse, HasDelete, HasGetSingle, HasUpdateWithIdResponse} from '../../services/abstract-entity.service';
 import {AbstractModelEditFormComponent} from './abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from './app-model-edit-save-btn.component';
-import {QuestionDialogComponent} from './question-dialog/question-dialog.component';
+import {QuestionDialogComponent} from '../question-dialog/question-dialog.component';
 
 @Component({
   template: '',
@@ -45,7 +45,7 @@ export abstract class AbstractModelEditComponentV2<
   );
 
   protected continuousUsePropertyNames: string[] = [];
-  public continuousCreation = false;
+  continuesCreation = false;
 
   protected lumber = loggerOf('AModelEditComponentV2');
 
@@ -57,7 +57,7 @@ export abstract class AbstractModelEditComponentV2<
       HasDelete<EntityType>
   ) {}
 
-  setValid(valid: 'VALID' | 'INVALID') {
+  setValid(valid: 'VALID' | 'INVALID'): void {
     if (!this.submitBtn) {
       return;
     }
@@ -86,8 +86,8 @@ export abstract class AbstractModelEditComponentV2<
     return dto;
   }
 
-  private submit<T>(method: 'CREATE' | 'UPDATE', dto: CreateDTOType | UpdateDTOType): void {
-    this.lumber.info('submit', `method: "${method}"; Continuous creation: "${this.continuousCreation}"`, dto);
+  private submit(method: 'CREATE' | 'UPDATE', dto: CreateDTOType | UpdateDTOType): void {
+    this.lumber.info('submit', `method: "${method}"; Continuous creation: "${s_from(this.continuesCreation)}"`, dto);
 
     let obs$: Observable<unknown>;
 
@@ -105,7 +105,7 @@ export abstract class AbstractModelEditComponentV2<
     obs$
       .pipe(
         tap(() => {
-          if (this.continuousCreation) {
+          if (this.continuesCreation) {
             this.form?.reset();
 
             if (this.continuousUsePropertyNames.length > 0) {
@@ -122,7 +122,7 @@ export abstract class AbstractModelEditComponentV2<
         })
       )
       .subscribe();
-    if (!this.continuousCreation) {
+    if (!this.continuesCreation) {
       this.goToRedirectUrl();
     }
   }

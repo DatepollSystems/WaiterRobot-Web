@@ -10,17 +10,15 @@ import {DfxTranslateModule} from 'dfx-translate';
 
 import {eventSelectedGuard} from '../../_shared/services/guards/event-selected-guard';
 import {organisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard';
-import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/app-btn-model-edit-confirm.component';
+import {AppBtnModelEditConfirmComponent} from '../../_shared/ui/form/app-btn-model-edit-confirm.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
-import {AppModelEditSaveBtn} from '../../_shared/ui/app-model-edit-save-btn.component';
-import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
+import {AppModelEditSaveBtn} from '../../_shared/ui/form/app-model-edit-save-btn.component';
+import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {ChipInput} from '../../_shared/ui/chip-input/chip-input.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {DfxArrayPluck} from '../../_shared/ui/pluck.pipe';
 import {AllergensService} from './_services/allergens.service';
 import {ProductGroupsService} from './_services/product-groups.service';
-import {ProductsService} from './_services/products.service';
 
 import {AllProductsComponent} from './all-products/all-products.component';
 import {ProductEditFormComponent} from './product-edit/product-edit-form/product-edit-form.component';
@@ -29,6 +27,8 @@ import {ProductGroupByIdProductsComponent} from './product-group-by-id-products/
 import {ProductGroupEditComponent} from './product-group-edit/product-group-edit.component';
 import {ProductGroupsComponent} from './product-groups/product-groups.component';
 import {ProductsComponent} from './products.component';
+import {AppContinuesCreationSwitchComponent} from '../../_shared/ui/form/app-continues-creation-switch.component';
+import {DfxArrayPluck} from '../../_shared/ui/pluck.pipe';
 
 const routes: Routes = [
   {
@@ -56,7 +56,7 @@ const routes: Routes = [
     ProductGroupEditComponent,
     ProductGroupByIdProductsComponent,
   ],
-  providers: [AllergensService, ProductsService, ProductGroupsService],
+  providers: [AllergensService, ProductGroupsService],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
@@ -80,6 +80,7 @@ const routes: Routes = [
     DfxArrayPluck,
     ProductEditFormComponent,
     AppModelEditSaveBtn,
+    AppContinuesCreationSwitchComponent,
   ],
 })
 export class ProductsModule {}

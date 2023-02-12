@@ -5,7 +5,7 @@ import {a_pluck, HasNumberIDAndName} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AbstractModelEditFormComponent} from '../../../../_shared/ui/abstract-model-edit-form.component';
+import {AbstractModelEditFormComponent} from '../../../../_shared/ui/form/abstract-model-edit-form.component';
 import {ChipInput} from '../../../../_shared/ui/chip-input/chip-input.component';
 import {AppIconsModule} from '../../../../_shared/ui/icons.module';
 import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../../../_shared/waiterrobot-backend';
@@ -18,21 +18,24 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductEditFormComponent extends AbstractModelEditFormComponent<CreateProductDto, UpdateProductDto> {
+  test = [];
+
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]],
     price: [0, [Validators.required, Validators.min(0)]],
-    allergenIds: [[-1]],
+    allergenIds: [new Array<number>()],
     eventId: [0, [Validators.required, Validators.min(0)]],
     groupId: [-1, [Validators.required, Validators.min(0)]],
     printerId: [-1, [Validators.required, Validators.min(0)]],
     soldOut: [false, [Validators.required]],
+    id: [0, [Validators.required]],
   });
 
   @Input()
   set product(it: GetProductMaxResponse | 'CREATE') {
     if (it === 'CREATE') {
       super.isEdit = false;
-      this.form.controls.allergenIds.setValue([]);
+      //this.form.controls.allergenIds.setValue([]);
       return;
     }
 
@@ -46,6 +49,7 @@ export class ProductEditFormComponent extends AbstractModelEditFormComponent<Cre
       groupId: it.group.id,
       printerId: it.printer.id,
       soldOut: it.soldOut,
+      id: it.id,
     });
   }
 
@@ -79,5 +83,5 @@ export class ProductEditFormComponent extends AbstractModelEditFormComponent<Cre
 
   formatter = (it: unknown): string => (it as HasNumberIDAndName).name;
 
-  allergenChange = (allergens: any[]) => this.form.controls.allergenIds.setValue(allergens.map((a) => a.id));
+  allergenChange = (allergens: HasNumberIDAndName[]) => this.form.controls.allergenIds.setValue(allergens.map((a) => a.id));
 }

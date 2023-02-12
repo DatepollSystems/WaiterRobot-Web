@@ -18,12 +18,12 @@ export interface HasDelete<T extends HasIDAndName<T['id']>> {
   delete$(id: T['id']): Observable<unknown>;
 }
 
-export interface HasCreateWithIdResponse<CreateDTOType> extends HasCreate<CreateDTOType, IdResponse> {}
-export interface HasUpdateWithIdResponse<UpdateDTOType extends IHasID<UpdateDTOType['id']>> extends HasUpdate<UpdateDTOType, IdResponse> {}
+export type HasCreateWithIdResponse<CreateDTOType> = HasCreate<CreateDTOType, IdResponse>;
+export type HasUpdateWithIdResponse<UpdateDTOType extends IHasID<UpdateDTOType['id']>> = HasUpdate<UpdateDTOType, IdResponse>;
 
-export interface HasCreate<CreateDTOType, ResponseType extends IHasID<ResponseType['id']>> {
+export type HasCreate<CreateDTOType, ResponseType extends IHasID<ResponseType['id']>> = {
   create$(dto: CreateDTOType): Observable<ResponseType>;
-}
+};
 
 export interface HasUpdate<UpdateDTOType extends IHasID<UpdateDTOType['id']>, ResponseType extends IHasID<ResponseType['id']>> {
   update$(dto: UpdateDTOType): Observable<ResponseType>;

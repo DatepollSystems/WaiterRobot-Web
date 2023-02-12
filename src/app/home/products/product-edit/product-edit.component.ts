@@ -1,13 +1,13 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {n_from, n_isNumeric} from 'dfts-helper';
 import {combineLatest, filter, map, startWith, tap} from 'rxjs';
-import {AbstractModelEditComponentV2} from '../../../_shared/ui/abstract-model-edit.component-v2';
+import {AbstractModelEditComponentV2} from '../../../_shared/ui/form/abstract-model-edit.component-v2';
 import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 import {PrintersService} from '../../printers/_services/printers.service';
 import {AllergensService} from '../_services/allergens.service';
 import {ProductGroupsService} from '../_services/product-groups.service';
-import {ProductsServiceV2} from '../_services/products.service';
+import {ProductsService} from '../_services/products.service';
 
 @Component({
   selector: 'app-product-edit',
@@ -42,7 +42,7 @@ export class ProductEditComponent extends AbstractModelEditComponentV2<CreatePro
   );
 
   constructor(
-    private productsService: ProductsServiceV2,
+    private productsService: ProductsService,
     private allergensService: AllergensService,
     private printersService: PrintersService,
     private eventsService: EventsService,

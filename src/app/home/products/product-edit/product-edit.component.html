@@ -33,6 +33,10 @@
           [selectedEvent]="vm.selectedEvent"
           [selectedProductGroupId]="vm.selectedProductGroupId"
           [product]="entity"></app-product-edit-form>
+
+        <app-continues-creation-switch
+          *ngIf="!isEditing(entity)"
+          (continuesCreationChange)="continuesCreation = $event"></app-continues-creation-switch>
       </ng-template>
     </li>
   </ul>

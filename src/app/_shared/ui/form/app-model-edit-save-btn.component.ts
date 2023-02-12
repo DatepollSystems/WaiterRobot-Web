@@ -4,7 +4,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, inj
 import {AComponent} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AppIconsModule} from './icons.module';
+import {AppIconsModule} from '../icons.module';
 
 @Component({
   template: `

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {n_from} from 'dfts-helper';
-import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
+import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 
 import {EventModel} from '../../events/_models/event.model';
 

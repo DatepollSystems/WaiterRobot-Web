@@ -4,8 +4,8 @@ import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {IEntityWithName, StringOrNumber} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {AppListLoadingItemComponent} from './app-list-loading-item.component';
-import {AppSpinnerComponent} from './app-spinner.component';
+import {AppListLoadingItemComponent} from './loading/app-list-loading-item.component';
+import {AppSpinnerComponent} from './loading/app-spinner.component';
 import {AppIconsModule} from './icons.module';
 
 @Component({

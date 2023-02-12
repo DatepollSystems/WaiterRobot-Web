@@ -5,7 +5,7 @@ import {NgForm} from '@angular/forms';
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {AppIconsModule} from './icons.module';
+import {AppIconsModule} from '../icons.module';
 
 @Component({
   template: `
