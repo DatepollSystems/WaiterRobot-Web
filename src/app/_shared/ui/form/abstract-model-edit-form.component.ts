@@ -1,12 +1,18 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, ɵFormGroupValue} from '@angular/forms';
 import {AComponent} from 'dfx-helper';
+import {IHasID, loggerOf} from 'dfts-helper';
 
 @Component({
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOType> extends AComponent implements OnInit {
+export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOType extends IHasID<UpdateDTOType['id']>>
+  extends AComponent
+  implements OnInit
+{
+  lumber = loggerOf('AModelEditForm');
+
   fb = inject(FormBuilder);
 
   @Output()
@@ -18,7 +24,13 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
   @Output()
   submitUpdate = new EventEmitter<UpdateDTOType>();
 
-  isEdit = true;
+  protected set isEdit(it: boolean) {
+    this._isEdit = it;
+    if (!this._isEdit) {
+      this.form.reset();
+    }
+  }
+  _isEdit = true;
 
   abstract form: FormGroup;
 
@@ -31,13 +43,18 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
     );
   }
 
+  protected overrideRawValue(value: any): any {
+    return value;
+  }
+
   submit(): void {
-    console.log('form', this.form.getRawValue());
-    if (this.isEdit) {
-      this.submitUpdate.emit(this.form.getRawValue());
+    const formValue = this.overrideRawValue(this.form.getRawValue());
+    this.lumber.log('submit', 'form', formValue);
+    if (this._isEdit) {
+      this.submitUpdate.emit(formValue as UpdateDTOType);
       return;
     }
-    this.submitCreate.emit(this.form.getRawValue());
+    this.submitCreate.emit(formValue as CreateDTOType);
   }
 
   reset(): void {

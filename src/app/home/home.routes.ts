@@ -55,7 +55,7 @@ export const ROUTES: Routes = [
       {
         path: 'products',
         title: 'NAV_PRODUCTS',
-        loadChildren: () => import('./products/products.module').then((m) => m.ProductsModule),
+        loadChildren: () => import('./products/products.routes').then((m) => m.ROUTES),
       },
       {
         path: 'orders',

@@ -13,6 +13,7 @@ import {QuestionDialogComponent} from '../question-dialog/question-dialog.compon
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export abstract class AbstractModelEditComponentV2<
   CreateDTOType,
   UpdateDTOType extends IHasID<UpdateDTOType['id']>,
@@ -64,39 +65,17 @@ export abstract class AbstractModelEditComponentV2<
     this.submitBtn.formValid = valid;
   }
 
-  submitCreate(dto: CreateDTOType): void {
-    this.submit('CREATE', dto);
-  }
-
-  submitUpdate(dto: UpdateDTOType): void {
-    this.submit('UPDATE', dto);
-  }
-
-  /**
-   * Adds custom attributes to create dto
-   */
-  protected overrideCreateDto(dto: CreateDTOType): CreateDTOType {
-    return dto;
-  }
-
-  /**
-   * Adds custom attributes to update dto
-   */
-  protected overrideUpdateDto(dto: UpdateDTOType): UpdateDTOType {
-    return dto;
-  }
-
-  private submit(method: 'CREATE' | 'UPDATE', dto: CreateDTOType | UpdateDTOType): void {
+  submit(method: 'CREATE' | 'UPDATE', dto: CreateDTOType | UpdateDTOType): void {
     this.lumber.info('submit', `method: "${method}"; Continuous creation: "${s_from(this.continuesCreation)}"`, dto);
 
     let obs$: Observable<unknown>;
 
     switch (method) {
       case 'CREATE':
-        obs$ = this.entityService.create$(this.overrideCreateDto(dto as CreateDTOType));
+        obs$ = this.entityService.create$(dto as CreateDTOType);
         break;
       case 'UPDATE':
-        obs$ = this.entityService.update$(this.overrideUpdateDto(dto as UpdateDTOType));
+        obs$ = this.entityService.update$(dto as UpdateDTOType);
         break;
       default:
         throw Error('Not implemented');
@@ -109,6 +88,7 @@ export abstract class AbstractModelEditComponentV2<
             this.form?.reset();
 
             if (this.continuousUsePropertyNames.length > 0) {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               for (const modelKeyValuePairs of Object.keys(dto as Record<string, any>).map((key) => [String(key), dto[key]])) {
                 if (this.continuousUsePropertyNames.includes(modelKeyValuePairs[0] as string)) {

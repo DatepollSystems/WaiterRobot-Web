@@ -1,7 +1,7 @@
 import {NgForOf, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
-import {IEntityWithName, StringOrNumber} from 'dfts-helper';
+import {HasIDAndName, StringOrNumber} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {AppListLoadingItemComponent} from './loading/app-list-loading-item.component';
@@ -59,7 +59,7 @@ import {AppIconsModule} from './icons.module';
 export class AppListNavItemsComponent {
   router = inject(Router);
 
-  @Input() entities: IEntityWithName<StringOrNumber>[] | null = null;
+  @Input() entities: HasIDAndName<StringOrNumber>[] | null = null;
 
   @Input() path!: string;
 }
