@@ -36,11 +36,11 @@
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/restrict-plus-operands": "off",
         "@typescript-eslint/member-ordering": "off",
+        "@typescript-eslint/unbound-method": "off",
         "@angular-eslint/component-selector": [
           "error",
           {
             "type": "element",
-            "prefix": "app",
             "style": "kebab-case"
           }
         ],
@@ -48,7 +48,6 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "app",
             "style": "camelCase"
           }
         ],

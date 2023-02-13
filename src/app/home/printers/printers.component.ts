@@ -1,11 +1,11 @@
 import {AsyncPipe} from '@angular/common';
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {DfxTr} from 'dfx-translate';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {AppListNavItemsComponent} from '../../_shared/ui/app-list-nav-items.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {getEventsOrderedBySelectedFn} from '../events/_services/getEventsOrderedBySelectedFn';
+import {getEventsOrderedBySelected} from '../events/_services/getEventsOrderedBySelected';
 
 @Component({
   template: `
@@ -22,8 +22,9 @@ import {getEventsOrderedBySelectedFn} from '../events/_services/getEventsOrdered
   `,
   selector: 'app-printers',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AsyncPipe, RouterLink, RouterLinkActive, DfxTr, AppIconsModule, AppEntitiesLayoutComponent, AppListNavItemsComponent],
 })
 export class PrintersComponent {
-  events$ = getEventsOrderedBySelectedFn()();
+  events$ = getEventsOrderedBySelected();
 }

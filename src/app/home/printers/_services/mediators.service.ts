@@ -1,30 +1,26 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-
-import {AEntityService} from 'dfx-helper';
+import {filter, Observable, switchMap} from 'rxjs';
+import {HasGetAll, notNullAndUndefined} from '../../../_shared/services/abstract-entity.service';
 
 import {GetMediatorResponse} from '../../../_shared/waiterrobot-backend';
 
 import {OrganisationsService} from '../../organisations/_services/organisations.service';
 
-import {MediatorModel} from '../_models/mediator.model';
-
 @Injectable({
   providedIn: 'root',
 })
-export class MediatorsService extends AEntityService<string, MediatorModel> {
+export class MediatorsService implements HasGetAll<GetMediatorResponse> {
   url = '/config/mediator';
 
-  constructor(httpService: HttpClient, organisationsService: OrganisationsService) {
-    super(httpService);
+  constructor(private httpClient: HttpClient, private organisationsService: OrganisationsService) {}
 
-    this.setGetAllParams([{key: 'organisationId', value: organisationsService.getSelected()?.id}]);
-    organisationsService.getSelected$.subscribe((org) => {
-      this.setGetAllParams([{key: 'organisationId', value: org?.id}]);
-    });
-  }
-
-  protected convert(data: any): MediatorModel {
-    return new MediatorModel(data as GetMediatorResponse);
+  getAll$(): Observable<GetMediatorResponse[]> {
+    return this.organisationsService.getSelected$.pipe(
+      filter(notNullAndUndefined),
+      switchMap((organisation) =>
+        this.httpClient.get<GetMediatorResponse[]>(this.url, {params: new HttpParams().set('organisationId', organisation.id)})
+      )
+    );
   }
 }

@@ -45,7 +45,7 @@ export const ROUTES: Routes = [
       {
         path: 'tables',
         title: 'NAV_TABLES',
-        loadChildren: () => import('./tables/tables.module').then((m) => m.TablesModule),
+        loadChildren: () => import('./tables/tables.routes').then((m) => m.ROUTES),
       },
       {
         path: 'waiters',
@@ -55,12 +55,12 @@ export const ROUTES: Routes = [
       {
         path: 'products',
         title: 'NAV_PRODUCTS',
-        loadChildren: () => import('./products/products.module').then((m) => m.ProductsModule),
+        loadChildren: () => import('./products/products.routes').then((m) => m.ROUTES),
       },
       {
         path: 'orders',
         title: 'NAV_ORDERS',
-        loadChildren: () => import('./orders/orders.module').then((m) => m.OrdersModule),
+        loadChildren: () => import('./orders/orders.routes').then((m) => m.ROUTES),
       },
       {
         path: 'statistics',

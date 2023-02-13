@@ -8,11 +8,11 @@ import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
 
-import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
-import {AppBtnModelEditConfirmComponent} from '../../../_shared/ui/app-btn-model-edit-confirm.component';
+import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
+import {AppBtnModelEditConfirmComponent} from '../../../_shared/ui/form/app-btn-model-edit-confirm.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AppSelectableButtonComponent} from '../../../_shared/ui/app-selectable-button.component';
-import {AppSpinnerRowComponent} from '../../../_shared/ui/app-spinner-row.component';
+import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {QuestionDialogComponent} from '../../../_shared/ui/question-dialog/question-dialog.component';
 import {OrganisationSettingsModel} from '../_models/organisation-settings.model';

@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import {EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfts-helper';
 
-import {AbstractModelEditComponent} from '../../../_shared/ui/abstract-model-edit.component';
+import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {EventModel} from '../../events/_models/event.model';
 import {EventsService} from '../../events/_services/events.service';
 import {OrganisationModel} from '../../organisations/_models/organisation.model';

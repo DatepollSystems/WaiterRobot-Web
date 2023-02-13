@@ -5,16 +5,18 @@ import {DfxTr} from 'dfx-translate';
   template: `
     <h1>{{ 'ABOUT_IMPRINT' | tr }}</h1>
 
-    <h3>Media owner / Medieninhaber<br /></h3>
+    <h3 class="mt-4">Media owner / Medieninhaber<br /></h3>
+    <ul>
+      <li>Alexander Kauer, 2095 Drosendorf Altstadt</li>
+      <li>Dominik Dafert, 1100 Wien</li>
+    </ul>
 
-    <p>Dominik Dafert, 1100 Wien</p>
-
-    <h3>Contact / Kontakt <br /></h3>
+    <h3 class="mt-4">Contact / Kontakt <br /></h3>
 
     <ul>
-      <li><a href="mailto:kaulex@datepollsystems.org">kaulex@datepollsystems.org</a></li>
+      <li><a href="mailto:contact@kaulex.dev">contact@kaulex.dev</a></li>
       <li>
-        <a href="mailto:dafnik@datepollsystems.org">dafnik@datepollsystems.org</a>
+        <a href="mailto:contact@dafnik.me">contact@dafnik.me</a>
       </li>
     </ul>
   `,

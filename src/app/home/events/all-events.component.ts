@@ -11,7 +11,7 @@ import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
 import {AbstractModelsListComponent} from '../../_shared/ui/abstract-models-list.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppSelectableButtonComponent} from '../../_shared/ui/app-selectable-button.component';
-import {AppSpinnerRowComponent} from '../../_shared/ui/app-spinner-row.component';
+import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {EventModel} from './_models/event.model';
 

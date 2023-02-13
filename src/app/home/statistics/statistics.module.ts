@@ -5,9 +5,10 @@ import {RouterModule, Routes} from '@angular/router';
 import {NgbDropdownModule, NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {BarChartModule, PieChartModule} from '@swimlane/ngx-charts';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxCountUp} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {EventSelectedGuard} from '../../_shared/services/guards/event-selected-guard.service';
+import {eventSelectedGuard} from '../../_shared/services/guards/event-selected-guard';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
@@ -19,13 +20,12 @@ import {SumStatisticsComponent} from './components/sum/sum-statistics.component'
 import {StatisticsOverviewComponent} from './statistics-overview.component';
 
 import {StatisticsComponent} from './statistics.component';
-import {DfxCountUp} from 'dfx-helper';
 
 const routes: Routes = [
   {
     path: '',
     component: StatisticsComponent,
-    canActivate: [EventSelectedGuard],
+    canActivate: [eventSelectedGuard],
     children: [
       {path: 'overview', component: StatisticsOverviewComponent},
       {path: '', pathMatch: 'full', redirectTo: '/home/statistics/overview'},
