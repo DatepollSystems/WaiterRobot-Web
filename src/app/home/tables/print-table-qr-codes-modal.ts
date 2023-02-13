@@ -8,11 +8,11 @@ import {DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
-import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
+import {MobileLinkService} from '../../_shared/services/mobile-link.service';
 
-import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
-import {TableModel} from '../_models/table.model';
+import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
+import {TableModel} from './_models/table.model';
 
 @Component({
   template: `
@@ -106,7 +106,7 @@ import {TableModel} from '../_models/table.model';
     NgbDropdownModule,
   ],
 })
-export class AppPrintTableQrCodesModalComponent {
+export class PrintTableQrCodesModalComponent {
   @Input() tables?: TableModel[];
 
   qrCodeSize: 'SM' | 'MD' = 'MD';

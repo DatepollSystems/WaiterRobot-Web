@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {DfxTr} from 'dfx-translate';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
@@ -22,6 +22,7 @@ import {getEventsOrderedBySelected} from '../events/_services/getEventsOrderedBy
   `,
   selector: 'app-printers',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AsyncPipe, RouterLink, RouterLinkActive, DfxTr, AppIconsModule, AppEntitiesLayoutComponent, AppListNavItemsComponent],
 })
 export class PrintersComponent {

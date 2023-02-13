@@ -1,10 +1,19 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {AsyncPipe, NgIf} from '@angular/common';
-import {n_from, n_isNumeric} from 'dfts-helper';
-import {combineLatest, filter, map, startWith, tap} from 'rxjs';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
+import {n_from, n_isNumeric} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
+import {combineLatest, filter, map, startWith, tap} from 'rxjs';
+import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
+import {AbstractModelEditComponentV2} from '../../../_shared/ui/form/abstract-model-edit.component-v2';
+import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
+import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
+
+import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
+import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
+import {AppIconsModule} from '../../../_shared/ui/icons.module';
+import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 
 import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
@@ -12,16 +21,7 @@ import {PrintersService} from '../../printers/_services/printers.service';
 import {AllergensService} from '../_services/allergens.service';
 import {ProductGroupsService} from '../_services/product-groups.service';
 import {ProductsService} from '../_services/products.service';
-
-import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
-import {AbstractModelEditComponentV2} from '../../../_shared/ui/form/abstract-model-edit.component-v2';
-import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
-import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
-import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {AppProductEditFormComponent} from './product-edit-form.component';
-import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
-import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 
 @Component({
   template: `
@@ -132,7 +132,5 @@ export class ProductEditComponent extends AbstractModelEditComponentV2<CreatePro
     private productGroupsService: ProductGroupsService
   ) {
     super(productsService);
-
-    printersService.setSelectedEventGetAllUrl();
   }
 }

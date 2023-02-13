@@ -7,7 +7,7 @@ import {EventsService} from '../../events/_services/events.service';
 
 import {TableGroupModel} from '../_models/table-group.model';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class TableGroupsService extends AbstractModelService<TableGroupModel> {
   override url = '/config/table/group';
 

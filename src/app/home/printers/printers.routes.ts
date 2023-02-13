@@ -10,7 +10,7 @@ export const ROUTES: Routes = [
     children: [
       {path: 'mediators', loadComponent: () => import('./all-mediators.component').then((c) => c.AllMediatorsComponent)},
       {path: 'event/:id', loadComponent: () => import('./event-by-id-printers.component').then((c) => c.EventByIdPrintersComponent)},
-      {path: ':id', loadComponent: () => import('./printer-edit.component').then((c) => c.PrinterEditComponent)},
+      {path: ':id', loadComponent: () => import('./printer-edit/printer-edit.component').then((c) => c.PrinterEditComponent)},
       {path: '', pathMatch: 'full', redirectTo: '/home/printers/mediators'},
     ],
   },

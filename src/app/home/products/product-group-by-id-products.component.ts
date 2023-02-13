@@ -1,20 +1,20 @@
+import {AsyncPipe, CurrencyPipe, LowerCasePipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxImplodePipe} from 'dfx-helper';
+import {DfxTr} from 'dfx-translate';
 import {AbstractModelsListByIdComponentV2} from '../../_shared/ui/abstract-models-list-by-id.component-v2';
+import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
+import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
+import {DfxArrayPluck} from '../../_shared/ui/pluck.pipe';
 import {GetProductGroupResponse, GetProductMaxResponse} from '../../_shared/waiterrobot-backend';
 import {ProductGroupsService} from './_services/product-groups.service';
 
 import {ProductsService} from './_services/products.service';
-import {AsyncPipe, CurrencyPipe, LowerCasePipe, NgIf} from '@angular/common';
-import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
-import {RouterLink} from '@angular/router';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {DfxTr} from 'dfx-translate';
-import {ReactiveFormsModule} from '@angular/forms';
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxImplodePipe} from 'dfx-helper';
-import {DfxArrayPluck} from '../../_shared/ui/pluck.pipe';
-import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 
 @Component({
   template: `
@@ -54,7 +54,7 @@ import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.c
             ngbTooltip="{{ 'CLEAR' | tr }}"
             placement="bottom"
             (click)="filter.reset()"
-            *ngIf="(filter?.value?.length ?? 0) > 0">
+            *ngIf="(filter.value?.length ?? 0) > 0">
             <i-bs name="x-circle-fill"></i-bs>
           </button>
         </div>
@@ -144,21 +144,21 @@ import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.c
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    NgIf,
-    AppBtnToolbarComponent,
-    RouterLink,
-    AppIconsModule,
-    DfxTr,
-    LowerCasePipe,
-    AsyncPipe,
     ReactiveFormsModule,
+    NgIf,
+    RouterLink,
+    AsyncPipe,
+    CurrencyPipe,
+    LowerCasePipe,
     NgbTooltip,
+    DfxTr,
     DfxTableModule,
     DfxSortModule,
-    CurrencyPipe,
     DfxImplodePipe,
     DfxArrayPluck,
+    AppBtnToolbarComponent,
     AppSpinnerRowComponent,
+    AppIconsModule,
   ],
 })
 export class ProductGroupByIdProductsComponent extends AbstractModelsListByIdComponentV2<GetProductMaxResponse, GetProductGroupResponse> {
