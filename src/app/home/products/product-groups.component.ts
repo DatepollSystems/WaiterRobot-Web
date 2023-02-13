@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 import {ProductGroupsService} from './_services/product-groups.service';
 import {DfxTr} from 'dfx-translate';
@@ -10,7 +10,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {AsyncPipe, NgIf} from '@angular/common';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {AbstractModelsListComponentV2} from '../../_shared/ui/abstract-models-list.component-v2';
+import {AbstractModelsListWithDeleteComponent} from '../../_shared/ui/abstract-models-list-with-delete.component';
 import {GetProductGroupResponse} from '../../_shared/waiterrobot-backend';
 
 @Component({
@@ -105,6 +105,7 @@ import {GetProductGroupResponse} from '../../_shared/waiterrobot-backend';
   `,
   selector: 'app-product-groups',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     AsyncPipe,
@@ -119,7 +120,7 @@ import {GetProductGroupResponse} from '../../_shared/waiterrobot-backend';
     AppSpinnerRowComponent,
   ],
 })
-export class ProductGroupsComponent extends AbstractModelsListComponentV2<GetProductGroupResponse> {
+export class ProductGroupsComponent extends AbstractModelsListWithDeleteComponent<GetProductGroupResponse> {
   override columnsToDisplay = ['name', 'actions'];
 
   constructor(entitiesService: ProductGroupsService) {

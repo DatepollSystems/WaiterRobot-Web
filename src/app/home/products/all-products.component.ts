@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {AbstractModelsListComponentV2} from '../../_shared/ui/abstract-models-list.component-v2';
+import {AbstractModelsListWithDeleteComponent} from '../../_shared/ui/abstract-models-list-with-delete.component';
 import {GetProductMaxResponse} from '../../_shared/waiterrobot-backend';
 
 import {ProductsService} from './_services/products.service';
@@ -151,7 +151,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
     NgbTooltip,
   ],
 })
-export class AllProductsComponent extends AbstractModelsListComponentV2<GetProductMaxResponse> {
+export class AllProductsComponent extends AbstractModelsListWithDeleteComponent<GetProductMaxResponse> {
   override columnsToDisplay = ['name', 'price', 'soldOut', 'groupName', 'printer', 'allergens', 'actions'];
 
   constructor(entitiesService: ProductsService) {

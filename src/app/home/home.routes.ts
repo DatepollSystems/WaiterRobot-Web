@@ -60,7 +60,7 @@ export const ROUTES: Routes = [
       {
         path: 'orders',
         title: 'NAV_ORDERS',
-        loadChildren: () => import('./orders/orders.module').then((m) => m.OrdersModule),
+        loadChildren: () => import('./orders/orders.routes').then((m) => m.ROUTES),
       },
       {
         path: 'statistics',

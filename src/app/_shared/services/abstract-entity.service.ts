@@ -14,7 +14,7 @@ export interface HasGetSingle<T extends HasIDAndName<T['id']>> {
   getSingle$(id: T['id']): Observable<T>;
 }
 
-export interface HasDelete<T extends HasIDAndName<T['id']>> {
+export interface HasDelete<T extends IHasID<T['id']>> {
   delete$(id: T['id']): Observable<unknown>;
 }
 

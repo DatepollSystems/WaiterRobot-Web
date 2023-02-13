@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {HasIDAndName, n_from, n_isNumeric} from 'dfts-helper';
 import {distinctUntilChanged, filter, map, shareReplay, switchMap} from 'rxjs';
 import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from '../services/abstract-entity.service';
-import {AbstractModelsListComponentV2} from './abstract-models-list.component-v2';
+import {AbstractModelsListWithDeleteComponent} from './abstract-models-list-with-delete.component';
 
 @Component({
   template: '',
@@ -11,7 +11,7 @@ import {AbstractModelsListComponentV2} from './abstract-models-list.component-v2
 export abstract class AbstractModelsListByIdComponentV2<
   EntitiesTypes extends HasIDAndName<EntitiesTypes['id']>,
   EntityType extends HasIDAndName<EntityType['id']>
-> extends AbstractModelsListComponentV2<EntitiesTypes> {
+> extends AbstractModelsListWithDeleteComponent<EntitiesTypes> {
   protected router = inject(Router);
 
   protected route = inject(ActivatedRoute);

@@ -1,21 +1,12 @@
-import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
+import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
-import {loggerOf} from 'dfts-helper';
+import {loggerOf, s_from} from 'dfts-helper';
 
-import {
-  AComponent,
-  DfxHideIfOffline,
-  DfxHideIfOnline,
-  DfxHideIfPingSucceeds,
-  DfxTrackByModule,
-  IsMobileService,
-  NgForOr,
-  NgSub,
-} from 'dfx-helper';
+import {AComponent, DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingSucceeds, DfxTrackByModule, IsMobileService, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {combineLatest, filter, map, switchMap, tap} from 'rxjs';
+import {tap} from 'rxjs';
 
 import {EnvironmentHelper} from '../_shared/EnvironmentHelper';
 
@@ -31,7 +22,6 @@ import {EventsService} from './events/_services/events.service';
 
 import {OrganisationModel} from './organisations/_models/organisation.model';
 import {OrganisationsService} from './organisations/_services/organisations.service';
-import {notNullAndUndefined} from '../_shared/services/abstract-entity.service';
 
 @Component({
   selector: 'app-home',
@@ -55,47 +45,19 @@ import {notNullAndUndefined} from '../_shared/services/abstract-entity.service';
     NgOptimizedImage,
     NgSub,
     DfxHideIfOffline,
-    NgForOr,
-    AsyncPipe,
   ],
 })
 export class HomeComponent extends AComponent {
-  environmentType = EnvironmentHelper.getType();
+  environmentType = 'prod';
   showEnvironmentType = true;
   lumber = loggerOf('HomeComponent');
 
   adminModeChanged = false;
-
-  myUser$ = this.myUserService.getUser$().pipe(
-    tap((it) => {
-      if (it.isAdmin) {
-        this.lumber.info('const', 'Admin status detected');
-      }
-    })
-  );
-  selectedOrganisation$ = this.organisationsService.getSelected$;
-  organisations$ = this.organisationsService.getAll$().pipe(map((organisations) => organisations.slice(0, 5)));
-
-  selectedEvent$ = this.eventsService.getSelected$;
-
-  events$ = this.selectedOrganisation$.pipe(
-    filter(notNullAndUndefined),
-    switchMap(() => this.eventsService.getAll$())
-  );
-
-  navItems$ = combineLatest([this.myUser$, this.selectedEvent$]).pipe(
-    map(
-      ([myUser, selectedEvent]) =>
-        [
-          {text: 'NAV_TABLES', routerLink: 'tables', show: !!selectedEvent},
-          {text: 'NAV_PRODUCTS', routerLink: 'products', show: !!selectedEvent},
-          {text: 'NAV_PRINTERS', routerLink: 'printers', show: !!myUser.isAdmin},
-          {text: 'NAV_WAITERS', routerLink: 'waiters', show: true},
-          {text: 'NAV_ORDERS', routerLink: 'orders', show: !!selectedEvent},
-          {text: 'NAV_STATISTICS', routerLink: 'statistics', show: !!selectedEvent},
-        ] as NavItem[]
-    )
-  );
+  myUser?: MyUserModel;
+  selectedOrganisation?: OrganisationModel;
+  allOrgs: OrganisationModel[] = [];
+  selectedEvent?: EventModel;
+  allEvents: EventModel[] = [];
 
   isMobile$ = inject(IsMobileService).isMobile$.pipe(
     tap((it) => {
@@ -108,6 +70,8 @@ export class HomeComponent extends AComponent {
     })
   );
 
+  navItems!: NavItem[];
+
   constructor(
     router: Router,
     private authService: AuthService,
@@ -118,23 +82,70 @@ export class HomeComponent extends AComponent {
   ) {
     super();
 
+    this.environmentType = EnvironmentHelper.getType();
+
+    this.selectedOrganisation = this.organisationsService.getSelected();
+    this.allOrgs = this.organisationsService.getAll().slice(0, 5);
+
     this.unsubscribe(
-      router.events.subscribe((val) => {
-        if (val instanceof NavigationEnd) {
-          this.toggleNav('CLOSE');
+      this.myUserService.getUser$().subscribe((it) => {
+        this.myUser = it;
+        this.setNavItems();
+        if (it.isAdmin) {
+          this.lumber.info('const', 'Admin status detected');
         }
-      })
+      }),
+      this.organisationsService.getSelected$.subscribe((value) => {
+        this.selectedOrganisation = value;
+        this.onEventInit();
+        this.setNavItems();
+      }),
+      this.organisationsService.allChange.subscribe((it) => (this.allOrgs = it.slice(0, 5)))
     );
+
+    this.onEventInit();
+
+    router.events.subscribe((val) => {
+      if (val instanceof NavigationEnd) {
+        this.toggleNav('CLOSE');
+      }
+    });
+
+    this.setNavItems();
   }
 
-  /**
-   * document.getElementById('body')?.classList.add('roll');
-   *           this.clearTimeout(
-   *             window.setTimeout(() => {
-   *               document.getElementById('body')?.classList.remove('roll');
-   *             }, 4100)
-   *           );
-   */
+  onEventInit(): void {
+    if (this.selectedOrganisation != null) {
+      this.allEvents = this.eventsService.getAll().slice(0, 5);
+      this.unsubscribe(
+        this.eventsService.allChange.subscribe((events) => {
+          this.allEvents = events.slice(0, 5);
+        })
+      );
+
+      this.selectedEvent = this.eventsService.getSelected();
+      this.unsubscribe(
+        this.eventsService.getSelected$.subscribe((event) => {
+          this.selectedEvent = event;
+          this.setNavItems();
+        })
+      );
+    } else {
+      this.allEvents = [];
+      this.selectedEvent = undefined;
+    }
+  }
+
+  setNavItems(): void {
+    this.navItems = [
+      {text: 'NAV_TABLES', routerLink: 'tables', show: !!this.selectedEvent},
+      {text: 'NAV_PRODUCTS', routerLink: 'products', show: !!this.selectedEvent},
+      {text: 'NAV_PRINTERS', routerLink: 'printers', show: !!this.myUser?.isAdmin},
+      {text: 'NAV_WAITERS', routerLink: 'waiters', show: true},
+      {text: 'NAV_ORDERS', routerLink: 'orders', show: !!this.selectedEvent},
+      {text: 'NAV_STATISTICS', routerLink: 'statistics', show: !!this.selectedEvent},
+    ];
+  }
 
   toggleNav(status: 'OPEN' | 'CLOSE' | undefined = undefined): void {
     const collapsable = document.getElementById('navbarSupportedContent');
@@ -149,13 +160,13 @@ export class HomeComponent extends AComponent {
   }
 
   switchAdminMode(): void {
-    // if (!this.myUser) {
-    //   return;
-    // }
-    // this.adminModeChanged = !this.adminModeChanged;
-    // this.myUser.isAdmin = !this.myUser.isAdmin;
-    // this.lumber.info('switchAdminMode', 'Admin mode switched to ' + s_from(this.myUser.isAdmin));
-    // this.myUserService.manualUserChange.next(this.myUser);
+    if (!this.myUser) {
+      return;
+    }
+    this.adminModeChanged = !this.adminModeChanged;
+    this.myUser.isAdmin = !this.myUser.isAdmin;
+    this.lumber.info('switchAdminMode', 'Admin mode switched to ' + s_from(this.myUser.isAdmin));
+    this.myUserService.manualUserChange.next(this.myUser);
   }
 
   logout(): void {

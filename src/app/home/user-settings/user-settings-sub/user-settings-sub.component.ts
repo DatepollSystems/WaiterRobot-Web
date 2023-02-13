@@ -53,6 +53,16 @@ export class UserSettingsSubComponent extends AComponent {
     }
     if (this.newPassword.trim().length > 0 && this.newPasswordAgain.trim().length > 0) {
       this.newPasswordsMatch = this.newPassword === this.newPasswordAgain;
+      if (this.newPasswordsMatch) {
+        if (this.newPassword.toLowerCase() === 'do the barrel roll') {
+          document.getElementById('body')?.classList.add('roll');
+          this.clearTimeout(
+            window.setTimeout(() => {
+              document.getElementById('body')?.classList.remove('roll');
+            }, 4100)
+          );
+        }
+      }
     }
   }
 

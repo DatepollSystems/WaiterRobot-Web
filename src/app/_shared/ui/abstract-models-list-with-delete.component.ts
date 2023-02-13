@@ -1,69 +1,36 @@
 import {SelectionModel} from '@angular/cdk/collections';
-import {AfterViewInit, Component, Inject, inject, ViewChild} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {Component, Inject, inject} from '@angular/core';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {HasIDAndName, loggerOf, s_imploder} from 'dfts-helper';
-import {NgbPaginator, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
-import {combineLatest, filter, Observable, of, startWith, switchMap, tap} from 'rxjs';
-import {HasDelete, HasGetAll, notNullAndUndefined} from '../services/abstract-entity.service';
+import {HasIDAndName, s_imploder} from 'dfts-helper';
+import {NgbTableDataSource} from 'dfx-bootstrap-table';
+import {Observable, tap} from 'rxjs';
 
 import {QuestionDialogComponent} from './question-dialog/question-dialog.component';
+import {AbstractModelsListV2Component} from './abstract-models-list-v2.component';
+import {HasDelete, HasGetAll} from '../services/abstract-entity.service';
 
 @Component({
   template: '',
 })
-export abstract class AbstractModelsListComponentV2<EntityType extends HasIDAndName<EntityType['id']>> implements AfterViewInit {
-  protected lumber = loggerOf('AModelsListComponentV2');
-
-  // Table stuff
-  @ViewChild(NgbSort, {static: true}) sort?: NgbSort;
-  @ViewChild(NgbPaginator, {static: true}) paginator?: NgbPaginator;
-  protected abstract columnsToDisplay: string[];
-  protected sortingDataAccessors?: Map<string, (it: EntityType) => any>;
-  public filter = new FormControl('');
+export abstract class AbstractModelsListWithDeleteComponent<
+  EntityType extends HasIDAndName<EntityType['id']>
+> extends AbstractModelsListV2Component<EntityType> {
   public selection?: SelectionModel<EntityType>;
 
   protected modal = inject(NgbModal);
 
-  dataSource$: Observable<NgbTableDataSource<EntityType>> = of(new NgbTableDataSource<EntityType>());
-
-  protected entities?: NgbTableDataSource<EntityType>;
-
-  protected constructor(@Inject(null) protected entitiesService: HasGetAll<EntityType> & HasDelete<EntityType>) {}
-
-  ngAfterViewInit(): void {
-    this.dataSource$ = this.getDataSource(this.entitiesService.getAll$());
+  protected constructor(@Inject(null) protected entitiesService: HasGetAll<EntityType> & HasDelete<EntityType>) {
+    super(entitiesService);
   }
 
-  protected getDataSource(entitiesStream: Observable<EntityType[]>): Observable<NgbTableDataSource<EntityType>> {
-    return combineLatest([this.filter.valueChanges.pipe(startWith(''), filter(notNullAndUndefined)), entitiesStream]).pipe(
-      switchMap(([filterTerm, all]) => {
-        const dataSource = new NgbTableDataSource<EntityType>(all.slice());
-
-        if (this.sortingDataAccessors) {
-          dataSource.sortingDataAccessor = (item, property) => {
-            const fun = this.sortingDataAccessors?.get(property);
-            if (!fun) {
-              return item[property as keyof EntityType];
-            }
-            return fun(item);
-          };
-        }
-        if (this.sort) {
-          dataSource.sort = this.sort;
-        }
-        if (this.paginator) {
-          dataSource.paginator = this.paginator;
-        }
+  protected override getDataSource(entitiesStream: Observable<EntityType[]>): Observable<NgbTableDataSource<EntityType>> {
+    return super.getDataSource(entitiesStream).pipe(
+      tap(() => {
         if (this.selection) {
           this.selection = new SelectionModel<EntityType>(true, []);
         }
-        dataSource.filter = filterTerm ?? '';
-
-        return of(dataSource);
-      }),
-      tap((dataSource) => (this.entities = dataSource))
+      })
     );
   }
 
