@@ -5,9 +5,6 @@
 # shellcheck disable=SC2039
 # shellcheck disable=SC2059
 
-if set -o pipefail 2>/dev/null; then
-  set -euo pipefail
-fi
 # define how strings with spaces or tabs are iterated
 IFS="$(echo t | tr t \\t)"
 
@@ -20,7 +17,7 @@ UNDERLINE='\033[4m'
 RESET='\033[0m' # Reset color and formatting
 
 # Define variables
-SCRIPT_VERSION='1.1.0'
+SCRIPT_VERSION='1.1.1'
 VERSION=latest
 FORCE=false
 
