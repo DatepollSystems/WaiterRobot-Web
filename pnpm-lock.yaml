@@ -36,9 +36,9 @@ specifiers:
   '@zxing/ngx-scanner': 3.8.0
   angularx-qrcode: ^15.0.0
   bootstrap: 5.2.3
-  dfts-helper: ^0.0.8
+  dfts-helper: 0.0.9
   dfx-bootstrap-table: 1.4.0
-  dfx-helper: 5.0.4
+  dfx-helper: 5.0.5
   dfx-translate: 2.0.4
   eslint: 8.34.0
   eslint-config-prettier: 8.6.0
@@ -87,9 +87,9 @@ dependencies:
   '@zxing/ngx-scanner': 3.8.0_3zc4ubm5yxgf76c5apjgksp4s4
   angularx-qrcode: 15.0.0_@angular+core@15.1.4
   bootstrap: 5.2.3_@popperjs+core@2.11.6
-  dfts-helper: 0.0.8_tslib@2.5.0
+  dfts-helper: 0.0.9_tslib@2.5.0
   dfx-bootstrap-table: 1.4.0_c62vyocwmciatnismx6lgd7zh4
-  dfx-helper: 5.0.4_yjukfwqro6ue2nojv542bex4ui
+  dfx-helper: 5.0.5_axslbt2kqb6midv6bpumgjt6zq
   dfx-translate: 2.0.4_vzucq2bjt7qxwdnmdnnvw5vdsu
   html-to-image: 1.10.8
   jspdf: 2.5.1
@@ -4160,8 +4160,8 @@ packages:
     resolution: {integrity: sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==}
     dev: true
 
-  /dfts-helper/0.0.8_tslib@2.5.0:
-    resolution: {integrity: sha512-CVmQQI5m2MCi9YlfoTElBFwlK/edz9pRRa/X4YSNMKTgdtQnZSJBI0gqdqFS4D1Yj1pp9EB0htgB+D9cBI1Zmw==}
+  /dfts-helper/0.0.9_tslib@2.5.0:
+    resolution: {integrity: sha512-MXIoEpFKKMZg5Env6fZoBYMUSAadaFTtH8p3tqs2xZH9bt+ngzkCRA3Kyszbs+YBy2p7fiJh6EdKStF048YaKQ==}
     peerDependencies:
       tslib: 2.4.1
     dependencies:
@@ -4187,15 +4187,15 @@ packages:
       tslib: 2.5.0
     dev: false
 
-  /dfx-helper/5.0.4_yjukfwqro6ue2nojv542bex4ui:
-    resolution: {integrity: sha512-hOJHXJL/kVGFK3lOBj5+ZEYbkyCwVbH3qwrVo5cJz47VW4llewRFhe+mZ2WIed/5O7G9jU4sNxxKqiiu+77y9w==}
+  /dfx-helper/5.0.5_axslbt2kqb6midv6bpumgjt6zq:
+    resolution: {integrity: sha512-kvkVYJVDa8h2JtGdputlYTc2UJHeruYbMzuoO7Mvn6sPfsS+XDerppbBAkSIAt1VE4/RnMZUYLgyKVt4PSwL5g==}
     peerDependencies:
       '@angular/cdk': 9 - 15
       '@angular/common': 9 - 15
       '@angular/core': 9 - 15
       '@angular/platform-browser': 9 - 15
       '@angular/router': 9 - 15
-      dfts-helper: 0.0.8
+      dfts-helper: 0.0.9
       rxjs: 2 - 7
     dependencies:
       '@angular/cdk': 15.1.4_vzucq2bjt7qxwdnmdnnvw5vdsu
@@ -4203,7 +4203,7 @@ packages:
       '@angular/core': 15.1.4_rxjs@7.8.0+zone.js@0.12.0
       '@angular/platform-browser': 15.1.4_vztyff4teqf7syhiw43dlsmbye
       '@angular/router': 15.1.4_g7mjdvsmeszabti4mywkhjexwi
-      dfts-helper: 0.0.8_tslib@2.5.0
+      dfts-helper: 0.0.9_tslib@2.5.0
       rxjs: 7.8.0
       tslib: 2.5.0
     dev: false

@@ -4,9 +4,9 @@ import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {a_pluck, HasNumberIDAndName} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+import {ChipInput} from '../../../_shared/ui/chip-input/chip-input.component';
 
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
-import {ChipInput} from '../../../_shared/ui/chip-input/chip-input.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../../_shared/waiterrobot-backend';
 
@@ -152,7 +152,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
       name: it.name,
       price: it.price,
       eventId: this._selectedEvent?.id ?? 0,
-      allergenIds: a_pluck(it.allergens, 'id'),
+      allergenIds: a_pluck(it.allergens, 'id') ?? [],
       groupId: it.group.id,
       printerId: it.printer.id,
       soldOut: it.soldOut,
