@@ -2,12 +2,12 @@ import {Location} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Inject, inject, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {HasIDAndName, IHasID, loggerOf, n_from, n_isNumeric, s_from, s_is} from 'dfts-helper';
+import {IHasID, loggerOf, n_from, n_isNumeric, s_from, s_is} from 'dfts-helper';
 import {combineLatest, map, Observable, of, switchMap, tap} from 'rxjs';
 import {HasCreateWithIdResponse, HasDelete, HasGetSingle, HasUpdateWithIdResponse} from '../../services/abstract-entity.service';
+import {QuestionDialogComponent} from '../question-dialog/question-dialog.component';
 import {AbstractModelEditFormComponent} from './abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from './app-model-edit-save-btn.component';
-import {QuestionDialogComponent} from '../question-dialog/question-dialog.component';
 
 @Component({
   template: '',
@@ -17,7 +17,7 @@ import {QuestionDialogComponent} from '../question-dialog/question-dialog.compon
 export abstract class AbstractModelEditComponentV2<
   CreateDTOType,
   UpdateDTOType extends IHasID<UpdateDTOType['id']>,
-  EntityType extends HasIDAndName<EntityType['id']>,
+  EntityType extends IHasID<EntityType['id']>,
   Tab
 > {
   protected location = inject(Location);

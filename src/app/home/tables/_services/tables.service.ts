@@ -1,33 +1,69 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {AbstractModelService} from '../../../_shared/services/abstract-model.service';
+import {s_from} from 'dfts-helper';
+import {BehaviorSubject, filter, Observable, switchMap} from 'rxjs';
+import {tap} from 'rxjs/operators';
+import {
+  HasCreateWithIdResponse,
+  HasDelete,
+  HasGetAll,
+  HasGetByParent,
+  HasGetSingle,
+  HasUpdateWithIdResponse,
+  notNullAndUndefined,
+} from '../../../_shared/services/abstract-entity.service';
 
-import {GetTableResponse} from '../../../_shared/waiterrobot-backend';
+import {CreateTableDto, GetTableGroupResponse, GetTableResponse, IdResponse, UpdateTableDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 
-import {TableModel} from '../_models/table.model';
-
 @Injectable({providedIn: 'root'})
-export class TablesService extends AbstractModelService<TableModel> {
-  override url = '/config/table';
+export class TablesService
+  implements
+    HasGetAll<GetTableResponse>,
+    HasGetSingle<GetTableResponse>,
+    HasCreateWithIdResponse<CreateTableDto>,
+    HasUpdateWithIdResponse<UpdateTableDto>,
+    HasGetByParent<GetTableResponse, GetTableGroupResponse>,
+    HasDelete<GetTableResponse>
+{
+  url = '/config/table';
 
-  constructor(httpService: HttpClient, private eventsService: EventsService) {
-    super(httpService);
+  constructor(private httpClient: HttpClient, private eventsService: EventsService) {}
 
-    this.setGetAllParams([{key: 'eventId', value: this.eventsService.getSelected()?.id}]);
-    this.eventsService.getSelected$.subscribe((event) => {
-      if (event) {
-        this.setGetAllParams([{key: 'eventId', value: event.id}]);
-        this.getAll();
-      }
-    });
+  triggerGet$ = new BehaviorSubject(true);
+
+  getAll$(): Observable<GetTableResponse[]> {
+    return this.triggerGet$.pipe(
+      switchMap(() =>
+        this.eventsService.getSelected$.pipe(
+          filter(notNullAndUndefined),
+          switchMap((selected) =>
+            this.httpClient.get<GetTableResponse[]>(`${this.url}`, {params: new HttpParams().set('eventId', selected.id)})
+          )
+        )
+      )
+    );
   }
 
-  public setSelectedEventGetAllUrl(): void {
-    this.setGetAllParams([{key: 'eventId', value: this.eventsService.getSelected()?.id}]);
+  getByParent$(id: number): Observable<GetTableResponse[]> {
+    return this.triggerGet$.pipe(
+      switchMap(() => this.httpClient.get<GetTableResponse[]>(`${this.url}`, {params: new HttpParams().set('groupId', id)}))
+    );
   }
 
-  protected convert(data: any): TableModel {
-    return new TableModel(data as GetTableResponse);
+  getSingle$(id: number): Observable<GetTableResponse> {
+    return this.httpClient.get<GetTableResponse>(`${this.url}/${s_from(id)}`);
+  }
+
+  create$(dto: CreateTableDto): Observable<IdResponse> {
+    return this.httpClient.post<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
+  }
+
+  update$(dto: UpdateTableDto): Observable<IdResponse> {
+    return this.httpClient.put<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
+  }
+
+  delete$(id: number): Observable<unknown> {
+    return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(tap(() => this.triggerGet$.next(true)));
   }
 }

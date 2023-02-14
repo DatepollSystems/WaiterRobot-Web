@@ -1,14 +1,14 @@
+import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {OrdersService} from './orders.service';
-import {GetOrderResponse} from '../../_shared/waiterrobot-backend';
-import {AbstractModelsListV2Component} from '../../_shared/ui/abstract-models-list-v2.component';
-import {DfxTr} from 'dfx-translate';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {AsyncPipe, NgIf} from '@angular/common';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxTr} from 'dfx-translate';
+import {AbstractModelsListV2Component} from '../../_shared/ui/abstract-models-list-v2.component';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
+import {GetOrderResponse} from '../../_shared/waiterrobot-backend';
+import {OrdersService} from './orders.service';
 
 @Component({
   template: `
@@ -98,10 +98,10 @@ import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.c
   ],
 })
 export class AllOrdersComponent extends AbstractModelsListV2Component<GetOrderResponse> {
-  override columnsToDisplay = ['id', 'orderId', 'table', 'product', 'waiter', 'note', 'amount', 'printState'];
-
   constructor(ordersService: OrdersService) {
     super(ordersService);
+
+    this.columnsToDisplay = ['id', 'orderId', 'table', 'product', 'waiter', 'note', 'amount', 'printState'];
 
     this.sortingDataAccessors = new Map();
     this.sortingDataAccessors.set('table', (it) => it.table.number);

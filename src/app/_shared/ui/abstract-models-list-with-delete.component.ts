@@ -2,21 +2,21 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {Component, Inject, inject} from '@angular/core';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {HasIDAndName, s_imploder} from 'dfts-helper';
+import {IHasID, s_imploder} from 'dfts-helper';
 import {NgbTableDataSource} from 'dfx-bootstrap-table';
 import {Observable, tap} from 'rxjs';
+import {HasDelete, HasGetAll} from '../services/abstract-entity.service';
+import {AbstractModelsListV2Component} from './abstract-models-list-v2.component';
 
 import {QuestionDialogComponent} from './question-dialog/question-dialog.component';
-import {AbstractModelsListV2Component} from './abstract-models-list-v2.component';
-import {HasDelete, HasGetAll} from '../services/abstract-entity.service';
 
 @Component({
   template: '',
 })
 export abstract class AbstractModelsListWithDeleteComponent<
-  EntityType extends HasIDAndName<EntityType['id']>
+  EntityType extends IHasID<EntityType['id']>
 > extends AbstractModelsListV2Component<EntityType> {
-  public selection?: SelectionModel<EntityType>;
+  public selection = new SelectionModel<EntityType>(true, []);
 
   protected modal = inject(NgbModal);
 
@@ -34,16 +34,12 @@ export abstract class AbstractModelsListWithDeleteComponent<
     );
   }
 
-  protected setSelectable(): void {
-    this.columnsToDisplay = ['select'].concat(this.columnsToDisplay);
-    this.selection = new SelectionModel<EntityType>(true, []);
+  override get columnsToDisplay() {
+    return ['select'].concat(super.columnsToDisplay);
   }
 
-  public onDeleteAll(): void {
-    if (!this.isAllSelected()) {
-      this.toggleAllRows();
-    }
-    this.onDeleteSelected();
+  override set columnsToDisplay(it) {
+    super.columnsToDisplay = it;
   }
 
   public onDelete(modelId: keyof EntityType['id'], event?: MouseEvent): void {
@@ -59,6 +55,15 @@ export abstract class AbstractModelsListWithDeleteComponent<
     });
   }
 
+  abstract nameMap: (it: EntityType) => string;
+
+  public onDeleteAll(): void {
+    if (!this.isAllSelected()) {
+      this.toggleAllRows();
+    }
+    this.onDeleteSelected();
+  }
+
   public onDeleteSelected(): void {
     if (!this.selection) {
       this.lumber.error('onDeleteSelected', 'Enable selectable with this.setSelectable()');
@@ -69,10 +74,8 @@ export abstract class AbstractModelsListWithDeleteComponent<
     this.lumber.info('onDeleteSelected', 'Selected entities:', this.selection.selected);
     const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
     modalRef.componentInstance.title = 'DELETE_ALL';
-    const list = s_imploder()
-      .mappedSource(this.selection.selected, (it) => it.name)
-      .separator('</li><li>')
-      .build();
+
+    const list = s_imploder().mappedSource(this.selection.selected, this.nameMap).separator('</li><li>').build();
     modalRef.componentInstance.info = `<ol><li>${list}</li></ol>`;
     void modalRef.result.then((result) => {
       this.lumber.info('onDeleteSelected', 'Question dialog result:', result);

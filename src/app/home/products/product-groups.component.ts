@@ -1,17 +1,17 @@
+import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-
-import {ProductGroupsService} from './_services/product-groups.service';
-import {DfxTr} from 'dfx-translate';
-import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxTr} from 'dfx-translate';
+import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/abstract-models-with-name-list-with-delete.component';
+import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
-import {ReactiveFormsModule} from '@angular/forms';
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {AsyncPipe, NgIf} from '@angular/common';
-import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {AbstractModelsListWithDeleteComponent} from '../../_shared/ui/abstract-models-list-with-delete.component';
 import {GetProductGroupResponse} from '../../_shared/waiterrobot-backend';
+
+import {ProductGroupsService} from './_services/product-groups.service';
 
 @Component({
   template: `
@@ -120,12 +120,10 @@ import {GetProductGroupResponse} from '../../_shared/waiterrobot-backend';
     AppSpinnerRowComponent,
   ],
 })
-export class ProductGroupsComponent extends AbstractModelsListWithDeleteComponent<GetProductGroupResponse> {
-  override columnsToDisplay = ['name', 'actions'];
-
+export class ProductGroupsComponent extends AbstractModelsWithNameListWithDeleteComponent<GetProductGroupResponse> {
   constructor(entitiesService: ProductGroupsService) {
     super(entitiesService);
 
-    this.setSelectable();
+    this.columnsToDisplay = ['name', 'actions'];
   }
 }

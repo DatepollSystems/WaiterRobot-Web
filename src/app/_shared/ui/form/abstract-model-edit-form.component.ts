@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, ɵFormGroupValue} from '@angular/forms';
-import {AComponent} from 'dfx-helper';
 import {IHasID, loggerOf} from 'dfts-helper';
+import {AComponent} from 'dfx-helper';
 
 @Component({
   template: '',
@@ -27,7 +27,7 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
   protected set isEdit(it: boolean) {
     this._isEdit = it;
     if (!this._isEdit) {
-      this.form.reset();
+      this.reset();
     }
   }
   _isEdit = true;

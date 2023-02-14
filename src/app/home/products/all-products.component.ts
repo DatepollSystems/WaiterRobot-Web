@@ -1,19 +1,20 @@
+import {AsyncPipe, CurrencyPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {AbstractModelsListWithDeleteComponent} from '../../_shared/ui/abstract-models-list-with-delete.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxImplodePipe} from 'dfx-helper';
+import {DfxTr} from 'dfx-translate';
+import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/abstract-models-with-name-list-with-delete.component';
+import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {AppSoldOutPipe} from '../../_shared/ui/app-sold-out.pipe';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
+import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
+import {DfxArrayPluck} from '../../_shared/ui/pluck.pipe';
 import {GetProductMaxResponse} from '../../_shared/waiterrobot-backend';
 
 import {ProductsService} from './_services/products.service';
-import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
-import {DfxTr} from 'dfx-translate';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {AsyncPipe, CurrencyPipe, NgIf} from '@angular/common';
-import {ReactiveFormsModule} from '@angular/forms';
-import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxArrayPluck} from '../../_shared/ui/pluck.pipe';
-import {DfxImplodePipe} from 'dfx-helper';
-import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
-import {RouterLink} from '@angular/router';
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   template: `
@@ -88,7 +89,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
         <ng-container ngbColumnDef="soldOut">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_AVAILABLE' | tr }}</th>
-          <td *ngbCellDef="let product" ngb-cell>{{ product.soldOut ? '⛔' : '✅' }}</td>
+          <td *ngbCellDef="let product" ngb-cell>{{ product.soldOut | soldOut }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="groupName">
@@ -149,14 +150,13 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
     AppSpinnerRowComponent,
     RouterLink,
     NgbTooltip,
+    AppSoldOutPipe,
   ],
 })
-export class AllProductsComponent extends AbstractModelsListWithDeleteComponent<GetProductMaxResponse> {
-  override columnsToDisplay = ['name', 'price', 'soldOut', 'groupName', 'printer', 'allergens', 'actions'];
-
+export class AllProductsComponent extends AbstractModelsWithNameListWithDeleteComponent<GetProductMaxResponse> {
   constructor(entitiesService: ProductsService) {
     super(entitiesService);
 
-    this.setSelectable();
+    this.columnsToDisplay = ['name', 'price', 'soldOut', 'groupName', 'printer', 'allergens', 'actions'];
   }
 }

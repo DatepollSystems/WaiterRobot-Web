@@ -1,14 +1,11 @@
 import {Directive, inject, Input, TemplateRef, ViewContainerRef} from '@angular/core';
-import {NgIf} from '@angular/common';
 import {HasIDAndName, StringOrNumber} from 'dfts-helper';
 
 @Directive({
   selector: '[isCreating]',
   standalone: true,
 })
-export class AppIsCreatingDirective {
-  private ngIf = inject(NgIf);
-
+export class AppIsCreatingWithNameDirective {
   private viewContainerRef = inject(ViewContainerRef);
   private templateRef = inject(TemplateRef<unknown>);
 
@@ -20,8 +17,8 @@ export class AppIsCreatingDirective {
     this.viewContainerRef.createEmbeddedView(this.templateRef);
   }
 
-  static ngTemplateGuard_isCreating(
-    dir: AppIsCreatingDirective,
+  static ngTemplateGuard_isEditing(
+    dir: AppIsCreatingWithNameDirective,
     state: HasIDAndName<StringOrNumber> | 'CREATE'
   ): state is HasIDAndName<StringOrNumber> {
     return true;

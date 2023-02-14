@@ -16,7 +16,15 @@ export abstract class AbstractModelsListV2Component<EntityType extends IHasID<En
   // Table stuff
   @ViewChild(NgbSort, {static: true}) sort?: NgbSort;
   @ViewChild(NgbPaginator, {static: true}) paginator?: NgbPaginator;
-  protected abstract columnsToDisplay: string[];
+
+  get columnsToDisplay() {
+    return this._columnsToDisplay;
+  }
+  set columnsToDisplay(it: string[]) {
+    this._columnsToDisplay = it;
+  }
+  _columnsToDisplay: string[] = [];
+
   protected sortingDataAccessors?: Map<string, (it: EntityType) => any>;
   public filter = new FormControl('');
 

@@ -6,7 +6,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {AbstractModelsListByIdComponentV2} from '../../_shared/ui/abstract-models-list-by-id.component-v2';
+import {AbstractModelsWithNameListByIdComponent} from '../../_shared/ui/abstract-models-with-name-list-by-id.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
@@ -24,7 +24,7 @@ import {PrintersService} from './_services/printers.service';
 
       <btn-toolbar>
         <div>
-          <a routerLink="../../create" class="btn btn-sm btn-outline-success m-1">
+          <a routerLink="../../create" class="btn btn-sm btn-outline-success">
             <i-bs name="plus-circle"></i-bs>
             {{ 'ADD_2' | tr }}</a
           >
@@ -141,12 +141,10 @@ import {PrintersService} from './_services/printers.service';
     AppBtnToolbarComponent,
   ],
 })
-export class EventByIdPrintersComponent extends AbstractModelsListByIdComponentV2<GetPrinterResponse, EventModel> {
-  override columnsToDisplay = ['name', 'printerName', 'productGroups', 'actions'];
-
+export class EventByIdPrintersComponent extends AbstractModelsWithNameListByIdComponent<GetPrinterResponse, EventModel> {
   constructor(printersService: PrintersService, eventsService: EventsService) {
     super(printersService, eventsService);
 
-    this.setSelectable();
+    this.columnsToDisplay = ['name', 'printerName', 'productGroups', 'actions'];
   }
 }

@@ -1,22 +1,22 @@
+import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
+import {DfxTr} from 'dfx-translate';
+import {combineLatest, map} from 'rxjs';
+import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
+import {AbstractModelEditComponentV2} from '../../../_shared/ui/form/abstract-model-edit.component-v2';
+import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
+import {AppIsCreatingWithNameDirective} from '../../../_shared/ui/form/app-is-creating-with-name.directive';
+import {AppIsEditingWithNameDirective} from '../../../_shared/ui/form/app-is-editing-with-name.directive';
+import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
+import {AppIconsModule} from '../../../_shared/ui/icons.module';
+import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
+import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} from '../../../_shared/waiterrobot-backend';
 
 import {EventsService} from '../../events/_services/events.service';
 import {PrintersService} from '../../printers/_services/printers.service';
 import {ProductGroupsService} from '../_services/product-groups.service';
-import {AsyncPipe, NgIf} from '@angular/common';
-import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
-import {DfxTr} from 'dfx-translate';
-import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
-import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
-import {AbstractModelEditComponentV2} from '../../../_shared/ui/form/abstract-model-edit.component-v2';
-import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} from '../../../_shared/waiterrobot-backend';
-import {combineLatest, map} from 'rxjs';
-import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
-import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
-import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
 import {AppProductEditFormComponent} from './product-group-edit-form.component';
-import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
 
 @Component({
   template: `
@@ -51,7 +51,7 @@ import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-
               (submitCreate)="submit('CREATE', $event)"
               [productGroup]="entity"
               [printers]="vm.printers"
-              [selectedEvent]="vm.selectedEvent"></app-product-group-edit-form>
+              [selectedEventId]="vm.selectedEvent?.id"></app-product-group-edit-form>
 
             <app-continues-creation-switch
               *isCreating="entity"
@@ -82,8 +82,8 @@ import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-
     AppBtnToolbarComponent,
     AppSpinnerRowComponent,
     AppIconsModule,
-    AppIsEditingDirective,
-    AppIsCreatingDirective,
+    AppIsEditingWithNameDirective,
+    AppIsCreatingWithNameDirective,
     AppModelEditSaveBtn,
     AppProductEditFormComponent,
     AppContinuesCreationSwitchComponent,

@@ -4,13 +4,13 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {n_from, n_isNumeric} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
-import {combineLatest, filter, map, startWith, tap} from 'rxjs';
+import {combineLatest, filter, map, startWith} from 'rxjs';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AbstractModelEditComponentV2} from '../../../_shared/ui/form/abstract-model-edit.component-v2';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
-import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
+import {AppIsCreatingWithNameDirective} from '../../../_shared/ui/form/app-is-creating-with-name.directive';
 
-import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
+import {AppIsEditingWithNameDirective} from '../../../_shared/ui/form/app-is-editing-with-name.directive';
 import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
@@ -34,7 +34,7 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
           <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
         </div>
 
-        <app-model-edit-save-btn (submit)="form?.submit()" [editing]="entity === 'CREATE'"></app-model-edit-save-btn>
+        <app-model-edit-save-btn (submit)="form?.submit()" [editing]="entity !== 'CREATE'"></app-model-edit-save-btn>
 
         <div *isEditing="entity">
           <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
@@ -57,7 +57,7 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
               [allergens]="vm.allergens"
               [printers]="vm.printers"
               [productGroups]="vm.productGroups"
-              [selectedEvent]="vm.selectedEvent"
+              [selectedEventId]="vm.selectedEvent?.id"
               [selectedProductGroupId]="vm.selectedProductGroupId"
               [product]="entity"></app-product-edit-form>
 
@@ -87,8 +87,8 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
     NgbNavItem,
     NgbNavContent,
     NgbNavLink,
-    AppIsCreatingDirective,
-    AppIsEditingDirective,
+    AppIsCreatingWithNameDirective,
+    AppIsEditingWithNameDirective,
     AppProductEditFormComponent,
     AppModelEditSaveBtn,
     AppBtnToolbarComponent,
@@ -107,7 +107,6 @@ export class ProductEditComponent extends AbstractModelEditComponentV2<CreatePro
       map((params) => params.group),
       filter(n_isNumeric),
       map((id) => n_from(id)),
-      tap((id) => this.lumber.info('constructor', 'Selected product group: ' + id)),
       startWith(undefined)
     ),
     this.productGroupsService.getAll$(),

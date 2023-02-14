@@ -12,7 +12,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
 
 @Component({
   template: `
-    <ng-container *ngIf="form.statusChanges | async"></ng-container>
+    <ng-container *ngIf="form.statusChanges | async as changes"></ng-container>
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-3">
@@ -61,7 +61,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
         <div class="form-group col">
           <label for="selectGroup">{{ 'HOME_PROD_GROUP' | tr }}</label>
           <div class="input-group">
-            <span class="input-group-text bg-dark text-white" id="selectProductGroup-addon">
+            <span class="input-group-text bg-dark text-white" id="selectGroup-addon">
               <i-bs name="diagram-3"></i-bs>
             </span>
             <select class="form-select bg-dark text-white" id="selectGroup" formControlName="groupId">
@@ -89,7 +89,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
               </option>
             </select>
           </div>
-          <small *ngIf="form.controls.groupId.invalid" class="text-danger">
+          <small *ngIf="form.controls.printerId.invalid" class="text-danger">
             {{ 'HOME_PROD_PRINTER_ID_INCORRECT' | tr }}
           </small>
         </div>
@@ -113,13 +113,13 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
 export class AppProductEditFormComponent extends AbstractModelEditFormComponent<CreateProductDto, UpdateProductDto> {
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]],
-    price: [0, [Validators.required, Validators.min(0)]],
+    price: [1, [Validators.required, Validators.min(0)]],
     allergenIds: [new Array<number>()],
-    eventId: [0, [Validators.required, Validators.min(0)]],
+    eventId: [-1, [Validators.required, Validators.min(0)]],
     groupId: [-1, [Validators.required, Validators.min(0)]],
     printerId: [-1, [Validators.required, Validators.min(0)]],
     soldOut: [false, [Validators.required]],
-    id: [0, [Validators.required]],
+    id: [0],
   });
 
   override overrideRawValue = (value: any) => {
@@ -128,15 +128,11 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     return super.overrideRawValue(value);
   };
 
-  constructor() {
-    super();
-    this.unsubscribe(
-      this.form.controls.eventId.valueChanges.subscribe((value) => {
-        if (this._selectedEvent && value !== this._selectedEvent.id) {
-          this.form.controls.eventId.setValue(this._selectedEvent.id);
-        }
-      })
-    );
+  override reset() {
+    super.reset();
+    this.form.controls.eventId.setValue(this._selectedEventId);
+    this.form.controls.groupId.setValue(this._selectedProductGroupId);
+    this.form.controls.allergenIds.setValue(this.selectedAllergens);
   }
 
   @Input()
@@ -148,10 +144,9 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
 
     this._product = it;
 
-    this.form.setValue({
+    this.form.patchValue({
       name: it.name,
       price: it.price,
-      eventId: this._selectedEvent?.id ?? 0,
       allergenIds: a_pluck(it.allergens, 'id') ?? [],
       groupId: it.group.id,
       printerId: it.printer.id,
@@ -165,19 +160,22 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
   @Input()
   set selectedProductGroupId(id: number | undefined | null) {
     if (id) {
+      this.lumber.log('selectedProductGroupId', 'set selected group', id);
+      this._selectedProductGroupId = id;
       this.form.controls.groupId.setValue(id);
     }
   }
+  _selectedProductGroupId = -1;
 
   @Input()
-  set selectedEvent(it: HasNumberIDAndName | undefined) {
-    this._selectedEvent = it;
-    if (this._selectedEvent) {
-      this.form.controls.eventId.setValue(this._selectedEvent.id);
+  set selectedEventId(id: number | undefined) {
+    if (id) {
+      this.lumber.log('selectedEvent', 'set selected event', id);
+      this._selectedEventId = id;
+      this.form.controls.eventId.setValue(this._selectedEventId);
     }
   }
-
-  _selectedEvent?: HasNumberIDAndName;
+  _selectedEventId = -1;
 
   @Input()
   productGroups!: HasNumberIDAndName[];
@@ -190,5 +188,9 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
 
   formatter = (it: unknown): string => (it as HasNumberIDAndName).name;
 
-  allergenChange = (allergens: HasNumberIDAndName[]): void => this.form.controls.allergenIds.setValue(allergens.map((a) => a.id));
+  selectedAllergens: number[] = [];
+  allergenChange = (allergens: HasNumberIDAndName[]): void => {
+    this.selectedAllergens = allergens.map((a) => a.id);
+    this.form.controls.allergenIds.setValue(this.selectedAllergens);
+  };
 }

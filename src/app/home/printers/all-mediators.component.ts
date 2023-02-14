@@ -88,9 +88,9 @@ import {MediatorsService} from './_services/mediators.service';
   ],
 })
 export class AllMediatorsComponent extends AbstractModelsListV2Component<GetMediatorResponse> {
-  override columnsToDisplay = ['id', 'name', 'active', 'lastContact', 'printers'];
-
   constructor(mediatorsService: MediatorsService) {
     super(mediatorsService);
+
+    this.columnsToDisplay = ['id', 'name', 'active', 'lastContact', 'printers'];
   }
 }

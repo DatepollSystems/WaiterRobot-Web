@@ -1,17 +1,17 @@
-import {LowerCasePipe, NgIf} from '@angular/common';
+import {AsyncPipe, LowerCasePipe, NgIf} from '@angular/common';
 import {Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
-import {AbstractModelsListByIdComponent} from '../../_shared/ui/abstract-models-list-by-id.component';
+import {AbstractModelsWithNumberListByIdComponent} from '../../_shared/ui/abstract-models-with-number-list-by-id.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
+import {GetTableResponse} from '../../_shared/waiterrobot-backend';
 import {TableGroupModel} from './_models/table-group.model';
 
-import {TableModel} from './_models/table.model';
 import {TableGroupsService} from './_services/table-groups.service';
 
 import {TablesService} from './_services/tables.service';
@@ -19,9 +19,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
 
 @Component({
   template: `
-    <app-spinner-row [show]="!entitiesLoaded"></app-spinner-row>
-
-    <div [hidden]="!entitiesLoaded">
+    <ng-container *ngIf="entity$ | async as entity">
       <h1>"{{ entity?.name }}" {{ 'HOME_TABLE_GROUP_TABLES_VIEW' | tr }}</h1>
 
       <btn-toolbar>
@@ -35,17 +33,19 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
           {{ 'HOME_TABLE_GROUP' | tr }} {{ 'EDIT' | tr | lowercase }}</a
         >
 
-        <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection!.hasValue()" (click)="onDeleteSelected()">
+        <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
           <i-bs name="trash"></i-bs>
           {{ 'DELETE' | tr }}
         </button>
 
-        <button class="btn btn-sm btn-outline-secondary" [class.disabled]="!selection!.hasValue()" (click)="printSelectedTables()">
+        <button class="btn btn-sm btn-outline-secondary" [class.disabled]="!selection.hasValue()" (click)="printSelectedTables()">
           <i-bs name="table"></i-bs>
           {{ 'HOME_TABLE_PRINT' | tr }}
         </button>
       </btn-toolbar>
+    </ng-container>
 
+    <ng-container *ngIf="dataSource$ | async as dataSource; else loading">
       <form>
         <div class="input-group">
           <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
@@ -55,7 +55,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
             ngbTooltip="{{ 'CLEAR' | tr }}"
             placement="bottom"
             (click)="filter.reset()"
-            *ngIf="filter?.value?.length > 0">
+            *ngIf="(filter?.value?.length ?? 0) > 0">
             <i-bs name="x-circle-fill"></i-bs>
           </button>
         </div>
@@ -88,9 +88,9 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
             </td>
           </ng-container>
 
-          <ng-container ngbColumnDef="name">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
-            <td *ngbCellDef="let table" ngb-cell>{{ table.name }}</td>
+          <ng-container ngbColumnDef="number">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NUMBER' | tr }}</th>
+            <td *ngbCellDef="let table" ngb-cell>{{ table.number }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="seats">
@@ -118,7 +118,11 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
           <tr *ngbRowDef="let table; columns: columnsToDisplay" ngb-row routerLink="../../../{{ table.id }}"></tr>
         </table>
       </div>
-    </div>
+    </ng-container>
+
+    <ng-template #loading>
+      <app-spinner-row></app-spinner-row>
+    </ng-template>
   `,
   selector: 'app-table-group-by-id-tables',
   standalone: true,
@@ -134,16 +138,14 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
     NgIf,
     DfxTableModule,
     DfxSortModule,
+    AsyncPipe,
   ],
 })
-export class TableGroupByIdTablesComponent extends AbstractModelsListByIdComponent<TableModel, TableGroupModel> {
-  override columnsToDisplay = ['name', 'seats', 'actions'];
-  override getAllParam = 'groupId';
-
+export class TableGroupByIdTablesComponent extends AbstractModelsWithNumberListByIdComponent<GetTableResponse, TableGroupModel> {
   constructor(tablesService: TablesService, tableGroupsService: TableGroupsService) {
     super(tablesService, tableGroupsService);
 
-    this.setSelectable();
+    this.columnsToDisplay = ['number', 'seats', 'actions'];
   }
 
   printSelectedTables(): void {
@@ -151,8 +153,8 @@ export class TableGroupByIdTablesComponent extends AbstractModelsListByIdCompone
       ariaLabelledBy: 'app-tables-qr-codes-title',
       size: 'lg',
     });
-    modalRef.componentInstance.tables = this.selection?.selected.sort(function (a, b) {
-      return a.groupName.localeCompare(b.groupName) || a.tableNumber - b.tableNumber;
-    });
+    modalRef.componentInstance.tables = this.selection?.selected.sort(
+      (a, b) => a.groupName.localeCompare(b.groupName) || a.number - b.number
+    );
   }
 }

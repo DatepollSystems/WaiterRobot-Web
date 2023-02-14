@@ -232,6 +232,7 @@
   "HOME_TABLES_SEATS_INCORRECT": "*pflichtfeld",
   "HOME_TABLES_NUMBER_INCORRECT": "*pflichtfeld",
   "HOME_TABLES_GROUPS_DEFAULT": "Wähle eine Tischgruppe aus",
+  "HOME_TABLES_GROUPS_INCORRECT": "Du musst eine Gruppe auswählen.",
   "HOME_TABLE_GROUP": "Tischgruppe",
   "HOME_TABLE_GROUPS": "Tischgruppen",
   "HOME_TABLE_GROUPS_ADD": "Neue Tischgruppe anlegen",

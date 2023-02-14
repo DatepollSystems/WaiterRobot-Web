@@ -1,18 +1,16 @@
 import {Directive, inject, Input, TemplateRef, ViewContainerRef} from '@angular/core';
-import {NgIf} from '@angular/common';
-import {HasIDAndName, StringOrNumber} from 'dfts-helper';
+import {StringOrNumber} from 'dfts-helper';
+import {HasIdAndNumber} from '../../services/abstract-entity.service';
 
 @Directive({
   selector: '[isEditing]',
   standalone: true,
 })
-export class AppIsEditingDirective {
-  private ngIf = inject(NgIf);
-
+export class AppIsEditingWithNumberDirective {
   private viewContainerRef = inject(ViewContainerRef);
   private templateRef = inject(TemplateRef<unknown>);
 
-  @Input() set isEditing(entity: HasIDAndName<StringOrNumber> | 'CREATE') {
+  @Input() set isEditing(entity: HasIdAndNumber<StringOrNumber> | 'CREATE') {
     if (entity === 'CREATE') {
       this.viewContainerRef.clear();
       return;
@@ -21,9 +19,9 @@ export class AppIsEditingDirective {
   }
 
   static ngTemplateGuard_isEditing(
-    dir: AppIsEditingDirective,
-    state: HasIDAndName<StringOrNumber> | 'CREATE'
-  ): state is HasIDAndName<StringOrNumber> {
+    dir: AppIsEditingWithNumberDirective,
+    state: HasIdAndNumber<StringOrNumber> | 'CREATE'
+  ): state is HasIdAndNumber<StringOrNumber> {
     return true;
   }
 }

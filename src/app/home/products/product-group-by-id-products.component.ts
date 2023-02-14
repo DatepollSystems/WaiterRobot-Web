@@ -6,8 +6,9 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {AbstractModelsListByIdComponentV2} from '../../_shared/ui/abstract-models-list-by-id.component-v2';
+import {AbstractModelsWithNameListByIdComponent} from '../../_shared/ui/abstract-models-with-name-list-by-id.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {AppSoldOutPipe} from '../../_shared/ui/app-sold-out.pipe';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {DfxArrayPluck} from '../../_shared/ui/pluck.pipe';
@@ -36,7 +37,7 @@ import {ProductsService} from './_services/products.service';
         </div>
 
         <div>
-          <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection!.hasValue()" (click)="onDeleteSelected()">
+          <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
             <i-bs name="trash"></i-bs>
             {{ 'DELETE' | tr }}
           </button>
@@ -98,12 +99,12 @@ import {ProductsService} from './_services/products.service';
 
           <ng-container ngbColumnDef="soldOut">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_AVAILABLE' | tr }}</th>
-            <td *ngbCellDef="let product" ngb-cell>{{ product.soldOut ? '⛔' : '✅' }}</td>
+            <td *ngbCellDef="let product" ngb-cell>{{ product.soldOut | soldOut }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="printer">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_PRINTERS' | tr }}</th>
-            <td *ngbCellDef="let product" ngb-cell>{{ product.printerName }}</td>
+            <td *ngbCellDef="let product" ngb-cell>{{ product.printer.name }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="allergens">
@@ -159,14 +160,16 @@ import {ProductsService} from './_services/products.service';
     AppBtnToolbarComponent,
     AppSpinnerRowComponent,
     AppIconsModule,
+    AppSoldOutPipe,
   ],
 })
-export class ProductGroupByIdProductsComponent extends AbstractModelsListByIdComponentV2<GetProductMaxResponse, GetProductGroupResponse> {
-  override columnsToDisplay = ['name', 'price', 'soldOut', 'printer', 'allergens', 'actions'];
-
+export class ProductGroupByIdProductsComponent extends AbstractModelsWithNameListByIdComponent<
+  GetProductMaxResponse,
+  GetProductGroupResponse
+> {
   constructor(entityService: ProductsService, groupsService: ProductGroupsService) {
     super(entityService, groupsService);
 
-    this.setSelectable();
+    this.columnsToDisplay = ['name', 'price', 'soldOut', 'printer', 'allergens', 'actions'];
   }
 }

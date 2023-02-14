@@ -4,9 +4,9 @@ import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {HasNumberIDAndName} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+import {ChipInput} from '../../../_shared/ui/chip-input/chip-input.component';
 
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
-import {ChipInput} from '../../../_shared/ui/chip-input/chip-input.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} from '../../../_shared/waiterrobot-backend';
 
@@ -77,6 +77,12 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     return super.overrideRawValue(value);
   };
 
+  override reset() {
+    super.reset();
+
+    this.form.controls.eventId.setValue(this._selectedEventId);
+  }
+
   updatePrinterFormControl = new FormControl(false);
 
   constructor() {
@@ -85,12 +91,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     this.unsubscribe(
       this.updatePrinterFormControl.valueChanges.subscribe((value) =>
         value ? this.form.controls.printerId.enable() : this.form.controls.printerId.disable()
-      ),
-      this.form.controls.eventId.valueChanges.subscribe((value) => {
-        if (this._selectedEvent && value !== this._selectedEvent.id) {
-          this.form.controls.eventId.setValue(this._selectedEvent.id);
-        }
-      })
+      )
     );
   }
 
@@ -101,23 +102,20 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
       return;
     }
 
-    this.form.setValue({
+    this.form.patchValue({
       name: it.name,
-      eventId: this._selectedEvent?.id ?? 0,
-      printerId: -1,
       id: it.id,
     });
   }
 
   @Input()
-  set selectedEvent(it: HasNumberIDAndName | undefined) {
-    this._selectedEvent = it;
-    if (this._selectedEvent) {
-      this.form.controls.eventId.setValue(this._selectedEvent.id);
+  set selectedEventId(id: number | undefined) {
+    if (id) {
+      this._selectedEventId = id;
+      this.form.controls.eventId.setValue(this._selectedEventId);
     }
   }
-
-  _selectedEvent?: HasNumberIDAndName;
+  _selectedEventId = -1;
 
   @Input()
   printers!: HasNumberIDAndName[];
