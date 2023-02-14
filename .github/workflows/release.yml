@@ -40,11 +40,13 @@ jobs:
     name: Deploy prod
     runs-on: ubuntu-latest
     steps:
+      - name: setup node and pnpm
+        uses: ./.github/actions/setup-node-pnpm
+
       - name: get WaiterRobot-Web version
         id: get-version
         shell: bash
-        run: |
-          echo "VERSION=$(node -p "require('./dist/package.json').version")" >> $GITHUB_OUTPUT
+        run: echo "VERSION=$(node -p "require('./dist/package.json').version")" >> $GITHUB_OUTPUT
 
       - name: zipping
         shell: bash
