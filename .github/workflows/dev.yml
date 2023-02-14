@@ -9,6 +9,23 @@ on:
       - '!main'
 
 jobs:
+  build-prod:
+    name: Build prod
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - name: setup node and pnpm
+        uses: ./.github/actions/setup-node-pnpm
+
+      - name: install dependencies
+        run: pnpm install
+
+      - name: build
+        run: |
+          pnpm ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
+          pnpm build:prod
+
   build-testing:
     name: Build testing
     runs-on: ubuntu-latest

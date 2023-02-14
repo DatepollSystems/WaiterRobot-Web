@@ -16,4 +16,8 @@ export class EnvironmentHelper {
   public static getType(): string {
     return environment.type;
   }
+
+  public static getLogoUrl(): string {
+    return environment.logoUrl;
+  }
 }

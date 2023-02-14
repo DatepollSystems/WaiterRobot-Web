@@ -48,8 +48,11 @@ import {OrganisationsService} from './organisations/_services/organisations.serv
   ],
 })
 export class HomeComponent extends AComponent {
-  environmentType = 'prod';
+  environmentType = EnvironmentHelper.getType();
   showEnvironmentType = true;
+
+  logoUrl = EnvironmentHelper.getLogoUrl();
+
   lumber = loggerOf('HomeComponent');
 
   adminModeChanged = false;
@@ -81,9 +84,6 @@ export class HomeComponent extends AComponent {
     private qrCodeService: QrCodeService
   ) {
     super();
-
-    this.environmentType = EnvironmentHelper.getType();
-
     this.selectedOrganisation = this.organisationsService.getSelected();
     this.allOrgs = this.organisationsService.getAll().slice(0, 5);
 

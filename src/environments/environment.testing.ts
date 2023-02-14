@@ -5,4 +5,5 @@ export const environment = {
   production: true,
   type: 'testing',
   apiUrl: 'https://lava.kellner.team/api/v1',
+  logoUrl: '/assets/logo.svg',
 };
