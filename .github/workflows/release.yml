@@ -6,12 +6,9 @@ on:
       - '*'
 
 jobs:
-  build-testing:
+  build-prod:
     name: Build release
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16]
     steps:
       - uses: actions/checkout@master
 
@@ -39,11 +36,17 @@ jobs:
   deploy-prod:
     name: Deploy prod
     runs-on: ubuntu-latest
+    needs: [build-prod]
     steps:
       - uses: actions/checkout@master
 
       - name: setup node and pnpm
         uses: ./.github/actions/setup-node-pnpm
+
+      - uses: actions/download-artifact@master
+        with:
+          name: WaiterRobot-Web-prod
+          path: ./dist/WaiterRobot-Web
 
       - name: get WaiterRobot-Web version
         id: get-version
