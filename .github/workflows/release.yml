@@ -57,10 +57,12 @@ jobs:
         shell: bash
         run: |
           mkdir releases
-          zip -r "WaiterRobot-Web-latest.zip" ./dist >> /dev/null
-          zip -r "WaiterRobot-Web-v${{ steps.get-version.outputs.VERSION }}.zip" ./dist >> /dev/null
-          mv "WaiterRobot-Web-latest.zip" ./releases
-          mv "WaiterRobot-Web-v${{ steps.get-version.outputs.VERSION }}.zip" ./releases
+          cd dist/
+          zip -r "WaiterRobot-Web-latest.zip" ./WaiterRobot-Web >> /dev/null
+          zip -r "WaiterRobot-Web-v${{ steps.get-version.outputs.VERSION }}.zip" ./WaiterRobot-Web >> /dev/null
+          cd -
+          mv "./dist/WaiterRobot-Web-latest.zip" ./releases
+          mv "./dist/WaiterRobot-Web-v${{ steps.get-version.outputs.VERSION }}.zip" ./releases
 
       - name: releases lookup
         run: |
