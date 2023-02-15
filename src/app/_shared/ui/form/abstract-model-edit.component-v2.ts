@@ -1,19 +1,17 @@
 import {Location} from '@angular/common';
-import {ChangeDetectionStrategy, Component, Inject, inject, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, inject, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {IHasID, loggerOf, n_from, n_isNumeric, s_from, s_is} from 'dfts-helper';
-import {combineLatest, map, Observable, of, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, combineLatest, map, Observable, of, switchMap, tap} from 'rxjs';
 import {HasCreateWithIdResponse, HasDelete, HasGetSingle, HasUpdateWithIdResponse} from '../../services/abstract-entity.service';
 import {QuestionDialogComponent} from '../question-dialog/question-dialog.component';
 import {AbstractModelEditFormComponent} from './abstract-model-edit-form.component';
-import {AppModelEditSaveBtn} from './app-model-edit-save-btn.component';
 
 @Component({
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export abstract class AbstractModelEditComponentV2<
   CreateDTOType,
   UpdateDTOType extends IHasID<UpdateDTOType['id']>,
@@ -24,10 +22,11 @@ export abstract class AbstractModelEditComponentV2<
   protected router = inject(Router);
   protected route = inject(ActivatedRoute);
   protected modal = inject(NgbModal);
+  protected cdr = inject(ChangeDetectorRef);
 
   @ViewChild('form') form?: AbstractModelEditFormComponent<CreateDTOType, UpdateDTOType>;
 
-  @ViewChild(AppModelEditSaveBtn) submitBtn?: AppModelEditSaveBtn;
+  valid$ = new BehaviorSubject<'VALID' | 'INVALID'>('INVALID');
 
   entity$: Observable<EntityType | 'CREATE'> = this.route.paramMap.pipe(
     map((params) => params.get('id')),
@@ -59,10 +58,8 @@ export abstract class AbstractModelEditComponentV2<
   ) {}
 
   setValid(valid: 'VALID' | 'INVALID'): void {
-    if (!this.submitBtn) {
-      return;
-    }
-    this.submitBtn.formValid = valid;
+    this.valid$.next(valid);
+    this.cdr.detectChanges();
   }
 
   submit(method: 'CREATE' | 'UPDATE', dto: CreateDTOType | UpdateDTOType): void {

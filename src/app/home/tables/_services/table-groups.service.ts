@@ -1,29 +1,61 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {AbstractModelService} from '../../../_shared/services/abstract-model.service';
+import {s_from} from 'dfts-helper';
+import {BehaviorSubject, filter, Observable, switchMap} from 'rxjs';
+import {tap} from 'rxjs/operators';
+import {
+  HasCreateWithIdResponse,
+  HasDelete,
+  HasGetAll,
+  HasGetSingle,
+  HasUpdateWithIdResponse,
+  notNullAndUndefined,
+} from '../../../_shared/services/abstract-entity.service';
 
-import {GetTableGroupResponse} from '../../../_shared/waiterrobot-backend';
+import {CreateTableGroupDto, GetTableGroupResponse, IdResponse, UpdateTableGroupDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 
-import {TableGroupModel} from '../_models/table-group.model';
-
 @Injectable({providedIn: 'root'})
-export class TableGroupsService extends AbstractModelService<TableGroupModel> {
-  override url = '/config/table/group';
+export class TableGroupsService
+  implements
+    HasGetAll<GetTableGroupResponse>,
+    HasGetSingle<GetTableGroupResponse>,
+    HasCreateWithIdResponse<CreateTableGroupDto>,
+    HasUpdateWithIdResponse<UpdateTableGroupDto>,
+    HasDelete<GetTableGroupResponse>
+{
+  url = '/config/table/group';
 
-  constructor(httpService: HttpClient, private eventsService: EventsService) {
-    super(httpService);
+  constructor(private httpClient: HttpClient, private eventsService: EventsService) {}
 
-    this.setGetAllParams([{key: 'eventId', value: this.eventsService.getSelected()?.id}]);
-    this.eventsService.getSelected$.subscribe((event) => {
-      if (event) {
-        this.setGetAllParams([{key: 'eventId', value: event.id}]);
-        this.getAll();
-      }
-    });
+  triggerGet$ = new BehaviorSubject(true);
+
+  getAll$(): Observable<GetTableGroupResponse[]> {
+    return this.triggerGet$.pipe(
+      switchMap(() =>
+        this.eventsService.getSelected$.pipe(
+          filter(notNullAndUndefined),
+          switchMap((selected) =>
+            this.httpClient.get<GetTableGroupResponse[]>(`${this.url}`, {params: new HttpParams().set('eventId', selected.id)})
+          )
+        )
+      )
+    );
   }
 
-  protected convert(data: any): TableGroupModel {
-    return new TableGroupModel(data as GetTableGroupResponse);
+  getSingle$(id: number): Observable<GetTableGroupResponse> {
+    return this.httpClient.get<GetTableGroupResponse>(`${this.url}/${s_from(id)}`);
+  }
+
+  create$(dto: CreateTableGroupDto): Observable<IdResponse> {
+    return this.httpClient.post<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
+  }
+
+  update$(dto: UpdateTableGroupDto): Observable<IdResponse> {
+    return this.httpClient.put<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
+  }
+
+  delete$(id: number): Observable<unknown> {
+    return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(tap(() => this.triggerGet$.next(true)));
   }
 }

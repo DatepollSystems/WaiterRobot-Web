@@ -5,10 +5,10 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {IHasID, s_imploder} from 'dfts-helper';
 import {NgbTableDataSource} from 'dfx-bootstrap-table';
 import {Observable, tap} from 'rxjs';
-import {HasDelete, HasGetAll} from '../services/abstract-entity.service';
-import {AbstractModelsListV2Component} from './abstract-models-list-v2.component';
+import {HasDelete, HasGetAll} from '../../services/abstract-entity.service';
+import {AbstractModelsListV2Component} from '../abstract-models-list-v2.component';
 
-import {QuestionDialogComponent} from './question-dialog/question-dialog.component';
+import {QuestionDialogComponent} from '../question-dialog/question-dialog.component';
 
 @Component({
   template: '',

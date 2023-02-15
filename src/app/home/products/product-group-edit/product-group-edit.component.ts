@@ -6,8 +6,8 @@ import {combineLatest, map} from 'rxjs';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AbstractModelEditComponentV2} from '../../../_shared/ui/form/abstract-model-edit.component-v2';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
-import {AppIsCreatingWithNameDirective} from '../../../_shared/ui/form/app-is-creating-with-name.directive';
-import {AppIsEditingWithNameDirective} from '../../../_shared/ui/form/app-is-editing-with-name.directive';
+import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
+import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
 import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
@@ -16,7 +16,7 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
 import {EventsService} from '../../events/_services/events.service';
 import {PrintersService} from '../../printers/_services/printers.service';
 import {ProductGroupsService} from '../_services/product-groups.service';
-import {AppProductEditFormComponent} from './product-group-edit-form.component';
+import {ProductGroupEditFormComponent} from './product-group-edit-form.component';
 
 @Component({
   template: `
@@ -29,7 +29,7 @@ import {AppProductEditFormComponent} from './product-group-edit-form.component';
           <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
         </div>
 
-        <app-model-edit-save-btn (submit)="form?.submit()" [editing]="entity !== 'CREATE'"></app-model-edit-save-btn>
+        <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
 
         <div *isEditing="entity">
           <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
@@ -39,7 +39,13 @@ import {AppProductEditFormComponent} from './product-group-edit-form.component';
         </div>
       </btn-toolbar>
 
-      <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs bg-dark" (navChange)="navigateToTab($event.nextId)">
+      <ul
+        ngbNav
+        #nav="ngbNav"
+        [destroyOnHide]="false"
+        [activeId]="activeTab$ | async"
+        class="nav-tabs bg-dark"
+        (navChange)="navigateToTab($event.nextId)">
         <li [ngbNavItem]="'DATA'">
           <a ngbNavLink>{{ 'DATA' | tr }}</a>
           <ng-template ngbNavContent>
@@ -82,11 +88,11 @@ import {AppProductEditFormComponent} from './product-group-edit-form.component';
     AppBtnToolbarComponent,
     AppSpinnerRowComponent,
     AppIconsModule,
-    AppIsEditingWithNameDirective,
-    AppIsCreatingWithNameDirective,
+    AppIsEditingDirective,
+    AppIsCreatingDirective,
     AppModelEditSaveBtn,
-    AppProductEditFormComponent,
     AppContinuesCreationSwitchComponent,
+    ProductGroupEditFormComponent,
   ],
 })
 export class ProductGroupEditComponent extends AbstractModelEditComponentV2<

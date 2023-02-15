@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, inject, Output} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, ɵFormGroupValue} from '@angular/forms';
 import {IHasID, loggerOf} from 'dfts-helper';
 import {AComponent} from 'dfx-helper';
@@ -9,7 +9,7 @@ import {AComponent} from 'dfx-helper';
 })
 export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOType extends IHasID<UpdateDTOType['id']>>
   extends AComponent
-  implements OnInit
+  implements AfterViewInit
 {
   lumber = loggerOf('AModelEditForm');
 
@@ -34,11 +34,22 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
 
   abstract form: FormGroup;
 
-  ngOnInit(): void {
+  constructor() {
+    super();
+  }
+
+  private lastFormValid?: boolean;
+  ngAfterViewInit(): void {
     this.formValid.emit(this.form.valid ? 'VALID' : 'INVALID');
+    this.lastFormValid = this.form.valid;
+    this.lumber.log('formValidChange', 'form', this.form.valid);
     this.unsubscribe(
       this.form.statusChanges.subscribe(() => {
-        this.formValid.emit(this.form.valid ? 'VALID' : 'INVALID');
+        if (this.form.valid !== this.lastFormValid) {
+          this.lastFormValid = this.form.valid;
+          this.lumber.log('formValidChange', 'form', this.form.valid);
+          this.formValid.emit(this.form.valid ? 'VALID' : 'INVALID');
+        }
       })
     );
   }
@@ -49,7 +60,6 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
 
   submit(): void {
     const formValue = this.overrideRawValue(this.form.getRawValue());
-    this.lumber.log('submit', 'form', formValue);
     if (this._isEdit) {
       this.submitUpdate.emit(formValue as UpdateDTOType);
       return;

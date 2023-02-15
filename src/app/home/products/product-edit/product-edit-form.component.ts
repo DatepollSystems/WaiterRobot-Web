@@ -119,7 +119,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     groupId: [-1, [Validators.required, Validators.min(0)]],
     printerId: [-1, [Validators.required, Validators.min(0)]],
     soldOut: [false, [Validators.required]],
-    id: [0],
+    id: [-1],
   });
 
   override overrideRawValue = (value: any) => {

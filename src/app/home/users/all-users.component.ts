@@ -1,16 +1,17 @@
-import {DatePipe, NgIf} from '@angular/common';
-import {Component} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
-import {AbstractModelsListComponent} from '../../_shared/ui/abstract-models-list.component';
+import {AbstractModelsListV2Component} from '../../_shared/ui/abstract-models-list-v2.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
-import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {UserModel} from './_models/user.model';
+import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
+import {QuestionDialogComponent} from '../../_shared/ui/question-dialog/question-dialog.component';
+import {GetUserResponse} from '../../_shared/waiterrobot-backend';
 
 import {UsersService} from './_services/users.service';
 
@@ -25,18 +26,9 @@ import {UsersService} from './_services/users.service';
           {{ 'ADD_2' | tr }}</a
         >
       </div>
-
-      <div>
-        <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection!.hasValue()" (click)="onDeleteSelected()">
-          <i-bs name="trash"></i-bs>
-          {{ 'DELETE' | tr }}
-        </button>
-      </div>
     </btn-toolbar>
 
-    <app-spinner-row [show]="!entitiesLoaded"></app-spinner-row>
-
-    <form [hidden]="!entitiesLoaded">
+    <form>
       <div class="input-group">
         <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
         <button
@@ -45,38 +37,14 @@ import {UsersService} from './_services/users.service';
           ngbTooltip="{{ 'CLEAR' | tr }}"
           placement="bottom"
           (click)="filter.reset()"
-          *ngIf="filter?.value?.length > 0">
+          *ngIf="(filter?.value?.length ?? 0) > 0">
           <i-bs name="x-circle-fill"></i-bs>
         </button>
       </div>
     </form>
 
-    <div class="table-responsive" [hidden]="!entitiesLoaded">
+    <div class="table-responsive" *ngIf="dataSource$ | async as dataSource; else loading">
       <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="id" ngbSortDirection="asc">
-        <ng-container ngbColumnDef="select">
-          <th *ngbHeaderCellDef ngb-header-cell>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                name="checked"
-                (change)="$event ? toggleAllRows() : null"
-                [checked]="selection!.hasValue() && isAllSelected()" />
-            </div>
-          </th>
-          <td *ngbCellDef="let selectable" ngb-cell>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                name="checked"
-                (click)="$event.stopPropagation()"
-                (change)="$event ? selection!.toggle(selectable) : null"
-                [checked]="selection!.isSelected(selectable)" />
-            </div>
-          </td>
-        </ng-container>
-
         <ng-container ngbColumnDef="id">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
           <td *ngbCellDef="let user" ngb-cell>{{ user.id }}</td>
@@ -84,7 +52,7 @@ import {UsersService} from './_services/users.service';
 
         <ng-container ngbColumnDef="name">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
-          <td *ngbCellDef="let user" ngb-cell>{{ user.name }}</td>
+          <td *ngbCellDef="let user" ngb-cell>{{ user.firstname }} {{ user.surname }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="email_address">
@@ -101,7 +69,13 @@ import {UsersService} from './_services/users.service';
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ADMIN' | tr }}</th>
           <td *ngbCellDef="let user" ngb-cell>
             <div class="form-check">
-              <input class="form-check-input" onclick="return false;" type="checkbox" [ngModel]="user.isAdmin" name="is_admin" value="" />
+              <input
+                class="form-check-input"
+                onclick="return false;"
+                type="checkbox"
+                [checked]="user.role === 'ADMIN'"
+                name="is_admin"
+                value="" />
             </div>
           </td>
         </ng-container>
@@ -114,7 +88,7 @@ import {UsersService} from './_services/users.service';
                 class="form-check-input"
                 onclick="return false;"
                 type="checkbox"
-                [ngModel]="user.activated"
+                [checked]="user.activated"
                 name="activated"
                 value="" />
             </div>
@@ -141,11 +115,17 @@ import {UsersService} from './_services/users.service';
         <tr *ngbRowDef="let user; columns: columnsToDisplay" ngb-row routerLink="../{{ user.id }}"></tr>
       </table>
     </div>
+
+    <ng-template #loading>
+      <app-spinner-row></app-spinner-row>
+    </ng-template>
   `,
   selector: 'app-all-users',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    FormsModule,
     ReactiveFormsModule,
+    AsyncPipe,
     RouterLink,
     DatePipe,
     NgIf,
@@ -157,13 +137,23 @@ import {UsersService} from './_services/users.service';
     AppSpinnerRowComponent,
     AppBtnToolbarComponent,
   ],
-  standalone: true,
 })
-export class AllUsersComponent extends AbstractModelsListComponent<UserModel> {
-  override columnsToDisplay = ['id', 'name', 'email_address', 'birthday', 'is_admin', 'activated', 'actions'];
-
-  constructor(usersService: UsersService) {
+export class AllUsersComponent extends AbstractModelsListV2Component<GetUserResponse> {
+  constructor(private usersService: UsersService) {
     super(usersService);
-    this.setSelectable();
+    this.columnsToDisplay = ['id', 'name', 'email_address', 'birthday', 'is_admin', 'activated', 'actions'];
+  }
+
+  public onDelete(modelId: number, event?: MouseEvent): void {
+    event?.stopPropagation();
+    this.lumber.info('onDelete', 'Opening delete question dialog');
+    const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
+    modalRef.componentInstance.title = 'DELETE_CONFIRMATION';
+    void modalRef.result.then((result) => {
+      this.lumber.info('onDelete', 'Question dialog result:', result?.toString());
+      if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
+        this.usersService.delete$(modelId).subscribe();
+      }
+    });
   }
 }

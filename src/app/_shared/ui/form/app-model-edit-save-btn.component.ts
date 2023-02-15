@@ -1,14 +1,13 @@
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {NgIf} from '@angular/common';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, inject, Input, Output} from '@angular/core';
-import {AComponent} from 'dfx-helper';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import {DfxTr} from 'dfx-translate';
 
 import {AppIconsModule} from '../icons.module';
 
 @Component({
   template: `
-    <button class="btn btn-sm btn-success" form="ngForm" (click)="this.submit.emit()" [disabled]="_formValid === 'INVALID'">
+    <button class="btn btn-sm btn-success" form="ngForm" (click)="this.submit.emit()" [disabled]="_valid === 'INVALID'">
       <span *ngIf="_editing">
         <i-bs name="save"></i-bs>
         {{ 'SAVE' | tr }}
@@ -25,20 +24,17 @@ import {AppIconsModule} from '../icons.module';
   imports: [NgIf, DfxTr, AppIconsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppModelEditSaveBtn extends AComponent {
+export class AppModelEditSaveBtn {
   @Input() set editing(it: BooleanInput) {
     this._editing = coerceBooleanProperty(it);
   }
   _editing = false;
 
-  cdr = inject(ChangeDetectorRef);
-
   @Input()
-  set formValid(it: 'VALID' | 'INVALID') {
-    this._formValid = it;
-    this.cdr.detectChanges();
+  set valid(it: 'VALID' | 'INVALID' | null) {
+    this._valid = it ?? 'INVALID';
   }
-  _formValid: 'VALID' | 'INVALID' = 'INVALID';
+  _valid: 'VALID' | 'INVALID' = 'INVALID';
 
   @Output()
   submit = new EventEmitter<void>();

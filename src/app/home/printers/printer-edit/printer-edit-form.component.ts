@@ -68,7 +68,7 @@ export class AppPrinterEditForm extends AbstractModelEditFormComponent<CreatePri
     name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(120)]],
     printerName: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]],
     eventId: [-1, [Validators.required, Validators.min(0)]],
-    id: [0],
+    id: [-1],
   });
 
   @Input()

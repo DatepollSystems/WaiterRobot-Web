@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {IHasID, s_from} from 'dfts-helper';
-import {HasIdAndNumber} from '../services/abstract-entity.service';
+import {HasIdAndNumber} from '../../services/abstract-entity.service';
 import {AbstractModelsListByIdComponentV2} from './abstract-models-list-by-id.component-v2';
 
 @Component({

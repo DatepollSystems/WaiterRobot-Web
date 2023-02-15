@@ -4,7 +4,6 @@ import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {HasNumberIDAndName} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {ChipInput} from '../../../_shared/ui/chip-input/chip-input.component';
 
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
@@ -18,13 +17,7 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
       <div class="d-flex flex-column flex-md-row gap-4 mb-4">
         <div class="form-group col">
           <label for="name">{{ 'NAME' | tr }}</label>
-          <input
-            class="form-control bg-dark text-white"
-            required
-            type="text"
-            id="name"
-            formControlName="name"
-            placeholder="{{ 'NAME' | tr }}" />
+          <input class="form-control bg-dark text-white" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
 
           <small *ngIf="form.controls.name.invalid" class="text-danger">
             {{ 'HOME_PROD_GROUP_NAME_INCORRECT' | tr }}
@@ -57,16 +50,16 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
     </form>
   `,
   selector: 'app-product-group-edit-form',
-  imports: [ReactiveFormsModule, NgIf, NgForOf, AsyncPipe, DfxTr, DfxTrackById, AppIconsModule, ChipInput],
+  imports: [ReactiveFormsModule, NgIf, NgForOf, AsyncPipe, DfxTr, DfxTrackById, AppIconsModule],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppProductEditFormComponent extends AbstractModelEditFormComponent<CreateProductGroupDto, UpdateProductGroupDto> {
+export class ProductGroupEditFormComponent extends AbstractModelEditFormComponent<CreateProductGroupDto, UpdateProductGroupDto> {
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(60)]],
     eventId: [-1, [Validators.required, Validators.min(0)]],
     printerId: [-1],
-    id: [0],
+    id: [-1],
   });
 
   override overrideRawValue = (value: any) => {

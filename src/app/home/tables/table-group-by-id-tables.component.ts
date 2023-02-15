@@ -1,16 +1,15 @@
 import {AsyncPipe, LowerCasePipe, NgIf} from '@angular/common';
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
-import {AbstractModelsWithNumberListByIdComponent} from '../../_shared/ui/abstract-models-with-number-list-by-id.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
-import {GetTableResponse} from '../../_shared/waiterrobot-backend';
-import {TableGroupModel} from './_models/table-group.model';
+import {AbstractModelsWithNumberListByIdComponent} from '../../_shared/ui/models-list-by-id/abstract-models-with-number-list-by-id.component';
+import {GetTableGroupResponse, GetTableResponse} from '../../_shared/waiterrobot-backend';
 
 import {TableGroupsService} from './_services/table-groups.service';
 
@@ -126,6 +125,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
   `,
   selector: 'app-table-group-by-id-tables',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AppSpinnerRowComponent,
     AppBtnToolbarComponent,
@@ -141,7 +141,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
     AsyncPipe,
   ],
 })
-export class TableGroupByIdTablesComponent extends AbstractModelsWithNumberListByIdComponent<GetTableResponse, TableGroupModel> {
+export class TableGroupByIdTablesComponent extends AbstractModelsWithNumberListByIdComponent<GetTableResponse, GetTableGroupResponse> {
   constructor(tablesService: TablesService, tableGroupsService: TableGroupsService) {
     super(tablesService, tableGroupsService);
 

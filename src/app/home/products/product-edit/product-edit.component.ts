@@ -8,9 +8,9 @@ import {combineLatest, filter, map, startWith} from 'rxjs';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AbstractModelEditComponentV2} from '../../../_shared/ui/form/abstract-model-edit.component-v2';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
-import {AppIsCreatingWithNameDirective} from '../../../_shared/ui/form/app-is-creating-with-name.directive';
+import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
 
-import {AppIsEditingWithNameDirective} from '../../../_shared/ui/form/app-is-editing-with-name.directive';
+import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
 import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
@@ -34,7 +34,10 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
           <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
         </div>
 
-        <app-model-edit-save-btn (submit)="form?.submit()" [editing]="entity !== 'CREATE'"></app-model-edit-save-btn>
+        <app-model-edit-save-btn
+          (submit)="form?.submit()"
+          [valid]="valid$ | async"
+          [editing]="entity !== 'CREATE'"></app-model-edit-save-btn>
 
         <div *isEditing="entity">
           <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
@@ -87,8 +90,8 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
     NgbNavItem,
     NgbNavContent,
     NgbNavLink,
-    AppIsCreatingWithNameDirective,
-    AppIsEditingWithNameDirective,
+    AppIsCreatingDirective,
+    AppIsEditingDirective,
     AppProductEditFormComponent,
     AppModelEditSaveBtn,
     AppBtnToolbarComponent,

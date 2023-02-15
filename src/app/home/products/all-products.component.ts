@@ -6,11 +6,11 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/abstract-models-with-name-list-with-delete.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppSoldOutPipe} from '../../_shared/ui/app-sold-out.pipe';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
+import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {DfxArrayPluck} from '../../_shared/ui/pluck.pipe';
 import {GetProductMaxResponse} from '../../_shared/waiterrobot-backend';
 

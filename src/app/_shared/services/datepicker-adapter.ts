@@ -3,6 +3,7 @@
  */
 import {Injectable} from '@angular/core';
 import {NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import {c_undefinedToNull, d_format} from 'dfts-helper';
 
 /**
  * This Service handles how the date is represented in scripts i.e. ngModel.
@@ -24,7 +25,7 @@ export class CustomDateAdapter extends NgbDateAdapter<string> {
   }
 
   toModel(date: NgbDateStruct | null): string | null {
-    return date ? date.year + this.DELIMITER + date.month + this.DELIMITER + date.day : null;
+    return c_undefinedToNull(d_format(date ? date.year + this.DELIMITER + date.month + this.DELIMITER + date.day : null));
   }
 }
 

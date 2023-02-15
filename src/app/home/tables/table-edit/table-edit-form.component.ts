@@ -1,8 +1,8 @@
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {HasNumberIDAndName} from 'dfts-helper';
-import {DfxAutofocus, DfxTrackById} from 'dfx-helper';
+import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
@@ -18,7 +18,6 @@ import {CreateTableDto, GetTableResponse, UpdateTableDto} from '../../../_shared
           <label for="number">{{ 'NUMBER' | tr }}</label>
           <input
             formControlName="number"
-            focus
             class="form-control bg-dark text-white"
             type="number"
             id="number"
@@ -64,7 +63,8 @@ import {CreateTableDto, GetTableResponse, UpdateTableDto} from '../../../_shared
   `,
   selector: 'app-table-edit-form',
   standalone: true,
-  imports: [ReactiveFormsModule, AsyncPipe, NgIf, NgForOf, DfxTr, DfxAutofocus, DfxTrackById, AppIconsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ReactiveFormsModule, AsyncPipe, NgIf, NgForOf, DfxTr, DfxTrackById, AppIconsModule],
 })
 export class TableEditFormComponent extends AbstractModelEditFormComponent<CreateTableDto, UpdateTableDto> {
   override form = this.fb.nonNullable.group({
@@ -72,7 +72,7 @@ export class TableEditFormComponent extends AbstractModelEditFormComponent<Creat
     seats: [10, [Validators.required, Validators.min(0)]],
     eventId: [-1, [Validators.required, Validators.min(0)]],
     groupId: [-1, [Validators.required, Validators.min(0)]],
-    id: [0],
+    id: [-1],
   });
 
   override reset() {

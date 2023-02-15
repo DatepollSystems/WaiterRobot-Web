@@ -1,16 +1,14 @@
 import {Directive, inject, Input, TemplateRef, ViewContainerRef} from '@angular/core';
-import {StringOrNumber} from 'dfts-helper';
-import {HasIdAndNumber} from '../../services/abstract-entity.service';
 
 @Directive({
   selector: '[isEditing]',
   standalone: true,
 })
-export class AppIsEditingWithNumberDirective {
+export class AppIsEditingDirective {
   private viewContainerRef = inject(ViewContainerRef);
   private templateRef = inject(TemplateRef<unknown>);
 
-  @Input() set isEditing(entity: HasIdAndNumber<StringOrNumber> | 'CREATE') {
+  @Input() set isEditing(entity: unknown | 'CREATE') {
     if (entity === 'CREATE') {
       this.viewContainerRef.clear();
       return;
@@ -18,10 +16,7 @@ export class AppIsEditingWithNumberDirective {
     this.viewContainerRef.createEmbeddedView(this.templateRef);
   }
 
-  static ngTemplateGuard_isEditing(
-    dir: AppIsEditingWithNumberDirective,
-    state: HasIdAndNumber<StringOrNumber> | 'CREATE'
-  ): state is HasIdAndNumber<StringOrNumber> {
+  static ngTemplateGuard_isEditing<T>(dir: AppIsEditingDirective, state: T): state is Exclude<T, 'CREATE'> {
     return true;
   }
 }

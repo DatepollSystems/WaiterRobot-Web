@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {DfxTr} from 'dfx-translate';
 
@@ -38,8 +38,7 @@ import {TableGroupsService} from './_services/table-groups.service';
   `,
   selector: 'app-tables',
   standalone: true,
-  // TODO: change to OnPush
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, RouterLinkActive, DfxTr, AppIconsModule, AppEntitiesLayoutComponent, AppListNavItemsComponent, AsyncPipe],
 })
 export class TablesComponent {

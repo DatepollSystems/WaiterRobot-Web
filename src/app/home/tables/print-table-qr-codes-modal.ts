@@ -12,7 +12,7 @@ import {MobileLinkService} from '../../_shared/services/mobile-link.service';
 
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {TableModel} from './_models/table.model';
+import {GetTableResponse} from '../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
@@ -64,7 +64,7 @@ import {TableModel} from './_models/table.model';
               elementType="canvas"></qrcode>
 
             <div class="text-center text-black qr-code-label">
-              <b>{{ mytable.groupName }} - {{ mytable.tableNumber }}</b>
+              <b>{{ mytable.groupName }} - {{ mytable.number }}</b>
             </div>
           </div>
         </div>
@@ -107,7 +107,7 @@ import {TableModel} from './_models/table.model';
   ],
 })
 export class PrintTableQrCodesModalComponent {
-  @Input() tables?: TableModel[];
+  @Input() tables?: GetTableResponse[];
 
   qrCodeSize: 'SM' | 'MD' = 'MD';
   generating = false;
@@ -115,7 +115,7 @@ export class PrintTableQrCodesModalComponent {
 
   constructor(public activeModal: NgbActiveModal, private mobileLink: MobileLinkService) {}
 
-  parser = (table: TableModel): string => {
+  parser = (table: GetTableResponse): string => {
     return this.mobileLink.createTableLink(s_from(table.id));
   };
 

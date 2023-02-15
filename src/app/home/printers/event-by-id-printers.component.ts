@@ -6,10 +6,10 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {AbstractModelsWithNameListByIdComponent} from '../../_shared/ui/abstract-models-with-name-list-by-id.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
+import {AbstractModelsWithNameListByIdComponent} from '../../_shared/ui/models-list-by-id/abstract-models-with-name-list-by-id.component';
 import {GetPrinterResponse} from '../../_shared/waiterrobot-backend';
 
 import {EventModel} from '../events/_models/event.model';
