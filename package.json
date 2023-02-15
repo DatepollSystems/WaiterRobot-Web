@@ -1,6 +1,6 @@
 {
   "name": "waiter-robot-web",
-  "version": "1.0.0-pre0",
+  "version": "1.0.0-pre2",
   "scripts": {
     "ng": "ng",
     "start": "npm run translate:types && ng serve",
