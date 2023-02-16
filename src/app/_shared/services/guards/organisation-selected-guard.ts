@@ -1,12 +1,14 @@
 import {inject} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRouteSnapshot, Router, RouterStateSnapshot} from '@angular/router';
 import {getLogMessage, o_fromStorage} from 'dfts-helper';
+import {AuthService} from '../auth/auth.service';
 
-export function organisationSelectedGuard() {
+export function organisationSelectedGuard(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
   const router = inject(Router);
   if (!o_fromStorage('selected_org')) {
     console.log(getLogMessage('LOG', 'organisationSelectedGuard', 'canActivate', 'No organisation selected; Routing to home'));
-    void router.navigate(['/home']);
+    inject(AuthService).redirectUrl = state.url;
+    void router.navigate(['/home/select']);
     return false;
   }
   return true;

@@ -9,9 +9,9 @@ import {
   HasGetAll,
   HasGetSingle,
   HasUpdateWithIdResponse,
-} from '../../../_shared/services/abstract-entity.service';
+} from '../../_shared/services/abstract-entity.service';
 
-import {CreateUserDto, GetUserResponse, IdResponse, UpdateUserDto} from '../../../_shared/waiterrobot-backend';
+import {CreateUserDto, GetUserResponse, IdResponse, UpdateUserDto} from '../../_shared/waiterrobot-backend';
 
 @Injectable({providedIn: 'root'})
 export class UsersService

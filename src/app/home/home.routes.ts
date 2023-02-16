@@ -23,6 +23,11 @@ export const ROUTES: Routes = [
         loadChildren: () => import('./user-settings/user-settings.routes').then((m) => m.ROUTES),
       },
       {
+        path: 'select',
+        title: 'Select',
+        loadComponent: () => import('./app-select-dialog-view.component').then((m) => m.AppSelectDialogViewComponent),
+      },
+      {
         path: 'qrcode/view',
         title: 'QR-Code',
         loadComponent: () => import('../_shared/ui/qr-code/app-qr-code.component').then((m) => m.AppQrCodeViewComponent),
@@ -50,7 +55,7 @@ export const ROUTES: Routes = [
       {
         path: 'waiters',
         title: 'NAV_WAITERS',
-        loadChildren: () => import('./waiters/waiters.module').then((m) => m.WaitersModule),
+        loadChildren: () => import('./waiters/waiters.routes').then((m) => m.ROUTES),
       },
       {
         path: 'products',

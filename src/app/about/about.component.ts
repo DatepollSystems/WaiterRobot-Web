@@ -46,10 +46,10 @@ export class AboutComponent implements OnInit {
     this.authService.setSessionToken(response.refreshToken);
     this.notificationService.tsuccess('ABOUT_SIGNIN_SUCCESSFUL');
 
-    void this.router.navigateByUrl('/home');
+    void this.router.navigateByUrl(this.authService.redirectUrl ?? '/home');
   };
 
-  onSignin(form: NgForm): void {
+  onSignIn(form: NgForm): void {
     const email = form.value.email as string;
     const password = form.value.password as string;
     this.authService.sendSignInRequest(email, password).subscribe({

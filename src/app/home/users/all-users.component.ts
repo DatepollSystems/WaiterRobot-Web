@@ -13,7 +13,7 @@ import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.c
 import {QuestionDialogComponent} from '../../_shared/ui/question-dialog/question-dialog.component';
 import {GetUserResponse} from '../../_shared/waiterrobot-backend';
 
-import {UsersService} from './_services/users.service';
+import {UsersService} from './users.service';
 
 @Component({
   template: `

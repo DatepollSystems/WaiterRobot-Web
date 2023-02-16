@@ -1,5 +1,5 @@
 import {Component, Inject, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {IHasID, n_from, n_isNumeric} from 'dfts-helper';
 import {distinctUntilChanged, filter, map, shareReplay, switchMap} from 'rxjs';
 import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from '../../services/abstract-entity.service';
@@ -12,8 +12,6 @@ export abstract class AbstractModelsListByIdComponentV2<
   EntitiesTypes extends IHasID<EntitiesTypes['id']>,
   EntityType extends IHasID<EntityType['id']>
 > extends AbstractModelsListWithDeleteComponent<EntitiesTypes> {
-  protected router = inject(Router);
-
   protected route = inject(ActivatedRoute);
 
   protected idParam$ = this.route.paramMap.pipe(

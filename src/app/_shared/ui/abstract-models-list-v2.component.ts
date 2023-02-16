@@ -1,10 +1,11 @@
 import {AfterViewInit, Component, Inject, inject, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
+import {Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {IHasID, loggerOf} from 'dfts-helper';
 import {NgbPaginator, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
-import {combineLatest, filter, Observable, of, startWith, switchMap, tap} from 'rxjs';
+import {catchError, combineLatest, filter, Observable, of, startWith, switchMap, tap, throwError} from 'rxjs';
 import {HasGetAll, notNullAndUndefined} from '../services/abstract-entity.service';
 
 @Component({
@@ -12,6 +13,8 @@ import {HasGetAll, notNullAndUndefined} from '../services/abstract-entity.servic
 })
 export abstract class AbstractModelsListV2Component<EntityType extends IHasID<EntityType['id']>> implements AfterViewInit {
   protected lumber = loggerOf('AModelsListComponentV2');
+
+  protected router = inject(Router);
 
   // Table stuff
   @ViewChild(NgbSort, {static: true}) sort?: NgbSort;
@@ -41,7 +44,15 @@ export abstract class AbstractModelsListV2Component<EntityType extends IHasID<En
   }
 
   protected getDataSource(entitiesStream: Observable<EntityType[]>): Observable<NgbTableDataSource<EntityType>> {
-    return combineLatest([this.filter.valueChanges.pipe(startWith(''), filter(notNullAndUndefined)), entitiesStream]).pipe(
+    return combineLatest([
+      this.filter.valueChanges.pipe(startWith(''), filter(notNullAndUndefined)),
+      entitiesStream.pipe(
+        catchError((error) => {
+          void this.router.navigateByUrl('/not-found');
+          return throwError(() => error);
+        })
+      ),
+    ]).pipe(
       switchMap(([filterTerm, all]) => {
         const dataSource = new NgbTableDataSource<EntityType>(all.slice());
 

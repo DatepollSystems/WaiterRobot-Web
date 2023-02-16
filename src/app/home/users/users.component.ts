@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
-import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {DfxTr} from 'dfx-translate';
+import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
 
 @Component({
   template: `
@@ -21,6 +21,7 @@ import {DfxTr} from 'dfx-translate';
     </entities-layout-component>
   `,
   selector: 'app-users',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AppEntitiesLayoutComponent, AppIconsModule, DfxTr, RouterLink, RouterLinkActive],
   standalone: true,
 })

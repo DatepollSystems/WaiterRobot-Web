@@ -1,15 +1,39 @@
+import {NgForOf, NgIf} from '@angular/common';
 import {Component} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfts-helper';
+import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxTrackById} from 'dfx-helper';
+import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
+import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
+import {AppIconsModule} from '../../../_shared/ui/icons.module';
+import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {DuplicateWaiterModel} from '../_models/duplicate-waiter.model';
 import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
 
 @Component({
   selector: 'app-duplicate-organisation-waiters',
   templateUrl: './duplicate-organisation-waiters.component.html',
-  styleUrls: ['./duplicate-organisation-waiters.component.scss'],
+  imports: [
+    AppSpinnerRowComponent,
+    NgbTooltip,
+    NgIf,
+    AppIconsModule,
+    DfxTableModule,
+    DfxSortModule,
+    DfxTr,
+    AppBtnToolbarComponent,
+    NgForOf,
+    FormsModule,
+    ReactiveFormsModule,
+    DfxTrackById,
+    RouterLink,
+  ],
+  standalone: true,
 })
 export class DuplicateOrganisationWaitersComponent extends AbstractModelsListComponent<DuplicateWaiterModel> {
   override columnsToDisplay = ['name', 'count', 'actions'];

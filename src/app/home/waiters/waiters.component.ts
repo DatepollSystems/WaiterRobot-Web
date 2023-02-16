@@ -1,30 +1,49 @@
-import {Component} from '@angular/core';
-import {AbstractModelsComponent} from '../../_shared/ui/abstract-models.component';
-import {EventModel} from '../events/_models/event.model';
+import {AsyncPipe, NgIf} from '@angular/common';
+import {Component, inject} from '@angular/core';
+import {RouterLink, RouterLinkActive} from '@angular/router';
+import {DfxTr} from 'dfx-translate';
+
+import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
+import {AppListNavItemsComponent} from '../../_shared/ui/app-list-nav-items.component';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {EventsService} from '../events/_services/events.service';
-
-import {OrganisationModel} from '../organisations/_models/organisation.model';
-
 import {OrganisationsService} from '../organisations/_services/organisations.service';
 
 @Component({
+  template: `
+    <entities-layout-component>
+      <div class="list-group" nav>
+        <a
+          *ngIf="selectedOrganisation$ | async as selectedOrganisation"
+          class="list-group-item list-group-item-action"
+          routerLink="organisation"
+          routerLinkActive="active">
+          <i-bs name="people"></i-bs>
+          {{ selectedOrganisation.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</a
+        >
+
+        <a
+          *ngIf="selectedEvent$ | async as selectedEvent"
+          class="list-group-item list-group-item-action"
+          routerLink="event/{{ selectedEvent.id }}"
+          routerLinkActive="active">
+          <i-bs name="people"></i-bs>
+          {{ selectedEvent.name }} {{ 'HOME_WAITERS_NAV_EVENTS' | tr }}</a
+        >
+
+        <app-list-nav-items path="/home/waiters/event/" [entities]="events$ | async"></app-list-nav-items>
+      </div>
+    </entities-layout-component>
+  `,
   selector: 'app-waiters',
-  templateUrl: './waiters.component.html',
-  styleUrls: ['./waiters.component.scss'],
+  standalone: true,
+  imports: [AsyncPipe, RouterLink, RouterLinkActive, NgIf, DfxTr, AppIconsModule, AppEntitiesLayoutComponent, AppListNavItemsComponent],
 })
-export class WaitersComponent extends AbstractModelsComponent<EventModel> {
-  selectedOrganisation: OrganisationModel | undefined;
-  selectedEvent: EventModel | undefined;
+export class WaitersComponent {
+  selectedOrganisation$ = inject(OrganisationsService).getSelected$;
+  selectedEvent$ = this.eventsService.getSelected$;
 
-  constructor(organisationService: OrganisationsService, eventsService: EventsService) {
-    super(eventsService);
+  events$ = this.eventsService.getAll$();
 
-    this.selectedOrganisation = organisationService.getSelected();
-    this.selectedEvent = eventsService.getSelected();
-
-    this.unsubscribe(
-      organisationService.getSelected$.subscribe((it) => (this.selectedOrganisation = it)),
-      eventsService.getSelected$.subscribe((it) => (this.selectedEvent = it))
-    );
-  }
+  constructor(private eventsService: EventsService) {}
 }

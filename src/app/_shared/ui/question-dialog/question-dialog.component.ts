@@ -1,5 +1,8 @@
+import {NgForOf, NgIf} from '@angular/common';
 import {Component, Input} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {DfxTrackByProperty} from 'dfx-helper';
+import {DfxTr} from 'dfx-translate';
 
 @Component({
   selector: 'app-question-modal',
@@ -25,6 +28,8 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
       </button>
     </div>
   `,
+  imports: [NgIf, NgForOf, DfxTr, DfxTrackByProperty],
+  standalone: true,
 })
 export class QuestionDialogComponent {
   public static YES_VALUE = 'yes';

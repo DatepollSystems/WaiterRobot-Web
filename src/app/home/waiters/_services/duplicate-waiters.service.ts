@@ -7,7 +7,7 @@ import {OrganisationsService} from '../../organisations/_services/organisations.
 
 import {DuplicateWaiterModel} from '../_models/duplicate-waiter.model';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class DuplicateWaitersService extends AbstractModelService<DuplicateWaiterModel> {
   url = '/config/waiter/duplicates';
 

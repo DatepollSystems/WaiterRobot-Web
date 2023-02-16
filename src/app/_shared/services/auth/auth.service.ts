@@ -16,6 +16,8 @@ export class AuthService {
   public static signInPwChangeUrl = '/auth/signInPwChange';
   public static refreshUrl = '/auth/refresh';
 
+  public redirectUrl?: string;
+
   private sessionToken?: string;
   private jwtToken?: string;
   private jwtTokenExpires: Date;

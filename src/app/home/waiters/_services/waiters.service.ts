@@ -7,7 +7,7 @@ import {OrganisationsService} from '../../organisations/_services/organisations.
 
 import {WaiterModel} from '../_models/waiter.model';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class WaitersService extends AbstractModelService<WaiterModel> {
   override url = '/config/waiter';
 

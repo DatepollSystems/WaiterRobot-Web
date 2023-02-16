@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
 import {AppBtnQrCodeComponent} from '../../../_shared/ui/qr-code/app-btn-qr-code.component';
 
@@ -12,6 +12,7 @@ import {AppBtnQrCodeComponent} from '../../../_shared/ui/qr-code/app-btn-qr-code
   `,
   imports: [AppBtnQrCodeComponent],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BtnWaiterCreateQrCodeComponent {
   @Input()

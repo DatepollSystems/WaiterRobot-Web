@@ -19,6 +19,10 @@ export class EventsService extends AbstractSelectableModelService<EventModel> {
 
     this.setGetAllParams([{key: 'organisationId', value: organisationsService.getSelected()?.id}]);
     organisationsService.getSelected$.subscribe((org) => {
+      if (!org) {
+        this.setSelected(undefined);
+        this.selectedChange.next(undefined);
+      }
       this.setGetAllParams([{key: 'organisationId', value: org?.id}]);
     });
   }

@@ -1,11 +1,11 @@
 import {AEntityWithNumberIDAndName} from 'dfts-helper';
-import {GetWaiterMinResponse, GetWaiterResponse} from '../../../_shared/waiterrobot-backend';
+import {GetEventOrLocationMinResponse, GetWaiterResponse} from '../../../_shared/waiterrobot-backend';
 
 export class WaiterModel extends AEntityWithNumberIDAndName {
   public readonly signInToken: string;
   public readonly activated: boolean;
   public readonly organisationId: number;
-  public readonly events: GetWaiterMinResponse[];
+  public readonly events: GetEventOrLocationMinResponse[];
 
   constructor(data: GetWaiterResponse) {
     super(data.id, data.name, data);

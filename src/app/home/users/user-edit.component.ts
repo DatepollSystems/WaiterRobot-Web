@@ -11,9 +11,9 @@ import {AppModelEditSaveBtn} from '../../_shared/ui/form/app-model-edit-save-btn
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../_shared/waiterrobot-backend';
-
-import {UsersService} from './_services/users.service';
 import {UserEditFormComponent} from './user-edit-form.component';
+
+import {UsersService} from './users.service';
 
 @Component({
   template: `

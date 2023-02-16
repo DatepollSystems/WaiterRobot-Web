@@ -1,12 +1,16 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
+import {AppBtnQrCodeComponent} from '../../../_shared/ui/qr-code/app-btn-qr-code.component';
 
 @Component({
-  selector: 'app-btn-waiter-signin-qrcode',
   template: `
     <app-btn-qrcode [data]="_token" text="HOME_WAITERS_EDIT_QR_CODE" info="HOME_WAITERS_EDIT_QR_CODE_DESCRIPTION"></app-btn-qrcode>
   `,
+  selector: 'app-btn-waiter-signin-qrcode',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [AppBtnQrCodeComponent],
 })
 export class BtnWaiterSignInQrCodeComponent {
   _token: string | undefined;

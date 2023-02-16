@@ -1,20 +1,20 @@
-import {AsyncPipe, DatePipe, NgForOf, NgIf, UpperCasePipe} from '@angular/common';
+import {AsyncPipe, DatePipe, NgIf, UpperCasePipe} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
-import {Component, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
-import {NgbDropdownModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {i_complete} from 'dfts-helper';
 import {AComponent, DfxTimeSpanPipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {catchError, EMPTY, interval, map, Observable, share, switchMap, tap, timer} from 'rxjs';
+import {catchError, combineLatest, EMPTY, interval, map, Observable, of, share, switchMap, tap, timer} from 'rxjs';
 
 import {EnvironmentHelper} from '../../_shared/EnvironmentHelper';
-import {MyUserModel} from '../../_shared/services/auth/user/my-user.model';
 import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
 import {AppDownloadBtnListComponent} from '../../_shared/ui/app-download-btn-list.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {JsonInfoResponse} from '../../_shared/waiterrobot-backend';
+import {AppSelectDialogComponent} from '../app-select-dialog.component';
 import {EventModel} from '../events/_models/event.model';
 import {EventsService} from '../events/_services/events.service';
 import {OrganisationModel} from '../organisations/_models/organisation.model';
@@ -25,21 +25,20 @@ import {OrganisationsService} from '../organisations/_services/organisations.ser
   templateUrl: './start.component.html',
   imports: [
     NgIf,
-    NgForOf,
     DatePipe,
     UpperCasePipe,
     RouterLink,
     NgbTooltipModule,
-    NgbDropdownModule,
     DfxTimeSpanPipe,
     DfxTr,
     AppDownloadBtnListComponent,
     AppIconsModule,
     AsyncPipe,
+    AppSelectDialogComponent,
   ],
   standalone: true,
 })
-export class StartComponent extends AComponent implements OnChanges {
+export class StartComponent extends AComponent {
   isProduction = true;
   type: string;
 
@@ -53,25 +52,25 @@ export class StartComponent extends AComponent implements OnChanges {
   refreshIn = 5;
   status: 'Online' | 'Offline' = 'Online';
 
-  myUser$: Observable<MyUserModel>;
+  myUser$ = inject(MyUserService).getUser$();
 
-  selectedOrganisation?: OrganisationModel;
-  organisations: OrganisationModel[];
-  selectedEvent?: EventModel;
-  events: EventModel[];
+  selectedEvent$ = this.eventsService.getSelected$;
+  selectedOrganisation$ = this.organisationsService.getSelected$;
 
-  constructor(
-    httpClient: HttpClient,
-    myUserService: MyUserService,
-    private eventsService: EventsService,
-    private organisationsService: OrganisationsService
-  ) {
+  vm$ = combineLatest([
+    this.organisationsService.getAll$(),
+    this.selectedOrganisation$,
+    this.selectedOrganisation$.pipe(switchMap(() => this.eventsService.getAll$().pipe(catchError(() => of([]))))),
+    this.selectedEvent$,
+  ]).pipe(
+    map(([organisations, selectedOrganisation, events, selectedEvent]) => ({organisations, selectedOrganisation, events, selectedEvent}))
+  );
+
+  constructor(httpClient: HttpClient, private eventsService: EventsService, private organisationsService: OrganisationsService) {
     super();
 
     this.isProduction = EnvironmentHelper.getProduction();
     this.type = EnvironmentHelper.getType();
-
-    this.myUser$ = myUserService.getUser$();
 
     this.localTime$ = interval(1000).pipe(
       map(() => new Date()),
@@ -98,34 +97,13 @@ export class StartComponent extends AComponent implements OnChanges {
       ),
       share()
     );
-
-    this.selectedOrganisation = organisationsService.getSelected();
-    this.organisations = organisationsService.getAll();
-    if (this.selectedOrganisation) {
-      this.selectedEvent = eventsService.getSelected();
-      this.events = eventsService.getAll();
-    } else {
-      this.events = [];
-    }
-
-    this.unsubscribe(
-      eventsService.getSelected$.subscribe((it) => (this.selectedEvent = it)),
-      organisationsService.getSelected$.subscribe((it) => (this.selectedOrganisation = it)),
-      organisationsService.allChange.subscribe((it) => (this.organisations = it)),
-      eventsService.allChange.subscribe((it) => (this.events = it))
-    );
   }
 
-  selectOrg(it: OrganisationModel): void {
+  selectOrganisation(it: OrganisationModel): void {
     this.organisationsService.setSelected(it);
-    this.eventsService.setSelected(undefined);
   }
 
   selectEvent(it: EventModel): void {
     this.eventsService.setSelected(it);
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log('rendered');
   }
 }
