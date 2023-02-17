@@ -72,8 +72,8 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
                       authService.clearStorage();
                       window?.location.reload();
                     } else {
-                      notificationService.warning(
-                        'Something did not work out during the session refresh! Normally you would have been logged out and the window would have been force complete refreshed but for debugging purposes nothing happened!',
+                      notificationService.error(
+                        'Something did not work out during the session refresh! On prod you would have been logged out and the window would have been force refreshed but on lava and dev nothing happens!',
                         25 * 1000
                       );
                     }

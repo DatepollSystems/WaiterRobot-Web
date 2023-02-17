@@ -4,11 +4,11 @@ import {BehaviorSubject, first} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class NotificationService {
-  delay = 4000;
-  toasts: any[] = [];
+  private delay = 4000;
+  private toasts: any[] = [];
   toasts$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>(this.toasts);
 
-  translate = dfxTranslate$();
+  private translate = dfxTranslate$();
 
   constructor() {}
 
@@ -42,8 +42,8 @@ export class NotificationService {
       .subscribe((translation) => this.warning(translation));
   }
 
-  error(str: string): void {
-    this.show(str, {classname: 'bg-danger text-light', delay: this.delay});
+  error(str: string, delay?: number): void {
+    this.show(str, {classname: 'bg-danger text-light', delay: delay ?? this.delay});
   }
 
   terror(translationKey: string): void {
