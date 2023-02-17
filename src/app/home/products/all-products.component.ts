@@ -51,8 +51,8 @@ import {ProductsService} from './_services/products.service';
       </div>
     </form>
 
-    <div class="table-responsive" *ngIf="dataSource$ | async as dataSource; else loading">
-      <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="groupName" ngbSortDirection="asc">
+    <div class="table-responsive">
+      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="groupName" ngbSortDirection="asc">
         <ng-container ngbColumnDef="select">
           <th *ngbHeaderCellDef ngb-header-cell>
             <div class="form-check">
@@ -61,7 +61,7 @@ import {ProductsService} from './_services/products.service';
                 type="checkbox"
                 name="checked"
                 (change)="$event ? toggleAllRows() : null"
-                [checked]="selection!.hasValue() && isAllSelected()" />
+                [checked]="selection.hasValue() && isAllSelected()" />
             </div>
           </th>
           <td *ngbCellDef="let selectable" ngb-cell>
@@ -71,8 +71,8 @@ import {ProductsService} from './_services/products.service';
                 type="checkbox"
                 name="checked"
                 (click)="$event.stopPropagation()"
-                (change)="$event ? selection!.toggle(selectable) : null"
-                [checked]="selection!.isSelected(selectable)" />
+                (change)="$event ? selection.toggle(selectable) : null"
+                [checked]="selection.isSelected(selectable)" />
             </div>
           </td>
         </ng-container>
@@ -92,7 +92,7 @@ import {ProductsService} from './_services/products.service';
           <td *ngbCellDef="let product" ngb-cell>{{ product.soldOut | soldOut }}</td>
         </ng-container>
 
-        <ng-container ngbColumnDef="groupName">
+        <ng-container ngbColumnDef="group">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_GROUP_PRODUCTS_VIEW' | tr }}</th>
           <td *ngbCellDef="let product" ngb-cell>{{ product.group.name }}</td>
         </ng-container>
@@ -103,7 +103,7 @@ import {ProductsService} from './_services/products.service';
         </ng-container>
 
         <ng-container ngbColumnDef="allergens">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_ALLERGENS' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_PROD_ALLERGENS' | tr }}</th>
           <td *ngbCellDef="let product" ngb-cell>{{ product.allergens | a_pluck : 'shortName' | s_implode : ', ' }}</td>
         </ng-container>
 
@@ -128,9 +128,7 @@ import {ProductsService} from './_services/products.service';
       </table>
     </div>
 
-    <ng-template #loading>
-      <app-spinner-row></app-spinner-row>
-    </ng-template>
+    <app-spinner-row *ngIf="isLoading" />
   `,
   selector: 'app-all-products',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -157,6 +155,10 @@ export class AllProductsComponent extends AbstractModelsWithNameListWithDeleteCo
   constructor(entitiesService: ProductsService) {
     super(entitiesService);
 
-    this.columnsToDisplay = ['name', 'price', 'soldOut', 'groupName', 'printer', 'allergens', 'actions'];
+    this.columnsToDisplay = ['name', 'price', 'soldOut', 'group', 'printer', 'allergens', 'actions'];
+
+    this.sortingDataAccessors = new Map();
+    this.sortingDataAccessors.set('group', (it) => it.group.name);
+    this.sortingDataAccessors.set('printer', (it) => it.printer.name);
   }
 }

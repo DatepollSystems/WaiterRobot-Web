@@ -33,8 +33,8 @@ import {MediatorsService} from './_services/mediators.service';
       </div>
     </form>
 
-    <div class="table-responsive" *ngIf="dataSource$ | async as dataSource; else loading">
-      <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort>
+    <div class="table-responsive">
+      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort>
         <ng-container ngbColumnDef="id">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
           <td *ngbCellDef="let mediator" ngb-cell>{{ mediator.id }}</td>
@@ -65,9 +65,7 @@ import {MediatorsService} from './_services/mediators.service';
       </table>
     </div>
 
-    <ng-template #loading>
-      <app-spinner-row></app-spinner-row>
-    </ng-template>
+    <app-spinner-row *ngIf="isLoading" />
   `,
   selector: 'app-all-mediators',
   standalone: true,

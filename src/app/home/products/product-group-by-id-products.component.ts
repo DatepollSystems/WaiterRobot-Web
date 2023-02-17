@@ -45,101 +45,94 @@ import {ProductsService} from './_services/products.service';
       </btn-toolbar>
     </ng-container>
 
-    <ng-container *ngIf="dataSource$ | async as dataSource; else loading">
-      <form>
-        <div class="input-group">
-          <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            ngbTooltip="{{ 'CLEAR' | tr }}"
-            placement="bottom"
-            (click)="filter.reset()"
-            *ngIf="(filter.value?.length ?? 0) > 0">
-            <i-bs name="x-circle-fill"></i-bs>
-          </button>
-        </div>
-      </form>
-
-      <div class="table-responsive">
-        <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
-          <ng-container ngbColumnDef="select">
-            <th *ngbHeaderCellDef ngb-header-cell>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  name="checked"
-                  (change)="$event ? toggleAllRows() : null"
-                  [checked]="selection!.hasValue() && isAllSelected()" />
-              </div>
-            </th>
-            <td *ngbCellDef="let selectable" ngb-cell>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  name="checked"
-                  (click)="$event.stopPropagation()"
-                  (change)="$event ? selection!.toggle(selectable) : null"
-                  [checked]="selection!.isSelected(selectable)" />
-              </div>
-            </td>
-          </ng-container>
-
-          <ng-container ngbColumnDef="name">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
-            <td *ngbCellDef="let product" ngb-cell>{{ product.name }}</td>
-          </ng-container>
-
-          <ng-container ngbColumnDef="price">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_PRICE' | tr }}</th>
-            <td *ngbCellDef="let product" ngb-cell>{{ product.price | currency : 'EUR' }}</td>
-          </ng-container>
-
-          <ng-container ngbColumnDef="soldOut">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_AVAILABLE' | tr }}</th>
-            <td *ngbCellDef="let product" ngb-cell>{{ product.soldOut | soldOut }}</td>
-          </ng-container>
-
-          <ng-container ngbColumnDef="printer">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_PRINTERS' | tr }}</th>
-            <td *ngbCellDef="let product" ngb-cell>{{ product.printer.name }}</td>
-          </ng-container>
-
-          <ng-container ngbColumnDef="allergens">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_ALLERGENS' | tr }}</th>
-            <td *ngbCellDef="let product" ngb-cell>{{ product.allergens | a_pluck : 'shortName' | s_implode : ', ' }}</td>
-          </ng-container>
-
-          <ng-container ngbColumnDef="actions">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
-            <td *ngbCellDef="let product" ngb-cell>
-              <a
-                class="btn btn-sm m-1 btn-outline-success text-white"
-                routerLink="../../../{{ product.id }}"
-                ngbTooltip="{{ 'EDIT' | tr }}">
-                <i-bs name="pencil-square"></i-bs>
-              </a>
-              <button
-                type="button"
-                class="btn btn-sm m-1 btn-outline-danger text-white"
-                ngbTooltip="{{ 'DELETE' | tr }}"
-                (click)="onDelete(product.id, $event)">
-                <i-bs name="trash"></i-bs>
-              </button>
-            </td>
-          </ng-container>
-
-          <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-          <tr *ngbRowDef="let product; columns: columnsToDisplay" ngb-row routerLink="../../../{{ product.id }}"></tr>
-        </table>
+    <form>
+      <div class="input-group">
+        <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          ngbTooltip="{{ 'CLEAR' | tr }}"
+          placement="bottom"
+          (click)="filter.reset()"
+          *ngIf="(filter.value?.length ?? 0) > 0">
+          <i-bs name="x-circle-fill"></i-bs>
+        </button>
       </div>
-    </ng-container>
+    </form>
 
-    <ng-template #loading>
-      <app-spinner-row></app-spinner-row>
-    </ng-template>
+    <div class="table-responsive">
+      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
+        <ng-container ngbColumnDef="select">
+          <th *ngbHeaderCellDef ngb-header-cell>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="checked"
+                (change)="$event ? toggleAllRows() : null"
+                [checked]="selection!.hasValue() && isAllSelected()" />
+            </div>
+          </th>
+          <td *ngbCellDef="let selectable" ngb-cell>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="checked"
+                (click)="$event.stopPropagation()"
+                (change)="$event ? selection!.toggle(selectable) : null"
+                [checked]="selection!.isSelected(selectable)" />
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container ngbColumnDef="name">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+          <td *ngbCellDef="let product" ngb-cell>{{ product.name }}</td>
+        </ng-container>
+
+        <ng-container ngbColumnDef="price">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_PRICE' | tr }}</th>
+          <td *ngbCellDef="let product" ngb-cell>{{ product.price | currency : 'EUR' }}</td>
+        </ng-container>
+
+        <ng-container ngbColumnDef="soldOut">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_AVAILABLE' | tr }}</th>
+          <td *ngbCellDef="let product" ngb-cell>{{ product.soldOut | soldOut }}</td>
+        </ng-container>
+
+        <ng-container ngbColumnDef="printer">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_PRINTERS' | tr }}</th>
+          <td *ngbCellDef="let product" ngb-cell>{{ product.printer.name }}</td>
+        </ng-container>
+
+        <ng-container ngbColumnDef="allergens">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_ALLERGENS' | tr }}</th>
+          <td *ngbCellDef="let product" ngb-cell>{{ product.allergens | a_pluck : 'shortName' | s_implode : ', ' }}</td>
+        </ng-container>
+
+        <ng-container ngbColumnDef="actions">
+          <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+          <td *ngbCellDef="let product" ngb-cell>
+            <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../../../{{ product.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+              <i-bs name="pencil-square"></i-bs>
+            </a>
+            <button
+              type="button"
+              class="btn btn-sm m-1 btn-outline-danger text-white"
+              ngbTooltip="{{ 'DELETE' | tr }}"
+              (click)="onDelete(product.id, $event)">
+              <i-bs name="trash"></i-bs>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+        <tr *ngbRowDef="let product; columns: columnsToDisplay" ngb-row routerLink="../../../{{ product.id }}"></tr>
+      </table>
+    </div>
+
+    <app-spinner-row *ngIf="isLoading" />
   `,
   selector: 'app-product-group-by-id-products',
   changeDetection: ChangeDetectionStrategy.OnPush,

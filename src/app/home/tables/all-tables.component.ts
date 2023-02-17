@@ -56,8 +56,8 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
       </div>
     </form>
 
-    <div class="table-responsive" *ngIf="dataSource$ | async as dataSource; else loading">
-      <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="groupName" ngbSortDirection="asc">
+    <div class="table-responsive">
+      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="groupName" ngbSortDirection="asc">
         <ng-container ngbColumnDef="select">
           <th *ngbHeaderCellDef ngb-header-cell>
             <div class="form-check">
@@ -118,9 +118,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
       </table>
     </div>
 
-    <ng-template #loading>
-      <app-spinner-row></app-spinner-row>
-    </ng-template>
+    <app-spinner-row *ngIf="isLoading" />
   `,
   selector: 'app-all-tables',
   standalone: true,

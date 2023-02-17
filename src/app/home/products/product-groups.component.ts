@@ -47,8 +47,8 @@ import {ProductGroupsService} from './_services/product-groups.service';
       </div>
     </form>
 
-    <div class="table-responsive" *ngIf="dataSource$ | async as dataSource; else loading">
-      <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
+    <div class="table-responsive">
+      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
         <ng-container ngbColumnDef="select">
           <th *ngbHeaderCellDef ngb-header-cell>
             <div class="form-check">
@@ -99,9 +99,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
       </table>
     </div>
 
-    <ng-template #loading>
-      <app-spinner-row></app-spinner-row>
-    </ng-template>
+    <app-spinner-row *ngIf="isLoading" />
   `,
   selector: 'app-product-groups',
   standalone: true,

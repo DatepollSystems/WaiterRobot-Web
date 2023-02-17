@@ -43,8 +43,8 @@ import {UsersService} from './users.service';
       </div>
     </form>
 
-    <div class="table-responsive" *ngIf="dataSource$ | async as dataSource; else loading">
-      <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="id" ngbSortDirection="asc">
+    <div class="table-responsive">
+      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="id" ngbSortDirection="asc">
         <ng-container ngbColumnDef="id">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
           <td *ngbCellDef="let user" ngb-cell>{{ user.id }}</td>
@@ -116,9 +116,7 @@ import {UsersService} from './users.service';
       </table>
     </div>
 
-    <ng-template #loading>
-      <app-spinner-row></app-spinner-row>
-    </ng-template>
+    <app-spinner-row *ngIf="isLoading" />
   `,
   selector: 'app-all-users',
   standalone: true,

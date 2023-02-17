@@ -17,8 +17,10 @@ export abstract class AbstractModelsListV2Component<EntityType extends IHasID<En
   protected router = inject(Router);
 
   // Table stuff
-  @ViewChild(NgbSort, {static: true}) sort?: NgbSort;
-  @ViewChild(NgbPaginator, {static: true}) paginator?: NgbPaginator;
+  @ViewChild(NgbSort) sort?: NgbSort;
+  @ViewChild(NgbPaginator) paginator?: NgbPaginator;
+
+  isLoading = true;
 
   get columnsToDisplay(): string[] {
     return this._columnsToDisplay;
@@ -73,9 +75,12 @@ export abstract class AbstractModelsListV2Component<EntityType extends IHasID<En
         }
         dataSource.filter = filterTerm ?? '';
 
+        this.isLoading = false;
+
         return of(dataSource);
       }),
-      tap((dataSource) => (this.entities = dataSource))
+      tap((dataSource) => (this.entities = dataSource)),
+      startWith(new NgbTableDataSource<EntityType>([]))
     );
   }
 }

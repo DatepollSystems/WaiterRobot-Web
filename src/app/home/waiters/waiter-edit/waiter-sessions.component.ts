@@ -15,93 +15,89 @@ import {WaitersService} from '../_services/waiters.service';
 
 @Component({
   template: `
-    <ng-container *ngIf="dataSource$ | async as dataSource; else loading">
-      <form class="d-flex flex-column flex-sm-row gap-2">
-        <div class="flex-grow-1">
-          <div class="input-group">
-            <input class="form-control bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              ngbTooltip="{{ 'CLEAR' | tr }}"
-              placement="bottom"
-              (click)="filter.reset()"
-              *ngIf="(filter.value?.length ?? 0) > 0">
-              <i-bs name="x-circle-fill"></i-bs>
-            </button>
-          </div>
+    <form class="d-flex flex-column flex-sm-row gap-2">
+      <div class="flex-grow-1">
+        <div class="input-group">
+          <input class="form-control bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            ngbTooltip="{{ 'CLEAR' | tr }}"
+            placement="bottom"
+            (click)="filter.reset()"
+            *ngIf="(filter.value?.length ?? 0) > 0">
+            <i-bs name="x-circle-fill"></i-bs>
+          </button>
         </div>
-
-        <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-          <i-bs name="trash"></i-bs>
-          {{ 'DELETE' | tr }}
-        </button>
-      </form>
-
-      <div class="table-responsive">
-        <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="updatedAt" ngbSortDirection="desc">
-          <ng-container ngbColumnDef="select">
-            <th *ngbHeaderCellDef ngb-header-cell>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  name="checked"
-                  (change)="$event ? toggleAllRows() : null"
-                  [checked]="selection.hasValue() && isAllSelected()" />
-              </div>
-            </th>
-            <td *ngbCellDef="let selectable" ngb-cell>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  name="checked"
-                  (click)="$event.stopPropagation()"
-                  (change)="$event ? selection.toggle(selectable) : null"
-                  [checked]="selection.isSelected(selectable)" />
-              </div>
-            </td>
-          </ng-container>
-
-          <ng-container ngbColumnDef="name">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
-            <td *ngbCellDef="let session" ngb-cell>{{ session.name }}</td>
-          </ng-container>
-
-          <ng-container ngbColumnDef="registeredAt">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_REGISTERED_AT' | tr }}</th>
-            <td *ngbCellDef="let session" ngb-cell>{{ session.registeredAt | date : 'YYYY.MM.dd - HH:mm:ss' }}</td>
-          </ng-container>
-
-          <ng-container ngbColumnDef="updatedAt">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_UPDATED_AT' | tr }}</th>
-            <td *ngbCellDef="let session" ngb-cell>{{ session.updatedAt | date : 'YYYY.MM.dd - HH:mm:ss' }}</td>
-          </ng-container>
-
-          <ng-container ngbColumnDef="actions">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
-            <td *ngbCellDef="let session" ngb-cell>
-              <button
-                type="button"
-                class="btn btn-sm m-1 btn-outline-danger text-white"
-                ngbTooltip="{{ 'DELETE' | tr }}"
-                placement="left"
-                (click)="onDelete(session.id)">
-                <i-bs name="trash"></i-bs>
-              </button>
-            </td>
-          </ng-container>
-
-          <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-          <tr *ngbRowDef="let table; columns: columnsToDisplay" ngb-row></tr>
-        </table>
       </div>
-    </ng-container>
 
-    <ng-template #loading>
-      <app-spinner-row />
-    </ng-template>
+      <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+        <i-bs name="trash"></i-bs>
+        {{ 'DELETE' | tr }}
+      </button>
+    </form>
+
+    <div class="table-responsive">
+      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="updatedAt" ngbSortDirection="desc">
+        <ng-container ngbColumnDef="select">
+          <th *ngbHeaderCellDef ngb-header-cell>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="checked"
+                (change)="$event ? toggleAllRows() : null"
+                [checked]="selection.hasValue() && isAllSelected()" />
+            </div>
+          </th>
+          <td *ngbCellDef="let selectable" ngb-cell>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="checked"
+                (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(selectable) : null"
+                [checked]="selection.isSelected(selectable)" />
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container ngbColumnDef="name">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+          <td *ngbCellDef="let session" ngb-cell>{{ session.name }}</td>
+        </ng-container>
+
+        <ng-container ngbColumnDef="registeredAt">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_REGISTERED_AT' | tr }}</th>
+          <td *ngbCellDef="let session" ngb-cell>{{ session.registeredAt | date : 'YYYY.MM.dd - HH:mm:ss' }}</td>
+        </ng-container>
+
+        <ng-container ngbColumnDef="updatedAt">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_UPDATED_AT' | tr }}</th>
+          <td *ngbCellDef="let session" ngb-cell>{{ session.updatedAt | date : 'YYYY.MM.dd - HH:mm:ss' }}</td>
+        </ng-container>
+
+        <ng-container ngbColumnDef="actions">
+          <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+          <td *ngbCellDef="let session" ngb-cell>
+            <button
+              type="button"
+              class="btn btn-sm m-1 btn-outline-danger text-white"
+              ngbTooltip="{{ 'DELETE' | tr }}"
+              placement="left"
+              (click)="onDelete(session.id)">
+              <i-bs name="trash"></i-bs>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+        <tr *ngbRowDef="let table; columns: columnsToDisplay" ngb-row></tr>
+      </table>
+    </div>
+
+    <app-spinner-row *ngIf="isLoading" />
   `,
   selector: 'app-waiter-sessions',
   standalone: true,

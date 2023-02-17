@@ -37,92 +37,88 @@ import {BtnWaiterCreateQrCodeComponent} from './_shared/btn-waiter-create-qr-cod
       </btn-toolbar>
     </ng-container>
 
-    <ng-container *ngIf="dataSource$ | async as dataSource; else loading">
-      <form>
-        <div class="input-group">
-          <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            ngbTooltip="{{ 'CLEAR' | tr }}"
-            placement="bottom"
-            (click)="filter.reset()"
-            *ngIf="(filter.value?.length ?? 0) > 0">
-            <i-bs name="x-circle-fill"></i-bs>
-          </button>
-        </div>
-      </form>
-
-      <div class="table-responsive">
-        <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
-          <ng-container ngbColumnDef="select">
-            <th *ngbHeaderCellDef ngb-header-cell>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  name="checked"
-                  (change)="$event ? toggleAllRows() : null"
-                  [checked]="selection.hasValue() && isAllSelected()" />
-              </div>
-            </th>
-            <td *ngbCellDef="let selectable" ngb-cell>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  name="checked"
-                  (click)="$event.stopPropagation()"
-                  (change)="$event ? selection.toggle(selectable) : null"
-                  [checked]="selection.isSelected(selectable)" />
-              </div>
-            </td>
-          </ng-container>
-
-          <ng-container ngbColumnDef="name">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
-            <td *ngbCellDef="let waiter" ngb-cell>{{ waiter.name }}</td>
-          </ng-container>
-
-          <ng-container ngbColumnDef="activated">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ACTIVATED' | tr }}</th>
-            <td *ngbCellDef="let waiter" ngb-cell>
-              <div class="form-check">
-                <input class="form-check-input" onclick="return false;" type="checkbox" [checked]="waiter.activated" name="activated" />
-              </div>
-            </td>
-          </ng-container>
-
-          <ng-container ngbColumnDef="events">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_EVENTS' | tr }}</th>
-            <td *ngbCellDef="let waiter" ngb-cell>{{ waiter.events | a_mapName | s_implode : ', ' : 20 : '...' }}</td>
-          </ng-container>
-
-          <ng-container ngbColumnDef="actions">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
-            <td *ngbCellDef="let waiter" ngb-cell>
-              <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../../{{ waiter.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
-                <i-bs name="pencil-square"></i-bs>
-              </a>
-              <button
-                type="button"
-                class="btn btn-sm m-1 btn-outline-danger text-white"
-                ngbTooltip="{{ 'DELETE' | tr }}"
-                (click)="onDelete(waiter.id, $event)">
-                <i-bs name="trash"></i-bs>
-              </button>
-            </td>
-          </ng-container>
-
-          <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-          <tr *ngbRowDef="let waiter; columns: columnsToDisplay" ngb-row routerLink="../../{{ waiter.id }}"></tr>
-        </table>
+    <form>
+      <div class="input-group">
+        <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          ngbTooltip="{{ 'CLEAR' | tr }}"
+          placement="bottom"
+          (click)="filter.reset()"
+          *ngIf="(filter.value?.length ?? 0) > 0">
+          <i-bs name="x-circle-fill"></i-bs>
+        </button>
       </div>
-    </ng-container>
+    </form>
 
-    <ng-template #loading>
-      <app-spinner-row></app-spinner-row>
-    </ng-template>
+    <div class="table-responsive">
+      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
+        <ng-container ngbColumnDef="select">
+          <th *ngbHeaderCellDef ngb-header-cell>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="checked"
+                (change)="$event ? toggleAllRows() : null"
+                [checked]="selection.hasValue() && isAllSelected()" />
+            </div>
+          </th>
+          <td *ngbCellDef="let selectable" ngb-cell>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="checked"
+                (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(selectable) : null"
+                [checked]="selection.isSelected(selectable)" />
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container ngbColumnDef="name">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+          <td *ngbCellDef="let waiter" ngb-cell>{{ waiter.name }}</td>
+        </ng-container>
+
+        <ng-container ngbColumnDef="activated">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ACTIVATED' | tr }}</th>
+          <td *ngbCellDef="let waiter" ngb-cell>
+            <div class="form-check">
+              <input class="form-check-input" onclick="return false;" type="checkbox" [checked]="waiter.activated" name="activated" />
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container ngbColumnDef="events">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_EVENTS' | tr }}</th>
+          <td *ngbCellDef="let waiter" ngb-cell>{{ waiter.events | a_mapName | s_implode : ', ' : 20 : '...' }}</td>
+        </ng-container>
+
+        <ng-container ngbColumnDef="actions">
+          <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+          <td *ngbCellDef="let waiter" ngb-cell>
+            <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../../{{ waiter.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+              <i-bs name="pencil-square"></i-bs>
+            </a>
+            <button
+              type="button"
+              class="btn btn-sm m-1 btn-outline-danger text-white"
+              ngbTooltip="{{ 'DELETE' | tr }}"
+              (click)="onDelete(waiter.id, $event)">
+              <i-bs name="trash"></i-bs>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+        <tr *ngbRowDef="let waiter; columns: columnsToDisplay" ngb-row routerLink="../../{{ waiter.id }}"></tr>
+      </table>
+    </div>
+
+    <app-spinner-row *ngIf="isLoading" />
   `,
   selector: 'app-event-by-id-waiters',
   standalone: true,
