@@ -161,7 +161,7 @@ export class PrintTableQrCodesModalComponent {
     this.progress = undefined;
   }
 
-  getQrCodeSize = () => {
+  getQrCodeSize = (): number => {
     switch (this.qrCodeSize) {
       case 'SM':
         return 118;
@@ -172,7 +172,7 @@ export class PrintTableQrCodesModalComponent {
     }
   };
 
-  getQrCodePadding = () => {
+  getQrCodePadding = (): number => {
     switch (this.qrCodeSize) {
       case 'SM':
         return 20;

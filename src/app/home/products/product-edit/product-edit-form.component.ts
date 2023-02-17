@@ -122,13 +122,13 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     id: [-1],
   });
 
-  override overrideRawValue = (value: any) => {
+  override overrideRawValue = (value: any): any => {
     value.price = value.price * 100;
 
     return super.overrideRawValue(value);
   };
 
-  override reset() {
+  override reset(): void {
     super.reset();
     this.form.controls.eventId.setValue(this._selectedEventId);
     this.form.controls.groupId.setValue(this._selectedProductGroupId);

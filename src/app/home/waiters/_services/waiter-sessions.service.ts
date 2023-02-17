@@ -15,7 +15,7 @@ export class WaiterSessionsService
 
   httpClient = inject(HttpClient);
 
-  convert = (it: SessionResponse) => new SessionModel(it);
+  convert = (it: SessionResponse): SessionModel => new SessionModel(it);
 
   getByParent$(id: number): Observable<SessionModel[]> {
     return this.triggerGet$.pipe(

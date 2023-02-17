@@ -39,7 +39,7 @@ export abstract class AbstractModelsListByIdComponent<
     super(entitiesService);
   }
 
-  override ngAfterViewInit() {
+  override ngAfterViewInit(): void {
     this.dataSource$ = this.idParam$.pipe(switchMap((id) => this.getDataSource(this.entitiesService.getByParent$(id))));
   }
 }

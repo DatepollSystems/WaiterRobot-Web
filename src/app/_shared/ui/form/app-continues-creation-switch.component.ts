@@ -1,7 +1,7 @@
+import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {DfxTr} from 'dfx-translate';
-import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Subscription} from 'rxjs';
 
 @Component({
@@ -35,7 +35,7 @@ export class AppContinuesCreationSwitchComponent implements OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscription?.unsubscribe();
     this.subscription = undefined;
   }

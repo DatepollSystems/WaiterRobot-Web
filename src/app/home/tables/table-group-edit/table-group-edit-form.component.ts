@@ -36,7 +36,7 @@ export class TableGroupEditFormComponent extends AbstractModelEditFormComponent<
     id: [-1],
   });
 
-  override reset() {
+  override reset(): void {
     super.reset();
 
     this.form.controls.eventId.setValue(this._selectedEventId);

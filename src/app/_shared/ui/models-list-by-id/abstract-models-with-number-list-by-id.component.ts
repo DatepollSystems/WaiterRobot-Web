@@ -10,5 +10,5 @@ export abstract class AbstractModelsWithNumberListByIdComponent<
   EntitiesTypes extends HasIdAndNumber<EntitiesTypes['id']>,
   EntityType extends IHasID<EntityType['id']>
 > extends AbstractModelsListByIdComponent<EntitiesTypes, EntityType> {
-  override nameMap = (it: EntitiesTypes) => s_from(it.number);
+  override nameMap = (it: EntitiesTypes): string => s_from(it.number);
 }

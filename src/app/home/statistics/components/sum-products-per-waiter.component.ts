@@ -6,7 +6,7 @@ import {StatisticsSumResponse} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 
 @Component({
-  template: ` <app-sum-statistics [sumDtos]="sumDtos">{{ 'HOME_STATISTICS_PRODUCTS_PER_WAITER' | tr }}</app-sum-statistics> `,
+  template: ' <app-sum-statistics [sumDtos]="sumDtos">{{ \'HOME_STATISTICS_PRODUCTS_PER_WAITER\' | tr }}</app-sum-statistics> ',
   selector: 'app-statistics-sum-products-per-waiter',
 })
 export class SumProductsPerWaiterComponent extends AComponent {

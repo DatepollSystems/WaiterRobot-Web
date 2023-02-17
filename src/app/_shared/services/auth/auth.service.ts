@@ -32,7 +32,7 @@ export class AuthService {
     return browser.name + ' - ' + s_from(browser.majorVersion) + '; OS: ' + browser.os + '; Phone: ' + s_from(browser.mobile);
   }
 
-  public sendSignInRequest = (email: string, password: string) =>
+  public sendSignInRequest = (email: string, password: string): Observable<JWTResponse> =>
     this.httpClient.post<JWTResponse>(AuthService.signInUrl, {
       email,
       password,
@@ -40,7 +40,7 @@ export class AuthService {
       stayLoggedIn: true,
     } as UserSignInDto);
 
-  public sendSignInWithPasswordChangeRequest = (email: string, oldPassword: string, newPassword: string) =>
+  public sendSignInWithPasswordChangeRequest = (email: string, oldPassword: string, newPassword: string): Observable<JWTResponse> =>
     this.httpClient.post<JWTResponse>(AuthService.signInPwChangeUrl, {
       email,
       oldPassword,

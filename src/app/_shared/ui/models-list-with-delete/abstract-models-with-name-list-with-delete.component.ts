@@ -8,5 +8,5 @@ import {AbstractModelsListWithDeleteComponent} from './abstract-models-list-with
 export abstract class AbstractModelsWithNameListWithDeleteComponent<
   EntityType extends HasIDAndName<EntityType['id']>
 > extends AbstractModelsListWithDeleteComponent<EntityType> {
-  override nameMap = (it: EntityType) => it.name;
+  override nameMap = (it: EntityType): string => it.name;
 }

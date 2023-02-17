@@ -62,7 +62,7 @@ export class ProductGroupEditFormComponent extends AbstractModelEditFormComponen
     id: [-1],
   });
 
-  override overrideRawValue = (value: any) => {
+  override overrideRawValue = (value: any): any => {
     if (value.printerId === -1) {
       value.printerId = undefined;
     }
@@ -70,7 +70,7 @@ export class ProductGroupEditFormComponent extends AbstractModelEditFormComponen
     return super.overrideRawValue(value);
   };
 
-  override reset() {
+  override reset(): void {
     super.reset();
 
     this.form.controls.eventId.setValue(this._selectedEventId);

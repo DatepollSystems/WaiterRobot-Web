@@ -3,7 +3,6 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {cl_copy} from 'dfts-helper';
 
 @Directive({
-  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'button[copyable]',
   exportAs: 'copy',
   standalone: true,

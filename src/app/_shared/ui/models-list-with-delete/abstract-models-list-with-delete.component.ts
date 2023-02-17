@@ -34,11 +34,11 @@ export abstract class AbstractModelsListWithDeleteComponent<
     );
   }
 
-  override get columnsToDisplay() {
+  override get columnsToDisplay(): string[] {
     return ['select'].concat(super.columnsToDisplay);
   }
 
-  override set columnsToDisplay(it) {
+  override set columnsToDisplay(it: string[]) {
     super.columnsToDisplay = it;
   }
 
@@ -54,7 +54,7 @@ export abstract class AbstractModelsListWithDeleteComponent<
           this.entitiesService.delete$(modelId).subscribe();
         }
       })
-      .catch((e) => {});
+      .catch(() => {});
   }
 
   abstract nameMap: (it: EntityType) => string;

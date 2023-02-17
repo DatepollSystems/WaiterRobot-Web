@@ -62,7 +62,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     id: [-1],
   });
 
-  override reset() {
+  override reset(): void {
     super.reset();
     this.form.controls.organisationId.setValue(this._selectedOrganisationId);
     this.form.controls.eventIds.setValue(this.selectedEvents);
@@ -79,7 +79,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
 
     this.form.patchValue({
       name: it.name,
-      eventIds: it.events.map((it) => it.id),
+      eventIds: it.events.map((iit) => iit.id),
       organisationId: it.organisationId,
       activated: it.activated,
       id: it.id,

@@ -13,7 +13,6 @@ type inputType = any | string;
 type inputTypes = inputType[];
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'chip-input',
   templateUrl: './chip-input.component.html',
   styleUrls: ['./chip-input.component.scss'],
@@ -101,7 +100,7 @@ export class ChipInput {
       })
     );
 
-  validate = (input: string) => (this.validator != undefined ? this.validator(input) : true) && input.length > 0;
+  validate = (input: string): boolean => (this.validator != undefined ? this.validator(input) : true) && input.length > 0;
 
   @Output() valueChange = new EventEmitter<inputTypes>();
 
@@ -156,7 +155,6 @@ export class ChipInput {
       return;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     this._models.push(input);
     this.emitChange();
     this.inputValid = true;

@@ -20,7 +20,7 @@ export abstract class AbstractModelsListV2Component<EntityType extends IHasID<En
   @ViewChild(NgbSort, {static: true}) sort?: NgbSort;
   @ViewChild(NgbPaginator, {static: true}) paginator?: NgbPaginator;
 
-  get columnsToDisplay() {
+  get columnsToDisplay(): string[] {
     return this._columnsToDisplay;
   }
   set columnsToDisplay(it: string[]) {

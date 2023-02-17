@@ -137,7 +137,7 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Create
     id: [-1],
   });
 
-  override overrideRawValue = (value: any) => {
+  override overrideRawValue = (value: any): any => {
     value.role = value.isAdmin ? 'ADMIN' : 'USER';
     if (!this.updatePasswordFormControl.getRawValue() && this._isEdit) {
       value.password = undefined;
@@ -146,7 +146,7 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Create
     return super.overrideRawValue(value);
   };
 
-  override reset() {
+  override reset(): void {
     super.reset();
 
     this.form.controls.password.enable();
