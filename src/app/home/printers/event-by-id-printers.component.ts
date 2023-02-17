@@ -64,7 +64,7 @@ import {PrintersService} from './_services/printers.service';
                 type="checkbox"
                 name="checked"
                 (change)="$event ? toggleAllRows() : null"
-                [checked]="selection!.hasValue() && isAllSelected()" />
+                [checked]="selection.hasValue() && isAllSelected()" />
             </div>
           </th>
           <td *ngbCellDef="let selectable" ngb-cell>
@@ -74,8 +74,8 @@ import {PrintersService} from './_services/printers.service';
                 type="checkbox"
                 name="checked"
                 (click)="$event.stopPropagation()"
-                (change)="$event ? selection!.toggle(selectable) : null"
-                [checked]="selection!.isSelected(selectable)" />
+                (change)="$event ? selection.toggle(selectable) : null"
+                [checked]="selection.isSelected(selectable)" />
             </div>
           </td>
         </ng-container>
