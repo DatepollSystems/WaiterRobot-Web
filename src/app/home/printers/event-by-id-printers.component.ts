@@ -91,7 +91,7 @@ import {PrintersService} from './_services/printers.service';
         </ng-container>
 
         <ng-container ngbColumnDef="productGroups">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_ALL' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_PROD_ALL' | tr }}</th>
           <td *ngbCellDef="let printer" ngb-cell>{{ printer.products | a_mapName | s_implode : ', ' : 20 : '...' }}</td>
         </ng-container>
 
