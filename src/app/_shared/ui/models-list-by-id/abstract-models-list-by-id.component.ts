@@ -8,7 +8,7 @@ import {AbstractModelsListWithDeleteComponent} from '../models-list-with-delete/
 @Component({
   template: '',
 })
-export abstract class AbstractModelsListByIdComponentV2<
+export abstract class AbstractModelsListByIdComponent<
   EntitiesTypes extends IHasID<EntitiesTypes['id']>,
   EntityType extends IHasID<EntityType['id']>
 > extends AbstractModelsListWithDeleteComponent<EntitiesTypes> {

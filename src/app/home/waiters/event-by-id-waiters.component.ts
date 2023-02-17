@@ -1,43 +1,43 @@
-import {NgIf} from '@angular/common';
-import {Component} from '@angular/core';
+import {AsyncPipe, NgIf} from '@angular/common';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {AbstractModelsListByIdComponent} from '../../_shared/ui/abstract-models-list-by-id.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
+import {AbstractModelsWithNameListByIdComponent} from '../../_shared/ui/models-list-by-id/abstract-models-with-name-list-by-id.component';
+import {GetWaiterResponse} from '../../_shared/waiterrobot-backend';
 
 import {EventModel} from '../events/_models/event.model';
 import {EventsService} from '../events/_services/events.service';
-import {WaiterModel} from './_models/waiter.model';
 
 import {WaitersService} from './_services/waiters.service';
 import {BtnWaiterCreateQrCodeComponent} from './_shared/btn-waiter-create-qr-code.component';
 
 @Component({
   template: `
-    <h1>{{ entity?.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</h1>
+    <ng-container *ngIf="entity$ | async as entity">
+      <h1>{{ entity?.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</h1>
 
-    <btn-toolbar>
-      <a routerLink="../../create" class="btn btn-sm btn-outline-success">
-        <i-bs name="plus-circle"></i-bs>
-        {{ 'ADD_2' | tr }}</a
-      >
-      <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection!.hasValue()" (click)="onDeleteSelected()">
-        <i-bs name="trash"></i-bs>
-        {{ 'DELETE' | tr }}
-      </button>
+      <btn-toolbar>
+        <a routerLink="../../create" class="btn btn-sm btn-outline-success">
+          <i-bs name="plus-circle"></i-bs>
+          {{ 'ADD_2' | tr }}</a
+        >
+        <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+          <i-bs name="trash"></i-bs>
+          {{ 'DELETE' | tr }}
+        </button>
 
-      <app-btn-waiter-create-qrcode *ngIf="entity" [token]="entity.waiterCreateToken"></app-btn-waiter-create-qrcode>
-    </btn-toolbar>
+        <app-btn-waiter-create-qrcode *ngIf="entity" [token]="entity.waiterCreateToken"></app-btn-waiter-create-qrcode>
+      </btn-toolbar>
+    </ng-container>
 
-    <app-spinner-row [show]="!entitiesLoaded"></app-spinner-row>
-
-    <div [hidden]="!entitiesLoaded">
+    <ng-container *ngIf="dataSource$ | async as dataSource; else loading">
       <form>
         <div class="input-group">
           <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
@@ -47,7 +47,7 @@ import {BtnWaiterCreateQrCodeComponent} from './_shared/btn-waiter-create-qr-cod
             ngbTooltip="{{ 'CLEAR' | tr }}"
             placement="bottom"
             (click)="filter.reset()"
-            *ngIf="filter?.value?.length > 0">
+            *ngIf="(filter.value?.length ?? 0) > 0">
             <i-bs name="x-circle-fill"></i-bs>
           </button>
         </div>
@@ -63,7 +63,7 @@ import {BtnWaiterCreateQrCodeComponent} from './_shared/btn-waiter-create-qr-cod
                   type="checkbox"
                   name="checked"
                   (change)="$event ? toggleAllRows() : null"
-                  [checked]="selection!.hasValue() && isAllSelected()" />
+                  [checked]="selection.hasValue() && isAllSelected()" />
               </div>
             </th>
             <td *ngbCellDef="let selectable" ngb-cell>
@@ -73,8 +73,8 @@ import {BtnWaiterCreateQrCodeComponent} from './_shared/btn-waiter-create-qr-cod
                   type="checkbox"
                   name="checked"
                   (click)="$event.stopPropagation()"
-                  (change)="$event ? selection!.toggle(selectable) : null"
-                  [checked]="selection!.isSelected(selectable)" />
+                  (change)="$event ? selection.toggle(selectable) : null"
+                  [checked]="selection.isSelected(selectable)" />
               </div>
             </td>
           </ng-container>
@@ -118,33 +118,36 @@ import {BtnWaiterCreateQrCodeComponent} from './_shared/btn-waiter-create-qr-cod
           <tr *ngbRowDef="let waiter; columns: columnsToDisplay" ngb-row routerLink="../../{{ waiter.id }}"></tr>
         </table>
       </div>
-    </div>
+    </ng-container>
+
+    <ng-template #loading>
+      <app-spinner-row></app-spinner-row>
+    </ng-template>
   `,
   selector: 'app-event-by-id-waiters',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    AppBtnToolbarComponent,
-    RouterLink,
-    AppIconsModule,
-    DfxTr,
-    AppSpinnerRowComponent,
     ReactiveFormsModule,
+    AsyncPipe,
+    RouterLink,
+    NgbTooltip,
     NgIf,
+    DfxTr,
     DfxTableModule,
     DfxSortModule,
     DfxArrayMapNamePipe,
     DfxImplodePipe,
-    NgbTooltip,
     BtnWaiterCreateQrCodeComponent,
+    AppSpinnerRowComponent,
+    AppIconsModule,
+    AppBtnToolbarComponent,
   ],
 })
-export class EventByIdWaitersComponent extends AbstractModelsListByIdComponent<WaiterModel, EventModel> {
-  override columnsToDisplay = ['name', 'activated', 'events', 'actions'];
-  override getAllParam = 'eventId';
-
+export class EventByIdWaitersComponent extends AbstractModelsWithNameListByIdComponent<GetWaiterResponse, EventModel> {
   constructor(waitersService: WaitersService, eventsService: EventsService) {
     super(waitersService, eventsService);
 
-    this.setSelectable();
+    this.columnsToDisplay = ['name', 'activated', 'events', 'actions'];
   }
 }

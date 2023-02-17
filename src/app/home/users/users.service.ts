@@ -29,7 +29,7 @@ export class UsersService
   triggerGet$ = new BehaviorSubject(true);
 
   getAll$(): Observable<GetUserResponse[]> {
-    return this.triggerGet$.pipe(switchMap(() => this.httpClient.get<GetUserResponse[]>(`${this.url}`)));
+    return this.triggerGet$.pipe(switchMap(() => this.httpClient.get<GetUserResponse[]>(this.url)));
   }
 
   getSingle$(id: number): Observable<GetUserResponse> {

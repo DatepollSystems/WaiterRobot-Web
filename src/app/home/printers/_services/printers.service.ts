@@ -43,7 +43,7 @@ export class PrintersService
         this.eventsService.getSelected$.pipe(
           filter(notNullAndUndefined),
           switchMap((selected) =>
-            this.httpClient.get<GetPrinterResponse[]>(`${this.url}`, {params: new HttpParams().set('eventId', selected.id)})
+            this.httpClient.get<GetPrinterResponse[]>(this.url, {params: new HttpParams().set('eventId', selected.id)})
           )
         )
       )
@@ -52,7 +52,7 @@ export class PrintersService
 
   getByParent$(id: number): Observable<GetPrinterResponse[]> {
     return this.triggerGet$.pipe(
-      switchMap(() => this.httpClient.get<GetPrinterResponse[]>(`${this.url}`, {params: new HttpParams().set('eventId', id)}))
+      switchMap(() => this.httpClient.get<GetPrinterResponse[]>(this.url, {params: new HttpParams().set('eventId', id)}))
     );
   }
 

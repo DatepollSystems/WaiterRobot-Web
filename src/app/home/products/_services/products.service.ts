@@ -2,6 +2,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {s_from} from 'dfts-helper';
 import {BehaviorSubject, filter, map, Observable, switchMap} from 'rxjs';
+import {tap} from 'rxjs/operators';
 import {
   HasCreateWithIdResponse,
   HasDelete,
@@ -21,7 +22,6 @@ import {
 } from '../../../_shared/waiterrobot-backend';
 
 import {EventsService} from '../../events/_services/events.service';
-import {tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -55,7 +55,7 @@ export class ProductsService
           filter(notNullAndUndefined),
           switchMap((selected) =>
             this.httpClient
-              .get<GetProductMaxResponse[]>(`${this.url}`, {params: new HttpParams().set('eventId', selected.id)})
+              .get<GetProductMaxResponse[]>(this.url, {params: new HttpParams().set('eventId', selected.id)})
               .pipe(this.priceMap)
           )
         )
@@ -66,7 +66,7 @@ export class ProductsService
   getByParent$(id: number): Observable<GetProductMaxResponse[]> {
     return this.triggerGet$.pipe(
       switchMap(() =>
-        this.httpClient.get<GetProductMaxResponse[]>(`${this.url}`, {params: new HttpParams().set('groupId', id)}).pipe(this.priceMap)
+        this.httpClient.get<GetProductMaxResponse[]>(this.url, {params: new HttpParams().set('groupId', id)}).pipe(this.priceMap)
       )
     );
   }

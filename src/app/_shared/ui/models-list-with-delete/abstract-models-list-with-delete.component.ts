@@ -47,12 +47,14 @@ export abstract class AbstractModelsListWithDeleteComponent<
     this.lumber.info('onDelete', 'Opening delete question dialog');
     const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
     modalRef.componentInstance.title = 'DELETE_CONFIRMATION';
-    void modalRef.result.then((result) => {
-      this.lumber.info('onDelete', 'Question dialog result:', result?.toString());
-      if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
-        this.entitiesService.delete$(modelId).subscribe();
-      }
-    });
+    void modalRef.result
+      .then((result) => {
+        this.lumber.info('onDelete', 'Question dialog result:', result?.toString());
+        if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
+          this.entitiesService.delete$(modelId).subscribe();
+        }
+      })
+      .catch((e) => {});
   }
 
   abstract nameMap: (it: EntityType) => string;
@@ -77,14 +79,16 @@ export abstract class AbstractModelsListWithDeleteComponent<
 
     const list = s_imploder().mappedSource(this.selection.selected, this.nameMap).separator('</li><li>').build();
     modalRef.componentInstance.info = `<ol><li>${list}</li></ol>`;
-    void modalRef.result.then((result) => {
-      this.lumber.info('onDeleteSelected', 'Question dialog result:', result);
-      if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
-        for (const selected of this.selection?.selected ?? []) {
-          this.entitiesService.delete$(selected.id).subscribe();
+    void modalRef.result
+      .then((result) => {
+        this.lumber.info('onDeleteSelected', 'Question dialog result:', result);
+        if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
+          for (const selected of this.selection?.selected ?? []) {
+            this.entitiesService.delete$(selected.id).subscribe();
+          }
         }
-      }
-    });
+      })
+      .catch(() => {});
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

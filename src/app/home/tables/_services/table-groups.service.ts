@@ -36,7 +36,7 @@ export class TableGroupsService
         this.eventsService.getSelected$.pipe(
           filter(notNullAndUndefined),
           switchMap((selected) =>
-            this.httpClient.get<GetTableGroupResponse[]>(`${this.url}`, {params: new HttpParams().set('eventId', selected.id)})
+            this.httpClient.get<GetTableGroupResponse[]>(this.url, {params: new HttpParams().set('eventId', selected.id)})
           )
         )
       )

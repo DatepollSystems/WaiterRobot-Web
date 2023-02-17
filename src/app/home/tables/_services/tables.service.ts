@@ -37,9 +37,7 @@ export class TablesService
       switchMap(() =>
         this.eventsService.getSelected$.pipe(
           filter(notNullAndUndefined),
-          switchMap((selected) =>
-            this.httpClient.get<GetTableResponse[]>(`${this.url}`, {params: new HttpParams().set('eventId', selected.id)})
-          )
+          switchMap((selected) => this.httpClient.get<GetTableResponse[]>(this.url, {params: new HttpParams().set('eventId', selected.id)}))
         )
       )
     );
@@ -47,7 +45,7 @@ export class TablesService
 
   getByParent$(id: number): Observable<GetTableResponse[]> {
     return this.triggerGet$.pipe(
-      switchMap(() => this.httpClient.get<GetTableResponse[]>(`${this.url}`, {params: new HttpParams().set('groupId', id)}))
+      switchMap(() => this.httpClient.get<GetTableResponse[]>(this.url, {params: new HttpParams().set('groupId', id)}))
     );
   }
 

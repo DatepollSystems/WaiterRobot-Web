@@ -1,5 +1,16 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {s_from} from 'dfts-helper';
+import {BehaviorSubject, filter, Observable, switchMap} from 'rxjs';
+import {tap} from 'rxjs/operators';
+import {
+  HasCreateWithIdResponse,
+  HasDelete,
+  HasGetAll,
+  HasGetSingle,
+  HasUpdateWithIdResponse,
+  notNullAndUndefined,
+} from '../../../_shared/services/abstract-entity.service';
 
 import {
   CreateProductGroupDto,
@@ -9,17 +20,6 @@ import {
   UpdateProductGroupDto,
 } from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
-import {
-  HasCreateWithIdResponse,
-  HasDelete,
-  HasGetAll,
-  HasGetSingle,
-  HasUpdateWithIdResponse,
-  notNullAndUndefined,
-} from '../../../_shared/services/abstract-entity.service';
-import {BehaviorSubject, filter, Observable, switchMap} from 'rxjs';
-import {s_from} from 'dfts-helper';
-import {tap} from 'rxjs/operators';
 
 @Injectable({providedIn: 'root'})
 export class ProductGroupsService
@@ -42,7 +42,7 @@ export class ProductGroupsService
         this.eventsService.getSelected$.pipe(
           filter(notNullAndUndefined),
           switchMap((selected) =>
-            this.httpClient.get<GetProductGroupResponse[]>(`${this.url}`, {params: new HttpParams().set('eventId', selected.id)})
+            this.httpClient.get<GetProductGroupResponse[]>(this.url, {params: new HttpParams().set('eventId', selected.id)})
           )
         )
       )

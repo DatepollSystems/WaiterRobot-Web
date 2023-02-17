@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {HasIDAndName, IHasID} from 'dfts-helper';
-import {AbstractModelsListByIdComponentV2} from './abstract-models-list-by-id.component-v2';
+import {AbstractModelsListByIdComponent} from './abstract-models-list-by-id.component';
 
 @Component({
   template: '',
@@ -8,6 +8,6 @@ import {AbstractModelsListByIdComponentV2} from './abstract-models-list-by-id.co
 export abstract class AbstractModelsWithNameListByIdComponent<
   EntitiesTypes extends HasIDAndName<EntitiesTypes['id']>,
   EntityType extends IHasID<EntityType['id']>
-> extends AbstractModelsListByIdComponentV2<EntitiesTypes, EntityType> {
+> extends AbstractModelsListByIdComponent<EntitiesTypes, EntityType> {
   override nameMap = (it: EntitiesTypes) => it.name;
 }

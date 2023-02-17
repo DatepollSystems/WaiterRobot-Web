@@ -1,26 +1,37 @@
-import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {AbstractModelService} from '../../../_shared/services/abstract-model.service';
-
-import {SessionResponse} from '../../../_shared/waiterrobot-backend';
-
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {inject, Injectable} from '@angular/core';
+import {BehaviorSubject, map, Observable, of, switchMap} from 'rxjs';
+import {HasDelete, HasGetAll, HasGetByParent} from '../../../_shared/services/abstract-entity.service';
+import {GetWaiterResponse, SessionResponse} from '../../../_shared/waiterrobot-backend';
 import {SessionModel} from '../../user-settings/_models/session.model';
-import {WaitersService} from './waiters.service';
 
 @Injectable({providedIn: 'root'})
-export class WaiterSessionsService extends AbstractModelService<SessionModel> {
+export class WaiterSessionsService
+  implements HasGetAll<SessionModel>, HasGetByParent<SessionModel, GetWaiterResponse>, HasDelete<SessionModel>
+{
   url = '/config/waiter/session';
 
-  constructor(httpService: HttpClient, waitersService: WaitersService) {
-    super(httpService);
-    waitersService.singleChange.subscribe((waiter) => this.setGetAllParams([{key: 'waiterId', value: waiter?.id}]));
+  triggerGet$ = new BehaviorSubject(true);
+
+  httpClient = inject(HttpClient);
+
+  convert = (it: SessionResponse) => new SessionModel(it);
+
+  getByParent$(id: number): Observable<SessionModel[]> {
+    return this.triggerGet$.pipe(
+      switchMap(() =>
+        this.httpClient
+          .get<SessionResponse[]>(this.url, {params: new HttpParams().set('waiterId', id)})
+          .pipe(map((it) => it.map((iit) => this.convert(iit))))
+      )
+    );
   }
 
-  protected convert(data: any): SessionModel {
-    return new SessionModel(data as SessionResponse);
+  delete$(id: number): Observable<unknown> {
+    return this.httpClient.delete(`${this.url}/${id}`);
   }
 
-  public setGetAllWaiterId(id: number): void {
-    this.setGetAllParams([{key: 'waiterId', value: id}]);
+  getAll$(): Observable<SessionModel[]> {
+    return of([]);
   }
 }

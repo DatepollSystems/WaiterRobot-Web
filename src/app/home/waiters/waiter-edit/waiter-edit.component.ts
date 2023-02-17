@@ -1,205 +1,139 @@
-import {NgIf} from '@angular/common';
-import {Component} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {AsyncPipe, NgIf} from '@angular/common';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {NgbModalRef, NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
-import {EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfts-helper';
+import {n_from, n_isNumeric} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
+import {combineLatest, filter, map, startWith} from 'rxjs';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
-import {ChipInput} from '../../../_shared/ui/chip-input/chip-input.component';
-
-import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
-import {AppBtnModelEditConfirmComponent} from '../../../_shared/ui/form/app-btn-model-edit-confirm.component';
+import {AbstractModelEditComponentV2} from '../../../_shared/ui/form/abstract-model-edit.component-v2';
+import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
+import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
+import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
-import {EventModel} from '../../events/_models/event.model';
+import {CreateWaiterDto, GetWaiterResponse, UpdateWaiterDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
-import {OrganisationModel} from '../../organisations/_models/organisation.model';
 import {OrganisationsService} from '../../organisations/_services/organisations.service';
-
-import {WaiterModel} from '../_models/waiter.model';
-import {WaiterSessionsService} from '../_services/waiter-sessions.service';
 
 import {WaitersService} from '../_services/waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
+import {AppProductEditFormComponent} from './waiter-edit-form.component';
 import {WaiterSessionsComponent} from './waiter-sessions.component';
 
 @Component({
   template: `
-    <div [hidden]="isEditing && !entityLoaded">
-      <h1 *ngIf="isEditing && entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
-      <h1 *ngIf="!isEditing">{{ 'ADD_2' | tr }}</h1>
+    <div *ngIf="entity$ | async as entity; else loading">
+      <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
+      <h1 *isCreating="entity">{{ 'ADD_2' | tr }}</h1>
 
       <btn-toolbar>
         <div>
-          <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
+          <button class="btn btn-sm btn-dark text-white" (click)="onGoBack('/home/waiters/organisation')">{{ 'GO_BACK' | tr }}</button>
         </div>
 
-        <app-btn-model-edit-confirm [form]="f" [editing]="isEditing"></app-btn-model-edit-confirm>
+        <app-model-edit-save-btn
+          (submit)="form?.submit()"
+          [valid]="valid$ | async"
+          [editing]="entity !== 'CREATE'"></app-model-edit-save-btn>
 
-        <ng-container *ngIf="isEditing && entity">
-          <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
-            <i-bs name="trash"></i-bs>
-            {{ 'DELETE' | tr }}
-          </button>
+        <ng-container *isEditing="entity">
+          <div>
+            <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
+              <i-bs name="trash"></i-bs>
+              {{ 'DELETE' | tr }}
+            </button>
+          </div>
 
           <app-btn-waiter-signin-qrcode [token]="entity.signInToken"></app-btn-waiter-signin-qrcode>
         </ng-container>
       </btn-toolbar>
 
-      <form id="ngForm" #f="ngForm" (ngSubmit)="onSave(f)">
-        <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs bg-dark" (navChange)="setTabId($event.nextId)">
-          <li [ngbNavItem]="1">
-            <a ngbNavLink>{{ 'DATA' | tr }}</a>
-            <ng-template ngbNavContent>
-              <div class="row g-3">
-                <div class="form-group col-sm-12 col-md-4 col-lg-5 col-xl-6">
-                  <label for="name">{{ 'NAME' | tr }}</label>
-                  <input
-                    ngModel
-                    class="form-control bg-dark text-white"
-                    required
-                    type="text"
-                    id="name"
-                    name="name"
-                    #nameModel="ngModel"
-                    minlength="3"
-                    maxlength="70"
-                    placeholder="{{ 'NAME' | tr }}"
-                    [ngModel]="isEditing ? entity?.name : null" />
+      <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs bg-dark" (navChange)="navigateToTab($event.nextId)">
+        <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">
+          <a ngbNavLink>{{ 'DATA' | tr }}</a>
+          <ng-template ngbNavContent>
+            <app-waiter-edit-form
+              *ngIf="vm$ | async as vm"
+              #form
+              (formValid)="setValid($event)"
+              (submitUpdate)="submit('UPDATE', $event)"
+              (submitCreate)="submit('CREATE', $event)"
+              [waiter]="entity"
+              [selectedOrganisationId]="vm.selectedOrganisation?.id"
+              [selectedEventId]="vm.selectedEvent?.id"
+              [events]="vm.events" />
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="'SESSIONS'" *isEditing="entity" [destroyOnHide]="true">
+          <a ngbNavLink>{{ 'NAV_USER_SESSIONS' | tr }}</a>
+          <ng-template ngbNavContent>
+            <app-waiter-sessions></app-waiter-sessions>
+          </ng-template>
+        </li>
+      </ul>
 
-                  <small *ngIf="nameModel.invalid" class="text-danger">
-                    {{ 'HOME_WAITERS_EDIT_NAME_INCORRECT' | tr }}
-                  </small>
-                </div>
-
-                <chip-input
-                  class="col-sm-12 col-md-8 col-lg-7 col-xl-6"
-                  placeholder="{{ 'HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER' | tr }}"
-                  label="{{ 'HOME_WAITERS_EDIT_EVENTS' | tr }}"
-                  editable="false"
-                  [models]="selectedEvents"
-                  [allModelsToAutoComplete]="events"
-                  [formatter]="formatter"
-                  (valueChange)="changeSelectedEvents($event)">
-                </chip-input>
-              </div>
-
-              <div class="d-flex flex-column flex-md-row gap-2 gap-md-4 mt-2">
-                <div class="form-check">
-                  <input
-                    ngModel
-                    class="form-check-input"
-                    type="checkbox"
-                    id="activated"
-                    [ngModel]="isEditing ? entity?.activated : null"
-                    name="activated" />
-                  <label class="form-check-label" for="activated">
-                    {{ 'HOME_USERS_ACTIVATED' | tr }}
-                  </label>
-                </div>
-              </div>
-            </ng-template>
-          </li>
-          <li [ngbNavItem]="2" *ngIf="isEditing && entity" [destroyOnHide]="true">
-            <a ngbNavLink>{{ 'NAV_USER_SESSIONS' | tr }}</a>
-            <ng-template ngbNavContent>
-              <app-waiter-sessions></app-waiter-sessions>
-            </ng-template>
-          </li>
-        </ul>
-
-        <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
-      </form>
+      <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
     </div>
 
-    <app-spinner-row [show]="isEditing && !entityLoaded"></app-spinner-row>
+    <ng-template #loading>
+      <app-spinner-row />
+    </ng-template>
   `,
   selector: 'app-waiter-edit',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    AsyncPipe,
     NgIf,
     DfxTr,
-    AppBtnModelEditConfirmComponent,
-    AppBtnToolbarComponent,
-    AppIconsModule,
-    BtnWaiterSignInQrCodeComponent,
-    FormsModule,
     NgbNav,
     NgbNavItem,
     NgbNavLink,
     NgbNavContent,
-    ChipInput,
-    AppSpinnerRowComponent,
     NgbNavOutlet,
     WaiterSessionsComponent,
+    AppIconsModule,
+    AppBtnToolbarComponent,
+    BtnWaiterSignInQrCodeComponent,
+    AppIsEditingDirective,
+    AppSpinnerRowComponent,
+    AppIsCreatingDirective,
+    AppModelEditSaveBtn,
+    AppProductEditFormComponent,
   ],
-  standalone: true,
 })
-export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel> {
+export class WaiterEditComponent extends AbstractModelEditComponentV2<
+  CreateWaiterDto,
+  UpdateWaiterDto,
+  GetWaiterResponse,
+  'DATA' | 'SESSIONS'
+> {
+  defaultTab = 'DATA' as const;
   override redirectUrl = '/home/waiters/organisation';
-  override onlyEditingTabs = [2];
+  override onlyEditingTabs = ['SESSIONS' as const];
 
-  selectedOrganisation: OrganisationModel | undefined;
-  events: IEntityList<EventModel> = new EntityList();
-  selectedEvents: IEntityList<IEntityWithNumberIDAndName> = new EntityList();
+  vm$ = combineLatest([
+    this.route.queryParams.pipe(
+      map((params) => params.group),
+      filter(n_isNumeric),
+      map((id) => n_from(id)),
+      startWith(undefined)
+    ),
+    this.organisationsService.getSelected$,
+    this.eventsService.getSelected$,
+    this.eventsService.getAll$(),
+  ]).pipe(
+    map(([selectedWaiterId, selectedOrganisation, selectedEvent, events]) => ({
+      selectedWaiterId,
+      selectedOrganisation,
+      selectedEvent,
+      events,
+    }))
+  );
 
   qrCodeModal: NgbModalRef | undefined;
 
-  constructor(
-    waitersService: WaitersService,
-    private waiterSessionService: WaiterSessionsService,
-    public eventsService: EventsService,
-    private organisationsService: OrganisationsService
-  ) {
+  constructor(waitersService: WaitersService, public eventsService: EventsService, private organisationsService: OrganisationsService) {
     super(waitersService);
-
-    this.events = this.eventsService.getAll();
-    this.selectedOrganisation = this.organisationsService.getSelected();
-
-    this.unsubscribe(
-      this.eventsService.allChange.subscribe((it) => {
-        this.events = it;
-        if (this.isEditing && this.entity) {
-          this.onEntityEdit(this.entity);
-        }
-      }),
-      this.organisationsService.getSelected$.subscribe((it) => (this.selectedOrganisation = it))
-    );
   }
-
-  override onEntityCreate(): void {
-    if (!this.isEditing) {
-      console.log('Adding selected model if selected....');
-      this.selectedEvents.add(this.eventsService.getSelected());
-      this.unsubscribe(this.eventsService.getSelected$.subscribe((it) => this.selectedEvents.addIfAbsent(it)));
-    }
-  }
-
-  override onEntityEdit(waiter: WaiterModel): void {
-    this.waiterSessionService.setGetAllWaiterId(waiter.id);
-    const selected = [];
-    for (const event of this.events) {
-      if (waiter.events.map((it) => it.id).includes(event.id)) {
-        selected.push(event);
-      }
-    }
-    this.selectedEvents.set(selected);
-    this.lumber.log('onEntityEdit', 'Mapped waiter events into selectedEvents');
-    this.lumber.log('onEntityEdit', 'Waiter events', waiter.events);
-
-    if (this.qrCodeModal) {
-      this.qrCodeModal.componentInstance.token = waiter.signInToken;
-    }
-  }
-
-  override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
-    model.organisationId = this.selectedOrganisation?.id;
-    model.eventIds = this.selectedEvents.map((event) => event.id);
-    return model;
-  }
-
-  formatter = (it: unknown): string => (it as IEntityWithNumberIDAndName).name;
-
-  changeSelectedEvents = (selectedEvents: any[]): void => {
-    this.selectedEvents = new EntityList(selectedEvents);
-  };
 }

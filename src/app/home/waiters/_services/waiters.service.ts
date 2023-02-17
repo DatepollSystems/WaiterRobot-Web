@@ -1,32 +1,59 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {AbstractModelService} from '../../../_shared/services/abstract-model.service';
+import {s_from} from 'dfts-helper';
+import {BehaviorSubject, Observable, switchMap} from 'rxjs';
+import {tap} from 'rxjs/operators';
+import {
+  HasCreateWithIdResponse,
+  HasDelete,
+  HasGetAll,
+  HasGetByParent,
+  HasGetSingle,
+  HasUpdateWithIdResponse,
+} from '../../../_shared/services/abstract-entity.service';
 
-import {GetWaiterResponse} from '../../../_shared/waiterrobot-backend';
-import {OrganisationsService} from '../../organisations/_services/organisations.service';
-
-import {WaiterModel} from '../_models/waiter.model';
+import {CreateWaiterDto, GetWaiterResponse, IdResponse, UpdateWaiterDto} from '../../../_shared/waiterrobot-backend';
+import {EventModel} from '../../events/_models/event.model';
 
 @Injectable({providedIn: 'root'})
-export class WaitersService extends AbstractModelService<WaiterModel> {
-  override url = '/config/waiter';
+export class WaitersService
+  implements
+    HasGetAll<GetWaiterResponse>,
+    HasGetByParent<GetWaiterResponse, EventModel>,
+    HasGetSingle<GetWaiterResponse>,
+    HasCreateWithIdResponse<CreateWaiterDto>,
+    HasUpdateWithIdResponse<UpdateWaiterDto>,
+    HasDelete<GetWaiterResponse>
+{
+  url = '/config/waiter';
 
-  constructor(httpService: HttpClient, private organisationService: OrganisationsService) {
-    super(httpService);
-    this.setGetAllParams([{key: 'organisationId', value: this.organisationService.getSelected()?.id}]);
-    this.organisationService.getSelected$.subscribe((org) => {
-      if (org) {
-        this.setGetAllParams([{key: 'organisationId', value: org.id}]);
-        this.getAll();
-      }
-    });
+  constructor(private httpClient: HttpClient) {}
+
+  triggerGet$ = new BehaviorSubject(true);
+
+  getAll$(): Observable<GetWaiterResponse[]> {
+    return this.triggerGet$.pipe(switchMap(() => this.httpClient.get<GetWaiterResponse[]>(this.url)));
   }
 
-  public setSelectedOrganisationGetAllUrl(): void {
-    this.setGetAllParams([{key: 'organisationId', value: this.organisationService.getSelected()?.id}]);
+  getSingle$(id: number): Observable<GetWaiterResponse> {
+    return this.httpClient.get<GetWaiterResponse>(`${this.url}/${s_from(id)}`);
   }
 
-  protected convert(data: any): WaiterModel {
-    return new WaiterModel(data as GetWaiterResponse);
+  getByParent$(id: number): Observable<GetWaiterResponse[]> {
+    return this.triggerGet$.pipe(
+      switchMap(() => this.httpClient.get<GetWaiterResponse[]>(this.url, {params: new HttpParams().set('eventId', id)}))
+    );
+  }
+
+  create$(dto: CreateWaiterDto): Observable<IdResponse> {
+    return this.httpClient.post<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
+  }
+
+  update$(dto: UpdateWaiterDto): Observable<IdResponse> {
+    return this.httpClient.put<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
+  }
+
+  delete$(id: number): Observable<unknown> {
+    return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(tap(() => this.triggerGet$.next(true)));
   }
 }
