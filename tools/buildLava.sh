@@ -22,4 +22,4 @@ trap reset_version EXIT
 sed -i "s/\"version\": \"$current_version\"/\"version\": \"$new_version\"/" package.json
 
 # Execute your other script here
-rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --configuration lava && cp ./LICENSE ./dist/WaiterRobot-Web/ && npm run postbuild
+npm run build:lava

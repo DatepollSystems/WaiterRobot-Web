@@ -58,6 +58,6 @@ export class AppBtnQrCodeComponent {
   constructor(private qrCodeService: QrCodeService) {}
 
   openQrCode(): void {
-    this.qrCodeService.openQRCodePage({data: this.data!, text: this.text, info: this.info});
+    this.qrCodeService.openQRCodePage({data: this.data ?? 'ERROR', text: this.text, info: this.info});
   }
 }
