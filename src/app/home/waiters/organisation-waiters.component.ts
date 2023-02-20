@@ -16,6 +16,7 @@ import {GetWaiterResponse} from '../../_shared/waiterrobot-backend';
 import {OrganisationsService} from '../organisations/_services/organisations.service';
 import {OrganisationWaitersService} from './_services/organisation-waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
+import {QrCodeService} from '../../_shared/services/qr-code.service';
 
 @Component({
   template: `
@@ -109,7 +110,19 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
         <ng-container ngbColumnDef="actions">
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let waiter" ngb-cell>
-            <app-btn-waiter-signin-qrcode [token]="waiter.signInToken" />
+            <button
+              type="button"
+              class="btn btn-sm m-1 btn-outline-info text-white"
+              ngbTooltip="{{ 'HOME_WAITERS_EDIT_QR_CODE' | tr }}"
+              (click)="
+                qrCodeService.openQRCodePage({
+                  data: waiter.signInToken,
+                  text: 'HOME_WAITERS_EDIT_QR_CODE',
+                  info: 'HOME_WAITERS_EDIT_QR_CODE_DESCRIPTION'
+                })
+              ">
+              <i-bs name="qr-code" class="me-1"></i-bs>
+            </button>
             <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ waiter.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
               <i-bs name="pencil-square"></i-bs>
             </a>
@@ -153,7 +166,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
 export class OrganisationWaitersComponent extends AbstractModelsWithNameListWithDeleteComponent<GetWaiterResponse> {
   selectedOrganisation$ = inject(OrganisationsService).getSelected$;
 
-  constructor(protected entitiesService: OrganisationWaitersService) {
+  constructor(entitiesService: OrganisationWaitersService, public qrCodeService: QrCodeService) {
     super(entitiesService);
 
     this.columnsToDisplay = ['name', 'activated', 'events', 'actions'];

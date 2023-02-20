@@ -18,6 +18,7 @@ import {EventsService} from '../events/_services/events.service';
 import {WaitersService} from './_services/waiters.service';
 import {BtnWaiterCreateQrCodeComponent} from '../../_shared/ui/btn-waiter-create-qr-code.component';
 import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
+import {QrCodeService} from '../../_shared/services/qr-code.service';
 
 @Component({
   template: `
@@ -101,7 +102,19 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
         <ng-container ngbColumnDef="actions">
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let waiter" ngb-cell>
-            <app-btn-waiter-signin-qrcode [token]="waiter.signInToken" />
+            <button
+              type="button"
+              class="btn btn-sm m-1 btn-outline-info text-white"
+              ngbTooltip="{{ 'HOME_WAITERS_EDIT_QR_CODE' | tr }}"
+              (click)="
+                qrCodeService.openQRCodePage({
+                  data: waiter.signInToken,
+                  text: 'HOME_WAITERS_EDIT_QR_CODE',
+                  info: 'HOME_WAITERS_EDIT_QR_CODE_DESCRIPTION'
+                })
+              ">
+              <i-bs name="qr-code" class="me-1"></i-bs>
+            </button>
             <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../../{{ waiter.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
               <i-bs name="pencil-square"></i-bs>
             </a>
@@ -144,7 +157,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
   ],
 })
 export class EventByIdWaitersComponent extends AbstractModelsWithNameListByIdComponent<GetWaiterResponse, EventModel> {
-  constructor(waitersService: WaitersService, eventsService: EventsService) {
+  constructor(waitersService: WaitersService, eventsService: EventsService, public qrCodeService: QrCodeService) {
     super(waitersService, eventsService);
 
     this.columnsToDisplay = ['name', 'activated', 'events', 'actions'];
