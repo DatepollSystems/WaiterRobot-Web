@@ -14,7 +14,7 @@ import {AppSelectableButtonComponent} from '../../../_shared/ui/app-selectable-b
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {OrganisationsService} from '../../organisations/_services/organisations.service';
-import {BtnWaiterCreateQrCodeComponent} from '../../waiters/_shared/btn-waiter-create-qr-code.component';
+import {BtnWaiterCreateQrCodeComponent} from '../../../_shared/ui/btn-waiter-create-qr-code.component';
 
 import {EventModel} from '../_models/event.model';
 

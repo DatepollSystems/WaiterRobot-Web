@@ -16,7 +16,8 @@ import {EventModel} from '../events/_models/event.model';
 import {EventsService} from '../events/_services/events.service';
 
 import {WaitersService} from './_services/waiters.service';
-import {BtnWaiterCreateQrCodeComponent} from './_shared/btn-waiter-create-qr-code.component';
+import {BtnWaiterCreateQrCodeComponent} from '../../_shared/ui/btn-waiter-create-qr-code.component';
+import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
 
 @Component({
   template: `
@@ -100,6 +101,7 @@ import {BtnWaiterCreateQrCodeComponent} from './_shared/btn-waiter-create-qr-cod
         <ng-container ngbColumnDef="actions">
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let waiter" ngb-cell>
+            <app-btn-waiter-signin-qrcode [token]="waiter.signInToken" />
             <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../../{{ waiter.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
               <i-bs name="pencil-square"></i-bs>
             </a>
@@ -138,6 +140,7 @@ import {BtnWaiterCreateQrCodeComponent} from './_shared/btn-waiter-create-qr-cod
     AppSpinnerRowComponent,
     AppIconsModule,
     AppBtnToolbarComponent,
+    BtnWaiterSignInQrCodeComponent,
   ],
 })
 export class EventByIdWaitersComponent extends AbstractModelsWithNameListByIdComponent<GetWaiterResponse, EventModel> {

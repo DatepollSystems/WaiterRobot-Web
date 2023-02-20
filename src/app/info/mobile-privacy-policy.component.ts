@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 @Component({
   template: `
@@ -158,6 +158,7 @@ import {Component} from '@angular/core';
     <h3>Android</h3>
   `,
   selector: 'app-mobile-privacy-policy',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class MobilePrivacyPolicyComponent {}

@@ -1,41 +1,40 @@
-import {NgIf} from '@angular/common';
-import {Component} from '@angular/core';
+import {AsyncPipe, NgIf} from '@angular/common';
+import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 import {FormsModule, NgForm} from '@angular/forms';
 import {s_isEmail} from 'dfts-helper';
 
-import {AComponent} from 'dfx-helper';
+import {NgSub, WINDOW} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
 import {NotificationService} from '../../../notifications/notification.service';
 
 import {UserSettingsService} from '../_services/user-settings.service';
+import {BehaviorSubject, map} from 'rxjs';
 
 @Component({
   selector: 'app-user-settings-sub',
   templateUrl: './user-settings-sub.component.html',
-  imports: [FormsModule, NgIf, DfxTr],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormsModule, NgIf, DfxTr, AsyncPipe, NgSub],
   standalone: true,
 })
-export class UserSettingsSubComponent extends AComponent {
+export class UserSettingsSubComponent {
   newPasswordsMatch = false;
   newPassword = '';
   newPasswordAgain = '';
 
-  emailAddressValid = true;
-  emailAddress: string | undefined = '';
+  emailAddressValid$ = new BehaviorSubject(true);
+  emailAddress$ = this.myUserService.getUser$().pipe(map((u) => u.emailAddress));
 
   constructor(
-    myUserService: MyUserService,
+    private myUserService: MyUserService,
+    @Inject(WINDOW) window: Window | undefined,
     private notificationService: NotificationService,
     private userSettingsService: UserSettingsService
-  ) {
-    super();
-
-    this.unsubscribe(myUserService.getUser$().subscribe((it) => (this.emailAddress = it.emailAddress)));
-  }
+  ) {}
 
   emailChange(email: string): void {
-    this.emailAddressValid = s_isEmail(email);
+    this.emailAddressValid$.next(s_isEmail(email));
   }
 
   changeEmail(form: NgForm): void {
@@ -56,11 +55,9 @@ export class UserSettingsSubComponent extends AComponent {
       if (this.newPasswordsMatch) {
         if (this.newPassword.toLowerCase() === 'do the barrel roll') {
           document.getElementById('body')?.classList.add('roll');
-          this.clearTimeout(
-            window.setTimeout(() => {
-              document.getElementById('body')?.classList.remove('roll');
-            }, 4100)
-          );
+          window?.setTimeout(() => {
+            document.getElementById('body')?.classList.remove('roll');
+          }, 4100);
         }
       }
     }

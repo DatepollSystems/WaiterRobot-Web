@@ -3,7 +3,7 @@ import {inject, Injectable} from '@angular/core';
 import {BehaviorSubject, map, Observable, of, switchMap} from 'rxjs';
 import {HasDelete, HasGetAll, HasGetByParent} from '../../../_shared/services/abstract-entity.service';
 import {GetWaiterResponse, SessionResponse} from '../../../_shared/waiterrobot-backend';
-import {SessionModel} from '../../user-settings/_models/session.model';
+import {SessionModel} from '../../../_shared/model/session.model';
 
 @Injectable({providedIn: 'root'})
 export class WaiterSessionsService

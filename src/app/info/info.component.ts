@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
 import {DfxTr} from 'dfx-translate';
@@ -41,6 +41,7 @@ import {DfxTr} from 'dfx-translate';
   ],
   selector: 'app-info',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FooterModule, RouterLink, RouterOutlet, RouterLinkActive, DfxTr],
 })
 export class InfoComponent {}

@@ -15,6 +15,7 @@ import {GetWaiterResponse} from '../../_shared/waiterrobot-backend';
 
 import {OrganisationsService} from '../organisations/_services/organisations.service';
 import {OrganisationWaitersService} from './_services/organisation-waiters.service';
+import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
 
 @Component({
   template: `
@@ -36,12 +37,12 @@ import {OrganisationWaitersService} from './_services/organisation-waiters.servi
           </button>
         </div>
 
-        <div>
-          <a routerLink="./duplicates" class="btn btn-sm btn-outline-secondary">
-            <i-bs name="person-bounding-box"></i-bs>
-            {{ 'HOME_WAITERS_DUPLICATES' | tr }}</a
-          >
-        </div>
+        <!--        <div>-->
+        <!--          <a routerLink="./duplicates" class="btn btn-sm btn-outline-secondary">-->
+        <!--            <i-bs name="person-bounding-box"></i-bs>-->
+        <!--            {{ 'HOME_WAITERS_DUPLICATES' | tr }}</a-->
+        <!--          >-->
+        <!--        </div>-->
       </btn-toolbar>
     </ng-container>
 
@@ -108,6 +109,7 @@ import {OrganisationWaitersService} from './_services/organisation-waiters.servi
         <ng-container ngbColumnDef="actions">
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let waiter" ngb-cell>
+            <app-btn-waiter-signin-qrcode [token]="waiter.signInToken" />
             <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ waiter.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
               <i-bs name="pencil-square"></i-bs>
             </a>
@@ -145,6 +147,7 @@ import {OrganisationWaitersService} from './_services/organisation-waiters.servi
     AppBtnToolbarComponent,
     AppIconsModule,
     AppSpinnerRowComponent,
+    BtnWaiterSignInQrCodeComponent,
   ],
 })
 export class OrganisationWaitersComponent extends AbstractModelsWithNameListWithDeleteComponent<GetWaiterResponse> {

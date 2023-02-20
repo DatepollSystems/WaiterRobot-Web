@@ -16,7 +16,7 @@ import {EventsService} from '../../events/_services/events.service';
 import {OrganisationsService} from '../../organisations/_services/organisations.service';
 
 import {WaitersService} from '../_services/waiters.service';
-import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
+import {BtnWaiterSignInQrCodeComponent} from '../btn-waiter-sign-in-qr-code.component';
 import {AppProductEditFormComponent} from './waiter-edit-form.component';
 import {WaiterSessionsComponent} from './waiter-sessions.component';
 

@@ -1,4 +1,5 @@
 import {Routes} from '@angular/router';
+import {ROUTES as ROUTES1} from './mobile-link/mobile-link.routes';
 
 export const ROUTES: Routes = [
   {path: '', redirectTo: '/about', pathMatch: 'full'},
@@ -7,7 +8,7 @@ export const ROUTES: Routes = [
   {path: 'home', loadChildren: () => import('./home/home.routes').then((m) => m.ROUTES)},
   {
     path: 'ml',
-    loadChildren: () => import('./mobile-link/mobile-link.component').then((m) => m.ROUTES),
+    loadChildren: () => import('./mobile-link/mobile-link.component').then((m) => ROUTES1),
   },
   {
     path: 'not-found',

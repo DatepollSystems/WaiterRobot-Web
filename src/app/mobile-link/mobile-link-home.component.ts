@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {DfxTranslateModule} from 'dfx-translate';
 import {AppDownloadBtnListComponent} from '../_shared/ui/app-download-btn-list.component';
 
@@ -11,6 +11,7 @@ import {AppDownloadBtnListComponent} from '../_shared/ui/app-download-btn-list.c
   `,
   standalone: true,
   selector: 'app-mobile-link-home',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AppDownloadBtnListComponent, DfxTranslateModule],
 })
 export class MobileLinkHomeComponent {}

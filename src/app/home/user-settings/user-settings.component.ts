@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
-import {NgxBootstrapIconsModule} from 'ngx-bootstrap-icons';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {DfxTr} from 'dfx-translate';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
 
 @Component({
   template: `
@@ -20,7 +20,8 @@ import {DfxTr} from 'dfx-translate';
     </entities-layout-component>
   `,
   selector: 'app-user-settings',
-  imports: [NgxBootstrapIconsModule, RouterLink, RouterLinkActive, DfxTr, AppEntitiesLayoutComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink, RouterLinkActive, DfxTr, AppEntitiesLayoutComponent, AppIconsModule],
   standalone: true,
 })
 export class UserSettingsComponent {}

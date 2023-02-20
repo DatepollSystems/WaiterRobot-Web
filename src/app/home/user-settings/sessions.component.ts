@@ -1,17 +1,16 @@
-import {DatePipe, NgIf} from '@angular/common';
-import {Component} from '@angular/core';
+import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
-
-import {AbstractModelsListComponent} from '../../_shared/ui/abstract-models-list.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {SessionModel} from './_models/session.model';
+import {SessionModel} from '../../_shared/model/session.model';
 import {UserSessionsService} from './_services/user-sessions.service';
+import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 
 @Component({
   template: `
@@ -19,16 +18,14 @@ import {UserSessionsService} from './_services/user-sessions.service';
 
     <btn-toolbar>
       <div>
-        <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection!.hasValue()" (click)="onDeleteSelected()">
+        <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
           <i-bs name="trash"></i-bs>
           {{ 'DELETE' | tr }}
         </button>
       </div>
     </btn-toolbar>
 
-    <app-spinner-row [show]="!entitiesLoaded"></app-spinner-row>
-
-    <form [hidden]="!entitiesLoaded">
+    <form>
       <div class="input-group">
         <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
         <button
@@ -37,14 +34,14 @@ import {UserSessionsService} from './_services/user-sessions.service';
           ngbTooltip="{{ 'CLEAR' | tr }}"
           placement="bottom"
           (click)="filter.reset()"
-          *ngIf="filter?.value?.length > 0">
+          *ngIf="(filter.value?.length ?? 0) > 0">
           <i-bs name="x-circle-fill"></i-bs>
         </button>
       </div>
     </form>
 
-    <div class="table-responsive" [hidden]="!entitiesLoaded">
-      <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="updatedAt" ngbSortDirection="desc">
+    <div class="table-responsive">
+      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="updatedAt" ngbSortDirection="desc">
         <ng-container ngbColumnDef="select">
           <th *ngbHeaderCellDef ngb-header-cell>
             <div class="form-check">
@@ -53,7 +50,7 @@ import {UserSessionsService} from './_services/user-sessions.service';
                 type="checkbox"
                 name="checked"
                 (change)="$event ? toggleAllRows() : null"
-                [checked]="selection!.hasValue() && isAllSelected()" />
+                [checked]="selection.hasValue() && isAllSelected()" />
             </div>
           </th>
           <td *ngbCellDef="let selectable" ngb-cell>
@@ -63,8 +60,8 @@ import {UserSessionsService} from './_services/user-sessions.service';
                 type="checkbox"
                 name="checked"
                 (click)="$event.stopPropagation()"
-                (change)="$event ? selection!.toggle(selectable) : null"
-                [checked]="selection!.isSelected(selectable)" />
+                (change)="$event ? selection.toggle(selectable) : null"
+                [checked]="selection.isSelected(selectable)" />
             </div>
           </td>
         </ng-container>
@@ -99,16 +96,20 @@ import {UserSessionsService} from './_services/user-sessions.service';
         </ng-container>
 
         <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-        <tr *ngbRowDef="let table; columns: columnsToDisplay" ngb-row></tr>
+        <tr *ngbRowDef="let session; columns: columnsToDisplay" ngb-row></tr>
       </table>
     </div>
+
+    <app-spinner-row *ngIf="isLoading" />
   `,
   selector: 'app-sessions',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    DatePipe,
     ReactiveFormsModule,
+    AsyncPipe,
+    DatePipe,
+    NgIf,
     NgbTooltipModule,
     DfxTableModule,
     DfxSortModule,
@@ -118,12 +119,10 @@ import {UserSessionsService} from './_services/user-sessions.service';
     AppBtnToolbarComponent,
   ],
 })
-export class SessionsComponent extends AbstractModelsListComponent<SessionModel> {
-  override columnsToDisplay = ['name', 'registeredAt', 'updatedAt', 'actions'];
-
+export class SessionsComponent extends AbstractModelsWithNameListWithDeleteComponent<SessionModel> {
   constructor(sessionsService: UserSessionsService) {
     super(sessionsService);
 
-    this.setSelectable();
+    this.columnsToDisplay = ['name', 'registeredAt', 'updatedAt', 'actions'];
   }
 }

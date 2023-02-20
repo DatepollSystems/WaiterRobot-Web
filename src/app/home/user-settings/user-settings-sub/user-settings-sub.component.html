@@ -5,7 +5,7 @@
     <div class="card-body">
       <h4 class="card-title">{{ 'HOME_USERSETTINGS_USER_SETTINGS_EMAIL' | tr }}</h4>
       <h6 class="card-subtitle mb-2">{{ 'HOME_USERSETTINGS_USER_SETTINGS_EMAIL_SUBTITLE' | tr }}</h6>
-      <form #emailForm="ngForm" (ngSubmit)="changeEmail(emailForm)">
+      <form #emailForm="ngForm" (ngSubmit)="changeEmail(emailForm)" *ngSub="emailAddressValid$; let emailAddressValid">
         <div class="d-flex flex-column card-text mb-3">
           <div>
             <div class="form-group col-12 col-md-3">
@@ -18,7 +18,7 @@
                 #emailModel="ngModel"
                 (ngModelChange)="emailChange($event)"
                 name="email"
-                [(ngModel)]="emailAddress" />
+                [ngModel]="emailAddress$ | async" />
               <small *ngIf="emailModel.invalid || !emailAddressValid" class="text-danger">
                 {{ 'HOME_USERS_EMAIL_INCORRECT' | tr }}
               </small>

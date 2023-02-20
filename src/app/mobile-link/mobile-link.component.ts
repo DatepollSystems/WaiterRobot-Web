@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {RouterOutlet, Routes} from '@angular/router';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
 import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
 
@@ -20,23 +20,7 @@ import {FooterModule} from '../_shared/ui/footer/footer.module';
   styleUrls: ['../about/about.component.scss'],
   selector: 'app-mobile-link',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AppLogoWithTextComponent, FooterModule, RouterOutlet],
 })
 export class MobileLinkComponent {}
-
-export const ROUTES: Routes = [
-  {
-    path: '',
-    component: MobileLinkComponent,
-    children: [
-      {
-        path: 't/:id',
-        loadComponent: () => import('./mobile-link-table.component').then((m) => m.MobileLinkTableComponent),
-      },
-      {
-        path: '**',
-        loadComponent: () => import('./mobile-link-home.component').then((m) => m.MobileLinkHomeComponent),
-      },
-    ],
-  },
-];

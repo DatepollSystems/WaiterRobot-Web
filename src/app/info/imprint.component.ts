@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {DfxTr} from 'dfx-translate';
 
 @Component({
@@ -21,6 +21,7 @@ import {DfxTr} from 'dfx-translate';
     </ul>
   `,
   selector: 'app-imprint',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DfxTr],
   standalone: true,
 })

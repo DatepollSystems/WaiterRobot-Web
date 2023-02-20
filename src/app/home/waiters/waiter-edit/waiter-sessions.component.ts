@@ -9,7 +9,7 @@ import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-ro
 import {AbstractModelsWithNameListByIdComponent} from '../../../_shared/ui/models-list-by-id/abstract-models-with-name-list-by-id.component';
 import {GetWaiterResponse} from '../../../_shared/waiterrobot-backend';
 
-import {SessionModel} from '../../user-settings/_models/session.model';
+import {SessionModel} from '../../../_shared/model/session.model';
 import {WaiterSessionsService} from '../_services/waiter-sessions.service';
 import {WaitersService} from '../_services/waiters.service';
 
@@ -93,7 +93,7 @@ import {WaitersService} from '../_services/waiters.service';
         </ng-container>
 
         <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-        <tr *ngbRowDef="let table; columns: columnsToDisplay" ngb-row></tr>
+        <tr *ngbRowDef="let session; columns: columnsToDisplay" ngb-row></tr>
       </table>
     </div>
 
@@ -103,16 +103,16 @@ import {WaitersService} from '../_services/waiters.service';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgbTooltip,
-    NgIf,
-    AppIconsModule,
     ReactiveFormsModule,
-    AppSpinnerRowComponent,
+    DatePipe,
+    AsyncPipe,
+    NgIf,
+    NgbTooltip,
     DfxTableModule,
     DfxSortModule,
-    DatePipe,
     DfxTr,
-    AsyncPipe,
+    AppIconsModule,
+    AppSpinnerRowComponent,
   ],
 })
 export class WaiterSessionsComponent extends AbstractModelsWithNameListByIdComponent<SessionModel, GetWaiterResponse> {

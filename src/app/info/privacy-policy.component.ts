@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {DfxTr} from 'dfx-translate';
 
 @Component({
@@ -77,6 +77,7 @@ import {DfxTr} from 'dfx-translate';
     <p>Solltest du noch irgendwelche Fragen haben, melde dich einfach bei der Kontakt-Email Adresse.</p>
   `,
   selector: 'app-privacy-policy',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DfxTr],
   standalone: true,
 })

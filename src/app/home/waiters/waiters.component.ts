@@ -1,5 +1,5 @@
 import {AsyncPipe, NgIf} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {DfxTr} from 'dfx-translate';
 
@@ -37,6 +37,7 @@ import {OrganisationsService} from '../organisations/_services/organisations.ser
   `,
   selector: 'app-waiters',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AsyncPipe, RouterLink, RouterLinkActive, NgIf, DfxTr, AppIconsModule, AppEntitiesLayoutComponent, AppListNavItemsComponent],
 })
 export class WaitersComponent {

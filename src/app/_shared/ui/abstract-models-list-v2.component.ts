@@ -3,7 +3,7 @@ import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {IHasID, loggerOf} from 'dfts-helper';
+import {loggerOf} from 'dfts-helper';
 import {NgbPaginator, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {catchError, combineLatest, filter, Observable, of, startWith, switchMap, tap, throwError} from 'rxjs';
 import {HasGetAll, notNullAndUndefined} from '../services/abstract-entity.service';
@@ -11,7 +11,7 @@ import {HasGetAll, notNullAndUndefined} from '../services/abstract-entity.servic
 @Component({
   template: '',
 })
-export abstract class AbstractModelsListV2Component<EntityType extends IHasID<EntityType['id']>> implements AfterViewInit {
+export abstract class AbstractModelsListV2Component<EntityType> implements AfterViewInit {
   protected lumber = loggerOf('AModelsListComponentV2');
 
   protected router = inject(Router);
@@ -25,9 +25,11 @@ export abstract class AbstractModelsListV2Component<EntityType extends IHasID<En
   get columnsToDisplay(): string[] {
     return this._columnsToDisplay;
   }
+
   set columnsToDisplay(it: string[]) {
     this._columnsToDisplay = it;
   }
+
   _columnsToDisplay: string[] = [];
 
   protected sortingDataAccessors?: Map<string, (it: EntityType) => any>;
