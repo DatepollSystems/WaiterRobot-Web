@@ -41,7 +41,8 @@ jobs:
       - name: build
         run: |
           pnpm ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
-          pnpm build:testing
+          chmod +x ./tools/buildLava.sh
+          ./tools/buildLava.sh
 
       - uses: actions/upload-artifact@master
         name: create ${{ matrix.lib }} artifact
@@ -65,14 +66,14 @@ jobs:
         run: |
           cd dist/
           ls -la
-          zip -r WaiterRobot-Web-testing.zip ./WaiterRobot-Web >> /dev/null
+          zip -r WaiterRobot-Web-lava.zip ./WaiterRobot-Web >> /dev/null
           cd -
 
       - name: copy build to release server
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: ./dist/WaiterRobot-Web-testing.zip
-          remote: /var/www/datepoll-share/WaiterRobot/Web-Releases/WaiterRobot-Web-testing.zip
+          local: ./dist/WaiterRobot-Web-lava.zip
+          remote: /var/www/datepoll-share/WaiterRobot/Web-Releases/WaiterRobot-Web-lava.zip
           host: ${{ secrets.RELEASES_SSH_HOST }}
           port: ${{ secrets.RELEASES_SSH_PORT }}
           username: ${{ secrets.RELEASES_SSH_USER }}
@@ -85,4 +86,4 @@ jobs:
           username: ${{ secrets.DEMO_SSH_USER }}
           key: ${{ secrets.DEMO_SSH_PRIVATE_KEY }}
           port: ${{ secrets.DEMO_SSH_PORT }}
-          script: cd /opt/waiterrobot-web && ./frontend.sh -v dev -f
+          script: cd /opt/waiterrobot-web && ./frontend.sh -v lava -f

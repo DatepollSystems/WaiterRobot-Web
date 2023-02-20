@@ -17,7 +17,7 @@ UNDERLINE='\033[4m'
 RESET='\033[0m' # Reset color and formatting
 
 # Define variables
-SCRIPT_VERSION='1.1.1'
+SCRIPT_VERSION='2.0.0'
 VERSION=latest
 FORCE=false
 
@@ -33,7 +33,7 @@ _clearTempDir=true
 printHelp() {
   printf "${BOLD}${UNDERLINE}WaiterRobot-Web installation help${RESET} (${GREEN}v${SCRIPT_VERSION})${RESET}\n"
   printf "Usage: ./frontend.sh -v [version] -f -s\n"
-  printf "  -v ['dev', 'rc']    (optional) select a specific version to install\n"
+  printf "  -v ['lava', 'rc']    (optional) select a specific version to install\n"
   printf "  -f                  (optional) force install without asking questions\n"
   printf "  -s                  (optional) skip deletion of temporary folder after run\n"
   _success=true
@@ -57,8 +57,8 @@ while getopts "v:fsh" opt; do
     printf "  ${BOLD}-v was triggered, with parameter $OPTARG ${RESET}\n"
     if [ "$OPTARG" = "rc" ]; then
       VERSION=rc
-    elif [ "$OPTARG" = "dev" ]; then
-      VERSION=testing
+    elif [ "$OPTARG" = "lava" ]; then
+      VERSION=lava
     else
       printHelp
     fi
