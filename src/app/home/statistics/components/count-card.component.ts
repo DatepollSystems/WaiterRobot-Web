@@ -1,5 +1,5 @@
 import {NumberInput} from '@angular/cdk/coercion';
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 @Component({
   template: `
@@ -23,6 +23,7 @@ import {Component, Input} from '@angular/core';
     `,
   ],
   selector: 'app-statistics-count-card',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CountCardComponent {
   @Input() count: NumberInput;

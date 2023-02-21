@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 @Component({
   template: `
@@ -12,5 +12,6 @@ import {Component} from '@angular/core';
     </entities-layout-component>
   `,
   selector: 'app-statistics',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatisticsComponent {}

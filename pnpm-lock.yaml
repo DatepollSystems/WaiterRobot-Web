@@ -38,7 +38,7 @@ specifiers:
   bootstrap: 5.2.3
   dfts-helper: 0.0.9
   dfx-bootstrap-table: 1.4.0
-  dfx-helper: 5.0.5
+  dfx-helper: 5.0.6
   dfx-translate: 2.0.4
   eslint: 8.34.0
   eslint-config-prettier: 8.6.0
@@ -89,7 +89,7 @@ dependencies:
   bootstrap: 5.2.3_@popperjs+core@2.11.6
   dfts-helper: 0.0.9_tslib@2.5.0
   dfx-bootstrap-table: 1.4.0_c62vyocwmciatnismx6lgd7zh4
-  dfx-helper: 5.0.5_axslbt2kqb6midv6bpumgjt6zq
+  dfx-helper: 5.0.6_axslbt2kqb6midv6bpumgjt6zq
   dfx-translate: 2.0.4_vzucq2bjt7qxwdnmdnnvw5vdsu
   html-to-image: 1.10.8
   jspdf: 2.5.1
@@ -4187,8 +4187,8 @@ packages:
       tslib: 2.5.0
     dev: false
 
-  /dfx-helper/5.0.5_axslbt2kqb6midv6bpumgjt6zq:
-    resolution: {integrity: sha512-kvkVYJVDa8h2JtGdputlYTc2UJHeruYbMzuoO7Mvn6sPfsS+XDerppbBAkSIAt1VE4/RnMZUYLgyKVt4PSwL5g==}
+  /dfx-helper/5.0.6_axslbt2kqb6midv6bpumgjt6zq:
+    resolution: {integrity: sha512-tLpSVXW9A6YPspchcdC1UKvJIUozrK/P92nlTM+1w0fDMynWSP6vqkgzo3DaFY+82Yc8q8W+edpORnY+5j3LWQ==}
     peerDependencies:
       '@angular/cdk': 9 - 15
       '@angular/common': 9 - 15

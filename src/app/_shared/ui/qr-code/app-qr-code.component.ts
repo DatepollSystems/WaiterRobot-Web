@@ -8,6 +8,7 @@ import {DfxCutPipe, IsMobileService, WINDOW} from 'dfx-helper';
 import {DfxTr, dfxTranslate} from 'dfx-translate';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
+import {tap} from 'rxjs/operators';
 import {qrCodeData, QrCodeService} from '../../services/qr-code.service';
 
 import {AppBtnToolbarComponent} from '../app-btn-toolbar.component';
@@ -19,7 +20,7 @@ import {AppIconsModule} from '../icons.module';
     <div *ngIf="qrCodeData" class="my-container d-flex flex-row flex-wrap gap-5 align-items-center justify-content-center h-100">
       <div id="qrcode" class="qrcode-rounded">
         <qrcode
-          [width]="(isMobile$ | async) ? 300 : 600"
+          [width]="(isMobile$ | async) === true ? 300 : 600"
           errorCorrectionLevel="M"
           [margin]="0"
           colorLight="#f6f6f6"
@@ -86,7 +87,7 @@ import {AppIconsModule} from '../icons.module';
 })
 export class AppQrCodeViewComponent {
   qrCodeData?: qrCodeData;
-  isMobile$ = inject(IsMobileService).isMobile$;
+  isMobile$ = inject(IsMobileService).isMobile$.pipe(tap((mobile) => console.log('is mobile', mobile)));
 
   translate = dfxTranslate();
 
