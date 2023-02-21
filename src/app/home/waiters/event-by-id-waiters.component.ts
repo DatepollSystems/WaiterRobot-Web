@@ -107,6 +107,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
               class="btn btn-sm m-1 btn-outline-info text-white"
               ngbTooltip="{{ 'HOME_WAITERS_EDIT_QR_CODE' | tr }}"
               (click)="
+                $event.stopPropagation();
                 qrCodeService.openQRCodePage({
                   data: waiter.signInToken,
                   text: 'HOME_WAITERS_EDIT_QR_CODE',
