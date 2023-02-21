@@ -4,15 +4,15 @@ import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {HasIDAndName, StringOrNumber} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+import {AppIconsModule} from './icons.module';
 import {AppListLoadingItemComponent} from './loading/app-list-loading-item.component';
 import {AppSpinnerComponent} from './loading/app-spinner.component';
-import {AppIconsModule} from './icons.module';
 
 @Component({
   template: `
     <div class="list-group-item d-lg-none">
       <div class="input-group">
-        <span class="input-group-text" id="selectOrganisation-addon"><i-bs name="people"></i-bs></span>
+        <span class="input-group-text" id="selectOrganisation-addon"><i-bs name="people" /></span>
         <select
           class="form-select"
           id="selectOrganisation"
@@ -38,7 +38,7 @@ import {AppIconsModule} from './icons.module';
     </ng-container>
 
     <ng-template #loading>
-      <app-list-loading-item></app-list-loading-item>
+      <app-list-loading-item />
     </ng-template>
   `,
   standalone: true,

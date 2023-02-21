@@ -4,12 +4,12 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
+
+import {SessionModel} from '../../../_shared/model/session.model';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListByIdComponent} from '../../../_shared/ui/models-list-by-id/abstract-models-with-name-list-by-id.component';
 import {GetWaiterResponse} from '../../../_shared/waiterrobot-backend';
-
-import {SessionModel} from '../../../_shared/model/session.model';
 import {WaiterSessionsService} from '../_services/waiter-sessions.service';
 import {WaitersService} from '../_services/waiters.service';
 
@@ -26,13 +26,13 @@ import {WaitersService} from '../_services/waiters.service';
             placement="bottom"
             (click)="filter.reset()"
             *ngIf="(filter.value?.length ?? 0) > 0">
-            <i-bs name="x-circle-fill"></i-bs>
+            <i-bs name="x-circle-fill" />
           </button>
         </div>
       </div>
 
       <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-        <i-bs name="trash"></i-bs>
+        <i-bs name="trash" />
         {{ 'DELETE' | tr }}
       </button>
     </form>
@@ -87,7 +87,7 @@ import {WaitersService} from '../_services/waiters.service';
               ngbTooltip="{{ 'DELETE' | tr }}"
               placement="left"
               (click)="onDelete(session.id)">
-              <i-bs name="trash"></i-bs>
+              <i-bs name="trash" />
             </button>
           </td>
         </ng-container>

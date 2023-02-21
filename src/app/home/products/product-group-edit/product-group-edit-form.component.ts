@@ -11,7 +11,7 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
 
 @Component({
   template: `
-    <ng-container *ngIf="form.statusChanges | async"></ng-container>
+    <ng-container *ngIf="form.statusChanges | async" />
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-4">
@@ -28,7 +28,7 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
           <div class="form-group mb-2">
             <label for="selectPrinter">{{ 'NAV_PRINTERS' | tr }}</label>
             <div class="input-group">
-              <span class="input-group-text bg-dark text-white" id="selectPrinter-addon"><i-bs name="diagram-3"></i-bs></span>
+              <span class="input-group-text bg-dark text-white" id="selectPrinter-addon"><i-bs name="diagram-3" /></span>
               <select class="form-select bg-dark text-white" id="selectPrinter" formControlName="printerId">
                 <option [ngValue]="-1">{{ 'HOME_PROD_PRINTER_SELECT_DEFAULT' | tr }}</option>
                 <option [ngValue]="printer.id" *ngFor="let printer of this.printers; trackById">

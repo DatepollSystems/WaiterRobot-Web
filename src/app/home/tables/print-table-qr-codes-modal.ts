@@ -24,7 +24,7 @@ import {GetTableResponse} from '../../_shared/waiterrobot-backend';
       <btn-toolbar>
         <div>
           <button class="btn btn-sm btn-primary" (click)="pdf()" [class.spinner]="generating" [disabled]="generating">
-            <i-bs name="printer"></i-bs>
+            <i-bs name="printer" />
             {{ 'HOME_TABLE_PRINT_GENERATE' | tr }}
           </button>
         </div>

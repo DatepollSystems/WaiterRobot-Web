@@ -44,6 +44,7 @@ export class StartComponent extends AComponent {
 
   localTime$: Observable<Date>;
   browserInfos = i_complete();
+  frontendVersion = EnvironmentHelper.getWebVersion();
 
   serverInfo$: Observable<JsonInfoResponse>;
   startMs = 0;

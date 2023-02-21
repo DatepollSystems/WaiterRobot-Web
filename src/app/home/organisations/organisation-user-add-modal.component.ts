@@ -26,13 +26,13 @@ import {OrganisationsUsersService} from './_services/organisations-users.service
             [validator]="filter"
             [models]="emailAddresses"
             validationErrorText="{{ 'HOME_USERS_EMAIL_INCORRECT' | tr }}"
-            placeholder="{{ 'HOME_ORGS_USERS_EMAIL_PLACEHOLDER' | tr }}"></chip-input>
+            placeholder="{{ 'HOME_ORGS_USERS_EMAIL_PLACEHOLDER' | tr }}" />
         </div>
 
         <div class="col-12 col-md-3">
           <button class="col btn btn-outline-secondary" (click)="openScanModal()">
             {{ 'SCAN' | tr }}
-            <i-bs name="qr-code-scan"></i-bs>
+            <i-bs name="qr-code-scan" />
           </button>
         </div>
       </div>

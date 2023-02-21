@@ -37,12 +37,12 @@ import {AppIconsModule} from '../icons.module';
         <div class="card-footer text-muted">
           <btn-toolbar padding="false">
             <button class="btn btn-sm btn-secondary" (click)="back()">
-              <i-bs name="arrow-left"></i-bs>
+              <i-bs name="arrow-left" />
               {{ 'GO_BACK' | tr }}
             </button>
 
             <button class="btn btn-sm btn-info" (click)="print()">
-              <i-bs name="printer" aria-label="Copy content to clipboard"></i-bs>
+              <i-bs name="printer" aria-label="Copy content to clipboard" />
               {{ 'PRINT' | tr }}
             </button>
 
@@ -57,7 +57,7 @@ import {AppIconsModule} from '../icons.module';
               triggers="manual"
               aria-label="Copy link"
               placement="right">
-              <i-bs name="clipboard" aria-label="Copy content to clipboard"></i-bs>
+              <i-bs name="clipboard" aria-label="Copy content to clipboard" />
               {{ 'COPY' | tr }}
             </button>
           </btn-toolbar>

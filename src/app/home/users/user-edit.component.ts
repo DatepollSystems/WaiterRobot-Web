@@ -30,7 +30,7 @@ import {UsersService} from './users.service';
 
         <div *isEditing="entity">
           <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
-            <i-bs name="trash"></i-bs>
+            <i-bs name="trash" />
             {{ 'DELETE' | tr }}
           </button>
         </div>
@@ -51,7 +51,7 @@ import {UsersService} from './users.service';
               (formValid)="setValid($event)"
               (submitUpdate)="submit('UPDATE', $event)"
               (submitCreate)="submit('CREATE', $event)"
-              [user]="entity"></app-user-edit-form>
+              [user]="entity" />
           </ng-template>
         </li>
         <li [ngbNavItem]="'ORGS'">

@@ -6,7 +6,7 @@ import {AppSpinnerComponent} from './app-spinner.component';
 @Component({
   template: `
     <div class="b-spinner-row" *ngIf="_show">
-      <app-spinner></app-spinner>
+      <app-spinner />
     </div>
   `,
   styles: [

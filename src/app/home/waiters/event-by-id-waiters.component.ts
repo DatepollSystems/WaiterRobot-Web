@@ -6,7 +6,9 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+import {QrCodeService} from '../../_shared/services/qr-code.service';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {BtnWaiterCreateQrCodeComponent} from '../../_shared/ui/btn-waiter-create-qr-code.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListByIdComponent} from '../../_shared/ui/models-list-by-id/abstract-models-with-name-list-by-id.component';
@@ -16,9 +18,7 @@ import {EventModel} from '../events/_models/event.model';
 import {EventsService} from '../events/_services/events.service';
 
 import {WaitersService} from './_services/waiters.service';
-import {BtnWaiterCreateQrCodeComponent} from '../../_shared/ui/btn-waiter-create-qr-code.component';
 import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
-import {QrCodeService} from '../../_shared/services/qr-code.service';
 
 @Component({
   template: `
@@ -27,15 +27,15 @@ import {QrCodeService} from '../../_shared/services/qr-code.service';
 
       <btn-toolbar>
         <a routerLink="../../create" class="btn btn-sm btn-outline-success">
-          <i-bs name="plus-circle"></i-bs>
+          <i-bs name="plus-circle" />
           {{ 'ADD_2' | tr }}</a
         >
         <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-          <i-bs name="trash"></i-bs>
+          <i-bs name="trash" />
           {{ 'DELETE' | tr }}
         </button>
 
-        <app-btn-waiter-create-qrcode *ngIf="entity" [token]="entity.waiterCreateToken"></app-btn-waiter-create-qrcode>
+        <app-btn-waiter-create-qrcode *ngIf="entity" [token]="entity.waiterCreateToken" />
       </btn-toolbar>
     </ng-container>
 
@@ -49,7 +49,7 @@ import {QrCodeService} from '../../_shared/services/qr-code.service';
           placement="bottom"
           (click)="filter.reset()"
           *ngIf="(filter.value?.length ?? 0) > 0">
-          <i-bs name="x-circle-fill"></i-bs>
+          <i-bs name="x-circle-fill" />
         </button>
       </div>
     </form>
@@ -113,17 +113,17 @@ import {QrCodeService} from '../../_shared/services/qr-code.service';
                   info: 'HOME_WAITERS_EDIT_QR_CODE_DESCRIPTION'
                 })
               ">
-              <i-bs name="qr-code" class="me-1"></i-bs>
+              <i-bs name="qr-code" />
             </button>
             <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../../{{ waiter.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
-              <i-bs name="pencil-square"></i-bs>
+              <i-bs name="pencil-square" />
             </a>
             <button
               type="button"
               class="btn btn-sm m-1 btn-outline-danger text-white"
               ngbTooltip="{{ 'DELETE' | tr }}"
               (click)="onDelete(waiter.id, $event)">
-              <i-bs name="trash"></i-bs>
+              <i-bs name="trash" />
             </button>
           </td>
         </ng-container>

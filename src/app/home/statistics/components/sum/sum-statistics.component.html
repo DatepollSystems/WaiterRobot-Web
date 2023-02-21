@@ -2,7 +2,7 @@
   <div class="card-body">
     <div class="row">
       <div class="col">
-        <h4><ng-content></ng-content></h4>
+        <h4><ng-content /></h4>
       </div>
       <div class="col text-end">
         <div ngbDropdown class="d-inline-block">
@@ -13,14 +13,12 @@
           </button>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
             <button ngbDropdownItem (click)="setChartType('BAR')">
-              <i-bs name="bar-chart-line-fill"></i-bs> {{ 'HOME_STATISTICS_BAR_CHART' | tr }}
+              <i-bs name="bar-chart-line-fill" /> {{ 'HOME_STATISTICS_BAR_CHART' | tr }}
             </button>
             <button ngbDropdownItem (click)="setChartType('PIE')">
-              <i-bs name="pie-chart-fill"></i-bs> {{ 'HOME_STATISTICS_PIE_CHART' | tr }}
+              <i-bs name="pie-chart-fill" /> {{ 'HOME_STATISTICS_PIE_CHART' | tr }}
             </button>
-            <button ngbDropdownItem (click)="setChartType('TEXT')">
-              <i-bs name="list-ul"></i-bs> {{ 'HOME_STATISTICS_TEXT_CHART' | tr }}
-            </button>
+            <button ngbDropdownItem (click)="setChartType('TEXT')"><i-bs name="list-ul" /> {{ 'HOME_STATISTICS_TEXT_CHART' | tr }}</button>
           </div>
         </div>
       </div>
@@ -32,7 +30,7 @@
 
     <ng-container *ngIf="chartType === 'PIE' && sumDtos && sumDtos.length > 0">
       <div style="height: 45vh">
-        <ngx-charts-pie-chart scheme="cool" [results]="sumDtos" [labels]="true" [trimLabels]="false"></ngx-charts-pie-chart>
+        <ngx-charts-pie-chart scheme="cool" [results]="sumDtos" [labels]="true" [trimLabels]="false" />
       </div>
     </ng-container>
 
@@ -48,7 +46,7 @@
           [yAxis]="true"
           [trimXAxisTicks]="false"
           [results]="sumDtos"
-          [legend]="false"></ngx-charts-bar-horizontal>
+          [legend]="false" />
       </div>
     </ng-container>
 
@@ -61,6 +59,6 @@
       </ul>
     </ng-container>
 
-    <ng-content select="[bottom]"></ng-content>
+    <ng-content select="[bottom]" />
   </div>
 </div>

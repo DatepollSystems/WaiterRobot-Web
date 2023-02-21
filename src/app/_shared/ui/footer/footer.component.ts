@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
@@ -13,6 +13,9 @@ import {QuestionDialogComponent} from '../question-dialog/question-dialog.compon
 export class FooterComponent {
   selected$ = inject(TranslateStore).selectedLanguage$;
   setLanguage = dfxTranslateSetLanguage();
+
+  @Input()
+  container = 'container-xxxl';
 
   constructor(private modal: NgbModal) {}
 

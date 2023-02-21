@@ -11,13 +11,13 @@
       <li [ngbNavItem]="1">
         <a ngbNavLink>{{ 'ABOUT_MODAL_GENERAL' | tr }}</a>
         <ng-template ngbNavContent>
-          <p>{{ 'ABOUT_MODAL_GENERAL_DESCRIPTION' | tr }}</p>
-          <a href="https://datepollsystems.org/waiterrobot" target="_blank" rel="noopener">{{ 'ABOUT_MODAL_GENERAL_WEBSITE' | tr }}</a>
-        </ng-template>
-      </li>
-      <li [ngbNavItem]="2">
-        <a ngbNavLink>{{ 'ABOUT_MODAL_TECHNICAL' | tr }}</a>
-        <ng-template ngbNavContent>
+          <p>
+            Mit WaiterRobot hast du die Möglichkeit, deine Bestellungsaufnahme digital zu erledigen. <br /><br />
+            Egal ob sich um ein einmaliges Event oder dauerhafte Bewirtung handelt, WaiterRobot beschleunigt deinen Prozess im
+            Servicebereich.
+          </p>
+
+          <h5>{{ 'ABOUT_MODAL_TECHNICAL' | tr }}</h5>
           <ul class="list-group">
             <li
               (mousedown)="mousedown()"
@@ -27,11 +27,10 @@
               class="list-group-item not-selectable">
               {{ 'ABOUT_MODAL_TECHNICAL_WEB_VERSION' | tr }}: {{ frontendVersion }}
             </li>
-            <li class="list-group-item"><a href="#" rel="noopener" target="_blank">kellner.team Documentation</a></li>
           </ul>
         </ng-template>
       </li>
-      <li [ngbNavItem]="3">
+      <li [ngbNavItem]="2">
         <a ngbNavLink>{{ 'ABOUT_MODAL_TECHNICAL_USED_LIBRARIES' | tr }}</a>
         <ng-template ngbNavContent>
           <ul class="list-group">

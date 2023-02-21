@@ -13,11 +13,11 @@ import {getEventsOrderedBySelected} from './_services/getEventsOrderedBySelected
     <entities-layout-component>
       <div class="list-group" nav>
         <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
-          <i-bs name="calendar-event-fill"></i-bs>
+          <i-bs name="calendar-event-fill" />
           {{ 'NAV_EVENTS' | tr }}
         </a>
 
-        <app-list-nav-items path="/home/events/" [entities]="events$ | async"></app-list-nav-items>
+        <app-list-nav-items path="/home/events/" [entities]="events$ | async" />
       </div>
     </entities-layout-component>
   `,

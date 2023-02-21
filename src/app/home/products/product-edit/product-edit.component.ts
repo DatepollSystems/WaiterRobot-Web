@@ -34,14 +34,11 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
           <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
         </div>
 
-        <app-model-edit-save-btn
-          (submit)="form?.submit()"
-          [valid]="valid$ | async"
-          [editing]="entity !== 'CREATE'"></app-model-edit-save-btn>
+        <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
 
         <div *isEditing="entity">
           <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
-            <i-bs name="trash"></i-bs>
+            <i-bs name="trash" />
             {{ 'DELETE' | tr }}
           </button>
         </div>
@@ -62,11 +59,9 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
               [productGroups]="vm.productGroups"
               [selectedEventId]="vm.selectedEvent?.id"
               [selectedProductGroupId]="vm.selectedProductGroupId"
-              [product]="entity"></app-product-edit-form>
+              [product]="entity" />
 
-            <app-continues-creation-switch
-              *isCreating="entity"
-              (continuesCreationChange)="continuesCreation = $event"></app-continues-creation-switch>
+            <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
           </ng-template>
         </li>
       </ul>
@@ -75,7 +70,7 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
     </div>
 
     <ng-template #loading>
-      <app-spinner-row></app-spinner-row>
+      <app-spinner-row />
     </ng-template>
   `,
   selector: 'app-product-edit',

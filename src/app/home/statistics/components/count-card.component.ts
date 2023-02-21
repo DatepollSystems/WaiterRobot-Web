@@ -6,11 +6,11 @@ import {Component, Input} from '@angular/core';
     <div class="card">
       <div class="card-body text-center d-flex flex-column gap-2">
         <h4>
-          <ng-content></ng-content>
+          <ng-content />
         </h4>
         <p class="heading">
           <span class="clickable" [countUp]="count"></span>
-          <ng-content select="[valuePrefix]"></ng-content>
+          <ng-content select="[valuePrefix]" />
         </p>
       </div>
     </div>

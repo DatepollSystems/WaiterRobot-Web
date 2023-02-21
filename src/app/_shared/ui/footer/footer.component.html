@@ -1,16 +1,16 @@
 <footer id="footerContainer" class="unselectable">
   <div class="container-fluid">
-    <div class="container-xxxl footerHeaderContainer">
+    <div class="{{ container }} footerHeaderContainer">
       <div class="d-flex flex-column flex-md-row justify-content-between">
         <div>
           <h3 class="text-white">
-            <a href="https://datepollsystems.org/projects/waiterrobot" rel="noopener" target="_blank">kellner.team</a>
+            <a href="https://kellner.team" rel="noopener" target="_blank">kellner.team</a>
           </h3>
         </div>
         <div class="col-md-2">
           <ul>
             <li>
-              <app-about-modal></app-about-modal>
+              <app-about-modal />
             </li>
             <li>
               <label for="changeLanguage">{{ 'LANGUAGE' | tr }}</label>
@@ -34,7 +34,7 @@
 
   <div id="footerBarContainer">
     <div class="container-fluid">
-      <div class="container-xxxl">
+      <div class="{{ container }}">
         <div class="d-flex flex-column flex-md-row justify-content-between">
           <div>
             <div style="float: left">Made with&nbsp;</div>

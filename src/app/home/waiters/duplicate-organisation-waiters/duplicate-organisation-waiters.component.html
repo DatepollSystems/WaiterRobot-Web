@@ -1,6 +1,6 @@
 <!--<h1>{{ 'HOME_WAITERS_DUPLICATES' | tr }} {{ selectedDuplicateWaiter ? selectedDuplicateWaiter.name : duplicateWaiter?.name }}</h1>-->
 
-<!--<app-spinner-row [show]="!entitiesLoaded"></app-spinner-row>-->
+<!--<app-spinner-row [show]="!entitiesLoaded"/>-->
 
 <!--<div [hidden]="!entitiesLoaded || duplicateWaiter !== undefined">-->
 <!--  <form>-->
@@ -13,7 +13,7 @@
 <!--        placement="bottom"-->
 <!--        (click)="filter.reset()"-->
 <!--        *ngIf="filter?.value?.length > 0">-->
-<!--        <i-bs name="x-circle-fill"></i-bs>-->
+<!--        <i-bs name="x-circle-fill"/>-->
 <!--      </button>-->
 <!--    </div>-->
 <!--  </form>-->
@@ -39,7 +39,7 @@
 <!--            class="btn btn-sm m-1 btn-outline-danger"-->
 <!--            routerLink="./&quot;{{ duplicateWaiter.name }}&quot;"-->
 <!--            ngbTooltip="{{ 'MERGE' | tr }}">-->
-<!--            <i-bs name="union"></i-bs>-->
+<!--            <i-bs name="union"/>-->
 <!--          </a>-->
 <!--        </td>-->
 <!--      </ng-container>-->
@@ -81,7 +81,7 @@
 <!--          {{ currentDuplicateWaiter.name }}-->
 <!--        </div>-->
 <!--        <button class="btn btn-sm btn-warning" (click)="$event.stopPropagation()" *ngIf="ignoreFeature">-->
-<!--          <i-bs name="person-x-fill"></i-bs>-->
+<!--          <i-bs name="person-x-fill"/>-->
 <!--          {{ 'IGNORE' | tr }}-->
 <!--        </button>-->
 <!--      </button>-->
