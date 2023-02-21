@@ -1,13 +1,12 @@
 import {LowerCasePipe} from '@angular/common';
 import {Component} from '@angular/core';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {AEntityWithNumberIDAndName, loggerOf, s_isEmail} from 'dfts-helper';
+import {AEntityWithNumberIDAndName, s_isEmail} from 'dfts-helper';
 
 import {AComponent} from 'dfx-helper';
 import {DfxTr, dfxTranslate$} from 'dfx-translate';
 import {ChipInput} from '../../_shared/ui/chip-input/chip-input.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {AppQrCodeScannerModalComponent} from '../../_shared/ui/qr-code/app-qr-code-scanner-modal.component';
 
 import {NotificationService} from '../../notifications/notification.service';
 import {OrganisationsUsersService} from './_services/organisations-users.service';
@@ -19,22 +18,13 @@ import {OrganisationsUsersService} from './_services/organisations-users.service
       <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.dismiss()"></button>
     </div>
     <div class="modal-body">
-      <div class="d-flex flex-column flex-md-row justify-content-between">
-        <div class="col-12 col-md-8">
-          <chip-input
-            (valueChange)="orgUserChange($event)"
-            [validator]="filter"
-            [models]="emailAddresses"
-            validationErrorText="{{ 'HOME_USERS_EMAIL_INCORRECT' | tr }}"
-            placeholder="{{ 'HOME_ORGS_USERS_EMAIL_PLACEHOLDER' | tr }}" />
-        </div>
-
-        <div class="col-12 col-md-3">
-          <button class="col btn btn-outline-secondary" (click)="openScanModal()">
-            {{ 'SCAN' | tr }}
-            <i-bs name="qr-code-scan" />
-          </button>
-        </div>
+      <div class="d-flex flex-column">
+        <chip-input
+          (valueChange)="orgUserChange($event)"
+          [validator]="filter"
+          [models]="emailAddresses"
+          validationErrorText="{{ 'HOME_USERS_EMAIL_INCORRECT' | tr }}"
+          placeholder="{{ 'HOME_ORGS_USERS_EMAIL_PLACEHOLDER' | tr }}" />
       </div>
     </div>
     <div class="modal-footer">
@@ -54,8 +44,6 @@ export class OrganisationUserAddModalComponent extends AComponent {
 
   translate$ = dfxTranslate$();
 
-  private lumber = loggerOf('OrganisationUserAddModal');
-
   constructor(
     public activeModal: NgbActiveModal,
     private modal: NgbModal,
@@ -69,22 +57,6 @@ export class OrganisationUserAddModalComponent extends AComponent {
 
   orgUserChange(emailAddresses: string[]): void {
     this.emailAddresses = emailAddresses;
-  }
-
-  openScanModal(): void {
-    const modalRef = this.modal.open(AppQrCodeScannerModalComponent, {
-      ariaLabelledBy: 'modal-qrcode-scanner-title',
-      size: 'lg',
-    });
-    void modalRef.result.then((result) => {
-      if (result && typeof result === 'string') {
-        if (!this.filter(result)) {
-          this.lumber.warning('scanSuccess', 'Scanned qr code ' + result + 'is no email address');
-          return;
-        }
-        this.emailAddresses.push(result);
-      }
-    });
   }
 
   addOrgUser(): void {
