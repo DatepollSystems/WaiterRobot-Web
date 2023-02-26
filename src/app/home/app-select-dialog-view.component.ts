@@ -2,7 +2,7 @@ import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
-import {catchError, combineLatest, map, of, switchMap} from 'rxjs';
+import {combineLatest, map} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {AuthService} from '../_shared/services/auth/auth.service';
 import {AppSelectDialogComponent} from './app-select-dialog.component';
@@ -54,7 +54,7 @@ export class AppSelectDialogViewComponent {
   vm$ = combineLatest([
     this.organisationsService.getAll$(),
     this.selectedOrganisation$,
-    this.selectedOrganisation$.pipe(switchMap(() => this.eventsService.getAll$().pipe(catchError(() => of([]))))),
+    this.eventsService.getAll$(),
     this.eventsService.getSelected$,
   ]).pipe(
     map(([organisations, selectedOrganisation, events, selectedEvent]) => ({organisations, selectedOrganisation, events, selectedEvent})),

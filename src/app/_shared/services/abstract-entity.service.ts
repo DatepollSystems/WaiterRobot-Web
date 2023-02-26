@@ -14,11 +14,18 @@ export interface HasGetSingle<T extends IHasID<T['id']>> {
   getSingle$(id: T['id']): Observable<T>;
 }
 
+export interface HasGetSelected<SelectedDTOType extends IHasID<SelectedDTOType['id']>> {
+  setSelected(it: SelectedDTOType | undefined): void;
+
+  getSelected$: Observable<SelectedDTOType | undefined>;
+}
+
 export interface HasDelete<T extends IHasID<T['id']>> {
   delete$(id: T['id']): Observable<unknown>;
 }
 
 export type HasCreateWithIdResponse<CreateDTOType> = HasCreate<CreateDTOType, IdResponse>;
+
 export type HasUpdateWithIdResponse<UpdateDTOType extends IHasID<UpdateDTOType['id']>> = HasUpdate<UpdateDTOType, IdResponse>;
 
 export type HasCreate<CreateDTOType, ResponseType extends IHasID<ResponseType['id']>> = {
@@ -29,6 +36,7 @@ export interface HasUpdate<UpdateDTOType extends IHasID<UpdateDTOType['id']>, Re
   update$(dto: UpdateDTOType): Observable<ResponseType>;
 }
 
+// eslint-disable-next-line id-denylist
 export type HasIdAndNumber<ID> = IHasID<ID> & {number: number};
 
 export const notNull = <T>(value: T | null): value is T => value !== null;
