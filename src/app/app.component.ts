@@ -6,11 +6,11 @@ import {ToastsContainerComponent} from './notifications/toasts-container.compone
 
 @Component({
   template: `
-    <ngx-loading-bar [includeSpinner]="false" color="#7599AA"></ngx-loading-bar>
+    <ngx-loading-bar [includeSpinner]="false" color="#7599AA" />
 
-    <router-outlet></router-outlet>
+    <router-outlet />
 
-    <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+    <app-toasts aria-live="polite" aria-atomic="true" />
   `,
   standalone: true,
   selector: 'app-root',

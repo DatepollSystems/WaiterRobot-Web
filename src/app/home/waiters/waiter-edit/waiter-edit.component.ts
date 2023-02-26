@@ -31,20 +31,17 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
           <button class="btn btn-sm btn-dark text-white" (click)="onGoBack('/home/waiters/organisation')">{{ 'GO_BACK' | tr }}</button>
         </div>
 
-        <app-model-edit-save-btn
-          (submit)="form?.submit()"
-          [valid]="valid$ | async"
-          [editing]="entity !== 'CREATE'"></app-model-edit-save-btn>
+        <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
 
         <ng-container *isEditing="entity">
           <div>
             <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
-              <i-bs name="trash"></i-bs>
+              <i-bs name="trash" />
               {{ 'DELETE' | tr }}
             </button>
           </div>
 
-          <app-btn-waiter-signin-qrcode [token]="entity.signInToken"></app-btn-waiter-signin-qrcode>
+          <app-btn-waiter-signin-qrcode [token]="entity.signInToken" />
         </ng-container>
       </btn-toolbar>
 
@@ -67,7 +64,7 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
         <li [ngbNavItem]="'SESSIONS'" *isEditing="entity" [destroyOnHide]="true">
           <a ngbNavLink>{{ 'NAV_USER_SESSIONS' | tr }}</a>
           <ng-template ngbNavContent>
-            <app-waiter-sessions></app-waiter-sessions>
+            <app-waiter-sessions />
           </ng-template>
         </li>
       </ul>

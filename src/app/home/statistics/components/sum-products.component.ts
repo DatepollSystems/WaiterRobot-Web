@@ -1,39 +1,33 @@
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {Component, Input} from '@angular/core';
-
-import {AComponent} from 'dfx-helper';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {filter, map, switchMap} from 'rxjs';
+import {notNullAndUndefined} from '../../../_shared/services/abstract-entity.service';
 import {StatisticsSumResponse} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 
 @Component({
   template: `
-    <app-sum-statistics [sumDtos]="sumDtos">
+    <app-sum-statistics *ngIf="sumDtos$ | async as sumDtos" [sumDtos]="sumDtos">
       <span>{{ 'HOME_PROD_ALL' | tr }}</span>
     </app-sum-statistics>
   `,
   selector: 'app-statistics-sum-products',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SumProductsComponent extends AComponent {
+export class SumProductsComponent {
   @Input() set standalone(it: BooleanInput) {
     this._standalone = coerceBooleanProperty(it);
   }
-
   _standalone = false;
 
-  sumDtos?: StatisticsSumResponse[];
+  sumDtos$ = this.eventsService.getSelected$.pipe(
+    filter(notNullAndUndefined),
+    switchMap((event) =>
+      this.httpClient.get<StatisticsSumResponse[]>('/config/statistics/sumProducts', {params: new HttpParams().set('eventId', event.id)})
+    ),
+    map((it) => (this._standalone ? it : it.slice(0, 20)))
+  );
 
-  constructor(http: HttpClient, eventsService: EventsService) {
-    super();
-
-    this.unsubscribe(
-      http
-        .get<typeof this.sumDtos>('/config/statistics/sumProducts', {
-          params: new HttpParams().set('eventId', eventsService.getSelected()?.id ?? ''),
-        })
-        .subscribe((it) => {
-          this.sumDtos = this._standalone ? it : it?.slice(0, 20);
-        })
-    );
-  }
+  constructor(private httpClient: HttpClient, private eventsService: EventsService) {}
 }

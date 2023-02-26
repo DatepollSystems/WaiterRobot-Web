@@ -1,10 +1,11 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {StatisticsSumResponse} from '../../../../_shared/waiterrobot-backend';
 
 @Component({
   selector: 'app-sum-statistics',
   templateUrl: './sum-statistics.component.html',
   styleUrls: ['./sum-statistics.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SumStatisticsComponent {
   @Input()

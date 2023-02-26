@@ -20,13 +20,13 @@ import {TableGroupsService} from './_services/table-groups.service';
     <btn-toolbar>
       <div>
         <a routerLink="../create" class="btn btn-sm btn-outline-success">
-          <i-bs name="plus-circle"></i-bs>
+          <i-bs name="plus-circle" />
           {{ 'ADD_2' | tr }}</a
         >
       </div>
       <div>
         <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-          <i-bs name="trash"></i-bs>
+          <i-bs name="trash" />
           {{ 'DELETE' | tr }}
         </button>
       </div>
@@ -42,7 +42,7 @@ import {TableGroupsService} from './_services/table-groups.service';
           placement="bottom"
           (click)="filter.reset()"
           *ngIf="(filter?.value?.length ?? 0) > 0">
-          <i-bs name="x-circle-fill"></i-bs>
+          <i-bs name="x-circle-fill" />
         </button>
       </div>
     </form>
@@ -82,14 +82,14 @@ import {TableGroupsService} from './_services/table-groups.service';
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let tableGroup" ngb-cell>
             <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ tableGroup.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
-              <i-bs name="pencil-square"></i-bs>
+              <i-bs name="pencil-square" />
             </a>
             <button
               type="button"
               class="btn btn-sm m-1 btn-outline-danger text-white"
               ngbTooltip="{{ 'DELETE' | tr }}"
               (click)="onDelete(tableGroup.id, $event)">
-              <i-bs name="trash"></i-bs>
+              <i-bs name="trash" />
             </button>
           </td>
         </ng-container>

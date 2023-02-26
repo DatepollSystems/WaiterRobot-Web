@@ -26,7 +26,7 @@ export type appDownload = {
       role="group"
       aria-label="App download infos">
       <a class="btn btn-outline-info" [class.customLogo]="appLink.img" target="_blank" rel="noopener" href="{{ appLink.link }}">
-        <i-bs *ngIf="appLink.icon" [name]="appLink.icon"></i-bs>
+        <i-bs *ngIf="appLink.icon" [name]="appLink.icon" />
         <img *ngIf="appLink.img" ngSrc="{{ appLink.img }}" alt="" height="16em;" width="16em;" />
         <img *ngIf="appLink.img2" ngSrc="{{ appLink.img2 }}" alt="" height="16em;" width="16em;" />
         {{ appLink.text }}
@@ -40,7 +40,7 @@ export type appDownload = {
         placement="top"
         attr.aria-label="{{ 'ABOUT_APP_QR_CODE_TOOLTIP' | tr }}"
         ngbTooltip="{{ 'ABOUT_APP_QR_CODE_TOOLTIP' | tr }}">
-        <i-bs name="upc-scan"></i-bs>
+        <i-bs name="upc-scan" />
       </button>
 
       <button
@@ -55,7 +55,7 @@ export type appDownload = {
         autoClose="false"
         triggers="manual"
         placement="bottom">
-        <i-bs name="clipboard"></i-bs>
+        <i-bs name="clipboard" />
       </button>
     </div>
   `,

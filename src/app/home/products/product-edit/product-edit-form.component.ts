@@ -12,7 +12,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
 
 @Component({
   template: `
-    <ng-container *ngIf="form.statusChanges | async as changes"></ng-container>
+    <ng-container *ngIf="form.statusChanges | async" />
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-3">
@@ -54,7 +54,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
           [models]="_product?.allergens"
           [allModelsToAutoComplete]="allergens"
           [formatter]="formatter"
-          (valueChange)="allergenChange($event)"></chip-input>
+          (valueChange)="allergenChange($event)" />
       </div>
 
       <div class="d-flex flex-column flex-md-row gap-4 mb-3">
@@ -62,7 +62,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
           <label for="selectGroup">{{ 'HOME_PROD_GROUP' | tr }}</label>
           <div class="input-group">
             <span class="input-group-text bg-dark text-white" id="selectGroup-addon">
-              <i-bs name="diagram-3"></i-bs>
+              <i-bs name="diagram-3" />
             </span>
             <select class="form-select bg-dark text-white" id="selectGroup" formControlName="groupId">
               <option [value]="-1" disabled>{{ 'HOME_PROD_GROUPS_DEFAULT' | tr }}</option>
@@ -80,7 +80,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
           <label for="selectPrinter">{{ 'NAV_PRINTERS' | tr }}</label>
           <div class="input-group">
             <span class="input-group-text bg-dark text-white" id="selectPrinter-addon">
-              <i-bs name="diagram-3"></i-bs>
+              <i-bs name="diagram-3" />
             </span>
             <select class="form-select bg-dark text-white" id="selectPrinter" formControlName="printerId">
               <option [value]="-1" disabled>{{ 'HOME_PROD_PRINTER_SELECT_DEFAULT' | tr }}</option>

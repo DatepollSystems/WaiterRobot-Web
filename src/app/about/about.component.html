@@ -1,6 +1,6 @@
 <div class="d-container text-white">
   <div class="container-md">
-    <app-logo-with-text></app-logo-with-text>
+    <app-logo-with-text />
     <div class="row row-cols-1 row-cols-lg-2 justify-content-around px-3">
       <div class="col row gy-4">
         <div class="card bg-dark pt-2">
@@ -45,7 +45,7 @@
         <div class="card bg-dark">
           <div class="card-body">
             <h5 class="card-title">{{ 'ABOUT_APP_DISCOVER' | tr }}</h5>
-            <app-download-btn-list [showQRCodeButton]="false"></app-download-btn-list>
+            <app-download-btn-list [showQRCodeButton]="false" />
           </div>
         </div>
       </div>
@@ -64,11 +64,11 @@
           </div>
         </div>
 
-        <div class="card text-white bg-dark">
+        <div class="card text-white bg-dark mb-4 mb-lg-0">
           <div class="card-body">
             <h5 class="card-title">{{ 'ABOUT_MORE_INFORMATION' | tr }}</h5>
             <div class="card-text">
-              <a href="https://datepollsystems.org/projects/waiterrobot" target="_blank" rel="noopener">kellner.team</a> &
+              <a href="https://kellner.team" target="_blank" rel="noopener">kellner.team</a> &
               <a href="https://datepollsystems.org" target="_blank" rel="noopener">DatePoll-Systems</a>.
             </div>
           </div>
@@ -77,4 +77,4 @@
     </div>
   </div>
 </div>
-<app-footer></app-footer>
+<app-footer container="container-md" />

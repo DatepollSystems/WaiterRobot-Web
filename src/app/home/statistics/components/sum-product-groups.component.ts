@@ -7,15 +7,15 @@ import {EventsService} from '../../events/_services/events.service';
 
 @Component({
   template:
-    ' <app-sum-statistics *ngIf="sumDtos$ | async as sumDtos" [sumDtos]="sumDtos">{{ \'HOME_STATISTICS_PRODUCTS_PER_WAITER\' | tr }}</app-sum-statistics> ',
-  selector: 'app-statistics-sum-products-per-waiter',
+    ' <app-sum-statistics *ngIf="sumDtos$ | async as sumDtos" [sumDtos]="sumDtos" chartType="PIE">{{ \'HOME_PROD_GROUP\' | tr }}</app-sum-statistics> ',
+  selector: 'app-statistics-sum-product-groups',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SumProductsPerWaiterComponent {
+export class SumProductGroupsComponent {
   sumDtos$ = this.eventsService.getSelected$.pipe(
     filter(notNullAndUndefined),
     switchMap((event) =>
-      this.httpClient.get<StatisticsSumResponse[]>('/config/statistics/sumProductsPerWaiter', {
+      this.httpClient.get<StatisticsSumResponse[]>('/config/statistics/sumProductGroups', {
         params: new HttpParams().set('eventId', event.id),
       })
     )

@@ -11,8 +11,8 @@ import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
 import {AbstractModelsListComponent} from '../../_shared/ui/abstract-models-list.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppSelectableButtonComponent} from '../../_shared/ui/app-selectable-button.component';
-import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
+import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 
 import {OrganisationModel} from './_models/organisation.model';
 import {OrganisationsService} from './_services/organisations.service';
@@ -25,20 +25,20 @@ import {OrganisationsService} from './_services/organisations.service';
       <btn-toolbar *ngIf="myUser.isAdmin">
         <div>
           <a routerLink="../create" class="btn btn-sm btn-outline-success">
-            <i-bs name="plus-circle"></i-bs>
+            <i-bs name="plus-circle" />
             {{ 'ADD_2' | tr }}</a
           >
         </div>
 
         <div>
           <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection!.hasValue()" (click)="onDeleteSelected()">
-            <i-bs name="trash"></i-bs>
+            <i-bs name="trash" />
             {{ 'DELETE' | tr }}
           </button>
         </div>
       </btn-toolbar>
 
-      <app-spinner-row [show]="!entitiesLoaded"></app-spinner-row>
+      <app-spinner-row [show]="!entitiesLoaded" />
 
       <form [hidden]="!entitiesLoaded">
         <div class="input-group">
@@ -50,7 +50,7 @@ import {OrganisationsService} from './_services/organisations.service';
             placement="bottom"
             (click)="filter.reset()"
             *ngIf="filter?.value?.length > 0">
-            <i-bs name="x-circle-fill"></i-bs>
+            <i-bs name="x-circle-fill" />
           </button>
         </div>
       </form>
@@ -123,12 +123,12 @@ import {OrganisationsService} from './_services/organisations.service';
                 class="me-2"
                 [selectedEntity]="selectedOrganisation"
                 [entity]="organisation"
-                [selectedEntityService]="organisationsService"></selectable-button>
+                [selectedEntityService]="organisationsService" />
               <a
                 class="btn btn-sm me-2 btn-outline-success text-white"
                 routerLink="../{{ organisation.id }}"
                 ngbTooltip="{{ 'EDIT' | tr }}">
-                <i-bs name="pencil-square"></i-bs>
+                <i-bs name="pencil-square" />
               </a>
               <button
                 type="button"
@@ -136,7 +136,7 @@ import {OrganisationsService} from './_services/organisations.service';
                 ngbTooltip="{{ 'DELETE' | tr }}"
                 (click)="onDelete(organisation.id, $event)"
                 *ngIf="myUser?.isAdmin">
-                <i-bs name="trash"></i-bs>
+                <i-bs name="trash" />
               </button>
             </td>
           </ng-container>
@@ -144,7 +144,7 @@ import {OrganisationsService} from './_services/organisations.service';
           <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
           <tr *ngbRowDef="let organisation; columns: columnsToDisplay" ngb-row routerLink="../{{ organisation.id }}"></tr>
         </table>
-        <ngb-paginator [collectionSize]="dataSource.data.length"></ngb-paginator>
+        <ngb-paginator [collectionSize]="dataSource.data.length" />
       </div>
     </ng-container>
   `,

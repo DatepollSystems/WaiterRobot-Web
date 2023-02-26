@@ -29,7 +29,7 @@
         placement="bottom"
         *ngIf="_edible && (showEditArrow || _isMobile)">
         <a class="nav-link" draggable="false" routerLinkActive="active" (click)="onEdit()">
-          <i-bs name="pencil-fill"></i-bs>
+          <i-bs name="pencil-fill" />
         </a>
       </li>
     </ul>
@@ -38,22 +38,22 @@
       <h5 class="text-white">{{ 'NAV_EDIT_CUSTOMIZE' | tr }}</h5>
       <btn-toolbar>
         <button class="btn btn-sm btn-outline-secondary" (click)="onClose()">
-          <i-bs name="trash"></i-bs>
+          <i-bs name="trash" />
           {{ 'CLOSE' | tr }}
         </button>
 
         <button class="btn btn-sm btn-success" (click)="onSave()">
-          <i-bs name="save"></i-bs>
+          <i-bs name="save" />
           {{ 'SAVE' | tr }}
         </button>
 
         <button class="btn btn-sm btn-outline-danger" (click)="onReset()">
-          <i-bs name="arrow-clockwise"></i-bs>
+          <i-bs name="arrow-clockwise" />
           {{ 'RESET' | tr }}
         </button>
 
         <button class="btn btn-sm btn-outline-info" (click)="openModal(bookMarkModalContent)" *ngIf="_allowBookmarks">
-          <i-bs name="star-fill"></i-bs>
+          <i-bs name="star-fill" />
           {{ 'NAV_EDIT_BOOKMARK' | tr }}
         </button>
       </btn-toolbar>
@@ -76,7 +76,7 @@
             (click)="removeBookmark(item)"
             ngbTooltip="{{ 'NAV_EDIT_BOOKMARK_DELETE' | tr }}"
             placement="bottom">
-            <i-bs name="trash"></i-bs>
+            <i-bs name="trash" />
           </button>
         </div>
       </div>

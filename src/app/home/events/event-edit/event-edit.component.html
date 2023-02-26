@@ -7,12 +7,12 @@
       <button class="btn btn-sm btn-dark text-white" (click)="onGoBack('/home/events/all')">{{ 'GO_BACK' | tr }}</button>
     </div>
 
-    <app-btn-model-edit-confirm *ngIf="myUser?.isAdmin && activeTab === 1" [form]="f" [editing]="isEditing"></app-btn-model-edit-confirm>
+    <app-btn-model-edit-confirm *ngIf="myUser?.isAdmin && activeTab === 1" [form]="f" [editing]="isEditing" />
 
     <ng-container *ngIf="isEditing && entity">
       <div *ngIf="myUser?.isAdmin && activeTab === 1">
         <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
-          <i-bs name="trash"></i-bs>
+          <i-bs name="trash" />
           {{ 'DELETE' | tr }}
         </button>
       </div>
@@ -22,20 +22,20 @@
           class="my-2"
           [selectedEntity]="selectedEvent"
           [entity]="entity"
-          [selectedEntityService]="eventsService"></selectable-button>
+          [selectedEntityService]="eventsService" />
       </div>
       <div>
-        <app-btn-waiter-create-qrcode [token]="entity.waiterCreateToken"></app-btn-waiter-create-qrcode>
+        <app-btn-waiter-create-qrcode [token]="entity.waiterCreateToken" />
       </div>
       <!--      <div>-->
       <!--        <button class="btn btn-sm btn-outline-secondary disabled">-->
-      <!--          <i-bs name="clipboard"></i-bs>-->
+      <!--          <i-bs name="clipboard"/>-->
       <!--          {{ 'COPY' | tr }}-->
       <!--        </button>-->
       <!--      </div>-->
       <!--      <div>-->
       <!--        <button class="btn btn-sm btn-outline-secondary disabled">-->
-      <!--          <i-bs name="save"></i-bs>-->
+      <!--          <i-bs name="save"/>-->
       <!--          {{ 'EXPORT' | tr }}-->
       <!--        </button>-->
       <!--      </div>-->
@@ -83,7 +83,7 @@
                   [disabled]="!myUser?.isAdmin"
                   [ngModel]="isEditing ? entity?.date : null" />
                 <button class="btn btn-outline-light" (click)="datePicker.toggle()" type="button" *ngIf="myUser?.isAdmin">
-                  <i-bs name="calendar-date"></i-bs>
+                  <i-bs name="calendar-date" />
                 </button>
               </div>
             </div>
@@ -190,4 +190,4 @@
   </form>
 </div>
 
-<app-spinner-row [show]="isEditing && !entityLoaded"></app-spinner-row>
+<app-spinner-row [show]="isEditing && !entityLoaded" />

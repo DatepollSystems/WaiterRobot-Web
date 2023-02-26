@@ -17,24 +17,24 @@
 
         <div class="d-flex gap-2 flex-wrap" *ngIf="!!(selectedEvent$ | async)">
           <a class="btn btn-outline-light btn-sm" routerLink="tables/create">
-            <i-bs name="plus-circle"></i-bs>
-            Tisch anlegen</a
+            <i-bs name="plus-circle" />
+            {{ 'HOME_START_SETUP_CREATE_TABLE' | tr }}</a
           >
           <a class="btn btn-outline-light btn-sm" routerLink="products/create">
-            <i-bs name="plus-circle"></i-bs>
-            Produkt anlegen</a
+            <i-bs name="plus-circle" />
+            {{ 'HOME_START_SETUP_CREATE_PRODUCT' | tr }}</a
           >
           <a class="btn btn-outline-light btn-sm" routerLink="waiters/create">
-            <i-bs name="plus-circle"></i-bs>
-            Kellner anlegen</a
+            <i-bs name="plus-circle" />
+            {{ 'HOME_START_SETUP_CREATE_WAITER' | tr }}</a
           >
           <a class="btn btn-outline-light btn-sm" routerLink="tables/groups/create">
-            <i-bs name="plus-circle"></i-bs>
-            Tischgruppe anlegen</a
+            <i-bs name="plus-circle" />
+            {{ 'HOME_START_SETUP_CREATE_TABLE_GROUP' | tr }}</a
           >
           <a class="btn btn-outline-light btn-sm" routerLink="products/groups/create">
-            <i-bs name="plus-circle"></i-bs>
-            Produktgruppe anlegen</a
+            <i-bs name="plus-circle" />
+            {{ 'HOME_START_SETUP_CREATE_PRODUCT_GROUP' | tr }}</a
           >
         </div>
       </div>
@@ -43,7 +43,7 @@
     <div class="card bg-dark p-2">
       <div class="card-body">
         <h5 class="card-title">{{ 'ABOUT_APP_DISCOVER' | tr }}</h5>
-        <app-download-btn-list></app-download-btn-list>
+        <app-download-btn-list />
       </div>
     </div>
   </div>
@@ -53,6 +53,9 @@
       <div class="card-body">
         <h5 class="card-title">{{ 'HOME_START_STATISTICS' | tr }}</h5>
         <ul class="list-unstyled py-2">
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
+            Frontend version: <span>{{ frontendVersion }}</span>
+          </li>
           <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             Local time: <span>{{ localTime$ | async | date : 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
           </li>
