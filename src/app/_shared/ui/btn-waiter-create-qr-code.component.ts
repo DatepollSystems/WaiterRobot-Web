@@ -5,10 +5,7 @@ import {AppBtnQrCodeComponent} from './qr-code/app-btn-qr-code.component';
 @Component({
   selector: 'app-btn-waiter-create-qrcode',
   template: `
-    <app-btn-qrcode
-      [data]="_token"
-      text="HOME_WAITERS_EVENT_CREATE_QR_CODE"
-      info="HOME_WAITERS_EDIT_EVENTS_QR_CODE_DESCRIPTION"></app-btn-qrcode>
+    <app-btn-qrcode [data]="_token" text="HOME_WAITERS_EVENT_CREATE_QR_CODE" info="HOME_WAITERS_EDIT_EVENTS_QR_CODE_DESCRIPTION" />
   `,
   imports: [AppBtnQrCodeComponent],
   standalone: true,

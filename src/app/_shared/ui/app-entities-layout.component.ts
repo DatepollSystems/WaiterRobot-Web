@@ -7,12 +7,12 @@ import {RouterOutlet} from '@angular/router';
   template: `
     <div class="row g-3">
       <div class="col-lg-4 col-xl-3" *ngIf="_showNav">
-        <ng-content select="[nav]"></ng-content>
+        <ng-content select="[nav]" />
       </div>
       <div [class.col-lg-8]="_showNav" [class.col-xl-9]="_showNav" [class.col]="!_showNav">
         <div class="card bg">
           <div class="card-body px-3 px-md-4">
-            <router-outlet></router-outlet>
+            <router-outlet />
           </div>
         </div>
       </div>

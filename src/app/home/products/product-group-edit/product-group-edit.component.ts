@@ -33,7 +33,7 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
 
         <div *isEditing="entity">
           <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
-            <i-bs name="trash"></i-bs>
+            <i-bs name="trash" />
             {{ 'DELETE' | tr }}
           </button>
         </div>
@@ -57,11 +57,9 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
               (submitCreate)="submit('CREATE', $event)"
               [productGroup]="entity"
               [printers]="vm.printers"
-              [selectedEventId]="vm.selectedEvent?.id"></app-product-group-edit-form>
+              [selectedEventId]="vm.selectedEvent?.id" />
 
-            <app-continues-creation-switch
-              *isCreating="entity"
-              (continuesCreationChange)="continuesCreation = $event"></app-continues-creation-switch>
+            <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
           </ng-template>
         </li>
       </ul>
@@ -70,7 +68,7 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
     </div>
 
     <ng-template #loading>
-      <app-spinner-row></app-spinner-row>
+      <app-spinner-row />
     </ng-template>
   `,
   selector: 'app-product-group-edit',

@@ -12,11 +12,11 @@ import {getEventsOrderedBySelected} from '../events/_services/getEventsOrderedBy
     <entities-layout-component>
       <div class="list-group" nav>
         <a class="list-group-item list-group-item-action" routerLink="mediators" routerLinkActive="active">
-          <i-bs name="router"></i-bs>
+          <i-bs name="router" />
           {{ 'HOME_PRINTER_NAV_MEDIATOR' | tr }}</a
         >
 
-        <app-list-nav-items path="/home/printers/event/" [entities]="events$ | async"></app-list-nav-items>
+        <app-list-nav-items path="/home/printers/event/" [entities]="events$ | async" />
       </div>
     </entities-layout-component>
   `,

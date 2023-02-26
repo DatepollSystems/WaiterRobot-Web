@@ -11,7 +11,7 @@ import {CreatePrinterDto, GetPrinterResponse, UpdatePrinterDto} from '../../../_
 
 @Component({
   template: `
-    <ng-container *ngIf="form.statusChanges | async"></ng-container>
+    <ng-container *ngIf="form.statusChanges | async" />
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-4">
@@ -43,7 +43,7 @@ import {CreatePrinterDto, GetPrinterResponse, UpdatePrinterDto} from '../../../_
         <div class="col-12 col-md-6 form-group">
           <label for="eventId">{{ 'NAV_EVENTS' | tr }}</label>
           <div class="input-group">
-            <span class="input-group-text bg-dark text-white" id="eventId-addon"><i-bs name="diagram-3"></i-bs></span>
+            <span class="input-group-text bg-dark text-white" id="eventId-addon"><i-bs name="diagram-3" /></span>
             <select class="form-select bg-dark text-white" id="eventId" formControlName="eventId">
               <option [value]="-1" disabled>{{ 'HOME_PRINTER_SELECT_EVENT_DEFAULT' | tr }}</option>
               <option [value]="event.id" *ngFor="let event of this.events; trackById">

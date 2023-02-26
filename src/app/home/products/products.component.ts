@@ -14,26 +14,26 @@ import {ProductGroupsService} from './_services/product-groups.service';
     <entities-layout-component>
       <div class="list-group" nav>
         <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
-          <i-bs name="columns-gap"></i-bs>
+          <i-bs name="columns-gap" />
           {{ 'HOME_PROD_ALL' | tr }}</a
         >
 
         <a class="list-group-item list-group-item-action" routerLink="groups/all" routerLinkActive="active">
-          <i-bs name="diagram-3"></i-bs>
+          <i-bs name="diagram-3" />
           {{ 'HOME_PROD_GROUP' | tr }}</a
         >
 
         <a class="list-group-item list-group-item-action" routerLink="/home/products/create" routerLinkActive="active">
-          <i-bs name="plus-circle"></i-bs>
+          <i-bs name="plus-circle" />
           {{ 'HOME_PROD_ADD' | tr }}</a
         >
 
         <a class="list-group-item list-group-item-action" routerLink="/home/products/groups/create" routerLinkActive="active">
-          <i-bs name="plus-circle"></i-bs>
+          <i-bs name="plus-circle" />
           {{ 'HOME_PROD_GROUPS_ADD' | tr }}</a
         >
 
-        <app-list-nav-items path="/home/products/groups/products/" [entities]="productGroups$ | async"></app-list-nav-items>
+        <app-list-nav-items path="/home/products/groups/products/" [entities]="productGroups$ | async" />
       </div>
     </entities-layout-component>
   `,

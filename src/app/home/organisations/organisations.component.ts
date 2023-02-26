@@ -15,11 +15,11 @@ import {OrganisationsService} from './_services/organisations.service';
     <entities-layout-component>
       <div class="list-group" nav>
         <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
-          <i-bs name="building"></i-bs>
+          <i-bs name="building" />
           {{ 'HOME_ORGS_ALL' | tr }}</a
         >
 
-        <app-list-nav-items path="/home/organisations/" [entities]="organisations$ | async"></app-list-nav-items>
+        <app-list-nav-items path="/home/organisations/" [entities]="organisations$ | async" />
       </div>
     </entities-layout-component>
   `,

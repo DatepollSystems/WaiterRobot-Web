@@ -3,19 +3,19 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {AbstractModelsListV2Component} from '../../_shared/ui/abstract-models-list-v2.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {GetOrderResponse} from '../../_shared/waiterrobot-backend';
 import {OrdersService} from './orders.service';
-import {NgSub} from 'dfx-helper';
 
 @Component({
   template: `
     <h1>{{ 'HOME_ORDERS_ALL' | tr }}</h1>
 
-    <form>
+    <form class="mt-2">
       <div class="input-group">
         <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
         <button
@@ -25,7 +25,7 @@ import {NgSub} from 'dfx-helper';
           placement="bottom"
           (click)="filter.reset()"
           *ngIf="(filter?.value?.length ?? 0) > 0">
-          <i-bs name="x-circle-fill"></i-bs>
+          <i-bs name="x-circle-fill" />
         </button>
       </div>
     </form>
@@ -78,7 +78,7 @@ import {NgSub} from 'dfx-helper';
         </table>
       </div>
 
-      <ngb-paginator [collectionSize]="dataSource.data.length" [pageSizes]="[100, 250, 500, 1000, 2000]" [pageSize]="250"></ngb-paginator>
+      <ngb-paginator [collectionSize]="dataSource.data.length" [pageSizes]="[100, 250, 500, 1000, 2000]" [pageSize]="250" />
     </ng-container>
     <app-spinner-row *ngIf="isLoading" />
   `,

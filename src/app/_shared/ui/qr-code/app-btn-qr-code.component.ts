@@ -26,7 +26,7 @@ import {AppIconsModule} from '../icons.module';
         placement="bottom"
         container="body"
         triggers="mouseenter">
-        <i-bs name="qr-code" class="me-1"></i-bs>
+        <i-bs name="qr-code" class="me-1" />
         {{ text | tr }}
       </button>
       <button
@@ -40,7 +40,7 @@ import {AppIconsModule} from '../icons.module';
         autoClose="false"
         triggers="manual"
         placement="right">
-        <i-bs name="clipboard" aria-label="Copy content to clipboard"></i-bs>
+        <i-bs name="clipboard" aria-label="Copy content to clipboard" />
       </button>
     </div>
   `,

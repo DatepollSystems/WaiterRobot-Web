@@ -9,7 +9,7 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../_shared/waite
 
 @Component({
   template: `
-    <ng-container *ngIf="form.statusChanges | async"></ng-container>
+    <ng-container *ngIf="form.statusChanges | async" />
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="row gy-2">
@@ -69,7 +69,7 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../_shared/waite
               placeholder="09.12.2021"
               formControlName="birthday" />
             <button class="btn btn-outline-light" (click)="birthdayPicker.toggle()" type="button">
-              <i-bs name="calendar-date"></i-bs>
+              <i-bs name="calendar-date" />
             </button>
           </div>
 

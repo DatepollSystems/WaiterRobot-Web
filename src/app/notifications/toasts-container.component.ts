@@ -13,7 +13,7 @@ import {NotificationService} from './notification.service';
       [delay]="toast.delay || 5000"
       (hidden)="notificationService.remove(toast)">
       <ng-template [ngIf]="isTemplate(toast)" [ngIfElse]="text">
-        <ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
+        <ng-template [ngTemplateOutlet]="toast.textOrTpl" />
       </ng-template>
 
       <ng-template #text>{{ toast.textOrTpl }}</ng-template>

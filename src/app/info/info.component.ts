@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import {FooterModule} from '../_shared/ui/footer/footer.module';
 import {DfxTr} from 'dfx-translate';
+import {FooterModule} from '../_shared/ui/footer/footer.module';
 
 @Component({
   template: `
@@ -23,14 +23,14 @@ import {DfxTr} from 'dfx-translate';
           <div class="card p-3">
             <div class="card-body">
               <div class="card-text" style="line-height: 27px">
-                <router-outlet></router-outlet>
+                <router-outlet />
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <app-footer></app-footer>
+    <app-footer container="container-md" />
   `,
   styles: [
     `

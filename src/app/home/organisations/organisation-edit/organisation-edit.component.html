@@ -9,12 +9,12 @@
       </button>
     </div>
 
-    <app-btn-model-edit-confirm *ngIf="myUser?.isAdmin && activeTab === 1" [form]="form" [editing]="isEditing"></app-btn-model-edit-confirm>
+    <app-btn-model-edit-confirm *ngIf="myUser?.isAdmin && activeTab === 1" [form]="form" [editing]="isEditing" />
 
     <ng-container *ngIf="isEditing && entity">
       <div *ngIf="myUser?.isAdmin && activeTab === 1">
         <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
-          <i-bs name="trash"></i-bs>
+          <i-bs name="trash" />
           {{ 'DELETE' | tr }}
         </button>
       </div>
@@ -23,7 +23,7 @@
           class="my-2"
           [selectedEntity]="selectedOrganisation"
           [entity]="entity"
-          [selectedEntityService]="organisationsService"></selectable-button>
+          [selectedEntityService]="organisationsService" />
       </div>
     </ng-container>
   </btn-toolbar>
@@ -181,13 +181,13 @@
                   placement="bottom"
                   (click)="filter.reset()"
                   *ngIf="filter?.value?.length > 0">
-                  <i-bs name="x-circle-fill"></i-bs>
+                  <i-bs name="x-circle-fill" />
                 </button>
               </div>
             </form>
 
             <button class="col-12 col-md-3 col-lg-2 btn btn-secondary" type="button" (click)="openAddUserModal()">
-              <i-bs name="save"></i-bs>
+              <i-bs name="save" />
               {{ 'ADD_3' | tr }}
             </button>
           </div>
@@ -209,7 +209,7 @@
                 <td *ngbCellDef="let organisationUser" ngb-cell>
                   {{ organisationUser.role }}
                   <a class="btn btn-sm m-1 btn-outline-success text-white" ngbTooltip="{{ 'EDIT' | tr }}">
-                    <i-bs name="pencil-square"></i-bs>
+                    <i-bs name="pencil-square" />
                   </a>
                 </td>
               </ng-container>
@@ -223,7 +223,7 @@
                     ngbTooltip="{{ 'DELETE' | tr }}"
                     (click)="onOrgUserDelete(organisationUser)"
                     *ngIf="myUser?.isAdmin || this.myUser?.emailAddress !== organisationUser.email_address">
-                    <i-bs name="trash"></i-bs>
+                    <i-bs name="trash" />
                   </button>
                 </td>
               </ng-container>
@@ -257,4 +257,4 @@
   </form>
 </div>
 
-<app-spinner-row [show]="isEditing && !entityLoaded"></app-spinner-row>
+<app-spinner-row [show]="isEditing && !entityLoaded" />

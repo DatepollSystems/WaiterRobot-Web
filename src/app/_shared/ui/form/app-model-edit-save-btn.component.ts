@@ -9,14 +9,14 @@ import {AppIconsModule} from '../icons.module';
   template: `
     <button class="btn btn-sm btn-success" form="ngForm" (click)="this.submit.emit()" [disabled]="_valid === 'INVALID'">
       <span *ngIf="_editing">
-        <i-bs name="save"></i-bs>
+        <i-bs name="save" />
         {{ 'SAVE' | tr }}
       </span>
       <span *ngIf="!_editing">
-        <i-bs name="plus-circle"></i-bs>
+        <i-bs name="plus-circle" />
         {{ 'ADD' | tr }}
       </span>
-      <ng-content></ng-content>
+      <ng-content />
     </button>
   `,
   selector: 'app-model-edit-save-btn',

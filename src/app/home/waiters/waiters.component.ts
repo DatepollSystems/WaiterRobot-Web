@@ -18,7 +18,7 @@ import {OrganisationsService} from '../organisations/_services/organisations.ser
           class="list-group-item list-group-item-action"
           routerLink="organisation"
           routerLinkActive="active">
-          <i-bs name="people"></i-bs>
+          <i-bs name="people" />
           {{ selectedOrganisation.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</a
         >
 
@@ -27,11 +27,11 @@ import {OrganisationsService} from '../organisations/_services/organisations.ser
           class="list-group-item list-group-item-action"
           routerLink="event/{{ selectedEvent.id }}"
           routerLinkActive="active">
-          <i-bs name="people"></i-bs>
+          <i-bs name="people" />
           {{ selectedEvent.name }} {{ 'HOME_WAITERS_NAV_EVENTS' | tr }}</a
         >
 
-        <app-list-nav-items path="/home/waiters/event/" [entities]="events$ | async"></app-list-nav-items>
+        <app-list-nav-items path="/home/waiters/event/" [entities]="events$ | async" />
       </div>
     </entities-layout-component>
   `,

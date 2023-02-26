@@ -6,7 +6,7 @@ import {answerType, QuestionDialogComponent} from './question-dialog.component';
   selector: 'app-question-modal-trigger',
   template: `
     <div (click)="openModal()">
-      <ng-content></ng-content>
+      <ng-content />
     </div>
   `,
 })

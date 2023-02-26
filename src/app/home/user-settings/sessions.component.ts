@@ -5,12 +5,12 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
-import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
-import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {SessionModel} from '../../_shared/model/session.model';
-import {UserSessionsService} from './_services/user-sessions.service';
+import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
+import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
+import {UserSessionsService} from './_services/user-sessions.service';
 
 @Component({
   template: `
@@ -19,7 +19,7 @@ import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/mo
     <btn-toolbar>
       <div>
         <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-          <i-bs name="trash"></i-bs>
+          <i-bs name="trash" />
           {{ 'DELETE' | tr }}
         </button>
       </div>
@@ -35,7 +35,7 @@ import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/mo
           placement="bottom"
           (click)="filter.reset()"
           *ngIf="(filter.value?.length ?? 0) > 0">
-          <i-bs name="x-circle-fill"></i-bs>
+          <i-bs name="x-circle-fill" />
         </button>
       </div>
     </form>
@@ -90,7 +90,7 @@ import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/mo
               ngbTooltip="{{ 'DELETE' | tr }}"
               placement="left"
               (click)="onDelete(session.id)">
-              <i-bs name="trash"></i-bs>
+              <i-bs name="trash" />
             </button>
           </td>
         </ng-container>

@@ -9,12 +9,12 @@ import {AppIconsModule} from '../../_shared/ui/icons.module';
     <entities-layout-component>
       <div class="list-group" nav>
         <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
-          <i-bs name="people-fill"></i-bs>
+          <i-bs name="people-fill" />
           {{ 'HOME_USERS_ALL' | tr }}</a
         >
 
         <a class="list-group-item list-group-item-action" routerLink="/home/users/create" routerLinkActive="active">
-          <i-bs name="plus-circle"></i-bs>
+          <i-bs name="plus-circle" />
           {{ 'ADD_2' | tr }}</a
         >
       </div>

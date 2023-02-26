@@ -9,7 +9,7 @@ import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '.
 
 @Component({
   template: `
-    <ng-container *ngIf="form.statusChanges | async"></ng-container>
+    <ng-container *ngIf="form.statusChanges | async" />
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-4">

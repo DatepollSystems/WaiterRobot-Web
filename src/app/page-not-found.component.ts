@@ -11,7 +11,7 @@ import {FooterModule} from './_shared/ui/footer/footer.module';
   template: `
     <div class="d-container text-white">
       <div class="container-sm px-5">
-        <app-logo-with-text></app-logo-with-text>
+        <app-logo-with-text />
         <div class="d-flex flex-column align-items-center gap-4" style="margin-top: 5%; padding-bottom: 10%">
           <div>
             <img style="max-width: 100%" src="assets/404.webp" alt="Image of cat which hides" />
@@ -27,7 +27,7 @@ import {FooterModule} from './_shared/ui/footer/footer.module';
         </div>
       </div>
     </div>
-    <app-footer></app-footer>
+    <app-footer />
   `,
   styleUrls: ['./about/about.component.scss'],
   standalone: true,

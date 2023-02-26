@@ -23,14 +23,14 @@ import {ProductsService} from './_services/products.service';
     <btn-toolbar>
       <div>
         <a routerLink="../create" class="btn btn-sm btn-outline-success">
-          <i-bs name="plus-circle"></i-bs>
+          <i-bs name="plus-circle" />
           {{ 'ADD_2' | tr }}</a
         >
       </div>
 
       <div *ngIf="selection">
         <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-          <i-bs name="trash"></i-bs>
+          <i-bs name="trash" />
           {{ 'DELETE' | tr }}
         </button>
       </div>
@@ -46,7 +46,7 @@ import {ProductsService} from './_services/products.service';
           placement="bottom"
           (click)="filter.reset()"
           *ngIf="(filter.value?.length ?? 0) > 0">
-          <i-bs name="x-circle-fill"></i-bs>
+          <i-bs name="x-circle-fill" />
         </button>
       </div>
     </form>
@@ -111,14 +111,14 @@ import {ProductsService} from './_services/products.service';
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let product" ngb-cell>
             <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ product.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
-              <i-bs name="pencil-square"></i-bs>
+              <i-bs name="pencil-square" />
             </a>
             <button
               type="button"
               class="btn btn-sm m-1 btn-outline-danger text-white"
               ngbTooltip="{{ 'DELETE' | tr }}"
               (click)="onDelete(product.id, $event)">
-              <i-bs name="trash"></i-bs>
+              <i-bs name="trash" />
             </button>
           </td>
         </ng-container>

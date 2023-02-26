@@ -10,7 +10,7 @@ import {CreateTableDto, GetTableResponse, UpdateTableDto} from '../../../_shared
 
 @Component({
   template: `
-    <ng-container *ngIf="form.statusChanges | async as changes"></ng-container>
+    <ng-container *ngIf="form.statusChanges | async" />
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-3">
@@ -45,7 +45,7 @@ import {CreateTableDto, GetTableResponse, UpdateTableDto} from '../../../_shared
           <label for="selectGroup">{{ 'HOME_TABLE_GROUPS' | tr }}</label>
           <div class="input-group">
             <span class="input-group-text bg-dark text-white" id="selectGroup-addon">
-              <i-bs name="diagram-3"></i-bs>
+              <i-bs name="diagram-3" />
             </span>
             <select class="form-select bg-dark text-white" id="selectGroup" formControlName="groupId">
               <option [value]="-1" disabled>{{ 'HOME_TABLES_GROUPS_DEFAULT' | tr }}</option>

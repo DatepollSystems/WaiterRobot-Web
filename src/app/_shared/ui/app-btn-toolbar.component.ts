@@ -8,7 +8,7 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, Vi
         #contentWrapper
         id="overflow-container"
         class="d-flex flex-row flex-fill justify-content-sm-start overflow-auto user-select-none gap-3 gap-md-3">
-        <ng-content></ng-content>
+        <ng-content />
       </div>
     </div>
   `,

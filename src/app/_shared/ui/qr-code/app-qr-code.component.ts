@@ -8,6 +8,7 @@ import {DfxCutPipe, IsMobileService, WINDOW} from 'dfx-helper';
 import {DfxTr, dfxTranslate} from 'dfx-translate';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
+import {tap} from 'rxjs/operators';
 import {qrCodeData, QrCodeService} from '../../services/qr-code.service';
 
 import {AppBtnToolbarComponent} from '../app-btn-toolbar.component';
@@ -19,7 +20,7 @@ import {AppIconsModule} from '../icons.module';
     <div *ngIf="qrCodeData" class="my-container d-flex flex-row flex-wrap gap-5 align-items-center justify-content-center h-100">
       <div id="qrcode" class="qrcode-rounded">
         <qrcode
-          [width]="(isMobile$ | async) ? 300 : 600"
+          [width]="(isMobile$ | async) === true ? 300 : 600"
           errorCorrectionLevel="M"
           [margin]="0"
           colorLight="#f6f6f6"
@@ -37,12 +38,12 @@ import {AppIconsModule} from '../icons.module';
         <div class="card-footer text-muted">
           <btn-toolbar padding="false">
             <button class="btn btn-sm btn-secondary" (click)="back()">
-              <i-bs name="arrow-left"></i-bs>
+              <i-bs name="arrow-left" />
               {{ 'GO_BACK' | tr }}
             </button>
 
             <button class="btn btn-sm btn-info" (click)="print()">
-              <i-bs name="printer" aria-label="Copy content to clipboard"></i-bs>
+              <i-bs name="printer" aria-label="Copy content to clipboard" />
               {{ 'PRINT' | tr }}
             </button>
 
@@ -57,7 +58,7 @@ import {AppIconsModule} from '../icons.module';
               triggers="manual"
               aria-label="Copy link"
               placement="right">
-              <i-bs name="clipboard" aria-label="Copy content to clipboard"></i-bs>
+              <i-bs name="clipboard" aria-label="Copy content to clipboard" />
               {{ 'COPY' | tr }}
             </button>
           </btn-toolbar>
@@ -86,7 +87,7 @@ import {AppIconsModule} from '../icons.module';
 })
 export class AppQrCodeViewComponent {
   qrCodeData?: qrCodeData;
-  isMobile$ = inject(IsMobileService).isMobile$;
+  isMobile$ = inject(IsMobileService).isMobile$.pipe(tap((mobile) => console.log('is mobile', mobile)));
 
   translate = dfxTranslate();
 

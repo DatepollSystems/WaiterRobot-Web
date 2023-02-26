@@ -7,7 +7,7 @@ import {QuestionDialogComponent} from './question-dialog.component';
   selector: 'app-confirm-modal',
   template: `
     <div (click)="!_disabled ? openModal() : null" [class.disabled]="_disabled">
-      <ng-content></ng-content>
+      <ng-content />
     </div>
   `,
 })

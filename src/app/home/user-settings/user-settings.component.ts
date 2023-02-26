@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
-import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {DfxTr} from 'dfx-translate';
+import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 
 @Component({
@@ -9,11 +9,11 @@ import {AppIconsModule} from '../../_shared/ui/icons.module';
     <entities-layout-component>
       <div class="list-group" nav>
         <a class="list-group-item list-group-item-action" routerLink="settings" routerLinkActive="active">
-          <i-bs name="gear-wide-connected"></i-bs>
+          <i-bs name="gear-wide-connected" />
           {{ 'NAV_USER_SETTINGS' | tr }}</a
         >
         <a class="list-group-item list-group-item-action" routerLink="sessions" routerLinkActive="active">
-          <i-bs name="file-lock"></i-bs>
+          <i-bs name="file-lock" />
           {{ 'NAV_USER_SESSIONS' | tr }}</a
         >
       </div>

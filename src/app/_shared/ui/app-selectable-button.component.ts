@@ -19,7 +19,7 @@ import {AppIconsModule} from './icons.module';
       ngbTooltip="{{ 'SELECT' | tr }}"
       placement="start"
       container="body">
-      <i-bs name="check2-square"></i-bs>
+      <i-bs name="check2-square" />
     </button>
     <ng-template #deselect>
       <button
@@ -30,7 +30,7 @@ import {AppIconsModule} from './icons.module';
         ngbTooltip="{{ 'CLEAR_SELECTION' | tr }}"
         placement="start"
         container="body">
-        <i-bs name="x-circle-fill"></i-bs>
+        <i-bs name="x-circle-fill" />
       </button>
     </ng-template>
   `,
