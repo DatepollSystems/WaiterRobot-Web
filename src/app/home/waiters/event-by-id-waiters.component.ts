@@ -19,6 +19,7 @@ import {WaitersService} from './_services/waiters.service';
 import {BtnWaiterCreateQrCodeComponent} from '../../_shared/ui/btn-waiter-create-qr-code.component';
 import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
 import {QrCodeService} from '../../_shared/services/qr-code.service';
+import {MobileLinkService} from '../../_shared/services/mobile-link.service';
 
 @Component({
   template: `
@@ -106,13 +107,7 @@ import {QrCodeService} from '../../_shared/services/qr-code.service';
               type="button"
               class="btn btn-sm m-1 btn-outline-info text-white"
               ngbTooltip="{{ 'HOME_WAITERS_EDIT_QR_CODE' | tr }}"
-              (click)="
-                qrCodeService.openQRCodePage({
-                  data: waiter.signInToken,
-                  text: 'HOME_WAITERS_EDIT_QR_CODE',
-                  info: 'HOME_WAITERS_EDIT_QR_CODE_DESCRIPTION'
-                })
-              ">
+              (click)="openLoginQRCode(waiter.signInToken, $event)">
               <i-bs name="qr-code" class="me-1"></i-bs>
             </button>
             <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../../{{ waiter.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
@@ -157,9 +152,23 @@ import {QrCodeService} from '../../_shared/services/qr-code.service';
   ],
 })
 export class EventByIdWaitersComponent extends AbstractModelsWithNameListByIdComponent<GetWaiterResponse, EventModel> {
-  constructor(waitersService: WaitersService, eventsService: EventsService, public qrCodeService: QrCodeService) {
+  constructor(
+    waitersService: WaitersService,
+    eventsService: EventsService,
+    private mobileLink: MobileLinkService,
+    private qrCodeService: QrCodeService
+  ) {
     super(waitersService, eventsService);
 
     this.columnsToDisplay = ['name', 'activated', 'events', 'actions'];
+  }
+
+  openLoginQRCode(token: string, $event: MouseEvent): void {
+    $event.stopPropagation();
+    this.qrCodeService.openQRCodePage({
+      data: this.mobileLink.createWaiterSignInLink(token),
+      text: 'HOME_WAITERS_EDIT_QR_CODE',
+      info: 'HOME_WAITERS_EDIT_QR_CODE_DESCRIPTION',
+    });
   }
 }
