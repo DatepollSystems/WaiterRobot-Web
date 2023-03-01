@@ -58,8 +58,7 @@
   "DO_NOT_CLOSE_WINDOW": "Schließe das Fenster nicht",
   "SELECT": "Auswählen",
 
-  "REQUEST_ERROR_CLIENT": "Client fehler",
-  "REQUEST_ERROR_SERVER": "Server fehler",
+  "REQUEST_ERROR": "Ein unbekannter Fehler ist aufgetreten.",
 
   "OFFLINE": "Keine Verbindung zum Internet.",
   "SERVER_OFFLINE": "Verbindung zum Server fehlgeschlagen.",

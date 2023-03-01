@@ -89,7 +89,7 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
                     lumber.info('handle401Error', 'Already refreshing; JWT: "' + jwt + '"');
                     return next(addToken(req, jwt));
                   })
-                ) as Observable<HttpEvent<any>>;
+                );
               }
             default:
               return throwError(error.error.message);
