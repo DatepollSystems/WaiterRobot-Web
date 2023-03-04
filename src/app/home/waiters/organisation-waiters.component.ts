@@ -116,7 +116,7 @@ import {MobileLinkService} from '../../_shared/services/mobile-link.service';
               class="btn btn-sm m-1 btn-outline-info text-white"
               ngbTooltip="{{ 'HOME_WAITERS_EDIT_QR_CODE' | tr }}"
               (click)="openLoginQRCode(waiter.signInToken, $event)">
-              <i-bs name="qr-code" class="me-1"></i-bs>
+              <i-bs name="qr-code"></i-bs>
             </button>
             <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ waiter.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
               <i-bs name="pencil-square" />

@@ -4,11 +4,10 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
   template: `
     <h2>Datenschutzerklärung</h2>
 
-    <h3>iOS</h3>
-    <strong>Privacy Policy</strong>
+    <strong>Privacy Policy iOS & Android</strong>
     <p>
-      Alexander Kauer built the WaiterRobot app as a Freemium app. This SERVICE is provided by Alexander Kauer at no cost and is intended
-      for use as is.
+      Alexander Kauer built the WaiterRobot app as a Commercial app. This SERVICE is provided by Alexander Kauer and is intended for use as
+      is.
     </p>
     <p>
       This page is used to inform visitors regarding my policies with the collection, use, and disclosure of Personal Information if anyone
@@ -26,7 +25,8 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
     <p><strong>Information Collection and Use</strong></p>
     <p>
       For a better experience, while using our Service, I may require you to provide us with certain personally identifiable information,
-      including but not limited to username.
+      including but not limited to name, username, address. The information that I request will be retained on your device and is not
+      collected by me in any way.
     </p>
     <!---->
     <p><strong>Log Data</strong></p>
@@ -45,6 +45,18 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
       This Service does not use these “cookies” explicitly. However, the app may use third-party code and libraries that use “cookies” to
       collect information and improve their services. You have the option to either accept or refuse these cookies and know when a cookie is
       being sent to your device. If you choose to refuse our cookies, you may not be able to use some portions of this Service.
+    </p>
+    <p><strong>Service Providers</strong></p>
+    <p>I may employ third-party companies and individuals due to the following reasons:</p>
+    <ul>
+      <li>To facilitate our Service;</li>
+      <li>To provide the Service on our behalf;</li>
+      <li>To perform Service-related services; or</li>
+      <li>To assist us in analyzing how our Service is used.</li>
+    </ul>
+    <p>
+      I want to inform users of this Service that these third parties have access to their Personal Information. The reason is to perform
+      the tasks assigned to them on our behalf. However, they are obligated not to disclose or use the information for any other purpose.
     </p>
     <p><strong>Security</strong></p>
     <p>
@@ -76,7 +88,7 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
       I may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. I will
       notify you of any changes by posting the new Privacy Policy on this page.
     </p>
-    <p>This policy is effective as of 2022-07-26</p>
+    <p>This policy is effective as of 2023-02-21</p>
     <p><strong>Contact Us</strong></p>
     <p>If you have any questions or suggestions about my Privacy Policy, do not hesitate to contact me at contact@kaulex.dev.</p>
     <p>
@@ -134,28 +146,26 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
       result of relying wholly on this functionality of the app.
     </p>
     <p>
-      At some point, we may wish to update the app. The app is currently available on iOS – the requirements for the system(and for any
-      additional systems we decide to extend the availability of the app to) may change, and you’ll need to download the updates if you want
-      to keep using the app. Alexander Kauer does not promise that it will always update the app so that it is relevant to you and/or works
-      with the iOS version that you have installed on your device. However, you promise to always accept updates to the application when
-      offered to you, We may also wish to stop providing the app, and may terminate use of it at any time without giving notice of
-      termination to you. Unless we tell you otherwise, upon any termination, (a) the rights and licenses granted to you in these terms will
-      end; (b) you must stop using the app, and (if needed) delete it from your device.
+      At some point, we may wish to update the app. The app is currently available on Android &amp; iOS – the requirements for the both
+      systems(and for any additional systems we decide to extend the availability of the app to) may change, and you’ll need to download the
+      updates if you want to keep using the app. Alexander Kauer does not promise that it will always update the app so that it is relevant
+      to you and/or works with the Android &amp; iOS version that you have installed on your device. However, you promise to always accept
+      updates to the application when offered to you, We may also wish to stop providing the app, and may terminate use of it at any time
+      without giving notice of termination to you. Unless we tell you otherwise, upon any termination, (a) the rights and licenses granted
+      to you in these terms will end; (b) you must stop using the app, and (if needed) delete it from your device.
     </p>
     <p><strong>Changes to This Terms and Conditions</strong></p>
     <p>
       I may update our Terms and Conditions from time to time. Thus, you are advised to review this page periodically for any changes. I
       will notify you of any changes by posting the new Terms and Conditions on this page.
     </p>
-    <p>These terms and conditions are effective as of 2022-07-26</p>
+    <p>These terms and conditions are effective as of 2023-02-21</p>
     <p><strong>Contact Us</strong></p>
     <p>If you have any questions or suggestions about my Terms and Conditions, do not hesitate to contact me at contact@kaulex.dev.</p>
     <p>
       This Terms and Conditions page was generated by
       <a href="https://app-privacy-policy-generator.nisrulz.com/" target="_blank" rel="noopener noreferrer">App Privacy Policy Generator</a>
     </p>
-
-    <h3>Android</h3>
   `,
   selector: 'app-mobile-privacy-policy',
   changeDetection: ChangeDetectionStrategy.OnPush,

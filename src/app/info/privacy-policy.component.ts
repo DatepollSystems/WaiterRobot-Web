@@ -8,11 +8,11 @@ import {DfxTr} from 'dfx-translate';
     <br />
 
     <h3>Wer wir sind</h3>
-    <p>DatePoll-Systems</p>
+    <p>Alexander Kauer</p>
     <br />
     <p>Mit einem Website-Besuch werden keine Drittinhalte nachgeladen oder sonstige Trackingmaßnahmen betrieben.</p>
     <p>
-      Falls du trotzdem fragen hast, kannst du dich gerne an <a href="mailto:kaulex@datepollsystems.org">kaulex@datepollsystems.org</a>
+      Falls du trotzdem fragen hast, kannst du dich gerne an <a href="mailto:contact@kaulex.dev">kaulex@datepollsystems.org</a>
       wenden
     </p>
 

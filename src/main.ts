@@ -30,6 +30,7 @@ import {AppComponent} from './app/app.component';
 import {ROUTES} from './app/app.routes';
 
 import {CustomTitleStrategy} from './app/custom-title.strategy';
+import {errorInterceptor} from './app/_shared/services/auth/error-interceptor';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -52,7 +53,9 @@ bootstrapApplication(AppComponent, {
     },
     {provide: NgbDateAdapter, useClass: CustomDateAdapter},
     {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter},
-    provideHttpClient(withInterceptors([baseUrlInterceptor, postPutJsonContentTypeInterceptor, loggingInterceptor, authInterceptor])),
+    provideHttpClient(
+      withInterceptors([baseUrlInterceptor, postPutJsonContentTypeInterceptor, loggingInterceptor, authInterceptor, errorInterceptor])
+    ),
     WINDOW_PROVIDERS,
   ],
 }).catch((err) => console.error(err));

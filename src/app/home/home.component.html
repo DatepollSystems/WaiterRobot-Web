@@ -37,11 +37,10 @@
               <li class="d-flex align-items-center" *ngIf="!isMobile">
                 <div
                   style="font-size: 12px"
-                  *ngIf="showEnvironmentType && environmentType !== 'prod'"
+                  *ngIf="showEnvironmentType && environmentType === 'dev'"
                   (click)="showEnvironmentType = !showEnvironmentType"
                   class="badge bg-warning text-dark ms-1 me-1 not-selectable">
                   <span *ngIf="environmentType === 'dev'">DEV</span>
-                  <span *ngIf="environmentType === 'testing'">TESTING</span>
                 </div>
                 <div style="font-size: 12px" *ngIf="myUser?.isAdmin" class="badge bg-danger text-dark ms-1 me-1 not-selectable">
                   <span>ADMIN</span>
