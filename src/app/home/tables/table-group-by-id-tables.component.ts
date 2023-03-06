@@ -117,7 +117,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
       </table>
     </div>
 
-    <app-spinner-row *ngIf="isLoading" />
+    <app-spinner-row [show]="isLoading" />
   `,
   selector: 'app-table-group-by-id-tables',
   standalone: true,

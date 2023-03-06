@@ -12,9 +12,7 @@ import {BtnWaiterCreateQrCodeComponent} from '../../_shared/ui/btn-waiter-create
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListByIdComponent} from '../../_shared/ui/models-list-by-id/abstract-models-with-name-list-by-id.component';
-import {GetWaiterResponse} from '../../_shared/waiterrobot-backend';
-
-import {EventModel} from '../events/_models/event.model';
+import {GetEventOrLocationResponse, GetWaiterResponse} from '../../_shared/waiterrobot-backend';
 import {EventsService} from '../events/_services/events.service';
 
 import {WaitersService} from './_services/waiters.service';
@@ -128,7 +126,7 @@ import {MobileLinkService} from '../../_shared/services/mobile-link.service';
       </table>
     </div>
 
-    <app-spinner-row *ngIf="isLoading" />
+    <app-spinner-row [show]="isLoading" />
   `,
   selector: 'app-event-by-id-waiters',
   standalone: true,
@@ -151,7 +149,7 @@ import {MobileLinkService} from '../../_shared/services/mobile-link.service';
     BtnWaiterSignInQrCodeComponent,
   ],
 })
-export class EventByIdWaitersComponent extends AbstractModelsWithNameListByIdComponent<GetWaiterResponse, EventModel> {
+export class EventByIdWaitersComponent extends AbstractModelsWithNameListByIdComponent<GetWaiterResponse, GetEventOrLocationResponse> {
   constructor(
     waitersService: WaitersService,
     eventsService: EventsService,

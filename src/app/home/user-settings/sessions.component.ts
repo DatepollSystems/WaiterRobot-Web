@@ -100,7 +100,7 @@ import {UserSessionsService} from './_services/user-sessions.service';
       </table>
     </div>
 
-    <app-spinner-row *ngIf="isLoading" />
+    <app-spinner-row [show]="isLoading" />
   `,
   selector: 'app-sessions',
   standalone: true,

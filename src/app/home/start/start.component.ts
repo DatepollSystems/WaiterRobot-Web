@@ -13,11 +13,9 @@ import {EnvironmentHelper} from '../../_shared/EnvironmentHelper';
 import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
 import {AppDownloadBtnListComponent} from '../../_shared/ui/app-download-btn-list.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {JsonInfoResponse} from '../../_shared/waiterrobot-backend';
+import {GetEventOrLocationResponse, GetOrganisationResponse, JsonInfoResponse} from '../../_shared/waiterrobot-backend';
 import {AppSelectDialogComponent} from '../app-select-dialog.component';
-import {EventModel} from '../events/_models/event.model';
 import {EventsService} from '../events/_services/events.service';
-import {OrganisationModel} from '../organisations/_models/organisation.model';
 import {OrganisationsService} from '../organisations/_services/organisations.service';
 
 @Component({
@@ -100,11 +98,11 @@ export class StartComponent extends AComponent {
     );
   }
 
-  selectOrganisation(it: OrganisationModel): void {
+  selectOrganisation(it: GetOrganisationResponse): void {
     this.organisationsService.setSelected(it);
   }
 
-  selectEvent(it: EventModel): void {
+  selectEvent(it: GetEventOrLocationResponse): void {
     this.eventsService.setSelected(it);
   }
 }

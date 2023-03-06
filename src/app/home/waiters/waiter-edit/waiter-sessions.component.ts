@@ -97,7 +97,7 @@ import {WaitersService} from '../_services/waiters.service';
       </table>
     </div>
 
-    <app-spinner-row *ngIf="isLoading" />
+    <app-spinner-row [show]="isLoading" />
   `,
   selector: 'app-waiter-sessions',
   standalone: true,

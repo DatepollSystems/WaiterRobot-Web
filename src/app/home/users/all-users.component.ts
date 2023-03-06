@@ -116,7 +116,7 @@ import {UsersService} from './users.service';
       </table>
     </div>
 
-    <app-spinner-row *ngIf="isLoading" />
+    <app-spinner-row [show]="isLoading" />
   `,
   selector: 'app-all-users',
   standalone: true,

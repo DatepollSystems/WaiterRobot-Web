@@ -50,7 +50,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
           ngbTooltip="{{ 'CLEAR' | tr }}"
           placement="bottom"
           (click)="filter.reset()"
-          *ngIf="(filter?.value?.length ?? 0) > 0">
+          *ngIf="(filter.value?.length ?? 0) > 0">
           <i-bs name="x-circle-fill" />
         </button>
       </div>
@@ -118,7 +118,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
       </table>
     </div>
 
-    <app-spinner-row *ngIf="isLoading" />
+    <app-spinner-row [show]="isLoading" />
   `,
   selector: 'app-all-tables',
   standalone: true,

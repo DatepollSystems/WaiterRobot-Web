@@ -132,7 +132,7 @@ import {ProductsService} from './_services/products.service';
       </table>
     </div>
 
-    <app-spinner-row *ngIf="isLoading" />
+    <app-spinner-row [show]="isLoading" />
   `,
   selector: 'app-product-group-by-id-products',
   changeDetection: ChangeDetectionStrategy.OnPush,

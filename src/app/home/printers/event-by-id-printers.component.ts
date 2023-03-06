@@ -10,9 +10,7 @@ import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListByIdComponent} from '../../_shared/ui/models-list-by-id/abstract-models-with-name-list-by-id.component';
-import {GetPrinterResponse} from '../../_shared/waiterrobot-backend';
-
-import {EventModel} from '../events/_models/event.model';
+import {GetEventOrLocationResponse, GetPrinterResponse} from '../../_shared/waiterrobot-backend';
 
 import {EventsService} from '../events/_services/events.service';
 import {PrintersService} from './_services/printers.service';
@@ -116,7 +114,7 @@ import {PrintersService} from './_services/printers.service';
       </table>
     </div>
 
-    <app-spinner-row *ngIf="isLoading" />
+    <app-spinner-row [show]="isLoading" />
   `,
   selector: 'app-event-by-id-printers',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -137,7 +135,7 @@ import {PrintersService} from './_services/printers.service';
     AppBtnToolbarComponent,
   ],
 })
-export class EventByIdPrintersComponent extends AbstractModelsWithNameListByIdComponent<GetPrinterResponse, EventModel> {
+export class EventByIdPrintersComponent extends AbstractModelsWithNameListByIdComponent<GetPrinterResponse, GetEventOrLocationResponse> {
   constructor(printersService: PrintersService, eventsService: EventsService) {
     super(printersService, eventsService);
 

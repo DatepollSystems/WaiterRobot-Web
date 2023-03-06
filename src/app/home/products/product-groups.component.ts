@@ -99,7 +99,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
       </table>
     </div>
 
-    <app-spinner-row *ngIf="isLoading" />
+    <app-spinner-row [show]="isLoading" />
   `,
   selector: 'app-product-groups',
   standalone: true,

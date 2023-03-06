@@ -1,8 +1,7 @@
 import {NgForOf, NgIf} from '@angular/common';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
-import {EventModel} from './events/_models/event.model';
-import {OrganisationModel} from './organisations/_models/organisation.model';
+import {GetEventOrLocationResponse, GetOrganisationResponse} from '../_shared/waiterrobot-backend';
 
 @Component({
   template: `
@@ -52,20 +51,20 @@ import {OrganisationModel} from './organisations/_models/organisation.model';
 })
 export class AppSelectDialogComponent {
   @Input()
-  organisations!: OrganisationModel[];
+  organisations!: GetOrganisationResponse[];
 
   @Input()
-  selectedOrganisation?: OrganisationModel;
+  selectedOrganisation?: GetOrganisationResponse;
 
   @Input()
-  events!: EventModel[];
+  events!: GetEventOrLocationResponse[];
 
   @Input()
-  selectedEvent?: EventModel;
+  selectedEvent?: GetEventOrLocationResponse;
 
   @Output()
-  selectOrganisation = new EventEmitter<OrganisationModel>();
+  selectOrganisation = new EventEmitter<GetOrganisationResponse>();
 
   @Output()
-  selectEvent = new EventEmitter<EventModel>();
+  selectEvent = new EventEmitter<GetEventOrLocationResponse>();
 }

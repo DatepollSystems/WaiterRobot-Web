@@ -99,7 +99,7 @@ import {TableGroupsService} from './_services/table-groups.service';
       </table>
     </div>
 
-    <app-spinner-row *ngIf="isLoading" />
+    <app-spinner-row [show]="isLoading" />
   `,
   selector: 'app-table-groups',
   standalone: true,

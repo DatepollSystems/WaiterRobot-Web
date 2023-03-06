@@ -6,10 +6,9 @@ import {combineLatest, map} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {AuthService} from '../_shared/services/auth/auth.service';
 import {AppSelectDialogComponent} from './app-select-dialog.component';
-import {EventModel} from './events/_models/event.model';
 import {EventsService} from './events/_services/events.service';
-import {OrganisationModel} from './organisations/_models/organisation.model';
 import {OrganisationsService} from './organisations/_services/organisations.service';
+import {GetEventOrLocationResponse, GetOrganisationResponse} from '../_shared/waiterrobot-backend';
 
 @Component({
   template: `
@@ -65,11 +64,11 @@ export class AppSelectDialogViewComponent {
     })
   );
 
-  selectOrganisation(it: OrganisationModel): void {
+  selectOrganisation(it: GetOrganisationResponse): void {
     this.organisationsService.setSelected(it);
   }
 
-  selectEvent(it: EventModel): void {
+  selectEvent(it: GetEventOrLocationResponse): void {
     this.eventsService.setSelected(it);
     void this.router.navigateByUrl(this.authService.redirectUrl ?? '/home');
   }

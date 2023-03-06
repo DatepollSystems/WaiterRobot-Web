@@ -136,7 +136,7 @@ import {MobileLinkService} from '../../_shared/services/mobile-link.service';
       </table>
     </div>
 
-    <app-spinner-row *ngIf="isLoading" />
+    <app-spinner-row [show]="isLoading" />
   `,
   selector: 'app-organisation-waiters',
   standalone: true,

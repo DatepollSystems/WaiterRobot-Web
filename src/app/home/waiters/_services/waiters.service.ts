@@ -12,14 +12,19 @@ import {
   HasUpdateWithIdResponse,
 } from '../../../_shared/services/abstract-entity.service';
 
-import {CreateWaiterDto, GetWaiterResponse, IdResponse, UpdateWaiterDto} from '../../../_shared/waiterrobot-backend';
-import {EventModel} from '../../events/_models/event.model';
+import {
+  CreateWaiterDto,
+  GetEventOrLocationResponse,
+  GetWaiterResponse,
+  IdResponse,
+  UpdateWaiterDto,
+} from '../../../_shared/waiterrobot-backend';
 
 @Injectable({providedIn: 'root'})
 export class WaitersService
   implements
     HasGetAll<GetWaiterResponse>,
-    HasGetByParent<GetWaiterResponse, EventModel>,
+    HasGetByParent<GetWaiterResponse, GetEventOrLocationResponse>,
     HasGetSingle<GetWaiterResponse>,
     HasCreateWithIdResponse<CreateWaiterDto>,
     HasUpdateWithIdResponse<UpdateWaiterDto>,
