@@ -24,7 +24,8 @@ import {OrdersService} from './orders.service';
           ngbTooltip="{{ 'CLEAR' | tr }}"
           placement="bottom"
           (click)="filter.reset()"
-          *ngIf="(filter?.value?.length ?? 0) > 0">
+          *ngIf="(filter?.value?.length ?? 0) > 0"
+        >
           <i-bs name="x-circle-fill" />
         </button>
       </div>

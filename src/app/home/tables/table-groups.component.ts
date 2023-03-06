@@ -41,7 +41,8 @@ import {TableGroupsService} from './_services/table-groups.service';
           ngbTooltip="{{ 'CLEAR' | tr }}"
           placement="bottom"
           (click)="filter.reset()"
-          *ngIf="(filter?.value?.length ?? 0) > 0">
+          *ngIf="(filter?.value?.length ?? 0) > 0"
+        >
           <i-bs name="x-circle-fill" />
         </button>
       </div>
@@ -57,7 +58,8 @@ import {TableGroupsService} from './_services/table-groups.service';
                 type="checkbox"
                 name="checked"
                 (change)="$event ? toggleAllRows() : null"
-                [checked]="selection.hasValue() && isAllSelected()" />
+                [checked]="selection.hasValue() && isAllSelected()"
+              />
             </div>
           </th>
           <td *ngbCellDef="let selectable" ngb-cell>
@@ -68,7 +70,8 @@ import {TableGroupsService} from './_services/table-groups.service';
                 name="checked"
                 (click)="$event.stopPropagation()"
                 (change)="$event ? selection.toggle(selectable) : null"
-                [checked]="selection.isSelected(selectable)" />
+                [checked]="selection.isSelected(selectable)"
+              />
             </div>
           </td>
         </ng-container>
@@ -88,7 +91,8 @@ import {TableGroupsService} from './_services/table-groups.service';
               type="button"
               class="btn btn-sm m-1 btn-outline-danger text-white"
               ngbTooltip="{{ 'DELETE' | tr }}"
-              (click)="onDelete(tableGroup.id, $event)">
+              (click)="onDelete(tableGroup.id, $event)"
+            >
               <i-bs name="trash" />
             </button>
           </td>

@@ -11,7 +11,8 @@ import {NotificationService} from './notification.service';
       [autohide]="true"
       [animation]="true"
       [delay]="toast.delay || 5000"
-      (hidden)="notificationService.remove(toast)">
+      (hidden)="notificationService.remove(toast)"
+    >
       <ng-template [ngIf]="isTemplate(toast)" [ngIfElse]="text">
         <ng-template [ngTemplateOutlet]="toast.textOrTpl" />
       </ng-template>

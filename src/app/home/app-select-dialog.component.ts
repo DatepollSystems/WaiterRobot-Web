@@ -12,7 +12,8 @@ import {GetEventOrLocationResponse, GetOrganisationResponse} from '../_shared/wa
           class="btn btn-outline-secondary"
           (click)="selectOrganisation.emit(organisations[0])"
           *ngIf="organisations.length === 1; else organisationSelectDropdown"
-          [disabled]="selectedOrganisation">
+          [disabled]="selectedOrganisation"
+        >
           {{ organisations[0].name }} auswählen
         </button>
         <ng-template #organisationSelectDropdown>
@@ -30,7 +31,8 @@ import {GetEventOrLocationResponse, GetOrganisationResponse} from '../_shared/wa
       <button
         class="btn btn-outline-secondary"
         (click)="selectEvent.emit(events[0])"
-        *ngIf="!selectedEvent && selectedOrganisation && events.length === 1; else eventSelectDropdown">
+        *ngIf="!selectedEvent && selectedOrganisation && events.length === 1; else eventSelectDropdown"
+      >
         {{ events[0].name }} auswählen
       </button>
       <ng-template #eventSelectDropdown>

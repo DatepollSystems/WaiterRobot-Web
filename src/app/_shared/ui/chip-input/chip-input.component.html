@@ -19,7 +19,8 @@
       [inputFormatter]="formatter"
       [value]="modelInput"
       [class.bg-dark]="_dark"
-      [class.text-white]="_dark" />
+      [class.text-white]="_dark"
+    />
     <small class="text-danger" *ngIf="!inputValid">{{ validationErrorText }}</small>
     <div class="d-flex flex-row flex-wrap gap-2">
       <ng-container *ngIf="this._models.length > 0">

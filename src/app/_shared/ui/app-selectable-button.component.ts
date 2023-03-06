@@ -19,7 +19,8 @@ import {Observable} from 'rxjs';
         attr.aria-label="{{ 'SELECT' | tr }}"
         ngbTooltip="{{ 'SELECT' | tr }}"
         placement="start"
-        container="body">
+        container="body"
+      >
         <i-bs name="check2-square" />
       </button>
       <ng-template #deselect>
@@ -30,7 +31,8 @@ import {Observable} from 'rxjs';
           attr.aria-label="{{ 'CLEAR_SELECTION' | tr }}"
           ngbTooltip="{{ 'CLEAR_SELECTION' | tr }}"
           placement="start"
-          container="body">
+          container="body"
+        >
           <i-bs name="x-circle-fill" />
         </button>
       </ng-template>

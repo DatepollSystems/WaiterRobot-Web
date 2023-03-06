@@ -24,7 +24,8 @@ export type appDownload = {
       *ngFor="let appLink of appDownloadLinks; trackByProperty: 'text'"
       class="btn-group m-1"
       role="group"
-      aria-label="App download infos">
+      aria-label="App download infos"
+    >
       <a class="btn btn-outline-info" [class.customLogo]="appLink.img" target="_blank" rel="noopener" href="{{ appLink.link }}">
         <i-bs *ngIf="appLink.icon" [name]="appLink.icon" />
         <img *ngIf="appLink.img" ngSrc="{{ appLink.img }}" alt="" height="16em;" width="16em;" />
@@ -39,7 +40,8 @@ export type appDownload = {
         *ngIf="showQRCodeButton"
         placement="top"
         attr.aria-label="{{ 'ABOUT_APP_QR_CODE_TOOLTIP' | tr }}"
-        ngbTooltip="{{ 'ABOUT_APP_QR_CODE_TOOLTIP' | tr }}">
+        ngbTooltip="{{ 'ABOUT_APP_QR_CODE_TOOLTIP' | tr }}"
+      >
         <i-bs name="upc-scan" />
       </button>
 
@@ -54,7 +56,8 @@ export type appDownload = {
         #t="ngbTooltip"
         autoClose="false"
         triggers="manual"
-        placement="bottom">
+        placement="bottom"
+      >
         <i-bs name="clipboard" />
       </button>
     </div>

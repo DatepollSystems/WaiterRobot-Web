@@ -46,7 +46,8 @@ import {GetTableResponse} from '../../_shared/waiterrobot-backend';
         class="my-2"
         textType="white"
         [value]="progress"
-        [showValue]="true"></ngb-progressbar>
+        [showValue]="true"
+      ></ngb-progressbar>
 
       <div class="alert alert-info mb-2" role="alert">Deaktiviere mögliche Seitenränder beim drucken.</div>
 
@@ -61,7 +62,8 @@ import {GetTableResponse} from '../../_shared/waiterrobot-backend';
               [margin]="0"
               [qrdata]="parser(mytable)"
               cssClass="text-center"
-              elementType="canvas"></qrcode>
+              elementType="canvas"
+            ></qrcode>
 
             <div class="text-center text-black qr-code-label">
               <b>{{ mytable.groupName }} - {{ mytable.number }}</b>

@@ -20,7 +20,8 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../_shared/waite
             type="email"
             id="email"
             formControlName="emailAddress"
-            placeholder="{{ 'EMAIL' | tr }}" />
+            placeholder="{{ 'EMAIL' | tr }}"
+          />
 
           <small *ngIf="form.controls.emailAddress.invalid" class="text-danger">
             {{ 'HOME_USERS_EMAIL_INCORRECT' | tr }}
@@ -34,7 +35,8 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../_shared/waite
             type="text"
             id="firstname"
             formControlName="firstname"
-            placeholder="{{ 'FIRSTNAME' | tr }}" />
+            placeholder="{{ 'FIRSTNAME' | tr }}"
+          />
 
           <small *ngIf="form.controls.firstname.invalid" class="text-danger">
             {{ 'HOME_USERS_NAME_INCORRECT' | tr }}
@@ -48,7 +50,8 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../_shared/waite
             type="text"
             id="surname"
             formControlName="surname"
-            placeholder="{{ 'SURNAME' | tr }}" />
+            placeholder="{{ 'SURNAME' | tr }}"
+          />
           <small *ngIf="form.controls.surname.invalid" class="text-danger">
             {{ 'HOME_USERS_SUR_NAME_INCORRECT' | tr }}
           </small>
@@ -67,7 +70,8 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../_shared/waite
               #birthdayPicker="ngbDatepicker"
               name="birthday"
               placeholder="09.12.2021"
-              formControlName="birthday" />
+              formControlName="birthday"
+            />
             <button class="btn btn-outline-light" (click)="birthdayPicker.toggle()" type="button">
               <i-bs name="calendar-date" />
             </button>

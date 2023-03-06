@@ -46,7 +46,8 @@ import {GetEventOrLocationResponse} from '../../_shared/waiterrobot-backend';
             ngbTooltip="{{ 'CLEAR' | tr }}"
             placement="bottom"
             (click)="filter.reset()"
-            *ngIf="(filter.value?.length ?? 0) > 0">
+            *ngIf="(filter.value?.length ?? 0) > 0"
+          >
             <i-bs name="x-circle-fill" />
           </button>
         </div>
@@ -62,7 +63,8 @@ import {GetEventOrLocationResponse} from '../../_shared/waiterrobot-backend';
                   type="checkbox"
                   name="checked"
                   (change)="$event ? toggleAllRows() : null"
-                  [checked]="selection.hasValue() && isAllSelected()" />
+                  [checked]="selection.hasValue() && isAllSelected()"
+                />
               </div>
             </th>
             <td *ngbCellDef="let selectable" ngb-cell [class.d-none]="!myUser?.isAdmin">
@@ -73,7 +75,8 @@ import {GetEventOrLocationResponse} from '../../_shared/waiterrobot-backend';
                   name="checked"
                   (click)="$event.stopPropagation()"
                   (change)="$event ? selection.toggle(selectable) : null"
-                  [checked]="selection.isSelected(selectable)" />
+                  [checked]="selection.isSelected(selectable)"
+                />
               </div>
             </td>
           </ng-container>
@@ -120,7 +123,8 @@ import {GetEventOrLocationResponse} from '../../_shared/waiterrobot-backend';
                 class="btn btn-sm btn-outline-danger text-white"
                 ngbTooltip="{{ 'DELETE' | tr }}"
                 (click)="onDelete(event.id, $event)"
-                *ngIf="myUser?.isAdmin">
+                *ngIf="myUser?.isAdmin"
+              >
                 <i-bs name="trash" />
               </button>
             </td>

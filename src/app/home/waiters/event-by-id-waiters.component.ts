@@ -47,7 +47,8 @@ import {MobileLinkService} from '../../_shared/services/mobile-link.service';
           ngbTooltip="{{ 'CLEAR' | tr }}"
           placement="bottom"
           (click)="filter.reset()"
-          *ngIf="(filter.value?.length ?? 0) > 0">
+          *ngIf="(filter.value?.length ?? 0) > 0"
+        >
           <i-bs name="x-circle-fill" />
         </button>
       </div>
@@ -63,7 +64,8 @@ import {MobileLinkService} from '../../_shared/services/mobile-link.service';
                 type="checkbox"
                 name="checked"
                 (change)="$event ? toggleAllRows() : null"
-                [checked]="selection.hasValue() && isAllSelected()" />
+                [checked]="selection.hasValue() && isAllSelected()"
+              />
             </div>
           </th>
           <td *ngbCellDef="let selectable" ngb-cell>
@@ -74,7 +76,8 @@ import {MobileLinkService} from '../../_shared/services/mobile-link.service';
                 name="checked"
                 (click)="$event.stopPropagation()"
                 (change)="$event ? selection.toggle(selectable) : null"
-                [checked]="selection.isSelected(selectable)" />
+                [checked]="selection.isSelected(selectable)"
+              />
             </div>
           </td>
         </ng-container>
@@ -105,7 +108,8 @@ import {MobileLinkService} from '../../_shared/services/mobile-link.service';
               type="button"
               class="btn btn-sm m-1 btn-outline-info text-white"
               ngbTooltip="{{ 'HOME_WAITERS_EDIT_QR_CODE' | tr }}"
-              (click)="openLoginQRCode(waiter.signInToken, $event)">
+              (click)="openLoginQRCode(waiter.signInToken, $event)"
+            >
               <i-bs name="qr-code"></i-bs>
             </button>
             <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../../{{ waiter.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
@@ -115,7 +119,8 @@ import {MobileLinkService} from '../../_shared/services/mobile-link.service';
               type="button"
               class="btn btn-sm m-1 btn-outline-danger text-white"
               ngbTooltip="{{ 'DELETE' | tr }}"
-              (click)="onDelete(waiter.id, $event)">
+              (click)="onDelete(waiter.id, $event)"
+            >
               <i-bs name="trash" />
             </button>
           </td>

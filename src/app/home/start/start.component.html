@@ -12,7 +12,8 @@
             [selectedEvent]="vm.selectedEvent"
             [events]="vm.events"
             (selectEvent)="selectEvent($event)"
-            (selectOrganisation)="selectOrganisation($event)" />
+            (selectOrganisation)="selectOrganisation($event)"
+          />
         </ng-container>
 
         <div class="d-flex gap-2 flex-wrap" *ngIf="!!(selectedEvent$ | async)">
@@ -53,36 +54,24 @@
       <div class="card-body">
         <h5 class="card-title">{{ 'HOME_START_STATISTICS' | tr }}</h5>
         <ul class="list-unstyled py-2">
-          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-            Frontend version: <span>{{ frontendVersion }}</span>
-          </li>
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">Frontend version: <span>{{ frontendVersion }}</span></li>
           <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             Local time: <span>{{ localTime$ | async | date : 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
           </li>
-          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-            OS: <span>{{ browserInfos.os }}</span>
-          </li>
-          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-            OS version: <span>{{ browserInfos.osVersion }}</span>
-          </li>
-          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-            Browser: <span>{{ browserInfos.name }}</span>
-          </li>
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">OS: <span>{{ browserInfos.os }}</span></li>
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">OS version: <span>{{ browserInfos.osVersion }}</span></li>
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">Browser: <span>{{ browserInfos.name }}</span></li>
           <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             Browser version: <span>{{ browserInfos.version }}</span>
           </li>
-          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-            Mobile: <span>{{ browserInfos.mobile }}</span>
-          </li>
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">Mobile: <span>{{ browserInfos.mobile }}</span></li>
           <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             Screen size: <span>{{ browserInfos.screenSize }}</span>
           </li>
           <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             Local storage: <span>{{ browserInfos.localStorage }}</span>
           </li>
-          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-            Cookies: <span>{{ browserInfos.cookies }}</span>
-          </li>
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">Cookies: <span>{{ browserInfos.cookies }}</span></li>
         </ul>
       </div>
     </div>
@@ -115,9 +104,7 @@
             <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
               Uptime: <span>{{ localTime$ | async | d_timespan : serverInfo.serverStartTime }}</span>
             </li>
-            <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-              Version: <span>{{ serverInfo.version }}</span>
-            </li>
+            <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">Version: <span>{{ serverInfo.version }}</span></li>
             <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
               Info: <span class="ms-md-5" style="white-space: nowrap">"{{ serverInfo.info }}"</span>
             </li>

@@ -18,7 +18,7 @@ export class OrganisationWaitersService implements HasGetAll<GetWaiterResponse>,
 
   getAll$(): Observable<GetWaiterResponse[]> {
     return combineLatest([this.triggerGet$, this.organisationsService.getSelected$.pipe(filter(notNullAndUndefined))]).pipe(
-      switchMap(([trigger, organisation]) =>
+      switchMap(([, organisation]) =>
         this.httpClient.get<GetWaiterResponse[]>(this.url, {params: new HttpParams().set('organisationId', organisation.id)})
       )
     );

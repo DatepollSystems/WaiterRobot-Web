@@ -53,7 +53,8 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
           ngbTooltip="{{ 'CLEAR' | tr }}"
           placement="bottom"
           (click)="filter.reset()"
-          *ngIf="(filter?.value?.length ?? 0) > 0">
+          *ngIf="(filter?.value?.length ?? 0) > 0"
+        >
           <i-bs name="x-circle-fill" />
         </button>
       </div>
@@ -70,7 +71,8 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
                 type="checkbox"
                 name="checked"
                 (change)="$event ? toggleAllRows() : null"
-                [checked]="selection!.hasValue() && isAllSelected()" />
+                [checked]="selection!.hasValue() && isAllSelected()"
+              />
             </div>
           </th>
           <td *ngbCellDef="let selectable" ngb-cell>
@@ -81,7 +83,8 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
                 name="checked"
                 (click)="$event.stopPropagation()"
                 (change)="$event ? selection!.toggle(selectable) : null"
-                [checked]="selection!.isSelected(selectable)" />
+                [checked]="selection!.isSelected(selectable)"
+              />
             </div>
           </td>
         </ng-container>
@@ -106,7 +109,8 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
               type="button"
               class="btn btn-sm m-1 btn-outline-danger text-white"
               ngbTooltip="{{ 'DELETE' | tr }}"
-              (click)="onDelete(table.id, $event)">
+              (click)="onDelete(table.id, $event)"
+            >
               <i-bs name="trash" />
             </button>
           </td>

@@ -24,7 +24,8 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
             class="form-control bg-dark text-white"
             type="text"
             id="name"
-            placeholder="{{ 'NAME' | tr }}" />
+            placeholder="{{ 'NAME' | tr }}"
+          />
 
           <small *ngIf="form.controls.name.invalid" class="text-danger">
             {{ 'HOME_PROD_NAME_INCORRECT' | tr }}
@@ -38,7 +39,8 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
             type="number"
             id="price"
             placeholder="{{ 'HOME_PROD_PRICE' | tr }}"
-            formControlName="price" />
+            formControlName="price"
+          />
 
           <small *ngIf="form.controls.price.invalid" class="text-danger">
             {{ 'HOME_PROD_PRICE_INCORRECT' | tr }}
@@ -54,7 +56,8 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
           [models]="_product?.allergens"
           [allModelsToAutoComplete]="allergens"
           [formatter]="formatter"
-          (valueChange)="allergenChange($event)" />
+          (valueChange)="allergenChange($event)"
+        />
       </div>
 
       <div class="d-flex flex-column flex-md-row gap-4 mb-3">

@@ -1,4 +1,4 @@
-import {Component, Inject, inject} from '@angular/core';
+import {AfterViewInit, Component, Inject, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {IHasID, n_from, n_isNumeric} from 'dfts-helper';
 import {distinctUntilChanged, filter, map, shareReplay, switchMap} from 'rxjs';
@@ -9,9 +9,12 @@ import {AbstractModelsListWithDeleteComponent} from '../models-list-with-delete/
   template: '',
 })
 export abstract class AbstractModelsListByIdComponent<
-  EntitiesTypes extends IHasID<EntitiesTypes['id']>,
-  EntityType extends IHasID<EntityType['id']>
-> extends AbstractModelsListWithDeleteComponent<EntitiesTypes> {
+    EntitiesTypes extends IHasID<EntitiesTypes['id']>,
+    EntityType extends IHasID<EntityType['id']>
+  >
+  extends AbstractModelsListWithDeleteComponent<EntitiesTypes>
+  implements AfterViewInit
+{
   protected route = inject(ActivatedRoute);
 
   protected idParam$ = this.route.paramMap.pipe(

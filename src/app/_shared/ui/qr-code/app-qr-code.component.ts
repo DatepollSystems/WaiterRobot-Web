@@ -24,7 +24,8 @@ import {AppIconsModule} from '../icons.module';
           errorCorrectionLevel="M"
           [margin]="0"
           colorLight="#f6f6f6"
-          [qrdata]="qrCodeData.data"></qrcode>
+          [qrdata]="qrCodeData.data"
+        ></qrcode>
       </div>
       <div class="card">
         <div class="card-header">
@@ -57,7 +58,8 @@ import {AppIconsModule} from '../icons.module';
               autoClose="false"
               triggers="manual"
               aria-label="Copy link"
-              placement="right">
+              placement="right"
+            >
               <i-bs name="clipboard" aria-label="Copy content to clipboard" />
               {{ 'COPY' | tr }}
             </button>

@@ -4,9 +4,7 @@
 
   <btn-toolbar>
     <div>
-      <button class="btn btn-sm btn-dark text-white" (click)="onGoBack('/home/organisations/all')">
-        {{ 'GO_BACK' | tr }}
-      </button>
+      <button class="btn btn-sm btn-dark text-white" (click)="onGoBack('/home/organisations/all')">{{ 'GO_BACK' | tr }}</button>
     </div>
 
     <app-btn-model-edit-confirm *ngIf="myUser?.isAdmin && activeTab === 1" [form]="form" [editing]="isEditing" />
@@ -31,7 +29,8 @@
       [(activeId)]="activeTab"
       [destroyOnHide]="false"
       class="nav-tabs bg-dark"
-      (navChange)="setTabId($event.nextId)">
+      (navChange)="setTabId($event.nextId)"
+    >
       <li [ngbNavItem]="1">
         <a ngbNavLink>Daten</a>
         <ng-template ngbNavContent>
@@ -50,11 +49,10 @@
                 minlength="4"
                 maxlength="40"
                 placeholder="{{ 'NAME' | tr }}"
-                [ngModel]="isEditing ? entity?.name : null" />
+                [ngModel]="isEditing ? entity?.name : null"
+              />
 
-              <small *ngIf="nameModel.invalid" class="text-danger">
-                {{ 'HOME_ORGS_NAME_INCORRECT' | tr }}
-              </small>
+              <small *ngIf="nameModel.invalid" class="text-danger"> {{ 'HOME_ORGS_NAME_INCORRECT' | tr }} </small>
             </div>
           </div>
 
@@ -73,10 +71,9 @@
                 #streetModel="ngModel"
                 [disabled]="!myUser?.isAdmin"
                 placeholder="{{ 'HOME_ORGS_STREET' | tr }}"
-                [ngModel]="isEditing ? entity?.street : null" />
-              <small *ngIf="streetModel.invalid" class="text-danger">
-                {{ 'HOME_ORGS_STREET_INCORRECT' | tr }}
-              </small>
+                [ngModel]="isEditing ? entity?.street : null"
+              />
+              <small *ngIf="streetModel.invalid" class="text-danger"> {{ 'HOME_ORGS_STREET_INCORRECT' | tr }} </small>
             </div>
             <div class="form-group col-12 col-md-4">
               <label for="streetNumber">{{ 'HOME_ORGS_STREETNUMBER' | tr }}</label>
@@ -92,10 +89,9 @@
                 minlength="1"
                 maxlength="20"
                 placeholder="{{ 'HOME_ORGS_STREETNUMBER' | tr }}"
-                [ngModel]="isEditing ? entity?.streetNumber : null" />
-              <small *ngIf="streetNumberModel.invalid" class="text-danger">
-                {{ 'HOME_ORGS_STREETNUMBER_INCORRECT' | tr }}
-              </small>
+                [ngModel]="isEditing ? entity?.streetNumber : null"
+              />
+              <small *ngIf="streetNumberModel.invalid" class="text-danger"> {{ 'HOME_ORGS_STREETNUMBER_INCORRECT' | tr }} </small>
             </div>
           </div>
 
@@ -114,10 +110,9 @@
                 minlength="2"
                 maxlength="16"
                 placeholder="{{ 'HOME_ORGS_POSTAL_CODE' | tr }}"
-                [ngModel]="isEditing ? entity?.postalCode : null" />
-              <small *ngIf="postalCodeModel.invalid" class="text-danger">
-                {{ 'HOME_ORGS_POSTAL_CODE_INCORRECT' | tr }}
-              </small>
+                [ngModel]="isEditing ? entity?.postalCode : null"
+              />
+              <small *ngIf="postalCodeModel.invalid" class="text-danger"> {{ 'HOME_ORGS_POSTAL_CODE_INCORRECT' | tr }} </small>
             </div>
 
             <div class="form-group col-12 col-md-6">
@@ -134,10 +129,9 @@
                 minlength="4"
                 maxlength="60"
                 placeholder="{{ 'HOME_ORGS_CITY' | tr }}"
-                [ngModel]="isEditing ? entity?.city : null" />
-              <small *ngIf="cityModel.invalid" class="text-danger">
-                {{ 'HOME_ORGS_CITY_INCORRECT' | tr }}
-              </small>
+                [ngModel]="isEditing ? entity?.city : null"
+              />
+              <small *ngIf="cityModel.invalid" class="text-danger"> {{ 'HOME_ORGS_CITY_INCORRECT' | tr }} </small>
             </div>
 
             <div class="form-group col-12 col-md-2">
@@ -154,10 +148,9 @@
                 minlength="2"
                 maxlength="4"
                 placeholder="{{ 'HOME_ORGS_COUNTRY_CODE' | tr }}"
-                [ngModel]="isEditing ? entity?.countryCode : null" />
-              <small *ngIf="countryCodeModel.invalid" class="text-danger">
-                {{ 'HOME_ORGS_COUNTRY_CODE_INCORRECT' | tr }}
-              </small>
+                [ngModel]="isEditing ? entity?.countryCode : null"
+              />
+              <small *ngIf="countryCodeModel.invalid" class="text-danger"> {{ 'HOME_ORGS_COUNTRY_CODE_INCORRECT' | tr }} </small>
             </div>
           </div>
         </ng-template>
@@ -176,7 +169,8 @@
                   ngbTooltip="{{ 'CLEAR' | tr }}"
                   placement="bottom"
                   (click)="filter.reset()"
-                  *ngIf="filter?.value?.length > 0">
+                  *ngIf="filter?.value?.length > 0"
+                >
                   <i-bs name="x-circle-fill" />
                 </button>
               </div>
@@ -218,7 +212,8 @@
                     class="btn btn-sm m-1 btn-outline-danger text-white"
                     ngbTooltip="{{ 'DELETE' | tr }}"
                     (click)="onOrgUserDelete(organisationUser)"
-                    *ngIf="myUser?.isAdmin || this.myUser?.emailAddress !== organisationUser.email_address">
+                    *ngIf="myUser?.isAdmin || this.myUser?.emailAddress !== organisationUser.email_address"
+                  >
                     <i-bs name="trash" />
                   </button>
                 </td>
@@ -240,7 +235,8 @@
               role="switch"
               id="activateWaiterOnSignInViaCreateToken"
               [checked]="settings?.activateWaiterOnSignInViaCreateToken"
-              (click)="setActivateWaiterOnSignInViaCreateToken()" />
+              (click)="setActivateWaiterOnSignInViaCreateToken()"
+            />
             <label class="form-check-label" for="activateWaiterOnSignInViaCreateToken">
               {{ 'HOME_ORGS_SETTINGS_ACTIVATE_WAITER_ON_SIGN_IN_VIA_CREATE_TOKEN' | tr }}</label
             >

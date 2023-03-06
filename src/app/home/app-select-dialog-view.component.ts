@@ -28,7 +28,8 @@ import {GetEventOrLocationResponse, GetOrganisationResponse} from '../_shared/wa
               [selectedEvent]="vm.selectedEvent"
               [events]="vm.events"
               (selectEvent)="selectEvent($event)"
-              (selectOrganisation)="selectOrganisation($event)" />
+              (selectOrganisation)="selectOrganisation($event)"
+            />
           </div>
           <div class="card-footer">
             <a class="btn btn-sm btn-outline-warning" href="/home">Zurück zur Startseite</a>

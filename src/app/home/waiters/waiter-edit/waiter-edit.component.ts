@@ -58,7 +58,8 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
               [waiter]="entity"
               [selectedOrganisationId]="vm.selectedOrganisation?.id"
               [selectedEventId]="vm.selectedEvent?.id"
-              [events]="vm.events" />
+              [events]="vm.events"
+            />
           </ng-template>
         </li>
         <li [ngbNavItem]="'SESSIONS'" *isEditing="entity" [destroyOnHide]="true">

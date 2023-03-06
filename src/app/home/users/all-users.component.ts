@@ -37,7 +37,8 @@ import {UsersService} from './users.service';
           ngbTooltip="{{ 'CLEAR' | tr }}"
           placement="bottom"
           (click)="filter.reset()"
-          *ngIf="(filter?.value?.length ?? 0) > 0">
+          *ngIf="(filter?.value?.length ?? 0) > 0"
+        >
           <i-bs name="x-circle-fill" />
         </button>
       </div>
@@ -75,7 +76,8 @@ import {UsersService} from './users.service';
                 type="checkbox"
                 [checked]="user.role === 'ADMIN'"
                 name="is_admin"
-                value="" />
+                value=""
+              />
             </div>
           </td>
         </ng-container>
@@ -90,7 +92,8 @@ import {UsersService} from './users.service';
                 type="checkbox"
                 [checked]="user.activated"
                 name="activated"
-                value="" />
+                value=""
+              />
             </div>
           </td>
         </ng-container>
@@ -105,7 +108,8 @@ import {UsersService} from './users.service';
               type="button"
               class="btn btn-sm m-1 btn-outline-danger text-white"
               ngbTooltip="{{ 'DELETE' | tr }}"
-              (click)="onDelete(user.id, $event)">
+              (click)="onDelete(user.id, $event)"
+            >
               <i-bs name="trash" />
             </button>
           </td>

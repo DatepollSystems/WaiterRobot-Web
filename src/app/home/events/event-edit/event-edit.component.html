@@ -21,7 +21,8 @@
           *ngSub="selectedEvent$ as selectedEvent"
           class="my-2"
           [entity]="entity"
-          [selectedEntityService]="eventsService" />
+          [selectedEntityService]="eventsService"
+        />
       </div>
       <div>
         <app-btn-waiter-create-qrcode [token]="entity.waiterCreateToken" />
@@ -60,11 +61,10 @@
                 [disabled]="!myUser?.isAdmin"
                 minlength="5"
                 placeholder="{{ 'NAME' | tr }}"
-                [ngModel]="isEditing ? entity?.name : null" />
+                [ngModel]="isEditing ? entity?.name : null"
+              />
 
-              <small *ngIf="nameModel.invalid" class="text-danger">
-                {{ 'HOME_ORGS_NAME_INCORRECT' | tr }}
-              </small>
+              <small *ngIf="nameModel.invalid" class="text-danger"> {{ 'HOME_ORGS_NAME_INCORRECT' | tr }} </small>
             </div>
 
             <div class="form-group col-12 col-md-4">
@@ -80,7 +80,8 @@
                   name="date"
                   [placeholder]="myUser?.isAdmin ? '13.12.2021' : ''"
                   [disabled]="!myUser?.isAdmin"
-                  [ngModel]="isEditing ? entity?.date : null" />
+                  [ngModel]="isEditing ? entity?.date : null"
+                />
                 <button class="btn btn-outline-light" (click)="datePicker.toggle()" type="button" *ngIf="myUser?.isAdmin">
                   <i-bs name="calendar-date" />
                 </button>
@@ -102,10 +103,9 @@
                 [disabled]="!myUser?.isAdmin"
                 minlength="1"
                 placeholder="{{ 'HOME_ORGS_STREET' | tr }}"
-                [ngModel]="isEditing ? entity?.street : null" />
-              <small *ngIf="streetModel.invalid" class="text-danger">
-                {{ 'HOME_ORGS_STREET_INCORRECT' | tr }}
-              </small>
+                [ngModel]="isEditing ? entity?.street : null"
+              />
+              <small *ngIf="streetModel.invalid" class="text-danger"> {{ 'HOME_ORGS_STREET_INCORRECT' | tr }} </small>
             </div>
             <div class="form-group col-12 col-md-4">
               <label for="streetNumber">{{ 'HOME_ORGS_STREETNUMBER' | tr }}</label>
@@ -120,10 +120,9 @@
                 name="streetNumber"
                 minlength="1"
                 placeholder="{{ 'HOME_ORGS_STREETNUMBER' | tr }}"
-                [ngModel]="isEditing ? entity?.streetNumber : null" />
-              <small *ngIf="streetNumberModel.invalid" class="text-danger">
-                {{ 'HOME_ORGS_STREETNUMBER_INCORRECT' | tr }}
-              </small>
+                [ngModel]="isEditing ? entity?.streetNumber : null"
+              />
+              <small *ngIf="streetNumberModel.invalid" class="text-danger"> {{ 'HOME_ORGS_STREETNUMBER_INCORRECT' | tr }} </small>
             </div>
           </div>
 
@@ -141,10 +140,9 @@
                 name="postalCode"
                 minlength="1"
                 placeholder="{{ 'HOME_ORGS_POSTAL_CODE' | tr }}"
-                [ngModel]="isEditing ? entity?.postalCode : null" />
-              <small *ngIf="postalCodeModel.invalid" class="text-danger">
-                {{ 'HOME_ORGS_POSTAL_CODE_INCORRECT' | tr }}
-              </small>
+                [ngModel]="isEditing ? entity?.postalCode : null"
+              />
+              <small *ngIf="postalCodeModel.invalid" class="text-danger"> {{ 'HOME_ORGS_POSTAL_CODE_INCORRECT' | tr }} </small>
             </div>
 
             <div class="form-group col-12 col-md-7">
@@ -160,10 +158,9 @@
                 [disabled]="!myUser?.isAdmin"
                 minlength="1"
                 placeholder="{{ 'HOME_ORGS_CITY' | tr }}"
-                [ngModel]="isEditing ? entity?.city : null" />
-              <small *ngIf="cityModel.invalid" class="text-danger">
-                {{ 'HOME_ORGS_CITY_INCORRECT' | tr }}
-              </small>
+                [ngModel]="isEditing ? entity?.city : null"
+              />
+              <small *ngIf="cityModel.invalid" class="text-danger"> {{ 'HOME_ORGS_CITY_INCORRECT' | tr }} </small>
             </div>
           </div>
 
@@ -175,10 +172,9 @@
                 type="checkbox"
                 id="updateWaiterCreateToken"
                 name="updateWaiterCreateToken"
-                value="" />
-              <label class="form-check-label" for="updateWaiterCreateToken">
-                {{ 'HOME_EVENTS_UPDATE_CREATE_WAITER_TOKEN' | tr }}
-              </label>
+                value=""
+              />
+              <label class="form-check-label" for="updateWaiterCreateToken"> {{ 'HOME_EVENTS_UPDATE_CREATE_WAITER_TOKEN' | tr }} </label>
             </div>
           </div>
         </ng-template>

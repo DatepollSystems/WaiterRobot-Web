@@ -54,7 +54,8 @@ import {TableEditFormComponent} from './table-edit-form.component';
               [tableGroups]="vm.tableGroups"
               [selectedEventId]="vm.selectedEvent?.id"
               [selectedTableGroupId]="vm.selectedTableGroupId"
-              [product]="entity" />
+              [product]="entity"
+            />
 
             <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
           </ng-template>

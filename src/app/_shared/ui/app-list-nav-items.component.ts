@@ -32,7 +32,8 @@ import {AppListLoadingItemComponent} from './loading/app-list-loading-item.compo
         *ngFor="let entity of entities; trackById"
         class="list-group-item list-group-item-action d-none d-lg-block"
         [routerLink]="path + entity.id"
-        routerLinkActive="active">
+        routerLinkActive="active"
+      >
         {{ entity.name }}
       </a>
     </ng-container>

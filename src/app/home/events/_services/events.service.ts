@@ -76,7 +76,7 @@ export class EventsService
       this.getSelected$,
       this.organisationsService.getSelected$.pipe(filter(notNullAndUndefined)),
     ]).pipe(
-      switchMap(([trigger, selected, organisation]) =>
+      switchMap(([, selected, organisation]) =>
         combineLatest([
           of(selected),
           this.httpClient.get<GetEventOrLocationResponse[]>(this.url, {
@@ -94,7 +94,7 @@ export class EventsService
           }
         }
       }),
-      map(([selected, request]) => request)
+      map(([, request]) => request)
     );
   }
 

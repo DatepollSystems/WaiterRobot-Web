@@ -8,7 +8,8 @@
           <div
             *ngIf="showEnvironmentType && environmentType === 'dev'"
             (click)="showEnvironmentType = !showEnvironmentType"
-            class="badge bg-warning text-dark ms-3 me-1 not-selectable">
+            class="badge bg-warning text-dark ms-3 me-1 not-selectable"
+          >
             <span *ngIf="environmentType === 'dev'">DEV</span>
           </div>
           <div style="font-size: 12px" *ngIf="vm.myUser.isAdmin" class="badge bg-danger text-dark ms-3 me-1 not-selectable">
@@ -25,7 +26,8 @@
         data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent"
         aria-expanded="false"
-        aria-label="Toggle navigation">
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -37,7 +39,8 @@
                 <div
                   *ngIf="showEnvironmentType && environmentType === 'dev'"
                   (click)="showEnvironmentType = !showEnvironmentType"
-                  class="badge bg-warning text-dark ms-1 me-1 not-selectable">
+                  class="badge bg-warning text-dark ms-1 me-1 not-selectable"
+                >
                   <span *ngIf="environmentType === 'dev'">DEV</span>
                 </div>
                 <div style="font-size: 12px" *ngIf="vm.myUser.isAdmin" class="badge bg-danger text-dark ms-1 me-1 not-selectable">
@@ -49,17 +52,14 @@
                 <div ngbDropdown display="dynamic">
                   <a class="nav-link" id="organisationSwitcherDropdown" ngbDropdownToggle>
                     <span *ngIf="!vm.selectedOrganisation">{{ 'NAV_ORGANISATIONS' | tr }}</span>
-                    <span *ngIf="vm.selectedOrganisation"
-                      ><b>{{ vm.selectedOrganisation.name }}</b></span
-                    >
+                    <span *ngIf="vm.selectedOrganisation"><b>{{ vm.selectedOrganisation.name }}</b></span>
                   </a>
                   <div ngbDropdownMenu aria-labelledby="organisationSwitcherDropdown">
                     <h6 class="dropdown-header">
                       <b>{{ 'NAV_ORGANISATIONS' | tr }}</b>
                     </h6>
                     <button *ngIf="vm.selectedOrganisation" ngbDropdownItem routerLink="organisations/{{ vm.selectedOrganisation.id }}">
-                      <b>{{ vm.selectedOrganisation.name }}</b
-                      ><small> {{ 'NAV_EDIT' | tr }}</small>
+                      <b>{{ vm.selectedOrganisation.name }}</b><small> {{ 'NAV_EDIT' | tr }}</small>
                     </button>
                     <span class="fake-dropdown-item unselectable" *ngIf="vm.organisations.length === 0">
                       {{ 'NAV_ORGANISATIONS_NO_ORGS' | tr }}
@@ -68,7 +68,8 @@
                       <span
                         class="fake-dropdown-item"
                         *ngIf="orgM.id !== vm.selectedOrganisation?.id"
-                        (click)="onSelectOrg(orgM); $event.stopPropagation()">
+                        (click)="onSelectOrg(orgM); $event.stopPropagation()"
+                      >
                         {{ orgM.name }}
                       </span>
                     </ng-container>
@@ -88,26 +89,22 @@
                 <div ngbDropdown display="dynamic">
                   <a class="nav-link" id="eventSwitcherDropdown" [class.disabled]="!vm.selectedOrganisation" ngbDropdownToggle>
                     <span *ngIf="!vm.selectedEvent">{{ 'NAV_EVENTS' | tr }}</span>
-                    <span *ngIf="vm.selectedEvent"
-                      ><b>{{ vm.selectedEvent.name }}</b></span
-                    >
+                    <span *ngIf="vm.selectedEvent"><b>{{ vm.selectedEvent.name }}</b></span>
                   </a>
                   <div ngbDropdownMenu aria-labelledby="eventSwitcherDropdown">
                     <h6 class="dropdown-header">
                       <b>{{ 'NAV_EVENTS' | tr }}</b>
                     </h6>
                     <button ngbDropdownItem *ngIf="vm.selectedEvent" routerLink="events/{{ vm.selectedEvent.id }}">
-                      <b>{{ vm.selectedEvent.name }}</b
-                      ><small> {{ 'NAV_EDIT' | tr }}</small>
+                      <b>{{ vm.selectedEvent.name }}</b><small> {{ 'NAV_EDIT' | tr }}</small>
                     </button>
-                    <span class="fake-dropdown-item unselectable" *ngIf="vm.events.length === 0">
-                      {{ 'NAV_EVENTS_NO_EVENTS' | tr }}
-                    </span>
+                    <span class="fake-dropdown-item unselectable" *ngIf="vm.events.length === 0"> {{ 'NAV_EVENTS_NO_EVENTS' | tr }} </span>
                     <ng-container *ngFor="let eventM of vm.events; trackById">
                       <span
                         class="fake-dropdown-item"
                         *ngIf="eventM.id !== vm.selectedEvent?.id"
-                        (click)="onSelectEvent(eventM); $event.stopPropagation()">
+                        (click)="onSelectEvent(eventM); $event.stopPropagation()"
+                      >
                         {{ eventM.name }}
                       </span>
                     </ng-container>
@@ -154,9 +151,9 @@
                       <small>
                         <br />
                         <b *ngIf="vm.myUser.isAdmin" class="clickable" (click)="switchAdminMode()">{{ 'NAV_USER_SETTINGS_ADMIN' | tr }}</b>
-                        <b *ngIf="this.adminModeChanged" class="clickable" (click)="switchAdminMode()">{{
-                          'NAV_USER_SETTINGS_ADMIN_SWITCH' | tr
-                        }}</b>
+                        <b *ngIf="this.adminModeChanged" class="clickable" (click)="switchAdminMode()"
+                          >{{ 'NAV_USER_SETTINGS_ADMIN_SWITCH' | tr }}</b
+                        >
                       </small>
                     </div>
                     <div class="dropdown-divider"></div>
@@ -186,7 +183,8 @@
     [justifyContentBetween]="!!vm.selectedEvent"
     [isMobile]="vm.isMobile"
     [items]="vm.navItems"
-    *ngIf="vm.selectedOrganisation" />
+    *ngIf="vm.selectedOrganisation"
+  />
 </ng-container>
 
 <main class="container-fluid text-white pb-5 bg">
@@ -197,9 +195,7 @@
     </div>
 
     <div hideIfOffline>
-      <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="/json">
-        {{ 'SERVER_OFFLINE' | tr }}
-      </div>
+      <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="/json">{{ 'SERVER_OFFLINE' | tr }}</div>
     </div>
 
     <router-outlet />

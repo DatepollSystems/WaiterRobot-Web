@@ -42,7 +42,8 @@ import {UsersService} from './users.service';
         [activeId]="activeTab$ | async"
         [destroyOnHide]="false"
         class="nav-tabs bg-dark"
-        (navChange)="navigateToTab($event.nextId)">
+        (navChange)="navigateToTab($event.nextId)"
+      >
         <li [ngbNavItem]="'DATA'">
           <a ngbNavLink>{{ 'DATA' | tr }}</a>
           <ng-template ngbNavContent>
@@ -51,7 +52,8 @@ import {UsersService} from './users.service';
               (formValid)="setValid($event)"
               (submitUpdate)="submit('UPDATE', $event)"
               (submitCreate)="submit('CREATE', $event)"
-              [user]="entity" />
+              [user]="entity"
+            />
           </ng-template>
         </li>
         <li [ngbNavItem]="'ORGS'">

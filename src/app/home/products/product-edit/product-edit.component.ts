@@ -59,7 +59,8 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
               [productGroups]="vm.productGroups"
               [selectedEventId]="vm.selectedEvent?.id"
               [selectedProductGroupId]="vm.selectedProductGroupId"
-              [product]="entity" />
+              [product]="entity"
+            />
 
             <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
           </ng-template>

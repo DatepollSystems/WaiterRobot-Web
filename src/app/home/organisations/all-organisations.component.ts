@@ -45,7 +45,8 @@ import {GetOrganisationResponse} from '../../_shared/waiterrobot-backend';
             ngbTooltip="{{ 'CLEAR' | tr }}"
             placement="bottom"
             (click)="filter.reset()"
-            *ngIf="(filter.value?.length ?? 0) > 0">
+            *ngIf="(filter.value?.length ?? 0) > 0"
+          >
             <i-bs name="x-circle-fill" />
           </button>
         </div>
@@ -61,7 +62,8 @@ import {GetOrganisationResponse} from '../../_shared/waiterrobot-backend';
                   type="checkbox"
                   name="checked"
                   (change)="$event ? toggleAllRows() : null"
-                  [checked]="selection.hasValue() && isAllSelected()" />
+                  [checked]="selection.hasValue() && isAllSelected()"
+                />
               </div>
             </th>
             <td *ngbCellDef="let selectable" ngb-cell [class.d-none]="!myUser?.isAdmin">
@@ -72,7 +74,8 @@ import {GetOrganisationResponse} from '../../_shared/waiterrobot-backend';
                   name="checked"
                   (click)="$event.stopPropagation()"
                   (change)="$event ? selection.toggle(selectable) : null"
-                  [checked]="selection.isSelected(selectable)" />
+                  [checked]="selection.isSelected(selectable)"
+                />
               </div>
             </td>
           </ng-container>
@@ -119,7 +122,8 @@ import {GetOrganisationResponse} from '../../_shared/waiterrobot-backend';
               <a
                 class="btn btn-sm me-2 btn-outline-success text-white"
                 routerLink="../{{ organisation.id }}"
-                ngbTooltip="{{ 'EDIT' | tr }}">
+                ngbTooltip="{{ 'EDIT' | tr }}"
+              >
                 <i-bs name="pencil-square" />
               </a>
               <button
@@ -127,7 +131,8 @@ import {GetOrganisationResponse} from '../../_shared/waiterrobot-backend';
                 class="btn btn-sm btn-outline-danger text-white"
                 ngbTooltip="{{ 'DELETE' | tr }}"
                 (click)="onDelete(organisation.id, $event)"
-                *ngIf="myUser?.isAdmin">
+                *ngIf="myUser?.isAdmin"
+              >
                 <i-bs name="trash" />
               </button>
             </td>

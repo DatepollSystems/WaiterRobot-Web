@@ -34,7 +34,8 @@ import {CreateWaiterDto, GetWaiterResponse, UpdateWaiterDto} from '../../../_sha
           [models]="_waiter?.events"
           [allModelsToAutoComplete]="events"
           [formatter]="formatter"
-          (valueChange)="eventsChange($event)">
+          (valueChange)="eventsChange($event)"
+        >
         </chip-input>
       </div>
 

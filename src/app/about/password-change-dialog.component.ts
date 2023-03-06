@@ -26,7 +26,8 @@ import {DfxTr} from 'dfx-translate';
               [minlength]="6"
               required
               name="newPassword"
-              placeholder="{{ 'PASSWORD' | tr }}" />
+              placeholder="{{ 'PASSWORD' | tr }}"
+            />
             <small *ngIf="newPasswordModel.invalid" class="text-danger">
               {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
             </small>
@@ -44,7 +45,8 @@ import {DfxTr} from 'dfx-translate';
               [minlength]="6"
               required
               name="newPasswordAgain"
-              placeholder="{{ 'PASSWORD' | tr }}" />
+              placeholder="{{ 'PASSWORD' | tr }}"
+            />
 
             <div *ngIf="newPasswordAgainModel.invalid">
               <small class="text-danger">
@@ -66,7 +68,8 @@ import {DfxTr} from 'dfx-translate';
         type="button"
         class="btn btn-outline-success"
         [disabled]="f.invalid || !f || !newPasswordsMatch"
-        (click)="activeModal.close(newPassword)">
+        (click)="activeModal.close(newPassword)"
+      >
         {{ 'ABOUT_SIGNIN' | tr }}
       </button>
     </div>

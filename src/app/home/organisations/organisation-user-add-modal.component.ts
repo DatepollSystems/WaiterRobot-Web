@@ -24,7 +24,8 @@ import {OrganisationsUsersService} from './_services/organisations-users.service
           [validator]="filter"
           [models]="emailAddresses"
           validationErrorText="{{ 'HOME_USERS_EMAIL_INCORRECT' | tr }}"
-          placeholder="{{ 'HOME_ORGS_USERS_EMAIL_PLACEHOLDER' | tr }}" />
+          placeholder="{{ 'HOME_ORGS_USERS_EMAIL_PLACEHOLDER' | tr }}"
+        />
       </div>
     </div>
     <div class="modal-footer">

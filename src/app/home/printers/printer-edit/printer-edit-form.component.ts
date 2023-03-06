@@ -31,7 +31,8 @@ import {CreatePrinterDto, GetPrinterResponse, UpdatePrinterDto} from '../../../_
             type="text"
             id="printerName"
             formControlName="printerName"
-            placeholder="{{ 'NAME' | tr }}" />
+            placeholder="{{ 'NAME' | tr }}"
+          />
 
           <small *ngIf="form.controls.printerName.invalid" class="text-danger">
             {{ 'HOME_PRINTER_NAME_NAME_INCORRECT' | tr }}

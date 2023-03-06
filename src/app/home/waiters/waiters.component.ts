@@ -17,7 +17,8 @@ import {OrganisationsService} from '../organisations/_services/organisations.ser
           *ngIf="selectedOrganisation$ | async as selectedOrganisation"
           class="list-group-item list-group-item-action"
           routerLink="organisation"
-          routerLinkActive="active">
+          routerLinkActive="active"
+        >
           <i-bs name="people" />
           {{ selectedOrganisation.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</a
         >
@@ -26,7 +27,8 @@ import {OrganisationsService} from '../organisations/_services/organisations.ser
           *ngIf="selectedEvent$ | async as selectedEvent"
           class="list-group-item list-group-item-action"
           routerLink="event/{{ selectedEvent.id }}"
-          routerLinkActive="active">
+          routerLinkActive="active"
+        >
           <i-bs name="people" />
           {{ selectedEvent.name }} {{ 'HOME_WAITERS_NAV_EVENTS' | tr }}</a
         >

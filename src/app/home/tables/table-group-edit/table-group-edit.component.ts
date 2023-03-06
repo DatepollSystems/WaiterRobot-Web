@@ -48,7 +48,8 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
               (submitUpdate)="submit('UPDATE', $event)"
               (submitCreate)="submit('CREATE', $event)"
               [tableGroup]="entity"
-              [selectedEventId]="selectedEvent?.id" />
+              [selectedEventId]="selectedEvent?.id"
+            />
 
             <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
           </ng-template>

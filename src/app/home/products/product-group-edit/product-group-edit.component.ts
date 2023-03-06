@@ -45,7 +45,8 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
         [destroyOnHide]="false"
         [activeId]="activeTab$ | async"
         class="nav-tabs bg-dark"
-        (navChange)="navigateToTab($event.nextId)">
+        (navChange)="navigateToTab($event.nextId)"
+      >
         <li [ngbNavItem]="'DATA'">
           <a ngbNavLink>{{ 'DATA' | tr }}</a>
           <ng-template ngbNavContent>
@@ -57,7 +58,8 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
               (submitCreate)="submit('CREATE', $event)"
               [productGroup]="entity"
               [printers]="vm.printers"
-              [selectedEventId]="vm.selectedEvent?.id" />
+              [selectedEventId]="vm.selectedEvent?.id"
+            />
 
             <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
           </ng-template>

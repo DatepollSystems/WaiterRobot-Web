@@ -61,7 +61,7 @@ export class OrganisationsService
 
   getAll$(): Observable<GetOrganisationResponse[]> {
     return combineLatest([this.triggerGet$, this.getSelected$]).pipe(
-      switchMap(([trigger, selected]) => combineLatest([of(selected), this.httpClient.get<GetOrganisationResponse[]>(this.url)])),
+      switchMap(([, selected]) => combineLatest([of(selected), this.httpClient.get<GetOrganisationResponse[]>(this.url)])),
       tap(([selected, entities]) => {
         if (selected && entities.length > 0) {
           for (const entity of entities) {
@@ -72,7 +72,7 @@ export class OrganisationsService
           }
         }
       }),
-      map(([selected, request]) => request)
+      map(([, request]) => request)
     );
   }
 
