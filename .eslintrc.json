@@ -1,6 +1,5 @@
 {
   "root": true,
-  "ignorePatterns": ["projects/**/*"],
   "reportUnusedDisableDirectives": true,
   "extends": ["prettier"],
   "overrides": [
@@ -53,13 +52,6 @@
         ],
         "dot-notation": "error",
         "id-denylist": ["error", "any", "Number", "number", "String", "string", "Boolean", "boolean", "Undefined", "undefined"],
-        "indent": [
-          "error",
-          2,
-          {
-            "SwitchCase": 1
-          }
-        ],
         "no-shadow": "error",
         "no-unused-expressions": "error",
         "no-use-before-define": "off",
