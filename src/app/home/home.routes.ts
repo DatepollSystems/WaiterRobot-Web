@@ -1,5 +1,5 @@
-import {Routes} from '@angular/router';
-import {isAuthenticated} from '../_shared/services/auth/is-authenticated.guard';
+import { Routes } from '@angular/router';
+import { isAuthenticated } from '../_shared/services/auth/is-authenticated.guard';
 
 export const ROUTES: Routes = [
   {
@@ -59,7 +59,7 @@ export const ROUTES: Routes = [
       },
       {
         path: 'products',
-        title: 'NAV_PRODUCTS',
+        title: 'HOME_PROD_ALL',
         loadChildren: () => import('./products/products.routes').then((m) => m.ROUTES),
       },
       {

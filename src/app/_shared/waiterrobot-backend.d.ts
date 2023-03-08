@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+
 // Generated using typescript-generator version 3.0.1157 on 2022-10-19 17:10:06.
 
 export interface ErrorResponse {
@@ -182,7 +183,7 @@ export interface UpdateEventOrLocationDto {
 
 export interface FcmMessageDto {
   fcmToken: string;
-  data: {[index: string]: string};
+  data: { [index: string]: string };
 }
 
 export interface GetMediatorResponse {
@@ -398,6 +399,33 @@ export interface StatisticsCountResponse {
 
 export interface StatisticsSumResponse {
   name: string;
+  value: number;
+}
+
+export interface StatisticsSumResponse {
+  name: string;
+  value: number;
+}
+
+export interface StatisticsTimelineResponse {
+  name: string;
+  id: number;
+  series: { name: string; value: number }[];
+}
+
+export interface StatisticsTimelineResponse {
+  highestValue: number;
+  data: StatisticsTimelineDataResponse[];
+}
+
+export interface StatisticsTimelineDataResponse {
+  name: string;
+  id: number;
+  series: StatisticsTimelineDataEntryResponse;
+}
+
+export interface StatisticsTimelineDataEntryResponse {
+  name: DateAsString;
   value: number;
 }
 

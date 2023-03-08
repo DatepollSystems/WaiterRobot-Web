@@ -1,27 +1,27 @@
-import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
-import {Component, inject} from '@angular/core';
-import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
-import {loggerOf, s_from} from 'dfts-helper';
+import { NgForOf, NgIf, NgOptimizedImage } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { loggerOf, s_from } from 'dfts-helper';
 
-import {AComponent, DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingSucceeds, DfxTrackByModule, IsMobileService, NgSub} from 'dfx-helper';
-import {DfxTr} from 'dfx-translate';
-import {tap} from 'rxjs';
+import { AComponent, DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingSucceeds, DfxTrackByModule, IsMobileService, NgSub } from 'dfx-helper';
+import { DfxTr } from 'dfx-translate';
+import { tap } from 'rxjs';
 
-import {EnvironmentHelper} from '../_shared/EnvironmentHelper';
+import { EnvironmentHelper } from '../_shared/EnvironmentHelper';
 
-import {AuthService} from '../_shared/services/auth/auth.service';
-import {MyUserModel} from '../_shared/services/auth/user/my-user.model';
-import {MyUserService} from '../_shared/services/auth/user/my-user.service';
-import {QrCodeService} from '../_shared/services/qr-code.service';
-import {FooterModule} from '../_shared/ui/footer/footer.module';
-import {AppIconsModule} from '../_shared/ui/icons.module';
-import {AppNavbarScrollableComponent, NavItem} from '../_shared/ui/navbar-scrollable/app-navbar-scrollable.component';
-import {EventModel} from './events/_models/event.model';
-import {EventsService} from './events/_services/events.service';
+import { AuthService } from '../_shared/services/auth/auth.service';
+import { MyUserModel } from '../_shared/services/auth/user/my-user.model';
+import { MyUserService } from '../_shared/services/auth/user/my-user.service';
+import { QrCodeService } from '../_shared/services/qr-code.service';
+import { FooterModule } from '../_shared/ui/footer/footer.module';
+import { AppIconsModule } from '../_shared/ui/icons.module';
+import { AppNavbarScrollableComponent, NavItem } from '../_shared/ui/navbar-scrollable/app-navbar-scrollable.component';
+import { EventModel } from './events/_models/event.model';
+import { EventsService } from './events/_services/events.service';
 
-import {OrganisationModel} from './organisations/_models/organisation.model';
-import {OrganisationsService} from './organisations/_services/organisations.service';
+import { OrganisationModel } from './organisations/_models/organisation.model';
+import { OrganisationsService } from './organisations/_services/organisations.service';
 
 @Component({
   selector: 'app-home',
@@ -138,12 +138,12 @@ export class HomeComponent extends AComponent {
 
   setNavItems(): void {
     this.navItems = [
-      {text: 'NAV_TABLES', routerLink: 'tables', show: !!this.selectedEvent},
-      {text: 'NAV_PRODUCTS', routerLink: 'products', show: !!this.selectedEvent},
-      {text: 'NAV_PRINTERS', routerLink: 'printers', show: !!this.myUser?.isAdmin},
-      {text: 'NAV_WAITERS', routerLink: 'waiters', show: true},
-      {text: 'NAV_ORDERS', routerLink: 'orders', show: !!this.selectedEvent},
-      {text: 'NAV_STATISTICS', routerLink: 'statistics', show: !!this.selectedEvent},
+      { text: 'NAV_TABLES', routerLink: 'tables', show: !!this.selectedEvent },
+      { text: 'HOME_PROD_ALL', routerLink: 'products', show: !!this.selectedEvent },
+      { text: 'NAV_PRINTERS', routerLink: 'printers', show: !!this.myUser?.isAdmin },
+      { text: 'NAV_WAITERS', routerLink: 'waiters', show: true },
+      { text: 'NAV_ORDERS', routerLink: 'orders', show: !!this.selectedEvent },
+      { text: 'NAV_STATISTICS', routerLink: 'statistics', show: !!this.selectedEvent },
     ];
   }
 
