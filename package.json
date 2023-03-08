@@ -43,6 +43,7 @@
     "@swimlane/ngx-charts": "20.1.0",
     "angularx-qrcode": "15.0.0",
     "bootstrap": "5.2.3",
+    "d3-shape": "^3.2.0",
     "dfts-helper": "0.0.9",
     "dfx-bootstrap-table": "1.4.0",
     "dfx-helper": "5.0.6",
