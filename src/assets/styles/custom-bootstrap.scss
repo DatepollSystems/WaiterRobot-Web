@@ -78,6 +78,21 @@ $popover-header-bg: $primary-6;
 $popover-header-color: $text-color;
 $popover-body-color: $text-color;
 
+// Overwrite ng-bootstrap date picker
+.ngb-dp-header {
+  background-color: $primary-7 !important;
+}
+
+.ngb-dp-weekdays {
+  background-color: $primary-7 !important;
+  border-bottom: 1px solid $primary-8 !important;
+}
+
+.ngb-tp-input {
+  color: #fff !important;
+  background-color: $primary-8 !important;
+}
+
 // 4. Include any default map overrides here
 
 // 5. Include remainder of required parts

@@ -94,7 +94,7 @@
   "ABOUT_MODAL_TECHNICAL_WEB_VERSION": "Version der Webapplication",
   "ABOUT_MODAL_TECHNICAL_USED_LIBRARIES": "Bibliotheken",
 
-  "MOBILE_LINK": "Downloade die WaiterRobot Kellner App um fortzufahren",
+  "MOBILE_LINK": "Downloade die kellner.team Personal App um fortzufahren",
 
   "LANGUAGE": "Sprache",
   "LANGUAGE_CHANGED_TO": "Sprache geändert zu ",
@@ -124,7 +124,6 @@
   "NAV_USER_SESSIONS": "Sessions",
   "NAV_LOGOUT": "Abmelden",
   "NAV_TABLES": "Tische",
-  "NAV_PRODUCTS": "Produkte",
   "NAV_WAITERS": "Personal",
   "NAV_PRINTERS": "Drucker",
   "NAV_ORGANISATIONS": "Organisationen",
@@ -141,7 +140,7 @@
   "HOME_START_SETUP_CREATE_TABLE_GROUP": "Tischgruppe anlegen",
   "HOME_START_SETUP_CREATE_PRODUCT": "Produkt anlegen",
   "HOME_START_SETUP_CREATE_PRODUCT_GROUP": "Produktgruppe anlegen",
-  "HOME_START_SETUP_CREATE_WAITER": "Kellner anlegen",
+  "HOME_START_SETUP_CREATE_WAITER": "Personal anlegen",
 
   "HOME_USERSETTINGS_USER_SETTINGS": "Benutzereinstellugen",
   "HOME_USERSETTINGS_USER_SETTINGS_EMAIL": "E-Mail-Adresse ändern",
@@ -174,7 +173,7 @@
   "HOME_ORGS_USERS_EMAIL_PLACEHOLDER": "Gib die E-Mail-Adresse des Benutzers ein",
   "HOME_ORGS_USERS_USER_NOT_FOUND": " nicht gefunden",
   "HOME_ORGS_USERS_SELF_REMOVE": "Du kannst dich nicht selbst aus einer Organisation entfernen",
-  "HOME_ORGS_SETTINGS_ACTIVATE_WAITER_ON_SIGN_IN_VIA_CREATE_TOKEN": "Aktiviere standardmäßig Kellner welche sich selbst \"registrieren\"",
+  "HOME_ORGS_SETTINGS_ACTIVATE_WAITER_ON_SIGN_IN_VIA_CREATE_TOKEN": "Aktiviere standardmäßig Personal welches sich selbst \"registrieren\"",
 
   "HOME_EVENTS_SELECT": "Event auswählen",
   "HOME_EVENTS_UPDATE_CREATE_WAITER_TOKEN": "Personal-Erstellungs QR-Code zurücksetzen",
@@ -267,5 +266,15 @@
   "HOME_STATISTICS_PIE_CHART": "Pie chart",
   "HOME_STATISTICS_TEXT_CHART": "Text chart",
   "HOME_STATISTICS_NO_DATA": "Keine Daten verfügbar.",
-  "HOME_STATISTICS_PRODUCTS_PER_WAITER": "Produkte pro Kellner"
+  "HOME_STATISTICS_PRODUCTS_PER_WAITER": "Produkte pro Personal",
+  "HOME_STATISTICS_ORDER_HISTORY": "Bestellverlauf",
+  "HOME_STATISTICS_ONE_HOUR": "1 Stunde",
+  "HOME_STATISTICS_THREE_HOURS": "3 Stunden",
+  "HOME_STATISTICS_SIX_HOURS": "6 Stunden",
+  "HOME_STATISTICS_TWELVE_HOURS": "12 Stunden",
+  "HOME_STATISTICS_ONE_DAY": "1 Tag",
+  "HOME_STATISTICS_THREE_DAYS": "3 Tage",
+  "HOME_STATISTICS_ONE_WEEK": "1 Woche",
+  "HOME_STATISTICS_ONE_MONTH": "1 Monat",
+  "HOME_STATISTICS_NO_DATA_FOR_THIS_TIME": "Keine Daten für diesen Zeitraum verfügbar."
 }
