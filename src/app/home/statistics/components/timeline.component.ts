@@ -198,7 +198,7 @@ export class TimelineComponent {
       return this.httpClient.get<StatisticsTimelineResponse>('/config/statistics/timeline', {params});
     }),
     map((it) => {
-      it.highestValue += 10;
+      it.highestValue += 5;
       return it;
     })
   );
