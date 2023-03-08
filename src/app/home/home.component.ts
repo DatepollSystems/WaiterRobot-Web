@@ -17,9 +17,9 @@ import {QrCodeService} from '../_shared/services/qr-code.service';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
 import {AppIconsModule} from '../_shared/ui/icons.module';
 import {AppNavbarScrollableComponent} from '../_shared/ui/navbar-scrollable/app-navbar-scrollable.component';
+import {GetEventOrLocationResponse, GetOrganisationResponse} from '../_shared/waiterrobot-backend';
 import {EventsService} from './events/_services/events.service';
 import {OrganisationsService} from './organisations/_services/organisations.service';
-import {GetEventOrLocationResponse, GetOrganisationResponse} from '../_shared/waiterrobot-backend';
 
 @Component({
   selector: 'app-home',
@@ -96,7 +96,7 @@ export class HomeComponent extends AComponent {
       events,
       navItems: [
         {text: 'NAV_TABLES', routerLink: 'tables', show: !!selectedEvent},
-        {text: 'NAV_PRODUCTS', routerLink: 'products', show: !!selectedEvent},
+        {text: 'HOME_PROD_ALL', routerLink: 'products', show: !!selectedEvent},
         {text: 'NAV_PRINTERS', routerLink: 'printers', show: !!myUser?.isAdmin},
         {text: 'NAV_WAITERS', routerLink: 'waiters', show: true},
         {text: 'NAV_ORDERS', routerLink: 'orders', show: !!selectedEvent},

@@ -59,7 +59,7 @@ export const ROUTES: Routes = [
       },
       {
         path: 'products',
-        title: 'NAV_PRODUCTS',
+        title: 'HOME_PROD_ALL',
         loadChildren: () => import('./products/products.routes').then((m) => m.ROUTES),
       },
       {

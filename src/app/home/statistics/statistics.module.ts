@@ -1,9 +1,10 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 
-import {NgbDropdownModule, NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {BarChartModule, PieChartModule} from '@swimlane/ngx-charts';
+import {NgbDropdownModule, NgbInputDatepicker, NgbNavModule, NgbTimepicker, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {BarChartModule, LineChartModule, PieChartModule} from '@swimlane/ngx-charts';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxCountUp} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
@@ -17,6 +18,7 @@ import {SumProductGroupsComponent} from './components/sum-product-groups.compone
 import {SumProductsPerWaiterComponent} from './components/sum-products-per-waiter.component';
 import {SumProductsComponent} from './components/sum-products.component';
 import {SumStatisticsComponent} from './components/sum/sum-statistics.component';
+import {TimelineComponent} from './components/timeline.component';
 import {StatisticsOverviewComponent} from './statistics-overview.component';
 
 import {StatisticsComponent} from './statistics.component';
@@ -36,6 +38,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     StatisticsComponent,
+    TimelineComponent,
     StatisticsOverviewComponent,
     SumStatisticsComponent,
     SumProductsComponent,
@@ -59,6 +62,10 @@ const routes: Routes = [
     NgbNavModule,
     NgbDropdownModule,
     BarChartModule,
+    LineChartModule,
+    NgbInputDatepicker,
+    ReactiveFormsModule,
+    NgbTimepicker,
   ],
 })
 export class StatisticsModule {}

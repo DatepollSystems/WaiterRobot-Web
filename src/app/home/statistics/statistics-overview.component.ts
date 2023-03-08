@@ -31,7 +31,7 @@ import {EventsService} from '../events/_services/events.service';
         <div class="card h-100">
           <div class="card-body text-center d-flex flex-column gap-2">
             <h4>{{ 'HOME_STATISTICS_BEST_WAITER' | tr }}</h4>
-            <p style="font-size: 2rem">{{ countDto.bestWaiter?.name ?? '-' }} ({{ countDto.bestWaiter?.value }})</p>
+            <p style="font-size: 2rem">{{ countDto.bestWaiter?.name ?? '-' }} ({{ countDto.bestWaiter?.value ?? 0 }})</p>
           </div>
         </div>
       </div>
@@ -44,6 +44,10 @@ import {EventsService} from '../events/_services/events.service';
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="row mb-4">
+      <app-statistics-timeline />
     </div>
 
     <div class="row mb-4 row-cols-1 row-cols-lg-2 gy-2">
