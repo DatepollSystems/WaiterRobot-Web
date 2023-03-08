@@ -8,6 +8,7 @@ import {AppListNavItemsComponent} from '../../_shared/ui/app-list-nav-items.comp
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {EventsService} from '../events/_services/events.service';
 import {OrganisationsService} from '../organisations/_services/organisations.service';
+import {getOrderBySelected} from '../../_shared/services/getOrderBySelected';
 
 @Component({
   template: `
@@ -23,16 +24,6 @@ import {OrganisationsService} from '../organisations/_services/organisations.ser
           {{ selectedOrganisation.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</a
         >
 
-        <a
-          *ngIf="selectedEvent$ | async as selectedEvent"
-          class="list-group-item list-group-item-action"
-          routerLink="event/{{ selectedEvent.id }}"
-          routerLinkActive="active"
-        >
-          <i-bs name="people" />
-          {{ selectedEvent.name }} {{ 'HOME_WAITERS_NAV_EVENTS' | tr }}</a
-        >
-
         <app-list-nav-items path="/home/waiters/event/" [entities]="events$ | async" />
       </div>
     </entities-layout-component>
@@ -44,9 +35,6 @@ import {OrganisationsService} from '../organisations/_services/organisations.ser
 })
 export class WaitersComponent {
   selectedOrganisation$ = inject(OrganisationsService).getSelected$;
-  selectedEvent$ = this.eventsService.getSelected$;
 
-  events$ = this.eventsService.getAll$();
-
-  constructor(private eventsService: EventsService) {}
+  events$ = getOrderBySelected(inject(EventsService));
 }

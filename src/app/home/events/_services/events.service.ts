@@ -18,7 +18,7 @@ import {
   HasUpdateWithIdResponse,
   notNullAndUndefined,
 } from '../../../_shared/services/abstract-entity.service';
-import {BehaviorSubject, combineLatest, filter, map, Observable, of, shareReplay, switchMap} from 'rxjs';
+import {BehaviorSubject, combineLatest, distinctUntilChanged, filter, map, Observable, shareReplay, switchMap} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {o_fromStorage, s_from, st_set} from 'dfts-helper';
 
@@ -60,41 +60,36 @@ export class EventsService
 
   getSelected$ = combineLatest([this.selectedChange, this.organisationsService.getSelected$]).pipe(
     map(([selected, selectedOrganisation]) => {
-      if (selectedOrganisation !== undefined) {
+      if (selectedOrganisation !== undefined && selectedOrganisation.id === selected?.id) {
         return selected;
       }
       return undefined;
     }),
+    distinctUntilChanged((prev, current) => prev?.id === current?.id),
     shareReplay(1)
   );
 
   triggerGet$ = new BehaviorSubject(true);
 
   getAll$(): Observable<GetEventOrLocationResponse[]> {
-    return combineLatest([
-      this.triggerGet$,
-      this.getSelected$,
-      this.organisationsService.getSelected$.pipe(filter(notNullAndUndefined)),
-    ]).pipe(
-      switchMap(([, selected, organisation]) =>
-        combineLatest([
-          of(selected),
-          this.httpClient.get<GetEventOrLocationResponse[]>(this.url, {
-            params: new HttpParams().set('organisationId', organisation.id),
-          }),
-        ])
+    return combineLatest([this.triggerGet$, this.organisationsService.getSelected$.pipe(filter(notNullAndUndefined))]).pipe(
+      switchMap(([, organisation]) =>
+        this.httpClient.get<GetEventOrLocationResponse[]>(this.url, {
+          params: new HttpParams().set('organisationId', organisation.id),
+        })
       ),
-      tap(([selected, entities]) => {
+      tap((entities) => {
+        const selected = this.selectedChange.getValue();
         if (selected && entities.length > 0) {
           for (const entity of entities) {
             if (selected.id === entity.id) {
-              this.setSelected(entity);
+              st_set(this.selectedStorageKey, entity);
               break;
             }
           }
         }
       }),
-      map(([, request]) => request)
+      shareReplay(1)
     );
   }
 

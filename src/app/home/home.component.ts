@@ -74,16 +74,8 @@ export class HomeComponent extends AComponent {
         }
       })
     ),
-    this.organisationsService.getSelected$.pipe(
-      tap((it) => {
-        console.log('selected org', it);
-      })
-    ),
-    this.eventsService.getSelected$.pipe(
-      tap((it) => {
-        console.log('selected event', it);
-      })
-    ),
+    this.organisationsService.getSelected$,
+    this.eventsService.getSelected$,
     this.organisationsService.getAll$().pipe(map((it) => it.slice(0, 5))),
     this.eventsService.getAll$().pipe(startWith([])),
   ]).pipe(

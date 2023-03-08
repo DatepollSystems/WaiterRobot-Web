@@ -6,12 +6,12 @@ export function getOrderBySelected<T extends IHasID<string | number>>(service: H
   return service.getSelected$.pipe(
     switchMap((selected) =>
       service.getAll$().pipe(
-        map((events) => {
+        map((entities) => {
           if (!selected) {
-            return events;
+            return entities;
           }
-          const arr = events.filter(({id}) => selected?.id !== id);
-          const found = events.find(({id}) => selected?.id === id);
+          const arr = entities.filter(({id}) => selected?.id !== id);
+          const found = entities.find(({id}) => selected?.id === id);
           if (found) {
             return [found].concat(arr);
           }

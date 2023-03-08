@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, combineLatest, map, Observable, of, shareReplay, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, distinctUntilChanged, Observable, shareReplay, switchMap, tap} from 'rxjs';
 import {o_fromStorage, s_from, st_set} from 'dfts-helper';
 
 import {
@@ -55,24 +55,28 @@ export class OrganisationsService
     this.selectedChange.next(it);
   }
 
-  getSelected$ = this.selectedChange.pipe(shareReplay(1));
+  getSelected$ = this.selectedChange.asObservable().pipe(
+    distinctUntilChanged((prev, current) => prev?.id === current?.id),
+    shareReplay(1)
+  );
 
   triggerGet$ = new BehaviorSubject(true);
 
   getAll$(): Observable<GetOrganisationResponse[]> {
-    return combineLatest([this.triggerGet$, this.getSelected$]).pipe(
-      switchMap(([, selected]) => combineLatest([of(selected), this.httpClient.get<GetOrganisationResponse[]>(this.url)])),
-      tap(([selected, entities]) => {
+    return this.triggerGet$.pipe(
+      switchMap(() => this.httpClient.get<GetOrganisationResponse[]>(this.url)),
+      tap((entities) => {
+        const selected = this.selectedChange.getValue();
         if (selected && entities.length > 0) {
           for (const entity of entities) {
             if (selected.id === entity.id) {
-              this.setSelected(entity);
+              st_set(this.selectedStorageKey, entity);
               break;
             }
           }
         }
       }),
-      map(([, request]) => request)
+      shareReplay(1)
     );
   }
 
