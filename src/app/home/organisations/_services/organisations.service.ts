@@ -1,15 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, distinctUntilChanged, Observable, shareReplay, switchMap, tap} from 'rxjs';
 import {o_fromStorage, s_from, st_set} from 'dfts-helper';
-
-import {
-  CreateOrganisationDto,
-  GetOrganisationResponse,
-  IdResponse,
-  UpdateEventOrLocationDto,
-  UpdateOrganisationDto,
-} from '../../../_shared/waiterrobot-backend';
+import {BehaviorSubject, distinctUntilChanged, Observable, shareReplay, switchMap, tap} from 'rxjs';
 import {
   HasCreateWithIdResponse,
   HasDelete,
@@ -18,6 +10,14 @@ import {
   HasGetSingle,
   HasUpdateWithIdResponse,
 } from '../../../_shared/services/abstract-entity.service';
+
+import {
+  CreateOrganisationDto,
+  GetOrganisationResponse,
+  IdResponse,
+  UpdateEventOrLocationDto,
+  UpdateOrganisationDto,
+} from '../../../_shared/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
@@ -55,10 +55,7 @@ export class OrganisationsService
     this.selectedChange.next(it);
   }
 
-  getSelected$ = this.selectedChange.asObservable().pipe(
-    distinctUntilChanged((prev, current) => prev?.id === current?.id),
-    shareReplay(1)
-  );
+  getSelected$ = this.selectedChange.asObservable().pipe(distinctUntilChanged(), shareReplay(1));
 
   triggerGet$ = new BehaviorSubject(true);
 

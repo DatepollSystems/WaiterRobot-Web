@@ -1,14 +1,8 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-
-import {
-  CreateEventOrLocationDto,
-  GetEventOrLocationResponse,
-  GetProductResponse,
-  IdResponse,
-  UpdateEventOrLocationDto,
-} from '../../../_shared/waiterrobot-backend';
-import {OrganisationsService} from '../../organisations/_services/organisations.service';
+import {o_fromStorage, s_from, st_set} from 'dfts-helper';
+import {BehaviorSubject, combineLatest, distinctUntilChanged, filter, map, Observable, shareReplay, switchMap} from 'rxjs';
+import {tap} from 'rxjs/operators';
 import {
   HasCreateWithIdResponse,
   HasDelete,
@@ -18,9 +12,15 @@ import {
   HasUpdateWithIdResponse,
   notNullAndUndefined,
 } from '../../../_shared/services/abstract-entity.service';
-import {BehaviorSubject, combineLatest, distinctUntilChanged, filter, map, Observable, shareReplay, switchMap} from 'rxjs';
-import {tap} from 'rxjs/operators';
-import {o_fromStorage, s_from, st_set} from 'dfts-helper';
+
+import {
+  CreateEventOrLocationDto,
+  GetEventOrLocationResponse,
+  GetProductResponse,
+  IdResponse,
+  UpdateEventOrLocationDto,
+} from '../../../_shared/waiterrobot-backend';
+import {OrganisationsService} from '../../organisations/_services/organisations.service';
 
 @Injectable({
   providedIn: 'root',
@@ -60,12 +60,12 @@ export class EventsService
 
   getSelected$ = combineLatest([this.selectedChange, this.organisationsService.getSelected$]).pipe(
     map(([selected, selectedOrganisation]) => {
-      if (selectedOrganisation !== undefined && selectedOrganisation.id === selected?.id) {
+      if (selectedOrganisation !== undefined && selectedOrganisation.id === selected?.organisationId) {
         return selected;
       }
       return undefined;
     }),
-    distinctUntilChanged((prev, current) => prev?.id === current?.id),
+    distinctUntilChanged(),
     shareReplay(1)
   );
 

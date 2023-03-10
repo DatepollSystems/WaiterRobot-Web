@@ -2,7 +2,6 @@ import {AfterViewInit, Component, Inject, inject, ViewChild} from '@angular/core
 import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
 
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {loggerOf} from 'dfts-helper';
 import {NgbPaginator, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {catchError, combineLatest, filter, Observable, of, startWith, switchMap, tap, throwError} from 'rxjs';
@@ -35,11 +34,9 @@ export abstract class AbstractModelsListV2Component<EntityType> implements After
   protected sortingDataAccessors?: Map<string, (it: EntityType) => any>;
   public filter = new FormControl('');
 
-  protected modal = inject(NgbModal);
-
   dataSource$: Observable<NgbTableDataSource<EntityType>> = of(new NgbTableDataSource<EntityType>());
 
-  protected entities?: NgbTableDataSource<EntityType>;
+  protected _dataSource: NgbTableDataSource<EntityType> = new NgbTableDataSource<EntityType>([]);
 
   protected constructor(@Inject(null) protected entitiesService: HasGetAll<EntityType>) {}
 
@@ -58,7 +55,7 @@ export abstract class AbstractModelsListV2Component<EntityType> implements After
       ),
     ]).pipe(
       switchMap(([filterTerm, all]) => {
-        const dataSource = new NgbTableDataSource<EntityType>(all.slice());
+        const dataSource = new NgbTableDataSource<EntityType>(all);
 
         if (this.sortingDataAccessors) {
           dataSource.sortingDataAccessor = (item, property) => {
@@ -81,8 +78,8 @@ export abstract class AbstractModelsListV2Component<EntityType> implements After
 
         return of(dataSource);
       }),
-      tap((dataSource) => (this.entities = dataSource)),
-      startWith(new NgbTableDataSource<EntityType>([]))
+      tap((dataSource) => (this._dataSource = dataSource)),
+      startWith(this._dataSource)
     );
   }
 }

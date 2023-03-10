@@ -104,10 +104,6 @@ export abstract class AbstractModelEditComponentV2<
     }
   }
 
-  public isEditing(entity: EntityType | 'CREATE'): entity is EntityType {
-    return entity !== 'CREATE';
-  }
-
   public onGoBack(url?: string): void {
     if (url) {
       void this.router.navigateByUrl(url);

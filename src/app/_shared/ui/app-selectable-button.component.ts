@@ -1,16 +1,18 @@
-import {AsyncPipe, NgIf} from '@angular/common';
-import {AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+import {NgIf} from '@angular/common';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {IHasID, UndefinedOr} from 'dfts-helper';
+import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {AppIconsModule} from './icons.module';
+import {EMPTY, Observable} from 'rxjs';
+import {tap} from 'rxjs/operators';
 import {HasGetSelected} from '../services/abstract-entity.service';
-import {Observable} from 'rxjs';
+import {AppIconsModule} from './icons.module';
 
 @Component({
   template: `
-    <ng-container *ngIf="selectedEntity$ | async as _selectedEntity">
+    <ng-container *ngSub="selectedEntity$ as _selectedEntity">
       <button
         *ngIf="_selectedEntity?.id !== entity?.id; else deselect"
         type="button"
@@ -41,23 +43,24 @@ import {Observable} from 'rxjs';
   selector: 'selectable-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgIf, DfxTr, AppIconsModule, NgbTooltipModule, AsyncPipe],
+  imports: [NgIf, DfxTr, AppIconsModule, NgbTooltipModule, NgSub],
 })
-export class AppSelectableButtonComponent implements AfterViewInit {
+export class AppSelectableButtonComponent {
   @Input() entity?: IHasID<string | number>;
 
-  @Input() selectedEntityService!: HasGetSelected<IHasID<string | number>>;
+  @Input() set selectedEntityService(it: HasGetSelected<IHasID<string | number>>) {
+    this._selectedEntityService = it;
+    this.selectedEntity$ = this._selectedEntityService.getSelected$.pipe(tap((it) => console.log('after', it)));
+    console.log(this.entity);
+  }
 
-  @Output() selectEntity = new EventEmitter<any>();
+  _selectedEntityService!: HasGetSelected<IHasID<string | number>>;
 
   onSelect(entity?: IHasID<string | number>): void {
-    this.selectedEntityService.setSelected(entity);
-    this.selectEntity.next(entity);
+    this._selectedEntityService.setSelected(entity);
+    console.log('clicked', entity);
+    //this.selectEntity.next(entity);
   }
 
-  ngAfterViewInit(): void {
-    this.selectedEntity$ = this.selectedEntityService.getSelected$;
-  }
-
-  selectedEntity$?: Observable<UndefinedOr<IHasID<string | number>>>;
+  selectedEntity$: Observable<UndefinedOr<IHasID<string | number>>> = EMPTY;
 }

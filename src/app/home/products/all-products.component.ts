@@ -28,7 +28,7 @@ import {ProductsService} from './_services/products.service';
         >
       </div>
 
-      <div *ngIf="selection">
+      <div>
         <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
           <i-bs name="trash" />
           {{ 'DELETE' | tr }}

@@ -27,7 +27,7 @@ import {FooterModule} from './_shared/ui/footer/footer.module';
         </div>
       </div>
     </div>
-    <app-footer />
+    <app-footer container="container-xxl" />
   `,
   styleUrls: ['./about/about.component.scss'],
   standalone: true,

@@ -336,6 +336,7 @@ export interface CreateProductGroupDto {
 export interface GetProductGroupMaxResponse {
   id: number;
   name: string;
+  eventId: number;
   products: GetProductResponse[];
 }
 

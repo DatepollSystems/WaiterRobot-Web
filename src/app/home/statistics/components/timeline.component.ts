@@ -3,7 +3,7 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import * as shape from 'd3-shape';
 import {d_format, d_formatWithHoursMinutesAndSeconds, d_from} from 'dfts-helper';
-import {BehaviorSubject, combineLatest, debounceTime, filter, startWith, switchMap} from 'rxjs';
+import {BehaviorSubject, combineLatest, debounceTime, filter, map, startWith, switchMap} from 'rxjs';
 import {notNullAndUndefined} from '../../../_shared/services/abstract-entity.service';
 import {StatisticsTimelineResponse} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
@@ -163,7 +163,7 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimelineComponent {
-  curve = shape.curveBasis;
+  curve = shape.curveCatmullRom;
 
   dateFormControl = new FormControl(d_format(new Date()));
   timeFormControl = new FormControl({hour: new Date().getHours(), minute: new Date().getMinutes()});
@@ -196,6 +196,10 @@ export class TimelineComponent {
       params = params.append('precision', precision);
       params = params.append('type', type);
       return this.httpClient.get<StatisticsTimelineResponse>('/config/statistics/timeline', {params});
+    }),
+    map((it) => {
+      it.highestValue += 5;
+      return it;
     })
   );
 

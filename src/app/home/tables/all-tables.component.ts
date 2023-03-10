@@ -154,6 +154,6 @@ export class AllTablesComponent extends AbstractModelsWithNumberListWithDeleteCo
       size: 'lg',
     });
     modalRef.componentInstance.tables =
-      this.entities?.data.sort((a, b) => a.groupName.localeCompare(b.groupName) || a.number - b.number) ?? [];
+      this._dataSource.data.sort((a, b) => a.groupName.localeCompare(b.groupName) || a.number - b.number) ?? [];
   }
 }

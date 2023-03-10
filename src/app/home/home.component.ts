@@ -6,7 +6,7 @@ import {loggerOf, s_from} from 'dfts-helper';
 
 import {AComponent, DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingSucceeds, DfxTrackByModule, IsMobileService, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {combineLatest, lastValueFrom, map, startWith, tap} from 'rxjs';
+import {combineLatest, first, map, startWith, tap} from 'rxjs';
 
 import {EnvironmentHelper} from '../_shared/EnvironmentHelper';
 
@@ -127,12 +127,16 @@ export class HomeComponent extends AComponent {
     }
   }
 
-  async switchAdminMode(): Promise<void> {
-    this.adminModeChanged = !this.adminModeChanged;
-    const user = await lastValueFrom(this.myUserService.getUser$());
-    user.isAdmin = !user.isAdmin;
-    this.lumber.info('switchAdminMode', 'Admin mode switched to ' + s_from(user.isAdmin));
-    this.myUserService.manualUserChange.next(user);
+  switchAdminMode(): void {
+    this.myUserService
+      .getUser$()
+      .pipe(first())
+      .subscribe((user) => {
+        this.adminModeChanged = !this.adminModeChanged;
+        user.isAdmin = !this.adminModeChanged;
+        this.lumber.info('switchAdminMode', 'Admin mode switched to ' + s_from(user.isAdmin));
+        this.myUserService.manualUserChange.next(user);
+      });
   }
 
   logout(): void {

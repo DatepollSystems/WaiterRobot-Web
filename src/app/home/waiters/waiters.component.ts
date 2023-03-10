@@ -6,9 +6,8 @@ import {DfxTr} from 'dfx-translate';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {AppListNavItemsComponent} from '../../_shared/ui/app-list-nav-items.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {EventsService} from '../events/_services/events.service';
+import {getEventsOrderedBySelected} from '../events/_services/getEventsOrderedBySelected';
 import {OrganisationsService} from '../organisations/_services/organisations.service';
-import {getOrderBySelected} from '../../_shared/services/getOrderBySelected';
 
 @Component({
   template: `
@@ -36,5 +35,5 @@ import {getOrderBySelected} from '../../_shared/services/getOrderBySelected';
 export class WaitersComponent {
   selectedOrganisation$ = inject(OrganisationsService).getSelected$;
 
-  events$ = getOrderBySelected(inject(EventsService));
+  events$ = getEventsOrderedBySelected();
 }

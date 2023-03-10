@@ -1,9 +1,9 @@
 import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
-import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 import {AbstractModelsListV2Component} from '../../_shared/ui/abstract-models-list-v2.component';
@@ -141,6 +141,8 @@ import {UsersService} from './users.service';
   ],
 })
 export class AllUsersComponent extends AbstractModelsListV2Component<GetUserResponse> {
+  modal = inject(NgbModal);
+
   constructor(private usersService: UsersService) {
     super(usersService);
     this.columnsToDisplay = ['id', 'name', 'email_address', 'birthday', 'is_admin', 'activated', 'actions'];
