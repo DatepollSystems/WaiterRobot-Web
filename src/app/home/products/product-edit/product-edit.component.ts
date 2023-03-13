@@ -6,7 +6,7 @@ import {n_from, n_isNumeric} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
 import {combineLatest, filter, map, startWith} from 'rxjs';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
-import {AbstractModelEditComponentV2} from '../../../_shared/ui/form/abstract-model-edit.component-v2';
+import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
 import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
 
@@ -96,7 +96,7 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
     AppSpinnerRowComponent,
   ],
 })
-export class ProductEditComponent extends AbstractModelEditComponentV2<CreateProductDto, UpdateProductDto, GetProductMaxResponse, 'DATA'> {
+export class ProductEditComponent extends AbstractModelEditComponent<CreateProductDto, UpdateProductDto, GetProductMaxResponse, 'DATA'> {
   defaultTab = 'DATA' as const;
   redirectUrl = '/home/products/all';
   continuousUsePropertyNames = ['groupId', 'printerId'];

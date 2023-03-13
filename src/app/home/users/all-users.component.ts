@@ -6,7 +6,7 @@ import {RouterLink} from '@angular/router';
 import {NgbModal, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
-import {AbstractModelsListV2Component} from '../../_shared/ui/abstract-models-list-v2.component';
+import {AbstractModelsListComponent} from '../../_shared/ui/abstract-models-list.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
@@ -140,7 +140,7 @@ import {UsersService} from './users.service';
     AppBtnToolbarComponent,
   ],
 })
-export class AllUsersComponent extends AbstractModelsListV2Component<GetUserResponse> {
+export class AllUsersComponent extends AbstractModelsListComponent<GetUserResponse> {
   modal = inject(NgbModal);
 
   constructor(private usersService: UsersService) {

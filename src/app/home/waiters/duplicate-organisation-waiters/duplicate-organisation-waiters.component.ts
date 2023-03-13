@@ -7,12 +7,12 @@ import {HasNumberIDAndName, IEntityWithNumberIDAndName, IList, List} from 'dfts-
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
-import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
-import {AbstractModelsListV2Component} from '../../../_shared/ui/abstract-models-list-v2.component';
 import {DuplicateWaiterResponse} from '../../../_shared/waiterrobot-backend';
+import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
 
 @Component({
   selector: 'app-duplicate-organisation-waiters',
@@ -34,7 +34,7 @@ import {DuplicateWaiterResponse} from '../../../_shared/waiterrobot-backend';
   ],
   standalone: true,
 })
-export class DuplicateOrganisationWaitersComponent extends AbstractModelsListV2Component<DuplicateWaiterResponse> {
+export class DuplicateOrganisationWaitersComponent extends AbstractModelsListComponent<DuplicateWaiterResponse> {
   duplicateWaiter: DuplicateWaiterResponse | undefined;
   selectedDuplicateWaiter: HasNumberIDAndName | undefined;
   duplicateWaitersToMerge: IList<HasNumberIDAndName> = new List<HasNumberIDAndName>();

@@ -6,7 +6,7 @@ import {IHasID, s_imploder} from 'dfts-helper';
 import {NgbTableDataSource} from 'dfx-bootstrap-table';
 import {Observable, tap} from 'rxjs';
 import {HasDelete, HasGetAll} from '../../services/abstract-entity.service';
-import {AbstractModelsListV2Component} from '../abstract-models-list-v2.component';
+import {AbstractModelsListComponent} from '../abstract-models-list.component';
 
 import {QuestionDialogComponent} from '../question-dialog/question-dialog.component';
 
@@ -15,7 +15,7 @@ import {QuestionDialogComponent} from '../question-dialog/question-dialog.compon
 })
 export abstract class AbstractModelsListWithDeleteComponent<
   EntityType extends IHasID<EntityType['id']>
-> extends AbstractModelsListV2Component<EntityType> {
+> extends AbstractModelsListComponent<EntityType> {
   public selection = new SelectionModel<EntityType>(true, []);
 
   protected modal = inject(NgbModal);

@@ -1,107 +1,107 @@
 import {Location} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
-import {NgForm} from '@angular/forms';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, inject, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {IEntityWithNumberIDAndName, loggerOf, n_from, n_isNumeric} from 'dfts-helper';
-
-import {AComponent} from 'dfx-helper';
-import {tap} from 'rxjs';
-
-import {AbstractModelService} from '../../services/abstract-model.service';
+import {IHasID, loggerOf, n_from, n_isNumeric, s_from, s_is} from 'dfts-helper';
+import {BehaviorSubject, combineLatest, map, Observable, of, switchMap, tap} from 'rxjs';
+import {HasCreateWithIdResponse, HasDelete, HasGetSingle, HasUpdateWithIdResponse} from '../../services/abstract-entity.service';
 import {QuestionDialogComponent} from '../question-dialog/question-dialog.component';
+import {AbstractModelEditFormComponent} from './abstract-model-edit-form.component';
 
 @Component({
   template: '',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export abstract class AbstractModelEditComponent<EntityType extends IEntityWithNumberIDAndName> extends AComponent implements OnInit {
-  protected abstract redirectUrl: string;
-  protected onlyEditingTabs: number[] = [];
-  protected continuousUsePropertyNames: string[] = [];
-
-  protected lumber = loggerOf('AModelEditComponent');
-
-  public isEditing = false;
-  public activeTab = 1;
-
-  public continuousCreation = false;
-
-  public entity: EntityType | undefined;
-  public entityLoaded = false;
-
+export abstract class AbstractModelEditComponent<
+  CreateDTOType,
+  UpdateDTOType extends IHasID<UpdateDTOType['id']>,
+  EntityType extends IHasID<EntityType['id']>,
+  Tab
+> {
   protected location = inject(Location);
-
   protected router = inject(Router);
   protected route = inject(ActivatedRoute);
   protected modal = inject(NgbModal);
+  protected cdr = inject(ChangeDetectorRef);
 
-  protected constructor(protected modelService: AbstractModelService<EntityType>) {
-    super();
+  @ViewChild('form') form?: AbstractModelEditFormComponent<CreateDTOType, UpdateDTOType>;
+
+  valid$ = new BehaviorSubject<'VALID' | 'INVALID'>('INVALID');
+
+  entity$: Observable<EntityType | 'CREATE'> = this.route.paramMap.pipe(
+    map((params) => params.get('id')),
+    switchMap((id) => (n_isNumeric(id) ? this.entityService.getSingle$(n_from(id)) : of('CREATE' as const)))
+  );
+
+  protected redirectUrl!: string;
+
+  protected defaultTab!: Tab;
+  protected onlyEditingTabs: Tab[] = [];
+  public activeTab$ = combineLatest([
+    this.route.queryParams.pipe(map((params) => (s_is(params.tab) ? (params.tab as Tab) : undefined))),
+    this.entity$,
+  ]).pipe(
+    map(([tab, entity]) => (tab === undefined || (entity === 'CREATE' && this.onlyEditingTabs.includes(tab)) ? this.defaultTab : tab))
+  );
+
+  protected continuousUsePropertyNames: string[] = [];
+  continuesCreation = false;
+
+  protected lumber = loggerOf('AModelEditComponentV2');
+
+  protected constructor(
+    @Inject(null)
+    protected entityService: HasGetSingle<EntityType> &
+      HasCreateWithIdResponse<CreateDTOType> &
+      HasUpdateWithIdResponse<UpdateDTOType> &
+      HasDelete<EntityType>
+  ) {}
+
+  setValid(valid: 'VALID' | 'INVALID'): void {
+    this.valid$.next(valid);
+    this.cdr.detectChanges();
   }
 
-  ngOnInit(): void {
-    this.unsubscribe(
-      this.route.paramMap.subscribe((params) => {
-        this.entityLoaded = false;
-        const id = params.get('id');
-        if (n_isNumeric(id)) {
-          this.isEditing = true;
-          const nId = n_from(id);
-          this.lumber.info('const', 'Model to open: "' + nId + '"');
-          this.entity = this.modelService.getSingle(nId);
-          if (this.entity && this.entity?.id == nId) {
-            this.entityLoaded = true;
-            this.onEntityEdit(this.entity);
+  submit(method: 'CREATE' | 'UPDATE', dto: CreateDTOType | UpdateDTOType): void {
+    this.lumber.info('submit', `method: "${method}"; Continuous creation: "${s_from(this.continuesCreation)}"`, dto);
+
+    let obs$: Observable<unknown>;
+
+    switch (method) {
+      case 'CREATE':
+        obs$ = this.entityService.create$(dto as CreateDTOType);
+        break;
+      case 'UPDATE':
+        obs$ = this.entityService.update$(dto as UpdateDTOType);
+        break;
+      default:
+        throw Error('Not implemented');
+    }
+
+    obs$
+      .pipe(
+        tap(() => {
+          if (this.continuesCreation) {
+            this.form?.reset();
+
+            if (this.continuousUsePropertyNames.length > 0) {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              for (const modelKeyValuePairs of Object.keys(dto as Record<string, any>).map((key) => [String(key), dto[key]])) {
+                if (this.continuousUsePropertyNames.includes(modelKeyValuePairs[0] as string)) {
+                  this.form?.patchValue({
+                    [modelKeyValuePairs[0]]: modelKeyValuePairs[1],
+                  });
+                }
+              }
+            }
           }
-          this.unsubscribe(
-            this.modelService.singleChange.subscribe((value) => {
-              this.entity = value;
-              this.entityLoaded = true;
-              this.onEntityEdit(value);
-            })
-          );
-        } else {
-          this.lumber.info('const', 'Create new model', typeof id);
-          this.onEntityCreate();
-          this.isEditing = false;
-          this.checkTab();
-        }
-      })
-    );
-
-    this.unsubscribe(
-      this.route.queryParams.subscribe((params) => {
-        if (params?.tab != null && typeof params?.tab === 'string') {
-          this.activeTab = n_from(params?.tab);
-          this.checkTab();
-        }
-      })
-    );
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected onEntityEdit(entity: EntityType): void {}
-
-  protected onEntityCreate(): void {}
-
-  /**
-   * Adds custom attributes to the create and update model
-   * @param model
-   * @return any
-   */
-  protected addCustomAttributesBeforeCreateAndUpdate(model: any): any {
-    return model;
-  }
-
-  /**
-   * Returns true if everything passes, false if not.
-   * If you return false, the model will not be created or updated
-   * @param model
-   * @return boolean
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected createAndUpdateFilter(model: any): boolean {
-    return true;
+        })
+      )
+      .subscribe();
+    if (!this.continuesCreation) {
+      this.goToRedirectUrl();
+    }
   }
 
   public onGoBack(url?: string): void {
@@ -113,65 +113,21 @@ export abstract class AbstractModelEditComponent<EntityType extends IEntityWithN
     this.location.back();
   }
 
-  public setTabId(tabId: number): void {
+  public navigateToTab(tab: Tab): void {
     void this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: {tab: tabId},
+      queryParams: {tab: tab},
       queryParamsHandling: 'merge',
     });
   }
 
-  private checkTab(): void {
-    if (!this.isEditing && this.onlyEditingTabs.includes(this.activeTab)) {
-      this.lumber.info('checkTab', 'Tried to open editing only tab in create mode. Rerouting to tab 1');
-      this.activeTab = 1;
-      this.setTabId(1);
-    }
-  }
-
-  public onSave(form: NgForm): void {
-    let model = form.form.value;
-    this.lumber.info('onSave', 'Continuous creation: "' + this.continuousCreation + '"');
-    if (!this.createAndUpdateFilter(model)) {
-      this.lumber.info('onSave', 'Validation failed');
-      return;
-    }
-    model = this.addCustomAttributesBeforeCreateAndUpdate(model);
-    this.lumber.info('onSave', 'Model form value object', model);
-
-    const methode = this.isEditing && this.entity?.id != null ? this.modelService.update(model) : this.modelService.create(model);
-
-    methode
-      .pipe(
-        tap(() => {
-          if (this.continuousCreation) {
-            form.resetForm();
-
-            if (this.continuousUsePropertyNames.length > 0) {
-              for (const modelKeyValuePairs of Object.keys(model as Record<string, any>).map((key) => [String(key), model[key]])) {
-                if (this.continuousUsePropertyNames.includes(modelKeyValuePairs[0] as string)) {
-                  form.form.patchValue({
-                    [modelKeyValuePairs[0]]: modelKeyValuePairs[1],
-                  });
-                }
-              }
-            }
-          }
-        })
-      )
-      .subscribe();
-    if (!this.continuousCreation) {
-      this.goToRedirectUrl();
-    }
-  }
-
-  public async onDelete(modelId: number): Promise<void> {
+  public async onDelete(modelId: EntityType['id']): Promise<void> {
     const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
     modalRef.componentInstance.title = 'DELETE_CONFIRMATION';
     const result = await modalRef.result;
     this.lumber.info('onDelete', 'Confirm dialog result', result);
     if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
-      this.modelService.delete(modelId).subscribe();
+      this.entityService.delete$(modelId).subscribe();
       this.goToRedirectUrl();
     }
   }

@@ -6,7 +6,7 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AbstractModelsListV2Component} from '../../_shared/ui/abstract-models-list-v2.component';
+import {AbstractModelsListComponent} from '../../_shared/ui/abstract-models-list.component';
 
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
@@ -86,7 +86,7 @@ import {MediatorsService} from './_services/mediators.service';
     AppSpinnerRowComponent,
   ],
 })
-export class AllMediatorsComponent extends AbstractModelsListV2Component<GetMediatorResponse> {
+export class AllMediatorsComponent extends AbstractModelsListComponent<GetMediatorResponse> {
   constructor(mediatorsService: MediatorsService) {
     super(mediatorsService);
 

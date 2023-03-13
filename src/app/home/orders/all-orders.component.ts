@@ -5,7 +5,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {AbstractModelsListV2Component} from '../../_shared/ui/abstract-models-list-v2.component';
+import {AbstractModelsListComponent} from '../../_shared/ui/abstract-models-list.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {GetOrderResponse} from '../../_shared/waiterrobot-backend';
@@ -100,7 +100,7 @@ import {OrdersService} from './orders.service';
     NgSub,
   ],
 })
-export class AllOrdersComponent extends AbstractModelsListV2Component<GetOrderResponse> {
+export class AllOrdersComponent extends AbstractModelsListComponent<GetOrderResponse> {
   constructor(ordersService: OrdersService) {
     super(ordersService);
 
