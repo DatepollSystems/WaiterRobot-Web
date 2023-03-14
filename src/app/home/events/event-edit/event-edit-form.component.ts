@@ -1,6 +1,6 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe, JsonPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 import {DfxAutofocus} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
@@ -11,7 +11,7 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
 
 @Component({
   template: `
-    <ng-container *ngIf="form.statusChanges | async" />
+    <ng-container *ngIf="formStatusChanges | async" />
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row justify-content-between gap-4 mb-3">
@@ -107,14 +107,14 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
     </form>
   `,
   selector: 'app-event-edit-form',
-  imports: [ReactiveFormsModule, DfxTr, AppIconsModule, NgbInputDatepicker, NgIf, AsyncPipe, DfxAutofocus],
+  imports: [ReactiveFormsModule, DfxTr, AppIconsModule, NgbInputDatepicker, NgIf, AsyncPipe, DfxAutofocus, JsonPipe],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppEventEditFormComponent extends AbstractModelEditFormComponent<CreateEventOrLocationDto, UpdateEventOrLocationDto> {
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(40)]],
-    date: [''],
+    date: new FormControl<string | null>(null),
     street: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(80)]],
     streetNumber: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]],
     postalCode: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(16)]],
@@ -127,6 +127,14 @@ export class AppEventEditFormComponent extends AbstractModelEditFormComponent<Cr
   override reset(): void {
     super.reset();
     this.form.controls.organisationId.setValue(this._selectedOrganisationId);
+  }
+
+  protected overrideRawValue(value: typeof this.form.value): any {
+    if ((value.date?.length ?? 0) < 1) {
+      value.date = undefined;
+    }
+
+    return super.overrideRawValue(value);
   }
 
   @Input()

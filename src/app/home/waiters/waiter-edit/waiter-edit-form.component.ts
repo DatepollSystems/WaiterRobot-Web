@@ -12,7 +12,7 @@ import {CreateWaiterDto, GetWaiterResponse, UpdateWaiterDto} from '../../../_sha
 
 @Component({
   template: `
-    <ng-container *ngIf="form.statusChanges | async" />
+    <ng-container *ngIf="formStatusChanges | async" />
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="row g-3">

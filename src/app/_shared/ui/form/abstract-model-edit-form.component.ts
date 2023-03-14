@@ -1,7 +1,8 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, inject, Output} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, ɵFormGroupValue} from '@angular/forms';
+import {ChangeDetectionStrategy, Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
+import {AbstractControl, FormBuilder, FormControlStatus, FormGroup, ɵFormGroupValue} from '@angular/forms';
 import {IHasID, loggerOf} from 'dfts-helper';
 import {AComponent} from 'dfx-helper';
+import {map, Observable} from 'rxjs';
 
 @Component({
   template: '',
@@ -9,7 +10,7 @@ import {AComponent} from 'dfx-helper';
 })
 export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOType extends IHasID<UpdateDTOType['id']>>
   extends AComponent
-  implements AfterViewInit
+  implements OnInit
 {
   lumber = loggerOf('AModelEditForm');
 
@@ -30,31 +31,29 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
       this.reset();
     }
   }
+
   _isEdit = true;
 
   abstract form: FormGroup;
 
-  constructor() {
-    super();
-  }
+  formStatusChanges?: Observable<FormControlStatus>;
 
-  private lastFormValid?: boolean;
-  ngAfterViewInit(): void {
-    this.formValid.emit(this.form.valid ? 'VALID' : 'INVALID');
-    this.lastFormValid = this.form.valid;
-    this.lumber.log('formValidChange', 'form', this.form.valid);
-    this.unsubscribe(
-      this.form.statusChanges.subscribe(() => {
-        if (this.form.valid !== this.lastFormValid) {
-          this.lastFormValid = this.form.valid;
-          this.lumber.log('formValidChange', 'form', this.form.valid);
-          this.formValid.emit(this.form.valid ? 'VALID' : 'INVALID');
-        }
+  ngOnInit(): void {
+    const firstValid = this.form.valid ? 'VALID' : 'INVALID';
+    this.formValid.emit(firstValid);
+    this.lumber.log('formValidChange', 'valid', firstValid);
+    this.formStatusChanges = this.form.statusChanges.pipe(
+      map((formStatus) => {
+        const valid = formStatus === 'VALID' ? 'VALID' : 'INVALID';
+        this.lumber.log('formValidChange', 'valid', valid);
+        this.lumber.log('formValidChange', 'error', this.form.value);
+        this.formValid.emit(valid);
+        return formStatus;
       })
     );
   }
 
-  protected overrideRawValue(value: any): any {
+  protected overrideRawValue(value: typeof this.form.value): any {
     return value;
   }
 

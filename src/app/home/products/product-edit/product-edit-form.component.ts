@@ -12,7 +12,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
 
 @Component({
   template: `
-    <ng-container *ngIf="form.statusChanges | async" />
+    <ng-container *ngIf="formStatusChanges | async" />
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-3">

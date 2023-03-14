@@ -8,7 +8,7 @@ import {DfxCutPipe, IsMobileService, WINDOW} from 'dfx-helper';
 import {DfxTr, dfxTranslate} from 'dfx-translate';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
-import {tap} from 'rxjs/operators';
+import {tap} from 'rxjs';
 import {qrCodeData, QrCodeService} from '../../services/qr-code.service';
 
 import {AppBtnToolbarComponent} from '../app-btn-toolbar.component';

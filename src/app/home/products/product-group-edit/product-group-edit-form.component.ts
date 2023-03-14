@@ -1,6 +1,6 @@
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
+import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {HasNumberIDAndName} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
@@ -11,7 +11,7 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
 
 @Component({
   template: `
-    <ng-container *ngIf="form.statusChanges | async" />
+    <ng-container *ngIf="formStatusChanges | async" />
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-4">
@@ -42,7 +42,7 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
           </div>
 
           <div class="form-check form-switch mt-2">
-            <input class="form-check-input" type="checkbox" role="switch" id="updatePrinter" [formControl]="updatePrinterFormControl" />
+            <input class="form-check-input" type="checkbox" role="switch" id="updatePrinter" formControlName="updatePrinterId" />
             <label class="form-check-label" for="updatePrinter">{{ 'HOME_PROD_GROUP_PRINTER_UPDATE' | tr }}</label>
           </div>
         </div>
@@ -59,11 +59,12 @@ export class ProductGroupEditFormComponent extends AbstractModelEditFormComponen
     name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(60)]],
     eventId: [-1, [Validators.required, Validators.min(0)]],
     printerId: [-1],
+    updatePrinterId: [false],
     id: [-1],
   });
 
-  override overrideRawValue = (value: any): any => {
-    if (value.printerId === -1) {
+  override overrideRawValue = (value: typeof this.form.value): any => {
+    if (value.updatePrinterId === false || value.updatePrinterId === undefined || value.printerId === -1) {
       value.printerId = undefined;
     }
 
@@ -76,13 +77,11 @@ export class ProductGroupEditFormComponent extends AbstractModelEditFormComponen
     this.form.controls.eventId.setValue(this._selectedEventId);
   }
 
-  updatePrinterFormControl = new FormControl(false);
-
   constructor() {
     super();
     this.form.controls.printerId.disable();
     this.unsubscribe(
-      this.updatePrinterFormControl.valueChanges.subscribe((value) =>
+      this.form.controls.updatePrinterId.valueChanges.subscribe((value) =>
         value ? this.form.controls.printerId.enable() : this.form.controls.printerId.disable()
       )
     );

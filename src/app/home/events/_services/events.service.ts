@@ -1,8 +1,7 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {o_fromStorage, s_from, st_set} from 'dfts-helper';
-import {BehaviorSubject, combineLatest, distinctUntilChanged, filter, map, Observable, shareReplay, switchMap} from 'rxjs';
-import {tap} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, distinctUntilChanged, filter, map, Observable, shareReplay, switchMap, tap} from 'rxjs';
 import {
   HasCreateWithIdResponse,
   HasDelete,
@@ -44,7 +43,7 @@ export class EventsService
   }
 
   update$(dto: UpdateEventOrLocationDto): Observable<IdResponse> {
-    return this.httpClient.post<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
+    return this.httpClient.put<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
   }
 
   delete$(id: number): Observable<unknown> {

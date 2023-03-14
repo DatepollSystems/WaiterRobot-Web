@@ -1,6 +1,6 @@
 import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
+import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTr} from 'dfx-translate';
 import {AbstractModelEditFormComponent} from '../../_shared/ui/form/abstract-model-edit-form.component';
@@ -9,7 +9,7 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../_shared/waite
 
 @Component({
   template: `
-    <ng-container *ngIf="form.statusChanges | async" />
+    <ng-container *ngIf="formStatusChanges | async" />
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="row gy-2">
@@ -93,7 +93,7 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../_shared/waite
           </div>
 
           <div class="form-check form-switch mt-2" *ngIf="_isEdit">
-            <input class="form-check-input" type="checkbox" role="switch" id="updatePassword" [formControl]="updatePasswordFormControl" />
+            <input class="form-check-input" type="checkbox" role="switch" id="updatePassword" formControlName="updatePassword" />
             <label class="form-check-label" for="updatePassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD' | tr }}</label>
           </div>
         </div>
@@ -135,15 +135,17 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Create
     surname: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(35)]],
     birthday: ['', [Validators.required]],
     password: ['', [Validators.minLength(6)]],
+    updatePassword: [false],
     isAdmin: [false, [Validators.required]],
     activated: [false, [Validators.required]],
     forcePasswordChange: [false, [Validators.required]],
     id: [-1],
   });
 
-  override overrideRawValue = (value: any): any => {
+  override overrideRawValue = (value: typeof this.form.value): any => {
+    // @ts-ignore
     value.role = value.isAdmin ? 'ADMIN' : 'USER';
-    if (!this.updatePasswordFormControl.getRawValue() && this._isEdit) {
+    if ((value.updatePassword === false || value.updatePassword === undefined) && this._isEdit) {
       value.password = undefined;
     }
 
@@ -156,13 +158,11 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Create
     this.form.controls.password.enable();
   }
 
-  updatePasswordFormControl = new FormControl(false);
-
   constructor() {
     super();
 
     this.unsubscribe(
-      this.updatePasswordFormControl.valueChanges.subscribe((value) =>
+      this.form.controls.updatePassword.valueChanges.subscribe((value) =>
         value ? this.form.controls.password.enable() : this.form.controls.password.disable()
       )
     );

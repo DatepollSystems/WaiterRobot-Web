@@ -41,7 +41,7 @@ export class OrganisationsService
   }
 
   update$(dto: UpdateEventOrLocationDto): Observable<IdResponse> {
-    return this.httpClient.post<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
+    return this.httpClient.put<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
   }
 
   delete$(id: number): Observable<unknown> {

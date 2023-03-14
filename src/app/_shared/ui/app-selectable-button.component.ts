@@ -6,7 +6,6 @@ import {IHasID, UndefinedOr} from 'dfts-helper';
 import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {EMPTY, Observable} from 'rxjs';
-import {tap} from 'rxjs/operators';
 import {HasGetSelected} from '../services/abstract-entity.service';
 import {AppIconsModule} from './icons.module';
 
@@ -50,16 +49,13 @@ export class AppSelectableButtonComponent {
 
   @Input() set selectedEntityService(it: HasGetSelected<IHasID<string | number>>) {
     this._selectedEntityService = it;
-    this.selectedEntity$ = this._selectedEntityService.getSelected$.pipe(tap((it) => console.log('after', it)));
-    console.log(this.entity);
+    this.selectedEntity$ = this._selectedEntityService.getSelected$;
   }
 
   _selectedEntityService!: HasGetSelected<IHasID<string | number>>;
 
   onSelect(entity?: IHasID<string | number>): void {
     this._selectedEntityService.setSelected(entity);
-    console.log('clicked', entity);
-    //this.selectEntity.next(entity);
   }
 
   selectedEntity$: Observable<UndefinedOr<IHasID<string | number>>> = EMPTY;

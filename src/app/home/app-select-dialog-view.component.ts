@@ -2,13 +2,12 @@ import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
-import {combineLatest, map} from 'rxjs';
-import {tap} from 'rxjs/operators';
+import {combineLatest, map, tap} from 'rxjs';
 import {AuthService} from '../_shared/services/auth/auth.service';
+import {GetEventOrLocationResponse, GetOrganisationResponse} from '../_shared/waiterrobot-backend';
 import {AppSelectDialogComponent} from './app-select-dialog.component';
 import {EventsService} from './events/_services/events.service';
 import {OrganisationsService} from './organisations/_services/organisations.service';
-import {GetEventOrLocationResponse, GetOrganisationResponse} from '../_shared/waiterrobot-backend';
 
 @Component({
   template: `
