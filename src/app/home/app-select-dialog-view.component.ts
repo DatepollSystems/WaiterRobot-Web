@@ -2,7 +2,7 @@ import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
-import {combineLatest, map, tap} from 'rxjs';
+import {combineLatest, map, startWith, tap} from 'rxjs';
 import {AuthService} from '../_shared/services/auth/auth.service';
 import {GetEventOrLocationResponse, GetOrganisationResponse} from '../_shared/waiterrobot-backend';
 import {AppSelectDialogComponent} from './app-select-dialog.component';
@@ -53,7 +53,7 @@ export class AppSelectDialogViewComponent {
   vm$ = combineLatest([
     this.organisationsService.getAll$(),
     this.selectedOrganisation$,
-    this.eventsService.getAll$(),
+    this.eventsService.getAll$().pipe(startWith([])),
     this.eventsService.getSelected$,
   ]).pipe(
     map(([organisations, selectedOrganisation, events, selectedEvent]) => ({organisations, selectedOrganisation, events, selectedEvent})),

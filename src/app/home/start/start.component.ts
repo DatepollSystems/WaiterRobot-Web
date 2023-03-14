@@ -7,7 +7,7 @@ import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {i_complete} from 'dfts-helper';
 import {AComponent, DfxTimeSpanPipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {catchError, combineLatest, EMPTY, interval, map, Observable, of, share, switchMap, tap, timer} from 'rxjs';
+import {catchError, combineLatest, EMPTY, interval, map, Observable, share, startWith, switchMap, tap, timer} from 'rxjs';
 
 import {EnvironmentHelper} from '../../_shared/EnvironmentHelper';
 import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
@@ -59,7 +59,7 @@ export class StartComponent extends AComponent {
   vm$ = combineLatest([
     this.organisationsService.getAll$(),
     this.selectedOrganisation$,
-    this.selectedOrganisation$.pipe(switchMap(() => this.eventsService.getAll$().pipe(catchError(() => of([]))))),
+    this.eventsService.getAll$().pipe(startWith([])),
     this.selectedEvent$,
   ]).pipe(
     map(([organisations, selectedOrganisation, events, selectedEvent]) => ({organisations, selectedOrganisation, events, selectedEvent}))
