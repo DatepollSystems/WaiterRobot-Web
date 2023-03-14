@@ -84,8 +84,8 @@ import {AppIconsModule} from '../icons.module';
   ],
   selector: 'app-qr-code',
   standalone: true,
-  imports: [NgIf, AsyncPipe, QRCodeModule, NgbTooltipModule, AppIconsModule, AppBtnToolbarComponent, CopyDirective, DfxCutPipe, DfxTr],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, AsyncPipe, QRCodeModule, NgbTooltipModule, AppIconsModule, AppBtnToolbarComponent, CopyDirective, DfxCutPipe, DfxTr],
 })
 export class AppQrCodeViewComponent {
   qrCodeData?: qrCodeData;

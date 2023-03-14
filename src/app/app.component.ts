@@ -14,6 +14,7 @@ import {ToastsContainerComponent} from './notifications/toasts-container.compone
   `,
   standalone: true,
   selector: 'app-root',
+  //TODO: Change to onpush
   imports: [ToastsContainerComponent, LoadingBarRouterModule],
 })
 export class AppComponent {
@@ -36,7 +37,7 @@ export class AppComponent {
  _,'                 \`,_
 
  Hello nice fellow, debugging "compiled" Angular apps is not fun!\n
- Visit https://gitlab.com/DatePoll/WaiterRobot/WaiterRobot-Web for the source code.
+ Visit https://github.com/DatePollSystems/WaiterRobot-Web for the source code.
       `);
     }
   }

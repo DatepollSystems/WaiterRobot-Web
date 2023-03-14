@@ -1,6 +1,6 @@
 import {AsyncPipe, DatePipe, NgIf, UpperCasePipe} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
@@ -21,6 +21,8 @@ import {OrganisationsService} from '../organisations/_services/organisations.ser
 @Component({
   selector: 'app-start',
   templateUrl: './start.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
   imports: [
     NgIf,
     DatePipe,
@@ -34,7 +36,6 @@ import {OrganisationsService} from '../organisations/_services/organisations.ser
     AsyncPipe,
     AppSelectDialogComponent,
   ],
-  standalone: true,
 })
 export class StartComponent extends AComponent {
   isProduction = true;

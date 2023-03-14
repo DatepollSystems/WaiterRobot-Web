@@ -1,5 +1,5 @@
 import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {loggerOf, s_from} from 'dfts-helper';
@@ -26,6 +26,7 @@ import {OrganisationsService} from './organisations/_services/organisations.serv
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
     NgForOf,

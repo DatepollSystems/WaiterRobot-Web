@@ -1,5 +1,5 @@
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 import {combineLatest, map, startWith, tap} from 'rxjs';
@@ -38,6 +38,7 @@ import {OrganisationsService} from './organisations/_services/organisations.serv
     </div>
   `,
   selector: 'app-select-dialog-view',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownItem, NgForOf, NgIf, AsyncPipe, AppSelectDialogComponent],
 })

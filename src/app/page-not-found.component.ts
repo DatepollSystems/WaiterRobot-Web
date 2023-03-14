@@ -1,5 +1,5 @@
 import {Location, NgOptimizedImage} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {Router} from '@angular/router';
 import {n_fromStorage, st_set} from 'dfts-helper';
 
@@ -33,6 +33,7 @@ import {FooterModule} from './_shared/ui/footer/footer.module';
   `,
   styleUrls: ['./about/about.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AppLogoWithTextComponent, FooterModule, DfxTr, NgOptimizedImage],
 })
 export class PageNotFoundComponent {
