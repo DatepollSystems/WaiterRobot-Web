@@ -149,8 +149,6 @@ export class HomeComponent extends AComponent {
 
   onSelectOrg(org: GetOrganisationResponse): void {
     this.organisationsService.setSelected(org);
-    // TODO: set event to undefined if organisation change
-    //this.eventsService.setSelected(undefined);
   }
 
   openUserEmailQRCode(user?: MyUserModel): void {

@@ -1,6 +1,6 @@
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {NgIf} from '@angular/common';
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 
 @Component({
@@ -20,7 +20,7 @@ import {RouterOutlet} from '@angular/router';
   `,
   styles: ['.bg {background-color: var(--primary-8)}'],
   selector: 'entities-layout-component',
-  // TODO: set change detection to OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, RouterOutlet],
   standalone: true,
 })

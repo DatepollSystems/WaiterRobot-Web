@@ -52,7 +52,7 @@ export class EventsService
 
   private selectedChange = new BehaviorSubject(o_fromStorage<GetEventOrLocationResponse>(this.selectedStorageKey));
 
-  setSelected(it: GetEventOrLocationResponse): void {
+  setSelected(it: GetEventOrLocationResponse | undefined): void {
     st_set(this.selectedStorageKey, it);
     this.selectedChange.next(it);
   }
