@@ -43,12 +43,7 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
           </div>
           <div>
             <!--suppress TypeScriptValidateTypes -->
-            <selectable-button
-              *ngSub="selectedEvent$ as selectedEvent"
-              class="my-2"
-              [entity]="entity"
-              [selectedEntityService]="eventsService"
-            />
+            <selectable-button class="my-2" [entity]="entity" [selectedEntityService]="eventsService" />
           </div>
           <div>
             <app-btn-waiter-create-qrcode [token]="entity.waiterCreateToken" />
@@ -116,7 +111,6 @@ export class EventEditComponent extends AbstractModelEditComponent<
   override redirectUrl = '/home/events/all';
 
   myUser$ = inject(MyUserService).getUser$();
-  selectedEvent$ = this.eventsService.getSelected$;
 
   selectedOrganisation = inject(OrganisationsService).getSelected$;
 
