@@ -18,6 +18,7 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
   selector: 'app-about',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
+  //TODO: Change to onpush
   standalone: true,
   imports: [FormsModule, RouterLink, DfxTr, AppLogoWithTextComponent, AppDownloadBtnListComponent, FooterModule],
 })

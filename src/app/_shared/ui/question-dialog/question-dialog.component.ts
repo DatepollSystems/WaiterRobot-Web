@@ -23,7 +23,8 @@ import {DfxTr} from 'dfx-translate';
         *ngFor="let answer of answers; trackByProperty: 'value'"
         (click)="answerQuestion(answer.value)"
         type="button"
-        class="btn btn-outline-secondary">
+        class="btn btn-outline-secondary"
+      >
         {{ answer.text | tr }}
       </button>
     </div>

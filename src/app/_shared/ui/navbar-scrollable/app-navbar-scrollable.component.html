@@ -5,16 +5,13 @@
       class="navbar-nav d-flex flex-row flex-fill justify-content-sm-start overflow-container overflow-auto user-select-none ps-3 ps-md-0"
       [class.justify-content-between]="_justifyContentBetween"
       (mouseenter)="onMouseEnter()"
-      (mouseleave)="onMouseLeave()">
+      (mouseleave)="onMouseLeave()"
+    >
       <ng-container *ngFor="let item of _savedItems">
         <li class="nav-item me-3" *ngIf="item.show">
           <a class="nav-link" draggable="false" routerLinkActive="active" [routerLink]="item.routerLink">
-            <span *ngIf="!item.bookmark; else notBookmark">
-              {{ item.text | tr }}
-            </span>
-            <ng-template #notBookmark>
-              {{ item.text }}
-            </ng-template>
+            <span *ngIf="!item.bookmark; else notBookmark"> {{ item.text | tr }} </span>
+            <ng-template #notBookmark> {{ item.text }} </ng-template>
           </a>
         </li>
       </ng-container>
@@ -27,7 +24,8 @@
         class="nav-item me-3"
         ngbTooltip="{{ 'NAV_EDIT_CUSTOMIZE' | tr }}"
         placement="bottom"
-        *ngIf="_edible && (showEditArrow || _isMobile)">
+        *ngIf="_edible && (showEditArrow || _isMobile)"
+      >
         <a class="nav-link" draggable="false" routerLinkActive="active" (click)="onEdit()">
           <i-bs name="pencil-fill" />
         </a>
@@ -64,7 +62,8 @@
         [class.v-list]="_isMobile"
         cdkDropList
         [cdkDropListOrientation]="_isMobile ? 'vertical' : 'horizontal'"
-        (cdkDropListDropped)="drop($event)">
+        (cdkDropListDropped)="drop($event)"
+      >
         <div class="box" [class.h-box]="!_isMobile" [class.v-box]="_isMobile" *ngFor="let item of _itemsCopy" cdkDrag>
           <span *ngIf="!item.bookmark; else notBookmark">{{ item.text | tr }}</span>
           <ng-template #notBookmark>
@@ -75,7 +74,8 @@
             *ngIf="item.bookmark"
             (click)="removeBookmark(item)"
             ngbTooltip="{{ 'NAV_EDIT_BOOKMARK_DELETE' | tr }}"
-            placement="bottom">
+            placement="bottom"
+          >
             <i-bs name="trash" />
           </button>
         </div>
@@ -105,10 +105,9 @@
             #nameModel="ngModel"
             minlength="3"
             maxlength="35"
-            placeholder="{{ 'NAME' | tr }}" />
-          <small *ngIf="nameModel.invalid" class="text-danger">
-            {{ 'NAV_EDIT_BOOKMARK_ADD_INVALID' | tr }}
-          </small>
+            placeholder="{{ 'NAME' | tr }}"
+          />
+          <small *ngIf="nameModel.invalid" class="text-danger"> {{ 'NAV_EDIT_BOOKMARK_ADD_INVALID' | tr }} </small>
         </div>
       </div>
     </form>

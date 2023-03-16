@@ -6,7 +6,7 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AbstractModelsListV2Component} from '../../_shared/ui/abstract-models-list-v2.component';
+import {AbstractModelsListComponent} from '../../_shared/ui/abstract-models-list.component';
 
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
@@ -27,7 +27,8 @@ import {MediatorsService} from './_services/mediators.service';
           ngbTooltip="{{ 'CLEAR' | tr }}"
           placement="bottom"
           (click)="filter.reset()"
-          *ngIf="(filter.value?.length ?? 0) > 0">
+          *ngIf="(filter.value?.length ?? 0) > 0"
+        >
           <i-bs name="x-circle-fill" />
         </button>
       </div>
@@ -65,7 +66,7 @@ import {MediatorsService} from './_services/mediators.service';
       </table>
     </div>
 
-    <app-spinner-row *ngIf="isLoading" />
+    <app-spinner-row [show]="isLoading" />
   `,
   selector: 'app-all-mediators',
   standalone: true,
@@ -85,7 +86,7 @@ import {MediatorsService} from './_services/mediators.service';
     AppSpinnerRowComponent,
   ],
 })
-export class AllMediatorsComponent extends AbstractModelsListV2Component<GetMediatorResponse> {
+export class AllMediatorsComponent extends AbstractModelsListComponent<GetMediatorResponse> {
   constructor(mediatorsService: MediatorsService) {
     super(mediatorsService);
 

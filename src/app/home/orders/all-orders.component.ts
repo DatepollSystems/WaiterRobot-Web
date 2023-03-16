@@ -5,7 +5,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {AbstractModelsListV2Component} from '../../_shared/ui/abstract-models-list-v2.component';
+import {AbstractModelsListComponent} from '../../_shared/ui/abstract-models-list.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {GetOrderResponse} from '../../_shared/waiterrobot-backend';
@@ -24,7 +24,8 @@ import {OrdersService} from './orders.service';
           ngbTooltip="{{ 'CLEAR' | tr }}"
           placement="bottom"
           (click)="filter.reset()"
-          *ngIf="(filter?.value?.length ?? 0) > 0">
+          *ngIf="(filter?.value?.length ?? 0) > 0"
+        >
           <i-bs name="x-circle-fill" />
         </button>
       </div>
@@ -80,7 +81,7 @@ import {OrdersService} from './orders.service';
 
       <ngb-paginator [collectionSize]="dataSource.data.length" [pageSizes]="[100, 250, 500, 1000, 2000]" [pageSize]="250" />
     </ng-container>
-    <app-spinner-row *ngIf="isLoading" />
+    <app-spinner-row [show]="isLoading" />
   `,
   selector: 'app-all-orders',
   standalone: true,
@@ -99,7 +100,7 @@ import {OrdersService} from './orders.service';
     NgSub,
   ],
 })
-export class AllOrdersComponent extends AbstractModelsListV2Component<GetOrderResponse> {
+export class AllOrdersComponent extends AbstractModelsListComponent<GetOrderResponse> {
   constructor(ordersService: OrdersService) {
     super(ordersService);
 

@@ -1,26 +1,32 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
+import {HasGetByParent} from '../../../_shared/services/abstract-entity.service';
 
-import {AEntityService} from 'dfx-helper';
-
-import {OrganisationUserModel} from '../_models/organisation-user.model';
-
-import {OrganisationUserResponse} from '../../../_shared/waiterrobot-backend';
+import {GetOrganisationResponse, OrganisationUserDto, OrganisationUserResponse} from '../../../_shared/waiterrobot-backend';
+import {EventsService} from '../../events/_services/events.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class OrganisationsUsersService extends AEntityService<string, OrganisationUserModel> {
-  override url = '/config/organisation/users';
+export class OrganisationsUsersService implements HasGetByParent<OrganisationUserResponse, GetOrganisationResponse> {
+  url = '/config/organisation/users';
 
-  constructor(httpService: HttpClient) {
-    super(httpService);
+  constructor(private httpClient: HttpClient, private eventsService: EventsService) {}
 
-    this.globalUpdateUrl = '/config/organisation/{organisationId}/user/{uEmail}';
-    this.globalDeleteUrl = '/config/organisation/{organisationId}/user/{uEmail}';
+  triggerGet$ = new BehaviorSubject(true);
+
+  getByParent$(id: number): Observable<OrganisationUserResponse[]> {
+    return this.triggerGet$.pipe(
+      switchMap(() => this.httpClient.get<OrganisationUserResponse[]>(this.url, {params: new HttpParams().set('organisationId', id)}))
+    );
   }
 
-  protected convert(data: any): OrganisationUserModel {
-    return new OrganisationUserModel(data as OrganisationUserResponse);
+  delete$(organisationId: number, uEmail: string): Observable<unknown> {
+    return this.httpClient.delete(`/config/organisation/${organisationId}/user/${uEmail}`).pipe(tap(() => this.triggerGet$.next(true)));
+  }
+
+  create$(organisationId: number, uEmail: string, dto: OrganisationUserDto): Observable<unknown> {
+    return this.httpClient.put(`/config/organisation/${organisationId}/user/${uEmail}`, dto).pipe(tap(() => this.triggerGet$.next(true)));
   }
 }

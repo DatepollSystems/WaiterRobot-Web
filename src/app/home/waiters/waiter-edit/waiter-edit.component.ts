@@ -5,7 +5,7 @@ import {n_from, n_isNumeric} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
 import {combineLatest, filter, map, startWith} from 'rxjs';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
-import {AbstractModelEditComponentV2} from '../../../_shared/ui/form/abstract-model-edit.component-v2';
+import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
 import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
 import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
@@ -58,7 +58,8 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
               [waiter]="entity"
               [selectedOrganisationId]="vm.selectedOrganisation?.id"
               [selectedEventId]="vm.selectedEvent?.id"
-              [events]="vm.events" />
+              [events]="vm.events"
+            />
           </ng-template>
         </li>
         <li [ngbNavItem]="'SESSIONS'" *isEditing="entity" [destroyOnHide]="true">
@@ -99,7 +100,7 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
     AppProductEditFormComponent,
   ],
 })
-export class WaiterEditComponent extends AbstractModelEditComponentV2<
+export class WaiterEditComponent extends AbstractModelEditComponent<
   CreateWaiterDto,
   UpdateWaiterDto,
   GetWaiterResponse,

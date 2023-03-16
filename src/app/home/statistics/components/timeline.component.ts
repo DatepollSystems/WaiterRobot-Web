@@ -1,12 +1,12 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {FormControl} from '@angular/forms';
 import * as shape from 'd3-shape';
-import { d_format, d_formatWithHoursMinutesAndSeconds, d_from } from 'dfts-helper';
-import { BehaviorSubject, combineLatest, debounceTime, filter, map, startWith, switchMap } from 'rxjs';
-import { notNullAndUndefined } from '../../../_shared/services/abstract-entity.service';
-import { StatisticsTimelineResponse } from '../../../_shared/waiterrobot-backend';
-import { EventsService } from '../../events/_services/events.service';
+import {d_format, d_formatWithHoursMinutesAndSeconds, d_from} from 'dfts-helper';
+import {BehaviorSubject, combineLatest, debounceTime, filter, map, startWith, switchMap} from 'rxjs';
+import {notNullAndUndefined} from '../../../_shared/services/abstract-entity.service';
+import {StatisticsTimelineResponse} from '../../../_shared/waiterrobot-backend';
+import {EventsService} from '../../events/_services/events.service';
 
 type timelinePrecision = 'ONE_HOUR' | 'THREE_HOURS' | 'SIX_HOURS' | 'TWELVE_HOURS' | 'ONE_DAY' | 'THREE_DAYS' | 'ONE_WEEK' | 'ONE_MONTH';
 type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
@@ -163,10 +163,10 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimelineComponent {
-  curve = shape.curveBasis;
+  curve = shape.curveCatmullRom;
 
   dateFormControl = new FormControl(d_format(new Date()));
-  timeFormControl = new FormControl({ hour: new Date().getHours(), minute: new Date().getMinutes() });
+  timeFormControl = new FormControl({hour: new Date().getHours(), minute: new Date().getMinutes()});
 
   selectedTimelinePrecision$ = new BehaviorSubject<timelinePrecision>('ONE_HOUR');
   selectedTimelineType$ = new BehaviorSubject<timelineType>('PRODUCTS');
@@ -184,7 +184,7 @@ export class TimelineComponent {
     this.timeFormControl.valueChanges.pipe(
       filter(notNullAndUndefined),
       debounceTime(200),
-      startWith({ hour: new Date().getHours(), minute: new Date().getMinutes() })
+      startWith({hour: new Date().getHours(), minute: new Date().getMinutes()})
     ),
   ]).pipe(
     switchMap(([event, precision, type, dateS, time]) => {
@@ -195,10 +195,10 @@ export class TimelineComponent {
       params = params.append('startDate', d_formatWithHoursMinutesAndSeconds(date).replace(' ', 'T'));
       params = params.append('precision', precision);
       params = params.append('type', type);
-      return this.httpClient.get<StatisticsTimelineResponse>('/config/statistics/timeline', { params });
+      return this.httpClient.get<StatisticsTimelineResponse>('/config/statistics/timeline', {params});
     }),
     map((it) => {
-      it.highestValue += 10;
+      it.highestValue += 5;
       return it;
     })
   );

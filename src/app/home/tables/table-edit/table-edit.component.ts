@@ -6,7 +6,7 @@ import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {combineLatest, filter, map, startWith} from 'rxjs';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
-import {AbstractModelEditComponentV2} from '../../../_shared/ui/form/abstract-model-edit.component-v2';
+import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
 import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
 import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
@@ -54,7 +54,8 @@ import {TableEditFormComponent} from './table-edit-form.component';
               [tableGroups]="vm.tableGroups"
               [selectedEventId]="vm.selectedEvent?.id"
               [selectedTableGroupId]="vm.selectedTableGroupId"
-              [product]="entity" />
+              [product]="entity"
+            />
 
             <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
           </ng-template>
@@ -91,7 +92,7 @@ import {TableEditFormComponent} from './table-edit-form.component';
     TableEditFormComponent,
   ],
 })
-export class TableEditComponent extends AbstractModelEditComponentV2<CreateTableDto, UpdateTableDto, GetTableResponse, 'DATA'> {
+export class TableEditComponent extends AbstractModelEditComponent<CreateTableDto, UpdateTableDto, GetTableResponse, 'DATA'> {
   defaultTab = 'DATA' as const;
   override redirectUrl = '/home/tables/all';
   override continuousUsePropertyNames = ['groupId', 'seats'];

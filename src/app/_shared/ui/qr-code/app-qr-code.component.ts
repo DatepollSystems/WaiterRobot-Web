@@ -8,7 +8,7 @@ import {DfxCutPipe, IsMobileService, WINDOW} from 'dfx-helper';
 import {DfxTr, dfxTranslate} from 'dfx-translate';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
-import {tap} from 'rxjs/operators';
+import {tap} from 'rxjs';
 import {qrCodeData, QrCodeService} from '../../services/qr-code.service';
 
 import {AppBtnToolbarComponent} from '../app-btn-toolbar.component';
@@ -24,7 +24,8 @@ import {AppIconsModule} from '../icons.module';
           errorCorrectionLevel="M"
           [margin]="0"
           colorLight="#f6f6f6"
-          [qrdata]="qrCodeData.data"></qrcode>
+          [qrdata]="qrCodeData.data"
+        ></qrcode>
       </div>
       <div class="card">
         <div class="card-header">
@@ -57,7 +58,8 @@ import {AppIconsModule} from '../icons.module';
               autoClose="false"
               triggers="manual"
               aria-label="Copy link"
-              placement="right">
+              placement="right"
+            >
               <i-bs name="clipboard" aria-label="Copy content to clipboard" />
               {{ 'COPY' | tr }}
             </button>
@@ -82,8 +84,8 @@ import {AppIconsModule} from '../icons.module';
   ],
   selector: 'app-qr-code',
   standalone: true,
-  imports: [NgIf, AsyncPipe, QRCodeModule, NgbTooltipModule, AppIconsModule, AppBtnToolbarComponent, CopyDirective, DfxCutPipe, DfxTr],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, AsyncPipe, QRCodeModule, NgbTooltipModule, AppIconsModule, AppBtnToolbarComponent, CopyDirective, DfxCutPipe, DfxTr],
 })
 export class AppQrCodeViewComponent {
   qrCodeData?: qrCodeData;

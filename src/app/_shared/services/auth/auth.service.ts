@@ -3,8 +3,7 @@ import {Inject, Injectable} from '@angular/core';
 import {i_complete, s_from, s_fromStorage, st_removeAll, st_set} from 'dfts-helper';
 import {WINDOW} from 'dfx-helper';
 
-import {Observable} from 'rxjs';
-import {tap} from 'rxjs/operators';
+import {Observable, tap} from 'rxjs';
 
 import {JWTResponse, RefreshJWTWithSessionTokenDto, SignInWithPasswordChangeDto, UserSignInDto} from '../../waiterrobot-backend';
 

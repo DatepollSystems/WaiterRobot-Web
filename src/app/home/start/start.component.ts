@@ -1,28 +1,28 @@
 import {AsyncPipe, DatePipe, NgIf, UpperCasePipe} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {i_complete} from 'dfts-helper';
 import {AComponent, DfxTimeSpanPipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {catchError, combineLatest, EMPTY, interval, map, Observable, of, share, switchMap, tap, timer} from 'rxjs';
+import {catchError, combineLatest, EMPTY, interval, map, Observable, share, startWith, switchMap, tap, timer} from 'rxjs';
 
 import {EnvironmentHelper} from '../../_shared/EnvironmentHelper';
 import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
 import {AppDownloadBtnListComponent} from '../../_shared/ui/app-download-btn-list.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {JsonInfoResponse} from '../../_shared/waiterrobot-backend';
+import {GetEventOrLocationResponse, GetOrganisationResponse, JsonInfoResponse} from '../../_shared/waiterrobot-backend';
 import {AppSelectDialogComponent} from '../app-select-dialog.component';
-import {EventModel} from '../events/_models/event.model';
 import {EventsService} from '../events/_services/events.service';
-import {OrganisationModel} from '../organisations/_models/organisation.model';
 import {OrganisationsService} from '../organisations/_services/organisations.service';
 
 @Component({
   selector: 'app-start',
   templateUrl: './start.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
   imports: [
     NgIf,
     DatePipe,
@@ -36,7 +36,6 @@ import {OrganisationsService} from '../organisations/_services/organisations.ser
     AsyncPipe,
     AppSelectDialogComponent,
   ],
-  standalone: true,
 })
 export class StartComponent extends AComponent {
   isProduction = true;
@@ -61,7 +60,7 @@ export class StartComponent extends AComponent {
   vm$ = combineLatest([
     this.organisationsService.getAll$(),
     this.selectedOrganisation$,
-    this.selectedOrganisation$.pipe(switchMap(() => this.eventsService.getAll$().pipe(catchError(() => of([]))))),
+    this.eventsService.getAll$().pipe(startWith([])),
     this.selectedEvent$,
   ]).pipe(
     map(([organisations, selectedOrganisation, events, selectedEvent]) => ({organisations, selectedOrganisation, events, selectedEvent}))
@@ -100,11 +99,11 @@ export class StartComponent extends AComponent {
     );
   }
 
-  selectOrganisation(it: OrganisationModel): void {
+  selectOrganisation(it: GetOrganisationResponse): void {
     this.organisationsService.setSelected(it);
   }
 
-  selectEvent(it: EventModel): void {
+  selectEvent(it: GetEventOrLocationResponse): void {
     this.eventsService.setSelected(it);
   }
 }

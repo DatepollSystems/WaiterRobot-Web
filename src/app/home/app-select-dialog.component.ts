@@ -1,37 +1,38 @@
 import {NgForOf, NgIf} from '@angular/common';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
-import {EventModel} from './events/_models/event.model';
-import {OrganisationModel} from './organisations/_models/organisation.model';
+import {GetEventOrLocationResponse, GetOrganisationResponse} from '../_shared/waiterrobot-backend';
 
 @Component({
   template: `
     <div class="d-flex flex-column flex-lg-row align-items-center justify-content-between">
-      <p class="mb-1 mb-lg-0 text-center">Wähle eine Organisation aus.</p>
-      <div ngbDropdown>
+      <p class="mb-1 mb-lg-0 text-center">Wähle eine Organisation aus</p>
+      <div ngbDropdown *ngIf="selectedOrganisation === undefined; else organisationSelected">
         <button
           class="btn btn-outline-secondary"
           (click)="selectOrganisation.emit(organisations[0])"
           *ngIf="organisations.length === 1; else organisationSelectDropdown"
-          [disabled]="selectedOrganisation">
+        >
           {{ organisations[0].name }} auswählen
         </button>
         <ng-template #organisationSelectDropdown>
-          <button type="button" class="btn btn-outline-secondary" id="orgSelect" ngbDropdownToggle [disabled]="selectedOrganisation">
-            Organisation auswählen
-          </button>
+          <button type="button" class="btn btn-outline-secondary" id="orgSelect" ngbDropdownToggle>Organisation auswählen</button>
           <div ngbDropdownMenu aria-labelledby="orgSelect">
             <button ngbDropdownItem *ngFor="let org of organisations" (click)="selectOrganisation.emit(org)">{{ org.name }}</button>
           </div>
         </ng-template>
       </div>
+      <ng-template #organisationSelected>
+        <span>{{ selectedOrganisation?.name }}</span>
+      </ng-template>
     </div>
     <div class="d-flex flex-column flex-lg-row align-items-center justify-content-between mt-3">
-      <p class="mb-1 mb-lg-0 text-center">Wähle ein Event aus.</p>
+      <p class="mb-1 mb-lg-0 text-center">Wähle ein Event aus</p>
       <button
         class="btn btn-outline-secondary"
         (click)="selectEvent.emit(events[0])"
-        *ngIf="!selectedEvent && selectedOrganisation && events.length === 1; else eventSelectDropdown">
+        *ngIf="!selectedEvent && selectedOrganisation && events.length === 1; else eventSelectDropdown"
+      >
         {{ events[0].name }} auswählen
       </button>
       <ng-template #eventSelectDropdown>
@@ -52,20 +53,20 @@ import {OrganisationModel} from './organisations/_models/organisation.model';
 })
 export class AppSelectDialogComponent {
   @Input()
-  organisations!: OrganisationModel[];
+  organisations!: GetOrganisationResponse[];
 
   @Input()
-  selectedOrganisation?: OrganisationModel;
+  selectedOrganisation?: GetOrganisationResponse;
 
   @Input()
-  events!: EventModel[];
+  events!: GetEventOrLocationResponse[];
 
   @Input()
-  selectedEvent?: EventModel;
+  selectedEvent?: GetEventOrLocationResponse;
 
   @Output()
-  selectOrganisation = new EventEmitter<OrganisationModel>();
+  selectOrganisation = new EventEmitter<GetOrganisationResponse>();
 
   @Output()
-  selectEvent = new EventEmitter<EventModel>();
+  selectEvent = new EventEmitter<GetEventOrLocationResponse>();
 }

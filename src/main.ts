@@ -24,19 +24,19 @@ import {
 import {provideDfxTranslate, withAutoTranslatedLanguages, withDefaultLanguage} from 'dfx-translate';
 import {EnvironmentHelper} from './app/_shared/EnvironmentHelper';
 import {authInterceptor} from './app/_shared/services/auth/auth-interceptor';
+import {errorInterceptor} from './app/_shared/services/auth/error-interceptor';
 import {CustomDateAdapter, CustomDateParserFormatter} from './app/_shared/services/datepicker-adapter';
 
 import {AppComponent} from './app/app.component';
 import {ROUTES} from './app/app.routes';
 
 import {CustomTitleStrategy} from './app/custom-title.strategy';
-import {errorInterceptor} from './app/_shared/services/auth/error-interceptor';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideDfxHelper(
       withMobileBreakpoint(767),
-      withBaseUrlInterceptor(EnvironmentHelper.getAPIUrl(), ['assets/i18n']),
+      withBaseUrlInterceptor(EnvironmentHelper.getAPIUrl(), ['assets/i18n', 'assets/licenses.json']),
       withLoggingInterceptor(['json', '/auth/signIn', '/auth/signInPwChange'])
     ),
     provideDfxTranslate(withDefaultLanguage('de'), withAutoTranslatedLanguages(['en', 'es', 'fr', 'it', 'pt'])),

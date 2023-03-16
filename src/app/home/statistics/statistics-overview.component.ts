@@ -1,9 +1,9 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component } from '@angular/core';
-import { filter, map, switchMap } from 'rxjs';
-import { StatisticsCountResponse } from 'src/app/_shared/waiterrobot-backend';
-import { notNullAndUndefined } from '../../_shared/services/abstract-entity.service';
-import { EventsService } from '../events/_services/events.service';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Component} from '@angular/core';
+import {filter, map, switchMap} from 'rxjs';
+import {StatisticsCountResponse} from 'src/app/_shared/waiterrobot-backend';
+import {notNullAndUndefined} from '../../_shared/services/abstract-entity.service';
+import {EventsService} from '../events/_services/events.service';
 
 @Component({
   template: `
@@ -72,7 +72,7 @@ export class StatisticsOverviewComponent {
   countDto$ = this.eventsService.getSelected$.pipe(
     filter(notNullAndUndefined),
     switchMap((event) =>
-      this.httpClient.get<StatisticsCountResponse>('/config/statistics/counts', { params: new HttpParams().set('eventId', event.id) })
+      this.httpClient.get<StatisticsCountResponse>('/config/statistics/counts', {params: new HttpParams().set('eventId', event.id)})
     ),
     map((response) => {
       response.turnover = (response.turnover ?? 0) / 100;

@@ -19,7 +19,6 @@ type inputTypes = inputType[];
   standalone: true,
   imports: [CommonModule, NgbModule, FormsModule, ReactiveFormsModule, AppIconsModule],
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class ChipInput {
   formCtrl = new UntypedFormControl();
   modelInput = '';

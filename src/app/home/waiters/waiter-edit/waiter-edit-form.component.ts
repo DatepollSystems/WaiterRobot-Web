@@ -12,7 +12,7 @@ import {CreateWaiterDto, GetWaiterResponse, UpdateWaiterDto} from '../../../_sha
 
 @Component({
   template: `
-    <ng-container *ngIf="form.statusChanges | async" />
+    <ng-container *ngIf="formStatusChanges | async" />
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="row g-3">
@@ -34,7 +34,8 @@ import {CreateWaiterDto, GetWaiterResponse, UpdateWaiterDto} from '../../../_sha
           [models]="_waiter?.events"
           [allModelsToAutoComplete]="events"
           [formatter]="formatter"
-          (valueChange)="eventsChange($event)">
+          (valueChange)="eventsChange($event)"
+        >
         </chip-input>
       </div>
 

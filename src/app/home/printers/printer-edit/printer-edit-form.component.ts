@@ -11,7 +11,7 @@ import {CreatePrinterDto, GetPrinterResponse, UpdatePrinterDto} from '../../../_
 
 @Component({
   template: `
-    <ng-container *ngIf="form.statusChanges | async" />
+    <ng-container *ngIf="formStatusChanges | async" />
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-4">
@@ -31,7 +31,8 @@ import {CreatePrinterDto, GetPrinterResponse, UpdatePrinterDto} from '../../../_
             type="text"
             id="printerName"
             formControlName="printerName"
-            placeholder="{{ 'NAME' | tr }}" />
+            placeholder="{{ 'NAME' | tr }}"
+          />
 
           <small *ngIf="form.controls.printerName.invalid" class="text-danger">
             {{ 'HOME_PRINTER_NAME_NAME_INCORRECT' | tr }}

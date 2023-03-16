@@ -1,4 +1,4 @@
-import {NgIf, UpperCasePipe} from '@angular/common';
+import {AsyncPipe, NgIf, UpperCasePipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -7,22 +7,20 @@ import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-
 import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
-
-import {AbstractModelsListComponent} from '../../_shared/ui/abstract-models-list.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppSelectableButtonComponent} from '../../_shared/ui/app-selectable-button.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
-
-import {OrganisationModel} from './_models/organisation.model';
 import {OrganisationsService} from './_services/organisations.service';
+import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
+import {GetOrganisationResponse} from '../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
     <h1>{{ 'HOME_ORGS_ALL' | tr }}</h1>
 
     <ng-container *ngSub="myUser$ as myUser">
-      <btn-toolbar *ngIf="myUser.isAdmin">
+      <btn-toolbar *ngIf="myUser?.isAdmin">
         <div>
           <a routerLink="../create" class="btn btn-sm btn-outline-success">
             <i-bs name="plus-circle" />
@@ -31,16 +29,14 @@ import {OrganisationsService} from './_services/organisations.service';
         </div>
 
         <div>
-          <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection!.hasValue()" (click)="onDeleteSelected()">
+          <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
             <i-bs name="trash" />
             {{ 'DELETE' | tr }}
           </button>
         </div>
       </btn-toolbar>
 
-      <app-spinner-row [show]="!entitiesLoaded" />
-
-      <form [hidden]="!entitiesLoaded">
+      <form>
         <div class="input-group">
           <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
           <button
@@ -49,13 +45,14 @@ import {OrganisationsService} from './_services/organisations.service';
             ngbTooltip="{{ 'CLEAR' | tr }}"
             placement="bottom"
             (click)="filter.reset()"
-            *ngIf="filter?.value?.length > 0">
+            *ngIf="(filter.value?.length ?? 0) > 0"
+          >
             <i-bs name="x-circle-fill" />
           </button>
         </div>
       </form>
 
-      <div class="table-responsive" [hidden]="!entitiesLoaded" *ngSub="selectedOrganisation$ as selectedOrganisation">
+      <div class="table-responsive" *ngIf="dataSource$ | async as dataSource">
         <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
           <ng-container ngbColumnDef="select">
             <th *ngbHeaderCellDef ngb-header-cell [class.d-none]="!myUser?.isAdmin">
@@ -65,7 +62,8 @@ import {OrganisationsService} from './_services/organisations.service';
                   type="checkbox"
                   name="checked"
                   (change)="$event ? toggleAllRows() : null"
-                  [checked]="selection!.hasValue() && isAllSelected()" />
+                  [checked]="selection.hasValue() && isAllSelected()"
+                />
               </div>
             </th>
             <td *ngbCellDef="let selectable" ngb-cell [class.d-none]="!myUser?.isAdmin">
@@ -75,8 +73,9 @@ import {OrganisationsService} from './_services/organisations.service';
                   type="checkbox"
                   name="checked"
                   (click)="$event.stopPropagation()"
-                  (change)="$event ? selection!.toggle(selectable) : null"
-                  [checked]="selection!.isSelected(selectable)" />
+                  (change)="$event ? selection.toggle(selectable) : null"
+                  [checked]="selection.isSelected(selectable)"
+                />
               </div>
             </td>
           </ng-container>
@@ -119,15 +118,12 @@ import {OrganisationsService} from './_services/organisations.service';
           <ng-container ngbColumnDef="actions">
             <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
             <td *ngbCellDef="let organisation" ngb-cell>
-              <selectable-button
-                class="me-2"
-                [selectedEntity]="selectedOrganisation"
-                [entity]="organisation"
-                [selectedEntityService]="organisationsService" />
+              <selectable-button class="me-2" [entity]="organisation" [selectedEntityService]="organisationsService" />
               <a
                 class="btn btn-sm me-2 btn-outline-success text-white"
                 routerLink="../{{ organisation.id }}"
-                ngbTooltip="{{ 'EDIT' | tr }}">
+                ngbTooltip="{{ 'EDIT' | tr }}"
+              >
                 <i-bs name="pencil-square" />
               </a>
               <button
@@ -135,7 +131,8 @@ import {OrganisationsService} from './_services/organisations.service';
                 class="btn btn-sm btn-outline-danger text-white"
                 ngbTooltip="{{ 'DELETE' | tr }}"
                 (click)="onDelete(organisation.id, $event)"
-                *ngIf="myUser?.isAdmin">
+                *ngIf="myUser?.isAdmin"
+              >
                 <i-bs name="trash" />
               </button>
             </td>
@@ -146,6 +143,8 @@ import {OrganisationsService} from './_services/organisations.service';
         </table>
         <ngb-paginator [collectionSize]="dataSource.data.length" />
       </div>
+
+      <app-spinner-row [show]="isLoading" />
     </ng-container>
   `,
   selector: 'app-all-organisations',
@@ -165,17 +164,15 @@ import {OrganisationsService} from './_services/organisations.service';
     AppBtnToolbarComponent,
     AppSpinnerRowComponent,
     AppSelectableButtonComponent,
+    AsyncPipe,
   ],
 })
-export class AllOrganisationsComponent extends AbstractModelsListComponent<OrganisationModel> {
-  override columnsToDisplay = ['id', 'name', 'street', 'streetNumber', 'postalCode', 'city', 'countryCode', 'actions'];
-
+export class AllOrganisationsComponent extends AbstractModelsWithNameListWithDeleteComponent<GetOrganisationResponse> {
   myUser$ = inject(MyUserService).getUser$();
-
-  selectedOrganisation$ = this.organisationsService.getSelected$;
 
   constructor(public organisationsService: OrganisationsService) {
     super(organisationsService);
-    this.setSelectable();
+
+    this.columnsToDisplay = ['id', 'name', 'street', 'streetNumber', 'postalCode', 'city', 'countryCode', 'actions'];
   }
 }

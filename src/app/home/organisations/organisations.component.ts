@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {DfxTr} from 'dfx-translate';
 import {getOrderBySelected} from '../../_shared/services/getOrderBySelected';
@@ -24,6 +24,7 @@ import {OrganisationsService} from './_services/organisations.service';
     </entities-layout-component>
   `,
   imports: [AsyncPipe, RouterLink, RouterLinkActive, DfxTr, AppIconsModule, AppEntitiesLayoutComponent, AppListNavItemsComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class OrganisationsComponent {

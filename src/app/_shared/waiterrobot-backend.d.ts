@@ -183,7 +183,7 @@ export interface UpdateEventOrLocationDto {
 
 export interface FcmMessageDto {
   fcmToken: string;
-  data: { [index: string]: string };
+  data: {[index: string]: string};
 }
 
 export interface GetMediatorResponse {
@@ -262,7 +262,7 @@ export interface OrganisationSettingBooleanSetDto {
 }
 
 export interface OrganisationSettingResponse {
-  activateWaiterOnSignInViaCreateToken: boolean;
+  activateWaiterOnLoginViaCreateToken: boolean;
 }
 
 export interface OrganisationUserDto {
@@ -336,6 +336,7 @@ export interface CreateProductGroupDto {
 export interface GetProductGroupMaxResponse {
   id: number;
   name: string;
+  eventId: number;
   products: GetProductResponse[];
 }
 
@@ -410,7 +411,7 @@ export interface StatisticsSumResponse {
 export interface StatisticsTimelineResponse {
   name: string;
   id: number;
-  series: { name: string; value: number }[];
+  series: {name: string; value: number}[];
 }
 
 export interface StatisticsTimelineResponse {

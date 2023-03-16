@@ -81,6 +81,7 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
       });
 
       this._itemsToView = this._itemsToView.filter((it) => {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         for (const savedItem of this._savedItems!) {
           if (it.text === savedItem.text) {
             return false;

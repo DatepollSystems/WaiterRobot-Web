@@ -10,6 +10,7 @@
     "build:stats": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --stats-json",
     "analyze": "npm run build:stats && webpack-bundle-analyzer dist/WaiterRobot-Web/stats.json",
     "analyze:source": "npm run build:dev && source-map-explorer dist/WaiterRobot-Web/**/*.js",
+    "build:licenses": "license-report --only=prod --output=json >> ./src/assets/licenses.json --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author",
     "test": "ng test",
     "lint": "ng lint",
     "prettify": "prettier --write .",

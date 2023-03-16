@@ -10,7 +10,7 @@ import {CreateTableDto, GetTableResponse, UpdateTableDto} from '../../../_shared
 
 @Component({
   template: `
-    <ng-container *ngIf="form.statusChanges | async" />
+    <ng-container *ngIf="formStatusChanges | async" />
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-3">
@@ -21,7 +21,8 @@ import {CreateTableDto, GetTableResponse, UpdateTableDto} from '../../../_shared
             class="form-control bg-dark text-white"
             type="number"
             id="number"
-            placeholder="{{ 'NUMBER' | tr }}" />
+            placeholder="{{ 'NUMBER' | tr }}"
+          />
 
           <small *ngIf="form.controls.number.invalid" class="text-danger">
             {{ 'HOME_TABLES_NUMBER_INCORRECT' | tr }}
@@ -35,7 +36,8 @@ import {CreateTableDto, GetTableResponse, UpdateTableDto} from '../../../_shared
             class="form-control bg-dark text-white"
             type="number"
             id="seats"
-            placeholder="{{ 'SEATS' | tr }}" />
+            placeholder="{{ 'SEATS' | tr }}"
+          />
           <small *ngIf="form.controls.seats.invalid" class="text-danger">
             {{ 'HOME_TABLES_SEATS_INCORRECT' | tr }}
           </small>

@@ -4,7 +4,7 @@ import {Component} from '@angular/core';
 import {NgbDatepickerModule, NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTr} from 'dfx-translate';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
-import {AbstractModelEditComponentV2} from '../../_shared/ui/form/abstract-model-edit.component-v2';
+import {AbstractModelEditComponent} from '../../_shared/ui/form/abstract-model-edit.component';
 import {AppIsCreatingDirective} from '../../_shared/ui/form/app-is-creating.directive';
 import {AppIsEditingDirective} from '../../_shared/ui/form/app-is-editing.directive';
 import {AppModelEditSaveBtn} from '../../_shared/ui/form/app-model-edit-save-btn.component';
@@ -42,7 +42,8 @@ import {UsersService} from './users.service';
         [activeId]="activeTab$ | async"
         [destroyOnHide]="false"
         class="nav-tabs bg-dark"
-        (navChange)="navigateToTab($event.nextId)">
+        (navChange)="navigateToTab($event.nextId)"
+      >
         <li [ngbNavItem]="'DATA'">
           <a ngbNavLink>{{ 'DATA' | tr }}</a>
           <ng-template ngbNavContent>
@@ -51,7 +52,8 @@ import {UsersService} from './users.service';
               (formValid)="setValid($event)"
               (submitUpdate)="submit('UPDATE', $event)"
               (submitCreate)="submit('CREATE', $event)"
-              [user]="entity" />
+              [user]="entity"
+            />
           </ng-template>
         </li>
         <li [ngbNavItem]="'ORGS'">
@@ -88,7 +90,7 @@ import {UsersService} from './users.service';
   ],
   standalone: true,
 })
-export class UserEditComponent extends AbstractModelEditComponentV2<CreateUserDto, UpdateUserDto, GetUserResponse, 'DATA' | 'ORGS'> {
+export class UserEditComponent extends AbstractModelEditComponent<CreateUserDto, UpdateUserDto, GetUserResponse, 'DATA' | 'ORGS'> {
   defaultTab = 'DATA' as const;
   override redirectUrl = '/home/users/all';
 

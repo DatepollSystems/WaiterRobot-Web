@@ -5,8 +5,7 @@ import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-b
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
-import {AbstractModelEditComponentV2} from '../../../_shared/ui/form/abstract-model-edit.component-v2';
-import {AppBtnModelEditConfirmComponent} from '../../../_shared/ui/form/app-btn-model-edit-confirm.component';
+import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
 import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
 import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
@@ -53,7 +52,8 @@ import {AppPrinterEditForm} from './printer-edit-form.component';
               (submitUpdate)="submit('UPDATE', $event)"
               (submitCreate)="submit('CREATE', $event)"
               [events]="events"
-              [printer]="entity" />printer-edit-form>
+              [printer]="entity"
+            />printer-edit-form>
 
             <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
           </ng-template>
@@ -83,7 +83,6 @@ import {AppPrinterEditForm} from './printer-edit-form.component';
     DfxTrackById,
     DfxTr,
     AppIconsModule,
-    AppBtnModelEditConfirmComponent,
     AppBtnToolbarComponent,
     AppSpinnerRowComponent,
     AppIsEditingDirective,
@@ -93,7 +92,7 @@ import {AppPrinterEditForm} from './printer-edit-form.component';
     AppContinuesCreationSwitchComponent,
   ],
 })
-export class PrinterEditComponent extends AbstractModelEditComponentV2<CreatePrinterDto, UpdatePrinterDto, GetPrinterResponse, 'DATA'> {
+export class PrinterEditComponent extends AbstractModelEditComponent<CreatePrinterDto, UpdatePrinterDto, GetPrinterResponse, 'DATA'> {
   defaultTab = 'DATA' as const;
   redirectUrl = '/home/printers/mediators';
 

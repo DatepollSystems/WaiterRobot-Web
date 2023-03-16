@@ -18,10 +18,9 @@
                 #emailModel="ngModel"
                 (ngModelChange)="emailChange($event)"
                 name="email"
-                [ngModel]="emailAddress$ | async" />
-              <small *ngIf="emailModel.invalid || !emailAddressValid" class="text-danger">
-                {{ 'HOME_USERS_EMAIL_INCORRECT' | tr }}
-              </small>
+                [ngModel]="emailAddress$ | async"
+              />
+              <small *ngIf="emailModel.invalid || !emailAddressValid" class="text-danger"> {{ 'HOME_USERS_EMAIL_INCORRECT' | tr }} </small>
             </div>
           </div>
         </div>
@@ -50,10 +49,9 @@
                 [minlength]="6"
                 required
                 name="oldPassword"
-                placeholder="{{ 'PASSWORD' | tr }}" />
-              <small *ngIf="passwordModel.invalid" class="text-danger">
-                {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
-              </small>
+                placeholder="{{ 'PASSWORD' | tr }}"
+              />
+              <small *ngIf="passwordModel.invalid" class="text-danger"> {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }} </small>
             </div>
           </div>
 
@@ -70,10 +68,9 @@
                 [minlength]="6"
                 required
                 name="newPassword"
-                placeholder="{{ 'PASSWORD' | tr }}" />
-              <small *ngIf="newPasswordModel.invalid" class="text-danger">
-                {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
-              </small>
+                placeholder="{{ 'PASSWORD' | tr }}"
+              />
+              <small *ngIf="newPasswordModel.invalid" class="text-danger"> {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }} </small>
             </div>
           </div>
 
@@ -90,17 +87,14 @@
                 [minlength]="6"
                 required
                 name="newPasswordAgain"
-                placeholder="{{ 'PASSWORD' | tr }}" />
+                placeholder="{{ 'PASSWORD' | tr }}"
+              />
 
               <div *ngIf="newPasswordAgainModel.invalid">
-                <small class="text-danger">
-                  {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
-                </small>
+                <small class="text-danger"> {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }} </small>
               </div>
               <div *ngIf="!newPasswordsMatch">
-                <small class="text-danger">
-                  {{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_DONT_MATCH' | tr }}
-                </small>
+                <small class="text-danger"> {{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_DONT_MATCH' | tr }} </small>
               </div>
             </div>
           </div>

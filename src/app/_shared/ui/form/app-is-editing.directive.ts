@@ -13,6 +13,7 @@ export class AppIsEditingDirective {
       this.viewContainerRef.clear();
       return;
     }
+    this.viewContainerRef.clear();
     this.viewContainerRef.createEmbeddedView(this.templateRef);
   }
 

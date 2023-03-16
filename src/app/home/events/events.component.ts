@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {DfxTr} from 'dfx-translate';
 
@@ -22,6 +22,7 @@ import {getEventsOrderedBySelected} from './_services/getEventsOrderedBySelected
     </entities-layout-component>
   `,
   selector: 'app-events',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [AsyncPipe, RouterLink, RouterLinkActive, DfxTr, AppIconsModule, AppEntitiesLayoutComponent, AppListNavItemsComponent],
 })

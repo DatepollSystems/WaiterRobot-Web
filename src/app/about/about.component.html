@@ -15,7 +15,8 @@
                   id="email"
                   name="email"
                   minlength="3"
-                  placeholder="{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}" />
+                  placeholder="{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}"
+                />
                 <label for="email">{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}</label>
               </div>
 
@@ -27,13 +28,12 @@
                   type="password"
                   id="password"
                   name="password"
-                  placeholder="{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}" />
+                  placeholder="{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}"
+                />
                 <label for="password">{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}</label>
               </div>
 
-              <button [disabled]="!f.valid" type="submit" class="btn btn-primary">
-                {{ 'ABOUT_SIGNIN' | tr }}
-              </button>
+              <button [disabled]="!f.valid" type="submit" class="btn btn-primary">{{ 'ABOUT_SIGNIN' | tr }}</button>
 
               <div style="text-align: center; margin-top: 5px">
                 <a (click)="onForgotPassword()" routerLink="/about">{{ 'ABOUT_SIGNIN_TROUBLE_LOGGING_IN' | tr }}</a>

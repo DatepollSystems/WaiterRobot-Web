@@ -4,7 +4,7 @@ import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-b
 import {DfxTr} from 'dfx-translate';
 
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
-import {AbstractModelEditComponentV2} from '../../../_shared/ui/form/abstract-model-edit.component-v2';
+import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
 import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
 import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
@@ -48,7 +48,8 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
               (submitUpdate)="submit('UPDATE', $event)"
               (submitCreate)="submit('CREATE', $event)"
               [tableGroup]="entity"
-              [selectedEventId]="selectedEvent?.id" />
+              [selectedEventId]="selectedEvent?.id"
+            />
 
             <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
           </ng-template>
@@ -84,7 +85,7 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
     AppContinuesCreationSwitchComponent,
   ],
 })
-export class TableGroupEditComponent extends AbstractModelEditComponentV2<
+export class TableGroupEditComponent extends AbstractModelEditComponent<
   CreateTableGroupDto,
   UpdateTableGroupDto,
   GetTableGroupResponse,

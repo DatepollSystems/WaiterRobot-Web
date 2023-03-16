@@ -1,12 +1,12 @@
 import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
-import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
-import {AbstractModelsListV2Component} from '../../_shared/ui/abstract-models-list-v2.component';
+import {AbstractModelsListComponent} from '../../_shared/ui/abstract-models-list.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
@@ -37,7 +37,8 @@ import {UsersService} from './users.service';
           ngbTooltip="{{ 'CLEAR' | tr }}"
           placement="bottom"
           (click)="filter.reset()"
-          *ngIf="(filter?.value?.length ?? 0) > 0">
+          *ngIf="(filter?.value?.length ?? 0) > 0"
+        >
           <i-bs name="x-circle-fill" />
         </button>
       </div>
@@ -75,7 +76,8 @@ import {UsersService} from './users.service';
                 type="checkbox"
                 [checked]="user.role === 'ADMIN'"
                 name="is_admin"
-                value="" />
+                value=""
+              />
             </div>
           </td>
         </ng-container>
@@ -90,7 +92,8 @@ import {UsersService} from './users.service';
                 type="checkbox"
                 [checked]="user.activated"
                 name="activated"
-                value="" />
+                value=""
+              />
             </div>
           </td>
         </ng-container>
@@ -105,7 +108,8 @@ import {UsersService} from './users.service';
               type="button"
               class="btn btn-sm m-1 btn-outline-danger text-white"
               ngbTooltip="{{ 'DELETE' | tr }}"
-              (click)="onDelete(user.id, $event)">
+              (click)="onDelete(user.id, $event)"
+            >
               <i-bs name="trash" />
             </button>
           </td>
@@ -116,7 +120,7 @@ import {UsersService} from './users.service';
       </table>
     </div>
 
-    <app-spinner-row *ngIf="isLoading" />
+    <app-spinner-row [show]="isLoading" />
   `,
   selector: 'app-all-users',
   standalone: true,
@@ -136,7 +140,9 @@ import {UsersService} from './users.service';
     AppBtnToolbarComponent,
   ],
 })
-export class AllUsersComponent extends AbstractModelsListV2Component<GetUserResponse> {
+export class AllUsersComponent extends AbstractModelsListComponent<GetUserResponse> {
+  modal = inject(NgbModal);
+
   constructor(private usersService: UsersService) {
     super(usersService);
     this.columnsToDisplay = ['id', 'name', 'email_address', 'birthday', 'is_admin', 'activated', 'actions'];

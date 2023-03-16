@@ -1,8 +1,7 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {s_from} from 'dfts-helper';
-import {BehaviorSubject, Observable, switchMap} from 'rxjs';
-import {tap} from 'rxjs/operators';
+import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
 import {
   HasCreateWithIdResponse,
   HasDelete,
@@ -12,14 +11,19 @@ import {
   HasUpdateWithIdResponse,
 } from '../../../_shared/services/abstract-entity.service';
 
-import {CreateWaiterDto, GetWaiterResponse, IdResponse, UpdateWaiterDto} from '../../../_shared/waiterrobot-backend';
-import {EventModel} from '../../events/_models/event.model';
+import {
+  CreateWaiterDto,
+  GetEventOrLocationResponse,
+  GetWaiterResponse,
+  IdResponse,
+  UpdateWaiterDto,
+} from '../../../_shared/waiterrobot-backend';
 
 @Injectable({providedIn: 'root'})
 export class WaitersService
   implements
     HasGetAll<GetWaiterResponse>,
-    HasGetByParent<GetWaiterResponse, EventModel>,
+    HasGetByParent<GetWaiterResponse, GetEventOrLocationResponse>,
     HasGetSingle<GetWaiterResponse>,
     HasCreateWithIdResponse<CreateWaiterDto>,
     HasUpdateWithIdResponse<UpdateWaiterDto>,

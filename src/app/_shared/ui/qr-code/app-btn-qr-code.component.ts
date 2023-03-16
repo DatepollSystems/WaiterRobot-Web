@@ -25,7 +25,8 @@ import {AppIconsModule} from '../icons.module';
         [autoClose]="'outside'"
         placement="bottom"
         container="body"
-        triggers="mouseenter">
+        triggers="mouseenter"
+      >
         <i-bs name="qr-code" class="me-1" />
         {{ text | tr }}
       </button>
@@ -39,7 +40,8 @@ import {AppIconsModule} from '../icons.module';
         #t="ngbTooltip"
         autoClose="false"
         triggers="manual"
-        placement="right">
+        placement="right"
+      >
         <i-bs name="clipboard" aria-label="Copy content to clipboard" />
       </button>
     </div>
