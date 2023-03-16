@@ -1,49 +1,36 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
-import {Subject} from 'rxjs';
-
-import {OrganisationSettingsModel} from '../_models/organisation-settings.model';
+import {BehaviorSubject, Observable, switchMap} from 'rxjs';
+import {OrganisationSettingResponse} from '../../../_shared/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrganisationsSettingsService {
-  private _settings: OrganisationSettingsModel | undefined;
-  public settingsChange: Subject<OrganisationSettingsModel> = new Subject<OrganisationSettingsModel>();
-
   constructor(private httpService: HttpClient) {}
 
-  public getSettings(organisationId: number): OrganisationSettingsModel | undefined {
-    this.fetchSettings(organisationId);
-    return this._settings;
-  }
+  settingsChange = new BehaviorSubject(true);
 
-  private setSettings(settings: OrganisationSettingsModel): void {
-    this._settings = settings;
-    this.settingsChange.next(this._settings);
-  }
-
-  private fetchSettings(organisationId: number): void {
-    this.httpService
-      .get('/config/organisation/settings', {params: new HttpParams().set('organisationId', organisationId)})
-      .subscribe((data: unknown) => {
-        this.setSettings(new OrganisationSettingsModel(data));
-      });
+  getSettings$(organisationId: number): Observable<OrganisationSettingResponse> {
+    return this.settingsChange.pipe(
+      switchMap(() =>
+        this.httpService.get<OrganisationSettingResponse>('/config/organisation/settings', {
+          params: new HttpParams().set('organisationId', organisationId),
+        })
+      )
+    );
   }
 
   private set(organisationId: number, key: string, value: boolean | number | string): void {
-    const dto = {
-      value: value,
-    };
-    this.httpService.put(`/config/organisation/${organisationId}/setting/${key}`, dto).subscribe({
+    this.httpService.put(`/config/organisation/${organisationId}/setting/${key}`, {value}).subscribe({
       next: () => {
-        this.fetchSettings(organisationId);
+        this.settingsChange.next(true);
       },
     });
   }
 
-  public setActivateWaiterOnSignInViaCreateToken(organisationId: number, value: boolean): void {
-    this.set(organisationId, 'activateWaiterOnSignInViaCreateToken', value);
+  public setActivateWaiterOnLoginViaCreateToken(organisationId: number, value: boolean): void {
+    this.set(organisationId, 'activateWaiterOnLoginViaCreateToken', value);
   }
 }

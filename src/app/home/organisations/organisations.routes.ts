@@ -9,10 +9,10 @@ export const ROUTES: Routes = [
         path: 'all',
         loadComponent: () => import('./all-organisations.component').then((c) => c.AllOrganisationsComponent),
       },
-      // {
-      //   path: ':id',
-      //   loadComponent: () => import('./organisation-edit/organisation-edit.component').then((c) => c.OrganisationEditComponent),
-      // },
+      {
+        path: ':id',
+        loadComponent: () => import('./organisation-edit/organisation-edit.component').then((c) => c.OrganisationEditComponent),
+      },
       {path: '', pathMatch: 'full', redirectTo: '/home/organisations/all'},
     ],
   },

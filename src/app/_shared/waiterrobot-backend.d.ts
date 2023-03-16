@@ -262,7 +262,7 @@ export interface OrganisationSettingBooleanSetDto {
 }
 
 export interface OrganisationSettingResponse {
-  activateWaiterOnSignInViaCreateToken: boolean;
+  activateWaiterOnLoginViaCreateToken: boolean;
 }
 
 export interface OrganisationUserDto {
