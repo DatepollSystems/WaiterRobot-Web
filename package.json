@@ -3,7 +3,7 @@
   "version": "1.0.0-pre2",
   "scripts": {
     "ng": "ng",
-    "start": "npm run translate:types && ng serve",
+    "start": "ng serve",
     "postbuild": "node tools/postbuild.js",
     "build:prod": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --configuration production && cp ./LICENSE ./dist/WaiterRobot-Web/ && pnpm postbuild",
     "build:lava": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --configuration lava && cp ./LICENSE ./dist/WaiterRobot-Web/ && npm run postbuild",
@@ -16,7 +16,7 @@
     "prettify": "prettier --write .",
     "e2e": "ng e2e",
     "ngcc": "ngcc --properties es2020 browser module main --async false --first-only --create-ivy-entry-points",
-    "prepare": "husky install",
+    "prepare": "husky install && npm run translate:types",
     "translate:types": "translate-cli generateTypes",
     "translate:reset": "translate-cli resetTypes"
   },
