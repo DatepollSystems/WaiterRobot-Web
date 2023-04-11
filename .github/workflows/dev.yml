@@ -17,9 +17,8 @@ jobs:
 
       - name: setup node and pnpm
         uses: dafnik/setup-node-pnpm@v1
-
-      - name: install dependencies
-        run: pnpm install
+        with:
+          install: true
 
       - name: build
         run: |
@@ -34,9 +33,8 @@ jobs:
 
       - name: setup node and pnpm
         uses: dafnik/setup-node-pnpm@v1
-
-      - name: install dependencies
-        run: pnpm install
+        with:
+          install: true
 
       - name: build
         run: |
