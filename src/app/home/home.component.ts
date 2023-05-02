@@ -77,7 +77,10 @@ export class HomeComponent extends AComponent {
     ),
     this.organisationsService.getSelected$,
     this.eventsService.getSelected$,
-    this.organisationsService.getAll$().pipe(map((it) => it.slice(0, 5))),
+    this.organisationsService.getAll$().pipe(
+      map((it) => it.slice(0, 5)),
+      startWith([])
+    ),
     this.eventsService.getAll$().pipe(startWith([])),
   ]).pipe(
     map(([isMobile, myUser, selectedOrganisation, selectedEvent, organisations, events]) => ({
