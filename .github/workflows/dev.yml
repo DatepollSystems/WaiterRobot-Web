@@ -48,40 +48,39 @@ jobs:
           name: WaiterRobot-Web-testing
           path: ./dist/WaiterRobot-Web
           retention-days: 1
-
-  deploy-testing:
-    needs: [build-testing]
-    name: Deploy testing
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop'
-    steps:
-      - uses: actions/download-artifact@master
-        with:
-          name: WaiterRobot-Web-testing
-          path: ./dist/WaiterRobot-Web
-
-      - name: make zip
-        run: |
-          cd dist/
-          ls -la
-          zip -r WaiterRobot-Web-lava.zip ./WaiterRobot-Web >> /dev/null
-          cd -
-
-      - name: copy build to release server
-        uses: garygrossgarten/github-action-scp@release
-        with:
-          local: ./dist/WaiterRobot-Web-lava.zip
-          remote: /var/www/datepoll-share/WaiterRobot/Web-Releases/WaiterRobot-Web-lava.zip
-          host: ${{ secrets.RELEASES_SSH_HOST }}
-          port: ${{ secrets.RELEASES_SSH_PORT }}
-          username: ${{ secrets.RELEASES_SSH_USER }}
-          privateKey: ${{ secrets.RELEASES_SSH_PRIVATE_KEY }}
-
-      - name: fetching new version on test server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.DEMO_SSH_HOST }}
-          username: ${{ secrets.DEMO_SSH_USER }}
-          key: ${{ secrets.DEMO_SSH_PRIVATE_KEY }}
-          port: ${{ secrets.DEMO_SSH_PORT }}
-          script: cd /opt/waiterrobot-web && ./frontend.sh -v lava -f
+#  deploy-testing:
+#    needs: [build-testing]
+#    name: Deploy testing
+#    runs-on: ubuntu-latest
+#    if: github.ref == 'refs/heads/develop'
+#    steps:
+#      - uses: actions/download-artifact@master
+#        with:
+#          name: WaiterRobot-Web-testing
+#          path: ./dist/WaiterRobot-Web
+#
+#      - name: make zip
+#        run: |
+#          cd dist/
+#          ls -la
+#          zip -r WaiterRobot-Web-lava.zip ./WaiterRobot-Web >> /dev/null
+#          cd -
+#
+#      - name: copy build to release server
+#        uses: garygrossgarten/github-action-scp@release
+#        with:
+#          local: ./dist/WaiterRobot-Web-lava.zip
+#          remote: /var/www/datepoll-share/WaiterRobot/Web-Releases/WaiterRobot-Web-lava.zip
+#          host: ${{ secrets.RELEASES_SSH_HOST }}
+#          port: ${{ secrets.RELEASES_SSH_PORT }}
+#          username: ${{ secrets.RELEASES_SSH_USER }}
+#          privateKey: ${{ secrets.RELEASES_SSH_PRIVATE_KEY }}
+#
+#      - name: fetching new version on test server
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.DEMO_SSH_HOST }}
+#          username: ${{ secrets.DEMO_SSH_USER }}
+#          key: ${{ secrets.DEMO_SSH_PRIVATE_KEY }}
+#          port: ${{ secrets.DEMO_SSH_PORT }}
+#          script: cd /opt/waiterrobot-web && ./frontend.sh -v lava -f
