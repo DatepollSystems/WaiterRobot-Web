@@ -13,6 +13,7 @@ import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {QuestionDialogComponent} from '../../../_shared/ui/question-dialog/question-dialog.component';
 import {GetOrganisationResponse, OrganisationUserResponse} from '../../../_shared/waiterrobot-backend';
 import {OrganisationsUsersService} from '../_services/organisations-users.service';
+import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.component';
 
 @Component({
   template: `
@@ -33,22 +34,22 @@ import {OrganisationsUsersService} from '../_services/organisations-users.servic
         </div>
       </form>
 
-      <!--      <button class='col-12 col-md-3 col-lg-2 btn btn-secondary' type='button' (click)='openAddUserModal()'>-->
-      <!--        <i-bs name='save' />-->
-      <!--        {{ 'ADD_3' | tr }}-->
-      <!--      </button>-->
+      <button class="col-12 col-md-3 col-lg-2 btn btn-secondary" type="button" (click)="onOrgUserAdd()">
+        <i-bs name="save" />
+        {{ 'ADD_3' | tr }}
+      </button>
     </div>
 
     <div class="table-responsive mt-3">
       <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort>
         <ng-container ngbColumnDef="name">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
-          <td *ngbCellDef="let organisationUser" ngb-cell>{{ organisationUser.name }}</td>
+          <td *ngbCellDef="let organisationUser" ngb-cell>{{ organisationUser.firstname }} {{ organisationUser.surname }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="email">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'EMAIL' | tr }}</th>
-          <td *ngbCellDef="let organisationUser" ngb-cell>{{ organisationUser.id }}</td>
+          <td *ngbCellDef="let organisationUser" ngb-cell>{{ organisationUser.emailAddress }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="role">
@@ -122,5 +123,10 @@ export class OrganisationEditUsersComponent extends AComponent {
         this.organisationsUsersService.delete$(model.organisationId, model.emailAddress).subscribe();
       }
     });
+  }
+
+  onOrgUserAdd(): void {
+    const modalRef = this.modal.open(OrganisationUserAddModalComponent, {ariaLabelledBy: 'modal-title-org-user-add', size: 'lg'});
+    modalRef.componentInstance.entity = this.organisation;
   }
 }

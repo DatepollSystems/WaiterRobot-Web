@@ -1,5 +1,5 @@
 import {LowerCasePipe} from '@angular/common';
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AEntityWithNumberIDAndName, s_isEmail} from 'dfts-helper';
 
@@ -37,10 +37,11 @@ import {OrganisationsUsersService} from '../_services/organisations-users.servic
   `,
   selector: 'app-organisation-user-add-modal',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ChipInput, DfxTr, LowerCasePipe, AppIconsModule],
 })
 export class OrganisationUserAddModalComponent extends AComponent {
-  entity: AEntityWithNumberIDAndName | undefined;
+  entity!: AEntityWithNumberIDAndName;
   emailAddresses: string[] = [];
 
   translate$ = dfxTranslate$();
@@ -62,23 +63,14 @@ export class OrganisationUserAddModalComponent extends AComponent {
 
   addOrgUser(): void {
     for (const email of this.emailAddresses) {
-      this.organisationsUsersService
-        ._update({role: 'ADMIN'}, [
-          {key: 'uEmail', value: email},
-          {key: 'organisationId', value: this.entity?.id},
-        ])
-        .subscribe({
-          next: (response: any) => {
-            console.log(response);
-            this.organisationsUsersService.fetchAll();
-          },
-          error: (error) => {
-            this.translate$('HOME_ORGS_USERS_USER_NOT_FOUND').subscribe((translation) =>
-              this.notificationService.warning(email + translation)
-            );
-            console.log(error);
-          },
-        });
+      this.organisationsUsersService.create$(this.entity.id, email, {role: 'ADMIN'}).subscribe({
+        error: (error) => {
+          this.translate$('HOME_ORGS_USERS_USER_NOT_FOUND').subscribe((translation) =>
+            this.notificationService.warning(email + translation)
+          );
+          console.log(error);
+        },
+      });
     }
 
     this.activeModal.close();

@@ -7,5 +7,6 @@ module.exports = {
     coreJs: 'core-js',
     raf: 'raf',
     rgbcolor: 'rgbcolor',
+    rfdc: 'rfdc',
   },
 };
