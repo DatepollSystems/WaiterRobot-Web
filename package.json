@@ -1,6 +1,6 @@
 {
-  "name": "waiter-robot-web",
-  "version": "1.0.0-pre2",
+  "name": "waiterrobot-web",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
