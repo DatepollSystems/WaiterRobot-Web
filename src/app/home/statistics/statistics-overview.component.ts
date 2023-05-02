@@ -1,8 +1,8 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Component} from '@angular/core';
+import {notNullAndUndefined} from 'dfts-helper';
 import {filter, map, switchMap} from 'rxjs';
 import {StatisticsCountResponse} from 'src/app/_shared/waiterrobot-backend';
-import {notNullAndUndefined} from '../../_shared/services/abstract-entity.service';
 import {EventsService} from '../events/_services/events.service';
 
 @Component({

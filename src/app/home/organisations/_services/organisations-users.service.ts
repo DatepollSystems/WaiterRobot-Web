@@ -1,7 +1,7 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {HasGetByParent} from 'dfx-helper';
 import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
-import {HasGetByParent} from '../../../_shared/services/abstract-entity.service';
 
 import {GetOrganisationResponse, OrganisationUserDto, OrganisationUserResponse} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';

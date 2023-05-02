@@ -3,10 +3,9 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {IHasID, UndefinedOr} from 'dfts-helper';
-import {NgSub} from 'dfx-helper';
+import {HasGetSelected, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {EMPTY, Observable} from 'rxjs';
-import {HasGetSelected} from '../services/abstract-entity.service';
 import {AppIconsModule} from './icons.module';
 
 @Component({

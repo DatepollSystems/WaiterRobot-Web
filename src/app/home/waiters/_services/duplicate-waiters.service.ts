@@ -1,10 +1,11 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {notNullAndUndefined} from 'dfts-helper';
+import {HasGetAll} from 'dfx-helper';
+import {BehaviorSubject, combineLatest, filter, Observable, switchMap, tap} from 'rxjs';
 
 import {DuplicateWaiterResponse, MergeWaiterDto} from '../../../_shared/waiterrobot-backend';
 import {OrganisationsService} from '../../organisations/_services/organisations.service';
-import {HasGetAll, notNullAndUndefined} from '../../../_shared/services/abstract-entity.service';
-import {BehaviorSubject, combineLatest, filter, Observable, switchMap, tap} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class DuplicateWaitersService implements HasGetAll<DuplicateWaiterResponse> {

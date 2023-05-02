@@ -1,6 +1,6 @@
 import {IHasID} from 'dfts-helper';
+import {HasGetAll, HasGetSelected} from 'dfx-helper';
 import {map, Observable, switchMap} from 'rxjs';
-import {HasGetAll, HasGetSelected} from './abstract-entity.service';
 
 export function getOrderBySelected<T extends IHasID<string | number>>(service: HasGetSelected<T> & HasGetAll<T>): Observable<T[]> {
   return service.getSelected$.pipe(

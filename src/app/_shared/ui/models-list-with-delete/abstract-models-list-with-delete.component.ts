@@ -4,8 +4,8 @@ import {Component, Inject, inject} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {IHasID, s_imploder} from 'dfts-helper';
 import {NgbTableDataSource} from 'dfx-bootstrap-table';
+import {HasDelete, HasGetAll} from 'dfx-helper';
 import {Observable, tap} from 'rxjs';
-import {HasDelete, HasGetAll} from '../../services/abstract-entity.service';
 import {AbstractModelsListComponent} from '../abstract-models-list.component';
 
 import {QuestionDialogComponent} from '../question-dialog/question-dialog.component';

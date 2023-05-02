@@ -1,9 +1,9 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {HasGetAll} from 'dfx-helper';
+import {Observable} from 'rxjs';
 
 import {GetAllergenResponse} from '../../../_shared/waiterrobot-backend';
-import {HasGetAll} from '../../../_shared/services/abstract-entity.service';
-import {Observable} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class AllergensService implements HasGetAll<GetAllergenResponse> {

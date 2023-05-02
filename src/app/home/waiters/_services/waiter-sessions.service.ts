@@ -1,9 +1,9 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
+import {HasDelete, HasGetAll, HasGetByParent} from 'dfx-helper';
 import {BehaviorSubject, map, Observable, of, switchMap} from 'rxjs';
-import {HasDelete, HasGetAll, HasGetByParent} from '../../../_shared/services/abstract-entity.service';
-import {GetWaiterResponse, SessionResponse} from '../../../_shared/waiterrobot-backend';
 import {SessionModel} from '../../../_shared/model/session.model';
+import {GetWaiterResponse, SessionResponse} from '../../../_shared/waiterrobot-backend';
 
 @Injectable({providedIn: 'root'})
 export class WaiterSessionsService

@@ -1,16 +1,9 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {o_fromStorage, s_from, st_set} from 'dfts-helper';
+import {notNullAndUndefined, o_fromStorage, s_from, st_set} from 'dfts-helper';
+import {HasDelete, HasGetAll, HasGetSelected, HasGetSingle} from 'dfx-helper';
 import {BehaviorSubject, combineLatest, distinctUntilChanged, filter, map, Observable, shareReplay, switchMap, tap} from 'rxjs';
-import {
-  HasCreateWithIdResponse,
-  HasDelete,
-  HasGetAll,
-  HasGetSelected,
-  HasGetSingle,
-  HasUpdateWithIdResponse,
-  notNullAndUndefined,
-} from '../../../_shared/services/abstract-entity.service';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
 
 import {
   CreateEventOrLocationDto,

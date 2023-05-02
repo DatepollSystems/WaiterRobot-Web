@@ -2,9 +2,8 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import * as shape from 'd3-shape';
-import {d_format, d_formatWithHoursMinutesAndSeconds, d_from} from 'dfts-helper';
+import {d_format, d_formatWithHoursMinutesAndSeconds, d_from, notNullAndUndefined} from 'dfts-helper';
 import {BehaviorSubject, combineLatest, debounceTime, filter, map, startWith, switchMap} from 'rxjs';
-import {notNullAndUndefined} from '../../../_shared/services/abstract-entity.service';
 import {StatisticsTimelineResponse} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 

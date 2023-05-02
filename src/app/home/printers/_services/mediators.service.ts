@@ -1,7 +1,8 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {notNullAndUndefined} from 'dfts-helper';
+import {HasGetAll} from 'dfx-helper';
 import {filter, Observable, switchMap} from 'rxjs';
-import {HasGetAll, notNullAndUndefined} from '../../../_shared/services/abstract-entity.service';
 
 import {GetMediatorResponse} from '../../../_shared/waiterrobot-backend';
 

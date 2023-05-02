@@ -3,11 +3,11 @@ import {ChangeDetectionStrategy, Component, inject, Input, ViewChild} from '@ang
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {notNullAndUndefined} from 'dfts-helper';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {AComponent, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {combineLatest, filter, of, startWith, switchMap} from 'rxjs';
-import {notNullAndUndefined} from '../../../_shared/services/abstract-entity.service';
 import {getActivatedRouteIdParam} from '../../../_shared/services/getActivatedRouteIdParam';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {QuestionDialogComponent} from '../../../_shared/ui/question-dialog/question-dialog.component';

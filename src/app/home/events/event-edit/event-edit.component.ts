@@ -1,10 +1,10 @@
 import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {NgbInputDatepicker, NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
+import {notNullAndUndefined} from 'dfts-helper';
 import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {combineLatest, filter, map} from 'rxjs';
-import {notNullAndUndefined} from '../../../_shared/services/abstract-entity.service';
 import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AppSelectableButtonComponent} from '../../../_shared/ui/app-selectable-button.component';

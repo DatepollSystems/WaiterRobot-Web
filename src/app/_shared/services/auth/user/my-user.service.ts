@@ -1,9 +1,8 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {o_fromStorage, st_set} from 'dfts-helper';
+import {notNullAndUndefined, o_fromStorage, st_set} from 'dfts-helper';
 import {filter, map, merge, Observable, shareReplay, startWith, Subject, tap} from 'rxjs';
 import {GetMyselfResponse} from '../../../waiterrobot-backend';
-import {notNullAndUndefined} from '../../abstract-entity.service';
 
 import {MyUserModel} from './my-user.model';
 

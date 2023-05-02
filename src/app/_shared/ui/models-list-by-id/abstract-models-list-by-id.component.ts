@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, Inject, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {IHasID, n_from, n_isNumeric} from 'dfts-helper';
+import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from 'dfx-helper';
 import {distinctUntilChanged, filter, map, shareReplay, switchMap} from 'rxjs';
-import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from '../../services/abstract-entity.service';
 import {AbstractModelsListWithDeleteComponent} from '../models-list-with-delete/abstract-models-list-with-delete.component';
 
 @Component({

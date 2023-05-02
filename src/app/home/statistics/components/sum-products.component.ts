@@ -1,8 +1,8 @@
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {notNullAndUndefined} from 'dfts-helper';
 import {filter, map, switchMap} from 'rxjs';
-import {notNullAndUndefined} from '../../../_shared/services/abstract-entity.service';
 import {StatisticsSumResponse} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 
