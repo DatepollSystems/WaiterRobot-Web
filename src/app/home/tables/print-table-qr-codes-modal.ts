@@ -1,4 +1,4 @@
-import {NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {Component, Input} from '@angular/core';
 
 import {NgbActiveModal, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
@@ -29,14 +29,13 @@ import {GetTableResponse} from '../../_shared/waiterrobot-backend';
           </button>
         </div>
 
-        <div ngbDropdown class="d-inline-block">
-          <button type="button" class="btn btn-sm btn-outline-secondary" id="qrCodeSizeDropdown" ngbDropdownToggle [disabled]="generating">
-            {{ 'SIZE' | tr }}: {{ (qrCodeSize === 'SM' ? 'HOME_TABLE_PRINT_SM' : 'HOME_TABLE_PRINT_MD') | tr }}
+        <div class="btn-group flex-wrap" role="group" aria-label="QRCode size">
+          <button type="button" class="btn btn-sm btn-outline-secondary" [class.active]="qrCodeSize === 'SM'" (click)="qrCodeSize = 'SM'">
+            {{ 'HOME_TABLE_PRINT_SM' | tr }}
           </button>
-          <div ngbDropdownMenu aria-labelledby="qrCodeSizeDropdown">
-            <button ngbDropdownItem (click)="qrCodeSize = 'SM'">{{ 'HOME_TABLE_PRINT_SM' | tr }}</button>
-            <button ngbDropdownItem (click)="qrCodeSize = 'MD'">{{ 'HOME_TABLE_PRINT_MD' | tr }}</button>
-          </div>
+          <button type="button" class="btn btn-sm btn-outline-secondary" [class.active]="qrCodeSize === 'MD'" (click)="qrCodeSize = 'MD'">
+            {{ 'HOME_TABLE_PRINT_MD' | tr }}
+          </button>
         </div>
       </btn-toolbar>
 
@@ -106,6 +105,7 @@ import {GetTableResponse} from '../../_shared/waiterrobot-backend';
     AppBtnToolbarComponent,
     AppIconsModule,
     NgbDropdownModule,
+    AsyncPipe,
   ],
 })
 export class PrintTableQrCodesModalComponent {
