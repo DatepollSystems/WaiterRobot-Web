@@ -1,0 +1,85 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build-prod:
+    name: Build release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - name: setup node and pnpm
+        uses: dafnik/setup-node-pnpm@v1
+        with:
+          install: true
+
+      - name: build
+        run: |
+          pnpm ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
+          pnpm build:prod
+
+      - uses: actions/upload-artifact@master
+        name: create ${{ matrix.lib }} artifact
+        with:
+          name: WaiterRobot-Web-prod
+          path: ./dist/WaiterRobot-Web
+          retention-days: 1
+
+  deploy-prod:
+    name: Deploy prod
+    runs-on: ubuntu-latest
+    needs: [build-prod]
+    steps:
+      - uses: actions/checkout@master
+
+      - name: setup node and pnpm
+        uses: dafnik/setup-node-pnpm@v1
+
+      - uses: actions/download-artifact@master
+        with:
+          name: WaiterRobot-Web-prod
+          path: ./dist/WaiterRobot-Web
+
+      - name: get WaiterRobot-Web version
+        id: get-version
+        shell: bash
+        run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: zipping
+        shell: bash
+        run: |
+          mkdir releases
+          cd dist/
+          zip -r "WaiterRobot-Web-latest.zip" ./WaiterRobot-Web >> /dev/null
+          zip -r "WaiterRobot-Web-v${{ steps.get-version.outputs.VERSION }}.zip" ./WaiterRobot-Web >> /dev/null
+          cd -
+          mv "./dist/WaiterRobot-Web-latest.zip" ./releases
+          mv "./dist/WaiterRobot-Web-v${{ steps.get-version.outputs.VERSION }}.zip" ./releases
+
+      - name: releases lookup
+        run: |
+          cd releases
+          ls -la
+          cd -
+
+      - name: move zips to release server
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: ./releases
+          remote: /var/www/datepoll-share/WaiterRobot/Web-Releases
+          host: ${{ secrets.RELEASES_SSH_HOST }}
+          port: ${{ secrets.RELEASES_SSH_PORT }}
+          username: ${{ secrets.RELEASES_SSH_USER }}
+          privateKey: ${{ secrets.RELEASES_SSH_PRIVATE_KEY }}
+#      - name: fetching new version on test server
+#        uses: appleboy/ssh-action@master
+#        with:
+#            host: ${{ secrets.DEMO_SSH_HOST }}
+#            username: ${{ secrets.DEMO_SSH_USER }}
+#            key: ${{ secrets.DEMO_SSH_PRIVATE_KEY }}
+#            port: ${{ secrets.DEMO_SSH_PORT }}
+#            script: cd /opt/waiterrobot-web && ./frontend.sh -v dev -f

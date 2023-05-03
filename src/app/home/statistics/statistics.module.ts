@@ -1,33 +1,36 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 
-import {NgbDropdownModule, NgbNavModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {BarChartModule, PieChartModule} from '@swimlane/ngx-charts';
+import {NgbDropdownModule, NgbInputDatepicker, NgbNavModule, NgbTimepicker, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {BarChartModule, LineChartModule, PieChartModule} from '@swimlane/ngx-charts';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxCountUp} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {EventSelectedGuard} from '../../_services/guards/event-selected-guard.service';
-import {AppBtnToolbarComponent} from '../../_shared/app-btn-toolbar.component';
-import {AppEntitiesLayoutComponent} from '../../_shared/app-entities-layout.component';
-import {IconsModule} from '../../_shared/icons.module';
-import {StatisticsCountCardComponent} from './count-card/statistics-count-card.component';
-import {HomeStatisticsComponent} from './home/home-statistics.component';
+import {eventSelectedGuard} from '../../_shared/services/guards/event-selected-guard';
+import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
+import {CountCardComponent} from './components/count-card.component';
+import {SumProductGroupsComponent} from './components/sum-product-groups.component';
+import {SumProductsPerWaiterComponent} from './components/sum-products-per-waiter.component';
+import {SumProductsComponent} from './components/sum-products.component';
+import {SumStatisticsComponent} from './components/sum/sum-statistics.component';
+import {TimelineComponent} from './components/timeline.component';
+import {StatisticsOverviewComponent} from './statistics-overview.component';
 
 import {StatisticsComponent} from './statistics.component';
-import {StatisticsSumProductgroupsComponent} from './sum-productgroups/statistics-sum-productgroups.component';
-import {SumProductsPerWaiterStatisticsComponent} from './sum-products-per-waiter/sum-products-per-waiter-statistics.component';
-import {SumProductsStatisticsComponent} from './sum-products/sum-products-statistics.component';
-import {SumStatisticsComponent} from './sum/sum-statistics.component';
 
 const routes: Routes = [
   {
     path: '',
     component: StatisticsComponent,
-    canActivate: [EventSelectedGuard],
+    canActivate: [eventSelectedGuard],
     children: [
-      {path: 'sum', component: HomeStatisticsComponent},
-      {path: '', pathMatch: 'full', redirectTo: '/home/statistics/sum'},
+      {path: 'overview', component: StatisticsOverviewComponent},
+      {path: '', pathMatch: 'full', redirectTo: '/home/statistics/overview'},
     ],
   },
 ];
@@ -35,12 +38,13 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     StatisticsComponent,
-    HomeStatisticsComponent,
+    TimelineComponent,
+    StatisticsOverviewComponent,
     SumStatisticsComponent,
-    SumProductsStatisticsComponent,
-    SumProductsPerWaiterStatisticsComponent,
-    StatisticsCountCardComponent,
-    StatisticsSumProductgroupsComponent,
+    SumProductsComponent,
+    SumProductsPerWaiterComponent,
+    CountCardComponent,
+    SumProductGroupsComponent,
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -50,13 +54,18 @@ const routes: Routes = [
     DfxTableModule,
     DfxSortModule,
     DfxPaginationModule,
-    IconsModule,
+    DfxCountUp,
+    AppIconsModule,
     AppEntitiesLayoutComponent,
     AppBtnToolbarComponent,
     PieChartModule,
     NgbNavModule,
     NgbDropdownModule,
     BarChartModule,
+    LineChartModule,
+    NgbInputDatepicker,
+    ReactiveFormsModule,
+    NgbTimepicker,
   ],
 })
 export class StatisticsModule {}

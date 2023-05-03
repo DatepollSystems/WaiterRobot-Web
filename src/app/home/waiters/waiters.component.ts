@@ -1,31 +1,40 @@
-import {Component} from '@angular/core';
-import {Router} from '@angular/router';
-import {AbstractModelsComponent} from '../../_helper/abstract-models.component';
-import {EventModel} from '../../_models/event.model';
+import {AsyncPipe, NgIf} from '@angular/common';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {RouterLink, RouterLinkActive} from '@angular/router';
+import {DfxTr} from 'dfx-translate';
 
-import {OrganisationModel} from '../../_models/organisation/organisation.model';
-import {EventsService} from '../../_services/models/events.service';
-
-import {OrganisationsService} from '../../_services/models/organisation/organisations.service';
+import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
+import {AppListNavItemsComponent} from '../../_shared/ui/app-list-nav-items.component';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
+import {getEventsOrderedBySelected} from '../events/_services/getEventsOrderedBySelected';
+import {OrganisationsService} from '../organisations/_services/organisations.service';
 
 @Component({
+  template: `
+    <entities-layout-component>
+      <div class="d-flex flex-column gap-2" nav>
+        <div class="list-group">
+          <a
+            *ngIf="selectedOrganisation$ | async as selectedOrganisation"
+            class="list-group-item list-group-item-action"
+            routerLink="organisation"
+            routerLinkActive="active"
+          >
+            <i-bs name="people" />
+            {{ selectedOrganisation.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</a
+          >
+        </div>
+        <app-list-nav-items path="/home/waiters/event/" [entities]="events$ | async" selectTr="HOME_EVENTS_SELECT" />
+      </div>
+    </entities-layout-component>
+  `,
   selector: 'app-waiters',
-  templateUrl: './waiters.component.html',
-  styleUrls: ['./waiters.component.scss'],
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [AsyncPipe, RouterLink, RouterLinkActive, NgIf, DfxTr, AppIconsModule, AppEntitiesLayoutComponent, AppListNavItemsComponent],
 })
-export class WaitersComponent extends AbstractModelsComponent<EventModel> {
-  selectedOrganisation: OrganisationModel | undefined;
-  selectedEvent: EventModel | undefined;
+export class WaitersComponent {
+  selectedOrganisation$ = inject(OrganisationsService).getSelected$;
 
-  constructor(organisationService: OrganisationsService, eventsService: EventsService, router: Router) {
-    super(router, eventsService);
-
-    this.selectedOrganisation = organisationService.getSelected();
-    this.selectedEvent = eventsService.getSelected();
-
-    this.unsubscribe(
-      organisationService.selectedChange.subscribe((it) => (this.selectedOrganisation = it)),
-      eventsService.selectedChange.subscribe((it) => (this.selectedEvent = it))
-    );
-  }
+  events$ = getEventsOrderedBySelected();
 }

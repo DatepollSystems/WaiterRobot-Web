@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "http://localhost:8181",
+    "target": "https://lava.kellner.team",
     "secure": false
   }
 }

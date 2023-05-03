@@ -5,6 +5,7 @@ export const environment = {
   production: false,
   type: 'dev',
   apiUrl: 'http://localhost:4200/api/v1',
+  logoUrl: '/assets/logo.svg',
 };
 
 /*

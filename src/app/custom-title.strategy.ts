@@ -1,17 +1,25 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
+import {RouterStateSnapshot, TitleStrategy} from '@angular/router';
 import {Title} from '@angular/platform-browser';
-import {AbstractTitleStrategy} from 'dfx-helper';
-import {TranslateService} from 'dfx-translate';
+import {first} from 'rxjs';
+import {dfxTranslate$} from 'dfx-translate';
 
 @Injectable()
-export class CustomTitleStrategy extends AbstractTitleStrategy {
-  override titlePrefix = 'kellner.team';
+export class CustomTitleStrategy extends TitleStrategy {
+  titlePrefix = 'kellner.team';
 
-  constructor(title: Title, private translator: TranslateService) {
-    super(title);
-  }
+  translate = dfxTranslate$();
 
-  override parseTitle(title: string): string {
-    return this.translator.translate(title);
+  title = inject(Title);
+
+  override updateTitle(routerState: RouterStateSnapshot): void {
+    const title = this.buildTitle(routerState);
+    if (!title) {
+      this.title.setTitle(this.titlePrefix);
+      return;
+    }
+    this.translate(title)
+      .pipe(first())
+      .subscribe((translation) => this.title.setTitle(`${this.titlePrefix} - ${translation}`));
   }
 }

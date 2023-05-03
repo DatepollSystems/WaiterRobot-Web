@@ -1,56 +1,118 @@
-import {Component} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {AsyncPipe, NgIf} from '@angular/common';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
+import {DfxTr} from 'dfx-translate';
+import {combineLatest, map} from 'rxjs';
+import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
+import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
+import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
+import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
+import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
+import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
+import {AppIconsModule} from '../../../_shared/ui/icons.module';
+import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
+import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} from '../../../_shared/waiterrobot-backend';
 
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {Converter} from 'dfx-helper';
-import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
-
-import {EventModel} from '../../../_models/event.model';
-import {PrinterModel} from '../../../_models/printer.model';
-import {ProductGroupModel} from '../../../_models/product/product-group.model';
-
-import {EventsService} from '../../../_services/models/events.service';
-import {PrintersService} from '../../../_services/models/printers.service';
-import {ProductGroupsService} from '../../../_services/models/product/product-groups.service';
+import {EventsService} from '../../events/_services/events.service';
+import {PrintersService} from '../../printers/_services/printers.service';
+import {ProductGroupsService} from '../_services/product-groups.service';
+import {ProductGroupEditFormComponent} from './product-group-edit-form.component';
 
 @Component({
+  template: `
+    <div *ngIf="entity$ | async as entity; else loading">
+      <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} "{{ entity.name }}"</h1>
+      <h1 *isCreating="entity">{{ 'HOME_PROD_GROUPS_ADD' | tr }}</h1>
+
+      <btn-toolbar>
+        <div>
+          <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
+        </div>
+
+        <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
+
+        <div *isEditing="entity">
+          <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
+            <i-bs name="trash" />
+            {{ 'DELETE' | tr }}
+          </button>
+        </div>
+      </btn-toolbar>
+
+      <ul
+        ngbNav
+        #nav="ngbNav"
+        [destroyOnHide]="false"
+        [activeId]="activeTab$ | async"
+        class="nav-tabs bg-dark"
+        (navChange)="navigateToTab($event.nextId)"
+      >
+        <li [ngbNavItem]="'DATA'">
+          <a ngbNavLink>{{ 'DATA' | tr }}</a>
+          <ng-template ngbNavContent>
+            <app-product-group-edit-form
+              #form
+              *ngIf="vm$ | async as vm"
+              (formValid)="setValid($event)"
+              (submitUpdate)="submit('UPDATE', $event)"
+              (submitCreate)="submit('CREATE', $event)"
+              [productGroup]="entity"
+              [printers]="vm.printers"
+              [selectedEventId]="vm.selectedEvent?.id"
+            />
+
+            <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
+          </ng-template>
+        </li>
+      </ul>
+
+      <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
+    </div>
+
+    <ng-template #loading>
+      <app-spinner-row />
+    </ng-template>
+  `,
   selector: 'app-product-group-edit',
-  templateUrl: './product-group-edit.component.html',
-  styleUrls: ['./product-group-edit.component.scss'],
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    AsyncPipe,
+    DfxTr,
+    NgbNav,
+    NgbNavItem,
+    NgbNavLink,
+    NgbNavContent,
+    NgbNavOutlet,
+    AppBtnToolbarComponent,
+    AppSpinnerRowComponent,
+    AppIconsModule,
+    AppIsEditingDirective,
+    AppIsCreatingDirective,
+    AppModelEditSaveBtn,
+    AppContinuesCreationSwitchComponent,
+    ProductGroupEditFormComponent,
+  ],
 })
-export class ProductGroupEditComponent extends AbstractModelEditComponent<ProductGroupModel> {
+export class ProductGroupEditComponent extends AbstractModelEditComponent<
+  CreateProductGroupDto,
+  UpdateProductGroupDto,
+  GetProductGroupResponse,
+  'DATA'
+> {
+  defaultTab = 'DATA' as const;
+
   override redirectUrl = '/home/products/groups/all';
 
-  selectedEvent?: EventModel;
-  printers: PrinterModel[];
-  updatePrinter = false;
+  vm$ = combineLatest([this.printersService.getAll$(), this.eventsService.getSelected$]).pipe(
+    map(([printers, selectedEvent]) => ({
+      printers,
+      selectedEvent,
+    }))
+  );
 
-  constructor(
-    route: ActivatedRoute,
-    router: Router,
-    groupsService: ProductGroupsService,
-    modal: NgbModal,
-    printersService: PrintersService,
-    eventsService: EventsService
-  ) {
-    super(router, route, modal, groupsService);
-
-    this.selectedEvent = eventsService.getSelected();
-    this.printers = printersService.getAll();
-    this.unsubscribe(
-      eventsService.selectedChange.subscribe((it) => (this.selectedEvent = it)),
-      printersService.allChange.subscribe((it) => (this.printers = it))
-    );
-  }
-
-  override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
-    model.eventId = this.selectedEvent?.id;
-    console.log('test', model.printerId);
-    if (this.updatePrinter) {
-      model.printerId = Converter.toNumber(model.printerId as string);
-    } else {
-      model.printerId = undefined;
-    }
-    return super.addCustomAttributesBeforeCreateAndUpdate(model);
+  constructor(groupsService: ProductGroupsService, private printersService: PrintersService, private eventsService: EventsService) {
+    super(groupsService);
   }
 }

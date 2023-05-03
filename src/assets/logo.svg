@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 26.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1"
-	 id="svg8" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" sodipodi:docname="wr-square.svg"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 2048 2048"
-	 style="enable-background:new 0 0 2048 2048;" xml:space="preserve">
+<svg version='1.1'
+     id='svg8' xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd'
+     xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape'
+     sodipodi:docname='wr-square.svg'
+     xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='0 0 2048 2048'
+     style='enable-background:new 0 0 2048 2048;' xml:space='preserve'>
 <style type="text/css">
 	.st0{display:none;}
 	.st1{display:inline;fill:url(#path945_00000153692526920351347640000006505453710288784005_);}
@@ -23,22 +25,12 @@
 </sodipodi:namedview>
 <g id="layer1" inkscape:groupmode="layer" inkscape:label="Ebene 1" sodipodi:insensitive="true" class="st0">
 	
-		<image style="display:inline;overflow:visible;enable-background:new    ;" width="667" height="667" id="image28" xlink:href="DFCCFAA.png"  transform="matrix(1.3333 0 0 1.3333 45.3334 51.0476)">
-	</image>
 </g>
-<g id="layer5" inkscape:groupmode="layer" inkscape:label="Circle" class="st0">
-	
-		<linearGradient id="path945_00000008836500307908262110000001653776790388223134_" gradientUnits="userSpaceOnUse" x1="179.4071" y1="1559.8379" x2="179.4071" y2="1559.8379" gradientTransform="matrix(3.7795 0 0 -3.7795 -177.8897 6395.1807)">
-		<stop  offset="0" style="stop-color:#DFE4FB"/>
-		<stop  offset="1" style="stop-color:#C8D1F9"/>
-	</linearGradient>
-	
-		<rect id="path945" x="500.2" y="499.7" style="display:inline;fill:url(#path945_00000008836500307908262110000001653776790388223134_);" width="0" height="0"/>
-</g>
+
 <g id="layer6" inkscape:groupmode="layer" inkscape:label="Circle 1">
 	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="1581.463" y1="1020.5261" x2="344.6427" y2="1027.0085">
-		<stop  offset="0" style="stop-color:#DFE4FB"/>
-		<stop  offset="1" style="stop-color:#C8D1F9"/>
+		<stop  offset="0" style="stop-color:#FAFAC5"/>
+		<stop  offset="1" style="stop-color:#FAFAAF"/>
 	</linearGradient>
 	<path class="st2" d="M2048,1024c0,492.2-347.3,903.3-810.2,1001.7c-52.1,11.1-105.6,18.2-160.3,21H970.6
 		c-300-15.4-565.9-160-743.2-379.2C85.2,1491.6,0,1267.8,0,1024C0,458.5,458.5,0,1024,0S2048,458.5,2048,1024z"/>

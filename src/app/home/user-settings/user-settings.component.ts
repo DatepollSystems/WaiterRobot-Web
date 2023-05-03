@@ -1,8 +1,27 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {RouterLink, RouterLinkActive} from '@angular/router';
+import {DfxTr} from 'dfx-translate';
+import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
 
 @Component({
+  template: `
+    <entities-layout-component>
+      <div class="list-group" nav>
+        <a class="list-group-item list-group-item-action" routerLink="settings" routerLinkActive="active">
+          <i-bs name="gear-wide-connected" />
+          {{ 'NAV_USER_SETTINGS' | tr }}</a
+        >
+        <a class="list-group-item list-group-item-action" routerLink="sessions" routerLinkActive="active">
+          <i-bs name="file-lock" />
+          {{ 'NAV_USER_SESSIONS' | tr }}</a
+        >
+      </div>
+    </entities-layout-component>
+  `,
   selector: 'app-user-settings',
-  templateUrl: './user-settings.component.html',
-  styleUrls: ['./user-settings.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink, RouterLinkActive, DfxTr, AppEntitiesLayoutComponent, AppIconsModule],
+  standalone: true,
 })
 export class UserSettingsComponent {}

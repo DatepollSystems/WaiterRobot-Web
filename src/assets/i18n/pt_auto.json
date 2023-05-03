@@ -203,7 +203,7 @@
   "HOME_TABLES_SEATS_INCORRECT": "* campo obrigatório",
   "HOME_TABLES_NUMBER_INCORRECT": "* campo obrigatório",
   "HOME_TABLES_GROUPS_DEFAULT": "Selecionar um grupo de tabela",
-  "HOME_TABLES_PRINT": "Expresso",
+  "HOME_TABLE_PRINT": "Expresso",
   "HOME_TABLE_GROUP": "Grupo de tabela",
   "HOME_TABLE_GROUPS": "Grupos de tabela",
   "HOME_TABLE_GROUPS_ADD": "Novo grupo de mesa",

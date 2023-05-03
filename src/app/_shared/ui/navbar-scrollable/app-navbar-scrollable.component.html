@@ -1,0 +1,121 @@
+<nav class="navbar bg-dark navbar-dark pt-0 pb-2 ps-md-3">
+  <div class="container-xxxl">
+    <ul
+      *ngIf="!editMode"
+      class="navbar-nav d-flex flex-row flex-fill justify-content-sm-start overflow-container overflow-auto user-select-none ps-3 ps-md-0"
+      [class.justify-content-between]="_justifyContentBetween"
+      (mouseenter)="onMouseEnter()"
+      (mouseleave)="onMouseLeave()"
+    >
+      <ng-container *ngFor="let item of _savedItems">
+        <li class="nav-item me-3" *ngIf="item.show">
+          <a class="nav-link" draggable="false" routerLinkActive="active" [routerLink]="item.routerLink">
+            <span *ngIf="!item.bookmark; else notBookmark"> {{ item.text | tr }} </span>
+            <ng-template #notBookmark> {{ item.text }} </ng-template>
+          </a>
+        </li>
+      </ng-container>
+      <ng-container *ngFor="let item of _itemsToView">
+        <li class="nav-item me-3" *ngIf="item.show">
+          <a class="nav-link" draggable="false" routerLinkActive="active" [routerLink]="item.routerLink">{{ item.text | tr }}</a>
+        </li>
+      </ng-container>
+      <li
+        class="nav-item me-3"
+        ngbTooltip="{{ 'NAV_EDIT_CUSTOMIZE' | tr }}"
+        placement="bottom"
+        *ngIf="_edible && (showEditArrow || _isMobile)"
+      >
+        <a class="nav-link" draggable="false" routerLinkActive="active" (click)="onEdit()">
+          <i-bs name="pencil-fill" />
+        </a>
+      </li>
+    </ul>
+
+    <div *ngIf="editMode" class="edit-container">
+      <h5 class="text-white">{{ 'NAV_EDIT_CUSTOMIZE' | tr }}</h5>
+      <btn-toolbar>
+        <button class="btn btn-sm btn-outline-secondary" (click)="onClose()">
+          <i-bs name="trash" />
+          {{ 'CLOSE' | tr }}
+        </button>
+
+        <button class="btn btn-sm btn-success" (click)="onSave()">
+          <i-bs name="save" />
+          {{ 'SAVE' | tr }}
+        </button>
+
+        <button class="btn btn-sm btn-outline-danger" (click)="onReset()">
+          <i-bs name="arrow-clockwise" />
+          {{ 'RESET' | tr }}
+        </button>
+
+        <button class="btn btn-sm btn-outline-info" (click)="openModal(bookMarkModalContent)" *ngIf="_allowBookmarks">
+          <i-bs name="star-fill" />
+          {{ 'NAV_EDIT_BOOKMARK' | tr }}
+        </button>
+      </btn-toolbar>
+
+      <div
+        class="list"
+        [class.h-list]="!_isMobile"
+        [class.v-list]="_isMobile"
+        cdkDropList
+        [cdkDropListOrientation]="_isMobile ? 'vertical' : 'horizontal'"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div class="box" [class.h-box]="!_isMobile" [class.v-box]="_isMobile" *ngFor="let item of _itemsCopy" cdkDrag>
+          <span *ngIf="!item.bookmark; else notBookmark">{{ item.text | tr }}</span>
+          <ng-template #notBookmark>
+            <span>{{ item.text }}</span>
+          </ng-template>
+          <button
+            class="btn btn-sm btn-secondary ms-2"
+            *ngIf="item.bookmark"
+            (click)="removeBookmark(item)"
+            ngbTooltip="{{ 'NAV_EDIT_BOOKMARK_DELETE' | tr }}"
+            placement="bottom"
+          >
+            <i-bs name="trash" />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<ng-template #bookMarkModalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ 'NAV_EDIT_BOOKMARK_ADD' | tr }}</h4>
+    <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="modal.close(undefined)"></button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-3">
+        <div>URL: {{ router.url }}</div>
+        <div class="form-group">
+          <label for="name">{{ 'NAME' | tr }}</label>
+          <input
+            ngModel
+            class="form-control bg-dark text-white"
+            required
+            type="text"
+            id="name"
+            name="name"
+            #nameModel="ngModel"
+            minlength="3"
+            maxlength="35"
+            placeholder="{{ 'NAME' | tr }}"
+          />
+          <small *ngIf="nameModel.invalid" class="text-danger"> {{ 'NAV_EDIT_BOOKMARK_ADD_INVALID' | tr }} </small>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.close(undefined)">{{ 'CLOSE' | tr }}</button>
+    <button type="button" class="btn btn-outline-success" [disabled]="nameModel.invalid" (click)="modal.close(nameModel.value)">
+      {{ 'SAVE' | tr }}
+    </button>
+  </div>
+</ng-template>

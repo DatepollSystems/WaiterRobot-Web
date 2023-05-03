@@ -1,17 +1,11 @@
 <div class="d-container text-white">
-  <app-logo-with-text></app-logo-with-text>
-  <div
-    fxLayout="row break"
-    fxLayoutGap="2%"
-    fxLayoutAlign="center start"
-    fxLayout.lt-sm="column"
-    fxLayoutAlign.lt-sm="center"
-    style="padding: 15px 10px">
-    <div fxFlex="45%" fxFlex.gt-lg="30%" fxFlex.lt-md="75%" fxFlex.xs="90%">
-      <div fxLayout="column" fxLayoutGap="2%">
-        <div class="card bg-dark">
+  <div class="container-md">
+    <app-logo-with-text />
+    <div class="row row-cols-1 row-cols-lg-2 justify-content-around px-3">
+      <div class="col row gy-4">
+        <div class="card bg-dark pt-2">
           <div class="card-body">
-            <form #f="ngForm" (ngSubmit)="onSignin(f)" fxLayout="column" fxLayoutGap="2%" style="padding-left: 10px; padding-right: 10px">
+            <form #f="ngForm" (ngSubmit)="onSignIn(f)" class="d-flex flex-column gap-2 py-2">
               <div class="form-floating">
                 <input
                   ngModel
@@ -21,7 +15,8 @@
                   id="email"
                   name="email"
                   minlength="3"
-                  placeholder="{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}" />
+                  placeholder="{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}"
+                />
                 <label for="email">{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}</label>
               </div>
 
@@ -33,13 +28,12 @@
                   type="password"
                   id="password"
                   name="password"
-                  placeholder="{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}" />
+                  placeholder="{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}"
+                />
                 <label for="password">{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}</label>
               </div>
 
-              <button [disabled]="!f.valid" type="submit" class="btn btn-primary">
-                {{ 'ABOUT_SIGNIN' | tr }}
-              </button>
+              <button [disabled]="!f.valid" type="submit" class="btn btn-primary">{{ 'ABOUT_SIGNIN' | tr }}</button>
 
               <div style="text-align: center; margin-top: 5px">
                 <a (click)="onForgotPassword()" routerLink="/about">{{ 'ABOUT_SIGNIN_TROUBLE_LOGGING_IN' | tr }}</a>
@@ -51,35 +45,30 @@
         <div class="card bg-dark">
           <div class="card-body">
             <h5 class="card-title">{{ 'ABOUT_APP_DISCOVER' | tr }}</h5>
-            <app-download-btn-list [showQRCodeButton]="false"></app-download-btn-list>
+            <app-download-btn-list [showQRCodeButton]="false" />
           </div>
         </div>
       </div>
-    </div>
 
-    <div fxFlex="45%" fxFlex.gt-lg="30%" fxFlex.lt-md="75%" fxFlex.xs="90%">
-      <div fxLayout="column" fxLayoutGap="2%">
+      <div class="col row gy-4">
         <div class="card bg-dark">
           <div class="card-body">
             <h3 class="card-title">
               > <b><a href="https://kellner.team" target="_blank" rel="noopener">kellner.team</a></b>
             </h3>
             <p class="card-text">
-              Hier steht ganz viel text.<br /><br />
-
-              Ein bissl Abstand. Und dann nochmal viel Text, sehr ausführlicher Text, toller Text, guter Text, besonderer Text...<br />
-              Dieser Text ist so toll das die anderen Texte gar nicht wissen was sie tun sollen. Jeder Text will so gut sein wie dieser
-              Text.<br /><br />
-              Nur alle können es nicht. Deswegen bleibt wohl oder übel nur dieser Text.
+              Mit WaiterRobot hast du die Möglichkeit, deine Bestellungsaufnahme digital zu erledigen. <br /><br />
+              Egal ob sich um ein einmaliges Event oder dauerhafte Bewirtung handelt, WaiterRobot beschleunigt deinen Prozess im
+              Servicebereich.
             </p>
           </div>
         </div>
 
-        <div class="card text-white bg-dark">
+        <div class="card text-white bg-dark mb-4 mb-lg-0">
           <div class="card-body">
             <h5 class="card-title">{{ 'ABOUT_MORE_INFORMATION' | tr }}</h5>
             <div class="card-text">
-              <a href="https://datepollsystems.org/projects/waiterrobot" target="_blank" rel="noopener">WaiterRobot</a> &
+              <a href="https://kellner.team" target="_blank" rel="noopener">kellner.team</a> &
               <a href="https://datepollsystems.org" target="_blank" rel="noopener">DatePoll-Systems</a>.
             </div>
           </div>
@@ -88,4 +77,4 @@
     </div>
   </div>
 </div>
-<app-footer></app-footer>
+<app-footer container="container-md" />

@@ -5,4 +5,5 @@ export const environment = {
   production: true,
   type: 'prod',
   apiUrl: 'https://my.kellner.team/api/v1',
+  logoUrl: '/assets/logo-prod.svg',
 };

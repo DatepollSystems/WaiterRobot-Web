@@ -1,0 +1,11 @@
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {DfxTr} from 'dfx-translate';
+
+@Component({
+  template: ' <p class="card-text">Coming soon...</p> ',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-mobile-link-table',
+  imports: [DfxTr],
+})
+export class MobileLinkTableComponent {}

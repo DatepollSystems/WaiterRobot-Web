@@ -1,106 +1,137 @@
-import {Component} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {AsyncPipe, NgIf} from '@angular/common';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {NgbModalRef, NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
+import {n_from, n_isNumeric} from 'dfts-helper';
+import {DfxTr} from 'dfx-translate';
+import {combineLatest, filter, map, startWith} from 'rxjs';
+import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
+import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
+import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
+import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
+import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
+import {AppIconsModule} from '../../../_shared/ui/icons.module';
+import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
+import {CreateWaiterDto, GetWaiterResponse, UpdateWaiterDto} from '../../../_shared/waiterrobot-backend';
+import {EventsService} from '../../events/_services/events.service';
+import {OrganisationsService} from '../../organisations/_services/organisations.service';
 
-import {EntityList, IEntityList, IEntityWithNumberIDAndName} from 'dfx-helper';
-
-import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
-import {EventModel} from '../../../_models/event.model';
-import {OrganisationModel} from '../../../_models/organisation/organisation.model';
-
-import {WaiterModel} from '../../../_models/waiter/waiter.model';
-import {EventsService} from '../../../_services/models/events.service';
-import {OrganisationsService} from '../../../_services/models/organisation/organisations.service';
-import {WaiterSessionsService} from '../../../_services/models/waiter/waiter-sessions.service';
-
-import {WaitersService} from '../../../_services/models/waiter/waiters.service';
-import {WaiterSignInQRCodeModalComponent} from './waiter-sign-in-qr-code-modal.component';
+import {WaitersService} from '../_services/waiters.service';
+import {BtnWaiterSignInQrCodeComponent} from '../btn-waiter-sign-in-qr-code.component';
+import {AppProductEditFormComponent} from './waiter-edit-form.component';
+import {WaiterSessionsComponent} from './waiter-sessions.component';
 
 @Component({
-  selector: 'app-waiter-edit',
-  templateUrl: './waiter-edit.component.html',
-  styleUrls: ['./waiter-edit.component.scss'],
-})
-export class WaiterEditComponent extends AbstractModelEditComponent<WaiterModel> {
-  override redirectUrl = '/home/waiters/organisation';
-  override onlyEditingTabs = [2, 3];
+  template: `
+    <div *ngIf="entity$ | async as entity; else loading">
+      <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
+      <h1 *isCreating="entity">{{ 'ADD_2' | tr }}</h1>
 
-  selectedOrganisation: OrganisationModel | undefined;
-  events: IEntityList<EventModel> = new EntityList();
-  selectedEvents: IEntityList<IEntityWithNumberIDAndName> = new EntityList();
+      <btn-toolbar>
+        <div>
+          <button class="btn btn-sm btn-dark text-white" (click)="onGoBack('/home/waiters/organisation')">{{ 'GO_BACK' | tr }}</button>
+        </div>
+
+        <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
+
+        <ng-container *isEditing="entity">
+          <div>
+            <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
+              <i-bs name="trash" />
+              {{ 'DELETE' | tr }}
+            </button>
+          </div>
+
+          <app-btn-waiter-signin-qrcode [token]="entity.signInToken" />
+        </ng-container>
+      </btn-toolbar>
+
+      <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs bg-dark" (navChange)="navigateToTab($event.nextId)">
+        <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">
+          <a ngbNavLink>{{ 'DATA' | tr }}</a>
+          <ng-template ngbNavContent>
+            <app-waiter-edit-form
+              *ngIf="vm$ | async as vm"
+              #form
+              (formValid)="setValid($event)"
+              (submitUpdate)="submit('UPDATE', $event)"
+              (submitCreate)="submit('CREATE', $event)"
+              [waiter]="entity"
+              [selectedOrganisationId]="vm.selectedOrganisation?.id"
+              [selectedEventId]="vm.selectedEvent?.id"
+              [events]="vm.events"
+            />
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="'SESSIONS'" *isEditing="entity" [destroyOnHide]="true">
+          <a ngbNavLink>{{ 'NAV_USER_SESSIONS' | tr }}</a>
+          <ng-template ngbNavContent>
+            <app-waiter-sessions />
+          </ng-template>
+        </li>
+      </ul>
+
+      <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
+    </div>
+
+    <ng-template #loading>
+      <app-spinner-row />
+    </ng-template>
+  `,
+  selector: 'app-waiter-edit',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    AsyncPipe,
+    NgIf,
+    DfxTr,
+    NgbNav,
+    NgbNavItem,
+    NgbNavLink,
+    NgbNavContent,
+    NgbNavOutlet,
+    WaiterSessionsComponent,
+    AppIconsModule,
+    AppBtnToolbarComponent,
+    BtnWaiterSignInQrCodeComponent,
+    AppIsEditingDirective,
+    AppSpinnerRowComponent,
+    AppIsCreatingDirective,
+    AppModelEditSaveBtn,
+    AppProductEditFormComponent,
+  ],
+})
+export class WaiterEditComponent extends AbstractModelEditComponent<
+  CreateWaiterDto,
+  UpdateWaiterDto,
+  GetWaiterResponse,
+  'DATA' | 'SESSIONS'
+> {
+  defaultTab = 'DATA' as const;
+  override redirectUrl = '/home/waiters/organisation';
+  override onlyEditingTabs = ['SESSIONS' as const];
+
+  vm$ = combineLatest([
+    this.route.queryParams.pipe(
+      map((params) => params.group),
+      filter(n_isNumeric),
+      map((id) => n_from(id)),
+      startWith(undefined)
+    ),
+    this.organisationsService.getSelected$,
+    this.eventsService.getSelected$,
+    this.eventsService.getAll$(),
+  ]).pipe(
+    map(([selectedWaiterId, selectedOrganisation, selectedEvent, events]) => ({
+      selectedWaiterId,
+      selectedOrganisation,
+      selectedEvent,
+      events,
+    }))
+  );
 
   qrCodeModal: NgbModalRef | undefined;
 
-  constructor(
-    route: ActivatedRoute,
-    router: Router,
-    waitersService: WaitersService,
-    modal: NgbModal,
-    private waiterSessionService: WaiterSessionsService,
-    public eventsService: EventsService,
-    private organisationsService: OrganisationsService
-  ) {
-    super(router, route, modal, waitersService);
-
-    this.events = this.eventsService.getAll();
-    this.selectedOrganisation = this.organisationsService.getSelected();
-
-    this.unsubscribe(
-      this.eventsService.allChange.subscribe((it) => {
-        this.events = it;
-        if (this.isEditing && this.entity) {
-          this.onEntityEdit(this.entity);
-        }
-      }),
-      this.organisationsService.selectedChange.subscribe((it) => (this.selectedOrganisation = it))
-    );
+  constructor(waitersService: WaitersService, public eventsService: EventsService, private organisationsService: OrganisationsService) {
+    super(waitersService);
   }
-
-  override onEntityCreate(): void {
-    if (!this.isEditing) {
-      console.log('Adding selected model if selected....');
-      this.selectedEvents.add(this.eventsService.getSelected());
-      this.unsubscribe(this.eventsService.selectedChange.subscribe((it) => this.selectedEvents.addIfAbsent(it)));
-    }
-  }
-
-  override onEntityEdit(waiter: WaiterModel): void {
-    this.waiterSessionService.setGetAllWaiterId(waiter.id);
-    const selected = [];
-    for (const event of this.events) {
-      if (waiter.events.map((it) => it.id).includes(event.id)) {
-        selected.push(event);
-      }
-    }
-    this.selectedEvents.set(selected);
-    this.lumber.log('onEntityEdit', 'Mapped waiter events into selectedEvents');
-    this.lumber.log('onEntityEdit', 'Waiter events', waiter.events);
-
-    if (this.qrCodeModal) {
-      this.qrCodeModal.componentInstance.token = waiter.signInToken;
-    }
-  }
-
-  override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
-    model.organisationId = this.selectedOrganisation?.id;
-    model.eventIds = this.selectedEvents.map((event) => event.id);
-    return model;
-  }
-
-  onShowQRCode(): void {
-    if (!this.modal || !this.entity) {
-      return;
-    }
-    this.modelService.getSingle(this.entity.id);
-    this.qrCodeModal = this.modal.open(WaiterSignInQRCodeModalComponent, {
-      ariaLabelledBy: 'modal-qrcode-title',
-      size: 'lg',
-    });
-    this.qrCodeModal.componentInstance.name = this.entity.name;
-    this.qrCodeModal.componentInstance.token = this.entity.signInToken;
-  }
-
-  formatter = (it: unknown) => (it as IEntityWithNumberIDAndName).name;
-
-  changeSelectedEvents = (selectedEvents: any[]) => (this.selectedEvents = new EntityList(selectedEvents));
 }

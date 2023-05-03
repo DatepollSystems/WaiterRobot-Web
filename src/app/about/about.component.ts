@@ -1,19 +1,26 @@
 import {Component, OnInit} from '@angular/core';
-import {NgForm} from '@angular/forms';
-import {Router} from '@angular/router';
+import {FormsModule, NgForm} from '@angular/forms';
+import {Router, RouterLink} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {UIHelper} from 'dfx-helper';
-import {JWTResponse} from '../_models/waiterrobot-backend';
+import {DfxTr} from 'dfx-translate';
 
-import {AuthService} from '../_services/auth/auth.service';
-import {NotificationService} from '../_services/notifications/notification.service';
+import {AuthService} from '../_shared/services/auth/auth.service';
+import {AppDownloadBtnListComponent} from '../_shared/ui/app-download-btn-list.component';
+import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
+import {FooterModule} from '../_shared/ui/footer/footer.module';
+import {JWTResponse} from '../_shared/waiterrobot-backend';
+import {NotificationService} from '../notifications/notification.service';
 import {AppAccountNotActivatedDialog} from './account-not-activated-dialog.component';
 import {AppForgotPasswordDialog} from './forgot-password-dialog.component';
+import {AppPasswordChangeDialogComponent} from './password-change-dialog.component';
 
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
+  //TODO: Change to onpush
+  standalone: true,
+  imports: [FormsModule, RouterLink, DfxTr, AppLogoWithTextComponent, AppDownloadBtnListComponent, FooterModule],
 })
 export class AboutComponent implements OnInit {
   constructor(
@@ -24,7 +31,7 @@ export class AboutComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (UIHelper.getApproxCurrentDate().getMonth() === 5) {
+    if (new Date().getMonth() === 5) {
       document.getElementById('brand')?.classList.add('rainbow-text');
     } else {
       document.getElementById('brand')?.classList.add('text-white');
@@ -35,21 +42,40 @@ export class AboutComponent implements OnInit {
     this.modal.open(AppForgotPasswordDialog);
   }
 
-  onSignin(form: NgForm): void {
+  onSuccessfulSignIn = (response: JWTResponse): void => {
+    this.authService.setJWTToken(response.accessToken);
+    this.authService.setSessionToken(response.refreshToken);
+    this.notificationService.tsuccess('ABOUT_SIGNIN_SUCCESSFUL');
+
+    void this.router.navigateByUrl(this.authService.redirectUrl ?? '/home');
+  };
+
+  onSignIn(form: NgForm): void {
     const email = form.value.email as string;
     const password = form.value.password as string;
     this.authService.sendSignInRequest(email, password).subscribe({
-      next: (data: JWTResponse) => {
-        this.authService.setJWTToken(data.token);
-        this.authService.setSessionToken(data.sessionToken);
-        this.notificationService.tsuccess('ABOUT_SIGNIN_SUCCESSFUL');
-
-        void this.router.navigateByUrl('/home');
-      },
+      next: (response) => this.onSuccessfulSignIn(response),
       error: (error) => {
         if (error?.error?.codeName === 'ACCOUNT_NOT_ACTIVATED') {
-          //|| error.error.error_code === 'change_password'
           this.modal.open(AppAccountNotActivatedDialog);
+          return;
+        }
+
+        if (error?.error?.codeName === 'PASSWORD_CHANGE_REQUIRED') {
+          void this.modal.open(AppPasswordChangeDialogComponent)?.result?.then((result) => {
+            if (result) {
+              if (result === password) {
+                this.notificationService.terror('ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_FAILED');
+                return;
+              }
+              this.authService.sendSignInWithPasswordChangeRequest(email, password, result as string).subscribe({
+                next: (response) => this.onSuccessfulSignIn(response),
+                error: () => {
+                  this.notificationService.terror('ABOUT_SIGNIN_FAILED');
+                },
+              });
+            }
+          });
 
           return;
         }

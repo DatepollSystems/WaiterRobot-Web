@@ -1,86 +1,120 @@
-import {Component} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {AsyncPipe, NgIf} from '@angular/common';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
+import {n_from, n_isNumeric} from 'dfts-helper';
+import {DfxTrackById} from 'dfx-helper';
+import {DfxTr} from 'dfx-translate';
+import {combineLatest, filter, map, startWith} from 'rxjs';
+import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
+import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
+import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
+import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
+import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
+import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
+import {AppIconsModule} from '../../../_shared/ui/icons.module';
+import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
+import {CreateTableDto, GetTableResponse, UpdateTableDto} from '../../../_shared/waiterrobot-backend';
 
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {Converter, loggerOf, TypeHelper} from 'dfx-helper';
-import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
-
-import {EventModel} from '../../../_models/event.model';
-import {TableGroupModel} from '../../../_models/table/table-group.model';
-import {TableModel} from '../../../_models/table/table.model';
-
-import {EventsService} from '../../../_services/models/events.service';
-import {TableGroupsService} from '../../../_services/models/table/table-groups.service';
-import {TablesService} from '../../../_services/models/table/tables.service';
-
-import {NotificationService} from '../../../_services/notifications/notification.service';
+import {EventsService} from '../../events/_services/events.service';
+import {TableGroupsService} from '../_services/table-groups.service';
+import {TablesService} from '../_services/tables.service';
+import {TableEditFormComponent} from './table-edit-form.component';
 
 @Component({
+  template: `
+    <div *ngIf="entity$ | async as entity; else loading">
+      <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} "{{ entity.number }}"</h1>
+      <h1 *isCreating="entity">{{ 'HOME_TABLES_ADD' | tr }}</h1>
+
+      <btn-toolbar>
+        <div>
+          <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
+        </div>
+
+        <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
+
+        <div *isEditing="entity">
+          <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
+            <i-bs name="trash" />
+            {{ 'DELETE' | tr }}
+          </button>
+        </div>
+      </btn-toolbar>
+
+      <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs bg-dark" (navChange)="navigateToTab($event.nextId)">
+        <li [ngbNavItem]="'DATA'">
+          <a ngbNavLink>{{ 'DATA' | tr }}</a>
+          <ng-template ngbNavContent>
+            <app-table-edit-form
+              *ngIf="vm$ | async as vm"
+              #form
+              (formValid)="setValid($event)"
+              (submitUpdate)="submit('UPDATE', $event)"
+              (submitCreate)="submit('CREATE', $event)"
+              [tableGroups]="vm.tableGroups"
+              [selectedEventId]="vm.selectedEvent?.id"
+              [selectedTableGroupId]="vm.selectedTableGroupId"
+              [product]="entity"
+            />
+
+            <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
+          </ng-template>
+        </li>
+      </ul>
+
+      <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
+    </div>
+
+    <ng-template #loading>
+      <app-spinner-row />
+    </ng-template>
+  `,
   selector: 'app-table-edit',
-  templateUrl: './table-edit.component.html',
-  styleUrls: ['./table-edit.component.scss'],
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    AsyncPipe,
+    NgbNav,
+    NgbNavItem,
+    NgbNavLink,
+    NgbNavContent,
+    NgbNavOutlet,
+    DfxTr,
+    DfxTrackById,
+    AppSpinnerRowComponent,
+    AppIsEditingDirective,
+    AppIsCreatingDirective,
+    AppBtnToolbarComponent,
+    AppIconsModule,
+    AppModelEditSaveBtn,
+    AppContinuesCreationSwitchComponent,
+    TableEditFormComponent,
+  ],
 })
-export class TableEditComponent extends AbstractModelEditComponent<TableModel> {
-  private log = loggerOf('TableEditComponent');
+export class TableEditComponent extends AbstractModelEditComponent<CreateTableDto, UpdateTableDto, GetTableResponse, 'DATA'> {
+  defaultTab = 'DATA' as const;
   override redirectUrl = '/home/tables/all';
   override continuousUsePropertyNames = ['groupId', 'seats'];
 
-  selectedEvent?: EventModel;
+  vm$ = combineLatest([
+    this.route.queryParams.pipe(
+      map((params) => params.group),
+      filter(n_isNumeric),
+      map((id) => n_from(id)),
+      startWith(undefined)
+    ),
+    this.tableGroupsService.getAll$(),
+    this.eventsService.getSelected$,
+  ]).pipe(
+    map(([selectedTableGroupId, tableGroups, selectedEvent]) => ({
+      selectedTableGroupId,
+      tableGroups,
+      selectedEvent,
+    }))
+  );
 
-  tableGroups: TableGroupModel[];
-  selectedTableGroup?: number;
-
-  constructor(
-    route: ActivatedRoute,
-    router: Router,
-    tablesService: TablesService,
-    modal: NgbModal,
-    eventsService: EventsService,
-    tableGroupsService: TableGroupsService,
-    private notificationService: NotificationService
-  ) {
-    super(router, route, modal, tablesService);
-
-    this.selectedEvent = eventsService.getSelected();
-    this.tableGroups = tableGroupsService.getAll();
-    this.unsubscribe(
-      eventsService.selectedChange.subscribe((event) => {
-        this.selectedEvent = event;
-      }),
-      tableGroupsService.allChange.subscribe((tableGroups) => {
-        this.tableGroups = tableGroups;
-      })
-    );
-
-    route.queryParams.subscribe((params) => {
-      const id = params.group;
-      if (id != null) {
-        if (TypeHelper.isNumeric(id)) {
-          this.selectedTableGroup = Converter.toNumber(id);
-          this.log.info('constructor', 'Selected table group: ' + id);
-        }
-      }
-    });
-  }
-
-  override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
-    model.eventId = this.selectedEvent!.id;
-    return model;
-  }
-
-  override createAndUpdateFilter(model: any): boolean {
-    if (!this.selectedTableGroup) {
-      this.notificationService.twarning('HOME_TABLES_GROUPS_DEFAULT');
-      return false;
-    }
-    return super.createAndUpdateFilter(model);
-  }
-
-  override onEntityEdit(model: TableModel): void {
-    this.selectedTableGroup = model.groupId;
-  }
-
-  selectTableGroup(value: number): void {
-    this.log.info('selectTableGroup', 'Selecting Table group', value);
+  constructor(tablesService: TablesService, private eventsService: EventsService, private tableGroupsService: TableGroupsService) {
+    super(tablesService);
   }
 }

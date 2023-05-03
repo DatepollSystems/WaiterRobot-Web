@@ -3,9 +3,8 @@
 # exit the script on command errors or unset variables
 # http://redsymbol.net/articles/unofficial-bash-strict-mode/
 # shellcheck disable=SC2039
-if set -o pipefail 2>/dev/null; then
-  set -euo pipefail
-fi
+# shellcheck disable=SC2059
+
 # define how strings with spaces or tabs are iterated
 IFS="$(echo t | tr t \\t)"
 
@@ -18,7 +17,7 @@ UNDERLINE='\033[4m'
 RESET='\033[0m' # Reset color and formatting
 
 # Define variables
-SCRIPT_VERSION='1.0.0'
+SCRIPT_VERSION='2.0.0'
 VERSION=latest
 FORCE=false
 
@@ -27,11 +26,16 @@ if ! [ "${FRONTEND_INSTALL_DIRECTORY:-}" ]; then
 fi
 INSTALL_TEMP_DIRECTORY="$(pwd)/waiterrobot-web-tmp"
 
+# Set up an exit handler so we can print a help message on failures.
+_success=false
+_clearTempDir=true
+
 printHelp() {
   printf "${BOLD}${UNDERLINE}WaiterRobot-Web installation help${RESET} (${GREEN}v${SCRIPT_VERSION})${RESET}\n"
-  printf "Usage: ./frontend.sh -v [version] -f\n"
-  printf "  -v ['dev', 'rc']    (optional) select a specific version to install\n"
+  printf "Usage: ./frontend.sh -v [version] -f -s\n"
+  printf "  -v ['lava', 'rc']    (optional) select a specific version to install\n"
   printf "  -f                  (optional) force install without asking questions\n"
+  printf "  -s                  (optional) skip deletion of temporary folder after run\n"
   _success=true
   exit 0
 }
@@ -45,12 +49,16 @@ while getopts "v:fsh" opt; do
     printf "  ${BOLD}-f was triggered, force install without asking questions${RESET}\n"
     FORCE=true
     ;;
+  s)
+    printf "  ${BOLD}-s was triggered, skip deletion of temporary folder after run${RESET}\n"
+    _clearTempDir=false
+    ;;
   v)
     printf "  ${BOLD}-v was triggered, with parameter $OPTARG ${RESET}\n"
     if [ "$OPTARG" = "rc" ]; then
       VERSION=rc
-    elif [ "$OPTARG" = "dev" ]; then
-      VERSION=testing
+    elif [ "$OPTARG" = "lava" ]; then
+      VERSION=lava
     else
       printHelp
     fi
@@ -70,14 +78,18 @@ errorAndExit() {
   exit 1
 }
 
-# Set up an exit handler so we can print a help message on failures.
-_success=false
 shutdown() {
+  if [ $_clearTempDir = true ]; then
+    rm -rf "$INSTALL_TEMP_DIRECTORY"
+    printf "${GREEN}Successfully${RESET} deleted temp folder [${GREEN}✓${RESET}]\n"
+  fi
   if [ $_success = false ]; then
     printf "\nYour installation did not complete successfully.\n"
-    printf "Please report any issues encountered at https://gitlab.com/DatePoll/WaiterRobot/WaiterRobot-Frontend/issues\n\n"
+    printf "Please report any issues encountered at https://github.com/DatepollSystems/WaiterRobot-Web/issues\n\n"
+  else
+    printf "${GREEN}Finished${RESET} the frontend update ${BOLD}flawlessly${RESET}.\n"
+    printf "Visit ${UNDERLINE}https://github.com/DatepollSystems/WaiterRobot-Web${RESET} to learn more about the latest updates.\n\n"
   fi
-  rm -rf "$INSTALL_TEMP_DIRECTORY"
 }
 trap shutdown INT TERM ABRT EXIT
 
@@ -136,8 +148,8 @@ confirmToContinue() {
     # Convert to uppercase
     prompt=$(echo "$prompt" | tr '[:lower:]' '[:upper:]')
     if [ "$prompt" != "Y" ] && [ "$prompt" != "YES" ] && [ "$prompt" != "YE" ]; then
-      _success=true
-      errorAndExit "User aborted. Next time type ['y', 'yes', 'ye] to continue"
+      _clearTempDir=false
+      errorAndExit "User aborted. Next time type ['y', 'yes', 'ye'] to continue"
     fi
   fi
 }
@@ -182,7 +194,7 @@ main() {
     errorAndExit "Could not download file or zip is corrupted"
   fi
 
-  printf "${GREEN}Successfully${RESET} downloaded WaiterRobot-Web-${VERSION} [${GREEN}✓${RESET}]\n"
+  printf "${GREEN}Successfully${RESET} downloaded WaiterRobot-Web-${VERSION}.zip [${GREEN}✓${RESET}]\n"
 
   # Unzip downloaded release
   printf "${BLUE}Unzipping${RESET} WaiterRobot-Web-${VERSION}.zip... "
@@ -198,7 +210,7 @@ main() {
 
   # Move files into place
   printf "${BLUE}Moving${RESET} files into place... "
-  (mv ./waiterrobot-web-tmp/WaiterRobot-Web/* ./waiterrobot-web/) &
+  (mv "$INSTALL_TEMP_DIRECTORY"/WaiterRobot-Web/* "$FRONTEND_INSTALL_DIRECTORY"/) &
   spinner $!
   printf "${GREEN}Successfully${RESET} moved files into place [${GREEN}✓${RESET}]\n"
 
@@ -207,9 +219,6 @@ main() {
   (chmod -R 777 "$FRONTEND_INSTALL_DIRECTORY" 2>/dev/null) &
   spinner $!
   printf "${GREEN}Successfully${RESET} applied permissions [${GREEN}✓${RESET}]\n"
-
-  printf "${GREEN}Finished${RESET} the frontend update ${BOLD}flawlessly${RESET}.\n"
-  printf "Visit ${UNDERLINE}https://gitlab.com/Datepoll/WaiterRobot/WaiterRobot-Web/-/releases${RESET} to learn more about the latest updates.\n\n"
 
   _success=true
 }

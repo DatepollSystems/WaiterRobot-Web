@@ -1,14 +1,14 @@
-<div fxLayout="column" fxLayoutGap="2%">
+<div class="d-flex flex-column">
   <h1>{{ 'NAV_USER_SETTINGS' | tr }}</h1>
 
-  <div class="card text-white">
+  <div class="card text-white mb-3">
     <div class="card-body">
       <h4 class="card-title">{{ 'HOME_USERSETTINGS_USER_SETTINGS_EMAIL' | tr }}</h4>
       <h6 class="card-subtitle mb-2">{{ 'HOME_USERSETTINGS_USER_SETTINGS_EMAIL_SUBTITLE' | tr }}</h6>
-      <form #emailForm="ngForm" (ngSubmit)="changeEmail(emailForm)">
-        <div fxLayout="column" class="card-text mb-3">
+      <form #emailForm="ngForm" (ngSubmit)="changeEmail(emailForm)" *ngSub="emailAddressValid$; let emailAddressValid">
+        <div class="d-flex flex-column card-text mb-3">
           <div>
-            <div class="form-group" fxFlex.gt-md="40%">
+            <div class="form-group col-12 col-md-3">
               <label for="email">{{ 'EMAIL' | tr }}</label>
               <input
                 ngModel
@@ -18,10 +18,9 @@
                 #emailModel="ngModel"
                 (ngModelChange)="emailChange($event)"
                 name="email"
-                [(ngModel)]="emailAddress" />
-              <small *ngIf="emailModel.invalid || !emailAddressValid" class="text-danger">
-                {{ 'HOME_USERS_EMAIL_INCORRECT' | tr }}
-              </small>
+                [ngModel]="emailAddress$ | async"
+              />
+              <small *ngIf="emailModel.invalid || !emailAddressValid" class="text-danger"> {{ 'HOME_USERS_EMAIL_INCORRECT' | tr }} </small>
             </div>
           </div>
         </div>
@@ -37,9 +36,9 @@
       <h4 class="card-title">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD' | tr }}</h4>
       <h6 class="card-subtitle mb-2">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_SUBTITLE' | tr }}</h6>
       <form #passwordForm="ngForm" (ngSubmit)="changePassword(passwordForm)">
-        <div fxLayout="column" class="card-text mb-3">
+        <div class="d-flex flex-column card-text mb-3">
           <div>
-            <div class="form-group" fxFlex.gt-md="40%">
+            <div class="form-group col-12 col-md-4">
               <label for="oldPassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_OLD' | tr }}</label>
               <input
                 ngModel
@@ -50,15 +49,14 @@
                 [minlength]="6"
                 required
                 name="oldPassword"
-                placeholder="{{ 'PASSWORD' | tr }}" />
-              <small *ngIf="passwordModel.invalid" class="text-danger">
-                {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
-              </small>
+                placeholder="{{ 'PASSWORD' | tr }}"
+              />
+              <small *ngIf="passwordModel.invalid" class="text-danger"> {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }} </small>
             </div>
           </div>
 
           <div>
-            <div class="form-group" fxFlex.gt-md="40%">
+            <div class="form-group col-12 col-md-4">
               <label for="newPassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | tr }}</label>
               <input
                 ngModel
@@ -70,15 +68,14 @@
                 [minlength]="6"
                 required
                 name="newPassword"
-                placeholder="{{ 'PASSWORD' | tr }}" />
-              <small *ngIf="newPasswordModel.invalid" class="text-danger">
-                {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
-              </small>
+                placeholder="{{ 'PASSWORD' | tr }}"
+              />
+              <small *ngIf="newPasswordModel.invalid" class="text-danger"> {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }} </small>
             </div>
           </div>
 
           <div>
-            <div class="form-group" fxFlex.gt-md="40%">
+            <div class="form-group col-12 col-md-4">
               <label for="newPasswordAgain">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_AGAIN' | tr }}</label>
               <input
                 ngModel
@@ -90,17 +87,14 @@
                 [minlength]="6"
                 required
                 name="newPasswordAgain"
-                placeholder="{{ 'PASSWORD' | tr }}" />
+                placeholder="{{ 'PASSWORD' | tr }}"
+              />
 
               <div *ngIf="newPasswordAgainModel.invalid">
-                <small class="text-danger">
-                  {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
-                </small>
+                <small class="text-danger"> {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }} </small>
               </div>
               <div *ngIf="!newPasswordsMatch">
-                <small class="text-danger">
-                  {{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_DONT_MATCH' | tr }}
-                </small>
+                <small class="text-danger"> {{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_DONT_MATCH' | tr }} </small>
               </div>
             </div>
           </div>

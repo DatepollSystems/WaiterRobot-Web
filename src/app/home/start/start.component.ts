@@ -1,66 +1,109 @@
+import {AsyncPipe, DatePipe, NgIf, UpperCasePipe} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
-import {Component} from '@angular/core';
-import {AComponent, BrowserHelper, BrowserInfo} from 'dfx-helper';
-import {EnvironmentHelper} from '../../_helper/EnvironmentHelper';
-import {MyUserModel} from '../../_models/user/my-user.model';
-import {JsonInfoResponse} from '../../_models/waiterrobot-backend';
-import {MyUserService} from '../../_services/auth/my-user.service';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {RouterLink} from '@angular/router';
+
+import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {i_complete} from 'dfts-helper';
+import {AComponent, DfxTimeSpanPipe} from 'dfx-helper';
+import {DfxTr} from 'dfx-translate';
+import {catchError, combineLatest, EMPTY, interval, map, Observable, share, startWith, switchMap, tap, timer} from 'rxjs';
+
+import {EnvironmentHelper} from '../../_shared/EnvironmentHelper';
+import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
+import {AppDownloadBtnListComponent} from '../../_shared/ui/app-download-btn-list.component';
+import {AppIconsModule} from '../../_shared/ui/icons.module';
+import {GetEventOrLocationResponse, GetOrganisationResponse, JsonInfoResponse} from '../../_shared/waiterrobot-backend';
+import {AppSelectDialogComponent} from '../app-select-dialog.component';
+import {EventsService} from '../events/_services/events.service';
+import {OrganisationsService} from '../organisations/_services/organisations.service';
 
 @Component({
   selector: 'app-start',
   templateUrl: './start.component.html',
-  styleUrls: ['./start.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    DatePipe,
+    UpperCasePipe,
+    RouterLink,
+    NgbTooltipModule,
+    DfxTimeSpanPipe,
+    DfxTr,
+    AppDownloadBtnListComponent,
+    AppIconsModule,
+    AsyncPipe,
+    AppSelectDialogComponent,
+  ],
 })
 export class StartComponent extends AComponent {
   isProduction = true;
   type: string;
 
-  localTime = new Date();
-  browserInfos: BrowserInfo;
+  localTime$: Observable<Date>;
+  browserInfos = i_complete();
+  frontendVersion = EnvironmentHelper.getWebVersion();
 
+  serverInfo$: Observable<JsonInfoResponse>;
+  startMs = 0;
   responseTime?: number;
   lastPing?: Date;
   refreshIn = 5;
   status: 'Online' | 'Offline' = 'Online';
-  serverInfoResponse?: JsonInfoResponse;
 
-  myUser?: MyUserModel;
+  myUser$ = inject(MyUserService).getUser$();
 
-  constructor(private httpClient: HttpClient, myUserService: MyUserService) {
+  selectedEvent$ = this.eventsService.getSelected$;
+  selectedOrganisation$ = this.organisationsService.getSelected$;
+
+  vm$ = combineLatest([
+    this.organisationsService.getAll$(),
+    this.selectedOrganisation$,
+    this.eventsService.getAll$().pipe(startWith([])),
+    this.selectedEvent$,
+  ]).pipe(
+    map(([organisations, selectedOrganisation, events, selectedEvent]) => ({organisations, selectedOrganisation, events, selectedEvent}))
+  );
+
+  constructor(httpClient: HttpClient, private eventsService: EventsService, private organisationsService: OrganisationsService) {
     super();
 
     this.isProduction = EnvironmentHelper.getProduction();
     this.type = EnvironmentHelper.getType();
 
-    this.clearInterval(
-      window.setInterval(() => {
-        this.localTime = new Date();
-        this.refreshIn--;
-      }, 1000)
+    this.localTime$ = interval(1000).pipe(
+      map(() => new Date()),
+      tap(() => this.refreshIn--),
+      share()
     );
 
-    this.getPing();
-
-    this.clearInterval(window.setInterval(() => this.getPing(), 1000 * 6));
-
-    this.myUser = myUserService.getUser();
-    this.unsubscribe(myUserService.userChange.subscribe((user) => (this.myUser = user)));
-
-    this.browserInfos = BrowserHelper.infos();
+    this.serverInfo$ = timer(0, 5000).pipe(
+      map(() => (this.startMs = new Date().getTime())),
+      switchMap(() =>
+        httpClient.get<JsonInfoResponse>('/json').pipe(
+          tap(() => {
+            this.status = 'Online';
+            this.refreshIn = 5;
+            this.lastPing = new Date();
+            this.responseTime = this.lastPing.getTime() - this.startMs - 2; // Minus 2 because it takes ~ 2ms to convert the message
+          }),
+          catchError(() => {
+            this.refreshIn = 5;
+            this.status = 'Offline';
+            return EMPTY;
+          })
+        )
+      ),
+      share()
+    );
   }
 
-  getPing(): void {
-    this.refreshIn = 6;
-    this.localTime = new Date();
-    const startMs = new Date().getTime();
-    this.httpClient.get<JsonInfoResponse>('/json').subscribe({
-      next: (response: JsonInfoResponse) => {
-        this.lastPing = new Date();
-        this.responseTime = this.lastPing.getTime() - startMs - 2; // Minus 2 because it takes ~ 2ms to convert the message
-        this.status = 'Online';
-        this.serverInfoResponse = response;
-      },
-      error: () => (this.status = 'Offline'),
-    });
+  selectOrganisation(it: GetOrganisationResponse): void {
+    this.organisationsService.setSelected(it);
+  }
+
+  selectEvent(it: GetEventOrLocationResponse): void {
+    this.eventsService.setSelected(it);
   }
 }

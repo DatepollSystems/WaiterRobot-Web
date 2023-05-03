@@ -1,6 +1,5 @@
 {
   "root": true,
-  "ignorePatterns": ["projects/**/*"],
   "reportUnusedDisableDirectives": true,
   "extends": ["prettier"],
   "overrides": [
@@ -36,11 +35,12 @@
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/restrict-plus-operands": "off",
         "@typescript-eslint/member-ordering": "off",
+        "@typescript-eslint/unbound-method": "off",
+        "@angular-eslint/component-class-suffix": "off",
         "@angular-eslint/component-selector": [
           "error",
           {
             "type": "element",
-            "prefix": "app",
             "style": "kebab-case"
           }
         ],
@@ -48,19 +48,11 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "app",
             "style": "camelCase"
           }
         ],
         "dot-notation": "error",
         "id-denylist": ["error", "any", "Number", "number", "String", "string", "Boolean", "boolean", "Undefined", "undefined"],
-        "indent": [
-          "error",
-          2,
-          {
-            "SwitchCase": 1
-          }
-        ],
         "no-shadow": "error",
         "no-unused-expressions": "error",
         "no-use-before-define": "off",

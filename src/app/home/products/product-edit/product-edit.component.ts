@@ -1,111 +1,134 @@
-import {Component} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {AEntityWithNumberIDAndName, Converter, EntityList, IEntityList, IEntityWithNumberIDAndName, TypeHelper} from 'dfx-helper';
+import {AsyncPipe, NgIf} from '@angular/common';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 
-import {AbstractModelEditComponent} from '../../../_helper/abstract-model-edit.component';
+import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
+import {n_from, n_isNumeric} from 'dfts-helper';
+import {DfxTr} from 'dfx-translate';
+import {combineLatest, filter, map, startWith} from 'rxjs';
+import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
+import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
+import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
+import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
 
-import {EventModel} from '../../../_models/event.model';
-import {PrinterModel} from '../../../_models/printer.model';
-import {ProductGroupModel} from '../../../_models/product/product-group.model';
-import {ProductModel} from '../../../_models/product/product.model';
-import {AllergensService} from '../../../_services/models/allergens.service';
-import {EventsService} from '../../../_services/models/events.service';
-import {PrintersService} from '../../../_services/models/printers.service';
-import {ProductGroupsService} from '../../../_services/models/product/product-groups.service';
-import {ProductsService} from '../../../_services/models/product/products.service';
+import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
+import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
+import {AppIconsModule} from '../../../_shared/ui/icons.module';
+import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 
-import {NotificationService} from '../../../_services/notifications/notification.service';
+import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../../_shared/waiterrobot-backend';
+import {EventsService} from '../../events/_services/events.service';
+import {PrintersService} from '../../printers/_services/printers.service';
+import {AllergensService} from '../_services/allergens.service';
+import {ProductGroupsService} from '../_services/product-groups.service';
+import {ProductsService} from '../_services/products.service';
+import {AppProductEditFormComponent} from './product-edit-form.component';
 
 @Component({
+  template: `
+    <div *ngIf="entity$ | async as entity; else loading">
+      <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
+      <h1 *isCreating="entity">{{ 'HOME_PROD_ADD' | tr }}</h1>
+
+      <btn-toolbar>
+        <div>
+          <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
+        </div>
+
+        <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
+
+        <div *isEditing="entity">
+          <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
+            <i-bs name="trash" />
+            {{ 'DELETE' | tr }}
+          </button>
+        </div>
+      </btn-toolbar>
+
+      <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs bg-dark" (navChange)="navigateToTab($event.nextId)">
+        <li [ngbNavItem]="'DATA'">
+          <a ngbNavLink>{{ 'DATA' | tr }}</a>
+          <ng-template ngbNavContent>
+            <app-product-edit-form
+              *ngIf="vm$ | async as vm"
+              #form
+              (formValid)="setValid($event)"
+              (submitUpdate)="submit('UPDATE', $event)"
+              (submitCreate)="submit('CREATE', $event)"
+              [allergens]="vm.allergens"
+              [printers]="vm.printers"
+              [productGroups]="vm.productGroups"
+              [selectedEventId]="vm.selectedEvent?.id"
+              [selectedProductGroupId]="vm.selectedProductGroupId"
+              [product]="entity"
+            />
+
+            <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
+          </ng-template>
+        </li>
+      </ul>
+
+      <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
+    </div>
+
+    <ng-template #loading>
+      <app-spinner-row />
+    </ng-template>
+  `,
   selector: 'app-product-edit',
-  templateUrl: './product-edit.component.html',
-  styleUrls: ['./product-edit.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    AsyncPipe,
+    DfxTr,
+    NgbNav,
+    NgbNavOutlet,
+    NgbNavItem,
+    NgbNavContent,
+    NgbNavLink,
+    AppIsCreatingDirective,
+    AppIsEditingDirective,
+    AppProductEditFormComponent,
+    AppModelEditSaveBtn,
+    AppBtnToolbarComponent,
+    AppContinuesCreationSwitchComponent,
+    AppIconsModule,
+    AppSpinnerRowComponent,
+  ],
 })
-export class ProductEditComponent extends AbstractModelEditComponent<ProductModel> {
-  override redirectUrl = '/home/products/all';
-  override continuousUsePropertyNames = ['groupId', 'printerId'];
+export class ProductEditComponent extends AbstractModelEditComponent<CreateProductDto, UpdateProductDto, GetProductMaxResponse, 'DATA'> {
+  defaultTab = 'DATA' as const;
+  redirectUrl = '/home/products/all';
+  continuousUsePropertyNames = ['groupId', 'printerId'];
 
-  selectedEvent: EventModel | undefined;
-  productGroups: ProductGroupModel[];
-  selectedProductGroup?: number;
-  printers: PrinterModel[];
-  selectedPrinter?: number;
-
-  allergens: IEntityList<AEntityWithNumberIDAndName> = new EntityList();
+  vm$ = combineLatest([
+    this.route.queryParams.pipe(
+      map((params) => params.group),
+      filter(n_isNumeric),
+      map((id) => n_from(id)),
+      startWith(undefined)
+    ),
+    this.productGroupsService.getAll$(),
+    this.allergensService.getAll$(),
+    this.printersService.getAll$(),
+    this.eventsService.getSelected$,
+  ]).pipe(
+    map(([selectedProductGroupId, productGroups, allergens, printers, selectedEvent]) => ({
+      selectedProductGroupId,
+      productGroups,
+      allergens,
+      printers,
+      selectedEvent,
+    }))
+  );
 
   constructor(
-    route: ActivatedRoute,
-    router: Router,
     productsService: ProductsService,
-    modal: NgbModal,
-    allergensService: AllergensService,
-    printersService: PrintersService,
-    eventsService: EventsService,
-    productGroupsService: ProductGroupsService,
-    private notificationService: NotificationService
+    private allergensService: AllergensService,
+    private printersService: PrintersService,
+    private eventsService: EventsService,
+    private productGroupsService: ProductGroupsService
   ) {
-    super(router, route, modal, productsService);
-
-    this.selectedEvent = eventsService.getSelected();
-    this.productGroups = productGroupsService.getAll();
-    this.allergens = allergensService.getAll();
-
-    printersService.setSelectedEventGetAllUrl();
-    this.printers = printersService.getAll();
-
-    this.unsubscribe(
-      eventsService.selectedChange.subscribe((it) => (this.selectedEvent = it)),
-      productGroupsService.allChange.subscribe((it) => (this.productGroups = it)),
-      allergensService.allChange.subscribe((it) => (this.allergens = it)),
-      printersService.allChange.subscribe((it) => (this.printers = it))
-    );
-
-    route.queryParams.subscribe((params) => {
-      const id = params.group;
-      if (id != null) {
-        if (TypeHelper.isNumeric(id)) {
-          this.selectedProductGroup = Converter.toNumber(id);
-          this.lumber.info('constructor', 'Selected product group: ' + id);
-        }
-      }
-    });
+    super(productsService);
   }
-
-  selectedAllergens: IEntityList<AEntityWithNumberIDAndName> = new EntityList();
-
-  override addCustomAttributesBeforeCreateAndUpdate(model: any): any {
-    model.groupId = Converter.toNumber(model.groupId as number);
-    model.printerId = Converter.toNumber(model.printerId as number);
-
-    model.price = model.price * 100;
-
-    model.allergenIds = this.selectedAllergens.map((allergen) => {
-      return allergen.id;
-    });
-
-    return model;
-  }
-
-  override createAndUpdateFilter(model: any): boolean {
-    if (!this.selectedProductGroup) {
-      this.notificationService.twarning('HOME_PROD_GROUP_ID_INCORRECT');
-      return false;
-    }
-    if (!this.selectedPrinter) {
-      this.notificationService.twarning('HOME_PROD_PRINTER_ID_INCORRECT');
-      return false;
-    }
-    return super.createAndUpdateFilter(model);
-  }
-
-  override onEntityEdit(it: ProductModel): void {
-    this.selectedAllergens = it.allergens;
-    this.selectedProductGroup = it.groupId;
-    this.selectedPrinter = it.printerId;
-  }
-
-  formatter = (it: unknown) => (it as IEntityWithNumberIDAndName).name;
-
-  allergenChange = (allergens: any[]) => (this.selectedAllergens = new EntityList(allergens));
 }

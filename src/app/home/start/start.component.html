@@ -1,82 +1,112 @@
-<div fxLayout="column" fxLayoutGap="1.5%" fxLayout.gt-sm="row" fxLayoutAlign="end">
-  <div>
+<div class="row row-cols-1 row-cols-lg-2 justify-content-between gy-4">
+  <div class="col-12 col-xl-7">
+    <div class="card bg-dark p-2 mb-2">
+      <div class="card-body">
+        <h5 class="card-title">{{ 'HOME_START_SETUP' | tr }}</h5>
+
+        <ng-container *ngIf="vm$ | async as vm">
+          <app-select-dialog
+            *ngIf="!vm.selectedOrganisation || !vm.selectedEvent"
+            [selectedOrganisation]="vm.selectedOrganisation"
+            [organisations]="vm.organisations"
+            [selectedEvent]="vm.selectedEvent"
+            [events]="vm.events"
+            (selectEvent)="selectEvent($event)"
+            (selectOrganisation)="selectOrganisation($event)"
+          />
+        </ng-container>
+
+        <div class="d-flex gap-2 flex-wrap" *ngIf="!!(selectedEvent$ | async)">
+          <a class="btn btn-outline-light btn-sm" routerLink="tables/create">
+            <i-bs name="plus-circle" />
+            {{ 'HOME_START_SETUP_CREATE_TABLE' | tr }}</a
+          >
+          <a class="btn btn-outline-light btn-sm" routerLink="products/create">
+            <i-bs name="plus-circle" />
+            {{ 'HOME_START_SETUP_CREATE_PRODUCT' | tr }}</a
+          >
+          <a class="btn btn-outline-light btn-sm" routerLink="waiters/create">
+            <i-bs name="plus-circle" />
+            {{ 'HOME_START_SETUP_CREATE_WAITER' | tr }}</a
+          >
+          <a class="btn btn-outline-light btn-sm" routerLink="tables/groups/create">
+            <i-bs name="plus-circle" />
+            {{ 'HOME_START_SETUP_CREATE_TABLE_GROUP' | tr }}</a
+          >
+          <a class="btn btn-outline-light btn-sm" routerLink="products/groups/create">
+            <i-bs name="plus-circle" />
+            {{ 'HOME_START_SETUP_CREATE_PRODUCT_GROUP' | tr }}</a
+          >
+        </div>
+      </div>
+    </div>
+
     <div class="card bg-dark p-2">
       <div class="card-body">
         <h5 class="card-title">{{ 'ABOUT_APP_DISCOVER' | tr }}</h5>
-        <app-download-btn-list></app-download-btn-list>
+        <app-download-btn-list />
       </div>
     </div>
   </div>
 
-  <div fxLayout="column" fxLayoutGap="1.5%">
-    <div class="card bg-dark p-2 pe-5" *ngIf="myUser?.isAdmin || type !== 'prod'">
+  <div class="col-12 col-xl-4" *ngIf="(myUser$ | async)?.isAdmin">
+    <div class="card bg-dark p-2 mb-3">
       <div class="card-body">
         <h5 class="card-title">{{ 'HOME_START_STATISTICS' | tr }}</h5>
         <ul class="list-unstyled py-2">
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
-            Local time: <span class="ms-3">{{ localTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">Frontend version: <span>{{ frontendVersion }}</span></li>
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
+            Local time: <span>{{ localTime$ | async | date : 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
-            OS: <span>{{ browserInfos.os }}</span>
-          </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
-            OS version: <span>{{ browserInfos.osVersion }}</span>
-          </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
-            Browser: <span>{{ browserInfos.name }}</span>
-          </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">OS: <span>{{ browserInfos.os }}</span></li>
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">OS version: <span>{{ browserInfos.osVersion }}</span></li>
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">Browser: <span>{{ browserInfos.name }}</span></li>
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             Browser version: <span>{{ browserInfos.version }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
-            Mobile: <span>{{ browserInfos.mobile }}</span>
-          </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">Mobile: <span>{{ browserInfos.mobile }}</span></li>
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             Screen size: <span>{{ browserInfos.screenSize }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             Local storage: <span>{{ browserInfos.localStorage }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
-            Cookies: <span>{{ browserInfos.cookies }}</span>
-          </li>
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">Cookies: <span>{{ browserInfos.cookies }}</span></li>
         </ul>
       </div>
     </div>
 
-    <div class="card bg-dark p-2 pe-5" *ngIf="myUser?.isAdmin || type !== 'prod'">
+    <div class="card bg-dark p-2">
       <div class="card-body">
         <h5>Backend</h5>
         <ul class="list-unstyled">
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             Status: <span [class.text-success]="status === 'Online'" [class.text-danger]="status === 'Offline'">{{ status }}</span>
           </li>
-          <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
+          <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             Ping:
-            <div fxLayout="row">
+            <div class="d-flex">
               <div *ngIf="lastPing">
                 {{ responseTime }}ms&nbsp;
-                <span placement="bottom" ngbTooltip="Last ping">({{ lastPing | date: 'HH:mm:ss' }})</span>
+                <span placement="bottom" ngbTooltip="Last ping">({{ lastPing | date : 'HH:mm:ss' }})</span>
               </div>
               <div *ngIf="!lastPing">Unavailable</div>
               <div placement="bottom" ngbTooltip="Next refresh" aria-label="Next refresh in">&nbsp;&nbsp;/&nbsp;&nbsp;{{ refreshIn }}s</div>
             </div>
           </li>
-          <ng-container *ngIf="status === 'Online'">
-            <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
-              Time: <span>{{ serverInfoResponse?.serverTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)':'UTC' }}</span>
+          <ng-container *ngIf="serverInfo$ | async as serverInfo">
+            <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
+              Time: <span>{{ serverInfo.serverTime | date : 'YYYY-MM-dd HH:mm:ss (zzz)' : 'UTC' }}</span>
             </li>
-            <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
-              Started: <span>{{ serverInfoResponse?.serverStartTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
+            <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
+              Started: <span>{{ serverInfo.serverStartTime | date : 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
             </li>
-            <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
-              Uptime: <span>{{ localTime | timespan: serverInfoResponse?.serverStartTime }}</span>
+            <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
+              Uptime: <span>{{ localTime$ | async | d_timespan : serverInfo.serverStartTime }}</span>
             </li>
-            <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
-              Version: <span>{{ serverInfoResponse?.version }}</span>
-            </li>
-            <li fxLayout="row" fxLayoutAlign="space-between" fxLayout.lt-md="column" class="mb-2">
-              Info: <span class="ms-md-5" style="white-space: nowrap">"{{ serverInfoResponse?.info }}"</span>
+            <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">Version: <span>{{ serverInfo.version }}</span></li>
+            <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
+              Info: <span class="ms-md-5" style="white-space: nowrap">"{{ serverInfo.info }}"</span>
             </li>
           </ng-container>
         </ul>
@@ -85,8 +115,8 @@
   </div>
 </div>
 
-<div fxLayout="row" fxLayoutAlign="center" *ngIf="!isProduction">
-  <div class="mt-5 pt-5">
-    <h1 style="font-size: 60px; word-break: break-all">kellner.team-{{ type | uppercase }}</h1>
+<div class="d-flex justify-content-center" *ngIf="type === 'dev'">
+  <div class="mt-5 pt-5 text-break text-center">
+    <h1 style="font-size: 60px">kellner.team DEV</h1>
   </div>
 </div>

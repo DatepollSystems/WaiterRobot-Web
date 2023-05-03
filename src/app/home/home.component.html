@@ -1,210 +1,205 @@
-<nav class="navbar navbar-expand-md bg-dark navbar-dark">
-  <div class="container-xxxl">
-    <a class="navbar-brand align-items-center" routerLink="/home">
-      <img id="brand" src="../../assets/logo.svg" width="30" height="30" class="align-self-center ms-2" alt="Brand logo" />
+<ng-container *ngIf="vm$ | async as vm">
+  <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <div class="container-xxxl">
+      <a class="navbar-brand align-items-center" routerLink="/home">
+        <img id="brand" [ngSrc]="logoUrl" width="30" height="30" class="align-self-center ms-2" alt="kellner.team logo" />
 
-      <ng-container *ngIf="isMobile">
-        <div
-          style="font-size: 12px"
-          *ngIf="showEnvironmentType && environmentType !== 'prod'"
-          (click)="showEnvironmentType = !showEnvironmentType"
-          class="badge bg-warning text-dark ms-3 me-1 not-selectable">
-          <span *ngIf="environmentType === 'dev'">DEV</span>
-          <span *ngIf="environmentType === 'testing'">TESTING</span>
-        </div>
-        <div style="font-size: 12px" *ngIf="myUser?.isAdmin" class="badge bg-danger text-dark ms-3 me-1 not-selectable">
-          <span>ADMIN</span>
-        </div>
-      </ng-container>
-    </a>
+        <ng-container *ngIf="vm.isMobile">
+          <div
+            *ngIf="showEnvironmentType && environmentType === 'dev'"
+            (click)="showEnvironmentType = !showEnvironmentType"
+            class="badge bg-warning text-dark ms-3 me-1 not-selectable"
+          >
+            <span *ngIf="environmentType === 'dev'">DEV</span>
+          </div>
+          <div style="font-size: 12px" *ngIf="vm.myUser.isAdmin" class="badge bg-danger text-dark ms-3 me-1 not-selectable">
+            <span>ADMIN</span>
+          </div>
+        </ng-container>
+      </a>
 
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-toggle="collapse"
-      (click)="toggleNav()"
-      data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        (click)="toggleNav()"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <div class="d-flex flex-column flex-md-row justify-content-md-between flex-fill" [class.container-xxxl]="isMobile">
-        <div>
-          <ul class="navbar-nav" [class.mobile-background-0]="isMobile">
-            <li class="d-flex align-items-center" *ngIf="!isMobile">
-              <div
-                style="font-size: 12px"
-                *ngIf="showEnvironmentType && environmentType !== 'prod'"
-                (click)="showEnvironmentType = !showEnvironmentType"
-                class="badge bg-warning text-dark ms-1 me-1 not-selectable">
-                <span *ngIf="environmentType === 'dev'">DEV</span>
-                <span *ngIf="environmentType === 'testing'">TESTING</span>
-              </div>
-              <div style="font-size: 12px" *ngIf="myUser?.isAdmin" class="badge bg-danger text-dark ms-1 me-1 not-selectable">
-                <span>ADMIN</span>
-              </div>
-            </li>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="d-flex flex-column flex-md-row justify-content-md-between flex-fill" [class.container-xxxl]="vm.isMobile">
+          <div>
+            <ul class="navbar-nav" [class.mobile-background-0]="vm.isMobile">
+              <li class="d-flex align-items-center" *ngIf="!vm.isMobile">
+                <div
+                  *ngIf="showEnvironmentType && environmentType === 'dev'"
+                  (click)="showEnvironmentType = !showEnvironmentType"
+                  class="badge bg-warning text-dark ms-1 me-1 not-selectable"
+                >
+                  <span *ngIf="environmentType === 'dev'">DEV</span>
+                </div>
+                <div style="font-size: 12px" *ngIf="vm.myUser.isAdmin" class="badge bg-danger text-dark ms-1 me-1 not-selectable">
+                  <span>ADMIN</span>
+                </div>
+              </li>
 
-            <li class="nav-item">
-              <div ngbDropdown display="dynamic">
-                <a class="nav-link" id="organisationSwitcherDropdown" ngbDropdownToggle>
-                  <span *ngIf="!selectedOrganisation">{{ 'NAV_ORGANISATIONS' | tr }}</span>
-                  <span *ngIf="selectedOrganisation"
-                    ><b>{{ selectedOrganisation.name }}</b></span
-                  >
-                </a>
-                <div ngbDropdownMenu aria-labelledby="organisationSwitcherDropdown">
-                  <h6 class="dropdown-header">
-                    <b>{{ 'NAV_ORGANISATIONS' | tr }}</b>
-                  </h6>
-                  <button *ngIf="selectedOrganisation" ngbDropdownItem routerLink="organisations/{{ selectedOrganisation.id }}">
-                    <b>{{ selectedOrganisation.name }}</b
-                    ><small> {{ 'NAV_EDIT' | tr }}</small>
-                  </button>
-                  <span class="fake-dropdown-item unselectable" *ngIf="allOrgs.length === 0">
-                    {{ 'NAV_ORGANISATIONS_NO_ORGS' | tr }}
-                  </span>
-                  <ng-container *ngFor="let orgM of allOrgs; trackById">
-                    <span
-                      class="fake-dropdown-item"
-                      *ngIf="orgM.id !== selectedOrganisation?.id"
-                      (click)="onSelectOrg(orgM); $event.stopPropagation()">
-                      {{ orgM.name }}
+              <li class="nav-item">
+                <div ngbDropdown display="dynamic">
+                  <a class="nav-link" id="organisationSwitcherDropdown" ngbDropdownToggle>
+                    <span *ngIf="!vm.selectedOrganisation">{{ 'NAV_ORGANISATIONS' | tr }}</span>
+                    <span *ngIf="vm.selectedOrganisation"><b>{{ vm.selectedOrganisation.name }}</b></span>
+                  </a>
+                  <div ngbDropdownMenu aria-labelledby="organisationSwitcherDropdown">
+                    <h6 class="dropdown-header">
+                      <b>{{ 'NAV_ORGANISATIONS' | tr }}</b>
+                    </h6>
+                    <button *ngIf="vm.selectedOrganisation" ngbDropdownItem routerLink="organisations/{{ vm.selectedOrganisation.id }}">
+                      <b>{{ vm.selectedOrganisation.name }}</b><small> {{ 'NAV_EDIT' | tr }}</small>
+                    </button>
+                    <span class="fake-dropdown-item unselectable" *ngIf="vm.organisations.length === 0">
+                      {{ 'NAV_ORGANISATIONS_NO_ORGS' | tr }}
                     </span>
-                  </ng-container>
-                  <div class="dropdown-divider"></div>
-                  <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/create" *ngIf="myUser?.isAdmin">
-                    <b>+</b> {{ 'ADD_2' | tr }}
-                  </button>
-                  <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/all">
-                    <i-bs name="building"></i-bs>
-                    {{ 'SHOW_ALL' | tr }}
-                  </button>
-                </div>
-              </div>
-            </li>
-
-            <li class="nav-item">
-              <div ngbDropdown display="dynamic">
-                <a class="nav-link" id="eventSwitcherDropdown" [class.disabled]="!selectedOrganisation" ngbDropdownToggle>
-                  <span *ngIf="!selectedEvent">{{ 'NAV_EVENTS' | tr }}</span>
-                  <span *ngIf="selectedEvent"
-                    ><b>{{ selectedEvent.name }}</b></span
-                  >
-                </a>
-                <div ngbDropdownMenu aria-labelledby="eventSwitcherDropdown">
-                  <h6 class="dropdown-header">
-                    <b>{{ 'NAV_EVENTS' | tr }}</b>
-                  </h6>
-                  <button ngbDropdownItem *ngIf="selectedEvent" routerLink="events/{{ selectedEvent.id }}">
-                    <b>{{ selectedEvent.name }}</b
-                    ><small> {{ 'NAV_EDIT' | tr }}</small>
-                  </button>
-                  <span class="fake-dropdown-item unselectable" *ngIf="allEvents.length === 0">
-                    {{ 'NAV_EVENTS_NO_EVENTS' | tr }}
-                  </span>
-                  <ng-container *ngFor="let eventM of allEvents; trackById">
-                    <span
-                      class="fake-dropdown-item"
-                      *ngIf="eventM.id !== selectedEvent?.id"
-                      (click)="onSelectEvent(eventM); $event.stopPropagation()">
-                      {{ eventM.name }}
-                    </span>
-                  </ng-container>
-                  <div class="dropdown-divider"></div>
-                  <button ngbDropdownItem routerLinkActive="active" routerLink="events/create" *ngIf="myUser?.isAdmin">
-                    <b>+</b> {{ 'ADD_2' | tr }}
-                  </button>
-                  <button ngbDropdownItem routerLinkActive="active" routerLink="events/all">
-                    <i-bs name="calendar-event-fill"></i-bs>
-                    {{ 'SHOW_ALL' | tr }}
-                  </button>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <ul class="navbar-nav" [class.mobile-background-1]="isMobile">
-            <li class="nav-item" *ngIf="myUser?.isAdmin">
-              <div ngbDropdown display="dynamic">
-                <a class="nav-link" id="adminDropDown" ngbDropdownToggle> {{ 'NAV_INSTANCE_ADMINISTRATION' | tr }}</a>
-                <div ngbDropdownMenu aria-labelledby="adminDropDown">
-                  <button ngbDropdownItem routerLinkActive="active" routerLink="users">
-                    <i-bs name="person-badge"></i-bs>
-                    {{ 'NAV_USERS' | tr }}
-                  </button>
-                  <button ngbDropdownItem routerLinkActive="active" routerLink="instance">
-                    <i-bs name="gear"></i-bs>
-                    {{ 'NAV_INSTANCE_SETTINGS' | tr }}
-                  </button>
-                </div>
-              </div>
-            </li>
-
-            <li class="nav-item">
-              <div ngbDropdown display="dynamic">
-                <a class="nav-link" id="settingsDropdown" ngbDropdownToggle>{{ 'SETTINGS' | tr }}</a>
-                <div ngbDropdownMenu aria-labelledby="settingsDropdown">
-                  <div class="px-3 py-1">
-                    <h5>{{ 'NAV_USER_SETTINGS_WELCOME' | tr }} {{ myUser?.firstname }},</h5>
-                    <a (click)="openUserEmailQRCode(myUser)">
-                      <u>{{ myUser?.emailAddress }}</u>
-                      <i-bs name="qr-code" class="ms-1"></i-bs>
-                    </a>
-                    <small>
-                      <br />
-                      <b *ngIf="myUser?.isAdmin" class="clickable" (click)="switchAdminMode()">{{ 'NAV_USER_SETTINGS_ADMIN' | tr }}</b>
-                      <b *ngIf="this.adminModeChanged" class="clickable" (click)="switchAdminMode()">{{
-                        'NAV_USER_SETTINGS_ADMIN_SWITCH' | tr
-                      }}</b>
-                    </small>
+                    <ng-container *ngFor="let orgM of vm.organisations; trackById">
+                      <span
+                        class="fake-dropdown-item"
+                        *ngIf="orgM.id !== vm.selectedOrganisation?.id"
+                        (click)="onSelectOrg(orgM); $event.stopPropagation()"
+                      >
+                        {{ orgM.name }}
+                      </span>
+                    </ng-container>
+                    <div class="dropdown-divider"></div>
+                    <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/create" *ngIf="vm.myUser.isAdmin">
+                      <b>+</b> {{ 'ADD_2' | tr }}
+                    </button>
+                    <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/all">
+                      <i-bs name="building" />
+                      {{ 'SHOW_ALL' | tr }}
+                    </button>
                   </div>
-                  <div class="dropdown-divider"></div>
-                  <button ngbDropdownItem routerLinkActive="active" routerLink="usettings/settings">
-                    <i-bs name="gear-wide-connected"></i-bs>
-                    {{ 'NAV_USER_SETTINGS' | tr }}
-                  </button>
-                  <button ngbDropdownItem routerLinkActive="active" routerLink="usettings/sessions">
-                    <i-bs name="file-lock"></i-bs>
-                    {{ 'NAV_USER_SESSIONS' | tr }}
-                  </button>
-                  <button ngbDropdownItem (click)="logout()">
-                    <i-bs name="box-arrow-left"></i-bs>
-                    {{ 'NAV_LOGOUT' | tr }}
-                  </button>
                 </div>
-              </div>
-            </li>
-          </ul>
+              </li>
+
+              <li class="nav-item">
+                <div ngbDropdown display="dynamic">
+                  <a class="nav-link" id="eventSwitcherDropdown" [class.disabled]="!vm.selectedOrganisation" ngbDropdownToggle>
+                    <span *ngIf="!vm.selectedEvent">{{ 'NAV_EVENTS' | tr }}</span>
+                    <span *ngIf="vm.selectedEvent"><b>{{ vm.selectedEvent.name }}</b></span>
+                  </a>
+                  <div ngbDropdownMenu aria-labelledby="eventSwitcherDropdown">
+                    <h6 class="dropdown-header">
+                      <b>{{ 'NAV_EVENTS' | tr }}</b>
+                    </h6>
+                    <button ngbDropdownItem *ngIf="vm.selectedEvent" routerLink="events/{{ vm.selectedEvent.id }}">
+                      <b>{{ vm.selectedEvent.name }}</b><small> {{ 'NAV_EDIT' | tr }}</small>
+                    </button>
+                    <span class="fake-dropdown-item unselectable" *ngIf="vm.events.length === 0"> {{ 'NAV_EVENTS_NO_EVENTS' | tr }} </span>
+                    <ng-container *ngFor="let eventM of vm.events; trackById">
+                      <span
+                        class="fake-dropdown-item"
+                        *ngIf="eventM.id !== vm.selectedEvent?.id"
+                        (click)="onSelectEvent(eventM); $event.stopPropagation()"
+                      >
+                        {{ eventM.name }}
+                      </span>
+                    </ng-container>
+                    <div class="dropdown-divider"></div>
+                    <button ngbDropdownItem routerLink="events/create" *ngIf="vm.myUser.isAdmin"><b>+</b> {{ 'ADD_2' | tr }}</button>
+                    <button ngbDropdownItem routerLink="events/all">
+                      <i-bs name="calendar-event-fill" />
+                      {{ 'SHOW_ALL' | tr }}
+                    </button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <ul class="navbar-nav" [class.mobile-background-1]="vm.isMobile">
+              <li class="nav-item" *ngIf="vm.myUser.isAdmin">
+                <div ngbDropdown display="dynamic">
+                  <a class="nav-link" id="adminDropDown" ngbDropdownToggle> {{ 'NAV_INSTANCE_ADMINISTRATION' | tr }}</a>
+                  <div ngbDropdownMenu aria-labelledby="adminDropDown">
+                    <button ngbDropdownItem routerLinkActive="active" routerLink="users">
+                      <i-bs name="person-badge" />
+                      {{ 'NAV_USERS' | tr }}
+                    </button>
+                    <button ngbDropdownItem routerLinkActive="active" routerLink="instance">
+                      <i-bs name="gear" />
+                      {{ 'NAV_INSTANCE_SETTINGS' | tr }}
+                    </button>
+                  </div>
+                </div>
+              </li>
+
+              <li class="nav-item">
+                <div ngbDropdown display="dynamic">
+                  <a class="nav-link" id="settingsDropdown" ngbDropdownToggle>{{ 'SETTINGS' | tr }}</a>
+                  <div ngbDropdownMenu aria-labelledby="settingsDropdown">
+                    <div class="px-3 py-1">
+                      <h5>{{ 'NAV_USER_SETTINGS_WELCOME' | tr }} {{ vm.myUser.firstname }},</h5>
+                      <a (click)="openUserEmailQRCode(vm.myUser)">
+                        <u>{{ vm.myUser.emailAddress }}</u>
+                        <i-bs name="qr-code" class="ms-1" />
+                      </a>
+                      <small>
+                        <br />
+                        <b *ngIf="vm.myUser.isAdmin" class="clickable" (click)="switchAdminMode()">{{ 'NAV_USER_SETTINGS_ADMIN' | tr }}</b>
+                        <b *ngIf="this.adminModeChanged" class="clickable" (click)="switchAdminMode()"
+                          >{{ 'NAV_USER_SETTINGS_ADMIN_SWITCH' | tr }}</b
+                        >
+                      </small>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <button ngbDropdownItem routerLinkActive="active" routerLink="usettings/settings">
+                      <i-bs name="gear-wide-connected" />
+                      {{ 'NAV_USER_SETTINGS' | tr }}
+                    </button>
+                    <button ngbDropdownItem routerLinkActive="active" routerLink="usettings/sessions">
+                      <i-bs name="file-lock" />
+                      {{ 'NAV_USER_SESSIONS' | tr }}
+                    </button>
+                    <button ngbDropdownItem (click)="logout()">
+                      <i-bs name="box-arrow-left" />
+                      {{ 'NAV_LOGOUT' | tr }}
+                    </button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-<app-navbar-scrollable
-  [justifyContentBetween]="!!selectedEvent"
-  [isMobile]="isMobile"
-  [items]="navItems"
-  *ngIf="selectedOrganisation"></app-navbar-scrollable>
+  <app-navbar-scrollable
+    [justifyContentBetween]="!!vm.selectedEvent"
+    [isMobile]="vm.isMobile"
+    [items]="vm.navItems"
+    *ngIf="vm.selectedOrganisation"
+  />
+</ng-container>
 
-<main class="container-fluid text-white bg-darker-5 pb-5">
+<main class="container-fluid text-white pb-5 bg">
   <div class="container-xxxl">
     <div class="alert alert-warning" role="alert" hideIfOnline>
-      <b>{{ 'INFORMATION' | tr }}!</b> {{ 'OFFLINE' | tr }}
+      <i-bs name="wifi-off" />
+      {{ 'OFFLINE' | tr }}
     </div>
 
-    <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="/json">
-      <b>{{ 'INFORMATION' | tr }}!</b> {{ 'SERVER_OFFLINE' | tr }}
+    <div hideIfOffline>
+      <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="/json">{{ 'SERVER_OFFLINE' | tr }}</div>
     </div>
 
-    <router-outlet></router-outlet>
+    <router-outlet />
   </div>
 </main>
 
-<app-footer></app-footer>
+<app-footer />
