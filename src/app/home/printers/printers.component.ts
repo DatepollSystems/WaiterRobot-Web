@@ -10,13 +10,14 @@ import {getEventsOrderedBySelected} from '../events/_services/getEventsOrderedBy
 @Component({
   template: `
     <entities-layout-component>
-      <div class="list-group" nav>
-        <a class="list-group-item list-group-item-action" routerLink="mediators" routerLinkActive="active">
-          <i-bs name="router" />
-          {{ 'HOME_PRINTER_NAV_MEDIATOR' | tr }}</a
-        >
-
-        <app-list-nav-items path="/home/printers/event/" [entities]="events$ | async" />
+      <div class="d-flex flex-column gap-2" nav>
+        <div class="list-group">
+          <a class="list-group-item list-group-item-action" routerLink="mediators" routerLinkActive="active">
+            <i-bs name="router" />
+            {{ 'HOME_PRINTER_NAV_MEDIATOR' | tr }}</a
+          >
+        </div>
+        <app-list-nav-items path="/home/printers/event/" [entities]="events$ | async" selectTr="HOME_EVENTS_SELECT" />
       </div>
     </entities-layout-component>
   `,

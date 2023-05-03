@@ -12,18 +12,19 @@ import {OrganisationsService} from '../organisations/_services/organisations.ser
 @Component({
   template: `
     <entities-layout-component>
-      <div class="list-group" nav>
-        <a
-          *ngIf="selectedOrganisation$ | async as selectedOrganisation"
-          class="list-group-item list-group-item-action"
-          routerLink="organisation"
-          routerLinkActive="active"
-        >
-          <i-bs name="people" />
-          {{ selectedOrganisation.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</a
-        >
-
-        <app-list-nav-items path="/home/waiters/event/" [entities]="events$ | async" />
+      <div class="d-flex flex-column gap-2" nav>
+        <div class="list-group">
+          <a
+            *ngIf="selectedOrganisation$ | async as selectedOrganisation"
+            class="list-group-item list-group-item-action"
+            routerLink="organisation"
+            routerLinkActive="active"
+          >
+            <i-bs name="people" />
+            {{ selectedOrganisation.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</a
+          >
+        </div>
+        <app-list-nav-items path="/home/waiters/event/" [entities]="events$ | async" selectTr="HOME_EVENTS_SELECT" />
       </div>
     </entities-layout-component>
   `,

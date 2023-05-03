@@ -11,13 +11,14 @@ import {getEventsOrderedBySelected} from './_services/getEventsOrderedBySelected
 @Component({
   template: `
     <entities-layout-component>
-      <div class="list-group" nav>
-        <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
-          <i-bs name="calendar-event-fill" />
-          {{ 'NAV_EVENTS' | tr }}
-        </a>
-
-        <app-list-nav-items path="/home/events/" [entities]="events$ | async" />
+      <div class="d-flex flex-column gap-2" nav>
+        <div class="list-group">
+          <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
+            <i-bs name="calendar-event-fill" />
+            {{ 'NAV_EVENTS' | tr }}
+          </a>
+        </div>
+        <app-list-nav-items path="/home/events/" [entities]="events$ | async" selectTr="HOME_EVENTS_SELECT" />
       </div>
     </entities-layout-component>
   `,

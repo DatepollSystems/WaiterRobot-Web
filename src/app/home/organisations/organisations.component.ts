@@ -13,13 +13,14 @@ import {OrganisationsService} from './_services/organisations.service';
   selector: 'app-organisations',
   template: `
     <entities-layout-component>
-      <div class="list-group" nav>
-        <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
-          <i-bs name="building" />
-          {{ 'HOME_ORGS_ALL' | tr }}</a
-        >
-
-        <app-list-nav-items path="/home/organisations/" [entities]="organisations$ | async" />
+      <div class="d-flex flex-column gap-2" nav>
+        <div class="list-group">
+          <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
+            <i-bs name="building" />
+            {{ 'HOME_ORGS_ALL' | tr }}</a
+          >
+        </div>
+        <app-list-nav-items path="/home/organisations/" [entities]="organisations$ | async" selectTr="HOME_ORGS_SELECT" />
       </div>
     </entities-layout-component>
   `,

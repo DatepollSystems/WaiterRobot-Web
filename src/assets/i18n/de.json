@@ -159,6 +159,7 @@
 
   "HOME_ORGS_ALL": "Organisationen",
   "HOME_ORGS_NAME_INCORRECT": "Der Name muss aus mindestens 4 und maximal 40 Zeichen bestehen",
+  "HOME_ORGS_SELECT": "Organisation auswählen",
   "HOME_ORGS_STREET": "Straße",
   "HOME_ORGS_STREET_INCORRECT": "Der Straßenname muss aus mindestens 4 und maximal 60 Zeichen bestehen",
   "HOME_ORGS_STREETNUMBER": "Nr.",
@@ -192,6 +193,7 @@
   "HOME_PROD_ALL": "Produkte",
   "HOME_PROD": "Produkt",
   "HOME_PROD_GROUP": "Produktgruppen",
+  "HOME_PROD_GROUP_SELECT": "Produktgruppe auswählen",
   "HOME_PROD_ADD": "Neues Produkt anlegen",
   "HOME_PROD_PRINTER_SELECT_DEFAULT": "Wähle einen Drucker aus",
   "HOME_PROD_GROUP_PRODUCTS_VIEW": "Produktgruppe",
@@ -229,6 +231,7 @@
 
   "HOME_TABLES": "Tische",
   "HOME_TABLE": "Tisch",
+  "HOME_TABLES_GROUPS_SELECT": "Tischgruppe auswählen",
   "HOME_TABLES_ADD": "Neuen Tisch anlegen",
   "HOME_TABLES_SEATS_INCORRECT": "*pflichtfeld",
   "HOME_TABLES_NUMBER_INCORRECT": "*pflichtfeld",
