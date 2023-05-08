@@ -1,6 +1,6 @@
 <div class="row row-cols-1 row-cols-lg-2 justify-content-between gy-4">
-  <div class="col-12 col-xl-7">
-    <div class="card bg-dark p-2 mb-2">
+  <div class="col-12 col-xl-7 d-flex flex-column gap-2">
+    <div class="card bg-dark p-2">
       <div class="card-body">
         <h5 class="card-title">{{ 'HOME_START_SETUP' | tr }}</h5>
 
@@ -47,6 +47,13 @@
         <app-download-btn-list />
       </div>
     </div>
+    <ng-container *ngIf="myUserErrors$ | async as myUserErrors">
+      <div class="card bg-dark p-2" *ngIf='myUserErrors === "ERROR"'>
+        <div class="card-body">
+          <button class="btn btn-sm btn-warning" (click)="logout()">Logout</button>
+        </div>
+      </div>
+    </ng-container>
   </div>
 
   <div class="col-12 col-xl-4" *ngIf="(myUser$ | async)?.isAdmin">

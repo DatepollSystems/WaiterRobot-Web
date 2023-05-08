@@ -9,7 +9,7 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
           <ng-content />
         </h4>
         <p class="heading">
-          <span class="clickable" [countUp]="count"></span>
+          <span [countUp]="count" animationDuration="2000" clickable="false"></span>
           <ng-content select="[valuePrefix]" />
         </p>
       </div>

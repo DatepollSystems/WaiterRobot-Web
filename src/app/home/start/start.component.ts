@@ -7,9 +7,10 @@ import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {i_complete} from 'dfts-helper';
 import {AComponent, DfxTimeSpanPipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {catchError, combineLatest, EMPTY, interval, map, Observable, share, startWith, switchMap, tap, timer} from 'rxjs';
+import {catchError, combineLatest, EMPTY, interval, map, Observable, of, share, startWith, switchMap, tap, timer} from 'rxjs';
 
 import {EnvironmentHelper} from '../../_shared/EnvironmentHelper';
+import {AuthService} from '../../_shared/services/auth/auth.service';
 import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
 import {AppDownloadBtnListComponent} from '../../_shared/ui/app-download-btn-list.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
@@ -53,6 +54,7 @@ export class StartComponent extends AComponent {
   status: 'Online' | 'Offline' = 'Online';
 
   myUser$ = inject(MyUserService).getUser$();
+  myUserErrors$ = this.myUser$.pipe(catchError(() => of('ERROR')));
 
   selectedEvent$ = this.eventsService.getSelected$;
   selectedOrganisation$ = this.organisationsService.getSelected$;
@@ -66,7 +68,12 @@ export class StartComponent extends AComponent {
     map(([organisations, selectedOrganisation, events, selectedEvent]) => ({organisations, selectedOrganisation, events, selectedEvent}))
   );
 
-  constructor(httpClient: HttpClient, private eventsService: EventsService, private organisationsService: OrganisationsService) {
+  constructor(
+    httpClient: HttpClient,
+    private eventsService: EventsService,
+    private organisationsService: OrganisationsService,
+    private authService: AuthService
+  ) {
     super();
 
     this.isProduction = EnvironmentHelper.getProduction();
@@ -86,7 +93,7 @@ export class StartComponent extends AComponent {
             this.status = 'Online';
             this.refreshIn = 5;
             this.lastPing = new Date();
-            this.responseTime = this.lastPing.getTime() - this.startMs - 2; // Minus 2 because it takes ~ 2ms to convert the message
+            this.responseTime = this.lastPing.getTime() - this.startMs - 5; // Minus 5 because it takes ~ 5ms to convert the message
           }),
           catchError(() => {
             this.refreshIn = 5;
@@ -105,5 +112,9 @@ export class StartComponent extends AComponent {
 
   selectEvent(it: GetEventOrLocationResponse): void {
     this.eventsService.setSelected(it);
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }
