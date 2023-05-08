@@ -16,7 +16,7 @@ import {
   loggingInterceptor,
   postPutJsonContentTypeInterceptor,
   provideDfxHelper,
-  WINDOW_PROVIDERS,
+  provideWindow,
   withBaseUrlInterceptor,
   withLoggingInterceptor,
   withMobileBreakpoint,
@@ -39,6 +39,7 @@ bootstrapApplication(AppComponent, {
       withBaseUrlInterceptor(EnvironmentHelper.getAPIUrl(), ['assets/i18n', 'assets/licenses.json']),
       withLoggingInterceptor(['json', '/auth/signIn', '/auth/signInPwChange'])
     ),
+    provideWindow(),
     provideDfxTranslate(withDefaultLanguage('de'), withAutoTranslatedLanguages(['en', 'es', 'fr', 'it', 'pt'])),
     provideAnimations(),
     DfxPreloadStrategy,
@@ -56,7 +57,6 @@ bootstrapApplication(AppComponent, {
     provideHttpClient(
       withInterceptors([baseUrlInterceptor, postPutJsonContentTypeInterceptor, loggingInterceptor, authInterceptor, errorInterceptor])
     ),
-    WINDOW_PROVIDERS,
   ],
 }).catch((err) => console.error(err));
 

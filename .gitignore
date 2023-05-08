@@ -46,4 +46,6 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# Ignore install files
 waiterrobot-web/
+installed/

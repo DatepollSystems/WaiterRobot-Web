@@ -23,7 +23,7 @@ jobs:
           pnpm build:prod
 
       - uses: actions/upload-artifact@master
-        name: create ${{ matrix.lib }} artifact
+        name: upload artifact
         with:
           name: WaiterRobot-Web-prod
           path: ./dist/WaiterRobot-Web

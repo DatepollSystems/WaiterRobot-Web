@@ -48,7 +48,7 @@ jobs:
           ./tools/buildLava.sh
 
       - uses: actions/upload-artifact@master
-        name: create ${{ matrix.lib }} artifact
+        name: upload artifact
         with:
           name: WaiterRobot-Web-testing
           path: ./dist/WaiterRobot-Web
