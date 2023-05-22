@@ -53,7 +53,7 @@
     "jspdf": "2.5.1",
     "ngx-bootstrap-icons": "1.9.2",
     "rxjs": "7.8.1",
-    "tslib": "2.5.0",
+    "tslib": "2.5.2",
     "zone.js": "0.13.0"
   },
   "devDependencies": {
@@ -70,9 +70,9 @@
     "@types/d3-shape": "^3.1.1",
     "@types/jasmine": "4.3.1",
     "@types/qrcode": "1.5.0",
-    "@typescript-eslint/eslint-plugin": "5.59.2",
-    "@typescript-eslint/parser": "5.59.2",
-    "eslint": "8.40.0",
+    "@typescript-eslint/eslint-plugin": "5.59.6",
+    "@typescript-eslint/parser": "5.59.6",
+    "eslint": "8.41.0",
     "eslint-config-prettier": "8.8.0",
     "husky": "8.0.3",
     "jasmine-core": "4.6.0",
