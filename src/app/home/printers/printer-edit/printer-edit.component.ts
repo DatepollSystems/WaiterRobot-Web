@@ -53,7 +53,7 @@ import {AppPrinterEditForm} from './printer-edit-form.component';
               (submitCreate)="submit('CREATE', $event)"
               [events]="events"
               [printer]="entity"
-            />printer-edit-form>
+            />
 
             <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
           </ng-template>

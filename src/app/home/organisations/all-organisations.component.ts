@@ -11,9 +11,9 @@ import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component
 import {AppSelectableButtonComponent} from '../../_shared/ui/app-selectable-button.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
-import {OrganisationsService} from './_services/organisations.service';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {GetOrganisationResponse} from '../../_shared/waiterrobot-backend';
+import {OrganisationsService} from './_services/organisations.service';
 
 @Component({
   template: `
@@ -52,98 +52,99 @@ import {GetOrganisationResponse} from '../../_shared/waiterrobot-backend';
         </div>
       </form>
 
-      <div class="table-responsive" *ngIf="dataSource$ | async as dataSource">
-        <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
-          <ng-container ngbColumnDef="select">
-            <th *ngbHeaderCellDef ngb-header-cell [class.d-none]="!myUser?.isAdmin">
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  name="checked"
-                  (change)="$event ? toggleAllRows() : null"
-                  [checked]="selection.hasValue() && isAllSelected()"
-                />
-              </div>
-            </th>
-            <td *ngbCellDef="let selectable" ngb-cell [class.d-none]="!myUser?.isAdmin">
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  name="checked"
-                  (click)="$event.stopPropagation()"
-                  (change)="$event ? selection.toggle(selectable) : null"
-                  [checked]="selection.isSelected(selectable)"
-                />
-              </div>
-            </td>
-          </ng-container>
+      <ng-container *ngIf="dataSource$ | async as dataSource">
+        <div class="table-responsive">
+          <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
+            <ng-container ngbColumnDef="select">
+              <th *ngbHeaderCellDef ngb-header-cell [class.d-none]="!myUser?.isAdmin">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="checked"
+                    (change)="$event ? toggleAllRows() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                  />
+                </div>
+              </th>
+              <td *ngbCellDef="let selectable" ngb-cell [class.d-none]="!myUser?.isAdmin">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="checked"
+                    (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(selectable) : null"
+                    [checked]="selection.isSelected(selectable)"
+                  />
+                </div>
+              </td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="id">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
-            <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.id }}</td>
-          </ng-container>
+            <ng-container ngbColumnDef="id">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
+              <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.id }}</td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="name">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
-            <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.name }}</td>
-          </ng-container>
+            <ng-container ngbColumnDef="name">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+              <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.name }}</td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="street">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_STREET' | tr }}</th>
-            <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.street }}</td>
-          </ng-container>
+            <ng-container ngbColumnDef="street">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_STREET' | tr }}</th>
+              <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.street }}</td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="streetNumber">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_STREETNUMBER' | tr }}</th>
-            <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.streetNumber }}</td>
-          </ng-container>
+            <ng-container ngbColumnDef="streetNumber">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_STREETNUMBER' | tr }}</th>
+              <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.streetNumber }}</td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="postalCode">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_POSTAL_CODE' | tr }}</th>
-            <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.postalCode }}</td>
-          </ng-container>
+            <ng-container ngbColumnDef="postalCode">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_POSTAL_CODE' | tr }}</th>
+              <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.postalCode }}</td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="city">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_CITY' | tr }}</th>
-            <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.city }}</td>
-          </ng-container>
+            <ng-container ngbColumnDef="city">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_CITY' | tr }}</th>
+              <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.city }}</td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="countryCode">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_COUNTRY_CODE' | tr }}</th>
-            <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.countryCode | uppercase }}</td>
-          </ng-container>
+            <ng-container ngbColumnDef="countryCode">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_COUNTRY_CODE' | tr }}</th>
+              <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.countryCode | uppercase }}</td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="actions">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
-            <td *ngbCellDef="let organisation" ngb-cell>
-              <selectable-button class="me-2" [entity]="organisation" [selectedEntityService]="organisationsService" />
-              <a
-                class="btn btn-sm me-2 btn-outline-success text-white"
-                routerLink="../{{ organisation.id }}"
-                ngbTooltip="{{ 'EDIT' | tr }}"
-              >
-                <i-bs name="pencil-square" />
-              </a>
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-danger text-white"
-                ngbTooltip="{{ 'DELETE' | tr }}"
-                (click)="onDelete(organisation.id, $event)"
-                *ngIf="myUser?.isAdmin"
-              >
-                <i-bs name="trash" />
-              </button>
-            </td>
-          </ng-container>
+            <ng-container ngbColumnDef="actions">
+              <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+              <td *ngbCellDef="let organisation" ngb-cell>
+                <selectable-button class="me-2" [entity]="organisation" [selectedEntityService]="organisationsService" />
+                <a
+                  class="btn btn-sm me-2 btn-outline-success text-white"
+                  routerLink="../{{ organisation.id }}"
+                  ngbTooltip="{{ 'EDIT' | tr }}"
+                >
+                  <i-bs name="pencil-square" />
+                </a>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-danger text-white"
+                  ngbTooltip="{{ 'DELETE' | tr }}"
+                  (click)="onDelete(organisation.id, $event)"
+                  *ngIf="myUser?.isAdmin"
+                >
+                  <i-bs name="trash" />
+                </button>
+              </td>
+            </ng-container>
 
-          <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-          <tr *ngbRowDef="let organisation; columns: columnsToDisplay" ngb-row routerLink="../{{ organisation.id }}"></tr>
-        </table>
+            <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+            <tr *ngbRowDef="let organisation; columns: columnsToDisplay" ngb-row routerLink="../{{ organisation.id }}"></tr>
+          </table>
+        </div>
         <ngb-paginator [collectionSize]="dataSource.data.length" />
-      </div>
-
+      </ng-container>
       <app-spinner-row [show]="isLoading" />
     </ng-container>
   `,
