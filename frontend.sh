@@ -226,7 +226,7 @@ main() {
   spinner $!
   printf "${GREEN}Successfully${RESET} applied permissions [${GREEN}✓${RESET}]\n"
 
-  #_success=true
+  _success=true
 }
 
 main
