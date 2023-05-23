@@ -18,8 +18,8 @@ jobs:
 
       - name: generate new report
         run: |
-          license-report --only=prod --output=json > ./src/assets/licenses_new.json --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author
-          prettier --write ./src/assets/licenses.json
+          pnpm exec license-report --only=prod --output=json > ./src/assets/licenses_new.json --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author
+          pnpm exec prettier --write ./src/assets/licenses.json
 
       - uses: LouisBrunner/diff-action@v0.2.0
         id: diff-check
