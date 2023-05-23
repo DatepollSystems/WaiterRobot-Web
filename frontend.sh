@@ -18,7 +18,7 @@ RESET='\033[0m' # Reset color and formatting
 
 # Define variables
 APP_NAME='WaiterRobot-Web'
-SCRIPT_VERSION='2.0.1'
+SCRIPT_VERSION='3.0.0'
 VERSION=latest
 FORCE=false
 CLEAR_TEMP_DIR=true
