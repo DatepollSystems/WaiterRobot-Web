@@ -19,7 +19,7 @@ jobs:
       - name: generate new report
         run: |
           pnpm exec license-report --only=prod --output=json > ./src/assets/licenses_new.json --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author
-          pnpm exec prettier --write ./src/assets/licenses.json
+          pnpm exec prettier --write ./src/assets/licenses_new.json
 
       - uses: LouisBrunner/diff-action@v0.2.0
         id: diff-check
@@ -30,13 +30,13 @@ jobs:
           tolerance: same
 
       - name: Move files in place if needed
-        if: steps.diff-check.outputs.passed == 'false'
+        if: ${{ steps.diff-check.outputs.passed == 'false' }}
         run: |
           rm -f ./src/assets/licenses.json
           mv ./src/assets/licenses_new.json ./src/assets/licenses.json
 
       - name: Create New Pull Request If Needed
-        if: steps.diff-check.outputs.passed == 'false'
+        if: ${{ steps.diff-check.outputs.passed == 'false' }}
         uses: peter-evans/create-pull-request@v5
         with:
           title: Generated new licenses report
