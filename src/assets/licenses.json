@@ -160,13 +160,7 @@
     "installedVersion": "1.11.11",
     "author": "bubkooo bubkoo.wy@gmail.com"
   },
-  {
-    "name": "jspdf",
-    "licenseType": "MIT",
-    "link": "git+https://github.com/MrRio/jsPDF.git",
-    "installedVersion": "2.5.1",
-    "author": "n/a"
-  },
+  {"name": "jspdf", "licenseType": "MIT", "link": "git+https://github.com/MrRio/jsPDF.git", "installedVersion": "2.5.1", "author": "n/a"},
   {
     "name": "ngx-bootstrap-icons",
     "licenseType": "MIT",
