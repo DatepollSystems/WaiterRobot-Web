@@ -8,7 +8,7 @@ import {ChipInput} from '../../../_shared/ui/chip-input/chip-input.component';
 
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
-import {CreateWaiterDto, GetWaiterResponse, UpdateWaiterDto} from '../../../_shared/waiterrobot-backend';
+import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, UpdateWaiterDto} from '../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
@@ -31,7 +31,7 @@ import {CreateWaiterDto, GetWaiterResponse, UpdateWaiterDto} from '../../../_sha
           placeholder="{{ 'HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER' | tr }}"
           label="{{ 'HOME_WAITERS_EDIT_EVENTS' | tr }}"
           editable="false"
-          [models]="_waiter?.events"
+          [models]="_waiter?.events ?? _selectedEvent != undefined ? [_selectedEvent] : undefined"
           [allModelsToAutoComplete]="events"
           [formatter]="formatter"
           (valueChange)="eventsChange($event)"
@@ -100,14 +100,14 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
   _selectedOrganisationId = -1;
 
   @Input()
-  set selectedEventId(id: number | undefined) {
-    if (id) {
-      this.lumber.log('selectedEvent', 'set selected event', id);
-      this._selectedEventId = id;
-      //this.form.controls.eventIds.setValue([...this.form.controls.eventIds.getRawValue(), this._selectedEventId]);
+  set selectedEvent(it: GetEventOrLocationMinResponse | undefined) {
+    if (it) {
+      this.lumber.log('selectedEvent', 'set selected event', it);
+      this._selectedEvent = it;
+      this.form.controls.eventIds.setValue([...this.form.controls.eventIds.getRawValue(), it.id]);
     }
   }
-  _selectedEventId = -1;
+  _selectedEvent?: GetEventOrLocationMinResponse;
 
   @Input()
   events!: HasNumberIDAndName[];
