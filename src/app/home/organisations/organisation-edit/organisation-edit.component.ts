@@ -42,7 +42,7 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
             </div>
             <div>
               <!--suppress TypeScriptValidateTypes -->
-              <selectable-button class="my-2" [entity]="entity" [selectedEntityService]="organisationsService" />
+              <selectable-button class="my-2" [entity]="entity" [selectedEntityService]="organisationsService" placement="top" />
             </div>
           </ng-container>
         </btn-toolbar>

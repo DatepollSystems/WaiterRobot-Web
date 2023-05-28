@@ -9,7 +9,6 @@ import {DfxTr} from 'dfx-translate';
 import {filter, map, Observable, startWith, tap} from 'rxjs';
 
 import {AppIconsModule} from './icons.module';
-import {AppListLoadingItemComponent} from './loading/app-list-loading-item.component';
 
 @Component({
   template: `
@@ -40,25 +39,20 @@ import {AppListLoadingItemComponent} from './loading/app-list-loading-item.compo
       </div>
 
       <ng-template #loading>
-        <app-list-loading-item />
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          {{ 'LOADING' | tr }}
+
+          <div class="spinner-border spinner-border-sm">
+            <span class="visually-hidden">{{ 'LOADING' | tr }}</span>
+          </div>
+        </div>
       </ng-template>
     </div>
   `,
   standalone: true,
   selector: 'app-list-nav-items',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    RouterLinkActive,
-    NgIf,
-    NgForOf,
-    DfxTr,
-    DfxTrackById,
-    AppIconsModule,
-    AppListLoadingItemComponent,
-    AsyncPipe,
-    RouterLink,
-    ReactiveFormsModule,
-  ],
+  imports: [RouterLinkActive, NgIf, NgForOf, DfxTr, DfxTrackById, AppIconsModule, AsyncPipe, RouterLink, ReactiveFormsModule],
 })
 export class AppListNavItemsComponent implements AfterViewInit {
   router = inject(Router);

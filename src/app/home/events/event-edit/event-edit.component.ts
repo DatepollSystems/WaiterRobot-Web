@@ -43,7 +43,7 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
           </div>
           <div>
             <!--suppress TypeScriptValidateTypes -->
-            <selectable-button class="my-2" [entity]="entity" [selectedEntityService]="eventsService" />
+            <selectable-button class="my-2" [entity]="entity" [selectedEntityService]="eventsService" placement="top" />
           </div>
           <div>
             <app-btn-waiter-create-qrcode [token]="entity.waiterCreateToken" />

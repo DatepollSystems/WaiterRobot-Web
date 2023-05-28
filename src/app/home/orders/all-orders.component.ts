@@ -79,9 +79,10 @@ import {OrdersService} from './orders.service';
         </table>
       </div>
 
+      <app-spinner-row [show]="isLoading" />
+
       <ngb-paginator [collectionSize]="dataSource.data.length" [pageSizes]="[100, 250, 500, 1000, 2000]" [pageSize]="250" />
     </ng-container>
-    <app-spinner-row [show]="isLoading" />
   `,
   selector: 'app-all-orders',
   standalone: true,

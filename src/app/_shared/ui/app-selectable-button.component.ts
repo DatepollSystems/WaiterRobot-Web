@@ -2,6 +2,7 @@ import {NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {PlacementArray} from '@ng-bootstrap/ng-bootstrap/util/positioning';
 import {IHasID, UndefinedOr} from 'dfts-helper';
 import {HasGetSelected, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
@@ -30,7 +31,7 @@ import {AppIconsModule} from './icons.module';
           (click)="onSelect(undefined); $event.stopPropagation()"
           attr.aria-label="{{ 'CLEAR_SELECTION' | tr }}"
           ngbTooltip="{{ 'CLEAR_SELECTION' | tr }}"
-          placement="start"
+          [placement]="placement"
           container="body"
         >
           <i-bs name="x-circle-fill" />
@@ -45,6 +46,8 @@ import {AppIconsModule} from './icons.module';
 })
 export class AppSelectableButtonComponent {
   @Input() entity?: IHasID<string | number>;
+
+  @Input() placement: PlacementArray = 'right';
 
   @Input() set selectedEntityService(it: HasGetSelected<IHasID<string | number>>) {
     this._selectedEntityService = it;
