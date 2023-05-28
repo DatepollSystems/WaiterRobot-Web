@@ -17,25 +17,26 @@ UNDERLINE='\033[4m'
 RESET='\033[0m' # Reset color and formatting
 
 # Define variables
-SCRIPT_VERSION='2.0.0'
+APP_NAME='WaiterRobot-Web'
+SCRIPT_VERSION='3.0.0'
 VERSION=latest
 FORCE=false
+CLEAR_TEMP_DIR=true
 
 if ! [ "${FRONTEND_INSTALL_DIRECTORY:-}" ]; then
-  FRONTEND_INSTALL_DIRECTORY="$(pwd)/waiterrobot-web"
+  FRONTEND_INSTALL_DIRECTORY="$(pwd)/installed"
 fi
-INSTALL_TEMP_DIRECTORY="$(pwd)/waiterrobot-web-tmp"
+INSTALL_TEMP_DIRECTORY="$(pwd)/download-tmp"
 
 # Set up an exit handler so we can print a help message on failures.
 _success=false
-_clearTempDir=true
 
 printHelp() {
-  printf "${BOLD}${UNDERLINE}WaiterRobot-Web installation help${RESET} (${GREEN}v${SCRIPT_VERSION})${RESET}\n"
+  printf "${BOLD}${UNDERLINE}${APP_NAME} installation help (${GREEN}v${SCRIPT_VERSION}${RESET}${UNDERLINE})${RESET}\n"
   printf "Usage: ./frontend.sh -v [version] -f -s\n"
-  printf "  -v ['lava', 'rc']    (optional) select a specific version to install\n"
-  printf "  -f                  (optional) force install without asking questions\n"
-  printf "  -s                  (optional) skip deletion of temporary folder after run\n"
+  printf "  -v ['prod', 'lava', 'rc']  (optional) select a specific version to install\n"
+  printf "  -f                         (optional) force install without asking questions\n"
+  printf "  -s                         (optional) skip deletion of temporary folder after run\n"
   _success=true
   exit 0
 }
@@ -46,16 +47,15 @@ while getopts "v:fsh" opt; do
     printHelp
     ;;
   f)
-    printf "  ${BOLD}-f was triggered, force install without asking questions${RESET}\n"
     FORCE=true
     ;;
   s)
-    printf "  ${BOLD}-s was triggered, skip deletion of temporary folder after run${RESET}\n"
-    _clearTempDir=false
+    CLEAR_TEMP_DIR=false
     ;;
   v)
-    printf "  ${BOLD}-v was triggered, with parameter $OPTARG ${RESET}\n"
-    if [ "$OPTARG" = "rc" ]; then
+    if [ "$OPTARG" = "prod" ]; then
+      VERSION=latest
+    elif [ "$OPTARG" = "rc" ]; then
       VERSION=rc
     elif [ "$OPTARG" = "lava" ]; then
       VERSION=lava
@@ -72,19 +72,20 @@ while getopts "v:fsh" opt; do
   esac
 done
 
-# Print an error message and exit the program.
-errorAndExit() {
-  printf "\n${RED}ERROR:${RESET} %s\n" "$1"
-  exit 1
+printInfo() {
+  printf "Script version: ${BOLD}${GREEN}${SCRIPT_VERSION}${RESET}\n"
+  printf "${APP_NAME} version: ${BOLD}${VERSION}${RESET}\n"
+  printf "Parameters: (force ${BOLD}${FORCE}${RESET}) (clear tmp dir ${BOLD}${CLEAR_TEMP_DIR})${RESET}\n"
 }
 
+# Shutdown handling
 shutdown() {
-  if [ $_clearTempDir = true ]; then
+  if [ $CLEAR_TEMP_DIR = true ]; then
     rm -rf "$INSTALL_TEMP_DIRECTORY"
     printf "${GREEN}Successfully${RESET} deleted temp folder [${GREEN}✓${RESET}]\n"
   fi
   if [ $_success = false ]; then
-    printf "\nYour installation did not complete successfully.\n"
+    printf "\n${RED}${UNDERLINE}Your installation did not complete successfully.${RESET}\n"
     printf "Please report any issues encountered at https://github.com/DatepollSystems/WaiterRobot-Web/issues\n\n"
   else
     printf "${GREEN}Finished${RESET} the frontend update ${BOLD}flawlessly${RESET}.\n"
@@ -92,6 +93,13 @@ shutdown() {
   fi
 }
 trap shutdown INT TERM ABRT EXIT
+
+# Print an error message and exit the program.
+errorAndExit() {
+  printf "\n${RED}ERROR:${RESET} %s\n" "$1"
+  exit 1
+}
+
 
 # Activity spinner for background processes.
 spinner() {
@@ -132,7 +140,7 @@ checkSystemArchitecture() {
   case $(uname -s) in
   "Linux")
     case "$(uname -m)" in
-    "x86_64") printf "${GREEN}Successfully${RESET} found supported architecture [${GREEN}✓${RESET}]\n" ;;
+    "x86_64") printf "${GREEN}Successfully${RESET} checked for supported architecture [${GREEN}✓${RESET}]\n" ;;
     *) errorAndExit "Unsupported CPU architecture $(uname -m)" ;;
     esac
     ;;
@@ -143,25 +151,24 @@ checkSystemArchitecture() {
 # Confirm install with user input or -f argument
 confirmToContinue() {
   if [ $FORCE = false ]; then
-    printf "${BOLD}Are you sure you want to install / update WaiterRobot-Web? [y/N]${RESET} "
+    printf "${BOLD}Are you sure you want to continue installing / updating ${APP_NAME}? [y/N]${RESET} "
     read -r prompt
     # Convert to uppercase
     prompt=$(echo "$prompt" | tr '[:lower:]' '[:upper:]')
     if [ "$prompt" != "Y" ] && [ "$prompt" != "YES" ] && [ "$prompt" != "YE" ]; then
-      _clearTempDir=false
+      CLEAR_TEMP_DIR=false
       errorAndExit "User aborted. Next time type ['y', 'yes', 'ye'] to continue"
     fi
   fi
 }
 
 main() {
+  printInfo
+
   confirmToContinue
 
-  printf "Info: Script version: ${BOLD}${GREEN}${SCRIPT_VERSION}${RESET}\n"
-  printf "Info: Downloading version: ${BOLD}${VERSION}${RESET}\n"
-
-  # Check for sufficient permissions
   #checkSudoPermissions
+  #checkSystemArchitecture
 
   # Check if required tools are installed
   printf "${BLUE}Checking${RESET} for required tools..." &
@@ -173,9 +180,8 @@ main() {
   requireTool "rm"
   requireTool "zip"
   requireTool "unzip"
-  printf "${GREEN}Successfully${RESET} found all required tools [${GREEN}✓${RESET}]\n"
-
-  checkSystemArchitecture
+  requireTool "grep"
+  printf "${GREEN}Successfully${RESET} checked for required tools [${GREEN}✓${RESET}]\n"
 
   FRONTEND_DOWNLOAD_URL="https://releases.datepoll.org/WaiterRobot/Web-Releases/WaiterRobot-Web-${VERSION}.zip"
 
@@ -224,3 +230,5 @@ main() {
 }
 
 main
+
+

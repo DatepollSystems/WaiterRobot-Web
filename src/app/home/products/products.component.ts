@@ -23,16 +23,6 @@ import {ProductGroupsService} from './_services/product-groups.service';
             <i-bs name="diagram-3" />
             {{ 'HOME_PROD_GROUP' | tr }}</a
           >
-
-          <a class="list-group-item list-group-item-action" routerLink="/home/products/create" routerLinkActive="active">
-            <i-bs name="plus-circle" />
-            {{ 'HOME_PROD_ADD' | tr }}</a
-          >
-
-          <a class="list-group-item list-group-item-action" routerLink="/home/products/groups/create" routerLinkActive="active">
-            <i-bs name="plus-circle" />
-            {{ 'HOME_PROD_GROUPS_ADD' | tr }}</a
-          >
         </div>
 
         <app-list-nav-items path="/home/products/groups/products/" [entities]="productGroups$ | async" selectTr="HOME_PROD_GROUP_SELECT" />

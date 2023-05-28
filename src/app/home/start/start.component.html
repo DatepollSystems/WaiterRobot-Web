@@ -1,6 +1,6 @@
 <div class="row row-cols-1 row-cols-lg-2 justify-content-between gy-4">
-  <div class="col-12 col-xl-7">
-    <div class="card bg-dark p-2 mb-2">
+  <div class="col-12 col-xl-7 d-flex flex-column gap-2">
+    <div class="card bg-dark p-2">
       <div class="card-body">
         <h5 class="card-title">{{ 'HOME_START_SETUP' | tr }}</h5>
 
@@ -47,6 +47,13 @@
         <app-download-btn-list />
       </div>
     </div>
+    <ng-container *ngIf="errors$ | async">
+      <div class="card bg-dark p-2">
+        <div class="card-body">
+          <button class="btn btn-sm btn-warning" (click)="logout()">Logout</button>
+        </div>
+      </div>
+    </ng-container>
   </div>
 
   <div class="col-12 col-xl-4" *ngIf="(myUser$ | async)?.isAdmin">
@@ -79,34 +86,37 @@
     <div class="card bg-dark p-2">
       <div class="card-body">
         <h5>Backend</h5>
-        <ul class="list-unstyled">
+        <ul class="list-unstyled" *ngIf="serverInfo$ | async as serverInfo">
           <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-            Status: <span [class.text-success]="status === 'Online'" [class.text-danger]="status === 'Offline'">{{ status }}</span>
+            Status:
+            <span [class.text-success]="serverInfo.status === 'Online'" [class.text-danger]="serverInfo.status === 'Offline'"
+              >{{ serverInfo.status }}</span
+            >
           </li>
           <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
             Ping:
             <div class="d-flex">
-              <div *ngIf="lastPing">
-                {{ responseTime }}ms&nbsp;
-                <span placement="bottom" ngbTooltip="Last ping">({{ lastPing | date : 'HH:mm:ss' }})</span>
+              <div *ngIf="serverInfo.lastPing else noPing">
+                {{ serverInfo.responseTime }}ms&nbsp;
+                <span placement="bottom" ngbTooltip="Last ping">({{ serverInfo.lastPing | date : 'HH:mm:ss' }})</span>
               </div>
-              <div *ngIf="!lastPing">Unavailable</div>
+              <ng-template #noPing>Unavailable</ng-template>
               <div placement="bottom" ngbTooltip="Next refresh" aria-label="Next refresh in">&nbsp;&nbsp;/&nbsp;&nbsp;{{ refreshIn }}s</div>
             </div>
           </li>
-          <ng-container *ngIf="serverInfo$ | async as serverInfo">
+          <ng-container *ngIf='serverInfo.status === "Online"'>
             <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-              Time: <span>{{ serverInfo.serverTime | date : 'YYYY-MM-dd HH:mm:ss (zzz)' : 'UTC' }}</span>
+              Time: <span>{{ serverInfo?.serverTime | date : 'YYYY-MM-dd HH:mm:ss (zzz)' : 'UTC' }}</span>
             </li>
             <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-              Started: <span>{{ serverInfo.serverStartTime | date : 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
+              Started: <span>{{ serverInfo?.serverStartTime | date : 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
             </li>
             <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-              Uptime: <span>{{ localTime$ | async | d_timespan : serverInfo.serverStartTime }}</span>
+              Uptime: <span>{{ localTime$ | async | d_timespan : serverInfo?.serverStartTime }}</span>
             </li>
-            <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">Version: <span>{{ serverInfo.version }}</span></li>
+            <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">Version: <span>{{ serverInfo?.version }}</span></li>
             <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-              Info: <span class="ms-md-5" style="white-space: nowrap">"{{ serverInfo.info }}"</span>
+              Info: <span class="ms-md-5" style="white-space: nowrap">"{{ serverInfo?.info }}"</span>
             </li>
           </ng-container>
         </ul>

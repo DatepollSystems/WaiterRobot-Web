@@ -4,7 +4,7 @@
 current_version=$(grep -oP '(?<="version": ")[^"]*' package.json)
 
 # Add the current timestamp in Unix seconds to the version number
-new_version="$current_version.$(date +%s)"
+new_version="$current_version-lava-$(date +'%Y%m%d%H%M%S')"
 
 echo "Current version: $current_version";
 echo "New version: $new_version";

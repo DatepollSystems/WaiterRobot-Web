@@ -22,16 +22,6 @@ import {TableGroupsService} from './_services/table-groups.service';
             <i-bs name="diagram-3" />
             {{ 'HOME_TABLE_GROUPS' | tr }}</a
           >
-
-          <a class="list-group-item list-group-item-action" routerLink="/home/tables/create" routerLinkActive="active">
-            <i-bs name="plus-circle" />
-            {{ 'HOME_TABLES_ADD' | tr }}</a
-          >
-
-          <a class="list-group-item list-group-item-action" routerLink="/home/tables/groups/create" routerLinkActive="active">
-            <i-bs name="plus-circle" />
-            {{ 'HOME_TABLE_GROUPS_ADD' | tr }}</a
-          >
         </div>
         <app-list-nav-items path="/home/tables/groups/tables/" [entities]="tableGroups$ | async" selectTr="HOME_TABLES_GROUPS_SELECT" />
       </div>

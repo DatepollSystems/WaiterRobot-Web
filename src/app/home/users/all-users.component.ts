@@ -17,7 +17,7 @@ import {UsersService} from './users.service';
 
 @Component({
   template: `
-    <h1>{{ 'HOME_USERS_ALL' | tr }}</h1>
+    <h1>{{ 'NAV_USERS' | tr }}</h1>
 
     <btn-toolbar>
       <div>

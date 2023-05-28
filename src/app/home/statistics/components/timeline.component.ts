@@ -36,7 +36,12 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
             <ngb-timepicker [spinners]="false" [formControl]="timeFormControl" />
           </div>
           <div class="d-flex flex-wrap gap-2">
-            <div class="btn-group flex-wrap" role="group" aria-label="Basic example" *ngIf="selectedTimelinePrecision$ | async as selected">
+            <div
+              class="btn-group flex-wrap"
+              role="group"
+              aria-label="Timespan select"
+              *ngIf="selectedTimelinePrecision$ | async as selected"
+            >
               <button
                 type="button"
                 class="btn btn-sm btn-outline-primary"

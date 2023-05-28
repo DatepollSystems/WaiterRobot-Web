@@ -6,6 +6,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+import {MobileLinkService} from '../../_shared/services/mobile-link.service';
 import {QrCodeService} from '../../_shared/services/qr-code.service';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {BtnWaiterCreateQrCodeComponent} from '../../_shared/ui/btn-waiter-create-qr-code.component';
@@ -17,7 +18,6 @@ import {EventsService} from '../events/_services/events.service';
 
 import {WaitersService} from './_services/waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
-import {MobileLinkService} from '../../_shared/services/mobile-link.service';
 
 @Component({
   template: `
@@ -25,7 +25,7 @@ import {MobileLinkService} from '../../_shared/services/mobile-link.service';
       <h1>{{ entity?.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</h1>
 
       <btn-toolbar>
-        <a routerLink="../../create" class="btn btn-sm btn-outline-success">
+        <a routerLink="../../create" [queryParams]="{event: entity?.id}" class="btn btn-sm btn-outline-success">
           <i-bs name="plus-circle" />
           {{ 'ADD_2' | tr }}</a
         >

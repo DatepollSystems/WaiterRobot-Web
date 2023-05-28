@@ -97,11 +97,9 @@ a.btn > img {
 }
 
 .container-xxxl {
-  --bs-gutter-x: 1.5rem;
-  --bs-gutter-y: 0;
   width: 100%;
-  padding-right: calc(var(--bs-gutter-x) * 0.5);
-  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  padding-right: 0.7rem !important;
+  padding-left: 0.7rem !important;
   margin-right: auto;
   margin-left: auto;
 }

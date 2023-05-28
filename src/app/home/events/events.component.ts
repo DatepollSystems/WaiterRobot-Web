@@ -4,9 +4,7 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
 import {DfxTr} from 'dfx-translate';
 
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
-import {AppListNavItemsComponent} from '../../_shared/ui/app-list-nav-items.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {getEventsOrderedBySelected} from './_services/getEventsOrderedBySelected';
 
 @Component({
   template: `
@@ -18,15 +16,12 @@ import {getEventsOrderedBySelected} from './_services/getEventsOrderedBySelected
             {{ 'NAV_EVENTS' | tr }}
           </a>
         </div>
-        <app-list-nav-items path="/home/events/" [entities]="events$ | async" selectTr="HOME_EVENTS_SELECT" />
       </div>
     </entities-layout-component>
   `,
   selector: 'app-events',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [AsyncPipe, RouterLink, RouterLinkActive, DfxTr, AppIconsModule, AppEntitiesLayoutComponent, AppListNavItemsComponent],
+  imports: [AsyncPipe, RouterLink, RouterLinkActive, DfxTr, AppIconsModule, AppEntitiesLayoutComponent],
 })
-export class EventsComponent {
-  events$ = getEventsOrderedBySelected();
-}
+export class EventsComponent {}

@@ -3,7 +3,7 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {NgbModalRef, NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {n_from, n_isNumeric} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
-import {combineLatest, filter, map, startWith} from 'rxjs';
+import {combineLatest, filter, map, shareReplay, startWith, switchMap} from 'rxjs';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
@@ -57,7 +57,7 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
               (submitCreate)="submit('CREATE', $event)"
               [waiter]="entity"
               [selectedOrganisationId]="vm.selectedOrganisation?.id"
-              [selectedEventId]="vm.selectedEvent?.id"
+              [selectedEvent]="vm.selectedEvent"
               [events]="vm.events"
             />
           </ng-template>
@@ -110,6 +110,8 @@ export class WaiterEditComponent extends AbstractModelEditComponent<
   override redirectUrl = '/home/waiters/organisation';
   override onlyEditingTabs = ['SESSIONS' as const];
 
+  events = this.eventsService.getAll$().pipe(shareReplay(1));
+
   vm$ = combineLatest([
     this.route.queryParams.pipe(
       map((params) => params.group),
@@ -119,12 +121,19 @@ export class WaiterEditComponent extends AbstractModelEditComponent<
     ),
     this.organisationsService.getSelected$,
     this.eventsService.getSelected$,
-    this.eventsService.getAll$(),
+    this.route.queryParams.pipe(
+      map((params) => params.event),
+      filter(n_isNumeric),
+      map((id) => n_from(id)),
+      switchMap((id) => this.events.pipe(map((events) => events.find((event) => event.id === id)))),
+      startWith(undefined)
+    ),
+    this.events,
   ]).pipe(
-    map(([selectedWaiterId, selectedOrganisation, selectedEvent, events]) => ({
+    map(([selectedWaiterId, selectedOrganisation, selectedEvent, queryEvent, events]) => ({
       selectedWaiterId,
       selectedOrganisation,
-      selectedEvent,
+      selectedEvent: queryEvent ?? selectedEvent,
       events,
     }))
   );

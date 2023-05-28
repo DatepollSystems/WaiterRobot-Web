@@ -153,7 +153,8 @@ export class AllTablesComponent extends AbstractModelsWithNumberListWithDeleteCo
       ariaLabelledBy: 'app-tables-qr-codes-title',
       size: 'lg',
     });
-    modalRef.componentInstance.tables =
-      this._dataSource.data.sort((a, b) => a.groupName.localeCompare(b.groupName) || a.number - b.number) ?? [];
+    modalRef.componentInstance.tables = this.selection!.selected.sort(
+      (a, b) => a.groupName.localeCompare(b.groupName) || a.number - b.number
+    );
   }
 }
