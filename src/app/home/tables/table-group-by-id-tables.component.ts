@@ -153,7 +153,7 @@ export class TableGroupByIdTablesComponent extends AbstractModelsWithNumberListB
       ariaLabelledBy: 'app-tables-qr-codes-title',
       size: 'lg',
     });
-    modalRef.componentInstance.tables = this.selection?.selected.sort(
+    modalRef.componentInstance.tables = this.selection!.selected.sort(
       (a, b) => a.groupName.localeCompare(b.groupName) || a.number - b.number
     );
   }
