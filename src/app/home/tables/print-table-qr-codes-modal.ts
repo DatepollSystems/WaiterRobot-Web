@@ -56,8 +56,11 @@ import {GetTableResponse} from '../../_shared/waiterrobot-backend';
         <div class="d-flex flex-wrap justify-content-center">
           <div *ngFor="let mytable of tables; trackById" class="qr-code-item">
             <qrcode
+              [imageSrc]="qrCodeSize === 'MD' ? '/assets/mono.png' : undefined"
+              [imageWidth]="60"
+              [imageHeight]="60"
               [width]="getQrCodeSize()"
-              errorCorrectionLevel="Q"
+              [errorCorrectionLevel]="qrCodeSize === 'MD' ? 'H' : 'M'"
               [margin]="0"
               [qrdata]="parser(mytable)"
               cssClass="text-center"

@@ -8,6 +8,9 @@ import {AppDownloadBtnListComponent} from '../_shared/ui/app-download-btn-list.c
       {{ 'MOBILE_LINK' | tr }}
     </p>
     <app-download-btn-list [showQRCodeButton]="false" />
+    <div class="mt-3">
+      <a href="/home" class="btn btn-light btn-sm">{{ 'GO_BACK' | tr }}</a>
+    </div>
   `,
   standalone: true,
   selector: 'app-mobile-link-home',
