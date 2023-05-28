@@ -1,28 +1,11 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {RouterLink, RouterLinkActive} from '@angular/router';
-import {DfxTr} from 'dfx-translate';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
 
 @Component({
-  template: `
-    <entities-layout-component>
-      <div class="list-group" nav>
-        <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
-          <i-bs name="people-fill" />
-          {{ 'HOME_USERS_ALL' | tr }}</a
-        >
-
-        <a class="list-group-item list-group-item-action" routerLink="/home/users/create" routerLinkActive="active">
-          <i-bs name="plus-circle" />
-          {{ 'ADD_2' | tr }}</a
-        >
-      </div>
-    </entities-layout-component>
-  `,
+  template: ` <entities-layout-component showNav="false" /> `,
   selector: 'app-users',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AppEntitiesLayoutComponent, AppIconsModule, DfxTr, RouterLink, RouterLinkActive],
+  imports: [AppEntitiesLayoutComponent],
   standalone: true,
 })
 export class UsersComponent {}

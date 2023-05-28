@@ -118,7 +118,6 @@
   "NAV_USER_SETTINGS_ADMIN": "(admin mode)",
   "NAV_USER_SETTINGS_ADMIN_SWITCH": "(user mode)",
   "NAV_INSTANCE_ADMINISTRATION": "Administration",
-  "NAV_INSTANCE_SETTINGS": "Instanz Einstellungen",
   "NAV_USERS": "Benutzerverwaltung",
   "NAV_USER_SETTINGS": "Benutzereinstellungen",
   "NAV_USER_SESSIONS": "Sessions",
@@ -179,7 +178,6 @@
   "HOME_EVENTS_SELECT": "Event auswählen",
   "HOME_EVENTS_UPDATE_CREATE_WAITER_TOKEN": "Personal-Erstellungs QR-Code zurücksetzen",
 
-  "HOME_USERS_ALL": "Alle Benutzer",
   "HOME_USERS_BIRTHDAY": "Geburtstag",
   "HOME_USERS_BIRTHDAY_INCORRECT": "Geburtstag inkorrekt.",
   "HOME_USERS_ADMIN": "Admin",
