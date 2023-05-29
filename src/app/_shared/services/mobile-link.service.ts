@@ -15,8 +15,8 @@ export class MobileLinkService {
     return `${this.createWaiterAuthLink(token)}CREATE`;
   }
 
-  public createTableLink(tableId: string): string {
-    return `${this.createMobileLink()}t/${tableId}`;
+  public createTableLink(publicTableId: string): string {
+    return `${this.createMobileLink()}t/${publicTableId}`;
   }
 
   private createWaiterAuthLink(token: string): string {

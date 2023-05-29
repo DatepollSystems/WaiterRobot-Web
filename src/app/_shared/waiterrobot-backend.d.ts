@@ -449,11 +449,13 @@ export interface GetTableGroupResponse {
 
 export interface GetTableMinResponse {
   id: number;
+  publicId: string;
   number: number;
 }
 
 export interface GetTableResponse {
   id: number;
+  publicId: string;
   number: number;
   seats: number;
   groupId: number;

@@ -3,7 +3,7 @@ import {Component, Input} from '@angular/core';
 
 import {NgbActiveModal, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
 import {QRCodeModule} from 'angularx-qrcode';
-import {d_formatWithHoursMinutesAndSeconds, s_from} from 'dfts-helper';
+import {d_formatWithHoursMinutesAndSeconds} from 'dfts-helper';
 import {DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 import {toJpeg} from 'html-to-image';
@@ -121,7 +121,7 @@ export class PrintTableQrCodesModalComponent {
   constructor(public activeModal: NgbActiveModal, private mobileLink: MobileLinkService) {}
 
   parser = (table: GetTableResponse): string => {
-    return this.mobileLink.createTableLink(s_from(table.id));
+    return this.mobileLink.createTableLink(table.publicId);
   };
 
   async pdf(): Promise<void> {
