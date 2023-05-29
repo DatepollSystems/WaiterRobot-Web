@@ -95,9 +95,12 @@
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
             "browserTarget": "WaiterRobot-Web:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "proxyConfig": "src/proxy.json"
           },
           "configurations": {
+            "lava": {
+              "proxyConfig": "src/proxy.lava.json"
+            },
             "production": {
               "browserTarget": "WaiterRobot-Web:build:production"
             }
