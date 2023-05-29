@@ -16,10 +16,10 @@ import {
   loggingInterceptor,
   postPutJsonContentTypeInterceptor,
   provideDfxHelper,
-  provideWindow,
   withBaseUrlInterceptor,
   withLoggingInterceptor,
   withMobileBreakpoint,
+  withWindow,
 } from 'dfx-helper';
 import {provideDfxTranslate, withAutoTranslatedLanguages, withDefaultLanguage} from 'dfx-translate';
 import {EnvironmentHelper} from './app/_shared/EnvironmentHelper';
@@ -37,9 +37,9 @@ bootstrapApplication(AppComponent, {
     provideDfxHelper(
       withMobileBreakpoint(767),
       withBaseUrlInterceptor(EnvironmentHelper.getAPIUrl(), ['assets/i18n', 'assets/licenses.json']),
-      withLoggingInterceptor(['json', '/auth/signIn', '/auth/signInPwChange'])
+      withLoggingInterceptor(['json', '/auth/signIn', '/auth/signInPwChange']),
+      withWindow()
     ),
-    provideWindow(),
     provideDfxTranslate(withDefaultLanguage('de'), withAutoTranslatedLanguages(['en', 'es', 'fr', 'it', 'pt'])),
     provideAnimations(),
     DfxPreloadStrategy,
