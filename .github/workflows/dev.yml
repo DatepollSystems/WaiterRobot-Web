@@ -27,7 +27,6 @@ jobs:
 
       - name: build
         run: |
-          pnpm ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
           pnpm build:prod
 
   build-testing:
@@ -43,7 +42,6 @@ jobs:
 
       - name: build
         run: |
-          pnpm ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
           chmod +x ./tools/buildLava.sh
           ./tools/buildLava.sh
 
