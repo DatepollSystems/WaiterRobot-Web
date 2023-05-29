@@ -62,6 +62,12 @@ export class AppSelectDialogViewComponent {
       if (vm.selectedOrganisation && vm.selectedEvent) {
         void this.router.navigateByUrl('/home');
       }
+      if (vm.organisations.length === 1) {
+        this.selectOrganisation(vm.organisations[0]);
+      }
+      if (vm.events.length === 1) {
+        this.selectEvent(vm.events[0]);
+      }
     })
   );
 

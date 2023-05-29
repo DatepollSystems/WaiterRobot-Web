@@ -1,13 +1,13 @@
 import {AsyncPipe, DatePipe, NgIf, UpperCasePipe} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {i_complete} from 'dfts-helper';
 import {DfxTimeSpanPipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {catchError, combineLatest, filter, interval, map, of, share, shareReplay, startWith, switchMap, tap, timer} from 'rxjs';
+import {catchError, combineLatest, filter, interval, map, of, share, startWith, switchMap, tap, timer} from 'rxjs';
 
 import {EnvironmentHelper} from '../../_shared/EnvironmentHelper';
 import {AuthService} from '../../_shared/services/auth/auth.service';
@@ -90,7 +90,9 @@ export class StartComponent {
   );
 
   myUser$ = inject(MyUserService).getUser$();
-  selectedEvent$ = this.eventsService.getSelected$.pipe(shareReplay(1));
+  selectedEvent$ = this.eventsService.getSelected$;
+
+  cdr = inject(ChangeDetectorRef);
 
   vm$ = combineLatest([
     this.organisationsService.getAll$(),
@@ -98,7 +100,17 @@ export class StartComponent {
     this.eventsService.getAll$().pipe(startWith([])),
     this.selectedEvent$,
   ]).pipe(
-    map(([organisations, selectedOrganisation, events, selectedEvent]) => ({organisations, selectedOrganisation, events, selectedEvent}))
+    map(([organisations, selectedOrganisation, events, selectedEvent]) => ({organisations, selectedOrganisation, events, selectedEvent})),
+    tap((vm) => {
+      if (vm.organisations.length === 1 && !vm.selectedOrganisation) {
+        this.selectOrganisation(vm.organisations[0]);
+        vm.selectedOrganisation = vm.organisations[0];
+      }
+      if (vm.events.length === 1 && !vm.selectedEvent) {
+        this.selectEvent(vm.events[0]);
+        vm.selectedEvent = vm.events[0];
+      }
+    })
   );
 
   constructor(private eventsService: EventsService, private organisationsService: OrganisationsService, private authService: AuthService) {}
