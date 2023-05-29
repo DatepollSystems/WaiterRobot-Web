@@ -8,9 +8,10 @@ export function errorInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn)
 
   return next(req).pipe(
     catchError((error: {status: number}) => {
-      if (error?.status !== 401 && error?.status !== 503 && error?.status !== 504) {
-        notificationService.terror('REQUEST_ERROR');
+      if (error?.status === 401 && error?.status === 502 && error?.status === 503 && error?.status === 504) {
+        return throwError(() => error);
       }
+      notificationService.terror('REQUEST_ERROR');
       return throwError(() => error);
     })
   );
