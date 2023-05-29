@@ -4,6 +4,7 @@ import {AbstractModelsListWithDeleteComponent} from './abstract-models-list-with
 
 @Component({
   template: '',
+  selector: 'abstract-models-with-name-list-with-delete',
 })
 export abstract class AbstractModelsWithNameListWithDeleteComponent<
   EntityType extends HasIDAndName<EntityType['id']>
