@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, inject, OnInit, Output
 import {AbstractControl, FormBuilder, FormControlStatus, FormGroup, ɵFormGroupValue} from '@angular/forms';
 import {IHasID, loggerOf} from 'dfts-helper';
 import {AComponent} from 'dfx-helper';
-import {map, Observable} from 'rxjs';
+import {Observable, tap} from 'rxjs';
 
 @Component({
   template: '',
@@ -43,12 +43,11 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
     this.formValid.emit(firstValid);
     this.lumber.log('formValidChange', 'valid', firstValid);
     this.formStatusChanges = this.form.statusChanges.pipe(
-      map((formStatus) => {
+      tap((formStatus) => {
         const valid = formStatus === 'VALID' ? 'VALID' : 'INVALID';
         this.lumber.log('formValidChange', 'valid', valid);
         this.lumber.log('formValidChange', 'error', this.form.value);
         this.formValid.emit(valid);
-        return formStatus;
       })
     );
   }

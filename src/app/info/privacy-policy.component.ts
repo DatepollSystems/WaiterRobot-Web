@@ -39,7 +39,7 @@ import {DfxTr} from 'dfx-translate';
       - Geburtsdatum <br />
       - Passwort (gehasht) <br />
       Passwörter sind weder für einen Administrator, Entwickler oder im Fall eines Hacks für den Angreifer jemals in Klartext sichtbar! Wir
-      empfehlen trotzdem den Gebrauch eines eigenen Passwort für WaiterRobot.
+      empfehlen trotzdem den Gebrauch eines eigenen Passwort für kellner.team.
     </p>
 
     <h4>Cookies</h4>

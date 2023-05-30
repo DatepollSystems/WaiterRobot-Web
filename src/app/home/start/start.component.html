@@ -47,7 +47,7 @@
         <app-download-btn-list />
       </div>
     </div>
-    <ng-container *ngIf="errors$ | async">
+    <ng-container *ngIf="((errors$ | async) && !isProduction)">
       <div class="card bg-dark p-2">
         <div class="card-body">
           <button class="btn btn-sm btn-warning" (click)="logout()">Logout</button>

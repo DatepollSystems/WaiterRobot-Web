@@ -5,6 +5,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {IHasID, loggerOf, n_from, n_isNumeric, s_from, s_is} from 'dfts-helper';
 import {HasDelete, HasGetSingle} from 'dfx-helper';
 import {BehaviorSubject, combineLatest, map, Observable, of, switchMap, tap} from 'rxjs';
+import {NotificationService} from '../../../notifications/notification.service';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../services/services.interface';
 import {QuestionDialogComponent} from '../question-dialog/question-dialog.component';
 import {AbstractModelEditFormComponent} from './abstract-model-edit-form.component';
@@ -24,6 +25,7 @@ export abstract class AbstractModelEditComponent<
   protected route = inject(ActivatedRoute);
   protected modal = inject(NgbModal);
   protected cdr = inject(ChangeDetectorRef);
+  protected notificationService = inject(NotificationService);
 
   @ViewChild('form') form?: AbstractModelEditFormComponent<CreateDTOType, UpdateDTOType>;
 
@@ -99,7 +101,9 @@ export abstract class AbstractModelEditComponent<
           }
         })
       )
-      .subscribe();
+      .subscribe(() => {
+        this.notificationService.tsuccess('SAVED');
+      });
     if (!this.continuesCreation) {
       this.goToRedirectUrl();
     }
