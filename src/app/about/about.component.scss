@@ -3,12 +3,3 @@
   background-color: var(--primary-9);
   padding-top: 6%;
 }
-
-//noinspection CssInvalidPropertyValue
-.rainbow-text {
-  background: linear-gradient(to right, red, orange, yellow, green, cyan, blue, violet);
-  color: transparent;
-  background-clip: text;
-  /* Fuck you chrome! https://caniuse.com/?search=background-clip%3A%20webkit */
-  -webkit-background-clip: text;
-}

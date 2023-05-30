@@ -23,8 +23,8 @@ import {EnvironmentHelper} from '../../EnvironmentHelper';
             <a ngbNavLink>{{ 'ABOUT_MODAL_GENERAL' | tr }}</a>
             <ng-template ngbNavContent>
               <p>
-                Mit WaiterRobot hast du die Möglichkeit, deine Bestellungsaufnahme digital zu erledigen. <br /><br />
-                Egal ob sich um ein einmaliges Event oder dauerhafte Bewirtung handelt, WaiterRobot beschleunigt deinen Prozess im
+                Mit kellner.team hast du die Möglichkeit, deine Bestellungsaufnahme digital zu erledigen. <br /><br />
+                Egal ob sich um ein einmaliges Event oder dauerhafte Bewirtung handelt, kellner.team beschleunigt deinen Prozess im
                 Servicebereich.
               </p>
 
