@@ -46,7 +46,7 @@ import {QuestionDialogComponent} from '../question-dialog/question-dialog.compon
             <div class="d-flex flex-column flex-md-row justify-content-between">
               <div class="d-flex align-items-center gap-1">
                 <div>Made with</div>
-                <div style="font-size: 16px" (click)="heart()">❤️</div>
+                <div style="font-size: 16px; color: red" (click)="heart()">♥</div>
                 <div>
                   by
                   <a class="text-white" href="https://datepollsystems.org" rel="noopener" target="_blank">DatePoll-Systems</a>

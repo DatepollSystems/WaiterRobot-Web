@@ -32,7 +32,7 @@ $custom-colors: (
 
 $theme-colors: map-merge($theme-colors, $custom-colors);
 
-$text-color: #fff;
+$text-color: #fbfbf9;
 
 $card-bg: $primary-7;
 
@@ -89,7 +89,7 @@ $popover-body-color: $text-color;
 }
 
 .ngb-tp-input {
-  color: #fff !important;
+  color: $text-color !important;
   background-color: $primary-8 !important;
 }
 
@@ -138,3 +138,7 @@ $popover-body-color: $text-color;
 @import '../../../node_modules/bootstrap/scss/spinners';
 @import '../../../node_modules/bootstrap/scss/offcanvas';
 @import '../../../node_modules/bootstrap/scss/placeholders';
+
+.text-white {
+  color: $text-color !important;
+}
