@@ -32,7 +32,7 @@
               "node_modules/dfx-helper/styles/colors.scss",
               "node_modules/dfx-helper/styles/transform.scss"
             ],
-            "allowedCommonJsDependencies": ["qrcode", "clone-deep"],
+            "allowedCommonJsDependencies": ["rfdc", "clone-deep"],
             "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,

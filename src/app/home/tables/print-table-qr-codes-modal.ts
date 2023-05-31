@@ -2,9 +2,9 @@ import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {Component, Input} from '@angular/core';
 
 import {NgbActiveModal, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
-import {QRCodeModule} from 'angularx-qrcode';
 import {d_formatWithHoursMinutesAndSeconds, s_from} from 'dfts-helper';
 import {DfxTrackByModule} from 'dfx-helper';
+import {QRCodeComponent} from 'dfx-qrcode';
 import {DfxTranslateModule} from 'dfx-translate';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
@@ -59,13 +59,13 @@ import {GetTableResponse} from '../../_shared/waiterrobot-backend';
               [imageSrc]="qrCodeSize === 'MD' ? '/assets/mono.png' : undefined"
               [imageWidth]="60"
               [imageHeight]="60"
-              [width]="getQrCodeSize()"
+              [size]="8"
               [errorCorrectionLevel]="qrCodeSize === 'MD' ? 'H' : 'M'"
               [margin]="0"
-              [qrdata]="parser(mytable)"
+              [data]="parser(mytable)"
               cssClass="text-center"
               elementType="canvas"
-            ></qrcode>
+            />
 
             <div class="text-center text-black qr-code-label">
               <b>{{ mytable.groupName }} - {{ mytable.number }}</b>
@@ -88,7 +88,7 @@ import {GetTableResponse} from '../../_shared/waiterrobot-backend';
         border-style: dashed;
         border-color: #ccc;
         border-width: 1px;
-        padding: 15px 31px 15px 31px;
+        padding: 25px 31px 15px 31px;
       }
 
       .qr-code-label {
@@ -104,7 +104,7 @@ import {GetTableResponse} from '../../_shared/waiterrobot-backend';
     NgbProgressbarModule,
     DfxTranslateModule,
     DfxTrackByModule,
-    QRCodeModule,
+    QRCodeComponent,
     AppBtnToolbarComponent,
     AppIconsModule,
     NgbDropdownModule,

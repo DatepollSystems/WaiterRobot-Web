@@ -2,13 +2,12 @@ import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, Inject} from '@angular/core';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {QRCodeModule} from 'angularx-qrcode';
 import {d_format} from 'dfts-helper';
 import {DfxCutPipe, IsMobileService, WINDOW} from 'dfx-helper';
+import {QRCodeComponent} from 'dfx-qrcode';
 import {DfxTr, dfxTranslate} from 'dfx-translate';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
-import {tap} from 'rxjs';
 import {qrCodeData, QrCodeService} from '../../services/qr-code.service';
 
 import {AppBtnToolbarComponent} from '../app-btn-toolbar.component';
@@ -20,11 +19,11 @@ import {AppIconsModule} from '../icons.module';
     <div *ngIf="qrCodeData" class="my-container d-flex flex-row flex-wrap gap-5 align-items-center justify-content-center h-100">
       <div id="qrcode" class="qrcode-rounded">
         <qrcode
-          [width]="(isMobile$ | async) === true ? 300 : 600"
+          [size]="(isMobile$ | async) === true ? 12 : 24"
           errorCorrectionLevel="M"
           [margin]="0"
           colorLight="#f6f6f6"
-          [qrdata]="qrCodeData.data"
+          [data]="qrCodeData.data"
         ></qrcode>
       </div>
       <div class="card">
@@ -85,11 +84,11 @@ import {AppIconsModule} from '../icons.module';
   selector: 'app-qr-code',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, QRCodeModule, NgbTooltipModule, AppIconsModule, AppBtnToolbarComponent, CopyDirective, DfxCutPipe, DfxTr],
+  imports: [NgIf, AsyncPipe, QRCodeComponent, NgbTooltipModule, AppIconsModule, AppBtnToolbarComponent, CopyDirective, DfxCutPipe, DfxTr],
 })
 export class AppQrCodeViewComponent {
   qrCodeData?: qrCodeData;
-  isMobile$ = inject(IsMobileService).isMobile$.pipe(tap((mobile) => console.log('is mobile', mobile)));
+  isMobile$ = inject(IsMobileService).isMobile$;
 
   translate = dfxTranslate();
 
