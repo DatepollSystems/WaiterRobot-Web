@@ -409,12 +409,6 @@ export interface StatisticsSumResponse {
 }
 
 export interface StatisticsTimelineResponse {
-  name: string;
-  id: number;
-  series: {name: string; value: number}[];
-}
-
-export interface StatisticsTimelineResponse {
   highestValue: number;
   data: StatisticsTimelineDataResponse[];
 }
@@ -422,7 +416,7 @@ export interface StatisticsTimelineResponse {
 export interface StatisticsTimelineDataResponse {
   name: string;
   id: number;
-  series: StatisticsTimelineDataEntryResponse;
+  series: StatisticsTimelineDataEntryResponse[];
 }
 
 export interface StatisticsTimelineDataEntryResponse {

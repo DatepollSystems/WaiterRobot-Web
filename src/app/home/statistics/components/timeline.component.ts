@@ -1,3 +1,4 @@
+import {formatDate} from '@angular/common';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {FormControl} from '@angular/forms';
@@ -196,13 +197,24 @@ export class TimelineComponent {
       date.setHours(time.hour);
       date.setMinutes(time.minute);
       let params = new HttpParams().set('eventId', event.id);
-      params = params.append('startDate', d_formatWithHoursMinutesAndSeconds(date).replace(' ', 'T'));
+      params = params.append(
+        'startDate',
+        d_formatWithHoursMinutesAndSeconds(date.toLocaleString('en-US', {timeZone: 'UTC'})).replace(' ', 'T')
+      );
       params = params.append('precision', precision);
       params = params.append('type', type);
       return this.httpClient.get<StatisticsTimelineResponse>('/config/statistics/timeline', {params});
     }),
     map((it) => {
       it.highestValue += 5;
+      it.data = it.data.map((iit) => {
+        iit.series = iit.series.map((iiit) => {
+          iiit.name = formatDate(iiit.name, 'YYYY-MM-ddTHH:mm:ss', 'de-AT');
+          return iiit;
+        });
+        return iit;
+      });
+      console.log(it);
       return it;
     })
   );

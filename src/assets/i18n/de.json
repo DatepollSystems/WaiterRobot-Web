@@ -202,7 +202,7 @@
   "HOME_PROD_GROUP_NAME_INCORRECT": "Der Name muss aus mindestens 1 und maximal 60 Zeichen bestehen",
   "HOME_PROD_NAME_INCORRECT": "Der Name muss aus mindestens 1 und maximal 70 Zeichen bestehen",
   "HOME_PROD_PRICE": "Preis",
-  "HOME_PROD_PRICE_INCORRECT": "Der Preis muss über 0.00 liegen",
+  "HOME_PROD_PRICE_INCORRECT": "Der Preis muss mindestens bei 0 liegen",
   "HOME_PROD_AVAILABLE": "Verfügbar",
   "HOME_PROD_SOLD_OUT": "Ausverkauft",
   "HOME_PROD_ALLERGENS": "Allergene",
