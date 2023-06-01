@@ -19,7 +19,7 @@ import {AppIconsModule} from '../icons.module';
     <div *ngIf="qrCodeData" class="my-container d-flex flex-row flex-wrap gap-5 align-items-center justify-content-center h-100">
       <div id="qrcode" class="qrcode-rounded">
         <qrcode
-          [size]="(isMobile$ | async) === true ? 12 : 24"
+          [size]="(isMobile$ | async) === true ? 8 : 16"
           errorCorrectionLevel="M"
           [margin]="0"
           colorLight="#f6f6f6"
