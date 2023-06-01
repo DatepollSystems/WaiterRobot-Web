@@ -11,7 +11,7 @@ import {AuthService} from '../_shared/services/auth/auth.service';
 import {AppDownloadBtnListComponent} from '../_shared/ui/app-download-btn-list.component';
 import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
-import {JWTResponse} from '../_shared/waiterrobot-backend';
+import {JwtResponse} from '../_shared/waiterrobot-backend';
 import {NotificationService} from '../notifications/notification.service';
 import {AppAccountNotActivatedDialog} from './account-not-activated-dialog.component';
 import {AppForgotPasswordDialog} from './forgot-password-dialog.component';
@@ -22,7 +22,7 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
     <div class="d-container text-white">
       <div class="container-md d-flex flex-column gap-4">
         <app-logo-with-text />
-        <div class="d-flex flex-column flex-lg-row gap-5 justify-content-around">
+        <div class="d-flex flex-column flex-lg-row gap-5 justify-content-around mb-4">
           <div class="col d-flex flex-column gap-3 ">
             <div class="card bg-dark pt-2">
               <div class="card-body">
@@ -134,7 +134,7 @@ export class AboutComponent {
     this.modal.open(AppForgotPasswordDialog);
   }
 
-  onSuccessfulSignIn = (response: JWTResponse): void => {
+  onSuccessfulSignIn = (response: JwtResponse): void => {
     this.authService.setJWTToken(response.accessToken);
     this.authService.setSessionToken(response.refreshToken);
     this.notificationService.tsuccess('ABOUT_SIGNIN_SUCCESSFUL');

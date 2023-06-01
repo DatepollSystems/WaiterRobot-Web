@@ -64,11 +64,10 @@ export class OrganisationUserAddModalComponent extends AComponent {
   addOrgUser(): void {
     for (const email of this.emailAddresses) {
       this.organisationsUsersService.create$(this.entity.id, email, {role: 'ADMIN'}).subscribe({
-        error: (error) => {
+        error: () => {
           this.translate$('HOME_ORGS_USERS_USER_NOT_FOUND').subscribe((translation) =>
             this.notificationService.warning(email + translation)
           );
-          console.log(error);
         },
       });
     }

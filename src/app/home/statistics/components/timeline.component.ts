@@ -214,7 +214,6 @@ export class TimelineComponent {
         });
         return iit;
       });
-      console.log(it);
       return it;
     })
   );

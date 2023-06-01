@@ -189,7 +189,6 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
   openModal(content: TemplateRef<any>): void {
     void this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result?.then((result) => {
       if (result) {
-        console.log(result);
         this._itemsCopy.push({text: result as string, routerLink: this.router.url, show: true, bookmark: true});
       }
     });
