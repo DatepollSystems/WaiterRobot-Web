@@ -1,129 +1,280 @@
-/* tslint:disable */
 /* eslint-disable */
+/* tslint:disable */
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
 
-// Generated using typescript-generator version 3.0.1157 on 2022-10-19 17:10:06.
-
-export interface ErrorResponse {
-  message: string;
-  code: number;
-  codeName: string;
-}
-
-export interface IdAndNameResponse {
-  id: number;
-  name: string;
-}
-
-export interface IdResponse {
-  id: number;
-}
-
-export interface PaginatedResponseDto<T> {
-  numberOfItems: number;
-  numberOfPages: number;
-  list: T[];
-}
-
-export interface JsonInfoResponse {
-  info: string;
-  version: string;
-  serverTime: DateAsString;
-  serverStartTime: DateAsString;
-}
-
-export interface AllergenDto {
-  id: number;
-  name: string;
-  shortName: string;
-}
-
-export interface CreateAllergenDto {
-  name: string;
-  shortName: string;
-  global?: boolean;
-}
-
-export interface GetAllergenResponse {
-  id: number;
-  name: string;
-  shortName: string;
-}
-
-export interface UpdateAllergenDto {
-  id: number;
-  name: string;
-  shortName: string;
-  global?: boolean;
-}
-
-export interface ISignInDto {
-  authIdentifier: string;
-  sessionInformation: string;
-  stayLoggedIn: boolean;
-}
-
-export interface ISignInWithPasswordChangeDto extends ISignInWithPasswordDto {
+export interface UpdatePasswordDto {
+  /**
+   * @minLength 6
+   * @maxLength 2147483647
+   */
   newPassword: string;
   oldPassword: string;
 }
 
-export interface ISignInWithPasswordDto extends ISignInDto {
-  password: string;
+export interface UpdateEmailDto {
+  /**
+   * @minLength 6
+   * @maxLength 255
+   */
+  emailAddress: string;
 }
 
-export interface JWTResponse {
-  accessToken: string;
-  refreshToken: string;
-}
-
-export interface LogoutDto {
-  sessionToken: string;
-}
-
-export interface RefreshJWTWithSessionTokenDto {
-  refreshToken: string;
-  sessionInformation: string;
-}
-
-export interface SessionResponse {
+export interface UpdateWaiterDto {
+  /** @format int64 */
   id: number;
-  description: string;
-  entityId: number;
-  createdAt: DateAsString;
-  updatedAt: DateAsString;
-}
-
-export interface SignInWithPasswordChangeDto extends ISignInWithPasswordChangeDto {
-  email: string;
-}
-
-export interface UserSignInDto extends ISignInWithPasswordDto {
-  email: string;
-}
-
-export interface WaiterSignInCreateDto {
-  waiterCreateToken: string;
+  activated: boolean;
+  /**
+   * @minLength 3
+   * @maxLength 70
+   */
   name: string;
-  sessionInformation: string;
+  eventIds: number[];
+  updateToken?: boolean;
 }
 
-export interface WaiterSignInDto extends ISignInDto {
-  token: string;
-}
-
-export interface BillProductResponse {
+export interface IdResponse {
+  /** @format int64 */
   id: number;
+}
+
+export interface MergeWaiterDto {
+  /** @format int64 */
+  waiterId: number;
+  waiterIds: number[];
+}
+
+export interface UpdateUserDto {
+  /** @format int64 */
+  id: number;
+  /**
+   * @minLength 2
+   * @maxLength 35
+   */
+  firstname: string;
+  /**
+   * @minLength 2
+   * @maxLength 35
+   */
+  surname: string;
+  /** @format date-time */
+  birthday: string;
+  /**
+   * @minLength 6
+   * @maxLength 255
+   */
+  emailAddress: string;
+  role: 'ADMIN' | 'USER';
+  activated: boolean;
+  forcePasswordChange: boolean;
+  /**
+   * @minLength 6
+   * @maxLength 2147483647
+   */
+  password?: string;
+}
+
+export interface UpdateTableDto {
+  /** @format int64 */
+  id: number;
+  /** @format int32 */
+  number: number;
+  /** @format int32 */
+  seats: number;
+  /** @format int64 */
+  groupId: number;
+}
+
+export interface UpdateTableGroupDto {
+  /** @format int64 */
+  id: number;
+  /**
+   * @minLength 1
+   * @maxLength 60
+   */
   name: string;
-  pricePerPiece: number;
+}
+
+export interface UpdateProductDto {
+  /** @format int64 */
+  id: number;
+  /**
+   * @minLength 1
+   * @maxLength 70
+   */
+  name: string;
+  allergenIds: number[];
+  /**
+   * @format int32
+   * @min 0
+   */
   price: number;
+  /** @format int64 */
+  groupId: number;
+  /** @format int64 */
+  printerId: number;
+  soldOut: boolean;
+}
+
+export interface UpdateProductGroupDto {
+  /** @format int64 */
+  id: number;
+  /**
+   * @minLength 1
+   * @maxLength 60
+   */
+  name: string;
+  /** @format int64 */
+  printerId?: number;
+}
+
+export interface UpdatePrinterDto {
+  /** @format int64 */
+  id: number;
+  /**
+   * @minLength 1
+   * @maxLength 120
+   */
+  name: string;
+  /**
+   * @minLength 1
+   * @maxLength 70
+   */
+  printerName: string;
+  /** @format int64 */
+  eventId: number;
+}
+
+export interface UpdateOrganisationDto {
+  /** @format int64 */
+  id: number;
+  /**
+   * @minLength 4
+   * @maxLength 40
+   */
+  name: string;
+  /**
+   * @minLength 4
+   * @maxLength 80
+   */
+  street: string;
+  /**
+   * @minLength 1
+   * @maxLength 20
+   */
+  streetNumber: string;
+  /**
+   * @minLength 2
+   * @maxLength 16
+   */
+  postalCode: string;
+  /**
+   * @minLength 4
+   * @maxLength 60
+   */
+  city: string;
+  /**
+   * @minLength 2
+   * @maxLength 4
+   */
+  countryCode: string;
+}
+
+export interface OrganisationUserDto {
+  role: 'ADMIN' | 'MEMBER';
+}
+
+export interface OrganisationSettingBooleanSetDto {
+  value: boolean;
+}
+
+export interface UpdateEventOrLocationDto {
+  /** @format int64 */
+  id: number;
+  /**
+   * @minLength 4
+   * @maxLength 40
+   */
+  name: string;
+  /**
+   * @minLength 4
+   * @maxLength 80
+   */
+  street: string;
+  /**
+   * @minLength 1
+   * @maxLength 20
+   */
+  streetNumber: string;
+  /**
+   * @minLength 2
+   * @maxLength 16
+   */
+  postalCode: string;
+  /**
+   * @minLength 4
+   * @maxLength 60
+   */
+  city: string;
+  /** @format date-time */
+  date?: string;
+  updateWaiterCreateToken?: boolean;
+}
+
+export interface UpdateAllergenDto {
+  /**
+   * @format int64
+   * @min 0
+   */
+  id: number;
+  name: string;
+  /**
+   * @minLength 1
+   * @maxLength 3
+   */
+  shortName: string;
+  global?: boolean;
+}
+
+export interface CreateOrderDto {
+  /**
+   * @format int64
+   * @min 1
+   */
+  tableId: number;
+  products: CreateOrderProductDto[];
+}
+
+export interface CreateOrderProductDto {
+  /**
+   * @format int64
+   * @min 1
+   */
+  id: number;
+  /**
+   * @minLength 0
+   * @maxLength 120
+   */
+  note?: string;
+  /**
+   * @format int32
+   * @min 1
+   */
   amount: number;
 }
 
-export interface GetBillForTableResponse {
-  tableId: number;
-  tableNumber: number;
-  priceSum: number;
-  products: BillProductResponse[];
+export interface WaiterFcmTokenDto {
+  /**
+   * @minLength 60
+   * @maxLength 180
+   */
+  fcmToken: string;
 }
 
 export interface PayBillDto {
@@ -131,400 +282,425 @@ export interface PayBillDto {
 }
 
 export interface PayBillProductDto {
+  /** @format int64 */
   id: number;
+  /** @format int32 */
+  amount: number;
+}
+
+export interface BillProductResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+  /** @format int32 */
+  pricePerPiece: number;
+  /** @format int32 */
+  price: number;
+  /** @format int32 */
   amount: number;
 }
 
 export interface PayBillResponse {
+  /** @format int64 */
   billId: number;
+  /** @format int64 */
   tableId: number;
+  /** @format int32 */
   tableNumber: number;
+  /** @format int32 */
   priceSum: number;
   products: BillProductResponse[];
 }
 
-export interface CreateEventOrLocationDto {
-  name: string;
-  street: string;
-  streetNumber: string;
-  postalCode: string;
-  city: string;
-  date?: DateAsString;
-  organisationId: number;
+export interface RefreshJwtWithSessionTokenDto {
+  refreshToken: string;
+  /**
+   * @minLength 6
+   * @maxLength 60
+   */
+  sessionInformation: string;
 }
 
-export interface GetEventOrLocationMinResponse {
-  id: number;
-  name: string;
+export interface JwtResponse {
+  accessToken?: string;
+  refreshToken?: string;
 }
 
-export interface GetEventOrLocationResponse {
-  id: number;
-  name: string;
-  date?: DateAsString;
-  street: string;
-  streetNumber: string;
-  postalCode: string;
-  city: string;
+export interface LogoutDto {
+  refreshToken: string;
+}
+
+export interface WaiterLoginDto {
+  token: string;
+  /**
+   * @minLength 6
+   * @maxLength 60
+   */
+  sessionInformation?: string;
+  stayLoggedIn: boolean;
+}
+
+export interface WaiterLoginCreateDto {
   waiterCreateToken: string;
+  /**
+   * @minLength 3
+   * @maxLength 70
+   */
+  name: string;
+  /**
+   * @minLength 6
+   * @maxLength 60
+   */
+  sessionInformation: string;
+}
+
+export interface CreateWaiterDto {
+  /**
+   * @minLength 3
+   * @maxLength 70
+   */
+  name: string;
+  activated: boolean;
+  eventIds: number[];
+  /** @format int64 */
   organisationId: number;
 }
 
-export interface UpdateEventOrLocationDto {
-  id: number;
-  name: string;
-  street: string;
-  streetNumber: string;
-  postalCode: string;
-  city: string;
-  date?: DateAsString;
-  updateWaiterCreateToken?: boolean;
-}
-
-export interface FcmMessageDto {
-  fcmToken: string;
-  data: {[index: string]: string};
-}
-
-export interface GetMediatorResponse {
-  id: string;
-  name?: string;
-  organisationId: number;
-  active: boolean;
-  lastContact?: DateAsString;
-  printers: GetPrinterMinResponse[];
-}
-
-export interface CreateOrderDto {
-  tableId: number;
-  products: CreateOrderProductDto[];
-}
-
-export interface CreateOrderProductDto {
-  id: number;
-  note?: string;
-  amount: number;
-}
-
-export interface GetOrderResponse {
-  id: number;
-  orderId: number;
-  table: GetTableMinResponse;
-  product: GetProductMinResponse;
-  waiter: GetWaiterMinResponse;
-  note?: string;
-  amount: number;
-  printState: PrintState;
-}
-
-export interface OrderDto {
-  tableNumber: number;
-  waiterId: number;
-  orderId: number;
-  orderProducts: OrderProductDto[];
-}
-
-export interface OrderProductDto extends Mergeable<OrderProductDto> {
-  id: number;
-  name: string;
-  note?: string;
-  amount: number;
-  printerId: number;
-}
-
-export interface ProductWithNameDto {
-  id: number;
-  name: string;
-  amount: number;
-}
-
-export interface CreateOrganisationDto {
-  name: string;
-  street: string;
-  streetNumber: string;
-  postalCode: string;
-  city: string;
-  countryCode: string;
-}
-
-export interface GetOrganisationResponse {
-  id: number;
-  name: string;
-  street: string;
-  streetNumber: string;
-  postalCode: string;
-  city: string;
-  countryCode: string;
-}
-
-export interface OrganisationSettingBooleanSetDto {
-  value: boolean;
-}
-
-export interface OrganisationSettingResponse {
-  activateWaiterOnLoginViaCreateToken: boolean;
-}
-
-export interface OrganisationUserDto {
-  role: UserOrganisationRole;
-}
-
-export interface OrganisationUserResponse {
-  emailAddress: string;
+export interface CreateUserDto {
+  /**
+   * @minLength 2
+   * @maxLength 35
+   */
   firstname: string;
+  /**
+   * @minLength 2
+   * @maxLength 35
+   */
   surname: string;
-  role: UserOrganisationRole;
-  organisationId: number;
+  /** @format date-time */
+  birthday: string;
+  /**
+   * @minLength 6
+   * @maxLength 255
+   */
+  emailAddress: string;
+  /**
+   * @minLength 6
+   * @maxLength 2147483647
+   */
+  password: string;
+  activated: boolean;
+  role: 'ADMIN' | 'USER';
 }
 
-export interface UpdateOrganisationDto {
-  id: number;
+export interface CreateTableDto {
+  /** @format int32 */
+  number: number;
+  /** @format int32 */
+  seats: number;
+  /** @format int64 */
+  groupId: number;
+}
+
+export interface CreateTableGroupDto {
+  /**
+   * @minLength 1
+   * @maxLength 60
+   */
   name: string;
-  street: string;
-  streetNumber: string;
-  postalCode: string;
-  city: string;
-  countryCode: string;
-}
-
-export interface PrintOrderDto {
-  tableNumber: number;
-  waiter: GetWaiterMinResponse;
-  products: OrderProductDto[];
-}
-
-export interface CreatePrinterDto {
-  name: string;
-  printerName: string;
-  eventId: number;
-}
-
-export interface GetPrinterMinResponse {
-  id: number;
-  name: string;
-}
-
-export interface GetPrinterResponse {
-  id: number;
-  name: string;
-  printerName: string;
-  eventId: number;
-  products: GetProductMinResponse[];
-}
-
-export interface UpdatePrinterDto {
-  id: number;
-  name: string;
-  printerName: string;
+  /** @format int64 */
   eventId: number;
 }
 
 export interface CreateProductDto {
+  /**
+   * @minLength 1
+   * @maxLength 70
+   */
   name: string;
   allergenIds: number[];
+  /**
+   * @format int32
+   * @min 0
+   */
   price: number;
+  /** @format int64 */
   groupId: number;
+  /** @format int64 */
   printerId: number;
   soldOut: boolean;
 }
 
 export interface CreateProductGroupDto {
+  /**
+   * @minLength 1
+   * @maxLength 60
+   */
   name: string;
+  /** @format int64 */
   eventId: number;
 }
 
-export interface GetProductGroupMaxResponse {
-  id: number;
+export interface CreatePrinterDto {
+  /**
+   * @minLength 1
+   * @maxLength 120
+   */
   name: string;
-  eventId: number;
-  products: GetProductResponse[];
-}
-
-export interface GetProductGroupMinResponse {
-  id: number;
-  name: string;
-}
-
-export interface GetProductGroupResponse {
-  id: number;
-  name: string;
+  /**
+   * @minLength 1
+   * @maxLength 70
+   */
+  printerName: string;
+  /** @format int64 */
   eventId: number;
 }
 
-export interface GetProductMaxResponse {
-  id: number;
+export interface CreateOrganisationDto {
+  /**
+   * @minLength 4
+   * @maxLength 40
+   */
   name: string;
-  price: number;
-  soldOut: boolean;
-  group: GetProductGroupMinResponse;
-  printer: GetPrinterMinResponse;
-  allergens: GetAllergenResponse[];
+  /**
+   * @minLength 4
+   * @maxLength 80
+   */
+  street: string;
+  /**
+   * @minLength 1
+   * @maxLength 20
+   */
+  streetNumber: string;
+  /**
+   * @minLength 2
+   * @maxLength 16
+   */
+  postalCode: string;
+  /**
+   * @minLength 4
+   * @maxLength 60
+   */
+  city: string;
+  /**
+   * @minLength 2
+   * @maxLength 4
+   */
+  countryCode: string;
 }
 
-export interface GetProductMinResponse {
-  id: number;
+export interface CreateEventOrLocationDto {
+  /**
+   * @minLength 4
+   * @maxLength 40
+   */
   name: string;
+  /**
+   * @minLength 4
+   * @maxLength 80
+   */
+  street: string;
+  /**
+   * @minLength 1
+   * @maxLength 20
+   */
+  streetNumber: string;
+  /**
+   * @minLength 2
+   * @maxLength 16
+   */
+  postalCode: string;
+  /**
+   * @minLength 4
+   * @maxLength 60
+   */
+  city: string;
+  /** @format date-time */
+  date?: string;
+  /** @format int64 */
+  organisationId: number;
 }
 
-export interface GetProductResponse {
-  id: number;
+export interface CreateAllergenDto {
   name: string;
-  price: number;
-  soldOut: boolean;
-  allergens: GetAllergenResponse[];
+  /**
+   * @minLength 1
+   * @maxLength 3
+   */
+  shortName: string;
+  global?: boolean;
 }
 
-export interface UpdateProductDto {
-  id: number;
-  name: string;
-  allergenIds: number[];
-  price: number;
-  groupId: number;
-  printerId: number;
-  soldOut: boolean;
-}
-
-export interface UpdateProductGroupDto {
-  id: number;
-  name: string;
-  printerId?: number;
-}
-
-export interface StatisticsCountResponse {
-  orderedProducts?: number;
-  orders?: number;
-  turnover?: number;
-  bestWaiter?: StatisticsSumResponse;
-  bestProduct?: StatisticsSumResponse;
-}
-
-export interface StatisticsSumResponse {
-  name: string;
-  value: number;
-}
-
-export interface StatisticsSumResponse {
-  name: string;
-  value: number;
-}
-
-export interface StatisticsTimelineResponse {
-  highestValue: number;
-  data: StatisticsTimelineDataResponse[];
-}
-
-export interface StatisticsTimelineDataResponse {
-  name: string;
-  id: number;
-  series: StatisticsTimelineDataEntryResponse[];
-}
-
-export interface StatisticsTimelineDataEntryResponse {
-  name: DateAsString;
-  value: number;
-}
-
-export interface CreateTableDto {
-  number: number;
-  seats: number;
-  groupId: number;
-}
-
-export interface CreateTableGroupDto {
-  name: string;
-  eventId: number;
-}
-
-export interface GetTableGroupResponse {
-  id: number;
-  name: string;
-  eventId: number;
-}
-
-export interface GetTableMinResponse {
-  id: number;
-  publicId: string;
-  number: number;
-}
-
-export interface GetTableResponse {
-  id: number;
-  publicId: string;
-  number: number;
-  seats: number;
-  groupId: number;
-  groupName: string;
-  eventId: number;
-}
-
-export interface UpdateTableDto {
-  id: number;
-  number: number;
-  seats: number;
-  groupId: number;
-}
-
-export interface UpdateTableGroupDto {
-  id: number;
-  name: string;
-}
-
-export interface CreateUserDto {
-  firstname: string;
-  surname: string;
-  birthday: DateAsString;
-  emailAddress: string;
-  password: string;
-  activated: boolean;
-  role: UserGlobalRole;
-}
-
-export interface GetMyselfResponse {
-  id: number;
-  emailAddress: string;
-  firstname: string;
-  surname: string;
-  birthday: DateAsString;
-  role: UserGlobalRole;
-}
-
-export interface GetUserResponse {
-  id: number;
-  firstname: string;
-  surname: string;
-  emailAddress: string;
-  activated: boolean;
-  forcePasswordChange: boolean;
-  birthday: DateAsString;
-  role: UserGlobalRole;
-}
-
-export interface UpdateEmailDto {
-  emailAddress: string;
-}
-
-export interface UpdatePasswordDto {
+export interface SignInWithPasswordChangeDto {
+  email: string;
+  /**
+   * @minLength 6
+   * @maxLength 2147483647
+   */
   newPassword: string;
   oldPassword: string;
-}
-
-export interface UpdateUserDto {
-  id: number;
-  firstname: string;
-  surname: string;
-  birthday: DateAsString;
-  emailAddress: string;
-  role: UserGlobalRole;
-  activated: boolean;
-  forcePasswordChange: boolean;
+  /**
+   * @minLength 6
+   * @maxLength 60
+   */
+  sessionInformation?: string;
+  stayLoggedIn?: boolean;
   password?: string;
 }
 
-export interface CreateWaiterDto {
+export interface UserLoginDto {
+  email: string;
+  password: string;
+  /**
+   * @minLength 6
+   * @maxLength 60
+   */
+  sessionInformation?: string;
+  stayLoggedIn?: boolean;
+}
+
+export interface GetTableResponse {
+  /** @format int64 */
+  id: number;
+  publicId: string;
+  /** @format int32 */
+  number: number;
+  /** @format int32 */
+  seats: number;
+  /** @format int64 */
+  groupId: number;
+  groupName: string;
+  /** @format int64 */
+  eventId: number;
+}
+
+export interface SessionResponse {
+  /** @format int64 */
+  id: number;
+  description: string;
+  /** @format int64 */
+  entityId: number;
+  /** @format date-time */
+  createdAt: string;
+  /** @format date-time */
+  updatedAt: string;
+}
+
+export interface JsonInfoResponse {
+  info: string;
+  version: string;
+  /** @format date-time */
+  serverTime: string;
+  /** @format date-time */
+  serverStartTime: string;
+}
+
+export interface GetAllergenResponse {
+  /** @format int64 */
+  id: number;
   name: string;
-  activated: boolean;
-  eventIds: number[];
+  shortName: string;
+}
+
+export interface GetProductGroupMaxResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+  products: GetProductResponse[];
+}
+
+export interface GetProductResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+  /** @format int32 */
+  price: number;
+  soldOut: boolean;
+  allergens: GetAllergenResponse[];
+}
+
+export interface ProductWithNameDto {
+  /**
+   * @format int64
+   * @min 1
+   */
+  id: number;
+  name: string;
+  /**
+   * @format int64
+   * @min 1
+   */
+  amount: number;
+}
+
+export interface GetWaiterMyselfResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+  /** @format int64 */
   organisationId: number;
+  organisationName: string;
+  eventIds: number[];
+}
+
+export interface GetEventOrLocationResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+  /** @format date-time */
+  date?: string;
+  street: string;
+  streetNumber: string;
+  postalCode: string;
+  city: string;
+  waiterCreateToken: string;
+  /** @format int64 */
+  organisationId: number;
+}
+
+export interface GetBillForTableResponse {
+  /** @format int64 */
+  tableId: number;
+  /** @format int32 */
+  tableNumber: number;
+  /** @format int32 */
+  priceSum: number;
+  products: BillProductResponse[];
+}
+
+export interface GetMyselfResponse {
+  /** @format int64 */
+  id: number;
+  emailAddress: string;
+  firstname: string;
+  surname: string;
+  /** @format date-time */
+  birthday: string;
+  role: 'ADMIN' | 'USER';
+}
+
+export interface GetEventOrLocationMinResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+}
+
+export interface GetWaiterResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+  signInToken: string;
+  activated: boolean;
+  deleted: boolean;
+  /** @format int64 */
+  organisationId: number;
+  events: GetEventOrLocationMinResponse[];
+}
+
+export interface GetWaiterFcmTokenResponse {
+  /** @format int64 */
+  id: number;
+  fcmToken: string;
 }
 
 export interface DuplicateWaiterResponse {
@@ -532,87 +708,199 @@ export interface DuplicateWaiterResponse {
   waiters: IdAndNameResponse[];
 }
 
-export interface GetWaiterFcmTokenResponse {
+export interface IdAndNameResponse {
+  /** @format int64 */
   id: number;
-  fcmToken: string;
+  name: string;
+}
+
+export interface GetUserResponse {
+  /** @format int64 */
+  id: number;
+  firstname: string;
+  surname: string;
+  emailAddress: string;
+  activated: boolean;
+  forcePasswordChange: boolean;
+  /** @format date-time */
+  birthday: string;
+  role: 'ADMIN' | 'USER';
+}
+
+export interface GetTableGroupResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+  /** @format int64 */
+  eventId: number;
+}
+
+export interface StatisticsTimelineDataEntryResponse {
+  /** @format date-time */
+  name: string;
+  /** @format int64 */
+  value: number;
+}
+
+export interface StatisticsTimelineDataResponse {
+  name: string;
+  /** @format int64 */
+  id: number;
+  series: StatisticsTimelineDataEntryResponse[];
+}
+
+export interface StatisticsTimelineResponse {
+  /** @format int64 */
+  highestValue: number;
+  data: StatisticsTimelineDataResponse[];
+}
+
+export interface StatisticsSumResponse {
+  name: string;
+  /** @format int64 */
+  value: number;
+}
+
+export interface StatisticsCountResponse {
+  /** @format int64 */
+  orderedProducts?: number;
+  /** @format int64 */
+  orders?: number;
+  /** @format int64 */
+  turnover?: number;
+  bestWaiter?: StatisticsSumResponse;
+  bestProduct?: StatisticsSumResponse;
+}
+
+export interface GetPrinterMinResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+}
+
+export interface GetProductGroupMinResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+}
+
+export interface GetProductMaxResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+  /** @format int32 */
+  price: number;
+  soldOut: boolean;
+  group: GetProductGroupMinResponse;
+  printer: GetPrinterMinResponse;
+  allergens: GetAllergenResponse[];
+}
+
+export interface GetProductGroupResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+  /** @format int64 */
+  eventId: number;
+}
+
+export interface GetPrinterResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+  printerName: string;
+  /** @format int64 */
+  eventId: number;
+  products: GetProductMinResponse[];
+}
+
+export interface GetProductMinResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+}
+
+export interface GetOrganisationResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+  street: string;
+  streetNumber: string;
+  postalCode: string;
+  city: string;
+  countryCode: string;
+}
+
+export interface OrganisationUserResponse {
+  emailAddress: string;
+  firstname: string;
+  surname: string;
+  role: 'ADMIN' | 'MEMBER';
+  /** @format int64 */
+  organisationId: number;
+}
+
+export interface Pageable {
+  /**
+   * @format int32
+   * @min 0
+   */
+  page?: number;
+  /**
+   * @format int32
+   * @min 1
+   */
+  size?: number;
+  sort?: string[];
+}
+
+export interface PaginatedResponseDtoGetOrganisationResponse {
+  /** @format int64 */
+  numberOfItems: number;
+  /** @format int32 */
+  numberOfPages: number;
+  list: GetOrganisationResponse[];
+}
+
+export interface OrganisationSettingResponse {
+  activateWaiterOnLoginViaCreateToken: boolean;
+}
+
+export interface GetOrderResponse {
+  /** @format int64 */
+  id: number;
+  /** @format int64 */
+  orderId: number;
+  table: GetTableMinResponse;
+  product: GetProductMinResponse;
+  waiter: GetWaiterMinResponse;
+  note?: string;
+  /** @format int32 */
+  amount: number;
+  printState: 'PRINTED' | 'SENT_TO_PRINT' | 'BLOCKED' | 'IN_QUEUE';
+}
+
+export interface GetTableMinResponse {
+  /** @format int64 */
+  id: number;
+  publicId: string;
+  /** @format int32 */
+  number: number;
 }
 
 export interface GetWaiterMinResponse {
+  /** @format int64 */
   id: number;
   name: string;
 }
 
-export interface GetWaiterMyselfResponse {
-  id: number;
-  name: string;
+export interface GetMediatorResponse {
+  id: string;
+  name?: string;
+  /** @format int64 */
   organisationId: number;
-  organisationName: string;
-  eventIds: number[];
+  active: boolean;
+  printers: GetPrinterMinResponse[];
+  /** @format date-time */
+  lastContact: string;
 }
-
-export interface GetWaiterResponse {
-  id: number;
-  name: string;
-  signInToken: string;
-  activated: boolean;
-  deleted: boolean;
-  organisationId: number;
-  events: GetEventOrLocationMinResponse[];
-}
-
-export interface MergeWaiterDto {
-  waiterId: number;
-  waiterIds: number[];
-}
-
-export interface UpdateWaiterDto {
-  id: number;
-  activated: boolean;
-  name: string;
-  eventIds: number[];
-  updateToken?: boolean;
-}
-
-export interface WaiterFcmTokenDto {
-  fcmToken: string;
-}
-
-export interface WebSocketDto<T> {
-  messageObjectId: WebSocketMessageTypes;
-  httpStatus: number;
-  body: T;
-}
-
-export interface FileDto {
-  mime: string;
-  data: string;
-}
-
-export interface RegisterMediatorDto {
-  mediatorId: number;
-}
-
-export interface Mergeable<T> {}
-
-export type DateAsString = string;
-
-export type PrintState = 'PRINTED' | 'SENT_TO_PRINT' | 'BLOCKED' | 'IN_QUEUE';
-
-export type UserOrganisationRole = 'ADMIN' | 'MEMBER';
-
-export type UserGlobalRole = 'ADMIN' | 'USER';
-
-export type WebSocketMessageTypes =
-  | 'BM_PRINT_PDF'
-  | 'MB_REGISTER_PRINTER'
-  | 'BM_REGISTERED_PRINTER_SUCCESSFUL'
-  | 'MB_UNREGISTER_PRINTER'
-  | 'BM_UNREGISTERED_PRINTER_SUCCESSFUL'
-  | 'MB_PRINTED_PDF'
-  | 'MB_PRINT_PDF_ERROR'
-  | 'MB_HELLO'
-  | 'BM_HELLO'
-  | 'MB_PRINT_PDF_TEST'
-  | 'BM_ERROR'
-  | 'MB_ERROR'
-  | 'MB_PING';

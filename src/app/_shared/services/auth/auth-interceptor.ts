@@ -8,7 +8,7 @@ import {NotificationService} from '../../../notifications/notification.service';
 
 import {EnvironmentHelper} from '../../EnvironmentHelper';
 
-import {JWTResponse} from '../../waiterrobot-backend';
+import {JwtResponse} from '../../waiterrobot-backend';
 import {AuthService} from './auth.service';
 
 /**
@@ -60,7 +60,7 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
                 refreshTokenSubject.next(undefined);
 
                 return authService.refreshJWTToken().pipe(
-                  switchMap((data: JWTResponse) => {
+                  switchMap((data: JwtResponse) => {
                     lumber.info('handle401Error', 'JWT token refreshed');
                     isRefreshing = false;
                     refreshTokenSubject.next(data.accessToken);

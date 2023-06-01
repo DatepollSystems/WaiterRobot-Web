@@ -18,7 +18,8 @@
     "ngcc": "ngcc --properties es2020 browser module main --async false --first-only --create-ivy-entry-points",
     "prepare": "husky install && npm run translate:types",
     "translate:types": "translate-cli generateTypes",
-    "translate:reset": "translate-cli resetTypes"
+    "translate:reset": "translate-cli resetTypes",
+    "api:types": "swagger-typescript-api -p http://localhost:8080/api/swagger/api-docs -o ./src/app/_shared/ -n waiterrobot-backend.d.ts --no-client && prettier --write ./src/app/_shared/waiterrobot-backend.d.ts"
   },
   "private": true,
   "husky": {
@@ -87,6 +88,7 @@
     "pretty-quick": "3.1.3",
     "purgecss": "5.0.0",
     "source-map-explorer": "2.5.3",
+    "swagger-typescript-api": "^12.0.4",
     "typescript": "5.0.4",
     "webpack-bundle-analyzer": "4.8.0"
   }

@@ -5,7 +5,7 @@ import {WINDOW} from 'dfx-helper';
 
 import {Observable, tap} from 'rxjs';
 
-import {JWTResponse, RefreshJWTWithSessionTokenDto, SignInWithPasswordChangeDto, UserSignInDto} from '../../waiterrobot-backend';
+import {JwtResponse, RefreshJwtWithSessionTokenDto, SignInWithPasswordChangeDto, UserLoginDto} from '../../waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
@@ -31,16 +31,16 @@ export class AuthService {
     return browser.name + ' - ' + s_from(browser.majorVersion) + '; OS: ' + browser.os + '; Phone: ' + s_from(browser.mobile);
   }
 
-  public sendSignInRequest = (email: string, password: string): Observable<JWTResponse> =>
-    this.httpClient.post<JWTResponse>(AuthService.signInUrl, {
+  public sendSignInRequest = (email: string, password: string): Observable<JwtResponse> =>
+    this.httpClient.post<JwtResponse>(AuthService.signInUrl, {
       email,
       password,
       sessionInformation: AuthService.getSessionInformation(),
       stayLoggedIn: true,
-    } as UserSignInDto);
+    } as UserLoginDto);
 
-  public sendSignInWithPasswordChangeRequest = (email: string, oldPassword: string, newPassword: string): Observable<JWTResponse> =>
-    this.httpClient.post<JWTResponse>(AuthService.signInPwChangeUrl, {
+  public sendSignInWithPasswordChangeRequest = (email: string, oldPassword: string, newPassword: string): Observable<JwtResponse> =>
+    this.httpClient.post<JwtResponse>(AuthService.signInPwChangeUrl, {
       email,
       oldPassword,
       newPassword,
@@ -80,9 +80,9 @@ export class AuthService {
     const object = {
       refreshToken: this.getSessionToken(),
       sessionInformation: AuthService.getSessionInformation(),
-    } as RefreshJWTWithSessionTokenDto;
+    } as RefreshJwtWithSessionTokenDto;
 
-    return this.httpClient.post<JWTResponse>(AuthService.refreshUrl, object).pipe(
+    return this.httpClient.post<JwtResponse>(AuthService.refreshUrl, object).pipe(
       tap((response) => {
         this.setJWTToken(response.accessToken);
         this.setSessionToken(response.refreshToken);
