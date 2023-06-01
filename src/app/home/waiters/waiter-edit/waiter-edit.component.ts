@@ -28,7 +28,7 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
 
       <btn-toolbar>
         <div>
-          <button class="btn btn-sm btn-dark text-white" (click)="onGoBack('/home/waiters/organisation')">{{ 'GO_BACK' | tr }}</button>
+          <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
         </div>
 
         <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
@@ -107,7 +107,6 @@ export class WaiterEditComponent extends AbstractModelEditComponent<
   'DATA' | 'SESSIONS'
 > {
   defaultTab = 'DATA' as const;
-  override redirectUrl = '/home/waiters/organisation';
   override onlyEditingTabs = ['SESSIONS' as const];
 
   events = this.eventsService.getAll$().pipe(shareReplay(1));

@@ -94,7 +94,6 @@ import {TableEditFormComponent} from './table-edit-form.component';
 })
 export class TableEditComponent extends AbstractModelEditComponent<CreateTableDto, UpdateTableDto, GetTableResponse, 'DATA'> {
   defaultTab = 'DATA' as const;
-  override redirectUrl = '/home/tables/all';
   override continuousUsePropertyNames = ['groupId', 'seats'];
 
   vm$ = combineLatest([

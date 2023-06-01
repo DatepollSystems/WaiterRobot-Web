@@ -147,8 +147,6 @@ export interface UpdatePrinterDto {
    * @maxLength 70
    */
   printerName: string;
-  /** @format int64 */
-  eventId: number;
 }
 
 export interface UpdateOrganisationDto {

@@ -36,7 +36,7 @@ export abstract class AbstractModelEditComponent<
     switchMap((id) => (n_isNumeric(id) ? this.entityService.getSingle$(n_from(id)) : of('CREATE' as const)))
   );
 
-  protected redirectUrl!: string;
+  protected redirectUrl?: string;
 
   protected defaultTab!: Tab;
   protected onlyEditingTabs: Tab[] = [];
@@ -105,13 +105,18 @@ export abstract class AbstractModelEditComponent<
         this.notificationService.tsuccess('SAVED');
       });
     if (!this.continuesCreation) {
-      this.goToRedirectUrl();
+      this.onGoBack();
     }
   }
 
   public onGoBack(url?: string): void {
     if (url) {
       void this.router.navigateByUrl(url);
+      return;
+    }
+
+    if (this.redirectUrl) {
+      void this.router.navigateByUrl(this.redirectUrl);
       return;
     }
 
@@ -123,6 +128,7 @@ export abstract class AbstractModelEditComponent<
       relativeTo: this.route,
       queryParams: {tab: tab},
       queryParamsHandling: 'merge',
+      skipLocationChange: true,
     });
   }
 
@@ -133,11 +139,7 @@ export abstract class AbstractModelEditComponent<
     this.lumber.info('onDelete', 'Confirm dialog result', result);
     if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
       this.entityService.delete$(modelId).subscribe();
-      this.goToRedirectUrl();
+      this.onGoBack();
     }
-  }
-
-  protected goToRedirectUrl(): void {
-    void this.router.navigateByUrl(this.redirectUrl);
   }
 }

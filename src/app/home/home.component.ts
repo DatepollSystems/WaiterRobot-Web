@@ -6,7 +6,7 @@ import {loggerOf, s_from} from 'dfts-helper';
 
 import {AComponent, DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingSucceeds, DfxTrackByModule, IsMobileService, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {combineLatest, first, map, startWith, tap} from 'rxjs';
+import {combineLatest, first, map, shareReplay, startWith, tap} from 'rxjs';
 
 import {EnvironmentHelper} from '../_shared/EnvironmentHelper';
 
@@ -57,17 +57,19 @@ export class HomeComponent extends AComponent {
 
   adminModeChanged = false;
 
-  vm$ = combineLatest([
-    this.isMobileService.isMobile$.pipe(
-      tap((it) => {
-        if (it) {
-          const navContent = document.getElementById('navbarSupportedContent');
-          if (navContent != null) {
-            navContent.style.display = 'none';
-          }
+  isMobile$ = this.isMobileService.isMobile$.pipe(
+    tap((it) => {
+      if (it) {
+        const navContent = document.getElementById('navbarSupportedContent');
+        if (navContent != null) {
+          navContent.style.display = 'none';
         }
-      })
-    ),
+      }
+    }),
+    shareReplay(1)
+  );
+
+  vm$ = combineLatest([
     this.myUserService.getUser$().pipe(
       tap((it) => {
         if (it.isAdmin) {
@@ -83,23 +85,23 @@ export class HomeComponent extends AComponent {
     ),
     this.eventsService.getAll$().pipe(startWith([])),
   ]).pipe(
-    map(([isMobile, myUser, selectedOrganisation, selectedEvent, organisations, events]) => ({
-      isMobile,
+    map(([myUser, selectedOrganisation, selectedEvent, organisations, events]) => ({
       myUser,
       selectedOrganisation,
       selectedEvent,
       organisations,
       events,
-      navItems: [
-        {text: 'NAV_TABLES', routerLink: 'tables', show: !!selectedEvent},
-        {text: 'HOME_PROD_ALL', routerLink: 'products', show: !!selectedEvent},
-        {text: 'NAV_PRINTERS', routerLink: 'printers', show: !!myUser?.isAdmin},
-        {text: 'NAV_WAITERS', routerLink: 'waiters', show: true},
-        {text: 'NAV_ORDERS', routerLink: 'orders', show: !!selectedEvent},
-        {text: 'NAV_STATISTICS', routerLink: 'statistics', show: !!selectedEvent},
-      ],
     }))
   );
+
+  public navItems = [
+    {text: 'NAV_TABLES', routerLink: 'tables'},
+    {text: 'HOME_PROD_ALL', routerLink: 'products'},
+    {text: 'NAV_PRINTERS', routerLink: 'printers'},
+    {text: 'NAV_WAITERS', routerLink: 'waiters'},
+    {text: 'NAV_ORDERS', routerLink: 'orders'},
+    {text: 'NAV_STATISTICS', routerLink: 'statistics'},
+  ];
 
   constructor(
     router: Router,

@@ -93,8 +93,6 @@ export class TableGroupEditComponent extends AbstractModelEditComponent<
 > {
   defaultTab = 'DATA' as const;
 
-  override redirectUrl = '/home/tables/groups/all';
-
   selectedEvent$ = this.eventsService.getSelected$;
 
   constructor(tableGroupsService: TableGroupsService, private eventsService: EventsService) {

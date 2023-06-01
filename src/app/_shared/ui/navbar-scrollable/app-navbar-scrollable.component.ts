@@ -32,13 +32,6 @@ import {AppIconsModule} from '../icons.module';
 })
 export class AppNavbarScrollableComponent implements AfterViewInit {
   @Input()
-  set justifyContentBetween(value: BooleanInput) {
-    this._justifyContentBetween = coerceBooleanProperty(value);
-  }
-
-  _justifyContentBetween = false;
-
-  @Input()
   set isMobile(value: BooleanInput) {
     this._isMobile = coerceBooleanProperty(value);
   }
@@ -202,6 +195,6 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
 export type NavItem = {
   text: string;
   routerLink: string;
-  show: boolean;
+  show?: boolean;
   bookmark?: boolean;
 };

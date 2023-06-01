@@ -1,16 +1,10 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {notNullAndUndefined, s_from} from 'dfts-helper';
-import {HasGetAll, HasGetByParent, HasGetSingle} from 'dfx-helper';
+import {HasGetAll, HasGetSingle} from 'dfx-helper';
 import {BehaviorSubject, filter, Observable, switchMap, tap} from 'rxjs';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
-import {
-  CreatePrinterDto,
-  GetEventOrLocationResponse,
-  GetPrinterResponse,
-  IdResponse,
-  UpdatePrinterDto,
-} from '../../../_shared/waiterrobot-backend';
+import {CreatePrinterDto, GetPrinterResponse, IdResponse, UpdatePrinterDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 
 @Injectable({
@@ -21,8 +15,7 @@ export class PrintersService
     HasGetSingle<GetPrinterResponse>,
     HasGetAll<GetPrinterResponse>,
     HasCreateWithIdResponse<CreatePrinterDto>,
-    HasUpdateWithIdResponse<UpdatePrinterDto>,
-    HasGetByParent<GetPrinterResponse, GetEventOrLocationResponse>
+    HasUpdateWithIdResponse<UpdatePrinterDto>
 {
   url = '/config/printer';
 
@@ -40,12 +33,6 @@ export class PrintersService
           )
         )
       )
-    );
-  }
-
-  getByParent$(id: number): Observable<GetPrinterResponse[]> {
-    return this.triggerGet$.pipe(
-      switchMap(() => this.httpClient.get<GetPrinterResponse[]>(this.url, {params: new HttpParams().set('eventId', id)}))
     );
   }
 

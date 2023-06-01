@@ -108,7 +108,6 @@ export class EventEditComponent extends AbstractModelEditComponent<
   'DATA'
 > {
   defaultTab = 'DATA' as const;
-  override redirectUrl = '/home/events/all';
 
   myUser$ = inject(MyUserService).getUser$();
 

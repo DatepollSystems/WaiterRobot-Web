@@ -3,12 +3,11 @@
     <ul
       *ngIf="!editMode"
       class="navbar-nav d-flex flex-row flex-fill justify-content-sm-start overflow-container overflow-auto user-select-none ps-3 ps-md-0"
-      [class.justify-content-between]="_justifyContentBetween"
       (mouseenter)="onMouseEnter()"
       (mouseleave)="onMouseLeave()"
     >
       <ng-container *ngFor="let item of _savedItems">
-        <li class="nav-item me-3" *ngIf="item.show">
+        <li class="nav-item me-3" *ngIf="item.show ?? true">
           <a class="nav-link" draggable="false" routerLinkActive="active" [routerLink]="item.routerLink">
             <span *ngIf="!item.bookmark; else notBookmark"> {{ item.text | tr }} </span>
             <ng-template #notBookmark> {{ item.text }} </ng-template>
@@ -16,7 +15,7 @@
         </li>
       </ng-container>
       <ng-container *ngFor="let item of _itemsToView">
-        <li class="nav-item me-3" *ngIf="item.show">
+        <li class="nav-item me-3" *ngIf="item.show ?? true">
           <a class="nav-link" draggable="false" routerLinkActive="active" [routerLink]="item.routerLink">{{ item.text | tr }}</a>
         </li>
       </ng-container>

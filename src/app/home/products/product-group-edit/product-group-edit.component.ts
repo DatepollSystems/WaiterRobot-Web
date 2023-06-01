@@ -103,8 +103,6 @@ export class ProductGroupEditComponent extends AbstractModelEditComponent<
 > {
   defaultTab = 'DATA' as const;
 
-  override redirectUrl = '/home/products/groups/all';
-
   vm$ = combineLatest([this.printersService.getAll$(), this.eventsService.getSelected$]).pipe(
     map(([printers, selectedEvent]) => ({
       printers,

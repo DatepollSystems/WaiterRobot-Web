@@ -28,7 +28,7 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
       <ng-container *ngSub="myUser$ as myUser">
         <btn-toolbar>
           <div>
-            <button class="btn btn-sm btn-dark text-white" (click)="onGoBack('/home/organisations/all')">{{ 'GO_BACK' | tr }}</button>
+            <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
           </div>
 
           <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
@@ -119,7 +119,6 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<
   'DATA' | 'USERS' | 'SETTINGS'
 > {
   defaultTab = 'DATA' as const;
-  override redirectUrl = '/home/organisations/all';
 
   override onlyEditingTabs = ['USERS' as const, 'SETTINGS' as const];
 

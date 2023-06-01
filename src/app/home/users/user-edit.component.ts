@@ -23,7 +23,7 @@ import {UsersService} from './users.service';
 
       <btn-toolbar>
         <div>
-          <button class="btn btn-sm btn-dark text-white" (click)="onGoBack('/home/users/all')">{{ 'GO_BACK' | tr }}</button>
+          <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
         </div>
 
         <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
@@ -92,7 +92,6 @@ import {UsersService} from './users.service';
 })
 export class UserEditComponent extends AbstractModelEditComponent<CreateUserDto, UpdateUserDto, GetUserResponse, 'DATA' | 'ORGS'> {
   defaultTab = 'DATA' as const;
-  override redirectUrl = '/home/users/all';
 
   constructor(usersService: UsersService) {
     super(usersService);

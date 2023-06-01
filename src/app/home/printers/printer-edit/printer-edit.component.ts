@@ -1,5 +1,5 @@
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTrackById} from 'dfx-helper';
@@ -41,17 +41,17 @@ import {AppPrinterEditForm} from './printer-edit-form.component';
         </ng-container>
       </btn-toolbar>
 
-      <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs mt-3 bg-dark" (navChange)="navigateToTab($event.nextId)">
+      <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs bg-dark" (navChange)="navigateToTab($event.nextId)">
         <li [ngbNavItem]="'DATA'">
           <a ngbNavLink>{{ 'DATA' | tr }}</a>
           <ng-template ngbNavContent>
             <app-printer-edit-form
-              *ngIf="events$ | async as events"
+              *ngIf="selectedEvent$ | async as selectedEvent"
               #form
               (formValid)="setValid($event)"
               (submitUpdate)="submit('UPDATE', $event)"
               (submitCreate)="submit('CREATE', $event)"
-              [events]="events"
+              [selectedEventId]="selectedEvent.id"
               [printer]="entity"
             />
 
@@ -94,13 +94,12 @@ import {AppPrinterEditForm} from './printer-edit-form.component';
 })
 export class PrinterEditComponent extends AbstractModelEditComponent<CreatePrinterDto, UpdatePrinterDto, GetPrinterResponse, 'DATA'> {
   defaultTab = 'DATA' as const;
-  redirectUrl = '/home/printers/mediators';
 
   override continuousUsePropertyNames = ['eventId'];
 
-  events$ = this.eventsService.getAll$();
+  selectedEvent$ = inject(EventsService).getSelected$;
 
-  constructor(printersService: PrintersService, private eventsService: EventsService) {
+  constructor(printersService: PrintersService) {
     super(printersService);
   }
 }

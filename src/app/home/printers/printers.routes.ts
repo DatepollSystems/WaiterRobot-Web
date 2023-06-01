@@ -1,4 +1,5 @@
 import {Routes} from '@angular/router';
+import {eventSelectedGuard} from '../../_shared/services/guards/event-selected-guard';
 
 import {organisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard';
 
@@ -9,7 +10,11 @@ export const ROUTES: Routes = [
     canActivate: [organisationSelectedGuard],
     children: [
       {path: 'mediators', loadComponent: () => import('./all-mediators.component').then((c) => c.AllMediatorsComponent)},
-      {path: 'event/:id', loadComponent: () => import('./event-by-id-printers.component').then((c) => c.EventByIdPrintersComponent)},
+      {
+        path: 'printers',
+        loadComponent: () => import('./all-printers.component').then((c) => c.AllPrintersComponent),
+        canActivate: [eventSelectedGuard],
+      },
       {path: ':id', loadComponent: () => import('./printer-edit/printer-edit.component').then((c) => c.PrinterEditComponent)},
       {path: '', pathMatch: 'full', redirectTo: '/home/printers/mediators'},
     ],

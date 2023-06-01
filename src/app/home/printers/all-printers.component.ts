@@ -9,33 +9,29 @@ import {DfxTr} from 'dfx-translate';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
-import {AbstractModelsWithNameListByIdComponent} from '../../_shared/ui/models-list-by-id/abstract-models-with-name-list-by-id.component';
-import {GetEventOrLocationResponse, GetPrinterResponse} from '../../_shared/waiterrobot-backend';
-
-import {EventsService} from '../events/_services/events.service';
+import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
+import {GetPrinterResponse} from '../../_shared/waiterrobot-backend';
 import {PrintersService} from './_services/printers.service';
 
 @Component({
   template: `
-    <ng-container *ngIf="entity$ | async as entity">
-      <h1>{{ entity?.name }} {{ 'NAV_PRINTERS' | tr }}</h1>
+    <h1>{{ 'NAV_PRINTERS' | tr }}</h1>
 
-      <btn-toolbar>
-        <div>
-          <a routerLink="../../create" class="btn btn-sm btn-outline-success">
-            <i-bs name="plus-circle" />
-            {{ 'ADD_2' | tr }}</a
-          >
-        </div>
+    <btn-toolbar>
+      <div>
+        <a routerLink="../create" class="btn btn-sm btn-outline-success">
+          <i-bs name="plus-circle" />
+          {{ 'ADD_2' | tr }}</a
+        >
+      </div>
 
-        <div>
-          <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection!.hasValue()" (click)="onDeleteSelected()">
-            <i-bs name="trash" />
-            {{ 'DELETE' | tr }}
-          </button>
-        </div>
-      </btn-toolbar>
-    </ng-container>
+      <div>
+        <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+          <i-bs name="trash" />
+          {{ 'DELETE' | tr }}
+        </button>
+      </div>
+    </btn-toolbar>
 
     <form>
       <div class="input-group">
@@ -99,7 +95,7 @@ import {PrintersService} from './_services/printers.service';
         <ng-container ngbColumnDef="actions">
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let printer" ngb-cell>
-            <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../../{{ printer.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+            <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ printer.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
               <i-bs name="pencil-square" />
             </a>
             <button
@@ -114,7 +110,7 @@ import {PrintersService} from './_services/printers.service';
         </ng-container>
 
         <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-        <tr *ngbRowDef="let printer; columns: columnsToDisplay" ngb-row routerLink="../../{{ printer.id }}"></tr>
+        <tr *ngbRowDef="let printer; columns: columnsToDisplay" ngb-row routerLink="../{{ printer.id }}"></tr>
       </table>
     </div>
 
@@ -139,9 +135,9 @@ import {PrintersService} from './_services/printers.service';
     AppBtnToolbarComponent,
   ],
 })
-export class EventByIdPrintersComponent extends AbstractModelsWithNameListByIdComponent<GetPrinterResponse, GetEventOrLocationResponse> {
-  constructor(printersService: PrintersService, eventsService: EventsService) {
-    super(printersService, eventsService);
+export class AllPrintersComponent extends AbstractModelsWithNameListWithDeleteComponent<GetPrinterResponse> {
+  constructor(printersService: PrintersService) {
+    super(printersService);
 
     this.columnsToDisplay = ['name', 'printerName', 'productGroups', 'actions'];
   }

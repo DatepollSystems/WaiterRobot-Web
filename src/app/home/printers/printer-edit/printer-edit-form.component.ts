@@ -1,7 +1,6 @@
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
-import {HasNumberIDAndName} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
@@ -39,24 +38,6 @@ import {CreatePrinterDto, GetPrinterResponse, UpdatePrinterDto} from '../../../_
           </small>
         </div>
       </div>
-
-      <div class="d-flex flex-column flex-md-row gap-4">
-        <div class="col-12 col-md-6 form-group">
-          <label for="eventId">{{ 'NAV_EVENTS' | tr }}</label>
-          <div class="input-group">
-            <span class="input-group-text bg-dark text-white" id="eventId-addon"><i-bs name="diagram-3" /></span>
-            <select class="form-select bg-dark text-white" id="eventId" formControlName="eventId">
-              <option [value]="-1" disabled>{{ 'HOME_PRINTER_SELECT_EVENT_DEFAULT' | tr }}</option>
-              <option [value]="event.id" *ngFor="let event of this.events; trackById">
-                {{ event.name }}
-              </option>
-            </select>
-          </div>
-          <small *ngIf="form.controls.eventId.invalid" class="text-danger">
-            {{ 'HOME_PRINTER_SELECT_EVENT_INCORRECT' | tr }}
-          </small>
-        </div>
-      </div>
     </form>
   `,
   selector: 'app-printer-edit-form',
@@ -71,6 +52,12 @@ export class AppPrinterEditForm extends AbstractModelEditFormComponent<CreatePri
     eventId: [-1, [Validators.required, Validators.min(0)]],
     id: [-1],
   });
+
+  override reset(): void {
+    super.reset();
+
+    this.form.controls.eventId.setValue(this._selectedEventId);
+  }
 
   @Input()
   set printer(it: GetPrinterResponse | 'CREATE') {
@@ -88,5 +75,11 @@ export class AppPrinterEditForm extends AbstractModelEditFormComponent<CreatePri
   }
 
   @Input()
-  events!: HasNumberIDAndName[];
+  set selectedEventId(id: number | undefined) {
+    if (id) {
+      this._selectedEventId = id;
+      this.form.controls.eventId.setValue(this._selectedEventId);
+    }
+  }
+  _selectedEventId = -1;
 }
