@@ -21,4 +21,4 @@ import {FooterModule} from '../_shared/ui/footer/footer.module';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AppLogoWithTextComponent, FooterModule, RouterOutlet],
 })
-export class MobileLinkComponent {}
+export class WebLinkComponent {}

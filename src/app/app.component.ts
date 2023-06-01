@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {LoadingBarRouterModule} from '@ngx-loading-bar/router';
 
 import {EnvironmentHelper} from './_shared/EnvironmentHelper';
-import {ToastsContainerComponent} from './notifications/toasts-container.component';
+import {ToastsContainerComponent} from './_shared/notifications/toasts-container.component';
 
 @Component({
   template: `

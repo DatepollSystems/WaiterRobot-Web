@@ -34,7 +34,7 @@ import {GetBillForTableResponse, GetTableResponse} from '../_shared/waiterrobot-
   selector: 'app-mobile-link-table',
   imports: [NgIf, AsyncPipe, NgForOf, DfxTr],
 })
-export class MobileLinkTableComponent {
+export class WebLinkTableComponent {
   httpClient = inject(HttpClient);
 
   publicId$ = inject(ActivatedRoute).paramMap.pipe(

@@ -7,10 +7,6 @@ export const ROUTES: Routes = [
     component: MobileLinkComponent,
     children: [
       {
-        path: 't/:publicId',
-        loadComponent: () => import('./mobile-link-table.component').then((m) => m.MobileLinkTableComponent),
-      },
-      {
         path: '**',
         loadComponent: () => import('./mobile-link-home.component').then((m) => m.MobileLinkHomeComponent),
       },

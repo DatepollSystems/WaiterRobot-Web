@@ -5,10 +5,10 @@ import {AEntityWithNumberIDAndName, s_isEmail} from 'dfts-helper';
 
 import {AComponent} from 'dfx-helper';
 import {DfxTr, dfxTranslate$} from 'dfx-translate';
+
+import {NotificationService} from '../../../_shared/notifications/notification.service';
 import {ChipInput} from '../../../_shared/ui/chip-input/chip-input.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
-
-import {NotificationService} from '../../../notifications/notification.service';
 import {OrganisationsUsersService} from '../_services/organisations-users.service';
 
 @Component({

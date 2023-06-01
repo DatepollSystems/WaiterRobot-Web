@@ -4,9 +4,9 @@ import {loggerOf} from 'dfts-helper';
 
 import {WINDOW} from 'dfx-helper';
 import {BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError} from 'rxjs';
-import {NotificationService} from '../../../notifications/notification.service';
 
 import {EnvironmentHelper} from '../../EnvironmentHelper';
+import {NotificationService} from '../../notifications/notification.service';
 
 import {JwtResponse} from '../../waiterrobot-backend';
 import {AuthService} from './auth.service';

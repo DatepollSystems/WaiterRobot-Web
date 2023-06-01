@@ -10,6 +10,10 @@ export const ROUTES: Routes = [
     loadChildren: () => import('./mobile-link/mobile-link.routes').then((m) => m.ROUTES),
   },
   {
+    path: 'wl',
+    loadChildren: () => import('./web-link/web-link.routes').then((m) => m.ROUTES),
+  },
+  {
     path: 'not-found',
     title: '404',
     loadComponent: () => import('./page-not-found.component').then((m) => m.PageNotFoundComponent),

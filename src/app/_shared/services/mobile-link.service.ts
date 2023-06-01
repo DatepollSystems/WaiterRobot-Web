@@ -8,26 +8,26 @@ export class MobileLinkService {
   constructor(@Inject(WINDOW) private window: Window | undefined) {}
 
   public createWaiterSignInLink(token: string): string {
-    return `${this.createWaiterAuthLink(token)}SIGN_IN`;
+    return `${this.createWaiterAuthLink(token, 'SIGN_IN')}`;
   }
 
   public createWaiterSignInViaCreateTokenLink(token: string): string {
-    return `${this.createWaiterAuthLink(token)}CREATE`;
+    return `${this.createWaiterAuthLink(token, 'CREATE')}`;
   }
 
   public createTableLink(publicTableId: string): string {
-    return `${this.createMobileLink()}t/${publicTableId}`;
+    return `${this.createShareableLink('wl')}/t/${publicTableId}`;
   }
 
-  private createWaiterAuthLink(token: string): string {
-    return `${this.createMobileLink()}signIn?token=${token}&purpose=`;
+  private createWaiterAuthLink(token: string, purpose: 'SIGN_IN' | 'CREATE'): string {
+    return `${this.createShareableLink('ml')}/signIn?token=${token}&purpose=${purpose}`;
   }
 
-  private createMobileLink(): string {
+  private createShareableLink(type: 'ml' | 'wl'): string {
     return this.window
       ? `${this.window.location.protocol}//${this.window.location.hostname}${
           this.window.location.port.length > 0 ? ':' + this.window.location.port : ''
-        }/ml/`
+        }/${type}`
       : '';
   }
 }

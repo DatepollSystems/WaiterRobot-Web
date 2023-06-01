@@ -6,13 +6,13 @@ import {Router, RouterLink} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTr} from 'dfx-translate';
 import {catchError, filter, of, switchMap, timer} from 'rxjs';
+import {NotificationService} from '../_shared/notifications/notification.service';
 
 import {AuthService} from '../_shared/services/auth/auth.service';
 import {AppDownloadBtnListComponent} from '../_shared/ui/app-download-btn-list.component';
 import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
 import {JwtResponse} from '../_shared/waiterrobot-backend';
-import {NotificationService} from '../notifications/notification.service';
 import {AppAccountNotActivatedDialog} from './account-not-activated-dialog.component';
 import {AppForgotPasswordDialog} from './forgot-password-dialog.component';
 import {AppPasswordChangeDialogComponent} from './password-change-dialog.component';
