@@ -1,8 +1,8 @@
 import {inject, Injectable} from '@angular/core';
-import {RouterStateSnapshot, TitleStrategy} from '@angular/router';
 import {Title} from '@angular/platform-browser';
-import {first} from 'rxjs';
+import {RouterStateSnapshot, TitleStrategy} from '@angular/router';
 import {dfxTranslate$} from 'dfx-translate';
+import {first} from 'rxjs';
 
 @Injectable()
 export class CustomTitleStrategy extends TitleStrategy {

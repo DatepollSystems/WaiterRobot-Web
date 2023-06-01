@@ -22,6 +22,8 @@ import {
   withWindow,
 } from 'dfx-helper';
 import {provideDfxTranslate, withAutoTranslatedLanguages, withDefaultLanguage} from 'dfx-translate';
+
+import {CustomTitleStrategy} from './app/_shared/custom-title.strategy';
 import {EnvironmentHelper} from './app/_shared/EnvironmentHelper';
 import {authInterceptor} from './app/_shared/services/auth/auth-interceptor';
 import {errorInterceptor} from './app/_shared/services/auth/error-interceptor';
@@ -29,8 +31,6 @@ import {CustomDateAdapter, CustomDateParserFormatter} from './app/_shared/servic
 
 import {AppComponent} from './app/app.component';
 import {ROUTES} from './app/app.routes';
-
-import {CustomTitleStrategy} from './app/custom-title.strategy';
 
 bootstrapApplication(AppComponent, {
   providers: [

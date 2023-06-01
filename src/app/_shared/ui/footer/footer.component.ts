@@ -1,5 +1,6 @@
-import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, inject, Input} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {WINDOW} from 'dfx-helper';
 
 import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
 import {QuestionDialogComponent} from '../question-dialog/question-dialog.component';
@@ -111,7 +112,7 @@ export class FooterComponent {
   @Input()
   container = 'container-xxxl';
 
-  constructor(private modal: NgbModal) {}
+  constructor(private modal: NgbModal, @Inject(WINDOW) private window?: Window) {}
 
   heart(): void {
     document.getElementById('brand')?.classList.add('spin');
@@ -125,7 +126,7 @@ export class FooterComponent {
     modalRef.componentInstance.title = 'LANGUAGE_RELOAD';
     void modalRef.result.then((result) => {
       if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
-        window.location.reload();
+        this.window?.location.reload();
       }
     });
 

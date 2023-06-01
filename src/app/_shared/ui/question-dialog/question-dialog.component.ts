@@ -1,11 +1,10 @@
 import {NgForOf, NgIf} from '@angular/common';
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTrackByProperty} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 @Component({
-  selector: 'app-question-modal',
   template: `
     <div class="modal-header">
       <h4 class="modal-title" id="modal-question-title">{{ (title ? title : question) | tr }}</h4>
@@ -29,6 +28,8 @@ import {DfxTr} from 'dfx-translate';
       </button>
     </div>
   `,
+  selector: 'app-question-modal',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, NgForOf, DfxTr, DfxTrackByProperty],
   standalone: true,
 })

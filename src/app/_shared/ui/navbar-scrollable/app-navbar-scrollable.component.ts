@@ -1,7 +1,7 @@
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {CdkDragDrop, DragDropModule, moveItemInArray} from '@angular/cdk/drag-drop';
 import {NgForOf, NgIf} from '@angular/common';
-import {AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TemplateRef} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 
@@ -27,6 +27,7 @@ import {AppIconsModule} from '../icons.module';
     AppBtnToolbarComponent,
     FormsModule,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app-navbar-scrollable.component.html',
   styleUrls: ['./app-navbar-scrollable.component.css'],
 })

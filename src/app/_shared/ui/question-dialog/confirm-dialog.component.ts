@@ -1,15 +1,16 @@
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {QuestionDialogComponent} from './question-dialog.component';
 
 @Component({
-  selector: 'app-confirm-modal',
   template: `
     <div (click)="!_disabled ? openModal() : null" [class.disabled]="_disabled">
       <ng-content />
     </div>
   `,
+  selector: 'app-confirm-modal',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmDialogComponent {
   @Input() question?: string;

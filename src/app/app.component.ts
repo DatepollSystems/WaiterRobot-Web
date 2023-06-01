@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {LoadingBarRouterModule} from '@ngx-loading-bar/router';
 
 import {EnvironmentHelper} from './_shared/EnvironmentHelper';
@@ -14,7 +14,7 @@ import {ToastsContainerComponent} from './_shared/notifications/toasts-container
   `,
   standalone: true,
   selector: 'app-root',
-  //TODO: Change to onpush
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ToastsContainerComponent, LoadingBarRouterModule],
 })
 export class AppComponent {
