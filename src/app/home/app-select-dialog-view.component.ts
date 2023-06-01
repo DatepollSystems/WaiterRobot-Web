@@ -11,7 +11,7 @@ import {OrganisationsService} from './organisations/_services/organisations.serv
 
 @Component({
   template: `
-    <div class="row justify-content-center" style="padding-top: 16rem">
+    <div class="d-flex justify-content-center" style="padding-top: 16rem">
       <div class="col-12 col-md-6">
         <div class="card">
           <div class="card-body">
