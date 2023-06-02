@@ -32,7 +32,7 @@ import {OrganisationsUsersService} from '../_services/organisations-users.servic
       <button class="btn btn-success" type="button" (click)="addOrgUser()">
         {{ 'ADD_3' | tr }}
       </button>
-      <button type="button" class="btn btn-outline-secondary" ngbAutofocus (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
     </div>
   `,
   selector: 'app-organisation-user-add-modal',

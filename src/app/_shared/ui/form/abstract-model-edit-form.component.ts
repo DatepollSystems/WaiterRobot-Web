@@ -1,8 +1,20 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  inject,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControlStatus, FormGroup, ɵFormGroupValue} from '@angular/forms';
 import {IHasID, loggerOf} from 'dfts-helper';
 import {AComponent} from 'dfx-helper';
 import {Observable, tap} from 'rxjs';
+
+const focuses = ['input', 'select', 'textarea'];
 
 @Component({
   template: '',
@@ -10,7 +22,7 @@ import {Observable, tap} from 'rxjs';
 })
 export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOType extends IHasID<UpdateDTOType['id']>>
   extends AComponent
-  implements OnInit
+  implements OnInit, AfterViewInit
 {
   lumber = loggerOf('AModelEditForm');
 
@@ -35,6 +47,7 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
   _isEdit = true;
 
   abstract form: FormGroup;
+  @ViewChild('formRef') formRef?: ElementRef;
 
   formStatusChanges?: Observable<FormControlStatus>;
 
@@ -52,6 +65,13 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
     );
   }
 
+  ngAfterViewInit() {
+    const input = this.formRef?.nativeElement.querySelector(focuses.join(','));
+    if (input) {
+      input.focus();
+    }
+  }
+
   protected overrideRawValue(value: typeof this.form.value): any {
     return value;
   }
@@ -67,6 +87,10 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
 
   reset(): void {
     this.form.reset();
+    const input = this.formRef?.nativeElement.querySelector(focuses.join(','));
+    if (input) {
+      input.focus();
+    }
   }
 
   patchValue<

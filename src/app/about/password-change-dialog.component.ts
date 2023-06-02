@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
 import {NgIf} from '@angular/common';
+import {Component} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTr} from 'dfx-translate';
@@ -16,7 +16,6 @@ import {DfxTr} from 'dfx-translate';
           <div class="form-group">
             <label for="newPassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | tr }}</label>
             <input
-              ngbAutofocus
               ngModel
               class="form-control bg-dark text-white mb-1"
               type="password"

@@ -14,7 +14,7 @@ import {DfxTr} from 'dfx-translate';
       </strong>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" ngbAutofocus (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
     </div>
   `,
   selector: 'app-forgot-password-modal',

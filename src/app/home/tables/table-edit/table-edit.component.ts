@@ -94,7 +94,7 @@ import {TableEditFormComponent} from './table-edit-form.component';
 })
 export class TableEditComponent extends AbstractModelEditComponent<CreateTableDto, UpdateTableDto, GetTableResponse, 'DATA'> {
   defaultTab = 'DATA' as const;
-  override continuousUsePropertyNames = ['groupId', 'seats'];
+  override continuousUsePropertyNames = ['number', 'groupId', 'seats'];
 
   vm$ = combineLatest([
     this.route.queryParams.pipe(

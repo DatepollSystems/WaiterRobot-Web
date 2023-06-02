@@ -12,7 +12,7 @@ import {CreateTableDto, GetTableResponse, UpdateTableDto} from '../../../_shared
   template: `
     <ng-container *ngIf="formStatusChanges | async" />
 
-    <form [formGroup]="form" (ngSubmit)="submit()">
+    <form #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-3">
         <div class="form-group col-12 col-md-3">
           <label for="number">{{ 'NUMBER' | tr }}</label>

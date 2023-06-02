@@ -2,7 +2,6 @@ import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
-import {DfxAutofocus} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
@@ -13,18 +12,11 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
   template: `
     <ng-container *ngIf="formStatusChanges | async" />
 
-    <form [formGroup]="form" (ngSubmit)="submit()">
+    <form #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row justify-content-between gap-4 mb-3">
         <div class="form-group col-12 col-md-7">
           <label for="name">{{ 'NAME' | tr }}</label>
-          <input
-            focus
-            class="form-control bg-dark text-white"
-            formControlName="name"
-            name="name"
-            type="text"
-            placeholder="{{ 'NAME' | tr }}"
-          />
+          <input class="form-control bg-dark text-white" formControlName="name" name="name" type="text" placeholder="{{ 'NAME' | tr }}" />
 
           <small *ngIf="form.controls.name.invalid" class="text-danger"> {{ 'HOME_ORGS_NAME_INCORRECT' | tr }} </small>
         </div>
@@ -107,7 +99,7 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
     </form>
   `,
   selector: 'app-event-edit-form',
-  imports: [ReactiveFormsModule, DfxTr, AppIconsModule, NgbInputDatepicker, NgIf, AsyncPipe, DfxAutofocus],
+  imports: [ReactiveFormsModule, DfxTr, AppIconsModule, NgbInputDatepicker, NgIf, AsyncPipe],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

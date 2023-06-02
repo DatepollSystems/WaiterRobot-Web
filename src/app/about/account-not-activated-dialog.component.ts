@@ -12,7 +12,7 @@ import {DfxTr} from 'dfx-translate';
       <strong>{{ 'ABOUT_SIGNIN_FAILED_ACCOUNT_NOT_ACTIVATED' | tr }}</strong>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" ngbAutofocus (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
     </div>
   `,
   selector: 'app-account-not-activated-modal',

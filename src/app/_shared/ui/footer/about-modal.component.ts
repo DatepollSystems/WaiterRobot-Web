@@ -69,7 +69,7 @@ import {EnvironmentHelper} from '../../EnvironmentHelper';
         <div [ngbNavOutlet]="nav" class="mt-2"></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" focus (click)="modal.close()">{{ 'CLOSE' | tr }}</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="modal.close()">{{ 'CLOSE' | tr }}</button>
       </div>
     </ng-template>
   `,

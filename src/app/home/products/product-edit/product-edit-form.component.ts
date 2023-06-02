@@ -14,18 +14,11 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
   template: `
     <ng-container *ngIf="formStatusChanges | async" />
 
-    <form [formGroup]="form" (ngSubmit)="submit()">
+    <form #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-3">
         <div class="form-group col">
           <label for="name">{{ 'NAME' | tr }}</label>
-          <input
-            ngbAutofocus
-            formControlName="name"
-            class="form-control bg-dark text-white"
-            type="text"
-            id="name"
-            placeholder="{{ 'NAME' | tr }}"
-          />
+          <input formControlName="name" class="form-control bg-dark text-white" type="text" id="name" placeholder="{{ 'NAME' | tr }}" />
 
           <small *ngIf="form.controls.name.invalid" class="text-danger">
             {{ 'HOME_PROD_NAME_INCORRECT' | tr }}

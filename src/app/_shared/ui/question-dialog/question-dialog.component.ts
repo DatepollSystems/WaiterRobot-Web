@@ -17,7 +17,7 @@ import {DfxTr} from 'dfx-translate';
       <div *ngIf="info" [innerHTML]="info"></div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" ngbAutofocus (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
       <button
         *ngFor="let answer of answers; trackByProperty: 'value'"
         (click)="answerQuestion(answer.value)"

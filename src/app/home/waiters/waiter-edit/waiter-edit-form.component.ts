@@ -14,7 +14,7 @@ import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, Updat
   template: `
     <ng-container *ngIf="formStatusChanges | async" />
 
-    <form [formGroup]="form" (ngSubmit)="submit()">
+    <form #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="row g-3">
         <div class="form-group col-sm-12 col-md-4 col-lg-5 col-xl-6">
           <label for="name">{{ 'NAME' | tr }}</label>

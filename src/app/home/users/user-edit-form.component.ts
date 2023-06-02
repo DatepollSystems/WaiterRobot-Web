@@ -11,7 +11,7 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../_shared/waite
   template: `
     <ng-container *ngIf="formStatusChanges | async" />
 
-    <form [formGroup]="form" (ngSubmit)="submit()">
+    <form #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="row gy-2">
         <div class="form-group col-sm">
           <label for="email">{{ 'EMAIL' | tr }}</label>

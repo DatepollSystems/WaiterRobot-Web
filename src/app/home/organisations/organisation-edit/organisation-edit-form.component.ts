@@ -2,7 +2,6 @@ import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
-import {DfxAutofocus} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
@@ -13,18 +12,11 @@ import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} f
   template: `
     <ng-container *ngIf="formStatusChanges | async" />
 
-    <form [formGroup]="form" (ngSubmit)="submit()">
+    <form #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-3">
         <div class="form-group col">
           <label for="name">{{ 'NAME' | tr }}</label>
-          <input
-            class="form-control bg-dark text-white"
-            type="text"
-            id="name"
-            focus
-            formControlName="name"
-            placeholder="{{ 'NAME' | tr }}"
-          />
+          <input class="form-control bg-dark text-white" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
 
           <small *ngIf="form.controls.name.invalid" class="text-danger"> {{ 'HOME_ORGS_NAME_INCORRECT' | tr }} </small>
         </div>
@@ -95,7 +87,7 @@ import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} f
     </form>
   `,
   selector: 'app-organisation-edit-form',
-  imports: [ReactiveFormsModule, DfxTr, AppIconsModule, NgbInputDatepicker, NgIf, AsyncPipe, DfxAutofocus],
+  imports: [ReactiveFormsModule, DfxTr, AppIconsModule, NgbInputDatepicker, NgIf, AsyncPipe],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
