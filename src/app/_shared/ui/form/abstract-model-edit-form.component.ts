@@ -12,7 +12,7 @@ import {
 import {AbstractControl, FormBuilder, FormControlStatus, FormGroup, ɵFormGroupValue} from '@angular/forms';
 import {IHasID, loggerOf} from 'dfts-helper';
 import {AComponent} from 'dfx-helper';
-import {Observable, tap} from 'rxjs';
+import {delay, EMPTY, Observable, of, tap} from 'rxjs';
 
 const focuses = ['input', 'select', 'textarea'];
 
@@ -68,7 +68,14 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
   ngAfterViewInit() {
     const input = this.formRef?.nativeElement.querySelector(focuses.join(','));
     if (input) {
-      input.focus();
+      of(EMPTY)
+        .pipe(delay(1))
+        .subscribe(() => {
+          input.focus();
+          this.lumber.log('ngAfterViewInit', 'Input to focus', input);
+        });
+    } else {
+      this.lumber.log('ngAfterViewInit', 'No input found to focus');
     }
   }
 
@@ -90,6 +97,9 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
     const input = this.formRef?.nativeElement.querySelector(focuses.join(','));
     if (input) {
       input.focus();
+      this.lumber.log('ngAfterViewInit', 'Input to focus', input);
+    } else {
+      this.lumber.log('ngAfterViewInit', 'No input found to focus');
     }
   }
 
