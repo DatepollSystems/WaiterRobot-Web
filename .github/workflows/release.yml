@@ -18,9 +18,7 @@ jobs:
           install: true
 
       - name: build
-        run: |
-          pnpm ngcc # Run npm-script ngcc, if ng build does it, the ci breaks (not enough memory)
-          pnpm build:prod
+        run: pnpm build:prod
 
       - uses: actions/upload-artifact@master
         name: upload artifact
