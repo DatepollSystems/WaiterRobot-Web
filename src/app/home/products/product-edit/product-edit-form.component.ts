@@ -1,7 +1,7 @@
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
-import {a_pluck, HasNumberIDAndName} from 'dfts-helper';
+import {a_pluck, HasNumberIDAndName, n_from, s_from} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {ChipInput} from '../../../_shared/ui/chip-input/chip-input.component';
@@ -29,7 +29,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
           <label for="price">{{ 'HOME_PROD_PRICE' | tr }}</label>
           <input
             class="form-control bg-dark text-white"
-            type="number"
+            type="string"
             id="price"
             placeholder="{{ 'HOME_PROD_PRICE' | tr }}"
             formControlName="price"
@@ -109,7 +109,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
 export class AppProductEditFormComponent extends AbstractModelEditFormComponent<CreateProductDto, UpdateProductDto> {
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]],
-    price: [1, [Validators.required, Validators.min(0)]],
+    price: ['', [Validators.required, Validators.pattern(/^\d+([.,](\d{1,2}|[0-8]\d?))?$/)]],
     allergenIds: [new Array<number>()],
     eventId: [-1, [Validators.required, Validators.min(0)]],
     groupId: [-1, [Validators.required, Validators.min(0)]],
@@ -119,7 +119,13 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
   });
 
   override overrideRawValue = (value: any): any => {
-    value.price = value.price * 100;
+    console.log(value.price);
+
+    const result: string[] = value.price.split(/[,.]/);
+    value.price = n_from(result[0]!) * 100 + n_from(result[1] ?? 0);
+    console.log(result);
+
+    console.log(value.price);
 
     return super.overrideRawValue(value);
   };
@@ -142,7 +148,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
 
     this.form.patchValue({
       name: it.name,
-      price: it.price,
+      price: s_from(it.price),
       allergenIds: a_pluck(it.allergens, 'id') ?? [],
       groupId: it.group.id,
       printerId: it.printer.id,
