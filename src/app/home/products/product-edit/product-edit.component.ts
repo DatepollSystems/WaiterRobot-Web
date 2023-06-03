@@ -98,7 +98,6 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
 })
 export class ProductEditComponent extends AbstractModelEditComponent<CreateProductDto, UpdateProductDto, GetProductMaxResponse, 'DATA'> {
   defaultTab = 'DATA' as const;
-  redirectUrl = '/home/products/all';
   continuousUsePropertyNames = ['groupId', 'printerId'];
 
   vm$ = combineLatest([
