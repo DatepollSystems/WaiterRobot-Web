@@ -235,6 +235,7 @@
   "HOME_TABLES_ADD": "Neuen Tisch anlegen",
   "HOME_TABLES_SEATS_INCORRECT": "*pflichtfeld",
   "HOME_TABLES_NUMBER_INCORRECT": "*pflichtfeld",
+  "HOME_TABLES_NUMBER_EXISTS_ALREADY": "Ein Tisch mit gleicher Nummer und Gruppe ist bereits vorhanden.",
   "HOME_TABLES_GROUPS_DEFAULT": "Wähle eine Tischgruppe aus",
   "HOME_TABLES_GROUPS_INCORRECT": "Du musst eine Gruppe auswählen.",
   "HOME_TABLE_GROUP": "Tischgruppe",

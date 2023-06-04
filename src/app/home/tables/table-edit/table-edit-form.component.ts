@@ -1,12 +1,14 @@
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {HasNumberIDAndName} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+import {debounceTime, filter, map, switchMap, tap} from 'rxjs';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {CreateTableDto, GetTableResponse, UpdateTableDto} from '../../../_shared/waiterrobot-backend';
+import {TablesService} from '../_services/tables.service';
 
 @Component({
   template: `
@@ -24,8 +26,12 @@ import {CreateTableDto, GetTableResponse, UpdateTableDto} from '../../../_shared
             placeholder="{{ 'NUMBER' | tr }}"
           />
 
-          <small *ngIf="form.controls.number.invalid" class="text-danger">
+          <small *ngIf="form.controls.number.errors?.required" class="text-danger">
             {{ 'HOME_TABLES_NUMBER_INCORRECT' | tr }}
+          </small>
+
+          <small *ngIf="existsAlready$ | async" class="text-danger">
+            {{ 'HOME_TABLES_NUMBER_EXISTS_ALREADY' | tr }}
           </small>
         </div>
 
@@ -56,6 +62,7 @@ import {CreateTableDto, GetTableResponse, UpdateTableDto} from '../../../_shared
               </option>
             </select>
           </div>
+
           <small *ngIf="form.controls.groupId.invalid" class="text-danger">
             {{ 'HOME_TABLES_GROUPS_INCORRECT' | tr }}
           </small>
@@ -69,13 +76,29 @@ import {CreateTableDto, GetTableResponse, UpdateTableDto} from '../../../_shared
   imports: [ReactiveFormsModule, AsyncPipe, NgIf, NgForOf, DfxTr, DfxTrackById, AppIconsModule],
 })
 export class TableEditFormComponent extends AbstractModelEditFormComponent<CreateTableDto, UpdateTableDto> {
+  tablesService = inject(TablesService);
+
   override form = this.fb.nonNullable.group({
-    number: [0, [Validators.required, Validators.min(0)]],
+    number: this.fb.control<number | undefined>(undefined, [Validators.required, Validators.min(0)]),
     seats: [10, [Validators.required, Validators.min(0)]],
     eventId: [-1, [Validators.required, Validators.min(0)]],
     groupId: [-1, [Validators.required, Validators.min(0)]],
     id: [-1],
   });
+
+  existsAlready$ = this.form.valueChanges.pipe(
+    map((form) => ({number: form.number, groupId: form.groupId})),
+    filter(({number, groupId}) => groupId !== -1 && !!number),
+    debounceTime(300),
+    switchMap(({number, groupId}) => this.tablesService.checkIfExists(groupId as number, number as number)),
+    tap((exists) => {
+      if (exists) {
+        this.form.controls.number.setErrors({existsAlready: true});
+      } else {
+        this.form.controls.number.setErrors(null);
+      }
+    })
+  );
 
   override reset(): void {
     super.reset();
@@ -106,6 +129,7 @@ export class TableEditFormComponent extends AbstractModelEditFormComponent<Creat
       this.form.controls.groupId.setValue(id);
     }
   }
+
   _selectedTableGroupId = -1;
 
   @Input()
@@ -116,6 +140,7 @@ export class TableEditFormComponent extends AbstractModelEditFormComponent<Creat
       this.form.controls.eventId.setValue(this._selectedEventId);
     }
   }
+
   _selectedEventId = -1;
 
   @Input()
