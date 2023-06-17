@@ -32,7 +32,7 @@ import {WaitersService} from '../_services/waiters.service';
         </div>
       </div>
 
-      <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+      <button class="btn btn-sm btn-outline-danger" type="button" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
         <i-bs name="trash" />
         {{ 'DELETE' | tr }}
       </button>

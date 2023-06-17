@@ -1,7 +1,7 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import {HasDelete, HasGetAll, HasGetByParent} from 'dfx-helper';
-import {BehaviorSubject, map, Observable, of, switchMap} from 'rxjs';
+import {BehaviorSubject, map, Observable, of, switchMap, tap} from 'rxjs';
 import {SessionModel} from '../../../_shared/model/session.model';
 import {GetWaiterResponse, SessionResponse} from '../../../_shared/waiterrobot-backend';
 
@@ -28,7 +28,7 @@ export class WaiterSessionsService
   }
 
   delete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${id}`);
+    return this.httpClient.delete(`${this.url}/${id}`).pipe(tap(() => this.triggerGet$.next(true)));
   }
 
   getAll$(): Observable<SessionModel[]> {
