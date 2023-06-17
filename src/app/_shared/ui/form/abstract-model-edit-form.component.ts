@@ -65,16 +65,16 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
     );
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     const input = this.formRef?.nativeElement.querySelector(focuses.join(','));
-    if (input) {
+    if (input && !this._isEdit) {
       of(EMPTY)
         .pipe(delay(1))
         .subscribe(() => {
           input.focus();
           this.lumber.log('ngAfterViewInit', 'Input to focus', input);
         });
-    } else {
+    } else if (input) {
       this.lumber.log('ngAfterViewInit', 'No input found to focus');
     }
   }
