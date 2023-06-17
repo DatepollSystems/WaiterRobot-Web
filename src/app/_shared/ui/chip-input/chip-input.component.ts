@@ -55,7 +55,7 @@ export class ChipInput {
     if (!models) {
       return;
     }
-    this._models = models;
+    this._models = models.sort((a, b) => this.formatter(a).localeCompare(this.formatter(b)));
   }
 
   /**
@@ -116,6 +116,7 @@ export class ChipInput {
       return;
     }
     this._models.push(model);
+    this._models = this._models.sort((a, b) => this.formatter(a).localeCompare(this.formatter(b)));
     this.emitChange();
     this.inputValid = true;
     this.modelInput = ' ';
@@ -164,6 +165,7 @@ export class ChipInput {
       return;
     }
     this._models.push(item ?? input);
+    this._models = this._models.sort((a, b) => this.formatter(a).localeCompare(this.formatter(b)));
     this.emitChange();
     this.inputValid = true;
     this.formCtrl.reset();
