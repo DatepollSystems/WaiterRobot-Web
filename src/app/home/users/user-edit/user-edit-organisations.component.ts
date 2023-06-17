@@ -1,6 +1,5 @@
 import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
-import {AComponent} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {combineLatest, map, Observable, switchMap, tap} from 'rxjs';
 import {getActivatedRouteIdParam} from '../../../_shared/services/getActivatedRouteIdParam';
@@ -29,7 +28,7 @@ import {ChipInput} from '../../../_shared/ui/chip-input/chip-input.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, DfxTr, AsyncPipe, ChipInput],
 })
-export class UserEditOrganisationsComponent extends AComponent {
+export class UserEditOrganisationsComponent {
   usersOrganisationsService = inject(UsersOrganisationsService);
   organisationsUsersService = inject(OrganisationsUsersService);
 
