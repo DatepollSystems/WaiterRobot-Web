@@ -3,9 +3,9 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTr} from 'dfx-translate';
-import {AbstractModelEditFormComponent} from '../../_shared/ui/form/abstract-model-edit-form.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../_shared/waiterrobot-backend';
+import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
+import {AppIconsModule} from '../../../_shared/ui/icons.module';
+import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `

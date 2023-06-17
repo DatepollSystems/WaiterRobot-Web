@@ -31,7 +31,7 @@ import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, Updat
           placeholder="{{ 'HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER' | tr }}"
           label="{{ 'HOME_WAITERS_EDIT_EVENTS' | tr }}"
           editable="false"
-          [models]="_waiter?.events ?? _selectedEvent != undefined ? [_selectedEvent] : undefined"
+          [models]="_isEdit ? _waiter?.events : !!_selectedEvent ? [_selectedEvent] : []"
           [allModelsToAutoComplete]="events"
           [formatter]="formatter"
           (valueChange)="eventsChange($event)"

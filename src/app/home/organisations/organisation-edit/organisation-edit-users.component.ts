@@ -93,7 +93,7 @@ export class OrganisationEditUsersComponent extends AComponent {
 
   organisationsUsersService = inject(OrganisationsUsersService);
 
-  entities$ = getActivatedRouteIdParam().pipe(switchMap((id) => this.organisationsUsersService.getByParent$(id)));
+  entities$ = getActivatedRouteIdParam().pipe(switchMap((id) => this.organisationsUsersService.getByOrganisationId$(id)));
   filter = new FormControl('');
   columnsToDisplay = ['name', 'email', 'actions'];
   @ViewChild(NgbSort, {static: true}) sort: NgbSort | undefined;

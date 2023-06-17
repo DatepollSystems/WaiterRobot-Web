@@ -132,7 +132,7 @@ export class ChipInput {
       return;
     }
 
-    if (input.includes(' ') || input.includes(',')) {
+    if (input.includes(',')) {
       return;
     }
 
@@ -142,19 +142,28 @@ export class ChipInput {
   add(): void {
     let input = this.formCtrl.value as string | undefined;
 
-    if (!input) {
+    if (!input || input === '' || input === ' ') {
       this.inputValid = false;
       return;
     }
 
-    input = input.replace(' ', '');
+    if (!s_is(input)) {
+      return;
+    }
+
     input = input.replace(',', '');
 
     if (!this.validate(input)) {
       return;
     }
 
-    this._models.push(input);
+    input = input.toLowerCase().trim();
+
+    const item = this._allModelsToAutoComplete?.find((it) => this.formatter(it).toLowerCase().trim() === (input as string));
+    if (!item && this._allModelsToAutoComplete) {
+      return;
+    }
+    this._models.push(item ?? input);
     this.emitChange();
     this.inputValid = true;
     this.formCtrl.reset();

@@ -57,7 +57,7 @@
   "WHOLE": "Gesamt",
   "SIZE": "Größe",
   "DO_NOT_CLOSE_WINDOW": "Schließe das Fenster nicht",
-  "SELECT": "Auswählen",
+  "INCORRECT_INPUT": "Inkorrekte Eingabe",
 
   "REQUEST_ERROR": "Ein unbekannter Fehler ist aufgetreten.",
 
@@ -81,7 +81,7 @@
   "ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_FAILED": "Bitte nutze ein verändertes neues Passwort!",
   "ABOUT_SIGNIN_TROUBLE_LOGGING_IN": "Probleme beim anmelden oder Passwort vergessen?",
   "ABOUT_MAINTENANCE": "Wir führen zurzeit Wartungen durch. Probiere es in ein paar Minuten erneut.",
-  "ABOUT_APP_DISCOVER": "Mobile Apps fürs Personal",
+  "ABOUT_APP_DISCOVER": "Mobile Apps für's Personal",
   "ABOUT_APP_QR_CODE_MODAL_TITLE": "Store-Link",
   "ABOUT_APP_QR_CODE_TOOLTIP": "Zeig den Store-Link QR-Code",
   "ABOUT_APP_INFO": "Downloade die App",
@@ -189,6 +189,7 @@
   "HOME_USERS_SUR_NAME_INCORRECT": "Der Name muss aus mindestens 4 und maximal 35 Zeichen bestehen.",
   "HOME_USERS_PASSWORD_INCORRECT": "Das Password muss aus mindestens 6 Zeichen bestehen.",
   "HOME_USERS_EMAIL_INCORRECT": "E-Mail-Adresse inkorrekt.",
+  "HOME_USERS_ORGS_INPUT_PLACEHOLDER": "Organisationsname eingeben",
 
   "HOME_PROD_ALL": "Produkte",
   "HOME_PROD": "Produkt",

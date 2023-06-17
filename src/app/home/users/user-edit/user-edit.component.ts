@@ -3,17 +3,18 @@ import {Component} from '@angular/core';
 
 import {NgbDatepickerModule, NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTr} from 'dfx-translate';
-import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
-import {AbstractModelEditComponent} from '../../_shared/ui/form/abstract-model-edit.component';
-import {AppIsCreatingDirective} from '../../_shared/ui/form/app-is-creating.directive';
-import {AppIsEditingDirective} from '../../_shared/ui/form/app-is-editing.directive';
-import {AppModelEditSaveBtn} from '../../_shared/ui/form/app-model-edit-save-btn.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
-import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../_shared/waiterrobot-backend';
+import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
+import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
+import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
+import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
+import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
+import {AppIconsModule} from '../../../_shared/ui/icons.module';
+import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
+import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../../_shared/waiterrobot-backend';
 import {UserEditFormComponent} from './user-edit-form.component';
 
-import {UsersService} from './users.service';
+import {UsersService} from '../services/users.service';
+import {UserEditOrganisationsComponent} from './user-edit-organisations.component';
 
 @Component({
   template: `
@@ -56,9 +57,11 @@ import {UsersService} from './users.service';
             />
           </ng-template>
         </li>
-        <li [ngbNavItem]="'ORGS'">
+        <li [ngbNavItem]="'ORGS'" *isEditing="entity">
           <a ngbNavLink>{{ 'NAV_ORGANISATIONS' | tr }}</a>
-          <ng-template ngbNavContent> Coming soon...</ng-template>
+          <ng-template ngbNavContent>
+            <app-user-edit-organisations [user]="entity" />
+          </ng-template>
         </li>
       </ul>
 
@@ -87,11 +90,13 @@ import {UsersService} from './users.service';
     AppIsEditingDirective,
     AppModelEditSaveBtn,
     UserEditFormComponent,
+    UserEditOrganisationsComponent,
   ],
   standalone: true,
 })
 export class UserEditComponent extends AbstractModelEditComponent<CreateUserDto, UpdateUserDto, GetUserResponse, 'DATA' | 'ORGS'> {
   defaultTab = 'DATA' as const;
+  onlyEditingTabs = ['ORGS' as const];
 
   constructor(usersService: UsersService) {
     super(usersService);

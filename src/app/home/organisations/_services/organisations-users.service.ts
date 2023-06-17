@@ -1,22 +1,21 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {HasGetByParent} from 'dfx-helper';
 import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
 
-import {GetOrganisationResponse, OrganisationUserDto, OrganisationUserResponse} from '../../../_shared/waiterrobot-backend';
+import {OrganisationUserDto, OrganisationUserResponse} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class OrganisationsUsersService implements HasGetByParent<OrganisationUserResponse, GetOrganisationResponse> {
+export class OrganisationsUsersService {
   url = '/config/organisation/users';
 
   constructor(private httpClient: HttpClient, private eventsService: EventsService) {}
 
   triggerGet$ = new BehaviorSubject(true);
 
-  getByParent$(id: number): Observable<OrganisationUserResponse[]> {
+  getByOrganisationId$(id: number): Observable<OrganisationUserResponse[]> {
     return this.triggerGet$.pipe(
       switchMap(() => this.httpClient.get<OrganisationUserResponse[]>(this.url, {params: new HttpParams().set('organisationId', id)}))
     );
