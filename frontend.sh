@@ -34,7 +34,7 @@ _success=false
 printHelp() {
   printf "${BOLD}${UNDERLINE}${APP_NAME} installation help (${GREEN}v${SCRIPT_VERSION}${RESET}${UNDERLINE})${RESET}\n"
   printf "Usage: ./frontend.sh -v [version] -f -s\n"
-  printf "  -v ['prod', 'lava', 'rc']  (optional) select a specific version to install\n"
+  printf "  -v ['prod', 'lava', 'localfire']  (optional) select a specific version to install\n"
   printf "  -f                         (optional) force install without asking questions\n"
   printf "  -s                         (optional) skip deletion of temporary folder after run\n"
   _success=true
@@ -55,8 +55,8 @@ while getopts "v:fsh" opt; do
   v)
     if [ "$OPTARG" = "prod" ]; then
       VERSION=latest
-    elif [ "$OPTARG" = "rc" ]; then
-      VERSION=rc
+    elif [ "$OPTARG" = "localfire" ]; then
+      VERSION=localfire
     elif [ "$OPTARG" = "lava" ]; then
       VERSION=lava
     else
