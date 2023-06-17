@@ -52,7 +52,7 @@ jobs:
           retention-days: 1
 
   deploy-lava:
-    needs: [build-lavak]
+    needs: [build-lava]
     name: Deploy lava
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop'
