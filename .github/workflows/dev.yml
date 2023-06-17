@@ -51,9 +51,9 @@ jobs:
           path: ./dist/WaiterRobot-Web
           retention-days: 1
 
-  deploy-lava:
+  publish-lava:
     needs: [build-lava]
-    name: Deploy lava
+    name: Publish lava
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop'
     steps:
@@ -69,7 +69,7 @@ jobs:
           zip -r WaiterRobot-Web-lava.zip ./WaiterRobot-Web >> /dev/null
           cd -
 
-      - name: copy build to release server
+      - name: publish build to release server
         uses: garygrossgarten/github-action-scp@release
         with:
           local: ./dist/WaiterRobot-Web-lava.zip
@@ -78,15 +78,21 @@ jobs:
           port: ${{ secrets.RELEASES_SSH_PORT }}
           username: ${{ secrets.RELEASES_SSH_USER }}
           privateKey: ${{ secrets.RELEASES_SSH_PRIVATE_KEY }}
-  #
-  #      - name: fetching new version on test server
-  #        uses: appleboy/ssh-action@master
-  #        with:
-  #          host: ${{ secrets.DEMO_SSH_HOST }}
-  #          username: ${{ secrets.DEMO_SSH_USER }}
-  #          key: ${{ secrets.DEMO_SSH_PRIVATE_KEY }}
-  #          port: ${{ secrets.DEMO_SSH_PORT }}
-  #          script: cd /opt/waiterrobot-web && ./frontend.sh -v lava -f
+
+  deploy-lava:
+    needs: [publish-lava]
+    name: Deploy lava
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    steps:
+      - name: fetching new version on lava server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.LAVA_SSH_HOST }}
+          username: ${{ secrets.LAVA_SSH_USER }}
+          key: ${{ secrets.LAVA_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.LAVA_SSH_PORT }}
+          script: cd /opt/waiterrobot-web && ./frontend.sh -v lava -f
 
   build-localfire:
     name: Build localfire
@@ -111,9 +117,9 @@ jobs:
           path: ./dist/WaiterRobot-Web
           retention-days: 1
 
-  deploy-localfire:
+  publish-localfire:
     needs: [build-localfire]
-    name: Deploy localfire
+    name: Publish localfire
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop'
     steps:
@@ -138,3 +144,18 @@ jobs:
           port: ${{ secrets.RELEASES_SSH_PORT }}
           username: ${{ secrets.RELEASES_SSH_USER }}
           privateKey: ${{ secrets.RELEASES_SSH_PRIVATE_KEY }}
+
+  deploy-localfire:
+    needs: [publish-localfire]
+    name: Deploy localfire
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    steps:
+      - name: fetching new version on lava server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.LAVA_SSH_HOST }}
+          username: ${{ secrets.LAVA_SSH_USER }}
+          key: ${{ secrets.LOCALFIRE_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.LAVA_SSH_PORT }}
+          script: cd /opt/localfire && ./frontend.sh -v localfire -f
