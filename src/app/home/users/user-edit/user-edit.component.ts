@@ -15,6 +15,7 @@ import {UserEditFormComponent} from './user-edit-form.component';
 
 import {UsersService} from '../services/users.service';
 import {UserEditOrganisationsComponent} from './user-edit-organisations.component';
+import {takeUntil} from 'rxjs';
 
 @Component({
   template: `
@@ -27,7 +28,12 @@ import {UserEditOrganisationsComponent} from './user-edit-organisations.componen
           <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
         </div>
 
-        <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
+        <app-model-edit-save-btn
+          *ngIf="(activeTab$ | async) === 'DATA'"
+          (submit)="form?.submit()"
+          [valid]="valid$ | async"
+          [editing]="entity !== 'CREATE'"
+        />
 
         <div *isEditing="entity">
           <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
@@ -101,4 +107,6 @@ export class UserEditComponent extends AbstractModelEditComponent<CreateUserDto,
   constructor(usersService: UsersService) {
     super(usersService);
   }
+
+  protected readonly takeUntil = takeUntil;
 }

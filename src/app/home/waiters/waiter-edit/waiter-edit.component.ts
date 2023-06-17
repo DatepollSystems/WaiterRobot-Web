@@ -31,7 +31,12 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
           <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
         </div>
 
-        <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
+        <app-model-edit-save-btn
+          *ngIf="(activeTab$ | async) === 'DATA'"
+          (submit)="form?.submit()"
+          [valid]="valid$ | async"
+          [editing]="entity !== 'CREATE'"
+        />
 
         <ng-container *isEditing="entity">
           <div>
