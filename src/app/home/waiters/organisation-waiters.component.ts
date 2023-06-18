@@ -6,6 +6,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+import {MobileLinkService} from '../../_shared/services/mobile-link.service';
 import {QrCodeService} from '../../_shared/services/qr-code.service';
 
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
@@ -17,7 +18,6 @@ import {GetWaiterResponse} from '../../_shared/waiterrobot-backend';
 import {OrganisationsService} from '../organisations/_services/organisations.service';
 import {OrganisationWaitersService} from './_services/organisation-waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
-import {MobileLinkService} from '../../_shared/services/mobile-link.service';
 
 @Component({
   template: `
@@ -39,12 +39,12 @@ import {MobileLinkService} from '../../_shared/services/mobile-link.service';
           </button>
         </div>
 
-        <!--        <div>-->
-        <!--          <a routerLink="./duplicates" class="btn btn-sm btn-outline-secondary">-->
-        <!--            <i-bs name="person-bounding-box"/>-->
-        <!--            {{ 'HOME_WAITERS_DUPLICATES' | tr }}</a-->
-        <!--          >-->
-        <!--        </div>-->
+        <div>
+          <a routerLink="duplicates" class="btn btn-sm btn-outline-secondary">
+            <i-bs name="person-bounding-box" />
+            {{ 'HOME_WAITERS_DUPLICATES' | tr }}</a
+          >
+        </div>
       </btn-toolbar>
     </ng-container>
 
