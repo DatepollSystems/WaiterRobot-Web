@@ -9,7 +9,13 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
           <ng-content />
         </h4>
         <p class="heading">
-          <span [countUp]="count" animationDuration="2000" clickable="false"></span>
+          <!-- TODO: fix in library-->
+          <ng-container *ngIf="count === 0; else notZero">
+            <span>0</span>
+          </ng-container>
+          <ng-template #notZero>
+            <span [countUp]="count" animationDuration="2000" clickable="false"></span>
+          </ng-template>
           <ng-content select="[valuePrefix]" />
         </p>
       </div>

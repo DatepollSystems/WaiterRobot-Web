@@ -17,7 +17,7 @@ import {EventsService} from '../events/_services/events.service';
       </div>
 
       <div class="col">
-        <app-statistics-count-card [count]="countDto.orders">{{ 'HOME_STATISTICS_ORDERS' | tr }}</app-statistics-count-card>
+        <app-statistics-count-card [count]="countDto.orders ?? 0">{{ 'HOME_STATISTICS_ORDERS' | tr }}</app-statistics-count-card>
       </div>
 
       <div class="col">
@@ -31,7 +31,14 @@ import {EventsService} from '../events/_services/events.service';
         <div class="card h-100">
           <div class="card-body text-center d-flex flex-column gap-2">
             <h4>{{ 'HOME_STATISTICS_BEST_WAITER' | tr }}</h4>
-            <p style="font-size: 2rem">{{ countDto.bestWaiter?.name ?? '-' }} ({{ countDto.bestWaiter?.value ?? 0 }})</p>
+            <p style="font-size: 2rem">
+              <ng-container *ngIf="countDto.bestWaiter; else bestWaiterUnknown">
+                {{ countDto.bestWaiter.name }} ({{ countDto.bestWaiter.value }})
+              </ng-container>
+              <ng-template #bestWaiterUnknown>
+                <span>{{ 'UNKNOWN' | tr }}</span>
+              </ng-template>
+            </p>
           </div>
         </div>
       </div>
@@ -40,7 +47,14 @@ import {EventsService} from '../events/_services/events.service';
         <div class="card h-100">
           <div class="card-body text-center d-flex flex-column justify-content-center">
             <h4>{{ 'HOME_STATISTICS_BEST_PRODUCT' | tr }}</h4>
-            <p style="font-size: 2rem">{{ countDto.bestProduct?.name ?? '-' }} ({{ countDto.bestProduct?.value }}x)</p>
+            <p style="font-size: 2rem">
+              <ng-container *ngIf="countDto.bestProduct; else bestWaiterUnknown">
+                {{ countDto.bestProduct.name }} ({{ countDto.bestProduct.value }}x)
+              </ng-container>
+              <ng-template #bestWaiterUnknown>
+                <span>{{ 'UNKNOWN' | tr }}</span>
+              </ng-template>
+            </p>
           </div>
         </div>
       </div>
