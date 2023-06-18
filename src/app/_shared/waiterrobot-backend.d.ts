@@ -293,8 +293,6 @@ export interface BillProductResponse {
   /** @format int32 */
   pricePerPiece: number;
   /** @format int32 */
-  price: number;
-  /** @format int32 */
   amount: number;
 }
 
@@ -617,20 +615,6 @@ export interface GetProductResponse {
   allergens: GetAllergenResponse[];
 }
 
-export interface ProductWithNameDto {
-  /**
-   * @format int64
-   * @min 1
-   */
-  id: number;
-  name: string;
-  /**
-   * @format int64
-   * @min 1
-   */
-  amount: number;
-}
-
 export interface GetWaiterMyselfResponse {
   /** @format int64 */
   id: number;
@@ -661,8 +645,6 @@ export interface GetBillForTableResponse {
   tableId: number;
   /** @format int32 */
   tableNumber: number;
-  /** @format int32 */
-  priceSum: number;
   products: BillProductResponse[];
 }
 
@@ -761,11 +743,11 @@ export interface StatisticsSumResponse {
 
 export interface StatisticsCountResponse {
   /** @format int64 */
-  orderedProducts?: number;
+  orderedProducts: number;
   /** @format int64 */
-  orders?: number;
+  orders: number;
   /** @format int64 */
-  turnover?: number;
+  turnover: number;
   bestWaiter?: StatisticsSumResponse;
   bestProduct?: StatisticsSumResponse;
 }
@@ -864,18 +846,30 @@ export interface OrganisationSettingResponse {
   activateWaiterOnLoginViaCreateToken: boolean;
 }
 
-export interface GetOrderResponse {
+export interface GetOrderProductResponse {
   /** @format int64 */
   id: number;
-  /** @format int64 */
-  orderId: number;
-  table: GetTableMinResponse;
   product: GetProductMinResponse;
-  waiter: GetWaiterMinResponse;
   note?: string;
   /** @format int32 */
   amount: number;
-  printState: 'PRINTED' | 'SENT_TO_PRINT' | 'BLOCKED' | 'IN_QUEUE';
+  printState: 'PRINTED' | 'SENT_TO_PRINT' | 'QUEUED';
+  /** @format date-time */
+  printedAt?: string;
+  /** @format date-time */
+  sentToPrinterAt?: string;
+}
+
+export interface GetOrderResponse {
+  /** @format int64 */
+  id: number;
+  table: GetTableMinResponse;
+  waiter: GetWaiterMinResponse;
+  orderNumber: string;
+  state: 'QUEUED' | 'PROCESSED';
+  /** @format date-time */
+  processedAt?: string;
+  orderProducts: GetOrderProductResponse[];
 }
 
 export interface GetTableMinResponse {
