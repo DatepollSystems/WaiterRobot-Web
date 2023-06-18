@@ -12,7 +12,7 @@ import {
 import {AbstractControl, FormBuilder, FormControlStatus, FormGroup, ɵFormGroupValue} from '@angular/forms';
 import {IHasID, loggerOf} from 'dfts-helper';
 import {AComponent} from 'dfx-helper';
-import {delay, EMPTY, Observable, of, tap} from 'rxjs';
+import {delay, distinctUntilChanged, EMPTY, Observable, of, startWith, tap} from 'rxjs';
 
 const focuses = ['input', 'select', 'textarea'];
 
@@ -52,16 +52,15 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
   formStatusChanges?: Observable<FormControlStatus>;
 
   ngOnInit(): void {
-    const firstValid = this.form.valid ? 'VALID' : 'INVALID';
-    this.formValid.emit(firstValid);
-    this.lumber.log('formValidChange', 'valid', firstValid);
     this.formStatusChanges = this.form.statusChanges.pipe(
+      startWith(this.form.valid ? ('VALID' as FormControlStatus) : ('INVALID' as FormControlStatus)),
       tap((formStatus) => {
         const valid = formStatus === 'VALID' ? 'VALID' : 'INVALID';
-        this.lumber.log('formValidChange', 'valid', valid);
-        this.lumber.log('formValidChange', 'error', this.form.value);
+        this.lumber.log('formValidChange', 'is valid', valid);
+        this.lumber.log('formValidChange', 'form value', this.form.value);
         this.formValid.emit(valid);
-      })
+      }),
+      distinctUntilChanged()
     );
   }
 
@@ -74,7 +73,7 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
           input.focus();
           this.lumber.log('ngAfterViewInit', 'Input to focus', input);
         });
-    } else if (input) {
+    } else if (!input) {
       this.lumber.log('ngAfterViewInit', 'No input found to focus');
     }
   }

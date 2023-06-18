@@ -8,7 +8,7 @@ import {Subscription} from 'rxjs';
   template: `
     <div class="form-check form-switch mt-2">
       <input [formControl]="formControl" class="form-check-input" type="checkbox" role="switch" id="continuousCreation" />
-      <label class="form-check-label" for="continuousCreation">{{ 'CONTINUOUS_CREATION' | tr }}</label>
+      <label class="form-check-label" for="continuousCreation">{{ text | tr }}</label>
     </div>
   `,
   selector: 'app-continues-creation-switch',
@@ -26,6 +26,8 @@ export class AppContinuesCreationSwitchComponent implements OnDestroy {
   set continuesCreation(it: BooleanInput) {
     this.formControl.setValue(coerceBooleanProperty(it));
   }
+
+  @Input() text = 'CONTINUOUS_CREATION';
 
   subscription?: Subscription;
 
