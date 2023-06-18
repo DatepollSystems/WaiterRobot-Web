@@ -15,52 +15,47 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
 
 @Component({
   template: `
-    <ng-container *ngIf="vm$ | async as vm; else waiterNotFound">
-      <h1>"{{ vm.duplicateWaiter?.name }}" Duplikate</h1>
+    <ng-container *ngIf="vm$ | async as vm">
+      <h1>"{{ vm.duplicateWaiter.name }}" Duplikate</h1>
 
-      <div>
-        <btn-toolbar>
-          <div>
-            <a routerLink="../../" class="btn btn-sm btn-outline-secondary">{{ 'GO_BACK' | tr }}</a>
-          </div>
-          <div>
-            <button class="btn btn-sm btn-success" (click)="merge()" [disabled]="!vm.minTwo">
-              {{ 'SAVE' | tr }}
-            </button>
-          </div>
-        </btn-toolbar>
-        <div class="col-12 col-md-4">
-          <div class="list-group">
-            <button
-              class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-              *ngFor="let duplicateWaiter of vm.duplicateWaitersToMerge; trackById"
-              (click)="selectMainDuplicateWaiter(duplicateWaiter)"
-              [class.active]="duplicateWaiter.selectedAsMain"
-            >
-              <div>
-                <input
-                  class="form-check-input me-1"
-                  type="checkbox"
-                  *ngIf="!duplicateWaiter.selectedAsMain"
-                  [checked]="duplicateWaiter.selectedToMerge"
-                  (click)="selectDuplicateWaiterToMerge(duplicateWaiter); $event.stopPropagation()"
-                />
-                {{ duplicateWaiter.name }}
-              </div>
-              <button class="btn btn-sm btn-warning" (click)="$event.stopPropagation()" *ngIf="ignoreFeature">
-                <i-bs name="person-x-fill" />
-                {{ 'IGNORE' | tr }}
-              </button>
-            </button>
-          </div>
-          <div class="text-danger mt-2" *ngIf="!vm.minTwo">Markiere mindestens zwei Namen welche du zusammenführen willst</div>
+      <btn-toolbar>
+        <div>
+          <a routerLink="../../" class="btn btn-sm btn-outline-secondary">{{ 'GO_BACK' | tr }}</a>
         </div>
-        <app-continues-creation-switch (continuesCreationChange)="continueMerge = $event" text="HOME_WAITERS_DUPLICATES_CONTINUE" />
+        <div>
+          <button class="btn btn-sm btn-success" (click)="merge()" [disabled]="!vm.minTwo">
+            {{ 'SAVE' | tr }}
+          </button>
+        </div>
+      </btn-toolbar>
+      <div class="col-12 col-md-4">
+        <div class="list-group">
+          <button
+            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+            *ngFor="let duplicateWaiter of vm.duplicateWaitersToMerge; trackById"
+            (click)="selectMainDuplicateWaiter(duplicateWaiter)"
+            [class.active]="duplicateWaiter.selectedAsMain"
+          >
+            <div>
+              <input
+                class="form-check-input me-1"
+                type="checkbox"
+                *ngIf="!duplicateWaiter.selectedAsMain"
+                [checked]="duplicateWaiter.selectedToMerge"
+                (click)="selectDuplicateWaiterToMerge(duplicateWaiter); $event.stopPropagation()"
+              />
+              {{ duplicateWaiter.name }}
+            </div>
+            <button class="btn btn-sm btn-warning" (click)="$event.stopPropagation()" *ngIf="ignoreFeature">
+              <i-bs name="person-x-fill" />
+              {{ 'IGNORE' | tr }}
+            </button>
+          </button>
+        </div>
+        <div class="text-danger mt-2" *ngIf="!vm.minTwo">Markiere mindestens zwei Namen welche du zusammenführen willst</div>
       </div>
+      <app-continues-creation-switch (continuesCreationChange)="continueMerge = $event" text="HOME_WAITERS_DUPLICATES_CONTINUE" />
     </ng-container>
-    <ng-template #waiterNotFound>
-      <div class="text-danger mt-2">Wähle den richtigen Namen aus</div>
-    </ng-template>
   `,
   imports: [
     NgIf,
@@ -92,6 +87,13 @@ export class DuplicateOrganisationWaitersEditComponent {
     map((name) => name.replace('"', '').replace('"', '')),
     tap((name) => console.log('param name', name)),
     switchMap((name) => this.allDuplicateWaiters$.pipe(map((waiters) => waiters.find((it) => it.name === name)))),
+    filter((waiter): waiter is DuplicateWaiterResponse => {
+      if (!waiter) {
+        void this.router.navigateByUrl('/home/waiters/organisation/duplicates');
+        return false;
+      }
+      return true;
+    }),
     share(),
     shareReplay(1)
   );
@@ -99,9 +101,9 @@ export class DuplicateOrganisationWaitersEditComponent {
   private setDuplicateWaitersToMerge = new Subject<DuplicateWaiterWithSelected[]>();
   private duplicateWaitersToMerge$ = merge(
     this.duplicateWaiter$.pipe(
-      map((waiter) => waiter?.waiters?.sort((a, b) => a.name.localeCompare(b.name))),
+      map((waiter) => waiter.waiters.sort((a, b) => a.name.localeCompare(b.name))),
       map((waiters) =>
-        waiters?.map(
+        waiters.map(
           (waiter, index) =>
             ({
               ...waiter,
@@ -119,8 +121,8 @@ export class DuplicateOrganisationWaitersEditComponent {
   );
 
   private minTwoDuplicateWaitersForMergeSelected$ = this.duplicateWaitersToMerge$.pipe(
-    map((waiters) => waiters?.filter((it) => it.selectedToMerge || it.selectedAsMain)),
-    map((waiters) => (waiters?.length ?? 0) > 1)
+    map((waiters) => waiters.filter((it) => it.selectedToMerge || it.selectedAsMain)),
+    map((waiters) => waiters.length > 1)
   );
 
   vm$ = combineLatest([this.duplicateWaiter$, this.duplicateWaitersToMerge$, this.minTwoDuplicateWaitersForMergeSelected$]).pipe(
@@ -133,9 +135,6 @@ export class DuplicateOrganisationWaitersEditComponent {
 
   selectMainDuplicateWaiter(duplicateWaiter: DuplicateWaiterWithSelected): void {
     this.duplicateWaitersToMerge$.pipe(take(1)).subscribe((waiters) => {
-      if (!waiters) {
-        return;
-      }
       for (const waiter of waiters) {
         if (waiter.id === duplicateWaiter.id) {
           waiter.selectedAsMain = true;
@@ -150,9 +149,6 @@ export class DuplicateOrganisationWaitersEditComponent {
 
   selectDuplicateWaiterToMerge(duplicateWaiter: DuplicateWaiterWithSelected): void {
     this.duplicateWaitersToMerge$.pipe(take(1)).subscribe((waiters) => {
-      if (!waiters) {
-        return;
-      }
       const waiter = waiters.find((it) => it.id === duplicateWaiter.id);
       waiter!.selectedToMerge = !waiter!.selectedToMerge;
       this.setDuplicateWaitersToMerge.next(waiters);
@@ -161,10 +157,6 @@ export class DuplicateOrganisationWaitersEditComponent {
 
   merge(): void {
     this.duplicateWaitersToMerge$.pipe(take(1)).subscribe((waiters) => {
-      if (!waiters) {
-        return;
-      }
-
       const mainDuplicateWaiter = waiters.find((it) => it.selectedAsMain);
       if (!mainDuplicateWaiter) {
         console.error('No main waiter selected');
@@ -186,14 +178,14 @@ export class DuplicateOrganisationWaitersEditComponent {
             while (i < 100) {
               next = allDuplicateWaiters[i];
               i++;
-              if (next && next.name !== duplicateWaiter?.name) {
+              if (next && next.name !== duplicateWaiter.name) {
                 break;
               }
             }
             if (i > 98) {
               console.warn('duplicateWaiter merge - Could not find another duplicate waiter', allDuplicateWaiters);
             } else {
-              void this.router.navigateByUrl(`/home/waiters/organisation/duplicates/edit/"${next!.name}"`);
+              void this.router.navigateByUrl(`/home/waiters/organisation/duplicates/merge/"${next!.name}"`);
               return;
             }
             void this.router.navigateByUrl('/home/waiters/organisation/duplicates');

@@ -6,6 +6,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
+import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {DuplicateWaiterResponse} from '../../../_shared/waiterrobot-backend';
@@ -13,7 +14,13 @@ import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
 
 @Component({
   template: `
-    <h1 class="mb-3">{{ 'HOME_WAITERS_DUPLICATES' | tr }}</h1>
+    <h1>{{ 'HOME_WAITERS_DUPLICATES' | tr }}</h1>
+
+    <btn-toolbar>
+      <div>
+        <a routerLink="../" class="btn btn-sm btn-outline-secondary">{{ 'GO_BACK' | tr }}</a>
+      </div>
+    </btn-toolbar>
 
     <form>
       <div class="input-group">
@@ -66,6 +73,7 @@ import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
           routerLink="./merge/&quot;{{ duplicateWaiter.name }}&quot;"
         ></tr>
       </table>
+      <div *ngIf="_dataSource.data.length < 1" class="text-center fs-3">Keine Dupliakte gefunden!</div>
     </div>
   `,
   imports: [
@@ -79,6 +87,7 @@ import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
     DfxTr,
     AppIconsModule,
     AppSpinnerRowComponent,
+    AppBtnToolbarComponent,
   ],
   selector: 'app-duplicate-organisation-waiters',
   changeDetection: ChangeDetectionStrategy.OnPush,
