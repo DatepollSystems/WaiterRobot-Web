@@ -31,9 +31,9 @@ import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, Updat
           placeholder="{{ 'HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER' | tr }}"
           label="{{ 'HOME_WAITERS_EDIT_EVENTS' | tr }}"
           editable="false"
+          [formatter]="formatter"
           [models]="_isEdit ? _waiter?.events : !!_selectedEvent ? [_selectedEvent] : []"
           [allModelsToAutoComplete]="events"
-          [formatter]="formatter"
           (valueChange)="eventsChange($event)"
         >
         </chip-input>
@@ -97,6 +97,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
       this.form.controls.organisationId.setValue(id);
     }
   }
+
   _selectedOrganisationId = -1;
 
   @Input()
@@ -104,9 +105,12 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     if (it) {
       this.lumber.log('selectedEvent', 'set selected event', it);
       this._selectedEvent = it;
-      this.form.controls.eventIds.setValue([...this.form.controls.eventIds.getRawValue(), it.id]);
+      this.form.controls.eventIds.setValue(
+        [...this.form.controls.eventIds.getRawValue(), it.id].filter((value, index, array) => array.indexOf(value) === index)
+      );
     }
   }
+
   _selectedEvent?: GetEventOrLocationMinResponse;
 
   @Input()

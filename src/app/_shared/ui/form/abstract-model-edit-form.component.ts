@@ -54,13 +54,13 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
   ngOnInit(): void {
     this.formStatusChanges = this.form.statusChanges.pipe(
       startWith(this.form.valid ? ('VALID' as FormControlStatus) : ('INVALID' as FormControlStatus)),
+      distinctUntilChanged(),
       tap((formStatus) => {
         const valid = formStatus === 'VALID' ? 'VALID' : 'INVALID';
         this.lumber.log('formValidChange', 'is valid', valid);
         this.lumber.log('formValidChange', 'form value', this.form.value);
         this.formValid.emit(valid);
-      }),
-      distinctUntilChanged()
+      })
     );
   }
 
