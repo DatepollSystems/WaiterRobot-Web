@@ -3,20 +3,20 @@ import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 import {DfxTr} from 'dfx-translate';
 import {combineLatest, map, Observable, switchMap, tap} from 'rxjs';
 import {getActivatedRouteIdParam} from '../../../_shared/services/getActivatedRouteIdParam';
+import {ChipInput} from '../../../_shared/ui/chip-input/chip-input.component';
 import {GetUserResponse, IdAndNameResponse} from '../../../_shared/waiterrobot-backend';
-import {UsersOrganisationsService} from '../services/users-organisations.service';
 import {OrganisationsUsersService} from '../../organisations/_services/organisations-users.service';
 import {OrganisationsService} from '../../organisations/_services/organisations.service';
-import {ChipInput} from '../../../_shared/ui/chip-input/chip-input.component';
+import {UsersOrganisationsService} from '../services/users-organisations.service';
 
 @Component({
   template: `
     <div class="d-flex flex-column">
       <chip-input
         *ngIf="vm$ | async as vm"
+        [formatter]="formatter"
         (valueChange)="orgUserChange($event)"
         [allModelsToAutoComplete]="vm.organisations"
-        [formatter]="formatter"
         [models]="vm.selectedOrganisations"
         validationErrorText="{{ 'INCORRECT_INPUT' | tr }}"
         placeholder="{{ 'HOME_USERS_ORGS_INPUT_PLACEHOLDER' | tr }}"
