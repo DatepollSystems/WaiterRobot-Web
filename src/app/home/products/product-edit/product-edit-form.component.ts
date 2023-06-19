@@ -46,9 +46,9 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
           editable="false"
           label="{{ 'HOME_PROD_ALLERGENS' | tr }}"
           placeholder="{{ 'HOME_PROD_ALLERGENS_PLACEHOLDER' | tr }}"
+          [formatter]="formatter"
           [models]="_product?.allergens"
           [allModelsToAutoComplete]="allergens"
-          [formatter]="formatter"
           (valueChange)="allergenChange($event)"
         />
       </div>
