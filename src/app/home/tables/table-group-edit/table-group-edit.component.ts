@@ -2,6 +2,7 @@ import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTr} from 'dfx-translate';
+import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
@@ -23,10 +24,7 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
       <h1 *isCreating="entity">{{ 'HOME_TABLE_GROUPS_ADD' | tr }}</h1>
 
       <btn-toolbar>
-        <div>
-          <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
-        </div>
-
+        <back-button />
         <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
 
         <div *isEditing="entity">
@@ -83,6 +81,7 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
     AppModelEditSaveBtn,
     TableGroupEditFormComponent,
     AppContinuesCreationSwitchComponent,
+    AppBackButtonComponent,
   ],
 })
 export class TableGroupEditComponent extends AbstractModelEditComponent<

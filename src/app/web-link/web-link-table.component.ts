@@ -19,11 +19,11 @@ import {GetBillForTableResponse, GetTableResponse} from '../_shared/waiterrobot-
           {{ product.amount }}x {{ product.name }}
           <small>({{ product.pricePerPiece / 100 }}€ / Stück)</small>
         </span>
-        <span>{{ product.price / 100 }}€</span>
+        <span>{{ (product.pricePerPiece * product.amount) / 100 }}€</span>
       </div>
 
       <hr />
-      <div class="text-end">Gesamt: {{ vm.bill.priceSum / 100 }}€</div>
+      <div class="text-end">Gesamt: {{ vm.priceSum / 100 }}€</div>
     </ng-container>
     <div class="mt-3">
       <a href="/home" class="btn btn-light btn-sm">{{ 'GO_BACK' | tr }}</a>
@@ -47,9 +47,16 @@ export class WebLinkTableComponent {
     this.publicId$.pipe(switchMap((publicId) => this.httpClient.get<GetTableResponse>(`/ml/table/${publicId}`))),
     this.publicId$.pipe(switchMap((publicId) => this.httpClient.get<GetBillForTableResponse>(`/ml/table/${publicId}/bills`))),
   ]).pipe(
-    map(([table, bill]) => ({
-      table,
-      bill,
-    }))
+    map(([table, bill]) => {
+      let priceSum = 0;
+      for (const p of bill.products) {
+        priceSum += p.pricePerPiece * p.amount;
+      }
+      return {
+        table,
+        bill,
+        priceSum: priceSum / 100,
+      };
+    })
   );
 }

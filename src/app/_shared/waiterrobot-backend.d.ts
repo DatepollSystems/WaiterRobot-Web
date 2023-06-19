@@ -858,6 +858,7 @@ export interface GetOrderProductResponse {
   printedAt?: string;
   /** @format date-time */
   sentToPrinterAt?: string;
+  printedBy: GetPrinterMinResponse;
 }
 
 export interface GetOrderResponse {
@@ -869,7 +870,15 @@ export interface GetOrderResponse {
   state: 'QUEUED' | 'PROCESSED';
   /** @format date-time */
   processedAt?: string;
+  /** @format date-time */
+  createdAt: string;
   orderProducts: GetOrderProductResponse[];
+}
+
+export interface GetTableGroupMinResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
 }
 
 export interface GetTableMinResponse {
@@ -878,6 +887,7 @@ export interface GetTableMinResponse {
   publicId: string;
   /** @format int32 */
   number: number;
+  group: GetTableGroupMinResponse;
 }
 
 export interface GetWaiterMinResponse {

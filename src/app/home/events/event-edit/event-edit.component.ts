@@ -6,6 +6,7 @@ import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {combineLatest, filter, map} from 'rxjs';
 import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
+import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AppSelectableButtonComponent} from '../../../_shared/ui/app-selectable-button.component';
 import {BtnWaiterCreateQrCodeComponent} from '../../../_shared/ui/btn-waiter-create-qr-code.component';
@@ -28,9 +29,7 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
       <h1 *isCreating="entity">{{ 'ADD_2' | tr }}</h1>
 
       <btn-toolbar>
-        <div>
-          <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
-        </div>
+        <back-button />
 
         <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
 
@@ -99,6 +98,7 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
     AppIsCreatingDirective,
     AppEventEditFormComponent,
     AppModelEditSaveBtn,
+    AppBackButtonComponent,
   ],
 })
 export class EventEditComponent extends AbstractModelEditComponent<

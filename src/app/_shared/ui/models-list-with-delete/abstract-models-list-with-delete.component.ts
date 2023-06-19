@@ -53,13 +53,6 @@ export abstract class AbstractModelsListWithDeleteComponent<
 
   abstract nameMap: (it: EntityType) => string;
 
-  // public onDeleteAll(): void {
-  //   if (!this.isAllSelected()) {
-  //     this.toggleAllRows();
-  //   }
-  //   this.onDeleteSelected();
-  // }
-
   public onDeleteSelected(): void {
     this.lumber.info('onDeleteSelected', 'Opening delete question dialog');
     this.lumber.info('onDeleteSelected', 'Selected entities:', this.selection.selected);

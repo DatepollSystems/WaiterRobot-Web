@@ -193,6 +193,7 @@
 
   "HOME_PROD_ALL": "Produkte",
   "HOME_PROD": "Produkt",
+  "HOME_PROD_GO_TO_GROUP": "Produktgruppe öffnen",
   "HOME_PROD_GROUP": "Produktgruppen",
   "HOME_PROD_GROUP_SELECT": "Produktgruppe auswählen",
   "HOME_PROD_ADD": "Neues Produkt anlegen",
@@ -211,7 +212,6 @@
   "HOME_PROD_GROUP_ID": "Gruppe",
   "HOME_PROD_GROUP_ID_INCORRECT": "Das Produkt muss einer Gruppe zugeordnet sein",
   "HOME_PROD_GROUP_PRINTER_UPDATE": "Überschreibe alle Drucker in der gesamten Produktgruppe",
-  "HOME_PROD_PRINTER_ID": "Drucker",
   "HOME_PROD_PRINTER_ID_INCORRECT": "Das Produkt muss einem Drucker zugeordnet sein",
   "HOME_PROD_ORGANISATION_ID": "Organisation",
   "HOME_PROD_ORGANISATION_ID_INCORRECT": "Das Produkt muss einer Organisation zugeordnet sein",
@@ -232,6 +232,7 @@
 
   "HOME_TABLES": "Tische",
   "HOME_TABLE": "Tisch",
+  "HOME_TABLE_GO_TO_GROUP": "Tischgruppe öffnen",
   "HOME_TABLES_GROUPS_SELECT": "Tischgruppe auswählen",
   "HOME_TABLES_ADD": "Neuen Tisch anlegen",
   "HOME_TABLES_SEATS_INCORRECT": "*pflichtfeld",
@@ -257,8 +258,15 @@
   "HOME_PRINTER_NAME_NAME_INCORRECT": "Der Druckername muss aus mindestens 1 und maximal 70 Zeichen bestehen",
 
   "HOME_ORDERS_ALL": "Alle Bestellungen",
-  "HOME_ORDER_ID": "Order Nr.",
   "HOME_ORDER_NOTE": "Notiz",
+  "HOME_ORDER_CREATED_AT": "Erstellt um",
+  "HOME_ORDER_PROCESSED_AT": "Verarbeitet um",
+  "HOME_ORDER_NEXT_REFRESH": "Nächste Aktualisierung",
+  "HOME_ORDER_REFRESHED": "Bestellung(en) geladen",
+  "HOME_ORDER_PROCESSED": "Verarbeitet",
+  "HOME_ORDER_QUEUED": "Warteschlange",
+  "HOME_ORDER_SENT_TO_PRINT": "An Drucker gesendet",
+  "HOME_ORDER_PRINTED_AT": "Gedruckt um",
 
   "HOME_STATISTICS_SELLED_PRODUCTS": "Verkaufte Produkte",
   "HOME_STATISTICS_ORDERS": "Bestellungen",

@@ -4,6 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
@@ -25,9 +26,7 @@ import {AppPrinterEditForm} from './printer-edit-form.component';
       <h1 *isCreating="entity">{{ 'ADD_2' | tr }}</h1>
 
       <btn-toolbar>
-        <div>
-          <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
-        </div>
+        <back-button />
 
         <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
 
@@ -90,6 +89,7 @@ import {AppPrinterEditForm} from './printer-edit-form.component';
     AppModelEditSaveBtn,
     AppPrinterEditForm,
     AppContinuesCreationSwitchComponent,
+    AppBackButtonComponent,
   ],
 })
 export class PrinterEditComponent extends AbstractModelEditComponent<CreatePrinterDto, UpdatePrinterDto, GetPrinterResponse, 'DATA'> {

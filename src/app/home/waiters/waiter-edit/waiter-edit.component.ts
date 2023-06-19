@@ -4,6 +4,7 @@ import {NgbModalRef, NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet
 import {n_from, n_isNumeric} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
 import {combineLatest, filter, map, shareReplay, startWith, switchMap} from 'rxjs';
+import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
@@ -27,10 +28,7 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
       <h1 *isCreating="entity">{{ 'ADD_2' | tr }}</h1>
 
       <btn-toolbar>
-        <div>
-          <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
-        </div>
-
+        <back-button />
         <app-model-edit-save-btn
           *ngIf="(activeTab$ | async) === 'DATA'"
           (submit)="form?.submit()"
@@ -103,6 +101,7 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
     AppIsCreatingDirective,
     AppModelEditSaveBtn,
     AppProductEditFormComponent,
+    AppBackButtonComponent,
   ],
 })
 export class WaiterEditComponent extends AbstractModelEditComponent<

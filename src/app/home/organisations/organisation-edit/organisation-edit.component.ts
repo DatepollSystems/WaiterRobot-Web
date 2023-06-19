@@ -4,6 +4,7 @@ import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet, NgbTooltip}
 import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
+import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AppSelectableButtonComponent} from '../../../_shared/ui/app-selectable-button.component';
 
@@ -27,9 +28,7 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
 
       <ng-container *ngSub="myUser$ as myUser">
         <btn-toolbar>
-          <div>
-            <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
-          </div>
+          <back-button />
 
           <app-model-edit-save-btn
             *ngIf="(activeTab$ | async) === 'DATA'"
@@ -115,6 +114,7 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
     OrganisationEditUsersComponent,
     AppModelEditSaveBtn,
     OrganisationEditSettingsComponent,
+    AppBackButtonComponent,
   ],
 })
 export class OrganisationEditComponent extends AbstractModelEditComponent<
