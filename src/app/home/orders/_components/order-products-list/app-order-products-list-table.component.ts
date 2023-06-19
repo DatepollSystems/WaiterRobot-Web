@@ -5,8 +5,8 @@ import {d_from} from 'dfts-helper';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 import {Subject} from 'rxjs';
-import {GetOrderProductResponse} from '../../../_shared/waiterrobot-backend';
-import {AppOrderProductStateBadgeComponent} from './app-order-product-state-badge.component';
+import {GetOrderProductResponse} from '../../../../_shared/waiterrobot-backend';
+import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
 
 @Component({
   template: `
@@ -45,7 +45,9 @@ import {AppOrderProductStateBadgeComponent} from './app-order-product-state-badg
         <ng-container ngbColumnDef="printedBy">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_PRINTERS' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
-            {{ order.printedBy.name }}
+            <a routerLink="/home/printers/{{ order.printedBy.id }}">
+              {{ order.printedBy.name }}
+            </a>
           </td>
         </ng-container>
 
@@ -73,7 +75,7 @@ import {AppOrderProductStateBadgeComponent} from './app-order-product-state-badg
   imports: [DfxSortModule, DfxTableModule, DfxTr, AppOrderProductStateBadgeComponent, AsyncPipe, NgIf, DatePipe, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppOrderProductsListTable implements AfterViewInit {
+export class AppOrderProductsListTableComponent implements AfterViewInit {
   @Input({required: true}) orderProducts!: GetOrderProductResponse[];
 
   @ViewChild(NgbSort) sort?: NgbSort;

@@ -262,6 +262,7 @@
   "HOME_ORDER_CREATED_AT": "Erstellt um",
   "HOME_ORDER_PROCESSED_AT": "Verarbeitet um",
   "HOME_ORDER_NEXT_REFRESH": "Nächste Aktualisierung",
+  "HOME_ORDER_REFRESH_NOW": "Jetzt aktualisieren",
   "HOME_ORDER_REFRESHED": "Bestellung(en) geladen",
   "HOME_ORDER_PROCESSED": "Verarbeitet",
   "HOME_ORDER_QUEUED": "Warteschlange",

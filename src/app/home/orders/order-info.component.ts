@@ -2,14 +2,14 @@ import {AsyncPipe, DatePipe, NgClass, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
-import {map, switchMap} from 'rxjs';
+import {switchMap} from 'rxjs';
 import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
 import {AppBackButtonComponent} from '../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppOrderCountdownComponent} from './_components/app-order-countdown.component';
-import {AppOrderProductsListComponent} from './_components/app-order-products-list.component';
 import {AppOrderStateBadgeComponent} from './_components/app-order-state-badge.component';
+import {AppOrderProductsListComponent} from './_components/order-products-list/app-order-products-list.component';
 import {OrdersService} from './orders.service';
 
 @Component({
@@ -27,7 +27,7 @@ import {OrdersService} from './orders.service';
         <app-order-countdown [countdown]="(countdown$ | async) ?? 0" />
       </div>
       <div class="d-flex gap-2 my-3 my-md-2">
-        <span class="badge bg-success rounded-pill">Erstellt um: {{ order.createdAt | date : 'HH:mm:ss' }}</span>
+        <span class="badge bg-secondary rounded-pill">Erstellt um: {{ order.createdAt | date : 'HH:mm:ss' }}</span>
         <span class="badge rounded-pill" [ngClass]="{'bg-secondary': !order.processedAt, 'bg-success': order.processedAt}"
           >Verarbeitet um: <span *ngIf="order.processedAt; else sentToPrinterUnknown">{{ order.processedAt | date : 'HH:mm:ss' }}</span>
           <ng-template #sentToPrinterUnknown>Unbekannt</ng-template></span
@@ -68,17 +68,6 @@ import {OrdersService} from './orders.service';
       <app-order-products-list [orderProducts]="order.orderProducts" />
     </ng-container>
   `,
-  styles: [
-    `
-      .list-group-flush .list-group-item {
-        padding-left: 0;
-      }
-
-      a.badge:hover {
-        color: #ffffff;
-      }
-    `,
-  ],
   selector: 'app-orders-info',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -102,13 +91,7 @@ import {OrdersService} from './orders.service';
 })
 export class OrderInfoComponent {
   ordersService = inject(OrdersService);
-  order$ = getActivatedRouteIdParam().pipe(
-    switchMap((id) => this.ordersService.getSingle$(id)),
-    map((order) => {
-      order.orderProducts = [...order.orderProducts, ...order.orderProducts, ...order.orderProducts];
-      return order;
-    })
-  );
+  order$ = getActivatedRouteIdParam().pipe(switchMap((id) => this.ordersService.getSingle$(id)));
   countdown$ = this.ordersService.countdown$();
 
   requeueOrder(id: number) {

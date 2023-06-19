@@ -134,7 +134,7 @@ export class AllOrdersComponent extends AbstractModelsListComponent<GetOrderResp
   constructor(private ordersService: OrdersService) {
     super(ordersService);
 
-    this.columnsToDisplay = ['orderNumber', 'table', 'waiter', 'products', 'state', 'createdAt', 'processedAt'];
+    this.columnsToDisplay = ['orderNumber', 'state', 'table', 'waiter', 'products', 'createdAt', 'processedAt'];
 
     this.sortingDataAccessors = new Map();
     this.sortingDataAccessors.set('table', (it) => it.table.number);

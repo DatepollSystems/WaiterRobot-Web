@@ -21,16 +21,22 @@ import {EventsService} from '../../events/_services/events.service';
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TablesService} from '../_services/tables.service';
 import {TableEditFormComponent} from './table-edit-form.component';
+import {TableEditOrderProductsComponent} from './table-edit-order-products.component';
 
 @Component({
   template: `
     <div *ngIf="entity$ | async as entity; else loading">
-      <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} "{{ entity.number }}"</h1>
+      <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} {{ entity.number }} ({{ entity.groupName }})</h1>
       <h1 *isCreating="entity">{{ 'HOME_TABLES_ADD' | tr }}</h1>
 
       <btn-toolbar>
         <back-button />
-        <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
+        <app-model-edit-save-btn
+          *ngIf="(activeTab$ | async) === 'DATA'"
+          (submit)="form?.submit()"
+          [valid]="valid$ | async"
+          [editing]="entity !== 'CREATE'"
+        />
 
         <div *isEditing="entity">
           <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
@@ -66,6 +72,13 @@ import {TableEditFormComponent} from './table-edit-form.component';
             <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
           </ng-template>
         </li>
+
+        <li [ngbNavItem]="'ORDERS'" *isEditing="entity">
+          <a ngbNavLink>{{ 'NAV_ORDERS' | tr }}</a>
+          <ng-template ngbNavContent>
+            <app-table-edit-order-products />
+          </ng-template>
+        </li>
       </ul>
 
       <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
@@ -98,10 +111,12 @@ import {TableEditFormComponent} from './table-edit-form.component';
     TableEditFormComponent,
     RouterLink,
     AppBackButtonComponent,
+    TableEditOrderProductsComponent,
   ],
 })
-export class TableEditComponent extends AbstractModelEditComponent<CreateTableDto, UpdateTableDto, GetTableResponse, 'DATA'> {
+export class TableEditComponent extends AbstractModelEditComponent<CreateTableDto, UpdateTableDto, GetTableResponse, 'DATA' | 'ORDERS'> {
   defaultTab = 'DATA' as const;
+  override onlyEditingTabs = ['ORDERS' as const];
   override continuousUsePropertyNames = ['number', 'groupId', 'seats'];
 
   vm$ = combineLatest([

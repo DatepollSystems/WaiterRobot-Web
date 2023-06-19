@@ -45,4 +45,8 @@ export class OrdersService implements HasGetAll<GetOrderResponse>, HasGetSingle<
   requeueOrder(id: GetOrderResponse['id']): Observable<unknown> {
     return this.httpClient.get(`${this.url}/${id}/requeue`).pipe(tap(() => this.triggerRefresh.next(true)));
   }
+
+  getByTableId(id: number): Observable<GetOrderResponse[]> {
+    return this.httpClient.get<GetOrderResponse[]>(this.url, {params: new HttpParams().set('tableId', id)});
+  }
 }
