@@ -1,8 +1,8 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe, Location, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, Inject} from '@angular/core';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {d_format} from 'dfts-helper';
+import {d_format, s_chunks} from 'dfts-helper';
 import {DfxCutPipe, IsMobileService, WINDOW} from 'dfx-helper';
 import {QRCodeComponent} from 'dfx-qrcode';
 import {DfxTr, dfxTranslate} from 'dfx-translate';
@@ -78,6 +78,7 @@ import {AppIconsModule} from '../icons.module';
         border-width: 5px;
         background-color: #f6f6f6;
         padding: 15px;
+        filter: brightness(125%);
       }
     `,
   ],
@@ -89,6 +90,7 @@ import {AppIconsModule} from '../icons.module';
 export class AppQrCodeViewComponent {
   qrCodeData?: qrCodeData;
   isMobile$ = inject(IsMobileService).isMobile$;
+  location = inject(Location);
 
   translate = dfxTranslate();
 
@@ -110,7 +112,7 @@ export class AppQrCodeViewComponent {
       const text = await this.translate(this.qrCodeData.info);
 
       let height = 500;
-      for (const chunk of this.chunkString(text, 50)) {
+      for (const chunk of s_chunks(text, 50)) {
         const xOffset = pdf.internal.pageSize.width / 2 - (pdf.getStringUnitWidth(chunk) * pdf.getFontSize()) / 2;
         pdf.text(chunk, xOffset, height);
         height += 20;
@@ -120,22 +122,5 @@ export class AppQrCodeViewComponent {
     pdf.save(`qrcode-${d_format(new Date())}.pdf`);
   }
 
-  back = (): void => this.window?.history.back();
-
-  chunkString(str: string, len: number): string[] {
-    const input = str.trim().split(' ');
-    let index = 0;
-    const output: string[] = [];
-    output[index] = '';
-    input.forEach((word) => {
-      const temp = `${output[index]} ${word}`.trim();
-      if (temp.length <= len) {
-        output[index] = temp;
-      } else {
-        index++;
-        output[index] = word;
-      }
-    });
-    return output;
-  }
+  back = (): void => this.location.back();
 }
