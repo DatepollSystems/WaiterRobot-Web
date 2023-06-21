@@ -252,10 +252,7 @@
 
   "HOME_PRINTER_NAV_MEDIATOR": "Mediators",
   "HOME_PRINTER_NAV_EVENT": "Drucker für Event/Location anzeigen",
-  "HOME_PRINTER_NAME": "Druckername",
   "HOME_PRINTER_NAME_INCORRECT": "Der Name muss aus mindestens 1 und maximal 120 Zeichen bestehen",
-  "HOME_PRINTER_NAME_NAME_INCORRECT": "Der Druckername muss aus mindestens 1 und maximal 70 Zeichen bestehen",
-
   "HOME_ORDERS_ALL": "Alle Bestellungen",
   "HOME_ORDER_ID": "Order Nr.",
   "HOME_ORDER_NOTE": "Notiz",

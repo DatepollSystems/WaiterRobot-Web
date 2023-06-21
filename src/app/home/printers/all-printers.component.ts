@@ -82,11 +82,6 @@ import {PrintersService} from './_services/printers.service';
           <td *ngbCellDef="let printer" ngb-cell>{{ printer.name }}</td>
         </ng-container>
 
-        <ng-container ngbColumnDef="printerName">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_NAME' | tr }}</th>
-          <td *ngbCellDef="let printer" ngb-cell>{{ printer.printerName }}</td>
-        </ng-container>
-
         <ng-container ngbColumnDef="productGroups">
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_PROD_ALL' | tr }}</th>
           <td *ngbCellDef="let printer" ngb-cell>{{ printer.products | a_mapName | s_implode : ', ' : 20 : '...' }}</td>
@@ -139,6 +134,6 @@ export class AllPrintersComponent extends AbstractModelsWithNameListWithDeleteCo
   constructor(printersService: PrintersService) {
     super(printersService);
 
-    this.columnsToDisplay = ['name', 'printerName', 'productGroups', 'actions'];
+    this.columnsToDisplay = ['name', 'productGroups', 'actions'];
   }
 }
