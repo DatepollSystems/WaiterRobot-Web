@@ -22,21 +22,6 @@ import {CreatePrinterDto, GetPrinterResponse, UpdatePrinterDto} from '../../../_
             {{ 'HOME_PRINTER_NAME_INCORRECT' | tr }}
           </small>
         </div>
-
-        <div class="col form-group">
-          <label for="name">{{ 'HOME_PRINTER_NAME' | tr }}</label>
-          <input
-            class="form-control bg-dark text-white"
-            type="text"
-            id="printerName"
-            formControlName="printerName"
-            placeholder="{{ 'NAME' | tr }}"
-          />
-
-          <small *ngIf="form.controls.printerName.invalid" class="text-danger">
-            {{ 'HOME_PRINTER_NAME_NAME_INCORRECT' | tr }}
-          </small>
-        </div>
       </div>
     </form>
   `,
@@ -48,7 +33,6 @@ import {CreatePrinterDto, GetPrinterResponse, UpdatePrinterDto} from '../../../_
 export class AppPrinterEditForm extends AbstractModelEditFormComponent<CreatePrinterDto, UpdatePrinterDto> {
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(120)]],
-    printerName: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]],
     eventId: [-1, [Validators.required, Validators.min(0)]],
     id: [-1],
   });
@@ -68,7 +52,6 @@ export class AppPrinterEditForm extends AbstractModelEditFormComponent<CreatePri
 
     this.form.setValue({
       name: it.name,
-      printerName: it.printerName,
       eventId: it.eventId,
       id: it.id,
     });
