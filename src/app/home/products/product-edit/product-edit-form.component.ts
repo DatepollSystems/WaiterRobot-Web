@@ -122,9 +122,12 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     console.log(value.price);
 
     const result: string[] = value.price.split(/[,.]/);
-    value.price = n_from(result[0]!) * 100 + n_from(result[1] ?? 0);
+    let cent = n_from(result[1] ?? 0);
+    if (result[1].length < 2) {
+      cent = cent * 10;
+    }
+    value.price = n_from(result[0]!) * 100 + cent;
     console.log(result);
-
     console.log(value.price);
 
     return super.overrideRawValue(value);

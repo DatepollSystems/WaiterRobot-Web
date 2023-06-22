@@ -53,7 +53,7 @@ import {ProductsService} from './_services/products.service';
     </form>
 
     <div class="table-responsive">
-      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="groupName" ngbSortDirection="asc">
+      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="group" ngbSortDirection="asc">
         <ng-container ngbColumnDef="select">
           <th *ngbHeaderCellDef ngb-header-cell>
             <div class="form-check">
