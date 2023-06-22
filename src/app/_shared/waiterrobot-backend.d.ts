@@ -617,20 +617,6 @@ export interface GetProductResponse {
   allergens: GetAllergenResponse[];
 }
 
-export interface ProductWithNameDto {
-  /**
-   * @format int64
-   * @min 1
-   */
-  id: number;
-  name: string;
-  /**
-   * @format int64
-   * @min 1
-   */
-  amount: number;
-}
-
 export interface GetWaiterMyselfResponse {
   /** @format int64 */
   id: number;
@@ -761,11 +747,11 @@ export interface StatisticsSumResponse {
 
 export interface StatisticsCountResponse {
   /** @format int64 */
-  orderedProducts?: number;
+  orderedProducts: number;
   /** @format int64 */
-  orders?: number;
+  orders: number;
   /** @format int64 */
-  turnover?: number;
+  turnover: number;
   bestWaiter?: StatisticsSumResponse;
   bestProduct?: StatisticsSumResponse;
 }
@@ -806,7 +792,6 @@ export interface GetPrinterResponse {
   /** @format int64 */
   id: number;
   name: string;
-  printerName: string;
   /** @format int64 */
   eventId: number;
   products: GetProductMinResponse[];
