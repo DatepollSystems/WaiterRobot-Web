@@ -58,7 +58,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
     </form>
 
     <div class="table-responsive">
-      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="group" ngbSortDirection="asc">
+      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="groupName" ngbSortDirection="asc">
         <ng-container ngbColumnDef="select">
           <th *ngbHeaderCellDef ngb-header-cell>
             <div class="form-check">
@@ -85,7 +85,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
           </td>
         </ng-container>
 
-        <ng-container ngbColumnDef="group">
+        <ng-container ngbColumnDef="groupName">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_TABLE_GROUP_TABLES_VIEW' | tr }}</th>
           <td *ngbCellDef="let table" ngb-cell>{{ table.groupName }}</td>
         </ng-container>
@@ -145,7 +145,7 @@ export class AllTablesComponent extends AbstractModelsWithNumberListWithDeleteCo
   constructor(protected entitiesService: TablesService) {
     super(entitiesService);
 
-    this.columnsToDisplay = ['group', 'number', 'seats', 'actions'];
+    this.columnsToDisplay = ['groupName', 'number', 'seats', 'actions'];
   }
 
   printSelectedTables(): void {
