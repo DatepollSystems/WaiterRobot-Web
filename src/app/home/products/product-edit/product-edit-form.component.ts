@@ -123,7 +123,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
 
     const result: string[] = value.price.split(/[,.]/);
     let cent = n_from(result[1] ?? 0);
-    if (result[1].length < 2) {
+    if ((result[1]?.length ?? 2) < 2) {
       cent = cent * 10;
     }
     value.price = n_from(result[0]!) * 100 + cent;
