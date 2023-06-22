@@ -1,11 +1,9 @@
-import {NgForOf, NgIf} from '@angular/common';
-import {Component} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {AsyncPipe, NgIf} from '@angular/common';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {HasNumberIDAndName, IEntityWithNumberIDAndName, IList, List} from 'dfts-helper';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
@@ -15,131 +13,90 @@ import {DuplicateWaiterResponse} from '../../../_shared/waiterrobot-backend';
 import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
 
 @Component({
-  selector: 'app-duplicate-organisation-waiters',
-  templateUrl: './duplicate-organisation-waiters.component.html',
+  template: `
+    <h1>{{ 'HOME_WAITERS_DUPLICATES' | tr }}</h1>
+
+    <btn-toolbar>
+      <div>
+        <a routerLink="../" class="btn btn-sm btn-outline-secondary">{{ 'GO_BACK' | tr }}</a>
+      </div>
+    </btn-toolbar>
+
+    <form>
+      <div class="input-group">
+        <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          ngbTooltip="{{ 'CLEAR' | tr }}"
+          placement="bottom"
+          (click)="filter.reset()"
+          *ngIf="(filter?.value?.length ?? 0) > 0"
+        >
+          <i-bs name="x-circle-fill" />
+        </button>
+      </div>
+    </form>
+
+    <div class="table-responsive">
+      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort>
+        <ng-container ngbColumnDef="name">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+          <td *ngbCellDef="let duplicateWaiter" ngb-cell>{{ duplicateWaiter.name }}</td>
+        </ng-container>
+
+        <ng-container ngbColumnDef="count">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'COUNT' | tr }}</th>
+          <td *ngbCellDef="let duplicateWaiter" ngb-cell>
+            {{ duplicateWaiter.waiters.length }}
+          </td>
+        </ng-container>
+
+        <ng-container ngbColumnDef="actions">
+          <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+          <td *ngbCellDef="let duplicateWaiter" ngb-cell>
+            <a
+              class="btn btn-sm m-1 btn-outline-danger"
+              routerLink="./merge/&quot;{{ duplicateWaiter.name }}&quot;"
+              ngbTooltip="{{ 'MERGE' | tr }}"
+            >
+              <i-bs name="union" />
+            </a>
+          </td>
+        </ng-container>
+
+        <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+        <tr
+          *ngbRowDef="let duplicateWaiter; columns: columnsToDisplay"
+          ngb-row
+          class="clickable"
+          routerLink="./merge/&quot;{{ duplicateWaiter.name }}&quot;"
+        ></tr>
+      </table>
+      <div *ngIf="_dataSource.data.length < 1" class="text-center fs-3">Keine Dupliakte gefunden!</div>
+    </div>
+  `,
   imports: [
-    AppSpinnerRowComponent,
-    NgbTooltip,
+    ReactiveFormsModule,
+    AsyncPipe,
     NgIf,
-    AppIconsModule,
+    RouterLink,
+    NgbTooltip,
     DfxTableModule,
     DfxSortModule,
     DfxTr,
+    AppIconsModule,
+    AppSpinnerRowComponent,
     AppBtnToolbarComponent,
-    NgForOf,
-    FormsModule,
-    ReactiveFormsModule,
-    DfxTrackById,
-    RouterLink,
   ],
+  selector: 'app-duplicate-organisation-waiters',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class DuplicateOrganisationWaitersComponent extends AbstractModelsListComponent<DuplicateWaiterResponse> {
-  duplicateWaiter: DuplicateWaiterResponse | undefined;
-  selectedDuplicateWaiter: HasNumberIDAndName | undefined;
-  duplicateWaitersToMerge: IList<HasNumberIDAndName> = new List<HasNumberIDAndName>();
-  continueMerge = true;
-
-  //TODO: Ignore feature
-  ignoreFeature = false;
-  automaticIgnoreOnSave = true;
-
-  constructor(protected entitiesService: DuplicateWaitersService, private route: ActivatedRoute) {
+  constructor(protected entitiesService: DuplicateWaitersService) {
     super(entitiesService);
 
     this.columnsToDisplay = ['name', 'count', 'actions'];
-  }
-
-  // protected override onEntitiesLoaded(): void {
-  //   this.unsubscribe(
-  //     this.route.paramMap.subscribe((params) => {
-  //       let name = params.get('name');
-  //       if (name != null) {
-  //         name = name.replace('"', '').replace('"', '');
-  //         this.lumber.log('onEntitiesLoaded', 'Found name: "' + name + '"');
-  //         for (const duplicateWaiter of this.entities?.data ?? []) {
-  //           if (duplicateWaiter.name === name) {
-  //             this.lumber.log('onEntitiesLoaded', 'Found matching entity', this.duplicateWaiter);
-  //             this.duplicateWaiter = duplicateWaiter;
-  //             this.duplicateWaitersToMerge.removeAll();
-  //             this.duplicateWaitersToMerge.add(this.duplicateWaiter.waiters);
-  //             if (
-  //               new Set(
-  //                 this.duplicateWaitersToMerge.map((value) => {
-  //                   return value.name;
-  //                 })
-  //               ).size === 1
-  //             ) {
-  //               this.selectedDuplicateWaiter = this.duplicateWaitersToMerge[0];
-  //               this.duplicateWaitersToMerge.remove(this.selectedDuplicateWaiter);
-  //             }
-  //             this.lumber.log('onEntitiesLoaded', 'duplicateWaitersToMerge', this.duplicateWaitersToMerge);
-  //             break;
-  //           }
-  //         }
-  //       }
-  //     })
-  //   );
-  //   super.onEntitiesLoaded();
-  // }
-
-  isSelected(duplicateWaiter: IEntityWithNumberIDAndName): boolean {
-    return this.selectedDuplicateWaiter?.id === duplicateWaiter.id;
-  }
-
-  selectDuplicateWaiter(duplicateWaiter: IEntityWithNumberIDAndName): void {
-    if (this.selectedDuplicateWaiter?.id !== duplicateWaiter.id) {
-      this.duplicateWaitersToMerge.add(this.selectedDuplicateWaiter);
-    }
-    this.selectedDuplicateWaiter = duplicateWaiter;
-    this.duplicateWaitersToMerge.removeIfPresent(duplicateWaiter);
-    this.lumber.log('setDuplicateWaiter', 'DuplicateWaitersToMerge', this.duplicateWaitersToMerge);
-  }
-
-  isSelectedToMerge(duplicateWaiter: IEntityWithNumberIDAndName): boolean {
-    if (!this.duplicateWaiter) {
-      return false;
-    }
-    return this.duplicateWaitersToMerge.containsAny(duplicateWaiter);
-  }
-
-  selectDuplicateWaiterToMerge(duplicateWaiter: IEntityWithNumberIDAndName, event: any | undefined = undefined): boolean {
-    event?.stopPropagation();
-    if (this.duplicateWaitersToMerge.containsAny(duplicateWaiter)) {
-      this.duplicateWaitersToMerge.remove(duplicateWaiter);
-    } else {
-      this.duplicateWaitersToMerge.add(duplicateWaiter);
-    }
-    this.lumber.log('setDuplicateWaiterToMerge', 'Finished', this.duplicateWaitersToMerge);
-    return true;
-  }
-
-  merge(): void {
-    // if (this.selectedDuplicateWaiter == null || this.duplicateWaitersToMerge.length < 1) {
-    //   return;
-    // }
-    //
-    // this.entitiesService.merge({
-    //   waiterId: this.selectedDuplicateWaiter?.id,
-    //   waiterIds: this.duplicateWaitersToMerge.map((value) => value.id),
-    // });
-    // if (this.continueMerge && this.entities && this.entities.data.length > 1) {
-    //   let next: HasNumberIDAndName | undefined = undefined;
-    //   let i = 0;
-    //   while (i < 100) {
-    //     next = this.entities.data[i];
-    //     i++;
-    //     if (next && next.name !== this.duplicateWaiter?.name) {
-    //       break;
-    //     }
-    //   }
-    //   if (i > 98) {
-    //     this.lumber.warning('merge', 'Could not find another duplicate waiter', this.entities);
-    //   } else {
-    //     void this.router.navigateByUrl('/home/waiters/organisation/duplicates/"' + next!.name + '"');
-    //     return;
-    //   }
-    // }
-    // void this.router.navigateByUrl('/home/waiters/organisation/duplicates');
   }
 }
