@@ -142,11 +142,6 @@ export interface UpdatePrinterDto {
    * @maxLength 120
    */
   name: string;
-  /**
-   * @minLength 1
-   * @maxLength 70
-   */
-  printerName: string;
 }
 
 export interface UpdateOrganisationDto {
@@ -443,11 +438,6 @@ export interface CreatePrinterDto {
    * @maxLength 120
    */
   name: string;
-  /**
-   * @minLength 1
-   * @maxLength 70
-   */
-  printerName: string;
   /** @format int64 */
   eventId: number;
 }
