@@ -1,10 +1,12 @@
 import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {n_from, n_isNumeric} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {combineLatest, filter, map, startWith} from 'rxjs';
+import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
@@ -19,24 +21,34 @@ import {EventsService} from '../../events/_services/events.service';
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TablesService} from '../_services/tables.service';
 import {TableEditFormComponent} from './table-edit-form.component';
+import {TableEditOrderProductsComponent} from './table-edit-order-products.component';
 
 @Component({
   template: `
     <div *ngIf="entity$ | async as entity; else loading">
-      <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} "{{ entity.number }}"</h1>
+      <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} {{ entity.number }} ({{ entity.groupName }})</h1>
       <h1 *isCreating="entity">{{ 'HOME_TABLES_ADD' | tr }}</h1>
 
       <btn-toolbar>
-        <div>
-          <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
-        </div>
-
-        <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
+        <back-button />
+        <app-model-edit-save-btn
+          *ngIf="(activeTab$ | async) === 'DATA'"
+          (submit)="form?.submit()"
+          [valid]="valid$ | async"
+          [editing]="entity !== 'CREATE'"
+        />
 
         <div *isEditing="entity">
           <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
             <i-bs name="trash" />
             {{ 'DELETE' | tr }}
+          </button>
+        </div>
+
+        <div *isEditing="entity">
+          <button class="btn btn-sm btn-outline-primary" routerLink="/home/tables/groups/tables/{{ entity.groupId }}">
+            <i-bs name="diagram-3" />
+            {{ 'HOME_TABLE_GO_TO_GROUP' | tr }}
           </button>
         </div>
       </btn-toolbar>
@@ -58,6 +70,13 @@ import {TableEditFormComponent} from './table-edit-form.component';
             />
 
             <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
+          </ng-template>
+        </li>
+
+        <li [ngbNavItem]="'ORDERS'" *isEditing="entity">
+          <a ngbNavLink>{{ 'NAV_ORDERS' | tr }}</a>
+          <ng-template ngbNavContent>
+            <app-table-edit-order-products />
           </ng-template>
         </li>
       </ul>
@@ -90,10 +109,14 @@ import {TableEditFormComponent} from './table-edit-form.component';
     AppModelEditSaveBtn,
     AppContinuesCreationSwitchComponent,
     TableEditFormComponent,
+    RouterLink,
+    AppBackButtonComponent,
+    TableEditOrderProductsComponent,
   ],
 })
-export class TableEditComponent extends AbstractModelEditComponent<CreateTableDto, UpdateTableDto, GetTableResponse, 'DATA'> {
+export class TableEditComponent extends AbstractModelEditComponent<CreateTableDto, UpdateTableDto, GetTableResponse, 'DATA' | 'ORDERS'> {
   defaultTab = 'DATA' as const;
+  override onlyEditingTabs = ['ORDERS' as const];
   override continuousUsePropertyNames = ['number', 'groupId', 'seats'];
 
   vm$ = combineLatest([

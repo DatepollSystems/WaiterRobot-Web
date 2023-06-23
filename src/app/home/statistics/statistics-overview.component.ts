@@ -17,7 +17,7 @@ import {EventsService} from '../events/_services/events.service';
       </div>
 
       <div class="col">
-        <app-statistics-count-card [count]="countDto.orders ?? 0">{{ 'HOME_STATISTICS_ORDERS' | tr }}</app-statistics-count-card>
+        <app-statistics-count-card [count]="countDto.orders">{{ 'HOME_STATISTICS_ORDERS' | tr }}</app-statistics-count-card>
       </div>
 
       <div class="col">

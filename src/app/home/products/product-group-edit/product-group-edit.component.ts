@@ -3,6 +3,7 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTr} from 'dfx-translate';
 import {combineLatest, map} from 'rxjs';
+import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
@@ -25,10 +26,7 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
       <h1 *isCreating="entity">{{ 'HOME_PROD_GROUPS_ADD' | tr }}</h1>
 
       <btn-toolbar>
-        <div>
-          <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
-        </div>
-
+        <back-button />
         <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
 
         <div *isEditing="entity">
@@ -93,6 +91,7 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
     AppModelEditSaveBtn,
     AppContinuesCreationSwitchComponent,
     ProductGroupEditFormComponent,
+    AppBackButtonComponent,
   ],
 })
 export class ProductGroupEditComponent extends AbstractModelEditComponent<

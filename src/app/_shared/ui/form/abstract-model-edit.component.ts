@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {IHasID, loggerOf, n_from, n_isNumeric, s_from, s_is} from 'dfts-helper';
 import {HasDelete, HasGetSingle} from 'dfx-helper';
-import {BehaviorSubject, combineLatest, map, Observable, of, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, combineLatest, map, Observable, of, share, shareReplay, switchMap, tap} from 'rxjs';
 import {NotificationService} from '../../notifications/notification.service';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../services/services.interface';
 import {QuestionDialogComponent} from '../question-dialog/question-dialog.component';
@@ -36,15 +36,15 @@ export abstract class AbstractModelEditComponent<
     switchMap((id) => (n_isNumeric(id) ? this.entityService.getSingle$(n_from(id)) : of('CREATE' as const)))
   );
 
-  protected redirectUrl?: string;
-
   protected defaultTab!: Tab;
   protected onlyEditingTabs: Tab[] = [];
   public activeTab$ = combineLatest([
     this.route.queryParams.pipe(map((params) => (s_is(params.tab) ? (params.tab as Tab) : undefined))),
     this.entity$,
   ]).pipe(
-    map(([tab, entity]) => (tab === undefined || (entity === 'CREATE' && this.onlyEditingTabs.includes(tab)) ? this.defaultTab : tab))
+    map(([tab, entity]) => (tab === undefined || (entity === 'CREATE' && this.onlyEditingTabs.includes(tab)) ? this.defaultTab : tab)),
+    share(),
+    shareReplay(1)
   );
 
   protected continuousUsePropertyNames: string[] = [];
@@ -105,22 +105,8 @@ export abstract class AbstractModelEditComponent<
         this.notificationService.tsuccess('SAVED');
       });
     if (!this.continuesCreation) {
-      this.onGoBack();
+      this.location.back();
     }
-  }
-
-  public onGoBack(url?: string): void {
-    if (url) {
-      void this.router.navigateByUrl(url);
-      return;
-    }
-
-    if (this.redirectUrl) {
-      void this.router.navigateByUrl(this.redirectUrl);
-      return;
-    }
-
-    this.location.back();
   }
 
   public navigateToTab(tab: Tab): void {
@@ -139,7 +125,7 @@ export abstract class AbstractModelEditComponent<
     this.lumber.info('onDelete', 'Confirm dialog result', result);
     if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
       this.entityService.delete$(modelId).subscribe();
-      this.onGoBack();
+      this.location.back();
     }
   }
 }

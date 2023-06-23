@@ -3,6 +3,8 @@ import {Component} from '@angular/core';
 
 import {NgbDatepickerModule, NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTr} from 'dfx-translate';
+import {takeUntil} from 'rxjs';
+import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
@@ -11,11 +13,10 @@ import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../../_shared/waiterrobot-backend';
-import {UserEditFormComponent} from './user-edit-form.component';
 
 import {UsersService} from '../services/users.service';
+import {UserEditFormComponent} from './user-edit-form.component';
 import {UserEditOrganisationsComponent} from './user-edit-organisations.component';
-import {takeUntil} from 'rxjs';
 
 @Component({
   template: `
@@ -24,10 +25,7 @@ import {takeUntil} from 'rxjs';
       <h1 *isCreating="entity">{{ 'ADD_2' | tr }}</h1>
 
       <btn-toolbar>
-        <div>
-          <button class="btn btn-sm btn-dark text-white" (click)="onGoBack()">{{ 'GO_BACK' | tr }}</button>
-        </div>
-
+        <back-button />
         <app-model-edit-save-btn
           *ngIf="(activeTab$ | async) === 'DATA'"
           (submit)="form?.submit()"
@@ -97,6 +95,7 @@ import {takeUntil} from 'rxjs';
     AppModelEditSaveBtn,
     UserEditFormComponent,
     UserEditOrganisationsComponent,
+    AppBackButtonComponent,
   ],
   standalone: true,
 })
