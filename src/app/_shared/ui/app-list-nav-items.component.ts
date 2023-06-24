@@ -15,9 +15,9 @@ import {AppIconsModule} from './icons.module';
     <ng-container *ngIf="selected$ | async" />
 
     <div class="list-group d-none d-lg-block">
-      <ng-container *ngIf="_entities; else loading">
+      <ng-container *ngIf="entities; else loading">
         <a
-          *ngFor="let entity of _entities; trackById"
+          *ngFor="let entity of entities; trackById"
           class="list-group-item list-group-item-action "
           [routerLink]="path + entity.id"
           routerLinkActive="active"
@@ -32,7 +32,7 @@ import {AppIconsModule} from './icons.module';
         <span class="input-group-text" id="select-nav-addon"><i-bs name="people" /></span>
         <select [formControl]="selectFormControl" class="form-select" id="select-nav" #select (change)="onNavigate(select.value)">
           <option value="default">{{ selectTr | tr }}</option>
-          <option value="{{ path }}{{ entity.id }}" *ngFor="let entity of _entities; trackById">
+          <option value="{{ path }}{{ entity.id }}" *ngFor="let entity of entities; trackById">
             {{ entity.name }}
           </option>
         </select>
@@ -57,11 +57,7 @@ import {AppIconsModule} from './icons.module';
 export class AppListNavItemsComponent implements AfterViewInit {
   router = inject(Router);
 
-  @Input() set entities(it: HasIDAndName<StringOrNumber>[] | null) {
-    this._entities = it?.sort((a, b) => a.name.trim().toLowerCase().localeCompare(b.name.trim().toLowerCase())) ?? null;
-  }
-
-  _entities: HasIDAndName<StringOrNumber>[] | null = null;
+  @Input() entities: HasIDAndName<StringOrNumber>[] | null = null;
 
   @Input() path!: string;
 

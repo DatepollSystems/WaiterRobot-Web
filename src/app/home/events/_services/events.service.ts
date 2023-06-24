@@ -70,6 +70,7 @@ export class EventsService
           params: new HttpParams().set('organisationId', organisation.id),
         })
       ),
+      map((it) => it.sort((a, b) => a.name.trim().toLowerCase().localeCompare(b.name.trim().toLowerCase()))),
       tap((entities) => {
         const selected = this.selectedChange.getValue();
         if (selected && entities.length > 0) {

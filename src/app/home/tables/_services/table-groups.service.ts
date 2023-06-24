@@ -2,7 +2,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {notNullAndUndefined, s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
-import {BehaviorSubject, filter, Observable, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, filter, map, Observable, switchMap, tap} from 'rxjs';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
 
 import {CreateTableGroupDto, GetTableGroupResponse, IdResponse, UpdateTableGroupDto} from '../../../_shared/waiterrobot-backend';
@@ -30,7 +30,8 @@ export class TableGroupsService
           filter(notNullAndUndefined),
           switchMap((selected) =>
             this.httpClient.get<GetTableGroupResponse[]>(this.url, {params: new HttpParams().set('eventId', selected.id)})
-          )
+          ),
+          map((it) => it.sort((a, b) => a.name.trim().toLowerCase().localeCompare(b.name.trim().toLowerCase())))
         )
       )
     );
