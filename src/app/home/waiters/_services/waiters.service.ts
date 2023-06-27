@@ -30,7 +30,7 @@ export class WaitersService
   triggerGet$ = new BehaviorSubject(true);
 
   getAll$(): Observable<GetWaiterResponse[]> {
-    return this.triggerGet$.pipe(switchMap(() => this.httpClient.get<GetWaiterResponse[]>(this.url)));
+    throw Error('Not implemented');
   }
 
   getSingle$(id: number): Observable<GetWaiterResponse> {
