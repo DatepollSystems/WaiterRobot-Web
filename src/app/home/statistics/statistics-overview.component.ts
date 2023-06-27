@@ -29,32 +29,32 @@ import {EventsService} from '../events/_services/events.service';
 
       <div class="col">
         <div class="card h-100">
-          <div class="card-body text-center d-flex flex-column gap-2">
-            <h4>{{ 'HOME_STATISTICS_BEST_WAITER' | tr }}</h4>
-            <p style="font-size: 2rem">
+          <div class="card-body d-flex flex-column justify-content-between align-items-center gap-2">
+            <h4 class="mt-1">{{ 'HOME_STATISTICS_BEST_WAITER' | tr }}</h4>
+            <div style="font-size: 2rem" class="text-center">
               <ng-container *ngIf="countDto.bestWaiter; else bestWaiterUnknown">
                 {{ countDto.bestWaiter.name }} ({{ countDto.bestWaiter.value }})
               </ng-container>
               <ng-template #bestWaiterUnknown>
                 <span>{{ 'UNKNOWN' | tr }}</span>
               </ng-template>
-            </p>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="col">
         <div class="card h-100">
-          <div class="card-body text-center d-flex flex-column justify-content-center">
-            <h4>{{ 'HOME_STATISTICS_BEST_PRODUCT' | tr }}</h4>
-            <p style="font-size: 2rem">
+          <div class="card-body d-flex flex-column justify-content-between align-items-center gap-2">
+            <h4 class="mt-1">{{ 'HOME_STATISTICS_BEST_PRODUCT' | tr }}</h4>
+            <div style="font-size: 2rem" class="text-center">
               <ng-container *ngIf="countDto.bestProduct; else bestWaiterUnknown">
                 {{ countDto.bestProduct.name }} ({{ countDto.bestProduct.value }}x)
               </ng-container>
               <ng-template #bestWaiterUnknown>
                 <span>{{ 'UNKNOWN' | tr }}</span>
               </ng-template>
-            </p>
+            </div>
           </div>
         </div>
       </div>
