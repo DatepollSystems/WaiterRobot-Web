@@ -2,6 +2,7 @@ import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {DfxTr} from 'dfx-translate';
+import {allowedCharacterSet} from '../../../_shared/regex';
 
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
@@ -31,7 +32,7 @@ import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '.
 })
 export class TableGroupEditFormComponent extends AbstractModelEditFormComponent<CreateTableGroupDto, UpdateTableGroupDto> {
   override form = this.fb.nonNullable.group({
-    name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(60)]],
+    name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(60), Validators.pattern(allowedCharacterSet)]],
     eventId: [-1, [Validators.required, Validators.min(0)]],
     id: [-1],
   });

@@ -4,6 +4,7 @@ import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {HasNumberIDAndName} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+import {allowedCharacterSet} from '../../../_shared/regex';
 import {ChipInput} from '../../../_shared/ui/chip-input/chip-input.component';
 
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
@@ -56,7 +57,7 @@ import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, Updat
 })
 export class AppProductEditFormComponent extends AbstractModelEditFormComponent<CreateWaiterDto, UpdateWaiterDto> {
   override form = this.fb.nonNullable.group({
-    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(70)]],
+    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(70), Validators.pattern(allowedCharacterSet)]],
     eventIds: [new Array<number>()],
     organisationId: [-1, [Validators.required, Validators.min(0)]],
     activated: [true, [Validators.required]],

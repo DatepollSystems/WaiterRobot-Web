@@ -4,6 +4,7 @@ import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {a_pluck, HasNumberIDAndName, n_from, s_from} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+import {allowedCharacterSet} from '../../../_shared/regex';
 import {ChipInput} from '../../../_shared/ui/chip-input/chip-input.component';
 
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
@@ -108,7 +109,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
 })
 export class AppProductEditFormComponent extends AbstractModelEditFormComponent<CreateProductDto, UpdateProductDto> {
   override form = this.fb.nonNullable.group({
-    name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]],
+    name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(70), Validators.pattern(allowedCharacterSet)]],
     price: ['', [Validators.required, Validators.pattern(/^\d+([.,](\d{1,2}|[0-8]\d?))?$/)]],
     allergenIds: [new Array<number>()],
     eventId: [-1, [Validators.required, Validators.min(0)]],
@@ -119,16 +120,12 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
   });
 
   override overrideRawValue = (value: any): any => {
-    console.log(value.price);
+    const match: string[] = value.price.split(/[,.]/);
+    const euro = n_from(match[0] ?? 0);
+    const cent = n_from(match[1]?.padEnd(2, '0') ?? 0);
+    value.price = euro * 100 + cent;
 
-    const result: string[] = value.price.split(/[,.]/);
-    let cent = n_from(result[1] ?? 0);
-    if ((result[1]?.length ?? 2) < 2) {
-      cent = cent * 10;
-    }
-    value.price = n_from(result[0]!) * 100 + cent;
-    console.log(result);
-    console.log(value.price);
+    this.lumber.log('overrideRawValue', 'Euro to cent', match, value.price);
 
     return super.overrideRawValue(value);
   };
@@ -170,6 +167,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
       this.form.controls.groupId.setValue(id);
     }
   }
+
   _selectedProductGroupId = -1;
 
   @Input()
@@ -180,6 +178,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
       this.form.controls.eventId.setValue(this._selectedEventId);
     }
   }
+
   _selectedEventId = -1;
 
   @Input()

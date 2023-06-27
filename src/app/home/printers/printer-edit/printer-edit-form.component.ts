@@ -3,6 +3,7 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+import {allowedCharacterSet} from '../../../_shared/regex';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 
@@ -32,7 +33,7 @@ import {CreatePrinterDto, GetPrinterResponse, UpdatePrinterDto} from '../../../_
 })
 export class AppPrinterEditForm extends AbstractModelEditFormComponent<CreatePrinterDto, UpdatePrinterDto> {
   override form = this.fb.nonNullable.group({
-    name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(120)]],
+    name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(120), Validators.pattern(allowedCharacterSet)]],
     eventId: [-1, [Validators.required, Validators.min(0)]],
     id: [-1],
   });

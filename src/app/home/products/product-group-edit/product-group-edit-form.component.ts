@@ -4,6 +4,7 @@ import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {HasNumberIDAndName} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+import {allowedCharacterSet} from '../../../_shared/regex';
 
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
@@ -56,7 +57,7 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
 })
 export class ProductGroupEditFormComponent extends AbstractModelEditFormComponent<CreateProductGroupDto, UpdateProductGroupDto> {
   override form = this.fb.nonNullable.group({
-    name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(60)]],
+    name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(60), Validators.pattern(allowedCharacterSet)]],
     eventId: [-1, [Validators.required, Validators.min(0)]],
     printerId: [-1],
     updatePrinterId: [false],
