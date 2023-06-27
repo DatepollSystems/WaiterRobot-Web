@@ -9,6 +9,7 @@
   "timezone": "Europe/Vienna",
   "labels": ["dependencies"],
   "assignees": ["Dafnik"],
+  "ignoreDeps": ["bootstrap"],
   "packageRules": [
     {
       "matchPackageNames": ["typescript", "tslib"],

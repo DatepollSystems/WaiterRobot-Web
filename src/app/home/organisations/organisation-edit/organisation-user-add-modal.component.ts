@@ -2,8 +2,6 @@ import {LowerCasePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AEntityWithNumberIDAndName, s_isEmail} from 'dfts-helper';
-
-import {AComponent} from 'dfx-helper';
 import {DfxTr, dfxTranslate$} from 'dfx-translate';
 
 import {NotificationService} from '../../../_shared/notifications/notification.service';
@@ -40,7 +38,7 @@ import {OrganisationsUsersService} from '../_services/organisations-users.servic
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ChipInput, DfxTr, LowerCasePipe, AppIconsModule],
 })
-export class OrganisationUserAddModalComponent extends AComponent {
+export class OrganisationUserAddModalComponent {
   entity!: AEntityWithNumberIDAndName;
   emailAddresses: string[] = [];
 
@@ -51,9 +49,7 @@ export class OrganisationUserAddModalComponent extends AComponent {
     private modal: NgbModal,
     private notificationService: NotificationService,
     private organisationsUsersService: OrganisationsUsersService
-  ) {
-    super();
-  }
+  ) {}
 
   filter = (input: string): boolean => s_isEmail(input);
 

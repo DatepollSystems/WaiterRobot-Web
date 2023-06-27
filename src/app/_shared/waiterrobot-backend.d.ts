@@ -33,6 +33,7 @@ export interface UpdateWaiterDto {
   /**
    * @minLength 3
    * @maxLength 70
+   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
   eventIds: number[];
@@ -97,6 +98,7 @@ export interface UpdateTableGroupDto {
   /**
    * @minLength 1
    * @maxLength 60
+   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
 }
@@ -107,6 +109,7 @@ export interface UpdateProductDto {
   /**
    * @minLength 1
    * @maxLength 70
+   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
   allergenIds: number[];
@@ -128,6 +131,7 @@ export interface UpdateProductGroupDto {
   /**
    * @minLength 1
    * @maxLength 60
+   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
   /** @format int64 */
@@ -140,8 +144,32 @@ export interface UpdatePrinterDto {
   /**
    * @minLength 1
    * @maxLength 120
+   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
+  /**
+   * @format int32
+   * @min 5
+   * @max 25
+   */
+  fontScale?: number;
+  /**
+   * @minLength 1
+   * @maxLength 2
+   */
+  font?: string;
+  /**
+   * @format int32
+   * @min 60
+   * @max 160
+   */
+  bonWidth?: number;
+  /**
+   * @format int32
+   * @min 0
+   * @max 10
+   */
+  bonPadding?: number;
 }
 
 export interface UpdateOrganisationDto {
@@ -181,6 +209,10 @@ export interface UpdateOrganisationDto {
 
 export interface OrganisationUserDto {
   role: 'ADMIN' | 'MEMBER';
+}
+
+export interface OrganisationSettingStringSetDto {
+  value: string;
 }
 
 export interface OrganisationSettingBooleanSetDto {
@@ -253,6 +285,7 @@ export interface CreateOrderProductDto {
   /**
    * @minLength 0
    * @maxLength 120
+   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
    */
   note?: string;
   /**
@@ -336,6 +369,7 @@ export interface WaiterLoginCreateDto {
   /**
    * @minLength 3
    * @maxLength 70
+   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
   /**
@@ -349,6 +383,7 @@ export interface CreateWaiterDto {
   /**
    * @minLength 3
    * @maxLength 70
+   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
   activated: boolean;
@@ -397,6 +432,7 @@ export interface CreateTableGroupDto {
   /**
    * @minLength 1
    * @maxLength 60
+   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
   /** @format int64 */
@@ -407,6 +443,7 @@ export interface CreateProductDto {
   /**
    * @minLength 1
    * @maxLength 70
+   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
   allergenIds: number[];
@@ -426,6 +463,7 @@ export interface CreateProductGroupDto {
   /**
    * @minLength 1
    * @maxLength 60
+   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
   /** @format int64 */
@@ -436,9 +474,36 @@ export interface CreatePrinterDto {
   /**
    * @minLength 1
    * @maxLength 120
+   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
-  /** @format int64 */
+  /**
+   * @format int32
+   * @min 5
+   * @max 25
+   */
+  fontScale?: number;
+  /**
+   * @minLength 1
+   * @maxLength 2
+   */
+  font?: string;
+  /**
+   * @format int32
+   * @min 60
+   * @max 160
+   */
+  bonWidth?: number;
+  /**
+   * @format int32
+   * @min 0
+   * @max 10
+   */
+  bonPadding?: number;
+  /**
+   * @format int64
+   * @min 0
+   */
   eventId: number;
 }
 
@@ -774,10 +839,22 @@ export interface GetProductGroupResponse {
   eventId: number;
 }
 
+export interface GetPrinterFontResponse {
+  code: string;
+  description: string;
+}
+
 export interface GetPrinterResponse {
   /** @format int64 */
   id: number;
   name: string;
+  /** @format int32 */
+  fontScale: number;
+  font: GetPrinterFontResponse;
+  /** @format int32 */
+  bonWidth: number;
+  /** @format int32 */
+  bonPadding: number;
   /** @format int64 */
   eventId: number;
   products: GetProductMinResponse[];
@@ -833,6 +910,9 @@ export interface PaginatedResponseDtoGetOrganisationResponse {
 
 export interface OrganisationSettingResponse {
   activateWaiterOnLoginViaCreateToken: boolean;
+  /** @uniqueItems true */
+  availableTimezones: string[];
+  timezone: string;
 }
 
 export interface GetOrderProductResponse {

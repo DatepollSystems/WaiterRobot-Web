@@ -5,7 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {notNullAndUndefined} from 'dfts-helper';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
-import {AComponent, NgSub} from 'dfx-helper';
+import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {combineLatest, filter, of, startWith, switchMap} from 'rxjs';
 import {getActivatedRouteIdParam} from '../../../_shared/services/getActivatedRouteIdParam';
@@ -87,7 +87,7 @@ import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.c
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, NgbTooltip, NgIf, AppIconsModule, DfxTableModule, DfxSortModule, DfxTr, NgSub, AsyncPipe],
 })
-export class OrganisationEditUsersComponent extends AComponent {
+export class OrganisationEditUsersComponent {
   modal = inject(NgbModal);
   route = inject(ActivatedRoute);
 

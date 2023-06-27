@@ -87,12 +87,12 @@ import {OrdersService} from './orders.service';
 
           <ng-container ngbColumnDef="createdAt">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_CREATED_AT' | tr }}</th>
-            <td *ngbCellDef="let order" ngb-cell>{{ order.createdAt | date : 'HH:mm:ss' }}</td>
+            <td *ngbCellDef="let order" ngb-cell>{{ order.createdAt | date : 'dd.MM. HH:mm:ss' }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="processedAt">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_PROCESSED_AT' | tr }}</th>
-            <td *ngbCellDef="let order" ngb-cell>{{ order.processedAt | date : 'HH:mm:ss' }}</td>
+            <td *ngbCellDef="let order" ngb-cell>{{ order.processedAt | date : 'dd.MM. HH:mm:ss' }}</td>
           </ng-container>
 
           <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>

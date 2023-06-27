@@ -4,7 +4,6 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
@@ -23,6 +22,12 @@ import {PrintersService} from './_services/printers.service';
           <i-bs name="plus-circle" />
           {{ 'ADD_2' | tr }}</a
         >
+      </div>
+      <div>
+        <button class="btn btn-sm btn-outline-secondary" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+          <i-bs name="trash" />
+          {{ 'Batchupdate' | tr }}
+        </button>
       </div>
 
       <div>
@@ -82,9 +87,24 @@ import {PrintersService} from './_services/printers.service';
           <td *ngbCellDef="let printer" ngb-cell>{{ printer.name }}</td>
         </ng-container>
 
-        <ng-container ngbColumnDef="productGroups">
-          <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_PROD_ALL' | tr }}</th>
-          <td *ngbCellDef="let printer" ngb-cell>{{ printer.products | a_mapName | s_implode : ', ' : 20 : '...' }}</td>
+        <ng-container ngbColumnDef="fontScale">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_FONT_SCALE' | tr }}</th>
+          <td *ngbCellDef="let printer" ngb-cell>{{ printer.fontScale }}</td>
+        </ng-container>
+
+        <ng-container ngbColumnDef="font">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_FONT' | tr }}</th>
+          <td *ngbCellDef="let printer" ngb-cell>{{ printer.font.description }}</td>
+        </ng-container>
+
+        <ng-container ngbColumnDef="bonWidth">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_BON_WIDTH' | tr }}</th>
+          <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonWidth }}</td>
+        </ng-container>
+
+        <ng-container ngbColumnDef="bonPadding">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_BON_PADDING' | tr }}</th>
+          <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonPadding }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="actions">
@@ -123,8 +143,6 @@ import {PrintersService} from './_services/printers.service';
     DfxTr,
     DfxTableModule,
     DfxSortModule,
-    DfxArrayMapNamePipe,
-    DfxImplodePipe,
     AppIconsModule,
     AppSpinnerRowComponent,
     AppBtnToolbarComponent,
@@ -134,6 +152,6 @@ export class AllPrintersComponent extends AbstractModelsWithNameListWithDeleteCo
   constructor(printersService: PrintersService) {
     super(printersService);
 
-    this.columnsToDisplay = ['name', 'productGroups', 'actions'];
+    this.columnsToDisplay = ['name', 'font', 'fontScale', 'bonWidth', 'bonPadding', 'actions'];
   }
 }

@@ -4,6 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+import {combineLatest, map} from 'rxjs';
 import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
@@ -45,17 +46,22 @@ import {AppPrinterEditForm} from './printer-edit-form.component';
           <a ngbNavLink>{{ 'DATA' | tr }}</a>
           <ng-template ngbNavContent>
             <app-printer-edit-form
-              *ngIf="selectedEvent$ | async as selectedEvent"
+              *ngIf="vm$ | async as vm"
               #form
               (formValid)="setValid($event)"
               (submitUpdate)="submit('UPDATE', $event)"
               (submitCreate)="submit('CREATE', $event)"
-              [selectedEventId]="selectedEvent.id"
+              [selectedEventId]="vm.selectedEvent?.id"
+              [availableFonts]="vm.fonts"
               [printer]="entity"
             />
 
             <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
           </ng-template>
+        </li>
+        <li [ngbNavItem]="'PRODUCTS'">
+          <a ngbNavLink>{{ 'HOME_PROD_ALL' | tr }}</a>
+          <ng-template ngbNavContent> </ng-template>
         </li>
       </ul>
 
@@ -92,14 +98,24 @@ import {AppPrinterEditForm} from './printer-edit-form.component';
     AppBackButtonComponent,
   ],
 })
-export class PrinterEditComponent extends AbstractModelEditComponent<CreatePrinterDto, UpdatePrinterDto, GetPrinterResponse, 'DATA'> {
+export class PrinterEditComponent extends AbstractModelEditComponent<
+  CreatePrinterDto,
+  UpdatePrinterDto,
+  GetPrinterResponse,
+  'DATA' | 'PRODUCTS'
+> {
   defaultTab = 'DATA' as const;
+  onlyEditingTabs = ['PRODUCTS' as const];
 
   override continuousUsePropertyNames = ['eventId'];
 
   selectedEvent$ = inject(EventsService).getSelected$;
 
-  constructor(printersService: PrintersService) {
+  vm$ = combineLatest([this.selectedEvent$, this.printersService.getAllFonts$()]).pipe(
+    map(([selectedEvent, fonts]) => ({selectedEvent, fonts}))
+  );
+
+  constructor(private printersService: PrintersService) {
     super(printersService);
   }
 }

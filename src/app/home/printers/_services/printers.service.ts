@@ -4,7 +4,13 @@ import {notNullAndUndefined, s_from} from 'dfts-helper';
 import {HasGetAll, HasGetSingle} from 'dfx-helper';
 import {BehaviorSubject, filter, map, Observable, switchMap, tap} from 'rxjs';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
-import {CreatePrinterDto, GetPrinterResponse, IdResponse, UpdatePrinterDto} from '../../../_shared/waiterrobot-backend';
+import {
+  CreatePrinterDto,
+  GetPrinterFontResponse,
+  GetPrinterResponse,
+  IdResponse,
+  UpdatePrinterDto,
+} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 
 @Injectable({
@@ -31,14 +37,29 @@ export class PrintersService
           switchMap((selected) =>
             this.httpClient.get<GetPrinterResponse[]>(this.url, {params: new HttpParams().set('eventId', selected.id)})
           ),
-          map((it) => it.sort((a, b) => a.name.trim().toLowerCase().localeCompare(b.name.trim().toLowerCase())))
+          map((it) => {
+            it = it.map((ps) => {
+              ps.fontScale = ps.fontScale / 10;
+              return ps;
+            });
+            return it.sort((a, b) => a.name.trim().toLowerCase().localeCompare(b.name.trim().toLowerCase()));
+          })
         )
       )
     );
   }
 
+  getAllFonts$(): Observable<GetPrinterFontResponse[]> {
+    return this.httpClient.get<GetPrinterFontResponse[]>(`${this.url}/fonts`);
+  }
+
   getSingle$(id: number): Observable<GetPrinterResponse> {
-    return this.httpClient.get<GetPrinterResponse>(`${this.url}/${s_from(id)}`);
+    return this.httpClient.get<GetPrinterResponse>(`${this.url}/${s_from(id)}`).pipe(
+      map((it) => {
+        it.fontScale = it.fontScale / 10;
+        return it;
+      })
+    );
   }
 
   create$(dto: CreatePrinterDto): Observable<IdResponse> {

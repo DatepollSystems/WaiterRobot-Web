@@ -59,6 +59,7 @@
   "DO_NOT_CLOSE_WINDOW": "Schließe das Fenster nicht",
   "INCORRECT_INPUT": "Inkorrekte Eingabe",
   "UNKNOWN": "Unbekannt",
+  "UNSAVED_DATA": "Ungespeicherte Daten gefunden!",
 
   "REQUEST_ERROR": "Ein unbekannter Fehler ist aufgetreten.",
 
@@ -176,6 +177,8 @@
   "HOME_ORGS_USERS_USER_NOT_FOUND": " nicht gefunden",
   "HOME_ORGS_USERS_SELF_REMOVE": "Du kannst dich nicht selbst aus einer Organisation entfernen",
   "HOME_ORGS_SETTINGS_ACTIVATE_WAITER_ON_SIGN_IN_VIA_CREATE_TOKEN": "Aktiviere standardmäßig Personal welches sich selbst \"registrieren\"",
+  "HOME_ORGS_SETTINGS_TIMEZONE": "Zeitzone",
+  "HOME_ORGS_SETTINGS_TIMEZONE_INVALID": "Ungültige Zeitzone",
 
   "HOME_EVENTS_SELECT": "Event auswählen",
   "HOME_EVENTS_UPDATE_CREATE_WAITER_TOKEN": "Personal-Erstellungs QR-Code zurücksetzen",
@@ -255,6 +258,14 @@
   "HOME_PRINTER_NAV_MEDIATOR": "Mediators",
   "HOME_PRINTER_NAV_EVENT": "Drucker für Event/Location anzeigen",
   "HOME_PRINTER_NAME_INCORRECT": "Der Name muss aus mindestens 1 und maximal 120 Zeichen bestehen",
+  "HOME_PRINTER_FONT_SCALE": "Skalierung",
+  "HOME_PRINTER_FONT_SCALE_INVALID": "Die Skalierung muss zwischen 0.5 und 2.5 liegen",
+  "HOME_PRINTER_FONT": "Schriftart",
+  "HOME_PRINTER_BON_WIDTH": "Bon-Breite (mm)",
+  "HOME_PRINTER_BON_WIDTH_INVALID": "Die Bon-Breite muss zwischen 60 und 160 mm liegen",
+  "HOME_PRINTER_BON_PADDING": "Bon-Seitenabstand (mm)",
+  "HOME_PRINTER_BON_PADDING_INVALID": "Der Bon-Seitenabstand muss zwischen 0 und 10 mm liegen",
+
   "HOME_ORDERS_ALL": "Alle Bestellungen",
   "HOME_ORDER_NOTE": "Notiz",
   "HOME_ORDER_CREATED_AT": "Erstellt um",

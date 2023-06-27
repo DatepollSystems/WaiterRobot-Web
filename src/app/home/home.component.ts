@@ -4,7 +4,7 @@ import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from 
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {loggerOf, s_from} from 'dfts-helper';
 
-import {AComponent, DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingSucceeds, DfxTrackByModule, IsMobileService, NgSub} from 'dfx-helper';
+import {DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingSucceeds, DfxTrackByModule, IsMobileService, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {combineLatest, first, map, shareReplay, startWith, tap} from 'rxjs';
 
@@ -47,7 +47,7 @@ import {OrganisationsService} from './organisations/_services/organisations.serv
     AsyncPipe,
   ],
 })
-export class HomeComponent extends AComponent {
+export class HomeComponent {
   environmentType = EnvironmentHelper.getType();
   showEnvironmentType = true;
 
@@ -112,8 +112,6 @@ export class HomeComponent extends AComponent {
     private eventsService: EventsService,
     private qrCodeService: QrCodeService
   ) {
-    super();
-
     router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
         this.toggleNav('CLOSE');

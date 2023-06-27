@@ -1,7 +1,7 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
-import {BehaviorSubject, Observable, switchMap} from 'rxjs';
+import {BehaviorSubject, map, Observable, switchMap} from 'rxjs';
 import {OrganisationSettingResponse} from '../../../_shared/waiterrobot-backend';
 
 @Injectable({
@@ -18,7 +18,11 @@ export class OrganisationsSettingsService {
         this.httpService.get<OrganisationSettingResponse>('/config/organisation/settings', {
           params: new HttpParams().set('organisationId', organisationId),
         })
-      )
+      ),
+      map((it) => {
+        it.availableTimezones = it.availableTimezones.sort((a, b) => a.trim().toLowerCase().localeCompare(b.trim().toLowerCase()));
+        return it;
+      })
     );
   }
 
@@ -32,5 +36,9 @@ export class OrganisationsSettingsService {
 
   public setActivateWaiterOnLoginViaCreateToken(organisationId: number, value: boolean): void {
     this.set(organisationId, 'activateWaiterOnLoginViaCreateToken', value);
+  }
+
+  public setTimeZone(organisationId: number, value: string): void {
+    this.set(organisationId, 'timezone', value);
   }
 }

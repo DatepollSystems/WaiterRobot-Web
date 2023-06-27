@@ -37,7 +37,7 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
         </div>
 
         <ng-container *ngSwitchCase="'PRINTER'">
-          <div class="mt-2" *ngIf="groupedOrderProducts$ | async as grouped">
+          <div class="mt-2 d-flex flex-column gap-3" *ngIf="groupedOrderProducts$ | async as grouped">
             <div class="card" *ngFor="let groups of grouped | keyvalue">
               <h4 class="card-header">{{ groups.key }}</h4>
               <div class="card-body">
