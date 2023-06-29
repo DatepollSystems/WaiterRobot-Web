@@ -29,7 +29,7 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
                 [ngClass]="{'bg-secondary': !orderProduct.sentToPrinterAt, 'bg-success': orderProduct.sentToPrinterAt}"
                 >Gesendet:
                 <span *ngIf="orderProduct.sentToPrinterAt; else sentToPrinterUnknown">{{
-                  orderProduct.sentToPrinterAt | date : 'HH:mm:ss'
+                  orderProduct.sentToPrinterAt | date : 'dd.MM. HH:mm:ss'
                 }}</span>
                 <ng-template #sentToPrinterUnknown>{{ 'UNKNOWN' | tr }}</ng-template></span
               >

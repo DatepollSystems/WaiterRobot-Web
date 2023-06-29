@@ -122,7 +122,7 @@ import {PrintersService} from '../_services/printers.service';
       <button
         type="submit"
         class="btn btn-warning"
-        (click)="answerQuestion()"
+        (click)="submit()"
         [disabled]="
           !form.controls.updateFont.value &&
           !form.controls.updateFontScale.value &&
@@ -182,7 +182,7 @@ export class PrinterBatchUpdateModalComponent extends AComponent {
     );
   }
 
-  answerQuestion(): void {
+  submit(): void {
     const formValues = this.form.getRawValue();
     const match: string[] = s_from(formValues.fontScale).split(/[,.]/);
     const big = n_from(match[0] ?? 0);

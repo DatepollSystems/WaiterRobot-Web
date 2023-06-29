@@ -166,9 +166,9 @@ export class AllPrintersComponent extends AbstractModelsWithNameListWithDeleteCo
       .then((result?: PrinterBatchUpdateDto) => {
         this.lumber.info('onBatchUpdatePrinters', 'Question dialog result:', result);
         if (result) {
-          const subscriptions: Observable<unknown>[] = [];
+          const observables: Observable<unknown>[] = [];
           for (const printer of this.selection.selected) {
-            subscriptions.push(
+            observables.push(
               this.printersService.update$({
                 id: printer.id,
                 name: printer.name,
@@ -179,7 +179,7 @@ export class AllPrintersComponent extends AbstractModelsWithNameListWithDeleteCo
               })
             );
           }
-          forkJoin(subscriptions).subscribe(() => {
+          forkJoin(observables).subscribe(() => {
             this.printersService.triggerGet$.next(true);
           });
         }

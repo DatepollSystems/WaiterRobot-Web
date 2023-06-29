@@ -1,9 +1,10 @@
 import {AsyncPipe, DatePipe, KeyValuePipe, NgClass, NgForOf, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {s_fromStorage, st_set} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
-import {BehaviorSubject, combineLatest, map} from 'rxjs';
+import {BehaviorSubject, combineLatest, map, tap} from 'rxjs';
+import {AppIconsModule} from '../../../../_shared/ui/icons.module';
 import {GetOrderProductResponse} from '../../../../_shared/waiterrobot-backend';
 import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
 import {AppOrderProductsListCardsComponent} from './app-order-products-list-cards.component';
@@ -18,7 +19,7 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
           <button class="btn btn-sm btn-primary" (click)="setViewStyle('CARD')" [class.active]="vm.viewStyle === 'CARD'">Kacheln</button>
         </div>
         <div class="d-flex align-items-center gap-2">
-          <span>Gruppiert nach:</span>
+          <span>Gruppierung:</span>
           <div class="btn-group">
             <button class="btn btn-sm btn-primary" (click)="setGroupedBy('OFF')" [class.active]="vm.groupedBy === 'OFF'">Aus</button>
             <button class="btn btn-sm btn-primary" (click)="setGroupedBy('PRINTER')" [class.active]="vm.groupedBy === 'PRINTER'">
@@ -39,11 +40,19 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
         <ng-container *ngSwitchCase="'PRINTER'">
           <div class="mt-2 d-flex flex-column gap-3" *ngIf="groupedOrderProducts$ | async as grouped">
             <div class="card" *ngFor="let groups of grouped | keyvalue">
-              <h4 class="card-header">{{ groups.key }}</h4>
+              <div class="card-header d-flex justify-content-between">
+                <h4>{{ groups.value.printerName }}</h4>
+                <div>
+                  <button class="btn btn-sm btn-warning" (click)="requeueOrdersOfPrinter.next(groups.key)" *ngIf="showRequeueButton">
+                    <i-bs name="printer" />
+                    {{ 'HOME_ORDER_REQUEUE' | tr }}
+                  </button>
+                </div>
+              </div>
               <div class="card-body">
                 <ng-container [ngSwitch]="vm.viewStyle">
-                  <app-order-products-list-cards *ngSwitchCase="'CARD'" [orderProducts]="groups.value" />
-                  <app-order-products-list-table *ngSwitchCase="'TABLE'" [orderProducts]="groups.value" />
+                  <app-order-products-list-cards *ngSwitchCase="'CARD'" [orderProducts]="groups.value.orderProducts" />
+                  <app-order-products-list-table *ngSwitchCase="'TABLE'" [orderProducts]="groups.value.orderProducts" />
                 </ng-container>
               </div>
             </div>
@@ -67,6 +76,7 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
     KeyValuePipe,
     AppOrderProductsListTableComponent,
     AppOrderProductsListCardsComponent,
+    AppIconsModule,
   ],
   selector: 'app-order-products-list',
   standalone: true,
@@ -77,6 +87,10 @@ export class AppOrderProductsListComponent {
     this.orderProducts$.next(this._orderProducts);
   }
   _orderProducts!: GetOrderProductResponse[];
+
+  @Input({transform: booleanAttribute}) showRequeueButton = false;
+
+  @Output() requeueOrdersOfPrinter = new EventEmitter<number>();
 
   orderProducts$ = new BehaviorSubject<GetOrderProductResponse[]>([]);
 
@@ -98,7 +112,16 @@ export class AppOrderProductsListComponent {
   }
 
   groupedOrderProducts$ = combineLatest([this.orderProducts$, this.groupedBy$]).pipe(
-    map(([orderProducts, key]) => groupBy(orderProducts, (it) => it.printedBy.name))
+    map(([orderProducts, key]) => {
+      const groups = new Map<number, groupedType>();
+      for (const orderProduct of orderProducts) {
+        const group = groups.get(orderProduct.id) ?? {printerName: orderProduct.printedBy.name, orderProducts: []};
+        group.orderProducts.push(orderProduct);
+        groups.set(orderProduct.id, group);
+      }
+      return groups;
+    }),
+    tap((it) => console.log(it))
   );
 
   vm$ = combineLatest([this.viewStyle$, this.groupedBy$]).pipe(map(([viewStyle, groupedBy]) => ({viewStyle, groupedBy})));
@@ -107,8 +130,7 @@ export class AppOrderProductsListComponent {
 type orderProductViewStyleType = 'CARD' | 'TABLE';
 type orderProductGroupedByType = 'OFF' | 'PRINTER';
 
-export const groupBy = <T>(array: T[], predicate: (value: T, index: number, array: T[]) => string) =>
-  array.reduce((acc, value, index, array) => {
-    (acc[predicate(value, index, array)] ||= []).push(value);
-    return acc;
-  }, {} as {[key: string]: T[]});
+type groupedType = {
+  printerName: string;
+  orderProducts: GetOrderProductResponse[];
+};

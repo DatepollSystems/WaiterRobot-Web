@@ -54,14 +54,14 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
         <ng-container ngbColumnDef="sentToPrinterAt">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_SENT_TO_PRINT' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
-            {{ order.sentToPrinterAt | date : 'HH:mm:ss' }}
+            {{ order.sentToPrinterAt | date : 'dd.MM. HH:mm:ss' }}
           </td>
         </ng-container>
 
         <ng-container ngbColumnDef="printedAt">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_PRINTED_AT' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
-            {{ order.printedAt | date : 'HH:mm:ss' }}
+            {{ order.printedAt | date : 'dd.MM. HH:mm:ss' }}
           </td>
         </ng-container>
 

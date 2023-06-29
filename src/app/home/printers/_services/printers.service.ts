@@ -2,7 +2,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {notNullAndUndefined, s_from} from 'dfts-helper';
 import {HasGetAll, HasGetSingle} from 'dfx-helper';
-import {BehaviorSubject, filter, map, Observable, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, filter, forkJoin, map, Observable, switchMap, tap} from 'rxjs';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
 import {
   CreatePrinterDto,
@@ -72,5 +72,9 @@ export class PrintersService
 
   delete$(id: number): Observable<unknown> {
     return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(tap(() => this.triggerGet$.next(true)));
+  }
+
+  deleteAll$(ids: number[]): Observable<unknown> {
+    return forkJoin(ids.map((it) => this.httpClient.delete(`${this.url}/${s_from(it)}`))).pipe(tap(() => this.triggerGet$.next(true)));
   }
 }
