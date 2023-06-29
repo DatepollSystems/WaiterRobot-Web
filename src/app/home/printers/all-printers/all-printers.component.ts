@@ -5,12 +5,14 @@ import {RouterLink} from '@angular/router';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
-import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
-import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
-import {GetPrinterResponse} from '../../_shared/waiterrobot-backend';
-import {PrintersService} from './_services/printers.service';
+import {forkJoin, Observable} from 'rxjs';
+import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
+import {AppIconsModule} from '../../../_shared/ui/icons.module';
+import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
+import {AbstractModelsWithNameListWithDeleteComponent} from '../../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
+import {GetPrinterResponse} from '../../../_shared/waiterrobot-backend';
+import {PrintersService} from '../_services/printers.service';
+import {PrinterBatchUpdateDto, PrinterBatchUpdateModalComponent} from './printer-batch-update-modal.component';
 
 @Component({
   template: `
@@ -24,9 +26,9 @@ import {PrintersService} from './_services/printers.service';
         >
       </div>
       <div>
-        <button class="btn btn-sm btn-outline-secondary" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-          <i-bs name="trash" />
-          {{ 'Batchupdate' | tr }}
+        <button class="btn btn-sm btn-outline-secondary" [class.disabled]="!selection.hasValue()" (click)="onBatchUpdatePrinters()">
+          <i-bs name="stack" />
+          {{ 'HOME_PRINTER_BATCH_UPDATE' | tr }}
         </button>
       </div>
 
@@ -149,9 +151,39 @@ import {PrintersService} from './_services/printers.service';
   ],
 })
 export class AllPrintersComponent extends AbstractModelsWithNameListWithDeleteComponent<GetPrinterResponse> {
-  constructor(printersService: PrintersService) {
+  constructor(private printersService: PrintersService) {
     super(printersService);
 
     this.columnsToDisplay = ['name', 'font', 'fontScale', 'bonWidth', 'bonPadding', 'actions'];
+  }
+
+  onBatchUpdatePrinters() {
+    this.lumber.info('onBatchUpdatePrinters', 'Opening settings question dialog');
+    this.lumber.info('onBatchUpdatePrinters', 'Selected entities:', this.selection.selected);
+    const modalRef = this.modal.open(PrinterBatchUpdateModalComponent, {ariaLabelledBy: 'modal-printer-batch-update-title', size: 'lg'});
+
+    void modalRef.result
+      .then((result?: PrinterBatchUpdateDto) => {
+        this.lumber.info('onBatchUpdatePrinters', 'Question dialog result:', result);
+        if (result) {
+          const subscriptions: Observable<unknown>[] = [];
+          for (const printer of this.selection.selected) {
+            subscriptions.push(
+              this.printersService.update$({
+                id: printer.id,
+                name: printer.name,
+                fontScale: result.fontScale,
+                font: result.font,
+                bonWidth: result.bonWidth,
+                bonPadding: result.bonPadding,
+              })
+            );
+          }
+          forkJoin(subscriptions).subscribe(() => {
+            this.printersService.triggerGet$.next(true);
+          });
+        }
+      })
+      .catch(() => {});
   }
 }

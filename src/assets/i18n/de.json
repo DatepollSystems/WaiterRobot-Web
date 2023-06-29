@@ -265,6 +265,10 @@
   "HOME_PRINTER_BON_WIDTH_INVALID": "Die Bon-Breite muss zwischen 60 und 160 mm liegen",
   "HOME_PRINTER_BON_PADDING": "Bon-Seitenabstand (mm)",
   "HOME_PRINTER_BON_PADDING_INVALID": "Der Bon-Seitenabstand muss zwischen 0 und 10 mm liegen",
+  "HOME_PRINTER_BATCH_UPDATE": "Druckerwerte aktualisieren",
+  "HOME_PRINTER_BATCH_UPDATE_TITLE": "Überschreibe Einstellungen für ausgewählte(n) Drucker",
+  "HOME_PRINTER_BATCH_UPDATE_CHANGE": "ändern",
+  "HOME_PRINTER_BATCH_UPDATE_INVALID": "Wähle mindestens einen Wert zum überschreiben aus.",
 
   "HOME_ORDERS_ALL": "Alle Bestellungen",
   "HOME_ORDER_NOTE": "Notiz",
