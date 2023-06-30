@@ -1,11 +1,11 @@
-<ng-container *ngSub="isMobile$; let isMobile">
+<ng-container *ngSub="uiControls$; let ui">
   <ng-container *ngIf="vm$ | async as vm">
     <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-      <div class="container-xxxl">
+      <div class="my-container" [class.container-xxxl]="!ui.isFullScreen">
         <a class="navbar-brand align-items-center" routerLink="/home">
           <img id="brand" [ngSrc]="logoUrl" width="30" height="30" class="align-self-center ms-2" alt="kellner.team logo" />
 
-          <ng-container *ngIf="isMobile">
+          <ng-container *ngIf="ui.isMobile">
             <div
               *ngIf="showEnvironmentType && environmentType === 'dev'"
               (click)="showEnvironmentType = !showEnvironmentType"
@@ -33,10 +33,10 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <div class="d-flex flex-column flex-md-row justify-content-md-between flex-fill" [class.container-xxxl]="isMobile">
+          <div class="d-flex flex-column flex-md-row justify-content-md-between flex-fill" [class.container-xxxl]="ui.isMobile">
             <div>
-              <ul class="navbar-nav" [class.mobile-background-0]="isMobile">
-                <li class="d-flex align-items-center" *ngIf="!isMobile">
+              <ul class="navbar-nav" [class.mobile-background-0]="ui.isMobile">
+                <li class="d-flex align-items-center" *ngIf="!ui.isMobile">
                   <div
                     *ngIf="showEnvironmentType && environmentType === 'dev'"
                     (click)="showEnvironmentType = !showEnvironmentType"
@@ -124,7 +124,7 @@
             </div>
 
             <div>
-              <ul class="navbar-nav" [class.mobile-background-1]="isMobile">
+              <ul class="navbar-nav" [class.mobile-background-1]="ui.isMobile">
                 <li class="nav-item" *ngIf="vm.myUser.isAdmin">
                   <div ngbDropdown display="dynamic">
                     <a class="nav-link" id="adminDropDown" ngbDropdownToggle> {{ 'NAV_INSTANCE_ADMINISTRATION' | tr }}</a>
@@ -157,6 +157,12 @@
                           >
                         </small>
                       </div>
+                      <div class="dropdown-divider d-none d-xxl-block"></div>
+                      <button ngbDropdownItem class="d-none d-xxl-block" (click)="fullScreenService.setFullScreen(!ui.isFullScreen)">
+                        <i-bs name="arrows-fullscreen" *ngIf="!ui.isFullScreen" />
+                        <i-bs name="fullscreen-exit" *ngIf="ui.isFullScreen" />
+                        {{'NAV_FULLSCREEN' | tr}}
+                      </button>
                       <div class="dropdown-divider"></div>
                       <button ngbDropdownItem routerLinkActive="active" routerLink="usettings/settings">
                         <i-bs name="gear-wide-connected" />
@@ -180,23 +186,23 @@
       </div>
     </nav>
 
-    <app-navbar-scrollable [isMobile]="isMobile" [items]="navItems" />
+    <app-navbar-scrollable [isMobile]="ui.isMobile" [items]="navItems" />
   </ng-container>
+
+  <main class="text-white pb-5 bg">
+    <div class="my-container" [class.container-xxxl]="!ui.isFullScreen" [class.px-md-2]="ui.isFullScreen">
+      <div class="alert alert-warning" role="alert" hideIfOnline>
+        <i-bs name="wifi-off" />
+        {{ 'OFFLINE' | tr }}
+      </div>
+
+      <div hideIfOffline>
+        <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="/json">{{ 'SERVER_OFFLINE' | tr }}</div>
+      </div>
+
+      <router-outlet />
+    </div>
+  </main>
 </ng-container>
-
-<main class="text-white pb-5 bg">
-  <div class="container-xxxl">
-    <div class="alert alert-warning" role="alert" hideIfOnline>
-      <i-bs name="wifi-off" />
-      {{ 'OFFLINE' | tr }}
-    </div>
-
-    <div hideIfOffline>
-      <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="/json">{{ 'SERVER_OFFLINE' | tr }}</div>
-    </div>
-
-    <router-outlet />
-  </div>
-</main>
 
 <app-footer />

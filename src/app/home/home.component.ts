@@ -1,18 +1,19 @@
 import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {loggerOf, s_from} from 'dfts-helper';
 
 import {DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingSucceeds, DfxTrackByModule, IsMobileService, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {combineLatest, first, map, shareReplay, startWith, tap} from 'rxjs';
+import {combineLatest, first, map, startWith, tap} from 'rxjs';
 
 import {EnvironmentHelper} from '../_shared/EnvironmentHelper';
 
 import {AuthService} from '../_shared/services/auth/auth.service';
 import {MyUserModel} from '../_shared/services/auth/user/my-user.model';
 import {MyUserService} from '../_shared/services/auth/user/my-user.service';
+import {FullScreenService} from '../_shared/services/fullscreen.service';
 import {QrCodeService} from '../_shared/services/qr-code.service';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
 import {AppIconsModule} from '../_shared/ui/icons.module';
@@ -57,6 +58,9 @@ export class HomeComponent {
 
   adminModeChanged = false;
 
+  fullScreenService = inject(FullScreenService);
+  isFullScreen$ = this.fullScreenService.isFullScreen$;
+
   isMobile$ = this.isMobileService.isMobile$.pipe(
     tap((it) => {
       if (it) {
@@ -65,9 +69,10 @@ export class HomeComponent {
           navContent.style.display = 'none';
         }
       }
-    }),
-    shareReplay(1)
+    })
   );
+
+  uiControls$ = combineLatest([this.isFullScreen$, this.isMobile$]).pipe(map(([isFullScreen, isMobile]) => ({isFullScreen, isMobile})));
 
   vm$ = combineLatest([
     this.myUserService.getUser$().pipe(

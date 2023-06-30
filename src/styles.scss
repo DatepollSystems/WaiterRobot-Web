@@ -89,14 +89,14 @@ a.btn > img {
   animation: spinner 0.8s linear infinite;
 }
 
-.navbar > .container-xxxl {
+.navbar > .my-container {
   display: flex;
   flex-wrap: inherit;
   align-items: center;
   justify-content: space-between;
 }
 
-.container-xxxl {
+.my-container {
   width: 100%;
   padding-right: 0.7rem !important;
   padding-left: 0.7rem !important;

@@ -1,6 +1,6 @@
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {CdkDragDrop, DragDropModule, moveItemInArray} from '@angular/cdk/drag-drop';
-import {NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TemplateRef} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
@@ -8,6 +8,7 @@ import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {NgbModal, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {s_fromStorage, st_remove, st_set} from 'dfts-helper';
 import {DfxTranslateModule} from 'dfx-translate';
+import {FullScreenService} from '../../services/fullscreen.service';
 
 import {AppBtnToolbarComponent} from '../app-btn-toolbar.component';
 import {AppIconsModule} from '../icons.module';
@@ -26,6 +27,7 @@ import {AppIconsModule} from '../icons.module';
     NgbTooltipModule,
     AppBtnToolbarComponent,
     FormsModule,
+    AsyncPipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app-navbar-scrollable.component.html',
@@ -97,7 +99,9 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
   editMode = false;
   showEditArrow = false;
 
-  constructor(public router: Router, private modalService: NgbModal) {
+  isFullScreen$ = this.fullScreenService.isFullScreen$;
+
+  constructor(public router: Router, private modalService: NgbModal, private fullScreenService: FullScreenService) {
     const savedPrefStr = s_fromStorage(this._preferencesStorageKey);
     if (savedPrefStr) {
       this._savedItems = JSON.parse(savedPrefStr) as NavItem[];
