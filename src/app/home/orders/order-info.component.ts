@@ -3,7 +3,7 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle, NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTr} from 'dfx-translate';
-import {map, shareReplay, switchMap} from 'rxjs';
+import {combineLatest, map, switchMap} from 'rxjs';
 import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
 import {AppBackButtonComponent} from '../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
@@ -16,43 +16,47 @@ import {OrdersService} from './orders.service';
 
 @Component({
   template: `
-    <ng-container *ngIf="order$ | async as order">
+    <ng-container *ngIf="vm$ | async as vm">
       <div class="d-flex flex-wrap justify-content-between gap-2 gap-md-0">
-        <h1 class="mb-0">{{ 'HOME_ORDER' | tr }} #{{ order.orderNumber }}</h1>
-        <app-order-countdown [countdown]="(countdown$ | async) ?? 0" />
+        <h1 class="mb-0">{{ 'HOME_ORDER' | tr }} #{{ vm.order.orderNumber }}</h1>
+        <app-order-countdown [countdown]="vm.countdown" />
       </div>
 
       <div class="d-flex flex-wrap gap-2 mt-2 mb-4">
-        <app-order-state-badge [orderState]="order.state" [createdAt]="order.createdAt" [processedAt]="order.processedAt" />
+        <app-order-state-badge [orderState]="vm.order.state" [createdAt]="vm.order.createdAt" [processedAt]="vm.order.processedAt" />
 
-        <span class="badge bg-secondary d-flex align-items-center gap-2 ms-md-5" *ngIf="order.state !== 'QUEUED'" ngbTooltip="Erstellt um">
+        <span
+          class="badge bg-secondary d-flex align-items-center gap-2 ms-md-5"
+          *ngIf="vm.order.state !== 'QUEUED'"
+          ngbTooltip="Erstellt um"
+        >
           <i-bs name="save" />
-          {{ order.createdAt | date : 'dd.MM. HH:mm:ss' }}
+          {{ vm.order.createdAt | date : 'dd.MM. HH:mm:ss' }}
         </span>
 
         <a
-          routerLink="/home/waiters/{{ order.waiter.id }}"
+          routerLink="/home/waiters/{{ vm.order.waiter.id }}"
           class="badge bg-primary d-flex align-items-center gap-2"
           ngbTooltip="{{ 'HOME_ORDER_OPEN_WAITER' | tr }}"
         >
           <i-bs name="people" />
-          {{ order.waiter.name }}
+          {{ vm.order.waiter.name }}
         </a>
 
         <a
-          routerLink="/home/tables/{{ order.table.id }}"
+          routerLink="/home/tables/{{ vm.order.table.id }}"
           class="badge bg-secondary d-flex align-items-center gap-2"
           ngbTooltip="{{ 'HOME_ORDER_OPEN_TABLE' | tr }}"
         >
           <i-bs name="columns-gap" />
-          {{ order.table.group.name }} - {{ order.table.number }}
+          {{ vm.order.table.group.name }} - {{ vm.order.table.number }}
         </a>
       </div>
 
       <btn-toolbar padding="false">
         <back-button />
         <div>
-          <button class="btn btn-sm btn-warning" (click)="requeueOrder(order.id)" *ngIf="showRequeueButton$ | async">
+          <button class="btn btn-sm btn-warning" (click)="requeueOrder(vm.order.id)" *ngIf="vm.showRequeueButton">
             <i-bs name="printer" />
             {{ 'HOME_ORDER_REQUEUE' | tr }}
           </button>
@@ -62,9 +66,9 @@ import {OrdersService} from './orders.service';
       <hr />
 
       <app-order-products-list
-        [orderProducts]="order.orderProducts"
-        (requeueOrdersOfPrinter)="requeueOrdersOfPrinter(order.id, $event)"
-        [showRequeueButton]="(showRequeueButton$ | async) ?? false"
+        [orderProducts]="vm.order.orderProducts"
+        (requeueOrdersOfPrinter)="requeueOrdersOfPrinter(vm.order.id, $event)"
+        [showRequeueButton]="vm.showRequeueButton"
       />
     </ng-container>
   `,
@@ -94,31 +98,20 @@ import {OrdersService} from './orders.service';
 export class OrderInfoComponent {
   modal = inject(NgbModal);
   ordersService = inject(OrdersService);
-  order$ = getActivatedRouteIdParam().pipe(
-    switchMap((id) => this.ordersService.getSingle$(id)),
-    shareReplay(1)
-  );
-  countdown$ = this.ordersService.countdown$();
 
-  showRequeueButton$ = this.order$.pipe(
-    map((it) => {
-      const createdAt = new Date(it.createdAt);
+  vm$ = combineLatest([
+    getActivatedRouteIdParam().pipe(switchMap((id) => this.ordersService.getSingle$(id))),
+    this.ordersService.countdown$(),
+  ]).pipe(
+    map(([order, countdown]) => {
+      const createdAt = new Date(order.createdAt);
       createdAt.setSeconds(createdAt.getSeconds() + 60);
-
-      return createdAt.getTime() < new Date().getTime();
-      // let hasOpenOrders = false;
-      // for (const ops of it.orderProducts) {
-      //   if (ops.printState !== "PRINTED") {
-      //     hasOpenOrders = true;
-      //   }
-      // }
-      //
-      // if (createdAt.getTime() < new Date().getTime() && hasOpenOrders) {
-      //   return true;
-      // }
-      // return false;
-    }),
-    shareReplay(1)
+      return {
+        order,
+        showRequeueButton: createdAt.getTime() < new Date().getTime(),
+        countdown,
+      };
+    })
   );
 
   requeueOrder(id: number) {

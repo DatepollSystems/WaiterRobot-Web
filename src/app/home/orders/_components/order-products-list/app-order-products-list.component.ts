@@ -41,7 +41,9 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
           <div class="mt-2 d-flex flex-column gap-3" *ngIf="groupedOrderProducts$ | async as grouped">
             <div class="card" *ngFor="let groups of grouped | keyvalue">
               <div class="card-header d-flex flex-wrap gap-2 justify-content-between mt-1">
-                <h4>{{ groups.value.printerName }}</h4>
+                <h4 class="d-flex align-items-center gap-2">
+                  <i-bs name="printer" width="24" height="24" /> {{ groups.value.printerName }}
+                </h4>
                 <div>
                   <button class="btn btn-sm btn-warning" (click)="requeueOrdersOfPrinter.next(groups.key)" *ngIf="showRequeueButton">
                     <i-bs name="printer" />

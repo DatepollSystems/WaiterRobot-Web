@@ -1,17 +1,17 @@
 import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
 import {AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewChild} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {d_from} from 'dfts-helper';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 import {Subject} from 'rxjs';
 import {GetOrderProductResponse} from '../../../../_shared/waiterrobot-backend';
 import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
+import {NgSub} from 'dfx-helper';
 
 @Component({
   template: `
-    <div class="table-responsive">
-      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="product" ngbSortDirection="asc">
+    <div class="table-responsive" *ngSub="dataSource$; let dataSource">
+      <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="product" ngbSortDirection="asc">
         <ng-container ngbColumnDef="product">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
@@ -38,7 +38,11 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
         <ng-container ngbColumnDef="printState">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
-            <app-order-product-state-badge [printState]="order.printState" />
+            <app-order-product-state-badge
+              [printState]="order.printState"
+              [sentToPrinterAt]="order.sentToPrinterAt"
+              [printedAt]="order.printedAt"
+            />
           </td>
         </ng-container>
 
@@ -51,20 +55,6 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
           </td>
         </ng-container>
 
-        <ng-container ngbColumnDef="sentToPrinterAt">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="text-nowrap">{{ 'HOME_ORDER_SENT_TO_PRINT' | tr }}</th>
-          <td *ngbCellDef="let order" ngb-cell>
-            {{ order.sentToPrinterAt | date : 'dd.MM. HH:mm:ss' }}
-          </td>
-        </ng-container>
-
-        <ng-container ngbColumnDef="printedAt">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="text-nowrap">{{ 'HOME_ORDER_PRINTED_AT' | tr }}</th>
-          <td *ngbCellDef="let order" ngb-cell>
-            {{ order.printedAt | date : 'dd.MM. HH:mm:ss' }}
-          </td>
-        </ng-container>
-
         <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
         <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row></tr>
       </table>
@@ -72,14 +62,14 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
   `,
   standalone: true,
   selector: 'app-order-products-list-table',
-  imports: [DfxSortModule, DfxTableModule, DfxTr, AppOrderProductStateBadgeComponent, AsyncPipe, NgIf, DatePipe, RouterLink],
+  imports: [DfxSortModule, DfxTableModule, DfxTr, AppOrderProductStateBadgeComponent, AsyncPipe, NgIf, DatePipe, RouterLink, NgSub],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrderProductsListTableComponent implements AfterViewInit {
   @Input({required: true}) orderProducts!: GetOrderProductResponse[];
 
   @ViewChild(NgbSort) sort?: NgbSort;
-  columnsToDisplay = ['product', 'amount', 'note', 'printState', 'printedBy', 'sentToPrinterAt', 'printedAt'];
+  columnsToDisplay = ['product', 'amount', 'note', 'printState', 'printedBy'];
 
   dataSource$ = new Subject<NgbTableDataSource<GetOrderProductResponse>>();
 
@@ -91,10 +81,6 @@ export class AppOrderProductsListTableComponent implements AfterViewInit {
           return item.product.name;
         case 'printedBy':
           return item.printedBy.name;
-        case 'printedAt':
-          return d_from(item.printedAt).getTime();
-        case 'sentToPrinterAt':
-          return d_from(item.sentToPrinterAt).getTime();
         default:
           return item[property as keyof GetOrderProductResponse] as string | number;
       }

@@ -280,11 +280,11 @@
   "HOME_ORDER_PROCESSED": "Verarbeitet",
   "HOME_ORDER_QUEUED": "Warteschlange",
   "HOME_ORDER_SENT_TO_PRINT": "An Drucker gesendet",
-  "HOME_ORDER_PRINTED_AT": "Gedruckt um",
   "HOME_ORDER_REQUEUE": "Erneut Drucken",
   "HOME_ORDER": "Bestellung",
   "HOME_ORDER_OPEN_WAITER": "Kellner öffnen",
   "HOME_ORDER_OPEN_TABLE": "Tisch öffnen",
+  "HOME_ORDER_OPEN_PRINTER": "Drucker öffnen",
 
   "HOME_STATISTICS_SELLED_PRODUCTS": "Verkaufte Produkte",
   "HOME_STATISTICS_ORDERS": "Bestellungen",
