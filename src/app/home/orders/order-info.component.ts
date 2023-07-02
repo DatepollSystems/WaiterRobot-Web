@@ -1,7 +1,7 @@
 import {AsyncPipe, DatePipe, NgClass, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle, NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTr} from 'dfx-translate';
 import {map, shareReplay, switchMap} from 'rxjs';
 import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
@@ -17,52 +17,40 @@ import {OrdersService} from './orders.service';
 @Component({
   template: `
     <ng-container *ngIf="order$ | async as order">
-      <div class="d-flex flex-column flex-md-row justify-content-between gap-2 gap-md-0">
-        <div class="d-flex flex-column flex-md-row gap-1 gap-md-4 align-items-start align-items-md-center">
-          <div>
-            <h1 class="mb-0">{{ 'HOME_ORDER' | tr }} #{{ order.orderNumber }}</h1>
-          </div>
-          <div>
-            <app-order-state-badge [orderState]="order.state" />
-          </div>
-        </div>
+      <div class="d-flex flex-wrap justify-content-between gap-2 gap-md-0">
+        <h1 class="mb-0">{{ 'HOME_ORDER' | tr }} #{{ order.orderNumber }}</h1>
         <app-order-countdown [countdown]="(countdown$ | async) ?? 0" />
       </div>
-      <div class="d-flex gap-2 my-3 my-md-2">
-        <span class="badge bg-secondary rounded-pill">Erstellt um: {{ order.createdAt | date : 'dd.MM. HH:mm:ss' }}</span>
-        <span class="badge rounded-pill" [ngClass]="{'bg-secondary': !order.processedAt, 'bg-success': order.processedAt}"
-          >Verarbeitet um:
-          <span *ngIf="order.processedAt; else sentToPrinterUnknown">{{ order.processedAt | date : 'dd.MM. HH:mm:ss' }}</span>
-          <ng-template #sentToPrinterUnknown>{{ 'UNKNOWN' | tr }}</ng-template></span
+
+      <div class="d-flex flex-wrap gap-2 mt-2 mb-4">
+        <app-order-state-badge [orderState]="order.state" [createdAt]="order.createdAt" [processedAt]="order.processedAt" />
+
+        <span class="badge bg-secondary d-flex align-items-center gap-2 ms-md-5" *ngIf="order.state !== 'QUEUED'" ngbTooltip="Erstellt um">
+          <i-bs name="save" />
+          {{ order.createdAt | date : 'dd.MM. HH:mm:ss' }}
+        </span>
+
+        <a
+          routerLink="/home/waiters/{{ order.waiter.id }}"
+          class="badge bg-primary d-flex align-items-center gap-2"
+          ngbTooltip="{{ 'HOME_ORDER_OPEN_WAITER' | tr }}"
         >
+          <i-bs name="people" />
+          {{ order.waiter.name }}
+        </a>
+
+        <a
+          routerLink="/home/tables/{{ order.table.id }}"
+          class="badge bg-secondary d-flex align-items-center gap-2"
+          ngbTooltip="{{ 'HOME_ORDER_OPEN_TABLE' | tr }}"
+        >
+          <i-bs name="columns-gap" />
+          {{ order.table.group.name }} - {{ order.table.number }}
+        </a>
       </div>
-      <btn-toolbar>
+
+      <btn-toolbar padding="false">
         <back-button />
-        <div>
-          <a class="btn btn-sm btn-outline-primary" routerLink="/home/waiters/{{ order.waiter.id }}">
-            <i-bs name="people" />
-            {{ 'HOME_ORDER_OPEN_WAITER' | tr }} ({{ order.waiter.name }})
-          </a>
-        </div>
-        <div class="btn-group">
-          <a class="btn btn-outline-secondary btn-sm" routerLink="/home/tables/{{ order.table.id }}">
-            <i-bs name="columns-gap" />
-            {{ 'HOME_ORDER_OPEN_TABLE' | tr }} ({{ order.table.group.name }} - {{ order.table.number }})
-          </a>
-          <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown" container="body">
-            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" ngbDropdownToggle></button>
-            <ul class="dropdown-menu" ngbDropdownMenu>
-              <a ngbDropdownItem routerLink="/home/tables/groups/tables/{{ order.table.group.id }}">
-                <i-bs name="diagram-3" />
-                {{ 'HOME_ORDER_OPEN_TABLE_GROUP' | tr }}
-              </a>
-              <a ngbDropdownItem routerLink="/home/tables/groups/{{ order.table.group.id }}">
-                <i-bs name="pencil-square" />
-                {{ 'HOME_ORDER_EDIT_TABLE_GROUP' | tr }}</a
-              >
-            </ul>
-          </div>
-        </div>
         <div>
           <button class="btn btn-sm btn-warning" (click)="requeueOrder(order.id)" *ngIf="showRequeueButton$ | async">
             <i-bs name="printer" />
@@ -70,6 +58,8 @@ import {OrdersService} from './orders.service';
           </button>
         </div>
       </btn-toolbar>
+
+      <hr />
 
       <app-order-products-list
         [orderProducts]="order.orderProducts"
@@ -98,6 +88,7 @@ import {OrdersService} from './orders.service';
     NgClass,
     RouterLink,
     DfxTr,
+    NgbTooltip,
   ],
 })
 export class OrderInfoComponent {

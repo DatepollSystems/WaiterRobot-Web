@@ -1,5 +1,6 @@
-import {NgClass, NgIf} from '@angular/common';
+import {DatePipe, NgClass, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTr} from 'dfx-translate';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 
@@ -7,6 +8,7 @@ import {AppIconsModule} from '../../../_shared/ui/icons.module';
   template: `
     <div
       [ngClass]="{'text-bg-light': orderState === 'QUEUED', 'text-bg-success': orderState === 'PROCESSED'}"
+      [ngbTooltip]="processedAt || createdAt ? tipContent : null"
       class="badge d-flex align-items-center gap-2"
       style="width: min-content"
     >
@@ -19,6 +21,12 @@ import {AppIconsModule} from '../../../_shared/ui/icons.module';
       </ng-template>
       <div class="circle pulse green" *ngIf="orderState === 'QUEUED'; else processed"></div>
     </div>
+    <ng-template #tipContent>
+      <span *ngIf="orderState === 'QUEUED'; else processedDate">{{ createdAt | date : 'dd.MM. HH:mm:ss' }}</span>
+      <ng-template #processedDate>
+        <span>{{ processedAt | date : 'dd.MM. HH:mm:ss' }}</span>
+      </ng-template>
+    </ng-template>
   `,
   styles: [
     `
@@ -50,8 +58,10 @@ import {AppIconsModule} from '../../../_shared/ui/icons.module';
   standalone: true,
   selector: 'app-order-state-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, AppIconsModule, NgIf, DfxTr],
+  imports: [NgClass, AppIconsModule, NgIf, DfxTr, NgbTooltip, DatePipe],
 })
 export class AppOrderStateBadgeComponent {
   @Input({required: true}) orderState!: 'QUEUED' | 'PROCESSED';
+  @Input() processedAt?: string;
+  @Input() createdAt?: string;
 }

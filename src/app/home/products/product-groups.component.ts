@@ -58,7 +58,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
                 type="checkbox"
                 name="checked"
                 (change)="$event ? toggleAllRows() : null"
-                [checked]="selection!.hasValue() && isAllSelected()"
+                [checked]="selection.hasValue() && isAllSelected()"
               />
             </div>
           </th>
@@ -69,8 +69,8 @@ import {ProductGroupsService} from './_services/product-groups.service';
                 type="checkbox"
                 name="checked"
                 (click)="$event.stopPropagation()"
-                (change)="$event ? selection!.toggle(selectable) : null"
-                [checked]="selection!.isSelected(selectable)"
+                (change)="$event ? selection.toggle(selectable) : null"
+                [checked]="selection.isSelected(selectable)"
               />
             </div>
           </td>

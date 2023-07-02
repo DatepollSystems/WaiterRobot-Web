@@ -13,8 +13,8 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
 @Component({
   template: `
     <ng-container *ngIf="vm$ | async as vm">
-      <div class="d-flex justify-content-between">
-        <div class="btn-group mb-2">
+      <div class="d-flex flex-column flex-sm-row gap-2 justify-content-between mb-4">
+        <div class="btn-group">
           <button class="btn btn-sm btn-primary" (click)="setViewStyle('TABLE')" [class.active]="vm.viewStyle === 'TABLE'">Tabelle</button>
           <button class="btn btn-sm btn-primary" (click)="setViewStyle('CARD')" [class.active]="vm.viewStyle === 'CARD'">Kacheln</button>
         </div>
@@ -40,7 +40,7 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
         <ng-container *ngSwitchCase="'PRINTER'">
           <div class="mt-2 d-flex flex-column gap-3" *ngIf="groupedOrderProducts$ | async as grouped">
             <div class="card" *ngFor="let groups of grouped | keyvalue">
-              <div class="card-header d-flex justify-content-between">
+              <div class="card-header d-flex flex-wrap gap-2 justify-content-between mt-1">
                 <h4>{{ groups.value.printerName }}</h4>
                 <div>
                   <button class="btn btn-sm btn-warning" (click)="requeueOrdersOfPrinter.next(groups.key)" *ngIf="showRequeueButton">
@@ -115,9 +115,9 @@ export class AppOrderProductsListComponent {
     map(([orderProducts, key]) => {
       const groups = new Map<number, groupedType>();
       for (const orderProduct of orderProducts) {
-        const group = groups.get(orderProduct.id) ?? {printerName: orderProduct.printedBy.name, orderProducts: []};
+        const group = groups.get(orderProduct.printedBy.id) ?? {printerName: orderProduct.printedBy.name, orderProducts: []};
         group.orderProducts.push(orderProduct);
-        groups.set(orderProduct.id, group);
+        groups.set(orderProduct.printedBy.id, group);
       }
       return groups;
     }),

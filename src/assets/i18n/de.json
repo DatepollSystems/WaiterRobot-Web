@@ -275,7 +275,6 @@
   "HOME_ORDER_NOTE": "Notiz",
   "HOME_ORDER_CREATED_AT": "Erstellt um",
   "HOME_ORDER_PROCESSED_AT": "Verarbeitet um",
-  "HOME_ORDER_NEXT_REFRESH": "Nächste Aktualisierung",
   "HOME_ORDER_REFRESH_NOW": "Jetzt aktualisieren",
   "HOME_ORDER_REFRESHED": "Bestellung(en) geladen",
   "HOME_ORDER_PROCESSED": "Verarbeitet",
@@ -286,8 +285,6 @@
   "HOME_ORDER": "Bestellung",
   "HOME_ORDER_OPEN_WAITER": "Kellner öffnen",
   "HOME_ORDER_OPEN_TABLE": "Tisch öffnen",
-  "HOME_ORDER_OPEN_TABLE_GROUP": "Tischgruppe öffnen",
-  "HOME_ORDER_EDIT_TABLE_GROUP": "Tischgruppe bearbeiten",
 
   "HOME_STATISTICS_SELLED_PRODUCTS": "Verkaufte Produkte",
   "HOME_STATISTICS_ORDERS": "Bestellungen",

@@ -67,7 +67,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
                 type="checkbox"
                 name="checked"
                 (change)="$event ? toggleAllRows() : null"
-                [checked]="selection!.hasValue() && isAllSelected()"
+                [checked]="selection.hasValue() && isAllSelected()"
               />
             </div>
           </th>
@@ -78,8 +78,8 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
                 type="checkbox"
                 name="checked"
                 (click)="$event.stopPropagation()"
-                (change)="$event ? selection!.toggle(selectable) : null"
-                [checked]="selection!.isSelected(selectable)"
+                (change)="$event ? selection.toggle(selectable) : null"
+                [checked]="selection.isSelected(selectable)"
               />
             </div>
           </td>
@@ -153,7 +153,7 @@ export class AllTablesComponent extends AbstractModelsWithNumberListWithDeleteCo
       ariaLabelledBy: 'app-tables-qr-codes-title',
       size: 'lg',
     });
-    modalRef.componentInstance.tables = this.selection!.selected.sort(
+    modalRef.componentInstance.tables = this.selection.selected.sort(
       (a, b) => a.groupName.localeCompare(b.groupName) || a.number - b.number
     );
   }

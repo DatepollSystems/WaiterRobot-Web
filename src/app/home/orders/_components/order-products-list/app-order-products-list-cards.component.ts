@@ -2,6 +2,7 @@ import {DatePipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {DfxTr} from 'dfx-translate';
+import {AppIconsModule} from '../../../../_shared/ui/icons.module';
 import {GetOrderProductResponse} from '../../../../_shared/waiterrobot-backend';
 import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
 
@@ -21,9 +22,13 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
 
             <div class="row row-cols-auto gap-2 mx-2">
               <span class="badge bg-primary rounded-pill">Anzahl: {{ orderProduct.amount }}</span>
-              <a class="badge bg-primary rounded-pill" routerLink="/home/printers/{{ orderProduct.printedBy.id }}">{{
-                orderProduct.printedBy.name
-              }}</a>
+              <a
+                class="badge bg-primary rounded-pill d-flex align-items-center gap-2"
+                routerLink="/home/printers/{{ orderProduct.printedBy.id }}"
+              >
+                <i-bs name="printer" />
+                {{ orderProduct.printedBy.name }}
+              </a>
               <span
                 class="badge rounded-pill"
                 [ngClass]="{'bg-secondary': !orderProduct.sentToPrinterAt, 'bg-success': orderProduct.sentToPrinterAt}"
@@ -64,7 +69,7 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
   standalone: true,
   selector: 'app-order-products-list-cards',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AppOrderProductStateBadgeComponent, DatePipe, DfxTr, NgForOf, NgIf, RouterLink, NgClass],
+  imports: [AppOrderProductStateBadgeComponent, DatePipe, DfxTr, NgForOf, NgIf, RouterLink, NgClass, AppIconsModule],
 })
 export class AppOrderProductsListCardsComponent {
   @Input({required: true}) orderProducts!: GetOrderProductResponse[];

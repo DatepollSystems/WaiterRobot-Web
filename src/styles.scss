@@ -62,6 +62,10 @@ a.btn > img {
   user-select: none;
 }
 
+a:hover.badge {
+  color: white !important;
+}
+
 /* Loading animation for buttons */
 .btn.spinner {
   position: relative !important;

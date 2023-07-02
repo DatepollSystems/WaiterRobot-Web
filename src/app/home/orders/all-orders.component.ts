@@ -1,15 +1,21 @@
+import {SelectionModel} from '@angular/cdk/collections';
 import {AsyncPipe, DatePipe, NgClass, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {s_imploder} from 'dfts-helper';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxCutPipe, DfxImplodePipe, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+import {forkJoin, Observable} from 'rxjs';
 import {AbstractModelsListComponent} from '../../_shared/ui/abstract-models-list.component';
+import {AppBackButtonComponent} from '../../_shared/ui/app-back-button.component';
+import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {DfxArrayPluck} from '../../_shared/ui/pluck.pipe';
+import {QuestionDialogComponent} from '../../_shared/ui/question-dialog/question-dialog.component';
 import {GetOrderResponse} from '../../_shared/waiterrobot-backend';
 import {AppOrderCountdownComponent} from './_components/app-order-countdown.component';
 import {AppOrderStateBadgeComponent} from './_components/app-order-state-badge.component';
@@ -22,6 +28,15 @@ import {OrdersService} from './orders.service';
       <app-order-countdown [countdown]="(countdown$ | async) ?? 0" />
     </div>
 
+    <btn-toolbar>
+      <div>
+        <button class="btn btn-sm btn-warning" (click)="requeueOrders()" [class.disabled]="!selection.hasValue()">
+          <i-bs name="printer" />
+          {{ 'HOME_ORDER_REQUEUE' | tr }}
+        </button>
+      </div>
+    </btn-toolbar>
+
     <form class="mt-2">
       <div class="input-group">
         <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
@@ -31,7 +46,7 @@ import {OrdersService} from './orders.service';
           ngbTooltip="{{ 'CLEAR' | tr }}"
           placement="bottom"
           (click)="filter.reset()"
-          *ngIf="(filter?.value?.length ?? 0) > 0"
+          *ngIf="(filter.value?.length ?? 0) > 0"
         >
           <i-bs name="x-circle-fill" />
         </button>
@@ -46,9 +61,25 @@ import {OrdersService} from './orders.service';
           [dataSource]="dataSource"
           ngb-sort
           ngbSortActive="createdAt"
-          ngbSortDirection="asc"
+          ngbSortDirection="desc"
           [trackBy]="trackBy"
         >
+          <ng-container ngbColumnDef="select">
+            <th *ngbHeaderCellDef ngb-header-cell></th>
+            <td *ngbCellDef="let selectable" ngb-cell>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="checked"
+                  (click)="$event.stopPropagation()"
+                  (change)="$event ? selection.toggle(selectable) : null"
+                  [checked]="selection.isSelected(selectable)"
+                />
+              </div>
+            </td>
+          </ng-container>
+
           <ng-container ngbColumnDef="orderNumber">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
             <td *ngbCellDef="let order" ngb-cell>{{ order.orderNumber }}</td>
@@ -128,13 +159,17 @@ import {OrdersService} from './orders.service';
     RouterLink,
     AppOrderStateBadgeComponent,
     AppOrderCountdownComponent,
+    AppBackButtonComponent,
+    AppBtnToolbarComponent,
   ],
 })
 export class AllOrdersComponent extends AbstractModelsListComponent<GetOrderResponse> {
-  constructor(private ordersService: OrdersService) {
+  public selection = new SelectionModel<GetOrderResponse>(true, []);
+
+  constructor(private ordersService: OrdersService, private modal: NgbModal) {
     super(ordersService);
 
-    this.columnsToDisplay = ['orderNumber', 'state', 'table', 'waiter', 'products', 'createdAt', 'processedAt'];
+    this.columnsToDisplay = ['select', 'orderNumber', 'state', 'table', 'waiter', 'products', 'createdAt', 'processedAt'];
 
     this.sortingDataAccessors = new Map();
     this.sortingDataAccessors.set('table', (it) => it.table.number);
@@ -145,4 +180,29 @@ export class AllOrdersComponent extends AbstractModelsListComponent<GetOrderResp
 
   trackBy = (index: number, t: GetOrderResponse): number => t.id;
   countdown$ = this.ordersService.countdown$();
+
+  requeueOrders() {
+    this.lumber.info('requeueOrders', 'Opening requeue question dialog');
+    this.lumber.info('requeueOrders', 'Selected entities:', this.selection.selected);
+    const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
+    modalRef.componentInstance.title = 'HOME_ORDER_REQUEUE';
+
+    const list = s_imploder()
+      .mappedSource(this.selection.selected, (it) => it.orderNumber)
+      .separator('</li><li>')
+      .build();
+    modalRef.componentInstance.info = `<ol><li>${list}</li></ol>`;
+    void modalRef.result
+      .then((result) => {
+        this.lumber.info('requeueOrders', 'Question dialog result:', result);
+        if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
+          const observables: Observable<unknown>[] = [];
+          for (const selected of this.selection.selected) {
+            observables.push(this.ordersService.requeueOrder(selected.id));
+          }
+          forkJoin(observables).subscribe();
+        }
+      })
+      .catch(() => {});
+  }
 }
