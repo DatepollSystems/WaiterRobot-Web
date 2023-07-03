@@ -9,7 +9,7 @@ import {QuestionDialogComponent} from '../question-dialog/question-dialog.compon
   template: `
     <footer id="footerContainer" class="unselectable">
       <div class="container-fluid">
-        <div class="{{ container }} footerHeaderContainer">
+        <div class="my-container {{ container }} footerHeaderContainer">
           <div class="d-flex flex-column flex-md-row justify-content-between">
             <div>
               <h3>
@@ -43,7 +43,7 @@ import {QuestionDialogComponent} from '../question-dialog/question-dialog.compon
 
       <div id="footerBarContainer">
         <div class="container-fluid">
-          <div class="{{ container }}">
+          <div class="my-container {{ container }}">
             <div class="d-flex flex-column flex-md-row justify-content-between">
               <div class="d-flex align-items-center gap-1">
                 <div>Made with</div>

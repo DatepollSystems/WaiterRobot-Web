@@ -1,10 +1,10 @@
 import {SelectionModel} from '@angular/cdk/collections';
 import {AsyncPipe, DatePipe, NgClass, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {s_imploder} from 'dfts-helper';
+import {b_fromStorage, s_imploder} from 'dfts-helper';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxCutPipe, DfxImplodePipe, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
@@ -34,6 +34,12 @@ import {OrdersService} from './orders.service';
           <i-bs name="printer" />
           {{ 'HOME_ORDER_REQUEUE' | tr }}
         </button>
+      </div>
+      <div>
+        <div class="form-check form-switch">
+          <input [formControl]="openInNewTab" class="form-check-input" type="checkbox" role="switch" id="continuousCreation" />
+          <label class="form-check-label" for="continuousCreation">Open in new tab</label>
+        </div>
       </div>
     </btn-toolbar>
 
@@ -105,7 +111,7 @@ import {OrdersService} from './orders.service';
           <ng-container ngbColumnDef="state">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | tr }}</th>
             <td *ngbCellDef="let order" ngb-cell>
-              <app-order-state-badge [orderState]="order.state" />
+              <app-order-state-badge [orderState]="order.state" [processedAt]="order.processedAt" />
             </td>
           </ng-container>
 
@@ -121,13 +127,8 @@ import {OrdersService} from './orders.service';
             <td *ngbCellDef="let order" ngb-cell>{{ order.createdAt | date : 'dd.MM. HH:mm:ss' }}</td>
           </ng-container>
 
-          <ng-container ngbColumnDef="processedAt">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_PROCESSED_AT' | tr }}</th>
-            <td *ngbCellDef="let order" ngb-cell>{{ order.processedAt | date : 'dd.MM. HH:mm:ss' }}</td>
-          </ng-container>
-
           <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-          <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row routerLink="../{{ order.id }}"></tr>
+          <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row (click)="openOrder(order)"></tr>
         </table>
       </div>
 
@@ -164,22 +165,31 @@ import {OrdersService} from './orders.service';
   ],
 })
 export class AllOrdersComponent extends AbstractModelsListComponent<GetOrderResponse> {
+  openInNewTab = new FormControl<boolean>(b_fromStorage('open_order_in_new_tab') ?? true);
+
   public selection = new SelectionModel<GetOrderResponse>(true, []);
 
   constructor(private ordersService: OrdersService, private modal: NgbModal) {
     super(ordersService);
 
-    this.columnsToDisplay = ['select', 'orderNumber', 'state', 'table', 'waiter', 'products', 'createdAt', 'processedAt'];
+    this.columnsToDisplay = ['select', 'orderNumber', 'state', 'table', 'waiter', 'products', 'createdAt'];
 
     this.sortingDataAccessors = new Map();
     this.sortingDataAccessors.set('table', (it) => it.table.number);
     this.sortingDataAccessors.set('waiter', (it) => it.waiter.name);
     this.sortingDataAccessors.set('createdAt', (it) => new Date(it.createdAt).getTime());
-    this.sortingDataAccessors.set('processedAt', (it) => (it.processedAt ? new Date(it.processedAt).getTime() : 0));
   }
 
   trackBy = (index: number, t: GetOrderResponse): number => t.id;
   countdown$ = this.ordersService.countdown$();
+
+  openOrder(it: GetOrderResponse): void {
+    void this.router.navigateByUrl(`/home/orders/${it.id}`);
+    return;
+    const url = this.router.serializeUrl(this.router.createUrlTree([`/home/orders/${it.id}`]));
+
+    window.open(url, '_blank');
+  }
 
   requeueOrders() {
     this.lumber.info('requeueOrders', 'Opening requeue question dialog');

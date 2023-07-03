@@ -26,7 +26,7 @@ import {OrdersService} from '../../orders/orders.service';
           <ng-container ngbColumnDef="state">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | tr }}</th>
             <td *ngbCellDef="let order" ngb-cell>
-              <app-order-state-badge [orderState]="order.state" />
+              <app-order-state-badge [orderState]="order.state" [processedAt]="order.processedAt" />
             </td>
           </ng-container>
 
@@ -47,11 +47,6 @@ import {OrdersService} from '../../orders/orders.service';
           <ng-container ngbColumnDef="createdAt">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_CREATED_AT' | tr }}</th>
             <td *ngbCellDef="let order" ngb-cell>{{ order.createdAt | date : 'dd.MM. HH:mm:ss' }}</td>
-          </ng-container>
-
-          <ng-container ngbColumnDef="processedAt">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_PROCESSED_AT' | tr }}</th>
-            <td *ngbCellDef="let order" ngb-cell>{{ order.processedAt | date : 'dd.MM. HH:mm:ss' }}</td>
           </ng-container>
 
           <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
@@ -87,7 +82,7 @@ export class TableEditOrderProductsComponent implements AfterViewInit {
   ordersService = inject(OrdersService);
   dataSource$ = of(new NgbTableDataSource<GetOrderResponse>());
 
-  columnsToDisplay = ['orderNumber', 'state', 'waiter', 'products', 'createdAt', 'processedAt'];
+  columnsToDisplay = ['orderNumber', 'state', 'waiter', 'products', 'createdAt'];
 
   @ViewChild(NgbSort) sort!: NgbSort;
 
