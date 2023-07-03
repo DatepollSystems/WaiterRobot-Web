@@ -2,10 +2,10 @@ import {AfterViewInit, Component, Inject, inject, ViewChild} from '@angular/core
 import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
 
-import {loggerOf, notNullAndUndefined} from 'dfts-helper';
+import {loggerOf} from 'dfts-helper';
 import {NgbPaginator, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {HasGetAll} from 'dfx-helper';
-import {catchError, combineLatest, filter, Observable, of, startWith, switchMap, tap, throwError} from 'rxjs';
+import {catchError, combineLatest, debounceTime, map, Observable, of, startWith, switchMap, tap, throwError} from 'rxjs';
 
 @Component({
   template: '',
@@ -46,7 +46,11 @@ export abstract class AbstractModelsListComponent<EntityType> implements AfterVi
 
   protected getDataSource(entitiesStream: Observable<EntityType[]>): Observable<NgbTableDataSource<EntityType>> {
     return combineLatest([
-      this.filter.valueChanges.pipe(startWith(''), filter(notNullAndUndefined)),
+      this.filter.valueChanges.pipe(
+        startWith(''),
+        map((it) => it ?? ''),
+        debounceTime(250)
+      ),
       entitiesStream.pipe(
         catchError((error) => {
           void this.router.navigateByUrl('/not-found');
