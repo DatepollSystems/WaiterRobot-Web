@@ -1,15 +1,15 @@
 import {DatePipe, NgClass, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTr} from 'dfx-translate';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   template: `
     <div
       [ngClass]="{'text-bg-light': printState === 'QUEUED', 'text-bg-success': printState === 'SENT_TO_PRINT'}"
       [ngbTooltip]="sentToPrinterAt || printedAt ? tipContent : null"
-      class="badge d-flex align-items-center gap-2"
+      class="badge d-flex align-items-center gap-2 not-selectable"
       style="width: min-content"
     >
       <ng-container [ngSwitch]="printState">

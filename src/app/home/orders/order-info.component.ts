@@ -26,7 +26,7 @@ import {OrdersService} from './orders.service';
         <app-order-state-badge [orderState]="vm.order.state" [createdAt]="vm.order.createdAt" [processedAt]="vm.order.processedAt" />
 
         <span
-          class="badge bg-secondary d-flex align-items-center gap-2 ms-md-5"
+          class="badge bg-secondary d-flex align-items-center gap-2 ms-md-5 not-selectable"
           *ngIf="vm.order.state !== 'QUEUED'"
           ngbTooltip="Erstellt um"
         >
@@ -35,21 +35,21 @@ import {OrdersService} from './orders.service';
         </span>
 
         <a
-          routerLink="/home/waiters/{{ vm.order.waiter.id }}"
-          class="badge bg-primary d-flex align-items-center gap-2"
-          ngbTooltip="{{ 'HOME_ORDER_OPEN_WAITER' | tr }}"
-        >
-          <i-bs name="people" />
-          {{ vm.order.waiter.name }}
-        </a>
-
-        <a
           routerLink="/home/tables/{{ vm.order.table.id }}"
           class="badge bg-secondary d-flex align-items-center gap-2"
           ngbTooltip="{{ 'HOME_ORDER_OPEN_TABLE' | tr }}"
         >
           <i-bs name="columns-gap" />
           {{ vm.order.table.group.name }} - {{ vm.order.table.number }}
+        </a>
+
+        <a
+          routerLink="/home/waiters/{{ vm.order.waiter.id }}"
+          class="badge bg-primary d-flex align-items-center gap-2"
+          ngbTooltip="{{ 'HOME_ORDER_OPEN_WAITER' | tr }}"
+        >
+          <i-bs name="people" />
+          {{ vm.order.waiter.name }}
         </a>
       </div>
 
@@ -121,7 +121,7 @@ export class OrderInfoComponent {
     void modalRef.result
       .then((result) => {
         if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
-          this.ordersService.requeueOrder(id).subscribe();
+          this.ordersService.requeueOrder$(id).subscribe();
         }
       })
       .catch(() => {});
@@ -134,7 +134,7 @@ export class OrderInfoComponent {
     void modalRef.result
       .then((result) => {
         if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
-          this.ordersService.requeueOrderPrinter(orderId, printerId).subscribe();
+          this.ordersService.requeueOrderPrinter$(orderId, printerId).subscribe();
         }
       })
       .catch(() => {});

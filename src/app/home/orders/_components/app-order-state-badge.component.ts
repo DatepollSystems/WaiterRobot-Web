@@ -9,7 +9,8 @@ import {AppIconsModule} from '../../../_shared/ui/icons.module';
     <div
       [ngClass]="{'text-bg-light': orderState === 'QUEUED', 'text-bg-success': orderState === 'PROCESSED'}"
       [ngbTooltip]="processedAt || createdAt ? tipContent : null"
-      class="badge d-flex align-items-center gap-2"
+      placement="right"
+      class="badge d-flex align-items-center gap-2 not-selectable"
       style="width: min-content"
     >
       <ng-template #processed>

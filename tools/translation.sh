@@ -1,10 +1,10 @@
 #!/usr/bin/sh
 main () {
- translate-cli autoTranslate https://translate.dafnik.me/translate en
- translate-cli autoTranslate https://translate.dafnik.me/translate fr
- translate-cli autoTranslate https://translate.dafnik.me/translate es
- translate-cli autoTranslate https://translate.dafnik.me/translate it
- translate-cli autoTranslate https://translate.dafnik.me/translate pt
+ translate-cli autoTranslate https://translate.foxhaven.cyou en
+ translate-cli autoTranslate https://translate.foxhaven.cyou fr
+ translate-cli autoTranslate https://translate.foxhaven.cyou es
+ translate-cli autoTranslate https://translate.foxhaven.cyou it
+ translate-cli autoTranslate https://translate.foxhaven.cyou pt
 
  prettier --config ./.prettierrc --write ./src/assets/i18n
 

@@ -7,7 +7,7 @@ import {FooterModule} from '../_shared/ui/footer/footer.module';
   template: `
     <div class="d-container d-flex flex-column gap-4 text-white">
       <app-logo-with-text />
-      <div class="card bg-dark mx-auto col-11 col-md-8 col-lg-6 col-xl-5">
+      <div class="card bg-dark mx-auto col-11 col-md-8 col-lg-6 col-xl-5 mb-3">
         <div class="card-body">
           <router-outlet />
         </div>

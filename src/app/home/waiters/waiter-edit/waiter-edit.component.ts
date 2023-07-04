@@ -19,6 +19,7 @@ import {OrganisationsService} from '../../organisations/_services/organisations.
 import {WaitersService} from '../_services/waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from '../btn-waiter-sign-in-qr-code.component';
 import {AppProductEditFormComponent} from './waiter-edit-form.component';
+import {WaiterEditOrderProductsComponent} from './waiter-edit-order-products.component';
 import {WaiterSessionsComponent} from './waiter-sessions.component';
 
 @Component({
@@ -71,6 +72,12 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
             <app-waiter-sessions />
           </ng-template>
         </li>
+        <li [ngbNavItem]="'ORDERS'" *isEditing="entity">
+          <a ngbNavLink>{{ 'NAV_ORDERS' | tr }}</a>
+          <ng-template ngbNavContent>
+            <app-waiter-edit-order-products />
+          </ng-template>
+        </li>
       </ul>
 
       <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
@@ -102,16 +109,17 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
     AppModelEditSaveBtn,
     AppProductEditFormComponent,
     AppBackButtonComponent,
+    WaiterEditOrderProductsComponent,
   ],
 })
 export class WaiterEditComponent extends AbstractModelEditComponent<
   CreateWaiterDto,
   UpdateWaiterDto,
   GetWaiterResponse,
-  'DATA' | 'SESSIONS'
+  'DATA' | 'SESSIONS' | 'ORDERS'
 > {
   defaultTab = 'DATA' as const;
-  override onlyEditingTabs = ['SESSIONS' as const];
+  override onlyEditingTabs = ['SESSIONS' as const, 'ORDERS' as const];
 
   events = this.eventsService.getAll$().pipe(shareReplay(1));
 

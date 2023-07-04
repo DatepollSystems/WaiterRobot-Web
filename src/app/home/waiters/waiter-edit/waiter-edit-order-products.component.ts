@@ -48,10 +48,13 @@ import {OrdersService} from '../../orders/orders.service';
             </td>
           </ng-container>
 
-          <ng-container ngbColumnDef="waiter">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</th>
+          <ng-container ngbColumnDef="table">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_TABLE' | tr }}</th>
             <td *ngbCellDef="let order" ngb-cell>
-              <a (click)="$event.stopPropagation()" routerLink="/home/waiters/{{ order.waiter.id }}">{{ order.waiter.name }}</a>
+              <a (click)="$event.stopPropagation()" routerLink="/home/tables/groups/tables/{{ order.table.group.id }}">{{
+                order.table.group.name
+              }}</a>
+              - <a (click)="$event.stopPropagation()" routerLink="/home/tables/{{ order.table.id }}">{{ order.table.number }}</a>
             </td>
           </ng-container>
 
@@ -69,7 +72,7 @@ import {OrdersService} from '../../orders/orders.service';
       </div>
     </ng-container>
   `,
-  selector: 'app-table-edit-order-products',
+  selector: 'app-waiter-edit-order-products',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -90,11 +93,11 @@ import {OrdersService} from '../../orders/orders.service';
     AppIconsModule,
   ],
 })
-export class TableEditOrderProductsComponent implements AfterViewInit {
+export class WaiterEditOrderProductsComponent implements AfterViewInit {
   ordersService = inject(OrdersService);
   dataSource$ = of(new NgbTableDataSource<GetOrderResponse>());
 
-  columnsToDisplay = ['orderNumber', 'state', 'waiter', 'createdAt'];
+  columnsToDisplay = ['orderNumber', 'state', 'table', 'createdAt'];
 
   @ViewChild(NgbSort) sort!: NgbSort;
   public searchParam$ = new FormControl('');
@@ -110,15 +113,15 @@ export class TableEditOrderProductsComponent implements AfterViewInit {
       ),
       this.idParam$.pipe(
         filter(notNullAndUndefined),
-        switchMap((id) => this.ordersService.getByTableId$(id))
+        switchMap((id) => this.ordersService.getByWaiterId$(id))
       ),
     ]).pipe(
       map(([searchParam, orders]) => {
         const dataSource = new NgbTableDataSource(orders);
         dataSource.sortingDataAccessor = (item, property: string) => {
           switch (property) {
-            case 'waiter':
-              return item.waiter.name;
+            case 'table':
+              return `${item.table.group.name} ${item.table.number}`;
             case 'createdAt':
               return d_from(item.createdAt).getTime();
             default:

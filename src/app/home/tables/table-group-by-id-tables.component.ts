@@ -94,6 +94,13 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
           <td *ngbCellDef="let table" ngb-cell>{{ table.number }}</td>
         </ng-container>
 
+        <ng-container ngbColumnDef="publicId">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_TABLES_PUBLIC_ID' | tr }}</th>
+          <td *ngbCellDef="let table" ngb-cell>
+            <a (click)="$event.stopPropagation()" routerLink="/wl/t/{{ table.publicId }}" target="_blank">{{ 'OPEN' | tr }}</a>
+          </td>
+        </ng-container>
+
         <ng-container ngbColumnDef="seats">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'SEATS' | tr }}</th>
           <td *ngbCellDef="let table" ngb-cell>{{ table.seats }}</td>
@@ -145,7 +152,7 @@ export class TableGroupByIdTablesComponent extends AbstractModelsWithNumberListB
   constructor(tablesService: TablesService, tableGroupsService: TableGroupsService) {
     super(tablesService, tableGroupsService);
 
-    this.columnsToDisplay = ['number', 'seats', 'actions'];
+    this.columnsToDisplay = ['number', 'publicId', 'seats', 'actions'];
   }
 
   printSelectedTables(): void {

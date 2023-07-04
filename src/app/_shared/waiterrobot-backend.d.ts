@@ -123,6 +123,12 @@ export interface UpdateProductDto {
   /** @format int64 */
   printerId: number;
   soldOut: boolean;
+  /**
+   * @format int32
+   * @min 1
+   */
+  amountLeft?: number;
+  resetOrderedProducts: boolean;
 }
 
 export interface UpdateProductGroupDto {
@@ -457,6 +463,11 @@ export interface CreateProductDto {
   /** @format int64 */
   printerId: number;
   soldOut: boolean;
+  /**
+   * @format int32
+   * @min 1
+   */
+  amountLeft?: number;
 }
 
 export interface CreateProductGroupDto {
@@ -826,6 +837,10 @@ export interface GetProductMaxResponse {
   /** @format int32 */
   price: number;
   soldOut: boolean;
+  /** @format int32 */
+  amountLeft?: number;
+  /** @format int32 */
+  amountOrdered: number;
   group: GetProductGroupMinResponse;
   printer: GetPrinterMinResponse;
   allergens: GetAllergenResponse[];

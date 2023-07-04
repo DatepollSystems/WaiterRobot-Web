@@ -1,38 +1,63 @@
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, CurrencyPipe, NgForOf, NgIf} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {DfxTr} from 'dfx-translate';
 import {combineLatest, filter, map, shareReplay, switchMap} from 'rxjs';
+import {AppIconsModule} from '../_shared/ui/icons.module';
 import {GetBillForTableResponse, GetTableResponse} from '../_shared/waiterrobot-backend';
 
 @Component({
   template: `
-    <ng-container *ngIf="vm$ | async as vm">
+    <div class="mb-5" *ngIf="vm$ | async as vm">
       <h2 class="text-center">
         Tisch <b>{{ vm.table.groupName }} - {{ vm.table.number }}</b>
       </h2>
-      <h4 class="my-3">Offene Bestellungen:</h4>
+      <h4 class="my-3">Offene Rechnung:</h4>
 
-      <div class="d-flex justify-content-between" *ngFor="let product of vm.bill.products">
-        <span>
-          {{ product.amount }}x {{ product.name }}
-          <small>({{ product.pricePerPiece / 100 }}€ / Stück)</small>
-        </span>
-        <span>{{ (product.pricePerPiece * product.amount) / 100 }}€</span>
+      <ng-container *ngIf="vm.bill.products.length > 0; else everythingPaid">
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let product of vm.bill.products">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="fw-bold">{{ product.name }}</div>
+              <span class="badge bg-secondary rounded-pill">{{ product.amount }}x</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <small>({{ product.pricePerPiece | currency : 'EUR' }} / Stück)</small>
+              <span>{{ product.pricePerPiece * product.amount | currency : 'EUR' }}</span>
+            </div>
+          </li>
+        </ul>
+
+        <hr />
+        <div class="d-flex justify-content-between">
+          <span>Gesamt:</span> <span>{{ vm.priceSum | currency : 'EUR' }}</span>
+        </div>
+        <hr />
+      </ng-container>
+      <ng-template #everythingPaid>
+        <div class="text-center">Alles bezahlt :)</div>
+      </ng-template>
+    </div>
+
+    <div class="mt-3 d-flex flex-column flex-md-row justify-content-between gap-2">
+      <a routerLink="/home" class="btn btn-light btn-sm">{{ 'GO_BACK' | tr }}</a>
+      <div class="d-flex gap-2" *ngIf="false">
+        <a routerLink="./orders" class="btn btn-outline-primary btn-sm">
+          <i-bs name="view-stacked" />
+          Bestellungen
+        </a>
+        <a routerLink="./bills" class="btn btn-primary btn-sm">
+          <i-bs name="cash-stack" />
+          Rechnungen
+        </a>
       </div>
-
-      <hr />
-      <div class="text-end">Gesamt: {{ vm.priceSum / 100 }}€</div>
-    </ng-container>
-    <div class="mt-3">
-      <a href="/home" class="btn btn-light btn-sm">{{ 'GO_BACK' | tr }}</a>
     </div>
   `,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-mobile-link-table',
-  imports: [NgIf, AsyncPipe, NgForOf, DfxTr],
+  imports: [NgIf, AsyncPipe, NgForOf, DfxTr, CurrencyPipe, RouterLink, AppIconsModule],
 })
 export class WebLinkTableComponent {
   httpClient = inject(HttpClient);
@@ -51,6 +76,7 @@ export class WebLinkTableComponent {
       let priceSum = 0;
       for (const p of bill.products) {
         priceSum += p.pricePerPiece * p.amount;
+        p.pricePerPiece = p.pricePerPiece / 100;
       }
       return {
         table,

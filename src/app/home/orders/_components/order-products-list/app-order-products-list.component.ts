@@ -3,7 +3,7 @@ import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Inpu
 import {RouterLink} from '@angular/router';
 import {s_fromStorage, st_set} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
-import {BehaviorSubject, combineLatest, map, tap} from 'rxjs';
+import {BehaviorSubject, combineLatest, map} from 'rxjs';
 import {AppIconsModule} from '../../../../_shared/ui/icons.module';
 import {GetOrderProductResponse} from '../../../../_shared/waiterrobot-backend';
 import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
@@ -122,8 +122,7 @@ export class AppOrderProductsListComponent {
         groups.set(orderProduct.printedBy.id, group);
       }
       return groups;
-    }),
-    tap((it) => console.log(it))
+    })
   );
 
   vm$ = combineLatest([this.viewStyle$, this.groupedBy$]).pipe(map(([viewStyle, groupedBy]) => ({viewStyle, groupedBy})));

@@ -42,15 +42,19 @@ export class OrdersService implements HasGetAll<GetOrderResponse>, HasGetSingle<
     );
   }
 
-  requeueOrder(id: GetOrderResponse['id']): Observable<unknown> {
+  requeueOrder$(id: GetOrderResponse['id']): Observable<unknown> {
     return this.httpClient.get(`${this.url}/${id}/requeue`).pipe(tap(() => this.triggerRefresh.next(true)));
   }
 
-  requeueOrderPrinter(id: GetOrderResponse['id'], printerId: number): Observable<unknown> {
+  requeueOrderPrinter$(id: GetOrderResponse['id'], printerId: number): Observable<unknown> {
     return this.httpClient.get(`${this.url}/${id}/requeue/${printerId}`).pipe(tap(() => this.triggerRefresh.next(true)));
   }
 
-  getByTableId(id: number): Observable<GetOrderResponse[]> {
+  getByTableId$(id: number): Observable<GetOrderResponse[]> {
     return this.httpClient.get<GetOrderResponse[]>(this.url, {params: new HttpParams().set('tableId', id)});
+  }
+
+  getByWaiterId$(id: number): Observable<GetOrderResponse[]> {
+    return this.httpClient.get<GetOrderResponse[]>(this.url, {params: new HttpParams().set('waiterId', id)});
   }
 }

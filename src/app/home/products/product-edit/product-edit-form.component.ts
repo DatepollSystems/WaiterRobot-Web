@@ -90,13 +90,38 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
             {{ 'HOME_PROD_PRINTER_ID_INCORRECT' | tr }}
           </small>
         </div>
+
+        <div class="form-group col-12 col-md-3 col-lg-2">
+          <label for="amountLeft">{{ 'HOME_PROD_AMOUNT_LEFT_SET' | tr }}</label>
+          <input
+            class="form-control bg-dark text-white"
+            type="number"
+            id="amountLeft"
+            placeholder="{{ 'HOME_PROD_AMOUNT_LEFT_SET' | tr }}"
+            formControlName="amountLeft"
+          />
+          <small *ngIf="form.controls.amountLeft.invalid" class="text-danger">
+            {{ 'HOME_PROD_AMOUNT_LEFT_SET_INCORRECT' | tr }}
+          </small>
+          <small *ngIf="form.controls.amountLeft.value && _product" class="d-flex justify-content-between">
+            <span>{{ 'HOME_PROD_AMOUNT_LEFT' | tr }}: {{ form.controls.amountLeft.value - _product.amountOrdered }}</span>
+            <span>{{ 'HOME_PROD_AMOUNT_ORDERED' | tr }}: {{ _product.amountOrdered }}</span>
+          </small>
+        </div>
       </div>
 
-      <div class="d-flex flex-column flex-md-row gap-2 gap-md-4 mt-2">
+      <div class="d-flex flex-column flex-md-row gap-2 gap-md-5 mb-3">
         <div class="form-check">
           <input formControlName="soldOut" class="form-check-input" type="checkbox" id="soldOut" />
           <label class="form-check-label" for="soldOut">
             {{ 'HOME_PROD_SOLD_OUT' | tr }}
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input formControlName="resetOrderedProducts" class="form-check-input" type="checkbox" id="resetOrderedProducts" />
+          <label class="form-check-label" for="resetOrderedProducts">
+            {{ 'HOME_PROD_AMOUNT_ORDERED_RESET' | tr }}
           </label>
         </div>
       </div>
@@ -116,6 +141,8 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     groupId: [-1, [Validators.required, Validators.min(0)]],
     printerId: [-1, [Validators.required, Validators.min(0)]],
     soldOut: [false, [Validators.required]],
+    resetOrderedProducts: [false],
+    amountLeft: [null as number | null, [Validators.min(0)]],
     id: [-1],
   });
 
@@ -153,6 +180,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
       groupId: it.group.id,
       printerId: it.printer.id,
       soldOut: it.soldOut,
+      amountLeft: it.amountLeft,
       id: it.id,
     });
   }

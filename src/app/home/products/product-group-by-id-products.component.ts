@@ -104,6 +104,11 @@ import {ProductsService} from './_services/products.service';
           <td *ngbCellDef="let product" ngb-cell>{{ product.soldOut | soldOut }}</td>
         </ng-container>
 
+        <ng-container ngbColumnDef="amountLeft">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_AMOUNT_LEFT' | tr }}</th>
+          <td *ngbCellDef="let product" ngb-cell>{{ product.amountLeft - product.amountOrdered }}</td>
+        </ng-container>
+
         <ng-container ngbColumnDef="printer">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_PRINTERS' | tr }}</th>
           <td *ngbCellDef="let product" ngb-cell>{{ product.printer.name }}</td>
@@ -167,6 +172,6 @@ export class ProductGroupByIdProductsComponent extends AbstractModelsWithNameLis
   constructor(entityService: ProductsService, groupsService: ProductGroupsService) {
     super(entityService, groupsService);
 
-    this.columnsToDisplay = ['name', 'price', 'soldOut', 'printer', 'allergens', 'actions'];
+    this.columnsToDisplay = ['name', 'price', 'soldOut', 'amountLeft', 'printer', 'allergens', 'actions'];
   }
 }
