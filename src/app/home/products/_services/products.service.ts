@@ -2,7 +2,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {notNullAndUndefined, s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from 'dfx-helper';
-import {BehaviorSubject, filter, map, Observable, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, filter, Observable, switchMap, tap} from 'rxjs';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
 import {
   CreateProductDto,
@@ -31,13 +31,6 @@ export class ProductsService
 
   constructor(private httpClient: HttpClient, private eventsService: EventsService) {}
 
-  priceMap = map((p: GetProductMaxResponse[]) =>
-    p.map((ps) => {
-      ps.price = ps.price / 100;
-      return ps;
-    })
-  );
-
   triggerGet$ = new BehaviorSubject(true);
 
   getAll$(): Observable<GetProductMaxResponse[]> {
@@ -46,9 +39,7 @@ export class ProductsService
         this.eventsService.getSelected$.pipe(
           filter(notNullAndUndefined),
           switchMap((selected) =>
-            this.httpClient
-              .get<GetProductMaxResponse[]>(this.url, {params: new HttpParams().set('eventId', selected.id)})
-              .pipe(this.priceMap)
+            this.httpClient.get<GetProductMaxResponse[]>(this.url, {params: new HttpParams().set('eventId', selected.id)})
           )
         )
       )
@@ -57,19 +48,12 @@ export class ProductsService
 
   getByParent$(id: number): Observable<GetProductMaxResponse[]> {
     return this.triggerGet$.pipe(
-      switchMap(() =>
-        this.httpClient.get<GetProductMaxResponse[]>(this.url, {params: new HttpParams().set('groupId', id)}).pipe(this.priceMap)
-      )
+      switchMap(() => this.httpClient.get<GetProductMaxResponse[]>(this.url, {params: new HttpParams().set('groupId', id)}))
     );
   }
 
   getSingle$(id: number): Observable<GetProductMaxResponse> {
-    return this.httpClient.get<GetProductMaxResponse>(`${this.url}/${s_from(id)}`).pipe(
-      map((ps) => {
-        ps.price = ps.price / 100;
-        return ps;
-      })
-    );
+    return this.httpClient.get<GetProductMaxResponse>(`${this.url}/${s_from(id)}`);
   }
 
   create$(dto: CreateProductDto): Observable<IdResponse> {

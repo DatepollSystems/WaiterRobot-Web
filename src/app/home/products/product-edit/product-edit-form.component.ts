@@ -175,7 +175,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
 
     this.form.patchValue({
       name: it.name,
-      price: s_from(it.price),
+      price: s_from(it.price / 100),
       allergenIds: a_pluck(it.allergens, 'id') ?? [],
       groupId: it.group.id,
       printerId: it.printer.id,

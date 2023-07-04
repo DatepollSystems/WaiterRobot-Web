@@ -1,4 +1,4 @@
-import {AsyncPipe, CurrencyPipe, NgIf} from '@angular/common';
+import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -15,6 +15,7 @@ import {DfxArrayPluck} from '../../_shared/ui/pluck.pipe';
 import {GetProductMaxResponse} from '../../_shared/waiterrobot-backend';
 
 import {ProductsService} from './_services/products.service';
+import {DfxCurrencyCentPipe} from '../../_shared/ui/currency.pipe';
 
 @Component({
   template: `
@@ -151,7 +152,7 @@ import {ProductsService} from './_services/products.service';
     DfxTableModule,
     AsyncPipe,
     DfxSortModule,
-    CurrencyPipe,
+    DfxCurrencyCentPipe,
     DfxArrayPluck,
     DfxImplodePipe,
     AppSpinnerRowComponent,

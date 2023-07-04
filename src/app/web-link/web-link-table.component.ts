@@ -1,4 +1,4 @@
-import {AsyncPipe, CurrencyPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
@@ -6,6 +6,7 @@ import {DfxTr} from 'dfx-translate';
 import {combineLatest, filter, map, shareReplay, switchMap} from 'rxjs';
 import {AppIconsModule} from '../_shared/ui/icons.module';
 import {GetBillForTableResponse, GetTableResponse} from '../_shared/waiterrobot-backend';
+import {DfxCurrencyCentPipe} from '../_shared/ui/currency.pipe';
 
 @Component({
   template: `
@@ -57,7 +58,7 @@ import {GetBillForTableResponse, GetTableResponse} from '../_shared/waiterrobot-
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-mobile-link-table',
-  imports: [NgIf, AsyncPipe, NgForOf, DfxTr, CurrencyPipe, RouterLink, AppIconsModule],
+  imports: [NgIf, AsyncPipe, NgForOf, DfxTr, DfxCurrencyCentPipe, RouterLink, AppIconsModule],
 })
 export class WebLinkTableComponent {
   httpClient = inject(HttpClient);
@@ -76,12 +77,11 @@ export class WebLinkTableComponent {
       let priceSum = 0;
       for (const p of bill.products) {
         priceSum += p.pricePerPiece * p.amount;
-        p.pricePerPiece = p.pricePerPiece / 100;
       }
       return {
         table,
         bill,
-        priceSum: priceSum / 100,
+        priceSum,
       };
     })
   );

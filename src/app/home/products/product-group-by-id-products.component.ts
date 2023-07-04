@@ -1,4 +1,4 @@
-import {AsyncPipe, CurrencyPipe, LowerCasePipe, NgIf} from '@angular/common';
+import {AsyncPipe, LowerCasePipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -16,6 +16,7 @@ import {GetProductGroupResponse, GetProductMaxResponse} from '../../_shared/wait
 import {ProductGroupsService} from './_services/product-groups.service';
 
 import {ProductsService} from './_services/products.service';
+import {DfxCurrencyCentPipe} from '../../_shared/ui/currency.pipe';
 
 @Component({
   template: `
@@ -151,7 +152,7 @@ import {ProductsService} from './_services/products.service';
     NgIf,
     RouterLink,
     AsyncPipe,
-    CurrencyPipe,
+    DfxCurrencyCentPipe,
     LowerCasePipe,
     NgbTooltip,
     DfxTr,
