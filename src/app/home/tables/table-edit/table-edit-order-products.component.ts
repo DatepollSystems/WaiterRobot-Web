@@ -1,6 +1,6 @@
-import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
+import {DatePipe, NgIf} from '@angular/common';
 import {AfterViewInit, ChangeDetectionStrategy, Component, inject, ViewChild} from '@angular/core';
-import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {d_from, notNullAndUndefined} from 'dfts-helper';
@@ -10,7 +10,6 @@ import {DfxTr} from 'dfx-translate';
 import {combineLatest, debounceTime, filter, map, of, startWith, switchMap} from 'rxjs';
 import {getActivatedRouteIdParam} from '../../../_shared/services/getActivatedRouteIdParam';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
-import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {GetOrderResponse} from '../../../_shared/waiterrobot-backend';
 import {AppOrderStateBadgeComponent} from '../../orders/_components/app-order-state-badge.component';
 import {OrdersService} from '../../orders/orders.service';
@@ -60,6 +59,19 @@ import {OrdersService} from '../../orders/orders.service';
             <td *ngbCellDef="let order" ngb-cell>{{ order.createdAt | date : 'dd.MM. HH:mm:ss' }}</td>
           </ng-container>
 
+          <ng-container ngbColumnDef="actions">
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+            <td *ngbCellDef="let order" ngb-cell>
+              <a
+                class="btn btn-sm m-1 btn-outline-primary text-white"
+                routerLink="/home/orders/{{ order.id }}"
+                ngbTooltip="{{ 'OPEN' | tr }}"
+              >
+                <i-bs name="arrow-up-right-square-fill" />
+              </a>
+            </td>
+          </ng-container>
+
           <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
           <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row routerLink="/home/orders/{{ order.id }}" class="clickable"></tr>
         </table>
@@ -74,17 +86,14 @@ import {OrdersService} from '../../orders/orders.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AppOrderStateBadgeComponent,
-    AppSpinnerRowComponent,
     DatePipe,
     DfxPaginationModule,
     DfxSortModule,
     DfxTableModule,
     DfxTr,
     RouterLink,
-    AsyncPipe,
     NgIf,
     NgSub,
-    FormsModule,
     NgbTooltip,
     ReactiveFormsModule,
     AppIconsModule,
@@ -94,7 +103,7 @@ export class TableEditOrderProductsComponent implements AfterViewInit {
   ordersService = inject(OrdersService);
   dataSource$ = of(new NgbTableDataSource<GetOrderResponse>());
 
-  columnsToDisplay = ['orderNumber', 'state', 'waiter', 'createdAt'];
+  columnsToDisplay = ['orderNumber', 'state', 'waiter', 'createdAt', 'actions'];
 
   @ViewChild(NgbSort) sort!: NgbSort;
   public searchParam$ = new FormControl('');

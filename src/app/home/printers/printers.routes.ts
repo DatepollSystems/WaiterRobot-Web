@@ -16,7 +16,7 @@ export const ROUTES: Routes = [
         canActivate: [eventSelectedGuard],
       },
       {path: ':id', loadComponent: () => import('./printer-edit/printer-edit.component').then((c) => c.PrinterEditComponent)},
-      {path: '', pathMatch: 'full', redirectTo: '/home/printers/mediators'},
+      {path: '', pathMatch: 'full', redirectTo: '/home/printers/printers'},
     ],
   },
 ];

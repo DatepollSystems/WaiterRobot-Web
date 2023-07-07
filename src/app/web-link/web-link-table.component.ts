@@ -4,16 +4,17 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {DfxTr} from 'dfx-translate';
 import {combineLatest, filter, map, shareReplay, switchMap} from 'rxjs';
+import {AppBackDirective} from '../_shared/ui/app-back-button.component';
+import {DfxCurrencyCentPipe} from '../_shared/ui/currency.pipe';
 import {AppIconsModule} from '../_shared/ui/icons.module';
 import {GetBillForTableResponse, GetTableResponse} from '../_shared/waiterrobot-backend';
-import {DfxCurrencyCentPipe} from '../_shared/ui/currency.pipe';
 
 @Component({
   template: `
     <div class="mb-5" *ngIf="vm$ | async as vm">
-      <h2 class="text-center">
+      <h1 class="text-center">
         Tisch <b>{{ vm.table.groupName }} - {{ vm.table.number }}</b>
-      </h2>
+      </h1>
       <h4 class="my-3">Offene Rechnung:</h4>
 
       <ng-container *ngIf="vm.bill.products.length > 0; else everythingPaid">
@@ -42,7 +43,7 @@ import {DfxCurrencyCentPipe} from '../_shared/ui/currency.pipe';
     </div>
 
     <div class="mt-3 d-flex flex-column flex-md-row justify-content-between gap-2">
-      <a routerLink="/home" class="btn btn-light btn-sm">{{ 'GO_BACK' | tr }}</a>
+      <button back class="btn btn-light btn-sm">{{ 'GO_BACK' | tr }}</button>
       <div class="d-flex gap-2" *ngIf="false">
         <a routerLink="./orders" class="btn btn-outline-primary btn-sm">
           <i-bs name="view-stacked" />
@@ -58,7 +59,7 @@ import {DfxCurrencyCentPipe} from '../_shared/ui/currency.pipe';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-mobile-link-table',
-  imports: [NgIf, AsyncPipe, NgForOf, DfxTr, DfxCurrencyCentPipe, RouterLink, AppIconsModule],
+  imports: [NgIf, AsyncPipe, NgForOf, DfxTr, DfxCurrencyCentPipe, RouterLink, AppIconsModule, AppBackDirective],
 })
 export class WebLinkTableComponent {
   httpClient = inject(HttpClient);

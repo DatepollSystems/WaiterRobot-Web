@@ -39,7 +39,10 @@ export abstract class AbstractModelEditComponent<
   protected defaultTab!: Tab;
   protected onlyEditingTabs: Tab[] = [];
   public activeTab$ = combineLatest([
-    this.route.queryParams.pipe(map((params) => (s_is(params.tab) ? (params.tab as Tab) : undefined))),
+    this.route.queryParamMap.pipe(
+      tap((it) => this.lumber.info('activeTab', `Params`, it)),
+      map((params) => (s_is(params.get('tab')) ? (params.get('tab') as Tab) : undefined))
+    ),
     this.entity$,
   ]).pipe(
     map(([tab, entity]) => (tab === undefined || (entity === 'CREATE' && this.onlyEditingTabs.includes(tab)) ? this.defaultTab : tab)),

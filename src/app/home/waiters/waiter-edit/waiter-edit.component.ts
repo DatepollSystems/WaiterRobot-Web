@@ -66,16 +66,16 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
             />
           </ng-template>
         </li>
+        <li [ngbNavItem]="'ORDERS'" *isEditing="entity" [destroyOnHide]="true">
+          <a ngbNavLink>{{ 'NAV_ORDERS' | tr }}</a>
+          <ng-template ngbNavContent>
+            <app-waiter-edit-order-products />
+          </ng-template>
+        </li>
         <li [ngbNavItem]="'SESSIONS'" *isEditing="entity" [destroyOnHide]="true">
           <a ngbNavLink>{{ 'NAV_USER_SESSIONS' | tr }}</a>
           <ng-template ngbNavContent>
             <app-waiter-sessions />
-          </ng-template>
-        </li>
-        <li [ngbNavItem]="'ORDERS'" *isEditing="entity">
-          <a ngbNavLink>{{ 'NAV_ORDERS' | tr }}</a>
-          <ng-template ngbNavContent>
-            <app-waiter-edit-order-products />
           </ng-template>
         </li>
       </ul>

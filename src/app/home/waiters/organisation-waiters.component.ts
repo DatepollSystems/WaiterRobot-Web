@@ -122,6 +122,15 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
             >
               <i-bs name="qr-code"></i-bs>
             </button>
+            <a
+              class="btn btn-sm m-1 btn-outline-secondary text-white"
+              routerLink="../{{ waiter.id }}"
+              [queryParams]="{tab: 'ORDERS'}"
+              ngbTooltip="{{ 'NAV_ORDERS' | tr }}"
+              (click)="$event.stopPropagation()"
+            >
+              <i-bs name="stack" />
+            </a>
             <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ waiter.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
               <i-bs name="pencil-square" />
             </a>

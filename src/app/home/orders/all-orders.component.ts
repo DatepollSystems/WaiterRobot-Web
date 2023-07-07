@@ -121,6 +121,28 @@ import {OrdersService} from './orders.service';
             <td *ngbCellDef="let order" ngb-cell>{{ order.createdAt | date : 'dd.MM. HH:mm:ss' }}</td>
           </ng-container>
 
+          <ng-container ngbColumnDef="actions">
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+            <td *ngbCellDef="let order" ngb-cell>
+              <button
+                class="btn btn-sm m-1 btn-outline-primary text-white"
+                (click)="$event.stopPropagation(); openOrder(order)"
+                ngbTooltip="{{ 'OPEN' | tr }}"
+                placement="left"
+              >
+                <i-bs name="arrow-up-right-square-fill" />
+              </button>
+              <button
+                class="btn btn-sm m-1 btn-warning"
+                (click)="$event.stopPropagation(); requeueOrder(order)"
+                ngbTooltip="{{ 'HOME_ORDER_REQUEUE' | tr }}"
+                placement="right"
+              >
+                <i-bs name="printer" />
+              </button>
+            </td>
+          </ng-container>
+
           <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
           <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row (click)="openOrder(order)" class="clickable"></tr>
         </table>
@@ -167,7 +189,7 @@ export class AllOrdersComponent extends AbstractModelsListComponent<GetOrderResp
   constructor(private ordersService: OrdersService, private modal: NgbModal) {
     super(ordersService);
 
-    this.columnsToDisplay = ['select', 'orderNumber', 'state', 'table', 'waiter', 'createdAt'];
+    this.columnsToDisplay = ['select', 'orderNumber', 'state', 'table', 'waiter', 'createdAt', 'actions'];
 
     this.sortingDataAccessors = new Map();
     this.sortingDataAccessors.set('table', (it) => it.table.number);
@@ -188,14 +210,22 @@ export class AllOrdersComponent extends AbstractModelsListComponent<GetOrderResp
     void this.router.navigateByUrl(`/home/orders/${it.id}`);
   }
 
+  requeueOrder(it: GetOrderResponse) {
+    this.selection.clear();
+    this.selection.toggle(it);
+    this.requeueOrders();
+  }
+
   requeueOrders() {
     this.lumber.info('requeueOrders', 'Opening requeue question dialog');
     this.lumber.info('requeueOrders', 'Selected entities:', this.selection.selected);
     const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
     modalRef.componentInstance.title = 'HOME_ORDER_REQUEUE';
 
+    const selected = this.selection.selected.slice();
+
     const list = s_imploder()
-      .mappedSource(this.selection.selected, (it) => it.orderNumber)
+      .mappedSource(selected, (it) => it.orderNumber)
       .separator('</li><li>')
       .build();
     modalRef.componentInstance.info = `<ol><li>${list}</li></ol>`;
@@ -204,8 +234,8 @@ export class AllOrdersComponent extends AbstractModelsListComponent<GetOrderResp
         this.lumber.info('requeueOrders', 'Question dialog result:', result);
         if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
           const observables: Observable<unknown>[] = [];
-          for (const selected of this.selection.selected) {
-            observables.push(this.ordersService.requeueOrder$(selected.id));
+          for (const it of selected) {
+            observables.push(this.ordersService.requeueOrder$(it.id));
           }
           forkJoin(observables).subscribe();
         }

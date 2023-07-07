@@ -9,13 +9,13 @@ import {AppIconsModule} from '../../_shared/ui/icons.module';
     <entities-layout-component>
       <ng-container nav>
         <div class="list-group">
-          <a class="list-group-item list-group-item-action" routerLink="mediators" routerLinkActive="active">
-            <i-bs name="router" />
-            {{ 'HOME_PRINTER_NAV_MEDIATOR' | tr }}</a
-          >
           <a class="list-group-item list-group-item-action" routerLink="printers" routerLinkActive="active">
             <i-bs name="printer" />
             {{ 'NAV_PRINTERS' | tr }}</a
+          >
+          <a class="list-group-item list-group-item-action" routerLink="mediators" routerLinkActive="active">
+            <i-bs name="router" />
+            {{ 'HOME_PRINTER_NAV_MEDIATOR' | tr }}</a
           >
         </div>
       </ng-container>

@@ -19,6 +19,7 @@ import {CreatePrinterDto, GetPrinterResponse, UpdatePrinterDto} from '../../../_
 import {EventsService} from '../../events/_services/events.service';
 import {PrintersService} from '../_services/printers.service';
 import {AppPrinterEditForm} from './printer-edit-form.component';
+import {PrinterEditProductsComponent} from './printer-edit-products.component';
 
 @Component({
   template: `
@@ -42,7 +43,7 @@ import {AppPrinterEditForm} from './printer-edit-form.component';
       </btn-toolbar>
 
       <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs bg-dark" (navChange)="navigateToTab($event.nextId)">
-        <li [ngbNavItem]="'DATA'">
+        <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">
           <a ngbNavLink>{{ 'DATA' | tr }}</a>
           <ng-template ngbNavContent>
             <app-printer-edit-form
@@ -59,9 +60,11 @@ import {AppPrinterEditForm} from './printer-edit-form.component';
             <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
           </ng-template>
         </li>
-        <li [ngbNavItem]="'PRODUCTS'">
+        <li [ngbNavItem]="'PRODUCTS'" *isEditing="entity" [destroyOnHide]="true">
           <a ngbNavLink>{{ 'HOME_PROD_ALL' | tr }}</a>
-          <ng-template ngbNavContent> </ng-template>
+          <ng-template ngbNavContent>
+            <app-printer-edit-products [products]="entity.products" />
+          </ng-template>
         </li>
       </ul>
 
@@ -96,6 +99,7 @@ import {AppPrinterEditForm} from './printer-edit-form.component';
     AppPrinterEditForm,
     AppContinuesCreationSwitchComponent,
     AppBackButtonComponent,
+    PrinterEditProductsComponent,
   ],
 })
 export class PrinterEditComponent extends AbstractModelEditComponent<

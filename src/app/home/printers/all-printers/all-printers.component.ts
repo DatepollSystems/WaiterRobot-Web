@@ -27,7 +27,7 @@ import {PrinterBatchUpdateDto, PrinterBatchUpdateModalComponent} from './printer
       </div>
       <div>
         <button class="btn btn-sm btn-outline-secondary" [class.disabled]="!selection.hasValue()" (click)="onBatchUpdatePrinters()">
-          <i-bs name="stack" />
+          <i-bs name="pencil-square" />
           {{ 'HOME_PRINTER_BATCH_UPDATE' | tr }}
         </button>
       </div>
@@ -114,6 +114,15 @@ import {PrinterBatchUpdateDto, PrinterBatchUpdateModalComponent} from './printer
           <td *ngbCellDef="let printer" ngb-cell>
             <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ printer.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
               <i-bs name="pencil-square" />
+            </a>
+            <a
+              class="btn btn-sm m-1 btn-outline-secondary text-white"
+              routerLink="../{{ printer.id }}"
+              [queryParams]="{tab: 'PRODUCTS'}"
+              ngbTooltip="{{ 'HOME_PROD_ALL' | tr }}"
+              (click)="$event.stopPropagation()"
+            >
+              <i-bs name="columns-gap" />
             </a>
             <button
               type="button"

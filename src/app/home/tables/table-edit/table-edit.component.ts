@@ -54,7 +54,7 @@ import {TableEditOrderProductsComponent} from './table-edit-order-products.compo
       </btn-toolbar>
 
       <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs bg-dark" (navChange)="navigateToTab($event.nextId)">
-        <li [ngbNavItem]="'DATA'">
+        <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">
           <a ngbNavLink>{{ 'DATA' | tr }}</a>
           <ng-template ngbNavContent>
             <app-table-edit-form
@@ -73,7 +73,7 @@ import {TableEditOrderProductsComponent} from './table-edit-order-products.compo
           </ng-template>
         </li>
 
-        <li [ngbNavItem]="'ORDERS'" *isEditing="entity">
+        <li [ngbNavItem]="'ORDERS'" *isEditing="entity" [destroyOnHide]="true">
           <a ngbNavLink>{{ 'NAV_ORDERS' | tr }}</a>
           <ng-template ngbNavContent>
             <app-table-edit-order-products />

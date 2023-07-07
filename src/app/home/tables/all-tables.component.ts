@@ -113,6 +113,15 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
             <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ table.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
               <i-bs name="pencil-square" />
             </a>
+            <a
+              class="btn btn-sm m-1 btn-outline-secondary text-white"
+              routerLink="../{{ table.id }}"
+              [queryParams]="{tab: 'ORDERS'}"
+              ngbTooltip="{{ 'NAV_ORDERS' | tr }}"
+              (click)="$event.stopPropagation()"
+            >
+              <i-bs name="stack" />
+            </a>
             <button
               type="button"
               class="btn btn-sm m-1 btn-outline-danger text-white"
