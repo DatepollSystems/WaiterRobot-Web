@@ -1,7 +1,7 @@
 import {LowerCasePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {AEntityWithNumberIDAndName, s_isEmail} from 'dfts-helper';
+import {HasIDAndName, s_isEmail} from 'dfts-helper';
 import {DfxTr, dfxTranslate$} from 'dfx-translate';
 
 import {NotificationService} from '../../../_shared/notifications/notification.service';
@@ -39,7 +39,7 @@ import {OrganisationsUsersService} from '../_services/organisations-users.servic
   imports: [ChipInput, DfxTr, LowerCasePipe, AppIconsModule],
 })
 export class OrganisationUserAddModalComponent {
-  entity!: AEntityWithNumberIDAndName;
+  entity!: HasIDAndName<number>;
   emailAddresses: string[] = [];
 
   translate$ = dfxTranslate$();

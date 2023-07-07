@@ -1,12 +1,15 @@
-import {AEntityWithNumberIDAndName} from 'dfts-helper';
+import {HasIDAndName} from 'dfts-helper';
 import {SessionResponse} from '../waiterrobot-backend';
 
-export class SessionModel extends AEntityWithNumberIDAndName {
+export class SessionModel implements HasIDAndName<number> {
+  public readonly id: number;
+  public readonly name: string;
   public readonly registeredAt: string;
   public readonly updatedAt: string;
 
   constructor(data: SessionResponse) {
-    super(data.id, data.description, data);
+    this.id = data.id;
+    this.name = data.description;
     this.registeredAt = data.createdAt;
     this.updatedAt = data.updatedAt;
   }

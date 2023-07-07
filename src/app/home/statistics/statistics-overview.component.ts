@@ -69,7 +69,7 @@ import {EventsService} from '../events/_services/events.service';
         <app-statistics-sum-product-groups />
       </div>
       <div class="col">
-        <app-statistics-sum-products />
+        <app-statistics-sum-products standalone="false" />
       </div>
     </div>
 

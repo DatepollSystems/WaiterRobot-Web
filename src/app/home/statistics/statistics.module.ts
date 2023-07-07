@@ -11,6 +11,7 @@ import {DfxTranslateModule} from 'dfx-translate';
 
 import {eventSelectedGuard} from '../../_shared/services/guards/event-selected-guard';
 import {organisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard';
+import {AppBackButtonComponent} from '../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
@@ -34,6 +35,7 @@ const routes: Routes = [
       {path: '', pathMatch: 'full', redirectTo: '/home/statistics/overview'},
     ],
   },
+  {path: 'products', component: SumProductsComponent},
 ];
 
 @NgModule({
@@ -67,6 +69,7 @@ const routes: Routes = [
     NgbInputDatepicker,
     ReactiveFormsModule,
     NgbTimepicker,
+    AppBackButtonComponent,
   ],
 })
 export class StatisticsModule {}

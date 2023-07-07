@@ -9,7 +9,6 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
           <ng-content />
         </h4>
         <div class="heading text-center">
-          <!-- TODO: fix in library-->
           <ng-container *ngIf="count === 0; else notZero">
             <span>0</span>
           </ng-container>
