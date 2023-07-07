@@ -184,7 +184,7 @@ export class AllOrdersComponent extends AbstractModelsListComponent<GetOrderResp
     tap((it) => st_set('open_order_in_new_tab', it ?? true))
   );
 
-  public selection = new SelectionModel<GetOrderResponse>(true, []);
+  public selection = new SelectionModel<GetOrderResponse>(true, [], false, (a, b) => a.id === b.id);
 
   constructor(private ordersService: OrdersService, private modal: NgbModal) {
     super(ordersService);
