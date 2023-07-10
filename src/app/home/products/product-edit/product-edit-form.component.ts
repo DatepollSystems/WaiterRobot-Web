@@ -92,19 +92,19 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
         </div>
 
         <div class="form-group col-12 col-md-3 col-lg-2">
-          <label for="amountLeft">{{ 'HOME_PROD_AMOUNT_LEFT_SET' | tr }}</label>
+          <label for="initialStock">{{ 'HOME_PROD_AMOUNT_LEFT_SET' | tr }}</label>
           <input
             class="form-control bg-dark text-white"
             type="number"
-            id="amountLeft"
+            id="initialStock"
             placeholder="{{ 'HOME_PROD_AMOUNT_LEFT_SET' | tr }}"
-            formControlName="amountLeft"
+            formControlName="initialStock"
           />
-          <small *ngIf="form.controls.amountLeft.invalid" class="text-danger">
+          <small *ngIf="form.controls.initialStock.invalid" class="text-danger">
             {{ 'HOME_PROD_AMOUNT_LEFT_SET_INCORRECT' | tr }}
           </small>
-          <small *ngIf="form.controls.amountLeft.value && _product" class="d-flex justify-content-between">
-            <span>{{ 'HOME_PROD_AMOUNT_LEFT' | tr }}: {{ form.controls.amountLeft.value - _product.amountOrdered }}</span>
+          <small *ngIf="form.controls.initialStock.value && _product" class="d-flex justify-content-between">
+            <span>{{ 'HOME_PROD_AMOUNT_LEFT' | tr }}: {{ form.controls.initialStock.value - _product.amountOrdered }}</span>
             <span>{{ 'HOME_PROD_AMOUNT_ORDERED' | tr }}: {{ _product.amountOrdered }}</span>
           </small>
         </div>
@@ -142,7 +142,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     printerId: [-1, [Validators.required, Validators.min(0)]],
     soldOut: [false, [Validators.required]],
     resetOrderedProducts: [false],
-    amountLeft: [null as number | null, [Validators.min(0)]],
+    initialStock: [null as number | null, [Validators.min(0)]],
     id: [-1],
   });
 
@@ -180,7 +180,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
       groupId: it.group.id,
       printerId: it.printer.id,
       soldOut: it.soldOut,
-      amountLeft: it.amountLeft,
+      initialStock: it.initialStock,
       id: it.id,
     });
   }

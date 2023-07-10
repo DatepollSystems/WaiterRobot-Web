@@ -127,7 +127,7 @@ export interface UpdateProductDto {
    * @format int32
    * @min 1
    */
-  amountLeft?: number;
+  initialStock?: number;
   resetOrderedProducts: boolean;
 }
 
@@ -336,8 +336,6 @@ export interface PayBillResponse {
   /** @format int64 */
   tableId: number;
   /** @format int32 */
-  tableNumber: number;
-  /** @format int32 */
   priceSum: number;
   products: BillProductResponse[];
 }
@@ -467,7 +465,7 @@ export interface CreateProductDto {
    * @format int32
    * @min 1
    */
-  amountLeft?: number;
+  initialStock?: number;
 }
 
 export interface CreateProductGroupDto {
@@ -838,7 +836,7 @@ export interface GetProductMaxResponse {
   price: number;
   soldOut: boolean;
   /** @format int32 */
-  amountLeft?: number;
+  initialStock?: number;
   /** @format int32 */
   amountOrdered: number;
   group: GetProductGroupMinResponse;
@@ -930,6 +928,40 @@ export interface OrganisationSettingResponse {
   timezone: string;
 }
 
+export interface GetOrderMinResponse {
+  /** @format int64 */
+  id: number;
+  table: GetTableMinResponse;
+  waiter: GetWaiterMinResponse;
+  orderNumber: string;
+  state: 'QUEUED' | 'PROCESSED';
+  /** @format date-time */
+  processedAt?: string;
+  /** @format date-time */
+  createdAt: string;
+}
+
+export interface GetTableGroupMinResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+}
+
+export interface GetTableMinResponse {
+  /** @format int64 */
+  id: number;
+  publicId: string;
+  /** @format int32 */
+  number: number;
+  group: GetTableGroupMinResponse;
+}
+
+export interface GetWaiterMinResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+}
+
 export interface GetOrderProductResponse {
   /** @format int64 */
   id: number;
@@ -957,27 +989,6 @@ export interface GetOrderResponse {
   /** @format date-time */
   createdAt: string;
   orderProducts: GetOrderProductResponse[];
-}
-
-export interface GetTableGroupMinResponse {
-  /** @format int64 */
-  id: number;
-  name: string;
-}
-
-export interface GetTableMinResponse {
-  /** @format int64 */
-  id: number;
-  publicId: string;
-  /** @format int32 */
-  number: number;
-  group: GetTableGroupMinResponse;
-}
-
-export interface GetWaiterMinResponse {
-  /** @format int64 */
-  id: number;
-  name: string;
 }
 
 export interface GetMediatorResponse {

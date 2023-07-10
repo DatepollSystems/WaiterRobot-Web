@@ -8,6 +8,7 @@ import {DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppSoldOutPipe} from '../../_shared/ui/app-sold-out.pipe';
+import {DfxCurrencyCentPipe} from '../../_shared/ui/currency.pipe';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
@@ -15,7 +16,6 @@ import {DfxArrayPluck} from '../../_shared/ui/pluck.pipe';
 import {GetProductMaxResponse} from '../../_shared/waiterrobot-backend';
 
 import {ProductsService} from './_services/products.service';
-import {DfxCurrencyCentPipe} from '../../_shared/ui/currency.pipe';
 
 @Component({
   template: `
@@ -96,9 +96,9 @@ import {DfxCurrencyCentPipe} from '../../_shared/ui/currency.pipe';
           <td *ngbCellDef="let product" ngb-cell>{{ product.soldOut | soldOut }}</td>
         </ng-container>
 
-        <ng-container ngbColumnDef="amountLeft">
+        <ng-container ngbColumnDef="initialStock">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_AMOUNT_LEFT' | tr }}</th>
-          <td *ngbCellDef="let product" ngb-cell>{{ product.amountLeft - product.amountOrdered }}</td>
+          <td *ngbCellDef="let product" ngb-cell>{{ product.initialStock - product.amountOrdered }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="group">
@@ -165,7 +165,7 @@ export class AllProductsComponent extends AbstractModelsWithNameListWithDeleteCo
   constructor(entitiesService: ProductsService) {
     super(entitiesService);
 
-    this.columnsToDisplay = ['group', 'name', 'price', 'soldOut', 'amountLeft', 'printer', 'allergens', 'actions'];
+    this.columnsToDisplay = ['group', 'name', 'price', 'soldOut', 'initialStock', 'printer', 'allergens', 'actions'];
 
     this.sortingDataAccessors = new Map();
     this.sortingDataAccessors.set('group', (it) => it.group.name);
