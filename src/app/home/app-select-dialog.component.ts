@@ -8,7 +8,7 @@ import {GetEventOrLocationResponse, GetOrganisationResponse} from '../_shared/wa
     <div class="d-flex flex-column flex-lg-row align-items-center justify-content-between">
       <p class="mb-1 mb-lg-0 text-center">Wähle eine Organisation aus</p>
       <div
-        class="btn-group"
+        class="btn-group d-flex flex-wrap"
         role="group"
         aria-label="Select organisation"
         *ngIf="selectedOrganisation === undefined; else organisationSelected"
@@ -39,7 +39,7 @@ import {GetEventOrLocationResponse, GetOrganisationResponse} from '../_shared/wa
     <div class="d-flex flex-column flex-lg-row align-items-center justify-content-between mt-3">
       <p class="mb-1 mb-lg-0 text-center">Wähle ein Event aus</p>
 
-      <div class="btn-group" role="group" aria-label="Select event">
+      <div class="btn-group d-flex flex-wrap" role="group" aria-label="Select event">
         <button
           class="btn btn-sm btn-outline-secondary"
           (click)="selectEvent.emit(events[0])"

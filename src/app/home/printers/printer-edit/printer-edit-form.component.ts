@@ -31,6 +31,7 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
             class="form-control bg-dark text-white"
             type="number"
             id="fontScale"
+            step="0.1"
             formControlName="fontScale"
             placeholder="{{ 'HOME_PRINTER_FONT_SCALE' | tr }}"
           />
@@ -99,7 +100,8 @@ export class AppPrinterEditForm extends AbstractModelEditFormComponent<CreatePri
   override overrideRawValue = (value: typeof this.form.value): any => {
     const match: string[] = s_from(value.fontScale).split(/[,.]/);
     const big = n_from(match[0] ?? 0);
-    const small = n_from(match[1] ?? 0);
+    const small = n_from(match[1][0] ?? 0);
+
     value.fontScale = big * 10 + small;
 
     this.lumber.log('overrideRawValue', 'Scale', match, value.fontScale);

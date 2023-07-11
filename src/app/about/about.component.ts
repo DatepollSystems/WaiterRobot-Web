@@ -78,10 +78,11 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
           <div class="col d-flex flex-column gap-3">
             <div class="card bg-dark">
               <div class="card-body">
+                <h4>Die Zukunft des Servicebereichs ist hier!</h4>
                 <p class="card-text">
-                  Mit kellner.team hast du die Möglichkeit, deine Bestellungsaufnahme digital zu erledigen. <br /><br />
-                  Egal ob sich um ein einmaliges Event oder dauerhafte Bewirtung handelt, kellner.team beschleunigt deinen Prozess im
-                  Servicebereich.
+                  Egal ob sich um ein einmaliges Event oder dauerhafte Bewirtung handelt, kellner.team bietet unkomplizierte und zugängliche
+                  Lösungen,<br />
+                  damit du dich auf das Wesentliche konzentrieren kannst - großartigen Service anzubieten.
                 </p>
               </div>
             </div>

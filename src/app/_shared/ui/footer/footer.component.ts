@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, Inject, inject, Input} from '@angular/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {WINDOW} from 'dfx-helper';
 
 import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
@@ -111,7 +110,7 @@ export class FooterComponent {
   @Input()
   container = 'container-xxxl';
 
-  constructor(private modal: NgbModal, @Inject(WINDOW) private window?: Window) {}
+  constructor(@Inject(WINDOW) private window?: Window) {}
 
   heart(): void {
     document.getElementById('brand')?.classList.add('spin');

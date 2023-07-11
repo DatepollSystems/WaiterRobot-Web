@@ -23,9 +23,8 @@ import {EnvironmentHelper} from '../../EnvironmentHelper';
             <a ngbNavLink>{{ 'ABOUT_MODAL_GENERAL' | tr }}</a>
             <ng-template ngbNavContent>
               <p>
-                Mit kellner.team hast du die Möglichkeit, deine Bestellungsaufnahme digital zu erledigen. <br /><br />
-                Egal ob sich um ein einmaliges Event oder dauerhafte Bewirtung handelt, kellner.team beschleunigt deinen Prozess im
-                Servicebereich.
+                Egal ob sich um ein einmaliges Event oder dauerhafte Bewirtung handelt, kellner.team bietet unkomplizierte und zugängliche
+                Lösungen, damit du dich auf das Wesentliche konzentrieren kannst - großartigen Service anzubieten.
               </p>
 
               <h5>{{ 'ABOUT_MODAL_TECHNICAL' | tr }}</h5>
