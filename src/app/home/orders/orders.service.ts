@@ -29,7 +29,12 @@ export class OrdersService implements HasGetAll<GetOrderResponse>, HasGetSingle<
       switchMap(() => timer(0, this.refreshIn * 1000)),
       switchMap(() => this.eventsService.getSelected$),
       filter(notNullAndUndefined),
-      switchMap((event) => this.httpClient.get<GetOrderResponse[]>(this.url, {params: new HttpParams().set('eventId', event.id)})),
+      switchMap((event) => {
+        let params = new HttpParams();
+        params = params.append('eventId', event.id);
+        //params = params.append('state', 'QUEUED')
+        return this.httpClient.get<GetOrderResponse[]>(this.url, {params: params});
+      }),
       tap(() => this.notificationService.tsuccess('HOME_ORDER_REFRESHED'))
     );
   }
