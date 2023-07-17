@@ -8,7 +8,14 @@ export function errorInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn)
 
   return next(req).pipe(
     catchError((error: {status: number}) => {
-      if (error?.status === 401 || error?.status === 502 || error?.status === 503 || error?.status === 504 || error?.status === 404) {
+      if (
+        error?.status === 401 ||
+        error?.status === 502 ||
+        error?.status === 503 ||
+        error?.status === 504 ||
+        error?.status === 404 ||
+        error?.status === 0
+      ) {
         return throwError(() => error);
       }
       notificationService.terror('REQUEST_ERROR');

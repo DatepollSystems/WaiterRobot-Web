@@ -23,11 +23,6 @@
     "api:types": "swagger-typescript-api -p http://localhost:8080/api/swagger/api-docs -o ./src/app/_shared/ -n waiterrobot-backend.d.ts --no-client && prettier --write ./src/app/_shared/waiterrobot-backend.d.ts"
   },
   "private": true,
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
-  },
   "dependencies": {
     "@angular/animations": "16.1.4",
     "@angular/cdk": "16.1.4",
@@ -85,12 +80,16 @@
     "karma-coverage": "2.2.1",
     "karma-jasmine": "5.1.0",
     "karma-jasmine-html-reporter": "2.1.0",
+    "lint-staged": "^13.2.3",
     "prettier": "3.0.0",
-    "pretty-quick": "3.1.3",
     "purgecss": "5.0.0",
     "source-map-explorer": "2.5.3",
     "swagger-typescript-api": "^12.0.4",
     "typescript": "5.1.6",
     "webpack-bundle-analyzer": "4.9.0"
+  },
+  "lint-staged": {
+    "*.{js,ts}": "eslint --cache --fix",
+    "*": "prettier --write"
   }
 }
