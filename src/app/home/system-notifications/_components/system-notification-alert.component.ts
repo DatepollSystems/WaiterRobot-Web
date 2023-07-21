@@ -28,9 +28,9 @@ import {GetSystemNotificationResponse} from '../../../_shared/waiterrobot-backen
         </div>
         <div>
           <span *ngIf='notification.starts'>
-            {{notification.starts | date : 'dd.MM.YYYY HH:mm:ss'}}
+            {{notification.starts | date : 'dd.MM.YYYY HH:mm'}}
             <span *ngIf='notification.starts && notification.ends'> - </span>
-            {{notification.ends | date : 'dd.MM.YYYY HH:mm:ss'}}</span>
+            {{notification.ends | date : getEndsFormatting()}}</span>
         </div>
       </div>
       <div>
@@ -45,4 +45,20 @@ import {GetSystemNotificationResponse} from '../../../_shared/waiterrobot-backen
 })
 export class AppSystemNotificationAlertComponent {
   @Input({required: true}) notification!: GetSystemNotificationResponse;
+
+  getEndsFormatting(): string {
+    const startDate = this.notification.starts ? new Date(this.notification.starts) : undefined;
+    const endDate = this.notification.ends ? new Date(this.notification.ends) : undefined;
+
+    if (
+      startDate &&
+      endDate &&
+      startDate.getDate() === endDate.getDate() &&
+      startDate.getFullYear() === endDate.getFullYear() &&
+      startDate.getMonth() === endDate.getMonth()
+    ) {
+      return 'HH:mm';
+    }
+    return 'dd.MM.YYYY HH:mm';
+  }
 }

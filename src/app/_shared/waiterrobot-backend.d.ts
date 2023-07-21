@@ -46,7 +46,7 @@ export interface UpdateSystemNotificationDto {
    * @minLength 1
    * @maxLength 100
    */
-  title: string;
+  title?: string;
   /**
    * @minLength 1
    * @maxLength 2000
@@ -63,7 +63,7 @@ export interface UpdateSystemNotificationDto {
 export interface GetSystemNotificationResponse {
   /** @format int64 */
   id: number;
-  title: string;
+  title?: string;
   description: string;
   active: boolean;
   type: 'INFO' | 'WARNING' | 'DANGER' | 'SUCCESS' | 'NEUTRAL';
@@ -435,7 +435,7 @@ export interface CreateSystemNotificationDto {
    * @minLength 1
    * @maxLength 100
    */
-  title: string;
+  title?: string;
   /**
    * @minLength 1
    * @maxLength 2000
