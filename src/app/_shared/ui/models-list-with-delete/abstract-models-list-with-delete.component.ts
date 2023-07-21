@@ -16,6 +16,7 @@ import {QuestionDialogComponent} from '../question-dialog/question-dialog.compon
 export abstract class AbstractModelsListWithDeleteComponent<
   EntityType extends IHasID<EntityType['id']>
 > extends AbstractModelsListComponent<EntityType> {
+  protected selectionEnabled = true;
   public selection = new SelectionModel<EntityType>(true, []);
 
   protected modal = inject(NgbModal);
@@ -29,7 +30,7 @@ export abstract class AbstractModelsListWithDeleteComponent<
   }
 
   override get columnsToDisplay(): string[] {
-    return ['select'].concat(super.columnsToDisplay);
+    return this.selectionEnabled ? ['select'].concat(super.columnsToDisplay) : super.columnsToDisplay;
   }
 
   override set columnsToDisplay(it: string[]) {

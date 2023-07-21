@@ -7,6 +7,7 @@ import {
   arrowUpRightSquareFill,
   bagFill,
   barChartLineFill,
+  bell,
   boxArrowLeft,
   boxArrowUpRight,
   building,
@@ -15,6 +16,7 @@ import {
   caretRight,
   cashStack,
   check2Square,
+  checkCircleFill,
   clipboard,
   columnsGap,
   diagram3,
@@ -25,6 +27,7 @@ import {
   gearWideConnected,
   google,
   graphUp,
+  infoCircleFill,
   listUl,
   NgxBootstrapIconsModule,
   pencilFill,
@@ -102,6 +105,9 @@ const icons = {
   starFill,
   arrowLeft,
   wifiOff,
+  bell,
+  checkCircleFill,
+  infoCircleFill,
 };
 
 @NgModule({

@@ -52,6 +52,11 @@
   "UNKNOWN": "Unbekannt",
   "UNSAVED_DATA": "Ungespeicherte Daten gefunden!",
   "OPEN": "Öffnen",
+  "TITLE": "Titel",
+  "TYPE": "Typ",
+  "STARTS": "Startet",
+  "ENDS": "Endet",
+  "DESCRIPTION": "Beschreibung",
 
   "REQUEST_ERROR": "Ein unbekannter Fehler ist aufgetreten.",
 
@@ -126,6 +131,7 @@
   "NAV_EVENTS_NO_EVENTS": "Keine Events verfügbar",
   "NAV_ORDERS": "Bestellungen",
   "NAV_STATISTICS": "Statistiken",
+  "NAV_SYSTEM_NOTIFICATIONS": "Benachrichtigungen",
 
   "HOME_START_STATISTICS": "DevTools",
   "HOME_START_SETUP": "Erste Schritte",
@@ -180,6 +186,13 @@
   "HOME_USERS_PASSWORD_INCORRECT": "Das Password muss aus mindestens 6 Zeichen bestehen.",
   "HOME_USERS_EMAIL_INCORRECT": "E-Mail-Adresse inkorrekt.",
   "HOME_USERS_ORGS_INPUT_PLACEHOLDER": "Organisationsname eingeben",
+
+  "HOME_SYSTEM_NOTIFICATIONS_DATE_PLACEHOLDER": "YYYY-MM-DD HH:mm:ss",
+  "HOME_SYSTEM_NOTIFICATIONS_TITLE_INCORRECT": "Der Titel muss aus mindestens 1 und maximal 100 Zeichen bestehen",
+  "HOME_SYSTEM_NOTIFICATIONS_DESCRIPTION_INCORRECT": "Die Beschreibung muss aus mindestens 1 und maximal 2000 Zeichen bestehen",
+  "HOME_SYSTEM_NOTIFICATIONS_TYPE_INCORRECT": "Der Type muss ausgewählt werden",
+  "HOME_SYSTEM_NOTIFICATIONS_TYPE_DEFAULT": "Wähle einen Type aus",
+  "HOME_SYSTEM_NOTIFICATIONS_STARTS_INCORRECT": "Datum inkorrekt",
 
   "HOME_PROD_ALL": "Produkte",
   "HOME_PROD": "Produkt",

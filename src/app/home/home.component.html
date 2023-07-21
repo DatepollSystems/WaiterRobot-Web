@@ -59,9 +59,9 @@
                       <h6 class="dropdown-header">
                         <b>{{ 'NAV_ORGANISATIONS' | tr }}</b>
                       </h6>
-                      <button *ngIf="vm.selectedOrganisation" ngbDropdownItem routerLink="organisations/{{ vm.selectedOrganisation.id }}">
+                      <a *ngIf="vm.selectedOrganisation" ngbDropdownItem routerLink="organisations/{{ vm.selectedOrganisation.id }}">
                         <b>{{ vm.selectedOrganisation.name }}</b><small> {{ 'NAV_EDIT' | tr }}</small>
-                      </button>
+                      </a>
                       <span class="fake-dropdown-item unselectable" *ngIf="vm.organisations.length === 0">
                         {{ 'NAV_ORGANISATIONS_NO_ORGS' | tr }}
                       </span>
@@ -75,13 +75,13 @@
                         </span>
                       </ng-container>
                       <div class="dropdown-divider"></div>
-                      <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/create" *ngIf="vm.myUser.isAdmin">
+                      <a ngbDropdownItem routerLinkActive="active" routerLink="organisations/create" *ngIf="vm.myUser.isAdmin">
                         <b>+</b> {{ 'ADD_2' | tr }}
-                      </button>
-                      <button ngbDropdownItem routerLinkActive="active" routerLink="organisations/all">
+                      </a>
+                      <a ngbDropdownItem routerLinkActive="active" routerLink="organisations/all">
                         <i-bs name="building" />
                         {{ 'SHOW_ALL' | tr }}
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </li>
@@ -96,9 +96,9 @@
                       <h6 class="dropdown-header">
                         <b>{{ 'NAV_EVENTS' | tr }}</b>
                       </h6>
-                      <button ngbDropdownItem *ngIf="vm.selectedEvent" routerLink="events/{{ vm.selectedEvent.id }}">
+                      <a ngbDropdownItem *ngIf="vm.selectedEvent" routerLink="events/{{ vm.selectedEvent.id }}">
                         <b>{{ vm.selectedEvent.name }}</b><small> {{ 'NAV_EDIT' | tr }}</small>
-                      </button>
+                      </a>
                       <span class="fake-dropdown-item unselectable" *ngIf="vm.events.length === 0">
                         {{ 'NAV_EVENTS_NO_EVENTS' | tr }}
                       </span>
@@ -112,11 +112,11 @@
                         </span>
                       </ng-container>
                       <div class="dropdown-divider"></div>
-                      <button ngbDropdownItem routerLink="events/create" *ngIf="vm.myUser.isAdmin"><b>+</b> {{ 'ADD_2' | tr }}</button>
-                      <button ngbDropdownItem routerLink="events/all">
+                      <a ngbDropdownItem routerLink="events/create" *ngIf="vm.myUser.isAdmin"><b>+</b> {{ 'ADD_2' | tr }}</a>
+                      <a ngbDropdownItem routerLink="events/all">
                         <i-bs name="calendar-event-fill" />
                         {{ 'SHOW_ALL' | tr }}
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </li>
@@ -129,10 +129,14 @@
                   <div ngbDropdown display="dynamic">
                     <a class="nav-link" id="adminDropDown" ngbDropdownToggle> {{ 'NAV_INSTANCE_ADMINISTRATION' | tr }}</a>
                     <div ngbDropdownMenu aria-labelledby="adminDropDown">
-                      <button ngbDropdownItem routerLinkActive="active" routerLink="users">
+                      <a ngbDropdownItem routerLinkActive="active" routerLink="users">
                         <i-bs name="person-badge" />
                         {{ 'NAV_USERS' | tr }}
-                      </button>
+                      </a>
+                      <a ngbDropdownItem routerLinkActive="active" routerLink="system-notifications">
+                        <i-bs name="bell" />
+                        {{ 'NAV_SYSTEM_NOTIFICATIONS' | tr }}
+                      </a>
                     </div>
                   </div>
                 </li>
@@ -164,14 +168,14 @@
                         {{'NAV_FULLSCREEN' | tr}}
                       </button>
                       <div class="dropdown-divider"></div>
-                      <button ngbDropdownItem routerLinkActive="active" routerLink="usettings/settings">
+                      <a ngbDropdownItem routerLinkActive="active" routerLink="usettings/settings">
                         <i-bs name="gear-wide-connected" />
                         {{ 'NAV_USER_SETTINGS' | tr }}
-                      </button>
-                      <button ngbDropdownItem routerLinkActive="active" routerLink="usettings/sessions">
+                      </a>
+                      <a ngbDropdownItem routerLinkActive="active" routerLink="usettings/sessions">
                         <i-bs name="file-lock" />
                         {{ 'NAV_USER_SESSIONS' | tr }}
-                      </button>
+                      </a>
                       <button ngbDropdownItem (click)="logout()">
                         <i-bs name="box-arrow-left" />
                         {{ 'NAV_LOGOUT' | tr }}
@@ -213,6 +217,10 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <div *ngIf="activeSystemNotifications$ | async as activeSystemNotifications">
+        <app-system-notification-alert *ngFor="let systemNotification of activeSystemNotifications" [notification]="systemNotification" />
       </div>
 
       <router-outlet />

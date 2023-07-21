@@ -1,5 +1,5 @@
 import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {loggerOf, s_from} from 'dfts-helper';
@@ -21,6 +21,8 @@ import {AppNavbarScrollableComponent} from '../_shared/ui/navbar-scrollable/app-
 import {GetEventOrLocationResponse, GetOrganisationResponse} from '../_shared/waiterrobot-backend';
 import {EventsService} from './events/_services/events.service';
 import {OrganisationsService} from './organisations/_services/organisations.service';
+import {AppSystemNotificationAlertComponent} from './system-notifications/_components/system-notification-alert.component';
+import {ActiveSystemNotificationsService} from './system-notifications/_services/active-system-notifications.service';
 
 @Component({
   selector: 'app-home',
@@ -46,6 +48,7 @@ import {OrganisationsService} from './organisations/_services/organisations.serv
     NgSub,
     DfxHideIfOffline,
     AsyncPipe,
+    AppSystemNotificationAlertComponent,
   ],
 })
 export class HomeComponent {
@@ -58,7 +61,6 @@ export class HomeComponent {
 
   adminModeChanged = false;
 
-  fullScreenService = inject(FullScreenService);
   isFullScreen$ = this.fullScreenService.isFullScreen$;
 
   isMobile$ = this.isMobileService.isMobile$.pipe(
@@ -71,6 +73,8 @@ export class HomeComponent {
       }
     })
   );
+
+  activeSystemNotifications$ = this.activeSystemNotificationsService.getAll$();
 
   uiControls$ = combineLatest([this.isFullScreen$, this.isMobile$]).pipe(map(([isFullScreen, isMobile]) => ({isFullScreen, isMobile})));
 
@@ -115,7 +119,9 @@ export class HomeComponent {
     private myUserService: MyUserService,
     private organisationsService: OrganisationsService,
     private eventsService: EventsService,
-    private qrCodeService: QrCodeService
+    private qrCodeService: QrCodeService,
+    public fullScreenService: FullScreenService,
+    public activeSystemNotificationsService: ActiveSystemNotificationsService
   ) {
     router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {

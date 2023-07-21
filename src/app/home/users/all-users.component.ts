@@ -1,16 +1,15 @@
 import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
-import {NgbModal, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
-import {AbstractModelsListComponent} from '../../_shared/ui/abstract-models-list.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
-import {QuestionDialogComponent} from '../../_shared/ui/question-dialog/question-dialog.component';
+import {AbstractModelsListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-list-with-delete.component';
 import {GetUserResponse} from '../../_shared/waiterrobot-backend';
 
 import {UsersService} from './services/users.service';
@@ -140,24 +139,12 @@ import {UsersService} from './services/users.service';
     AppBtnToolbarComponent,
   ],
 })
-export class AllUsersComponent extends AbstractModelsListComponent<GetUserResponse> {
-  modal = inject(NgbModal);
-
+export class AllUsersComponent extends AbstractModelsListWithDeleteComponent<GetUserResponse> {
   constructor(private usersService: UsersService) {
     super(usersService);
     this.columnsToDisplay = ['id', 'name', 'email_address', 'birthday', 'is_admin', 'activated', 'actions'];
   }
 
-  public onDelete(modelId: number, event?: MouseEvent): void {
-    event?.stopPropagation();
-    this.lumber.info('onDelete', 'Opening delete question dialog');
-    const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
-    modalRef.componentInstance.title = 'DELETE_CONFIRMATION';
-    void modalRef.result.then((result) => {
-      this.lumber.info('onDelete', 'Question dialog result:', result?.toString());
-      if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
-        this.usersService.delete$(modelId).subscribe();
-      }
-    });
-  }
+  override selectionEnabled = false;
+  override nameMap = (it: GetUserResponse) => `${it.firstname} ${it.surname}`;
 }

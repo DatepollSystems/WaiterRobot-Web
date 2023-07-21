@@ -18,6 +18,11 @@ export const ROUTES: Routes = [
         loadChildren: () => import('./users/users.routes').then((m) => m.ROUTES),
       },
       {
+        path: 'system-notifications',
+        title: 'NAV_SYSTEM_NOTIFICATIONS',
+        loadChildren: () => import('./system-notifications/system-notifications.routes').then((m) => m.ROUTES),
+      },
+      {
         path: 'usettings',
         title: 'NAV_USER_SETTINGS',
         loadChildren: () => import('./user-settings/user-settings.routes').then((m) => m.ROUTES),
