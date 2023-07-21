@@ -10,7 +10,7 @@ import {AppIconsModule} from '../icons.module';
   template: `
     <ng-template #popContent>
       <p>{{ info | tr }}</p>
-      <a [href]="data" target="_blank" rel="noopener">{{ data | s_cut : 43 : '..' }}</a>
+      <a [href]="data" target="_blank" rel="noopener">{{ data | s_cut: 43 : '..' }}</a>
     </ng-template>
     <ng-template #popTitle>
       <b>{{ text | tr }}</b>

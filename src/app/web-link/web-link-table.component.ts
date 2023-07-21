@@ -25,15 +25,15 @@ import {GetBillForTableResponse, GetTableResponse} from '../_shared/waiterrobot-
               <span class="badge bg-secondary rounded-pill">{{ product.amount }}x</span>
             </div>
             <div class="d-flex justify-content-between align-items-center">
-              <small>({{ product.pricePerPiece | currency : 'EUR' }} / Stück)</small>
-              <span>{{ product.pricePerPiece * product.amount | currency : 'EUR' }}</span>
+              <small>({{ product.pricePerPiece | currency: 'EUR' }} / Stück)</small>
+              <span>{{ product.pricePerPiece * product.amount | currency: 'EUR' }}</span>
             </div>
           </li>
         </ul>
 
         <hr />
         <div class="d-flex justify-content-between">
-          <span>Gesamt:</span> <span>{{ vm.priceSum | currency : 'EUR' }}</span>
+          <span>Gesamt:</span> <span>{{ vm.priceSum | currency: 'EUR' }}</span>
         </div>
         <hr />
       </ng-container>

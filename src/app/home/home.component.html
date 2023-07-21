@@ -196,18 +196,20 @@
         {{ 'OFFLINE' | tr }}
       </div>
 
-      <div hideIfOffline hideIfPingSucceeds url="/json">
-        <div class="alert alert-warning" role="alert">
-          <div class="d-flex gap-3 align-items-center">
-            <i-bs name="exclamation-triangle-fill" />
-            <div>
-              <b>{{ 'ABOUT_MAINTENANCE_1' | tr }}</b> {{'ABOUT_MAINTENANCE_2' | tr}}
-              <br />
-              Besuche
-              <a style="text-decoration: underline; color: #664d03" href="https://status.kellner.team" target="_blank" rel="noopener"
-                >status.kellner.team</a
-              >
-              für mehr Informationen!
+      <div hideIfOffline>
+        <div hideIfPingSucceeds url="/json">
+          <div class="alert alert-warning" role="alert">
+            <div class="d-flex gap-3 align-items-center">
+              <i-bs name="exclamation-triangle-fill" />
+              <div>
+                <b>{{ 'ABOUT_MAINTENANCE_1' | tr }}</b> {{'ABOUT_MAINTENANCE_2' | tr}}
+                <br />
+                Besuche
+                <a style="text-decoration: underline; color: #664d03" href="https://status.kellner.team" target="_blank" rel="noopener"
+                  >status.kellner.team</a
+                >
+                für weitere Informationen!
+              </div>
             </div>
           </div>
         </div>

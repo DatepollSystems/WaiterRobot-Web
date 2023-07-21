@@ -19,80 +19,89 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
 
 @Component({
   template: `
-    <div class='d-container text-white'>
-      <div class='container-md d-flex flex-column gap-4'>
+    <div class="d-container text-white">
+      <div class="container-md d-flex flex-column gap-4">
         <app-logo-with-text />
-        <div class='d-flex flex-column flex-lg-row gap-5 justify-content-around mb-4'>
-          <div class='col d-flex flex-column gap-3 '>
-            <div class='card bg-dark pt-2'>
-              <div class='card-body'>
-                <ng-container *ngIf='form.statusChanges | async' />
+        <div class="d-flex flex-column flex-lg-row gap-5 justify-content-around mb-4">
+          <div class="col d-flex flex-column gap-3 ">
+            <div class="card bg-dark pt-2">
+              <div class="card-body">
+                <ng-container *ngIf="form.statusChanges | async" />
 
-                <form [formGroup]='form' (ngSubmit)='onSignIn()' class='d-flex flex-column gap-2 py-2'>
-                  <div class='alert alert-warning' role='alert' hideIfOnline>
-                    <i-bs name='wifi-off' />
+                <form [formGroup]="form" (ngSubmit)="onSignIn()" class="d-flex flex-column gap-2 py-2">
+                  <div class="alert alert-warning" role="alert" hideIfOnline>
+                    <i-bs name="wifi-off" />
                     {{ 'OFFLINE' | tr }}
                   </div>
 
-                  <div class='alert alert-warning' role='alert' hideIfOffline hideIfPingSucceeds url='/json'>
-                    <div class='d-flex gap-3 align-items-center'>
-                      <i-bs name='exclamation-triangle-fill' />
-                      <div>
-                        <b>{{ 'ABOUT_MAINTENANCE_1' | tr }}</b> {{'ABOUT_MAINTENANCE_2' | tr}}
-                        <br />
-                        Besuche <a style='text-decoration: underline; color: #664d03' href='https://status.kellner.team' target='_blank'
-                                   rel='noopener'>status.kellner.team</a> für mehr Informationen!
+                  <div hideIfOffline>
+                    <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="/json">
+                      <div class="d-flex gap-3 align-items-center">
+                        <i-bs name="exclamation-triangle-fill" />
+                        <div>
+                          <b>{{ 'ABOUT_MAINTENANCE_1' | tr }}</b> {{ 'ABOUT_MAINTENANCE_2' | tr }}
+                          <br />
+                          Besuche
+                          <a
+                            style="text-decoration: underline; color: #664d03"
+                            href="https://status.kellner.team"
+                            target="_blank"
+                            rel="noopener"
+                            >status.kellner.team</a
+                          >
+                          für weitere Informationen!
+                        </div>
+                      </div>
+                    </div>
+                    <div hideIfPingFails url="/json">
+                      <div class="form-floating">
+                        <input
+                          class="form-control bg-dark text-white"
+                          autocomplete="on"
+                          type="email"
+                          id="email"
+                          formControlName="email"
+                          placeholder="{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}"
+                        />
+                        <label for="email">{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}</label>
+                      </div>
+
+                      <div class="form-floating">
+                        <input
+                          class="form-control bg-dark text-white"
+                          autocomplete="on"
+                          type="password"
+                          id="password"
+                          formControlName="password"
+                          placeholder="{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}"
+                        />
+                        <label for="password">{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}</label>
                       </div>
                     </div>
                   </div>
-                  <div hideIfPingFails url='/json'>
-                    <div class='form-floating'>
-                      <input
-                        class='form-control bg-dark text-white'
-                        autocomplete='on'
-                        type='email'
-                        id='email'
-                        formControlName='email'
-                        placeholder="{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}"
-                      />
-                      <label for='email'>{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}</label>
-                    </div>
 
-                    <div class='form-floating'>
-                      <input
-                        class='form-control bg-dark text-white'
-                        autocomplete='on'
-                        type='password'
-                        id='password'
-                        formControlName='password'
-                        placeholder="{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}"
-                      />
-                      <label for='password'>{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}</label>
-                    </div>
-                  </div>
+                  <button [disabled]="!form.valid" type="submit" class="btn btn-primary">{{ 'ABOUT_SIGNIN' | tr }}</button>
 
-                  <button [disabled]='!form.valid' type='submit' class='btn btn-primary'>{{ 'ABOUT_SIGNIN' | tr }}</button>
-
-                  <div style='text-align: center; margin-top: 5px'>
-                    <a (click)='onForgotPassword()' routerLink='/about'>{{ 'ABOUT_SIGNIN_TROUBLE_LOGGING_IN' | tr }}</a>
+                  <div style="text-align: center; margin-top: 5px">
+                    <a (click)="onForgotPassword()" routerLink="/about">{{ 'ABOUT_SIGNIN_TROUBLE_LOGGING_IN' | tr }}</a>
                   </div>
                 </form>
               </div>
             </div>
 
-            <div class='card bg-dark'>
-              <div class='card-body'>
-                <h5 class='card-title'>{{ 'ABOUT_APP_DISCOVER' | tr }}</h5>
-                <app-download-btn-list [showQRCodeButton]='false' />
+            <div class="card bg-dark">
+              <div class="card-body">
+                <h5 class="card-title">{{ 'ABOUT_APP_DISCOVER' | tr }}</h5>
+                <app-download-btn-list [showQRCodeButton]="false" />
               </div>
             </div>
           </div>
 
-          <div class='col d-flex flex-column gap-3'>
-            <div class='card bg-dark'>
-              <div class='card-body'>
+          <div class="col d-flex flex-column gap-3">
+            <div class="card bg-dark">
+              <div class="card-body">
                 <h4>Die Zukunft des Servicebereichs ist hier!</h4>
-                <p class='card-text'>
+                <p class="card-text">
                   Egal ob sich um ein einmaliges Event oder dauerhafte Bewirtung handelt, kellner.team bietet unkomplizierte und zugängliche
                   Lösungen,<br />
                   damit du dich auf das Wesentliche konzentrieren kannst - großartigen Service anzubieten.
@@ -100,12 +109,12 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
               </div>
             </div>
 
-            <div class='card bg-dark'>
-              <div class='card-body'>
-                <h5 class='card-title'>{{ 'ABOUT_MORE_INFORMATION' | tr }}</h5>
-                <div class='card-text'>
-                  <a href='https://kellner.team' target='_blank' rel='noopener'>kellner.team</a> &
-                  <a href='https://datepollsystems.org' target='_blank' rel='noopener'>DatePoll-Systems</a>.
+            <div class="card bg-dark">
+              <div class="card-body">
+                <h5 class="card-title">{{ 'ABOUT_MORE_INFORMATION' | tr }}</h5>
+                <div class="card-text">
+                  <a href="https://kellner.team" target="_blank" rel="noopener">kellner.team</a> &
+                  <a href="https://datepollsystems.org" target="_blank" rel="noopener">DatePoll-Systems</a>.
                 </div>
               </div>
             </div>
@@ -113,7 +122,7 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
         </div>
       </div>
     </div>
-    <app-footer container='container-md' />
+    <app-footer container="container-md" />
   `,
   selector: 'app-about',
   styleUrls: ['./about.component.scss'],

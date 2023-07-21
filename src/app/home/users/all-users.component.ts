@@ -63,7 +63,7 @@ import {UsersService} from './services/users.service';
 
         <ng-container ngbColumnDef="birthday">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_BIRTHDAY' | tr }}</th>
-          <td *ngbCellDef="let user" ngb-cell>{{ user.birthday | date : 'dd.MM.YYYY' }}</td>
+          <td *ngbCellDef="let user" ngb-cell>{{ user.birthday | date: 'dd.MM.YYYY' }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="is_admin">

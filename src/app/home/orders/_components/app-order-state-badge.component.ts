@@ -23,9 +23,9 @@ import {AppIconsModule} from '../../../_shared/ui/icons.module';
       <div class="circle pulse green" *ngIf="orderState === 'QUEUED'; else processed"></div>
     </div>
     <ng-template #tipContent>
-      <span *ngIf="orderState === 'QUEUED'; else processedDate">{{ createdAt | date : 'dd.MM. HH:mm:ss' }}</span>
+      <span *ngIf="orderState === 'QUEUED'; else processedDate">{{ createdAt | date: 'dd.MM. HH:mm:ss' }}</span>
       <ng-template #processedDate>
-        <span>{{ processedAt | date : 'dd.MM. HH:mm:ss' }}</span>
+        <span>{{ processedAt | date: 'dd.MM. HH:mm:ss' }}</span>
       </ng-template>
     </ng-template>
   `,

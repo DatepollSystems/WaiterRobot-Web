@@ -33,7 +33,7 @@ import {AppIconsModule} from '../icons.module';
         <div class="card-body">
           <p *ngIf="qrCodeData.info.length > 0" id="info-text" class="card-text">{{ qrCodeData.info | tr }}</p>
 
-          <a [href]="qrCodeData.data" target="_blank" rel="noopener">{{ qrCodeData.data | s_cut : 43 : '..' }}</a>
+          <a [href]="qrCodeData.data" target="_blank" rel="noopener">{{ qrCodeData.data | s_cut: 43 : '..' }}</a>
         </div>
         <div class="card-footer text-muted">
           <btn-toolbar padding="false">

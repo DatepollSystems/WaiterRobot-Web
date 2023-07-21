@@ -88,7 +88,7 @@ import {ProductsService} from './_services/products.service';
 
         <ng-container ngbColumnDef="price">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_PRICE' | tr }}</th>
-          <td *ngbCellDef="let product" ngb-cell>{{ product.price | currency : 'EUR' }}</td>
+          <td *ngbCellDef="let product" ngb-cell>{{ product.price | currency: 'EUR' }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="soldOut">
@@ -117,7 +117,7 @@ import {ProductsService} from './_services/products.service';
 
         <ng-container ngbColumnDef="allergens">
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_PROD_ALLERGENS' | tr }}</th>
-          <td *ngbCellDef="let product" ngb-cell>{{ product.allergens | a_pluck : 'shortName' | s_implode : ', ' }}</td>
+          <td *ngbCellDef="let product" ngb-cell>{{ product.allergens | a_pluck: 'shortName' | s_implode: ', ' }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="actions">

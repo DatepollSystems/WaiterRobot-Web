@@ -25,8 +25,8 @@ import {AppIconsModule} from '../../../_shared/ui/icons.module';
     </div>
     <ng-template #tipContent>
       <ng-container [ngSwitch]="printState">
-        <span *ngSwitchCase="'SENT_TO_PRINT'">{{ sentToPrinterAt | date : 'dd.MM. HH:mm:ss' }}</span>
-        <span *ngSwitchCase="'PRINTED'">{{ printedAt | date : 'dd.MM. HH:mm:ss' }}</span>
+        <span *ngSwitchCase="'SENT_TO_PRINT'">{{ sentToPrinterAt | date: 'dd.MM. HH:mm:ss' }}</span>
+        <span *ngSwitchCase="'PRINTED'">{{ printedAt | date: 'dd.MM. HH:mm:ss' }}</span>
       </ng-container>
     </ng-template>
   `,

@@ -9,6 +9,19 @@
  * ---------------------------------------------------------------
  */
 
+export interface MoveUnpaidOrdersBetweenTablesDto {
+  /**
+   * @format int64
+   * @min 1
+   */
+  originalTableId: number;
+  /**
+   * @format int64
+   * @min 1
+   */
+  newTableId: number;
+}
+
 export interface UpdatePasswordDto {
   /**
    * @minLength 6
@@ -24,6 +37,40 @@ export interface UpdateEmailDto {
    * @maxLength 255
    */
   emailAddress: string;
+}
+
+export interface UpdateSystemNotificationDto {
+  /** @format int64 */
+  id: number;
+  /**
+   * @minLength 1
+   * @maxLength 100
+   */
+  title: string;
+  /**
+   * @minLength 1
+   * @maxLength 2000
+   */
+  description: string;
+  active: boolean;
+  type: 'INFO' | 'WARNING' | 'DANGER' | 'SUCCESS' | 'NEUTRAL';
+  /** @format date-time */
+  starts?: string;
+  /** @format date-time */
+  ends?: string;
+}
+
+export interface GetSystemNotificationResponse {
+  /** @format int64 */
+  id: number;
+  title: string;
+  description: string;
+  active: boolean;
+  type: 'INFO' | 'WARNING' | 'DANGER' | 'SUCCESS' | 'NEUTRAL';
+  /** @format date-time */
+  starts?: string;
+  /** @format date-time */
+  ends?: string;
 }
 
 export interface UpdateWaiterDto {
@@ -381,6 +428,25 @@ export interface WaiterLoginCreateDto {
    * @maxLength 60
    */
   sessionInformation: string;
+}
+
+export interface CreateSystemNotificationDto {
+  /**
+   * @minLength 1
+   * @maxLength 100
+   */
+  title: string;
+  /**
+   * @minLength 1
+   * @maxLength 2000
+   */
+  description: string;
+  active: boolean;
+  type: 'INFO' | 'WARNING' | 'DANGER' | 'SUCCESS' | 'NEUTRAL';
+  /** @format date-time */
+  starts?: string;
+  /** @format date-time */
+  ends?: string;
 }
 
 export interface CreateWaiterDto {

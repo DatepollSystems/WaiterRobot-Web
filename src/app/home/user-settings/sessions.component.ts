@@ -76,12 +76,12 @@ import {UserSessionsService} from './_services/user-sessions.service';
 
         <ng-container ngbColumnDef="registeredAt">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_REGISTERED_AT' | tr }}</th>
-          <td *ngbCellDef="let session" ngb-cell>{{ session.registeredAt | date : 'YYYY.MM.dd - HH:mm:ss' }}</td>
+          <td *ngbCellDef="let session" ngb-cell>{{ session.registeredAt | date: 'YYYY.MM.dd - HH:mm:ss' }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="updatedAt">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_UPDATED_AT' | tr }}</th>
-          <td *ngbCellDef="let session" ngb-cell>{{ session.updatedAt | date : 'YYYY.MM.dd - HH:mm:ss' }}</td>
+          <td *ngbCellDef="let session" ngb-cell>{{ session.updatedAt | date: 'YYYY.MM.dd - HH:mm:ss' }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="actions">

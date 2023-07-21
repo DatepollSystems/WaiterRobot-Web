@@ -11,10 +11,10 @@ import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component
 import {AppSelectableButtonComponent} from '../../_shared/ui/app-selectable-button.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
-
-import {EventsService} from './_services/events.service';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {GetEventOrLocationResponse} from '../../_shared/waiterrobot-backend';
+
+import {EventsService} from './_services/events.service';
 
 @Component({
   template: `
@@ -88,7 +88,7 @@ import {GetEventOrLocationResponse} from '../../_shared/waiterrobot-backend';
 
           <ng-container ngbColumnDef="date">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'DATE' | tr }}</th>
-            <td *ngbCellDef="let event" ngb-cell>{{ event.date | date : 'dd.MM.YYYY' }}</td>
+            <td *ngbCellDef="let event" ngb-cell>{{ event.date | date: 'dd.MM.YYYY' }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="street">
