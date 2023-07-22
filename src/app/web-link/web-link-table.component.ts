@@ -71,8 +71,8 @@ export class WebLinkTableComponent {
   );
 
   vm$ = combineLatest([
-    this.publicId$.pipe(switchMap((publicId) => this.httpClient.get<GetTableResponse>(`/ml/table/${publicId}`))),
-    this.publicId$.pipe(switchMap((publicId) => this.httpClient.get<GetBillForTableResponse>(`/ml/table/${publicId}/bills`))),
+    this.publicId$.pipe(switchMap((publicId) => this.httpClient.get<GetTableResponse>(`/public/table/${publicId}`))),
+    this.publicId$.pipe(switchMap((publicId) => this.httpClient.get<GetBillForTableResponse>(`/public/table/${publicId}/bills`))),
   ]).pipe(
     map(([table, bill]) => {
       let priceSum = 0;
