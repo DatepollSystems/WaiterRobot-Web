@@ -223,7 +223,7 @@ export class TimelineComponent {
     private eventsService: EventsService,
   ) {}
 
-  xFormatting = (it: string) => {
+  xFormatting = (it: string): string => {
     const d = d_from(it);
     let hours: string | number = d.getHours();
     if (hours < 10) {

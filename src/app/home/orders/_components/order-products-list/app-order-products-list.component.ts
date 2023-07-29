@@ -100,7 +100,7 @@ export class AppOrderProductsListComponent {
     (s_fromStorage('order_product_view_pref') as orderProductViewStyleType | undefined) ?? 'TABLE',
   );
 
-  setViewStyle(it: orderProductViewStyleType) {
+  setViewStyle(it: orderProductViewStyleType): void {
     this.viewStyle$.next(it);
     st_set('order_product_view_pref', it);
   }
@@ -108,13 +108,13 @@ export class AppOrderProductsListComponent {
     (s_fromStorage('order_product_grouped_pref') as orderProductGroupedByType | undefined) ?? 'OFF',
   );
 
-  setGroupedBy(it: orderProductGroupedByType) {
+  setGroupedBy(it: orderProductGroupedByType): void {
     this.groupedBy$.next(it);
     st_set('order_product_grouped_pref', it);
   }
 
   groupedOrderProducts$ = combineLatest([this.orderProducts$, this.groupedBy$]).pipe(
-    map(([orderProducts, key]) => {
+    map(([orderProducts]) => {
       const groups = new Map<number, groupedType>();
       for (const orderProduct of orderProducts) {
         const group = groups.get(orderProduct.printedBy.id) ?? {printerName: orderProduct.printedBy.name, orderProducts: []};

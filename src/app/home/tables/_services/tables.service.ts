@@ -61,11 +61,11 @@ export class TablesService
     return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(tap(() => this.triggerGet$.next(true)));
   }
 
-  checkIfExists(groupId: number, tableNumber: number) {
+  checkIfExists(groupId: number, tableNumber: number): Observable<boolean> {
     let params = new HttpParams();
     params = params.append('groupId', groupId);
     params = params.append('tableNumber', tableNumber);
 
-    return this.httpClient.get<boolean>(`/config/table/existsByGroupIdAndNumber`, {params});
+    return this.httpClient.get<boolean>('/config/table/existsByGroupIdAndNumber', {params});
   }
 }

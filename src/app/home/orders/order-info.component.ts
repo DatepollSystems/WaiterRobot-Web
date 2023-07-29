@@ -114,7 +114,7 @@ export class OrderInfoComponent {
     }),
   );
 
-  requeueOrder(id: number) {
+  requeueOrder(id: number): void {
     const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
     modalRef.componentInstance.title = 'HOME_ORDER_REQUEUE';
 
@@ -127,7 +127,7 @@ export class OrderInfoComponent {
       .catch(() => {});
   }
 
-  requeueOrdersOfPrinter(orderId: number, printerId: number) {
+  requeueOrdersOfPrinter(orderId: number, printerId: number): void {
     const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
     modalRef.componentInstance.title = 'HOME_ORDER_REQUEUE';
 

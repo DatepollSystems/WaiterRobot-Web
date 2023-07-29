@@ -127,7 +127,7 @@ export class StartComponent {
     this.eventsService.setSelected(it);
   }
 
-  logout() {
+  logout(): void {
     this.authService.logout();
   }
 }
