@@ -1,11 +1,11 @@
 import {BooleanInput, coerceBooleanProperty, coerceNumberProperty, NumberInput} from '@angular/cdk/coercion';
 import {CommonModule} from '@angular/common';
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, numberAttribute, Output, ViewChild} from '@angular/core';
 import {FormsModule, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
-import {NgbModule, NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule, NgbTypeahead, NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {s_is} from 'dfts-helper';
 
-import {debounceTime, distinctUntilChanged, filter, map, Observable} from 'rxjs';
+import {debounceTime, distinctUntilChanged, filter, map, merge, Observable, Subject} from 'rxjs';
 
 import {AppIconsModule} from '../icons.module';
 
@@ -47,6 +47,8 @@ export class ChipInput {
 
   _minInputLengthKick = 1;
 
+  @Input({transform: numberAttribute}) maxSearchResults = 10;
+
   /**
    * Already filled in strings
    */
@@ -72,32 +74,42 @@ export class ChipInput {
   @Input() set editable(it: BooleanInput) {
     this._editable = coerceBooleanProperty(it);
   }
+
   _editable = true;
 
   @Input()
   formatter: <T>(it: T) => string = (it) => it as unknown as string;
 
-  search: (text$: Observable<string>) => Observable<inputTypes> = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(this._debounceTime),
-      distinctUntilChanged(),
+  @ViewChild('instance', {static: true}) instance!: NgbTypeahead;
+  focus$ = new Subject<string>();
+  click$ = new Subject<string>();
+
+  search: (text$: Observable<string>) => Observable<inputTypes> = (text$: Observable<string>) => {
+    const debouncedText$ = text$.pipe(debounceTime(this._debounceTime), distinctUntilChanged());
+    const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
+    const inputFocus$ = this.focus$;
+
+    return merge(debouncedText$, clicksWithClosedPopup$, inputFocus$).pipe(
       filter((term) => term.length >= this._minInputLengthKick),
       map((term) => {
         if (!this._allModelsToAutoComplete) {
           return [];
         }
 
-        return this._allModelsToAutoComplete.filter((event: inputType) => {
-          const formattedEvent = this.formatter(event);
-          for (const model of this._models) {
-            if (this.formatter(model) === formattedEvent) {
-              return false;
+        return this._allModelsToAutoComplete
+          .filter((event: inputType) => {
+            const formattedEvent = this.formatter(event);
+            for (const model of this._models) {
+              if (this.formatter(model) === formattedEvent) {
+                return false;
+              }
             }
-          }
-          return new RegExp(term, 'mi').test(this.formatter(event));
-        });
+            return term === '' ? true : new RegExp(term, 'mi').test(this.formatter(event));
+          })
+          .slice(0, this.maxSearchResults);
       }),
     );
+  };
 
   validate = (input: string): boolean => (this.validator != undefined ? this.validator(input) : true) && input.length > 0;
 

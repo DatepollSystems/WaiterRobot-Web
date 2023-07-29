@@ -47,6 +47,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
           editable="false"
           label="{{ 'HOME_PROD_ALLERGENS' | tr }}"
           placeholder="{{ 'HOME_PROD_ALLERGENS_PLACEHOLDER' | tr }}"
+          [minInputLengthKick]="0"
           [formatter]="formatter"
           [models]="_product?.allergens"
           [allModelsToAutoComplete]="allergens"

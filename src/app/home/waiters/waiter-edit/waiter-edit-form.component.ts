@@ -32,12 +32,12 @@ import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, Updat
           placeholder="{{ 'HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER' | tr }}"
           label="{{ 'HOME_WAITERS_EDIT_EVENTS' | tr }}"
           editable="false"
+          minInputLengthKick="0"
           [formatter]="formatter"
           [models]="_isEdit ? _waiter?.events : !!_selectedEvent ? [_selectedEvent] : []"
           [allModelsToAutoComplete]="events"
           (valueChange)="eventsChange($event)"
-        >
-        </chip-input>
+        />
       </div>
 
       <div class="d-flex flex-column flex-md-row gap-2 gap-md-4 mt-2">

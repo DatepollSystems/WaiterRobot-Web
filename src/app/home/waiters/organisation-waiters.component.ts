@@ -18,6 +18,7 @@ import {GetWaiterResponse} from '../../_shared/waiterrobot-backend';
 import {OrganisationsService} from '../organisations/_services/organisations.service';
 import {OrganisationWaitersService} from './_services/organisation-waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
+import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';
 
 @Component({
   template: `
@@ -100,9 +101,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
         <ng-container ngbColumnDef="activated">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ACTIVATED' | tr }}</th>
           <td *ngbCellDef="let waiter" ngb-cell>
-            <div class="form-check">
-              <input class="form-check-input" onclick="return false;" type="checkbox" [checked]="waiter.activated" name="activated" />
-            </div>
+            {{ waiter.activated | activated }}
           </td>
         </ng-container>
 
@@ -170,6 +169,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
     AppIconsModule,
     AppSpinnerRowComponent,
     BtnWaiterSignInQrCodeComponent,
+    AppActivatedPipe,
   ],
 })
 export class OrganisationWaitersComponent extends AbstractModelsWithNameListWithDeleteComponent<GetWaiterResponse> {

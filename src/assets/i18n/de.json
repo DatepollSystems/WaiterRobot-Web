@@ -215,7 +215,7 @@
   "HOME_PROD_AVAILABLE": "Verfügbar",
   "HOME_PROD_SOLD_OUT": "Ausverkauft",
   "HOME_PROD_ALLERGENS": "Allergene",
-  "HOME_PROD_ALLERGENS_PLACEHOLDER": "G, C, D...",
+  "HOME_PROD_ALLERGENS_PLACEHOLDER": "Allergene durchsuchen...",
   "HOME_PROD_GROUP_ID": "Gruppe",
   "HOME_PROD_GROUP_ID_INCORRECT": "Das Produkt muss einer Gruppe zugeordnet sein",
   "HOME_PROD_GROUP_PRINTER_UPDATE": "Überschreibe alle Drucker in der gesamten Produktgruppe",
@@ -278,7 +278,7 @@
   "HOME_PRINTER_BATCH_UPDATE_INVALID": "Wähle mindestens einen Wert zum überschreiben aus.",
 
   "HOME_ORDERS_ALL": "Alle Bestellungen",
-  "HOME_ORDER_TABLE": "Tischgr. - Tisch Nr.",
+  "HOME_ORDER_TABLE": "Tischgruppe - Tisch Nr.",
   "HOME_ORDER_NUMBER": "Bestell. Nr.",
   "HOME_ORDER_NOTE": "Notiz",
   "HOME_ORDER_CREATED_AT": "Erstellt um",

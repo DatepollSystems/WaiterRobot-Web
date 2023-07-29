@@ -18,6 +18,7 @@ import {EventsService} from '../events/_services/events.service';
 
 import {WaitersService} from './_services/waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
+import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';
 
 @Component({
   template: `
@@ -92,9 +93,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
         <ng-container ngbColumnDef="activated">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ACTIVATED' | tr }}</th>
           <td *ngbCellDef="let waiter" ngb-cell>
-            <div class="form-check">
-              <input class="form-check-input" onclick="return false;" type="checkbox" [checked]="waiter.activated" name="activated" />
-            </div>
+            {{ waiter.activated | activated }}
           </td>
         </ng-container>
 
@@ -163,6 +162,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
     AppIconsModule,
     AppBtnToolbarComponent,
     BtnWaiterSignInQrCodeComponent,
+    AppActivatedPipe,
   ],
 })
 export class EventByIdWaitersComponent extends AbstractModelsWithNameListByIdComponent<GetWaiterResponse, GetEventOrLocationResponse> {

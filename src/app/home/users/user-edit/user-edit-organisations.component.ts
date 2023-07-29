@@ -18,6 +18,7 @@ import {UsersOrganisationsService} from '../services/users-organisations.service
         (valueChange)="orgUserChange($event)"
         [allModelsToAutoComplete]="vm.organisations"
         [models]="vm.selectedOrganisations"
+        minInputLengthKick="0"
         validationErrorText="{{ 'INCORRECT_INPUT' | tr }}"
         placeholder="{{ 'HOME_USERS_ORGS_INPUT_PLACEHOLDER' | tr }}"
       />
