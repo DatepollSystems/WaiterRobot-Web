@@ -9,11 +9,14 @@ import {OrganisationsUsersService} from '../../organisations/_services/organisat
   providedIn: 'root',
 })
 export class UsersOrganisationsService {
-  constructor(private httpClient: HttpClient, private organisationsUsersService: OrganisationsUsersService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private organisationsUsersService: OrganisationsUsersService,
+  ) {}
 
   getByUserId$(id: number): Observable<IdAndNameResponse[]> {
     return this.organisationsUsersService.triggerGet$.pipe(
-      switchMap(() => this.httpClient.get<IdAndNameResponse[]>('/config/user/organisations', {params: new HttpParams().set('userId', id)}))
+      switchMap(() => this.httpClient.get<IdAndNameResponse[]>('/config/user/organisations', {params: new HttpParams().set('userId', id)})),
     );
   }
 }

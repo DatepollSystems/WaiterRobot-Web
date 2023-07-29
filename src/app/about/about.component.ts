@@ -154,7 +154,7 @@ export class AboutComponent {
     private router: Router,
     private modal: NgbModal,
     private authService: AuthService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
   ) {}
 
   onForgotPassword(): void {

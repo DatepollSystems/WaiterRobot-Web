@@ -85,14 +85,18 @@ export class AboutModalComponent {
         iit.link = iit.link.replace('git:', 'https:');
         iit.link = iit.link.replace('ssh://git@', 'https:');
         return iit;
-      })
-    )
+      }),
+    ),
   );
 
   clicker = 0;
   timeoutHandler: any | undefined;
 
-  constructor(private httpClient: HttpClient, private modal: NgbModal, @Inject(WINDOW) private window: Window | undefined) {}
+  constructor(
+    private httpClient: HttpClient,
+    private modal: NgbModal,
+    @Inject(WINDOW) private window: Window | undefined,
+  ) {}
 
   open(content: any): void {
     this.modal.open(content, {ariaLabelledBy: 'About modal'});
@@ -119,7 +123,7 @@ export class AboutModalComponent {
           '| | | | | | | | | | | | |\\ \\| | |/ /| | | | | | \\ \\ | | | | | | | | | | |\n' +
           '########################/ /######\\ \\###########/ /#######################\n' +
           '| | | | | | | | | | | | \\/| | | | \\/| | | | | |\\/ | | | | | | | | | | | |\n' +
-          '|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n'
+          '|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|\n',
       );
       console.log('Secret source cats love you!');
     }, 1000 * 5);

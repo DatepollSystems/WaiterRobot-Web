@@ -14,27 +14,28 @@ import {GetSystemNotificationResponse} from '../../../_shared/waiterrobot-backen
         'alert-warning': notification.type === 'WARNING',
         'alert-info': notification.type === 'INFO'
       }"
-      class='alert pt-2 pb-0'
+      class="alert pt-2 pb-0"
     >
-      <div class='d-flex justify-content-between'>
-        <div class='d-flex justify-content-start align-items-center gap-2'>
-          <ng-container [ngSwitch]='notification.type'>
-            <i-bs *ngSwitchCase='"INFO"' name='info-circle-fill' />
-            <i-bs *ngSwitchCase='"SUCCESS"' name='check-circle-fill' />
-            <i-bs *ngSwitchCase='"DANGER"' name='exclamation-triangle-fill' />
-            <i-bs *ngSwitchCase='"WARNING"' name='exclamation-triangle-fill' />
+      <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-start align-items-center gap-2">
+          <ng-container [ngSwitch]="notification.type">
+            <i-bs *ngSwitchCase="'INFO'" name="info-circle-fill" />
+            <i-bs *ngSwitchCase="'SUCCESS'" name="check-circle-fill" />
+            <i-bs *ngSwitchCase="'DANGER'" name="exclamation-triangle-fill" />
+            <i-bs *ngSwitchCase="'WARNING'" name="exclamation-triangle-fill" />
           </ng-container>
-          <h5 class='mt-2'>{{notification.title ?? (notification.type | s_lowerCaseAllExceptFirstLetter) }}</h5>
+          <h5 class="mt-2">{{ notification.title ?? (notification.type | s_lowerCaseAllExceptFirstLetter) }}</h5>
         </div>
         <div>
-          <span *ngIf='notification.starts'>
-            {{notification.starts | date : 'dd.MM.YYYY HH:mm'}}
-            <span *ngIf='notification.starts && notification.ends'> - </span>
-            {{notification.ends | date : getEndsFormatting()}}</span>
+          <span *ngIf="notification.starts">
+            {{ notification.starts | date: 'dd.MM.YYYY HH:mm' }}
+            <span *ngIf="notification.starts && notification.ends"> - </span>
+            {{ notification.ends | date: getEndsFormatting() }}</span
+          >
         </div>
       </div>
       <div>
-        <p>{{notification.description}}</p>
+        <p>{{ notification.description }}</p>
       </div>
     </div>
   `,

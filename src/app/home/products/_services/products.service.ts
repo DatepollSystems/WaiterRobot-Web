@@ -29,7 +29,10 @@ export class ProductsService
 {
   url = '/config/product';
 
-  constructor(private httpClient: HttpClient, private eventsService: EventsService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private eventsService: EventsService,
+  ) {}
 
   triggerGet$ = new BehaviorSubject(true);
 
@@ -39,16 +42,16 @@ export class ProductsService
         this.eventsService.getSelected$.pipe(
           filter(notNullAndUndefined),
           switchMap((selected) =>
-            this.httpClient.get<GetProductMaxResponse[]>(this.url, {params: new HttpParams().set('eventId', selected.id)})
-          )
-        )
-      )
+            this.httpClient.get<GetProductMaxResponse[]>(this.url, {params: new HttpParams().set('eventId', selected.id)}),
+          ),
+        ),
+      ),
     );
   }
 
   getByParent$(id: number): Observable<GetProductMaxResponse[]> {
     return this.triggerGet$.pipe(
-      switchMap(() => this.httpClient.get<GetProductMaxResponse[]>(this.url, {params: new HttpParams().set('groupId', id)}))
+      switchMap(() => this.httpClient.get<GetProductMaxResponse[]>(this.url, {params: new HttpParams().set('groupId', id)})),
     );
   }
 

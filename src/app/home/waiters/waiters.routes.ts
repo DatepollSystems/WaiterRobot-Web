@@ -13,14 +13,14 @@ export const ROUTES: Routes = [
         path: 'organisation/duplicates',
         loadComponent: () =>
           import('./duplicate-organisation-waiters/duplicate-organisation-waiters.component').then(
-            (c) => c.DuplicateOrganisationWaitersComponent
+            (c) => c.DuplicateOrganisationWaitersComponent,
           ),
       },
       {
         path: 'organisation/duplicates/merge/:name',
         loadComponent: () =>
           import('./duplicate-organisation-waiters/duplicate-organisation-waiters-edit.component').then(
-            (c) => c.DuplicateOrganisationWaitersEditComponent
+            (c) => c.DuplicateOrganisationWaitersEditComponent,
           ),
       },
       {path: 'event/:id', loadComponent: () => import('./event-by-id-waiters.component').then((c) => c.EventByIdWaitersComponent)},

@@ -24,7 +24,10 @@ export class SystemNotificationsService
 {
   url = '/system-notification';
 
-  constructor(private httpClient: HttpClient, private activeSystemNotificationsService: ActiveSystemNotificationsService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private activeSystemNotificationsService: ActiveSystemNotificationsService,
+  ) {}
 
   triggerGet$ = new BehaviorSubject(true);
 
@@ -41,7 +44,7 @@ export class SystemNotificationsService
       tap(() => {
         this.triggerGet$.next(true);
         this.activeSystemNotificationsService.triggerGet$.next(true);
-      })
+      }),
     );
   }
 
@@ -50,7 +53,7 @@ export class SystemNotificationsService
       tap(() => {
         this.triggerGet$.next(true);
         this.activeSystemNotificationsService.triggerGet$.next(true);
-      })
+      }),
     );
   }
 
@@ -59,7 +62,7 @@ export class SystemNotificationsService
       tap(() => {
         this.triggerGet$.next(true);
         this.activeSystemNotificationsService.triggerGet$.next(true);
-      })
+      }),
     );
   }
 }

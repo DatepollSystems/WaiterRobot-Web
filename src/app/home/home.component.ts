@@ -71,7 +71,7 @@ export class HomeComponent {
           navContent.style.display = 'none';
         }
       }
-    })
+    }),
   );
 
   activeSystemNotifications$ = this.activeSystemNotificationsService.getAll$();
@@ -84,13 +84,13 @@ export class HomeComponent {
         if (it.isAdmin) {
           this.lumber.info('const', 'Admin status detected');
         }
-      })
+      }),
     ),
     this.organisationsService.getSelected$,
     this.eventsService.getSelected$,
     this.organisationsService.getAll$().pipe(
       map((it) => it.slice(0, 5)),
-      startWith([])
+      startWith([]),
     ),
     this.eventsService.getAll$().pipe(startWith([])),
   ]).pipe(
@@ -100,7 +100,7 @@ export class HomeComponent {
       selectedEvent,
       organisations,
       events,
-    }))
+    })),
   );
 
   public navItems = [
@@ -121,7 +121,7 @@ export class HomeComponent {
     private eventsService: EventsService,
     private qrCodeService: QrCodeService,
     public fullScreenService: FullScreenService,
-    public activeSystemNotificationsService: ActiveSystemNotificationsService
+    public activeSystemNotificationsService: ActiveSystemNotificationsService,
   ) {
     router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {

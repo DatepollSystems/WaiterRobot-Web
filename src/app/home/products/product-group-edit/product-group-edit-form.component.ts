@@ -83,8 +83,8 @@ export class ProductGroupEditFormComponent extends AbstractModelEditFormComponen
     this.form.controls.printerId.disable();
     this.unsubscribe(
       this.form.controls.updatePrinterId.valueChanges.subscribe((value) =>
-        value ? this.form.controls.printerId.enable() : this.form.controls.printerId.disable()
-      )
+        value ? this.form.controls.printerId.enable() : this.form.controls.printerId.disable(),
+      ),
     );
   }
 

@@ -128,7 +128,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<
       map((params) => params.group),
       filter(n_isNumeric),
       map((id) => n_from(id)),
-      startWith(undefined)
+      startWith(undefined),
     ),
     this.organisationsService.getSelected$,
     this.eventsService.getSelected$,
@@ -137,7 +137,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<
       filter(n_isNumeric),
       map((id) => n_from(id)),
       switchMap((id) => this.events.pipe(map((events) => events.find((event) => event.id === id)))),
-      startWith(undefined)
+      startWith(undefined),
     ),
     this.events,
   ]).pipe(
@@ -146,12 +146,16 @@ export class WaiterEditComponent extends AbstractModelEditComponent<
       selectedOrganisation,
       selectedEvent: queryEvent ?? selectedEvent,
       events,
-    }))
+    })),
   );
 
   qrCodeModal: NgbModalRef | undefined;
 
-  constructor(waitersService: WaitersService, public eventsService: EventsService, private organisationsService: OrganisationsService) {
+  constructor(
+    waitersService: WaitersService,
+    public eventsService: EventsService,
+    private organisationsService: OrganisationsService,
+  ) {
     super(waitersService);
   }
 }

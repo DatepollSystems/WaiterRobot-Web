@@ -37,7 +37,7 @@ exec(
     }
 
     console.table(data);
-  }
+  },
 );
 
 function getFilesizeInKiloBytes(filename) {

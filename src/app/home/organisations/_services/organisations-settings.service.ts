@@ -17,12 +17,12 @@ export class OrganisationsSettingsService {
       switchMap(() =>
         this.httpService.get<OrganisationSettingResponse>('/config/organisation/settings', {
           params: new HttpParams().set('organisationId', organisationId),
-        })
+        }),
       ),
       map((it) => {
         it.availableTimezones = it.availableTimezones.sort((a, b) => a.trim().toLowerCase().localeCompare(b.trim().toLowerCase()));
         return it;
-      })
+      }),
     );
   }
 

@@ -38,7 +38,7 @@ bootstrapApplication(AppComponent, {
       withMobileBreakpoint(767),
       withBaseUrlInterceptor(EnvironmentHelper.getAPIUrl(), ['assets/i18n', 'assets/licenses.json']),
       withLoggingInterceptor(['json', '/auth/signIn', '/auth/signInPwChange']),
-      withWindow()
+      withWindow(),
     ),
     provideDfxTranslate(withDefaultLanguage('de'), withAutoTranslatedLanguages(['en', 'es', 'fr', 'it', 'pt'])),
     provideAnimations(),
@@ -55,7 +55,7 @@ bootstrapApplication(AppComponent, {
     {provide: NgbDateAdapter, useClass: CustomDateAdapter},
     {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter},
     provideHttpClient(
-      withInterceptors([baseUrlInterceptor, postPutJsonContentTypeInterceptor, loggingInterceptor, authInterceptor, errorInterceptor])
+      withInterceptors([baseUrlInterceptor, postPutJsonContentTypeInterceptor, loggingInterceptor, authInterceptor, errorInterceptor]),
     ),
   ],
 }).catch((err) => console.error(err));

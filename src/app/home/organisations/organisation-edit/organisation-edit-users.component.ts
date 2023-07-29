@@ -108,7 +108,7 @@ export class OrganisationEditUsersComponent {
 
       return of(dataSource);
     }),
-    startWith(new NgbTableDataSource<OrganisationUserResponse>())
+    startWith(new NgbTableDataSource<OrganisationUserResponse>()),
   );
 
   @Input() organisation!: GetOrganisationResponse;

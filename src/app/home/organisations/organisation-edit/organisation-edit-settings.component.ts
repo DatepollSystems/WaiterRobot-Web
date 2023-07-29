@@ -75,7 +75,7 @@ export class OrganisationEditSettingsComponent {
   organisationId$ = getActivatedRouteIdParam().pipe(shareReplay(1));
   settings$ = this.organisationId$.pipe(
     switchMap((id) => this.organisationSettingsService$.getSettings$(id)),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   timeZoneFormControl = new FormControl<string>('');
@@ -87,7 +87,7 @@ export class OrganisationEditSettingsComponent {
       this.timeZoneFormControl.setValue(it.settings.timezone);
 
       this.timeZoneFormControl.addValidators([Validators.required, this.isValidTimeZoneValidator(it.settings.availableTimezones)]);
-    })
+    }),
   );
 
   setActivateWaiterOnLoginViaCreateToken(organisationId: number, event: Event): void {
@@ -103,8 +103,8 @@ export class OrganisationEditSettingsComponent {
       debounceTime(200),
       distinctUntilChanged(),
       map(([settings, term]) =>
-        term.length < 2 ? [] : settings.availableTimezones.filter((v) => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
-      )
+        term.length < 2 ? [] : settings.availableTimezones.filter((v) => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10),
+      ),
     );
 
   isValidTimeZoneValidator(timezones: string[]): ValidatorFn {

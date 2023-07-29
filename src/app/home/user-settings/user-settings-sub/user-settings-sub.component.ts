@@ -30,7 +30,7 @@ export class UserSettingsSubComponent {
     private myUserService: MyUserService,
     @Inject(WINDOW) window: Window | undefined,
     private notificationService: NotificationService,
-    private userSettingsService: UserSettingsService
+    private userSettingsService: UserSettingsService,
   ) {}
 
   emailChange(email: string): void {

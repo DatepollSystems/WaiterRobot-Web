@@ -118,7 +118,10 @@ export class PrintTableQrCodesModalComponent {
   generating = false;
   progress?: number;
 
-  constructor(public activeModal: NgbActiveModal, private mobileLink: MobileLinkService) {}
+  constructor(
+    public activeModal: NgbActiveModal,
+    private mobileLink: MobileLinkService,
+  ) {}
 
   parser = (table: GetTableResponse): string => {
     return this.mobileLink.createTableLink(table.publicId);

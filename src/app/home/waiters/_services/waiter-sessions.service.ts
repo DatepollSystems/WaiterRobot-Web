@@ -22,8 +22,8 @@ export class WaiterSessionsService
       switchMap(() =>
         this.httpClient
           .get<SessionResponse[]>(this.url, {params: new HttpParams().set('waiterId', id)})
-          .pipe(map((it) => it.map((iit) => this.convert(iit))))
-      )
+          .pipe(map((it) => it.map((iit) => this.convert(iit)))),
+      ),
     );
   }
 

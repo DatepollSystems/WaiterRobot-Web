@@ -114,7 +114,7 @@ export class EventEditComponent extends AbstractModelEditComponent<
   selectedOrganisation = inject(OrganisationsService).getSelected$;
 
   vm$ = combineLatest([this.myUser$, this.selectedOrganisation.pipe(filter(notNullAndUndefined))]).pipe(
-    map(([myUser, selectedOrganisation]) => ({myUser, selectedOrganisation}))
+    map(([myUser, selectedOrganisation]) => ({myUser, selectedOrganisation})),
   );
 
   constructor(public eventsService: EventsService) {

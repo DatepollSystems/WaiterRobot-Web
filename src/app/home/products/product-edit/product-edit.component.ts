@@ -113,7 +113,7 @@ export class ProductEditComponent extends AbstractModelEditComponent<CreateProdu
       map((params) => params.group),
       filter(n_isNumeric),
       map((id) => n_from(id)),
-      startWith(undefined)
+      startWith(undefined),
     ),
     this.productGroupsService.getAll$(),
     this.allergensService.getAll$(),
@@ -126,7 +126,7 @@ export class ProductEditComponent extends AbstractModelEditComponent<CreateProdu
       allergens,
       printers,
       selectedEvent,
-    }))
+    })),
   );
 
   constructor(
@@ -134,7 +134,7 @@ export class ProductEditComponent extends AbstractModelEditComponent<CreateProdu
     private allergensService: AllergensService,
     private printersService: PrintersService,
     private eventsService: EventsService,
-    private productGroupsService: ProductGroupsService
+    private productGroupsService: ProductGroupsService,
   ) {
     super(productsService);
   }

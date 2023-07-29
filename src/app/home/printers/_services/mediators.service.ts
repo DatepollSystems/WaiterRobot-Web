@@ -14,14 +14,17 @@ import {OrganisationsService} from '../../organisations/_services/organisations.
 export class MediatorsService implements HasGetAll<GetMediatorResponse> {
   url = '/config/mediator';
 
-  constructor(private httpClient: HttpClient, private organisationsService: OrganisationsService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private organisationsService: OrganisationsService,
+  ) {}
 
   getAll$(): Observable<GetMediatorResponse[]> {
     return this.organisationsService.getSelected$.pipe(
       filter(notNullAndUndefined),
       switchMap((organisation) =>
-        this.httpClient.get<GetMediatorResponse[]>(this.url, {params: new HttpParams().set('organisationId', organisation.id)})
-      )
+        this.httpClient.get<GetMediatorResponse[]>(this.url, {params: new HttpParams().set('organisationId', organisation.id)}),
+      ),
     );
   }
 }

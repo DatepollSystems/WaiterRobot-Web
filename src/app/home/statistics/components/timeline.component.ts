@@ -184,12 +184,12 @@ export class TimelineComponent {
       filter(notNullAndUndefined),
       filter((it) => it !== 'NaN-NaN-NaN' && new Date(it).toString() !== 'Invalid Date'),
       debounceTime(400),
-      startWith(d_format(new Date()))
+      startWith(d_format(new Date())),
     ),
     this.timeFormControl.valueChanges.pipe(
       filter(notNullAndUndefined),
       debounceTime(200),
-      startWith({hour: new Date().getHours(), minute: new Date().getMinutes()})
+      startWith({hour: new Date().getHours(), minute: new Date().getMinutes()}),
     ),
   ]).pipe(
     switchMap(([event, precision, type, dateS, time]) => {
@@ -199,7 +199,7 @@ export class TimelineComponent {
       let params = new HttpParams().set('eventId', event.id);
       params = params.append(
         'startDate',
-        d_formatWithHoursMinutesAndSeconds(date.toLocaleString('en-US', {timeZone: 'UTC'})).replace(' ', 'T')
+        d_formatWithHoursMinutesAndSeconds(date.toLocaleString('en-US', {timeZone: 'UTC'})).replace(' ', 'T'),
       );
       params = params.append('precision', precision);
       params = params.append('type', type);
@@ -215,10 +215,13 @@ export class TimelineComponent {
         return iit;
       });
       return it;
-    })
+    }),
   );
 
-  constructor(private httpClient: HttpClient, private eventsService: EventsService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private eventsService: EventsService,
+  ) {}
 
   xFormatting = (it: string) => {
     const d = d_from(it);

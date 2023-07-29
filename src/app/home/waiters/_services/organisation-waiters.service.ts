@@ -12,13 +12,17 @@ import {WaitersService} from './waiters.service';
 export class OrganisationWaitersService implements HasGetAll<GetWaiterResponse>, HasDelete<GetWaiterResponse> {
   url = '/config/waiter';
 
-  constructor(private httpClient: HttpClient, private organisationsService: OrganisationsService, private waitersService: WaitersService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private organisationsService: OrganisationsService,
+    private waitersService: WaitersService,
+  ) {}
 
   getAll$(): Observable<GetWaiterResponse[]> {
     return combineLatest([this.waitersService.triggerGet$, this.organisationsService.getSelected$.pipe(filter(notNullAndUndefined))]).pipe(
       switchMap(([, organisation]) =>
-        this.httpClient.get<GetWaiterResponse[]>(this.url, {params: new HttpParams().set('organisationId', organisation.id)})
-      )
+        this.httpClient.get<GetWaiterResponse[]>(this.url, {params: new HttpParams().set('organisationId', organisation.id)}),
+      ),
     );
   }
 

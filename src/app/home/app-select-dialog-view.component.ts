@@ -47,7 +47,7 @@ export class AppSelectDialogViewComponent {
     private organisationsService: OrganisationsService,
     private eventsService: EventsService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
   selectedOrganisation$ = this.organisationsService.getSelected$;
 
@@ -68,7 +68,7 @@ export class AppSelectDialogViewComponent {
       if (vm.events.length === 1) {
         this.selectEvent(vm.events[0]);
       }
-    })
+    }),
   );
 
   selectOrganisation(it: GetOrganisationResponse): void {

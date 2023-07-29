@@ -97,7 +97,7 @@ export class AppOrderProductsListComponent {
   orderProducts$ = new BehaviorSubject<GetOrderProductResponse[]>([]);
 
   viewStyle$ = new BehaviorSubject<orderProductViewStyleType>(
-    (s_fromStorage('order_product_view_pref') as orderProductViewStyleType | undefined) ?? 'TABLE'
+    (s_fromStorage('order_product_view_pref') as orderProductViewStyleType | undefined) ?? 'TABLE',
   );
 
   setViewStyle(it: orderProductViewStyleType) {
@@ -105,7 +105,7 @@ export class AppOrderProductsListComponent {
     st_set('order_product_view_pref', it);
   }
   groupedBy$ = new BehaviorSubject<orderProductGroupedByType>(
-    (s_fromStorage('order_product_grouped_pref') as orderProductGroupedByType | undefined) ?? 'OFF'
+    (s_fromStorage('order_product_grouped_pref') as orderProductGroupedByType | undefined) ?? 'OFF',
   );
 
   setGroupedBy(it: orderProductGroupedByType) {
@@ -122,7 +122,7 @@ export class AppOrderProductsListComponent {
         groups.set(orderProduct.printedBy.id, group);
       }
       return groups;
-    })
+    }),
   );
 
   vm$ = combineLatest([this.viewStyle$, this.groupedBy$]).pipe(map(([viewStyle, groupedBy]) => ({viewStyle, groupedBy})));

@@ -25,7 +25,10 @@ export class ProductGroupsService
 {
   url = '/config/product/group';
 
-  constructor(private httpClient: HttpClient, private eventsService: EventsService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private eventsService: EventsService,
+  ) {}
 
   triggerGet$ = new BehaviorSubject(true);
 
@@ -35,11 +38,11 @@ export class ProductGroupsService
         this.eventsService.getSelected$.pipe(
           filter(notNullAndUndefined),
           switchMap((selected) =>
-            this.httpClient.get<GetProductGroupResponse[]>(this.url, {params: new HttpParams().set('eventId', selected.id)})
+            this.httpClient.get<GetProductGroupResponse[]>(this.url, {params: new HttpParams().set('eventId', selected.id)}),
           ),
-          map((it) => it.sort((a, b) => a.name.trim().toLowerCase().localeCompare(b.name.trim().toLowerCase())))
-        )
-      )
+          map((it) => it.sort((a, b) => a.name.trim().toLowerCase().localeCompare(b.name.trim().toLowerCase()))),
+        ),
+      ),
     );
   }
 

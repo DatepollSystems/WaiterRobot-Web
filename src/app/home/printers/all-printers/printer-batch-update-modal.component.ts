@@ -168,17 +168,17 @@ export class PrinterBatchUpdateModalComponent extends AComponent {
 
     this.unsubscribe(
       this.form.controls.updateFontScale.valueChanges.subscribe((value) =>
-        value ? this.form.controls.fontScale.enable() : this.form.controls.fontScale.disable()
+        value ? this.form.controls.fontScale.enable() : this.form.controls.fontScale.disable(),
       ),
       this.form.controls.updateFont.valueChanges.subscribe((value) =>
-        value ? this.form.controls.font.enable() : this.form.controls.font.disable()
+        value ? this.form.controls.font.enable() : this.form.controls.font.disable(),
       ),
       this.form.controls.updateBonWidth.valueChanges.subscribe((value) =>
-        value ? this.form.controls.bonWidth.enable() : this.form.controls.bonWidth.disable()
+        value ? this.form.controls.bonWidth.enable() : this.form.controls.bonWidth.disable(),
       ),
       this.form.controls.updateBonPadding.valueChanges.subscribe((value) =>
-        value ? this.form.controls.bonPadding.enable() : this.form.controls.bonPadding.disable()
-      )
+        value ? this.form.controls.bonPadding.enable() : this.form.controls.bonPadding.disable(),
+      ),
     );
   }
 

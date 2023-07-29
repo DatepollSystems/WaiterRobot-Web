@@ -107,7 +107,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
       this.lumber.log('selectedEvent', 'set selected event', it);
       this._selectedEvent = it;
       this.form.controls.eventIds.setValue(
-        [...this.form.controls.eventIds.getRawValue(), it.id].filter((value, index, array) => array.indexOf(value) === index)
+        [...this.form.controls.eventIds.getRawValue(), it.id].filter((value, index, array) => array.indexOf(value) === index),
       );
     }
   }

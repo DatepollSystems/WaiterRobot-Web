@@ -39,7 +39,7 @@ export class WaitersService
 
   getByParent$(id: number): Observable<GetWaiterResponse[]> {
     return this.triggerGet$.pipe(
-      switchMap(() => this.httpClient.get<GetWaiterResponse[]>(this.url, {params: new HttpParams().set('eventId', id)}))
+      switchMap(() => this.httpClient.get<GetWaiterResponse[]>(this.url, {params: new HttpParams().set('eventId', id)})),
     );
   }
 

@@ -16,8 +16,8 @@ export function getOrderBySelected<T extends IHasID<string | number>>(service: H
             return [found].concat(arr);
           }
           return arr;
-        })
-      )
-    )
+        }),
+      ),
+    ),
   );
 }

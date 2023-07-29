@@ -77,7 +77,11 @@ export class DuplicateOrganisationWaitersEditComponent {
 
   ignoreFeature = false;
 
-  constructor(private duplicateWaitersService: DuplicateWaitersService, private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private duplicateWaitersService: DuplicateWaitersService,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {}
 
   private allDuplicateWaiters$ = this.duplicateWaitersService.getAll$().pipe(share(), shareReplay(1));
 
@@ -95,7 +99,7 @@ export class DuplicateOrganisationWaitersEditComponent {
       return true;
     }),
     share(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private setDuplicateWaitersToMerge = new Subject<DuplicateWaiterWithSelected[]>();
@@ -109,20 +113,20 @@ export class DuplicateOrganisationWaitersEditComponent {
               ...waiter,
               selectedToMerge: true,
               selectedAsMain: index === 0,
-            } as DuplicateWaiterWithSelected)
-        )
-      )
+            }) as DuplicateWaiterWithSelected,
+        ),
+      ),
     ),
-    this.setDuplicateWaitersToMerge
+    this.setDuplicateWaitersToMerge,
   ).pipe(
     tap((waiters) => console.log('duplicate waiters', waiters)),
     share(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   private minTwoDuplicateWaitersForMergeSelected$ = this.duplicateWaitersToMerge$.pipe(
     map((waiters) => waiters.filter((it) => it.selectedToMerge || it.selectedAsMain)),
-    map((waiters) => waiters.length > 1)
+    map((waiters) => waiters.length > 1),
   );
 
   vm$ = combineLatest([this.duplicateWaiter$, this.duplicateWaitersToMerge$, this.minTwoDuplicateWaitersForMergeSelected$]).pipe(
@@ -130,7 +134,7 @@ export class DuplicateOrganisationWaitersEditComponent {
       duplicateWaiter,
       duplicateWaitersToMerge,
       minTwo,
-    }))
+    })),
   );
 
   selectMainDuplicateWaiter(duplicateWaiter: DuplicateWaiterWithSelected): void {

@@ -11,13 +11,16 @@ import {EventsService} from '../../events/_services/events.service';
 export class OrganisationsUsersService {
   url = '/config/organisation/users';
 
-  constructor(private httpClient: HttpClient, private eventsService: EventsService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private eventsService: EventsService,
+  ) {}
 
   triggerGet$ = new BehaviorSubject(true);
 
   getByOrganisationId$(id: number): Observable<OrganisationUserResponse[]> {
     return this.triggerGet$.pipe(
-      switchMap(() => this.httpClient.get<OrganisationUserResponse[]>(this.url, {params: new HttpParams().set('organisationId', id)}))
+      switchMap(() => this.httpClient.get<OrganisationUserResponse[]>(this.url, {params: new HttpParams().set('organisationId', id)})),
     );
   }
 

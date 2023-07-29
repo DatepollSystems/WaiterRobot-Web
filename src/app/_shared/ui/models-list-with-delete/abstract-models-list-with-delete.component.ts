@@ -14,7 +14,7 @@ import {QuestionDialogComponent} from '../question-dialog/question-dialog.compon
   template: '',
 })
 export abstract class AbstractModelsListWithDeleteComponent<
-  EntityType extends IHasID<EntityType['id']>
+  EntityType extends IHasID<EntityType['id']>,
 > extends AbstractModelsListComponent<EntityType> {
   protected selectionEnabled = true;
   public selection = new SelectionModel<EntityType>(true, []);

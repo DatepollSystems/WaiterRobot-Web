@@ -48,7 +48,7 @@ export class OrganisationUserAddModalComponent {
     public activeModal: NgbActiveModal,
     private modal: NgbModal,
     private notificationService: NotificationService,
-    private organisationsUsersService: OrganisationsUsersService
+    private organisationsUsersService: OrganisationsUsersService,
   ) {}
 
   filter = (input: string): boolean => s_isEmail(input);
@@ -62,7 +62,7 @@ export class OrganisationUserAddModalComponent {
       this.organisationsUsersService.create$(this.entity.id, email, {role: 'ADMIN'}).subscribe({
         error: () => {
           this.translate$('HOME_ORGS_USERS_USER_NOT_FOUND').subscribe((translation) =>
-            this.notificationService.warning(email + translation)
+            this.notificationService.warning(email + translation),
           );
         },
       });

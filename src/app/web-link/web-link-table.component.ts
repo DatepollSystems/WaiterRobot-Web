@@ -67,7 +67,7 @@ export class WebLinkTableComponent {
   publicId$ = inject(ActivatedRoute).paramMap.pipe(
     map((params) => params.get('publicId')),
     filter((it): it is string => !!it),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   vm$ = combineLatest([
@@ -84,6 +84,6 @@ export class WebLinkTableComponent {
         bill,
         priceSum,
       };
-    })
+    }),
   );
 }

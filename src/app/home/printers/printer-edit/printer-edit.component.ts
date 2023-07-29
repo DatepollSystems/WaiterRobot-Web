@@ -116,7 +116,7 @@ export class PrinterEditComponent extends AbstractModelEditComponent<
   selectedEvent$ = inject(EventsService).getSelected$;
 
   vm$ = combineLatest([this.selectedEvent$, this.printersService.getAllFonts$()]).pipe(
-    map(([selectedEvent, fonts]) => ({selectedEvent, fonts}))
+    map(([selectedEvent, fonts]) => ({selectedEvent, fonts})),
   );
 
   constructor(private printersService: PrintersService) {

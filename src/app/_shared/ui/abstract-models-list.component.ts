@@ -49,13 +49,13 @@ export abstract class AbstractModelsListComponent<EntityType> implements AfterVi
       this.filter.valueChanges.pipe(
         startWith(''),
         map((it) => it ?? ''),
-        debounceTime(250)
+        debounceTime(250),
       ),
       entitiesStream.pipe(
         catchError((error) => {
           void this.router.navigateByUrl('/not-found');
           return throwError(() => error);
-        })
+        }),
       ),
     ]).pipe(
       switchMap(([filterTerm, all]) => {
@@ -83,7 +83,7 @@ export abstract class AbstractModelsListComponent<EntityType> implements AfterVi
         return of(dataSource);
       }),
       tap((dataSource) => (this._dataSource = dataSource)),
-      startWith(this._dataSource)
+      startWith(this._dataSource),
     );
   }
 }

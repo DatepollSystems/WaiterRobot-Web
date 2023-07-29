@@ -74,12 +74,12 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
                     } else {
                       notificationService.error(
                         'Something did not work out during the session refresh! On prod you would have been logged out and the window would have been force refreshed but on lava and dev nothing happens!',
-                        25 * 1000
+                        25 * 1000,
                       );
                     }
 
                     return next(req);
-                  })
+                  }),
                 );
               } else {
                 return refreshTokenSubject.pipe(
@@ -88,7 +88,7 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
                   switchMap((jwt: string) => {
                     lumber.info('handle401Error', 'Already refreshing; JWT: "' + jwt + '"');
                     return next(addToken(req, jwt));
-                  })
+                  }),
                 );
               }
             default:
@@ -103,7 +103,7 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
           lumber.error('intercept', 'Server side error');
           return throwError(error.error.message);
         }
-      })
+      }),
     );
   }
 }

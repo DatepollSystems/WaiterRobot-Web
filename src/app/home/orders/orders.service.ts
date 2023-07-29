@@ -12,7 +12,11 @@ import {EventsService} from '../events/_services/events.service';
 export class OrdersService implements HasGetAll<GetOrderResponse>, HasGetSingle<GetOrderResponse> {
   url = '/config/order';
 
-  constructor(private httpClient: HttpClient, private eventsService: EventsService, private notificationService: NotificationService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private eventsService: EventsService,
+    private notificationService: NotificationService,
+  ) {}
 
   public readonly refreshIn = 30;
 
@@ -21,7 +25,7 @@ export class OrdersService implements HasGetAll<GetOrderResponse>, HasGetSingle<
   countdown$ = (): Observable<number> =>
     this.triggerRefresh.pipe(
       switchMap(() => timer(0, 1000)),
-      map((tick) => this.refreshIn - (tick % this.refreshIn))
+      map((tick) => this.refreshIn - (tick % this.refreshIn)),
     );
 
   getAll$(): Observable<GetOrderResponse[]> {
@@ -35,7 +39,7 @@ export class OrdersService implements HasGetAll<GetOrderResponse>, HasGetSingle<
         //params = params.append('state', 'QUEUED')
         return this.httpClient.get<GetOrderResponse[]>(this.url, {params: params});
       }),
-      tap(() => this.notificationService.tsuccess('HOME_ORDER_REFRESHED'))
+      tap(() => this.notificationService.tsuccess('HOME_ORDER_REFRESHED')),
     );
   }
 
@@ -43,7 +47,7 @@ export class OrdersService implements HasGetAll<GetOrderResponse>, HasGetSingle<
     return this.triggerRefresh.pipe(
       switchMap(() => timer(0, this.refreshIn * 1000)),
       switchMap(() => this.httpClient.get<GetOrderResponse>(`${this.url}/${id}`)),
-      tap(() => this.notificationService.tsuccess('HOME_ORDER_REFRESHED'))
+      tap(() => this.notificationService.tsuccess('HOME_ORDER_REFRESHED')),
     );
   }
 

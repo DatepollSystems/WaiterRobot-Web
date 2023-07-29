@@ -111,7 +111,7 @@ export class OrderInfoComponent {
         showRequeueButton: createdAt.getTime() < new Date().getTime(),
         countdown,
       };
-    })
+    }),
   );
 
   requeueOrder(id: number) {

@@ -45,7 +45,7 @@ export class StartComponent {
   localTime$ = interval(1000).pipe(
     map(() => new Date()),
     tap(() => this.refreshIn--),
-    share()
+    share(),
   );
 
   browserInfos = i_complete();
@@ -78,15 +78,15 @@ export class StartComponent {
             serverTime: undefined,
             serverStartTime: undefined,
           });
-        })
-      )
+        }),
+      ),
     ),
-    share()
+    share(),
   );
 
   errors$ = this.httpClient.get('/user/myself').pipe(
     catchError(() => of(true)),
-    filter((it) => it === true)
+    filter((it) => it === true),
   );
 
   myUser$ = inject(MyUserService).getUser$();
@@ -110,10 +110,14 @@ export class StartComponent {
         this.selectEvent(vm.events[0]);
         vm.selectedEvent = vm.events[0];
       }
-    })
+    }),
   );
 
-  constructor(private eventsService: EventsService, private organisationsService: OrganisationsService, private authService: AuthService) {}
+  constructor(
+    private eventsService: EventsService,
+    private organisationsService: OrganisationsService,
+    private authService: AuthService,
+  ) {}
 
   selectOrganisation(it: GetOrganisationResponse): void {
     this.organisationsService.setSelected(it);

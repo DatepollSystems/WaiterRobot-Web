@@ -94,7 +94,10 @@ export class AppQrCodeViewComponent {
 
   translate = dfxTranslate();
 
-  constructor(qrCodeService: QrCodeService, @Inject(WINDOW) private window?: Window) {
+  constructor(
+    qrCodeService: QrCodeService,
+    @Inject(WINDOW) private window?: Window,
+  ) {
     this.qrCodeData = qrCodeService.getQRCodeData();
 
     if (!this.qrCodeData) {

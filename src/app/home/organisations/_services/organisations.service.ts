@@ -67,7 +67,7 @@ export class OrganisationsService
           }
         }
       }),
-      shareReplay(1)
+      shareReplay(1),
     );
   }
 

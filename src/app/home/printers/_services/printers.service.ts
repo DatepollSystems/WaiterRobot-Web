@@ -25,7 +25,10 @@ export class PrintersService
 {
   url = '/config/printer';
 
-  constructor(private httpClient: HttpClient, private eventsService: EventsService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private eventsService: EventsService,
+  ) {}
 
   triggerGet$ = new BehaviorSubject(true);
 
@@ -35,7 +38,7 @@ export class PrintersService
         this.eventsService.getSelected$.pipe(
           filter(notNullAndUndefined),
           switchMap((selected) =>
-            this.httpClient.get<GetPrinterResponse[]>(this.url, {params: new HttpParams().set('eventId', selected.id)})
+            this.httpClient.get<GetPrinterResponse[]>(this.url, {params: new HttpParams().set('eventId', selected.id)}),
           ),
           map((it) => {
             it = it.map((ps) => {
@@ -43,9 +46,9 @@ export class PrintersService
               return ps;
             });
             return it.sort((a, b) => a.name.trim().toLowerCase().localeCompare(b.name.trim().toLowerCase()));
-          })
-        )
-      )
+          }),
+        ),
+      ),
     );
   }
 
@@ -58,7 +61,7 @@ export class PrintersService
       map((it) => {
         it.fontScale = it.fontScale / 10;
         return it;
-      })
+      }),
     );
   }
 

@@ -17,9 +17,12 @@ export class SumProductsPerWaiterComponent {
     switchMap((event) =>
       this.httpClient.get<StatisticsSumResponse[]>('/config/statistics/sumProductsPerWaiter', {
         params: new HttpParams().set('eventId', event.id),
-      })
-    )
+      }),
+    ),
   );
 
-  constructor(private httpClient: HttpClient, private eventsService: EventsService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private eventsService: EventsService,
+  ) {}
 }

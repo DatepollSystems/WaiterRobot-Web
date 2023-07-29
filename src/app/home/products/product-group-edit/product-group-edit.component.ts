@@ -106,10 +106,14 @@ export class ProductGroupEditComponent extends AbstractModelEditComponent<
     map(([printers, selectedEvent]) => ({
       printers,
       selectedEvent,
-    }))
+    })),
   );
 
-  constructor(groupsService: ProductGroupsService, private printersService: PrintersService, private eventsService: EventsService) {
+  constructor(
+    groupsService: ProductGroupsService,
+    private printersService: PrintersService,
+    private eventsService: EventsService,
+  ) {
     super(groupsService);
   }
 }

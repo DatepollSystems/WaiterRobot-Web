@@ -86,13 +86,16 @@ export class StatisticsOverviewComponent {
   countDto$ = this.eventsService.getSelected$.pipe(
     filter(notNullAndUndefined),
     switchMap((event) =>
-      this.httpClient.get<StatisticsCountResponse>('/config/statistics/counts', {params: new HttpParams().set('eventId', event.id)})
+      this.httpClient.get<StatisticsCountResponse>('/config/statistics/counts', {params: new HttpParams().set('eventId', event.id)}),
     ),
     map((response) => {
       response.turnover = (response.turnover ?? 0) / 100;
       return response;
-    })
+    }),
   );
 
-  constructor(private httpClient: HttpClient, private eventsService: EventsService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private eventsService: EventsService,
+  ) {}
 }

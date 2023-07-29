@@ -101,7 +101,11 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
 
   isFullScreen$ = this.fullScreenService.isFullScreen$;
 
-  constructor(public router: Router, private modalService: NgbModal, private fullScreenService: FullScreenService) {
+  constructor(
+    public router: Router,
+    private modalService: NgbModal,
+    private fullScreenService: FullScreenService,
+  ) {
     const savedPrefStr = s_fromStorage(this._preferencesStorageKey);
     if (savedPrefStr) {
       this._savedItems = JSON.parse(savedPrefStr) as NavItem[];

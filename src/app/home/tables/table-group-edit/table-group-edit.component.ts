@@ -94,7 +94,10 @@ export class TableGroupEditComponent extends AbstractModelEditComponent<
 
   selectedEvent$ = this.eventsService.getSelected$;
 
-  constructor(tableGroupsService: TableGroupsService, private eventsService: EventsService) {
+  constructor(
+    tableGroupsService: TableGroupsService,
+    private eventsService: EventsService,
+  ) {
     super(tableGroupsService);
   }
 }

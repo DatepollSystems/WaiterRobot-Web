@@ -60,7 +60,7 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
         this.lumber.log('formValidChange', 'is valid', valid);
         this.lumber.log('formValidChange', 'form value', this.form.value);
         this.formValid.emit(valid);
-      })
+      }),
     );
   }
 
@@ -105,7 +105,7 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
   patchValue<
     TControl extends {
       [K in keyof TControl]: AbstractControl<any>;
-    } = any
+    } = any,
   >(value: ɵFormGroupValue<TControl>): void {
     this.form.patchValue(value);
   }

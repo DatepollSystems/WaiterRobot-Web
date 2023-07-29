@@ -11,15 +11,18 @@ import {OrganisationsService} from '../../organisations/_services/organisations.
 export class DuplicateWaitersService implements HasGetAll<DuplicateWaiterResponse> {
   url = '/config/waiter/duplicates';
 
-  constructor(private httpClient: HttpClient, private organisationService: OrganisationsService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private organisationService: OrganisationsService,
+  ) {}
 
   trigger = new BehaviorSubject(true);
 
   getAll$(): Observable<DuplicateWaiterResponse[]> {
     return combineLatest([this.trigger, this.organisationService.getSelected$.pipe(filter(notNullAndUndefined))]).pipe(
       switchMap(([, organisation]) =>
-        this.httpClient.get<DuplicateWaiterResponse[]>(this.url, {params: new HttpParams().set('organisationId', organisation.id)})
-      )
+        this.httpClient.get<DuplicateWaiterResponse[]>(this.url, {params: new HttpParams().set('organisationId', organisation.id)}),
+      ),
     );
   }
 

@@ -18,11 +18,11 @@ export class MyUserService {
     return merge(
       of(o_fromStorage<GetMyselfResponse>('myuser_2')).pipe(
         switchMap((it) =>
-          it ? of(it) : this.httpClient.get<GetMyselfResponse>('/user/myself').pipe(tap((iit) => st_set('myuser_2', iit)))
+          it ? of(it) : this.httpClient.get<GetMyselfResponse>('/user/myself').pipe(tap((iit) => st_set('myuser_2', iit))),
         ),
-        map((it) => new MyUserModel(it))
+        map((it) => new MyUserModel(it)),
       ),
-      this.manualUserChange.asObservable()
+      this.manualUserChange.asObservable(),
     ).pipe(share(), shareReplay(1));
   }
 }

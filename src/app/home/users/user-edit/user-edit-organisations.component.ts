@@ -35,14 +35,14 @@ export class UserEditOrganisationsComponent {
   organisations$ = inject(OrganisationsService).getAll$();
   selectedOrganisations$ = getActivatedRouteIdParam().pipe(
     switchMap((id) => this.usersOrganisationsService.getByUserId$(id)),
-    tap((it) => (this.selectedOrganisations = it.slice()))
+    tap((it) => (this.selectedOrganisations = it.slice())),
   );
 
   vm$ = combineLatest([this.organisations$, this.selectedOrganisations$]).pipe(
     map(([organisations, selectedOrganisations]) => ({
       organisations,
       selectedOrganisations,
-    }))
+    })),
   );
 
   selectedOrganisations: IdAndNameResponse[] = [];

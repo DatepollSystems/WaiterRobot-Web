@@ -110,7 +110,10 @@ export class AppDownloadBtnListComponent {
 
   @Input() showQRCodeButton = true;
 
-  constructor(private modal: NgbModal, private qrCodeService: QrCodeService) {}
+  constructor(
+    private modal: NgbModal,
+    private qrCodeService: QrCodeService,
+  ) {}
 
   showQRCode(appLink: appDownload): void {
     this.qrCodeService.openQRCodePage({data: appLink.link, text: 'ABOUT_APP_QR_CODE_MODAL_TITLE', info: ''});

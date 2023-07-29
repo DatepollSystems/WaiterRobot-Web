@@ -96,7 +96,7 @@ export class ChipInput {
           }
           return new RegExp(term, 'mi').test(this.formatter(event));
         });
-      })
+      }),
     );
 
   validate = (input: string): boolean => (this.validator != undefined ? this.validator(input) : true) && input.length > 0;

@@ -24,10 +24,13 @@ export class SumProductsComponent {
   sumDtos$ = this.eventsService.getSelected$.pipe(
     filter(notNullAndUndefined),
     switchMap((event) =>
-      this.httpClient.get<StatisticsSumResponse[]>('/config/statistics/sumProducts', {params: new HttpParams().set('eventId', event.id)})
+      this.httpClient.get<StatisticsSumResponse[]>('/config/statistics/sumProducts', {params: new HttpParams().set('eventId', event.id)}),
     ),
-    map((it) => (this.standalone ? it : it.slice(0, 20)))
+    map((it) => (this.standalone ? it : it.slice(0, 20))),
   );
 
-  constructor(private httpClient: HttpClient, private eventsService: EventsService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private eventsService: EventsService,
+  ) {}
 }

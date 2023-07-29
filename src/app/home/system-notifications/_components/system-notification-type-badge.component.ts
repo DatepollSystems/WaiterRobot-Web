@@ -7,15 +7,21 @@ import {GetSystemNotificationResponse} from '../../../_shared/waiterrobot-backen
 @Component({
   template: `
     <div
-      [ngClass]="{'text-bg-light': type === 'NEUTRAL', 'text-bg-success': type === 'SUCCESS', 'text-bg-danger': type === 'DANGER', 'text-bg-warning': type === 'WARNING', 'text-bg-info': type === 'INFO'}"
-      class='badge d-flex align-items-center gap-2 not-selectable'
-      style='width: min-content'
+      [ngClass]="{
+        'text-bg-light': type === 'NEUTRAL',
+        'text-bg-success': type === 'SUCCESS',
+        'text-bg-danger': type === 'DANGER',
+        'text-bg-warning': type === 'WARNING',
+        'text-bg-info': type === 'INFO'
+      }"
+      class="badge d-flex align-items-center gap-2 not-selectable"
+      style="width: min-content"
     >
-      <ng-container [ngSwitch]='type'>
-        <i-bs *ngSwitchCase='"INFO"' name='info-circle-fill' />
-        <i-bs *ngSwitchCase='"SUCCESS"' name='check-circle-fill' />
-        <i-bs *ngSwitchCase='"DANGER"' name='exclamation-triangle-fill' />
-        <i-bs *ngSwitchCase='"WARNING"' name='exclamation-triangle-fill' />
+      <ng-container [ngSwitch]="type">
+        <i-bs *ngSwitchCase="'INFO'" name="info-circle-fill" />
+        <i-bs *ngSwitchCase="'SUCCESS'" name="check-circle-fill" />
+        <i-bs *ngSwitchCase="'DANGER'" name="exclamation-triangle-fill" />
+        <i-bs *ngSwitchCase="'WARNING'" name="exclamation-triangle-fill" />
       </ng-container>
       <span>{{ type | s_lowerCaseAllExceptFirstLetter }}</span>
     </div>

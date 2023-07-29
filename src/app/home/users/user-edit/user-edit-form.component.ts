@@ -163,8 +163,8 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Create
 
     this.unsubscribe(
       this.form.controls.updatePassword.valueChanges.subscribe((value) =>
-        value ? this.form.controls.password.enable() : this.form.controls.password.disable()
-      )
+        value ? this.form.controls.password.enable() : this.form.controls.password.disable(),
+      ),
     );
   }
 

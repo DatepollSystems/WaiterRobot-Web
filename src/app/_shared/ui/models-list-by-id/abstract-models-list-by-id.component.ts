@@ -10,7 +10,7 @@ import {AbstractModelsListWithDeleteComponent} from '../models-list-with-delete/
 })
 export abstract class AbstractModelsListByIdComponent<
     EntitiesTypes extends IHasID<EntitiesTypes['id']>,
-    EntityType extends IHasID<EntityType['id']>
+    EntityType extends IHasID<EntityType['id']>,
   >
   extends AbstractModelsListWithDeleteComponent<EntitiesTypes>
   implements AfterViewInit
@@ -29,7 +29,7 @@ export abstract class AbstractModelsListByIdComponent<
     }),
     map((id) => n_from(id)),
     distinctUntilChanged(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   entity$ = this.idParam$.pipe(switchMap((id) => this.byIdEntityService.getSingle$(id)));
@@ -37,7 +37,7 @@ export abstract class AbstractModelsListByIdComponent<
   protected constructor(
     @Inject(null)
     protected entitiesService: HasGetAll<EntitiesTypes> & HasGetByParent<EntitiesTypes, EntityType> & HasDelete<EntitiesTypes>,
-    @Inject(null) protected byIdEntityService: HasGetSingle<EntityType>
+    @Inject(null) protected byIdEntityService: HasGetSingle<EntityType>,
   ) {
     super(entitiesService);
   }

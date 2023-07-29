@@ -21,7 +21,10 @@ export class AuthService {
   private jwtToken?: string;
   private jwtTokenExpires: Date;
 
-  constructor(private httpClient: HttpClient, @Inject(WINDOW) private window: Window) {
+  constructor(
+    private httpClient: HttpClient,
+    @Inject(WINDOW) private window: Window,
+  ) {
     this.jwtTokenExpires = new Date();
     this.jwtTokenExpires.setMinutes(this.jwtTokenExpires.getMinutes() + 50);
   }
@@ -86,7 +89,7 @@ export class AuthService {
       tap((response) => {
         this.setJWTToken(response.accessToken);
         this.setSessionToken(response.refreshToken);
-      })
+      }),
     );
   }
 

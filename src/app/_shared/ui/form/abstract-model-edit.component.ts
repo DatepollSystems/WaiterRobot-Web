@@ -18,7 +18,7 @@ export abstract class AbstractModelEditComponent<
   CreateDTOType,
   UpdateDTOType extends IHasID<UpdateDTOType['id']>,
   EntityType extends IHasID<EntityType['id']>,
-  Tab
+  Tab,
 > {
   protected location = inject(Location);
   protected router = inject(Router);
@@ -33,7 +33,7 @@ export abstract class AbstractModelEditComponent<
 
   entity$: Observable<EntityType | 'CREATE'> = this.route.paramMap.pipe(
     map((params) => params.get('id')),
-    switchMap((id) => (n_isNumeric(id) ? this.entityService.getSingle$(n_from(id)) : of('CREATE' as const)))
+    switchMap((id) => (n_isNumeric(id) ? this.entityService.getSingle$(n_from(id)) : of('CREATE' as const))),
   );
 
   protected defaultTab!: Tab;
@@ -41,13 +41,13 @@ export abstract class AbstractModelEditComponent<
   public activeTab$ = combineLatest([
     this.route.queryParamMap.pipe(
       tap((it) => this.lumber.info('activeTab', `Params`, it)),
-      map((params) => (s_is(params.get('tab')) ? (params.get('tab') as Tab) : undefined))
+      map((params) => (s_is(params.get('tab')) ? (params.get('tab') as Tab) : undefined)),
     ),
     this.entity$,
   ]).pipe(
     map(([tab, entity]) => (tab === undefined || (entity === 'CREATE' && this.onlyEditingTabs.includes(tab)) ? this.defaultTab : tab)),
     share(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   protected continuousUsePropertyNames: string[] = [];
@@ -60,7 +60,7 @@ export abstract class AbstractModelEditComponent<
     protected entityService: HasGetSingle<EntityType> &
       HasCreateWithIdResponse<CreateDTOType> &
       HasUpdateWithIdResponse<UpdateDTOType> &
-      HasDelete<EntityType>
+      HasDelete<EntityType>,
   ) {}
 
   setValid(valid: 'VALID' | 'INVALID'): void {
@@ -102,7 +102,7 @@ export abstract class AbstractModelEditComponent<
               }
             }
           }
-        })
+        }),
       )
       .subscribe(() => {
         this.notificationService.tsuccess('SAVED');

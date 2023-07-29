@@ -20,6 +20,6 @@ export function errorInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn)
       }
       notificationService.terror('REQUEST_ERROR');
       return throwError(() => error);
-    })
+    }),
   );
 }

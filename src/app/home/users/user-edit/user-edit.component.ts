@@ -19,22 +19,22 @@ import {UserEditOrganisationsComponent} from './user-edit-organisations.componen
 
 @Component({
   template: `
-    <div *ngIf='entity$ | async as entity; else loading'>
-      <h1 *isEditing='entity'>{{ 'EDIT_2' | tr }} "{{ entity.firstname }} {{ entity.surname }}"</h1>
-      <h1 *isCreating='entity'>{{ 'ADD_2' | tr }}</h1>
+    <div *ngIf="entity$ | async as entity; else loading">
+      <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} "{{ entity.firstname }} {{ entity.surname }}"</h1>
+      <h1 *isCreating="entity">{{ 'ADD_2' | tr }}</h1>
 
       <btn-toolbar>
         <back-button />
         <app-model-edit-save-btn
           *ngIf="(activeTab$ | async) === 'DATA'"
-          (submit)='form?.submit()'
-          [valid]='valid$ | async'
+          (submit)="form?.submit()"
+          [valid]="valid$ | async"
           [editing]="entity !== 'CREATE'"
         />
 
-        <div *isEditing='entity'>
-          <button class='btn btn-sm btn-outline-danger' (click)='onDelete(entity.id)'>
-            <i-bs name='trash' />
+        <div *isEditing="entity">
+          <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
+            <i-bs name="trash" />
             {{ 'DELETE' | tr }}
           </button>
         </div>
@@ -42,33 +42,33 @@ import {UserEditOrganisationsComponent} from './user-edit-organisations.componen
 
       <ul
         ngbNav
-        #nav='ngbNav'
-        [activeId]='activeTab$ | async'
-        [destroyOnHide]='false'
-        class='nav-tabs bg-dark'
-        (navChange)='navigateToTab($event.nextId)'
+        #nav="ngbNav"
+        [activeId]="activeTab$ | async"
+        [destroyOnHide]="false"
+        class="nav-tabs bg-dark"
+        (navChange)="navigateToTab($event.nextId)"
       >
         <li [ngbNavItem]="'DATA'">
           <a ngbNavLink>{{ 'DATA' | tr }}</a>
           <ng-template ngbNavContent>
             <app-user-edit-form
               #form
-              (formValid)='setValid($event)'
+              (formValid)="setValid($event)"
               (submitUpdate)="submit('UPDATE', $event)"
               (submitCreate)="submit('CREATE', $event)"
-              [user]='entity'
+              [user]="entity"
             />
           </ng-template>
         </li>
-        <li [ngbNavItem]="'ORGS'" *isEditing='entity'>
+        <li [ngbNavItem]="'ORGS'" *isEditing="entity">
           <a ngbNavLink>{{ 'NAV_ORGANISATIONS' | tr }}</a>
           <ng-template ngbNavContent>
-            <app-user-edit-organisations [user]='entity' />
+            <app-user-edit-organisations [user]="entity" />
           </ng-template>
         </li>
       </ul>
 
-      <div [ngbNavOutlet]='nav' class='mt-2 bg-dark'></div>
+      <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
     </div>
 
     <ng-template #loading>

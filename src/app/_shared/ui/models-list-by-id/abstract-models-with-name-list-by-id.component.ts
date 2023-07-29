@@ -7,7 +7,7 @@ import {AbstractModelsListByIdComponent} from './abstract-models-list-by-id.comp
 })
 export abstract class AbstractModelsWithNameListByIdComponent<
   EntitiesTypes extends HasIDAndName<EntitiesTypes['id']>,
-  EntityType extends IHasID<EntityType['id']>
+  EntityType extends IHasID<EntityType['id']>,
 > extends AbstractModelsListByIdComponent<EntitiesTypes, EntityType> {
   override nameMap = (it: EntitiesTypes): string => it.name;
 }
