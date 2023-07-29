@@ -25,14 +25,16 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
       <h1>{{ entity?.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</h1>
 
       <btn-toolbar>
-        <a routerLink="../../create" [queryParams]="{event: entity?.id}" class="btn btn-sm btn-outline-success">
+        <a routerLink="../../create" [queryParams]="{event: entity?.id}" class="btn btn-sm btn-success">
           <i-bs name="plus-circle" />
           {{ 'ADD_2' | tr }}</a
         >
-        <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-          <i-bs name="trash" />
-          {{ 'DELETE' | tr }}
-        </button>
+        <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_WAITERS_SELECT' | tr) : undefined }}">
+          <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+            <i-bs name="trash" />
+            {{ 'DELETE' | tr }}
+          </button>
+        </div>
 
         <app-btn-waiter-create-qrcode *ngIf="entity" [token]="entity.waiterCreateToken" />
       </btn-toolbar>
@@ -168,7 +170,7 @@ export class EventByIdWaitersComponent extends AbstractModelsWithNameListByIdCom
     waitersService: WaitersService,
     eventsService: EventsService,
     private mobileLink: MobileLinkService,
-    private qrCodeService: QrCodeService
+    private qrCodeService: QrCodeService,
   ) {
     super(waitersService, eventsService);
 

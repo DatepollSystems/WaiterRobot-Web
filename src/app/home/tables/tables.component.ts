@@ -11,7 +11,7 @@ import {TableGroupsService} from './_services/table-groups.service';
 @Component({
   template: `
     <entities-layout-component>
-      <div class="d-flex flex-column gap-2" nav>
+      <div class="d-flex flex-column gap-3" nav>
         <div class="list-group">
           <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
             <i-bs name="columns-gap" />
@@ -23,7 +23,12 @@ import {TableGroupsService} from './_services/table-groups.service';
             {{ 'HOME_TABLE_GROUPS' | tr }}</a
           >
         </div>
-        <app-list-nav-items path="/home/tables/groups/tables/" [entities]="tableGroups$ | async" selectTr="HOME_TABLES_GROUPS_SELECT" />
+        <app-list-nav-items
+          path="/home/tables/groups/tables/"
+          [entities]="tableGroups$ | async"
+          titleTr="HOME_TABLE_GROUPS"
+          selectTr="HOME_TABLES_GROUPS_SELECT"
+        />
       </div>
     </entities-layout-component>
   `,

@@ -20,20 +20,20 @@ import {PrinterBatchUpdateDto, PrinterBatchUpdateModalComponent} from './printer
 
     <btn-toolbar>
       <div>
-        <a routerLink="../create" class="btn btn-sm btn-outline-success">
+        <a routerLink="../create" class="btn btn-sm btn-success">
           <i-bs name="plus-circle" />
           {{ 'ADD_2' | tr }}</a
         >
       </div>
-      <div>
-        <button class="btn btn-sm btn-outline-secondary" [class.disabled]="!selection.hasValue()" (click)="onBatchUpdatePrinters()">
+      <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PRINTER_SELECT' | tr) : undefined }}">
+        <button class="btn btn-sm btn-secondary" [class.disabled]="!selection.hasValue()" (click)="onBatchUpdatePrinters()">
           <i-bs name="pencil-square" />
           {{ 'HOME_PRINTER_BATCH_UPDATE' | tr }}
         </button>
       </div>
 
-      <div>
-        <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+      <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PRINTER_SELECT' | tr) : undefined }}">
+        <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
           <i-bs name="trash" />
           {{ 'DELETE' | tr }}
         </button>
@@ -185,7 +185,7 @@ export class AllPrintersComponent extends AbstractModelsWithNameListWithDeleteCo
                 font: result.font,
                 bonWidth: result.bonWidth,
                 bonPadding: result.bonPadding,
-              })
+              }),
             );
           }
           forkJoin(observables).subscribe(() => {

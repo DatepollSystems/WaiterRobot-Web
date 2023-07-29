@@ -36,7 +36,7 @@ import {OrdersService} from '../../orders/orders.service';
       <div class="table-responsive">
         <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="createdAt" ngbSortDirection="asc">
           <ng-container ngbColumnDef="orderNumber">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_NUMBER' | tr }}</th>
             <td *ngbCellDef="let order" ngb-cell>{{ order.orderNumber }}</td>
           </ng-container>
 
@@ -48,7 +48,7 @@ import {OrdersService} from '../../orders/orders.service';
           </ng-container>
 
           <ng-container ngbColumnDef="table">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_TABLE' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_TABLE' | tr }}</th>
             <td *ngbCellDef="let order" ngb-cell>
               <a (click)="$event.stopPropagation()" routerLink="/home/tables/groups/tables/{{ order.table.group.id }}">{{
                 order.table.group.name
@@ -118,11 +118,11 @@ export class WaiterEditOrderProductsComponent implements AfterViewInit {
       this.searchParam$.valueChanges.pipe(
         startWith(''),
         map((it) => it ?? ''),
-        debounceTime(250)
+        debounceTime(250),
       ),
       this.idParam$.pipe(
         filter(notNullAndUndefined),
-        switchMap((id) => this.ordersService.getByWaiterId$(id))
+        switchMap((id) => this.ordersService.getByWaiterId$(id)),
       ),
     ]).pipe(
       map(([searchParam, orders]) => {
@@ -140,7 +140,7 @@ export class WaiterEditOrderProductsComponent implements AfterViewInit {
         dataSource.filter = searchParam;
         dataSource.sort = this.sort;
         return dataSource;
-      })
+      }),
     );
   }
 }

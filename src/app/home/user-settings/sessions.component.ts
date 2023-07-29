@@ -18,7 +18,7 @@ import {UserSessionsService} from './_services/user-sessions.service';
 
     <btn-toolbar>
       <div>
-        <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+        <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
           <i-bs name="trash" />
           {{ 'DELETE' | tr }}
         </button>

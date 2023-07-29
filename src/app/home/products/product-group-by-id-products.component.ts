@@ -25,20 +25,20 @@ import {ProductsService} from './_services/products.service';
 
       <btn-toolbar>
         <div>
-          <a routerLink="../../../create" [queryParams]="{group: entity?.id}" class="btn btn-sm btn-outline-success">
+          <a routerLink="../../../create" [queryParams]="{group: entity?.id}" class="btn btn-sm btn-success">
             <i-bs name="plus-circle" />
             {{ 'HOME_PROD' | tr }} {{ 'ADD_3' | tr | lowercase }}</a
           >
         </div>
         <div>
-          <a routerLink="../../{{ entity?.id }}" class="btn btn-sm btn-outline-primary">
+          <a routerLink="../../{{ entity?.id }}" class="btn btn-sm btn-primary">
             <i-bs name="pencil-square" />
             {{ 'HOME_PROD_GROUP' | tr }} {{ 'EDIT' | tr | lowercase }}</a
           >
         </div>
 
-        <div>
-          <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+        <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PROD_SELECT' | tr) : undefined }}">
+          <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
             <i-bs name="trash" />
             {{ 'DELETE' | tr }}
           </button>

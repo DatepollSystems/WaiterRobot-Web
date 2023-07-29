@@ -20,21 +20,21 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
 
     <btn-toolbar>
       <div>
-        <a routerLink="../create" class="btn btn-sm btn-outline-success">
+        <a routerLink="../create" class="btn btn-sm btn-success">
           <i-bs name="plus-circle" />
           {{ 'ADD_2' | tr }}</a
         >
       </div>
 
-      <div>
-        <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+      <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_TABLE_SELECT' | tr) : undefined }}">
+        <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
           <i-bs name="trash" />
           {{ 'DELETE' | tr }}
         </button>
       </div>
 
-      <div>
-        <button class="btn btn-sm btn-outline-secondary" [class.disabled]="!selection.hasValue()" (click)="printSelectedTables()">
+      <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_TABLE_SELECT' | tr) : undefined }}">
+        <button class="btn btn-sm btn-secondary" [class.disabled]="!selection.hasValue()" (click)="printSelectedTables()">
           <i-bs name="table" />
           {{ 'HOME_TABLE_PRINT' | tr }}
         </button>
@@ -170,7 +170,7 @@ export class AllTablesComponent extends AbstractModelsWithNumberListWithDeleteCo
       size: 'lg',
     });
     modalRef.componentInstance.tables = this.selection.selected.sort(
-      (a, b) => a.groupName.localeCompare(b.groupName) || a.number - b.number
+      (a, b) => a.groupName.localeCompare(b.groupName) || a.number - b.number,
     );
   }
 }

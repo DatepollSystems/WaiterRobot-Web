@@ -26,21 +26,21 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
 
       <btn-toolbar>
         <div>
-          <a routerLink="../create" class="btn btn-sm btn-outline-success">
+          <a routerLink="../create" class="btn btn-sm btn-success">
             <i-bs name="plus-circle" />
             {{ 'ADD_2' | tr }}</a
           >
         </div>
 
-        <div>
-          <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+        <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_WAITERS_SELECT' | tr) : undefined }}">
+          <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
             <i-bs name="trash" />
             {{ 'DELETE' | tr }}
           </button>
         </div>
 
         <div>
-          <a routerLink="duplicates" class="btn btn-sm btn-outline-secondary">
+          <a routerLink="duplicates" class="btn btn-sm btn-secondary">
             <i-bs name="person-bounding-box" />
             {{ 'HOME_WAITERS_DUPLICATES' | tr }}</a
           >
@@ -175,7 +175,11 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
 export class OrganisationWaitersComponent extends AbstractModelsWithNameListWithDeleteComponent<GetWaiterResponse> {
   selectedOrganisation$ = inject(OrganisationsService).getSelected$;
 
-  constructor(entitiesService: OrganisationWaitersService, private qrCodeService: QrCodeService, private mobileLink: MobileLinkService) {
+  constructor(
+    entitiesService: OrganisationWaitersService,
+    private qrCodeService: QrCodeService,
+    private mobileLink: MobileLinkService,
+  ) {
     super(entitiesService);
 
     this.columnsToDisplay = ['name', 'activated', 'events', 'actions'];

@@ -36,7 +36,7 @@ import {OrdersService} from '../../orders/orders.service';
       <div class="table-responsive">
         <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="createdAt" ngbSortDirection="asc">
           <ng-container ngbColumnDef="orderNumber">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_NUMBER' | tr }}</th>
             <td *ngbCellDef="let order" ngb-cell>{{ order.orderNumber }}</td>
           </ng-container>
 
@@ -115,11 +115,11 @@ export class TableEditOrderProductsComponent implements AfterViewInit {
       this.searchParam$.valueChanges.pipe(
         startWith(''),
         map((it) => it ?? ''),
-        debounceTime(250)
+        debounceTime(250),
       ),
       this.idParam$.pipe(
         filter(notNullAndUndefined),
-        switchMap((id) => this.ordersService.getByTableId$(id))
+        switchMap((id) => this.ordersService.getByTableId$(id)),
       ),
     ]).pipe(
       map(([searchParam, orders]) => {
@@ -137,7 +137,7 @@ export class TableEditOrderProductsComponent implements AfterViewInit {
         dataSource.filter = searchParam;
         dataSource.sort = this.sort;
         return dataSource;
-      })
+      }),
     );
   }
 }

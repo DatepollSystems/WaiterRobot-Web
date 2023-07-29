@@ -66,7 +66,7 @@ import {TableEditOrderProductsComponent} from './table-edit-order-products.compo
               [tableGroups]="vm.tableGroups"
               [selectedEventId]="vm.selectedEvent?.id"
               [selectedTableGroupId]="vm.selectedTableGroupId"
-              [product]="entity"
+              [table]="entity"
             />
 
             <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
@@ -124,7 +124,7 @@ export class TableEditComponent extends AbstractModelEditComponent<CreateTableDt
       map((params) => params.group),
       filter(n_isNumeric),
       map((id) => n_from(id)),
-      startWith(undefined)
+      startWith(undefined),
     ),
     this.tableGroupsService.getAll$(),
     this.eventsService.getSelected$,
@@ -133,10 +133,14 @@ export class TableEditComponent extends AbstractModelEditComponent<CreateTableDt
       selectedTableGroupId,
       tableGroups,
       selectedEvent,
-    }))
+    })),
   );
 
-  constructor(tablesService: TablesService, private eventsService: EventsService, private tableGroupsService: TableGroupsService) {
+  constructor(
+    tablesService: TablesService,
+    private eventsService: EventsService,
+    private tableGroupsService: TableGroupsService,
+  ) {
     super(tablesService);
   }
 }

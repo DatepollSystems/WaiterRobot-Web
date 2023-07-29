@@ -20,7 +20,7 @@ import {UsersService} from './services/users.service';
 
     <btn-toolbar>
       <div>
-        <a routerLink="../create" class="btn btn-sm btn-outline-success">
+        <a routerLink="../create" class="btn btn-sm btn-success">
           <i-bs name="plus-circle" />
           {{ 'ADD_2' | tr }}</a
         >

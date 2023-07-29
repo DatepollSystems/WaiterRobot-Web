@@ -18,6 +18,10 @@ export class EnvironmentHelper {
   }
 
   public static getLogoUrl(): string {
-    return environment.logoUrl;
+    return environment.logoUrl ?? '/assets/logo.svg';
+  }
+
+  public static getTitlePrefix(): string {
+    return environment.titlePrefix ?? 'my.kellner.team';
   }
 }

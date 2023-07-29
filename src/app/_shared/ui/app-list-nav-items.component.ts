@@ -14,17 +14,20 @@ import {AppIconsModule} from './icons.module';
   template: `
     <ng-container *ngIf="selected$ | async" />
 
-    <div class="list-group d-none d-lg-block">
-      <ng-container *ngIf="entities; else loading">
-        <a
-          *ngFor="let entity of entities; trackById"
-          class="list-group-item list-group-item-action "
-          [routerLink]="path + entity.id"
-          routerLinkActive="active"
-        >
-          {{ entity.name }}
-        </a>
-      </ng-container>
+    <div class="d-none d-lg-block">
+      <h6 class="fw-bold" *ngIf="titleTr">{{ titleTr | tr }}</h6>
+      <div class="list-group">
+        <ng-container *ngIf="entities; else loading">
+          <a
+            *ngFor="let entity of entities; trackById"
+            class="list-group-item list-group-item-action "
+            [routerLink]="path + entity.id"
+            routerLinkActive="active"
+          >
+            {{ entity.name }}
+          </a>
+        </ng-container>
+      </div>
     </div>
 
     <div class="list-group d-lg-none">
@@ -63,6 +66,8 @@ export class AppListNavItemsComponent implements AfterViewInit {
 
   @Input() selectTr = 'SELECT';
 
+  @Input() titleTr?: string;
+
   selectFormControl = new FormControl('default');
   selected$?: Observable<string>;
 
@@ -73,11 +78,11 @@ export class AppListNavItemsComponent implements AfterViewInit {
       startWith(
         this.router.url.substring(0, this.router.url.lastIndexOf('/') + 1).includes(this.path) && !this.router.url.includes('all')
           ? this.router.url
-          : 'default'
+          : 'default',
       ),
       tap((e) => {
         this.selectFormControl.setValue(e);
-      })
+      }),
     );
   }
 

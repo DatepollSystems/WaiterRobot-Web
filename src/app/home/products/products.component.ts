@@ -12,7 +12,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
 @Component({
   template: `
     <entities-layout-component>
-      <div class="d-flex flex-column gap-2" nav>
+      <div class="d-flex flex-column gap-3" nav>
         <div class="list-group">
           <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
             <i-bs name="columns-gap" />
@@ -25,7 +25,12 @@ import {ProductGroupsService} from './_services/product-groups.service';
           >
         </div>
 
-        <app-list-nav-items path="/home/products/groups/products/" [entities]="productGroups$ | async" selectTr="HOME_PROD_GROUP_SELECT" />
+        <app-list-nav-items
+          path="/home/products/groups/products/"
+          [entities]="productGroups$ | async"
+          titleTr="HOME_PROD_GROUP"
+          selectTr="HOME_PROD_GROUP_SELECT"
+        />
       </div>
     </entities-layout-component>
   `,

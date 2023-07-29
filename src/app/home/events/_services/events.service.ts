@@ -1,6 +1,6 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {notNullAndUndefined, o_fromStorage, s_from, st_set} from 'dfts-helper';
+import {notNullAndUndefined, o_fromStorage, s_from, st_remove, st_set} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSelected, HasGetSingle} from 'dfx-helper';
 import {BehaviorSubject, combineLatest, distinctUntilChanged, filter, map, Observable, shareReplay, switchMap, tap} from 'rxjs';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
@@ -29,7 +29,10 @@ export class EventsService
   private url = '/config/event';
   private selectedStorageKey = 'selected_event';
 
-  constructor(private httpClient: HttpClient, private organisationsService: OrganisationsService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private organisationsService: OrganisationsService,
+  ) {}
 
   create$(dto: CreateEventOrLocationDto): Observable<IdResponse> {
     return this.httpClient.post<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
@@ -55,10 +58,11 @@ export class EventsService
       if (selectedOrganisation !== undefined && selectedOrganisation.id === selected?.organisationId) {
         return selected;
       }
+      st_remove(this.selectedStorageKey);
       return undefined;
     }),
     distinctUntilChanged(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   triggerGet$ = new BehaviorSubject(true);
@@ -68,7 +72,7 @@ export class EventsService
       switchMap(([, organisation]) =>
         this.httpClient.get<GetEventOrLocationResponse[]>(this.url, {
           params: new HttpParams().set('organisationId', organisation.id),
-        })
+        }),
       ),
       map((it) => it.sort((a, b) => a.name.trim().toLowerCase().localeCompare(b.name.trim().toLowerCase()))),
       tap((entities) => {
@@ -82,7 +86,7 @@ export class EventsService
           }
         }
       }),
-      shareReplay(1)
+      shareReplay(1),
     );
   }
 

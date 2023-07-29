@@ -20,92 +20,85 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
 
     <btn-toolbar>
       <div>
-        <a routerLink='../create' class='btn btn-sm btn-outline-success'>
-          <i-bs name='plus-circle' />
+        <a routerLink="../create" class="btn btn-sm btn-success">
+          <i-bs name="plus-circle" />
           {{ 'ADD_2' | tr }}</a
         >
       </div>
     </btn-toolbar>
 
     <form>
-      <div class='input-group'>
-        <input class='form-control ml-2 bg-dark text-white' type='text' [formControl]='filter' placeholder="{{ 'SEARCH' | tr }}" />
+      <div class="input-group">
+        <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
         <button
-          class='btn btn-outline-secondary'
-          type='button'
+          class="btn btn-outline-secondary"
+          type="button"
           ngbTooltip="{{ 'CLEAR' | tr }}"
-          placement='bottom'
-          (click)='filter.reset()'
-          *ngIf='(filter?.value?.length ?? 0) > 0'
+          placement="bottom"
+          (click)="filter.reset()"
+          *ngIf="(filter?.value?.length ?? 0) > 0"
         >
-          <i-bs name='x-circle-fill' />
+          <i-bs name="x-circle-fill" />
         </button>
       </div>
     </form>
 
-    <div class='table-responsive'>
-      <table ngb-table [hover]='true' [dataSource]='(dataSource$ | async) ?? []' ngb-sort ngbSortActive='id' ngbSortDirection='asc'>
-        <ng-container ngbColumnDef='title'>
+    <div class="table-responsive">
+      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="id" ngbSortDirection="asc">
+        <ng-container ngbColumnDef="title">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'TITLE' | tr }}</th>
-          <td *ngbCellDef='let it' ngb-cell>{{ it.title }}</td>
+          <td *ngbCellDef="let it" ngb-cell>{{ it.title }}</td>
         </ng-container>
 
-        <ng-container ngbColumnDef='type'>
+        <ng-container ngbColumnDef="type">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'TYPE' | tr }}</th>
-          <td *ngbCellDef='let it' ngb-cell>
-            <app-system-notification-type-badge [type]='it.type' />
+          <td *ngbCellDef="let it" ngb-cell>
+            <app-system-notification-type-badge [type]="it.type" />
           </td>
         </ng-container>
 
-        <ng-container ngbColumnDef='starts'>
+        <ng-container ngbColumnDef="starts">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STARTS' | tr }}</th>
-          <td *ngbCellDef='let it' ngb-cell>{{ it.starts | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
+          <td *ngbCellDef="let it" ngb-cell>{{ it.starts | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
         </ng-container>
 
-        <ng-container ngbColumnDef='ends'>
+        <ng-container ngbColumnDef="ends">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ENDS' | tr }}</th>
-          <td *ngbCellDef='let it' ngb-cell>{{ it.ends | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
+          <td *ngbCellDef="let it" ngb-cell>{{ it.ends | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
         </ng-container>
 
-        <ng-container ngbColumnDef='active'>
+        <ng-container ngbColumnDef="active">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ACTIVE' | tr }}</th>
-          <td *ngbCellDef='let it' ngb-cell>
-            <div class='form-check'>
-              <input
-                class='form-check-input'
-                onclick='return false;'
-                type='checkbox'
-                [checked]='it.active'
-                name='active'
-                value=''
-              />
+          <td *ngbCellDef="let it" ngb-cell>
+            <div class="form-check">
+              <input class="form-check-input" onclick="return false;" type="checkbox" [checked]="it.active" name="active" value="" />
             </div>
           </td>
         </ng-container>
 
-        <ng-container ngbColumnDef='actions'>
+        <ng-container ngbColumnDef="actions">
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
-          <td *ngbCellDef='let it' ngb-cell>
-            <a class='btn btn-sm m-1 btn-outline-success text-white' routerLink='../{{ it.id }}' ngbTooltip="{{ 'EDIT' | tr }}">
-              <i-bs name='pencil-square' />
+          <td *ngbCellDef="let it" ngb-cell>
+            <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ it.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+              <i-bs name="pencil-square" />
             </a>
             <button
-              type='button'
-              class='btn btn-sm m-1 btn-outline-danger text-white'
+              type="button"
+              class="btn btn-sm m-1 btn-outline-danger text-white"
               ngbTooltip="{{ 'DELETE' | tr }}"
-              (click)='onDelete(it.id, $event)'
+              (click)="onDelete(it.id, $event)"
             >
-              <i-bs name='trash' />
+              <i-bs name="trash" />
             </button>
           </td>
         </ng-container>
 
-        <tr *ngbHeaderRowDef='columnsToDisplay' ngb-header-row></tr>
-        <tr *ngbRowDef='let it; columns: columnsToDisplay' ngb-row routerLink='../{{ it.id }}'></tr>
+        <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+        <tr *ngbRowDef="let it; columns: columnsToDisplay" ngb-row routerLink="../{{ it.id }}"></tr>
       </table>
     </div>
 
-    <app-spinner-row [show]='isLoading' />
+    <app-spinner-row [show]="isLoading" />
   `,
   selector: 'app-all-system-notifications',
   standalone: true,

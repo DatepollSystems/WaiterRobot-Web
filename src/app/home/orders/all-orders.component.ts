@@ -88,12 +88,12 @@ import {OrdersService} from './orders.service';
           </ng-container>
 
           <ng-container ngbColumnDef="orderNumber">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_NUMBER' | tr }}</th>
             <td *ngbCellDef="let order" ngb-cell>{{ order.orderNumber }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="table">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_TABLE' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_TABLE' | tr }}</th>
             <td *ngbCellDef="let order" ngb-cell>
               <a (click)="$event.stopPropagation()" routerLink="/home/tables/groups/tables/{{ order.table.group.id }}">{{
                 order.table.group.name
@@ -181,12 +181,15 @@ export class AllOrdersComponent extends AbstractModelsListComponent<GetOrderResp
   openInNewTab = new FormControl<boolean>(b_fromStorage('open_order_in_new_tab') ?? true);
   openInNewTabChanges$ = this.openInNewTab.valueChanges.pipe(
     distinctUntilChanged(),
-    tap((it) => st_set('open_order_in_new_tab', it ?? true))
+    tap((it) => st_set('open_order_in_new_tab', it ?? true)),
   );
 
   public selection = new SelectionModel<GetOrderResponse>(true, [], false, (a, b) => a.id === b.id);
 
-  constructor(private ordersService: OrdersService, private modal: NgbModal) {
+  constructor(
+    private ordersService: OrdersService,
+    private modal: NgbModal,
+  ) {
     super(ordersService);
 
     this.columnsToDisplay = ['select', 'orderNumber', 'state', 'table', 'waiter', 'createdAt', 'actions'];

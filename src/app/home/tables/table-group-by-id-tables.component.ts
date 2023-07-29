@@ -22,25 +22,29 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
       <h1>"{{ entity?.name }}" {{ 'HOME_TABLE_GROUP_TABLES_VIEW' | tr }}</h1>
 
       <btn-toolbar>
-        <a routerLink="../../../create" [queryParams]="{group: entity?.id}" class="btn btn-sm btn-outline-success">
+        <a routerLink="../../../create" [queryParams]="{group: entity?.id}" class="btn btn-sm btn-success">
           <i-bs name="plus-circle" />
           {{ 'HOME_TABLE' | tr }} {{ 'ADD_3' | tr | lowercase }}</a
         >
 
-        <a routerLink="../../{{ entity?.id }}" class="btn btn-sm btn-outline-primary">
+        <a routerLink="../../{{ entity?.id }}" class="btn btn-sm btn-primary">
           <i-bs name="pencil-square" />
           {{ 'HOME_TABLE_GROUP' | tr }} {{ 'EDIT' | tr | lowercase }}</a
         >
 
-        <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-          <i-bs name="trash" />
-          {{ 'DELETE' | tr }}
-        </button>
+        <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_TABLE_SELECT' | tr) : undefined }}">
+          <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+            <i-bs name="trash" />
+            {{ 'DELETE' | tr }}
+          </button>
+        </div>
 
-        <button class="btn btn-sm btn-outline-secondary" [class.disabled]="!selection.hasValue()" (click)="printSelectedTables()">
-          <i-bs name="table" />
-          {{ 'HOME_TABLE_PRINT' | tr }}
-        </button>
+        <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_TABLE_SELECT' | tr) : undefined }}">
+          <button class="btn btn-sm btn-secondary" [class.disabled]="!selection.hasValue()" (click)="printSelectedTables()">
+            <i-bs name="table" />
+            {{ 'HOME_TABLE_PRINT' | tr }}
+          </button>
+        </div>
       </btn-toolbar>
     </ng-container>
 
@@ -169,7 +173,7 @@ export class TableGroupByIdTablesComponent extends AbstractModelsWithNumberListB
       size: 'lg',
     });
     modalRef.componentInstance.tables = this.selection.selected.sort(
-      (a, b) => a.groupName.localeCompare(b.groupName) || a.number - b.number
+      (a, b) => a.groupName.localeCompare(b.groupName) || a.number - b.number,
     );
   }
 }

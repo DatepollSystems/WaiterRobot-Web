@@ -23,14 +23,14 @@ import {ProductsService} from './_services/products.service';
 
     <btn-toolbar>
       <div>
-        <a routerLink="../create" class="btn btn-sm btn-outline-success">
+        <a routerLink="../create" class="btn btn-sm btn-success">
           <i-bs name="plus-circle" />
           {{ 'ADD_2' | tr }}</a
         >
       </div>
 
-      <div>
-        <button class="btn btn-sm btn-outline-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+      <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PROD_SELECT' | tr) : undefined }}">
+        <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
           <i-bs name="trash" />
           {{ 'DELETE' | tr }}
         </button>

@@ -3,10 +3,11 @@ import {Title} from '@angular/platform-browser';
 import {RouterStateSnapshot, TitleStrategy} from '@angular/router';
 import {dfxTranslate$} from 'dfx-translate';
 import {first} from 'rxjs';
+import {EnvironmentHelper} from './EnvironmentHelper';
 
 @Injectable()
 export class CustomTitleStrategy extends TitleStrategy {
-  titlePrefix = 'kellner.team';
+  titlePrefix = EnvironmentHelper.getTitlePrefix();
 
   translate = dfxTranslate$();
 

@@ -1,11 +1,17 @@
 declare const require: any;
 
-export const environment = {
+export const environment: {
+  version: string;
+  production: boolean;
+  type: 'dev' | 'testing' | 'prod';
+  apiUrl: string;
+  logoUrl?: string;
+  titlePrefix?: string;
+} = {
   version: `${require('../../package.json').version}-DEV-${getTime()}`,
   production: false,
   type: 'dev',
   apiUrl: 'http://localhost:4200/api/v1',
-  logoUrl: '/assets/logo.svg',
 };
 
 function getTime(): string {
