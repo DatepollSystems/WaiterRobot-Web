@@ -21,6 +21,7 @@ import {BtnWaiterSignInQrCodeComponent} from '../btn-waiter-sign-in-qr-code.comp
 import {AppProductEditFormComponent} from './waiter-edit-form.component';
 import {WaiterEditOrderProductsComponent} from './waiter-edit-order-products.component';
 import {WaiterSessionsComponent} from './waiter-sessions.component';
+import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
 
 @Component({
   template: `
@@ -47,6 +48,10 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
 
           <app-btn-waiter-signin-qrcode [token]="entity.signInToken" />
         </ng-container>
+
+        <div class="d-flex align-items-center" *isCreating="entity">
+          <app-continues-creation-switch (continuesCreationChange)="continuesCreation = $event" />
+        </div>
       </btn-toolbar>
 
       <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs bg-dark" (navChange)="navigateToTab($event.nextId)">
@@ -110,6 +115,7 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
     AppProductEditFormComponent,
     AppBackButtonComponent,
     WaiterEditOrderProductsComponent,
+    AppContinuesCreationSwitchComponent,
   ],
 })
 export class WaiterEditComponent extends AbstractModelEditComponent<
@@ -120,6 +126,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<
 > {
   defaultTab = 'DATA' as const;
   override onlyEditingTabs = ['SESSIONS' as const, 'ORDERS' as const];
+  continuousUsePropertyNames = ['activated', 'eventIds', 'organisationId'];
 
   events = this.eventsService.getAll$().pipe(shareReplay(1));
 

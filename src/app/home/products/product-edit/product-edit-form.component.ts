@@ -118,7 +118,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
           </label>
         </div>
 
-        <div class="form-check">
+        <div class="form-check" *ngIf="_isEdit">
           <input formControlName="resetOrderedProducts" class="form-check-input" type="checkbox" id="resetOrderedProducts" />
           <label class="form-check-label" for="resetOrderedProducts">
             {{ 'HOME_PROD_AMOUNT_ORDERED_RESET' | tr }}

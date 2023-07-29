@@ -40,6 +40,10 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
             </button>
           </div>
         </ng-container>
+
+        <div class="d-flex align-items-center" *isCreating="entity">
+          <app-continues-creation-switch (continuesCreationChange)="continuesCreation = $event" />
+        </div>
       </btn-toolbar>
 
       <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs bg-dark" (navChange)="navigateToTab($event.nextId)">
@@ -56,8 +60,6 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
               [availableFonts]="vm.fonts"
               [printer]="entity"
             />
-
-            <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
           </ng-template>
         </li>
         <li [ngbNavItem]="'PRODUCTS'" *isEditing="entity" [destroyOnHide]="true">

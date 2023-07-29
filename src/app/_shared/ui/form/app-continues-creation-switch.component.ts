@@ -6,9 +6,9 @@ import {Subscription} from 'rxjs';
 
 @Component({
   template: `
-    <div class="form-check form-switch mt-2">
+    <div class="form-check form-switch mb-0">
       <input [formControl]="formControl" class="form-check-input" type="checkbox" role="switch" id="continuousCreation" />
-      <label class="form-check-label" for="continuousCreation">{{ text | tr }}</label>
+      <label class="form-check-label text-nowrap" for="continuousCreation">{{ text | tr }}</label>
     </div>
   `,
   selector: 'app-continues-creation-switch',

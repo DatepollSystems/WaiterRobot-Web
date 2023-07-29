@@ -35,6 +35,10 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
             {{ 'DELETE' | tr }}
           </button>
         </div>
+
+        <div class="d-flex align-items-center" *isCreating="entity">
+          <app-continues-creation-switch (continuesCreationChange)="continuesCreation = $event" />
+        </div>
       </btn-toolbar>
 
       <ul
@@ -58,8 +62,6 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
               [printers]="vm.printers"
               [selectedEventId]="vm.selectedEvent?.id"
             />
-
-            <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
           </ng-template>
         </li>
       </ul>

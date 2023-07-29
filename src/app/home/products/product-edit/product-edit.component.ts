@@ -48,6 +48,9 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
             {{ 'HOME_PROD_GO_TO_GROUP' | tr }}
           </button>
         </div>
+        <div class="d-flex align-items-center" *isCreating="entity">
+          <app-continues-creation-switch (continuesCreationChange)="continuesCreation = $event" />
+        </div>
       </btn-toolbar>
 
       <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs bg-dark" (navChange)="navigateToTab($event.nextId)">
@@ -67,8 +70,6 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
               [selectedProductGroupId]="vm.selectedProductGroupId"
               [product]="entity"
             />
-
-            <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
           </ng-template>
         </li>
       </ul>

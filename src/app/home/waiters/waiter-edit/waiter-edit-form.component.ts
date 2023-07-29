@@ -64,12 +64,6 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     id: [-1],
   });
 
-  override reset(): void {
-    super.reset();
-    this.form.controls.organisationId.setValue(this._selectedOrganisationId);
-    this.form.controls.eventIds.setValue(this.selectedEvents);
-  }
-
   @Input()
   set waiter(it: GetWaiterResponse | 'CREATE') {
     if (it === 'CREATE') {

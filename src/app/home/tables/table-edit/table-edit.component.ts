@@ -51,6 +51,10 @@ import {TableEditOrderProductsComponent} from './table-edit-order-products.compo
             {{ 'HOME_TABLE_GO_TO_GROUP' | tr }}
           </button>
         </div>
+
+        <div class="d-flex align-items-center" *isCreating="entity">
+          <app-continues-creation-switch (continuesCreationChange)="continuesCreation = $event" />
+        </div>
       </btn-toolbar>
 
       <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs bg-dark" (navChange)="navigateToTab($event.nextId)">
@@ -68,8 +72,6 @@ import {TableEditOrderProductsComponent} from './table-edit-order-products.compo
               [selectedTableGroupId]="vm.selectedTableGroupId"
               [table]="entity"
             />
-
-            <app-continues-creation-switch *isCreating="entity" (continuesCreationChange)="continuesCreation = $event" />
           </ng-template>
         </li>
 
