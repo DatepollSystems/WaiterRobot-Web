@@ -98,9 +98,10 @@ export class AppPrinterEditForm extends AbstractModelEditFormComponent<CreatePri
   });
 
   override overrideRawValue = (value: typeof this.form.value): any => {
+    this.lumber.info('overrideRawValue', 'Scale', value.fontScale);
     const match: string[] = s_from(value.fontScale).split(/[,.]/);
-    const big = n_from(match[0] ?? 0);
-    const small = n_from(match[1][0] ?? 0);
+    const big = n_from(match[0] ?? 1);
+    const small = n_from(match[1] ? match[1][0] ?? 0 : 0);
 
     value.fontScale = big * 10 + small;
 
