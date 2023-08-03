@@ -3,7 +3,7 @@ import {AsyncPipe, DatePipe, NgClass, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {b_fromStorage, s_imploder, st_set} from 'dfts-helper';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {NgSub} from 'dfx-helper';
@@ -14,7 +14,7 @@ import {AppBackButtonComponent} from '../../_shared/ui/app-back-button.component
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
-import {QuestionDialogComponent} from '../../_shared/ui/question-dialog/question-dialog.component';
+import {injectConfirmDialog} from '../../_shared/ui/question-dialog/question-dialog.component';
 import {GetOrderResponse} from '../../_shared/waiterrobot-backend';
 import {AppOrderCountdownComponent} from './_components/app-order-countdown.component';
 import {AppOrderStateBadgeComponent} from './_components/app-order-state-badge.component';
@@ -185,11 +185,9 @@ export class AllOrdersComponent extends AbstractModelsListComponent<GetOrderResp
   );
 
   public selection = new SelectionModel<GetOrderResponse>(true, [], false, (a, b) => a.id === b.id);
+  private confirmDialog = injectConfirmDialog();
 
-  constructor(
-    private ordersService: OrdersService,
-    private modal: NgbModal,
-  ) {
+  constructor(private ordersService: OrdersService) {
     super(ordersService);
 
     this.columnsToDisplay = ['select', 'orderNumber', 'state', 'table', 'waiter', 'createdAt', 'actions'];
@@ -213,36 +211,30 @@ export class AllOrdersComponent extends AbstractModelsListComponent<GetOrderResp
     void this.router.navigateByUrl(`/home/orders/${it.id}`);
   }
 
-  requeueOrder(it: GetOrderResponse) {
+  requeueOrder(it: GetOrderResponse): void {
     this.selection.clear();
     this.selection.toggle(it);
     this.requeueOrders();
   }
 
-  requeueOrders() {
+  requeueOrders(): void {
     this.lumber.info('requeueOrders', 'Opening requeue question dialog');
     this.lumber.info('requeueOrders', 'Selected entities:', this.selection.selected);
-    const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
-    modalRef.componentInstance.title = 'HOME_ORDER_REQUEUE';
-
     const selected = this.selection.selected.slice();
-
-    const list = s_imploder()
-      .mappedSource(selected, (it) => it.orderNumber)
-      .separator('</li><li>')
-      .build();
-    modalRef.componentInstance.info = `<ol><li>${list}</li></ol>`;
-    void modalRef.result
-      .then((result) => {
-        this.lumber.info('requeueOrders', 'Question dialog result:', result);
-        if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
-          const observables: Observable<unknown>[] = [];
-          for (const it of selected) {
-            observables.push(this.ordersService.requeueOrder$(it.id));
-          }
-          forkJoin(observables).subscribe();
+    void this.confirmDialog(
+      'HOME_ORDER_REQUEUE',
+      `<ol><li>${s_imploder()
+        .mappedSource(selected, (it) => it.orderNumber)
+        .separator('</li><li>')
+        .build()}</li></ol>`,
+    ).then((result) => {
+      if (result) {
+        const observables: Observable<unknown>[] = [];
+        for (const it of selected) {
+          observables.push(this.ordersService.requeueOrder$(it.id));
         }
-      })
-      .catch(() => {});
+        forkJoin(observables).subscribe();
+      }
+    });
   }
 }

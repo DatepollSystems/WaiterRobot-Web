@@ -1,8 +1,8 @@
 import {AsyncPipe, LowerCasePipe, NgIf} from '@angular/common';
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
@@ -161,6 +161,8 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
   ],
 })
 export class TableGroupByIdTablesComponent extends AbstractModelsWithNumberListByIdComponent<GetTableResponse, GetTableGroupResponse> {
+  private modal = inject(NgbModal);
+
   constructor(tablesService: TablesService, tableGroupsService: TableGroupsService) {
     super(tablesService, tableGroupsService);
 

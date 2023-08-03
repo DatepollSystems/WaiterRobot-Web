@@ -1,6 +1,7 @@
 import {NgForOf, NgIf} from '@angular/common';
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {loggerOf} from 'dfts-helper';
 import {DfxTrackByProperty} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
@@ -56,9 +57,12 @@ export class QuestionDialogComponent {
 
   @Input() title?: string;
 
+  lumber = loggerOf('QuestionDialogComponent');
+
   constructor(public activeModal: NgbActiveModal) {}
 
   answerQuestion(value: string): void {
+    this.lumber.info('answerQuestion', 'Question dialog result:', value);
     this.activeModal.close(value);
   }
 }
@@ -68,3 +72,27 @@ export type answerType = {
   text: string;
   value: string;
 };
+
+export function injectConfirmDialog(): (title: string, info?: string) => Promise<boolean> {
+  const modal = inject(NgbModal);
+
+  return (title: string, info?: string): Promise<boolean> => {
+    const modalRef = modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
+    modalRef.componentInstance.title = title;
+
+    if (info) {
+      modalRef.componentInstance.info = info;
+    }
+
+    return new Promise((resolve) => {
+      modalRef.result
+        .then((result) => {
+          if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
+            resolve(true);
+          }
+          resolve(false);
+        })
+        .catch(() => resolve(false));
+    });
+  };
+}

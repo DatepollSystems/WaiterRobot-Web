@@ -1,8 +1,8 @@
 import {AsyncPipe, NgIf} from '@angular/common';
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 import {forkJoin, Observable} from 'rxjs';
@@ -160,13 +160,15 @@ import {PrinterBatchUpdateDto, PrinterBatchUpdateModalComponent} from './printer
   ],
 })
 export class AllPrintersComponent extends AbstractModelsWithNameListWithDeleteComponent<GetPrinterResponse> {
+  private modal = inject(NgbModal);
+
   constructor(private printersService: PrintersService) {
     super(printersService);
 
     this.columnsToDisplay = ['name', 'font', 'fontScale', 'bonWidth', 'bonPadding', 'actions'];
   }
 
-  onBatchUpdatePrinters() {
+  onBatchUpdatePrinters(): void {
     this.lumber.info('onBatchUpdatePrinters', 'Opening settings question dialog');
     this.lumber.info('onBatchUpdatePrinters', 'Selected entities:', this.selection.selected);
     const modalRef = this.modal.open(PrinterBatchUpdateModalComponent, {ariaLabelledBy: 'modal-printer-batch-update-title', size: 'lg'});

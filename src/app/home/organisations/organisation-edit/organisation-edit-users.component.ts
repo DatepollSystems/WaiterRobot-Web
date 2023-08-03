@@ -10,7 +10,7 @@ import {DfxTr} from 'dfx-translate';
 import {combineLatest, filter, of, startWith, switchMap} from 'rxjs';
 import {getActivatedRouteIdParam} from '../../../_shared/services/getActivatedRouteIdParam';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
-import {QuestionDialogComponent} from '../../../_shared/ui/question-dialog/question-dialog.component';
+import {injectConfirmDialog} from '../../../_shared/ui/question-dialog/question-dialog.component';
 import {GetOrganisationResponse, OrganisationUserResponse} from '../../../_shared/waiterrobot-backend';
 import {OrganisationsUsersService} from '../_services/organisations-users.service';
 import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.component';
@@ -89,6 +89,7 @@ import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.c
 })
 export class OrganisationEditUsersComponent {
   modal = inject(NgbModal);
+  confirmDialog = injectConfirmDialog();
   route = inject(ActivatedRoute);
 
   organisationsUsersService = inject(OrganisationsUsersService);
@@ -116,10 +117,8 @@ export class OrganisationEditUsersComponent {
   @Input() myUserEmailAddress?: string;
 
   onOrgUserDelete(model: OrganisationUserResponse): void {
-    const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
-    modalRef.componentInstance.title = 'DELETE_CONFIRMATION';
-    void modalRef.result.then((result) => {
-      if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
+    void this.confirmDialog('DELETE_CONFIRMATION').then((result) => {
+      if (result) {
         this.organisationsUsersService.delete$(model.organisationId, model.emailAddress).subscribe();
       }
     });

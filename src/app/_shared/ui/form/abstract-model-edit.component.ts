@@ -1,13 +1,12 @@
 import {Location} from '@angular/common';
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, inject, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {IHasID, loggerOf, n_from, n_isNumeric, s_from, s_is} from 'dfts-helper';
 import {HasDelete, HasGetSingle} from 'dfx-helper';
 import {BehaviorSubject, combineLatest, map, Observable, of, share, shareReplay, switchMap, tap} from 'rxjs';
 import {NotificationService} from '../../notifications/notification.service';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../services/services.interface';
-import {QuestionDialogComponent} from '../question-dialog/question-dialog.component';
+import {injectConfirmDialog} from '../question-dialog/question-dialog.component';
 import {AbstractModelEditFormComponent} from './abstract-model-edit-form.component';
 
 @Component({
@@ -23,7 +22,7 @@ export abstract class AbstractModelEditComponent<
   protected location = inject(Location);
   protected router = inject(Router);
   protected route = inject(ActivatedRoute);
-  protected modal = inject(NgbModal);
+  protected confirmDialog = injectConfirmDialog();
   protected cdr = inject(ChangeDetectorRef);
   protected notificationService = inject(NotificationService);
 
@@ -40,7 +39,7 @@ export abstract class AbstractModelEditComponent<
   protected onlyEditingTabs: Tab[] = [];
   public activeTab$ = combineLatest([
     this.route.queryParamMap.pipe(
-      tap((it) => this.lumber.info('activeTab', `Params`, it)),
+      tap((it) => this.lumber.info('activeTab', 'Params', it)),
       map((params) => (s_is(params.get('tab')) ? (params.get('tab') as Tab) : undefined)),
     ),
     this.entity$,
@@ -121,14 +120,12 @@ export abstract class AbstractModelEditComponent<
     });
   }
 
-  public async onDelete(modelId: EntityType['id']): Promise<void> {
-    const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
-    modalRef.componentInstance.title = 'DELETE_CONFIRMATION';
-    const result = await modalRef.result;
-    this.lumber.info('onDelete', 'Confirm dialog result', result);
-    if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
-      this.entityService.delete$(modelId).subscribe();
-      this.location.back();
-    }
+  public onDelete(modelId: EntityType['id']): void {
+    void this.confirmDialog('DELETE_CONFIRMATION').then((result) => {
+      if (result) {
+        this.entityService.delete$(modelId).subscribe();
+        this.location.back();
+      }
+    });
   }
 }

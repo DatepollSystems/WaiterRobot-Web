@@ -1,14 +1,14 @@
 import {AsyncPipe, DatePipe, NgClass, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle, NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTr} from 'dfx-translate';
 import {combineLatest, map, switchMap} from 'rxjs';
 import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
 import {AppBackButtonComponent} from '../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {QuestionDialogComponent} from '../../_shared/ui/question-dialog/question-dialog.component';
+import {injectConfirmDialog} from '../../_shared/ui/question-dialog/question-dialog.component';
 import {AppOrderCountdownComponent} from './_components/app-order-countdown.component';
 import {AppOrderStateBadgeComponent} from './_components/app-order-state-badge.component';
 import {AppOrderProductsListComponent} from './_components/order-products-list/app-order-products-list.component';
@@ -96,7 +96,7 @@ import {OrdersService} from './orders.service';
   ],
 })
 export class OrderInfoComponent {
-  modal = inject(NgbModal);
+  confirmDialog = injectConfirmDialog();
   ordersService = inject(OrdersService);
 
   vm$ = combineLatest([
@@ -115,28 +115,18 @@ export class OrderInfoComponent {
   );
 
   requeueOrder(id: number): void {
-    const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
-    modalRef.componentInstance.title = 'HOME_ORDER_REQUEUE';
-
-    void modalRef.result
-      .then((result) => {
-        if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
-          this.ordersService.requeueOrder$(id).subscribe();
-        }
-      })
-      .catch(() => {});
+    void this.confirmDialog('HOME_ORDER_REQUEUE').then((result) => {
+      if (result) {
+        this.ordersService.requeueOrder$(id).subscribe();
+      }
+    });
   }
 
   requeueOrdersOfPrinter(orderId: number, printerId: number): void {
-    const modalRef = this.modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
-    modalRef.componentInstance.title = 'HOME_ORDER_REQUEUE';
-
-    void modalRef.result
-      .then((result) => {
-        if (result?.toString().includes(QuestionDialogComponent.YES_VALUE)) {
-          this.ordersService.requeueOrderPrinter$(orderId, printerId).subscribe();
-        }
-      })
-      .catch(() => {});
+    void this.confirmDialog('HOME_ORDER_REQUEUE').then((result) => {
+      if (result) {
+        this.ordersService.requeueOrderPrinter$(orderId, printerId).subscribe();
+      }
+    });
   }
 }
