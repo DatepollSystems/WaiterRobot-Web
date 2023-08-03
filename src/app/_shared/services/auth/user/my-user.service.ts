@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {o_fromStorage, st_set} from 'dfts-helper';
-import {map, merge, Observable, of, share, shareReplay, Subject, switchMap, tap} from 'rxjs';
+import {inject, Injectable} from '@angular/core';
+import {loggerOf, o_fromStorage, st_set} from 'dfts-helper';
+import {catchError, map, merge, Observable, of, shareReplay, Subject, tap, throwError} from 'rxjs';
 import {GetMyselfResponse} from '../../../waiterrobot-backend';
 
 import {MyUserModel} from './my-user.model';
@@ -10,19 +10,25 @@ import {MyUserModel} from './my-user.model';
   providedIn: 'root',
 })
 export class MyUserService {
-  public manualUserChange: Subject<MyUserModel> = new Subject<MyUserModel>();
+  httpClient = inject(HttpClient);
+  lumber = loggerOf('MyUserService');
 
-  constructor(private httpClient: HttpClient) {}
+  manualUserChange: Subject<MyUserModel> = new Subject<MyUserModel>();
 
-  public getUser$(): Observable<MyUserModel> {
-    return merge(
-      of(o_fromStorage<GetMyselfResponse>('myuser_2')).pipe(
-        switchMap((it) =>
-          it ? of(it) : this.httpClient.get<GetMyselfResponse>('/user/myself').pipe(tap((iit) => st_set('myuser_2', iit))),
-        ),
-        map((it) => new MyUserModel(it)),
-      ),
-      this.manualUserChange.asObservable(),
-    ).pipe(share(), shareReplay(1));
+  user$ = merge(
+    this.httpClient.get<GetMyselfResponse>('/user/myself').pipe(
+      tap((it) => st_set('my_user', it)),
+      catchError((error) => {
+        const user = o_fromStorage<GetMyselfResponse>('my_user');
+        this.lumber.info('getUserRequest', 'Try to read user from storage', user);
+        return user ? of(user) : throwError(() => error);
+      }),
+      map((it) => new MyUserModel(it)),
+    ),
+    this.manualUserChange.asObservable(),
+  ).pipe(shareReplay(1));
+
+  getUser$(): Observable<MyUserModel> {
+    return this.user$;
   }
 }
