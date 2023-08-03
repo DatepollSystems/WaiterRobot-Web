@@ -22,6 +22,8 @@ SCRIPT_VERSION='3.0.0'
 VERSION=latest
 FORCE=false
 CLEAR_TEMP_DIR=true
+CLEAR_INSTALL_DIRECTORY=false
+PRINT_DEBUG_INFO=false
 
 if ! [ "${FRONTEND_INSTALL_DIRECTORY:-}" ]; then
   FRONTEND_INSTALL_DIRECTORY="$(pwd)/installed"
@@ -33,24 +35,29 @@ _success=false
 
 printHelp() {
   printf "${BOLD}${UNDERLINE}${APP_NAME} installation help (${GREEN}v${SCRIPT_VERSION}${RESET}${UNDERLINE})${RESET}\n"
-  printf "Usage: ./frontend.sh -v [version] -f -s\n"
+  printf "Usage: ./frontend.sh -v [version] -f -s -c -o\n"
   printf "  -v ['prod', 'lava', 'localfire']  (optional) select a specific version to install\n"
   printf "  -f                         (optional) force install without asking questions\n"
+  printf "  -c                         (optional) clear installation folder\n"
   printf "  -s                         (optional) skip deletion of temporary folder after run\n"
+  printf "  -o                         (optional) print debug info\n"
   _success=true
   exit 0
 }
 
-while getopts "v:fsh" opt; do
+while getopts "v:fscoh" opt; do
   case "${opt}" in
-  h)
-    printHelp
-    ;;
   f)
     FORCE=true
     ;;
   s)
     CLEAR_TEMP_DIR=false
+    ;;
+  c)
+    CLEAR_INSTALL_DIRECTORY=true
+    ;;
+  o)
+    PRINT_DEBUG_INFO=true
     ;;
   v)
     if [ "$OPTARG" = "prod" ]; then
@@ -63,6 +70,9 @@ while getopts "v:fsh" opt; do
       printHelp
     fi
     ;;
+  h)
+    printHelp
+    ;;
   \?)
     printHelp
     ;;
@@ -72,11 +82,6 @@ while getopts "v:fsh" opt; do
   esac
 done
 
-printInfo() {
-  printf "Script version: ${BOLD}${GREEN}${SCRIPT_VERSION}${RESET}\n"
-  printf "${APP_NAME} version: ${BOLD}${VERSION}${RESET}\n"
-  printf "Parameters: (force ${BOLD}${FORCE}${RESET}) (clear tmp dir ${BOLD}${CLEAR_TEMP_DIR})${RESET}\n"
-}
 
 # Shutdown handling
 shutdown() {
@@ -100,6 +105,18 @@ errorAndExit() {
   exit 1
 }
 
+FRONTEND_DOWNLOAD_URL="https://releases.datepoll.org/WaiterRobot/Web-Releases/WaiterRobot-Web-${VERSION}.zip"
+
+printInfo() {
+  printf "Script version: ${BOLD}${GREEN}${SCRIPT_VERSION}${RESET}\n"
+  printf "${APP_NAME} version: ${BOLD}${VERSION}${RESET}\n"
+  if [ $PRINT_DEBUG_INFO = true ]; then
+    printf "Download url: ${FRONTEND_DOWNLOAD_URL}\n"
+    printf "Install dir: ${FRONTEND_INSTALL_DIRECTORY}\n"
+    printf "Temp dir: ${INSTALL_TEMP_DIRECTORY}\n"
+    printf "Parameters: (force ${BOLD}${GREEN}${FORCE}${RESET}) (clear tmp dir ${BOLD}${GREEN}${CLEAR_TEMP_DIR}${RESET}) (clear install dir ${BOLD}${GREEN}${CLEAR_INSTALL_DIRECTORY}${RESET})${RESET}\n"
+  fi
+}
 
 # Activity spinner for background processes.
 spinner() {
@@ -183,7 +200,6 @@ main() {
   requireTool "grep"
   printf "${GREEN}Successfully${RESET} checked for required tools [${GREEN}✓${RESET}]\n"
 
-  FRONTEND_DOWNLOAD_URL="https://releases.datepoll.org/WaiterRobot/Web-Releases/WaiterRobot-Web-${VERSION}.zip"
 
   printf "${BLUE}Clearing${RESET} tmp folder"
   (rm -rf "${INSTALL_TEMP_DIRECTORY}" && mkdir "${INSTALL_TEMP_DIRECTORY}") &
@@ -209,14 +225,28 @@ main() {
   printf "${GREEN}Successfully${RESET} unzipped WaiterRobot-Web-${VERSION}.zip [${GREEN}✓${RESET}]\n"
 
   # Recreate frontend install folder
-  printf "${BLUE}Clearing${RESET} frontend install folder... "
-  (rm -rf "$FRONTEND_INSTALL_DIRECTORY" && mkdir "$FRONTEND_INSTALL_DIRECTORY") &
-  spinner $!
-  printf "${GREEN}Successfully${RESET} cleared frontend install folder [${GREEN}✓${RESET}]\n"
+  printf "${BLUE}Checking${RESET} if install folder exists... \n"
+  if [ -d "$FRONTEND_INSTALL_DIRECTORY" ]; then
+    printf "${GREEN}Successfully${RESET} checked for install folder [${GREEN}✓${RESET}]\n"
+
+    if [ $CLEAR_INSTALL_DIRECTORY = true ]; then
+      printf "${BLUE}Clearing${RESET} frontend install folder... "
+      (rm -rf "$FRONTEND_INSTALL_DIRECTORY" && mkdir "$FRONTEND_INSTALL_DIRECTORY") &
+      spinner $!
+      printf "${GREEN}Successfully${RESET} cleared frontend install folder [${GREEN}✓${RESET}]\n"
+    fi
+  else
+    printf "${BLUE}Creating${RESET} install folder"
+    (mkdir "${FRONTEND_INSTALL_DIRECTORY}") &
+    spinner $!
+    printf "${GREEN}Successfully${RESET} created install folder [${GREEN}✓${RESET}]\n"
+  fi
+
+
 
   # Move files into place
   printf "${BLUE}Moving${RESET} files into place... "
-  (mv "$INSTALL_TEMP_DIRECTORY"/WaiterRobot-Web/* "$FRONTEND_INSTALL_DIRECTORY"/) &
+  (cp -r "$INSTALL_TEMP_DIRECTORY"/WaiterRobot-Web/* "$FRONTEND_INSTALL_DIRECTORY"/) &
   spinner $!
   printf "${GREEN}Successfully${RESET} moved files into place [${GREEN}✓${RESET}]\n"
 
