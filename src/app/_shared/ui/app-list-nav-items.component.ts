@@ -15,7 +15,7 @@ import {AppIconsModule} from './icons.module';
     <ng-container *ngIf="selected$ | async" />
 
     <div class="d-none d-lg-block">
-      <h6 class="fw-bold" *ngIf="titleTr">{{ titleTr | tr }}</h6>
+      <h6 class="fw-bold" *ngIf="titleTr && (entities?.length ?? 0) > 0">{{ titleTr | tr }}</h6>
       <div class="list-group">
         <ng-container *ngIf="entities; else loading">
           <a
