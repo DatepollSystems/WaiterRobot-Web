@@ -107,7 +107,11 @@ import {ProductsService} from './_services/products.service';
 
         <ng-container ngbColumnDef="initialStock">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_AMOUNT_LEFT' | tr }}</th>
-          <td *ngbCellDef="let product" ngb-cell>{{ product.initialStock - product.amountOrdered }}</td>
+          <td *ngbCellDef="let product" ngb-cell>
+            <span *ngIf="product.initialStock">
+              {{ product.initialStock - product.amountOrdered }}
+            </span>
+          </td>
         </ng-container>
 
         <ng-container ngbColumnDef="printer">
