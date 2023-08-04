@@ -8,7 +8,9 @@ import {DfxTr} from 'dfx-translate';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
-import {AbstractModelsWithNumberListByIdComponent} from '../../_shared/ui/models-list-by-id/abstract-models-with-number-list-by-id.component';
+import {
+  AbstractModelsWithNumberListByIdComponent
+} from '../../_shared/ui/models-list-by-id/abstract-models-with-number-list-by-id.component';
 import {GetTableGroupResponse, GetTableResponse} from '../../_shared/waiterrobot-backend';
 
 import {TableGroupsService} from './_services/table-groups.service';
@@ -65,7 +67,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
     </form>
 
     <div class="table-responsive">
-      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
+      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="number" ngbSortDirection="asc">
         <ng-container ngbColumnDef="select">
           <th *ngbHeaderCellDef ngb-header-cell>
             <div class="form-check">

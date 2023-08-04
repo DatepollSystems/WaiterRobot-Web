@@ -20,18 +20,18 @@ import {TablesService} from '../_services/tables.service';
       <div class="form-group col-12 col-md-3">
         <label for="number">{{ 'NUMBER' | tr }}</label>
         <input
-          formControlName="tableNumber"
+          formControlName="number"
           class="form-control bg-dark text-white"
           type="number"
           id="number"
           placeholder="{{ 'NUMBER' | tr }}"
         />
 
-        <small *ngIf="form.controls.tableNumber.errors?.required" class="text-danger">
+        <small *ngIf="form.controls.number.errors?.required" class="text-danger">
           {{ 'HOME_TABLES_NUMBER_INCORRECT' | tr }}
         </small>
 
-        <small *ngIf="(existsAlready$ | async) && form.controls.tableNumber.errors?.existsAlready" class="text-danger">
+        <small *ngIf="(existsAlready$ | async) && form.controls.number.errors?.existsAlready" class="text-danger">
           {{ 'HOME_TABLES_NUMBER_EXISTS_ALREADY' | tr }}
         </small>
       </div>
@@ -83,7 +83,7 @@ export class TableEditFormComponent extends AbstractModelEditFormComponent<Creat
   publicTableIdLink?: string;
 
   override form = this.fb.nonNullable.group({
-    tableNumber: this.fb.control<number | undefined>(undefined, [Validators.required, Validators.min(0)]),
+    number: this.fb.control<number | undefined>(undefined, [Validators.required, Validators.min(0)]),
     seats: [10, [Validators.required, Validators.min(0)]],
     eventId: [-1, [Validators.required, Validators.min(0)]],
     groupId: [-1, [Validators.required, Validators.min(0)]],
@@ -91,22 +91,22 @@ export class TableEditFormComponent extends AbstractModelEditFormComponent<Creat
   });
 
   existsAlready$ = this.form.valueChanges.pipe(
-    map((form) => ({tableNumber: form.tableNumber, groupId: form.groupId})),
-    filter(({tableNumber, groupId}) => groupId !== -1 && !!tableNumber),
-    filter(({tableNumber}) => {
-      if (tableNumber === this._table?.number) {
-        this.form.controls.tableNumber.setErrors(null);
+    map((form) => ({number: form.number, groupId: form.groupId})),
+    filter(({number, groupId}) => groupId !== -1 && !!number),
+    filter(({number}) => {
+      if (number === this._table?.number) {
+        this.form.controls.number.setErrors(null);
         return false;
       }
       return true;
     }),
     debounceTime(300),
-    switchMap(({tableNumber, groupId}) => this.tablesService.checkIfExists(groupId as number, tableNumber as number)),
+    switchMap(({number, groupId}) => this.tablesService.checkIfExists(groupId as number, number as number)),
     tap((exists) => {
       if (exists) {
-        this.form.controls.tableNumber.setErrors({existsAlready: true});
+        this.form.controls.number.setErrors({existsAlready: true});
       } else {
-        this.form.controls.tableNumber.setErrors(null);
+        this.form.controls.number.setErrors(null);
       }
     }),
   );
@@ -128,7 +128,7 @@ export class TableEditFormComponent extends AbstractModelEditFormComponent<Creat
     this._table = it;
     this.publicTableIdLink = this.ml.createTableLink(it.publicId);
     this.form.patchValue({
-      tableNumber: it.number,
+      number: it.number,
       seats: it.seats,
       groupId: it.groupId,
       id: it.id,
