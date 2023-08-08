@@ -6,6 +6,7 @@ import {RouterLink} from '@angular/router';
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
+import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
@@ -68,32 +69,14 @@ import {UsersService} from './services/users.service';
         <ng-container ngbColumnDef="is_admin">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ADMIN' | tr }}</th>
           <td *ngbCellDef="let user" ngb-cell>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                onclick="return false;"
-                type="checkbox"
-                [checked]="user.role === 'ADMIN'"
-                name="is_admin"
-                value=""
-              />
-            </div>
+            {{ user.role === 'ADMIN' | activated }}
           </td>
         </ng-container>
 
         <ng-container ngbColumnDef="activated">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ACTIVATED' | tr }}</th>
           <td *ngbCellDef="let user" ngb-cell>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                onclick="return false;"
-                type="checkbox"
-                [checked]="user.activated"
-                name="activated"
-                value=""
-              />
-            </div>
+            {{ user.activated | activated }}
           </td>
         </ng-container>
 
@@ -137,6 +120,7 @@ import {UsersService} from './services/users.service';
     AppIconsModule,
     AppSpinnerRowComponent,
     AppBtnToolbarComponent,
+    AppActivatedPipe,
   ],
 })
 export class AllUsersComponent extends AbstractModelsListWithDeleteComponent<GetUserResponse> {

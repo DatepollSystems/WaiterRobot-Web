@@ -6,6 +6,7 @@ import {RouterLink} from '@angular/router';
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
+import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
@@ -70,9 +71,7 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
         <ng-container ngbColumnDef="active">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ACTIVE' | tr }}</th>
           <td *ngbCellDef="let it" ngb-cell>
-            <div class="form-check">
-              <input class="form-check-input" onclick="return false;" type="checkbox" [checked]="it.active" name="active" value="" />
-            </div>
+            {{ it.active | activated }}
           </td>
         </ng-container>
 
@@ -117,6 +116,7 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
     AppSpinnerRowComponent,
     AppBtnToolbarComponent,
     AppSystemNotificationTypeBadgeComponent,
+    AppActivatedPipe,
   ],
 })
 export class AllSystemNotificationsComponent extends AbstractModelsListWithDeleteComponent<GetSystemNotificationResponse> {
