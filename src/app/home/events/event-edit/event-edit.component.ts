@@ -9,7 +9,6 @@ import {MyUserService} from '../../../_shared/services/auth/user/my-user.service
 import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AppSelectableButtonComponent} from '../../../_shared/ui/app-selectable-button.component';
-import {BtnWaiterCreateQrCodeComponent} from '../../../_shared/ui/btn-waiter-create-qr-code.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
 import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
@@ -41,11 +40,7 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
             </button>
           </div>
           <div>
-            <!--suppress TypeScriptValidateTypes -->
             <selectable-button class="my-2" [entity]="entity" [selectedEntityService]="eventsService" placement="top" />
-          </div>
-          <div>
-            <app-btn-waiter-create-qrcode [token]="entity.waiterCreateToken" />
           </div>
         </ng-container>
       </btn-toolbar>
@@ -89,7 +84,6 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
     NgbNavOutlet,
     DfxTr,
     AppSpinnerRowComponent,
-    BtnWaiterCreateQrCodeComponent,
     AppBtnToolbarComponent,
     AppIconsModule,
     AppSelectableButtonComponent,

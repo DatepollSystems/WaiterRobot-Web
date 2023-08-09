@@ -116,11 +116,6 @@ export class AppEventEditFormComponent extends AbstractModelEditFormComponent<Cr
     id: [-1],
   });
 
-  override reset(): void {
-    super.reset();
-    this.form.controls.organisationId.setValue(this._selectedOrganisationId);
-  }
-
   protected overrideRawValue(value: typeof this.form.value): any {
     if ((value.date?.length ?? 0) < 1) {
       value.date = undefined;
@@ -161,13 +156,4 @@ export class AppEventEditFormComponent extends AbstractModelEditFormComponent<Cr
   }
 
   _selectedOrganisationId = -1;
-
-  @Input()
-  set formDisabled(it: boolean) {
-    if (it) {
-      this.form.disable();
-    } else {
-      this.form.enable();
-    }
-  }
 }

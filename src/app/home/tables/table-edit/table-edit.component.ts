@@ -119,7 +119,7 @@ import {TableEditOrderProductsComponent} from './table-edit-order-products.compo
 export class TableEditComponent extends AbstractModelEditComponent<CreateTableDto, UpdateTableDto, GetTableResponse, 'DATA' | 'ORDERS'> {
   defaultTab = 'DATA' as const;
   override onlyEditingTabs = ['ORDERS' as const];
-  override continuousUsePropertyNames = ['number', 'groupId', 'seats'];
+  override continuousUsePropertyNames = ['number', 'groupId', 'seats', 'eventId'];
 
   vm$ = combineLatest([
     this.route.queryParams.pipe(

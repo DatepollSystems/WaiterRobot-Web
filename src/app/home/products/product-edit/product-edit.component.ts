@@ -107,7 +107,7 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
 })
 export class ProductEditComponent extends AbstractModelEditComponent<CreateProductDto, UpdateProductDto, GetProductMaxResponse, 'DATA'> {
   defaultTab = 'DATA' as const;
-  continuousUsePropertyNames = ['groupId', 'printerId'];
+  continuousUsePropertyNames = ['groupId', 'printerId', 'eventId', 'allergenIds'];
 
   vm$ = combineLatest([
     this.route.queryParams.pipe(

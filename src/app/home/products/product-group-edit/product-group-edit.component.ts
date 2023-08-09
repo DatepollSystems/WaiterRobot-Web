@@ -104,6 +104,8 @@ export class ProductGroupEditComponent extends AbstractModelEditComponent<
 > {
   defaultTab = 'DATA' as const;
 
+  override continuousUsePropertyNames = ['eventId'];
+
   vm$ = combineLatest([this.printersService.getAll$(), this.eventsService.getSelected$]).pipe(
     map(([printers, selectedEvent]) => ({
       printers,

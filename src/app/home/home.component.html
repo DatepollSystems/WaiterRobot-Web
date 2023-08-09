@@ -1,5 +1,5 @@
 <ng-container *ngSub="uiControls$; let ui">
-  <ng-container *ngIf="vm$ | async as vm">
+  <ng-container *ngSub="vm$; let vm">
     <nav class="navbar navbar-expand-md bg-dark navbar-dark">
       <div class="my-container" [class.container-xxxl]="!ui.isFullScreen">
         <a class="navbar-brand align-items-center" routerLink="/home">
@@ -50,7 +50,7 @@
                 </li>
 
                 <li class="nav-item">
-                  <div ngbDropdown display="dynamic">
+                  <div ngbDropdown display="dynamic" *ngIf="!vm.myUser.isAdmin else adminOrganisationLink">
                     <a class="nav-link" id="organisationSwitcherDropdown" ngbDropdownToggle>
                       <span *ngIf="!vm.selectedOrganisation">{{ 'NAV_ORGANISATIONS' | tr }}</span>
                       <span *ngIf="vm.selectedOrganisation"><b>{{ vm.selectedOrganisation.name }}</b></span>
@@ -84,6 +84,12 @@
                       </a>
                     </div>
                   </div>
+                  <ng-template #adminOrganisationLink>
+                    <a class="nav-link" routerLink="organisations/all">
+                      <b>{{ 'NAV_ORGANISATIONS' | tr }}</b>
+                      <span *ngIf="vm.selectedOrganisation"> ({{ vm.selectedOrganisation.name }})</span>
+                    </a>
+                  </ng-template>
                 </li>
 
                 <li class="nav-item">

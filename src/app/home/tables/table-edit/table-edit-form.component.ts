@@ -111,12 +111,6 @@ export class TableEditFormComponent extends AbstractModelEditFormComponent<Creat
     }),
   );
 
-  override reset(): void {
-    super.reset();
-    this.form.controls.eventId.setValue(this._selectedEventId);
-    this.form.controls.groupId.setValue(this._selectedTableGroupId);
-  }
-
   _table?: GetTableResponse;
   @Input()
   set table(it: GetTableResponse | 'CREATE') {

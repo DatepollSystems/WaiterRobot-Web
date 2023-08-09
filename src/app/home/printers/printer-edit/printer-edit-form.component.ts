@@ -110,12 +110,6 @@ export class AppPrinterEditForm extends AbstractModelEditFormComponent<CreatePri
     return super.overrideRawValue(value);
   };
 
-  override reset(): void {
-    super.reset();
-
-    this.form.controls.eventId.setValue(this._selectedEventId);
-  }
-
   @Input()
   set printer(it: GetPrinterResponse | 'CREATE') {
     if (it === 'CREATE') {

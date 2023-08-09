@@ -3,77 +3,77 @@
     "name": "@angular/animations",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "15.2.9",
+    "installedVersion": "16.1.8",
     "author": "angular"
   },
   {
     "name": "@angular/cdk",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/components.git",
-    "installedVersion": "15.2.9",
+    "installedVersion": "16.1.7",
     "author": "n/a"
   },
   {
     "name": "@angular/common",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "15.2.9",
+    "installedVersion": "16.1.8",
     "author": "angular"
   },
   {
     "name": "@angular/compiler",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "15.2.9",
+    "installedVersion": "16.1.8",
     "author": "angular"
   },
   {
     "name": "@angular/core",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "15.2.9",
+    "installedVersion": "16.1.8",
     "author": "angular"
   },
   {
     "name": "@angular/forms",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "15.2.9",
+    "installedVersion": "16.1.8",
     "author": "angular"
   },
   {
     "name": "@angular/localize",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "15.2.9",
+    "installedVersion": "16.1.8",
     "author": "angular"
   },
   {
     "name": "@angular/platform-browser",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "15.2.9",
+    "installedVersion": "16.1.8",
     "author": "angular"
   },
   {
     "name": "@angular/platform-browser-dynamic",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "15.2.9",
+    "installedVersion": "16.1.8",
     "author": "angular"
   },
   {
     "name": "@angular/router",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "15.2.9",
+    "installedVersion": "16.1.8",
     "author": "angular"
   },
   {
     "name": "@ng-bootstrap/ng-bootstrap",
     "licenseType": "MIT",
     "link": "git+https://github.com/ng-bootstrap/ng-bootstrap.git",
-    "installedVersion": "14.1.1",
+    "installedVersion": "15.1.0",
     "author": "https://github.com/ng-bootstrap/ng-bootstrap/graphs/contributors"
   },
   {
@@ -94,22 +94,15 @@
     "name": "@popperjs/core",
     "licenseType": "MIT",
     "link": "https://github.com/popperjs/popper-core.git",
-    "installedVersion": "2.11.7",
+    "installedVersion": "2.11.8",
     "author": "Federico Zivolo <federico.zivolo@gmail.com>"
   },
   {
     "name": "@swimlane/ngx-charts",
     "licenseType": "MIT",
     "link": "git+https://github.com/swimlane/ngx-charts.git",
-    "installedVersion": "20.1.2",
+    "installedVersion": "20.4.1",
     "author": "Swimlane"
-  },
-  {
-    "name": "angularx-qrcode",
-    "licenseType": "MIT",
-    "link": "git+https://github.com/cordobo/angularx-qrcode.git",
-    "installedVersion": "15.0.1",
-    "author": "Andreas Jacob <andreas@cordobo.de> http://cordobo.com/"
   },
   {
     "name": "bootstrap",
@@ -129,28 +122,35 @@
     "name": "dfts-helper",
     "licenseType": "MIT",
     "link": "git+https://github.com/Dafnik/dfts-common.git",
-    "installedVersion": "0.0.10",
+    "installedVersion": "1.1.1",
     "author": "Dafnik contact@dafnik.me https://dafnik.me"
   },
   {
     "name": "dfx-bootstrap-table",
     "licenseType": "MIT",
-    "link": "git+https://gitlab.com/DatePoll/common/dfx-common.git",
-    "installedVersion": "1.4.0",
+    "link": "git+ssh://git@github.com/Dafnik/dfts-common.git",
+    "installedVersion": "2.0.1",
     "author": "Dafnik contact@dafnik.me https://dafnik.me"
   },
   {
     "name": "dfx-helper",
     "licenseType": "MIT",
     "link": "git+ssh://git@github.com/Dafnik/dfts-common.git",
-    "installedVersion": "5.0.7",
+    "installedVersion": "6.1.0",
     "author": "Dafnik contact@dafnik.me https://dafnik.me"
+  },
+  {
+    "name": "dfx-qrcode",
+    "licenseType": "n/a",
+    "link": "https://registry.npmjs.org/dfx-qrcode/-/dfx-qrcode-0.0.1.tgz",
+    "installedVersion": "0.0.1",
+    "author": "n/a"
   },
   {
     "name": "dfx-translate",
     "licenseType": "MIT",
     "link": "git+ssh://git@github.com/Dafnik/dfts-common.git",
-    "installedVersion": "2.0.4",
+    "installedVersion": "3.0.0",
     "author": "Dafnik"
   },
   {
@@ -160,7 +160,13 @@
     "installedVersion": "1.11.11",
     "author": "bubkooo bubkoo.wy@gmail.com"
   },
-  {"name": "jspdf", "licenseType": "MIT", "link": "git+https://github.com/MrRio/jsPDF.git", "installedVersion": "2.5.1", "author": "n/a"},
+  {
+    "name": "jspdf",
+    "licenseType": "MIT",
+    "link": "git+https://github.com/MrRio/jsPDF.git",
+    "installedVersion": "2.5.1",
+    "author": "n/a"
+  },
   {
     "name": "ngx-bootstrap-icons",
     "licenseType": "MIT",
@@ -179,14 +185,14 @@
     "name": "tslib",
     "licenseType": "0BSD",
     "link": "git+https://github.com/Microsoft/tslib.git",
-    "installedVersion": "2.5.2",
+    "installedVersion": "2.6.1",
     "author": "Microsoft Corp."
   },
   {
     "name": "zone.js",
     "licenseType": "MIT",
     "link": "git://github.com/angular/angular.git",
-    "installedVersion": "0.13.0",
+    "installedVersion": "0.13.1",
     "author": "Brian Ford"
   }
 ]

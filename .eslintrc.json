@@ -51,7 +51,7 @@
           }
         ],
         "dot-notation": "error",
-        "id-denylist": ["error", "any", "Number", "number", "String", "string", "Boolean", "boolean", "Undefined", "undefined"],
+        "id-denylist": ["error", "any", "Number", "String", "string", "Boolean", "boolean", "Undefined", "undefined"],
         "no-shadow": "error",
         "no-unused-expressions": "error",
         "no-use-before-define": "off",

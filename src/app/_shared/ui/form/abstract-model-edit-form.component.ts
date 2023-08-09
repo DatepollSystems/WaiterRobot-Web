@@ -5,6 +5,7 @@ import {
   ElementRef,
   EventEmitter,
   inject,
+  Input,
   OnInit,
   Output,
   ViewChild,
@@ -50,6 +51,15 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
   @ViewChild('formRef') formRef?: ElementRef;
 
   formStatusChanges?: Observable<FormControlStatus>;
+
+  @Input()
+  set formDisabled(it: boolean) {
+    if (it) {
+      this.form.disable();
+    } else {
+      this.form.enable();
+    }
+  }
 
   ngOnInit(): void {
     this.formStatusChanges = this.form.statusChanges.pipe(

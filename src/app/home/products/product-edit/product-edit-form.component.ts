@@ -158,13 +158,6 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     return super.overrideRawValue(value);
   };
 
-  override reset(): void {
-    super.reset();
-    this.form.controls.eventId.setValue(this._selectedEventId);
-    this.form.controls.groupId.setValue(this._selectedProductGroupId);
-    this.form.controls.allergenIds.setValue(this.selectedAllergens);
-  }
-
   @Input()
   set product(it: GetProductMaxResponse | 'CREATE') {
     if (it === 'CREATE') {

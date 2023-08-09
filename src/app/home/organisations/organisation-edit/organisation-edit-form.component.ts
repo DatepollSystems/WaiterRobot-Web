@@ -123,13 +123,4 @@ export class AppOrganisationEditFormComponent extends AbstractModelEditFormCompo
   }
 
   _organisation?: GetOrganisationResponse;
-
-  @Input()
-  set formDisabled(it: boolean) {
-    if (it) {
-      this.form.disable();
-    } else {
-      this.form.enable();
-    }
-  }
 }
