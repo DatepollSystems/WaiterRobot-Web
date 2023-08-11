@@ -4,7 +4,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxImplodePipe} from 'dfx-helper';
+import {DfxArrayPluck, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppSoldOutPipe} from '../../_shared/ui/app-sold-out.pipe';
@@ -12,7 +12,6 @@ import {DfxCurrencyCentPipe} from '../../_shared/ui/currency.pipe';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListByIdComponent} from '../../_shared/ui/models-list-by-id/abstract-models-with-name-list-by-id.component';
-import {DfxArrayPluck} from '../../_shared/ui/pluck.pipe';
 import {GetProductGroupResponse, GetProductMaxResponse} from '../../_shared/waiterrobot-backend';
 import {ProductGroupsService} from './_services/product-groups.service';
 

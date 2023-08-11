@@ -13,7 +13,7 @@
             >
               <span *ngIf="environmentType === 'dev'">DEV</span>
             </div>
-            <div style="font-size: 12px" *ngIf="vm.myUser.isAdmin" class="badge bg-danger text-dark ms-3 me-1 not-selectable">
+            <div style="font-size: 12px" *ngIf="vm?.myUser?.isAdmin" class="badge bg-danger text-dark ms-3 me-1 not-selectable">
               <span>ADMIN</span>
             </div>
           </ng-container>
@@ -44,38 +44,38 @@
                   >
                     <span *ngIf="environmentType === 'dev'">DEV</span>
                   </div>
-                  <div style="font-size: 12px" *ngIf="vm.myUser.isAdmin" class="badge bg-danger text-dark ms-1 me-1 not-selectable">
+                  <div style="font-size: 12px" *ngIf="vm?.myUser?.isAdmin" class="badge bg-danger text-dark ms-1 me-1 not-selectable">
                     <span>ADMIN</span>
                   </div>
                 </li>
 
                 <li class="nav-item">
-                  <div ngbDropdown display="dynamic" *ngIf="!vm.myUser.isAdmin else adminOrganisationLink">
+                  <div ngbDropdown display="dynamic" *ngIf="!vm?.myUser?.isAdmin else adminOrganisationLink">
                     <a class="nav-link" id="organisationSwitcherDropdown" ngbDropdownToggle>
-                      <span *ngIf="!vm.selectedOrganisation">{{ 'NAV_ORGANISATIONS' | tr }}</span>
-                      <span *ngIf="vm.selectedOrganisation"><b>{{ vm.selectedOrganisation.name }}</b></span>
+                      <span *ngIf="!vm?.selectedOrganisation">{{ 'NAV_ORGANISATIONS' | tr }}</span>
+                      <span *ngIf="vm?.selectedOrganisation"><b>{{ vm.selectedOrganisation.name }}</b></span>
                     </a>
                     <div ngbDropdownMenu aria-labelledby="organisationSwitcherDropdown">
                       <h6 class="dropdown-header">
                         <b>{{ 'NAV_ORGANISATIONS' | tr }}</b>
                       </h6>
-                      <a *ngIf="vm.selectedOrganisation" ngbDropdownItem routerLink="organisations/{{ vm.selectedOrganisation.id }}">
-                        <b>{{ vm.selectedOrganisation.name }}</b><small> {{ 'NAV_EDIT' | tr }}</small>
+                      <a *ngIf="vm?.selectedOrganisation" ngbDropdownItem routerLink="organisations/{{ vm.selectedOrganisation.id }}">
+                        <b>{{ vm?.selectedOrganisation.name }}</b><small> {{ 'NAV_EDIT' | tr }}</small>
                       </a>
-                      <span class="fake-dropdown-item unselectable" *ngIf="vm.organisations.length === 0">
+                      <span class="fake-dropdown-item unselectable" *ngIf="(vm?.organisations?.length ?? 0) === 0">
                         {{ 'NAV_ORGANISATIONS_NO_ORGS' | tr }}
                       </span>
-                      <ng-container *ngFor="let orgM of vm.organisations; trackById">
+                      <ng-container *ngFor="let orgM of vm?.organisations ?? []; trackById">
                         <span
                           class="fake-dropdown-item"
-                          *ngIf="orgM.id !== vm.selectedOrganisation?.id"
+                          *ngIf="orgM.id !== vm?.selectedOrganisation?.id"
                           (click)="onSelectOrg(orgM); $event.stopPropagation()"
                         >
                           {{ orgM.name }}
                         </span>
                       </ng-container>
                       <div class="dropdown-divider"></div>
-                      <a ngbDropdownItem routerLinkActive="active" routerLink="organisations/create" *ngIf="vm.myUser.isAdmin">
+                      <a ngbDropdownItem routerLinkActive="active" routerLink="organisations/create" *ngIf="vm?.myUser?.isAdmin">
                         <b>+</b> {{ 'ADD_2' | tr }}
                       </a>
                       <a ngbDropdownItem routerLinkActive="active" routerLink="organisations/all">
@@ -87,38 +87,38 @@
                   <ng-template #adminOrganisationLink>
                     <a class="nav-link" routerLink="organisations/all">
                       <b>{{ 'NAV_ORGANISATIONS' | tr }}</b>
-                      <span *ngIf="vm.selectedOrganisation"> ({{ vm.selectedOrganisation.name }})</span>
+                      <span *ngIf="vm?.selectedOrganisation"> ({{ vm?.selectedOrganisation.name }})</span>
                     </a>
                   </ng-template>
                 </li>
 
                 <li class="nav-item">
                   <div ngbDropdown display="dynamic">
-                    <a class="nav-link" id="eventSwitcherDropdown" [class.disabled]="!vm.selectedOrganisation" ngbDropdownToggle>
-                      <span *ngIf="!vm.selectedEvent">{{ 'NAV_EVENTS' | tr }}</span>
-                      <span *ngIf="vm.selectedEvent"><b>{{ vm.selectedEvent.name }}</b></span>
+                    <a class="nav-link" id="eventSwitcherDropdown" [class.disabled]="!vm?.selectedOrganisation" ngbDropdownToggle>
+                      <span *ngIf="!vm?.selectedEvent">{{ 'NAV_EVENTS' | tr }}</span>
+                      <span *ngIf="vm?.selectedEvent"><b>{{ vm.selectedEvent.name }}</b></span>
                     </a>
                     <div ngbDropdownMenu aria-labelledby="eventSwitcherDropdown">
                       <h6 class="dropdown-header">
                         <b>{{ 'NAV_EVENTS' | tr }}</b>
                       </h6>
-                      <a ngbDropdownItem *ngIf="vm.selectedEvent" routerLink="events/{{ vm.selectedEvent.id }}">
+                      <a ngbDropdownItem *ngIf="vm?.selectedEvent" routerLink="events/{{ vm.selectedEvent.id }}">
                         <b>{{ vm.selectedEvent.name }}</b><small> {{ 'NAV_EDIT' | tr }}</small>
                       </a>
-                      <span class="fake-dropdown-item unselectable" *ngIf="vm.events.length === 0">
+                      <span class="fake-dropdown-item unselectable" *ngIf="(vm?.events?.length ?? 0) === 0">
                         {{ 'NAV_EVENTS_NO_EVENTS' | tr }}
                       </span>
-                      <ng-container *ngFor="let eventM of vm.events; trackById">
+                      <ng-container *ngFor="let eventM of vm?.events ?? []; trackById">
                         <span
                           class="fake-dropdown-item"
-                          *ngIf="eventM.id !== vm.selectedEvent?.id"
+                          *ngIf="eventM.id !== vm?.selectedEvent?.id"
                           (click)="onSelectEvent(eventM); $event.stopPropagation()"
                         >
                           {{ eventM.name }}
                         </span>
                       </ng-container>
                       <div class="dropdown-divider"></div>
-                      <a ngbDropdownItem routerLink="events/create" *ngIf="vm.myUser.isAdmin"><b>+</b> {{ 'ADD_2' | tr }}</a>
+                      <a ngbDropdownItem routerLink="events/create" *ngIf="vm?.myUser?.isAdmin"><b>+</b> {{ 'ADD_2' | tr }}</a>
                       <a ngbDropdownItem routerLink="events/all">
                         <i-bs name="calendar-event-fill" />
                         {{ 'SHOW_ALL' | tr }}
@@ -131,7 +131,7 @@
 
             <div>
               <ul class="navbar-nav" [class.mobile-background-1]="ui.isMobile">
-                <li class="nav-item" *ngIf="vm.myUser.isAdmin">
+                <li class="nav-item" *ngIf="vm?.myUser?.isAdmin">
                   <div ngbDropdown display="dynamic">
                     <a class="nav-link" id="adminDropDown" ngbDropdownToggle> {{ 'NAV_INSTANCE_ADMINISTRATION' | tr }}</a>
                     <div ngbDropdownMenu aria-labelledby="adminDropDown">
@@ -152,14 +152,14 @@
                     <a class="nav-link" id="settingsDropdown" ngbDropdownToggle>{{ 'SETTINGS' | tr }}</a>
                     <div ngbDropdownMenu aria-labelledby="settingsDropdown">
                       <div class="px-3 py-1">
-                        <h5>{{ 'NAV_USER_SETTINGS_WELCOME' | tr }} {{ vm.myUser.firstname }},</h5>
-                        <a (click)="openUserEmailQRCode(vm.myUser)">
+                        <h5>{{ 'NAV_USER_SETTINGS_WELCOME' | tr }} {{ vm?.myUser?.firstname }},</h5>
+                        <a (click)="openUserEmailQRCode(vm.myUser)" *ngIf="vm?.myUser">
                           <u>{{ vm.myUser.emailAddress }}</u>
                           <i-bs name="qr-code" class="ms-1" />
                         </a>
                         <small>
                           <br />
-                          <b *ngIf="vm.myUser.isAdmin" class="clickable" (click)="switchAdminMode()"
+                          <b *ngIf="vm?.myUser?.isAdmin" class="clickable" (click)="switchAdminMode()"
                             >{{ 'NAV_USER_SETTINGS_ADMIN' | tr }}</b
                           >
                           <b *ngIf="this.adminModeChanged" class="clickable" (click)="switchAdminMode()"
