@@ -25,7 +25,7 @@ export const ROUTES: Routes = [
       },
       {path: 'event/:id', loadComponent: () => import('./event-by-id-waiters.component').then((c) => c.EventByIdWaitersComponent)},
       {path: ':id', loadComponent: () => import('./waiter-edit/waiter-edit.component').then((c) => c.WaiterEditComponent)},
-      {path: '', pathMatch: 'full', redirectTo: '/home/waiters/organisation'},
+      {path: '', pathMatch: 'full', redirectTo: 'organisation'},
     ],
   },
 ];

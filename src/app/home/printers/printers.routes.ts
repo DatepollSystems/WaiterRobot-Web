@@ -23,7 +23,7 @@ export const ROUTES: Routes = [
         loadComponent: () => import('./printer-edit/printer-edit.component').then((c) => c.PrinterEditComponent),
         canActivate: [eventSelectedGuard],
       },
-      {path: '', pathMatch: 'full', redirectTo: '/home/printers/printers'},
+      {path: '', pathMatch: 'full', redirectTo: 'printers'},
     ],
   },
 ];

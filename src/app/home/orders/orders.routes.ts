@@ -11,7 +11,7 @@ export const ROUTES: Routes = [
     children: [
       {path: 'all', loadComponent: () => import('./all-orders.component').then((c) => c.AllOrdersComponent)},
       {path: ':id', loadComponent: () => import('./order-info.component').then((c) => c.OrderInfoComponent)},
-      {path: '', pathMatch: 'full', redirectTo: '/home/orders/all'},
+      {path: '', pathMatch: 'full', redirectTo: 'all'},
     ],
   },
 ];

@@ -11,7 +11,7 @@ export const ROUTES: Routes = [
         loadComponent: () =>
           import('./system-notification-edit/system-notification-edit.component').then((c) => c.SystemNotificationEditComponent),
       },
-      {path: '', pathMatch: 'full', redirectTo: '/home/system-notifications/all'},
+      {path: '', pathMatch: 'full', redirectTo: 'all'},
     ],
   },
 ];

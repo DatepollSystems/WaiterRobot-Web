@@ -38,7 +38,7 @@ export const ROUTES: Routes = [
         loadComponent: () => import('./table-group-edit/table-group-edit.component').then((c) => c.TableGroupEditComponent),
         canActivate: [eventSelectedGuard],
       },
-      {path: '', pathMatch: 'full', redirectTo: '/home/tables/all'},
+      {path: '', pathMatch: 'full', redirectTo: 'all'},
     ],
   },
 ];

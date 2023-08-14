@@ -7,7 +7,7 @@ export const ROUTES: Routes = [
     children: [
       {path: 'all', loadComponent: () => import('./all-users.component').then((c) => c.AllUsersComponent)},
       {path: ':id', loadComponent: () => import('./user-edit/user-edit.component').then((c) => c.UserEditComponent)},
-      {path: '', pathMatch: 'full', redirectTo: '/home/users/all'},
+      {path: '', pathMatch: 'full', redirectTo: 'all'},
     ],
   },
 ];

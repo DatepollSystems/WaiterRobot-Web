@@ -14,7 +14,7 @@ export const ROUTES: Routes = [
         title: 'NAV_USER_SESSIONS',
         loadComponent: () => import('./sessions.component').then((c) => c.SessionsComponent),
       },
-      {path: '', pathMatch: 'full', redirectTo: '/home/usettings/settings'},
+      {path: '', pathMatch: 'full', redirectTo: 'settings'},
     ],
   },
 ];

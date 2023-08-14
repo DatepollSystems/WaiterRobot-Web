@@ -13,7 +13,7 @@ export const ROUTES: Routes = [
         path: ':id',
         loadComponent: () => import('./organisation-edit/organisation-edit.component').then((c) => c.OrganisationEditComponent),
       },
-      {path: '', pathMatch: 'full', redirectTo: '/home/organisations/all'},
+      {path: '', pathMatch: 'full', redirectTo: 'all'},
     ],
   },
 ];

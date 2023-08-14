@@ -39,7 +39,7 @@ export const ROUTES: Routes = [
         loadComponent: () => import('./product-group-edit/product-group-edit.component').then((c) => c.ProductGroupEditComponent),
         canActivate: [eventSelectedGuard],
       },
-      {path: '', pathMatch: 'full', redirectTo: '/home/products/all'},
+      {path: '', pathMatch: 'full', redirectTo: 'all'},
     ],
   },
 ];

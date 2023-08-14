@@ -32,7 +32,7 @@ const routes: Routes = [
     canActivate: [organisationSelectedGuard, eventSelectedGuard],
     children: [
       {path: 'overview', component: StatisticsOverviewComponent},
-      {path: '', pathMatch: 'full', redirectTo: '/home/statistics/overview'},
+      {path: '', pathMatch: 'full', redirectTo: 'overview'},
     ],
   },
   {path: 'products', component: SumProductsComponent},
