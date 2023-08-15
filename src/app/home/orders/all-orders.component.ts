@@ -112,7 +112,12 @@ import {OrdersService} from './orders.service';
           <ng-container ngbColumnDef="state">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | tr }}</th>
             <td *ngbCellDef="let order" ngb-cell>
-              <app-order-state-badge [orderState]="order.state" [processedAt]="order.processedAt" />
+              <app-order-state-badge
+                [orderState]="order.state"
+                [orderProductStates]="order.orderProductStates"
+                [createdAt]="order.createdAt"
+                [processedAt]="order.processedAt"
+              />
             </td>
           </ng-container>
 

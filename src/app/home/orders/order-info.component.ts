@@ -13,6 +13,8 @@ import {AppOrderCountdownComponent} from './_components/app-order-countdown.comp
 import {AppOrderStateBadgeComponent} from './_components/app-order-state-badge.component';
 import {AppOrderProductsListComponent} from './_components/order-products-list/app-order-products-list.component';
 import {OrdersService} from './orders.service';
+import {a_pluck} from 'dfts-helper';
+import {DfxArrayPluck} from 'dfx-helper';
 
 @Component({
   template: `
@@ -23,7 +25,12 @@ import {OrdersService} from './orders.service';
       </div>
 
       <div class="d-flex flex-wrap gap-2 mt-2 mb-4">
-        <app-order-state-badge [orderState]="vm.order.state" [createdAt]="vm.order.createdAt" [processedAt]="vm.order.processedAt" />
+        <app-order-state-badge
+          [orderState]="vm.order.state"
+          [orderProductStates]="vm.orderProductStates"
+          [createdAt]="vm.order.createdAt"
+          [processedAt]="vm.order.processedAt"
+        />
 
         <span
           class="badge bg-secondary d-flex align-items-center gap-2 ms-md-5 not-selectable"
@@ -93,6 +100,7 @@ import {OrdersService} from './orders.service';
     RouterLink,
     DfxTr,
     NgbTooltip,
+    DfxArrayPluck,
   ],
 })
 export class OrderInfoComponent {
@@ -108,6 +116,7 @@ export class OrderInfoComponent {
       createdAt.setSeconds(createdAt.getSeconds() + 60);
       return {
         order,
+        orderProductStates: order.orderProducts.map((it) => it.printState),
         showRequeueButton: createdAt.getTime() < new Date().getTime(),
         countdown,
       };
@@ -129,4 +138,6 @@ export class OrderInfoComponent {
       }
     });
   }
+
+  protected readonly a_pluck = a_pluck;
 }
