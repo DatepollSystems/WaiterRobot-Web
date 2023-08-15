@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe, LowerCasePipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTr} from 'dfx-translate';
@@ -16,6 +16,7 @@ import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '.
 import {EventsService} from '../../events/_services/events.service';
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TableGroupEditFormComponent} from './table-group-edit-form.component';
+import {RouterLink} from '@angular/router';
 
 @Component({
   template: `
@@ -33,6 +34,11 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
             {{ 'DELETE' | tr }}
           </button>
         </div>
+
+        <a *isEditing="entity" routerLink="../tables/{{ entity.id }}" class="btn btn-sm btn-primary">
+          <i-bs name="columns-gap" />
+          {{ 'HOME_TABLE_GROUP_SHOW_TABLES' | tr }}</a
+        >
 
         <div class="d-flex align-items-center" *isCreating="entity">
           <app-continues-creation-switch (continuesCreationChange)="continuesCreation = $event" />
@@ -84,6 +90,8 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
     TableGroupEditFormComponent,
     AppContinuesCreationSwitchComponent,
     AppBackButtonComponent,
+    LowerCasePipe,
+    RouterLink,
   ],
 })
 export class TableGroupEditComponent extends AbstractModelEditComponent<

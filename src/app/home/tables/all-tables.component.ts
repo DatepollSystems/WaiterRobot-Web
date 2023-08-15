@@ -95,6 +95,16 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
           <td *ngbCellDef="let table" ngb-cell>{{ table.number }}</td>
         </ng-container>
 
+        <ng-container ngbColumnDef="status">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | tr }}</th>
+          <td *ngbCellDef="let table" ngb-cell>
+            <span class="badge text-bg-warning d-inline-flex align-items-center gap-2" *ngIf="table.hasActiveOrders">
+              <i-bs name="exclamation-triangle-fill" />
+              {{ 'HOME_TABLE_UNPAID_PRODUCTS' | tr }}</span
+            >
+          </td>
+        </ng-container>
+
         <ng-container ngbColumnDef="publicId">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_TABLES_PUBLIC_ID' | tr }}</th>
           <td *ngbCellDef="let table" ngb-cell>
@@ -163,7 +173,7 @@ export class AllTablesComponent extends AbstractModelsWithNumberListWithDeleteCo
   constructor(protected entitiesService: TablesService) {
     super(entitiesService);
 
-    this.columnsToDisplay = ['groupName', 'number', 'publicId', 'seats', 'actions'];
+    this.columnsToDisplay = ['groupName', 'number', 'status', 'publicId', 'seats', 'actions'];
   }
 
   printSelectedTables(): void {

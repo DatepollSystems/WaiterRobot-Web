@@ -61,17 +61,22 @@ import {TableEditOrderProductsComponent} from './table-edit-order-products.compo
         <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">
           <a ngbNavLink>{{ 'DATA' | tr }}</a>
           <ng-template ngbNavContent>
-            <app-table-edit-form
-              *ngIf="vm$ | async as vm"
-              #form
-              (formValid)="setValid($event)"
-              (submitUpdate)="submit('UPDATE', $event)"
-              (submitCreate)="submit('CREATE', $event)"
-              [tableGroups]="vm.tableGroups"
-              [selectedEventId]="vm.selectedEvent?.id"
-              [selectedTableGroupId]="vm.selectedTableGroupId"
-              [table]="entity"
-            />
+            <ng-container *ngIf="vm$ | async as vm">
+              <div class="alert alert-warning" *ngIf="vm.tableGroups.length < 1">
+                <a routerLink="../groups/create">{{ 'HOME_TABLE_ADD_GROUP_FIRST' | tr }}</a>
+              </div>
+              <app-table-edit-form
+                #form
+                (formValid)="setValid($event)"
+                (submitUpdate)="submit('UPDATE', $event)"
+                (submitCreate)="submit('CREATE', $event)"
+                [tableGroups]="vm.tableGroups"
+                [selectedEventId]="vm.selectedEvent?.id"
+                [selectedTableGroupId]="vm.selectedTableGroupId"
+                [table]="entity"
+                [formDisabled]="vm.tableGroups.length < 1"
+              />
+            </ng-container>
           </ng-template>
         </li>
 

@@ -1,4 +1,4 @@
-/* eslint-disable */
+ 
 /* tslint:disable */
 /*
  * ---------------------------------------------------------------
@@ -698,6 +698,9 @@ export interface GetTableResponse {
   groupName: string;
   /** @format int64 */
   eventId: number;
+  hasActiveOrders: boolean;
+  /** @format date-time */
+  deleted?: string;
 }
 
 export interface SessionResponse {
@@ -733,6 +736,8 @@ export interface GetProductGroupMaxResponse {
   id: number;
   name: string;
   products: GetProductResponse[];
+  /** @format date-time */
+  deleted?: string;
 }
 
 export interface GetProductResponse {
@@ -743,6 +748,8 @@ export interface GetProductResponse {
   price: number;
   soldOut: boolean;
   allergens: GetAllergenResponse[];
+  /** @format date-time */
+  deleted?: string;
 }
 
 export interface GetWaiterMyselfResponse {
@@ -768,6 +775,8 @@ export interface GetEventOrLocationResponse {
   waiterCreateToken: string;
   /** @format int64 */
   organisationId: number;
+  /** @format date-time */
+  deleted?: string;
 }
 
 export interface GetBillForTableResponse {
@@ -801,10 +810,11 @@ export interface GetWaiterResponse {
   name: string;
   signInToken: string;
   activated: boolean;
-  deleted: boolean;
   /** @format int64 */
   organisationId: number;
   events: GetEventOrLocationMinResponse[];
+  /** @format date-time */
+  deleted?: string;
 }
 
 export interface GetWaiterFcmTokenResponse {
@@ -843,6 +853,8 @@ export interface GetTableGroupResponse {
   name: string;
   /** @format int64 */
   eventId: number;
+  /** @format date-time */
+  deleted?: string;
 }
 
 export interface StatisticsTimelineDataEntryResponse {
@@ -908,6 +920,8 @@ export interface GetProductMaxResponse {
   group: GetProductGroupMinResponse;
   printer: GetPrinterMinResponse;
   allergens: GetAllergenResponse[];
+  /** @format date-time */
+  deleted?: string;
 }
 
 export interface GetProductGroupResponse {
@@ -916,6 +930,8 @@ export interface GetProductGroupResponse {
   name: string;
   /** @format int64 */
   eventId: number;
+  /** @format date-time */
+  deleted?: string;
 }
 
 export interface GetPrinterFontResponse {
@@ -937,6 +953,8 @@ export interface GetPrinterResponse {
   /** @format int64 */
   eventId: number;
   products: GetProductMinResponse[];
+  /** @format date-time */
+  deleted?: string;
 }
 
 export interface GetProductMinResponse {
@@ -954,6 +972,8 @@ export interface GetOrganisationResponse {
   postalCode: string;
   city: string;
   countryCode: string;
+  /** @format date-time */
+  deleted?: string;
 }
 
 export interface OrganisationUserResponse {
@@ -1005,6 +1025,7 @@ export interface GetOrderMinResponse {
   processedAt?: string;
   /** @format date-time */
   createdAt: string;
+  orderProductStates: ('PRINTED' | 'SENT_TO_PRINT' | 'QUEUED')[];
 }
 
 export interface GetTableGroupMinResponse {

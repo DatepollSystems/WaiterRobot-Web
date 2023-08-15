@@ -8,9 +8,7 @@ import {DfxTr} from 'dfx-translate';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
-import {
-  AbstractModelsWithNumberListByIdComponent
-} from '../../_shared/ui/models-list-by-id/abstract-models-with-number-list-by-id.component';
+import {AbstractModelsWithNumberListByIdComponent} from '../../_shared/ui/models-list-by-id/abstract-models-with-number-list-by-id.component';
 import {GetTableGroupResponse, GetTableResponse} from '../../_shared/waiterrobot-backend';
 
 import {TableGroupsService} from './_services/table-groups.service';
@@ -99,6 +97,16 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
           <td *ngbCellDef="let table" ngb-cell>{{ table.number }}</td>
         </ng-container>
 
+        <ng-container ngbColumnDef="status">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | tr }}</th>
+          <td *ngbCellDef="let table" ngb-cell>
+            <span class="badge text-bg-warning d-inline-flex align-items-center gap-2" *ngIf="table.hasActiveOrders">
+              <i-bs name="exclamation-triangle-fill" />
+              {{ 'HOME_TABLE_UNPAID_PRODUCTS' | tr }}</span
+            >
+          </td>
+        </ng-container>
+
         <ng-container ngbColumnDef="publicId">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_TABLES_PUBLIC_ID' | tr }}</th>
           <td *ngbCellDef="let table" ngb-cell>
@@ -168,7 +176,7 @@ export class TableGroupByIdTablesComponent extends AbstractModelsWithNumberListB
   constructor(tablesService: TablesService, tableGroupsService: TableGroupsService) {
     super(tablesService, tableGroupsService);
 
-    this.columnsToDisplay = ['number', 'publicId', 'seats', 'actions'];
+    this.columnsToDisplay = ['number', 'status', 'publicId', 'seats', 'actions'];
   }
 
   printSelectedTables(): void {

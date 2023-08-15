@@ -18,6 +18,7 @@ import {EventsService} from '../../events/_services/events.service';
 import {PrintersService} from '../../printers/_services/printers.service';
 import {ProductGroupsService} from '../_services/product-groups.service';
 import {ProductGroupEditFormComponent} from './product-group-edit-form.component';
+import {RouterLink} from '@angular/router';
 
 @Component({
   template: `
@@ -35,6 +36,11 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
             {{ 'DELETE' | tr }}
           </button>
         </div>
+
+        <a *isEditing="entity" routerLink="../products/{{ entity.id }}" class="btn btn-sm btn-primary">
+          <i-bs name="columns-gap" />
+          {{ 'HOME_PROD_GROUP_SHOW_TABLES' | tr }}</a
+        >
 
         <div class="d-flex align-items-center" *isCreating="entity">
           <app-continues-creation-switch (continuesCreationChange)="continuesCreation = $event" />
@@ -94,6 +100,7 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
     AppContinuesCreationSwitchComponent,
     ProductGroupEditFormComponent,
     AppBackButtonComponent,
+    RouterLink,
   ],
 })
 export class ProductGroupEditComponent extends AbstractModelEditComponent<

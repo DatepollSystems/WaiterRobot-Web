@@ -24,6 +24,7 @@ import {AllergensService} from '../_services/allergens.service';
 import {ProductGroupsService} from '../_services/product-groups.service';
 import {ProductsService} from '../_services/products.service';
 import {AppProductEditFormComponent} from './product-edit-form.component';
+import {TableEditFormComponent} from '../../tables/table-edit/table-edit-form.component';
 
 @Component({
   template: `
@@ -57,19 +58,24 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
         <li [ngbNavItem]="'DATA'">
           <a ngbNavLink>{{ 'DATA' | tr }}</a>
           <ng-template ngbNavContent>
-            <app-product-edit-form
-              *ngIf="vm$ | async as vm"
-              #form
-              (formValid)="setValid($event)"
-              (submitUpdate)="submit('UPDATE', $event)"
-              (submitCreate)="submit('CREATE', $event)"
-              [allergens]="vm.allergens"
-              [printers]="vm.printers"
-              [productGroups]="vm.productGroups"
-              [selectedEventId]="vm.selectedEvent?.id"
-              [selectedProductGroupId]="vm.selectedProductGroupId"
-              [product]="entity"
-            />
+            <ng-container *ngIf="vm$ | async as vm">
+              <div class="alert alert-warning" *ngIf="vm.productGroups.length < 1">
+                <a routerLink="../groups/create">{{ 'HOME_PROD_ADD_GROUP_FIRST' | tr }}</a>
+              </div>
+              <app-product-edit-form
+                #form
+                (formValid)="setValid($event)"
+                (submitUpdate)="submit('UPDATE', $event)"
+                (submitCreate)="submit('CREATE', $event)"
+                [allergens]="vm.allergens"
+                [printers]="vm.printers"
+                [productGroups]="vm.productGroups"
+                [selectedEventId]="vm.selectedEvent?.id"
+                [selectedProductGroupId]="vm.selectedProductGroupId"
+                [product]="entity"
+                [formDisabled]="vm.productGroups.length < 1"
+              />
+            </ng-container>
           </ng-template>
         </li>
       </ul>
@@ -103,6 +109,7 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
     AppSpinnerRowComponent,
     RouterLink,
     AppBackButtonComponent,
+    TableEditFormComponent,
   ],
 })
 export class ProductEditComponent extends AbstractModelEditComponent<CreateProductDto, UpdateProductDto, GetProductMaxResponse, 'DATA'> {
