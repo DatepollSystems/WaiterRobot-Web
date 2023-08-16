@@ -201,6 +201,15 @@ export class AllOrdersComponent extends AbstractModelsListComponent<GetOrderResp
     this.sortingDataAccessors.set('table', (it) => it.table.number);
     this.sortingDataAccessors.set('waiter', (it) => it.waiter.name);
     this.sortingDataAccessors.set('createdAt', (it) => new Date(it.createdAt).getTime());
+    this.sortingDataAccessors.set('state', (it) => {
+      if (it.state === 'QUEUED') {
+        return 'QUEUED';
+      } else if (it.orderProducts.map((iit) => iit.printState).includes('QUEUED')) {
+        return 'IN_PROGRESS';
+      } else {
+        return 'PROCESSED';
+      }
+    });
   }
 
   trackBy = (index: number, t: GetOrderResponse): number => t.id;

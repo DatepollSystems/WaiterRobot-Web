@@ -34,8 +34,7 @@ import {GetOrderProductResponse} from '../../../_shared/waiterrobot-backend';
     <ng-template #popContent class="d-flex flex-column">
       <div *ngIf="createdAt">Erstellt um: {{ createdAt | date: 'dd.MM. HH:mm:ss' }}</div>
       <div *ngIf="processedAt">Verarbeitet um: {{ processedAt | date: 'dd.MM. HH:mm:ss' }}</div>
-      <div *ngIf="queuedProducts !== 0">Ungedruckte Produkte: {{ queuedProducts }}</div>
-      <div *ngIf="printedProducts !== 0">Gedruckte Produkte: {{ printedProducts }}</div>
+      <div>Gedruckte Produkte: {{ printedProducts }} von {{ allProducts }}</div>
     </ng-template>
   `,
   styles: [
@@ -74,11 +73,11 @@ export class AppOrderStateBadgeComponent {
   @Input({required: true}) orderState!: 'QUEUED' | 'PROCESSED';
   @Input({required: true}) set orderProductStates(it: GetOrderProductResponse['printState'][]) {
     this.includesQueued = it.includes('QUEUED');
-    this.queuedProducts = it.filter((iit) => iit === 'QUEUED').length;
-    this.printedProducts = it.length - this.queuedProducts;
+    this.allProducts = it.length;
+    this.printedProducts = it.length - it.filter((iit) => iit === 'QUEUED').length;
   }
   includesQueued = false;
-  queuedProducts = 0;
+  allProducts = 0;
   printedProducts = 0;
 
   @Input() processedAt?: string;

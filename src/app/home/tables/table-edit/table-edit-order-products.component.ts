@@ -1,10 +1,10 @@
 import {DatePipe, NgIf} from '@angular/common';
-import {AfterViewInit, ChangeDetectionStrategy, Component, inject, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {d_from, notNullAndUndefined} from 'dfts-helper';
-import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
+import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {combineLatest, debounceTime, filter, map, of, startWith, switchMap} from 'rxjs';
@@ -34,14 +34,14 @@ import {OrdersService} from '../../orders/orders.service';
 
     <ng-container *ngSub="dataSource$ as dataSource">
       <div class="table-responsive">
-        <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="createdAt" ngbSortDirection="asc">
+        <table ngb-table [hover]="true" [dataSource]="dataSource">
           <ng-container ngbColumnDef="orderNumber">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_NUMBER' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_ORDER_NUMBER' | tr }}</th>
             <td *ngbCellDef="let order" ngb-cell>{{ order.orderNumber }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="state">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'STATE' | tr }}</th>
             <td *ngbCellDef="let order" ngb-cell>
               <app-order-state-badge
                 [orderState]="order.state"
@@ -53,14 +53,14 @@ import {OrdersService} from '../../orders/orders.service';
           </ng-container>
 
           <ng-container ngbColumnDef="waiter">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</th>
             <td *ngbCellDef="let order" ngb-cell>
               <a (click)="$event.stopPropagation()" routerLink="/home/waiters/{{ order.waiter.id }}">{{ order.waiter.name }}</a>
             </td>
           </ng-container>
 
           <ng-container ngbColumnDef="createdAt">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_CREATED_AT' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_ORDER_CREATED_AT' | tr }}</th>
             <td *ngbCellDef="let order" ngb-cell>{{ order.createdAt | date: 'dd.MM. HH:mm:ss' }}</td>
           </ng-container>
 
@@ -110,7 +110,6 @@ export class TableEditOrderProductsComponent implements AfterViewInit {
 
   columnsToDisplay = ['orderNumber', 'state', 'waiter', 'createdAt', 'actions'];
 
-  @ViewChild(NgbSort) sort!: NgbSort;
   public searchParam$ = new FormControl('');
 
   idParam$ = getActivatedRouteIdParam();
@@ -140,7 +139,6 @@ export class TableEditOrderProductsComponent implements AfterViewInit {
           }
         };
         dataSource.filter = searchParam;
-        dataSource.sort = this.sort;
         return dataSource;
       }),
     );
