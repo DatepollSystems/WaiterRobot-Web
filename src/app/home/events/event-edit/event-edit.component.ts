@@ -101,6 +101,8 @@ export class EventEditComponent extends AbstractModelEditComponent<
   GetEventOrLocationResponse,
   'DATA'
 > {
+  override continuousUsePropertyNames = ['organisationId'];
+
   defaultTab = 'DATA' as const;
 
   myUser$ = inject(MyUserService).getUser$();

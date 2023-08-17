@@ -40,9 +40,6 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
 
   protected set isEdit(it: boolean) {
     this._isEdit = it;
-    if (!this._isEdit) {
-      this.reset();
-    }
   }
 
   _isEdit = true;
@@ -67,8 +64,7 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
       distinctUntilChanged(),
       tap((formStatus) => {
         const valid = formStatus === 'VALID' ? 'VALID' : 'INVALID';
-        this.lumber.log('formValidChange', 'is valid', valid);
-        this.lumber.log('formValidChange', 'form value', this.form.value);
+        this.lumber.log('formValidChange', `is valid = ${valid}`, this.form.value);
         this.formValid.emit(valid);
       }),
     );
@@ -106,9 +102,9 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
     const input = this.formRef?.nativeElement.querySelector(focuses.join(','));
     if (input) {
       input.focus();
-      this.lumber.log('ngAfterViewInit', 'Input to focus', input);
+      this.lumber.log('reset', 'Input to focus', input);
     } else {
-      this.lumber.log('ngAfterViewInit', 'No input found to focus');
+      this.lumber.log('reset', 'No input found to focus');
     }
   }
 

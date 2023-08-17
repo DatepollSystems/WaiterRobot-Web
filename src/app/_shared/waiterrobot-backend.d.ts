@@ -301,7 +301,9 @@ export interface UpdateEventOrLocationDto {
    */
   city: string;
   /** @format date-time */
-  date?: string;
+  startDate?: string;
+  /** @format date-time */
+  endDate?: string;
   updateWaiterCreateToken?: boolean;
 }
 
@@ -642,7 +644,9 @@ export interface CreateEventOrLocationDto {
    */
   city: string;
   /** @format date-time */
-  date?: string;
+  startDate?: string;
+  /** @format date-time */
+  endDate?: string;
   /** @format int64 */
   organisationId: number;
 }
@@ -766,8 +770,6 @@ export interface GetEventOrLocationResponse {
   /** @format int64 */
   id: number;
   name: string;
-  /** @format date-time */
-  date?: string;
   street: string;
   streetNumber: string;
   postalCode: string;
@@ -775,6 +777,12 @@ export interface GetEventOrLocationResponse {
   waiterCreateToken: string;
   /** @format int64 */
   organisationId: number;
+  /** @format date-time */
+  startDate?: string;
+  /** @format date-time */
+  endDate?: string;
+  /** @format date-time */
+  date?: string;
   /** @format date-time */
   deleted?: string;
 }

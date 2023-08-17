@@ -57,6 +57,7 @@
   "STARTS": "Startet",
   "ENDS": "Endet",
   "DESCRIPTION": "Beschreibung",
+  "DATETIME_PLACEHOLDER": "14.6.2000 14:30",
 
   "REQUEST_ERROR": "Ein unbekannter Fehler ist aufgetreten.",
 
@@ -177,6 +178,8 @@
 
   "HOME_EVENTS_SELECT": "Event auswählen",
   "HOME_EVENTS_UPDATE_CREATE_WAITER_TOKEN": "Personal-Erstellungs QR-Code zurücksetzen",
+  "HOME_EVENTS_START_DATE": "Start-Datum",
+  "HOME_EVENTS_END_DATE": "End-Datum",
 
   "HOME_USERS_BIRTHDAY": "Geburtstag",
   "HOME_USERS_BIRTHDAY_INCORRECT": "Geburtstag inkorrekt.",
@@ -189,12 +192,10 @@
   "HOME_USERS_EMAIL_INCORRECT": "E-Mail-Adresse inkorrekt.",
   "HOME_USERS_ORGS_INPUT_PLACEHOLDER": "Organisationsname eingeben",
 
-  "HOME_SYSTEM_NOTIFICATIONS_DATE_PLACEHOLDER": "YYYY-MM-DD HH:mm:ss",
   "HOME_SYSTEM_NOTIFICATIONS_TITLE_INCORRECT": "Der Titel muss aus mindestens 1 und maximal 100 Zeichen bestehen",
   "HOME_SYSTEM_NOTIFICATIONS_DESCRIPTION_INCORRECT": "Die Beschreibung muss aus mindestens 1 und maximal 2000 Zeichen bestehen",
   "HOME_SYSTEM_NOTIFICATIONS_TYPE_INCORRECT": "Der Type muss ausgewählt werden",
   "HOME_SYSTEM_NOTIFICATIONS_TYPE_DEFAULT": "Wähle einen Type aus",
-  "HOME_SYSTEM_NOTIFICATIONS_STARTS_INCORRECT": "Datum inkorrekt",
 
   "HOME_PROD_ALL": "Produkte",
   "HOME_PROD": "Produkt",
@@ -310,13 +311,13 @@
   "HOME_STATISTICS_NO_DATA": "Keine Daten verfügbar.",
   "HOME_STATISTICS_PRODUCTS_PER_WAITER": "Produkte pro Personal",
   "HOME_STATISTICS_ORDER_HISTORY": "Bestellverlauf",
-  "HOME_STATISTICS_ONE_HOUR": "1 Stunde",
-  "HOME_STATISTICS_THREE_HOURS": "3 Stunden",
-  "HOME_STATISTICS_SIX_HOURS": "6 Stunden",
-  "HOME_STATISTICS_TWELVE_HOURS": "12 Stunden",
-  "HOME_STATISTICS_ONE_DAY": "1 Tag",
-  "HOME_STATISTICS_THREE_DAYS": "3 Tage",
-  "HOME_STATISTICS_ONE_WEEK": "1 Woche",
-  "HOME_STATISTICS_ONE_MONTH": "1 Monat",
+  "HOME_STATISTICS_MINUTES_2": "2 Minuten",
+  "HOME_STATISTICS_MINUTES_5": "5 Minuten",
+  "HOME_STATISTICS_MINUTES_10": "10 Minuten",
+  "HOME_STATISTICS_MINUTES_30": "30 Minuten",
+  "HOME_STATISTICS_HOURS_1": "1 Stunde",
+  "HOME_STATISTICS_HOURS_3": "3 Stunden",
+  "HOME_STATISTICS_HOURS_6": "6 Stunden",
+  "HOME_STATISTICS_HOURS_12": "12 Stunden",
   "HOME_STATISTICS_NO_DATA_FOR_THIS_TIME": "Keine Daten für diesen Zeitraum verfügbar."
 }

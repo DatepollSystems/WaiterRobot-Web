@@ -8,7 +8,7 @@ import {bootstrapApplication} from '@angular/platform-browser';
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {provideRouter, TitleStrategy, withPreloading} from '@angular/router';
 
-import {NgbDateAdapter, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 
 import {
   baseUrlInterceptor,
@@ -27,10 +27,11 @@ import {CustomTitleStrategy} from './app/_shared/custom-title.strategy';
 import {EnvironmentHelper} from './app/_shared/EnvironmentHelper';
 import {authInterceptor} from './app/_shared/services/auth/auth-interceptor';
 import {errorInterceptor} from './app/_shared/services/auth/error-interceptor';
-import {CustomDateAdapter, CustomDateParserFormatter} from './app/_shared/services/datepicker-adapter';
+import {CustomDateParserFormatter, CustomDateTimeAdapter} from './app/_shared/services/datepicker-adapter';
 
 import {AppComponent} from './app/app.component';
 import {ROUTES} from './app/app.routes';
+import {NgbDateTimeAdapter} from './app/_shared/ui/datetime-picker/datetime-adapter';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -52,7 +53,7 @@ bootstrapApplication(AppComponent, {
       provide: TitleStrategy,
       useClass: CustomTitleStrategy,
     },
-    {provide: NgbDateAdapter, useClass: CustomDateAdapter},
+    {provide: NgbDateTimeAdapter, useClass: CustomDateTimeAdapter},
     {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter},
     provideHttpClient(
       withInterceptors([baseUrlInterceptor, postPutJsonContentTypeInterceptor, loggingInterceptor, authInterceptor, errorInterceptor]),

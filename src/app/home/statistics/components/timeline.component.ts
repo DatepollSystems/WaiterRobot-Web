@@ -3,12 +3,13 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import * as shape from 'd3-shape';
-import {d_format, d_formatWithHoursMinutesAndSeconds, d_from, notNullAndUndefined} from 'dfts-helper';
-import {BehaviorSubject, combineLatest, debounceTime, filter, map, startWith, switchMap} from 'rxjs';
+import {d_from, notNullAndUndefined} from 'dfts-helper';
+import {BehaviorSubject, combineLatest, debounceTime, filter, map, merge, of, shareReplay, startWith, switchMap} from 'rxjs';
 import {StatisticsTimelineResponse} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {dateToBackendDateTimeString} from '../../../_shared/services/datepicker-adapter';
 
-type timelinePrecision = 'ONE_HOUR' | 'THREE_HOURS' | 'SIX_HOURS' | 'TWELVE_HOURS' | 'ONE_DAY' | 'THREE_DAYS' | 'ONE_WEEK' | 'ONE_MONTH';
 type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
 
 @Component({
@@ -16,152 +17,97 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
     <div class="card">
       <div class="card-body">
         <h4>{{ 'HOME_STATISTICS_ORDER_HISTORY' | tr }}</h4>
-        <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center">
-          <div class="d-flex flex-wrap gap-2">
-            <div class="form-group">
-              <div class="input-group">
-                <input
-                  type="text"
-                  ngbDatepicker
-                  class="form-control bg-dark text-white"
-                  id="date"
-                  [formControl]="dateFormControl"
-                  #datePicker="ngbDatepicker"
-                  name="date"
-                />
-                <button class="btn btn-outline-light" (click)="datePicker.toggle()" type="button">
-                  <i-bs name="calendar-date" />
-                </button>
-              </div>
-            </div>
-            <ngb-timepicker [spinners]="false" [formControl]="timeFormControl" />
-          </div>
-          <div class="d-flex flex-wrap gap-2">
-            <div
-              class="btn-group flex-wrap"
-              role="group"
-              aria-label="Timespan select"
-              *ngIf="selectedTimelinePrecision$ | async as selected"
+        <div class="d-flex flex-wrap gap-2 justify-content-between align-items-end">
+          <div class="btn-group" role="group" aria-label="Basic example" *ngIf="selectedTimelineType$ | async as selected">
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              [class.active]="selected === 'PRODUCTS'"
+              (click)="selectedTimelineType$.next('PRODUCTS')"
             >
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-primary"
-                [class.active]="selected === 'ONE_HOUR'"
-                (click)="selectedTimelinePrecision$.next('ONE_HOUR')"
-              >
-                {{ 'HOME_STATISTICS_ONE_HOUR' | tr }}
-              </button>
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-primary"
-                [class.active]="selected === 'THREE_HOURS'"
-                (click)="selectedTimelinePrecision$.next('THREE_HOURS')"
-              >
-                {{ 'HOME_STATISTICS_THREE_HOURS' | tr }}
-              </button>
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-primary"
-                [class.active]="selected === 'SIX_HOURS'"
-                (click)="selectedTimelinePrecision$.next('SIX_HOURS')"
-              >
-                {{ 'HOME_STATISTICS_SIX_HOURS' | tr }}
-              </button>
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-primary"
-                [class.active]="selected === 'TWELVE_HOURS'"
-                (click)="selectedTimelinePrecision$.next('TWELVE_HOURS')"
-              >
-                {{ 'HOME_STATISTICS_TWELVE_HOURS' | tr }}
-              </button>
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-primary"
-                [class.active]="selected === 'ONE_DAY'"
-                (click)="selectedTimelinePrecision$.next('ONE_DAY')"
-              >
-                {{ 'HOME_STATISTICS_ONE_DAY' | tr }}
-              </button>
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-primary"
-                [class.active]="selected === 'THREE_DAYS'"
-                (click)="selectedTimelinePrecision$.next('THREE_DAYS')"
-              >
-                {{ 'HOME_STATISTICS_THREE_DAYS' | tr }}
-              </button>
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-primary"
-                [class.active]="selected === 'ONE_WEEK'"
-                (click)="selectedTimelinePrecision$.next('ONE_WEEK')"
-              >
-                {{ 'HOME_STATISTICS_ONE_WEEK' | tr }}
-              </button>
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-primary"
-                [class.active]="selected === 'ONE_MONTH'"
-                (click)="selectedTimelinePrecision$.next('ONE_MONTH')"
-              >
-                {{ 'HOME_STATISTICS_ONE_MONTH' | tr }}
-              </button>
+              {{ 'HOME_PROD_ALL' | tr }}
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              [class.active]="selected === 'PRODUCT_GROUPS'"
+              (click)="selectedTimelineType$.next('PRODUCT_GROUPS')"
+            >
+              {{ 'HOME_PROD_GROUP' | tr }}
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              [class.active]="selected === 'WAITERS'"
+              (click)="selectedTimelineType$.next('WAITERS')"
+            >
+              {{ 'NAV_WAITERS' | tr }}
+            </button>
+          </div>
+
+          <div class="row align-items-end justify-content-end gy-2">
+            <div class="form-group col-12 col-md-6 col-lg-4">
+              <label for="startDate">{{ 'HOME_EVENTS_START_DATE' | tr }}</label>
+              <app-datetime-input
+                id="startDate"
+                [formControl]="startDateFormControl"
+                minuteStep="30"
+                [seconds]="false"
+                placeholder="{{ 'DATETIME_PLACEHOLDER' | tr }}"
+              />
             </div>
-            <div class="btn-group" role="group" aria-label="Basic example" *ngIf="selectedTimelineType$ | async as selected">
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-secondary"
-                [class.active]="selected === 'PRODUCTS'"
-                (click)="selectedTimelineType$.next('PRODUCTS')"
-              >
-                {{ 'HOME_PROD_ALL' | tr }}
-              </button>
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-secondary"
-                [class.active]="selected === 'PRODUCT_GROUPS'"
-                (click)="selectedTimelineType$.next('PRODUCT_GROUPS')"
-              >
-                {{ 'HOME_PROD_GROUP' | tr }}
-              </button>
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-secondary"
-                [class.active]="selected === 'WAITERS'"
-                (click)="selectedTimelineType$.next('WAITERS')"
-              >
-                {{ 'NAV_WAITERS' | tr }}
-              </button>
+
+            <div class="form-group col-12 col-md-6 col-lg-4">
+              <label for="endDate">{{ 'HOME_EVENTS_END_DATE' | tr }}</label>
+              <app-datetime-input
+                id="endDate"
+                [formControl]="endDateFormControl"
+                minuteStep="30"
+                [seconds]="false"
+                placeholder="{{ 'DATETIME_PLACEHOLDER' | tr }}"
+              />
+            </div>
+
+            <div class="col-12 col-md-4 col-lg-3">
+              <select [formControl]="selectedTimelinePrecision$" class="form-select" id="timeline-precision-select">
+                <option [value]="2">{{ 'HOME_STATISTICS_MINUTES_2' | tr }}</option>
+                <option [value]="5">{{ 'HOME_STATISTICS_MINUTES_5' | tr }}</option>
+                <option [value]="10">{{ 'HOME_STATISTICS_MINUTES_10' | tr }}</option>
+                <option [value]="30">{{ 'HOME_STATISTICS_MINUTES_30' | tr }}</option>
+                <option [value]="60">{{ 'HOME_STATISTICS_HOURS_1' | tr }}</option>
+                <option [value]="180">{{ 'HOME_STATISTICS_HOURS_3' | tr }}</option>
+                <option [value]="360">{{ 'HOME_STATISTICS_HOURS_6' | tr }}</option>
+                <option [value]="720">{{ 'HOME_STATISTICS_HOURS_12' | tr }}</option>
+              </select>
             </div>
           </div>
         </div>
-        <hr />
-        <ng-container *ngIf="timelineResponse$ | async as timelineResponse; else noData">
-          <div style="height: 30vh; width: 98%" *ngIf="timelineResponse.data.length > 0; else noData">
-            <ngx-charts-line-chart
-              class="position-absolute"
-              [showXAxisLabel]="true"
-              [showYAxisLabel]="true"
-              [showGridLines]="true"
-              [yScaleMax]="timelineResponse.highestValue"
-              [xAxis]="true"
-              [yAxis]="true"
-              [xAxisTickFormatting]="xFormatting"
-              [legend]="false"
-              xAxisLabel="{{ 'DATE' | tr }}"
-              yAxisLabel="{{ 'COUNT' | tr }}"
-              [timeline]="true"
-              [curve]="curve"
-              [results]="timelineResponse.data"
-            />
-          </div>
-        </ng-container>
-
-        <ng-template #noData>
-          <h5 class="text-center my-4">{{ 'HOME_STATISTICS_NO_DATA_FOR_THIS_TIME' | tr }}</h5>
-        </ng-template>
       </div>
+      <hr />
+      <ng-container *ngIf="timelineResponse$ | async as timelineResponse; else noData">
+        <div style="height: 30vh; width: 98%" *ngIf="timelineResponse.data.length > 0; else noData">
+          <ngx-charts-line-chart
+            class="position-absolute"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [showGridLines]="true"
+            [yScaleMax]="timelineResponse.highestValue"
+            [xAxis]="true"
+            [yAxis]="true"
+            [xAxisTickFormatting]="xFormatting"
+            [legend]="false"
+            xAxisLabel="{{ 'DATE' | tr }}"
+            yAxisLabel="{{ 'COUNT' | tr }}"
+            [timeline]="true"
+            [curve]="curve"
+            [results]="timelineResponse.data"
+          />
+        </div>
+      </ng-container>
+
+      <ng-template #noData>
+        <h5 class="text-center my-4">{{ 'HOME_STATISTICS_NO_DATA_FOR_THIS_TIME' | tr }}</h5>
+      </ng-template>
     </div>
   `,
   selector: 'app-statistics-timeline',
@@ -170,37 +116,48 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
 export class TimelineComponent {
   curve = shape.curveCatmullRom;
 
-  dateFormControl = new FormControl(d_format(new Date()));
-  timeFormControl = new FormControl({hour: new Date().getHours(), minute: new Date().getMinutes()});
+  selectedEvent$ = this.eventsService.getSelected$.pipe(filter(notNullAndUndefined), shareReplay(1));
+  startDateFormControl = new FormControl<string>('');
+  endDateFormControl = new FormControl<string>('');
 
-  selectedTimelinePrecision$ = new BehaviorSubject<timelinePrecision>('ONE_HOUR');
+  selectedTimelinePrecision$ = new FormControl<number>(10);
   selectedTimelineType$ = new BehaviorSubject<timelineType>('PRODUCTS');
 
   timelineResponse$ = combineLatest([
-    this.eventsService.getSelected$.pipe(filter(notNullAndUndefined)),
-    this.selectedTimelinePrecision$.asObservable(),
-    this.selectedTimelineType$.asObservable(),
-    this.dateFormControl.valueChanges.pipe(
-      filter(notNullAndUndefined),
-      filter((it) => it !== 'NaN-NaN-NaN' && new Date(it).toString() !== 'Invalid Date'),
-      debounceTime(400),
-      startWith(d_format(new Date())),
+    this.selectedEvent$,
+    this.selectedTimelinePrecision$.valueChanges.pipe(
+      map((it) => it ?? 10),
+      startWith(10),
     ),
-    this.timeFormControl.valueChanges.pipe(
+    this.selectedTimelineType$.asObservable(),
+    merge(this.startDateFormControl.valueChanges, this.selectedEvent$.pipe(map((it) => it.startDate))).pipe(
+      debounceTime(400),
       filter(notNullAndUndefined),
-      debounceTime(200),
-      startWith({hour: new Date().getHours(), minute: new Date().getMinutes()}),
+      filter((it) => it.length > 0),
+    ),
+    merge(this.endDateFormControl.valueChanges, this.selectedEvent$.pipe(map((it) => it.endDate))).pipe(
+      debounceTime(400),
+      filter(notNullAndUndefined),
+      filter((it) => it.length > 0),
     ),
   ]).pipe(
-    switchMap(([event, precision, type, dateS, time]) => {
-      const date = new Date(dateS);
-      date.setHours(time.hour);
-      date.setMinutes(time.minute);
+    switchMap(([event, precision, type, startDate, endDate]) => {
       let params = new HttpParams().set('eventId', event.id);
-      params = params.append(
-        'startDate',
-        d_formatWithHoursMinutesAndSeconds(date.toLocaleString('en-US', {timeZone: 'UTC'})).replace(' ', 'T'),
-      );
+      // remove UTC timezone to make it a local time, so we can read the correct UTC time
+      const startDateD = d_from(startDate.split('.')[0]);
+      const endDateD = d_from(endDate.split('.')[0]);
+
+      if (endDateD.getTime() < startDateD.getTime()) {
+        console.warn('End date before start date');
+        return of({highestValue: 0, data: []});
+      }
+
+      if (endDateD.getTime() - startDateD.getTime() < precision * 60000) {
+        console.warn('timelinePrecision smaller than selected window');
+        return of({highestValue: 0, data: []});
+      }
+      params = params.append('startDate', dateToBackendDateTimeString(startDateD));
+      params = params.append('endDate', dateToBackendDateTimeString(endDateD));
       params = params.append('precision', precision);
       params = params.append('type', type);
       return this.httpClient.get<StatisticsTimelineResponse>('/config/statistics/timeline', {params});
@@ -221,7 +178,12 @@ export class TimelineComponent {
   constructor(
     private httpClient: HttpClient,
     private eventsService: EventsService,
-  ) {}
+  ) {
+    this.selectedEvent$.pipe(takeUntilDestroyed()).subscribe((it) => {
+      this.startDateFormControl.setValue(it.startDate ?? null);
+      this.endDateFormControl.setValue(it.endDate ?? null);
+    });
+  }
 
   xFormatting = (it: string): string => {
     const d = d_from(it);
@@ -233,12 +195,7 @@ export class TimelineComponent {
     if (minutes < 10) {
       minutes = `0${minutes}`;
     }
-    let dayMonth = '';
-    const selectedPrecision = this.selectedTimelinePrecision$.getValue();
-    if (selectedPrecision === 'THREE_DAYS' || selectedPrecision === 'ONE_WEEK' || selectedPrecision === 'ONE_MONTH') {
-      dayMonth = `${d.getDate()}.${d.getMonth()}.`;
-    }
 
-    return `${dayMonth} ${hours}:${minutes}`;
+    return `${d.getDate()}.${d.getMonth() + 1}. ${hours}:${minutes}`;
   };
 }

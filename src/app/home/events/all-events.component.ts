@@ -86,9 +86,14 @@ import {EventsService} from './_services/events.service';
             <td *ngbCellDef="let event" ngb-cell>{{ event.name }}</td>
           </ng-container>
 
-          <ng-container ngbColumnDef="date">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'DATE' | tr }}</th>
-            <td *ngbCellDef="let event" ngb-cell>{{ event.date | date: 'dd.MM.YYYY' }}</td>
+          <ng-container ngbColumnDef="startDate">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_EVENTS_START_DATE' | tr }}</th>
+            <td *ngbCellDef="let event" ngb-cell>{{ event.startDate | date: 'dd.MM.yyyy HH:mm' : 'UTC' }}</td>
+          </ng-container>
+
+          <ng-container ngbColumnDef="endDate">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_EVENTS_END_DATE' | tr }}</th>
+            <td *ngbCellDef="let event" ngb-cell>{{ event.endDate | date: 'dd.MM.yyyy HH:mm' : 'UTC' }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="street">
@@ -164,6 +169,6 @@ export class AllEventsComponent extends AbstractModelsWithNameListWithDeleteComp
   constructor(public eventsService: EventsService) {
     super(eventsService);
 
-    this.columnsToDisplay = ['name', 'date', 'street', 'streetNumber', 'postalCode', 'city', 'actions'];
+    this.columnsToDisplay = ['name', 'startDate', 'endDate', 'street', 'streetNumber', 'postalCode', 'city', 'actions'];
   }
 }

@@ -12,6 +12,7 @@ import {
   UpdateSystemNotificationDto,
 } from '../../../_shared/waiterrobot-backend';
 import {systemNotificationTypes} from '../_services/system-notifications.service';
+import {AppDatetimeInputComponent} from '../../../_shared/ui/datetime-picker/datetime-picker.component';
 
 @Component({
   template: `
@@ -48,36 +49,25 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
 
         <div class="form-group col-sm">
           <label for="starts">{{ 'STARTS' | tr }}</label>
-          <div class="input-group">
-            <input
-              type="text"
-              class="form-control bg-dark text-white"
-              id="starts"
-              placeholder="{{ 'HOME_SYSTEM_NOTIFICATIONS_DATE_PLACEHOLDER' | tr }}"
-              formControlName="starts"
-            />
-          </div>
 
-          <small *ngIf="form.controls.starts.invalid" class="text-danger">
-            {{ 'HOME_SYSTEM_NOTIFICATIONS_STARTS_INCORRECT' | tr }}
-          </small>
+          <app-datetime-input
+            id="starts"
+            formControlName="starts"
+            minuteStep="15"
+            [seconds]="false"
+            placeholder="{{ 'DATETIME_PLACEHOLDER' | tr }}"
+          />
         </div>
 
         <div class="form-group col-sm">
           <label for="ends">{{ 'ENDS' | tr }}</label>
-          <div class="input-group">
-            <input
-              type="text"
-              class="form-control bg-dark text-white"
-              id="ends"
-              placeholder="{{ 'HOME_SYSTEM_NOTIFICATIONS_DATE_PLACEHOLDER' | tr }}"
-              formControlName="ends"
-            />
-          </div>
-
-          <small *ngIf="form.controls.ends.invalid" class="text-danger">
-            {{ 'HOME_SYSTEM_NOTIFICATIONS_STARTS_INCORRECT' | tr }}
-          </small>
+          <app-datetime-input
+            id="ends"
+            formControlName="ends"
+            minuteStep="15"
+            [seconds]="false"
+            placeholder="{{ 'DATETIME_PLACEHOLDER' | tr }}"
+          />
         </div>
       </div>
 
@@ -111,7 +101,17 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
     </form>
   `,
   selector: 'app-system-notification-edit-form',
-  imports: [ReactiveFormsModule, NgIf, AsyncPipe, DfxTr, AppIconsModule, NgForOf, TextFieldModule, DfxLowerCaseExceptFirstLettersPipe],
+  imports: [
+    ReactiveFormsModule,
+    NgIf,
+    AsyncPipe,
+    DfxTr,
+    AppIconsModule,
+    NgForOf,
+    TextFieldModule,
+    DfxLowerCaseExceptFirstLettersPipe,
+    AppDatetimeInputComponent,
+  ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

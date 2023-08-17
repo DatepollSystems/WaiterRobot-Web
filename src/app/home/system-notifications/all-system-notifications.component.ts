@@ -60,12 +60,12 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
 
         <ng-container ngbColumnDef="starts">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STARTS' | tr }}</th>
-          <td *ngbCellDef="let it" ngb-cell>{{ it.starts | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
+          <td *ngbCellDef="let it" ngb-cell>{{ it.starts | date: 'dd.MM.YYYY HH:mm' }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="ends">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ENDS' | tr }}</th>
-          <td *ngbCellDef="let it" ngb-cell>{{ it.ends | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
+          <td *ngbCellDef="let it" ngb-cell>{{ it.ends | date: 'dd.MM.YYYY HH:mm' }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="active">
