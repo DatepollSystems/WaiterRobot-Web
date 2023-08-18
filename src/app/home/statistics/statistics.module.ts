@@ -6,7 +6,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {NgbDropdownModule, NgbInputDatepicker, NgbNavModule, NgbTimepicker, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {BarChartModule, LineChartModule, PieChartModule} from '@swimlane/ngx-charts';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxCountUp} from 'dfx-helper';
+import {DfxCountUp, DfxTrackById} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {eventSelectedGuard} from '../../_shared/services/guards/event-selected-guard';
@@ -24,6 +24,7 @@ import {TimelineComponent} from './components/timeline.component';
 import {StatisticsOverviewComponent} from './statistics-overview.component';
 
 import {StatisticsComponent} from './statistics.component';
+import {AppDatetimeInputComponent} from '../../_shared/ui/datetime-picker/datetime-picker.component';
 
 const routes: Routes = [
   {
@@ -70,6 +71,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     NgbTimepicker,
     AppBackButtonComponent,
+    DfxTrackById,
+    AppDatetimeInputComponent,
   ],
 })
 export class StatisticsModule {}

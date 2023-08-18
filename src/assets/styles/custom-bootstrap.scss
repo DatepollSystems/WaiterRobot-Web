@@ -93,6 +93,13 @@ $popover-body-color: $text-color;
   background-color: $primary-8 !important;
 }
 
+.ngb-dp-day {
+  .btn-light:hover {
+    background-color: $primary-6 !important;
+    outline: 1px solid var(--bs-border-color);
+  }
+}
+
 // 4. Include any default map overrides here
 
 // 5. Include remainder of required parts

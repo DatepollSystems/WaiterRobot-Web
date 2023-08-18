@@ -24,10 +24,12 @@ import {GetSystemNotificationResponse} from '../../../_shared/waiterrobot-backen
           <i-bs *ngSwitchCase="'WARNING'" name="exclamation-triangle-fill" />
         </ng-container>
         <h5 class="mt-2">
-          {{ notification.title ?? (notification.type | s_lowerCaseAllExceptFirstLetter) }} (<span *ngIf="notification.starts"
+          {{ notification.title ?? (notification.type | s_lowerCaseAllExceptFirstLetter) }}
+          <span *ngIf="notification.starts || notification.ends">(</span
+          ><span *ngIf="notification.starts"
             >{{ notification.starts | date: 'dd.MM.YYYY HH:mm' }}<span *ngIf="notification.starts && notification.ends"> - </span
             >{{ notification.ends | date: getEndsFormatting() }}</span
-          >)
+          ><span *ngIf="notification.starts || notification.ends">)</span>
         </h5>
       </div>
       <div>
