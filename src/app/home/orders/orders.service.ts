@@ -1,15 +1,16 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {notNullAndUndefined} from 'dfts-helper';
-import {HasGetAll, HasGetSingle} from 'dfx-helper';
+import {HasGetSingle} from 'dfx-helper';
 import {BehaviorSubject, filter, map, Observable, switchMap, tap, timer} from 'rxjs';
 import {NotificationService} from '../../_shared/notifications/notification.service';
 
-import {GetOrderResponse} from '../../_shared/waiterrobot-backend';
+import {GetOrderMinResponse, GetOrderResponse, PaginatedResponseDtoGetOrderMinResponse} from '../../_shared/waiterrobot-backend';
 import {EventsService} from '../events/_services/events.service';
+import {HasGetPaginated, PageableDto} from '../../_shared/services/services.interface';
 
 @Injectable({providedIn: 'root'})
-export class OrdersService implements HasGetAll<GetOrderResponse>, HasGetSingle<GetOrderResponse> {
+export class OrdersService implements HasGetPaginated<GetOrderMinResponse>, HasGetSingle<GetOrderResponse> {
   url = '/config/order';
 
   constructor(
@@ -27,21 +28,6 @@ export class OrdersService implements HasGetAll<GetOrderResponse>, HasGetSingle<
       switchMap(() => timer(0, 1000)),
       map((tick) => this.refreshIn - (tick % this.refreshIn)),
     );
-
-  getAll$(): Observable<GetOrderResponse[]> {
-    return this.triggerRefresh.pipe(
-      switchMap(() => timer(0, this.refreshIn * 1000)),
-      switchMap(() => this.eventsService.getSelected$),
-      filter(notNullAndUndefined),
-      switchMap((event) => {
-        let params = new HttpParams();
-        params = params.append('eventId', event.id);
-        //params = params.append('state', 'QUEUED')
-        return this.httpClient.get<GetOrderResponse[]>(this.url, {params: params});
-      }),
-      tap(() => this.notificationService.tsuccess('HOME_ORDER_REFRESHED')),
-    );
-  }
 
   getSingle$(id: GetOrderResponse['id']): Observable<GetOrderResponse> {
     return this.triggerRefresh.pipe(
@@ -65,5 +51,27 @@ export class OrdersService implements HasGetAll<GetOrderResponse>, HasGetSingle<
 
   getByWaiterId$(id: number): Observable<GetOrderResponse[]> {
     return this.httpClient.get<GetOrderResponse[]>(this.url, {params: new HttpParams().set('waiterId', id)});
+  }
+
+  getAllPaginated$(options: PageableDto): Observable<PaginatedResponseDtoGetOrderMinResponse> {
+    let params = new HttpParams();
+    params = params.append('page', options.page ?? 0);
+    params = params.append('size', options.size ?? 10);
+    if (options.sort) {
+      params = params.append('sort', options.sort);
+    }
+    if (options.query && options.query.length > 0) {
+      params = params.append('query', options.query);
+    }
+    return this.triggerRefresh.pipe(
+      switchMap(() => timer(0, this.refreshIn * 1000)),
+      switchMap(() => this.eventsService.getSelected$),
+      filter(notNullAndUndefined),
+      switchMap((event) => {
+        params = params.append('eventId', event.id);
+        return this.httpClient.get<PaginatedResponseDtoGetOrderMinResponse>(`${this.url}/table`, {params});
+      }),
+      tap(() => this.notificationService.tsuccess('HOME_ORDER_REFRESHED')),
+    );
   }
 }

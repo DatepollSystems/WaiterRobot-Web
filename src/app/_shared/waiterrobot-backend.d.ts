@@ -1012,7 +1012,7 @@ export interface PaginatedResponseDtoGetOrganisationResponse {
   numberOfItems: number;
   /** @format int32 */
   numberOfPages: number;
-  list: GetOrganisationResponse[];
+  data: GetOrganisationResponse[];
 }
 
 export interface OrganisationSettingResponse {
@@ -1084,6 +1084,14 @@ export interface GetOrderResponse {
   /** @format date-time */
   createdAt: string;
   orderProducts: GetOrderProductResponse[];
+}
+
+export interface PaginatedResponseDtoGetOrderMinResponse {
+  /** @format int64 */
+  numberOfItems: number;
+  /** @format int32 */
+  numberOfPages: number;
+  data: GetOrderMinResponse[];
 }
 
 export interface GetMediatorResponse {
