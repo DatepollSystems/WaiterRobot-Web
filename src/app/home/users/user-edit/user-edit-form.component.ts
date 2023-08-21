@@ -142,7 +142,7 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Create
     id: [-1],
   });
 
-  override overrideRawValue = (value: typeof this.form.value): any => {
+  override overrideRawValue = (value: typeof this.form.value): unknown => {
     // @ts-ignore
     value.role = value.isAdmin ? 'ADMIN' : 'USER';
     if ((value.updatePassword === false || value.updatePassword === undefined) && this._isEdit) {

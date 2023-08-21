@@ -8,7 +8,7 @@ export class AppIsCreatingDirective {
   private viewContainerRef = inject(ViewContainerRef);
   private templateRef = inject(TemplateRef<unknown>);
 
-  @Input() set isCreating(entity: unknown | 'CREATE') {
+  @Input() set isCreating(entity: unknown) {
     if (entity !== 'CREATE') {
       this.viewContainerRef.clear();
       return;

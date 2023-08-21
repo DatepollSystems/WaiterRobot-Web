@@ -18,7 +18,7 @@ export class MyUserService {
   user$ = merge(
     this.httpClient.get<GetMyselfResponse>('/user/myself').pipe(
       tap((it) => st_set('my_user', it)),
-      catchError((error) => {
+      catchError((error: unknown) => {
         const user = o_fromStorage<GetMyselfResponse>('my_user');
         this.lumber.info('getUserRequest', 'Try to read user from storage', user);
         return user ? of(user) : throwError(() => error);

@@ -52,7 +52,7 @@ export abstract class AbstractModelsListComponent<EntityType> implements AfterVi
         debounceTime(250),
       ),
       entitiesStream.pipe(
-        catchError((error) => {
+        catchError((error: unknown) => {
           void this.router.navigateByUrl('/not-found');
           return throwError(() => error);
         }),
@@ -67,6 +67,7 @@ export abstract class AbstractModelsListComponent<EntityType> implements AfterVi
             if (!fun) {
               return item[property as keyof EntityType];
             }
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
             return fun(item);
           };
         }

@@ -4,10 +4,10 @@ import {notNullAndUndefined} from 'dfts-helper';
 import {HasGetSingle} from 'dfx-helper';
 import {BehaviorSubject, filter, map, Observable, switchMap, tap, timer} from 'rxjs';
 import {NotificationService} from '../../_shared/notifications/notification.service';
+import {HasGetPaginated, PageableDto} from '../../_shared/services/services.interface';
 
 import {GetOrderMinResponse, GetOrderResponse, PaginatedResponseDtoGetOrderMinResponse} from '../../_shared/waiterrobot-backend';
 import {EventsService} from '../events/_services/events.service';
-import {HasGetPaginated, PageableDto} from '../../_shared/services/services.interface';
 
 @Injectable({providedIn: 'root'})
 export class OrdersService implements HasGetPaginated<GetOrderMinResponse>, HasGetSingle<GetOrderResponse> {
@@ -25,6 +25,7 @@ export class OrdersService implements HasGetPaginated<GetOrderMinResponse>, HasG
 
   countdown$ = (): Observable<number> =>
     this.triggerRefresh.pipe(
+      tap(() => this.notificationService.tsuccess('HOME_ORDER_REFRESHED')),
       switchMap(() => timer(0, 1000)),
       map((tick) => this.refreshIn - (tick % this.refreshIn)),
     );
@@ -71,7 +72,6 @@ export class OrdersService implements HasGetPaginated<GetOrderMinResponse>, HasG
         params = params.append('eventId', event.id);
         return this.httpClient.get<PaginatedResponseDtoGetOrderMinResponse>(`${this.url}/table`, {params});
       }),
-      tap(() => this.notificationService.tsuccess('HOME_ORDER_REFRESHED')),
     );
   }
 }

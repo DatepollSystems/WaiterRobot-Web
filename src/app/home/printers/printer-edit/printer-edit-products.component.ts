@@ -52,7 +52,7 @@ export class PrinterEditProductsComponent implements AfterViewInit {
 
   _products!: NgbTableDataSource<GetProductMinResponse>;
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this._products.sort = this.sort;
   }
 }

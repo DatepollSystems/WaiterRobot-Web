@@ -90,11 +90,12 @@ export abstract class AbstractModelEditComponent<
             this.form?.reset();
 
             if (this.continuousUsePropertyNames.length > 0) {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
-              for (const modelKeyValuePairs of Object.keys(dto as Record<string, any>).map((key) => [String(key), dto[key]])) {
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+              for (const modelKeyValuePairs of Object.keys(dto as Record<string, never>).map((key) => [String(key), dto[key]])) {
                 if (this.continuousUsePropertyNames.includes(modelKeyValuePairs[0] as string)) {
                   this.form?.patchValue({
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                     [modelKeyValuePairs[0]]: modelKeyValuePairs[1],
                   });
                 }

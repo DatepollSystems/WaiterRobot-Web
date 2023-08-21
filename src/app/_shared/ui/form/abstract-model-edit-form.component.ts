@@ -1,3 +1,5 @@
+// noinspection NonAsciiCharacters,JSNonASCIINames
+
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -71,6 +73,7 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
   }
 
   ngAfterViewInit(): void {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const input = this.formRef?.nativeElement.querySelector(focuses.join(','));
     if (input && !this._isEdit) {
       of(EMPTY)
@@ -84,7 +87,7 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
     }
   }
 
-  protected overrideRawValue(value: typeof this.form.value): any {
+  protected overrideRawValue(value: typeof this.form.value): unknown {
     return value;
   }
 
@@ -99,6 +102,7 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
 
   reset(): void {
     this.form.reset();
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const input = this.formRef?.nativeElement.querySelector(focuses.join(','));
     if (input) {
       input.focus();
@@ -110,8 +114,8 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
 
   patchValue<
     TControl extends {
-      [K in keyof TControl]: AbstractControl<any>;
-    } = any,
+      [K in keyof TControl]: AbstractControl<unknown>;
+    } = object,
   >(value: ɵFormGroupValue<TControl>): void {
     this.form.patchValue(value);
   }

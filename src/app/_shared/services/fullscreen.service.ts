@@ -8,7 +8,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 export class FullScreenService {
   private fullScreen = new BehaviorSubject(b_fromStorage('is_fullscreen') ?? false);
 
-  setFullScreen(it: boolean) {
+  setFullScreen(it: boolean): void {
     st_set('is_fullscreen', it);
     this.fullScreen.next(it);
   }

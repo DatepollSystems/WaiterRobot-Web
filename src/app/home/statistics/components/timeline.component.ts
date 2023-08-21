@@ -1,14 +1,14 @@
 import {formatDate} from '@angular/common';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl} from '@angular/forms';
 import * as shape from 'd3-shape';
 import {d_from, notNullAndUndefined} from 'dfts-helper';
 import {BehaviorSubject, combineLatest, debounceTime, filter, map, merge, of, shareReplay, startWith, switchMap} from 'rxjs';
+import {dateToBackendDateTimeString} from '../../../_shared/services/datepicker-adapter';
 import {StatisticsTimelineResponse} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {dateToBackendDateTimeString} from '../../../_shared/services/datepicker-adapter';
 
 type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
 
@@ -156,6 +156,12 @@ export class TimelineComponent {
         console.warn('timelinePrecision smaller than selected window');
         return of({highestValue: 0, data: []});
       }
+
+      if (endDateD.getTime() - startDateD.getTime() > 2678400000) {
+        console.warn('Selected window max not exceed 1 month');
+        return of({highestValue: 0, data: []});
+      }
+
       params = params.append('startDate', dateToBackendDateTimeString(startDateD));
       params = params.append('endDate', dateToBackendDateTimeString(endDateD));
       params = params.append('precision', precision);

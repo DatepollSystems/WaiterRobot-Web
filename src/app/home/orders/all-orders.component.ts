@@ -1,23 +1,26 @@
 import {SelectionModel} from '@angular/cdk/collections';
 import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
 import {AfterViewInit, ChangeDetectionStrategy, Component, inject, ViewChild} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {b_fromStorage, loggerOf, s_imploder, st_set} from 'dfts-helper';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
+
 import {debounceTime, distinctUntilChanged, forkJoin, Observable, tap} from 'rxjs';
+import {PaginatedDataSource} from '../../_shared/paginated-data-source';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {injectConfirmDialog} from '../../_shared/ui/question-dialog/question-dialog.component';
 import {GetOrderMinResponse} from '../../_shared/waiterrobot-backend';
 import {AppOrderCountdownComponent} from './_components/app-order-countdown.component';
 import {AppOrderStateBadgeComponent} from './_components/app-order-state-badge.component';
+
 import {OrdersService} from './orders.service';
-import {PaginatedDataSource} from '../../_shared/paginated-data-source';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   template: `
@@ -157,7 +160,7 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
     <app-spinner-row *ngIf="!dataSource.data" />
 
-    <ngb-paginator [collectionSize]="dataSource.data?.numberOfItems ?? 0" [pageSizes]="[10, 50, 100, 200]" [pageSize]="50" />
+    <ngb-paginator [collectionSize]="dataSource.data?.numberOfItems ?? 0" [pageSizes]="[10, 20, 50, 100, 200]" [pageSize]="50" />
   `,
   selector: 'app-all-orders',
   standalone: true,

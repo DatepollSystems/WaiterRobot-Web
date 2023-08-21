@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {CurrencyPipe} from '@angular/common';
 import {DEFAULT_CURRENCY_CODE, Inject, LOCALE_ID, Pipe, PipeTransform} from '@angular/core';
 

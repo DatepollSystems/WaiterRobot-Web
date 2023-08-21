@@ -1,7 +1,6 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, Input, numberAttribute, Optional, Self} from '@angular/core';
 import {NgClass, NgIf} from '@angular/common';
+import {booleanAttribute, ChangeDetectionStrategy, Component, Input, numberAttribute, Optional, Self} from '@angular/core';
 import {ControlValueAccessor, FormsModule, NgControl} from '@angular/forms';
-import {noop} from 'rxjs';
 import {
   NgbDateParserFormatter,
   NgbDatepicker,
@@ -11,9 +10,10 @@ import {
   NgbTimepicker,
   NgbTimeStruct,
 } from '@ng-bootstrap/ng-bootstrap';
+import {noop} from 'rxjs';
+import {AppIconsModule} from '../icons.module';
 import {NgbDateTimeAdapter} from './datetime-adapter';
 import {NgbDateTimeStruct} from './datetime.struct';
-import {AppIconsModule} from '../icons.module';
 
 @Component({
   template: `
@@ -85,7 +85,7 @@ export class AppDatetimeInputComponent implements ControlValueAccessor {
   disabled: boolean = false;
 
   private onTouched: () => void = noop;
-  private onChange: (_: any) => void = noop;
+  private onChange: (_: unknown) => void = noop;
 
   dateStruct?: NgbDateStruct;
   timeStruct?: NgbTimeStruct;
@@ -94,7 +94,7 @@ export class AppDatetimeInputComponent implements ControlValueAccessor {
 
   constructor(
     private _ngbDateParser: NgbDateParserFormatter,
-    private _ngbDateTimeAdapter: NgbDateTimeAdapter<any>,
+    private _ngbDateTimeAdapter: NgbDateTimeAdapter<unknown>,
     @Optional() @Self() public ngControl: NgControl,
   ) {
     // Setting the value accessor directly (instead of using
@@ -150,11 +150,11 @@ export class AppDatetimeInputComponent implements ControlValueAccessor {
     }
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (_: unknown) => void): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 

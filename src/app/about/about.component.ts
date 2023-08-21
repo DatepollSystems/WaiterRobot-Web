@@ -66,7 +66,7 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
                         <label for="email">{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}</label>
                       </div>
 
-                      <div class="form-floating">
+                      <div class="form-floating mt-2">
                         <input
                           class="form-control bg-dark text-white"
                           autocomplete="on"

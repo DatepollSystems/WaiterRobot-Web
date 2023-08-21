@@ -77,7 +77,6 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
       });
 
       this._itemsToView = this._itemsToView.filter((it) => {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         for (const savedItem of this._savedItems!) {
           if (it.text === savedItem.text) {
             return false;
@@ -188,7 +187,7 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
     moveItemInArray(this._itemsCopy, event.previousIndex, event.currentIndex);
   }
 
-  openModal(content: TemplateRef<any>): void {
+  openModal(content: TemplateRef<unknown>): void {
     void this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result?.then((result) => {
       if (result) {
         this._itemsCopy.push({text: result as string, routerLink: this.router.url, show: true, bookmark: true});

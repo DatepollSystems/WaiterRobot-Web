@@ -64,7 +64,7 @@ export class ProductGroupEditFormComponent extends AbstractModelEditFormComponen
     id: [-1],
   });
 
-  override overrideRawValue = (value: typeof this.form.value): any => {
+  override overrideRawValue = (value: typeof this.form.value): unknown => {
     if (value.updatePrinterId === false || value.updatePrinterId === undefined || value.printerId === -1) {
       value.printerId = undefined;
     }

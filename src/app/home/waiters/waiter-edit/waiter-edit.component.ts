@@ -7,6 +7,7 @@ import {combineLatest, filter, map, shareReplay, startWith, switchMap} from 'rxj
 import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
+import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
 import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
 import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
 import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
@@ -21,7 +22,6 @@ import {BtnWaiterSignInQrCodeComponent} from '../btn-waiter-sign-in-qr-code.comp
 import {AppProductEditFormComponent} from './waiter-edit-form.component';
 import {WaiterEditOrderProductsComponent} from './waiter-edit-order-products.component';
 import {WaiterSessionsComponent} from './waiter-sessions.component';
-import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
 
 @Component({
   template: `
@@ -132,7 +132,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<
 
   vm$ = combineLatest([
     this.route.queryParams.pipe(
-      map((params) => params.group),
+      map((params) => params.group as string),
       filter(n_isNumeric),
       map((id) => n_from(id)),
       startWith(undefined),
@@ -140,7 +140,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<
     this.organisationsService.getSelected$,
     this.eventsService.getSelected$,
     this.route.queryParams.pipe(
-      map((params) => params.event),
+      map((params) => params.event as string),
       filter(n_isNumeric),
       map((id) => n_from(id)),
       switchMap((id) => this.events.pipe(map((events) => events.find((event) => event.id === id)))),

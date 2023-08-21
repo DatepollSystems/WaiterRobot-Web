@@ -17,7 +17,7 @@ import {AuthService} from './auth.service';
 const paths = [AuthService.signInUrl, AuthService.signInPwChangeUrl, AuthService.refreshUrl, 'assets/i18n'];
 
 let isRefreshing = false;
-const refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(undefined);
+const refreshTokenSubject: BehaviorSubject<string | undefined> = new BehaviorSubject<string | undefined>(undefined);
 
 export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   const authService = inject(AuthService);
@@ -85,30 +85,30 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
                 return refreshTokenSubject.pipe(
                   filter((token) => token != undefined),
                   take(1),
-                  switchMap((jwt: string) => {
+                  switchMap((jwt: string | undefined) => {
                     lumber.info('handle401Error', 'Already refreshing; JWT: "' + jwt + '"');
                     return next(addToken(req, jwt));
                   }),
                 );
               }
             default:
-              return throwError(error.error.message);
+              return throwError(() => error.error.message as string);
           }
         } else if (error.error instanceof ErrorEvent) {
           // Client Side Error
           lumber.error('intercept', 'Client side error');
-          return throwError(error.error.message);
+          return throwError(() => error.error.message as string);
         } else {
           // Server Side Error
           lumber.error('intercept', 'Server side error');
-          return throwError(error.error.message);
+          return throwError(() => error.error.message as string);
         }
       }),
     );
   }
 }
 
-const addToken = (req: HttpRequest<any>, token?: string): HttpRequest<any> =>
+const addToken = (req: HttpRequest<unknown>, token?: string): HttpRequest<unknown> =>
   req.clone({
     setHeaders: {
       'content-type': 'application/json',

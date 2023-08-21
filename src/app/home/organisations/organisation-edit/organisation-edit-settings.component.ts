@@ -109,7 +109,7 @@ export class OrganisationEditSettingsComponent {
 
   isValidTimeZoneValidator(timezones: string[]): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      return timezones.includes(control.value) ? null : {invalidTimeZone: true};
+      return timezones.includes(control.value as string) ? null : {invalidTimeZone: true};
     };
   }
 }

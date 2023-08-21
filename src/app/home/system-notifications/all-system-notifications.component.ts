@@ -126,5 +126,5 @@ export class AllSystemNotificationsComponent extends AbstractModelsListWithDelet
   }
 
   override selectionEnabled = false;
-  override nameMap = (it: GetSystemNotificationResponse) => it.title ?? it.type;
+  override nameMap = (it: GetSystemNotificationResponse): string => it.title ?? it.type;
 }

@@ -8,7 +8,7 @@ export class AppIsEditingDirective {
   private viewContainerRef = inject(ViewContainerRef);
   private templateRef = inject(TemplateRef<unknown>);
 
-  @Input() set isEditing(entity: unknown | 'CREATE') {
+  @Input() set isEditing(entity: unknown) {
     if (entity === 'CREATE') {
       this.viewContainerRef.clear();
       return;

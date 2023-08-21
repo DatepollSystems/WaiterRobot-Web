@@ -8,7 +8,7 @@ export const environment: {
   logoUrl?: string;
   titlePrefix?: string;
 } = {
-  version: require('../../package.json').version,
+  version: require('../../package.json').version as string,
   production: true,
   type: 'prod',
   apiUrl: 'https://my.kellner.team/api/v1',

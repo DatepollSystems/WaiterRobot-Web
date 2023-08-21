@@ -20,11 +20,11 @@ import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-ro
 import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 import {PrintersService} from '../../printers/_services/printers.service';
+import {TableEditFormComponent} from '../../tables/table-edit/table-edit-form.component';
 import {AllergensService} from '../_services/allergens.service';
 import {ProductGroupsService} from '../_services/product-groups.service';
 import {ProductsService} from '../_services/products.service';
 import {AppProductEditFormComponent} from './product-edit-form.component';
-import {TableEditFormComponent} from '../../tables/table-edit/table-edit-form.component';
 
 @Component({
   template: `
@@ -118,7 +118,7 @@ export class ProductEditComponent extends AbstractModelEditComponent<CreateProdu
 
   vm$ = combineLatest([
     this.route.queryParams.pipe(
-      map((params) => params.group),
+      map((params) => params.group as string),
       filter(n_isNumeric),
       map((id) => n_from(id)),
       startWith(undefined),

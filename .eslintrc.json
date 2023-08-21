@@ -23,13 +23,10 @@
             "allowArgumentsExplicitlyTypedAsAny": true
           }
         ],
-        "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/no-var-requires": "off",
-        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-explicit-any": "warn",
+        "@typescript-eslint/ban-ts-comment": "warn",
         "@typescript-eslint/no-unsafe-call": "off",
-        "@typescript-eslint/no-unsafe-return": "off",
         "@typescript-eslint/no-unsafe-member-access": "off",
-        "@typescript-eslint/no-unsafe-member-return": "off",
         "no-empty-function": "off",
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/restrict-plus-operands": "off",
@@ -54,7 +51,6 @@
         "id-denylist": ["error", "any", "Number", "String", "string", "Boolean", "boolean", "Undefined", "undefined"],
         "no-shadow": "error",
         "no-unused-expressions": "error",
-        "no-use-before-define": "off",
         "quotes": ["error", "single"],
         "semi": "error"
       }

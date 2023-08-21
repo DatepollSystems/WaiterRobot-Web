@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-redundant-type-constituents,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-return */
 import {BooleanInput, coerceBooleanProperty, coerceNumberProperty, NumberInput} from '@angular/cdk/coercion';
 import {CommonModule} from '@angular/common';
 import {Component, EventEmitter, Input, numberAttribute, Output, ViewChild} from '@angular/core';

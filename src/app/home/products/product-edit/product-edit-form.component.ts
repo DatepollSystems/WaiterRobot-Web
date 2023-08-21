@@ -147,10 +147,11 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     id: [-1],
   });
 
-  override overrideRawValue = (value: any): any => {
-    const match: string[] = value.price.split(/[,.]/);
+  override overrideRawValue = (value: typeof this.form.value): unknown => {
+    const match: string[] = s_from(value.price).split(/[,.]/);
     const euro = n_from(match[0] ?? 0);
     const cent = n_from(match[1]?.padEnd(2, '0') ?? 0);
+    // @ts-ignore
     value.price = euro * 100 + cent;
 
     this.lumber.log('overrideRawValue', 'Euro to cent', match, value.price);

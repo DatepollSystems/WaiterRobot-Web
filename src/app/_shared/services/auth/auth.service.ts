@@ -79,7 +79,7 @@ export class AuthService {
     return this.jwtToken;
   }
 
-  public refreshJWTToken(): Observable<any> {
+  public refreshJWTToken(): Observable<JwtResponse> {
     const object = {
       refreshToken: this.getSessionToken(),
       sessionInformation: AuthService.getSessionInformation(),

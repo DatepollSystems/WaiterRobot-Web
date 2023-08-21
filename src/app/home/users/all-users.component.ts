@@ -130,5 +130,5 @@ export class AllUsersComponent extends AbstractModelsListWithDeleteComponent<Get
   }
 
   override selectionEnabled = false;
-  override nameMap = (it: GetUserResponse) => `${it.firstname} ${it.surname}`;
+  override nameMap = (it: GetUserResponse): string => `${it.firstname} ${it.surname}`;
 }

@@ -90,7 +90,7 @@ export class AboutModalComponent {
   );
 
   clicker = 0;
-  timeoutHandler: any | undefined;
+  timeoutHandler: number | undefined;
 
   constructor(
     private httpClient: HttpClient,
@@ -98,13 +98,12 @@ export class AboutModalComponent {
     @Inject(WINDOW) private window: Window | undefined,
   ) {}
 
-  open(content: any): void {
+  open(content: unknown): void {
     this.modal.open(content, {ariaLabelledBy: 'About modal'});
   }
 
   mouseup(): void {
     if (this.timeoutHandler) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       clearTimeout(this.timeoutHandler);
       this.timeoutHandler = undefined;
     }

@@ -128,7 +128,7 @@ export class TableEditComponent extends AbstractModelEditComponent<CreateTableDt
 
   vm$ = combineLatest([
     this.route.queryParams.pipe(
-      map((params) => params.group),
+      map((params) => params.group as string),
       filter(n_isNumeric),
       map((id) => n_from(id)),
       startWith(undefined),

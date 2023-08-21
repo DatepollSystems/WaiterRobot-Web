@@ -37,5 +37,6 @@ export class AppModelEditSaveBtn {
   _valid: 'VALID' | 'INVALID' = 'INVALID';
 
   @Output()
+  // eslint-disable-next-line @angular-eslint/no-output-native
   submit = new EventEmitter<void>();
 }
