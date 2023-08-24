@@ -1,12 +1,13 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {notNullAndUndefined} from 'dfts-helper';
+import {n_generate_int, notNullAndUndefined} from 'dfts-helper';
 import {HasGetSingle} from 'dfx-helper';
 import {BehaviorSubject, filter, map, Observable, switchMap, tap, timer} from 'rxjs';
 import {NotificationService} from '../../_shared/notifications/notification.service';
+import {Download, DownloadService} from '../../_shared/services/download.service';
 import {HasGetPaginated, PageableDto} from '../../_shared/services/services.interface';
 
-import {GetOrderMinResponse, GetOrderResponse, PaginatedResponseDtoGetOrderMinResponse} from '../../_shared/waiterrobot-backend';
+import {GetOrderMinResponse, GetOrderResponse, PaginatedResponseGetOrderMinResponse} from '../../_shared/waiterrobot-backend';
 import {EventsService} from '../events/_services/events.service';
 
 @Injectable({providedIn: 'root'})
@@ -16,6 +17,7 @@ export class OrdersService implements HasGetPaginated<GetOrderMinResponse>, HasG
   constructor(
     private httpClient: HttpClient,
     private eventsService: EventsService,
+    private downloadService: DownloadService,
     private notificationService: NotificationService,
   ) {}
 
@@ -38,6 +40,15 @@ export class OrdersService implements HasGetPaginated<GetOrderMinResponse>, HasG
     );
   }
 
+  download$(): Observable<Download> {
+    return this.eventsService.getSelected$.pipe(
+      filter(notNullAndUndefined),
+      switchMap((event) =>
+        this.downloadService.download$(`${this.url}/export/${event.id}`, `orders_export_${n_generate_int(100, 9999)}.csv`),
+      ),
+    );
+  }
+
   requeueOrder$(id: GetOrderResponse['id']): Observable<unknown> {
     return this.httpClient.get(`${this.url}/${id}/requeue`).pipe(tap(() => this.triggerRefresh.next(true)));
   }
@@ -54,7 +65,7 @@ export class OrdersService implements HasGetPaginated<GetOrderMinResponse>, HasG
     return this.httpClient.get<GetOrderResponse[]>(this.url, {params: new HttpParams().set('waiterId', id)});
   }
 
-  getAllPaginated$(options: PageableDto): Observable<PaginatedResponseDtoGetOrderMinResponse> {
+  getAllPaginated$(options: PageableDto): Observable<PaginatedResponseGetOrderMinResponse> {
     let params = new HttpParams();
     params = params.append('page', options.page ?? 0);
     params = params.append('size', options.size ?? 10);
@@ -65,12 +76,11 @@ export class OrdersService implements HasGetPaginated<GetOrderMinResponse>, HasG
       params = params.append('query', options.query);
     }
     return this.triggerRefresh.pipe(
-      switchMap(() => timer(0, this.refreshIn * 1000)),
       switchMap(() => this.eventsService.getSelected$),
       filter(notNullAndUndefined),
       switchMap((event) => {
         params = params.append('eventId', event.id);
-        return this.httpClient.get<PaginatedResponseDtoGetOrderMinResponse>(`${this.url}/table`, {params});
+        return this.httpClient.get<PaginatedResponseGetOrderMinResponse>(`${this.url}/table`, {params});
       }),
     );
   }

@@ -295,6 +295,7 @@
   "HOME_ORDER_QUEUED": "Warteschlange",
   "HOME_ORDER_SENT_TO_PRINT": "An Drucker gesendet",
   "HOME_ORDER_REQUEUE": "Erneut Drucken",
+  "HOME_ORDER_EXPORT": "Exportieren",
   "HOME_ORDER": "Bestellung",
   "HOME_ORDER_OPEN_WAITER": "Kellner öffnen",
   "HOME_ORDER_OPEN_TABLE": "Tisch öffnen",

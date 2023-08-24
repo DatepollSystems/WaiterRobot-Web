@@ -22,6 +22,7 @@ import {
   diagram3,
   exclamationTriangleFill,
   fileLock,
+  filetypeCsv,
   fullscreenExit,
   gear,
   gearWideConnected,
@@ -108,6 +109,7 @@ const icons = {
   bell,
   checkCircleFill,
   infoCircleFill,
+  filetypeCsv,
 };
 
 @NgModule({

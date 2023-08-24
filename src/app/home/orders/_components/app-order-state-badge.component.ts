@@ -1,32 +1,31 @@
-import {DatePipe, NgClass, NgIf} from '@angular/common';
+import {DatePipe, NgClass, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTr} from 'dfx-translate';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
-import {GetOrderProductResponse} from '../../../_shared/waiterrobot-backend';
+import {GetOrderProductResponse, GetOrderResponse} from '../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
     <div
       [ngClass]="{
-        'text-bg-light': orderState === 'QUEUED' || includesQueued,
-        'text-bg-success': orderState === 'PROCESSED' && !includesQueued
+        'text-bg-light': orderState === 'QUEUED' || orderState === 'IN_PROGRESS',
+        'text-bg-success': orderState === 'FINISHED'
       }"
-      [ngbPopover]="processedAt || createdAt ? popContent : null"
+      [ngbPopover]="popContent"
       placement="right"
       triggers="mouseenter:mouseleave"
       popoverTitle="Bestelldetails"
       class="badge d-flex align-items-center gap-2 not-selectable"
       style="width: min-content"
     >
-      <span *ngIf="orderState === 'QUEUED'; else queuedOrderProductsOrProcessedText">{{ 'HOME_ORDER_QUEUED' | tr }}</span>
-      <ng-template #queuedOrderProductsOrProcessedText>
-        <span *ngIf="includesQueued; else processedText">{{ 'HOME_ORDER_IN_WORK' | tr }}</span>
-        <ng-template #processedText>
-          <span>{{ 'HOME_ORDER_PROCESSED' | tr }}</span>
-        </ng-template>
-      </ng-template>
-      <div class="circle pulse green" *ngIf="orderState === 'QUEUED' || includesQueued; else processed"></div>
+      <ng-container [ngSwitch]="orderState">
+        <span *ngSwitchCase="'QUEUED'">{{ 'HOME_ORDER_QUEUED' | tr }}</span>
+        <span *ngSwitchCase="'IN_PROGRESS'">{{ 'HOME_ORDER_IN_WORK' | tr }}</span>
+        <span *ngSwitchCase="'FINISHED'">{{ 'HOME_ORDER_PROCESSED' | tr }}</span>
+      </ng-container>
+
+      <div class="circle pulse green" *ngIf="orderState === 'QUEUED' || orderState === 'IN_PROGRESS'; else processed"></div>
       <ng-template #processed>
         <i-bs name="check2-square" />
       </ng-template>
@@ -67,12 +66,11 @@ import {GetOrderProductResponse} from '../../../_shared/waiterrobot-backend';
   standalone: true,
   selector: 'app-order-state-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, AppIconsModule, NgIf, DfxTr, NgbTooltip, DatePipe, NgbPopover],
+  imports: [NgClass, AppIconsModule, NgIf, DfxTr, NgbTooltip, DatePipe, NgbPopover, NgSwitch, NgSwitchCase],
 })
 export class AppOrderStateBadgeComponent {
-  @Input({required: true}) orderState!: 'QUEUED' | 'PROCESSED';
+  @Input({required: true}) orderState!: GetOrderResponse['state'];
   @Input({required: true}) set orderProductStates(it: GetOrderProductResponse['printState'][]) {
-    this.includesQueued = it.includes('QUEUED');
     this.allProducts = it.length;
     this.printedProducts = it.length - it.filter((iit) => iit === 'QUEUED').length;
   }

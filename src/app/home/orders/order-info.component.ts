@@ -2,6 +2,8 @@ import {AsyncPipe, DatePipe, NgClass, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {a_pluck} from 'dfts-helper';
+import {DfxArrayPluck} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {combineLatest, map, switchMap} from 'rxjs';
 import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
@@ -9,19 +11,17 @@ import {AppBackButtonComponent} from '../../_shared/ui/app-back-button.component
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {injectConfirmDialog} from '../../_shared/ui/question-dialog/question-dialog.component';
-import {AppOrderCountdownComponent} from './_components/app-order-countdown.component';
+import {AppOrderRefreshButtonComponent} from './_components/app-order-refresh-button.component';
 import {AppOrderStateBadgeComponent} from './_components/app-order-state-badge.component';
 import {AppOrderProductsListComponent} from './_components/order-products-list/app-order-products-list.component';
 import {OrdersService} from './orders.service';
-import {a_pluck} from 'dfts-helper';
-import {DfxArrayPluck} from 'dfx-helper';
 
 @Component({
   template: `
     <ng-container *ngIf="vm$ | async as vm">
       <div class="d-flex flex-wrap justify-content-between gap-2 gap-md-0">
         <h1 class="mb-0">{{ 'HOME_ORDER' | tr }} #{{ vm.order.orderNumber }}</h1>
-        <app-order-countdown [countdown]="vm.countdown" />
+        <app-order-refresh-btn [countdown]="vm.countdown" />
       </div>
 
       <div class="d-flex flex-wrap gap-2 mt-2 mb-4">
@@ -89,7 +89,7 @@ import {DfxArrayPluck} from 'dfx-helper';
     AppBtnToolbarComponent,
     AppBackButtonComponent,
     AppOrderStateBadgeComponent,
-    AppOrderCountdownComponent,
+    AppOrderRefreshButtonComponent,
     AppIconsModule,
     NgbDropdown,
     NgbDropdownMenu,

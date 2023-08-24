@@ -4,12 +4,13 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, inject, ViewChild} fr
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbProgressbar, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {b_fromStorage, loggerOf, s_imploder, st_set} from 'dfts-helper';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
 import {debounceTime, distinctUntilChanged, forkJoin, Observable, tap} from 'rxjs';
+import {Download} from 'src/app/_shared/services/download.service';
 import {PaginatedDataSource} from '../../_shared/paginated-data-source';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 
@@ -17,7 +18,7 @@ import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {injectConfirmDialog} from '../../_shared/ui/question-dialog/question-dialog.component';
 import {GetOrderMinResponse} from '../../_shared/waiterrobot-backend';
-import {AppOrderCountdownComponent} from './_components/app-order-countdown.component';
+import {AppOrderRefreshButtonComponent} from './_components/app-order-refresh-button.component';
 import {AppOrderStateBadgeComponent} from './_components/app-order-state-badge.component';
 
 import {OrdersService} from './orders.service';
@@ -26,11 +27,18 @@ import {OrdersService} from './orders.service';
   template: `
     <div class="d-flex align-items-center justify-content-between">
       <h1>{{ 'HOME_ORDERS_ALL' | tr }}</h1>
-      <app-order-countdown [countdown]="(countdown$ | async) ?? 0" />
+      <app-order-refresh-btn />
     </div>
 
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
       <btn-toolbar>
+        <div>
+          <button class="btn btn-sm btn-info" (click)="exportCsv()">
+            <i-bs name="filetype-csv" />
+            {{ 'HOME_ORDER_EXPORT' | tr }}
+          </button>
+        </div>
+
         <div>
           <button class="btn btn-sm btn-warning" (click)="requeueOrders()" [class.disabled]="!selection.hasValue()">
             <i-bs name="printer" />
@@ -45,6 +53,16 @@ import {OrdersService} from './orders.service';
         <input [formControl]="openInNewTab" class="form-check-input" type="checkbox" role="switch" id="continuousCreation" />
       </div>
     </div>
+
+    <ng-container *ngIf="download$ | async as download">
+      <ngb-progressbar
+        type="success"
+        *ngIf="download.state !== 'DONE'"
+        [showValue]="true"
+        [striped]="download.state === 'PENDING'"
+        [value]="download.progress"
+      />
+    </ng-container>
 
     <form class="mt-2">
       <div class="input-group">
@@ -111,7 +129,7 @@ import {OrdersService} from './orders.service';
         </ng-container>
 
         <ng-container ngbColumnDef="state">
-          <th *ngbHeaderCellDef ngb-header-cell>{{ 'STATE' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
             <app-order-state-badge
               [orderState]="order.state"
@@ -178,9 +196,10 @@ import {OrdersService} from './orders.service';
     AppIconsModule,
     RouterLink,
     AppOrderStateBadgeComponent,
-    AppOrderCountdownComponent,
+    AppOrderRefreshButtonComponent,
     AppBtnToolbarComponent,
     AppSpinnerRowComponent,
+    NgbProgressbar,
   ],
 })
 export class AllOrdersComponent implements AfterViewInit {
@@ -203,6 +222,8 @@ export class AllOrdersComponent implements AfterViewInit {
   dataSource = new PaginatedDataSource<GetOrderMinResponse>(this.ordersService);
   selection = new SelectionModel<GetOrderMinResponse>(true, [], false, (a, b) => a.id === b.id);
   filter = new FormControl<string>('');
+
+  download$?: Observable<Download>;
 
   constructor() {
     this.filter.valueChanges
@@ -231,6 +252,10 @@ export class AllOrdersComponent implements AfterViewInit {
       return;
     }
     void this.router.navigateByUrl(`/home/orders/${it.id}`);
+  }
+
+  exportCsv(): void {
+    this.download$ = this.ordersService.download$();
   }
 
   requeueOrder(it: GetOrderMinResponse): void {

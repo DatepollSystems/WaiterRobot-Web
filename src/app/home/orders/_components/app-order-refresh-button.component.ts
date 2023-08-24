@@ -1,3 +1,4 @@
+import {NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTr} from 'dfx-translate';
@@ -9,21 +10,21 @@ import {OrdersService} from '../orders.service';
     <button
       type="button"
       class="btn btn-outline-secondary d-flex align-items-center gap-2"
-      (click)="ordersService.triggerRefresh.next(false)"
+      (click)="ordersService.triggerRefresh.next(true)"
       ngbTooltip="{{ 'HOME_ORDER_REFRESH_NOW' | tr }}"
       placement="left"
     >
       <i-bs name="arrow-clockwise" />
-      <span class="badge text-bg-secondary">{{ countdown }}</span>
+      <span class="badge text-bg-secondary" *ngIf="countdown">{{ countdown }}</span>
     </button>
   `,
   standalone: true,
-  selector: 'app-order-countdown',
-  imports: [DfxTr, NgbTooltip, AppIconsModule],
+  selector: 'app-order-refresh-btn',
+  imports: [DfxTr, NgbTooltip, AppIconsModule, NgIf],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppOrderCountdownComponent {
+export class AppOrderRefreshButtonComponent {
   ordersService = inject(OrdersService);
 
-  @Input({required: true}) countdown!: number;
+  @Input() countdown?: number;
 }

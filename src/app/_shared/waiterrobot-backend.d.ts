@@ -781,7 +781,6 @@ export interface GetEventOrLocationResponse {
   startDate?: string;
   /** @format date-time */
   endDate?: string;
-  /** @format date-time */
   date?: string;
   /** @format date-time */
   deleted?: string;
@@ -1007,7 +1006,7 @@ export interface Pageable {
   sort?: string[];
 }
 
-export interface PaginatedResponseDtoGetOrganisationResponse {
+export interface PaginatedResponseGetOrganisationResponse {
   /** @format int64 */
   numberOfItems: number;
   /** @format int32 */
@@ -1028,7 +1027,7 @@ export interface GetOrderMinResponse {
   table: GetTableMinResponse;
   waiter: GetWaiterMinResponse;
   orderNumber: string;
-  state: 'QUEUED' | 'PROCESSED';
+  state: 'QUEUED' | 'IN_PROGRESS' | 'FINISHED';
   /** @format date-time */
   processedAt?: string;
   /** @format date-time */
@@ -1078,7 +1077,7 @@ export interface GetOrderResponse {
   table: GetTableMinResponse;
   waiter: GetWaiterMinResponse;
   orderNumber: string;
-  state: 'QUEUED' | 'PROCESSED';
+  state: 'QUEUED' | 'IN_PROGRESS' | 'FINISHED';
   /** @format date-time */
   processedAt?: string;
   /** @format date-time */
@@ -1086,7 +1085,7 @@ export interface GetOrderResponse {
   orderProducts: GetOrderProductResponse[];
 }
 
-export interface PaginatedResponseDtoGetOrderMinResponse {
+export interface PaginatedResponseGetOrderMinResponse {
   /** @format int64 */
   numberOfItems: number;
   /** @format int32 */
