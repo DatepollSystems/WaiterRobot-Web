@@ -1,7 +1,9 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {HasGetAll} from 'dfx-helper';
+
 import {Observable} from 'rxjs';
+
+import {HasGetAll} from 'dfx-helper';
 
 import {GetAllergenResponse} from '../../../_shared/waiterrobot-backend';
 

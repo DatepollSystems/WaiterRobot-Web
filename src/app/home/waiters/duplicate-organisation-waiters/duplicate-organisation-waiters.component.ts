@@ -2,9 +2,12 @@ import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
+
 import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';

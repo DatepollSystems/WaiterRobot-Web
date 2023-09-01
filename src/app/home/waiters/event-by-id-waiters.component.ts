@@ -2,10 +2,13 @@ import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+
 import {MobileLinkService} from '../../_shared/services/mobile-link.service';
 import {QrCodeService} from '../../_shared/services/qr-code.service';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
@@ -15,7 +18,6 @@ import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.c
 import {AbstractModelsWithNameListByIdComponent} from '../../_shared/ui/models-list-by-id/abstract-models-with-name-list-by-id.component';
 import {GetEventOrLocationResponse, GetWaiterResponse} from '../../_shared/waiterrobot-backend';
 import {EventsService} from '../events/_services/events.service';
-
 import {WaitersService} from './_services/waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
 import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';

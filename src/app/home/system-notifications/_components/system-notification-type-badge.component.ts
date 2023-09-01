@@ -1,6 +1,8 @@
 import {NgClass, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+
 import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
+
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {GetSystemNotificationResponse} from '../../../_shared/waiterrobot-backend';
 

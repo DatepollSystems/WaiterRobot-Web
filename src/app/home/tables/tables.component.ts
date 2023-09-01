@@ -1,6 +1,7 @@
 import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
+
 import {DfxTr} from 'dfx-translate';
 
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';

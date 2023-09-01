@@ -1,13 +1,15 @@
 import {AsyncPipe, NgIf} from '@angular/common';
 import {Component, inject} from '@angular/core';
+
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+
 import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+
 import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
 import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AppSelectableButtonComponent} from '../../../_shared/ui/app-selectable-button.component';
-
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
 import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';

@@ -2,8 +2,11 @@ import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {DfxTr} from 'dfx-translate';
+
 import {combineLatest, filter, map, shareReplay, switchMap} from 'rxjs';
+
+import {DfxTr} from 'dfx-translate';
+
 import {AppBackDirective} from '../_shared/ui/app-back-button.component';
 import {DfxCurrencyCentPipe} from '../_shared/ui/currency.pipe';
 import {AppIconsModule} from '../_shared/ui/icons.module';

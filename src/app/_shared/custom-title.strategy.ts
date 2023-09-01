@@ -1,8 +1,11 @@
 import {inject, Injectable} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {RouterStateSnapshot, TitleStrategy} from '@angular/router';
-import {dfxTranslate$} from 'dfx-translate';
+
 import {first} from 'rxjs';
+
+import {dfxTranslate$} from 'dfx-translate';
+
 import {EnvironmentHelper} from './EnvironmentHelper';
 
 @Injectable()

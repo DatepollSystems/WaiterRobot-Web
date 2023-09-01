@@ -1,6 +1,8 @@
 import {NgForOf, NgIf} from '@angular/common';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
+
 import {GetEventOrLocationResponse, GetOrganisationResponse} from '../_shared/waiterrobot-backend';
 
 @Component({

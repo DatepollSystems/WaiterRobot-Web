@@ -1,11 +1,14 @@
 import {DatePipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
+
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+
 import {DfxTr} from 'dfx-translate';
+
 import {AppIconsModule} from '../../../../_shared/ui/icons.module';
 import {GetOrderProductResponse} from '../../../../_shared/waiterrobot-backend';
 import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   template: `

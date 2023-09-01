@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
+
 import {HasIDAndName, IHasID} from 'dfts-helper';
+
 import {AbstractModelsListByIdComponent} from './abstract-models-list-by-id.component';
 
 @Component({

@@ -2,10 +2,13 @@ import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+
+import {debounceTime, filter, map, switchMap, tap} from 'rxjs';
+
 import {HasNumberIDAndName} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {debounceTime, filter, map, switchMap, tap} from 'rxjs';
+
 import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';

@@ -1,7 +1,10 @@
 import {NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
+
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+
 import {DfxTr} from 'dfx-translate';
+
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {OrdersService} from '../orders.service';
 

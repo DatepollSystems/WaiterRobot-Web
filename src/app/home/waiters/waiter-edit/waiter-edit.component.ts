@@ -1,9 +1,13 @@
 import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
+
+import {combineLatest, filter, map, shareReplay, startWith, switchMap} from 'rxjs';
+
 import {NgbModalRef, NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
+
 import {n_from, n_isNumeric} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
-import {combineLatest, filter, map, shareReplay, startWith, switchMap} from 'rxjs';
+
 import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
@@ -16,7 +20,6 @@ import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-ro
 import {CreateWaiterDto, GetWaiterResponse, UpdateWaiterDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 import {OrganisationsService} from '../../organisations/_services/organisations.service';
-
 import {WaitersService} from '../_services/waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from '../btn-waiter-sign-in-qr-code.component';
 import {AppProductEditFormComponent} from './waiter-edit-form.component';

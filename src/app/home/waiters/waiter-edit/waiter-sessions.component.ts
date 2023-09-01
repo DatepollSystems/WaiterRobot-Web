@@ -1,7 +1,9 @@
 import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
+
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 

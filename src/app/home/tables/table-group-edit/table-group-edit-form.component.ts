@@ -1,9 +1,10 @@
 import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
-import {DfxTr} from 'dfx-translate';
-import {allowedCharacterSet} from '../../../_shared/regex';
 
+import {DfxTr} from 'dfx-translate';
+
+import {allowedCharacterSet} from '../../../_shared/regex';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '../../../_shared/waiterrobot-backend';

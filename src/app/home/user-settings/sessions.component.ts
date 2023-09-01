@@ -3,8 +3,10 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
+
 import {SessionModel} from '../../_shared/model/session.model';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';

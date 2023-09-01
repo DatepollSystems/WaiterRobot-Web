@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
+
 import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
 

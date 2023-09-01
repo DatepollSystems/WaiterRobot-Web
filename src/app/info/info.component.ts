@@ -1,6 +1,8 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+
 import {DfxTr} from 'dfx-translate';
+
 import {FooterModule} from '../_shared/ui/footer/footer.module';
 
 @Component({

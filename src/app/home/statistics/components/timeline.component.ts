@@ -3,9 +3,13 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl} from '@angular/forms';
-import * as shape from 'd3-shape';
-import {d_from, notNullAndUndefined} from 'dfts-helper';
+
 import {BehaviorSubject, combineLatest, debounceTime, filter, map, merge, of, shareReplay, startWith, switchMap} from 'rxjs';
+
+import * as shape from 'd3-shape';
+
+import {d_from, notNullAndUndefined} from 'dfts-helper';
+
 import {dateToBackendDateTimeString} from '../../../_shared/services/datepicker-adapter';
 import {StatisticsTimelineResponse} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';

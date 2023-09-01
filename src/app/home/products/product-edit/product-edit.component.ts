@@ -2,21 +2,22 @@ import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
+import {combineLatest, filter, map, startWith} from 'rxjs';
+
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
+
 import {n_from, n_isNumeric} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
-import {combineLatest, filter, map, startWith} from 'rxjs';
+
 import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
 import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
-
 import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
 import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
-
 import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 import {PrintersService} from '../../printers/_services/printers.service';

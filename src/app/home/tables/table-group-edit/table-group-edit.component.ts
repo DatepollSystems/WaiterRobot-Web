@@ -1,9 +1,12 @@
 import {AsyncPipe, LowerCasePipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
-import {DfxTr} from 'dfx-translate';
-import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
+import {RouterLink} from '@angular/router';
 
+import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
+
+import {DfxTr} from 'dfx-translate';
+
+import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
@@ -16,7 +19,6 @@ import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '.
 import {EventsService} from '../../events/_services/events.service';
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TableGroupEditFormComponent} from './table-group-edit-form.component';
-import {RouterLink} from '@angular/router';
 
 @Component({
   template: `

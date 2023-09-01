@@ -3,11 +3,13 @@ import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
+import {catchError, combineLatest, filter, interval, map, of, share, startWith, switchMap, tap, timer} from 'rxjs';
+
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+
 import {i_complete} from 'dfts-helper';
 import {DfxTimeSpanPipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {catchError, combineLatest, filter, interval, map, of, share, startWith, switchMap, tap, timer} from 'rxjs';
 
 import {EnvironmentHelper} from '../../_shared/EnvironmentHelper';
 import {AuthService} from '../../_shared/services/auth/auth.service';

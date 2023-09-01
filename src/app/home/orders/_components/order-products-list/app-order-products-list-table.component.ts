@@ -1,12 +1,15 @@
 import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
 import {AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewChild} from '@angular/core';
 import {RouterLink} from '@angular/router';
+
+import {Subject} from 'rxjs';
+
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
-import {Subject} from 'rxjs';
+import {NgSub} from 'dfx-helper';
+
 import {GetOrderProductResponse} from '../../../../_shared/waiterrobot-backend';
 import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
-import {NgSub} from 'dfx-helper';
 
 @Component({
   template: `

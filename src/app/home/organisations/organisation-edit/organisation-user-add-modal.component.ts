@@ -1,6 +1,8 @@
 import {LowerCasePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
+
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+
 import {HasIDAndName, s_isEmail} from 'dfts-helper';
 import {DfxTr, dfxTranslate$} from 'dfx-translate';
 

@@ -2,11 +2,13 @@ import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
+
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+
 import {DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingFails, DfxHideIfPingSucceeds} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {NotificationService} from '../_shared/notifications/notification.service';
 
+import {NotificationService} from '../_shared/notifications/notification.service';
 import {AuthService} from '../_shared/services/auth/auth.service';
 import {AppDownloadBtnListComponent} from '../_shared/ui/app-download-btn-list.component';
 import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';

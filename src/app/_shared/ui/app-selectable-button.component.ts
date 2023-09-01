@@ -1,12 +1,15 @@
 import {NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
+import {EMPTY, Observable} from 'rxjs';
+
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {PlacementArray} from '@ng-bootstrap/ng-bootstrap/util/positioning';
+
 import {IHasID, UndefinedOr} from 'dfts-helper';
 import {HasGetSelected, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {EMPTY, Observable} from 'rxjs';
+
 import {AppIconsModule} from './icons.module';
 
 @Component({

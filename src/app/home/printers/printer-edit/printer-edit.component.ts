@@ -1,10 +1,14 @@
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+
+import {combineLatest, map} from 'rxjs';
+
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
+
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {combineLatest, map} from 'rxjs';
+
 import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
@@ -15,7 +19,6 @@ import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {CreatePrinterDto, GetPrinterResponse, UpdatePrinterDto} from '../../../_shared/waiterrobot-backend';
-
 import {EventsService} from '../../events/_services/events.service';
 import {PrintersService} from '../_services/printers.service';
 import {AppPrinterEditForm} from './printer-edit-form.component';

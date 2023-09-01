@@ -1,9 +1,11 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
-import {loggerOf, o_fromStorage, st_set} from 'dfts-helper';
-import {catchError, map, merge, Observable, of, shareReplay, Subject, tap, throwError} from 'rxjs';
-import {GetMyselfResponse} from '../../../waiterrobot-backend';
 
+import {catchError, map, merge, Observable, of, shareReplay, Subject, tap, throwError} from 'rxjs';
+
+import {loggerOf, o_fromStorage, st_set} from 'dfts-helper';
+
+import {GetMyselfResponse} from '../../../waiterrobot-backend';
 import {MyUserModel} from './my-user.model';
 
 @Injectable({

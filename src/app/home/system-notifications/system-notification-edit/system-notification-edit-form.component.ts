@@ -2,8 +2,10 @@ import {TextFieldModule} from '@angular/cdk/text-field';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
+
 import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {

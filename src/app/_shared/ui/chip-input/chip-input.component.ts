@@ -3,10 +3,12 @@ import {BooleanInput, coerceBooleanProperty, coerceNumberProperty, NumberInput} 
 import {CommonModule} from '@angular/common';
 import {Component, EventEmitter, Input, numberAttribute, Output, ViewChild} from '@angular/core';
 import {FormsModule, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
-import {NgbModule, NgbTypeahead, NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
-import {s_is} from 'dfts-helper';
 
 import {debounceTime, distinctUntilChanged, filter, map, merge, Observable, Subject} from 'rxjs';
+
+import {NgbModule, NgbTypeahead, NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
+
+import {s_is} from 'dfts-helper';
 
 import {AppIconsModule} from '../icons.module';
 

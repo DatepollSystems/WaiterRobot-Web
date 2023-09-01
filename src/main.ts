@@ -1,5 +1,4 @@
 import {registerLocaleData} from '@angular/common';
-
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
@@ -28,7 +27,6 @@ import {EnvironmentHelper} from './app/_shared/EnvironmentHelper';
 import {authInterceptor} from './app/_shared/services/auth/auth-interceptor';
 import {errorInterceptor} from './app/_shared/services/auth/error-interceptor';
 import {CustomDateParserFormatter, CustomDateTimeAdapter} from './app/_shared/services/datepicker-adapter';
-
 import {AppComponent} from './app/app.component';
 import {ROUTES} from './app/app.routes';
 import {NgbDateTimeAdapter} from './app/_shared/ui/datetime-picker/datetime-adapter';

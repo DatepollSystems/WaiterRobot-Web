@@ -1,6 +1,8 @@
 import {NgForOf, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
+
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+
 import {loggerOf} from 'dfts-helper';
 import {DfxTrackByProperty} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';

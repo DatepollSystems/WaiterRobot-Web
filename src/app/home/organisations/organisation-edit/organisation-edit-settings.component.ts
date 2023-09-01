@@ -1,9 +1,13 @@
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {AbstractControl, FormControl, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
-import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
-import {DfxTr} from 'dfx-translate';
+
 import {combineLatest, debounceTime, distinctUntilChanged, map, Observable, OperatorFunction, shareReplay, switchMap, tap} from 'rxjs';
+
+import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
+
+import {DfxTr} from 'dfx-translate';
+
 import {getActivatedRouteIdParam} from '../../../_shared/services/getActivatedRouteIdParam';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {OrganisationsSettingsService} from '../_services/organisations-settings.service';

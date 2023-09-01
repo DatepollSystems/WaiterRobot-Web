@@ -1,6 +1,6 @@
 import {Routes} from '@angular/router';
-import {eventSelectedGuard} from '../../_shared/services/guards/event-selected-guard';
 
+import {eventSelectedGuard} from '../../_shared/services/guards/event-selected-guard';
 import {organisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard';
 
 export const ROUTES: Routes = [

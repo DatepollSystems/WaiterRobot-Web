@@ -1,4 +1,5 @@
 import {HasIDAndName} from 'dfts-helper';
+
 import {GetMyselfResponse} from '../../../waiterrobot-backend';
 
 export class MyUserModel implements HasIDAndName<number> {

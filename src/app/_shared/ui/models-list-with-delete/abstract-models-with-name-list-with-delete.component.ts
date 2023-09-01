@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
+
 import {HasIDAndName} from 'dfts-helper';
+
 import {AbstractModelsListWithDeleteComponent} from './abstract-models-list-with-delete.component';
 
 @Component({

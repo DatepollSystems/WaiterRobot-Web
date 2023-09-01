@@ -1,10 +1,11 @@
 import {SelectionModel} from '@angular/cdk/collections';
 import {Component, Inject} from '@angular/core';
 
+import {forkJoin, Observable, tap} from 'rxjs';
+
 import {IHasID, s_imploder} from 'dfts-helper';
 import {NgbTableDataSource} from 'dfx-bootstrap-table';
 import {HasDelete, HasGetAll} from 'dfx-helper';
-import {forkJoin, Observable, tap} from 'rxjs';
 
 import {AbstractModelsListComponent} from '../abstract-models-list.component';
 import {injectConfirmDialog} from '../question-dialog/question-dialog.component';

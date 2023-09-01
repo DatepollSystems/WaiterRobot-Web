@@ -2,10 +2,13 @@ import {AsyncPipe, LowerCasePipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayPluck, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppSoldOutPipe} from '../../_shared/ui/app-sold-out.pipe';
 import {DfxCurrencyCentPipe} from '../../_shared/ui/currency.pipe';
@@ -14,7 +17,6 @@ import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.c
 import {AbstractModelsWithNameListByIdComponent} from '../../_shared/ui/models-list-by-id/abstract-models-with-name-list-by-id.component';
 import {GetProductGroupResponse, GetProductMaxResponse} from '../../_shared/waiterrobot-backend';
 import {ProductGroupsService} from './_services/product-groups.service';
-
 import {ProductsService} from './_services/products.service';
 
 @Component({

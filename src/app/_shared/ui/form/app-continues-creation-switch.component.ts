@@ -1,8 +1,10 @@
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {DfxTr} from 'dfx-translate';
+
 import {Subscription} from 'rxjs';
+
+import {DfxTr} from 'dfx-translate';
 
 @Component({
   template: `

@@ -2,20 +2,20 @@ import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayPluck, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppSoldOutPipe} from '../../_shared/ui/app-sold-out.pipe';
 import {DfxCurrencyCentPipe} from '../../_shared/ui/currency.pipe';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
-import {
-  AbstractModelsWithNameListWithDeleteComponent
-} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
+import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {GetProductMaxResponse} from '../../_shared/waiterrobot-backend';
-
 import {ProductsService} from './_services/products.service';
 
 @Component({

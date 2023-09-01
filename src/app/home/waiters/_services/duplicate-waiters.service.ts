@@ -1,8 +1,10 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+
+import {BehaviorSubject, combineLatest, filter, Observable, switchMap, tap} from 'rxjs';
+
 import {notNullAndUndefined} from 'dfts-helper';
 import {HasGetAll} from 'dfx-helper';
-import {BehaviorSubject, combineLatest, filter, Observable, switchMap, tap} from 'rxjs';
 
 import {DuplicateWaiterResponse, MergeWaiterDto} from '../../../_shared/waiterrobot-backend';
 import {OrganisationsService} from '../../organisations/_services/organisations.service';

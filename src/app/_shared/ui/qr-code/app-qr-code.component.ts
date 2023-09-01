@@ -2,14 +2,15 @@ import {AsyncPipe, Location, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, Inject} from '@angular/core';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {toJpeg} from 'html-to-image';
+import {jsPDF} from 'jspdf';
+
 import {d_format, s_chunks} from 'dfts-helper';
 import {DfxCutPipe, IsMobileService, WINDOW} from 'dfx-helper';
 import {QRCodeComponent} from 'dfx-qrcode';
 import {DfxTr, dfxTranslate} from 'dfx-translate';
-import {toJpeg} from 'html-to-image';
-import {jsPDF} from 'jspdf';
-import {qrCodeData, QrCodeService} from '../../services/qr-code.service';
 
+import {qrCodeData, QrCodeService} from '../../services/qr-code.service';
 import {AppBtnToolbarComponent} from '../app-btn-toolbar.component';
 import {CopyDirective} from '../copy.directive';
 import {AppIconsModule} from '../icons.module';

@@ -2,15 +2,17 @@ import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
+
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNumberListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-number-list-with-delete.component';
 import {GetTableResponse} from '../../_shared/waiterrobot-backend';
-
 import {TablesService} from './_services/tables.service';
 import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
 

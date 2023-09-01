@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
+
 import {o_fromStorage, st_set} from 'dfts-helper';
 
 export type qrCodeData = {data: string; text: string; info: string};

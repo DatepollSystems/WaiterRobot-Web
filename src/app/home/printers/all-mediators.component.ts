@@ -1,17 +1,17 @@
 import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
+
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelsListComponent} from '../../_shared/ui/abstract-models-list.component';
-
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {GetMediatorResponse} from '../../_shared/waiterrobot-backend';
-
 import {MediatorsService} from './_services/mediators.service';
 
 @Component({

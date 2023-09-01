@@ -1,4 +1,5 @@
 import {AEntityWithNumberIDAndName} from 'dfts-helper';
+
 import {GetEventOrLocationResponse} from '../../../_shared/waiterrobot-backend';
 
 export class EventModel extends AEntityWithNumberIDAndName {

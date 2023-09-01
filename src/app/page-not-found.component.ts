@@ -1,8 +1,8 @@
 import {Location, NgOptimizedImage} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {Router} from '@angular/router';
-import {n_fromStorage, st_set} from 'dfts-helper';
 
+import {n_fromStorage, st_set} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {AppLogoWithTextComponent} from './_shared/ui/app-logo-with-text.component';

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Inject, inject, Input} from '@angular/core';
-import {WINDOW} from 'dfx-helper';
 
+import {WINDOW} from 'dfx-helper';
 import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
 
 @Component({

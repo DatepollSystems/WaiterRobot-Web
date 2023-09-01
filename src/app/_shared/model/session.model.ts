@@ -1,4 +1,5 @@
 import {HasIDAndName} from 'dfts-helper';
+
 import {SessionResponse} from '../waiterrobot-backend';
 
 export class SessionModel implements HasIDAndName<number> {

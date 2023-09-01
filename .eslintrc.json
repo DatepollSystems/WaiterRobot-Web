@@ -1,12 +1,19 @@
 {
   "root": true,
   "reportUnusedDisableDirectives": true,
-  "extends": ["prettier"],
+  "extends": [
+    "prettier"
+  ],
   "overrides": [
     {
-      "files": ["*.ts"],
+      "files": [
+        "*.ts"
+      ],
       "parserOptions": {
-        "project": ["tsconfig.json", "e2e/tsconfig.json"],
+        "project": [
+          "tsconfig.json",
+          "e2e/tsconfig.json"
+        ],
         "createDefaultProgram": true
       },
       "extends": [
@@ -14,7 +21,11 @@
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
         "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:import/typescript",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:import/recommended"
       ],
       "rules": {
         "@typescript-eslint/explicit-module-boundary-types": [
@@ -48,17 +59,86 @@
           }
         ],
         "dot-notation": "error",
-        "id-denylist": ["error", "any", "Number", "String", "string", "Boolean", "boolean", "Undefined", "undefined"],
+        "id-denylist": [
+          "error",
+          "any",
+          "Number",
+          "String",
+          "string",
+          "Boolean",
+          "boolean",
+          "Undefined",
+          "undefined"
+        ],
         "no-shadow": "error",
         "no-unused-expressions": "error",
-        "quotes": ["error", "single"],
-        "semi": "error"
+        "quotes": [
+          "error",
+          "single"
+        ],
+        "semi": "error",
+        "import/named": "off",
+        "import/no-unresolved": "off",
+        "import/order": [
+          "error",
+          {
+            "newlines-between": "always",
+            // <-- Changed configuration here to get proper imports order I want
+            "groups": [
+              // <-- Changed configuration here to get proper imports order I want
+              "internal",
+              // angular imports - configured in 'import/internal-regex'
+              "unknown",
+              // rxjs imports
+              "external",
+              // all libraries imports - configured in 'import/external-module-folders'
+              "builtin",
+              // internal-library imports
+              [
+                "parent",
+                "sibling",
+                "index"
+              ]
+              // relative paths
+            ],
+            "pathGroups": [
+              // <-- Changed configuration here to get proper imports order I want
+              {
+                "pattern": "rxjs",
+                "group": "unknown"
+              },
+              {
+                "pattern": "rxjs/**",
+                "group": "unknown"
+              },
+              {
+                "pattern": "dfx**",
+                "group": "builtin"
+              },
+              {
+                "pattern": "dfts**",
+                "group": "builtin"
+              }
+            ],
+            "pathGroupsExcludedImportTypes": [
+              "type",
+              "object"
+            ]
+          }
+        ]
       }
     },
     {
-      "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
       "rules": {}
     }
-  ]
+  ],
+  "settings": {
+    "import/internal-regex": "@angular/"
+  }
 }

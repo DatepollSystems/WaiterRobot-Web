@@ -1,14 +1,15 @@
 import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 import {FormsModule, NgForm} from '@angular/forms';
-import {s_isEmail} from 'dfts-helper';
 
+import {BehaviorSubject, map} from 'rxjs';
+
+import {s_isEmail} from 'dfts-helper';
 import {NgSub, WINDOW} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {BehaviorSubject, map} from 'rxjs';
+
 import {NotificationService} from '../../../_shared/notifications/notification.service';
 import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
-
 import {UserSettingsService} from '../_services/user-settings.service';
 
 @Component({

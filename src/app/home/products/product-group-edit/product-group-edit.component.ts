@@ -1,8 +1,13 @@
 import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
-import {DfxTr} from 'dfx-translate';
+import {RouterLink} from '@angular/router';
+
 import {combineLatest, map} from 'rxjs';
+
+import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
+
+import {DfxTr} from 'dfx-translate';
+
 import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
@@ -13,12 +18,10 @@ import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} from '../../../_shared/waiterrobot-backend';
-
 import {EventsService} from '../../events/_services/events.service';
 import {PrintersService} from '../../printers/_services/printers.service';
 import {ProductGroupsService} from '../_services/product-groups.service';
 import {ProductGroupEditFormComponent} from './product-group-edit-form.component';
-import {RouterLink} from '@angular/router';
 
 @Component({
   template: `

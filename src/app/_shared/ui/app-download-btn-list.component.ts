@@ -1,11 +1,13 @@
 import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+
 import {NgbModal, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {IconName, IconNamesEnum} from 'ngx-bootstrap-icons';
+
 import {a_shuffle} from 'dfts-helper';
 import {DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {IconName, IconNamesEnum} from 'ngx-bootstrap-icons';
 import {QrCodeService} from '../services/qr-code.service';
 import {CopyDirective} from './copy.directive';
 import {AppIconsModule} from './icons.module';

@@ -1,8 +1,11 @@
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {Router} from '@angular/router';
-import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
+
 import {combineLatest, map, startWith, tap} from 'rxjs';
+
+import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
+
 import {AuthService} from '../_shared/services/auth/auth.service';
 import {GetEventOrLocationResponse, GetOrganisationResponse} from '../_shared/waiterrobot-backend';
 import {AppSelectDialogComponent} from './app-select-dialog.component';

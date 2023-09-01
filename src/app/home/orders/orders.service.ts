@@ -1,12 +1,14 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+
+import {BehaviorSubject, filter, map, Observable, switchMap, tap, timer} from 'rxjs';
+
 import {n_generate_int, notNullAndUndefined} from 'dfts-helper';
 import {HasGetSingle} from 'dfx-helper';
-import {BehaviorSubject, filter, map, Observable, switchMap, tap, timer} from 'rxjs';
+
 import {NotificationService} from '../../_shared/notifications/notification.service';
 import {Download, DownloadService} from '../../_shared/services/download.service';
 import {GetPaginatedFn, getPaginationParams, PageableDto} from '../../_shared/services/services.interface';
-
 import {GetOrderMinResponse, GetOrderResponse, PaginatedResponseGetOrderMinResponse} from '../../_shared/waiterrobot-backend';
 import {EventsService} from '../events/_services/events.service';
 

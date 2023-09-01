@@ -1,15 +1,16 @@
 import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
-import {loggerOf, s_from} from 'dfts-helper';
 
-import {DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingSucceeds, DfxTrackByModule, IsMobileService, NgSub} from 'dfx-helper';
-import {DfxTr} from 'dfx-translate';
 import {combineLatest, first, map, startWith, tap} from 'rxjs';
 
-import {EnvironmentHelper} from '../_shared/EnvironmentHelper';
+import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 
+import {loggerOf, s_from} from 'dfts-helper';
+import {DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingSucceeds, DfxTrackByModule, IsMobileService, NgSub} from 'dfx-helper';
+import {DfxTr} from 'dfx-translate';
+
+import {EnvironmentHelper} from '../_shared/EnvironmentHelper';
 import {AuthService} from '../_shared/services/auth/auth.service';
 import {MyUserModel} from '../_shared/services/auth/user/my-user.model';
 import {MyUserService} from '../_shared/services/auth/user/my-user.service';

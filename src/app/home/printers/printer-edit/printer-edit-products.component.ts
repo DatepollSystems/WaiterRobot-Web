@@ -1,10 +1,13 @@
 import {NgIf} from '@angular/common';
 import {AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewChild} from '@angular/core';
 import {RouterLink} from '@angular/router';
+
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgxBootstrapIconsModule} from 'ngx-bootstrap-icons';
+
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
-import {NgxBootstrapIconsModule} from 'ngx-bootstrap-icons';
+
 import {GetProductMinResponse} from '../../../_shared/waiterrobot-backend';
 
 @Component({

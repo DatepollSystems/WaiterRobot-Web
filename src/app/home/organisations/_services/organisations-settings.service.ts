@@ -2,6 +2,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
 import {BehaviorSubject, map, Observable, switchMap} from 'rxjs';
+
 import {OrganisationSettingResponse} from '../../../_shared/waiterrobot-backend';
 
 @Injectable({

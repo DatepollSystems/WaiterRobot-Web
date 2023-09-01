@@ -1,7 +1,10 @@
 import {DatePipe, NgClass, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+
 import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+
 import {DfxTr} from 'dfx-translate';
+
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {GetOrderProductResponse, GetOrderResponse} from '../../../_shared/waiterrobot-backend';
 

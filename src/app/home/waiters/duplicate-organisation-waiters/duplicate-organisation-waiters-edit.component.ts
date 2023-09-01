@@ -1,10 +1,13 @@
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+
+import {combineLatest, filter, map, merge, share, shareReplay, Subject, switchMap, take, tap} from 'rxjs';
+
 import {notNullAndUndefined} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {combineLatest, filter, map, merge, share, shareReplay, Subject, switchMap, take, tap} from 'rxjs';
+
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';

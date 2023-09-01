@@ -1,7 +1,10 @@
 import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
-import {DfxTr} from 'dfx-translate';
+
 import {combineLatest, map, Observable, switchMap, tap} from 'rxjs';
+
+import {DfxTr} from 'dfx-translate';
+
 import {getActivatedRouteIdParam} from '../../../_shared/services/getActivatedRouteIdParam';
 import {ChipInput} from '../../../_shared/ui/chip-input/chip-input.component';
 import {GetUserResponse, IdAndNameResponse} from '../../../_shared/waiterrobot-backend';

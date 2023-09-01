@@ -1,6 +1,7 @@
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+
 import {DfxTr} from 'dfx-translate';
 
 import {AppIconsModule} from '../icons.module';

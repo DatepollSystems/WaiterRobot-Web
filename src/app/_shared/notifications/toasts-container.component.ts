@@ -1,6 +1,8 @@
 import {AsyncPipe, NgForOf, NgIf, NgTemplateOutlet} from '@angular/common';
 import {ChangeDetectionStrategy, Component, HostBinding, TemplateRef} from '@angular/core';
+
 import {NgbToastModule} from '@ng-bootstrap/ng-bootstrap';
+
 import {NotificationService} from './notification.service';
 
 @Component({

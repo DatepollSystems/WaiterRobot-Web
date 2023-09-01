@@ -1,10 +1,14 @@
 import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+
+import {combineLatest, filter, map} from 'rxjs';
+
 import {NgbInputDatepicker, NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
+
 import {notNullAndUndefined} from 'dfts-helper';
 import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {combineLatest, filter, map} from 'rxjs';
+
 import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
 import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
@@ -17,7 +21,6 @@ import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocationDto} from '../../../_shared/waiterrobot-backend';
 import {OrganisationsService} from '../../organisations/_services/organisations.service';
-
 import {EventsService} from '../_services/events.service';
 import {AppEventEditFormComponent} from './event-edit-form.component';
 

@@ -1,11 +1,15 @@
 import {AsyncPipe, DatePipe, NgClass, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
+
+import {combineLatest, map, switchMap} from 'rxjs';
+
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+
 import {a_pluck} from 'dfts-helper';
 import {DfxArrayPluck} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {combineLatest, map, switchMap} from 'rxjs';
+
 import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
 import {AppBackButtonComponent} from '../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';

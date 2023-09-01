@@ -2,14 +2,15 @@ import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {Component, Input} from '@angular/core';
 
 import {NgbActiveModal, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
+import {toJpeg} from 'html-to-image';
+import {jsPDF} from 'jspdf';
+
 import {d_formatWithHoursMinutesAndSeconds} from 'dfts-helper';
 import {DfxTrackByModule} from 'dfx-helper';
 import {QRCodeComponent} from 'dfx-qrcode';
 import {DfxTranslateModule} from 'dfx-translate';
-import {toJpeg} from 'html-to-image';
-import {jsPDF} from 'jspdf';
-import {MobileLinkService} from '../../_shared/services/mobile-link.service';
 
+import {MobileLinkService} from '../../_shared/services/mobile-link.service';
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {GetTableResponse} from '../../_shared/waiterrobot-backend';

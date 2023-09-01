@@ -1,8 +1,11 @@
 import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {WINDOW} from 'dfx-helper';
+
 import {map} from 'rxjs';
+
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+
+import {WINDOW} from 'dfx-helper';
 
 import * as licensesJson from '../../../../assets/licenses.json';
 import {EnvironmentHelper} from '../../EnvironmentHelper';

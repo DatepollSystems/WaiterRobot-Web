@@ -1,6 +1,7 @@
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+
 import {AppSpinnerComponent} from './app-spinner.component';
 
 @Component({

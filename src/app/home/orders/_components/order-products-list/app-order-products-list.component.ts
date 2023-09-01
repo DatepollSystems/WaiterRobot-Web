@@ -1,9 +1,12 @@
 import {AsyncPipe, DatePipe, KeyValuePipe, NgClass, NgForOf, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
 import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import {RouterLink} from '@angular/router';
+
+import {BehaviorSubject, combineLatest, map} from 'rxjs';
+
 import {s_fromStorage, st_set} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
-import {BehaviorSubject, combineLatest, map} from 'rxjs';
+
 import {AppIconsModule} from '../../../../_shared/ui/icons.module';
 import {GetOrderProductResponse} from '../../../../_shared/waiterrobot-backend';
 import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';

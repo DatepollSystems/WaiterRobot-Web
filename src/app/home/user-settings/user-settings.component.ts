@@ -1,6 +1,8 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
+
 import {DfxTr} from 'dfx-translate';
+
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 

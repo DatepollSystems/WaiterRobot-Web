@@ -2,18 +2,22 @@ import {DatePipe, NgIf} from '@angular/common';
 import {AfterViewInit, ChangeDetectionStrategy, Component, inject, ViewChild} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+
+import {debounceTime, filter, tap} from 'rxjs';
+
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+
 import {notNullAndUndefined} from 'dfts-helper';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
-import {debounceTime, filter, tap} from 'rxjs';
+
 import {getActivatedRouteIdParam} from '../../../_shared/services/getActivatedRouteIdParam';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {AppOrderStateBadgeComponent} from '../../orders/_components/app-order-state-badge.component';
 import {OrdersService} from '../../orders/orders.service';
 import {PaginatedDataSource} from '../../../_shared/paginated-data-source';
 import {GetOrderMinResponse} from '../../../_shared/waiterrobot-backend';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 
 @Component({

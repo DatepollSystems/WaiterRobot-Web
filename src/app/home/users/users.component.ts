@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
+
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 
 @Component({

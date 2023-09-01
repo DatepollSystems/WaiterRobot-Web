@@ -6,10 +6,11 @@ import {FormsModule} from '@angular/forms';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 
 import {NgbModal, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+
 import {s_fromStorage, st_remove, st_set} from 'dfts-helper';
 import {DfxTranslateModule} from 'dfx-translate';
-import {FullScreenService} from '../../services/fullscreen.service';
 
+import {FullScreenService} from '../../services/fullscreen.service';
 import {AppBtnToolbarComponent} from '../app-btn-toolbar.component';
 import {AppIconsModule} from '../icons.module';
 

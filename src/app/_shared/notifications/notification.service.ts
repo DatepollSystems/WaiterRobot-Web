@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Injectable, TemplateRef} from '@angular/core';
-import {dfxTranslate$} from 'dfx-translate';
+
 import {BehaviorSubject, first} from 'rxjs';
+
+import {dfxTranslate$} from 'dfx-translate';
 
 @Injectable({providedIn: 'root'})
 export class NotificationService {

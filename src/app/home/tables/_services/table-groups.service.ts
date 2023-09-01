@@ -1,10 +1,12 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+
+import {BehaviorSubject, filter, map, Observable, switchMap, tap} from 'rxjs';
+
 import {notNullAndUndefined, s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
-import {BehaviorSubject, filter, map, Observable, switchMap, tap} from 'rxjs';
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
 
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
 import {CreateTableGroupDto, GetTableGroupResponse, IdResponse, UpdateTableGroupDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 

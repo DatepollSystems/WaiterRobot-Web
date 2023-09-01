@@ -1,11 +1,15 @@
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+
+import {debounceTime} from 'rxjs';
+
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+
 import {n_from, s_from} from 'dfts-helper';
 import {AComponent} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-import {debounceTime} from 'rxjs';
+
 import {PrintersService} from '../_services/printers.service';
 
 @Component({

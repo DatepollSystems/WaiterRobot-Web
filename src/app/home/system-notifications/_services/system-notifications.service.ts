@@ -1,10 +1,12 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+
+import {BehaviorSubject, map, Observable, switchMap, tap} from 'rxjs';
+
 import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
-import {BehaviorSubject, map, Observable, switchMap, tap} from 'rxjs';
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
 
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
 import {
   CreateSystemNotificationDto,
   GetSystemNotificationResponse,

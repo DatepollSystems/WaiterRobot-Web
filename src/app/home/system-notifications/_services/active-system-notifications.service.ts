@@ -1,5 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+
 import {BehaviorSubject, Observable, switchMap} from 'rxjs';
 
 import {GetSystemNotificationResponse} from '../../../_shared/waiterrobot-backend';

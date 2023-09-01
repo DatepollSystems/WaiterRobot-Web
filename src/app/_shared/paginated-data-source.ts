@@ -1,6 +1,9 @@
 import {DataSource} from '@angular/cdk/table';
-import {NgbPaginator, NgbSort, Sort} from 'dfx-bootstrap-table';
+
 import {BehaviorSubject, combineLatest, merge, Observable, of, Subject, Subscription, switchMap} from 'rxjs';
+
+import {NgbPaginator, NgbSort, Sort} from 'dfx-bootstrap-table';
+
 import {GetPaginatedFn, PaginationResponse} from './services/services.interface';
 
 /**

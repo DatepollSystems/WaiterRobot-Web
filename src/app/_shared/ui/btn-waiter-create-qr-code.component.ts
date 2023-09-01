@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+
 import {MobileLinkService} from '../services/mobile-link.service';
 import {AppBtnQrCodeComponent} from './qr-code/app-btn-qr-code.component';
 

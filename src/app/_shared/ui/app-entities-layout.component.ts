@@ -2,7 +2,9 @@ import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
+
 import {NgSub} from 'dfx-helper';
+
 import {FullScreenService} from '../services/fullscreen.service';
 
 @Component({

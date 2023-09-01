@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
+
 import {DfxTranslateModule} from 'dfx-translate';
 
 @Component({

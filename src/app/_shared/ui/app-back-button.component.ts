@@ -1,6 +1,7 @@
 import {Location} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Directive, HostListener, inject, Input} from '@angular/core';
 import {Router} from '@angular/router';
+
 import {WINDOW} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
