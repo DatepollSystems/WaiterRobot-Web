@@ -74,6 +74,11 @@ export const ROUTES: Routes = [
         loadChildren: () => import('./orders/orders.routes').then((m) => m.ROUTES),
       },
       {
+        path: 'bills',
+        title: 'NAV_BILLS',
+        loadChildren: () => import('./bills/bills.routes').then((m) => m.ROUTES),
+      },
+      {
         path: 'statistics',
         title: 'NAV_STATISTICS',
         loadChildren: () => import('./statistics/statistics.module').then((m) => m.StatisticsModule),

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-redundant-type-constituents,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-return */
-import {BooleanInput, coerceBooleanProperty, coerceNumberProperty, NumberInput} from '@angular/cdk/coercion';
 import {CommonModule} from '@angular/common';
-import {Component, EventEmitter, Input, numberAttribute, Output, ViewChild} from '@angular/core';
+import {booleanAttribute, Component, EventEmitter, Input, numberAttribute, Output, ViewChild} from '@angular/core';
 import {FormsModule, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
 
 import {debounceTime, distinctUntilChanged, filter, map, merge, Observable, Subject} from 'rxjs';
@@ -32,23 +31,11 @@ export class ChipInput {
   @Input() placeholder = 'Add';
   @Input() validationErrorText = 'Error text';
 
-  @Input() set dark(it: BooleanInput) {
-    this._dark = coerceBooleanProperty(it);
-  }
+  @Input({transform: booleanAttribute}) dark = false;
 
-  _dark = false;
+  @Input({transform: numberAttribute}) debounceTime = 200;
 
-  @Input() set debounceTime(it: NumberInput) {
-    this._debounceTime = coerceNumberProperty(it);
-  }
-
-  _debounceTime = 200;
-
-  @Input() set minInputLengthKick(it: NumberInput) {
-    this._minInputLengthKick = coerceNumberProperty(it);
-  }
-
-  _minInputLengthKick = 1;
+  @Input({transform: numberAttribute}) minInputLengthKick = 1;
 
   @Input({transform: numberAttribute}) maxSearchResults = 10;
 
@@ -74,11 +61,7 @@ export class ChipInput {
   _models: inputTypes = [];
   _allModelsToAutoComplete?: inputTypes;
 
-  @Input() set editable(it: BooleanInput) {
-    this._editable = coerceBooleanProperty(it);
-  }
-
-  _editable = true;
+  @Input({transform: booleanAttribute}) editable = true;
 
   @Input()
   formatter: <T>(it: T) => string = (it) => it as unknown as string;
@@ -88,12 +71,12 @@ export class ChipInput {
   click$ = new Subject<string>();
 
   search: (text$: Observable<string>) => Observable<inputTypes> = (text$: Observable<string>) => {
-    const debouncedText$ = text$.pipe(debounceTime(this._debounceTime), distinctUntilChanged());
+    const debouncedText$ = text$.pipe(debounceTime(this.debounceTime), distinctUntilChanged());
     const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
     const inputFocus$ = this.focus$;
 
     return merge(debouncedText$, clicksWithClosedPopup$, inputFocus$).pipe(
-      filter((term) => term.length >= this._minInputLengthKick),
+      filter((term) => term.length >= this.minInputLengthKick),
       map((term) => {
         if (!this._allModelsToAutoComplete) {
           return [];

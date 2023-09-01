@@ -1,3 +1,4 @@
+ 
 /* tslint:disable */
 /*
  * ---------------------------------------------------------------
@@ -1026,7 +1027,7 @@ export interface GetOrderMinResponse {
   table: GetTableMinResponse;
   waiter: GetWaiterMinResponse;
   orderNumber: string;
-  state: 'QUEUED' | 'IN_PROGRESS' | 'FINISHED';
+  state: 'QUEUED' | 'PROCESSED';
   /** @format date-time */
   processedAt?: string;
   /** @format date-time */
@@ -1076,7 +1077,7 @@ export interface GetOrderResponse {
   table: GetTableMinResponse;
   waiter: GetWaiterMinResponse;
   orderNumber: string;
-  state: 'QUEUED' | 'IN_PROGRESS' | 'FINISHED';
+  state: 'QUEUED' | 'PROCESSED';
   /** @format date-time */
   processedAt?: string;
   /** @format date-time */

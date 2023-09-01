@@ -1,6 +1,5 @@
-import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {NgIf} from '@angular/common';
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 
 import {DfxTr} from 'dfx-translate';
 
@@ -9,11 +8,11 @@ import {AppIconsModule} from '../icons.module';
 @Component({
   template: `
     <button class="btn btn-sm btn-success" form="ngForm" (click)="this.submit.emit()" [disabled]="_valid === 'INVALID'">
-      <span *ngIf="_editing">
+      <span *ngIf="editing">
         <i-bs name="save" />
         {{ 'SAVE' | tr }}
       </span>
-      <span *ngIf="!_editing">
+      <span *ngIf="!editing">
         <i-bs name="plus-circle" />
         {{ 'ADD' | tr }}
       </span>
@@ -26,10 +25,7 @@ import {AppIconsModule} from '../icons.module';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppModelEditSaveBtn {
-  @Input() set editing(it: BooleanInput) {
-    this._editing = coerceBooleanProperty(it);
-  }
-  _editing = false;
+  @Input({transform: booleanAttribute}) editing = false;
 
   @Input()
   set valid(it: 'VALID' | 'INVALID' | null) {

@@ -1,7 +1,6 @@
-import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {CdkDragDrop, DragDropModule, moveItemInArray} from '@angular/cdk/drag-drop';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
-import {AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TemplateRef} from '@angular/core';
+import {AfterViewInit, booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TemplateRef} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 
@@ -35,33 +34,13 @@ import {AppIconsModule} from '../icons.module';
   styleUrls: ['./app-navbar-scrollable.component.css'],
 })
 export class AppNavbarScrollableComponent implements AfterViewInit {
-  @Input()
-  set isMobile(value: BooleanInput) {
-    this._isMobile = coerceBooleanProperty(value);
-  }
+  @Input({transform: booleanAttribute}) isMobile = false;
 
-  _isMobile = false;
+  @Input({transform: booleanAttribute}) edible = true;
 
-  @Input()
-  set edible(value: BooleanInput) {
-    this._edible = coerceBooleanProperty(value);
-  }
+  @Input({transform: booleanAttribute}) allowBookmarks = true;
 
-  _edible = true;
-
-  @Input()
-  set allowBookmarks(value: BooleanInput) {
-    this._allowBookmarks = coerceBooleanProperty(value);
-  }
-
-  _allowBookmarks = true;
-
-  @Input()
-  set preferencesStorageKey(value: string) {
-    this._preferencesStorageKey = value;
-  }
-
-  _preferencesStorageKey = 'nav_pref';
+  @Input() preferencesStorageKey = 'nav_pref';
 
   @Input()
   set items(value: NavItem[]) {
@@ -106,7 +85,7 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
     private modalService: NgbModal,
     private fullScreenService: FullScreenService,
   ) {
-    const savedPrefStr = s_fromStorage(this._preferencesStorageKey);
+    const savedPrefStr = s_fromStorage(this.preferencesStorageKey);
     if (savedPrefStr) {
       this._savedItems = JSON.parse(savedPrefStr) as NavItem[];
     }
@@ -145,7 +124,7 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
   }
 
   onMouseEnter(): void {
-    if (!this._edible) {
+    if (!this.edible) {
       return;
     }
     this.showEditArrow = true;
@@ -169,14 +148,14 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
   }
 
   onReset(): void {
-    st_remove(this._preferencesStorageKey);
+    st_remove(this.preferencesStorageKey);
     this._savedItems = undefined;
     this.items = this._items.slice();
     this.onClose();
   }
 
   onSave(): void {
-    st_set(this._preferencesStorageKey, JSON.stringify(this._itemsCopy));
+    st_set(this.preferencesStorageKey, JSON.stringify(this._itemsCopy));
     this._savedItems = this._itemsCopy.slice();
     this.items = this._items;
 

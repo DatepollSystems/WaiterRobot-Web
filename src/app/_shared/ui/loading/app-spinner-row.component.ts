@@ -1,12 +1,11 @@
-import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {NgIf} from '@angular/common';
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {AppSpinnerComponent} from './app-spinner.component';
 
 @Component({
   template: `
-    <div class="b-spinner-row" *ngIf="_show">
+    <div class="b-spinner-row" *ngIf="show">
       <app-spinner />
     </div>
   `,
@@ -27,10 +26,6 @@ import {AppSpinnerComponent} from './app-spinner.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppSpinnerRowComponent {
-  @Input()
-  set show(it: BooleanInput) {
-    this._show = coerceBooleanProperty(it);
-  }
-
-  _show = true;
+  @Input({transform: booleanAttribute})
+  show = true;
 }

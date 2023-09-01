@@ -4,9 +4,9 @@ import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.c
 
 @Component({
   template: '<entities-layout-component showNav="false" />',
-  selector: 'app-orders',
+  selector: 'app-bills',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AppEntitiesLayoutComponent],
 })
-export class OrdersComponent {}
+export class BillsComponent {}

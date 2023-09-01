@@ -23,7 +23,7 @@
         class="nav-item me-3"
         ngbTooltip="{{ 'NAV_EDIT_CUSTOMIZE' | tr }}"
         placement="bottom"
-        *ngIf="_edible && (showEditArrow || _isMobile)"
+        *ngIf="edible && (showEditArrow || isMobile)"
       >
         <a class="nav-link" draggable="false" routerLinkActive="active" (click)="onEdit()">
           <i-bs name="pencil-fill" />
@@ -49,7 +49,7 @@
           {{ 'RESET' | tr }}
         </button>
 
-        <button class="btn btn-sm btn-outline-info" (click)="openModal(bookMarkModalContent)" *ngIf="_allowBookmarks">
+        <button class="btn btn-sm btn-outline-info" (click)="openModal(bookMarkModalContent)" *ngIf="allowBookmarks">
           <i-bs name="star-fill" />
           {{ 'NAV_EDIT_BOOKMARK' | tr }}
         </button>
@@ -57,13 +57,13 @@
 
       <div
         class="list"
-        [class.h-list]="!_isMobile"
-        [class.v-list]="_isMobile"
+        [class.h-list]="!isMobile"
+        [class.v-list]="isMobile"
         cdkDropList
-        [cdkDropListOrientation]="_isMobile ? 'vertical' : 'horizontal'"
+        [cdkDropListOrientation]="isMobile ? 'vertical' : 'horizontal'"
         (cdkDropListDropped)="drop($event)"
       >
-        <div class="box" [class.h-box]="!_isMobile" [class.v-box]="_isMobile" *ngFor="let item of _itemsCopy" cdkDrag>
+        <div class="box" [class.h-box]="!isMobile" [class.v-box]="isMobile" *ngFor="let item of _itemsCopy" cdkDrag>
           <span *ngIf="!item.bookmark; else notBookmark">{{ item.text | tr }}</span>
           <ng-template #notBookmark>
             <span>{{ item.text }}</span>

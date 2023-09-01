@@ -1,5 +1,4 @@
-import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 
 import {Subscription} from 'rxjs';
@@ -24,9 +23,9 @@ export class AppContinuesCreationSwitchComponent implements OnDestroy {
   @Output()
   continuesCreationChange = new EventEmitter<boolean>();
 
-  @Input()
-  set continuesCreation(it: BooleanInput) {
-    this.formControl.setValue(coerceBooleanProperty(it));
+  @Input({transform: booleanAttribute})
+  set continuesCreation(it: boolean) {
+    this.formControl.setValue(it);
   }
 
   @Input() text = 'CONTINUOUS_CREATION';

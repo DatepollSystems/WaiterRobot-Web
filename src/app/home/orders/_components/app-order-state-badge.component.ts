@@ -45,7 +45,7 @@ import {GetOrderProductResponse, GetOrderResponse} from '../../../_shared/waiter
         width: 10px;
         height: 10px;
         border-radius: 50%;
-        box-shadow: 0px 0px 1px 1px #0000001a;
+        box-shadow: 0 0 1px 1px #0000001a;
       }
 
       .pulse {
@@ -58,7 +58,7 @@ import {GetOrderProductResponse, GetOrderResponse} from '../../../_shared/waiter
 
       @keyframes pulse-animation {
         0% {
-          box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.3);
         }
         100% {
           box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
@@ -77,7 +77,6 @@ export class AppOrderStateBadgeComponent {
     this.allProducts = it.length;
     this.printedProducts = it.length - it.filter((iit) => iit === 'QUEUED').length;
   }
-  includesQueued = false;
   allProducts = 0;
   printedProducts = 0;
 
