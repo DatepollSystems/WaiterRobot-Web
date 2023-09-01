@@ -1,30 +1,33 @@
-import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {DatePipe, NgIf} from '@angular/common';
+import {AfterViewInit, ChangeDetectionStrategy, Component, inject, ViewChild} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {notNullAndUndefined} from 'dfts-helper';
-import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbTableDataSource} from 'dfx-bootstrap-table';
-import {NgSub} from 'dfx-helper';
+import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
-import {combineLatest, debounceTime, filter, map, startWith, switchMap} from 'rxjs';
+import {debounceTime, filter, tap} from 'rxjs';
 import {getActivatedRouteIdParam} from '../../../_shared/services/getActivatedRouteIdParam';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {AppOrderStateBadgeComponent} from '../../orders/_components/app-order-state-badge.component';
 import {OrdersService} from '../../orders/orders.service';
+import {PaginatedDataSource} from '../../../_shared/paginated-data-source';
+import {GetOrderMinResponse} from '../../../_shared/waiterrobot-backend';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 
 @Component({
   template: `
     <form class="my-2">
       <div class="input-group">
-        <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="searchParam$" placeholder="{{ 'SEARCH' | tr }}" />
+        <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
         <button
           class="btn btn-outline-secondary"
           type="button"
           ngbTooltip="{{ 'CLEAR' | tr }}"
           placement="bottom"
-          (click)="searchParam$.reset()"
-          *ngIf="(searchParam$.value?.length ?? 0) > 0"
+          (click)="filter.reset()"
+          *ngIf="(filter.value?.length ?? 0) > 0"
         >
           <i-bs name="x-circle-fill" />
         </button>
@@ -32,14 +35,14 @@ import {OrdersService} from '../../orders/orders.service';
     </form>
 
     <div class="table-responsive">
-      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []">
+      <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="createdAt" ngbSortDirection="desc">
         <ng-container ngbColumnDef="orderNumber">
-          <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_ORDER_NUMBER' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_NUMBER' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>{{ order.orderNumber }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="state">
-          <th *ngbHeaderCellDef ngb-header-cell>{{ 'STATE' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
             <app-order-state-badge
               [orderState]="order.state"
@@ -50,8 +53,8 @@ import {OrdersService} from '../../orders/orders.service';
           </td>
         </ng-container>
 
-        <ng-container ngbColumnDef="table">
-          <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_ORDER_TABLE' | tr }}</th>
+        <ng-container ngbColumnDef="table.tableGroup.name">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_TABLE' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
             <a (click)="$event.stopPropagation()" routerLink="/home/tables/groups/tables/{{ order.table.group.id }}">{{
               order.table.group.name
@@ -60,12 +63,12 @@ import {OrdersService} from '../../orders/orders.service';
           </td>
         </ng-container>
 
-        <ng-container ngbColumnDef="createdAt">
+        <ng-container ngbColumnDef="createdAt" ngb-sort-header>
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_ORDER_CREATED_AT' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>{{ order.createdAt | date: 'dd.MM. HH:mm:ss' }}</td>
         </ng-container>
 
-        <ng-container ngbColumnDef="actions">
+        <ng-container ngbColumnDef="actions" ngb-sort-header>
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
             <a
@@ -88,48 +91,58 @@ import {OrdersService} from '../../orders/orders.service';
         </div>
       </table>
     </div>
+
+    <div class="w-100 text-center" *ngIf="(dataSource.data?.numberOfItems ?? 1) < 1">
+      {{ 'HOME_STATISTICS_NO_DATA' | tr }}
+    </div>
+
+    <app-spinner-row *ngIf="!dataSource.data" />
+
+    <ngb-paginator [collectionSize]="dataSource.data?.numberOfItems ?? 0" [pageSizes]="[10, 20, 50, 100, 200]" [pageSize]="50" />
   `,
   selector: 'app-waiter-edit-order-products',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    AppOrderStateBadgeComponent,
+    ReactiveFormsModule,
+    RouterLink,
     DatePipe,
+    NgIf,
+    DfxTr,
     DfxPaginationModule,
     DfxSortModule,
     DfxTableModule,
-    DfxTr,
-    RouterLink,
-    NgIf,
-    NgSub,
     NgbTooltip,
-    ReactiveFormsModule,
     AppIconsModule,
-    AsyncPipe,
+    AppOrderStateBadgeComponent,
+    AppSpinnerRowComponent,
   ],
 })
-export class WaiterEditOrderProductsComponent {
+export class WaiterEditOrderProductsComponent implements AfterViewInit {
   ordersService = inject(OrdersService);
 
-  columnsToDisplay = ['orderNumber', 'state', 'table', 'createdAt', 'actions'];
-
-  public searchParam$ = new FormControl('');
-
-  dataSource$ = combineLatest([
-    this.searchParam$.valueChanges.pipe(
-      startWith(''),
-      map((it) => it ?? ''),
-      debounceTime(250),
-    ),
-    getActivatedRouteIdParam().pipe(
-      filter(notNullAndUndefined),
-      switchMap((id) => this.ordersService.getByWaiterId$(id)),
-    ),
-  ]).pipe(
-    map(([searchParam, orders]) => {
-      const dataSource = new NgbTableDataSource(orders);
-      dataSource.filter = searchParam;
-      return dataSource;
-    }),
+  @ViewChild(NgbSort) sort?: NgbSort;
+  @ViewChild(NgbPaginator, {static: true}) paginator!: NgbPaginator;
+  dataSource = new PaginatedDataSource<GetOrderMinResponse>(
+    this.ordersService.getPaginatedFnByWaiterId(getActivatedRouteIdParam().pipe(filter(notNullAndUndefined))),
   );
+  filter = new FormControl<string>('');
+  columnsToDisplay = ['orderNumber', 'state', 'table.tableGroup.name', 'createdAt', 'actions'];
+
+  constructor() {
+    this.filter.valueChanges
+      .pipe(
+        takeUntilDestroyed(),
+        debounceTime(700),
+        tap((it) => {
+          this.dataSource.filter = it ?? '';
+        }),
+      )
+      .subscribe();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
 }

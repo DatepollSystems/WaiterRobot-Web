@@ -81,15 +81,7 @@ import {OrdersService} from './orders.service';
     </form>
 
     <div class="table-responsive">
-      <table
-        ngb-table
-        [hover]="true"
-        [dataSource]="dataSource"
-        ngb-sort
-        ngbSortActive="createdAt"
-        ngbSortDirection="desc"
-        [trackBy]="trackBy"
-      >
+      <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="createdAt" ngbSortDirection="desc">
         <ng-container ngbColumnDef="select">
           <th *ngbHeaderCellDef ngb-header-cell></th>
           <td *ngbCellDef="let selectable" ngb-cell>
@@ -184,22 +176,22 @@ import {OrdersService} from './orders.service';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    RouterLink,
     NgIf,
     DatePipe,
     AsyncPipe,
     ReactiveFormsModule,
     NgbTooltip,
+    NgbProgressbar,
     DfxTableModule,
     DfxSortModule,
     DfxPaginationModule,
     DfxTr,
     AppIconsModule,
-    RouterLink,
     AppOrderStateBadgeComponent,
     AppOrderRefreshButtonComponent,
     AppBtnToolbarComponent,
     AppSpinnerRowComponent,
-    NgbProgressbar,
   ],
 })
 export class AllOrdersComponent implements AfterViewInit {
@@ -209,7 +201,6 @@ export class AllOrdersComponent implements AfterViewInit {
 
   lumber = loggerOf('AllOrders');
 
-  countdown$ = this.ordersService.countdown$();
   openInNewTab = new FormControl<boolean>(b_fromStorage('open_order_in_new_tab') ?? true);
   openInNewTabChanges$ = this.openInNewTab.valueChanges.pipe(
     distinctUntilChanged(),
@@ -219,9 +210,9 @@ export class AllOrdersComponent implements AfterViewInit {
   @ViewChild(NgbSort) sort?: NgbSort;
   @ViewChild(NgbPaginator, {static: true}) paginator!: NgbPaginator;
   columnsToDisplay = ['select', 'orderNumber', 'state', 'table.tableGroup.name', 'waiter.name', 'createdAt', 'actions'];
-  dataSource = new PaginatedDataSource<GetOrderMinResponse>(this.ordersService);
-  selection = new SelectionModel<GetOrderMinResponse>(true, [], false, (a, b) => a.id === b.id);
+  dataSource = new PaginatedDataSource<GetOrderMinResponse>(this.ordersService.getAllPaginated$);
   filter = new FormControl<string>('');
+  selection = new SelectionModel<GetOrderMinResponse>(true, [], false, (a, b) => a.id === b.id);
 
   download$?: Observable<Download>;
 
@@ -241,8 +232,6 @@ export class AllOrdersComponent implements AfterViewInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-
-  trackBy = (index: number, t: GetOrderMinResponse): number => t.id;
 
   openOrder(it: GetOrderMinResponse): void {
     if (this.openInNewTab.value ?? true) {

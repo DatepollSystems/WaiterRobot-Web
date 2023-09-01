@@ -1,7 +1,7 @@
 import {DataSource} from '@angular/cdk/table';
 import {NgbPaginator, NgbSort, Sort} from 'dfx-bootstrap-table';
 import {BehaviorSubject, combineLatest, merge, Observable, of, Subject, Subscription, switchMap} from 'rxjs';
-import {HasGetPaginated, PaginationResponse} from './services/services.interface';
+import {GetPaginatedFn, PaginationResponse} from './services/services.interface';
 
 /**
  * Interface that matches the required API parts of the MatPaginator.
@@ -31,11 +31,11 @@ export class _PaginatedDataSource<T, P extends NgbTableDataSourcePaginator = Ngb
    */
   _renderChangesSubscription: Subscription | null = null;
 
-  private readonly _service: HasGetPaginated<T>;
+  private readonly _fn: GetPaginatedFn<T>;
 
-  constructor(service: HasGetPaginated<T>) {
+  constructor(service: GetPaginatedFn<T>) {
     super();
-    this._service = service;
+    this._fn = service;
     this._updateChangeSubscription();
   }
 
@@ -126,7 +126,7 @@ export class _PaginatedDataSource<T, P extends NgbTableDataSourcePaginator = Ngb
         if (!(!active || !direction || direction === '')) {
           sort = `${active},${direction}`;
         }
-        return this._service.getAllPaginated$({
+        return this._fn({
           page: this.paginator?.page ? this.paginator.page - 1 : undefined,
           size: this.paginator?.pageSize,
           sort,

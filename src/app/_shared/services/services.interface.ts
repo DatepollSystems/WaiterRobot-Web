@@ -2,6 +2,7 @@ import {IHasID} from 'dfts-helper';
 import {HasCreate, HasUpdate} from 'dfx-helper';
 import {IdResponse} from '../waiterrobot-backend';
 import {Observable} from 'rxjs';
+import {HttpParams} from '@angular/common/http';
 
 export type HasCreateWithIdResponse<CreateDTOType> = HasCreate<CreateDTOType, IdResponse>;
 
@@ -26,6 +27,17 @@ export type PageableDto = {
   query?: string;
 };
 
-export type HasGetPaginated<T> = {
-  getAllPaginated$(options: PageableDto): Observable<PaginationResponse<T>>;
-};
+export type GetPaginatedFn<T> = (options: PageableDto) => Observable<PaginationResponse<T>>;
+
+export function getPaginationParams(options: PageableDto): HttpParams {
+  let params = new HttpParams();
+  params = params.append('page', options.page ?? 0);
+  params = params.append('size', options.size ?? 10);
+  if (options.sort) {
+    params = params.append('sort', options.sort);
+  }
+  if (options.query && options.query.length > 0) {
+    params = params.append('query', options.query);
+  }
+  return params;
+}
