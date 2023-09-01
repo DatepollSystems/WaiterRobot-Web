@@ -1,4 +1,4 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
 import {BehaviorSubject, filter, map, Observable, switchMap, tap, timer} from 'rxjs';
@@ -59,20 +59,17 @@ export class OrdersService implements HasGetSingle<GetOrderResponse> {
     return this.httpClient.get(`${this.url}/${id}/requeue/${printerId}`).pipe(tap(() => this.triggerRefresh.next(true)));
   }
 
-  getByTableId$(id: number): Observable<GetOrderResponse[]> {
-    return this.httpClient.get<GetOrderResponse[]>(this.url, {params: new HttpParams().set('tableId', id)});
-  }
-
-  getAllPaginated$(options: PageableDto): Observable<PaginatedResponseGetOrderMinResponse> {
-    return this.triggerRefresh.pipe(
-      switchMap(() => this.eventsService.getSelected$),
-      filter(notNullAndUndefined),
-      switchMap((event) =>
-        this.httpClient.get<PaginatedResponseGetOrderMinResponse>(`${this.url}`, {
-          params: getPaginationParams(options).append('eventId', event.id),
-        }),
-      ),
-    );
+  getAllPaginatedFn(): GetPaginatedFn<GetOrderMinResponse> {
+    return (options: PageableDto) =>
+      this.triggerRefresh.pipe(
+        switchMap(() => this.eventsService.getSelected$),
+        filter(notNullAndUndefined),
+        switchMap((eventId) =>
+          this.httpClient.get<PaginatedResponseGetOrderMinResponse>(`${this.url}`, {
+            params: getPaginationParams(options).append('eventId', eventId.id),
+          }),
+        ),
+      );
   }
 
   getPaginatedFnByWaiterId(waiterId$: Observable<number>): GetPaginatedFn<GetOrderMinResponse> {

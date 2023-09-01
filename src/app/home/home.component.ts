@@ -1,6 +1,7 @@
 import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 import {combineLatest, first, map, startWith, tap} from 'rxjs';
 
@@ -62,22 +63,21 @@ export class HomeComponent {
 
   adminModeChanged = false;
 
-  isFullScreen$ = this.fullScreenService.isFullScreen$;
-
-  isMobile$ = this.isMobileService.isMobile$.pipe(
-    tap((it) => {
-      if (it) {
-        const navContent = document.getElementById('navbarSupportedContent');
-        if (navContent != null) {
-          navContent.style.display = 'none';
-        }
-      }
-    }),
-  );
-
   activeSystemNotifications$ = this.activeSystemNotificationsService.getAll$();
 
-  uiControls$ = combineLatest([this.isFullScreen$, this.isMobile$]).pipe(map(([isFullScreen, isMobile]) => ({isFullScreen, isMobile})));
+  uiControls$ = combineLatest([
+    this.fullScreenService.isFullScreen$,
+    this.isMobileService.isMobile$.pipe(
+      tap((it) => {
+        if (it) {
+          const navContent = document.getElementById('navbarSupportedContent');
+          if (navContent != null) {
+            navContent.style.display = 'none';
+          }
+        }
+      }),
+    ),
+  ]).pipe(map(([isFullScreen, isMobile]) => ({isFullScreen, isMobile})));
 
   vm$ = combineLatest([
     this.myUserService.getUser$().pipe(
@@ -110,6 +110,7 @@ export class HomeComponent {
     {text: 'NAV_PRINTERS', routerLink: 'printers'},
     {text: 'NAV_WAITERS', routerLink: 'waiters'},
     {text: 'NAV_ORDERS', routerLink: 'orders'},
+    {text: 'NAV_BILLS', routerLink: 'bills'},
     {text: 'NAV_STATISTICS', routerLink: 'statistics'},
   ];
 
@@ -124,8 +125,8 @@ export class HomeComponent {
     public fullScreenService: FullScreenService,
     public activeSystemNotificationsService: ActiveSystemNotificationsService,
   ) {
-    router.events.subscribe((val) => {
-      if (val instanceof NavigationEnd) {
+    router.events.pipe(takeUntilDestroyed()).subscribe((event) => {
+      if (event instanceof NavigationEnd) {
         this.toggleNav('CLOSE');
       }
     });

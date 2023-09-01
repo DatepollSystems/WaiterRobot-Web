@@ -43,6 +43,7 @@
         "@typescript-eslint/restrict-plus-operands": "off",
         "@typescript-eslint/member-ordering": "off",
         "@typescript-eslint/unbound-method": "off",
+        "@angular-eslint/sort-ngmodule-metadata-arrays": "error",
         "@angular-eslint/component-class-suffix": "off",
         "@angular-eslint/component-selector": [
           "error",

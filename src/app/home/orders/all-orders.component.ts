@@ -135,7 +135,7 @@ import {OrdersService} from './orders.service';
 
         <ng-container ngbColumnDef="createdAt">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_CREATED_AT' | tr }}</th>
-          <td *ngbCellDef="let order" ngb-cell>{{ order.createdAt | date: 'dd.MM. HH:mm:ss' }}</td>
+          <td *ngbCellDef="let order" ngb-cell>{{ order.createdAt | date: 'dd.MM.yy HH:mm:ss' }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="actions">
@@ -211,7 +211,7 @@ export class AllOrdersComponent implements AfterViewInit {
   @ViewChild(NgbSort) sort?: NgbSort;
   @ViewChild(NgbPaginator, {static: true}) paginator!: NgbPaginator;
   columnsToDisplay = ['select', 'orderNumber', 'state', 'table.tableGroup.name', 'waiter.name', 'createdAt', 'actions'];
-  dataSource = new PaginatedDataSource<GetOrderMinResponse>(this.ordersService.getAllPaginated$);
+  dataSource = new PaginatedDataSource<GetOrderMinResponse>(this.ordersService.getAllPaginatedFn());
   filter = new FormControl<string>('');
   selection = new SelectionModel<GetOrderMinResponse>(true, [], false, (a, b) => a.id === b.id);
 

@@ -16,7 +16,7 @@ import {FooterModule} from './_shared/ui/footer/footer.module';
         <app-logo-with-text />
         <div class="d-flex flex-column align-items-center gap-4 mt-5 pb-4">
           <div>
-            <img style="max-width: 100%" src="assets/404.webp" alt="Image of cat which hides" />
+            <img ngSrc="/assets/404.webp" width="700" height="500" alt="Image of cat which hides in a box" />
           </div>
           <div class="text-center mt-3">
             <h2>{{ '404_TITLE' | tr }}</h2>

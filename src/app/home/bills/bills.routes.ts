@@ -8,10 +8,9 @@ export const ROUTES: Routes = [
     path: '',
     loadComponent: () => import('./bills.component').then((c) => c.BillsComponent),
     canActivate: [organisationSelectedGuard, eventSelectedGuard],
-    // children: [
-    //   {path: 'all', loadComponent: () => import('./all-orders.component').then((c) => c.AllOrdersComponent)},
-    //   {path: ':id', loadComponent: () => import('./order-info.component').then((c) => c.OrderInfoComponent)},
-    //   {path: '', pathMatch: 'full', redirectTo: 'all'},
-    // ],
+    children: [
+      {path: 'all', loadComponent: () => import('./all-bills.component').then((c) => c.AllBillsComponent)},
+      {path: '', pathMatch: 'full', redirectTo: 'all'},
+    ],
   },
 ];

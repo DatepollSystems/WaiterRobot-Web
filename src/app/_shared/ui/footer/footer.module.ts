@@ -12,8 +12,8 @@ import {AboutModalComponent} from './about-modal.component';
 import {FooterComponent} from './footer.component';
 
 @NgModule({
-  declarations: [FooterComponent, AboutModalComponent],
-  imports: [FormsModule, AsyncPipe, RouterLink, DfxTr, NgbNav, NgbNavItem, NgbNavLink, NgbNavContent, NgbNavOutlet, NgForOr, NgIf],
+  declarations: [AboutModalComponent, FooterComponent],
+  imports: [AsyncPipe, DfxTr, FormsModule, NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet, NgForOr, NgIf, RouterLink],
   exports: [FooterComponent],
 })
 export class FooterModule {}

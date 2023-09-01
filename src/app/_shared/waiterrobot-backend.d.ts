@@ -781,6 +781,7 @@ export interface GetEventOrLocationResponse {
   startDate?: string;
   /** @format date-time */
   endDate?: string;
+  /** @format date-time */
   date?: string;
   /** @format date-time */
   deleted?: string;
@@ -792,6 +793,37 @@ export interface GetBillForTableResponse {
   /** @format int32 */
   tableNumber: number;
   products: BillProductResponse[];
+}
+
+export interface GetBillResponse {
+  /** @format int64 */
+  id: number;
+  table: GetTableMinResponse;
+  waiter: GetWaiterMinResponse;
+  /** @format date-time */
+  createdAt: string;
+  products: BillProductResponse[];
+}
+
+export interface GetTableGroupMinResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+}
+
+export interface GetTableMinResponse {
+  /** @format int64 */
+  id: number;
+  publicId: string;
+  /** @format int32 */
+  number: number;
+  group: GetTableGroupMinResponse;
+}
+
+export interface GetWaiterMinResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
 }
 
 export interface GetMyselfResponse {
@@ -1027,33 +1059,12 @@ export interface GetOrderMinResponse {
   table: GetTableMinResponse;
   waiter: GetWaiterMinResponse;
   orderNumber: string;
-  state: 'QUEUED' | 'PROCESSED';
+  state: 'QUEUED' | 'IN_PROGRESS' | 'FINISHED';
   /** @format date-time */
   processedAt?: string;
   /** @format date-time */
   createdAt: string;
   orderProductStates: ('PRINTED' | 'SENT_TO_PRINT' | 'QUEUED')[];
-}
-
-export interface GetTableGroupMinResponse {
-  /** @format int64 */
-  id: number;
-  name: string;
-}
-
-export interface GetTableMinResponse {
-  /** @format int64 */
-  id: number;
-  publicId: string;
-  /** @format int32 */
-  number: number;
-  group: GetTableGroupMinResponse;
-}
-
-export interface GetWaiterMinResponse {
-  /** @format int64 */
-  id: number;
-  name: string;
 }
 
 export interface GetOrderProductResponse {
@@ -1077,7 +1088,7 @@ export interface GetOrderResponse {
   table: GetTableMinResponse;
   waiter: GetWaiterMinResponse;
   orderNumber: string;
-  state: 'QUEUED' | 'PROCESSED';
+  state: 'QUEUED' | 'IN_PROGRESS' | 'FINISHED';
   /** @format date-time */
   processedAt?: string;
   /** @format date-time */
@@ -1102,4 +1113,23 @@ export interface GetMediatorResponse {
   printers: GetPrinterMinResponse[];
   /** @format date-time */
   lastContact: string;
+}
+
+export interface GetBillMinResponse {
+  /** @format int64 */
+  id: number;
+  table: GetTableMinResponse;
+  waiter: GetWaiterMinResponse;
+  /** @format int32 */
+  priceSum: number;
+  /** @format date-time */
+  createdAt: string;
+}
+
+export interface PaginatedResponseGetBillMinResponse {
+  /** @format int64 */
+  numberOfItems: number;
+  /** @format int32 */
+  numberOfPages: number;
+  data: GetBillMinResponse[];
 }
