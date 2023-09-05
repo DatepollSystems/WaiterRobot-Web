@@ -1,4 +1,3 @@
- 
 /* tslint:disable */
 /*
  * ---------------------------------------------------------------
@@ -131,9 +130,15 @@ export interface UpdateUserDto {
 export interface UpdateTableDto {
   /** @format int64 */
   id: number;
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 0
+   */
   number: number;
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 0
+   */
   seats: number;
   /** @format int64 */
   groupId: number;
@@ -328,6 +333,10 @@ export interface CreateOrderDto {
    * @min 1
    */
   tableId: number;
+  /**
+   * @maxItems 2147483647
+   * @minItems 1
+   */
   products: CreateOrderProductDto[];
 }
 
@@ -492,9 +501,15 @@ export interface CreateUserDto {
 }
 
 export interface CreateTableDto {
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 0
+   */
   number: number;
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 0
+   */
   seats: number;
   /** @format int64 */
   groupId: number;
@@ -781,7 +796,6 @@ export interface GetEventOrLocationResponse {
   startDate?: string;
   /** @format date-time */
   endDate?: string;
-  /** @format date-time */
   date?: string;
   /** @format date-time */
   deleted?: string;
@@ -1067,6 +1081,14 @@ export interface GetOrderMinResponse {
   orderProductStates: ('PRINTED' | 'SENT_TO_PRINT' | 'QUEUED')[];
 }
 
+export interface PaginatedResponseGetOrderMinResponse {
+  /** @format int64 */
+  numberOfItems: number;
+  /** @format int32 */
+  numberOfPages: number;
+  data: GetOrderMinResponse[];
+}
+
 export interface GetOrderProductResponse {
   /** @format int64 */
   id: number;
@@ -1094,14 +1116,6 @@ export interface GetOrderResponse {
   /** @format date-time */
   createdAt: string;
   orderProducts: GetOrderProductResponse[];
-}
-
-export interface PaginatedResponseGetOrderMinResponse {
-  /** @format int64 */
-  numberOfItems: number;
-  /** @format int32 */
-  numberOfPages: number;
-  data: GetOrderMinResponse[];
 }
 
 export interface GetMediatorResponse {

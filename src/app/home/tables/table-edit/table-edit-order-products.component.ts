@@ -12,13 +12,13 @@ import {notNullAndUndefined} from 'dfts-helper';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
+import {PaginatedDataSource} from '../../../_shared/paginated-data-source';
 import {getActivatedRouteIdParam} from '../../../_shared/services/getActivatedRouteIdParam';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
+import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
+import {GetOrderMinResponse} from '../../../_shared/waiterrobot-backend';
 import {AppOrderStateBadgeComponent} from '../../orders/_components/app-order-state-badge.component';
 import {OrdersService} from '../../orders/orders.service';
-import {PaginatedDataSource} from '../../../_shared/paginated-data-source';
-import {GetOrderMinResponse} from '../../../_shared/waiterrobot-backend';
-import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 
 @Component({
   template: `
@@ -70,7 +70,7 @@ import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-ro
         </ng-container>
 
         <ng-container ngbColumnDef="actions">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ACTIONS' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
             <a
               class="btn btn-sm m-1 btn-outline-primary text-white"
@@ -84,12 +84,6 @@ import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-ro
 
         <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
         <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row routerLink="/home/orders/{{ order.id }}" class="clickable"></tr>
-
-        <tr *ngbNoDataRow>
-          <div class="w-100 text-center">
-            {{ 'HOME_STATISTICS_NO_DATA' | tr }}
-          </div>
-        </tr>
       </table>
     </div>
 
@@ -125,7 +119,7 @@ export class TableEditOrderProductsComponent implements AfterViewInit {
   @ViewChild(NgbSort) sort?: NgbSort;
   @ViewChild(NgbPaginator, {static: true}) paginator!: NgbPaginator;
   dataSource = new PaginatedDataSource<GetOrderMinResponse>(
-    this.ordersService.getPaginatedFnByWaiterId(getActivatedRouteIdParam().pipe(filter(notNullAndUndefined))),
+    this.ordersService.getPaginatedFnByTableIdId(getActivatedRouteIdParam().pipe(filter(notNullAndUndefined))),
   );
   filter = new FormControl<string>('');
   columnsToDisplay = ['orderNumber', 'state', 'waiter.name', 'createdAt', 'actions'];

@@ -1,8 +1,8 @@
 import {DatePipe, NgIf} from '@angular/common';
 import {AfterViewInit, ChangeDetectionStrategy, Component, inject, ViewChild} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 import {debounceTime, filter, tap} from 'rxjs';
 
@@ -12,13 +12,13 @@ import {notNullAndUndefined} from 'dfts-helper';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
+import {PaginatedDataSource} from '../../../_shared/paginated-data-source';
 import {getActivatedRouteIdParam} from '../../../_shared/services/getActivatedRouteIdParam';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
+import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
+import {GetOrderMinResponse} from '../../../_shared/waiterrobot-backend';
 import {AppOrderStateBadgeComponent} from '../../orders/_components/app-order-state-badge.component';
 import {OrdersService} from '../../orders/orders.service';
-import {PaginatedDataSource} from '../../../_shared/paginated-data-source';
-import {GetOrderMinResponse} from '../../../_shared/waiterrobot-backend';
-import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 
 @Component({
   template: `
@@ -67,12 +67,12 @@ import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-ro
           </td>
         </ng-container>
 
-        <ng-container ngbColumnDef="createdAt" ngb-sort-header>
-          <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_ORDER_CREATED_AT' | tr }}</th>
+        <ng-container ngbColumnDef="createdAt">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_CREATED_AT' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>{{ order.createdAt | date: 'dd.MM. HH:mm:ss' }}</td>
         </ng-container>
 
-        <ng-container ngbColumnDef="actions" ngb-sort-header>
+        <ng-container ngbColumnDef="actions">
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
             <a
@@ -87,12 +87,6 @@ import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-ro
 
         <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
         <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row routerLink="/home/orders/{{ order.id }}" class="clickable"></tr>
-
-        <div *ngbNoDataRow>
-          <div class="w-100 text-center">
-            {{ 'HOME_STATISTICS_NO_DATA' | tr }}
-          </div>
-        </div>
       </table>
     </div>
 

@@ -99,23 +99,13 @@ import {EventsService} from './_services/events.service';
           </ng-container>
 
           <ng-container ngbColumnDef="street">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_STREET' | tr }}</th>
-            <td *ngbCellDef="let event" ngb-cell>{{ event.street }}</td>
-          </ng-container>
-
-          <ng-container ngbColumnDef="streetNumber">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_STREETNUMBER' | tr }}</th>
-            <td *ngbCellDef="let event" ngb-cell>{{ event.streetNumber }}</td>
-          </ng-container>
-
-          <ng-container ngbColumnDef="postalCode">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_POSTAL_CODE' | tr }}</th>
-            <td *ngbCellDef="let event" ngb-cell>{{ event.postalCode }}</td>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_STREET' | tr }} {{ 'HOME_ORGS_STREETNUMBER' | tr }}</th>
+            <td *ngbCellDef="let event" ngb-cell>{{ event.street }}, {{ event.streetNumber }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="city">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_CITY' | tr }}</th>
-            <td *ngbCellDef="let event" ngb-cell>{{ event.city }}</td>
+            <td *ngbCellDef="let event" ngb-cell>{{ event.postalCode }}, {{ event.city }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="actions">
@@ -125,6 +115,15 @@ import {EventsService} from './_services/events.service';
               <a class="btn btn-sm me-2 btn-outline-success text-white" routerLink="../{{ event.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
                 <i-bs name="pencil-square" />
               </a>
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-secondary text-white me-2"
+                ngbTooltip="{{ 'COPY' | tr }}"
+                (click)="$event.stopPropagation(); clone(event.id)"
+                *ngIf="myUser?.isAdmin"
+              >
+                <i-bs name="clipboard" />
+              </button>
               <button
                 type="button"
                 class="btn btn-sm btn-outline-danger text-white"
@@ -171,6 +170,10 @@ export class AllEventsComponent extends AbstractModelsWithNameListWithDeleteComp
   constructor(public eventsService: EventsService) {
     super(eventsService);
 
-    this.columnsToDisplay = ['name', 'startDate', 'endDate', 'street', 'streetNumber', 'postalCode', 'city', 'actions'];
+    this.columnsToDisplay = ['name', 'startDate', 'endDate', 'street', 'city', 'actions'];
+  }
+
+  clone(eventId: number): void {
+    this.eventsService.clone$(eventId).subscribe();
   }
 }

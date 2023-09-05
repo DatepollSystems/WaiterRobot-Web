@@ -95,28 +95,15 @@ import {OrganisationsService} from './_services/organisations.service';
             </ng-container>
 
             <ng-container ngbColumnDef="street">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_STREET' | tr }}</th>
-              <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.street }}</td>
-            </ng-container>
-
-            <ng-container ngbColumnDef="streetNumber">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_STREETNUMBER' | tr }}</th>
-              <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.streetNumber }}</td>
-            </ng-container>
-
-            <ng-container ngbColumnDef="postalCode">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_POSTAL_CODE' | tr }}</th>
-              <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.postalCode }}</td>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_STREET' | tr }}, {{ 'HOME_ORGS_STREETNUMBER' | tr }}</th>
+              <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.street }} {{ organisation.streetNumber }}</td>
             </ng-container>
 
             <ng-container ngbColumnDef="city">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_CITY' | tr }}</th>
-              <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.city }}</td>
-            </ng-container>
-
-            <ng-container ngbColumnDef="countryCode">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_COUNTRY_CODE' | tr }}</th>
-              <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.countryCode | uppercase }}</td>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_CITY' | tr }}, {{ 'HOME_ORGS_COUNTRY_CODE' | tr }}</th>
+              <td *ngbCellDef="let organisation" ngb-cell>
+                {{ organisation.postalCode }} {{ organisation.city }}, {{ organisation.countryCode | uppercase }}
+              </td>
             </ng-container>
 
             <ng-container ngbColumnDef="actions">
@@ -177,6 +164,6 @@ export class AllOrganisationsComponent extends AbstractModelsWithNameListWithDel
   constructor(public organisationsService: OrganisationsService) {
     super(organisationsService);
 
-    this.columnsToDisplay = ['id', 'name', 'street', 'streetNumber', 'postalCode', 'city', 'countryCode', 'actions'];
+    this.columnsToDisplay = ['id', 'name', 'street', 'city', 'actions'];
   }
 }

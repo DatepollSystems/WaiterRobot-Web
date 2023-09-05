@@ -1,4 +1,5 @@
 import {DataSource} from '@angular/cdk/table';
+import {ChangeDetectorRef, inject} from '@angular/core';
 
 import {BehaviorSubject, combineLatest, merge, Observable, of, Subject, Subscription, switchMap} from 'rxjs';
 
@@ -27,6 +28,8 @@ export class _PaginatedDataSource<T, P extends NgbTableDataSourcePaginator = Ngb
   private readonly _data: BehaviorSubject<PaginationResponse<T> | undefined> = new BehaviorSubject<PaginationResponse<T> | undefined>(
     undefined,
   );
+
+  private cdr = inject(ChangeDetectorRef);
 
   /**
    * Subscription to the changes that should trigger an update to the table's rendered rows, such
@@ -139,6 +142,7 @@ export class _PaginatedDataSource<T, P extends NgbTableDataSourcePaginator = Ngb
     );
     this._renderChangesSubscription?.unsubscribe();
     this._renderChangesSubscription = paginatedData.subscribe((response) => {
+      this.cdr.markForCheck();
       this._data.next(response);
       this._renderData.next(response.data);
     });

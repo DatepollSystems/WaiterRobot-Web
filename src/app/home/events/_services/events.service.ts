@@ -95,4 +95,8 @@ export class EventsService
   getSingle$(id: number): Observable<GetEventOrLocationResponse> {
     return this.triggerGet$.pipe(switchMap(() => this.httpClient.get<GetEventOrLocationResponse>(`${this.url}/${id}`)));
   }
+
+  clone$(id: number): Observable<IdResponse> {
+    return this.httpClient.put<IdResponse>(`${this.url}/${id}/clone`, undefined).pipe(tap(() => this.triggerGet$.next(true)));
+  }
 }

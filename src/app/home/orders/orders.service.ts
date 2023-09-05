@@ -29,7 +29,6 @@ export class OrdersService implements HasGetSingle<GetOrderResponse> {
 
   countdown$ = (): Observable<number> =>
     this.triggerRefresh.pipe(
-      tap(() => this.notificationService.tsuccess('HOME_ORDER_REFRESHED')),
       switchMap(() => timer(0, 1000)),
       map((tick) => this.refreshIn - (tick % this.refreshIn)),
     );
