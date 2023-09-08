@@ -31,7 +31,7 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
         <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
 
         <div *isEditing="entity">
-          <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
+          <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
             <i-bs name="trash" />
             {{ 'DELETE' | tr }}
           </button>

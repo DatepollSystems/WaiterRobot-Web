@@ -59,6 +59,9 @@
   "DESCRIPTION": "Beschreibung",
   "DATETIME_PLACEHOLDER": "14.6.2000 14:30",
 
+  "ORDER_MODE_SWITCH": "Anordnen",
+  "COLOR_PICKER": "Farbe aus auszuwählen",
+
   "REQUEST_ERROR": "Ein unbekannter Fehler ist aufgetreten.",
 
   "OFFLINE": "Keine Verbindung zum Internet.",
@@ -217,7 +220,7 @@
   "HOME_PROD_AVAILABLE": "Verfügbar",
   "HOME_PROD_SOLD_OUT": "Ausverkauft",
   "HOME_PROD_ALLERGENS": "Allergene",
-  "HOME_PROD_ALLERGENS_PLACEHOLDER": "Allergene durchsuchen...",
+  "HOME_PROD_ALLERGENS_PLACEHOLDER": "Gluten, Milch, Fisch...",
   "HOME_PROD_GROUP_ID": "Gruppe",
   "HOME_PROD_GROUP_ID_INCORRECT": "Das Produkt muss einer Gruppe zugeordnet sein",
   "HOME_PROD_GROUP_PRINTER_UPDATE": "Überschreibe alle Drucker in der gesamten Produktgruppe",

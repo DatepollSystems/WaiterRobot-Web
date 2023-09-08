@@ -6,11 +6,12 @@ import {BehaviorSubject, filter, map, Observable, switchMap, tap} from 'rxjs';
 import {notNullAndUndefined, s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
 
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
+
+import {HasCreateWithIdResponse, HasOrdered, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
 import {
   CreateProductGroupDto,
+  EntityOrderDto,
   GetProductGroupResponse,
-  GetProductResponse,
   IdResponse,
   UpdateProductGroupDto,
 } from '../../../_shared/waiterrobot-backend';
@@ -23,7 +24,8 @@ export class ProductGroupsService
     HasGetSingle<GetProductGroupResponse>,
     HasCreateWithIdResponse<CreateProductGroupDto>,
     HasUpdateWithIdResponse<UpdateProductGroupDto>,
-    HasDelete<GetProductResponse>
+    HasDelete<GetProductGroupResponse>,
+    HasOrdered<GetProductGroupResponse>
 {
   url = '/config/product/group';
 
@@ -42,7 +44,7 @@ export class ProductGroupsService
           switchMap((selected) =>
             this.httpClient.get<GetProductGroupResponse[]>(this.url, {params: new HttpParams().set('eventId', selected.id)}),
           ),
-          map((it) => it.sort((a, b) => a.name.trim().toLowerCase().localeCompare(b.name.trim().toLowerCase()))),
+          map((it) => it.sort((a, b) => (a.position ?? 100000) - (b.position ?? 100000))),
         ),
       ),
     );
@@ -62,5 +64,16 @@ export class ProductGroupsService
 
   delete$(id: number): Observable<unknown> {
     return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(tap(() => this.triggerGet$.next(true)));
+  }
+
+  order$(dto: EntityOrderDto[]): Observable<IdResponse[]> {
+    return this.eventsService.getSelected$.pipe(
+      switchMap((event) =>
+        this.httpClient.patch<IdResponse[]>(`${this.url}/order`, dto, {
+          params: new HttpParams().set('eventId', event?.id ?? ''),
+        }),
+      ),
+      tap(() => this.triggerGet$.next(true)),
+    );
   }
 }

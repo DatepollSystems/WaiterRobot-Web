@@ -5,7 +5,8 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
 import {DfxTr} from 'dfx-translate';
 
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
-import {AppListNavItemsComponent} from '../../_shared/ui/app-list-nav-items.component';
+import {AppListNavItemDirective, AppListNavItemsComponent} from '../../_shared/ui/app-list-nav-items.component';
+import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/app-text-with-color-indicator.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {TableGroupsService} from './_services/table-groups.service';
 
@@ -29,14 +30,30 @@ import {TableGroupsService} from './_services/table-groups.service';
           [entities]="tableGroups$ | async"
           titleTr="HOME_TABLE_GROUPS"
           selectTr="HOME_TABLES_GROUPS_SELECT"
-        />
+        >
+          <ng-template let-entity appListNavItem>
+            <app-text-with-color-indicator [color]="entity.color">
+              {{ entity.name }}
+            </app-text-with-color-indicator>
+          </ng-template>
+        </app-list-nav-items>
       </div>
     </entities-layout-component>
   `,
   selector: 'app-tables',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterLinkActive, DfxTr, AppIconsModule, AppEntitiesLayoutComponent, AppListNavItemsComponent, AsyncPipe],
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    DfxTr,
+    AppIconsModule,
+    AppEntitiesLayoutComponent,
+    AppListNavItemsComponent,
+    AsyncPipe,
+    AppListNavItemDirective,
+    AppTextWithColorIndicatorComponent,
+  ],
 })
 export class TablesComponent {
   tableGroups$ = inject(TableGroupsService).getAll$();

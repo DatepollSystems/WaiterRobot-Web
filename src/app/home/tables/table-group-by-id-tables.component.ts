@@ -109,7 +109,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
         </ng-container>
 
         <ng-container ngbColumnDef="publicId">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_TABLES_PUBLIC_ID' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_TABLES_PUBLIC_ID' | tr }}</th>
           <td *ngbCellDef="let table" ngb-cell>
             <a (click)="$event.stopPropagation()" routerLink="/wl/t/{{ table.publicId }}" target="_blank">{{ 'OPEN' | tr }}</a>
           </td>
@@ -123,11 +123,11 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
         <ng-container ngbColumnDef="actions">
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let table" ngb-cell>
-            <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../../../{{ table.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+            <a class="btn btn-sm me-2 btn-outline-success text-white" routerLink="../../../{{ table.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
               <i-bs name="pencil-square" />
             </a>
             <a
-              class="btn btn-sm m-1 btn-outline-secondary text-white"
+              class="btn btn-sm me-2 btn-outline-secondary text-white"
               routerLink="../../../{{ table.id }}"
               [queryParams]="{tab: 'ORDERS'}"
               ngbTooltip="{{ 'NAV_ORDERS' | tr }}"
@@ -137,7 +137,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
             </a>
             <button
               type="button"
-              class="btn btn-sm m-1 btn-outline-danger text-white"
+              class="btn btn-sm me-2 btn-outline-danger text-white"
               ngbTooltip="{{ 'DELETE' | tr }}"
               (click)="onDelete(table.id, $event)"
             >
@@ -157,18 +157,18 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    AppSpinnerRowComponent,
-    AppBtnToolbarComponent,
+    ReactiveFormsModule,
+    AsyncPipe,
+    NgIf,
     RouterLink,
-    AppIconsModule,
-    DfxTr,
     LowerCasePipe,
     NgbTooltip,
-    ReactiveFormsModule,
-    NgIf,
+    DfxTr,
     DfxTableModule,
     DfxSortModule,
-    AsyncPipe,
+    AppIconsModule,
+    AppBtnToolbarComponent,
+    AppSpinnerRowComponent,
   ],
 })
 export class TableGroupByIdTablesComponent extends AbstractModelsWithNumberListByIdComponent<GetTableResponse, GetTableGroupResponse> {

@@ -1,3 +1,4 @@
+import {CdkDrag, CdkDragHandle, CdkDropList} from '@angular/cdk/drag-drop';
 import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -6,12 +7,18 @@ import {RouterLink} from '@angular/router';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/app-text-with-color-indicator.component';
+import {AppOrderModeSwitchComponent} from '../../_shared/ui/form/app-order-mode-switch.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
-import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
+import {
+  AbstractModelsWithNameListWithDeleteAndOrderComponent,
+  AbstractModelsWithNameListWithDeleteAndOrderStyle,
+} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete-and-order.component';
 import {GetTableGroupResponse} from '../../_shared/waiterrobot-backend';
 import {TableGroupsService} from './_services/table-groups.service';
 
@@ -32,6 +39,9 @@ import {TableGroupsService} from './_services/table-groups.service';
           {{ 'DELETE' | tr }}
         </button>
       </div>
+      <div class="d-flex align-items-center">
+        <app-order-mode-switch [orderMode]="orderMode()" (orderModeChange)="setOrderMode($event)" />
+      </div>
     </btn-toolbar>
 
     <form>
@@ -51,10 +61,23 @@ import {TableGroupsService} from './_services/table-groups.service';
     </form>
 
     <div class="table-responsive">
-      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
+      <table
+        ngb-table
+        [hover]="true"
+        *ngSub="dataSource$; let dataSource"
+        [dataSource]="dataSource ?? []"
+        ngb-sort
+        ngbSortActive="name"
+        ngbSortDirection="asc"
+        cdkDropList
+        cdkDropListLockAxis="y"
+        (cdkDropListDropped)="drop($event)"
+        [cdkDropListData]="dataSource"
+        [cdkDropListDisabled]="!orderMode()"
+      >
         <ng-container ngbColumnDef="select">
           <th *ngbHeaderCellDef ngb-header-cell>
-            <div class="form-check">
+            <div class="form-check" *ngIf="!orderMode()">
               <input
                 class="form-check-input"
                 type="checkbox"
@@ -65,7 +88,10 @@ import {TableGroupsService} from './_services/table-groups.service';
             </div>
           </th>
           <td *ngbCellDef="let selectable" ngb-cell>
-            <div class="form-check">
+            <button class="btn btn-sm btn-outline-primary text-white" cdkDragHandle *ngIf="orderMode()">
+              <i-bs name="grip-vertical" />
+            </button>
+            <div class="form-check" *ngIf="!orderMode()">
               <input
                 class="form-check-input"
                 type="checkbox"
@@ -80,18 +106,22 @@ import {TableGroupsService} from './_services/table-groups.service';
 
         <ng-container ngbColumnDef="name">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
-          <td *ngbCellDef="let tableGroup" ngb-cell>{{ tableGroup.name }}</td>
+          <td *ngbCellDef="let tableGroup" ngb-cell>
+            <app-text-with-color-indicator [color]="tableGroup.color">
+              {{ tableGroup.name }}
+            </app-text-with-color-indicator>
+          </td>
         </ng-container>
 
         <ng-container ngbColumnDef="actions">
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let tableGroup" ngb-cell>
-            <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ tableGroup.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+            <a class="btn btn-sm me-2 btn-outline-success text-white" routerLink="../{{ tableGroup.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
               <i-bs name="pencil-square" />
             </a>
             <button
               type="button"
-              class="btn btn-sm m-1 btn-outline-danger text-white"
+              class="btn btn-sm me-2 btn-outline-danger text-white"
               ngbTooltip="{{ 'DELETE' | tr }}"
               (click)="onDelete(tableGroup.id, $event)"
             >
@@ -101,12 +131,19 @@ import {TableGroupsService} from './_services/table-groups.service';
         </ng-container>
 
         <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-        <tr *ngbRowDef="let tableGroup; columns: columnsToDisplay" ngb-row routerLink="../{{ tableGroup.id }}"></tr>
+        <tr
+          *ngbRowDef="let tableGroup; columns: columnsToDisplay"
+          ngb-row
+          cdkDrag
+          [cdkDragData]="tableGroup"
+          routerLink="../{{ tableGroup.id }}"
+        ></tr>
       </table>
     </div>
 
     <app-spinner-row [show]="isLoading" />
   `,
+  styles: [AbstractModelsWithNameListWithDeleteAndOrderStyle],
   selector: 'app-table-groups',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -116,16 +153,22 @@ import {TableGroupsService} from './_services/table-groups.service';
     NgIf,
     RouterLink,
     NgbTooltip,
+    CdkDrag,
+    CdkDropList,
+    CdkDragHandle,
+    NgSub,
     DfxTr,
     DfxTableModule,
     DfxSortModule,
     AppSpinnerRowComponent,
     AppBtnToolbarComponent,
     AppIconsModule,
+    AppTextWithColorIndicatorComponent,
+    AppOrderModeSwitchComponent,
   ],
 })
-export class TableGroupsComponent extends AbstractModelsWithNameListWithDeleteComponent<GetTableGroupResponse> {
-  constructor(tableGroupsService: TableGroupsService) {
+export class TableGroupsComponent extends AbstractModelsWithNameListWithDeleteAndOrderComponent<GetTableGroupResponse> {
+  constructor(private tableGroupsService: TableGroupsService) {
     super(tableGroupsService);
 
     this.columnsToDisplay = ['name', 'actions'];

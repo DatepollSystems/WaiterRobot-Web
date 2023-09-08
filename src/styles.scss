@@ -28,6 +28,10 @@ a.btn > img {
   vertical-align: -0.15em;
 }
 
+.color-picker-class > .popover-body {
+  padding: 10px !important;
+}
+
 /* Fix white row below footer */
 .cdk-describedby-message-container {
   display: none;

@@ -1,5 +1,5 @@
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
-import {AfterViewInit, ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
+import {AsyncPipe, NgForOf, NgIf, NgTemplateOutlet} from '@angular/common';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ContentChild, Directive, inject, Input, TemplateRef} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {NavigationEnd, Router, RouterLink, RouterLinkActive} from '@angular/router';
 
@@ -9,7 +9,23 @@ import {HasIDAndName, StringOrNumber} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
+
 import {AppIconsModule} from './icons.module';
+
+interface AppListNavItemContext {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  $implicit: any;
+}
+
+@Directive({
+  selector: 'ng-template[appListNavItem]',
+  standalone: true,
+})
+export class AppListNavItemDirective {
+  static ngTemplateContextGuard(dir: AppListNavItemDirective, ctx: unknown): ctx is AppListNavItemContext {
+    return true;
+  }
+}
 
 @Component({
   template: `
@@ -25,7 +41,9 @@ import {AppIconsModule} from './icons.module';
             [routerLink]="path + entity.id"
             routerLinkActive="active"
           >
-            {{ entity.name }}
+            <ng-container *ngTemplateOutlet="navItemRef || emptyRef; context: {$implicit: entity}"></ng-container>
+
+            <ng-template #emptyRef>{{ entity.name }}</ng-template>
           </a>
         </ng-container>
       </div>
@@ -56,7 +74,18 @@ import {AppIconsModule} from './icons.module';
   standalone: true,
   selector: 'app-list-nav-items',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLinkActive, NgIf, NgForOf, DfxTr, DfxTrackById, AppIconsModule, AsyncPipe, RouterLink, ReactiveFormsModule],
+  imports: [
+    RouterLinkActive,
+    NgIf,
+    NgForOf,
+    DfxTr,
+    DfxTrackById,
+    AppIconsModule,
+    AsyncPipe,
+    RouterLink,
+    ReactiveFormsModule,
+    NgTemplateOutlet,
+  ],
 })
 export class AppListNavItemsComponent implements AfterViewInit {
   router = inject(Router);
@@ -68,6 +97,9 @@ export class AppListNavItemsComponent implements AfterViewInit {
   @Input() selectTr = 'SELECT';
 
   @Input() titleTr?: string;
+
+  @ContentChild(AppListNavItemDirective, {read: TemplateRef})
+  navItemRef?: TemplateRef<unknown>;
 
   selectFormControl = new FormControl('default');
   selected$?: Observable<string>;

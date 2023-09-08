@@ -9,6 +9,7 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/app-text-with-color-indicator.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNumberListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-number-list-with-delete.component';
@@ -89,7 +90,11 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
 
         <ng-container ngbColumnDef="groupName">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_TABLE_GROUP_TABLES_VIEW' | tr }}</th>
-          <td *ngbCellDef="let table" ngb-cell>{{ table.groupName }}</td>
+          <td *ngbCellDef="let table" ngb-cell>
+            <app-text-with-color-indicator [color]="table.group.color">
+              {{ table.groupName }}
+            </app-text-with-color-indicator>
+          </td>
         </ng-container>
 
         <ng-container ngbColumnDef="number">
@@ -108,7 +113,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
         </ng-container>
 
         <ng-container ngbColumnDef="publicId">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_TABLES_PUBLIC_ID' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_TABLES_PUBLIC_ID' | tr }}</th>
           <td *ngbCellDef="let table" ngb-cell>
             <a (click)="$event.stopPropagation()" routerLink="/wl/t/{{ table.publicId }}" target="_blank">{{ 'OPEN' | tr }}</a>
           </td>
@@ -122,11 +127,11 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
         <ng-container ngbColumnDef="actions">
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let table" ngb-cell>
-            <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ table.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+            <a class="btn btn-sm me-2 btn-outline-success text-white" routerLink="../{{ table.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
               <i-bs name="pencil-square" />
             </a>
             <a
-              class="btn btn-sm m-1 btn-outline-secondary text-white"
+              class="btn btn-sm me-2 btn-outline-secondary text-white"
               routerLink="../{{ table.id }}"
               [queryParams]="{tab: 'ORDERS'}"
               ngbTooltip="{{ 'NAV_ORDERS' | tr }}"
@@ -136,7 +141,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
             </a>
             <button
               type="button"
-              class="btn btn-sm m-1 btn-outline-danger text-white"
+              class="btn btn-sm me-2 btn-outline-danger text-white"
               ngbTooltip="{{ 'DELETE' | tr }}"
               (click)="onDelete(table.id, $event)"
             >
@@ -164,9 +169,10 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
     NgbTooltip,
     DfxTableModule,
     DfxSortModule,
+    AppIconsModule,
     AppSpinnerRowComponent,
     AppBtnToolbarComponent,
-    AppIconsModule,
+    AppTextWithColorIndicatorComponent,
   ],
 })
 export class AllTablesComponent extends AbstractModelsWithNumberListWithDeleteComponent<GetTableResponse> {

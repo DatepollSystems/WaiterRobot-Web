@@ -1,14 +1,16 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
-import {BehaviorSubject, filter, Observable, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, filter, map, Observable, switchMap, tap} from 'rxjs';
 
 import {notNullAndUndefined, s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from 'dfx-helper';
 
+
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
 import {
   CreateProductDto,
+  EntityOrderDto,
   GetProductGroupResponse,
   GetProductMaxResponse,
   GetProductResponse,
@@ -46,6 +48,7 @@ export class ProductsService
           switchMap((selected) =>
             this.httpClient.get<GetProductMaxResponse[]>(this.url, {params: new HttpParams().set('eventId', selected.id)}),
           ),
+          map((products) => products.sort((a, b) => (a.position ?? 100000) - (b.position ?? 100000))),
         ),
       ),
     );
@@ -54,6 +57,7 @@ export class ProductsService
   getByParent$(id: number): Observable<GetProductMaxResponse[]> {
     return this.triggerGet$.pipe(
       switchMap(() => this.httpClient.get<GetProductMaxResponse[]>(this.url, {params: new HttpParams().set('groupId', id)})),
+      map((products) => products.sort((a, b) => (a.position ?? 100000) - (b.position ?? 100000))),
     );
   }
 
@@ -71,5 +75,13 @@ export class ProductsService
 
   delete$(id: number): Observable<unknown> {
     return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(tap(() => this.triggerGet$.next(true)));
+  }
+
+  order$(groupId: number, dto: EntityOrderDto[]): Observable<IdResponse[]> {
+    return this.httpClient
+      .patch<IdResponse[]>(`${this.url}/order`, dto, {
+        params: new HttpParams().set('groupId', groupId),
+      })
+      .pipe(tap(() => this.triggerGet$.next(true)));
   }
 }

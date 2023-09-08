@@ -6,7 +6,8 @@ import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
-import {AppListNavItemsComponent} from '../../_shared/ui/app-list-nav-items.component';
+import {AppListNavItemDirective, AppListNavItemsComponent} from '../../_shared/ui/app-list-nav-items.component';
+import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/app-text-with-color-indicator.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {ProductGroupsService} from './_services/product-groups.service';
 
@@ -31,7 +32,13 @@ import {ProductGroupsService} from './_services/product-groups.service';
           [entities]="productGroups$ | async"
           titleTr="HOME_PROD_GROUP"
           selectTr="HOME_PROD_GROUP_SELECT"
-        />
+        >
+          <ng-template let-entity appListNavItem>
+            <app-text-with-color-indicator [color]="entity.color">
+              {{ entity.name }}
+            </app-text-with-color-indicator>
+          </ng-template>
+        </app-list-nav-items>
       </div>
     </entities-layout-component>
   `,
@@ -47,6 +54,8 @@ import {ProductGroupsService} from './_services/product-groups.service';
     AppIconsModule,
     AppEntitiesLayoutComponent,
     AppListNavItemsComponent,
+    AppListNavItemDirective,
+    AppTextWithColorIndicatorComponent,
   ],
 })
 export class ProductsComponent {

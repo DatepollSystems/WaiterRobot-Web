@@ -1,3 +1,4 @@
+ 
 /* tslint:disable */
 /*
  * ---------------------------------------------------------------
@@ -153,6 +154,8 @@ export interface UpdateTableGroupDto {
    * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
+  /** @pattern #([0-9A-Fa-f]{6})$ */
+  color?: string;
 }
 
 export interface UpdateProductDto {
@@ -192,6 +195,8 @@ export interface UpdateProductGroupDto {
    * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
+  /** @pattern #([0-9A-Fa-f]{6})$ */
+  color?: string;
   /** @format int64 */
   printerId?: number;
 }
@@ -522,6 +527,8 @@ export interface CreateTableGroupDto {
    * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
+  /** @pattern #([0-9A-Fa-f]{6})$ */
+  color?: string;
   /** @format int64 */
   eventId: number;
 }
@@ -558,6 +565,8 @@ export interface CreateProductGroupDto {
    * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
+  /** @pattern #([0-9A-Fa-f]{6})$ */
+  color?: string;
   /** @format int64 */
   eventId: number;
 }
@@ -704,6 +713,26 @@ export interface UserLoginDto {
   stayLoggedIn?: boolean;
 }
 
+export interface EntityOrderDto {
+  /**
+   * @format int64
+   * @min 0
+   */
+  entityId: number;
+  /**
+   * @format int32
+   * @min 0
+   */
+  order: number;
+}
+
+export interface GetTableGroupMinResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+  color?: string;
+}
+
 export interface GetTableResponse {
   /** @format int64 */
   id: number;
@@ -712,9 +741,20 @@ export interface GetTableResponse {
   number: number;
   /** @format int32 */
   seats: number;
-  /** @format int64 */
+  /** @format int32 */
+  position?: number;
+  /**
+   * Please use the 'group' property
+   * @deprecated
+   * @format int64
+   */
   groupId: number;
+  /**
+   * Please use the 'group' property
+   * @deprecated
+   */
   groupName: string;
+  group: GetTableGroupMinResponse;
   /** @format int64 */
   eventId: number;
   hasActiveOrders: boolean;
@@ -757,6 +797,9 @@ export interface GetProductGroupMaxResponse {
   products: GetProductResponse[];
   /** @format date-time */
   deleted?: string;
+  /** @format int32 */
+  position?: number;
+  color?: string;
 }
 
 export interface GetProductResponse {
@@ -766,6 +809,8 @@ export interface GetProductResponse {
   /** @format int32 */
   price: number;
   soldOut: boolean;
+  /** @format int32 */
+  position?: number;
   allergens: GetAllergenResponse[];
   /** @format date-time */
   deleted?: string;
@@ -796,6 +841,10 @@ export interface GetEventOrLocationResponse {
   startDate?: string;
   /** @format date-time */
   endDate?: string;
+  /**
+   * Please use 'startDate' or 'endDate' property
+   * @deprecated
+   */
   date?: string;
   /** @format date-time */
   deleted?: string;
@@ -817,12 +866,6 @@ export interface GetBillResponse {
   /** @format date-time */
   createdAt: string;
   products: BillProductResponse[];
-}
-
-export interface GetTableGroupMinResponse {
-  /** @format int64 */
-  id: number;
-  name: string;
 }
 
 export interface GetTableMinResponse {
@@ -908,6 +951,9 @@ export interface GetTableGroupResponse {
   eventId: number;
   /** @format date-time */
   deleted?: string;
+  /** @format int32 */
+  position?: number;
+  color?: string;
 }
 
 export interface StatisticsTimelineDataEntryResponse {
@@ -957,6 +1003,7 @@ export interface GetProductGroupMinResponse {
   /** @format int64 */
   id: number;
   name: string;
+  color?: string;
 }
 
 export interface GetProductMaxResponse {
@@ -970,6 +1017,8 @@ export interface GetProductMaxResponse {
   initialStock?: number;
   /** @format int32 */
   amountOrdered: number;
+  /** @format int32 */
+  position?: number;
   group: GetProductGroupMinResponse;
   printer: GetPrinterMinResponse;
   allergens: GetAllergenResponse[];
@@ -983,8 +1032,11 @@ export interface GetProductGroupResponse {
   name: string;
   /** @format int64 */
   eventId: number;
+  /** @format int32 */
+  position?: number;
   /** @format date-time */
   deleted?: string;
+  color?: string;
 }
 
 export interface GetPrinterFontResponse {

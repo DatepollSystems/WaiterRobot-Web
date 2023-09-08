@@ -1,10 +1,14 @@
 import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
+
+import {ColorGithubModule} from 'ngx-color/github';
 
 import {DfxTr} from 'dfx-translate';
 
+
 import {allowedCharacterSet} from '../../../_shared/regex';
+import {AppColorPicker} from '../../../_shared/ui/color-picker.component';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '../../../_shared/waiterrobot-backend';
@@ -14,7 +18,7 @@ import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '.
     <ng-container *ngIf="formStatusChanges | async" />
 
     <form #formRef [formGroup]="form" (ngSubmit)="submit()">
-      <div class="d-flex flex-column flex-md-row gap-4 mb-4">
+      <div class="d-flex flex-column flex-md-row gap-4 mb-5">
         <div class="form-group col">
           <label for="name">{{ 'NAME' | tr }}</label>
           <input class="form-control bg-dark text-white" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
@@ -23,11 +27,16 @@ import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '.
             {{ 'HOME_TABLE_GROUP_NAME_INCORRECT' | tr }}
           </small>
         </div>
+
+        <div class="d-flex flex-column">
+          <label for="name">{{ 'COLOR' | tr }}</label>
+          <app-color-picker [color]="form.controls.color.getRawValue()" (colorChange)="form.controls.color.setValue($event)" />
+        </div>
       </div>
     </form>
   `,
   selector: 'app-table-group-edit-form',
-  imports: [ReactiveFormsModule, NgIf, AsyncPipe, DfxTr, AppIconsModule],
+  imports: [ReactiveFormsModule, NgIf, AsyncPipe, DfxTr, AppIconsModule, ColorGithubModule, AppColorPicker],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -35,6 +44,7 @@ export class TableGroupEditFormComponent extends AbstractModelEditFormComponent<
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(60), Validators.pattern(allowedCharacterSet)]],
     eventId: [-1, [Validators.required, Validators.min(0)]],
+    color: new FormControl<string | undefined>(undefined),
     id: [-1],
   });
 
@@ -48,6 +58,7 @@ export class TableGroupEditFormComponent extends AbstractModelEditFormComponent<
     this.form.patchValue({
       name: it.name,
       id: it.id,
+      color: it.color,
     });
   }
 

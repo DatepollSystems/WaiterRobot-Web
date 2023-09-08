@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe, NgClass, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -11,6 +11,7 @@ import {DfxTr} from 'dfx-translate';
 
 import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
 import {AppSoldOutPipe} from '../../_shared/ui/app-sold-out.pipe';
+import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/app-text-with-color-indicator.component';
 import {DfxCurrencyCentPipe} from '../../_shared/ui/currency.pipe';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
@@ -82,6 +83,15 @@ import {ProductsService} from './_services/products.service';
           </td>
         </ng-container>
 
+        <ng-container ngbColumnDef="group">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_GROUP_PRODUCTS_VIEW' | tr }}</th>
+          <td *ngbCellDef="let product" ngb-cell>
+            <app-text-with-color-indicator [color]="product.group.color">
+              {{ product.group.name }}
+            </app-text-with-color-indicator>
+          </td>
+        </ng-container>
+
         <ng-container ngbColumnDef="name">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
           <td *ngbCellDef="let product" ngb-cell>{{ product.name }}</td>
@@ -104,11 +114,6 @@ import {ProductsService} from './_services/products.service';
               {{ product.initialStock - product.amountOrdered }}
             </span>
           </td>
-        </ng-container>
-
-        <ng-container ngbColumnDef="group">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_GROUP_PRODUCTS_VIEW' | tr }}</th>
-          <td *ngbCellDef="let product" ngb-cell>{{ product.group.name }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="printer">
@@ -153,6 +158,7 @@ import {ProductsService} from './_services/products.service';
     DfxTr,
     AppIconsModule,
     NgIf,
+    NgClass,
     ReactiveFormsModule,
     DfxTableModule,
     AsyncPipe,
@@ -164,6 +170,7 @@ import {ProductsService} from './_services/products.service';
     RouterLink,
     NgbTooltip,
     AppSoldOutPipe,
+    AppTextWithColorIndicatorComponent,
   ],
 })
 export class AllProductsComponent extends AbstractModelsWithNameListWithDeleteComponent<GetProductMaxResponse> {

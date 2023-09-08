@@ -9,6 +9,7 @@ import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-b
 import {n_from, n_isNumeric} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
 
+
 import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
@@ -38,14 +39,14 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
         <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
 
         <div *isEditing="entity">
-          <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
+          <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
             <i-bs name="trash" />
             {{ 'DELETE' | tr }}
           </button>
         </div>
 
         <div *isEditing="entity">
-          <button class="btn btn-sm btn-outline-primary" routerLink="/home/products/groups/products/{{ entity.group.id }}">
+          <button class="btn btn-sm btn-primary" routerLink="/home/products/groups/products/{{ entity.group.id }}">
             <i-bs name="diagram-3" />
             {{ 'HOME_PROD_GO_TO_GROUP' | tr }}
           </button>

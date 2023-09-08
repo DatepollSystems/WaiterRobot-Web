@@ -10,6 +10,7 @@ import {n_from, n_isNumeric} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
+
 import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
@@ -42,14 +43,14 @@ import {TableEditOrderProductsComponent} from './table-edit-order-products.compo
         />
 
         <div *isEditing="entity">
-          <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
+          <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
             <i-bs name="trash" />
             {{ 'DELETE' | tr }}
           </button>
         </div>
 
         <div *isEditing="entity">
-          <button class="btn btn-sm btn-outline-primary" routerLink="/home/tables/groups/tables/{{ entity.groupId }}">
+          <button class="btn btn-sm btn-primary" routerLink="/home/tables/groups/tables/{{ entity.groupId }}">
             <i-bs name="diagram-3" />
             {{ 'HOME_TABLE_GO_TO_GROUP' | tr }}
           </button>

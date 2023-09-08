@@ -29,6 +29,7 @@ import {
   gearWideConnected,
   google,
   graphUp,
+  gripVertical,
   infoCircleFill,
   listUl,
   NgxBootstrapIconsModule,
@@ -111,6 +112,7 @@ const icons = {
   checkCircleFill,
   infoCircleFill,
   filetypeCsv,
+  gripVertical,
 };
 
 @NgModule({

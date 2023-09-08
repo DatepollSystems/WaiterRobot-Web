@@ -3,7 +3,7 @@
   "version": "1.5.4",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --hmr",
     "start:lava": "ng serve --configuration lava",
     "postbuild": "node tools/postbuild.js",
     "build:prod": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --configuration production && cp ./LICENSE ./dist/WaiterRobot-Web/ && pnpm postbuild",
@@ -50,6 +50,7 @@
     "html-to-image": "1.11.11",
     "jspdf": "2.5.1",
     "ngx-bootstrap-icons": "1.9.2",
+    "ngx-color": "^9.0.0",
     "rxjs": "7.8.1",
     "tslib": "2.6.1",
     "zone.js": "0.13.1"

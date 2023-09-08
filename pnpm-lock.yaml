@@ -80,6 +80,9 @@ dependencies:
   ngx-bootstrap-icons:
     specifier: 1.9.2
     version: 1.9.2(@angular/common@16.2.3)(@angular/core@16.2.3)
+  ngx-color:
+    specifier: ^9.0.0
+    version: 9.0.0(@angular/common@16.2.3)(@angular/core@16.2.3)
   rxjs:
     specifier: 7.8.1
     version: 7.8.1
@@ -130,9 +133,6 @@ devDependencies:
   '@types/node':
     specifier: ^20.2.5
     version: 20.2.5
-  '@types/qrcode':
-    specifier: 1.5.2
-    version: 1.5.2
   '@typescript-eslint/eslint-plugin':
     specifier: 6.5.0
     version: 6.5.0(@typescript-eslint/parser@6.5.0)(eslint@8.48.0)(typescript@5.1.6)
@@ -2002,6 +2002,11 @@ packages:
       '@jridgewell/trace-mapping': 0.3.9
     dev: true
 
+  /@ctrl/tinycolor@3.6.1:
+    resolution: {integrity: sha512-SITSV6aIXsuVNV3f3O0f2n/cgyEDWoSqtZMYiAmcsYHydcKrOz3gUxB/iXd/Qf08+IZX4KpgNbvUdMBmWz+kcA==}
+    engines: {node: '>=10'}
+    dev: false
+
   /@discoveryjs/json-ext@0.5.7:
     resolution: {integrity: sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==}
     engines: {node: '>=10.0.0'}
@@ -2876,12 +2881,6 @@ packages:
 
   /@types/node@20.2.5:
     resolution: {integrity: sha512-JJulVEQXmiY9Px5axXHeYGLSjhkZEnD+MDPDGbCbIAbMslkKwmygtZFy1X6s/075Yo94sf8GuSlFfPzysQrWZQ==}
-    dev: true
-
-  /@types/qrcode@1.5.2:
-    resolution: {integrity: sha512-W4KDz75m7rJjFbyCctzCtRzZUj+PrUHV+YjqDp50sSRezTbrtEAIq2iTzC6lISARl3qw+8IlcCyljdcVJE0Wug==}
-    dependencies:
-      '@types/node': 20.2.5
     dev: true
 
   /@types/qs@6.9.7:
@@ -7292,6 +7291,10 @@ packages:
       - supports-color
     dev: true
 
+  /material-colors@1.2.6:
+    resolution: {integrity: sha512-6qE4B9deFBIa9YSpOc9O0Sgc43zTeVYbgDT5veRKSlB2+ZuHNoVVxA1L/ckMUayV9Ay9y7Z/SZCLcGteW9i7bg==}
+    dev: false
+
   /media-typer@0.3.0:
     resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
     engines: {node: '>= 0.6'}
@@ -7583,6 +7586,19 @@ packages:
     dependencies:
       '@angular/common': 16.2.3(@angular/core@16.2.3)(rxjs@7.8.1)
       '@angular/core': 16.2.3(rxjs@7.8.1)(zone.js@0.13.1)
+      tslib: 2.6.1
+    dev: false
+
+  /ngx-color@9.0.0(@angular/common@16.2.3)(@angular/core@16.2.3):
+    resolution: {integrity: sha512-zyAFux+FRI4cACZ7g8DQQsBbNMhqmFkhtUPaxhkiVHhPzWU1iqXP8MqWH6By3guNOCch5oYrYNBWlHToklbdDg==}
+    peerDependencies:
+      '@angular/common': '>=16.0.0-0'
+      '@angular/core': '>=16.0.0-0'
+    dependencies:
+      '@angular/common': 16.2.3(@angular/core@16.2.3)(rxjs@7.8.1)
+      '@angular/core': 16.2.3(rxjs@7.8.1)(zone.js@0.13.1)
+      '@ctrl/tinycolor': 3.6.1
+      material-colors: 1.2.6
       tslib: 2.6.1
     dev: false
 

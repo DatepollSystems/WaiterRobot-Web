@@ -8,6 +8,7 @@ import {NgbModalRef, NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet
 import {n_from, n_isNumeric} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
 
+
 import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
@@ -43,7 +44,7 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
 
         <ng-container *isEditing="entity">
           <div>
-            <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
+            <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
               <i-bs name="trash" />
               {{ 'DELETE' | tr }}
             </button>
