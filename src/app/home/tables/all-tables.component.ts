@@ -61,7 +61,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
     </form>
 
     <div class="table-responsive">
-      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="groupName" ngbSortDirection="asc">
+      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="group" ngbSortDirection="asc">
         <ng-container ngbColumnDef="select">
           <th *ngbHeaderCellDef ngb-header-cell>
             <div class="form-check">
@@ -88,11 +88,11 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
           </td>
         </ng-container>
 
-        <ng-container ngbColumnDef="groupName">
+        <ng-container ngbColumnDef="group">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_TABLE_GROUP_TABLES_VIEW' | tr }}</th>
           <td *ngbCellDef="let table" ngb-cell>
             <app-text-with-color-indicator [color]="table.group.color">
-              {{ table.groupName }}
+              {{ table.group.name }}
             </app-text-with-color-indicator>
           </td>
         </ng-container>
@@ -181,7 +181,10 @@ export class AllTablesComponent extends AbstractModelsWithNumberListWithDeleteCo
   constructor(protected entitiesService: TablesService) {
     super(entitiesService);
 
-    this.columnsToDisplay = ['groupName', 'number', 'status', 'publicId', 'seats', 'actions'];
+    this.columnsToDisplay = ['group', 'number', 'status', 'publicId', 'seats', 'actions'];
+
+    this.sortingDataAccessors = new Map();
+    this.sortingDataAccessors.set('group', (it) => it.group.name);
   }
 
   printSelectedTables(): void {
@@ -190,7 +193,7 @@ export class AllTablesComponent extends AbstractModelsWithNumberListWithDeleteCo
       size: 'lg',
     });
     modalRef.componentInstance.tables = this.selection.selected.sort(
-      (a, b) => a.groupName.localeCompare(b.groupName) || a.number - b.number,
+      (a, b) => a.group.name.localeCompare(b.group.name) || a.number - b.number,
     );
   }
 }

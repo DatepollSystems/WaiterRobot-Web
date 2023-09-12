@@ -1,12 +1,13 @@
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {HasNumberIDAndName} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {allowedCharacterSet} from '../../../_shared/regex';
+import {AppColorPicker} from '../../../_shared/ui/color-picker.component';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} from '../../../_shared/waiterrobot-backend';
@@ -24,6 +25,15 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
           <small *ngIf="form.controls.name.invalid" class="text-danger">
             {{ 'HOME_PROD_GROUP_NAME_INCORRECT' | tr }}
           </small>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column flex-md-row gap-4 mb-4">
+        <div class="col">
+          <div class="d-flex flex-column">
+            <label for="name">{{ 'COLOR' | tr }}</label>
+            <app-color-picker [color]="form.controls.color.getRawValue()" (colorChange)="form.controls.color.setValue($event)" />
+          </div>
         </div>
 
         <div class="col" *ngIf="this._isEdit">
@@ -52,16 +62,17 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
     </form>
   `,
   selector: 'app-product-group-edit-form',
-  imports: [ReactiveFormsModule, NgIf, NgForOf, AsyncPipe, DfxTr, DfxTrackById, AppIconsModule],
+  imports: [ReactiveFormsModule, NgIf, NgForOf, AsyncPipe, DfxTr, DfxTrackById, AppIconsModule, AppColorPicker],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductGroupEditFormComponent extends AbstractModelEditFormComponent<CreateProductGroupDto, UpdateProductGroupDto> {
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(60), Validators.pattern(allowedCharacterSet)]],
-    eventId: [-1, [Validators.required, Validators.min(0)]],
-    printerId: [-1],
+    color: new FormControl<string | undefined>(undefined),
     updatePrinterId: [false],
+    printerId: [-1],
+    eventId: [-1, [Validators.required, Validators.min(0)]],
     id: [-1],
   });
 
@@ -93,6 +104,7 @@ export class ProductGroupEditFormComponent extends AbstractModelEditFormComponen
     this.form.patchValue({
       name: it.name,
       id: it.id,
+      color: it.color,
     });
   }
 

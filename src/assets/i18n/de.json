@@ -58,6 +58,7 @@
   "ENDS": "Endet",
   "DESCRIPTION": "Beschreibung",
   "DATETIME_PLACEHOLDER": "14.6.2000 14:30",
+  "COLOR": "Highlight Farbe",
 
   "ORDER_MODE_SWITCH": "Anordnen",
   "COLOR_PICKER": "Farbe aus auszuwählen",
@@ -185,8 +186,6 @@
   "HOME_EVENTS_START_DATE": "Start-Datum",
   "HOME_EVENTS_END_DATE": "End-Datum",
 
-  "HOME_USERS_BIRTHDAY": "Geburtstag",
-  "HOME_USERS_BIRTHDAY_INCORRECT": "Geburtstag inkorrekt.",
   "HOME_USERS_ADMIN": "Admin",
   "HOME_USERS_ACTIVATED": "Aktiviert",
   "HOME_USERS_FORCE_PASSWORD_CHANGE": "Passwort-Änderung erzwingen",

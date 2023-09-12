@@ -186,7 +186,7 @@ export class TableGroupByIdTablesComponent extends AbstractModelsWithNumberListB
       size: 'lg',
     });
     modalRef.componentInstance.tables = this.selection.selected.sort(
-      (a, b) => a.groupName.localeCompare(b.groupName) || a.number - b.number,
+      (a, b) => a.group.name.localeCompare(b.group.name) || a.number - b.number,
     );
   }
 }
