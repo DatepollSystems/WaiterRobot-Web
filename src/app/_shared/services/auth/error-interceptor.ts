@@ -12,6 +12,7 @@ export function errorInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn)
     catchError((error: {status: number}) => {
       if (
         error?.status === 401 ||
+        error?.status === 403 ||
         error?.status === 502 ||
         error?.status === 503 ||
         error?.status === 504 ||

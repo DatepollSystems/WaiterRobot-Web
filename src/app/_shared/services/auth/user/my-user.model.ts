@@ -8,7 +8,6 @@ export class MyUserModel implements HasIDAndName<number> {
   public readonly emailAddress: string;
   public readonly firstname: string;
   public readonly surname: string;
-  public readonly birthday: string;
   public isAdmin: boolean;
 
   constructor(data: GetMyselfResponse) {
@@ -17,7 +16,6 @@ export class MyUserModel implements HasIDAndName<number> {
     this.emailAddress = data.emailAddress;
     this.firstname = data.firstname;
     this.surname = data.surname;
-    this.birthday = data.birthday;
     this.isAdmin = data.role === 'ADMIN';
   }
 }

@@ -1,4 +1,3 @@
- 
 /* tslint:disable */
 /*
  * ---------------------------------------------------------------
@@ -111,8 +110,6 @@ export interface UpdateUserDto {
    * @maxLength 35
    */
   surname: string;
-  /** @format date-time */
-  birthday: string;
   /**
    * @minLength 6
    * @maxLength 255
@@ -489,8 +486,6 @@ export interface CreateUserDto {
    * @maxLength 35
    */
   surname: string;
-  /** @format date-time */
-  birthday: string;
   /**
    * @minLength 6
    * @maxLength 255
@@ -502,6 +497,7 @@ export interface CreateUserDto {
    */
   password: string;
   activated: boolean;
+  sendInvitation: boolean;
   role: 'ADMIN' | 'USER';
 }
 
@@ -889,8 +885,6 @@ export interface GetMyselfResponse {
   emailAddress: string;
   firstname: string;
   surname: string;
-  /** @format date-time */
-  birthday: string;
   role: 'ADMIN' | 'USER';
 }
 
@@ -938,8 +932,6 @@ export interface GetUserResponse {
   emailAddress: string;
   activated: boolean;
   forcePasswordChange: boolean;
-  /** @format date-time */
-  birthday: string;
   role: 'ADMIN' | 'USER';
 }
 

@@ -68,7 +68,7 @@
   "ABOUT_SIGNIN_FORGOT_PASSWORD": "Se você esqueceu sua senha, entre em contato",
   "ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_INFO": "Alteração de senha necessária",
   "ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_FAILED": "Por favor, use uma nova senha alterada!",
-  "ABOUT_SIGNIN_TROUBLE_LOGGING_IN": "Problemas de login ou esquecer senha?",
+  "ABOUT_SIGNIN_FORGOT_PASSWORD": "Problemas de login ou esquecer senha?",
   "ABOUT_MAINTENANCE": "Atualmente realizamos manutenção. Tente novamente em alguns minutos.",
   "ABOUT_APP_DISCOVER": "Aplicativos móveis para a equipe",
   "ABOUT_APP_QR_CODE_MODAL_TITLE": "Link de loja",

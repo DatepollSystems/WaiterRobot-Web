@@ -13,7 +13,7 @@ import {JwtResponse, RefreshJwtWithSessionTokenDto, SignInWithPasswordChangeDto,
 })
 export class AuthService {
   public static signInUrl = '/auth/login';
-  public static signInPwChangeUrl = '/auth/signInPwChange';
+  public static signInPwChangeUrl = '/auth/passwordChange';
   public static refreshUrl = '/auth/refresh';
 
   public redirectUrl?: string;

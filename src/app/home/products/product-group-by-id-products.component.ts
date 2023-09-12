@@ -78,6 +78,7 @@ import {ProductsService} from './_services/products.service';
           ngb-sort
           ngbSortActive="name"
           ngbSortDirection="asc"
+          [ngbSortDisabled]="orderMode()"
           cdkDropList
           cdkDropListLockAxis="y"
           (cdkDropListDropped)="drop(entity.id, $event)"

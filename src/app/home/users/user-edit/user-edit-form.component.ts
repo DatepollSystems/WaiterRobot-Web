@@ -2,8 +2,6 @@ import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
-import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
-
 import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
@@ -62,30 +60,7 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../../_shared/wa
       </div>
 
       <div class="row gy-2 mt-1">
-        <div class="form-group col-sm">
-          <label for="birthday">{{ 'HOME_USERS_BIRTHDAY' | tr }}</label>
-          <div class="input-group">
-            <input
-              type="text"
-              ngbDatepicker
-              class="form-control bg-dark text-white"
-              id="birthday"
-              #birthdayPicker="ngbDatepicker"
-              name="birthday"
-              placeholder="09.12.2021"
-              formControlName="birthday"
-            />
-            <button class="btn btn-outline-light" (click)="birthdayPicker.toggle()" type="button">
-              <i-bs name="calendar-date" />
-            </button>
-          </div>
-
-          <small *ngIf="form.controls.birthday.invalid" class="text-danger">
-            {{ 'HOME_USERS_BIRTHDAY_INCORRECT' | tr }}
-          </small>
-        </div>
-
-        <div class="col">
+        <div class="col col-md-6">
           <div class="form-group mb-2">
             <label for="password">{{ 'PASSWORD' | tr }}</label>
             <input class="form-control bg-dark text-white" type="password" id="password" formControlName="password" placeholder="*******" />
@@ -111,13 +86,20 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../../_shared/wa
         </div>
 
         <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="sendInvitation" formControlName="sendInvitation" />
+          <label class="form-check-label" for="sendInvitation">
+            {{ 'HOME_USERS_SEND_INVITE' | tr }}
+          </label>
+        </div>
+
+        <div class="form-check" *ngIf="_isEdit">
           <input class="form-check-input" type="checkbox" id="activated" formControlName="activated" />
           <label class="form-check-label" for="activated">
             {{ 'HOME_USERS_ACTIVATED' | tr }}
           </label>
         </div>
 
-        <div class="form-check" *ngIf="_isEdit">
+        <div class="form-check">
           <input class="form-check-input" type="checkbox" id="forcePasswordChange" formControlName="forcePasswordChange" />
           <label class="form-check-label" for="forcePasswordChange">
             {{ 'HOME_USERS_FORCE_PASSWORD_CHANGE' | tr }}
@@ -127,7 +109,7 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../../_shared/wa
     </form>
   `,
   selector: 'app-user-edit-form',
-  imports: [ReactiveFormsModule, NgIf, AsyncPipe, DfxTr, AppIconsModule, NgbInputDatepicker],
+  imports: [ReactiveFormsModule, NgIf, AsyncPipe, DfxTr, AppIconsModule],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -136,11 +118,11 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Create
     emailAddress: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(255), Validators.email]],
     firstname: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(35)]],
     surname: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(35)]],
-    birthday: ['', [Validators.required]],
     password: ['', [Validators.minLength(6)]],
     updatePassword: [false],
     isAdmin: [false, [Validators.required]],
-    activated: [false, [Validators.required]],
+    activated: [true, [Validators.required]],
+    sendInvitation: [false, [Validators.required]],
     forcePasswordChange: [false, [Validators.required]],
     id: [-1],
   });
@@ -161,6 +143,9 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Create
     this.form.controls.password.enable();
   }
 
+  lastForcePasswordChangeValue?: boolean;
+  lastActivatedValue?: boolean;
+
   constructor() {
     super();
 
@@ -168,6 +153,22 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Create
       this.form.controls.updatePassword.valueChanges.subscribe((value) =>
         value ? this.form.controls.password.enable() : this.form.controls.password.disable(),
       ),
+      this.form.controls.sendInvitation.valueChanges.subscribe((it) => {
+        if (it) {
+          this.lastForcePasswordChangeValue = this.form.controls.forcePasswordChange.getRawValue();
+          this.form.controls.forcePasswordChange.disable();
+          this.form.controls.forcePasswordChange.setValue(true);
+          this.lastActivatedValue = this.form.controls.activated.getRawValue();
+          this.form.controls.activated.disable();
+          this.form.controls.activated.setValue(true);
+          return;
+        }
+
+        this.form.controls.forcePasswordChange.setValue(this.lastForcePasswordChangeValue!);
+        this.form.controls.forcePasswordChange.enable();
+        this.form.controls.activated.setValue(this.lastActivatedValue!);
+        this.form.controls.activated.enable();
+      }),
     );
   }
 
@@ -185,9 +186,9 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Create
       emailAddress: it.emailAddress,
       firstname: it.firstname,
       surname: it.surname,
-      birthday: it.birthday,
       isAdmin: it.role === 'ADMIN',
       activated: it.activated,
+      forcePasswordChange: it.forcePasswordChange,
     });
   }
 }

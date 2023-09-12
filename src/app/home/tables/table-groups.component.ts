@@ -69,6 +69,7 @@ import {TableGroupsService} from './_services/table-groups.service';
         ngb-sort
         ngbSortActive="name"
         ngbSortDirection="asc"
+        [ngbSortDisabled]="orderMode()"
         cdkDropList
         cdkDropListLockAxis="y"
         (cdkDropListDropped)="drop($event)"

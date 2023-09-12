@@ -62,11 +62,6 @@ import {UsersService} from './services/users.service';
           <td *ngbCellDef="let user" ngb-cell>{{ user.emailAddress }}</td>
         </ng-container>
 
-        <ng-container ngbColumnDef="birthday">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_BIRTHDAY' | tr }}</th>
-          <td *ngbCellDef="let user" ngb-cell>{{ user.birthday | date: 'dd.MM.YYYY' }}</td>
-        </ng-container>
-
         <ng-container ngbColumnDef="is_admin">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ADMIN' | tr }}</th>
           <td *ngbCellDef="let user" ngb-cell>
@@ -127,7 +122,7 @@ import {UsersService} from './services/users.service';
 export class AllUsersComponent extends AbstractModelsListWithDeleteComponent<GetUserResponse> {
   constructor(private usersService: UsersService) {
     super(usersService);
-    this.columnsToDisplay = ['id', 'name', 'email_address', 'birthday', 'is_admin', 'activated', 'actions'];
+    this.columnsToDisplay = ['id', 'name', 'email_address', 'is_admin', 'activated', 'actions'];
   }
 
   override selectionEnabled = false;

@@ -125,7 +125,7 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
     AppIconsModule,
   ],
 })
-export class AboutComponent {
+export class ForgotPasswordComponent {
   form = inject(FormBuilder).nonNullable.group({
     email: ['', [Validators.required, Validators.email, Validators.min(3)]],
     password: ['', [Validators.required, Validators.min(0)]],

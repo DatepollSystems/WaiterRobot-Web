@@ -8,4 +8,9 @@ export const ROUTES: Routes = [
     canActivate: [isNotAuthenticated],
     loadComponent: () => import('./about.component').then((c) => c.AboutComponent),
   },
+  {
+    path: 'forgotPassword',
+    canActivate: [isNotAuthenticated],
+    loadComponent: () => import('./about.component').then((c) => c.AboutComponent),
+  },
 ];

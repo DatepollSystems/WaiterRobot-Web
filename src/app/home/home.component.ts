@@ -1,7 +1,7 @@
 import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 
 import {combineLatest, first, map, startWith, tap} from 'rxjs';
 
@@ -110,7 +110,7 @@ export class HomeComponent {
     {text: 'NAV_PRINTERS', routerLink: 'printers'},
     {text: 'NAV_WAITERS', routerLink: 'waiters'},
     {text: 'NAV_ORDERS', routerLink: 'orders'},
-    {text: 'NAV_BILLS', routerLink: 'bills'},
+    //{text: 'NAV_BILLS', routerLink: 'bills'},
     {text: 'NAV_STATISTICS', routerLink: 'statistics'},
   ];
 
