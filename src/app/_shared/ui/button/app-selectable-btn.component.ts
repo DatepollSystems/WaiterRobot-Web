@@ -10,7 +10,7 @@ import {IHasID, UndefinedOr} from 'dfts-helper';
 import {HasGetSelected, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AppIconsModule} from './icons.module';
+import {AppIconsModule} from '../icons.module';
 
 @Component({
   template: `
@@ -47,7 +47,7 @@ import {AppIconsModule} from './icons.module';
   standalone: true,
   imports: [NgIf, DfxTr, AppIconsModule, NgbTooltipModule, NgSub],
 })
-export class AppSelectableButtonComponent {
+export class AppSelectableBtnComponent {
   @Input() entity?: IHasID<string | number>;
 
   @Input() placement: PlacementArray = 'right';

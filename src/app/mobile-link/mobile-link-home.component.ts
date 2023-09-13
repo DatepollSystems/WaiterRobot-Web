@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 import {DfxTr} from 'dfx-translate';
 
-import {AppDownloadBtnListComponent} from '../_shared/ui/app-download-btn-list.component';
+import {AppDownloadBtnListComponent} from '../_shared/ui/button/app-download-btn-list.component';
 
 @Component({
   template: `

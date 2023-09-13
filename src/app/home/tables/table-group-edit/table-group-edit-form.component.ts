@@ -6,9 +6,8 @@ import {ColorGithubModule} from 'ngx-color/github';
 
 import {DfxTr} from 'dfx-translate';
 
-
 import {allowedCharacterSet} from '../../../_shared/regex';
-import {AppColorPicker} from '../../../_shared/ui/color-picker.component';
+import {AppColorPicker} from '../../../_shared/ui/color/color-picker.component';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '../../../_shared/waiterrobot-backend';

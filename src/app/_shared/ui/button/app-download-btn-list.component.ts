@@ -8,9 +8,9 @@ import {a_shuffle} from 'dfts-helper';
 import {DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {QrCodeService} from '../services/qr-code.service';
-import {CopyDirective} from './copy.directive';
-import {AppIconsModule} from './icons.module';
+import {QrCodeService} from '../../services/qr-code.service';
+import {CopyDirective} from '../copy.directive';
+import {AppIconsModule} from '../icons.module';
 
 export type appDownload = {
   text: string;

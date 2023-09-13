@@ -8,7 +8,7 @@ import {notNullAndUndefined} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
+import {AppBtnToolbarComponent} from '../../../_shared/ui/button/app-btn-toolbar.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {DuplicateWaiterResponse, IdAndNameResponse} from '../../../_shared/waiterrobot-backend';

@@ -7,7 +7,7 @@ import {Observable, scan} from 'rxjs';
 export class DownloadService {
   httpClient = inject(HttpClient);
 
-  download$(url: string, name: string) {
+  download$(url: string, name: string): Observable<Download> {
     return this.httpClient
       .get(url, {
         reportProgress: true,

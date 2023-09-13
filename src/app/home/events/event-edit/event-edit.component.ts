@@ -10,9 +10,9 @@ import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
-import {AppBackButtonComponent} from '../../../_shared/ui/app-back-button.component';
-import {AppBtnToolbarComponent} from '../../../_shared/ui/app-btn-toolbar.component';
-import {AppSelectableButtonComponent} from '../../../_shared/ui/app-selectable-button.component';
+import {AppBackButtonComponent} from '../../../_shared/ui/button/app-back-button.component';
+import {AppBtnToolbarComponent} from '../../../_shared/ui/button/app-btn-toolbar.component';
+import {AppSelectableBtnComponent} from '../../../_shared/ui/button/app-selectable-btn.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
 import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
@@ -89,7 +89,7 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
     AppSpinnerRowComponent,
     AppBtnToolbarComponent,
     AppIconsModule,
-    AppSelectableButtonComponent,
+    AppSelectableBtnComponent,
     AsyncPipe,
     AppIsEditingDirective,
     AppIsCreatingDirective,

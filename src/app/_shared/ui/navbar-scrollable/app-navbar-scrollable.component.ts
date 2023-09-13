@@ -10,7 +10,7 @@ import {s_fromStorage, st_remove, st_set} from 'dfts-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {FullScreenService} from '../../services/fullscreen.service';
-import {AppBtnToolbarComponent} from '../app-btn-toolbar.component';
+import {AppBtnToolbarComponent} from '../button/app-btn-toolbar.component';
 import {AppIconsModule} from '../icons.module';
 
 @Component({

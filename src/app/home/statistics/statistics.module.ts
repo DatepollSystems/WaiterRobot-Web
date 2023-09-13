@@ -12,8 +12,8 @@ import {DfxTranslateModule} from 'dfx-translate';
 
 import {eventSelectedGuard} from '../../_shared/services/guards/event-selected-guard';
 import {organisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard';
-import {AppBackButtonComponent} from '../../_shared/ui/app-back-button.component';
-import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
+import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {CountCardComponent} from './components/count-card.component';
@@ -52,27 +52,27 @@ const routes: Routes = [
   ],
   imports: [
     RouterModule.forChild(routes),
+    AppBackButtonComponent,
+    AppBtnToolbarComponent,
+    AppDatetimeInputComponent,
+    AppEntitiesLayoutComponent,
+    AppIconsModule,
+    BarChartModule,
     CommonModule,
+    DfxCountUp,
     DfxPaginationModule,
     DfxSortModule,
     DfxTableModule,
-    DfxTranslateModule,
-    NgbTooltipModule,
-    DfxCountUp,
-    AppIconsModule,
-    AppEntitiesLayoutComponent,
-    AppBtnToolbarComponent,
-    PieChartModule,
-    NgbNavModule,
-    NgbDropdownModule,
-    BarChartModule,
-    LineChartModule,
-    NgbInputDatepicker,
-    ReactiveFormsModule,
-    NgbTimepicker,
-    AppBackButtonComponent,
     DfxTrackById,
-    AppDatetimeInputComponent,
+    DfxTranslateModule,
+    LineChartModule,
+    NgbDropdownModule,
+    NgbInputDatepicker,
+    NgbNavModule,
+    NgbTimepicker,
+    NgbTooltipModule,
+    PieChartModule,
+    ReactiveFormsModule,
   ],
 })
 export class StatisticsModule {}

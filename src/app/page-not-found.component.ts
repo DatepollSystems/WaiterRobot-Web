@@ -7,34 +7,22 @@ import {DfxTr} from 'dfx-translate';
 
 import {AppLogoWithTextComponent} from './_shared/ui/app-logo-with-text.component';
 import {FooterModule} from './_shared/ui/footer/footer.module';
+import {AppOutsideLayoutComponent} from './_shared/ui/app-outside-layout.component';
 
 @Component({
   selector: 'app-page-not-found',
   template: `
-    <div class="d-container text-white">
-      <div class="container-sm px-5">
-        <app-logo-with-text />
-        <div class="d-flex flex-column align-items-center gap-4 mt-5 pb-4">
-          <div>
-            <img ngSrc="/assets/404.webp" width="700" height="500" alt="Image of cat which hides in a box" />
-          </div>
-          <div class="text-center mt-3">
-            <h2>{{ '404_TITLE' | tr }}</h2>
-          </div>
-          <div>
-            <button class="btn btn-primary btn-lg mt-4 mb-4" (click)="goBack()">
-              {{ '404_GO_BACK' | tr }}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <app-footer container="container-xxl" />
+    <outside-layout-component>
+      <img ngSrc="/assets/404.webp" width="700" height="500" alt="Image of cat which hides in a box" />
+      <h2 class="text-center">{{ '404_TITLE' | tr }}</h2>
+      <button class="btn btn-primary btn-lg mt-4 mb-4" (click)="goBack()">
+        {{ 'GO_BACK' | tr }}
+      </button>
+    </outside-layout-component>
   `,
-  styleUrls: ['./about/about.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AppLogoWithTextComponent, FooterModule, DfxTr, NgOptimizedImage],
+  imports: [AppLogoWithTextComponent, FooterModule, DfxTr, NgOptimizedImage, AppOutsideLayoutComponent],
 })
 export class PageNotFoundComponent {
   location = inject(Location);

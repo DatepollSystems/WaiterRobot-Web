@@ -11,7 +11,7 @@ import {QRCodeComponent} from 'dfx-qrcode';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {MobileLinkService} from '../../_shared/services/mobile-link.service';
-import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {GetTableResponse} from '../../_shared/waiterrobot-backend';
 

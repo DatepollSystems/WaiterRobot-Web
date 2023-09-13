@@ -7,7 +7,7 @@ import {combineLatest, filter, map, shareReplay, switchMap} from 'rxjs';
 
 import {DfxTr} from 'dfx-translate';
 
-import {AppBackDirective} from '../_shared/ui/app-back-button.component';
+import {AppBackDirective} from '../_shared/ui/button/app-back-button.component';
 import {DfxCurrencyCentPipe} from '../_shared/ui/currency.pipe';
 import {AppIconsModule} from '../_shared/ui/icons.module';
 import {GetBillForTableResponse, GetTableResponse} from '../_shared/waiterrobot-backend';

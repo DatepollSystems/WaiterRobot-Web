@@ -15,7 +15,7 @@ import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSor
 import {DfxTr} from 'dfx-translate';
 
 import {PaginatedDataSource} from '../../_shared/paginated-data-source';
-import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {injectConfirmDialog} from '../../_shared/ui/question-dialog/question-dialog.component';
@@ -36,7 +36,7 @@ import {OrdersService} from './orders.service';
         <div>
           <button class="btn btn-sm btn-info" (click)="exportCsv()">
             <i-bs name="filetype-csv" />
-            {{ 'HOME_ORDER_EXPORT' | tr }}
+            {{ 'EXPORT' | tr }}
           </button>
         </div>
 

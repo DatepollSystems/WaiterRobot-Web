@@ -14,7 +14,7 @@ import {DfxTr} from 'dfx-translate';
 import {EnvironmentHelper} from '../../_shared/EnvironmentHelper';
 import {AuthService} from '../../_shared/services/auth/auth.service';
 import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
-import {AppDownloadBtnListComponent} from '../../_shared/ui/app-download-btn-list.component';
+import {AppDownloadBtnListComponent} from '../../_shared/ui/button/app-download-btn-list.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {GetEventOrLocationResponse, GetOrganisationResponse, JsonInfoResponse} from '../../_shared/waiterrobot-backend';
 import {AppSelectDialogComponent} from '../app-select-dialog.component';

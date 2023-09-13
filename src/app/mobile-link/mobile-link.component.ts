@@ -1,25 +1,21 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 
-import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
-import {FooterModule} from '../_shared/ui/footer/footer.module';
+import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.component';
 
 @Component({
   template: `
-    <div class="d-container d-flex flex-column gap-4 text-white">
-      <app-logo-with-text />
-      <div class="card bg-dark mx-auto col-11 col-md-8 col-lg-6 col-xl-5">
+    <outside-layout-component>
+      <div class="card w-100">
         <div class="card-body">
           <router-outlet />
         </div>
       </div>
-    </div>
-    <app-footer />
+    </outside-layout-component>
   `,
-  styleUrls: ['../about/about.component.scss'],
   selector: 'app-mobile-link',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AppLogoWithTextComponent, FooterModule, RouterOutlet],
+  imports: [RouterOutlet, AppOutsideLayoutComponent],
 })
 export class MobileLinkComponent {}

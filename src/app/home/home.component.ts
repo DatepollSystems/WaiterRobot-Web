@@ -105,7 +105,7 @@ export class HomeComponent {
   );
 
   public navItems = [
-    {text: 'NAV_TABLES', routerLink: 'tables'},
+    {text: 'HOME_TABLES', routerLink: 'tables'},
     {text: 'HOME_PROD_ALL', routerLink: 'products'},
     {text: 'NAV_PRINTERS', routerLink: 'printers'},
     {text: 'NAV_WAITERS', routerLink: 'waiters'},

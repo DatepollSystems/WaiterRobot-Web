@@ -10,8 +10,8 @@ import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
-import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
-import {AppSelectableButtonComponent} from '../../_shared/ui/app-selectable-button.component';
+import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {AppSelectableBtnComponent} from '../../_shared/ui/button/app-selectable-btn.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
@@ -158,7 +158,7 @@ import {EventsService} from './_services/events.service';
     NgbTooltip,
     AppIconsModule,
     AppSpinnerRowComponent,
-    AppSelectableButtonComponent,
+    AppSelectableBtnComponent,
     AppBtnToolbarComponent,
     AsyncPipe,
   ],

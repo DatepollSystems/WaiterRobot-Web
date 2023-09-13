@@ -11,7 +11,7 @@ import {QRCodeComponent} from 'dfx-qrcode';
 import {DfxTr, dfxTranslate} from 'dfx-translate';
 
 import {qrCodeData, QrCodeService} from '../../services/qr-code.service';
-import {AppBtnToolbarComponent} from '../app-btn-toolbar.component';
+import {AppBtnToolbarComponent} from '../button/app-btn-toolbar.component';
 import {CopyDirective} from '../copy.directive';
 import {AppIconsModule} from '../icons.module';
 

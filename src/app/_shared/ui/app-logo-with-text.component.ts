@@ -5,7 +5,7 @@ import {EnvironmentHelper} from '../EnvironmentHelper';
 
 @Component({
   template: `
-    <div id="brand" class="d-flex align-items-center justify-content-center gap-3">
+    <div id="brand" class="d-flex align-items-center gap-3">
       <img alt="kellner.team logo" [ngSrc]="logoUrl" priority height="110" width="110" />
       <h1 id="brand-text" [class]="month === 5 ? 'rainbow-text' : 'text-white'">kellner.team</h1>
     </div>

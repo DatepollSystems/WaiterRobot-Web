@@ -7,7 +7,7 @@ import {ColorGithubModule} from 'ngx-color/github';
 import {DfxTr} from 'dfx-translate';
 
 import {AppIsLightColorPipe} from './app-is-light-color.pipe';
-import {AppIconsModule} from './icons.module';
+import {AppIconsModule} from '../icons.module';
 
 @Component({
   template: `

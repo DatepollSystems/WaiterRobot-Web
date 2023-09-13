@@ -7,6 +7,7 @@ import {Router, RouterLink} from '@angular/router';
 import {debounceTime, distinctUntilChanged, tap} from 'rxjs';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {DfxCurrencyCentPipe} from 'src/app/_shared/ui/currency.pipe';
 
 import {b_fromStorage, loggerOf, st_set} from 'dfts-helper';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
@@ -17,7 +18,6 @@ import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {GetBillMinResponse, GetOrderMinResponse} from '../../_shared/waiterrobot-backend';
 import {BillsService} from './bills.service';
-import {DfxCurrencyCentPipe} from '../../_shared/ui/currency.pipe';
 
 @Component({
   template: `

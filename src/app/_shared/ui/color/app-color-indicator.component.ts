@@ -22,5 +22,5 @@ import {DfxTr} from 'dfx-translate';
   imports: [NgIf, DfxTr, NgbTooltip],
 })
 export class AppColorIndicatorComponent {
-  @Input({required: true}) color?: string;
+  @Input({required: true}) color?: string | null;
 }

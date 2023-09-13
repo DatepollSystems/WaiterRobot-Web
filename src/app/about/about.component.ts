@@ -11,102 +11,90 @@ import {DfxTr} from 'dfx-translate';
 
 import {NotificationService} from '../_shared/notifications/notification.service';
 import {AuthService} from '../_shared/services/auth/auth.service';
-import {AppDownloadBtnListComponent} from '../_shared/ui/app-download-btn-list.component';
+import {AppDownloadBtnListComponent} from '../_shared/ui/button/app-download-btn-list.component';
 import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
 import {AppIconsModule} from '../_shared/ui/icons.module';
 import {JwtResponse} from '../_shared/waiterrobot-backend';
 import {AppAccountNotActivatedDialog} from './account-not-activated-dialog.component';
 import {AppPasswordChangeDialogComponent} from './password-change-dialog.component';
+import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.component';
 
 @Component({
   template: `
-    <div class="d-container text-white">
-      <div class="container-md d-flex flex-column gap-5">
-        <app-logo-with-text />
-        <div class="d-flex justify-content-center mb-4">
-          <div class="col-12 col-sm-10 col-md-9 co-lg-8 col-xl-6 d-flex flex-column gap-4">
-            <div class="card bg-dark pt-2">
-              <div class="card-body">
-                <ng-container *ngIf="form.statusChanges | async" />
+    <outside-layout-component>
+      <div class="card w-100">
+        <div class="card-body">
+          <ng-container *ngIf="form.statusChanges | async" />
 
-                <form [formGroup]="form" (ngSubmit)="onSignIn()" class="d-flex flex-column gap-2 py-2">
-                  <div class="alert alert-warning" role="alert" hideIfOnline>
-                    <i-bs name="wifi-off" />
-                    {{ 'OFFLINE' | tr }}
+          <form [formGroup]="form" (ngSubmit)="onSignIn()" class="d-flex flex-column gap-3">
+            <div class="alert alert-warning" role="alert" hideIfOnline>
+              <i-bs name="wifi-off" />
+              {{ 'OFFLINE' | tr }}
+            </div>
+
+            <div hideIfOffline>
+              <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="/json">
+                <div class="d-flex gap-3 align-items-center">
+                  <i-bs name="exclamation-triangle-fill" />
+                  <div>
+                    <b>{{ 'ABOUT_MAINTENANCE_1' | tr }}</b> {{ 'ABOUT_MAINTENANCE_2' | tr }}
+                    <br />
+                    Besuche
+                    <a style="text-decoration: underline; color: #664d03" href="https://status.kellner.team" target="_blank" rel="noopener"
+                      >status.kellner.team</a
+                    >
+                    für weitere Informationen!
                   </div>
+                </div>
+              </div>
+              <div hideIfPingFails url="/json" class="d-flex flex-column gap-3">
+                <div class="form-floating">
+                  <input
+                    class="form-control bg-dark text-white"
+                    autocomplete="on"
+                    type="email"
+                    id="email"
+                    formControlName="email"
+                    placeholder="{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}"
+                  />
+                  <label for="email">{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}</label>
+                </div>
 
-                  <div hideIfOffline>
-                    <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="/json">
-                      <div class="d-flex gap-3 align-items-center">
-                        <i-bs name="exclamation-triangle-fill" />
-                        <div>
-                          <b>{{ 'ABOUT_MAINTENANCE_1' | tr }}</b> {{ 'ABOUT_MAINTENANCE_2' | tr }}
-                          <br />
-                          Besuche
-                          <a
-                            style="text-decoration: underline; color: #664d03"
-                            href="https://status.kellner.team"
-                            target="_blank"
-                            rel="noopener"
-                            >status.kellner.team</a
-                          >
-                          für weitere Informationen!
-                        </div>
-                      </div>
-                    </div>
-                    <div class="d-flex flex-column gap-3" hideIfPingFails url="/json">
-                      <div class="form-floating">
-                        <input
-                          class="form-control bg-dark text-white"
-                          autocomplete="on"
-                          type="email"
-                          id="email"
-                          formControlName="email"
-                          placeholder="{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}"
-                        />
-                        <label for="email">{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}</label>
-                      </div>
+                <div class="form-floating">
+                  <input
+                    class="form-control bg-dark text-white"
+                    autocomplete="on"
+                    type="password"
+                    id="password"
+                    formControlName="password"
+                    placeholder="{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}"
+                  />
+                  <label for="password">{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}</label>
+                </div>
 
-                      <div class="form-floating">
-                        <input
-                          class="form-control bg-dark text-white"
-                          autocomplete="on"
-                          type="password"
-                          id="password"
-                          formControlName="password"
-                          placeholder="{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}"
-                        />
-                        <label for="password">{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}</label>
-                      </div>
-
-                      <div class="d-flex">
-                        <button [disabled]="!form.valid" type="submit" class="btn btn-primary w-100">{{ 'ABOUT_SIGNIN' | tr }}</button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div style="text-align: center; margin-top: 5px">
-                    <a routerLink="/resetPassword">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD' | tr }}</a>
-                  </div>
-                </form>
+                <div class="d-flex">
+                  <button [disabled]="!form.valid" type="submit" class="btn btn-primary w-100">{{ 'ABOUT_SIGNIN' | tr }}</button>
+                </div>
               </div>
             </div>
 
-            <div class="card bg-dark">
-              <div class="card-body">
-                <h5 class="card-title">{{ 'ABOUT_APP_DISCOVER' | tr }}</h5>
-                <app-download-btn-list [showQRCodeButton]="false" />
-              </div>
+            <div class="text-center">
+              <a routerLink="forgot-password">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD' | tr }}</a>
             </div>
-          </div>
+          </form>
         </div>
       </div>
-    </div>
-    <app-footer container="container-md" />
+
+      <div class="card w-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ 'ABOUT_APP_DISCOVER' | tr }}</h5>
+          <app-download-btn-list [showQRCodeButton]="false" />
+        </div>
+      </div>
+    </outside-layout-component>
   `,
   selector: 'app-about',
-  styleUrls: ['./about.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -123,6 +111,7 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
     DfxHideIfOnline,
     DfxHideIfOffline,
     AppIconsModule,
+    AppOutsideLayoutComponent,
   ],
 })
 export class AboutComponent {

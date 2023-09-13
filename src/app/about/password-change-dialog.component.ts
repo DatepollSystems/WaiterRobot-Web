@@ -1,10 +1,12 @@
-import {NgIf} from '@angular/common';
-import {Component} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {AsyncPipe, NgIf} from '@angular/common';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {DfxTr} from 'dfx-translate';
+
+import {passwordMatchValidator} from '../_shared/regex';
 
 @Component({
   template: `
@@ -14,52 +16,46 @@ import {DfxTr} from 'dfx-translate';
     </div>
     <div class="modal-body">
       <div class="mb-3">
-        <form #f="ngForm">
-          <div class="form-group">
-            <label for="newPassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | tr }}</label>
+        <ng-container *ngIf="passwordForm.statusChanges | async" />
+
+        <form
+          [formGroup]="passwordForm"
+          (ngSubmit)="activeModal.close(passwordForm.controls.newPassword.getRawValue())"
+          class="d-flex flex-column gap-3"
+        >
+          <div class="form-floating">
             <input
-              ngModel
-              class="form-control bg-dark text-white mb-1"
+              class="form-control bg-dark text-white"
               type="password"
-              id="newPassword"
-              (ngModelChange)="newPasswordsChange($event, undefined)"
-              #newPasswordModel="ngModel"
-              [minlength]="6"
-              required
-              name="newPassword"
+              id="password"
+              formControlName="newPassword"
               placeholder="{{ 'PASSWORD' | tr }}"
             />
-            <small *ngIf="newPasswordModel.invalid" class="text-danger">
-              {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
-            </small>
+            <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | tr }}</label>
           </div>
 
-          <div class="form-group">
-            <label for="newPasswordAgain">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_AGAIN' | tr }}</label>
+          <small class="text-danger" *ngIf="passwordForm.controls.newPassword.invalid">
+            {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
+          </small>
+
+          <div class="form-floating">
             <input
-              ngModel
-              class="form-control bg-dark text-white mb-1"
+              class="form-control bg-dark text-white"
               type="password"
-              id="newPasswordAgain"
-              (ngModelChange)="newPasswordsChange(undefined, $event)"
-              #newPasswordAgainModel="ngModel"
-              [minlength]="6"
-              required
-              name="newPasswordAgain"
+              id="password"
+              formControlName="confirmPassword"
               placeholder="{{ 'PASSWORD' | tr }}"
             />
-
-            <div *ngIf="newPasswordAgainModel.invalid">
-              <small class="text-danger">
-                {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
-              </small>
-            </div>
-            <div *ngIf="!newPasswordsMatch">
-              <small class="text-danger">
-                {{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_DONT_MATCH' | tr }}
-              </small>
-            </div>
+            <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_AGAIN' | tr }}</label>
           </div>
+
+          <small class="text-danger" *ngIf="passwordForm.controls.confirmPassword.invalid">
+            {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
+          </small>
+
+          <small class="text-danger" *ngIf="passwordForm.hasError('mismatch')">
+            {{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_DONT_MATCH' | tr }}
+          </small>
         </form>
       </div>
     </div>
@@ -68,8 +64,8 @@ import {DfxTr} from 'dfx-translate';
       <button
         type="button"
         class="btn btn-outline-success"
-        [disabled]="f.invalid || !f || !newPasswordsMatch"
-        (click)="activeModal.close(newPassword)"
+        [disabled]="passwordForm.invalid"
+        (click)="activeModal.close(passwordForm.controls.newPassword.getRawValue())"
       >
         {{ 'ABOUT_SIGNIN' | tr }}
       </button>
@@ -77,24 +73,17 @@ import {DfxTr} from 'dfx-translate';
   `,
   selector: 'app-account-not-activated-modal',
   standalone: true,
-  imports: [DfxTr, NgIf, FormsModule],
+  imports: [DfxTr, NgIf, FormsModule, ReactiveFormsModule, AsyncPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppPasswordChangeDialogComponent {
-  newPasswordsMatch = false;
-  newPassword = '';
-  newPasswordAgain = '';
+  passwordForm = inject(FormBuilder).nonNullable.group(
+    {
+      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+    },
+    {validators: passwordMatchValidator},
+  );
 
   constructor(public activeModal: NgbActiveModal) {}
-
-  newPasswordsChange(password: string | undefined, passwordAgain: string | undefined): void {
-    if (password) {
-      this.newPassword = password;
-    }
-    if (passwordAgain) {
-      this.newPasswordAgain = passwordAgain;
-    }
-    if (this.newPassword.trim().length > 0 && this.newPasswordAgain.trim().length > 0) {
-      this.newPasswordsMatch = this.newPassword === this.newPasswordAgain;
-    }
-  }
 }

@@ -55,7 +55,7 @@ export const ROUTES: Routes = [
       },
       {
         path: 'tables',
-        title: 'NAV_TABLES',
+        title: 'HOME_TABLES',
         loadChildren: () => import('./tables/tables.routes').then((m) => m.ROUTES),
       },
       {

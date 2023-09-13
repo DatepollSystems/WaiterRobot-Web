@@ -11,8 +11,8 @@ import {DfxTr} from 'dfx-translate';
 
 import {MobileLinkService} from '../../_shared/services/mobile-link.service';
 import {QrCodeService} from '../../_shared/services/qr-code.service';
-import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
-import {BtnWaiterCreateQrCodeComponent} from '../../_shared/ui/btn-waiter-create-qr-code.component';
+import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {BtnWaiterCreateQrCodeComponent} from '../../_shared/ui/button/app-waiter-create-qr-code-btn.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListByIdComponent} from '../../_shared/ui/models-list-by-id/abstract-models-with-name-list-by-id.component';
@@ -39,7 +39,7 @@ import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';
           </button>
         </div>
 
-        <app-btn-waiter-create-qrcode *ngIf="entity" [token]="entity.waiterCreateToken" />
+        <app-waiter-create-qrcode-btn *ngIf="entity" [token]="entity.waiterCreateToken" />
       </btn-toolbar>
     </ng-container>
 

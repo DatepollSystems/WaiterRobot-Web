@@ -14,6 +14,8 @@ import {JwtResponse, RefreshJwtWithSessionTokenDto, SignInWithPasswordChangeDto,
 export class AuthService {
   public static signInUrl = '/auth/login';
   public static signInPwChangeUrl = '/auth/passwordChange';
+  public static requestPasswordChangeUrl = '/auth/resetPassword';
+  public static sendPasswordChangeUrl = '/auth/resetPassword/update';
   public static refreshUrl = '/auth/refresh';
 
   public redirectUrl?: string;
@@ -51,6 +53,12 @@ export class AuthService {
       sessionInformation: AuthService.getSessionInformation(),
       stayLoggedIn: true,
     } as SignInWithPasswordChangeDto);
+
+  public sendPasswordResetRequest = (email: string): Observable<unknown> =>
+    this.httpClient.post(AuthService.requestPasswordChangeUrl, {email: email});
+
+  public sendPasswordReset = (email: string, resetToken: string, newPassword: string): Observable<unknown> =>
+    this.httpClient.post(AuthService.sendPasswordChangeUrl, {email, resetToken, newPassword});
 
   public setSessionToken(sessionToken: string | undefined): void {
     st_set('sessionToken', sessionToken);

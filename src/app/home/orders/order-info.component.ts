@@ -11,8 +11,8 @@ import {DfxArrayPluck} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
-import {AppBackButtonComponent} from '../../_shared/ui/app-back-button.component';
-import {AppBtnToolbarComponent} from '../../_shared/ui/app-btn-toolbar.component';
+import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
+import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {injectConfirmDialog} from '../../_shared/ui/question-dialog/question-dialog.component';
 import {AppOrderRefreshButtonComponent} from './_components/app-order-refresh-button.component';
