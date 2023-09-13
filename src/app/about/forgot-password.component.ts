@@ -45,7 +45,7 @@ import {passwordMatchValidator} from '../_shared/regex';
               </form>
 
               <div class="text-center mt-4" *ngIf="requestPasswordResetForm.valid">
-                <button class="btn btn-link" (click)="resetState.set('SET')">{{ 'Already received the email?' | tr }}</button>
+                <button class="btn btn-link" (click)="resetState.set('SET')">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_ALREADY_SENT' | tr }}</button>
               </div>
             </ng-container>
 
