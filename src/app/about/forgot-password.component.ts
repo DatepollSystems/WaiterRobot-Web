@@ -8,10 +8,10 @@ import {delay, tap} from 'rxjs';
 
 import {DfxTr} from 'dfx-translate';
 
-import {AuthService} from '../_shared/services/auth/auth.service';
-import {AppIconsModule} from '../_shared/ui/icons.module';
-import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.component';
 import {passwordMatchValidator} from '../_shared/regex';
+import {AuthService} from '../_shared/services/auth/auth.service';
+import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.component';
+import {AppIconsModule} from '../_shared/ui/icons.module';
 
 @Component({
   template: `
@@ -53,7 +53,9 @@ import {passwordMatchValidator} from '../_shared/regex';
               <ng-container *ngIf="resetPasswordForm.statusChanges | async" />
 
               <form [formGroup]="resetPasswordForm" (ngSubmit)="resetPassword()" class="d-flex flex-column gap-3">
-                <h3>Password zurücksetzen</h3>
+                <h3>{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_RESET' | tr }}</h3>
+
+                <div class="alert alert-info d-flex" role="alert">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_EMAIL_SENT' | tr }}</div>
 
                 <div class="form-floating">
                   <input
@@ -63,7 +65,7 @@ import {passwordMatchValidator} from '../_shared/regex';
                     formControlName="resetToken"
                     placeholder="XXXXXXXXXXXXX"
                   />
-                  <label for="resetToken">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_RESET' | tr }}</label>
+                  <label for="resetToken">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_RESET_TOKEN' | tr }}</label>
                 </div>
 
                 <small class="text-danger" *ngIf="resetPasswordForm.controls.resetToken.invalid">

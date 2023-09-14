@@ -42,7 +42,7 @@ import {OrdersService} from './orders.service';
           ngbTooltip="Erstellt um"
         >
           <i-bs name="save" />
-          {{ vm.order.createdAt | date: 'dd.MM. HH:mm:ss' }}
+          {{ vm.order.createdAt | date: 'dd.MM.yy HH:mm:ss' }}
         </span>
 
         <a

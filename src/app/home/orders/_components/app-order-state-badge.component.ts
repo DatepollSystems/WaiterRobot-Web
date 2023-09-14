@@ -34,8 +34,8 @@ import {GetOrderProductResponse, GetOrderResponse} from '../../../_shared/waiter
       </ng-template>
     </div>
     <ng-template #popContent class="d-flex flex-column">
-      <div *ngIf="createdAt">Erstellt um: {{ createdAt | date: 'dd.MM. HH:mm:ss' }}</div>
-      <div *ngIf="processedAt">Verarbeitet um: {{ processedAt | date: 'dd.MM. HH:mm:ss' }}</div>
+      <div *ngIf="createdAt">Erstellt um: {{ createdAt | date: 'dd.MM.yy HH:mm:ss' }}</div>
+      <div *ngIf="processedAt">Verarbeitet um: {{ processedAt | date: 'dd.MM.yy HH:mm:ss' }}</div>
       <div>Gedruckte Produkte: {{ printedProducts }} von {{ allProducts }}</div>
     </ng-template>
   `,

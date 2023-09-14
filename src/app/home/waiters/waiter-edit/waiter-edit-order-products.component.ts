@@ -69,7 +69,7 @@ import {OrdersService} from '../../orders/orders.service';
 
         <ng-container ngbColumnDef="createdAt">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_CREATED_AT' | tr }}</th>
-          <td *ngbCellDef="let order" ngb-cell>{{ order.createdAt | date: 'dd.MM. HH:mm:ss' }}</td>
+          <td *ngbCellDef="let order" ngb-cell>{{ order.createdAt | date: 'dd.MM.yy HH:mm:ss' }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="actions">
