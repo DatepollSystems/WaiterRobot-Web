@@ -63,7 +63,7 @@ import {passwordMatchValidator} from '../_shared/regex';
       <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close(undefined)">{{ 'CLOSE' | tr }}</button>
       <button
         type="button"
-        class="btn btn-outline-success"
+        class="btn btn-success"
         [disabled]="passwordForm.invalid"
         (click)="activeModal.close(passwordForm.controls.newPassword.getRawValue())"
       >

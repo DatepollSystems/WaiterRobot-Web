@@ -119,7 +119,7 @@ import {AppIconsModule} from '../_shared/ui/icons.module';
                 {{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_SUCCESS' | tr }}
               </div>
 
-              <a routerLink="/about" class="btn btn-primary">{{ 'GO_BACK' | tr }}</a>
+              <a routerLink="/about" class="btn btn-secondary">{{ 'GO_BACK' | tr }}</a>
             </ng-container>
           </ng-container>
         </div>
