@@ -72,6 +72,10 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
       return;
     }
 
+    if (it.deleted) {
+      this.formDisabled = true;
+    }
+
     this._waiter = it;
 
     this.form.patchValue({

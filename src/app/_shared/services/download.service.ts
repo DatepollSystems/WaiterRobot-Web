@@ -30,7 +30,7 @@ export class DownloadService {
 export interface Download {
   state: 'PENDING' | 'IN_PROGRESS' | 'DONE';
   progress: number;
-  content: Blob | null;
+  content?: Blob;
 }
 
 function download(saver?: (b: Blob) => void): (source: Observable<HttpEvent<Blob>>) => Observable<Download> {
@@ -42,7 +42,6 @@ function download(saver?: (b: Blob) => void): (source: Observable<HttpEvent<Blob
             return {
               progress: event.total ? Math.round((100 * event.loaded) / event.total) : previous.progress,
               state: 'IN_PROGRESS',
-              content: null,
             };
           }
           if (isHttpResponse(event)) {
@@ -52,12 +51,13 @@ function download(saver?: (b: Blob) => void): (source: Observable<HttpEvent<Blob
             return {
               progress: 100,
               state: 'DONE',
-              content: event.body,
+              content: event.body ?? undefined,
             };
           }
           return previous;
         },
-        {state: 'PENDING', progress: 0, content: null},
+        // Set progress to 100, so it will be rendered in the ui
+        {state: 'PENDING', progress: 100},
       ),
     );
 }

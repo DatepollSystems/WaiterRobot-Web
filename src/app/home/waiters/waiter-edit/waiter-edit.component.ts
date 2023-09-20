@@ -3,20 +3,14 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 import {combineLatest, filter, map, shareReplay, startWith, switchMap} from 'rxjs';
 
-import {NgbModalRef, NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
+import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {n_from, n_isNumeric} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AppBackButtonComponent} from '../../../_shared/ui/button/app-back-button.component';
-import {AppBtnToolbarComponent} from '../../../_shared/ui/button/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
-import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
-import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
-import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
-import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {CreateWaiterDto, GetWaiterResponse, UpdateWaiterDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 import {OrganisationsService} from '../../organisations/_services/organisations.service';
@@ -25,6 +19,7 @@ import {BtnWaiterSignInQrCodeComponent} from '../btn-waiter-sign-in-qr-code.comp
 import {AppProductEditFormComponent} from './waiter-edit-form.component';
 import {WaiterEditOrderProductsComponent} from './waiter-edit-order-products.component';
 import {WaiterSessionsComponent} from './waiter-sessions.component';
+import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 
 @Component({
   template: `
@@ -37,7 +32,7 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
         <app-model-edit-save-btn
           *ngIf="(activeTab$ | async) === 'DATA'"
           (submit)="form?.submit()"
-          [valid]="valid$ | async"
+          [valid]="valid()"
           [editing]="entity !== 'CREATE'"
         />
 
@@ -102,23 +97,14 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
     AsyncPipe,
     NgIf,
     DfxTr,
-    NgbNav,
-    NgbNavItem,
-    NgbNavLink,
-    NgbNavContent,
-    NgbNavOutlet,
-    WaiterSessionsComponent,
+    NgbNavModule,
     AppIconsModule,
-    AppBtnToolbarComponent,
-    BtnWaiterSignInQrCodeComponent,
-    AppIsEditingDirective,
-    AppSpinnerRowComponent,
-    AppIsCreatingDirective,
-    AppModelEditSaveBtn,
+    AppFormModule,
     AppProductEditFormComponent,
-    AppBackButtonComponent,
-    WaiterEditOrderProductsComponent,
+    BtnWaiterSignInQrCodeComponent,
     AppContinuesCreationSwitchComponent,
+    WaiterSessionsComponent,
+    WaiterEditOrderProductsComponent,
   ],
 })
 export class WaiterEditComponent extends AbstractModelEditComponent<
@@ -158,8 +144,6 @@ export class WaiterEditComponent extends AbstractModelEditComponent<
       events,
     })),
   );
-
-  qrCodeModal: NgbModalRef | undefined;
 
   constructor(
     waitersService: WaitersService,

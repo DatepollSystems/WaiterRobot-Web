@@ -1,9 +1,4 @@
-import {NgIf} from '@angular/common';
 import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
-
-import {DfxTr} from 'dfx-translate';
-
-import {AppIconsModule} from '../icons.module';
 
 @Component({
   template: `
@@ -20,8 +15,6 @@ import {AppIconsModule} from '../icons.module';
     </button>
   `,
   selector: 'app-model-edit-save-btn',
-  standalone: true,
-  imports: [NgIf, DfxTr, AppIconsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppModelEditSaveBtn {

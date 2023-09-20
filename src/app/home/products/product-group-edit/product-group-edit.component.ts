@@ -4,24 +4,19 @@ import {RouterLink} from '@angular/router';
 
 import {combineLatest, map} from 'rxjs';
 
-import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
+import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {DfxTr} from 'dfx-translate';
 
-import {AppBackButtonComponent} from '../../../_shared/ui/button/app-back-button.component';
-import {AppBtnToolbarComponent} from '../../../_shared/ui/button/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
-import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
-import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
-import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
-import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 import {PrintersService} from '../../printers/_services/printers.service';
 import {ProductGroupsService} from '../_services/product-groups.service';
 import {ProductGroupEditFormComponent} from './product-group-edit-form.component';
+import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 
 @Component({
   template: `
@@ -31,7 +26,7 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
 
       <btn-toolbar>
         <back-button />
-        <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
+        <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid()" [editing]="entity !== 'CREATE'" />
 
         <div *isEditing="entity">
           <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
@@ -88,22 +83,13 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
   imports: [
     NgIf,
     AsyncPipe,
+    RouterLink,
     DfxTr,
-    NgbNav,
-    NgbNavItem,
-    NgbNavLink,
-    NgbNavContent,
-    NgbNavOutlet,
-    AppBtnToolbarComponent,
-    AppSpinnerRowComponent,
+    NgbNavModule,
     AppIconsModule,
-    AppIsEditingDirective,
-    AppIsCreatingDirective,
-    AppModelEditSaveBtn,
+    AppFormModule,
     AppContinuesCreationSwitchComponent,
     ProductGroupEditFormComponent,
-    AppBackButtonComponent,
-    RouterLink,
   ],
 })
 export class ProductGroupEditComponent extends AbstractModelEditComponent<

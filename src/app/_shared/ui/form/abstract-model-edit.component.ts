@@ -1,8 +1,8 @@
 import {Location} from '@angular/common';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, inject, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, inject, signal, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {BehaviorSubject, combineLatest, map, Observable, of, share, shareReplay, switchMap, tap} from 'rxjs';
+import {combineLatest, map, Observable, of, share, shareReplay, switchMap, tap} from 'rxjs';
 
 import {IHasID, loggerOf, n_from, n_isNumeric, s_from, s_is} from 'dfts-helper';
 import {HasDelete, HasGetSingle} from 'dfx-helper';
@@ -31,11 +31,13 @@ export abstract class AbstractModelEditComponent<
 
   @ViewChild('form') form?: AbstractModelEditFormComponent<CreateDTOType, UpdateDTOType>;
 
-  valid$ = new BehaviorSubject<'VALID' | 'INVALID'>('INVALID');
+  valid = signal<'VALID' | 'INVALID'>('INVALID');
 
   entity$: Observable<EntityType | 'CREATE'> = this.route.paramMap.pipe(
     map((params) => params.get('id')),
     switchMap((id) => (n_isNumeric(id) ? this.entityService.getSingle$(n_from(id)) : of('CREATE' as const))),
+    share(),
+    shareReplay(1),
   );
 
   protected defaultTab!: Tab;
@@ -66,7 +68,7 @@ export abstract class AbstractModelEditComponent<
   ) {}
 
   setValid(valid: 'VALID' | 'INVALID'): void {
-    this.valid$.next(valid);
+    this.valid.set(valid);
     this.cdr.detectChanges();
   }
 
@@ -93,6 +95,7 @@ export abstract class AbstractModelEditComponent<
             this.form?.reset();
 
             if (this.continuousUsePropertyNames.length > 0) {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               // eslint-disable-next-line @typescript-eslint/no-unsafe-return
               for (const modelKeyValuePairs of Object.keys(dto as Record<string, never>).map((key) => [String(key), dto[key]])) {

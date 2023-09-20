@@ -89,7 +89,7 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
       </div>
       <hr />
       <ng-container *ngIf="timelineResponse$ | async as timelineResponse; else noData">
-        <div style="height: 30vh; width: 98%" *ngIf="timelineResponse.data.length > 0; else noData">
+        <div style="height: 400px; width: 98%" *ngIf="timelineResponse.data.length > 0; else noData">
           <ngx-charts-line-chart
             class="position-absolute"
             [showXAxisLabel]="true"

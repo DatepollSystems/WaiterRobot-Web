@@ -4,27 +4,21 @@ import {RouterLink} from '@angular/router';
 
 import {combineLatest, filter, map, startWith} from 'rxjs';
 
-import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
+import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {n_from, n_isNumeric} from 'dfts-helper';
-import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AppBackButtonComponent} from '../../../_shared/ui/button/app-back-button.component';
-import {AppBtnToolbarComponent} from '../../../_shared/ui/button/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
-import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
-import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
-import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
-import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {CreateTableDto, GetTableResponse, UpdateTableDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TablesService} from '../_services/tables.service';
 import {TableEditFormComponent} from './table-edit-form.component';
 import {TableEditOrderProductsComponent} from './table-edit-order-products.component';
+import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 
 @Component({
   template: `
@@ -37,7 +31,7 @@ import {TableEditOrderProductsComponent} from './table-edit-order-products.compo
         <app-model-edit-save-btn
           *ngIf="(activeTab$ | async) === 'DATA'"
           (submit)="form?.submit()"
-          [valid]="valid$ | async"
+          [valid]="valid()"
           [editing]="entity !== 'CREATE'"
         />
 
@@ -103,24 +97,14 @@ import {TableEditOrderProductsComponent} from './table-edit-order-products.compo
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
+    RouterLink,
     AsyncPipe,
-    NgbNav,
-    NgbNavItem,
-    NgbNavLink,
-    NgbNavContent,
-    NgbNavOutlet,
+    NgbNavModule,
     DfxTr,
-    DfxTrackById,
-    AppSpinnerRowComponent,
-    AppIsEditingDirective,
-    AppIsCreatingDirective,
-    AppBtnToolbarComponent,
+    AppFormModule,
     AppIconsModule,
-    AppModelEditSaveBtn,
     AppContinuesCreationSwitchComponent,
     TableEditFormComponent,
-    RouterLink,
-    AppBackButtonComponent,
     TableEditOrderProductsComponent,
   ],
 })

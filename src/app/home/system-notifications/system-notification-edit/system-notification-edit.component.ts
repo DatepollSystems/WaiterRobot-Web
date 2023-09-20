@@ -1,18 +1,12 @@
 import {AsyncPipe, NgIf} from '@angular/common';
 import {Component} from '@angular/core';
 
-import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
+import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {DfxTr} from 'dfx-translate';
 
-import {AppBackButtonComponent} from '../../../_shared/ui/button/app-back-button.component';
-import {AppBtnToolbarComponent} from '../../../_shared/ui/button/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
-import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
-import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
-import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
-import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {
   CreateSystemNotificationDto,
   GetSystemNotificationResponse,
@@ -20,6 +14,7 @@ import {
 } from '../../../_shared/waiterrobot-backend';
 import {SystemNotificationsService} from '../_services/system-notifications.service';
 import {SystemNotificationEditFormComponent} from './system-notification-edit-form.component';
+import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 
 @Component({
   template: `
@@ -32,7 +27,7 @@ import {SystemNotificationEditFormComponent} from './system-notification-edit-fo
         <app-model-edit-save-btn
           *ngIf="(activeTab$ | async) === 'DATA'"
           (submit)="form?.submit()"
-          [valid]="valid$ | async"
+          [valid]="valid()"
           [editing]="entity !== 'CREATE'"
         />
 
@@ -74,24 +69,7 @@ import {SystemNotificationEditFormComponent} from './system-notification-edit-fo
     </ng-template>
   `,
   selector: 'app-user-edit',
-  imports: [
-    AsyncPipe,
-    NgIf,
-    DfxTr,
-    NgbNav,
-    NgbNavItem,
-    NgbNavLink,
-    NgbNavContent,
-    NgbNavOutlet,
-    AppBtnToolbarComponent,
-    AppSpinnerRowComponent,
-    AppIconsModule,
-    AppIsCreatingDirective,
-    AppIsEditingDirective,
-    AppModelEditSaveBtn,
-    SystemNotificationEditFormComponent,
-    AppBackButtonComponent,
-  ],
+  imports: [AsyncPipe, NgIf, DfxTr, NgbNavModule, AppIconsModule, AppFormModule, SystemNotificationEditFormComponent],
   standalone: true,
 })
 export class SystemNotificationEditComponent extends AbstractModelEditComponent<
