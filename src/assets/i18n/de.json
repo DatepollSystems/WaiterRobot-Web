@@ -284,6 +284,8 @@
   "HOME_PRINTER_BON_WIDTH_INVALID": "Die Bon-Breite muss zwischen 60 und 160 mm liegen",
   "HOME_PRINTER_BON_PADDING": "Bon-Seitenabstand (mm)",
   "HOME_PRINTER_BON_PADDING_INVALID": "Der Bon-Seitenabstand muss zwischen 0 und 10 mm liegen",
+  "HOME_PRINTER_BON_PADDING_TOP": "Bon-Kopfabstand (mm)",
+  "HOME_PRINTER_BON_PADDING_TOP_INVALID": "Der Bon-Kopfabstand muss zwischen 0 und 30 mm liegen",
   "HOME_PRINTER_BATCH_UPDATE": "Druckereinstellungen",
   "HOME_PRINTER_BATCH_UPDATE_TITLE": "Überschreibe Einstellungen für ausgewählte(n) Drucker",
   "HOME_PRINTER_BATCH_UPDATE_CHANGE": "ändern",

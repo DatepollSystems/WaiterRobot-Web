@@ -25,7 +25,7 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
         </small>
       </div>
 
-      <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-3">
+      <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3">
         <div class="col form-group">
           <label for="fontScale">{{ 'HOME_PRINTER_FONT_SCALE' | tr }}</label>
           <input
@@ -71,12 +71,29 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
             class="form-control bg-dark text-white"
             type="number"
             id="bonPadding"
+            step="1"
             formControlName="bonPadding"
             placeholder="{{ 'HOME_PRINTER_BON_PADDING' | tr }}"
           />
 
           <small *ngIf="form.controls.bonPadding.invalid" class="text-danger">
             {{ 'HOME_PRINTER_BON_PADDING_INVALID' | tr }}
+          </small>
+        </div>
+
+        <div class="col form-group">
+          <label for="bonPaddingTop">{{ 'HOME_PRINTER_BON_PADDING_TOP' | tr }}</label>
+          <input
+            class="form-control bg-dark text-white"
+            type="number"
+            step="1"
+            id="bonPaddingTop"
+            formControlName="bonPaddingTop"
+            placeholder="{{ 'HOME_PRINTER_BON_PADDING_TOP' | tr }}"
+          />
+
+          <small *ngIf="form.controls.bonPaddingTop.invalid" class="text-danger">
+            {{ 'HOME_PRINTER_BON_PADDING_TOP_INVALID' | tr }}
           </small>
         </div>
       </div>
@@ -94,6 +111,7 @@ export class AppPrinterEditForm extends AbstractModelEditFormComponent<CreatePri
     font: ['H', [Validators.required, Validators.minLength(1)]],
     bonWidth: [80, [Validators.required, Validators.min(60), Validators.max(160)]],
     bonPadding: [5, [Validators.required, Validators.min(0), Validators.max(10)]],
+    bonPaddingTop: [null as number | null, [Validators.min(0), Validators.max(30)]],
     eventId: [-1, [Validators.required, Validators.min(0)]],
     id: [-1],
   });
@@ -124,6 +142,7 @@ export class AppPrinterEditForm extends AbstractModelEditFormComponent<CreatePri
       font: it.font.code,
       bonWidth: it.bonWidth,
       bonPadding: it.bonPadding,
+      bonPaddingTop: it.bonPaddingTop,
       eventId: it.eventId,
       id: it.id,
     });

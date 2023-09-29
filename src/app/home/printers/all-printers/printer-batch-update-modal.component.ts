@@ -1,6 +1,6 @@
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {debounceTime} from 'rxjs';
 
@@ -21,7 +21,7 @@ import {PrintersService} from '../_services/printers.service';
     <div class="modal-body">
       <ng-container *ngIf="formValueChanges | async" />
 
-      <form [formGroup]="form" class="row row-cols-1 row-cols-lg-2 g-3">
+      <form [formGroup]="form" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
         <div>
           <div class="form-group">
             <label for="fontScale">{{ 'HOME_PRINTER_FONT_SCALE' | tr }}</label>
@@ -108,18 +108,42 @@ import {PrintersService} from '../_services/printers.service';
           </div>
         </div>
 
-        <small
-          *ngIf="
-            !form.controls.updateFont.value &&
-            !form.controls.updateFontScale.value &&
-            !form.controls.updateBonWidth.value &&
-            !form.controls.updateBonPadding.value
-          "
-          class="text-danger"
-        >
-          {{ 'HOME_PRINTER_BATCH_UPDATE_INVALID' | tr }}
-        </small>
+        <div>
+          <div class="form-group">
+            <label for="bonPaddingTop">{{ 'HOME_PRINTER_BON_PADDING_TOP' | tr }}</label>
+            <input
+              class="form-control bg-dark text-white"
+              type="number"
+              id="bonPaddingTop"
+              formControlName="bonPaddingTop"
+              placeholder="{{ 'HOME_PRINTER_BON_PADDING_TOP' | tr }}"
+            />
+
+            <small *ngIf="form.controls.bonPaddingTop.invalid" class="text-danger">
+              {{ 'HOME_PRINTER_BON_PADDING_TOP_INVALID' | tr }}
+            </small>
+          </div>
+          <div class="form-check form-switch mt-1">
+            <input formControlName="updateBonPaddingTop" class="form-check-input" type="checkbox" role="switch" id="updateBonPaddingTop" />
+            <label class="form-check-label" for="updateBonPaddingTop"
+              >{{ 'HOME_PRINTER_BON_PADDING_TOP' | tr }} {{ 'HOME_PRINTER_BATCH_UPDATE_CHANGE' | tr }}</label
+            >
+          </div>
+        </div>
       </form>
+
+      <small
+        *ngIf="
+          !form.controls.updateFont.value &&
+          !form.controls.updateFontScale.value &&
+          !form.controls.updateBonWidth.value &&
+          !form.controls.updateBonPadding.value &&
+          !form.controls.updateBonPaddingTop.value
+        "
+        class="text-danger"
+      >
+        {{ 'HOME_PRINTER_BATCH_UPDATE_INVALID' | tr }}
+      </small>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
@@ -128,10 +152,12 @@ import {PrintersService} from '../_services/printers.service';
         class="btn btn-warning"
         (click)="submit()"
         [disabled]="
-          !form.controls.updateFont.value &&
-          !form.controls.updateFontScale.value &&
-          !form.controls.updateBonWidth.value &&
-          !form.controls.updateBonPadding.value
+          (!form.controls.updateFont.value &&
+            !form.controls.updateFontScale.value &&
+            !form.controls.updateBonWidth.value &&
+            !form.controls.updateBonPadding.value &&
+            !form.controls.updateBonPaddingTop.value) ||
+          !form.valid
         "
       >
         {{ 'SAVE' | tr }}
@@ -154,10 +180,12 @@ export class PrinterBatchUpdateModalComponent extends AComponent {
     updateFont: [false],
     updateBonWidth: [false],
     updateBonPadding: [false],
+    updateBonPaddingTop: [false],
     fontScale: [1, [Validators.required, Validators.min(0.5), Validators.max(2.5)]],
     font: ['H', [Validators.required, Validators.minLength(1)]],
     bonWidth: [80, [Validators.required, Validators.min(60), Validators.max(160)]],
     bonPadding: [5, [Validators.required, Validators.min(0), Validators.max(10)]],
+    bonPaddingTop: [null as number | null, [Validators.min(0), Validators.max(30)]],
   });
 
   formValueChanges = this.form.valueChanges.pipe(debounceTime(300));
@@ -169,21 +197,26 @@ export class PrinterBatchUpdateModalComponent extends AComponent {
     this.form.controls.font.disable();
     this.form.controls.bonWidth.disable();
     this.form.controls.bonPadding.disable();
+    this.form.controls.bonPaddingTop.disable();
 
     this.unsubscribe(
-      this.form.controls.updateFontScale.valueChanges.subscribe((value) =>
-        value ? this.form.controls.fontScale.enable() : this.form.controls.fontScale.disable(),
-      ),
-      this.form.controls.updateFont.valueChanges.subscribe((value) =>
-        value ? this.form.controls.font.enable() : this.form.controls.font.disable(),
-      ),
-      this.form.controls.updateBonWidth.valueChanges.subscribe((value) =>
-        value ? this.form.controls.bonWidth.enable() : this.form.controls.bonWidth.disable(),
-      ),
-      this.form.controls.updateBonPadding.valueChanges.subscribe((value) =>
-        value ? this.form.controls.bonPadding.enable() : this.form.controls.bonPadding.disable(),
+      this.form.controls.updateFontScale.valueChanges.subscribe((value) => this.updateFormControl(this.form.controls.fontScale, value)),
+      this.form.controls.updateFont.valueChanges.subscribe((value) => this.updateFormControl(this.form.controls.font, value)),
+      this.form.controls.updateBonWidth.valueChanges.subscribe((value) => this.updateFormControl(this.form.controls.bonWidth, value)),
+      this.form.controls.updateBonPadding.valueChanges.subscribe((value) => this.updateFormControl(this.form.controls.bonPadding, value)),
+      this.form.controls.updateBonPaddingTop.valueChanges.subscribe((value) =>
+        this.updateFormControl(this.form.controls.bonPaddingTop, value),
       ),
     );
+  }
+
+  updateFormControl(it: FormControl<unknown>, value: boolean): void {
+    if (value) {
+      it.enable();
+    } else {
+      it.disable();
+      it.reset();
+    }
   }
 
   submit(): void {
@@ -198,6 +231,7 @@ export class PrinterBatchUpdateModalComponent extends AComponent {
       fontScale: formValues.updateFontScale ? formValues.fontScale : undefined,
       bonWidth: formValues.updateBonWidth ? formValues.bonWidth : undefined,
       bonPadding: formValues.updateBonPadding ? formValues.bonPadding : undefined,
+      bonPaddingTop: formValues.updateBonPaddingTop ? formValues.bonPaddingTop : undefined,
     };
     this.activeModal.close(dto);
   }
@@ -208,4 +242,5 @@ export type PrinterBatchUpdateDto = {
   fontScale?: number;
   bonWidth?: number;
   bonPadding?: number;
+  bonPaddingTop?: number | null;
 };

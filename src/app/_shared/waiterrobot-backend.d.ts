@@ -230,6 +230,12 @@ export interface UpdatePrinterDto {
    * @max 10
    */
   bonPadding?: number;
+  /**
+   * @format int32
+   * @min 0
+   * @max 10
+   */
+  bonPaddingTop?: number;
 }
 
 export interface UpdateOrganisationDto {
@@ -597,6 +603,12 @@ export interface CreatePrinterDto {
    * @max 10
    */
   bonPadding?: number;
+  /**
+   * @format int32
+   * @min 0
+   * @max 10
+   */
+  bonPaddingTop?: number;
   /**
    * @format int64
    * @min 0
@@ -1047,6 +1059,8 @@ export interface GetPrinterResponse {
   bonWidth: number;
   /** @format int32 */
   bonPadding: number;
+  /** @format int32 */
+  bonPaddingTop: number;
   /** @format int64 */
   eventId: number;
   products: GetProductMinResponse[];

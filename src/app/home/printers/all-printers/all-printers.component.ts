@@ -3,7 +3,7 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
-import {forkJoin, Observable} from 'rxjs';
+import {forkJoin} from 'rxjs';
 
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
@@ -29,17 +29,18 @@ import {PrinterBatchUpdateDto, PrinterBatchUpdateModalComponent} from './printer
           {{ 'ADD_2' | tr }}</a
         >
       </div>
-      <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PRINTER_SELECT' | tr) : undefined }}">
-        <button class="btn btn-sm btn-secondary" [class.disabled]="!selection.hasValue()" (click)="onBatchUpdatePrinters()">
-          <i-bs name="pencil-square" />
-          {{ 'HOME_PRINTER_BATCH_UPDATE' | tr }}
-        </button>
-      </div>
 
       <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PRINTER_SELECT' | tr) : undefined }}">
         <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
           <i-bs name="trash" />
           {{ 'DELETE' | tr }}
+        </button>
+      </div>
+
+      <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PRINTER_SELECT' | tr) : undefined }}">
+        <button class="btn btn-sm btn-secondary" [class.disabled]="!selection.hasValue()" (click)="onBatchUpdatePrinters()">
+          <i-bs name="pencil-square" />
+          {{ 'HOME_PRINTER_BATCH_UPDATE' | tr }}
         </button>
       </div>
     </btn-toolbar>
@@ -113,6 +114,11 @@ import {PrinterBatchUpdateDto, PrinterBatchUpdateModalComponent} from './printer
           <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonPadding }}</td>
         </ng-container>
 
+        <ng-container ngbColumnDef="bonPaddingTop">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_BON_PADDING_TOP' | tr }}</th>
+          <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonPaddingTop }}</td>
+        </ng-container>
+
         <ng-container ngbColumnDef="actions">
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let printer" ngb-cell>
@@ -169,7 +175,7 @@ export class AllPrintersComponent extends AbstractModelsWithNameListWithDeleteCo
   constructor(private printersService: PrintersService) {
     super(printersService);
 
-    this.columnsToDisplay = ['name', 'font', 'fontScale', 'bonWidth', 'bonPadding', 'actions'];
+    this.columnsToDisplay = ['name', 'font', 'fontScale', 'bonWidth', 'bonPadding', 'bonPaddingTop', 'actions'];
   }
 
   onBatchUpdatePrinters(): void {
@@ -181,20 +187,19 @@ export class AllPrintersComponent extends AbstractModelsWithNameListWithDeleteCo
       .then((result?: PrinterBatchUpdateDto) => {
         this.lumber.info('onBatchUpdatePrinters', 'Question dialog result:', result);
         if (result) {
-          const observables: Observable<unknown>[] = [];
-          for (const printer of this.selection.selected) {
-            observables.push(
+          forkJoin(
+            this.selection.selected.map((it) =>
               this.printersService.update$({
-                id: printer.id,
-                name: printer.name,
+                id: it.id,
+                name: it.name,
                 fontScale: result.fontScale,
                 font: result.font,
                 bonWidth: result.bonWidth,
                 bonPadding: result.bonPadding,
+                bonPaddingTop: result.bonPaddingTop === undefined ? it.bonPaddingTop : result.bonPaddingTop ?? undefined,
               }),
-            );
-          }
-          forkJoin(observables).subscribe(() => {
+            ),
+          ).subscribe(() => {
             this.printersService.triggerGet$.next(true);
           });
         }
