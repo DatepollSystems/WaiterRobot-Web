@@ -9,7 +9,7 @@ export class AppIsEditingAndDeletedDirective {
   private templateRef = inject(TemplateRef<unknown>);
 
   @Input() set isEditingAndDeleted(entity: unknown) {
-    if (entity === 'CREATE' || (entity as {deleted?: string})?.deleted === undefined) {
+    if (!(entity as {deleted?: string})?.deleted) {
       this.viewContainerRef.clear();
       return;
     }
@@ -17,7 +17,7 @@ export class AppIsEditingAndDeletedDirective {
     this.viewContainerRef.createEmbeddedView(this.templateRef);
   }
 
-  static ngTemplateGuard_isEditingAndDeleted<T>(dir: AppIsEditingAndNotDeletedDirective, state: T): state is Exclude<T, 'CREATE'> {
+  static ngTemplateGuard_isEditingAndDeleted<T>(dir: AppIsEditingAndDeletedDirective, state: T): state is Exclude<T, 'CREATE'> {
     return true;
   }
 }
@@ -31,7 +31,7 @@ export class AppIsEditingAndNotDeletedDirective {
   private templateRef = inject(TemplateRef<unknown>);
 
   @Input() set isEditingAndNotDeleted(entity: unknown) {
-    if (entity === 'CREATE' || (entity as {deleted?: string})?.deleted !== undefined) {
+    if (entity === 'CREATE' || !!(entity as {deleted?: string})?.deleted) {
       this.viewContainerRef.clear();
       return;
     }
@@ -44,8 +44,26 @@ export class AppIsEditingAndNotDeletedDirective {
   }
 }
 
+@Directive({
+  selector: '[isNotDeleted]',
+  standalone: true,
+})
+export class AppIsNotDeletedDirective {
+  private viewContainerRef = inject(ViewContainerRef);
+  private templateRef = inject(TemplateRef<unknown>);
+
+  @Input() set isNotDeleted(entity: unknown) {
+    if ((entity as {deleted?: string})?.deleted) {
+      this.viewContainerRef.clear();
+      return;
+    }
+    this.viewContainerRef.clear();
+    this.viewContainerRef.createEmbeddedView(this.templateRef);
+  }
+}
+
 @NgModule({
-  imports: [AppIsEditingAndDeletedDirective, AppIsEditingAndNotDeletedDirective],
-  exports: [AppIsEditingAndDeletedDirective, AppIsEditingAndNotDeletedDirective],
+  imports: [AppIsEditingAndDeletedDirective, AppIsEditingAndNotDeletedDirective, AppIsNotDeletedDirective],
+  exports: [AppIsEditingAndDeletedDirective, AppIsEditingAndNotDeletedDirective, AppIsNotDeletedDirective],
 })
 export class AppDeletedDirectives {}

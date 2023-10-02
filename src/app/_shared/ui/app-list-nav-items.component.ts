@@ -9,7 +9,6 @@ import {HasIDAndName, StringOrNumber} from 'dfts-helper';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-
 import {AppIconsModule} from './icons.module';
 
 interface AppListNavItemContext {

@@ -19,35 +19,41 @@ import {TablesService} from '../_services/tables.service';
 import {TableEditFormComponent} from './table-edit-form.component';
 import {TableEditOrderProductsComponent} from './table-edit-order-products.component';
 import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
+import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directives';
 
 @Component({
   template: `
     <div *ngIf="entity$ | async as entity; else loading">
-      <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} {{ entity.number }} ({{ entity.groupName }})</h1>
       <h1 *isCreating="entity">{{ 'HOME_TABLES_ADD' | tr }}</h1>
+      <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | tr }} {{ entity.group.name }} {{ entity.number }}</h1>
+      <h1 *isEditingAndDeleted="entity">{{ entity.group.name }} - {{ entity.number }} {{ 'DELETED' | tr }}</h1>
 
       <btn-toolbar>
         <back-button />
-        <app-model-edit-save-btn
-          *ngIf="(activeTab$ | async) === 'DATA'"
-          (submit)="form?.submit()"
-          [valid]="valid()"
-          [editing]="entity !== 'CREATE'"
-        />
+        <ng-container *isNotDeleted="entity">
+          <app-model-edit-save-btn
+            *ngIf="(activeTab$ | async) === 'DATA'"
+            (submit)="form?.submit()"
+            [valid]="valid()"
+            [editing]="entity !== 'CREATE'"
+          />
+        </ng-container>
 
-        <div *isEditing="entity">
-          <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
-            <i-bs name="trash" />
-            {{ 'DELETE' | tr }}
-          </button>
-        </div>
+        <ng-container *isEditingAndNotDeleted="entity">
+          <div>
+            <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+              <i-bs name="trash" />
+              {{ 'DELETE' | tr }}
+            </button>
+          </div>
 
-        <div *isEditing="entity">
-          <button class="btn btn-sm btn-primary" routerLink="/home/tables/groups/tables/{{ entity.groupId }}">
-            <i-bs name="diagram-3" />
-            {{ 'HOME_TABLE_GO_TO_GROUP' | tr }}
-          </button>
-        </div>
+          <div>
+            <button class="btn btn-sm btn-primary" routerLink="/home/tables/groups/tables/{{ entity.groupId }}">
+              <i-bs name="diagram-3" />
+              {{ 'HOME_TABLE_GO_TO_GROUP' | tr }}
+            </button>
+          </div>
+        </ng-container>
 
         <div class="d-flex align-items-center" *isCreating="entity">
           <app-continues-creation-switch (continuesCreationChange)="continuesCreation = $event" />
@@ -71,7 +77,7 @@ import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
                 [selectedEventId]="vm.selectedEvent?.id"
                 [selectedTableGroupId]="vm.selectedTableGroupId"
                 [table]="entity"
-                [formDisabled]="vm.tableGroups.length < 1"
+                [formDisabled]="vm.tableGroups.length < 1 || (entity !== 'CREATE' && !!entity.deleted)"
               />
             </ng-container>
           </ng-template>
@@ -106,6 +112,7 @@ import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
     AppContinuesCreationSwitchComponent,
     TableEditFormComponent,
     TableEditOrderProductsComponent,
+    AppDeletedDirectives,
   ],
 })
 export class TableEditComponent extends AbstractModelEditComponent<CreateTableDto, UpdateTableDto, GetTableResponse, 'DATA' | 'ORDERS'> {

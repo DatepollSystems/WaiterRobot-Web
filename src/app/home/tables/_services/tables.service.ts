@@ -6,7 +6,6 @@ import {BehaviorSubject, filter, Observable, switchMap, tap} from 'rxjs';
 import {notNullAndUndefined, s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from 'dfx-helper';
 
-
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
 import {CreateTableDto, GetTableGroupResponse, GetTableResponse, IdResponse, UpdateTableDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';

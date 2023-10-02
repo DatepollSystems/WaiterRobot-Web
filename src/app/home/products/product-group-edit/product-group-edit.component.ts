@@ -17,28 +17,34 @@ import {PrintersService} from '../../printers/_services/printers.service';
 import {ProductGroupsService} from '../_services/product-groups.service';
 import {ProductGroupEditFormComponent} from './product-group-edit-form.component';
 import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
+import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directives';
 
 @Component({
   template: `
     <div *ngIf="entity$ | async as entity; else loading">
-      <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} "{{ entity.name }}"</h1>
       <h1 *isCreating="entity">{{ 'HOME_PROD_GROUPS_ADD' | tr }}</h1>
+      <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
+      <h1 *isEditingAndDeleted="entity">{{ entity.name }} {{ 'DELETED' | tr }}</h1>
 
       <btn-toolbar>
         <back-button />
-        <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid()" [editing]="entity !== 'CREATE'" />
+        <app-model-edit-save-btn *isNotDeleted="entity" (submit)="form?.submit()" [valid]="valid()" [editing]="entity !== 'CREATE'" />
 
-        <div *isEditing="entity">
-          <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
-            <i-bs name="trash" />
-            {{ 'DELETE' | tr }}
-          </button>
-        </div>
+        <ng-container *isEditingAndNotDeleted="entity">
+          <div>
+            <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+              <i-bs name="trash" />
+              {{ 'DELETE' | tr }}
+            </button>
+          </div>
 
-        <a *isEditing="entity" routerLink="../products/{{ entity.id }}" class="btn btn-sm btn-primary">
-          <i-bs name="columns-gap" />
-          {{ 'HOME_PROD_GROUP_SHOW_TABLES' | tr }}</a
-        >
+          <div>
+            <a routerLink="../products/{{ entity.id }}" class="btn btn-sm btn-primary">
+              <i-bs name="columns-gap" />
+              {{ 'HOME_PROD_GROUP_SHOW_TABLES' | tr }}</a
+            >
+          </div>
+        </ng-container>
 
         <div class="d-flex align-items-center" *isCreating="entity">
           <app-continues-creation-switch (continuesCreationChange)="continuesCreation = $event" />
@@ -65,6 +71,7 @@ import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
               [productGroup]="entity"
               [printers]="vm.printers"
               [selectedEventId]="vm.selectedEvent?.id"
+              [formDisabled]="entity !== 'CREATE' && !!entity.deleted"
             />
           </ng-template>
         </li>
@@ -90,6 +97,7 @@ import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
     AppFormModule,
     AppContinuesCreationSwitchComponent,
     ProductGroupEditFormComponent,
+    AppDeletedDirectives,
   ],
 })
 export class ProductGroupEditComponent extends AbstractModelEditComponent<

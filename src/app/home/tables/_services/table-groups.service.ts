@@ -6,7 +6,6 @@ import {BehaviorSubject, filter, map, Observable, switchMap, tap} from 'rxjs';
 import {notNullAndUndefined, s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
 
-
 import {HasCreateWithIdResponse, HasOrdered, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
 import {
   CreateTableGroupDto,

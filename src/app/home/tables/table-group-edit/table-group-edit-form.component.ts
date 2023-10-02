@@ -29,7 +29,11 @@ import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '.
 
         <div class="d-flex flex-column">
           <label for="name">{{ 'COLOR' | tr }}</label>
-          <app-color-picker [color]="form.controls.color.getRawValue()" (colorChange)="form.controls.color.setValue($event)" />
+          <app-color-picker
+            [color]="form.controls.color.getRawValue()"
+            (colorChange)="form.controls.color.setValue($event)"
+            [disabled]="form.disabled"
+          />
         </div>
       </div>
     </form>
