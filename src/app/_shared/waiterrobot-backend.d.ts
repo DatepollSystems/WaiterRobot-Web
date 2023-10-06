@@ -1,3 +1,4 @@
+ 
 /* tslint:disable */
 /*
  * ---------------------------------------------------------------
@@ -231,6 +232,12 @@ export interface UpdatePrinterDto {
    * @max 10
    */
   bonPadding?: number;
+  /**
+   * @format int32
+   * @min 0
+   * @max 30
+   */
+  bonPaddingTop?: number;
 }
 
 export interface UpdateOrganisationDto {
@@ -598,6 +605,12 @@ export interface CreatePrinterDto {
    * @max 10
    */
   bonPadding?: number;
+  /**
+   * @format int32
+   * @min 0
+   * @max 30
+   */
+  bonPaddingTop?: number;
   /**
    * @format int64
    * @min 0
