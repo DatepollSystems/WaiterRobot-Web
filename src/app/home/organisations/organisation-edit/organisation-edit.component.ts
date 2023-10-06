@@ -1,26 +1,21 @@
 import {AsyncPipe, NgIf} from '@angular/common';
 import {Component, inject} from '@angular/core';
 
-import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
-import {AppBackButtonComponent} from '../../../_shared/ui/button/app-back-button.component';
-import {AppBtnToolbarComponent} from '../../../_shared/ui/button/app-btn-toolbar.component';
 import {AppSelectableBtnComponent} from '../../../_shared/ui/button/app-selectable-btn.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
-import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
-import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
-import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
-import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} from '../../../_shared/waiterrobot-backend';
 import {OrganisationsService} from '../_services/organisations.service';
 import {AppOrganisationEditFormComponent} from './organisation-edit-form.component';
 import {OrganisationEditSettingsComponent} from './organisation-edit-settings.component';
 import {OrganisationEditUsersComponent} from './organisation-edit-users.component';
+import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 
 @Component({
   template: `
@@ -35,7 +30,7 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
           <app-model-edit-save-btn
             *ngIf="(activeTab$ | async) === 'DATA'"
             (submit)="form?.submit()"
-            [valid]="valid$ | async"
+            [valid]="valid()"
             [editing]="entity !== 'CREATE'"
           />
 
@@ -96,27 +91,17 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
   selector: 'app-organisation-edit',
   standalone: true,
   imports: [
-    AppIconsModule,
+    AsyncPipe,
     NgSub,
     NgIf,
-    NgbNav,
-    NgbNavItem,
-    NgbNavContent,
-    NgbNavLink,
-    NgbTooltip,
-    NgbNavOutlet,
+    NgbNavModule,
     DfxTr,
-    AppBtnToolbarComponent,
+    AppFormModule,
+    AppIconsModule,
     AppSelectableBtnComponent,
-    AppSpinnerRowComponent,
-    AsyncPipe,
-    AppIsEditingDirective,
-    AppIsCreatingDirective,
     AppOrganisationEditFormComponent,
     OrganisationEditUsersComponent,
-    AppModelEditSaveBtn,
     OrganisationEditSettingsComponent,
-    AppBackButtonComponent,
   ],
 })
 export class OrganisationEditComponent extends AbstractModelEditComponent<

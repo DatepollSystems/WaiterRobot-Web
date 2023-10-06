@@ -2,45 +2,46 @@ import {AsyncPipe, LowerCasePipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
-import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
+import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {DfxTr} from 'dfx-translate';
 
-import {AppBackButtonComponent} from '../../../_shared/ui/button/app-back-button.component';
-import {AppBtnToolbarComponent} from '../../../_shared/ui/button/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
-import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
-import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
-import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
-import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TableGroupEditFormComponent} from './table-group-edit-form.component';
+import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
+import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directives';
 
 @Component({
   template: `
     <div *ngIf="entity$ | async as entity; else loading">
-      <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} "{{ entity.name }}"</h1>
       <h1 *isCreating="entity">{{ 'HOME_TABLE_GROUPS_ADD' | tr }}</h1>
+      <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
+      <h1 *isEditingAndDeleted="entity">{{ entity.name }} {{ 'DELETED' | tr }}</h1>
 
       <btn-toolbar>
         <back-button />
-        <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
+        <app-model-edit-save-btn *isNotDeleted="entity" (submit)="form?.submit()" [valid]="valid()" [editing]="entity !== 'CREATE'" />
 
-        <div *isEditing="entity">
-          <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
-            <i-bs name="trash" />
-            {{ 'DELETE' | tr }}
-          </button>
-        </div>
+        <ng-container *isEditingAndNotDeleted="entity">
+          <div>
+            <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+              <i-bs name="trash" />
+              {{ 'DELETE' | tr }}
+            </button>
+          </div>
 
-        <a *isEditing="entity" routerLink="../tables/{{ entity.id }}" class="btn btn-sm btn-primary">
-          <i-bs name="columns-gap" />
-          {{ 'HOME_TABLE_GROUP_SHOW_TABLES' | tr }}</a
-        >
+          <div>
+            <a routerLink="../tables/{{ entity.id }}" class="btn btn-sm btn-primary">
+              <i-bs name="columns-gap" />
+              {{ 'HOME_TABLE_GROUP_SHOW_TABLES' | tr }}</a
+            >
+          </div>
+        </ng-container>
 
         <div class="d-flex align-items-center" *isCreating="entity">
           <app-continues-creation-switch (continuesCreationChange)="continuesCreation = $event" />
@@ -59,6 +60,7 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
               (submitCreate)="submit('CREATE', $event)"
               [tableGroup]="entity"
               [selectedEventId]="selectedEvent?.id"
+              [formDisabled]="entity !== 'CREATE' && !!entity.deleted"
             />
           </ng-template>
         </li>
@@ -76,24 +78,16 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AsyncPipe,
+    RouterLink,
     NgIf,
+    LowerCasePipe,
     DfxTr,
-    NgbNav,
-    NgbNavItem,
-    NgbNavLink,
-    NgbNavContent,
-    NgbNavOutlet,
+    NgbNavModule,
     AppIconsModule,
-    AppSpinnerRowComponent,
-    AppBtnToolbarComponent,
-    AppIsEditingDirective,
-    AppIsCreatingDirective,
-    AppModelEditSaveBtn,
+    AppFormModule,
     TableGroupEditFormComponent,
     AppContinuesCreationSwitchComponent,
-    AppBackButtonComponent,
-    LowerCasePipe,
-    RouterLink,
+    AppDeletedDirectives,
   ],
 })
 export class TableGroupEditComponent extends AbstractModelEditComponent<

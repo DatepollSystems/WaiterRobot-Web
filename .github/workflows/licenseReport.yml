@@ -1,46 +1,31 @@
-name: Generate license report
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 4 */30 * *' # At 04:00 on every 30ts day-of-month.
-jobs:
-  generate:
-    name: generate license report
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
+  name: Generate license report
+  on:
+    workflow_dispatch:
+    schedule:
+      - cron: '0 4 */30 * *' # At 04:00 on every 30ts day-of-month.
 
-      - name: setup node and pnpm
-        uses: dafnik/setup-node-pnpm@v1
-        with:
-          install-ignore-scripts: true
+  jobs:
+    generate-license-pr:
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout your repository using git
+          uses: actions/checkout@v3
 
-      - name: generate new report
-        run: |
-          license-report --only=prod --output=json > ./src/assets/licenses_new.json --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author
-          prettier --write ./src/assets/licenses_new.json
+        # PNPM
+        - uses: pnpm/action-setup@v2
+          with:
+            version: 7
+        - run: pnpm install --frozen-lockfile --ignore-scripts
 
-      - uses: LouisBrunner/diff-action@v0.2.0
-        id: diff-check
-        with:
-          old: ./src/assets/licenses.json
-          new: ./src/assets/licenses_new.json
-          mode: addition
-          tolerance: same
+        - name: generate license report
+          id: license-report
+          uses: dafnik/generate-license-report@v2
 
-      - name: Move files in place if needed
-        if: steps.diff-check.outputs.passed == 'false'
-        run: |
-          rm -f ./src/assets/licenses.json
-          mv ./src/assets/licenses_new.json ./src/assets/licenses.json
-
-      - name: Create New Pull Request If Needed
-        if: steps.diff-check.outputs.passed == 'false'
-        uses: peter-evans/create-pull-request@v5
-        with:
-          title: License report
-          delete-branch: true
-          branch-suffix: timestamp
-          commit-message: "chore: update license report"
-          body: ${{ steps.diff-check.outputs.output }}
+        - name: create new pull request if needed
+          if: steps.license-report.outputs.diff != ''
+          uses: peter-evans/create-pull-request@v5
+          with:
+            title: Generated new licenses report
+            branch-suffix: timestamp
+            commit-message: 'chore: generate new license report'
+            body: ${{ steps.license-report.outputs.diff }}

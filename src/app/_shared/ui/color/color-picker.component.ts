@@ -1,5 +1,5 @@
 import {NgClass, NgForOf, NgIf} from '@angular/common';
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, signal} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, Output, signal} from '@angular/core';
 
 import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {ColorGithubModule} from 'ngx-color/github';
@@ -16,6 +16,7 @@ import {AppIconsModule} from '../icons.module';
         id="color-picker-button"
         class="btn btn-outline-secondary"
         (click)="showColorPicker.set(!showColorPicker())"
+        [disabled]="disabled"
         type="button"
         [style.background-color]="color"
         [style.border-color]="color"
@@ -32,6 +33,7 @@ import {AppIconsModule} from '../icons.module';
       <button
         class="btn btn-outline-secondary text-white"
         (click)="color = undefined; colorChange.emit(undefined)"
+        [disabled]="disabled"
         type="button"
         ngbTooltip="{{ 'RESET' | tr }}"
       >
@@ -67,6 +69,8 @@ import {AppIconsModule} from '../icons.module';
 })
 export class AppColorPicker {
   @Input() color?: string | null;
+
+  @Input({transform: booleanAttribute}) disabled?: boolean;
 
   showColorPicker = signal(false);
 

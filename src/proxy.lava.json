@@ -1,6 +1,7 @@
 {
-  "/api": {
+  "/api/*": {
     "target": "https://lava.kellner.team",
-    "secure": false
+    "secure": false,
+    "changeOrigin": true
   }
 }

@@ -60,6 +60,7 @@
   "DESCRIPTION": "Beschreibung",
   "DATETIME_PLACEHOLDER": "14.6.2000 14:30",
   "COLOR": "Highlight Farbe",
+  "DELETED": "(gelöscht)",
 
   "ORDER_MODE_SWITCH": "Anordnen",
   "COLOR_PICKER": "Farbe aus auszuwählen",

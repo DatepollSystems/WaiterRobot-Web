@@ -5,7 +5,6 @@ import {Observable} from 'rxjs';
 import {IHasID} from 'dfts-helper';
 import {HasCreate, HasUpdate} from 'dfx-helper';
 
-
 import {IdResponse} from '../waiterrobot-backend';
 
 export type HasCreateWithIdResponse<CreateDTOType> = HasCreate<CreateDTOType, IdResponse>;

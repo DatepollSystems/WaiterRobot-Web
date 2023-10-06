@@ -1,28 +1,21 @@
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {FormsModule} from '@angular/forms';
 
 import {combineLatest, map} from 'rxjs';
 
-import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
+import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
-import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AppBackButtonComponent} from '../../../_shared/ui/button/app-back-button.component';
-import {AppBtnToolbarComponent} from '../../../_shared/ui/button/app-btn-toolbar.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
-import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
-import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
-import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
-import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {CreatePrinterDto, GetPrinterResponse, UpdatePrinterDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 import {PrintersService} from '../_services/printers.service';
 import {AppPrinterEditForm} from './printer-edit-form.component';
 import {PrinterEditProductsComponent} from './printer-edit-products.component';
+import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 
 @Component({
   template: `
@@ -33,7 +26,7 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
       <btn-toolbar>
         <back-button />
 
-        <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
+        <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid()" [editing]="entity !== 'CREATE'" />
 
         <ng-container *isEditing="entity">
           <div>
@@ -84,26 +77,14 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    FormsModule,
     AsyncPipe,
     NgIf,
-    NgForOf,
-    NgbNav,
-    NgbNavItem,
-    NgbNavLink,
-    NgbNavOutlet,
-    NgbNavContent,
-    DfxTrackById,
+    NgbNavModule,
     DfxTr,
     AppIconsModule,
-    AppBtnToolbarComponent,
-    AppSpinnerRowComponent,
-    AppIsEditingDirective,
-    AppIsCreatingDirective,
-    AppModelEditSaveBtn,
+    AppFormModule,
     AppPrinterEditForm,
     AppContinuesCreationSwitchComponent,
-    AppBackButtonComponent,
     PrinterEditProductsComponent,
   ],
 })

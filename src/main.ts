@@ -30,13 +30,21 @@ import {CustomDateParserFormatter, CustomDateTimeAdapter} from './app/_shared/se
 import {AppComponent} from './app/app.component';
 import {ROUTES} from './app/app.routes';
 import {NgbDateTimeAdapter} from './app/_shared/ui/datetime-picker/datetime-adapter';
+import {AuthService} from './app/_shared/services/auth/auth.service';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideDfxHelper(
       withMobileBreakpoint(767),
       withBaseUrlInterceptor(EnvironmentHelper.getAPIUrl(), ['assets/i18n', 'assets/licenses.json']),
-      withLoggingInterceptor(['json', '/auth/signIn', '/auth/signInPwChange']),
+      withLoggingInterceptor([
+        'json',
+        AuthService.signInUrl,
+        AuthService.signInPwChangeUrl,
+        AuthService.requestPasswordChangeUrl,
+        AuthService.sendPasswordChangeUrl,
+        AuthService.refreshUrl,
+      ]),
       withWindow(),
     ),
     provideDfxTranslate(withDefaultLanguage('de'), withAutoTranslatedLanguages(['en', 'es', 'fr', 'it', 'pt'])),

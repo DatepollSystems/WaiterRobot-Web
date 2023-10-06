@@ -3,26 +3,20 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 
 import {combineLatest, filter, map} from 'rxjs';
 
-import {NgbInputDatepicker, NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
+import {NgbInputDatepicker, NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {notNullAndUndefined} from 'dfts-helper';
-import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
-import {AppBackButtonComponent} from '../../../_shared/ui/button/app-back-button.component';
-import {AppBtnToolbarComponent} from '../../../_shared/ui/button/app-btn-toolbar.component';
 import {AppSelectableBtnComponent} from '../../../_shared/ui/button/app-selectable-btn.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
-import {AppIsCreatingDirective} from '../../../_shared/ui/form/app-is-creating.directive';
-import {AppIsEditingDirective} from '../../../_shared/ui/form/app-is-editing.directive';
-import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
-import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocationDto} from '../../../_shared/waiterrobot-backend';
 import {OrganisationsService} from '../../organisations/_services/organisations.service';
 import {EventsService} from '../_services/events.service';
 import {AppEventEditFormComponent} from './event-edit-form.component';
+import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 
 @Component({
   template: `
@@ -33,7 +27,7 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
       <btn-toolbar>
         <back-button />
 
-        <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid$ | async" [editing]="entity !== 'CREATE'" />
+        <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid()" [editing]="entity !== 'CREATE'" />
 
         <ng-container *isEditing="entity">
           <div *ngIf="(myUser$ | async)?.isAdmin">
@@ -77,25 +71,15 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgSub,
+    AsyncPipe,
     NgIf,
-    NgbNav,
-    NgbNavLink,
-    NgbNavItem,
-    NgbNavContent,
     NgbInputDatepicker,
-    NgbNavOutlet,
+    NgbNavModule,
     DfxTr,
-    AppSpinnerRowComponent,
-    AppBtnToolbarComponent,
+    AppFormModule,
     AppIconsModule,
     AppSelectableBtnComponent,
-    AsyncPipe,
-    AppIsEditingDirective,
-    AppIsCreatingDirective,
     AppEventEditFormComponent,
-    AppModelEditSaveBtn,
-    AppBackButtonComponent,
   ],
 })
 export class EventEditComponent extends AbstractModelEditComponent<

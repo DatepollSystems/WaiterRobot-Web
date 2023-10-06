@@ -61,7 +61,7 @@ import {OrdersService} from './orders.service';
       <ngb-progressbar
         type="success"
         *ngIf="download.state !== 'DONE'"
-        [showValue]="true"
+        [showValue]="download.state !== 'PENDING'"
         [striped]="download.state === 'PENDING'"
         [value]="download.progress"
       />
@@ -163,7 +163,7 @@ import {OrdersService} from './orders.service';
               class="btn btn-sm m-1 btn-warning"
               (click)="$event.stopPropagation(); requeueOrder(order)"
               ngbTooltip="{{ 'HOME_ORDER_REQUEUE' | tr }}"
-              placement="right"
+              placement="bottom"
             >
               <i-bs name="printer" />
             </button>

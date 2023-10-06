@@ -29,3 +29,7 @@ main {
 .bg {
   background-color: var(--primary-9);
 }
+
+small > a:hover {
+  text-decoration: underline;
+}
