@@ -4,6 +4,8 @@ import {
   apple,
   arrowClockwise,
   arrowLeft,
+  arrowsCollapse,
+  arrowsExpand,
   arrowsFullscreen,
   arrowUpRightSquareFill,
   bagFill,
@@ -11,6 +13,7 @@ import {
   bell,
   boxArrowLeft,
   boxArrowUpRight,
+  braces,
   building,
   calendarDate,
   calendarEventFill,
@@ -113,6 +116,9 @@ const icons = {
   infoCircleFill,
   filetypeCsv,
   gripVertical,
+  braces,
+  arrowsExpand,
+  arrowsCollapse,
 };
 
 @NgModule({

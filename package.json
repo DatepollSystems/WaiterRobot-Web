@@ -19,7 +19,6 @@
     "prepare": "husky install && npm run translate:types",
     "translate:types": "translate-cli generateTypes",
     "translate:reset": "translate-cli resetTypes",
-    "license-report": "license-report --only=prod,peer --fields=name --fields=licenseType --fields=link --fields=installedVersion --fields=author --output=json | jq > src/assets/licenses.json && prettier --write ./src/assets/licenses.json",
     "api:types": "swagger-typescript-api -p http://localhost:8080/api/swagger/api-docs -o ./src/app/_shared/ -n waiterrobot-backend.d.ts --no-client && prettier --write ./src/app/_shared/waiterrobot-backend.d.ts",
     "api:types:lava": "swagger-typescript-api -p https://lava.kellner.team/api/swagger/api-docs -o ./src/app/_shared/ -n waiterrobot-backend.d.ts --no-client && prettier --write ./src/app/_shared/waiterrobot-backend.d.ts"
   },
@@ -35,6 +34,7 @@
     "@angular/platform-browser": "16.2.3",
     "@angular/platform-browser-dynamic": "16.2.3",
     "@angular/router": "16.2.3",
+    "@jscutlery/operators": "^2.1.2",
     "@ng-bootstrap/ng-bootstrap": "15.1.1",
     "@ngx-loading-bar/core": "6.0.2",
     "@ngx-loading-bar/router": "6.0.2",

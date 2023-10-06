@@ -6,6 +6,7 @@ import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
+import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {
   CreateSystemNotificationDto,
@@ -14,7 +15,6 @@ import {
 } from '../../../_shared/waiterrobot-backend';
 import {SystemNotificationsService} from '../_services/system-notifications.service';
 import {SystemNotificationEditFormComponent} from './system-notification-edit-form.component';
-import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 
 @Component({
   template: `
@@ -32,7 +32,7 @@ import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
         />
 
         <div *isEditing="entity">
-          <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
+          <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
             <i-bs name="trash" />
             {{ 'DELETE' | tr }}
           </button>

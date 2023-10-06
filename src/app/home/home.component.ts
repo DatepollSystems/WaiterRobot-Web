@@ -63,8 +63,6 @@ export class HomeComponent {
 
   adminModeChanged = false;
 
-  activeSystemNotifications$ = this.activeSystemNotificationsService.getAll$();
-
   uiControls$ = combineLatest([
     this.fullScreenService.isFullScreen$,
     this.isMobileService.isMobile$.pipe(

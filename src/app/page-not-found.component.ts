@@ -6,14 +6,14 @@ import {n_fromStorage, st_set} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {AppLogoWithTextComponent} from './_shared/ui/app-logo-with-text.component';
-import {FooterModule} from './_shared/ui/footer/footer.module';
 import {AppOutsideLayoutComponent} from './_shared/ui/app-outside-layout.component';
+import {FooterModule} from './_shared/ui/footer/footer.module';
 
 @Component({
   selector: 'app-page-not-found',
   template: `
     <outside-layout-component>
-      <img ngSrc="/assets/404.webp" width="700" height="500" alt="Image of cat which hides in a box" />
+      <img ngSrc="/assets/404.webp" priority width="700" height="580" alt="Image of cat which hides in a box" />
       <h2 class="text-center">{{ '404_TITLE' | tr }}</h2>
       <button class="btn btn-primary btn-lg mt-4 mb-4" (click)="goBack()">
         {{ 'GO_BACK' | tr }}

@@ -1,3 +1,4 @@
+ 
 /* tslint:disable */
 /*
  * ---------------------------------------------------------------
@@ -118,6 +119,7 @@ export interface UpdateUserDto {
   role: 'ADMIN' | 'USER';
   activated: boolean;
   forcePasswordChange: boolean;
+  sendInvitation: boolean;
   /**
    * @minLength 6
    * @maxLength 2147483647
@@ -230,6 +232,12 @@ export interface UpdatePrinterDto {
    * @max 10
    */
   bonPadding?: number;
+  /**
+   * @format int32
+   * @min 0
+   * @max 30
+   */
+  bonPaddingTop?: number;
 }
 
 export interface UpdateOrganisationDto {
@@ -336,7 +344,7 @@ export interface CreateOrderDto {
    */
   tableId: number;
   /**
-   * @maxItems 2147483647
+   * @maxItems 150
    * @minItems 1
    */
   products: CreateOrderProductDto[];
@@ -495,7 +503,7 @@ export interface CreateUserDto {
    * @minLength 6
    * @maxLength 2147483647
    */
-  password: string;
+  password?: string;
   activated: boolean;
   sendInvitation: boolean;
   role: 'ADMIN' | 'USER';
@@ -598,6 +606,12 @@ export interface CreatePrinterDto {
    */
   bonPadding?: number;
   /**
+   * @format int32
+   * @min 0
+   * @max 30
+   */
+  bonPaddingTop?: number;
+  /**
    * @format int64
    * @min 0
    */
@@ -681,6 +695,20 @@ export interface CreateAllergenDto {
   global?: boolean;
 }
 
+export interface PasswordForgotRequestDto {
+  email: string;
+}
+
+export interface PasswordForgotResetDto {
+  email: string;
+  resetToken: string;
+  /**
+   * @minLength 6
+   * @maxLength 2147483647
+   */
+  newPassword: string;
+}
+
 export interface SignInWithPasswordChangeDto {
   email: string;
   /**
@@ -737,8 +765,6 @@ export interface GetTableResponse {
   number: number;
   /** @format int32 */
   seats: number;
-  /** @format int32 */
-  position?: number;
   /**
    * Please use the 'group' property
    * @deprecated
@@ -886,6 +912,15 @@ export interface GetMyselfResponse {
   firstname: string;
   surname: string;
   role: 'ADMIN' | 'USER';
+}
+
+export interface TempNotification {
+  to: string;
+  subject: string;
+  body: string;
+  bodyHTML?: string;
+  /** @format date-time */
+  createdAt: string;
 }
 
 export interface GetEventOrLocationMinResponse {
@@ -1047,6 +1082,8 @@ export interface GetPrinterResponse {
   bonWidth: number;
   /** @format int32 */
   bonPadding: number;
+  /** @format int32 */
+  bonPaddingTop?: number;
   /** @format int64 */
   eventId: number;
   products: GetProductMinResponse[];
@@ -1171,6 +1208,18 @@ export interface GetMediatorResponse {
   printers: GetPrinterMinResponse[];
   /** @format date-time */
   lastContact: string;
+}
+
+export interface DeadLetterResponse {
+  /** @format int64 */
+  id: number;
+  body: string;
+  queue: string;
+  exchange: string;
+  /** @format date-time */
+  createdAt: string;
+  /** @format date-time */
+  updatedAt: string;
 }
 
 export interface GetBillMinResponse {
