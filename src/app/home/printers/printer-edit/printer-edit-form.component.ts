@@ -142,7 +142,7 @@ export class AppPrinterEditForm extends AbstractModelEditFormComponent<CreatePri
       font: it.font.code,
       bonWidth: it.bonWidth,
       bonPadding: it.bonPadding,
-      bonPaddingTop: it.bonPaddingTop,
+      bonPaddingTop: it.bonPaddingTop ?? null,
       eventId: it.eventId,
       id: it.id,
     });
