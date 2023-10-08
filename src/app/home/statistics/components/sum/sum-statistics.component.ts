@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, numberAttribute} from '@angular/core';
 
 import {StatisticsSumResponse} from '../../../../_shared/waiterrobot-backend';
 
@@ -14,6 +14,12 @@ export class SumStatisticsComponent {
 
   @Input()
   sumDtos?: StatisticsSumResponse[];
+
+  @Input({transform: numberAttribute})
+  set height(it: number) {
+    this._height = `${it}vh`;
+  }
+  _height = '50vh';
 
   setChartType(it: typeof this.chartType): void {
     this.chartType = it;

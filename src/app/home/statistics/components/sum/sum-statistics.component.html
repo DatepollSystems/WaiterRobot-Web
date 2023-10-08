@@ -6,7 +6,7 @@
       </div>
       <div class="col text-end">
         <div ngbDropdown class="d-inline-block">
-          <button type="button" class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle [ngSwitch]="chartType">
+          <button type="button" class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle [ngSwitch]="chartType">
             <span *ngSwitchCase="'BAR'">{{ 'HOME_STATISTICS_BAR_CHART' | tr }}</span>
             <span *ngSwitchCase="'PIE'">{{ 'HOME_STATISTICS_PIE_CHART' | tr }}</span>
             <span *ngSwitchCase="'TEXT'">{{ 'HOME_STATISTICS_TEXT_CHART' | tr }}</span>
@@ -24,41 +24,45 @@
       </div>
     </div>
 
+    <ng-content select="[top]" />
+
     <div *ngIf="!sumDtos || sumDtos?.length === 0" class="text-center">
       <span style="font-size: 1.2rem">{{ 'HOME_STATISTICS_NO_DATA' | tr }}</span>
     </div>
 
-    <ng-container *ngIf="chartType === 'PIE' && sumDtos && sumDtos.length > 0">
-      <div style="height: 45vh">
-        <ngx-charts-pie-chart scheme="cool" [results]="sumDtos" [labels]="true" [trimLabels]="false" />
-      </div>
-    </ng-container>
+    <div id="chart">
+      <ng-container *ngIf="chartType === 'PIE' && sumDtos && sumDtos.length > 0">
+        <div style="height: 45vh">
+          <ngx-charts-pie-chart scheme="cool" [results]="sumDtos" [labels]="true" [trimLabels]="false" />
+        </div>
+      </ng-container>
 
-    <ng-container *ngIf="chartType === 'BAR' && sumDtos && sumDtos.length > 0">
-      <div style="height: 50vh">
-        <ngx-charts-bar-horizontal
-          scheme="cool"
-          [barPadding]="16"
-          [maxXAxisTickLength]="16"
-          [showDataLabel]="true"
-          [showGridLines]="true"
-          [xAxis]="true"
-          [yAxis]="true"
-          [trimXAxisTicks]="false"
-          [results]="sumDtos"
-          [legend]="false"
-        />
-      </div>
-    </ng-container>
+      <ng-container *ngIf="chartType === 'BAR' && sumDtos && sumDtos.length > 0">
+        <div [ngStyle]="{height: _height}">
+          <ngx-charts-bar-horizontal
+            scheme="cool"
+            [barPadding]="16"
+            [maxYAxisTickLength]="26"
+            [showDataLabel]="true"
+            [showGridLines]="true"
+            [xAxis]="true"
+            [yAxis]="true"
+            [trimXAxisTicks]="false"
+            [results]="sumDtos"
+            [legend]="false"
+          />
+        </div>
+      </ng-container>
 
-    <ng-container *ngIf="chartType === 'TEXT' && sumDtos && sumDtos.length > 0">
-      <ul class="list-group list-group-flush">
-        <li *ngFor="let dto of sumDtos" class="d-flex justify-content-between list-group-item">
-          <span>{{ dto.name }}</span>
-          <span>{{ dto.value }}</span>
-        </li>
-      </ul>
-    </ng-container>
+      <ng-container *ngIf="chartType === 'TEXT' && sumDtos && sumDtos.length > 0">
+        <ul class="list-group list-group-flush">
+          <li *ngFor="let dto of sumDtos" class="d-flex justify-content-between list-group-item">
+            <span>{{ dto.name }}</span>
+            <span>{{ dto.value }}</span>
+          </li>
+        </ul>
+      </ng-container>
+    </div>
 
     <ng-content select="[bottom]" />
   </div>

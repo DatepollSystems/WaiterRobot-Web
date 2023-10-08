@@ -7,7 +7,7 @@ import {NgbDropdownModule, NgbInputDatepicker, NgbNavModule, NgbTimepicker, NgbT
 import {BarChartModule, LineChartModule, PieChartModule} from '@swimlane/ngx-charts';
 
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxCountUp, DfxTrackById} from 'dfx-helper';
+import {DfxCountUp, DfxPrint, DfxTrackById} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {eventSelectedGuard} from '../../_shared/services/guards/event-selected-guard';
@@ -61,6 +61,7 @@ const routes: Routes = [
     CommonModule,
     DfxCountUp,
     DfxPaginationModule,
+    DfxPrint,
     DfxSortModule,
     DfxTableModule,
     DfxTrackById,

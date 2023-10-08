@@ -118,7 +118,7 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimelineComponent {
-  curve = shape.curveCatmullRom;
+  curve = shape.curveNatural;
 
   selectedEvent$ = this.eventsService.getSelected$.pipe(filter(notNullAndUndefined), shareReplay(1));
   startDateFormControl = new FormControl<string>('');

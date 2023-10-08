@@ -10,11 +10,21 @@ import {EventsService} from '../../events/_services/events.service';
 
 @Component({
   template: `
-    <app-sum-statistics *ngIf="sumDtos$ | async as sumDtos" [sumDtos]="sumDtos">
+    <app-sum-statistics *ngIf="sumDtos$ | async as sumDtos" [sumDtos]="sumDtos" [height]="sumDtos.length * 3">
       <span>{{ 'HOME_PROD_ALL' | tr }}</span>
+      <div top *ngIf="standalone">
+        <btn-toolbar>
+          <back-button />
+          <div>
+            <button class="btn btn-primary btn-sm" print printSectionId="chart">
+              <i-bs name="printer" />
+              {{ 'PRINT' | tr }}
+            </button>
+          </div>
+        </btn-toolbar>
+      </div>
       <div bottom>
-        <a class="btn btn-outline-secondary btn-sm" *ngIf="!standalone" routerLink="../products">{{ 'SHOW_ALL' | tr }}</a>
-        <back-button *ngIf="standalone" />
+        <a class="btn btn-info btn-sm" *ngIf="!standalone" routerLink="../products">{{ 'SHOW_ALL' | tr }}</a>
       </div>
     </app-sum-statistics>
   `,
