@@ -13,7 +13,7 @@ import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/color/app-tex
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNumberListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-number-list-with-delete.component';
-import {GetTableResponse} from '../../_shared/waiterrobot-backend';
+import {GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
 import {TablesService} from './_services/tables.service';
 import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
 
@@ -175,7 +175,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
     AppTextWithColorIndicatorComponent,
   ],
 })
-export class AllTablesComponent extends AbstractModelsWithNumberListWithDeleteComponent<GetTableResponse> {
+export class AllTablesComponent extends AbstractModelsWithNumberListWithDeleteComponent<GetTableWithGroupResponse> {
   private modal = inject(NgbModal);
 
   constructor(protected entitiesService: TablesService) {

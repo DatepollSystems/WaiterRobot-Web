@@ -13,7 +13,7 @@ import {DfxTranslateModule} from 'dfx-translate';
 import {MobileLinkService} from '../../_shared/services/mobile-link.service';
 import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
-import {GetTableResponse} from '../../_shared/waiterrobot-backend';
+import {GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
@@ -69,7 +69,7 @@ import {GetTableResponse} from '../../_shared/waiterrobot-backend';
             />
 
             <div class="text-center text-black qr-code-label">
-              <b>{{ mytable.groupName }} - {{ mytable.number }}</b>
+              <b>{{ mytable.group.name }} - {{ mytable.number }}</b>
             </div>
           </div>
         </div>
@@ -113,7 +113,7 @@ import {GetTableResponse} from '../../_shared/waiterrobot-backend';
   ],
 })
 export class PrintTableQrCodesModalComponent {
-  @Input() tables?: GetTableResponse[];
+  @Input() tables?: GetTableWithGroupResponse[];
 
   qrCodeSize: 'SM' | 'MD' = 'MD';
   generating = false;
@@ -124,7 +124,7 @@ export class PrintTableQrCodesModalComponent {
     private mobileLink: MobileLinkService,
   ) {}
 
-  parser = (table: GetTableResponse): string => {
+  parser = (table: GetTableWithGroupResponse): string => {
     return this.mobileLink.createTableLink(table.publicId);
   };
 

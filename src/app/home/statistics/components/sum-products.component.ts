@@ -1,9 +1,7 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {booleanAttribute, ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
-import {filter, map, switchMap} from 'rxjs';
-
-import {notNullAndUndefined} from 'dfts-helper';
+import {map, switchMap} from 'rxjs';
 
 import {StatisticsSumResponse} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
@@ -34,11 +32,8 @@ import {EventsService} from '../../events/_services/events.service';
 export class SumProductsComponent {
   @Input({transform: booleanAttribute}) standalone = true;
 
-  sumDtos$ = this.eventsService.getSelected$.pipe(
-    filter(notNullAndUndefined),
-    switchMap((event) =>
-      this.httpClient.get<StatisticsSumResponse[]>('/config/statistics/sumProducts', {params: new HttpParams().set('eventId', event.id)}),
-    ),
+  sumDtos$ = this.eventsService.getSelectedNotNull$.pipe(
+    switchMap(({id: eventId}) => this.httpClient.get<StatisticsSumResponse[]>('/config/statistics/sumProducts', {params: {eventId}})),
     map((it) => (this.standalone ? it : it.slice(0, 20))),
   );
 

@@ -12,7 +12,7 @@ import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.co
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNumberListByIdComponent} from '../../_shared/ui/models-list-by-id/abstract-models-with-number-list-by-id.component';
-import {GetTableGroupResponse, GetTableResponse} from '../../_shared/waiterrobot-backend';
+import {GetTableGroupResponse, GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
 import {TableGroupsService} from './_services/table-groups.service';
 import {TablesService} from './_services/tables.service';
 import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
@@ -171,7 +171,10 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
     AppSpinnerRowComponent,
   ],
 })
-export class TableGroupByIdTablesComponent extends AbstractModelsWithNumberListByIdComponent<GetTableResponse, GetTableGroupResponse> {
+export class TableGroupByIdTablesComponent extends AbstractModelsWithNumberListByIdComponent<
+  GetTableWithGroupResponse,
+  GetTableGroupResponse
+> {
   private modal = inject(NgbModal);
 
   constructor(tablesService: TablesService, tableGroupsService: TableGroupsService) {

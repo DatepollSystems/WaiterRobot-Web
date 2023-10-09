@@ -1,4 +1,4 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
 import {BehaviorSubject, map, Observable, switchMap} from 'rxjs';
@@ -17,7 +17,7 @@ export class OrganisationsSettingsService {
     return this.settingsChange.pipe(
       switchMap(() =>
         this.httpService.get<OrganisationSettingResponse>('/config/organisation/settings', {
-          params: new HttpParams().set('organisationId', organisationId),
+          params: {organisationId},
         }),
       ),
       map((it) => {

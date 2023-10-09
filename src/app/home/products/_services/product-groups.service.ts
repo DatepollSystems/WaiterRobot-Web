@@ -1,9 +1,9 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
-import {BehaviorSubject, filter, map, Observable, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, map, Observable, switchMap, take, tap} from 'rxjs';
 
-import {notNullAndUndefined, s_from} from 'dfts-helper';
+import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
 
 import {HasCreateWithIdResponse, HasOrdered, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
@@ -37,15 +37,9 @@ export class ProductGroupsService
 
   getAll$(): Observable<GetProductGroupResponse[]> {
     return this.triggerGet$.pipe(
-      switchMap(() =>
-        this.eventsService.getSelected$.pipe(
-          filter(notNullAndUndefined),
-          switchMap((selected) =>
-            this.httpClient.get<GetProductGroupResponse[]>(this.url, {params: new HttpParams().set('eventId', selected.id)}),
-          ),
-          map((it) => it.sort((a, b) => (a.position ?? 100000) - (b.position ?? 100000))),
-        ),
-      ),
+      switchMap(() => this.eventsService.getSelectedNotNull$),
+      switchMap(({id: eventId}) => this.httpClient.get<GetProductGroupResponse[]>(this.url, {params: {eventId}})),
+      map((it) => it.sort((a, b) => (a.position ?? 100000) - (b.position ?? 100000))),
     );
   }
 
@@ -66,12 +60,9 @@ export class ProductGroupsService
   }
 
   order$(dto: EntityOrderDto[]): Observable<IdResponse[]> {
-    return this.eventsService.getSelected$.pipe(
-      switchMap((event) =>
-        this.httpClient.patch<IdResponse[]>(`${this.url}/order`, dto, {
-          params: new HttpParams().set('eventId', event?.id ?? ''),
-        }),
-      ),
+    return this.eventsService.getSelectedNotNull$.pipe(
+      take(1),
+      switchMap(({id: eventId}) => this.httpClient.patch<IdResponse[]>(`${this.url}/order`, dto, {params: {eventId}})),
       tap(() => this.triggerGet$.next(true)),
     );
   }

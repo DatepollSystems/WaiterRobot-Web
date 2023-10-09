@@ -1,3 +1,4 @@
+ 
 /* tslint:disable */
 /*
  * ---------------------------------------------------------------
@@ -79,7 +80,7 @@ export interface UpdateWaiterDto {
   /**
    * @minLength 3
    * @maxLength 70
-   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
+   * @pattern [a-zA-Z0-9\p{Z}\"'`´#~!?$€&%()={}\[\]_/*+-.,><\-|°\^\\:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
   eventIds: number[];
@@ -149,7 +150,7 @@ export interface UpdateTableGroupDto {
   /**
    * @minLength 1
    * @maxLength 60
-   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
+   * @pattern [a-zA-Z0-9\p{Z}\"'`´#~!?$€&%()={}\[\]_/*+-.,><\-|°\^\\:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
   /** @pattern #([0-9A-Fa-f]{6})$ */
@@ -162,7 +163,7 @@ export interface UpdateProductDto {
   /**
    * @minLength 1
    * @maxLength 70
-   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
+   * @pattern [a-zA-Z0-9\p{Z}\"'`´#~!?$€&%()={}\[\]_/*+-.,><\-|°\^\\:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
   allergenIds: number[];
@@ -190,7 +191,7 @@ export interface UpdateProductGroupDto {
   /**
    * @minLength 1
    * @maxLength 60
-   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
+   * @pattern [a-zA-Z0-9\p{Z}\"'`´#~!?$€&%()={}\[\]_/*+-.,><\-|°\^\\:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
   /** @pattern #([0-9A-Fa-f]{6})$ */
@@ -205,7 +206,7 @@ export interface UpdatePrinterDto {
   /**
    * @minLength 1
    * @maxLength 120
-   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
+   * @pattern [a-zA-Z0-9\p{Z}\"'`´#~!?$€&%()={}\[\]_/*+-.,><\-|°\^\\:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
   /**
@@ -358,7 +359,7 @@ export interface CreateOrderProductDto {
   /**
    * @minLength 0
    * @maxLength 120
-   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
+   * @pattern [a-zA-Z0-9\p{Z}\"'`´#~!?$€&%()={}\[\]_/*+-.,><\-|°\^\\:;ßäöüÄÖÜ\n\r]+$
    */
   note?: string;
   /**
@@ -440,7 +441,7 @@ export interface WaiterLoginCreateDto {
   /**
    * @minLength 3
    * @maxLength 70
-   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
+   * @pattern [a-zA-Z0-9\p{Z}\"'`´#~!?$€&%()={}\[\]_/*+-.,><\-|°\^\\:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
   /**
@@ -473,7 +474,7 @@ export interface CreateWaiterDto {
   /**
    * @minLength 3
    * @maxLength 70
-   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
+   * @pattern [a-zA-Z0-9\p{Z}\"'`´#~!?$€&%()={}\[\]_/*+-.,><\-|°\^\\:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
   activated: boolean;
@@ -527,7 +528,7 @@ export interface CreateTableGroupDto {
   /**
    * @minLength 1
    * @maxLength 60
-   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
+   * @pattern [a-zA-Z0-9\p{Z}\"'`´#~!?$€&%()={}\[\]_/*+-.,><\-|°\^\\:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
   /** @pattern #([0-9A-Fa-f]{6})$ */
@@ -540,7 +541,7 @@ export interface CreateProductDto {
   /**
    * @minLength 1
    * @maxLength 70
-   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
+   * @pattern [a-zA-Z0-9\p{Z}\"'`´#~!?$€&%()={}\[\]_/*+-.,><\-|°\^\\:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
   allergenIds: number[];
@@ -565,7 +566,7 @@ export interface CreateProductGroupDto {
   /**
    * @minLength 1
    * @maxLength 60
-   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
+   * @pattern [a-zA-Z0-9\p{Z}\"'`´#~!?$€&%()={}\[\]_/*+-.,><\-|°\^\\:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
   /** @pattern #([0-9A-Fa-f]{6})$ */
@@ -578,7 +579,7 @@ export interface CreatePrinterDto {
   /**
    * @minLength 1
    * @maxLength 120
-   * @pattern ^[a-zA-Z0-9"'`´#~!?$€&%()=\[\]{}_\\/*+\-.,> <|°^:;ßäöüÄÖÜ\n\r]+$
+   * @pattern [a-zA-Z0-9\p{Z}\"'`´#~!?$€&%()={}\[\]_/*+-.,><\-|°\^\\:;ßäöüÄÖÜ\n\r]+$
    */
   name: string;
   /**
@@ -754,9 +755,11 @@ export interface GetTableGroupMinResponse {
   id: number;
   name: string;
   color?: string;
+  /** @format int32 */
+  position?: number;
 }
 
-export interface GetTableResponse {
+export interface GetTableWithGroupResponse {
   /** @format int64 */
   id: number;
   publicId: string;
@@ -765,22 +768,47 @@ export interface GetTableResponse {
   /** @format int32 */
   seats: number;
   /**
-   * Please use the 'group' property
+   * Please use the 'group.id' property
    * @deprecated
    * @format int64
    */
   groupId: number;
   /**
-   * Please use the 'group' property
+   * Please use the 'group.name' property
    * @deprecated
    */
   groupName: string;
   group: GetTableGroupMinResponse;
   /** @format int64 */
   eventId: number;
-  hasActiveOrders: boolean;
   /** @format date-time */
   deleted?: string;
+}
+
+export interface GetTableGroupResponse {
+  /** @format int64 */
+  id: number;
+  /** @format int64 */
+  eventId: number;
+  name: string;
+  /** @format int32 */
+  position?: number;
+  color?: string;
+  tables: GetTableMinResponse[];
+  /** @format date-time */
+  deleted?: string;
+}
+
+export interface GetTableMinResponse {
+  /** @format int64 */
+  id: number;
+  publicId: string;
+  /** @format int32 */
+  number: number;
+}
+
+export interface GetTableIdsWithActiveOrdersResponse {
+  tableIds: number[];
 }
 
 export interface SessionResponse {
@@ -882,14 +910,14 @@ export interface GetBillForTableResponse {
 export interface GetBillResponse {
   /** @format int64 */
   id: number;
-  table: GetTableMinResponse;
+  table: GetTableWithGroupMinResponse;
   waiter: GetWaiterMinResponse;
   /** @format date-time */
   createdAt: string;
   products: BillProductResponse[];
 }
 
-export interface GetTableMinResponse {
+export interface GetTableWithGroupMinResponse {
   /** @format int64 */
   id: number;
   publicId: string;
@@ -967,19 +995,6 @@ export interface GetUserResponse {
   activated: boolean;
   forcePasswordChange: boolean;
   role: 'ADMIN' | 'USER';
-}
-
-export interface GetTableGroupResponse {
-  /** @format int64 */
-  id: number;
-  name: string;
-  /** @format int64 */
-  eventId: number;
-  /** @format date-time */
-  deleted?: string;
-  /** @format int32 */
-  position?: number;
-  color?: string;
 }
 
 export interface StatisticsTimelineDataEntryResponse {
@@ -1150,7 +1165,7 @@ export interface OrganisationSettingResponse {
 export interface GetOrderMinResponse {
   /** @format int64 */
   id: number;
-  table: GetTableMinResponse;
+  table: GetTableWithGroupMinResponse;
   waiter: GetWaiterMinResponse;
   orderNumber: string;
   state: 'QUEUED' | 'IN_PROGRESS' | 'FINISHED';
@@ -1187,7 +1202,7 @@ export interface GetOrderProductResponse {
 export interface GetOrderResponse {
   /** @format int64 */
   id: number;
-  table: GetTableMinResponse;
+  table: GetTableWithGroupMinResponse;
   waiter: GetWaiterMinResponse;
   orderNumber: string;
   state: 'QUEUED' | 'IN_PROGRESS' | 'FINISHED';
@@ -1224,7 +1239,7 @@ export interface DeadLetterResponse {
 export interface GetBillMinResponse {
   /** @format int64 */
   id: number;
-  table: GetTableMinResponse;
+  table: GetTableWithGroupMinResponse;
   waiter: GetWaiterMinResponse;
   /** @format int32 */
   priceSum: number;

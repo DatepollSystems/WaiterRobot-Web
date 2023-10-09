@@ -1,4 +1,4 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
 import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
@@ -39,10 +39,8 @@ export class WaitersService
     return this.httpClient.get<GetWaiterResponse>(`${this.url}/${s_from(id)}`);
   }
 
-  getByParent$(id: number): Observable<GetWaiterResponse[]> {
-    return this.triggerGet$.pipe(
-      switchMap(() => this.httpClient.get<GetWaiterResponse[]>(this.url, {params: new HttpParams().set('eventId', id)})),
-    );
+  getByParent$(eventId: number): Observable<GetWaiterResponse[]> {
+    return this.triggerGet$.pipe(switchMap(() => this.httpClient.get<GetWaiterResponse[]>(this.url, {params: {eventId}})));
   }
 
   create$(dto: CreateWaiterDto): Observable<IdResponse> {

@@ -1,9 +1,9 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
-import {BehaviorSubject, filter, forkJoin, map, Observable, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, forkJoin, map, Observable, switchMap, tap} from 'rxjs';
 
-import {notNullAndUndefined, s_from} from 'dfts-helper';
+import {s_from} from 'dfts-helper';
 import {HasGetAll, HasGetSingle} from 'dfx-helper';
 
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
@@ -37,21 +37,15 @@ export class PrintersService
 
   getAll$(): Observable<GetPrinterResponse[]> {
     return this.triggerGet$.pipe(
-      switchMap(() =>
-        this.eventsService.getSelected$.pipe(
-          filter(notNullAndUndefined),
-          switchMap((selected) =>
-            this.httpClient.get<GetPrinterResponse[]>(this.url, {params: new HttpParams().set('eventId', selected.id)}),
-          ),
-          map((it) => {
-            it = it.map((ps) => {
-              ps.fontScale = ps.fontScale / 10;
-              return ps;
-            });
-            return it.sort((a, b) => a.name.trim().toLowerCase().localeCompare(b.name.trim().toLowerCase()));
-          }),
-        ),
-      ),
+      switchMap(() => this.eventsService.getSelectedNotNull$),
+      switchMap(({id: eventId}) => this.httpClient.get<GetPrinterResponse[]>(this.url, {params: {eventId}})),
+      map((it) => {
+        it = it.map((ps) => {
+          ps.fontScale = ps.fontScale / 10;
+          return ps;
+        });
+        return it.sort((a, b) => a.name.trim().toLowerCase().localeCompare(b.name.trim().toLowerCase()));
+      }),
     );
   }
 

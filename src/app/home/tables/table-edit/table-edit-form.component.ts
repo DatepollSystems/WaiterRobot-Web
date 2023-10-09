@@ -12,7 +12,7 @@ import {DfxTr} from 'dfx-translate';
 import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
-import {CreateTableDto, GetTableResponse, UpdateTableDto} from '../../../_shared/waiterrobot-backend';
+import {CreateTableDto, GetTableWithGroupResponse, UpdateTableDto} from '../../../_shared/waiterrobot-backend';
 import {TablesService} from '../_services/tables.service';
 
 @Component({
@@ -114,9 +114,9 @@ export class TableEditFormComponent extends AbstractModelEditFormComponent<Creat
     }),
   );
 
-  _table?: GetTableResponse;
+  _table?: GetTableWithGroupResponse;
   @Input()
-  set table(it: GetTableResponse | 'CREATE') {
+  set table(it: GetTableWithGroupResponse | 'CREATE') {
     if (it === 'CREATE') {
       this.isEdit = false;
       return;
@@ -127,7 +127,7 @@ export class TableEditFormComponent extends AbstractModelEditFormComponent<Creat
     this.form.patchValue({
       number: it.number,
       seats: it.seats,
-      groupId: it.groupId,
+      groupId: it.group.id,
       id: it.id,
     });
   }

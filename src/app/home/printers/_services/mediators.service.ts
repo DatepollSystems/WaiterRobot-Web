@@ -1,9 +1,8 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
-import {filter, Observable, switchMap} from 'rxjs';
+import {Observable, switchMap} from 'rxjs';
 
-import {notNullAndUndefined} from 'dfts-helper';
 import {HasGetAll} from 'dfx-helper';
 
 import {GetMediatorResponse} from '../../../_shared/waiterrobot-backend';
@@ -21,11 +20,8 @@ export class MediatorsService implements HasGetAll<GetMediatorResponse> {
   ) {}
 
   getAll$(): Observable<GetMediatorResponse[]> {
-    return this.organisationsService.getSelected$.pipe(
-      filter(notNullAndUndefined),
-      switchMap((organisation) =>
-        this.httpClient.get<GetMediatorResponse[]>(this.url, {params: new HttpParams().set('organisationId', organisation.id)}),
-      ),
+    return this.organisationsService.getSelectedNotNull$.pipe(
+      switchMap(({id: organisationId}) => this.httpClient.get<GetMediatorResponse[]>(this.url, {params: {organisationId}})),
     );
   }
 }

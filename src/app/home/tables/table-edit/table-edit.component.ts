@@ -11,15 +11,15 @@ import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
+import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directives';
+import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
-import {CreateTableDto, GetTableResponse, UpdateTableDto} from '../../../_shared/waiterrobot-backend';
+import {CreateTableDto, GetTableWithGroupResponse, UpdateTableDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TablesService} from '../_services/tables.service';
 import {TableEditFormComponent} from './table-edit-form.component';
 import {TableEditOrderProductsComponent} from './table-edit-order-products.component';
-import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
-import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directives';
 
 @Component({
   template: `
@@ -115,7 +115,12 @@ import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directi
     AppDeletedDirectives,
   ],
 })
-export class TableEditComponent extends AbstractModelEditComponent<CreateTableDto, UpdateTableDto, GetTableResponse, 'DATA' | 'ORDERS'> {
+export class TableEditComponent extends AbstractModelEditComponent<
+  CreateTableDto,
+  UpdateTableDto,
+  GetTableWithGroupResponse,
+  'DATA' | 'ORDERS'
+> {
   defaultTab = 'DATA' as const;
   override onlyEditingTabs = ['ORDERS' as const];
   override continuousUsePropertyNames = ['number', 'groupId', 'seats', 'eventId'];

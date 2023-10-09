@@ -1,9 +1,7 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 
-import {filter, switchMap} from 'rxjs';
-
-import {notNullAndUndefined} from 'dfts-helper';
+import {switchMap} from 'rxjs';
 
 import {StatisticsSumResponse} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
@@ -15,11 +13,10 @@ import {EventsService} from '../../events/_services/events.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SumProductsPerWaiterComponent {
-  sumDtos$ = this.eventsService.getSelected$.pipe(
-    filter(notNullAndUndefined),
-    switchMap((event) =>
+  sumDtos$ = this.eventsService.getSelectedNotNull$.pipe(
+    switchMap(({id: eventId}) =>
       this.httpClient.get<StatisticsSumResponse[]>('/config/statistics/sumProductsPerWaiter', {
-        params: new HttpParams().set('eventId', event.id),
+        params: {eventId},
       }),
     ),
   );

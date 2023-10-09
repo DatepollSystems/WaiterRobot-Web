@@ -1,4 +1,4 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
 import {BehaviorSubject, combineLatest, distinctUntilChanged, filter, map, Observable, shareReplay, switchMap, tap} from 'rxjs';
@@ -67,15 +67,13 @@ export class EventsService
     shareReplay(1),
   );
 
+  getSelectedNotNull$ = this.getSelected$.pipe(filter(notNullAndUndefined));
+
   triggerGet$ = new BehaviorSubject(true);
 
   getAll$(): Observable<GetEventOrLocationResponse[]> {
-    return combineLatest([this.triggerGet$, this.organisationsService.getSelected$.pipe(filter(notNullAndUndefined))]).pipe(
-      switchMap(([, organisation]) =>
-        this.httpClient.get<GetEventOrLocationResponse[]>(this.url, {
-          params: new HttpParams().set('organisationId', organisation.id),
-        }),
-      ),
+    return combineLatest([this.triggerGet$, this.organisationsService.getSelectedNotNull$]).pipe(
+      switchMap(([, {id: organisationId}]) => this.httpClient.get<GetEventOrLocationResponse[]>(this.url, {params: {organisationId}})),
       map((it) => it.sort((a, b) => a.name.trim().toLowerCase().localeCompare(b.name.trim().toLowerCase()))),
       tap((entities) => {
         const selected = this.selectedChange.getValue();

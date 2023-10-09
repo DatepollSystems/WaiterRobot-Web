@@ -1,4 +1,4 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 
 import {BehaviorSubject, map, Observable, of, switchMap, tap} from 'rxjs';
@@ -20,12 +20,10 @@ export class WaiterSessionsService
 
   convert = (it: SessionResponse): SessionModel => new SessionModel(it);
 
-  getByParent$(id: number): Observable<SessionModel[]> {
+  getByParent$(waiterId: number): Observable<SessionModel[]> {
     return this.triggerGet$.pipe(
       switchMap(() =>
-        this.httpClient
-          .get<SessionResponse[]>(this.url, {params: new HttpParams().set('waiterId', id)})
-          .pipe(map((it) => it.map((iit) => this.convert(iit)))),
+        this.httpClient.get<SessionResponse[]>(this.url, {params: {waiterId}}).pipe(map((it) => it.map((iit) => this.convert(iit)))),
       ),
     );
   }

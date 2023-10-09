@@ -1,24 +1,31 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
-import {BehaviorSubject, filter, Observable, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, combineLatest, map, Observable, switchMap, tap} from 'rxjs';
 
-import {notNullAndUndefined, s_from} from 'dfts-helper';
+import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from 'dfx-helper';
 
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
-import {CreateTableDto, GetTableGroupResponse, GetTableResponse, IdResponse, UpdateTableDto} from '../../../_shared/waiterrobot-backend';
+import {
+  CreateTableDto,
+  GetTableGroupResponse,
+  GetTableIdsWithActiveOrdersResponse,
+  GetTableWithGroupResponse,
+  IdResponse,
+  UpdateTableDto,
+} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 
 @Injectable({providedIn: 'root'})
 export class TablesService
   implements
-    HasGetAll<GetTableResponse>,
-    HasGetSingle<GetTableResponse>,
+    HasGetAll<GetTableWithGroupResponse>,
+    HasGetSingle<GetTableWithGroupResponse>,
     HasCreateWithIdResponse<CreateTableDto>,
     HasUpdateWithIdResponse<UpdateTableDto>,
-    HasGetByParent<GetTableResponse, GetTableGroupResponse>,
-    HasDelete<GetTableResponse>
+    HasGetByParent<GetTableWithGroupResponse, GetTableGroupResponse>,
+    HasDelete<GetTableWithGroupResponse>
 {
   url = '/config/table';
 
@@ -29,27 +36,42 @@ export class TablesService
 
   triggerGet$ = new BehaviorSubject(true);
 
-  getAll$(): Observable<GetTableResponse[]> {
+  getAll$(): Observable<GetTableWithGroupResponse[]> {
     return this.triggerGet$.pipe(
-      switchMap(() =>
-        this.eventsService.getSelected$.pipe(
-          filter(notNullAndUndefined),
-          switchMap((selected) =>
-            this.httpClient.get<GetTableResponse[]>(this.url, {params: new HttpParams().set('eventId', selected.id)}),
-          ),
-        ),
+      switchMap(() => this.eventsService.getSelectedNotNull$),
+      switchMap(({id: eventId}) =>
+        combineLatest([
+          this.httpClient.get<GetTableWithGroupResponse[]>(this.url, {params: {eventId}}),
+          this.getTableIdsWithActiveOrders$(eventId),
+        ]),
+      ),
+      map(([tables, tableIdsWithActiveOrders]) =>
+        tables.map((table) => ({...table, hasActiveOrders: tableIdsWithActiveOrders.tableIds.includes(table.id)})),
       ),
     );
   }
 
-  getByParent$(id: number): Observable<GetTableResponse[]> {
+  getByParent$(groupId: number): Observable<GetTableWithGroupResponse[]> {
     return this.triggerGet$.pipe(
-      switchMap(() => this.httpClient.get<GetTableResponse[]>(this.url, {params: new HttpParams().set('groupId', id)})),
+      switchMap(() => this.eventsService.getSelectedNotNull$),
+      switchMap(({id}) =>
+        combineLatest([
+          this.httpClient.get<GetTableWithGroupResponse[]>(this.url, {params: {groupId}}),
+          this.getTableIdsWithActiveOrders$(id),
+        ]),
+      ),
+      map(([tables, tableIdsWithActiveOrders]) =>
+        tables.map((table) => ({...table, hasActiveOrders: tableIdsWithActiveOrders.tableIds.includes(table.id)})),
+      ),
     );
   }
 
-  getSingle$(id: number): Observable<GetTableResponse> {
-    return this.httpClient.get<GetTableResponse>(`${this.url}/${s_from(id)}`);
+  private getTableIdsWithActiveOrders$(eventId: number): Observable<GetTableIdsWithActiveOrdersResponse> {
+    return this.httpClient.get<GetTableIdsWithActiveOrdersResponse>(`${this.url}/activeOrders`, {params: {eventId}});
+  }
+
+  getSingle$(id: number): Observable<GetTableWithGroupResponse> {
+    return this.httpClient.get<GetTableWithGroupResponse>(`${this.url}/${s_from(id)}`);
   }
 
   create$(dto: CreateTableDto): Observable<IdResponse> {
@@ -65,10 +87,6 @@ export class TablesService
   }
 
   checkIfExists(groupId: number, tableNumber: number): Observable<boolean> {
-    let params = new HttpParams();
-    params = params.append('groupId', groupId);
-    params = params.append('tableNumber', tableNumber);
-
-    return this.httpClient.get<boolean>('/config/table/existsByGroupIdAndNumber', {params});
+    return this.httpClient.get<boolean>('/config/table/existsByGroupIdAndNumber', {params: {groupId, tableNumber}});
   }
 }

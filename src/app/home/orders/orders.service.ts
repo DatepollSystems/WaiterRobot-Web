@@ -42,8 +42,7 @@ export class OrdersService implements HasGetSingle<GetOrderResponse> {
   }
 
   download$(): Observable<Download> {
-    return this.eventsService.getSelected$.pipe(
-      filter(notNullAndUndefined),
+    return this.eventsService.getSelectedNotNull$.pipe(
       switchMap((event) =>
         this.downloadService.download$(`${this.url}/export/${event.id}`, `orders_export_${n_generate_int(100, 9999)}.csv`),
       ),

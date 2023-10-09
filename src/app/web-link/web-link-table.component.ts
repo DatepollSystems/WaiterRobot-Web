@@ -10,7 +10,7 @@ import {DfxTr} from 'dfx-translate';
 import {AppBackDirective} from '../_shared/ui/button/app-back-button.component';
 import {DfxCurrencyCentPipe} from '../_shared/ui/currency.pipe';
 import {AppIconsModule} from '../_shared/ui/icons.module';
-import {GetBillForTableResponse, GetTableResponse} from '../_shared/waiterrobot-backend';
+import {GetBillForTableResponse, GetTableWithGroupResponse} from '../_shared/waiterrobot-backend';
 
 @Component({
   template: `
@@ -74,7 +74,7 @@ export class WebLinkTableComponent {
   );
 
   vm$ = combineLatest([
-    this.publicId$.pipe(switchMap((publicId) => this.httpClient.get<GetTableResponse>(`/public/table/${publicId}`))),
+    this.publicId$.pipe(switchMap((publicId) => this.httpClient.get<GetTableWithGroupResponse>(`/public/table/${publicId}`))),
     this.publicId$.pipe(switchMap((publicId) => this.httpClient.get<GetBillForTableResponse>(`/public/table/${publicId}/bills`))),
   ]).pipe(
     map(([table, bill]) => {

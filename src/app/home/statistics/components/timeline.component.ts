@@ -4,7 +4,7 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl} from '@angular/forms';
 
-import {BehaviorSubject, combineLatest, debounceTime, filter, map, merge, of, shareReplay, startWith, switchMap} from 'rxjs';
+import {BehaviorSubject, combineLatest, debounceTime, filter, map, merge, of, startWith, switchMap} from 'rxjs';
 
 import * as shape from 'd3-shape';
 
@@ -120,7 +120,7 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
 export class TimelineComponent {
   curve = shape.curveNatural;
 
-  selectedEvent$ = this.eventsService.getSelected$.pipe(filter(notNullAndUndefined), shareReplay(1));
+  selectedEvent$ = this.eventsService.getSelectedNotNull$;
   startDateFormControl = new FormControl<string>('');
   endDateFormControl = new FormControl<string>('');
 

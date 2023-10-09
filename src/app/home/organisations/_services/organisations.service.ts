@@ -1,9 +1,9 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
-import {BehaviorSubject, distinctUntilChanged, Observable, shareReplay, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, distinctUntilChanged, filter, Observable, shareReplay, switchMap, tap} from 'rxjs';
 
-import {o_fromStorage, s_from, st_set} from 'dfts-helper';
+import {notNullAndUndefined, o_fromStorage, s_from, st_set} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSelected, HasGetSingle} from 'dfx-helper';
 
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
@@ -52,6 +52,8 @@ export class OrganisationsService
   }
 
   getSelected$ = this.selectedChange.asObservable().pipe(distinctUntilChanged(), shareReplay(1));
+
+  getSelectedNotNull$ = this.getSelected$.pipe(filter(notNullAndUndefined));
 
   triggerGet$ = new BehaviorSubject(true);
 

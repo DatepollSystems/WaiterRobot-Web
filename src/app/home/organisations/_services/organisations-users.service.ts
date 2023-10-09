@@ -1,4 +1,4 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
 import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
@@ -19,10 +19,8 @@ export class OrganisationsUsersService {
 
   triggerGet$ = new BehaviorSubject(true);
 
-  getByOrganisationId$(id: number): Observable<OrganisationUserResponse[]> {
-    return this.triggerGet$.pipe(
-      switchMap(() => this.httpClient.get<OrganisationUserResponse[]>(this.url, {params: new HttpParams().set('organisationId', id)})),
-    );
+  getByOrganisationId$(organisationId: number): Observable<OrganisationUserResponse[]> {
+    return this.triggerGet$.pipe(switchMap(() => this.httpClient.get<OrganisationUserResponse[]>(this.url, {params: {organisationId}})));
   }
 
   delete$(organisationId: number, uEmail: string): Observable<unknown> {
