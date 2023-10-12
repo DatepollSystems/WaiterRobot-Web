@@ -1173,7 +1173,7 @@ export interface GetOrderMinResponse {
   processedAt?: string;
   /** @format date-time */
   createdAt: string;
-  orderProductStates: ('PRINTED' | 'SENT_TO_PRINT' | 'QUEUED')[];
+  orderProductPrintStates: ('PRINTED' | 'SENT_TO_PRINT' | 'QUEUED')[];
 }
 
 export interface PaginatedResponseGetOrderMinResponse {
@@ -1189,8 +1189,6 @@ export interface GetOrderProductResponse {
   id: number;
   product: GetProductMinResponse;
   note?: string;
-  /** @format int32 */
-  amount: number;
   printState: 'PRINTED' | 'SENT_TO_PRINT' | 'QUEUED';
   /** @format date-time */
   printedAt?: string;

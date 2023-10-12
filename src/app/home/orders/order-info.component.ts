@@ -31,7 +31,7 @@ import {OrdersService} from './orders.service';
       <div class="d-flex flex-wrap gap-2 mt-2 mb-4">
         <app-order-state-badge
           [orderState]="vm.order.state"
-          [orderProductStates]="vm.orderProductStates"
+          [orderProductPrintStates]="vm.orderProductPrintStates"
           [createdAt]="vm.order.createdAt"
           [processedAt]="vm.order.processedAt"
         />
@@ -120,7 +120,7 @@ export class OrderInfoComponent {
       createdAt.setSeconds(createdAt.getSeconds() + 60);
       return {
         order,
-        orderProductStates: order.orderProducts.map((it) => it.printState),
+        orderProductPrintStates: order.orderProducts.map((it) => it.printState),
         showRequeueButton: createdAt.getTime() < new Date().getTime(),
         countdown,
       };

@@ -73,7 +73,7 @@ import {GetOrderProductResponse, GetOrderResponse} from '../../../_shared/waiter
 })
 export class AppOrderStateBadgeComponent {
   @Input({required: true}) orderState!: GetOrderResponse['state'];
-  @Input({required: true}) set orderProductStates(it: GetOrderProductResponse['printState'][]) {
+  @Input({required: true}) set orderProductPrintStates(it: GetOrderProductResponse['printState'][]) {
     this.allProducts = it.length;
     this.printedProducts = it.length - it.filter((iit) => iit === 'QUEUED').length;
   }

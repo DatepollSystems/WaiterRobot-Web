@@ -20,7 +20,7 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
               <div class="fw-bold">
                 {{ i + 1 }})
                 <a routerLink="/home/products/{{ orderProduct.product.id }}">{{ orderProduct.product.name }}</a>
-                ({{ orderProduct.amount }}x)
+                (-100x)
               </div>
               <app-order-product-state-badge [printState]="orderProduct.printState" />
             </div>
