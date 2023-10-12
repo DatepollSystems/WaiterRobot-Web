@@ -1,11 +1,11 @@
 import {SelectionModel} from '@angular/cdk/collections';
 import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
 import {AfterViewInit, ChangeDetectionStrategy, Component, inject, ViewChild} from '@angular/core';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 
-import {debounceTime, distinctUntilChanged, forkJoin, map, Observable, shareReplay, tap} from 'rxjs';
+import {debounceTime, forkJoin, map, Observable, shareReplay, tap} from 'rxjs';
 
 import {NgbProgressbar, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {SortDirection} from 'dfx-bootstrap-table/lib/sort/sort-direction';
@@ -13,7 +13,6 @@ import {Download} from 'src/app/_shared/services/download.service';
 
 import {b_fromStorage, loggerOf, n_from, s_imploder, st_set} from 'dfts-helper';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
-import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {PaginatedDataSource} from '../../_shared/paginated-data-source';
@@ -50,10 +49,16 @@ import {OrdersService} from './orders.service';
         </div>
       </btn-toolbar>
 
-      <ng-container *ngIf="openInNewTabChanges$ | async" />
       <div class="form-check form-switch form-check-reverse">
         <label class="form-check-label" for="continuousCreation">In neuen Tab öffnen</label>
-        <input [formControl]="openInNewTab" class="form-check-input" type="checkbox" role="switch" id="continuousCreation" />
+        <input
+          [formControl]="openInNewTab"
+          (change)="setOpenInNewTab()"
+          class="form-check-input"
+          type="checkbox"
+          role="switch"
+          id="continuousCreation"
+        />
       </div>
     </div>
 
@@ -83,14 +88,14 @@ import {OrdersService} from './orders.service';
       </div>
     </form>
 
-    <div class="table-responsive" *ngSub="tableOptions$; let tableOptions">
+    <div class="table-responsive">
       <table
         ngb-table
         [hover]="true"
         [dataSource]="dataSource"
         ngb-sort
-        [ngbSortActive]="tableOptions?.sort ?? 'createdAt'"
-        [ngbSortDirection]="tableOptions?.direction ?? 'desc'"
+        [ngbSortActive]="tableOptions().sort"
+        [ngbSortDirection]="tableOptions().direction"
         (ngbSortChange)="updateQueryParams()"
       >
         <ng-container ngbColumnDef="select">
@@ -181,13 +186,13 @@ import {OrdersService} from './orders.service';
 
     <app-spinner-row *ngIf="!dataSource.data" />
 
+    <!-- Set collection size  -->
     <ngb-paginator
-      *ngIf="tableOptions$ | async as tableOptions"
-      [page]="tableOptions.page"
-      [pageSize]="tableOptions.pageSize"
-      (pageChange)="updateQueryParams()"
-      [collectionSize]="dataSource.data?.numberOfItems ?? 0"
+      [collectionSize]="dataSource.data?.numberOfItems ?? 1000000000"
+      [pageSize]="tableOptions().pageSize"
       [pageSizes]="[10, 20, 50, 100, 200]"
+      [page]="tableOptions().page"
+      (pageChange)="updateQueryParams()"
     />
   `,
   selector: 'app-all-orders',
@@ -210,7 +215,6 @@ import {OrdersService} from './orders.service';
     AppOrderRefreshButtonComponent,
     AppBtnToolbarComponent,
     AppSpinnerRowComponent,
-    NgSub,
   ],
 })
 export class AllOrdersComponent implements AfterViewInit {
@@ -222,13 +226,9 @@ export class AllOrdersComponent implements AfterViewInit {
   lumber = loggerOf('AllOrders');
 
   openInNewTab = new FormControl<boolean>(b_fromStorage('open_order_in_new_tab') ?? true);
-  openInNewTabChanges$ = this.openInNewTab.valueChanges.pipe(
-    distinctUntilChanged(),
-    tap((it) => st_set('open_order_in_new_tab', it ?? true)),
-  );
 
   @ViewChild(NgbSort) sort!: NgbSort;
-  @ViewChild(NgbPaginator) paginator?: NgbPaginator;
+  @ViewChild(NgbPaginator) paginator!: NgbPaginator;
   columnsToDisplay = ['select', 'orderNumber', 'state', 'table.tableGroup.name', 'waiter.name', 'createdAt', 'actions'];
   dataSource = new PaginatedDataSource<GetOrderMinResponse>(this.ordersService.getAllPaginatedFn());
   filter = new FormControl<string>('');
@@ -236,44 +236,54 @@ export class AllOrdersComponent implements AfterViewInit {
 
   download$?: Observable<Download>;
 
-  tableOptions$ = this.activatedRoute.queryParamMap.pipe(
-    map((it) => ({
-      page: it.get('page') ? n_from(it.get('page')) : 1,
-      pageSize: it.get('pageSize') ? n_from(it.get('pageSize')) : 50,
-      sort: it.get('sort') ?? 'createdAt',
-      direction: (it.get('direction') ?? 'desc') as SortDirection,
-    })),
-    shareReplay(1),
+  tableOptions = toSignal(
+    this.activatedRoute.queryParamMap.pipe(
+      map((it) => ({
+        page: it.get('page') ? n_from(it.get('page')) : 1,
+        pageSize: it.get('pageSize') ? n_from(it.get('pageSize')) : 50,
+        sort: it.get('sort') ?? 'createdAt',
+        direction: (it.get('direction') ?? 'desc') as SortDirection,
+      })),
+      shareReplay(1),
+    ),
+    {
+      initialValue: {
+        page: 1,
+        pageSize: 50,
+        sort: 'createdAt',
+        direction: 'desc' as SortDirection,
+      },
+    },
   );
 
   constructor() {
-    this.filter.valueChanges
-      .pipe(
-        takeUntilDestroyed(),
-        debounceTime(700),
-        tap((it) => {
-          this.dataSource.filter = it ?? '';
-        }),
-      )
-      .subscribe();
+    this.filter.valueChanges.pipe(
+      takeUntilDestroyed(),
+      debounceTime(700),
+      tap((it) => {
+        this.dataSource.filter = it ?? '';
+      }),
+    );
+  }
+
+  setOpenInNewTab(): void {
+    st_set('open_order_in_new_tab', this.openInNewTab.value ?? true);
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator!;
+    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
   updateQueryParams(): void {
-    const queryParams = {
-      pageSize: this.paginator?.pageSize ?? 50,
-      page: this.paginator?.page ?? 1,
-      sort: this.sort.active,
-      direction: this.sort.direction,
-    };
-    console.warn('query params', queryParams);
     void this.router.navigate([], {
       relativeTo: this.activatedRoute,
-      queryParams,
+      queryParams: {
+        pageSize: this.paginator.pageSize,
+        page: this.paginator.page,
+        sort: this.sort.active,
+        direction: this.sort.direction,
+      },
       queryParamsHandling: 'merge', // remove to replace all query params by provided
     });
   }
