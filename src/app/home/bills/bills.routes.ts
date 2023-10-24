@@ -10,6 +10,7 @@ export const ROUTES: Routes = [
     canActivate: [organisationSelectedGuard, eventSelectedGuard],
     children: [
       {path: 'all', loadComponent: () => import('./all-bills.component').then((c) => c.AllBillsComponent)},
+      {path: ':id', loadComponent: () => import('./bill-info.component').then((c) => c.BillInfoComponent)},
       {path: '', pathMatch: 'full', redirectTo: 'all'},
     ],
   },

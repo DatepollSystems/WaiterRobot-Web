@@ -10,33 +10,33 @@ import {DfxTr} from 'dfx-translate';
 import {AppBackDirective} from '../_shared/ui/button/app-back-button.component';
 import {DfxCurrencyCentPipe} from '../_shared/ui/currency.pipe';
 import {AppIconsModule} from '../_shared/ui/icons.module';
-import {GetBillForTableResponse, GetTableWithGroupResponse} from '../_shared/waiterrobot-backend';
+import {GetOpenBillResponse, GetTableWithGroupResponse} from '../_shared/waiterrobot-backend';
 
 @Component({
   template: `
     <div class="mb-5" *ngIf="vm$ | async as vm">
       <h1 class="text-center">
-        Tisch <b>{{ vm.table.groupName }} - {{ vm.table.number }}</b>
+        Tisch <b>{{ vm.table.group.name }} - {{ vm.table.number }}</b>
       </h1>
       <h4 class="my-3">Offene Rechnung:</h4>
 
-      <ng-container *ngIf="vm.bill.products.length > 0; else everythingPaid">
+      <ng-container *ngIf="vm.bill.implodedOrderProducts.length > 0; else everythingPaid">
         <ul class="list-group">
-          <li class="list-group-item" *ngFor="let product of vm.bill.products">
+          <li class="list-group-item" *ngFor="let orderProduct of vm.bill.implodedOrderProducts">
             <div class="d-flex justify-content-between align-items-center">
-              <div class="fw-bold">{{ product.name }}</div>
-              <span class="badge bg-secondary rounded-pill">{{ product.amount }}x</span>
+              <div class="fw-bold">{{ orderProduct.name }}</div>
+              <span class="badge bg-secondary rounded-pill">{{ orderProduct.amount }}x</span>
             </div>
             <div class="d-flex justify-content-between align-items-center">
-              <small>({{ product.pricePerPiece | currency: 'EUR' }} / Stück)</small>
-              <span>{{ product.pricePerPiece * product.amount | currency: 'EUR' }}</span>
+              <small>({{ orderProduct.pricePerPiece | currency: 'EUR' }} / Stück)</small>
+              <span>{{ orderProduct.priceSum | currency: 'EUR' }}</span>
             </div>
           </li>
         </ul>
 
         <hr />
-        <div class="d-flex justify-content-between">
-          <span>Gesamt:</span> <span>{{ vm.priceSum | currency: 'EUR' }}</span>
+        <div class="d-flex justify-content-between px-2">
+          <span>Gesamt:</span> <span>{{ vm.bill.priceSum | currency: 'EUR' }}</span>
         </div>
         <hr />
       </ng-container>
@@ -75,18 +75,11 @@ export class WebLinkTableComponent {
 
   vm$ = combineLatest([
     this.publicId$.pipe(switchMap((publicId) => this.httpClient.get<GetTableWithGroupResponse>(`/public/table/${publicId}`))),
-    this.publicId$.pipe(switchMap((publicId) => this.httpClient.get<GetBillForTableResponse>(`/public/table/${publicId}/bills`))),
+    this.publicId$.pipe(switchMap((publicId) => this.httpClient.get<GetOpenBillResponse>(`/public/table/${publicId}/bill`))),
   ]).pipe(
-    map(([table, bill]) => {
-      let priceSum = 0;
-      for (const p of bill.products) {
-        priceSum += p.pricePerPiece * p.amount;
-      }
-      return {
-        table,
-        bill,
-        priceSum,
-      };
-    }),
+    map(([table, bill]) => ({
+      table,
+      bill,
+    })),
   );
 }

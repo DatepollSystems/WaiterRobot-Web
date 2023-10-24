@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
-import {BehaviorSubject, filter, Observable, switchMap} from 'rxjs';
+import {BehaviorSubject, filter, map, Observable, switchMap, timer} from 'rxjs';
 
 import {notNullAndUndefined} from 'dfts-helper';
 import {HasGetSingle} from 'dfx-helper';
@@ -19,10 +19,21 @@ export class BillsService implements HasGetSingle<GetBillResponse> {
     private eventsService: EventsService,
   ) {}
 
+  private readonly refreshIn = 30;
+
   public triggerRefresh = new BehaviorSubject<boolean>(true);
 
+  countdown$ = (): Observable<number> =>
+    this.triggerRefresh.pipe(
+      switchMap(() => timer(0, 1000)),
+      map((tick) => this.refreshIn - (tick % this.refreshIn)),
+    );
+
   getSingle$(id: GetBillResponse['id']): Observable<GetBillResponse> {
-    return this.triggerRefresh.pipe(switchMap(() => this.httpClient.get<GetBillResponse>(`${this.url}/${id}`)));
+    return this.triggerRefresh.pipe(
+      switchMap(() => timer(0, this.refreshIn * 1000)),
+      switchMap(() => this.httpClient.get<GetBillResponse>(`${this.url}/${id}`)),
+    );
   }
 
   getAllPaginatedFn(): GetPaginatedFn<GetBillMinResponse> {

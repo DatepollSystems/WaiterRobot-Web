@@ -1,13 +1,11 @@
-import {AsyncPipe, DatePipe, NgClass, NgIf} from '@angular/common';
+import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
 import {combineLatest, map, switchMap} from 'rxjs';
 
-import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
-import {a_pluck} from 'dfts-helper';
-import {DfxArrayPluck} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
@@ -90,21 +88,15 @@ import {OrdersService} from './orders.service';
     NgIf,
     AsyncPipe,
     DatePipe,
+    AppIconsModule,
     AppBtnToolbarComponent,
     AppBackButtonComponent,
     AppOrderStateBadgeComponent,
     AppOrderRefreshButtonComponent,
-    AppIconsModule,
-    NgbDropdown,
-    NgbDropdownMenu,
-    NgbDropdownToggle,
-    NgbDropdownItem,
     AppOrderProductsListComponent,
-    NgClass,
     RouterLink,
     DfxTr,
     NgbTooltip,
-    DfxArrayPluck,
   ],
 })
 export class OrderInfoComponent {
@@ -142,6 +134,4 @@ export class OrderInfoComponent {
       }
     });
   }
-
-  protected readonly a_pluck = a_pluck;
 }

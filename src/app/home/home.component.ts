@@ -108,7 +108,7 @@ export class HomeComponent {
     {text: 'NAV_PRINTERS', routerLink: 'printers'},
     {text: 'NAV_WAITERS', routerLink: 'waiters'},
     {text: 'NAV_ORDERS', routerLink: 'orders'},
-    //{text: 'NAV_BILLS', routerLink: 'bills'},
+    {text: 'NAV_BILLS', routerLink: 'bills'},
     {text: 'NAV_STATISTICS', routerLink: 'statistics'},
   ];
 

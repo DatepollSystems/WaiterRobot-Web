@@ -23,7 +23,7 @@ export class OrdersService implements HasGetSingle<GetOrderResponse> {
     private notificationService: NotificationService,
   ) {}
 
-  public readonly refreshIn = 30;
+  private readonly refreshIn = 30;
 
   public triggerRefresh = new BehaviorSubject<boolean>(true);
 

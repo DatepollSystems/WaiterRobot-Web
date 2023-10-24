@@ -10,17 +10,12 @@ import {DfxTr} from 'dfx-translate';
 import {AppIconsModule} from '../../../../_shared/ui/icons.module';
 import {GetOrderProductResponse} from '../../../../_shared/waiterrobot-backend';
 import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
-import {AppOrderProductsListCardsComponent} from './app-order-products-list-cards.component';
 import {AppOrderProductsListTableComponent} from './app-order-products-list-table.component';
 
 @Component({
   template: `
     <ng-container *ngIf="vm$ | async as vm">
       <div class="d-flex flex-column flex-sm-row gap-2 justify-content-between mb-4">
-        <div class="btn-group">
-          <button class="btn btn-sm btn-primary" (click)="setViewStyle('TABLE')" [class.active]="vm.viewStyle === 'TABLE'">Tabelle</button>
-          <button class="btn btn-sm btn-primary" (click)="setViewStyle('CARD')" [class.active]="vm.viewStyle === 'CARD'">Kacheln</button>
-        </div>
         <div class="d-flex align-items-center gap-2">
           <span>Gruppierung:</span>
           <div class="btn-group">
@@ -34,10 +29,7 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
 
       <ng-container [ngSwitch]="vm.groupedBy">
         <div *ngSwitchCase="'OFF'">
-          <ng-container [ngSwitch]="vm.viewStyle">
-            <app-order-products-list-cards *ngSwitchCase="'CARD'" [orderProducts]="_orderProducts" />
-            <app-order-products-list-table *ngSwitchCase="'TABLE'" [orderProducts]="_orderProducts" />
-          </ng-container>
+          <app-order-products-list-table [orderProducts]="_orderProducts" />
         </div>
 
         <ng-container *ngSwitchCase="'PRINTER'">
@@ -55,10 +47,7 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
                 </div>
               </div>
               <div class="card-body">
-                <ng-container [ngSwitch]="vm.viewStyle">
-                  <app-order-products-list-cards *ngSwitchCase="'CARD'" [orderProducts]="groups.value.orderProducts" />
-                  <app-order-products-list-table *ngSwitchCase="'TABLE'" [orderProducts]="groups.value.orderProducts" />
-                </ng-container>
+                <app-order-products-list-table [orderProducts]="groups.value.orderProducts" />
               </div>
             </div>
           </div>
@@ -80,7 +69,6 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
     RouterLink,
     KeyValuePipe,
     AppOrderProductsListTableComponent,
-    AppOrderProductsListCardsComponent,
     AppIconsModule,
   ],
   selector: 'app-order-products-list',
@@ -99,14 +87,6 @@ export class AppOrderProductsListComponent {
 
   orderProducts$ = new BehaviorSubject<GetOrderProductResponse[]>([]);
 
-  viewStyle$ = new BehaviorSubject<orderProductViewStyleType>(
-    (s_fromStorage('order_product_view_pref') as orderProductViewStyleType | undefined) ?? 'TABLE',
-  );
-
-  setViewStyle(it: orderProductViewStyleType): void {
-    this.viewStyle$.next(it);
-    st_set('order_product_view_pref', it);
-  }
   groupedBy$ = new BehaviorSubject<orderProductGroupedByType>(
     (s_fromStorage('order_product_grouped_pref') as orderProductGroupedByType | undefined) ?? 'OFF',
   );
@@ -128,10 +108,9 @@ export class AppOrderProductsListComponent {
     }),
   );
 
-  vm$ = combineLatest([this.viewStyle$, this.groupedBy$]).pipe(map(([viewStyle, groupedBy]) => ({viewStyle, groupedBy})));
+  vm$ = combineLatest([this.groupedBy$]).pipe(map(([groupedBy]) => ({groupedBy})));
 }
 
-type orderProductViewStyleType = 'CARD' | 'TABLE';
 type orderProductGroupedByType = 'OFF' | 'PRINTER';
 
 type groupedType = {

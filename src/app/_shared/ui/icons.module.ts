@@ -23,6 +23,7 @@ import {
   checkCircleFill,
   clipboard,
   columnsGap,
+  coneStriped,
   diagram3,
   exclamationTriangleFill,
   fileLock,
@@ -119,6 +120,7 @@ const icons = {
   braces,
   arrowsExpand,
   arrowsCollapse,
+  coneStriped,
 };
 
 @NgModule({
