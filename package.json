@@ -51,7 +51,7 @@
     "ngx-bootstrap-icons": "1.9.2",
     "ngx-color": "^9.0.0",
     "rxjs": "7.8.1",
-    "tslib": "2.6.1",
+    "tslib": "2.6.2",
     "zone.js": "0.14.1"
   },
   "devDependencies": {
@@ -87,7 +87,7 @@
     "purgecss": "5.0.0",
     "source-map-explorer": "2.5.3",
     "swagger-typescript-api": "^13.0.0",
-    "typescript": "5.1.6",
+    "typescript": "5.2.2",
     "webpack-bundle-analyzer": "4.9.1"
   },
   "lint-staged": {
