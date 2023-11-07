@@ -18,10 +18,10 @@ jobs:
     name: Build prod
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v4
 
       - name: setup node and pnpm
-        uses: dafnik/setup-node-pnpm@v1
+        uses: dafnik/setup-node-pnpm@v2
         with:
           install: true
 
@@ -32,10 +32,10 @@ jobs:
     name: Build lava
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v4
 
       - name: setup node and pnpm
-        uses: dafnik/setup-node-pnpm@v1
+        uses: dafnik/setup-node-pnpm@v2
         with:
           install-ignore-scripts: true
 
@@ -44,7 +44,7 @@ jobs:
           chmod +x ./tools/buildLava.sh
           ./tools/buildLava.sh
 
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@v3
         name: upload artifact
         with:
           name: WaiterRobot-Web-lava
@@ -57,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop'
     steps:
-      - uses: actions/download-artifact@master
+      - uses: actions/download-artifact@v3
         with:
           name: WaiterRobot-Web-lava
           path: ./dist/WaiterRobot-Web
@@ -86,7 +86,7 @@ jobs:
     if: github.ref == 'refs/heads/develop'
     steps:
       - name: fetching new version on lava server
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.LAVA_SSH_HOST }}
           username: ${{ secrets.LAVA_SSH_USER }}
@@ -98,10 +98,10 @@ jobs:
     name: Build localfire
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v4
 
       - name: setup node and pnpm
-        uses: dafnik/setup-node-pnpm@v1
+        uses: dafnik/setup-node-pnpm@v2
         with:
           install-ignore-scripts: true
 
@@ -110,7 +110,7 @@ jobs:
           chmod +x ./tools/buildLocalfire.sh
           ./tools/buildLocalfire.sh
 
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@v3
         name: upload artifact
         with:
           name: WaiterRobot-Web-localfire
@@ -123,7 +123,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop'
     steps:
-      - uses: actions/download-artifact@master
+      - uses: actions/download-artifact@v3
         with:
           name: WaiterRobot-Web-localfire
           path: ./dist/WaiterRobot-Web
@@ -152,7 +152,7 @@ jobs:
     if: github.ref == 'refs/heads/develop'
     steps:
       - name: fetching new version on lava server
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.LAVA_SSH_HOST }}
           username: ${{ secrets.LAVA_SSH_USER }}
