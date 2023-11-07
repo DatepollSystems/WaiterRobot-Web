@@ -6,25 +6,24 @@ import {NgbPopover} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTr} from 'dfx-translate';
 
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
-import {GetBillResponse} from '../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
     <div
       [ngClass]="{
-        'text-bg-warning': paymentState === 'UNPAID',
-        'text-bg-success': paymentState === 'PAID'
+        'text-bg-warning': !!unpaidReason,
+        'text-bg-success': !unpaidReason
       }"
       class="badge not-selectable"
       style="width: min-content"
     >
-      <ng-container [ngSwitch]="paymentState">
-        <div *ngSwitchCase="'PAID'" class="d-flex gap-2 align-items-center">
+      <ng-container [ngSwitch]="!unpaidReason">
+        <div *ngSwitchCase="true" class="d-flex gap-2 align-items-center">
           <i-bs name="check2-square" />
           <span>{{ 'Bezahlt' | tr }}</span>
         </div>
         <div
-          *ngSwitchCase="'UNPAID'"
+          *ngSwitchCase="false"
           class="d-flex gap-2 align-items-center"
           [ngbPopover]="unpaidReason ? popContent : null"
           placement="right"
@@ -46,6 +45,5 @@ import {GetBillResponse} from '../../../_shared/waiterrobot-backend';
   imports: [NgClass, AppIconsModule, DfxTr, NgSwitch, NgSwitchCase, DatePipe, NgIf, NgbPopover],
 })
 export class AppBillPaymentStateBadgeComponent {
-  @Input({required: true}) paymentState!: GetBillResponse['paymentState'];
   @Input() unpaidReason?: string;
 }

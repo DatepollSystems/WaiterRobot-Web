@@ -5,12 +5,12 @@ import {RouterLink} from '@angular/router';
 import {Subject} from 'rxjs';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {GetImplodedOrderProductResponse} from 'src/app/_shared/waiterrobot-backend';
 
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {GetOrderProductResponse} from '../../../../_shared/waiterrobot-backend';
 import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
 
 @Component({
@@ -78,15 +78,15 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrderProductsListTableComponent implements AfterViewInit {
-  @Input({required: true}) orderProducts!: GetOrderProductResponse[];
+  @Input({required: true}) orderProducts!: GetImplodedOrderProductResponse[];
 
   @ViewChild(NgbSort) sort?: NgbSort;
   columnsToDisplay = ['product', 'note', 'printState', 'printedBy'];
 
-  dataSource$ = new Subject<NgbTableDataSource<GetOrderProductResponse>>();
+  dataSource$ = new Subject<NgbTableDataSource<GetImplodedOrderProductResponse>>();
 
   ngAfterViewInit(): void {
-    const dataSource = new NgbTableDataSource<GetOrderProductResponse>(this.orderProducts);
+    const dataSource = new NgbTableDataSource<GetImplodedOrderProductResponse>(this.orderProducts);
     dataSource.sortingDataAccessor = (item, property: string) => {
       switch (property) {
         case 'product':
@@ -94,7 +94,7 @@ export class AppOrderProductsListTableComponent implements AfterViewInit {
         case 'printedBy':
           return item.printedBy.name;
         default:
-          return item[property as keyof GetOrderProductResponse] as string | number;
+          return item[property as keyof GetImplodedOrderProductResponse] as string | number;
       }
     };
     dataSource.sort = this.sort;

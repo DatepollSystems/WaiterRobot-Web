@@ -10,6 +10,7 @@ import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bo
 import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
+import {DfxCurrencyCentPipe} from '../../../_shared/ui/currency.pipe';
 import {GetImplodedBillProductResponse} from '../../../_shared/waiterrobot-backend';
 
 @Component({
@@ -30,13 +31,13 @@ import {GetImplodedBillProductResponse} from '../../../_shared/waiterrobot-backe
 
         <ng-container ngbColumnDef="pricePerPiece">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'PRICE' | tr }}</th>
-          <td *ngbCellDef="let order" ngb-cell>{{ order.pricePaidPerPiece }} / Stück</td>
+          <td *ngbCellDef="let order" ngb-cell>{{ order.pricePaidPerPiece | currency }} / Stück</td>
         </ng-container>
 
         <ng-container ngbColumnDef="priceSum">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'PRICE' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
-            {{ order.pricePaidSum }}
+            {{ order.pricePaidSum | currency }}
           </td>
         </ng-container>
 
@@ -47,7 +48,7 @@ import {GetImplodedBillProductResponse} from '../../../_shared/waiterrobot-backe
   `,
   standalone: true,
   selector: 'app-bill-products-list-table',
-  imports: [DfxSortModule, DfxTableModule, DfxTr, AsyncPipe, NgIf, DatePipe, RouterLink, NgSub, NgbTooltip],
+  imports: [DfxSortModule, DfxTableModule, DfxTr, AsyncPipe, NgIf, DatePipe, RouterLink, NgSub, NgbTooltip, DfxCurrencyCentPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrderProductsListTableComponent implements AfterViewInit {

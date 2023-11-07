@@ -11,6 +11,7 @@ import {DfxTr} from 'dfx-translate';
 import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
 import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {DfxCurrencyCentPipe} from '../../_shared/ui/currency.pipe';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppBillPaymentStateBadgeComponent} from './_components/app-bill-payment-state-badge.component';
 import {AppOrderProductsListTableComponent} from './_components/app-bill-products-list-table.component';
@@ -26,7 +27,7 @@ import {BillsService} from './bills.service';
       </div>
 
       <div class="d-flex flex-wrap gap-2 mt-2 mb-4">
-        <app-bill-payment-state-badge [paymentState]="vm.bill.paymentState" [unpaidReason]="vm.bill.unpaidReason?.reason" />
+        <app-bill-payment-state-badge [unpaidReason]="vm.bill.unpaidReason?.reason" />
 
         <span class="badge bg-secondary d-flex align-items-center gap-2 ms-md-5 not-selectable" ngbTooltip="Erstellt um">
           <i-bs name="save" />
@@ -59,6 +60,8 @@ import {BillsService} from './bills.service';
       <hr />
 
       <app-bill-products-list-table [billProducts]="vm.bill.implodedBillProducts" />
+
+      <p>Gesamt: {{ vm.bill.pricePaidSum | currency }}</p>
     </ng-container>
   `,
   selector: 'app-orders-info',
@@ -77,6 +80,7 @@ import {BillsService} from './bills.service';
     NgbTooltip,
     AppBillPaymentStateBadgeComponent,
     AppOrderProductsListTableComponent,
+    DfxCurrencyCentPipe,
   ],
 })
 export class BillInfoComponent {

@@ -8,7 +8,7 @@ import {s_fromStorage, st_set} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {AppIconsModule} from '../../../../_shared/ui/icons.module';
-import {GetOrderProductResponse} from '../../../../_shared/waiterrobot-backend';
+import {GetImplodedOrderProductResponse} from '../../../../_shared/waiterrobot-backend';
 import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
 import {AppOrderProductsListTableComponent} from './app-order-products-list-table.component';
 
@@ -75,17 +75,17 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
   standalone: true,
 })
 export class AppOrderProductsListComponent {
-  @Input({required: true}) set orderProducts(it: GetOrderProductResponse[]) {
+  @Input({required: true}) set orderProducts(it: GetImplodedOrderProductResponse[]) {
     this._orderProducts = it;
     this.orderProducts$.next(this._orderProducts);
   }
-  _orderProducts!: GetOrderProductResponse[];
+  _orderProducts!: GetImplodedOrderProductResponse[];
 
   @Input({transform: booleanAttribute}) showRequeueButton = false;
 
   @Output() requeueOrdersOfPrinter = new EventEmitter<number>();
 
-  orderProducts$ = new BehaviorSubject<GetOrderProductResponse[]>([]);
+  orderProducts$ = new BehaviorSubject<GetImplodedOrderProductResponse[]>([]);
 
   groupedBy$ = new BehaviorSubject<orderProductGroupedByType>(
     (s_fromStorage('order_product_grouped_pref') as orderProductGroupedByType | undefined) ?? 'OFF',
@@ -100,7 +100,8 @@ export class AppOrderProductsListComponent {
     map(([orderProducts]) => {
       const groups = new Map<number, groupedType>();
       for (const orderProduct of orderProducts) {
-        const group = groups.get(orderProduct.printedBy.id) ?? {printerName: orderProduct.printedBy.name, orderProducts: []};
+        const group =
+          groups.get(orderProduct.printedBy.id) ?? ({printerName: orderProduct.printedBy.name, orderProducts: []} as groupedType);
         group.orderProducts.push(orderProduct);
         groups.set(orderProduct.printedBy.id, group);
       }
@@ -115,5 +116,5 @@ type orderProductGroupedByType = 'OFF' | 'PRINTER';
 
 type groupedType = {
   printerName: string;
-  orderProducts: GetOrderProductResponse[];
+  orderProducts: GetImplodedOrderProductResponse[];
 };

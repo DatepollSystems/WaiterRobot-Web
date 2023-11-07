@@ -10,8 +10,8 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayPluck, DfxImplodePipe, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
 import {AppSoldOutPipe} from '../../_shared/ui/app-sold-out.pipe';
+import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
 import {DfxCurrencyCentPipe} from '../../_shared/ui/currency.pipe';
 import {AppOrderModeSwitchComponent} from '../../_shared/ui/form/app-order-mode-switch.component';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
@@ -121,7 +121,7 @@ import {ProductsService} from './_services/products.service';
 
           <ng-container ngbColumnDef="price">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_PRICE' | tr }}</th>
-            <td *ngbCellDef="let product" ngb-cell>{{ product.price | currency: 'EUR' }}</td>
+            <td *ngbCellDef="let product" ngb-cell>{{ product.price | currency }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="soldOut">

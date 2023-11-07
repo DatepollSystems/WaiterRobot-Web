@@ -1,4 +1,3 @@
- 
 /* tslint:disable */
 /*
  * ---------------------------------------------------------------
@@ -322,6 +321,22 @@ export interface UpdateEventOrLocationDto {
   updateWaiterCreateToken?: boolean;
 }
 
+export interface UpdateBillUnpaidReasonDto {
+  /** @format int64 */
+  id: number;
+  /**
+   * @minLength 1
+   * @maxLength 120
+   * @pattern [a-zA-Z0-9\p{Z}\"'`´#~!?$€&%()={}\[\]_/*+-.,><\-|°\^\\:;ßäöüÄÖÜ\n\r]+$
+   */
+  reason: string;
+  /**
+   * @minLength 1
+   * @maxLength 120
+   */
+  description: string;
+}
+
 export interface UpdateAllergenDto {
   /**
    * @format int64
@@ -343,7 +358,6 @@ export interface PayBillDto {
    * @min 1
    */
   tableId: number;
-  paymentState: 'UNPAID' | 'PAID';
   /** @format int64 */
   unpaidReasonId?: number;
   /**
@@ -362,7 +376,6 @@ export interface GetBillResponse {
   createdAt: string;
   /** @format int32 */
   pricePaidSum: number;
-  paymentState: 'UNPAID' | 'PAID';
   unpaidReason?: GetBillUnpaidReasonMinResponse;
   implodedBillProducts: GetImplodedBillProductResponse[];
 }
@@ -371,6 +384,7 @@ export interface GetBillUnpaidReasonMinResponse {
   /** @format int64 */
   id: number;
   reason: string;
+  isGlobal: boolean;
 }
 
 export interface GetImplodedBillProductResponse {
@@ -453,31 +467,19 @@ export interface CreateOrderProductDto {
   id: number;
   /**
    * @minLength 0
-   * @maxLength 100
+   * @maxLength 120
    * @pattern [a-zA-Z0-9\p{Z}\"'`´#~!?$€&%()={}\[\]_/*+-.,><\-|°\^\\:;ßäöüÄÖÜ\n\r]+$
    */
   note?: string;
   /**
    * @format int32
    * @min 1
-   * @max 200
+   * @max 400
    */
   amount: number;
 }
 
-export interface GetBillProductResponse {
-  /** @format int64 */
-  id: number;
-  name: string;
-  /** @format int32 */
-  pricePaid: number;
-  /** @format int64 */
-  productId: number;
-}
-
-export interface GetOrderProductResponse {
-  /** @format int64 */
-  id: number;
+export interface GetImplodedOrderProductResponse {
   product: GetProductMinResponse;
   note?: string;
   printState: 'PRINTED' | 'SENT_TO_PRINT' | 'QUEUED';
@@ -486,7 +488,9 @@ export interface GetOrderProductResponse {
   /** @format date-time */
   sentToPrinterAt?: string;
   printedBy: GetPrinterMinResponse;
-  billProduct?: GetBillProductResponse;
+  /** @format int32 */
+  amount: number;
+  orderProductIds: number[];
 }
 
 export interface GetOrderResponse {
@@ -500,7 +504,7 @@ export interface GetOrderResponse {
   processedAt?: string;
   /** @format date-time */
   createdAt: string;
-  orderProducts: GetOrderProductResponse[];
+  orderProducts: GetImplodedOrderProductResponse[];
 }
 
 export interface GetPrinterMinResponse {
@@ -829,6 +833,22 @@ export interface CreateEventOrLocationDto {
   endDate?: string;
   /** @format int64 */
   organisationId: number;
+}
+
+export interface CreateBillUnpaidReasonDto {
+  /**
+   * @minLength 1
+   * @maxLength 120
+   * @pattern [a-zA-Z0-9\p{Z}\"'`´#~!?$€&%()={}\[\]_/*+-.,><\-|°\^\\:;ßäöüÄÖÜ\n\r]+$
+   */
+  reason: string;
+  /**
+   * @minLength 1
+   * @maxLength 120
+   */
+  description: string;
+  /** @format int64 */
+  eventId?: number;
 }
 
 export interface CreateAllergenDto {
@@ -1320,6 +1340,7 @@ export interface GetBillMinResponse {
   createdAt: string;
   /** @format int32 */
   pricePaidSum: number;
+  unpaidReason?: GetBillUnpaidReasonMinResponse;
 }
 
 export interface PaginatedResponseGetBillMinResponse {

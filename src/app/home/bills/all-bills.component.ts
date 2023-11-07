@@ -54,14 +54,14 @@ import {BillsService} from './bills.service';
         <ng-container ngbColumnDef="paymentState">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'Payment State' | tr }}</th>
           <td *ngbCellDef="let bill" ngb-cell>
-            <app-bill-payment-state-badge [paymentState]="bill.paymentState" [unpaidReason]="bill.unpaidReason?.reason" />
+            <app-bill-payment-state-badge [unpaidReason]="bill.unpaidReason?.reason" />
           </td>
         </ng-container>
 
         <ng-container ngbColumnDef="price">
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'PRICE' | tr }}</th>
           <td *ngbCellDef="let bill" ngb-cell>
-            {{ bill.pricePaidSum | currency: 'EUR' }}
+            {{ bill.pricePaidSum | currency }}
           </td>
         </ng-container>
 

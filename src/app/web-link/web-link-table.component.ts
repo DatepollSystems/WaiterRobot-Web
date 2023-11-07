@@ -28,15 +28,15 @@ import {GetOpenBillResponse, GetTableWithGroupResponse} from '../_shared/waiterr
               <span class="badge bg-secondary rounded-pill">{{ orderProduct.amount }}x</span>
             </div>
             <div class="d-flex justify-content-between align-items-center">
-              <small>({{ orderProduct.pricePerPiece | currency: 'EUR' }} / Stück)</small>
-              <span>{{ orderProduct.priceSum | currency: 'EUR' }}</span>
+              <small>({{ orderProduct.pricePerPiece | currency }} / Stück)</small>
+              <span>{{ orderProduct.priceSum | currency }}</span>
             </div>
           </li>
         </ul>
 
         <hr />
         <div class="d-flex justify-content-between px-2">
-          <span>Gesamt:</span> <span>{{ vm.bill.priceSum | currency: 'EUR' }}</span>
+          <span>Gesamt:</span> <span>{{ vm.bill.priceSum | currency }}</span>
         </div>
         <hr />
       </ng-container>
