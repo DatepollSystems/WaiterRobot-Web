@@ -51,8 +51,8 @@ import {BillsService} from './bills.service';
           <td *ngbCellDef="let bill" ngb-cell>{{ bill.createdAt | date: 'dd.MM.yy HH:mm:ss' }}</td>
         </ng-container>
 
-        <ng-container ngbColumnDef="paymentState">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'Payment State' | tr }}</th>
+        <ng-container ngbColumnDef="unpaidReason.name">
+          <th *ngbHeaderCellDef ngb-header-cell>{{ 'Payment State' | tr }}</th>
           <td *ngbCellDef="let bill" ngb-cell>
             <app-bill-payment-state-badge [unpaidReason]="bill.unpaidReason?.reason" />
           </td>
@@ -138,7 +138,7 @@ export class AllBillsComponent implements AfterViewInit {
 
   @ViewChild(NgbSort) sort?: NgbSort;
   @ViewChild(NgbPaginator, {static: true}) paginator!: NgbPaginator;
-  columnsToDisplay = ['createdAt', 'price', 'paymentState', 'waiter.name', 'table.tableGroup.name', 'actions'];
+  columnsToDisplay = ['createdAt', 'price', 'unpaidReason.name', 'waiter.name', 'table.tableGroup.name', 'actions'];
   dataSource = new PaginatedDataSource<GetBillMinResponse>(this.billsService.getAllPaginatedFn());
   filter = new FormControl<string>('');
 

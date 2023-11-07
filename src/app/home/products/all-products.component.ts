@@ -98,7 +98,7 @@ import {ProductsService} from './_services/products.service';
         </ng-container>
 
         <ng-container ngbColumnDef="price">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_PRICE' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'PRICE' | tr }}</th>
           <td *ngbCellDef="let product" ngb-cell>{{ product.price | currency }}</td>
         </ng-container>
 

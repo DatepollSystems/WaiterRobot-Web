@@ -11,6 +11,7 @@ import {
   bagFill,
   barChartLineFill,
   bell,
+  bookHalf,
   boxArrowLeft,
   boxArrowUpRight,
   braces,
@@ -18,6 +19,7 @@ import {
   calendarDate,
   calendarEventFill,
   caretRight,
+  cashCoin,
   cashStack,
   check2Square,
   checkCircleFill,
@@ -121,6 +123,8 @@ const icons = {
   arrowsExpand,
   arrowsCollapse,
   coneStriped,
+  cashCoin,
+  bookHalf,
 };
 
 @NgModule({

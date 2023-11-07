@@ -27,11 +27,13 @@ import {GetImplodedBillProductResponse} from '../../../_shared/waiterrobot-backe
               </a>
             </div>
           </td>
+          <td ngb-footer-cell *ngbFooterCellDef>Gesamt</td>
         </ng-container>
 
         <ng-container ngbColumnDef="pricePerPiece">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'PRICE' | tr }}</th>
-          <td *ngbCellDef="let order" ngb-cell>{{ order.pricePaidPerPiece | currency }} / Stück</td>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'PRICE_PRICE' | tr }}</th>
+          <td *ngbCellDef="let order" ngb-cell>{{ order.pricePaidPerPiece | currency }}</td>
+          <td ngb-footer-cell *ngbFooterCellDef></td>
         </ng-container>
 
         <ng-container ngbColumnDef="priceSum">
@@ -39,13 +41,22 @@ import {GetImplodedBillProductResponse} from '../../../_shared/waiterrobot-backe
           <td *ngbCellDef="let order" ngb-cell>
             {{ order.pricePaidSum | currency }}
           </td>
+          <td ngb-footer-cell *ngbFooterCellDef>{{ priceSum | currency }}</td>
         </ng-container>
 
-        <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-        <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row></tr>
+        <tr ngb-header-row *ngbHeaderRowDef="columnsToDisplay"></tr>
+        <tr ngb-row *ngbRowDef="let order; columns: columnsToDisplay"></tr>
+        <tr ngb-footer-row *ngbFooterRowDef="columnsToDisplay"></tr>
       </table>
     </div>
   `,
+  styles: [
+    `
+      tr.cdk-footer-row td {
+        font-weight: bold;
+      }
+    `,
+  ],
   standalone: true,
   selector: 'app-bill-products-list-table',
   imports: [DfxSortModule, DfxTableModule, DfxTr, AsyncPipe, NgIf, DatePipe, RouterLink, NgSub, NgbTooltip, DfxCurrencyCentPipe],
@@ -53,6 +64,7 @@ import {GetImplodedBillProductResponse} from '../../../_shared/waiterrobot-backe
 })
 export class AppOrderProductsListTableComponent implements AfterViewInit {
   @Input({required: true}) billProducts!: GetImplodedBillProductResponse[];
+  @Input({required: true}) priceSum!: number;
 
   @ViewChild(NgbSort) sort?: NgbSort;
   columnsToDisplay = ['product', 'pricePerPiece', 'priceSum'];

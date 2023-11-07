@@ -11,7 +11,6 @@ import {DfxTr} from 'dfx-translate';
 import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
 import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
-import {DfxCurrencyCentPipe} from '../../_shared/ui/currency.pipe';
 import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppBillPaymentStateBadgeComponent} from './_components/app-bill-payment-state-badge.component';
 import {AppOrderProductsListTableComponent} from './_components/app-bill-products-list-table.component';
@@ -22,7 +21,7 @@ import {BillsService} from './bills.service';
   template: `
     <ng-container *ngIf="vm$ | async as vm">
       <div class="d-flex flex-wrap justify-content-between gap-2 gap-md-0">
-        <h1 class="mb-0">{{ 'HOME_ORDER' | tr }} #{{ vm.bill.id }}</h1>
+        <h1 class="mb-0">{{ 'HOME_BILL' | tr }} #{{ vm.bill.id }}</h1>
         <app-bill-refresh-btn [countdown]="vm.countdown" />
       </div>
 
@@ -59,9 +58,7 @@ import {BillsService} from './bills.service';
 
       <hr />
 
-      <app-bill-products-list-table [billProducts]="vm.bill.implodedBillProducts" />
-
-      <p>Gesamt: {{ vm.bill.pricePaidSum | currency }}</p>
+      <app-bill-products-list-table [billProducts]="vm.bill.implodedBillProducts" [priceSum]="vm.bill.pricePaidSum" />
     </ng-container>
   `,
   selector: 'app-orders-info',
@@ -80,7 +77,6 @@ import {BillsService} from './bills.service';
     NgbTooltip,
     AppBillPaymentStateBadgeComponent,
     AppOrderProductsListTableComponent,
-    DfxCurrencyCentPipe,
   ],
 })
 export class BillInfoComponent {

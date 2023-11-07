@@ -61,6 +61,8 @@
   "DATETIME_PLACEHOLDER": "14.6.2000 14:30",
   "COLOR": "Highlight Farbe",
   "DELETED": "(gelöscht)",
+  "PRICE": "Preis",
+  "PRICE_PRICE": "Preis / Stück",
 
   "ORDER_MODE_SWITCH": "Anordnen",
   "COLOR_PICKER": "Farbe aus auszuwählen",
@@ -220,7 +222,6 @@
   "HOME_PROD_GROUP_NAME_INCORRECT": "Der Name muss aus mindestens 1 und maximal 60 Zeichen bestehen",
   "HOME_PROD_GROUP_SHOW_TABLES": "Produkte von Gruppe anzeigen",
   "HOME_PROD_NAME_INCORRECT": "Der Name muss aus mindestens 1 und maximal 70 Zeichen bestehen",
-  "HOME_PROD_PRICE": "Preis",
   "HOME_PROD_PRICE_INCORRECT": "Der Preis muss mindestens bei 0 liegen",
   "HOME_PROD_AVAILABLE": "Verfügbar",
   "HOME_PROD_SOLD_OUT": "Ausverkauft",
@@ -308,6 +309,8 @@
   "HOME_ORDER_OPEN_WAITER": "Kellner öffnen",
   "HOME_ORDER_OPEN_TABLE": "Tisch öffnen",
   "HOME_ORDER_OPEN_PRINTER": "Drucker öffnen",
+
+  "HOME_BILL": "Rechnung",
 
   "HOME_STATISTICS_SELLED_PRODUCTS": "Verkaufte Produkte",
   "HOME_STATISTICS_TURNOVER": "Geschätzter Umsatz",

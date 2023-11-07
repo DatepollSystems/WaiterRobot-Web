@@ -28,17 +28,17 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
         </div>
 
         <div class="form-group col-12 col-md-3 col-lg-2">
-          <label for="price">{{ 'HOME_PROD_PRICE' | tr }}</label>
+          <label for="price">{{ 'PRICE' | tr }}</label>
           <input
             class="form-control bg-dark text-white"
             type="string"
             id="price"
-            placeholder="{{ 'HOME_PROD_PRICE' | tr }}"
+            placeholder="{{ 'PRICE' | tr }}"
             formControlName="price"
           />
 
           <small *ngIf="form.controls.price.invalid" class="text-danger">
-            {{ 'HOME_PROD_PRICE_INCORRECT' | tr }}
+            {{ 'PRICE_INCORRECT' | tr }}
           </small>
         </div>
 
