@@ -50,7 +50,7 @@ import {OrdersService} from '../../orders/orders.service';
           <td *ngbCellDef="let order" ngb-cell>
             <app-order-state-badge
               [orderState]="order.state"
-              [orderProductStates]="order.orderProductStates"
+              [orderProductPrintStates]="order.orderProductPrintStates"
               [processedAt]="order.processedAt"
               [createdAt]="order.createdAt"
             />

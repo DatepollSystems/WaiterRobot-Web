@@ -4,11 +4,13 @@ import {RouterLink} from '@angular/router';
 
 import {Subject} from 'rxjs';
 
-import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
-import {DfxTr} from 'dfx-translate';
-import {NgSub} from 'dfx-helper';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {GetImplodedOrderProductResponse} from 'src/app/_shared/waiterrobot-backend';
 
-import {GetOrderProductResponse} from '../../../../_shared/waiterrobot-backend';
+import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
+import {NgSub} from 'dfx-helper';
+import {DfxTr} from 'dfx-translate';
+
 import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
 
 @Component({
@@ -18,23 +20,19 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
         <ng-container ngbColumnDef="product">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
-            <a routerLink="/home/products/{{ order.product.id }}">
-              {{ order.product.name }}
-            </a>
-          </td>
-        </ng-container>
-
-        <ng-container ngbColumnDef="amount">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'AMOUNT' | tr }}</th>
-          <td *ngbCellDef="let order" ngb-cell>
-            {{ order.amount }}
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge rounded-pill text-bg-info" ngbTooltip="{{ 'AMOUNT' | tr }}">{{ order.amount }}x</span>
+              <a routerLink="/home/products/{{ order.product.id }}">
+                {{ order.product.name }}
+              </a>
+            </div>
           </td>
         </ng-container>
 
         <ng-container ngbColumnDef="note">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_NOTE' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
-            {{ order.note }}
+            <code>{{ order.note }}</code>
           </td>
         </ng-container>
 
@@ -65,19 +63,30 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
   `,
   standalone: true,
   selector: 'app-order-products-list-table',
-  imports: [DfxSortModule, DfxTableModule, DfxTr, AppOrderProductStateBadgeComponent, AsyncPipe, NgIf, DatePipe, RouterLink, NgSub],
+  imports: [
+    DfxSortModule,
+    DfxTableModule,
+    DfxTr,
+    AppOrderProductStateBadgeComponent,
+    AsyncPipe,
+    NgIf,
+    DatePipe,
+    RouterLink,
+    NgSub,
+    NgbTooltip,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrderProductsListTableComponent implements AfterViewInit {
-  @Input({required: true}) orderProducts!: GetOrderProductResponse[];
+  @Input({required: true}) orderProducts!: GetImplodedOrderProductResponse[];
 
   @ViewChild(NgbSort) sort?: NgbSort;
-  columnsToDisplay = ['product', 'amount', 'note', 'printState', 'printedBy'];
+  columnsToDisplay = ['product', 'note', 'printState', 'printedBy'];
 
-  dataSource$ = new Subject<NgbTableDataSource<GetOrderProductResponse>>();
+  dataSource$ = new Subject<NgbTableDataSource<GetImplodedOrderProductResponse>>();
 
   ngAfterViewInit(): void {
-    const dataSource = new NgbTableDataSource<GetOrderProductResponse>(this.orderProducts);
+    const dataSource = new NgbTableDataSource<GetImplodedOrderProductResponse>(this.orderProducts);
     dataSource.sortingDataAccessor = (item, property: string) => {
       switch (property) {
         case 'product':
@@ -85,7 +94,7 @@ export class AppOrderProductsListTableComponent implements AfterViewInit {
         case 'printedBy':
           return item.printedBy.name;
         default:
-          return item[property as keyof GetOrderProductResponse] as string | number;
+          return item[property as keyof GetImplodedOrderProductResponse] as string | number;
       }
     };
     dataSource.sort = this.sort;

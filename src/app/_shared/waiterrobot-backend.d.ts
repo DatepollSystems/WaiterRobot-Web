@@ -1,4 +1,3 @@
- 
 /* tslint:disable */
 /*
  * ---------------------------------------------------------------
@@ -322,6 +321,22 @@ export interface UpdateEventOrLocationDto {
   updateWaiterCreateToken?: boolean;
 }
 
+export interface UpdateBillUnpaidReasonDto {
+  /** @format int64 */
+  id: number;
+  /**
+   * @minLength 1
+   * @maxLength 120
+   * @pattern [a-zA-Z0-9\p{Z}\"'`´#~!?$€&%()={}\[\]_/*+-.,><\-|°\^\\:;ßäöüÄÖÜ\n\r]+$
+   */
+  reason: string;
+  /**
+   * @minLength 1
+   * @maxLength 120
+   */
+  description: string;
+}
+
 export interface UpdateAllergenDto {
   /**
    * @format int64
@@ -335,6 +350,100 @@ export interface UpdateAllergenDto {
    */
   shortName: string;
   global?: boolean;
+}
+
+export interface PayBillDto {
+  /**
+   * @format int64
+   * @min 1
+   */
+  tableId: number;
+  /** @format int64 */
+  unpaidReasonId?: number;
+  /**
+   * @maxItems 2147483647
+   * @minItems 1
+   */
+  orderProducts: number[];
+}
+
+export interface GetBillResponse {
+  /** @format int64 */
+  id: number;
+  table: GetTableWithGroupMinResponse;
+  waiter: GetWaiterMinResponse;
+  /** @format date-time */
+  createdAt: string;
+  /** @format int32 */
+  pricePaidSum: number;
+  unpaidReason?: GetBillUnpaidReasonMinResponse;
+  implodedBillProducts: GetImplodedBillProductResponse[];
+}
+
+export interface GetBillUnpaidReasonMinResponse {
+  /** @format int64 */
+  id: number;
+  reason: string;
+  isGlobal: boolean;
+}
+
+export interface GetImplodedBillProductResponse {
+  name: string;
+  /** @format int32 */
+  pricePaidSum: number;
+  /** @format int32 */
+  pricePaidPerPiece: number;
+  /** @format int64 */
+  productId: number;
+  /** @format int32 */
+  amount: number;
+  billProductIds: number[];
+}
+
+export interface GetImplodedOpenBillProductResponse {
+  name: string;
+  /** @format int32 */
+  priceSum: number;
+  /** @format int32 */
+  pricePerPiece: number;
+  /** @format int32 */
+  amount: number;
+  orderProductIds: number[];
+}
+
+export interface GetOpenBillResponse {
+  implodedOrderProducts: GetImplodedOpenBillProductResponse[];
+  /** @format int32 */
+  priceSum: number;
+}
+
+export interface GetTableGroupMinResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+  color?: string;
+  /** @format int32 */
+  position?: number;
+}
+
+export interface GetTableWithGroupMinResponse {
+  /** @format int64 */
+  id: number;
+  publicId: string;
+  /** @format int32 */
+  number: number;
+  group: GetTableGroupMinResponse;
+}
+
+export interface GetWaiterMinResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+}
+
+export interface PayBillResponse {
+  bill: GetBillResponse;
+  openBill: GetOpenBillResponse;
 }
 
 export interface CreateOrderDto {
@@ -365,8 +474,49 @@ export interface CreateOrderProductDto {
   /**
    * @format int32
    * @min 1
+   * @max 400
    */
   amount: number;
+}
+
+export interface GetImplodedOrderProductResponse {
+  product: GetProductMinResponse;
+  note?: string;
+  printState: 'PRINTED' | 'SENT_TO_PRINT' | 'QUEUED';
+  /** @format date-time */
+  printedAt?: string;
+  /** @format date-time */
+  sentToPrinterAt?: string;
+  printedBy: GetPrinterMinResponse;
+  /** @format int32 */
+  amount: number;
+  orderProductIds: number[];
+}
+
+export interface GetOrderResponse {
+  /** @format int64 */
+  id: number;
+  table: GetTableWithGroupMinResponse;
+  waiter: GetWaiterMinResponse;
+  orderNumber: string;
+  state: 'QUEUED' | 'IN_PROGRESS' | 'FINISHED';
+  /** @format date-time */
+  processedAt?: string;
+  /** @format date-time */
+  createdAt: string;
+  orderProducts: GetImplodedOrderProductResponse[];
+}
+
+export interface GetPrinterMinResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
+}
+
+export interface GetProductMinResponse {
+  /** @format int64 */
+  id: number;
+  name: string;
 }
 
 export interface WaiterFcmTokenDto {
@@ -377,18 +527,18 @@ export interface WaiterFcmTokenDto {
   fcmToken: string;
 }
 
-export interface PayBillDto {
-  products: PayBillProductDto[];
+export interface PayBillDtoV1 {
+  products: PayBillProductDtoV1[];
 }
 
-export interface PayBillProductDto {
+export interface PayBillProductDtoV1 {
   /** @format int64 */
   id: number;
   /** @format int32 */
   amount: number;
 }
 
-export interface BillProductResponse {
+export interface BillProductResponseV1 {
   /** @format int64 */
   id: number;
   name: string;
@@ -398,14 +548,14 @@ export interface BillProductResponse {
   amount: number;
 }
 
-export interface PayBillResponse {
+export interface PayBillResponseV1 {
   /** @format int64 */
   billId: number;
   /** @format int64 */
   tableId: number;
   /** @format int32 */
   priceSum: number;
-  products: BillProductResponse[];
+  products: BillProductResponseV1[];
 }
 
 export interface RefreshJwtWithSessionTokenDto {
@@ -685,6 +835,22 @@ export interface CreateEventOrLocationDto {
   organisationId: number;
 }
 
+export interface CreateBillUnpaidReasonDto {
+  /**
+   * @minLength 1
+   * @maxLength 120
+   * @pattern [a-zA-Z0-9\p{Z}\"'`´#~!?$€&%()={}\[\]_/*+-.,><\-|°\^\\:;ßäöüÄÖÜ\n\r]+$
+   */
+  reason: string;
+  /**
+   * @minLength 1
+   * @maxLength 120
+   */
+  description: string;
+  /** @format int64 */
+  eventId?: number;
+}
+
 export interface CreateAllergenDto {
   name: string;
   /**
@@ -748,15 +914,6 @@ export interface EntityOrderDto {
    * @min 0
    */
   order: number;
-}
-
-export interface GetTableGroupMinResponse {
-  /** @format int64 */
-  id: number;
-  name: string;
-  color?: string;
-  /** @format int32 */
-  position?: number;
 }
 
 export interface GetTableWithGroupResponse {
@@ -899,37 +1056,12 @@ export interface GetEventOrLocationResponse {
   deleted?: string;
 }
 
-export interface GetBillForTableResponse {
+export interface GetBillForTableResponseV1 {
   /** @format int64 */
   tableId: number;
   /** @format int32 */
   tableNumber: number;
-  products: BillProductResponse[];
-}
-
-export interface GetBillResponse {
-  /** @format int64 */
-  id: number;
-  table: GetTableWithGroupMinResponse;
-  waiter: GetWaiterMinResponse;
-  /** @format date-time */
-  createdAt: string;
-  products: BillProductResponse[];
-}
-
-export interface GetTableWithGroupMinResponse {
-  /** @format int64 */
-  id: number;
-  publicId: string;
-  /** @format int32 */
-  number: number;
-  group: GetTableGroupMinResponse;
-}
-
-export interface GetWaiterMinResponse {
-  /** @format int64 */
-  id: number;
-  name: string;
+  products: BillProductResponseV1[];
 }
 
 export interface GetMyselfResponse {
@@ -1034,12 +1166,6 @@ export interface StatisticsCountResponse {
   bestProduct?: StatisticsSumResponse;
 }
 
-export interface GetPrinterMinResponse {
-  /** @format int64 */
-  id: number;
-  name: string;
-}
-
 export interface GetProductGroupMinResponse {
   /** @format int64 */
   id: number;
@@ -1105,12 +1231,6 @@ export interface GetPrinterResponse {
   deleted?: string;
 }
 
-export interface GetProductMinResponse {
-  /** @format int64 */
-  id: number;
-  name: string;
-}
-
 export interface GetOrganisationResponse {
   /** @format int64 */
   id: number;
@@ -1173,7 +1293,7 @@ export interface GetOrderMinResponse {
   processedAt?: string;
   /** @format date-time */
   createdAt: string;
-  orderProductStates: ('PRINTED' | 'SENT_TO_PRINT' | 'QUEUED')[];
+  orderProductPrintStates: ('PRINTED' | 'SENT_TO_PRINT' | 'QUEUED')[];
 }
 
 export interface PaginatedResponseGetOrderMinResponse {
@@ -1182,35 +1302,6 @@ export interface PaginatedResponseGetOrderMinResponse {
   /** @format int32 */
   numberOfPages: number;
   data: GetOrderMinResponse[];
-}
-
-export interface GetOrderProductResponse {
-  /** @format int64 */
-  id: number;
-  product: GetProductMinResponse;
-  note?: string;
-  /** @format int32 */
-  amount: number;
-  printState: 'PRINTED' | 'SENT_TO_PRINT' | 'QUEUED';
-  /** @format date-time */
-  printedAt?: string;
-  /** @format date-time */
-  sentToPrinterAt?: string;
-  printedBy: GetPrinterMinResponse;
-}
-
-export interface GetOrderResponse {
-  /** @format int64 */
-  id: number;
-  table: GetTableWithGroupMinResponse;
-  waiter: GetWaiterMinResponse;
-  orderNumber: string;
-  state: 'QUEUED' | 'IN_PROGRESS' | 'FINISHED';
-  /** @format date-time */
-  processedAt?: string;
-  /** @format date-time */
-  createdAt: string;
-  orderProducts: GetOrderProductResponse[];
 }
 
 export interface GetMediatorResponse {
@@ -1222,6 +1313,10 @@ export interface GetMediatorResponse {
   printers: GetPrinterMinResponse[];
   /** @format date-time */
   lastContact: string;
+}
+
+export interface AdminInfoResponse {
+  infos: Record<string, string>;
 }
 
 export interface DeadLetterResponse {
@@ -1241,10 +1336,11 @@ export interface GetBillMinResponse {
   id: number;
   table: GetTableWithGroupMinResponse;
   waiter: GetWaiterMinResponse;
-  /** @format int32 */
-  priceSum: number;
   /** @format date-time */
   createdAt: string;
+  /** @format int32 */
+  pricePaidSum: number;
+  unpaidReason?: GetBillUnpaidReasonMinResponse;
 }
 
 export interface PaginatedResponseGetBillMinResponse {

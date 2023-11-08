@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
-import {BehaviorSubject, filter, map, Observable, switchMap, tap, timer} from 'rxjs';
+import {BehaviorSubject, filter, map, Observable, switchMap, take, tap, timer} from 'rxjs';
 
 import {n_generate_int, notNullAndUndefined} from 'dfts-helper';
 import {HasGetSingle} from 'dfx-helper';
@@ -23,7 +23,7 @@ export class OrdersService implements HasGetSingle<GetOrderResponse> {
     private notificationService: NotificationService,
   ) {}
 
-  public readonly refreshIn = 30;
+  private readonly refreshIn = 30;
 
   public triggerRefresh = new BehaviorSubject<boolean>(true);
 
@@ -43,9 +43,17 @@ export class OrdersService implements HasGetSingle<GetOrderResponse> {
 
   download$(): Observable<Download> {
     return this.eventsService.getSelectedNotNull$.pipe(
+      take(1),
       switchMap((event) =>
         this.downloadService.download$(`${this.url}/export/${event.id}`, `orders_export_${n_generate_int(100, 9999)}.csv`),
       ),
+    );
+  }
+
+  printAllTest$(): Observable<unknown> {
+    return this.eventsService.getSelectedNotNull$.pipe(
+      take(1),
+      switchMap(({id: eventId}) => this.httpClient.post(`${this.url}/all`, {}, {params: {eventId}})),
     );
   }
 

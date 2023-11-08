@@ -2,7 +2,7 @@ import {registerLocaleData} from '@angular/common';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import {LOCALE_ID} from '@angular/core';
+import {DEFAULT_CURRENCY_CODE, LOCALE_ID} from '@angular/core';
 import {bootstrapApplication} from '@angular/platform-browser';
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {provideRouter, TitleStrategy, withPreloading} from '@angular/router';
@@ -25,12 +25,12 @@ import {provideDfxTranslate, withAutoTranslatedLanguages, withDefaultLanguage} f
 import {CustomTitleStrategy} from './app/_shared/custom-title.strategy';
 import {EnvironmentHelper} from './app/_shared/EnvironmentHelper';
 import {authInterceptor} from './app/_shared/services/auth/auth-interceptor';
+import {AuthService} from './app/_shared/services/auth/auth.service';
 import {errorInterceptor} from './app/_shared/services/auth/error-interceptor';
 import {CustomDateParserFormatter, CustomDateTimeAdapter} from './app/_shared/services/datepicker-adapter';
+import {NgbDateTimeAdapter} from './app/_shared/ui/datetime-picker/datetime-adapter';
 import {AppComponent} from './app/app.component';
 import {ROUTES} from './app/app.routes';
-import {NgbDateTimeAdapter} from './app/_shared/ui/datetime-picker/datetime-adapter';
-import {AuthService} from './app/_shared/services/auth/auth.service';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -51,6 +51,7 @@ bootstrapApplication(AppComponent, {
     provideAnimations(),
     DfxPreloadStrategy,
     provideRouter(ROUTES, withPreloading(DfxPreloadStrategy)),
+    {provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR'},
     {
       provide: LOCALE_ID,
       useValue: 'de-AT',

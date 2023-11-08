@@ -47,6 +47,12 @@ import {OrdersService} from './orders.service';
             {{ 'HOME_ORDER_REQUEUE' | tr }}
           </button>
         </div>
+        <div>
+          <button class="btn btn-sm btn-warning" (click)="printAllTest()">
+            <i-bs name="printer" />
+            {{ 'PRINT ALL' | tr }}
+          </button>
+        </div>
       </btn-toolbar>
 
       <div class="form-check form-switch form-check-reverse">
@@ -141,7 +147,7 @@ import {OrdersService} from './orders.service';
           <td *ngbCellDef="let order" ngb-cell>
             <app-order-state-badge
               [orderState]="order.state"
-              [orderProductStates]="order.orderProductStates"
+              [orderProductPrintStates]="order.orderProductPrintStates"
               [createdAt]="order.createdAt"
               [processedAt]="order.processedAt"
             />
@@ -300,6 +306,10 @@ export class AllOrdersComponent implements AfterViewInit {
 
   exportCsv(): void {
     this.download$ = this.ordersService.download$();
+  }
+
+  printAllTest(): void {
+    this.ordersService.printAllTest$().subscribe();
   }
 
   requeueOrder(it: GetOrderMinResponse): void {

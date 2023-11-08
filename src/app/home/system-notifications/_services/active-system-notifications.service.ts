@@ -31,12 +31,12 @@ export class ActiveSystemNotificationsService {
     const ignoredSystemNotifications = this.ignoredSystemNotifications().slice();
     ignoredSystemNotifications.push(id);
     this.ignoredSystemNotifications.set(ignoredSystemNotifications);
-    st_set(this.storageKey, JSON.stringify(this.ignoredSystemNotifications()), 60 * 60 * 24);
+    st_set(this.storageKey, JSON.stringify(this.ignoredSystemNotifications()), 60 * 60 * 24 * 14);
   }
 
   ignoreAll(): void {
     this.ignoredSystemNotifications.set(this.allSystemNotifications().map((it) => it.id));
-    st_set(this.storageKey, JSON.stringify(this.ignoredSystemNotifications()), 60 * 60 * 24);
+    st_set(this.storageKey, JSON.stringify(this.ignoredSystemNotifications()), 60 * 60 * 24 * 14);
   }
 
   resetIgnore(): void {

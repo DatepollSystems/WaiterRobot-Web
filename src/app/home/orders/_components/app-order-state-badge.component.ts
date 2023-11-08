@@ -6,7 +6,7 @@ import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxTr} from 'dfx-translate';
 
 import {AppIconsModule} from '../../../_shared/ui/icons.module';
-import {GetOrderProductResponse, GetOrderResponse} from '../../../_shared/waiterrobot-backend';
+import {GetImplodedOrderProductResponse, GetOrderResponse} from '../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
@@ -73,7 +73,7 @@ import {GetOrderProductResponse, GetOrderResponse} from '../../../_shared/waiter
 })
 export class AppOrderStateBadgeComponent {
   @Input({required: true}) orderState!: GetOrderResponse['state'];
-  @Input({required: true}) set orderProductStates(it: GetOrderProductResponse['printState'][]) {
+  @Input({required: true}) set orderProductPrintStates(it: GetImplodedOrderProductResponse['printState'][]) {
     this.allProducts = it.length;
     this.printedProducts = it.length - it.filter((iit) => iit === 'QUEUED').length;
   }

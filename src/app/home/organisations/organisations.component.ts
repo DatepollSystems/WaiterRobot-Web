@@ -9,18 +9,7 @@ import {AppIconsModule} from '../../_shared/ui/icons.module';
 
 @Component({
   selector: 'app-organisations',
-  template: `
-    <entities-layout-component>
-      <div class="d-flex flex-column gap-2" nav>
-        <div class="list-group">
-          <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
-            <i-bs name="building" />
-            {{ 'HOME_ORGS_ALL' | tr }}</a
-          >
-        </div>
-      </div>
-    </entities-layout-component>
-  `,
+  template: '<entities-layout-component showNav="false" />',
   imports: [AsyncPipe, RouterLink, RouterLinkActive, DfxTr, AppIconsModule, AppEntitiesLayoutComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
