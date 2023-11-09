@@ -105,17 +105,17 @@ import {PrinterBatchUpdateDto, PrinterBatchUpdateModalComponent} from './printer
         </ng-container>
 
         <ng-container ngbColumnDef="bonWidth">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_BON_WIDTH' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_WIDTH' | tr }}</th>
           <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonWidth }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="bonPadding">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_BON_PADDING' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_PADDING' | tr }}</th>
           <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonPadding }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="bonPaddingTop">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_BON_PADDING_TOP' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_PADDING_TOP' | tr }}</th>
           <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonPaddingTop }}</td>
         </ng-container>
 

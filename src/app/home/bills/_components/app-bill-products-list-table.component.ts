@@ -31,7 +31,7 @@ import {GetImplodedBillProductResponse} from '../../../_shared/waiterrobot-backe
         </ng-container>
 
         <ng-container ngbColumnDef="pricePerPiece">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'PRICE_PRICE' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'PRICE_PER_PIECE' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>{{ order.pricePaidPerPiece | currency }}</td>
           <td ngb-footer-cell *ngbFooterCellDef></td>
         </ng-container>

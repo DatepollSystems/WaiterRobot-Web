@@ -22,7 +22,6 @@ import {BillsService} from './bills.service';
     <ng-container *ngIf="vm$ | async as vm">
       <div class="d-flex flex-wrap justify-content-between gap-2 gap-md-0">
         <h1 class="mb-0">{{ 'HOME_BILL' | tr }} #{{ vm.bill.id }}</h1>
-        <app-bill-refresh-btn [countdown]="vm.countdown" />
       </div>
 
       <div class="d-flex flex-wrap gap-2 mt-2 mb-4">
@@ -82,14 +81,10 @@ import {BillsService} from './bills.service';
 export class BillInfoComponent {
   billsService = inject(BillsService);
 
-  vm$ = combineLatest([
-    getActivatedRouteIdParam().pipe(switchMap((id) => this.billsService.getSingle$(id))),
-    this.billsService.countdown$(),
-  ]).pipe(
-    map(([bill, countdown]) => {
+  vm$ = combineLatest([getActivatedRouteIdParam().pipe(switchMap((id) => this.billsService.getSingle$(id)))]).pipe(
+    map(([bill]) => {
       return {
         bill,
-        countdown,
       };
     }),
   );

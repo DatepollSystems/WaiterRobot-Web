@@ -32,29 +32,29 @@ import {OrdersService} from './orders.service';
       <app-order-refresh-btn />
     </div>
 
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
-      <btn-toolbar>
-        <div>
-          <button class="btn btn-sm btn-info" (click)="exportCsv()">
-            <i-bs name="filetype-csv" />
-            {{ 'EXPORT' | tr }}
-          </button>
-        </div>
+    <btn-toolbar>
+      <div>
+        <button class="btn btn-sm btn-info" (click)="exportCsv()">
+          <i-bs name="filetype-csv" />
+          {{ 'EXPORT' | tr }}
+        </button>
+      </div>
 
-        <div>
-          <button class="btn btn-sm btn-warning" (click)="requeueOrders()" [class.disabled]="!selection.hasValue()">
-            <i-bs name="printer" />
-            {{ 'HOME_ORDER_REQUEUE' | tr }}
-          </button>
-        </div>
-        <div>
-          <button class="btn btn-sm btn-warning" (click)="printAllTest()">
-            <i-bs name="printer" />
-            {{ 'PRINT ALL' | tr }}
-          </button>
-        </div>
-      </btn-toolbar>
+      <div>
+        <button class="btn btn-sm btn-warning" (click)="requeueOrders()" [class.disabled]="!selection.hasValue()">
+          <i-bs name="printer" />
+          {{ 'HOME_ORDER_REQUEUE' | tr }}
+        </button>
+      </div>
+      <div>
+        <button class="btn btn-sm btn-warning" (click)="printAllTest()">
+          <i-bs name="printer" />
+          {{ 'PRINT ALL' | tr }}
+        </button>
+      </div>
+    </btn-toolbar>
 
+    <div class="d-flex justify-content-start justify-content-md-end">
       <div class="form-check form-switch form-check-reverse">
         <label class="form-check-label" for="continuousCreation">In neuen Tab öffnen</label>
         <input

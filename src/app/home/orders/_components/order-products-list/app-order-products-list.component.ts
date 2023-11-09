@@ -4,6 +4,8 @@ import {RouterLink} from '@angular/router';
 
 import {BehaviorSubject, combineLatest, map} from 'rxjs';
 
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+
 import {s_fromStorage, st_set} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
 
@@ -37,12 +39,17 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
             <div class="card" *ngFor="let groups of grouped | keyvalue">
               <div class="card-header d-flex flex-wrap gap-2 justify-content-between mt-1">
                 <h4 class="d-flex align-items-center gap-2">
-                  <i-bs name="printer" width="24" height="24" /> {{ groups.value.printerName }}
+                  {{ groups.value.printerName }}
                 </h4>
                 <div>
-                  <button class="btn btn-sm btn-warning" (click)="requeueOrdersOfPrinter.next(groups.key)" *ngIf="showRequeueButton">
+                  <button
+                    class="btn btn-sm btn-warning"
+                    (click)="requeueOrdersOfPrinter.next(groups.key)"
+                    *ngIf="showRequeueButton"
+                    ngbTooltip="{{ 'HOME_ORDER_REQUEUE' | tr }}"
+                    placement="left"
+                  >
                     <i-bs name="printer" />
-                    {{ 'HOME_ORDER_REQUEUE' | tr }}
                   </button>
                 </div>
               </div>
@@ -70,6 +77,7 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
     KeyValuePipe,
     AppOrderProductsListTableComponent,
     AppIconsModule,
+    NgbTooltip,
   ],
   selector: 'app-order-products-list',
   standalone: true,

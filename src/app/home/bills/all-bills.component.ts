@@ -2,7 +2,7 @@ import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
 import {AfterViewInit, ChangeDetectionStrategy, Component, inject, ViewChild} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {Router, RouterLink} from '@angular/router';
+import {RouterLink} from '@angular/router';
 
 import {debounceTime, tap} from 'rxjs';
 
@@ -52,7 +52,7 @@ import {BillsService} from './bills.service';
         </ng-container>
 
         <ng-container ngbColumnDef="unpaidReason.name">
-          <th *ngbHeaderCellDef ngb-header-cell>{{ 'Payment State' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell>{{ 'STATE' | tr }}</th>
           <td *ngbCellDef="let bill" ngb-cell>
             <app-bill-payment-state-badge [unpaidReason]="bill.unpaidReason?.reason" />
           </td>
@@ -131,7 +131,6 @@ import {BillsService} from './bills.service';
   ],
 })
 export class AllBillsComponent implements AfterViewInit {
-  private router = inject(Router);
   private billsService = inject(BillsService);
 
   lumber = loggerOf('AllOrders');
