@@ -23,7 +23,7 @@ import {GetProductMinResponse} from '../../../_shared/waiterrobot-backend';
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let products" ngb-cell>
             <a
-              class="btn btn-sm m-1 btn-outline-primary text-white"
+              class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"
               routerLink="/home/products/{{ products.id }}"
               ngbTooltip="{{ 'OPEN' | tr }}"
             >

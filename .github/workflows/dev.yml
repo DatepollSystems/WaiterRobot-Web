@@ -92,7 +92,7 @@ jobs:
           username: ${{ secrets.LAVA_SSH_USER }}
           key: ${{ secrets.LAVA_SSH_PRIVATE_KEY }}
           port: ${{ secrets.LAVA_SSH_PORT }}
-          script: cd /opt/waiterrobot-web && ./frontend.sh -v lava -f -c -o
+          script: cd /opt/waiterrobot-web && git pull && ./frontend.sh -v lava -f -c -o
 
   build-localfire:
     name: Build localfire
@@ -158,4 +158,4 @@ jobs:
           username: ${{ secrets.LAVA_SSH_USER }}
           key: ${{ secrets.LOCALFIRE_SSH_PRIVATE_KEY }}
           port: ${{ secrets.LAVA_SSH_PORT }}
-          script: cd /opt/localfire && ./frontend.sh -v localfire -f -c -o
+          script: cd /opt/localfire && git pull && ./frontend.sh -v localfire -f -c -o

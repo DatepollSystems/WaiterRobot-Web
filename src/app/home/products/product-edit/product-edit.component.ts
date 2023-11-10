@@ -54,7 +54,7 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
         </div>
       </btn-toolbar>
 
-      <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs bg-dark" (navChange)="navigateToTab($event.nextId)">
+      <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs" (navChange)="navigateToTab($event.nextId)">
         <li [ngbNavItem]="'DATA'">
           <a ngbNavLink>{{ 'DATA' | tr }}</a>
           <ng-template ngbNavContent>
@@ -80,7 +80,7 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
         </li>
       </ul>
 
-      <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
     </div>
 
     <ng-template #loading>

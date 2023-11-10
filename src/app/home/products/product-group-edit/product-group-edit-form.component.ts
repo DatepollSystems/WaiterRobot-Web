@@ -2,6 +2,8 @@ import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
+import {startWith} from 'rxjs';
+
 import {HasNumberIDAndName} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTrackById} from 'dfx-helper';
@@ -20,7 +22,7 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
       <div class="d-flex flex-column flex-md-row gap-4 mb-4">
         <div class="form-group col">
           <label for="name">{{ 'NAME' | tr }}</label>
-          <input class="form-control bg-dark text-white" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
+          <input class="form-control" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
 
           <small *ngIf="form.controls.name.invalid" class="text-danger">
             {{ 'HOME_PROD_GROUP_NAME_INCORRECT' | tr }}
@@ -44,8 +46,8 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
           <div class="form-group mb-2">
             <label for="selectPrinter">{{ 'NAV_PRINTERS' | tr }}</label>
             <div class="input-group">
-              <span class="input-group-text bg-dark text-white" id="selectPrinter-addon"><bi name="diagram-3" /></span>
-              <select class="form-select bg-dark text-white" id="selectPrinter" formControlName="printerId">
+              <span class="input-group-text" id="selectPrinter-addon"><bi name="diagram-3" /></span>
+              <select class="form-select" id="selectPrinter" formControlName="printerId">
                 <option [ngValue]="-1">{{ 'HOME_PROD_PRINTER_SELECT_DEFAULT' | tr }}</option>
                 <option [ngValue]="printer.id" *ngFor="let printer of this.printers; trackById">
                   {{ printer.name }}
@@ -90,11 +92,10 @@ export class ProductGroupEditFormComponent extends AbstractModelEditFormComponen
 
   constructor() {
     super();
-    this.form.controls.printerId.disable();
     this.unsubscribe(
-      this.form.controls.updatePrinterId.valueChanges.subscribe((value) =>
-        value ? this.form.controls.printerId.enable() : this.form.controls.printerId.disable(),
-      ),
+      this.form.controls.updatePrinterId.valueChanges
+        .pipe(startWith(false))
+        .subscribe((value) => (value ? this.form.controls.printerId.enable() : this.form.controls.printerId.disable())),
     );
   }
 

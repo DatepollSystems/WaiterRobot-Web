@@ -1,9 +1,10 @@
-import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
+import {toSignal} from '@angular/core/rxjs-interop';
+
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
@@ -22,14 +23,23 @@ import {ProductGroupsService} from './_services/product-groups.service';
           >
 
           <a class="list-group-item list-group-item-action" routerLink="groups/all" routerLinkActive="active">
-            <bi name="diagram-3" />
-            {{ 'HOME_PROD_GROUP' | tr }}</a
-          >
+            <div class="d-flex justify-content-between">
+              <div>
+                <bi name="diagram-3" />
+                {{ 'HOME_PROD_GROUP' | tr }}
+              </div>
+              <div>
+                <span class="badge bg-secondary rounded-pill" ngbTooltip="Gruppenanzahl" placement="right">
+                  {{ productGroups()?.length ?? '-' }}
+                </span>
+              </div>
+            </div>
+          </a>
         </div>
 
         <app-list-nav-items
           path="/home/products/groups/products/"
-          [entities]="productGroups$ | async"
+          [entities]="productGroups() ?? []"
           titleTr="HOME_PROD_GROUP"
           selectTr="HOME_PROD_GROUP_SELECT"
         >
@@ -46,18 +56,17 @@ import {ProductGroupsService} from './_services/product-groups.service';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    AsyncPipe,
     RouterLink,
     RouterLinkActive,
     DfxTr,
-    DfxTrackById,
     BiComponent,
     AppEntitiesLayoutComponent,
     AppListNavItemsComponent,
     AppListNavItemDirective,
     AppTextWithColorIndicatorComponent,
+    NgbTooltip,
   ],
 })
 export class ProductsComponent {
-  productGroups$ = inject(ProductGroupsService).getAll$();
+  productGroups = toSignal(inject(ProductGroupsService).getAll$());
 }

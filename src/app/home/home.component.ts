@@ -9,7 +9,7 @@ import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {loggerOf, s_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingSucceeds, DfxTrackByModule, IsMobileService, NgSub} from 'dfx-helper';
+import {DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingSucceeds, IsMobileService, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {EnvironmentHelper} from '../_shared/EnvironmentHelper';
@@ -41,7 +41,6 @@ import {ThemePickerComponent} from './theme.component';
     RouterOutlet,
     NgbDropdownModule,
     DfxTr,
-    DfxTrackByModule,
     DfxHideIfOnline,
     DfxHideIfPingSucceeds,
     BiComponent,
@@ -65,8 +64,9 @@ export class HomeComponent {
 
   adminModeChanged = false;
 
+  isFullScreen = this.fullScreenService.isFullScreen;
+
   uiControls$ = combineLatest([
-    this.fullScreenService.isFullScreen$,
     this.isMobileService.isMobile$.pipe(
       tap((it) => {
         if (it) {
@@ -77,7 +77,7 @@ export class HomeComponent {
         }
       }),
     ),
-  ]).pipe(map(([isFullScreen, isMobile]) => ({isFullScreen, isMobile})));
+  ]).pipe(map(([isMobile]) => ({isMobile})));
 
   vm$ = combineLatest([
     this.myUserService.getUser$().pipe(
@@ -89,10 +89,7 @@ export class HomeComponent {
     ),
     this.organisationsService.getSelected$,
     this.eventsService.getSelected$,
-    this.organisationsService.getAll$().pipe(
-      map((it) => it.slice(0, 5)),
-      startWith([]),
-    ),
+    this.organisationsService.getAll$().pipe(startWith([])),
     this.eventsService.getAll$().pipe(startWith([])),
   ]).pipe(
     map(([myUser, selectedOrganisation, selectedEvent, organisations, events]) => ({

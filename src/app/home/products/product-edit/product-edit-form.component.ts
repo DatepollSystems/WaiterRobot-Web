@@ -20,7 +20,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
       <div class="d-flex flex-column flex-md-row gap-4 mb-3">
         <div class="form-group col">
           <label for="name">{{ 'NAME' | tr }}</label>
-          <input formControlName="name" class="form-control bg-dark text-white" type="text" id="name" placeholder="{{ 'NAME' | tr }}" />
+          <input formControlName="name" class="form-control" type="text" id="name" placeholder="{{ 'NAME' | tr }}" />
 
           <small *ngIf="form.controls.name.invalid" class="text-danger">
             {{ 'HOME_PROD_NAME_INCORRECT' | tr }}
@@ -29,13 +29,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
 
         <div class="form-group col-12 col-md-3 col-lg-2">
           <label for="price">{{ 'PRICE' | tr }}</label>
-          <input
-            class="form-control bg-dark text-white"
-            type="string"
-            id="price"
-            placeholder="{{ 'PRICE' | tr }}"
-            formControlName="price"
-          />
+          <input class="form-control" type="string" id="price" placeholder="{{ 'PRICE' | tr }}" formControlName="price" />
 
           <small *ngIf="form.controls.price.invalid" class="text-danger">
             {{ 'PRICE_INCORRECT' | tr }}
@@ -44,7 +38,6 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
 
         <chip-input
           class="col"
-          dark="true"
           editable="false"
           label="{{ 'HOME_PROD_ALLERGENS' | tr }}"
           placeholder="{{ 'HOME_PROD_ALLERGENS_PLACEHOLDER' | tr }}"
@@ -60,10 +53,10 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
         <div class="form-group col">
           <label for="selectGroup">{{ 'HOME_PROD_GROUP' | tr }}</label>
           <div class="input-group">
-            <span class="input-group-text bg-dark text-white" id="selectGroup-addon">
+            <span class="input-group-text" id="selectGroup-addon">
               <bi name="diagram-3" />
             </span>
-            <select class="form-select bg-dark text-white" id="selectGroup" formControlName="groupId">
+            <select class="form-select" id="selectGroup" formControlName="groupId">
               <option [value]="-1" disabled>{{ 'HOME_PROD_GROUPS_DEFAULT' | tr }}</option>
               <option [value]="productGroup.id" *ngFor="let productGroup of productGroups; trackById">
                 {{ productGroup.name }}
@@ -78,10 +71,10 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
         <div class="form-group col">
           <label for="selectPrinter">{{ 'NAV_PRINTERS' | tr }}</label>
           <div class="input-group">
-            <span class="input-group-text bg-dark text-white" id="selectPrinter-addon">
+            <span class="input-group-text" id="selectPrinter-addon">
               <bi name="diagram-3" />
             </span>
-            <select class="form-select bg-dark text-white" id="selectPrinter" formControlName="printerId">
+            <select class="form-select" id="selectPrinter" formControlName="printerId">
               <option [value]="-1" disabled>{{ 'HOME_PROD_PRINTER_SELECT_DEFAULT' | tr }}</option>
               <option [value]="printer.id" *ngFor="let printer of this.printers; trackById">
                 {{ printer.name }}
@@ -96,7 +89,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
         <div class="form-group col-12 col-md-3 col-lg-2">
           <label for="initialStock">{{ 'HOME_PROD_AMOUNT_LEFT_SET' | tr }}</label>
           <input
-            class="form-control bg-dark text-white"
+            class="form-control"
             type="number"
             id="initialStock"
             placeholder="{{ 'HOME_PROD_AMOUNT_LEFT_SET' | tr }}"

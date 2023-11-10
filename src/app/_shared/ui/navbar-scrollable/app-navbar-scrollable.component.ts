@@ -78,7 +78,7 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
   editMode = false;
   showEditArrow = false;
 
-  isFullScreen$ = this.fullScreenService.isFullScreen$;
+  isFullScreen = this.fullScreenService.isFullScreen;
 
   constructor(
     public router: Router,

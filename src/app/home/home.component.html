@@ -1,7 +1,7 @@
 <ng-container *ngSub="uiControls$; let ui">
   <ng-container *ngSub="vm$; let vm">
     <nav class="navbar bg-body-tertiary navbar-expand-md">
-      <div class="my-container" [class.container-xxxl]="!ui.isFullScreen">
+      <div class="my-container" [class.container-xxxl]="!isFullScreen()">
         <a class="navbar-brand align-items-center" routerLink="/home">
           <img id="brand" [ngSrc]="logoUrl" width="30" height="30" class="align-self-center ms-2" alt="kellner.team logo" />
 
@@ -50,75 +50,78 @@
                 </li>
 
                 <li class="nav-item">
-                  <div ngbDropdown display="dynamic" *ngIf="!vm?.myUser?.isAdmin else adminOrganisationLink">
+                  @if (vm?.myUser?.isAdmin) {
+                  <a class="nav-link" routerLink="organisations/all">
+                    <b>{{ 'NAV_ORGANISATIONS' | tr }}</b>
+                    <span *ngIf="vm?.selectedOrganisation"> ({{ vm?.selectedOrganisation.name }})</span>
+                  </a>
+                  } @else {
+                  <div ngbDropdown display="dynamic">
                     <a class="nav-link" id="organisationSwitcherDropdown" ngbDropdownToggle>
-                      <span *ngIf="!vm?.selectedOrganisation">{{ 'NAV_ORGANISATIONS' | tr }}</span>
-                      <span *ngIf="vm?.selectedOrganisation"><b>{{ vm.selectedOrganisation.name }}</b></span>
+                      @if (vm?.selectedOrganisation) {
+                      <span><b>{{ vm.selectedOrganisation.name }}</b></span>
+                      } @else {
+                      <span>{{ 'NAV_ORGANISATIONS' | tr }}</span>
+                      }
                     </a>
                     <div ngbDropdownMenu aria-labelledby="organisationSwitcherDropdown">
                       <h6 class="dropdown-header">
                         <b>{{ 'NAV_ORGANISATIONS' | tr }}</b>
                       </h6>
-                      <a *ngIf="vm?.selectedOrganisation" ngbDropdownItem routerLink="organisations/{{ vm.selectedOrganisation.id }}">
+                      @if (vm?.selectedOrganisation) {
+                      <a ngbDropdownItem routerLink="organisations/{{ vm.selectedOrganisation.id }}">
                         <b>{{ vm?.selectedOrganisation.name }}</b><small> {{ 'NAV_EDIT' | tr }}</small>
                       </a>
-                      <span class="fake-dropdown-item unselectable" *ngIf="(vm?.organisations?.length ?? 0) === 0">
-                        {{ 'NAV_ORGANISATIONS_NO_ORGS' | tr }}
+                      } @for (orgM of vm?.organisations ?? []; track orgM.id) {
+                      <span
+                        class="fake-dropdown-item"
+                        *ngIf="orgM.id !== vm?.selectedOrganisation?.id"
+                        (click)="onSelectOrg(orgM); $event.stopPropagation()"
+                      >
+                        {{ orgM.name }}
                       </span>
-                      <ng-container *ngFor="let orgM of vm?.organisations ?? []; trackById">
-                        <span
-                          class="fake-dropdown-item"
-                          *ngIf="orgM.id !== vm?.selectedOrganisation?.id"
-                          (click)="onSelectOrg(orgM); $event.stopPropagation()"
-                        >
-                          {{ orgM.name }}
-                        </span>
-                      </ng-container>
+                      } @empty {
+                      <span class="fake-dropdown-item unselectable"> {{ 'NAV_ORGANISATIONS_NO_ORGS' | tr }} </span>
+                      }
                       <div class="dropdown-divider"></div>
-                      <a ngbDropdownItem routerLinkActive="active" routerLink="organisations/create" *ngIf="vm?.myUser?.isAdmin">
-                        <b>+</b> {{ 'ADD_2' | tr }}
-                      </a>
+                      @if (vm?.myUser?.isAdmin) {
+                      <a ngbDropdownItem routerLinkActive="active" routerLink="organisations/create"> <b>+</b> {{ 'ADD_2' | tr }} </a>
+                      }
                       <a ngbDropdownItem routerLinkActive="active" routerLink="organisations/all">
                         <bi name="building" />
                         {{ 'SHOW_ALL' | tr }}
                       </a>
                     </div>
                   </div>
-                  <ng-template #adminOrganisationLink>
-                    <a class="nav-link" routerLink="organisations/all">
-                      <b>{{ 'NAV_ORGANISATIONS' | tr }}</b>
-                      <span *ngIf="vm?.selectedOrganisation"> ({{ vm?.selectedOrganisation.name }})</span>
-                    </a>
-                  </ng-template>
+                  }
                 </li>
 
                 <li class="nav-item">
                   <div ngbDropdown display="dynamic">
                     <a class="nav-link" id="eventSwitcherDropdown" [class.disabled]="!vm?.selectedOrganisation" ngbDropdownToggle>
-                      <span *ngIf="!vm?.selectedEvent">{{ 'NAV_EVENTS' | tr }}</span>
-                      <span *ngIf="vm?.selectedEvent"><b>{{ vm.selectedEvent.name }}</b></span>
+                      @if (vm?.selectedEvent) {
+                      <span><b>{{ vm.selectedEvent.name }}</b></span>
+                      } @else {
+                      <span>{{ 'NAV_EVENTS' | tr }}</span>
+                      }
                     </a>
                     <div ngbDropdownMenu aria-labelledby="eventSwitcherDropdown">
                       <h6 class="dropdown-header">
                         <b>{{ 'NAV_EVENTS' | tr }}</b>
                       </h6>
-                      <a ngbDropdownItem *ngIf="vm?.selectedEvent" routerLink="events/{{ vm.selectedEvent.id }}">
+                      @if (vm?.selectedEvent) {
+                      <a ngbDropdownItem routerLink="events/{{ vm.selectedEvent.id }}">
                         <b>{{ vm.selectedEvent.name }}</b><small> {{ 'NAV_EDIT' | tr }}</small>
                       </a>
-                      <span class="fake-dropdown-item unselectable" *ngIf="(vm?.events?.length ?? 0) === 0">
-                        {{ 'NAV_EVENTS_NO_EVENTS' | tr }}
-                      </span>
-                      <ng-container *ngFor="let eventM of vm?.events ?? []; trackById">
-                        <span
-                          class="fake-dropdown-item"
-                          *ngIf="eventM.id !== vm?.selectedEvent?.id"
-                          (click)="onSelectEvent(eventM); $event.stopPropagation()"
-                        >
-                          {{ eventM.name }}
-                        </span>
-                      </ng-container>
+                      } @for (eventM of vm?.events ?? []; track eventM.id) { @if (eventM.id !== vm?.selectedEvent?.id) {
+                      <span class="fake-dropdown-item" (click)="onSelectEvent(eventM); $event.stopPropagation()">{{ eventM.name }}</span>
+                      } } @empty {
+                      <span class="fake-dropdown-item unselectable"> {{ 'NAV_EVENTS_NO_EVENTS' | tr }} </span>
+                      }
                       <div class="dropdown-divider"></div>
-                      <a ngbDropdownItem routerLink="events/create" *ngIf="vm?.myUser?.isAdmin"><b>+</b> {{ 'ADD_2' | tr }}</a>
+                      @if (vm?.myUser?.isAdmin) {
+                      <a ngbDropdownItem routerLink="events/create"><b>+</b> {{ 'ADD_2' | tr }}</a>
+                      }
                       <a ngbDropdownItem routerLink="events/all">
                         <bi name="calendar-event-fill" />
                         {{ 'SHOW_ALL' | tr }}
@@ -172,10 +175,12 @@
                         </small>
                       </div>
                       <div class="dropdown-divider d-none d-xxl-block"></div>
-                      <button ngbDropdownItem class="d-none d-xxl-block" (click)="fullScreenService.setFullScreen(!ui.isFullScreen)">
-                        <bi name="arrows-fullscreen" *ngIf="!ui.isFullScreen" />
-                        <bi name="fullscreen-exit" *ngIf="ui.isFullScreen" />
-                        {{'NAV_FULLSCREEN' | tr}}
+                      <button ngbDropdownItem class="d-none d-xxl-block" (click)="fullScreenService.setFullScreen(!isFullScreen())">
+                        @if (isFullScreen()) {
+                        <bi name="fullscreen-exit" />
+                        } @else {
+                        <bi name="arrows-fullscreen" />
+                        } {{'NAV_FULLSCREEN' | tr}}
                       </button>
                       <div class="dropdown-divider"></div>
                       <a ngbDropdownItem routerLinkActive="active" routerLink="usettings/settings">
@@ -207,7 +212,7 @@
   </ng-container>
 
   <main class="pb-5 bg">
-    <div class="my-container" [class.container-xxxl]="!ui.isFullScreen" [class.px-md-2]="ui.isFullScreen">
+    <div class="my-container" [class.container-xxxl]="!isFullScreen()" [class.px-md-2]="isFullScreen()">
       <div class="alert alert-warning" role="alert" hideIfOnline>
         <bi name="wifi-off" />
         {{ 'OFFLINE' | tr }}

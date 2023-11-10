@@ -30,7 +30,7 @@ import {BillsService} from './bills.service';
 
     <form class="mt-2">
       <div class="input-group">
-        <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+        <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
         <button
           class="btn btn-outline-secondary"
           type="button"

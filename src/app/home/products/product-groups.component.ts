@@ -46,7 +46,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
 
     <form>
       <div class="input-group">
-        <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+        <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
         <button
           class="btn btn-outline-secondary"
           type="button"
@@ -89,7 +89,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
             </div>
           </th>
           <td *ngbCellDef="let selectable" ngb-cell>
-            <button class="btn btn-sm btn-outline-primary text-white" cdkDragHandle *ngIf="orderMode()">
+            <button class="btn btn-sm btn-outline-primary text-body-emphasis" cdkDragHandle *ngIf="orderMode()">
               <bi name="grip-vertical" />
             </button>
             <div class="form-check" *ngIf="!orderMode()">
@@ -117,12 +117,16 @@ import {ProductGroupsService} from './_services/product-groups.service';
         <ng-container ngbColumnDef="actions">
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let productGroup" ngb-cell>
-            <a class="btn btn-sm me-2 btn-outline-success text-white" routerLink="../{{ productGroup.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+            <a
+              class="btn btn-sm me-2 btn-outline-success text-body-emphasis"
+              routerLink="../{{ productGroup.id }}"
+              ngbTooltip="{{ 'EDIT' | tr }}"
+            >
               <bi name="pencil-square" />
             </a>
             <button
               type="button"
-              class="btn btn-sm me-2 btn-outline-danger text-white"
+              class="btn btn-sm me-2 btn-outline-danger text-body-emphasis"
               ngbTooltip="{{ 'DELETE' | tr }}"
               (click)="onDelete(productGroup.id, $event)"
             >

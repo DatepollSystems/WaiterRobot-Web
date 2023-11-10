@@ -18,7 +18,7 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
     <form #formRef [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column gap-3">
       <div class="form-group">
         <label for="name">{{ 'NAME' | tr }}</label>
-        <input class="form-control bg-dark text-white" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
+        <input class="form-control" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
 
         <small *ngIf="form.controls.name.invalid" class="text-danger">
           {{ 'HOME_PRINTER_NAME_INCORRECT' | tr }}
@@ -29,7 +29,7 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
         <div class="col form-group">
           <label for="fontScale">{{ 'HOME_PRINTER_FONT_SCALE' | tr }}</label>
           <input
-            class="form-control bg-dark text-white"
+            class="form-control"
             type="number"
             id="fontScale"
             step="0.1"
@@ -45,7 +45,7 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
         <div class="col form-group">
           <label for="font">{{ 'HOME_PRINTER_FONT' | tr }}</label>
 
-          <select class="form-select bg-dark text-white" aria-label="Font select" id="font" formControlName="font">
+          <select class="form-select" aria-label="Font select" id="font" formControlName="font">
             <option *ngFor="let font of availableFonts" [value]="font.code">{{ font.description }}</option>
           </select>
         </div>
@@ -53,7 +53,7 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
         <div class="col form-group">
           <label for="bonWidth">{{ 'HOME_PRINTER_BON_WIDTH' | tr }}</label>
           <input
-            class="form-control bg-dark text-white"
+            class="form-control"
             type="number"
             id="bonWidth"
             formControlName="bonWidth"
@@ -68,7 +68,7 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
         <div class="col form-group">
           <label for="bonPadding">{{ 'HOME_PRINTER_BON_PADDING' | tr }}</label>
           <input
-            class="form-control bg-dark text-white"
+            class="form-control"
             type="number"
             id="bonPadding"
             step="1"
@@ -84,7 +84,7 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
         <div class="col form-group">
           <label for="bonPaddingTop">{{ 'HOME_PRINTER_BON_PADDING_TOP' | tr }}</label>
           <input
-            class="form-control bg-dark text-white"
+            class="form-control"
             type="number"
             step="1"
             id="bonPaddingTop"

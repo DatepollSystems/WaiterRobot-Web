@@ -9,6 +9,7 @@ import {NgbModule, NgbTypeahead, NgbTypeaheadSelectItemEvent} from '@ng-bootstra
 
 import {s_is} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
+import {injectWindow} from 'dfx-helper';
 
 type inputType = any | string;
 type inputTypes = inputType[];
@@ -100,6 +101,8 @@ export class ChipInput {
 
   @Output() valueChange = new EventEmitter<inputTypes>();
 
+  window = injectWindow();
+
   constructor() {}
 
   private emitChange(): void {
@@ -117,7 +120,7 @@ export class ChipInput {
     this.emitChange();
     this.inputValid = true;
     this.modelInput = ' ';
-    window.setTimeout(() => (this.modelInput = ''), 10);
+    this.window?.setTimeout(() => (this.modelInput = ''), 20);
   }
 
   remove(value: string): void {

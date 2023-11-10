@@ -242,11 +242,9 @@ main() {
     printf "${GREEN}Successfully${RESET} created install folder [${GREEN}✓${RESET}]\n"
   fi
 
-
-
   # Move files into place
   printf "${BLUE}Moving${RESET} files into place... "
-  (cp -r "$INSTALL_TEMP_DIRECTORY"/WaiterRobot-Web/* "$FRONTEND_INSTALL_DIRECTORY"/) &
+  (cp -r "$INSTALL_TEMP_DIRECTORY"/WaiterRobot-Web/browser/* "$FRONTEND_INSTALL_DIRECTORY"/) &
   spinner $!
   printf "${GREEN}Successfully${RESET} moved files into place [${GREEN}✓${RESET}]\n"
 

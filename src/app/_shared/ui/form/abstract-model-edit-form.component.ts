@@ -57,8 +57,6 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
   set formDisabled(it: boolean) {
     if (it) {
       this.form.disable();
-    } else {
-      this.form.enable();
     }
   }
 

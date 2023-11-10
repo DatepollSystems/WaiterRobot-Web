@@ -8,14 +8,13 @@ import {FullScreenService} from '../services/fullscreen.service';
 
 @Component({
   template: `
-    <div class="row g-3" *ngSub="isFullScreen$; let isFullScreen">
-      <div class="col-lg-4 col-xl-3" [class.col-xxl-2]="isFullScreen" *ngIf="showNav">
+    <div class="row g-4">
+      <div class="col-lg-4 col-xl-3" [class.col-xxl-2]="isFullScreen()" *ngIf="showNav">
         <ng-content select="[nav]" />
       </div>
-      <div [class.col-lg-8]="showNav" [class.col-xl-9]="showNav" [class.col-xxl-10]="isFullScreen && showNav" [class.col]="!showNav">
-        <div class="px-3 px-md-4">
-          <router-outlet />
-        </div>
+      <div [class.col-lg-8]="showNav" [class.col-xl-9]="showNav" [class.col-xxl-10]="isFullScreen() && showNav" [class.col]="!showNav">
+        <!--<div class="px-3 px-md-4">-->
+        <router-outlet />
       </div>
     </div>
   `,
@@ -27,5 +26,5 @@ import {FullScreenService} from '../services/fullscreen.service';
 export class AppEntitiesLayoutComponent {
   @Input({transform: booleanAttribute}) showNav = true;
 
-  isFullScreen$ = inject(FullScreenService).isFullScreen$;
+  isFullScreen = inject(FullScreenService).isFullScreen;
 }

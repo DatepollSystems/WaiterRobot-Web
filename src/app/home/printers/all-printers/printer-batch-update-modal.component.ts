@@ -26,7 +26,7 @@ import {PrintersService} from '../_services/printers.service';
           <div class="form-group">
             <label for="fontScale">{{ 'HOME_PRINTER_FONT_SCALE' | tr }}</label>
             <input
-              class="form-control bg-dark text-white"
+              class="form-control"
               type="number"
               id="fontScale"
               formControlName="fontScale"
@@ -50,7 +50,7 @@ import {PrintersService} from '../_services/printers.service';
           <div class="form-group" *ngIf="availableFonts$ | async as availableFonts">
             <label for="font">{{ 'HOME_PRINTER_FONT' | tr }}</label>
 
-            <select class="form-select bg-dark text-white" aria-label="Font select" id="font" formControlName="font">
+            <select class="form-select" aria-label="Font select" id="font" formControlName="font">
               <option *ngFor="let font of availableFonts" [value]="font.code">{{ font.description }}</option>
             </select>
           </div>
@@ -66,7 +66,7 @@ import {PrintersService} from '../_services/printers.service';
           <div class="form-group">
             <label for="bonWidth">{{ 'HOME_PRINTER_BON_WIDTH' | tr }}</label>
             <input
-              class="form-control bg-dark text-white"
+              class="form-control"
               type="number"
               id="bonWidth"
               formControlName="bonWidth"
@@ -89,7 +89,7 @@ import {PrintersService} from '../_services/printers.service';
           <div class="form-group">
             <label for="bonPadding">{{ 'HOME_PRINTER_BON_PADDING' | tr }}</label>
             <input
-              class="form-control bg-dark text-white"
+              class="form-control"
               type="number"
               id="bonPadding"
               formControlName="bonPadding"
@@ -112,7 +112,7 @@ import {PrintersService} from '../_services/printers.service';
           <div class="form-group">
             <label for="bonPaddingTop">{{ 'HOME_PRINTER_BON_PADDING_TOP' | tr }}</label>
             <input
-              class="form-control bg-dark text-white"
+              class="form-control"
               type="number"
               id="bonPaddingTop"
               formControlName="bonPaddingTop"

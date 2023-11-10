@@ -1,4 +1,3 @@
-import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink, RouterLinkActive} from '@angular/router';
@@ -25,9 +24,11 @@ import {TableGroupsService} from './_services/table-groups.service';
                 {{ 'HOME_TABLES' | tr }}
               </div>
 
-              <span class="badge bg-secondary rounded-pill" ngbTooltip="Gruppenanzahl" placement="right">
-                {{ allTablesAmount() ?? '' }}
-              </span>
+              <div>
+                <span class="badge bg-secondary rounded-pill" ngbTooltip="Gruppenanzahl" placement="right">
+                  {{ allTablesAmount() ?? '' }}
+                </span>
+              </div>
             </div>
           </a>
 
@@ -37,9 +38,11 @@ import {TableGroupsService} from './_services/table-groups.service';
                 <bi name="diagram-3" />
                 {{ 'HOME_TABLE_GROUPS' | tr }}
               </div>
-              <span class="badge bg-secondary rounded-pill" ngbTooltip="Gruppenanzahl" placement="right">
-                {{ tableGroups()?.length ?? '-' }}
-              </span>
+              <div>
+                <span class="badge bg-secondary rounded-pill" ngbTooltip="Gruppenanzahl" placement="right">
+                  {{ tableGroups()?.length ?? '-' }}
+                </span>
+              </div>
             </div>
           </a>
         </div>
@@ -54,7 +57,9 @@ import {TableGroupsService} from './_services/table-groups.service';
               <app-text-with-color-indicator [color]="entity.color">
                 {{ entity.name }}
               </app-text-with-color-indicator>
-              <span class="badge bg-secondary rounded-pill" ngbTooltip="Tischanzahl" placement="right">{{ entity.tables.length }}</span>
+              <div>
+                <span class="badge bg-secondary rounded-pill" ngbTooltip="Tischanzahl" placement="right">{{ entity.tables.length }}</span>
+              </div>
             </div>
           </ng-template>
         </app-list-nav-items>
@@ -71,7 +76,6 @@ import {TableGroupsService} from './_services/table-groups.service';
     BiComponent,
     AppEntitiesLayoutComponent,
     AppListNavItemsComponent,
-    AsyncPipe,
     AppListNavItemDirective,
     AppTextWithColorIndicatorComponent,
     NgbTooltip,

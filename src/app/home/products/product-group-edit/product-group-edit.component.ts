@@ -56,7 +56,7 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
         #nav="ngbNav"
         [destroyOnHide]="false"
         [activeId]="activeTab$ | async"
-        class="nav-tabs bg-dark"
+        class="nav-tabs"
         (navChange)="navigateToTab($event.nextId)"
       >
         <li [ngbNavItem]="'DATA'">
@@ -77,7 +77,7 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
         </li>
       </ul>
 
-      <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
     </div>
 
     <ng-template #loading>

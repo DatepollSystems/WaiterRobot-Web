@@ -16,13 +16,7 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../../_shared/wa
       <div class="row gy-2">
         <div class="form-group col-sm">
           <label for="email">{{ 'EMAIL' | tr }}</label>
-          <input
-            class="form-control bg-dark text-white"
-            type="email"
-            id="email"
-            formControlName="emailAddress"
-            placeholder="{{ 'EMAIL' | tr }}"
-          />
+          <input class="form-control" type="email" id="email" formControlName="emailAddress" placeholder="{{ 'EMAIL' | tr }}" />
 
           <small *ngIf="form.controls.emailAddress.invalid" class="text-danger">
             {{ 'HOME_USERS_EMAIL_INCORRECT' | tr }}
@@ -31,13 +25,7 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../../_shared/wa
 
         <div class="form-group col-sm">
           <label for="firstname">{{ 'FIRSTNAME' | tr }}</label>
-          <input
-            class="form-control bg-dark text-white"
-            type="text"
-            id="firstname"
-            formControlName="firstname"
-            placeholder="{{ 'FIRSTNAME' | tr }}"
-          />
+          <input class="form-control" type="text" id="firstname" formControlName="firstname" placeholder="{{ 'FIRSTNAME' | tr }}" />
 
           <small *ngIf="form.controls.firstname.invalid" class="text-danger">
             {{ 'HOME_USERS_NAME_INCORRECT' | tr }}
@@ -46,13 +34,7 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../../_shared/wa
 
         <div class="form-group col-sm">
           <label for="surname">{{ 'SURNAME' | tr }}</label>
-          <input
-            class="form-control bg-dark text-white"
-            type="text"
-            id="surname"
-            formControlName="surname"
-            placeholder="{{ 'SURNAME' | tr }}"
-          />
+          <input class="form-control" type="text" id="surname" formControlName="surname" placeholder="{{ 'SURNAME' | tr }}" />
           <small *ngIf="form.controls.surname.invalid" class="text-danger">
             {{ 'HOME_USERS_SUR_NAME_INCORRECT' | tr }}
           </small>
@@ -63,7 +45,7 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../../_shared/wa
         <div class="col col-md-6">
           <div class="form-group mb-2">
             <label for="password">{{ 'PASSWORD' | tr }}</label>
-            <input class="form-control bg-dark text-white" type="password" id="password" formControlName="password" placeholder="*******" />
+            <input class="form-control" type="password" id="password" formControlName="password" placeholder="*******" />
 
             <small *ngIf="form.controls.password.invalid" class="text-danger">
               {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
