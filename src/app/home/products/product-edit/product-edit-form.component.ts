@@ -3,13 +3,13 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {a_pluck, HasNumberIDAndName, n_from, s_from} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {allowedCharacterSet} from '../../../_shared/regex';
 import {ChipInput} from '../../../_shared/ui/chip-input/chip-input.component';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../../_shared/waiterrobot-backend';
 
 @Component({
@@ -61,7 +61,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
           <label for="selectGroup">{{ 'HOME_PROD_GROUP' | tr }}</label>
           <div class="input-group">
             <span class="input-group-text bg-dark text-white" id="selectGroup-addon">
-              <i-bs name="diagram-3" />
+              <bi name="diagram-3" />
             </span>
             <select class="form-select bg-dark text-white" id="selectGroup" formControlName="groupId">
               <option [value]="-1" disabled>{{ 'HOME_PROD_GROUPS_DEFAULT' | tr }}</option>
@@ -79,7 +79,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
           <label for="selectPrinter">{{ 'NAV_PRINTERS' | tr }}</label>
           <div class="input-group">
             <span class="input-group-text bg-dark text-white" id="selectPrinter-addon">
-              <i-bs name="diagram-3" />
+              <bi name="diagram-3" />
             </span>
             <select class="form-select bg-dark text-white" id="selectPrinter" formControlName="printerId">
               <option [value]="-1" disabled>{{ 'HOME_PROD_PRINTER_SELECT_DEFAULT' | tr }}</option>
@@ -130,7 +130,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
     </form>
   `,
   selector: 'app-product-edit-form',
-  imports: [ReactiveFormsModule, NgIf, NgForOf, AsyncPipe, DfxTr, DfxTrackById, AppIconsModule, ChipInput],
+  imports: [ReactiveFormsModule, NgIf, NgForOf, AsyncPipe, DfxTr, DfxTrackById, BiComponent, ChipInput],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

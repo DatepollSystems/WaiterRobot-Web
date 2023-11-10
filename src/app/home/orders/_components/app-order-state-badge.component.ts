@@ -3,9 +3,9 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {GetImplodedOrderProductResponse, GetOrderResponse} from '../../../_shared/waiterrobot-backend';
 
 @Component({
@@ -30,7 +30,7 @@ import {GetImplodedOrderProductResponse, GetOrderResponse} from '../../../_share
 
       <div class="circle pulse green" *ngIf="orderState === 'QUEUED' || orderState === 'IN_PROGRESS'; else processed"></div>
       <ng-template #processed>
-        <i-bs name="check2-square" />
+        <bi name="check2-square" />
       </ng-template>
     </div>
     <ng-template #popContent class="d-flex flex-column">
@@ -69,7 +69,7 @@ import {GetImplodedOrderProductResponse, GetOrderResponse} from '../../../_share
   standalone: true,
   selector: 'app-order-state-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, AppIconsModule, NgIf, DfxTr, NgbTooltip, DatePipe, NgbPopover, NgSwitch, NgSwitchCase],
+  imports: [NgClass, BiComponent, NgIf, DfxTr, NgbTooltip, DatePipe, NgbPopover, NgSwitch, NgSwitchCase],
 })
 export class AppOrderStateBadgeComponent {
   @Input({required: true}) orderState!: GetOrderResponse['state'];

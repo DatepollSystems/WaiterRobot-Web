@@ -2,12 +2,12 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {NgbPopoverModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxCutPipe} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {QrCodeService} from '../../services/qr-code.service';
 import {CopyDirective} from '../copy.directive';
-import {AppIconsModule} from '../icons.module';
 
 @Component({
   template: `
@@ -30,7 +30,7 @@ import {AppIconsModule} from '../icons.module';
         container="body"
         triggers="mouseenter"
       >
-        <i-bs name="qr-code" class="me-1" />
+        <bi name="qr-code" class="me-1" />
         {{ text | tr }}
       </button>
       <button
@@ -45,12 +45,12 @@ import {AppIconsModule} from '../icons.module';
         triggers="manual"
         placement="right"
       >
-        <i-bs name="clipboard" aria-label="Copy content to clipboard" />
+        <bi name="clipboard" aria-label="Copy content to clipboard" />
       </button>
     </div>
   `,
   standalone: true,
-  imports: [CopyDirective, NgbTooltipModule, DfxTranslateModule, AppIconsModule, NgbPopoverModule, DfxCutPipe],
+  imports: [CopyDirective, NgbTooltipModule, DfxTranslateModule, BiComponent, NgbPopoverModule, DfxCutPipe],
   selector: 'app-btn-qrcode',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

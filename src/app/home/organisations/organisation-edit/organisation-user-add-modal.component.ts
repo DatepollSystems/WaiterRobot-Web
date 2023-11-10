@@ -4,11 +4,11 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {HasIDAndName, s_isEmail} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr, dfxTranslate$} from 'dfx-translate';
 
 import {NotificationService} from '../../../_shared/notifications/notification.service';
 import {ChipInput} from '../../../_shared/ui/chip-input/chip-input.component';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {OrganisationsUsersService} from '../_services/organisations-users.service';
 
 @Component({
@@ -38,7 +38,7 @@ import {OrganisationsUsersService} from '../_services/organisations-users.servic
   selector: 'app-organisation-user-add-modal',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ChipInput, DfxTr, LowerCasePipe, AppIconsModule],
+  imports: [ChipInput, DfxTr, LowerCasePipe, BiComponent],
 })
 export class OrganisationUserAddModalComponent {
   entity!: HasIDAndName<number>;

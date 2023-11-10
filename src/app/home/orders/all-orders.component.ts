@@ -12,12 +12,12 @@ import {SortDirection} from 'dfx-bootstrap-table/lib/sort/sort-direction';
 import {Download} from 'src/app/_shared/services/download.service';
 
 import {b_fromStorage, loggerOf, n_from, s_imploder, st_set} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
 import {PaginatedDataSource} from '../../_shared/paginated-data-source';
 import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {injectConfirmDialog} from '../../_shared/ui/question-dialog/question-dialog.component';
 import {GetOrderMinResponse} from '../../_shared/waiterrobot-backend';
@@ -35,20 +35,20 @@ import {OrdersService} from './orders.service';
     <btn-toolbar>
       <div>
         <button class="btn btn-sm btn-info" (click)="exportCsv()">
-          <i-bs name="filetype-csv" />
+          <bi name="filetype-csv" />
           {{ 'EXPORT' | tr }}
         </button>
       </div>
 
       <div>
         <button class="btn btn-sm btn-warning" (click)="requeueOrders()" [class.disabled]="!selection.hasValue()">
-          <i-bs name="printer" />
+          <bi name="printer" />
           {{ 'HOME_ORDER_REQUEUE' | tr }}
         </button>
       </div>
       <div>
         <button class="btn btn-sm btn-warning" (click)="printAllTest()">
-          <i-bs name="printer" />
+          <bi name="printer" />
           {{ 'PRINT ALL' | tr }}
         </button>
       </div>
@@ -89,7 +89,7 @@ import {OrdersService} from './orders.service';
           (click)="filter.reset()"
           *ngIf="(filter.value?.length ?? 0) > 0"
         >
-          <i-bs name="x-circle-fill" />
+          <bi name="x-circle-fill" />
         </button>
       </div>
     </form>
@@ -168,7 +168,7 @@ import {OrdersService} from './orders.service';
               ngbTooltip="{{ 'OPEN' | tr }}"
               placement="left"
             >
-              <i-bs name="arrow-up-right-square-fill" />
+              <bi name="arrow-up-right-square-fill" />
             </button>
             <button
               class="btn btn-sm m-1 btn-warning"
@@ -176,7 +176,7 @@ import {OrdersService} from './orders.service';
               ngbTooltip="{{ 'HOME_ORDER_REQUEUE' | tr }}"
               placement="bottom"
             >
-              <i-bs name="printer" />
+              <bi name="printer" />
             </button>
           </td>
         </ng-container>
@@ -216,7 +216,7 @@ import {OrdersService} from './orders.service';
     DfxSortModule,
     DfxPaginationModule,
     DfxTr,
-    AppIconsModule,
+    BiComponent,
     AppOrderStateBadgeComponent,
     AppOrderRefreshButtonComponent,
     AppBtnToolbarComponent,

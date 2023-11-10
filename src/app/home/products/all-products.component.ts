@@ -5,6 +5,7 @@ import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayPluck, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
@@ -13,7 +14,6 @@ import {AppSoldOutPipe} from '../../_shared/ui/app-sold-out.pipe';
 import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
 import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/color/app-text-with-color-indicator.component';
 import {DfxCurrencyCentPipe} from '../../_shared/ui/currency.pipe';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {GetProductMaxResponse} from '../../_shared/waiterrobot-backend';
@@ -26,14 +26,14 @@ import {ProductsService} from './_services/products.service';
     <btn-toolbar>
       <div>
         <a routerLink="../create" class="btn btn-sm btn-success">
-          <i-bs name="plus-circle" />
+          <bi name="plus-circle" />
           {{ 'ADD_2' | tr }}</a
         >
       </div>
 
       <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PROD_SELECT' | tr) : undefined }}">
         <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-          <i-bs name="trash" />
+          <bi name="trash" />
           {{ 'DELETE' | tr }}
         </button>
       </div>
@@ -50,7 +50,7 @@ import {ProductsService} from './_services/products.service';
           (click)="filter.reset()"
           *ngIf="(filter.value?.length ?? 0) > 0"
         >
-          <i-bs name="x-circle-fill" />
+          <bi name="x-circle-fill" />
         </button>
       </div>
     </form>
@@ -130,7 +130,7 @@ import {ProductsService} from './_services/products.service';
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let product" ngb-cell>
             <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ product.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
-              <i-bs name="pencil-square" />
+              <bi name="pencil-square" />
             </a>
             <button
               type="button"
@@ -138,7 +138,7 @@ import {ProductsService} from './_services/products.service';
               ngbTooltip="{{ 'DELETE' | tr }}"
               (click)="onDelete(product.id, $event)"
             >
-              <i-bs name="trash" />
+              <bi name="trash" />
             </button>
           </td>
         </ng-container>
@@ -156,7 +156,7 @@ import {ProductsService} from './_services/products.service';
   imports: [
     AppBtnToolbarComponent,
     DfxTr,
-    AppIconsModule,
+    BiComponent,
     NgIf,
     NgClass,
     ReactiveFormsModule,

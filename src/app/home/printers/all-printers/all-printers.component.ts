@@ -7,11 +7,11 @@ import {forkJoin} from 'rxjs';
 
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
 import {AppBtnToolbarComponent} from '../../../_shared/ui/button/app-btn-toolbar.component';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {GetPrinterResponse} from '../../../_shared/waiterrobot-backend';
@@ -25,21 +25,21 @@ import {PrinterBatchUpdateDto, PrinterBatchUpdateModalComponent} from './printer
     <btn-toolbar>
       <div>
         <a routerLink="../create" class="btn btn-sm btn-success">
-          <i-bs name="plus-circle" />
+          <bi name="plus-circle" />
           {{ 'ADD_2' | tr }}</a
         >
       </div>
 
       <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PRINTER_SELECT' | tr) : undefined }}">
         <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-          <i-bs name="trash" />
+          <bi name="trash" />
           {{ 'DELETE' | tr }}
         </button>
       </div>
 
       <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PRINTER_SELECT' | tr) : undefined }}">
         <button class="btn btn-sm btn-secondary" [class.disabled]="!selection.hasValue()" (click)="onBatchUpdatePrinters()">
-          <i-bs name="pencil-square" />
+          <bi name="pencil-square" />
           {{ 'HOME_PRINTER_BATCH_UPDATE' | tr }}
         </button>
       </div>
@@ -56,7 +56,7 @@ import {PrinterBatchUpdateDto, PrinterBatchUpdateModalComponent} from './printer
           (click)="filter.reset()"
           *ngIf="(filter.value?.length ?? 0) > 0"
         >
-          <i-bs name="x-circle-fill" />
+          <bi name="x-circle-fill" />
         </button>
       </div>
     </form>
@@ -123,7 +123,7 @@ import {PrinterBatchUpdateDto, PrinterBatchUpdateModalComponent} from './printer
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let printer" ngb-cell>
             <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ printer.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
-              <i-bs name="pencil-square" />
+              <bi name="pencil-square" />
             </a>
             <a
               class="btn btn-sm m-1 btn-outline-secondary text-white"
@@ -132,7 +132,7 @@ import {PrinterBatchUpdateDto, PrinterBatchUpdateModalComponent} from './printer
               ngbTooltip="{{ 'HOME_PROD_ALL' | tr }}"
               (click)="$event.stopPropagation()"
             >
-              <i-bs name="columns-gap" />
+              <bi name="columns-gap" />
             </a>
             <button
               type="button"
@@ -140,7 +140,7 @@ import {PrinterBatchUpdateDto, PrinterBatchUpdateModalComponent} from './printer
               ngbTooltip="{{ 'DELETE' | tr }}"
               (click)="onDelete(printer.id, $event)"
             >
-              <i-bs name="trash" />
+              <bi name="trash" />
             </button>
           </td>
         </ng-container>
@@ -164,7 +164,7 @@ import {PrinterBatchUpdateDto, PrinterBatchUpdateModalComponent} from './printer
     DfxTr,
     DfxTableModule,
     DfxSortModule,
-    AppIconsModule,
+    BiComponent,
     AppSpinnerRowComponent,
     AppBtnToolbarComponent,
   ],

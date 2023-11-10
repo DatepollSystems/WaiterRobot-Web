@@ -5,11 +5,11 @@ import {RouterLink} from '@angular/router';
 
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
 import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNumberListByIdComponent} from '../../_shared/ui/models-list-by-id/abstract-models-with-number-list-by-id.component';
 import {GetTableGroupResponse, GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
@@ -24,25 +24,25 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
 
       <btn-toolbar>
         <a routerLink="../../../create" [queryParams]="{group: entity?.id}" class="btn btn-sm btn-success">
-          <i-bs name="plus-circle" />
+          <bi name="plus-circle" />
           {{ 'HOME_TABLE' | tr }} {{ 'ADD_3' | tr | lowercase }}</a
         >
 
         <a routerLink="../../{{ entity?.id }}" class="btn btn-sm btn-primary">
-          <i-bs name="pencil-square" />
+          <bi name="pencil-square" />
           {{ 'HOME_TABLE_GROUP' | tr }} {{ 'EDIT' | tr | lowercase }}</a
         >
 
         <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_TABLE_SELECT' | tr) : undefined }}">
           <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-            <i-bs name="trash" />
+            <bi name="trash" />
             {{ 'DELETE' | tr }}
           </button>
         </div>
 
         <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_TABLE_SELECT' | tr) : undefined }}">
           <button class="btn btn-sm btn-secondary" [class.disabled]="!selection.hasValue()" (click)="printSelectedTables()">
-            <i-bs name="table" />
+            <bi name="table" />
             {{ 'PRINT' | tr }}
           </button>
         </div>
@@ -51,7 +51,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
 
     <form>
       <div class="input-group">
-        <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+        <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
         <button
           class="btn btn-outline-secondary"
           type="button"
@@ -60,7 +60,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
           (click)="filter.reset()"
           *ngIf="(filter?.value?.length ?? 0) > 0"
         >
-          <i-bs name="x-circle-fill" />
+          <bi name="x-circle-fill" />
         </button>
       </div>
     </form>
@@ -102,7 +102,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | tr }}</th>
           <td *ngbCellDef="let table" ngb-cell>
             <span class="badge text-bg-warning d-inline-flex align-items-center gap-2" *ngIf="table.hasActiveOrders">
-              <i-bs name="exclamation-triangle-fill" />
+              <bi name="exclamation-triangle-fill" />
               {{ 'HOME_TABLE_UNPAID_PRODUCTS' | tr }}</span
             >
           </td>
@@ -123,25 +123,29 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
         <ng-container ngbColumnDef="actions">
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let table" ngb-cell>
-            <a class="btn btn-sm me-2 btn-outline-success text-white" routerLink="../../../{{ table.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
-              <i-bs name="pencil-square" />
+            <a
+              class="btn btn-sm me-2 btn-outline-success text-body-emphasis"
+              routerLink="../../../{{ table.id }}"
+              ngbTooltip="{{ 'EDIT' | tr }}"
+            >
+              <bi name="pencil-square" />
             </a>
             <a
-              class="btn btn-sm me-2 btn-outline-secondary text-white"
+              class="btn btn-sm me-2 btn-outline-secondary text-body-emphasis"
               routerLink="../../../{{ table.id }}"
               [queryParams]="{tab: 'ORDERS'}"
               ngbTooltip="{{ 'NAV_ORDERS' | tr }}"
               (click)="$event.stopPropagation()"
             >
-              <i-bs name="stack" />
+              <bi name="stack" />
             </a>
             <button
               type="button"
-              class="btn btn-sm me-2 btn-outline-danger text-white"
+              class="btn btn-sm me-2 btn-outline-danger text-body-emphasis"
               ngbTooltip="{{ 'DELETE' | tr }}"
               (click)="onDelete(table.id, $event)"
             >
-              <i-bs name="trash" />
+              <bi name="trash" />
             </button>
           </td>
         </ng-container>
@@ -166,7 +170,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
     DfxTr,
     DfxTableModule,
     DfxSortModule,
-    AppIconsModule,
+    BiComponent,
     AppBtnToolbarComponent,
     AppSpinnerRowComponent,
   ],

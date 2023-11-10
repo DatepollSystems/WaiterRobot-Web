@@ -5,7 +5,7 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
     <entities-layout-component showNav="false">
       <div class="list-group" nav>
         <a class="list-group-item list-group-item-action" routerLink="sum" routerLinkActive="active">
-          <i-bs name="graph-up" />
+          <bi name="graph-up" />
           {{ 'WHOLE' | tr }} {{ 'NAV_STATISTICS' | tr }}</a
         >
       </div>

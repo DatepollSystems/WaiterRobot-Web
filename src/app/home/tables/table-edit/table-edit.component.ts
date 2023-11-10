@@ -7,13 +7,13 @@ import {combineLatest, filter, map, startWith} from 'rxjs';
 import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {n_from, n_isNumeric} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
 import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directives';
 import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {CreateTableDto, GetTableWithGroupResponse, UpdateTableDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 import {TableGroupsService} from '../_services/table-groups.service';
@@ -42,14 +42,14 @@ import {TableEditOrderProductsComponent} from './table-edit-order-products.compo
         <ng-container *isEditingAndNotDeleted="entity">
           <div>
             <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
-              <i-bs name="trash" />
+              <bi name="trash" />
               {{ 'DELETE' | tr }}
             </button>
           </div>
 
           <div>
             <button class="btn btn-sm btn-primary" routerLink="/home/tables/groups/tables/{{ entity.groupId }}">
-              <i-bs name="diagram-3" />
+              <bi name="diagram-3" />
               {{ 'HOME_TABLE_GO_TO_GROUP' | tr }}
             </button>
           </div>
@@ -60,7 +60,7 @@ import {TableEditOrderProductsComponent} from './table-edit-order-products.compo
         </div>
       </btn-toolbar>
 
-      <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs bg-dark" (navChange)="navigateToTab($event.nextId)">
+      <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs" (navChange)="navigateToTab($event.nextId)">
         <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">
           <a ngbNavLink>{{ 'DATA' | tr }}</a>
           <ng-template ngbNavContent>
@@ -91,7 +91,7 @@ import {TableEditOrderProductsComponent} from './table-edit-order-products.compo
         </li>
       </ul>
 
-      <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
     </div>
 
     <ng-template #loading>
@@ -108,7 +108,7 @@ import {TableEditOrderProductsComponent} from './table-edit-order-products.compo
     NgbNavModule,
     DfxTr,
     AppFormModule,
-    AppIconsModule,
+    BiComponent,
     AppContinuesCreationSwitchComponent,
     TableEditFormComponent,
     TableEditOrderProductsComponent,

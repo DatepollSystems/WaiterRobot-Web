@@ -6,10 +6,10 @@ import {combineLatest, debounceTime, distinctUntilChanged, map, Observable, Oper
 
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {getActivatedRouteIdParam} from '../../../_shared/services/getActivatedRouteIdParam';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {OrganisationsSettingsService} from '../_services/organisations-settings.service';
 
 @Component({
@@ -36,7 +36,7 @@ import {OrganisationsSettingsService} from '../_services/organisations-settings.
           <span class="input-group-text" id="timezone-addon">&#64;</span>
           <input
             type="text"
-            class="form-control bg-dark text-white"
+            class="form-control"
             placeholder="Europe/Vienna"
             aria-label="TimeZone"
             aria-describedby="timezone-addon"
@@ -71,7 +71,7 @@ import {OrganisationsSettingsService} from '../_services/organisations-settings.
   selector: 'app-organisation-edit-settings',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, AppIconsModule, DfxTr, AsyncPipe, NgIf, NgForOf, NgbTypeahead],
+  imports: [ReactiveFormsModule, BiComponent, DfxTr, AsyncPipe, NgIf, NgForOf, NgbTypeahead],
 })
 export class OrganisationEditSettingsComponent {
   organisationSettingsService$ = inject(OrganisationsSettingsService);

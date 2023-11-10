@@ -6,17 +6,17 @@ import {combineLatest, filter, map} from 'rxjs';
 import {NgbInputDatepicker, NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {notNullAndUndefined} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
 import {AppSelectableBtnComponent} from '../../../_shared/ui/button/app-selectable-btn.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
+import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocationDto} from '../../../_shared/waiterrobot-backend';
 import {OrganisationsService} from '../../organisations/_services/organisations.service';
 import {EventsService} from '../_services/events.service';
 import {AppEventEditFormComponent} from './event-edit-form.component';
-import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 
 @Component({
   template: `
@@ -32,7 +32,7 @@ import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
         <ng-container *isEditing="entity">
           <div *ngIf="(myUser$ | async)?.isAdmin">
             <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
-              <i-bs name="trash" />
+              <bi name="trash" />
               {{ 'DELETE' | tr }}
             </button>
           </div>
@@ -42,7 +42,7 @@ import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
         </ng-container>
       </btn-toolbar>
 
-      <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs bg-dark" (navChange)="navigateToTab($event.nextId)">
+      <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs" (navChange)="navigateToTab($event.nextId)">
         <li [ngbNavItem]="'DATA'">
           <a ngbNavLink>{{ 'DATA' | tr }}</a>
           <ng-template ngbNavContent>
@@ -60,7 +60,7 @@ import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
         </li>
       </ul>
 
-      <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
     </div>
 
     <ng-template #loading>
@@ -77,7 +77,7 @@ import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
     NgbNavModule,
     DfxTr,
     AppFormModule,
-    AppIconsModule,
+    BiComponent,
     AppSelectableBtnComponent,
     AppEventEditFormComponent,
   ],

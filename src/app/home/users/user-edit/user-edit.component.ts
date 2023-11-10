@@ -3,15 +3,15 @@ import {Component} from '@angular/core';
 
 import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
+import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../../_shared/waiterrobot-backend';
 import {UsersService} from '../services/users.service';
 import {UserEditFormComponent} from './user-edit-form.component';
 import {UserEditOrganisationsComponent} from './user-edit-organisations.component';
-import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 
 @Component({
   template: `
@@ -30,7 +30,7 @@ import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 
         <div *isEditing="entity">
           <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
-            <i-bs name="trash" />
+            <bi name="trash" />
             {{ 'DELETE' | tr }}
           </button>
         </div>
@@ -72,7 +72,7 @@ import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
     </ng-template>
   `,
   selector: 'app-user-edit',
-  imports: [AsyncPipe, NgIf, DfxTr, NgbNavModule, AppFormModule, AppIconsModule, UserEditFormComponent, UserEditOrganisationsComponent],
+  imports: [AsyncPipe, NgIf, DfxTr, NgbNavModule, AppFormModule, BiComponent, UserEditFormComponent, UserEditOrganisationsComponent],
   standalone: true,
 })
 export class UserEditComponent extends AbstractModelEditComponent<CreateUserDto, UpdateUserDto, GetUserResponse, 'DATA' | 'ORGS'> {

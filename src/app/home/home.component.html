@@ -1,6 +1,6 @@
 <ng-container *ngSub="uiControls$; let ui">
   <ng-container *ngSub="vm$; let vm">
-    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <nav class="navbar bg-body-tertiary navbar-expand-md">
       <div class="my-container" [class.container-xxxl]="!ui.isFullScreen">
         <a class="navbar-brand align-items-center" routerLink="/home">
           <img id="brand" [ngSrc]="logoUrl" width="30" height="30" class="align-self-center ms-2" alt="kellner.team logo" />
@@ -79,7 +79,7 @@
                         <b>+</b> {{ 'ADD_2' | tr }}
                       </a>
                       <a ngbDropdownItem routerLinkActive="active" routerLink="organisations/all">
-                        <i-bs name="building" />
+                        <bi name="building" />
                         {{ 'SHOW_ALL' | tr }}
                       </a>
                     </div>
@@ -120,7 +120,7 @@
                       <div class="dropdown-divider"></div>
                       <a ngbDropdownItem routerLink="events/create" *ngIf="vm?.myUser?.isAdmin"><b>+</b> {{ 'ADD_2' | tr }}</a>
                       <a ngbDropdownItem routerLink="events/all">
-                        <i-bs name="calendar-event-fill" />
+                        <bi name="calendar-event-fill" />
                         {{ 'SHOW_ALL' | tr }}
                       </a>
                     </div>
@@ -136,15 +136,15 @@
                     <a class="nav-link" id="adminDropDown" ngbDropdownToggle> {{ 'NAV_INSTANCE_ADMINISTRATION' | tr }}</a>
                     <div ngbDropdownMenu aria-labelledby="adminDropDown">
                       <a ngbDropdownItem routerLinkActive="active" routerLink="users">
-                        <i-bs name="person-badge" />
+                        <bi name="person-badge" />
                         {{ 'NAV_USERS' | tr }}
                       </a>
                       <a ngbDropdownItem routerLinkActive="active" routerLink="system-notifications">
-                        <i-bs name="bell" />
+                        <bi name="bell" />
                         {{ 'NAV_SYSTEM_NOTIFICATIONS' | tr }}
                       </a>
                       <a ngbDropdownItem routerLinkActive="active" routerLink="dead-letters">
-                        <i-bs name="braces" />
+                        <bi name="braces" />
                         {{ 'Dead Letters' | tr }}
                       </a>
                     </div>
@@ -159,7 +159,7 @@
                         <h5>{{ 'NAV_USER_SETTINGS_WELCOME' | tr }} {{ vm?.myUser?.firstname }},</h5>
                         <a (click)="openUserEmailQRCode(vm.myUser)" *ngIf="vm?.myUser">
                           <u>{{ vm.myUser.emailAddress }}</u>
-                          <i-bs name="qr-code" class="ms-1" />
+                          <bi name="qr-code" class="ms-1" />
                         </a>
                         <small>
                           <br />
@@ -173,25 +173,28 @@
                       </div>
                       <div class="dropdown-divider d-none d-xxl-block"></div>
                       <button ngbDropdownItem class="d-none d-xxl-block" (click)="fullScreenService.setFullScreen(!ui.isFullScreen)">
-                        <i-bs name="arrows-fullscreen" *ngIf="!ui.isFullScreen" />
-                        <i-bs name="fullscreen-exit" *ngIf="ui.isFullScreen" />
+                        <bi name="arrows-fullscreen" *ngIf="!ui.isFullScreen" />
+                        <bi name="fullscreen-exit" *ngIf="ui.isFullScreen" />
                         {{'NAV_FULLSCREEN' | tr}}
                       </button>
                       <div class="dropdown-divider"></div>
                       <a ngbDropdownItem routerLinkActive="active" routerLink="usettings/settings">
-                        <i-bs name="gear-wide-connected" />
+                        <bi name="gear-wide-connected" />
                         {{ 'NAV_USER_SETTINGS' | tr }}
                       </a>
                       <a ngbDropdownItem routerLinkActive="active" routerLink="usettings/sessions">
-                        <i-bs name="file-lock" />
+                        <bi name="file-lock" />
                         {{ 'NAV_USER_SESSIONS' | tr }}
                       </a>
                       <button ngbDropdownItem (click)="logout()">
-                        <i-bs name="box-arrow-left" />
+                        <bi name="box-arrow-left" />
                         {{ 'NAV_LOGOUT' | tr }}
                       </button>
                     </div>
                   </div>
+                </li>
+                <li class="nav-item align-items-center d-flex">
+                  <theme-picker />
                 </li>
               </ul>
             </div>
@@ -203,10 +206,10 @@
     <app-navbar-scrollable [isMobile]="ui.isMobile" [items]="navItems" />
   </ng-container>
 
-  <main class="text-white pb-5 bg">
+  <main class="pb-5 bg">
     <div class="my-container" [class.container-xxxl]="!ui.isFullScreen" [class.px-md-2]="ui.isFullScreen">
       <div class="alert alert-warning" role="alert" hideIfOnline>
-        <i-bs name="wifi-off" />
+        <bi name="wifi-off" />
         {{ 'OFFLINE' | tr }}
       </div>
 
@@ -214,7 +217,7 @@
         <div hideIfPingSucceeds url="/json">
           <div class="alert alert-warning" role="alert">
             <div class="d-flex gap-3 align-items-center">
-              <i-bs name="exclamation-triangle-fill" />
+              <bi name="exclamation-triangle-fill" />
               <div>
                 <b>{{ 'ABOUT_MAINTENANCE_1' | tr }}</b>
                 <br />
@@ -241,12 +244,12 @@
 
         <div class="d-flex justify-content-end mb-4">
           <small *ngIf="activeSystemNotificationsService.ignoredSystemNotifications().length === 0">
-            <i-bs name="arrows-collapse" class="me-2" />
-            <a class="text-white" (click)="activeSystemNotificationsService.ignoreAll()">Alle verstecken</a>
+            <bi name="arrows-collapse" class="me-2" />
+            <a (click)="activeSystemNotificationsService.ignoreAll()">Alle verstecken</a>
           </small>
           <small *ngIf="activeSystemNotificationsService.ignoredSystemNotifications().length > 0">
-            <i-bs name="arrows-expand" class="me-2" />
-            <a class="text-white text" (click)="activeSystemNotificationsService.resetIgnore()"
+            <bi name="arrows-expand" class="me-2" />
+            <a (click)="activeSystemNotificationsService.resetIgnore()"
               >{{activeSystemNotificationsService.ignoredSystemNotifications().length}}x Nachricht(en) anzeigen</a
             >
           </small>

@@ -6,12 +6,12 @@ import {combineLatest, map, switchMap} from 'rxjs';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
 import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {injectConfirmDialog} from '../../_shared/ui/question-dialog/question-dialog.component';
 import {AppOrderRefreshButtonComponent} from './_components/app-order-refresh-button.component';
 import {AppOrderStateBadgeComponent} from './_components/app-order-state-badge.component';
@@ -39,7 +39,7 @@ import {OrdersService} from './orders.service';
           *ngIf="vm.order.state !== 'QUEUED'"
           ngbTooltip="Erstellt um"
         >
-          <i-bs name="save" />
+          <bi name="save" />
           {{ vm.order.createdAt | date: 'dd.MM.yy HH:mm:ss' }}
         </span>
 
@@ -48,7 +48,7 @@ import {OrdersService} from './orders.service';
           class="badge bg-secondary d-flex align-items-center gap-2"
           ngbTooltip="{{ 'HOME_ORDER_OPEN_TABLE' | tr }}"
         >
-          <i-bs name="columns-gap" />
+          <bi name="columns-gap" />
           {{ vm.order.table.group.name }} - {{ vm.order.table.number }}
         </a>
 
@@ -57,7 +57,7 @@ import {OrdersService} from './orders.service';
           class="badge bg-primary d-flex align-items-center gap-2"
           ngbTooltip="{{ 'HOME_ORDER_OPEN_WAITER' | tr }}"
         >
-          <i-bs name="people" />
+          <bi name="people" />
           {{ vm.order.waiter.name }}
         </a>
       </div>
@@ -66,7 +66,7 @@ import {OrdersService} from './orders.service';
         <back-button />
         <div>
           <button class="btn btn-sm btn-warning" (click)="requeueOrder(vm.order.id)" *ngIf="vm.showRequeueButton">
-            <i-bs name="printer" />
+            <bi name="printer" />
             {{ 'HOME_ORDER_REQUEUE' | tr }}
           </button>
         </div>
@@ -88,7 +88,7 @@ import {OrdersService} from './orders.service';
     NgIf,
     AsyncPipe,
     DatePipe,
-    AppIconsModule,
+    BiComponent,
     AppBtnToolbarComponent,
     AppBackButtonComponent,
     AppOrderStateBadgeComponent,

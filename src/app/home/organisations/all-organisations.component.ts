@@ -5,6 +5,7 @@ import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
@@ -12,7 +13,6 @@ import {DfxTr} from 'dfx-translate';
 import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
 import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
 import {AppSelectableBtnComponent} from '../../_shared/ui/button/app-selectable-btn.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {GetOrganisationResponse} from '../../_shared/waiterrobot-backend';
@@ -26,14 +26,14 @@ import {OrganisationsService} from './_services/organisations.service';
       <btn-toolbar *ngIf="myUser?.isAdmin">
         <div>
           <a routerLink="../create" class="btn btn-sm btn-success">
-            <i-bs name="plus-circle" />
+            <bi name="plus-circle" />
             {{ 'ADD_2' | tr }}</a
           >
         </div>
 
         <div>
           <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-            <i-bs name="trash" />
+            <bi name="trash" />
             {{ 'DELETE' | tr }}
           </button>
         </div>
@@ -41,7 +41,7 @@ import {OrganisationsService} from './_services/organisations.service';
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+          <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
           <button
             class="btn btn-outline-secondary"
             type="button"
@@ -50,7 +50,7 @@ import {OrganisationsService} from './_services/organisations.service';
             (click)="filter.reset()"
             *ngIf="(filter.value?.length ?? 0) > 0"
           >
-            <i-bs name="x-circle-fill" />
+            <bi name="x-circle-fill" />
           </button>
         </div>
       </form>
@@ -111,20 +111,20 @@ import {OrganisationsService} from './_services/organisations.service';
               <td *ngbCellDef="let organisation" ngb-cell>
                 <selectable-button class="me-2" [entity]="organisation" [selectedEntityService]="organisationsService" />
                 <a
-                  class="btn btn-sm me-2 btn-outline-success text-white"
+                  class="btn btn-sm me-2 btn-outline-success text-body-emphasis"
                   routerLink="../{{ organisation.id }}"
                   ngbTooltip="{{ 'EDIT' | tr }}"
                 >
-                  <i-bs name="pencil-square" />
+                  <bi name="pencil-square" />
                 </a>
                 <button
                   type="button"
-                  class="btn btn-sm btn-outline-danger text-white"
+                  class="btn btn-sm btn-outline-danger text-body-emphasis"
                   ngbTooltip="{{ 'DELETE' | tr }}"
                   (click)="onDelete(organisation.id, $event)"
                   *ngIf="myUser?.isAdmin"
                 >
-                  <i-bs name="trash" />
+                  <bi name="trash" />
                 </button>
               </td>
             </ng-container>
@@ -151,7 +151,7 @@ import {OrganisationsService} from './_services/organisations.service';
     DfxTableModule,
     DfxSortModule,
     DfxPaginationModule,
-    AppIconsModule,
+    BiComponent,
     AppBtnToolbarComponent,
     AppSpinnerRowComponent,
     AppSelectableBtnComponent,

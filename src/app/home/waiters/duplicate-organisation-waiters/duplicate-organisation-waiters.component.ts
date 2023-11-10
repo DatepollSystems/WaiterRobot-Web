@@ -5,12 +5,12 @@ import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
 import {AppBtnToolbarComponent} from '../../../_shared/ui/button/app-btn-toolbar.component';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {DuplicateWaiterResponse} from '../../../_shared/waiterrobot-backend';
 import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
@@ -36,7 +36,7 @@ import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
           (click)="filter.reset()"
           *ngIf="(filter?.value?.length ?? 0) > 0"
         >
-          <i-bs name="x-circle-fill" />
+          <bi name="x-circle-fill" />
         </button>
       </div>
     </form>
@@ -63,7 +63,7 @@ import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
               routerLink="./merge/&quot;{{ duplicateWaiter.name }}&quot;"
               ngbTooltip="{{ 'MERGE' | tr }}"
             >
-              <i-bs name="union" />
+              <bi name="union" />
             </a>
           </td>
         </ng-container>
@@ -88,7 +88,7 @@ import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
     DfxTableModule,
     DfxSortModule,
     DfxTr,
-    AppIconsModule,
+    BiComponent,
     AppSpinnerRowComponent,
     AppBtnToolbarComponent,
   ],

@@ -8,6 +8,7 @@ import {combineLatest, first, map, startWith, tap} from 'rxjs';
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {loggerOf, s_from} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingSucceeds, DfxTrackByModule, IsMobileService, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
@@ -18,13 +19,13 @@ import {MyUserService} from '../_shared/services/auth/user/my-user.service';
 import {FullScreenService} from '../_shared/services/fullscreen.service';
 import {QrCodeService} from '../_shared/services/qr-code.service';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
-import {AppIconsModule} from '../_shared/ui/icons.module';
 import {AppNavbarScrollableComponent} from '../_shared/ui/navbar-scrollable/app-navbar-scrollable.component';
 import {GetEventOrLocationResponse, GetOrganisationResponse} from '../_shared/waiterrobot-backend';
 import {EventsService} from './events/_services/events.service';
 import {OrganisationsService} from './organisations/_services/organisations.service';
 import {AppSystemNotificationAlertComponent} from './system-notifications/_components/system-notification-alert.component';
 import {ActiveSystemNotificationsService} from './system-notifications/_services/active-system-notifications.service';
+import {ThemePickerComponent} from './theme.component';
 
 @Component({
   selector: 'app-home',
@@ -43,7 +44,7 @@ import {ActiveSystemNotificationsService} from './system-notifications/_services
     DfxTrackByModule,
     DfxHideIfOnline,
     DfxHideIfPingSucceeds,
-    AppIconsModule,
+    BiComponent,
     FooterModule,
     AppNavbarScrollableComponent,
     NgOptimizedImage,
@@ -51,6 +52,7 @@ import {ActiveSystemNotificationsService} from './system-notifications/_services
     DfxHideIfOffline,
     AsyncPipe,
     AppSystemNotificationAlertComponent,
+    ThemePickerComponent,
   ],
 })
 export class HomeComponent {

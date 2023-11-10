@@ -3,9 +3,8 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {NgbPopover} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
-
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
 
 @Component({
   template: `
@@ -19,7 +18,7 @@ import {AppIconsModule} from '../../../_shared/ui/icons.module';
     >
       <ng-container [ngSwitch]="!unpaidReason">
         <div *ngSwitchCase="true" class="d-flex gap-2 align-items-center">
-          <i-bs name="check2-square" />
+          <bi name="check2-square" />
           <span>{{ 'Bezahlt' | tr }}</span>
         </div>
         <div
@@ -30,7 +29,7 @@ import {AppIconsModule} from '../../../_shared/ui/icons.module';
           triggers="mouseenter:mouseleave"
           popoverTitle="Rechnungsdetails"
         >
-          <i-bs name="cone-striped" />
+          <bi name="cone-striped" />
           <span>{{ 'Unbezahlt' | tr }}</span>
         </div>
       </ng-container>
@@ -42,7 +41,7 @@ import {AppIconsModule} from '../../../_shared/ui/icons.module';
   standalone: true,
   selector: 'app-bill-payment-state-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, AppIconsModule, DfxTr, NgSwitch, NgSwitchCase, DatePipe, NgIf, NgbPopover],
+  imports: [NgClass, BiComponent, DfxTr, NgSwitch, NgSwitchCase, DatePipe, NgIf, NgbPopover],
 })
 export class AppBillPaymentStateBadgeComponent {
   @Input() unpaidReason?: string;

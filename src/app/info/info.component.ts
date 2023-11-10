@@ -7,7 +7,7 @@ import {FooterModule} from '../_shared/ui/footer/footer.module';
 
 @Component({
   template: `
-    <div style="min-height: 90vh" class="py-4 bg">
+    <div style="min-height: 90vh" class="py-4">
       <div class="container-xl d-flex flex-column flex-md-row gap-3">
         <div class="col-md-5 col-lg-3">
           <ul class="list-group text-nowrap">
@@ -34,13 +34,6 @@ import {FooterModule} from '../_shared/ui/footer/footer.module';
     </div>
     <app-footer container="container-md" />
   `,
-  styles: [
-    `
-      .bg {
-        background-color: var(--bs-gray-900);
-      }
-    `,
-  ],
   selector: 'app-info',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,

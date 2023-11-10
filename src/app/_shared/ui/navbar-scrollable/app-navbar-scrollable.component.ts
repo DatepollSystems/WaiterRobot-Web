@@ -7,11 +7,11 @@ import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {NgbModal, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {s_fromStorage, st_remove, st_set} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {FullScreenService} from '../../services/fullscreen.service';
 import {AppBtnToolbarComponent} from '../button/app-btn-toolbar.component';
-import {AppIconsModule} from '../icons.module';
 
 @Component({
   selector: 'app-navbar-scrollable',
@@ -23,7 +23,7 @@ import {AppIconsModule} from '../icons.module';
     RouterLinkActive,
     DragDropModule,
     DfxTranslateModule,
-    AppIconsModule,
+    BiComponent,
     NgbTooltipModule,
     AppBtnToolbarComponent,
     FormsModule,

@@ -2,11 +2,11 @@ import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {AppListNavItemsComponent} from '../../_shared/ui/app-list-nav-items.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {getEventsOrderedBySelected} from '../events/_services/getEventsOrderedBySelected';
 import {OrganisationsService} from '../organisations/_services/organisations.service';
 
@@ -21,7 +21,7 @@ import {OrganisationsService} from '../organisations/_services/organisations.ser
             routerLink="organisation"
             routerLinkActive="active"
           >
-            <i-bs name="people" />
+            <bi name="people" />
             {{ selectedOrganisation.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</a
           >
         </div>
@@ -32,7 +32,7 @@ import {OrganisationsService} from '../organisations/_services/organisations.ser
   selector: 'app-waiters',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AsyncPipe, RouterLink, RouterLinkActive, NgIf, DfxTr, AppIconsModule, AppEntitiesLayoutComponent, AppListNavItemsComponent],
+  imports: [AsyncPipe, RouterLink, RouterLinkActive, NgIf, DfxTr, BiComponent, AppEntitiesLayoutComponent, AppListNavItemsComponent],
 })
 export class WaitersComponent {
   selectedOrganisation$ = inject(OrganisationsService).getSelected$;

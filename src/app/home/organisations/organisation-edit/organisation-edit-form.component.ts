@@ -4,10 +4,10 @@ import {ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} from '../../../_shared/waiterrobot-backend';
 
 @Component({
@@ -18,7 +18,7 @@ import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} f
       <div class="d-flex flex-column flex-md-row gap-4 mb-3">
         <div class="form-group col">
           <label for="name">{{ 'NAME' | tr }}</label>
-          <input class="form-control bg-dark text-white" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
+          <input class="form-control" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
 
           <small *ngIf="form.controls.name.invalid" class="text-danger"> {{ 'HOME_ORGS_NAME_INCORRECT' | tr }} </small>
         </div>
@@ -27,19 +27,13 @@ import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} f
       <div class="d-flex flex-column flex-md-row justify-content-between gap-4 mb-3">
         <div class="form-group col-12 col-md-7">
           <label for="street">{{ 'HOME_ORGS_STREET' | tr }}</label>
-          <input
-            class="form-control bg-dark text-white"
-            type="text"
-            id="street"
-            formControlName="street"
-            placeholder="{{ 'HOME_ORGS_STREET' | tr }}"
-          />
+          <input class="form-control" type="text" id="street" formControlName="street" placeholder="{{ 'HOME_ORGS_STREET' | tr }}" />
           <small *ngIf="form.controls.street.invalid" class="text-danger"> {{ 'HOME_ORGS_STREET_INCORRECT' | tr }} </small>
         </div>
         <div class="form-group col-12 col-md-4">
           <label for="streetNumber">{{ 'HOME_ORGS_STREETNUMBER' | tr }}</label>
           <input
-            class="form-control bg-dark text-white"
+            class="form-control"
             type="text"
             id="streetNumber"
             formControlName="streetNumber"
@@ -53,7 +47,7 @@ import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} f
         <div class="form-group col-12 col-md-3">
           <label for="postalCode">{{ 'HOME_ORGS_POSTAL_CODE' | tr }}</label>
           <input
-            class="form-control bg-dark text-white"
+            class="form-control"
             type="text"
             id="postalCode"
             formControlName="postalCode"
@@ -64,20 +58,14 @@ import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} f
 
         <div class="form-group col-12 col-md-6">
           <label for="city">{{ 'HOME_ORGS_CITY' | tr }}</label>
-          <input
-            class="form-control bg-dark text-white"
-            type="text"
-            id="city"
-            formControlName="city"
-            placeholder="{{ 'HOME_ORGS_CITY' | tr }}"
-          />
+          <input class="form-control" type="text" id="city" formControlName="city" placeholder="{{ 'HOME_ORGS_CITY' | tr }}" />
           <small *ngIf="form.controls.city.invalid" class="text-danger"> {{ 'HOME_ORGS_CITY_INCORRECT' | tr }} </small>
         </div>
 
         <div class="form-group col-12 col-md-2">
           <label for="countryCode">{{ 'HOME_ORGS_COUNTRY_CODE' | tr }}</label>
           <input
-            class="form-control bg-dark text-white"
+            class="form-control"
             type="text"
             id="countryCode"
             formControlName="countryCode"
@@ -89,7 +77,7 @@ import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} f
     </form>
   `,
   selector: 'app-organisation-edit-form',
-  imports: [ReactiveFormsModule, DfxTr, AppIconsModule, NgbInputDatepicker, NgIf, AsyncPipe],
+  imports: [ReactiveFormsModule, DfxTr, BiComponent, NgbInputDatepicker, NgIf, AsyncPipe],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

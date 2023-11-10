@@ -6,10 +6,9 @@ import {NavigationEnd, Router, RouterLink, RouterLinkActive} from '@angular/rout
 import {filter, map, Observable, startWith, tap} from 'rxjs';
 
 import {HasIDAndName, StringOrNumber} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-
-import {AppIconsModule} from './icons.module';
 
 interface AppListNavItemContext {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -50,7 +49,7 @@ export class AppListNavItemDirective {
 
     <div class="list-group d-lg-none">
       <div class="input-group">
-        <span class="input-group-text" id="select-nav-addon"><i-bs name="people" /></span>
+        <span class="input-group-text" id="select-nav-addon"><bi name="people" /></span>
         <select [formControl]="selectFormControl" class="form-select" id="select-nav" #select (change)="onNavigate(select.value)">
           <option value="default">{{ selectTr | tr }}</option>
           <option value="{{ path }}{{ entity.id }}" *ngFor="let entity of entities; trackById">
@@ -79,7 +78,7 @@ export class AppListNavItemDirective {
     NgForOf,
     DfxTr,
     DfxTrackById,
-    AppIconsModule,
+    BiComponent,
     AsyncPipe,
     RouterLink,
     ReactiveFormsModule,

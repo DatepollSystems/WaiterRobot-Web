@@ -3,19 +3,19 @@ import {Component, inject} from '@angular/core';
 
 import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
 import {AppSelectableBtnComponent} from '../../../_shared/ui/button/app-selectable-btn.component';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
+import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} from '../../../_shared/waiterrobot-backend';
 import {OrganisationsService} from '../_services/organisations.service';
 import {AppOrganisationEditFormComponent} from './organisation-edit-form.component';
 import {OrganisationEditSettingsComponent} from './organisation-edit-settings.component';
 import {OrganisationEditUsersComponent} from './organisation-edit-users.component';
-import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 
 @Component({
   template: `
@@ -37,7 +37,7 @@ import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
           <ng-container *isEditing="entity">
             <div *ngIf="myUser?.isAdmin">
               <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
-                <i-bs name="trash" />
+                <bi name="trash" />
                 {{ 'DELETE' | tr }}
               </button>
             </div>
@@ -48,7 +48,7 @@ import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
           </ng-container>
         </btn-toolbar>
 
-        <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs bg-dark" (navChange)="navigateToTab($event.nextId)">
+        <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs" (navChange)="navigateToTab($event.nextId)">
           <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">
             <a ngbNavLink>{{ 'DATA' | tr }}</a>
             <ng-template ngbNavContent>
@@ -80,7 +80,7 @@ import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
           </li>
         </ul>
 
-        <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
       </ng-container>
     </div>
 
@@ -97,7 +97,7 @@ import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
     NgbNavModule,
     DfxTr,
     AppFormModule,
-    AppIconsModule,
+    BiComponent,
     AppSelectableBtnComponent,
     AppOrganisationEditFormComponent,
     OrganisationEditUsersComponent,

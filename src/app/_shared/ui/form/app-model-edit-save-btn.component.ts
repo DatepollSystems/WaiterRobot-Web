@@ -4,11 +4,11 @@ import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Inpu
   template: `
     <button class="btn btn-sm btn-success" form="ngForm" (click)="this.submit.emit()" [disabled]="_valid === 'INVALID'">
       <span *ngIf="editing">
-        <i-bs name="save" />
+        <bi name="save" />
         {{ 'SAVE' | tr }}
       </span>
       <span *ngIf="!editing">
-        <i-bs name="plus-circle" />
+        <bi name="plus-circle" />
         {{ 'ADD' | tr }}
       </span>
       <ng-content />

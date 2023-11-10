@@ -6,6 +6,7 @@ import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
@@ -13,7 +14,6 @@ import {DfxTr} from 'dfx-translate';
 import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
 import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/color/app-text-with-color-indicator.component';
 import {AppOrderModeSwitchComponent} from '../../_shared/ui/form/app-order-mode-switch.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {
   AbstractModelsWithNameListWithDeleteAndOrderComponent,
@@ -29,13 +29,13 @@ import {ProductGroupsService} from './_services/product-groups.service';
     <btn-toolbar>
       <div>
         <a routerLink="../create" class="btn btn-sm btn-success">
-          <i-bs name="plus-circle" />
+          <bi name="plus-circle" />
           {{ 'ADD_2' | tr }}</a
         >
       </div>
       <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PROD_SELECT' | tr) : undefined }}">
         <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-          <i-bs name="trash" />
+          <bi name="trash" />
           {{ 'DELETE' | tr }}
         </button>
       </div>
@@ -55,7 +55,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
           (click)="filter.reset()"
           *ngIf="(filter.value?.length ?? 0) > 0"
         >
-          <i-bs name="x-circle-fill" />
+          <bi name="x-circle-fill" />
         </button>
       </div>
     </form>
@@ -90,7 +90,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
           </th>
           <td *ngbCellDef="let selectable" ngb-cell>
             <button class="btn btn-sm btn-outline-primary text-white" cdkDragHandle *ngIf="orderMode()">
-              <i-bs name="grip-vertical" />
+              <bi name="grip-vertical" />
             </button>
             <div class="form-check" *ngIf="!orderMode()">
               <input
@@ -118,7 +118,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let productGroup" ngb-cell>
             <a class="btn btn-sm me-2 btn-outline-success text-white" routerLink="../{{ productGroup.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
-              <i-bs name="pencil-square" />
+              <bi name="pencil-square" />
             </a>
             <button
               type="button"
@@ -126,7 +126,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
               ngbTooltip="{{ 'DELETE' | tr }}"
               (click)="onDelete(productGroup.id, $event)"
             >
-              <i-bs name="trash" />
+              <bi name="trash" />
             </button>
           </td>
         </ng-container>
@@ -162,7 +162,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
     DfxSortModule,
     NgbTooltip,
     AppBtnToolbarComponent,
-    AppIconsModule,
+    BiComponent,
     AppSpinnerRowComponent,
     AppTextWithColorIndicatorComponent,
     AppOrderModeSwitchComponent,

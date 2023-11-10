@@ -15,7 +15,7 @@ import {EventsService} from '../../events/_services/events.service';
           <back-button />
           <div>
             <button class="btn btn-primary btn-sm" print printSectionId="chart">
-              <i-bs name="printer" />
+              <bi name="printer" />
               {{ 'PRINT' | tr }}
             </button>
           </div>

@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, Component, Inject, inject, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 
-import {WINDOW} from 'dfx-helper';
+import {injectWindow} from 'dfx-helper';
 import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
 
 @Component({
@@ -11,7 +11,7 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
           <div class="d-flex flex-column flex-md-row justify-content-between">
             <div>
               <h3>
-                <a href="https://kellner.team" rel="noopener" target="_blank" class="text-white">kellner.team</a>
+                <a class="link-body-emphasis" href="https://kellner.team" rel="noopener" target="_blank">kellner.team</a>
               </h3>
             </div>
             <div class="col-md-2">
@@ -22,7 +22,6 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
                 <li>
                   <label for="changeLanguage">{{ 'LANGUAGE' | tr }}</label>
                   <div class="input-group">
-                    <!-- Set everywhere text-white class; Bug on macOs where text is not visible -->
                     <select class="form-select" id="changeLanguage" [ngModel]="selected$ | async" (ngModelChange)="setLang($event)">
                       <option value="de">{{ 'LANGUAGE_GERMAN' | tr }}</option>
                       <option value="en">{{ 'LANGUAGE_ENGLISH' | tr }}</option>
@@ -48,12 +47,12 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
                 <div style="font-size: 16px; color: red" (click)="heart()">♥</div>
                 <div>
                   by
-                  <a class="text-white" href="https://datepollsystems.org" rel="noopener" target="_blank">DatePoll-Systems</a>
+                  <a class="link-body-emphasis" href="https://datepollsystems.org" rel="noopener" target="_blank">DatePoll-Systems</a>
                 </div>
               </div>
 
               <div class="d-flex align-items-center">
-                <a class="text-white" routerLink="/info/imprint"> {{ 'ABOUT_IMPRINT' | tr }} & {{ 'ABOUT_PRIVACY_POLICY' | tr }}</a>
+                <a class="link-body-emphasis" routerLink="/info/imprint"> {{ 'ABOUT_IMPRINT' | tr }} & {{ 'ABOUT_PRIVACY_POLICY' | tr }}</a>
               </div>
             </div>
           </div>
@@ -64,8 +63,8 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
   styles: [
     `
       #footerContainer {
-        background-color: var(--primary-7);
-        color: white;
+        background-color: var(--bs-tertiary-bg);
+        color: var(--bs-secondary-color);
       }
 
       .footerHeaderContainer {
@@ -74,10 +73,8 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
       }
 
       #footerBarContainer {
-        background-color: var(--primary-8);
         padding-top: 18px;
         padding-bottom: 15px;
-        color: rgba(255, 255, 255, 0.8);
       }
 
       ul {
@@ -86,7 +83,6 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
       }
 
       li {
-        color: white;
         text-align: end;
       }
 
@@ -110,7 +106,7 @@ export class FooterComponent {
   @Input()
   container = 'container-xxxl';
 
-  constructor(@Inject(WINDOW) private window?: Window) {}
+  window = injectWindow();
 
   heart(): void {
     document.getElementById('brand')?.classList.add('spin');

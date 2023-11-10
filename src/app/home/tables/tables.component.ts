@@ -2,12 +2,12 @@ import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {AppListNavItemDirective, AppListNavItemsComponent} from '../../_shared/ui/app-list-nav-items.component';
 import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/color/app-text-with-color-indicator.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {TableGroupsService} from './_services/table-groups.service';
 
 @Component({
@@ -16,12 +16,12 @@ import {TableGroupsService} from './_services/table-groups.service';
       <div class="d-flex flex-column gap-3" nav>
         <div class="list-group">
           <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
-            <i-bs name="columns-gap" />
+            <bi name="columns-gap" />
             {{ 'HOME_TABLES' | tr }}</a
           >
 
           <a class="list-group-item list-group-item-action" routerLink="groups/all" routerLinkActive="active">
-            <i-bs name="diagram-3" />
+            <bi name="diagram-3" />
             {{ 'HOME_TABLE_GROUPS' | tr }}</a
           >
         </div>
@@ -47,7 +47,7 @@ import {TableGroupsService} from './_services/table-groups.service';
     RouterLink,
     RouterLinkActive,
     DfxTr,
-    AppIconsModule,
+    BiComponent,
     AppEntitiesLayoutComponent,
     AppListNavItemsComponent,
     AsyncPipe,

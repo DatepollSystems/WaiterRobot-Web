@@ -6,18 +6,18 @@ import {combineLatest, map} from 'rxjs';
 
 import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
+import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directives';
+import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 import {PrintersService} from '../../printers/_services/printers.service';
 import {ProductGroupsService} from '../_services/product-groups.service';
 import {ProductGroupEditFormComponent} from './product-group-edit-form.component';
-import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
-import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directives';
 
 @Component({
   template: `
@@ -33,14 +33,14 @@ import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directi
         <ng-container *isEditingAndNotDeleted="entity">
           <div>
             <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
-              <i-bs name="trash" />
+              <bi name="trash" />
               {{ 'DELETE' | tr }}
             </button>
           </div>
 
           <div>
             <a routerLink="../products/{{ entity.id }}" class="btn btn-sm btn-primary">
-              <i-bs name="columns-gap" />
+              <bi name="columns-gap" />
               {{ 'HOME_PROD_GROUP_SHOW_TABLES' | tr }}</a
             >
           </div>
@@ -93,7 +93,7 @@ import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directi
     RouterLink,
     DfxTr,
     NgbNavModule,
-    AppIconsModule,
+    BiComponent,
     AppFormModule,
     AppContinuesCreationSwitchComponent,
     ProductGroupEditFormComponent,

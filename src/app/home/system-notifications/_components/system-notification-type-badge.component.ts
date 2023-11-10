@@ -1,9 +1,9 @@
 import {NgClass, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
 
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {GetSystemNotificationResponse} from '../../../_shared/waiterrobot-backend';
 
 @Component({
@@ -20,10 +20,10 @@ import {GetSystemNotificationResponse} from '../../../_shared/waiterrobot-backen
       style="width: min-content"
     >
       <ng-container [ngSwitch]="type">
-        <i-bs *ngSwitchCase="'INFO'" name="info-circle-fill" />
-        <i-bs *ngSwitchCase="'SUCCESS'" name="check-circle-fill" />
-        <i-bs *ngSwitchCase="'DANGER'" name="exclamation-triangle-fill" />
-        <i-bs *ngSwitchCase="'WARNING'" name="exclamation-triangle-fill" />
+        <bi *ngSwitchCase="'INFO'" name="info-circle-fill" />
+        <bi *ngSwitchCase="'SUCCESS'" name="check-circle-fill" />
+        <bi *ngSwitchCase="'DANGER'" name="exclamation-triangle-fill" />
+        <bi *ngSwitchCase="'WARNING'" name="exclamation-triangle-fill" />
       </ng-container>
       <span>{{ type | s_lowerCaseAllExceptFirstLetter }}</span>
     </div>
@@ -31,7 +31,7 @@ import {GetSystemNotificationResponse} from '../../../_shared/waiterrobot-backen
   standalone: true,
   selector: 'app-system-notification-type-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, AppIconsModule, NgIf, DfxLowerCaseExceptFirstLettersPipe, NgSwitch, NgSwitchCase],
+  imports: [NgClass, BiComponent, NgIf, DfxLowerCaseExceptFirstLettersPipe, NgSwitch, NgSwitchCase],
 })
 export class AppSystemNotificationTypeBadgeComponent {
   @Input({required: true}) type!: GetSystemNotificationResponse['type'];

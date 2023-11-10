@@ -6,12 +6,12 @@ import {combineLatest, map, switchMap} from 'rxjs';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
 import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppBillPaymentStateBadgeComponent} from './_components/app-bill-payment-state-badge.component';
 import {AppOrderProductsListTableComponent} from './_components/app-bill-products-list-table.component';
 import {AppBillRefreshButtonComponent} from './_components/app-bill-refresh-button.component';
@@ -28,7 +28,7 @@ import {BillsService} from './bills.service';
         <app-bill-payment-state-badge [unpaidReason]="vm.bill.unpaidReason?.reason" />
 
         <span class="badge bg-secondary d-flex align-items-center gap-2 ms-md-5 not-selectable" ngbTooltip="Erstellt um">
-          <i-bs name="save" />
+          <bi name="save" />
           {{ vm.bill.createdAt | date: 'dd.MM.yy HH:mm:ss' }}
         </span>
 
@@ -37,7 +37,7 @@ import {BillsService} from './bills.service';
           class="badge bg-secondary d-flex align-items-center gap-2"
           ngbTooltip="{{ 'HOME_ORDER_OPEN_TABLE' | tr }}"
         >
-          <i-bs name="columns-gap" />
+          <bi name="columns-gap" />
           {{ vm.bill.table.group.name }} - {{ vm.bill.table.number }}
         </a>
 
@@ -46,7 +46,7 @@ import {BillsService} from './bills.service';
           class="badge bg-primary d-flex align-items-center gap-2"
           ngbTooltip="{{ 'HOME_ORDER_OPEN_WAITER' | tr }}"
         >
-          <i-bs name="people" />
+          <bi name="people" />
           {{ vm.bill.waiter.name }}
         </a>
       </div>
@@ -70,7 +70,7 @@ import {BillsService} from './bills.service';
     AppBtnToolbarComponent,
     AppBackButtonComponent,
     AppBillRefreshButtonComponent,
-    AppIconsModule,
+    BiComponent,
     RouterLink,
     DfxTr,
     NgbTooltip,

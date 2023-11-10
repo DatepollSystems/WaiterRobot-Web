@@ -3,18 +3,18 @@ import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
+import {AppDatetimeInputComponent} from '../../../_shared/ui/datetime-picker/datetime-picker.component';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {
   CreateSystemNotificationDto,
   GetSystemNotificationResponse,
   UpdateSystemNotificationDto,
 } from '../../../_shared/waiterrobot-backend';
 import {systemNotificationTypes} from '../_services/system-notifications.service';
-import {AppDatetimeInputComponent} from '../../../_shared/ui/datetime-picker/datetime-picker.component';
 
 @Component({
   template: `
@@ -35,7 +35,7 @@ import {AppDatetimeInputComponent} from '../../../_shared/ui/datetime-picker/dat
           <label for="type">{{ 'TYPE' | tr }}</label>
           <div class="input-group">
             <span class="input-group-text bg-dark text-white" id="type-addon">
-              <i-bs name="diagram-3" />
+              <bi name="diagram-3" />
             </span>
             <select class="form-select bg-dark text-white" id="type" formControlName="type">
               <option [value]="''" disabled>{{ 'HOME_SYSTEM_NOTIFICATIONS_TYPE_DEFAULT' | tr }}</option>
@@ -108,7 +108,7 @@ import {AppDatetimeInputComponent} from '../../../_shared/ui/datetime-picker/dat
     NgIf,
     AsyncPipe,
     DfxTr,
-    AppIconsModule,
+    BiComponent,
     NgForOf,
     TextFieldModule,
     DfxLowerCaseExceptFirstLettersPipe,

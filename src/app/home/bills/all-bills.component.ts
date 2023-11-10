@@ -10,11 +10,11 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxCurrencyCentPipe} from 'src/app/_shared/ui/currency.pipe';
 
 import {loggerOf} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
 import {PaginatedDataSource} from '../../_shared/paginated-data-source';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {GetBillMinResponse} from '../../_shared/waiterrobot-backend';
 import {AppBillPaymentStateBadgeComponent} from './_components/app-bill-payment-state-badge.component';
@@ -39,7 +39,7 @@ import {BillsService} from './bills.service';
           (click)="filter.reset()"
           *ngIf="(filter.value?.length ?? 0) > 0"
         >
-          <i-bs name="x-circle-fill" />
+          <bi name="x-circle-fill" />
         </button>
       </div>
     </form>
@@ -91,7 +91,7 @@ import {BillsService} from './bills.service';
               ngbTooltip="{{ 'OPEN' | tr }}"
               placement="left"
             >
-              <i-bs name="arrow-up-right-square-fill" />
+              <bi name="arrow-up-right-square-fill" />
             </a>
           </td>
         </ng-container>
@@ -123,7 +123,7 @@ import {BillsService} from './bills.service';
     DfxSortModule,
     DfxPaginationModule,
     DfxTr,
-    AppIconsModule,
+    BiComponent,
     AppSpinnerRowComponent,
     DfxCurrencyCentPipe,
     AppBillPaymentStateBadgeComponent,

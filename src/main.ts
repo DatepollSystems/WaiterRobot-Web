@@ -9,6 +9,7 @@ import {provideRouter, TitleStrategy, withPreloading} from '@angular/router';
 
 import {NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 
+import {provideBi, withIcons} from 'dfx-bootstrap-icons';
 import {
   baseUrlInterceptor,
   DfxPreloadStrategy,
@@ -29,6 +30,7 @@ import {AuthService} from './app/_shared/services/auth/auth.service';
 import {errorInterceptor} from './app/_shared/services/auth/error-interceptor';
 import {CustomDateParserFormatter, CustomDateTimeAdapter} from './app/_shared/services/datepicker-adapter';
 import {NgbDateTimeAdapter} from './app/_shared/ui/datetime-picker/datetime-adapter';
+import {ICONS} from './app/_shared/ui/icons';
 import {AppComponent} from './app/app.component';
 import {ROUTES} from './app/app.routes';
 
@@ -65,6 +67,7 @@ bootstrapApplication(AppComponent, {
     provideHttpClient(
       withInterceptors([baseUrlInterceptor, postPutJsonContentTypeInterceptor, loggingInterceptor, authInterceptor, errorInterceptor]),
     ),
+    provideBi(withIcons(ICONS)),
   ],
 }).catch((err) => console.error(err));
 

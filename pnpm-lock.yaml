@@ -36,8 +36,8 @@ dependencies:
     specifier: 17.0.2
     version: 17.0.2(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/platform-browser@17.0.2)(rxjs@7.8.1)
   '@ng-bootstrap/ng-bootstrap':
-    specifier: 15.1.2
-    version: 15.1.2(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2)(@angular/localize@17.0.2)(@popperjs/core@2.11.8)(rxjs@7.8.1)
+    specifier: 16.0.0-rc.0
+    version: 16.0.0-rc.0(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2)(@angular/localize@17.0.2)(@popperjs/core@2.11.8)(rxjs@7.8.1)
   '@ngx-loading-bar/core':
     specifier: 6.0.2
     version: 6.0.2(@angular/common@17.0.2)(rxjs@7.8.1)
@@ -51,35 +51,35 @@ dependencies:
     specifier: 20.4.1
     version: 20.4.1(@angular/animations@17.0.2)(@angular/cdk@17.0.0)(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2)(@angular/platform-browser-dynamic@17.0.2)(@angular/platform-browser@17.0.2)(rxjs@7.8.1)
   bootstrap:
-    specifier: 5.2.3
-    version: 5.2.3(@popperjs/core@2.11.8)
+    specifier: 5.3.2
+    version: 5.3.2(@popperjs/core@2.11.8)
   d3-shape:
     specifier: 3.2.0
     version: 3.2.0
   dfts-helper:
     specifier: 1.1.1
     version: 1.1.1(tslib@2.6.1)
+  dfx-bootstrap-icons:
+    specifier: 0.0.1-beta.0
+    version: 0.0.1-beta.0(@angular/common@17.0.2)(@angular/core@17.0.2)
   dfx-bootstrap-table:
-    specifier: 2.0.1
-    version: 2.0.1(@angular/animations@17.0.2)(@angular/cdk@17.0.0)(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2)(bootstrap@5.2.3)(rxjs@7.8.1)
+    specifier: 3.0.0-beta.0
+    version: 3.0.0-beta.0(@angular/animations@17.0.2)(@angular/cdk@17.0.0)(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2)(bootstrap@5.3.2)(rxjs@7.8.1)
   dfx-helper:
-    specifier: 6.1.0
-    version: 6.1.0(@angular/cdk@17.0.0)(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/platform-browser@17.0.2)(@angular/router@17.0.2)(dfts-helper@1.1.1)(rxjs@7.8.1)
+    specifier: 7.0.0-beta.0
+    version: 7.0.0-beta.0(@angular/cdk@17.0.0)(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/platform-browser@17.0.2)(@angular/router@17.0.2)(dfts-helper@1.1.1)(rxjs@7.8.1)
   dfx-qrcode:
-    specifier: ^0.0.1
-    version: 0.0.1(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/platform-browser@17.0.2)
+    specifier: 2.0.0-beta.0
+    version: 2.0.0-beta.0(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/platform-browser@17.0.2)
   dfx-translate:
-    specifier: 3.0.0
-    version: 3.0.0(@angular/common@17.0.2)(@angular/core@17.0.2)(commander@10.0.0)(rxjs@7.8.1)
+    specifier: 4.0.0-beta.0
+    version: 4.0.0-beta.0(@angular/common@17.0.2)(@angular/core@17.0.2)(rxjs@7.8.1)
   html-to-image:
     specifier: 1.11.11
     version: 1.11.11
   jspdf:
     specifier: 2.5.1
     version: 2.5.1
-  ngx-bootstrap-icons:
-    specifier: 1.9.2
-    version: 1.9.2(@angular/common@17.0.2)(@angular/core@17.0.2)
   ngx-color:
     specifier: ^9.0.0
     version: 9.0.0(@angular/common@17.0.2)(@angular/core@17.0.2)
@@ -3901,14 +3901,14 @@ packages:
       call-bind: 1.0.2
     dev: true
 
-  /@ng-bootstrap/ng-bootstrap@15.1.2(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2)(@angular/localize@17.0.2)(@popperjs/core@2.11.8)(rxjs@7.8.1):
-    resolution: {integrity: sha512-mM2yiGnt9o7KZLIFp8K1vjfmVfu7HR3d8dhH5SszfArbgn9DvvQ4P5D5TDGygzyBSzeyZe18p7I8rX8vgA6DKw==}
+  /@ng-bootstrap/ng-bootstrap@16.0.0-rc.0(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2)(@angular/localize@17.0.2)(@popperjs/core@2.11.8)(rxjs@7.8.1):
+    resolution: {integrity: sha512-AssKPPs7pT6Sc77vsqzWZgXi9a5pMe4FSc4yw81WMjQpIhCOix9mdXwpxrmz77kSV6JOhaX9pnZ5aIOTJaQ/2Q==}
     peerDependencies:
-      '@angular/common': ^16.0.0
-      '@angular/core': ^16.0.0
-      '@angular/forms': ^16.0.0
-      '@angular/localize': ^16.0.0
-      '@popperjs/core': ^2.11.6
+      '@angular/common': ^17.0.0
+      '@angular/core': ^17.0.0
+      '@angular/forms': ^17.0.0
+      '@angular/localize': ^17.0.0
+      '@popperjs/core': ^2.11.8
       rxjs: ^6.5.3 || ^7.4.0
     dependencies:
       '@angular/common': 17.0.2(@angular/core@17.0.2)(rxjs@7.8.1)
@@ -5461,10 +5461,10 @@ packages:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
     dev: true
 
-  /bootstrap@5.2.3(@popperjs/core@2.11.8):
-    resolution: {integrity: sha512-cEKPM+fwb3cT8NzQZYEu4HilJ3anCrWqh3CHAok1p9jXqMPsPTBhU25fBckEJHJ/p+tTxTFTsFQGM+gaHpi3QQ==}
+  /bootstrap@5.3.2(@popperjs/core@2.11.8):
+    resolution: {integrity: sha512-D32nmNWiQHo94BKHLmOrdjlL05q1c8oxbtBphQFb9Z5to6eGRDCm0QgeaZ4zFBHzfg2++rqa2JkqCcxDy0sH0g==}
     peerDependencies:
-      '@popperjs/core': ^2.11.6
+      '@popperjs/core': ^2.11.8
     dependencies:
       '@popperjs/core': 2.11.8
     dev: false
@@ -5868,6 +5868,7 @@ packages:
   /commander@10.0.0:
     resolution: {integrity: sha512-zS5PnTI22FIRM6ylNW8G4Ap0IEOyk62fhLSD0+uHRT9McRCLGpkVNvao4bjimpK/GShynyQkFFxHhwMcETmduA==}
     engines: {node: '>=14'}
+    dev: true
 
   /commander@2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
@@ -6451,22 +6452,31 @@ packages:
       tslib: 2.6.1
     dev: false
 
-  /dfts-qrcode@0.0.1(tslib@2.6.1):
-    resolution: {integrity: sha512-VosxnUdPRNWEgR2Ht6+iwN/rTKZJUgD7yE3oQRNs7winZDq/En8pjHT5TPJdQ1KMXTodLJbMdIO+krdCL23q5Q==}
-    peerDependencies:
-      tslib: ^2.3.0
+  /dfts-qrcode@1.0.0:
+    resolution: {integrity: sha512-PP4m8KCOhOCMhd/YfibuKSv9iEQFTB5g/E2E2cIS/VV5nV+bDeyIuIbB5GRXFGEAvEI2zKRPlD/8bsfVdB2J3w==}
     dependencies:
+      tslib: 2.6.0
+    dev: false
+
+  /dfx-bootstrap-icons@0.0.1-beta.0(@angular/common@17.0.2)(@angular/core@17.0.2):
+    resolution: {integrity: sha512-qQyON+wq1nE5+LmzSqSut7LhfctEusu0igcYSJ9fU067knz6rAyUI+reMt3iw530Hp6yaNDy5tV6dPgJYZbZZA==}
+    peerDependencies:
+      '@angular/common': '17'
+      '@angular/core': '17'
+    dependencies:
+      '@angular/common': 17.0.2(@angular/core@17.0.2)(rxjs@7.8.1)
+      '@angular/core': 17.0.2(rxjs@7.8.1)(zone.js@0.14.1)
       tslib: 2.6.1
     dev: false
 
-  /dfx-bootstrap-table@2.0.1(@angular/animations@17.0.2)(@angular/cdk@17.0.0)(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2)(bootstrap@5.2.3)(rxjs@7.8.1):
-    resolution: {integrity: sha512-1hzaE58yDfHkvhtn1ppQiSsyF0/rAgOXYpbif1/hy4ihULZCxLOTTRb/0TgIWHvbs+ZcntHaEOvLnPfksY9z+A==}
+  /dfx-bootstrap-table@3.0.0-beta.0(@angular/animations@17.0.2)(@angular/cdk@17.0.0)(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2)(bootstrap@5.3.2)(rxjs@7.8.1):
+    resolution: {integrity: sha512-sIxSLmWnRpfQpPjuvAmoWuM/2/5ySH29uqMXRc6zDXwxX0x2bTz61CMoHSDMKQ2RMbZfNKaF59HlYq2/J2VXbw==}
     peerDependencies:
-      '@angular/animations': '16'
-      '@angular/cdk': '16'
-      '@angular/common': '16'
-      '@angular/core': '16'
-      '@angular/forms': '16'
+      '@angular/animations': '17'
+      '@angular/cdk': '17'
+      '@angular/common': '17'
+      '@angular/core': '17'
+      '@angular/forms': '17'
       bootstrap: '5'
       rxjs: '7'
     dependencies:
@@ -6475,20 +6485,20 @@ packages:
       '@angular/common': 17.0.2(@angular/core@17.0.2)(rxjs@7.8.1)
       '@angular/core': 17.0.2(rxjs@7.8.1)(zone.js@0.14.1)
       '@angular/forms': 17.0.2(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/platform-browser@17.0.2)(rxjs@7.8.1)
-      bootstrap: 5.2.3(@popperjs/core@2.11.8)
+      bootstrap: 5.3.2(@popperjs/core@2.11.8)
       rxjs: 7.8.1
       tslib: 2.6.1
     dev: false
 
-  /dfx-helper@6.1.0(@angular/cdk@17.0.0)(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/platform-browser@17.0.2)(@angular/router@17.0.2)(dfts-helper@1.1.1)(rxjs@7.8.1):
-    resolution: {integrity: sha512-5BTUZ9VstuO4gcbBEgTXKNuAxzyJI21aFzqAvEhCa2xmAZBBny6KBiGHEdK7ZBzTo+hRukiLSteKs0kU0qHw+Q==}
+  /dfx-helper@7.0.0-beta.0(@angular/cdk@17.0.0)(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/platform-browser@17.0.2)(@angular/router@17.0.2)(dfts-helper@1.1.1)(rxjs@7.8.1):
+    resolution: {integrity: sha512-L/Qm1kSFK+M/oNYlv0zoJdBvYG1F2KPVUnoeu66C0oL69VrglNG9WQuTTPUQkUDINlXZHu2Pe4RnyN6bYSK7fQ==}
     peerDependencies:
-      '@angular/cdk': '16'
-      '@angular/common': '16'
-      '@angular/core': '16'
-      '@angular/platform-browser': '16'
-      '@angular/router': '16'
-      dfts-helper: 0 - 1
+      '@angular/cdk': '17'
+      '@angular/common': '17'
+      '@angular/core': '17'
+      '@angular/platform-browser': '17'
+      '@angular/router': '17'
+      dfts-helper: '1'
       rxjs: '7'
     dependencies:
       '@angular/cdk': 17.0.0(@angular/common@17.0.2)(@angular/core@17.0.2)(rxjs@7.8.1)
@@ -6501,32 +6511,30 @@ packages:
       tslib: 2.6.1
     dev: false
 
-  /dfx-qrcode@0.0.1(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/platform-browser@17.0.2):
-    resolution: {integrity: sha512-w+XVUj0QosHz8ymRE48iRvf+D8su0XxKisHiB+/03ovz2GP80QN1TLhUQgop+wuQipCjlZValHICrKXYMr2dfw==}
+  /dfx-qrcode@2.0.0-beta.0(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/platform-browser@17.0.2):
+    resolution: {integrity: sha512-boj3KGH8o0O+GowyNk9nOdCtQBvys6Qh+Tr+mzrp59+1i32Rg8H0v/p7udoD/lquDLwu9f8CNhRzbPo9h07aCA==}
     peerDependencies:
-      '@angular/common': '16'
-      '@angular/core': '16'
-      '@angular/platform-browser': '16'
+      '@angular/common': '17'
+      '@angular/core': '17'
+      '@angular/platform-browser': '17'
     dependencies:
       '@angular/common': 17.0.2(@angular/core@17.0.2)(rxjs@7.8.1)
       '@angular/core': 17.0.2(rxjs@7.8.1)(zone.js@0.14.1)
       '@angular/platform-browser': 17.0.2(@angular/animations@17.0.2)(@angular/common@17.0.2)(@angular/core@17.0.2)
-      dfts-qrcode: 0.0.1(tslib@2.6.1)
+      dfts-qrcode: 1.0.0
       tslib: 2.6.1
     dev: false
 
-  /dfx-translate@3.0.0(@angular/common@17.0.2)(@angular/core@17.0.2)(commander@10.0.0)(rxjs@7.8.1):
-    resolution: {integrity: sha512-FJnO64aFNyidFGGMDuKgrD7CjtVYRc+gaWM0HVikjR0nhAzzgA0fAt6w/7cgedA4DRsqH/jtaO85DSDiLPnw4Q==}
+  /dfx-translate@4.0.0-beta.0(@angular/common@17.0.2)(@angular/core@17.0.2)(rxjs@7.8.1):
+    resolution: {integrity: sha512-HEk1zJWC0ZyCewuIxxGJrHgosYxwI1l/PED0KucJi5F+elub06V/4+bAeXKfnN9WsY2N6zDCLblXR2bfA6wspg==}
     hasBin: true
     peerDependencies:
-      '@angular/common': '16'
-      '@angular/core': '16'
-      commander: ^10.0.0
+      '@angular/common': '17'
+      '@angular/core': '17'
       rxjs: '7'
     dependencies:
       '@angular/common': 17.0.2(@angular/core@17.0.2)(rxjs@7.8.1)
       '@angular/core': 17.0.2(rxjs@7.8.1)(zone.js@0.14.1)
-      commander: 10.0.0
       rxjs: 7.8.1
       tslib: 2.6.1
     dev: false
@@ -9549,18 +9557,6 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
 
-  /ngx-bootstrap-icons@1.9.2(@angular/common@17.0.2)(@angular/core@17.0.2):
-    resolution: {integrity: sha512-YHd2xNd7/6X0pdgAuIGWkw7hywKigl6YPt5oUw7TrDdv2RlSOVJWhClIQjp/SHIgfAGyX3NiGqJvsKYmV6PIDQ==}
-    engines: {node: '>= 16.18.1', npm: '>= 8.11.0'}
-    peerDependencies:
-      '@angular/common': '>= 13.3.8'
-      '@angular/core': '>= 13.3.8'
-    dependencies:
-      '@angular/common': 17.0.2(@angular/core@17.0.2)(rxjs@7.8.1)
-      '@angular/core': 17.0.2(rxjs@7.8.1)(zone.js@0.14.1)
-      tslib: 2.6.1
-    dev: false
-
   /ngx-color@9.0.0(@angular/common@17.0.2)(@angular/core@17.0.2):
     resolution: {integrity: sha512-zyAFux+FRI4cACZ7g8DQQsBbNMhqmFkhtUPaxhkiVHhPzWU1iqXP8MqWH6By3guNOCch5oYrYNBWlHToklbdDg==}
     peerDependencies:
@@ -11981,6 +11977,10 @@ packages:
   /tslib@1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
     dev: true
+
+  /tslib@2.6.0:
+    resolution: {integrity: sha512-7At1WUettjcSRHXCyYtTselblcHl9PJFFVKiCAy/bY97+BPZXSQ2wbq0P9s8tK2G7dFQfNnlJnPAiArVBVBsfA==}
+    dev: false
 
   /tslib@2.6.1:
     resolution: {integrity: sha512-t0hLfiEKfMUoqhG+U1oid7Pva4bbDPHYfJNiB7BiIjRkj1pyC++4N3huJfqY6aRH6VTB0rvtzQwjM4K6qpfOig==}

@@ -6,11 +6,12 @@ import {combineLatest, filter, map, shareReplay, startWith, switchMap} from 'rxj
 import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {n_from, n_isNumeric} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
+import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 import {CreateWaiterDto, GetWaiterResponse, UpdateWaiterDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 import {OrganisationsService} from '../../organisations/_services/organisations.service';
@@ -19,7 +20,6 @@ import {BtnWaiterSignInQrCodeComponent} from '../btn-waiter-sign-in-qr-code.comp
 import {AppProductEditFormComponent} from './waiter-edit-form.component';
 import {WaiterEditOrderProductsComponent} from './waiter-edit-order-products.component';
 import {WaiterSessionsComponent} from './waiter-sessions.component';
-import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 
 @Component({
   template: `
@@ -39,7 +39,7 @@ import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
         <ng-container *isEditing="entity">
           <div>
             <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
-              <i-bs name="trash" />
+              <bi name="trash" />
               {{ 'DELETE' | tr }}
             </button>
           </div>
@@ -98,7 +98,7 @@ import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
     NgIf,
     DfxTr,
     NgbNavModule,
-    AppIconsModule,
+    BiComponent,
     AppFormModule,
     AppProductEditFormComponent,
     BtnWaiterSignInQrCodeComponent,

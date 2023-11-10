@@ -14,7 +14,8 @@ import {
   NgbTimeStruct,
 } from '@ng-bootstrap/ng-bootstrap';
 
-import {AppIconsModule} from '../icons.module';
+import {BiComponent} from 'dfx-bootstrap-icons';
+
 import {NgbDateTimeAdapter} from './datetime-adapter';
 import {NgbDateTimeStruct} from './datetime.struct';
 
@@ -23,7 +24,7 @@ import {NgbDateTimeStruct} from './datetime.struct';
     <div class="input-group">
       <input
         [id]="id"
-        class="form-control bg-dark text-white"
+        class="form-control"
         [placeholder]="placeholder"
         [disabled]="disabled"
         [ngClass]="ngControl.valid ? 'ng-valid' : 'ng-invalid'"
@@ -33,14 +34,14 @@ import {NgbDateTimeStruct} from './datetime.struct';
       />
 
       <button
-        class="btn btn-outline-light"
+        class="input-group-text"
         [ngbPopover]="calendarContent"
         [autoClose]="'outside'"
         [placement]="'auto'"
         [disabled]="disabled"
         type="button"
       >
-        <i-bs name="calendar-date" />
+        <bi name="calendar-date" />
       </button>
     </div>
 
@@ -68,7 +69,7 @@ import {NgbDateTimeStruct} from './datetime.struct';
   standalone: true,
   selector: 'app-datetime-input',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AppIconsModule, NgbInputDatepicker, NgbTimepicker, NgClass, NgbPopover, NgbDatepicker, NgIf, FormsModule],
+  imports: [BiComponent, NgbInputDatepicker, NgbTimepicker, NgClass, NgbPopover, NgbDatepicker, NgIf, FormsModule, BiComponent],
 })
 export class AppDatetimeInputComponent implements ControlValueAccessor {
   @Input()

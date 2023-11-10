@@ -3,13 +3,13 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {HasNumberIDAndName} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {allowedCharacterSet} from '../../../_shared/regex';
 import {AppColorPicker} from '../../../_shared/ui/color/color-picker.component';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} from '../../../_shared/waiterrobot-backend';
 
 @Component({
@@ -44,7 +44,7 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
           <div class="form-group mb-2">
             <label for="selectPrinter">{{ 'NAV_PRINTERS' | tr }}</label>
             <div class="input-group">
-              <span class="input-group-text bg-dark text-white" id="selectPrinter-addon"><i-bs name="diagram-3" /></span>
+              <span class="input-group-text bg-dark text-white" id="selectPrinter-addon"><bi name="diagram-3" /></span>
               <select class="form-select bg-dark text-white" id="selectPrinter" formControlName="printerId">
                 <option [ngValue]="-1">{{ 'HOME_PROD_PRINTER_SELECT_DEFAULT' | tr }}</option>
                 <option [ngValue]="printer.id" *ngFor="let printer of this.printers; trackById">
@@ -66,7 +66,7 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
     </form>
   `,
   selector: 'app-product-group-edit-form',
-  imports: [ReactiveFormsModule, NgIf, NgForOf, AsyncPipe, DfxTr, DfxTrackById, AppIconsModule, AppColorPicker],
+  imports: [ReactiveFormsModule, NgIf, NgForOf, AsyncPipe, DfxTr, DfxTrackById, BiComponent, AppColorPicker],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

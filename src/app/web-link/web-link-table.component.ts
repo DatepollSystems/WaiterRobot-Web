@@ -5,11 +5,11 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 
 import {combineLatest, filter, map, shareReplay, switchMap} from 'rxjs';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {AppBackDirective} from '../_shared/ui/button/app-back-button.component';
 import {DfxCurrencyCentPipe} from '../_shared/ui/currency.pipe';
-import {AppIconsModule} from '../_shared/ui/icons.module';
 import {GetOpenBillResponse, GetTableWithGroupResponse} from '../_shared/waiterrobot-backend';
 
 @Component({
@@ -49,11 +49,11 @@ import {GetOpenBillResponse, GetTableWithGroupResponse} from '../_shared/waiterr
       <button back class="btn btn-light btn-sm">{{ 'GO_BACK' | tr }}</button>
       <div class="d-flex gap-2" *ngIf="false">
         <a routerLink="./orders" class="btn btn-outline-primary btn-sm">
-          <i-bs name="view-stacked" />
+          <bi name="view-stacked" />
           Bestellungen
         </a>
         <a routerLink="./bills" class="btn btn-primary btn-sm">
-          <i-bs name="cash-stack" />
+          <bi name="cash-stack" />
           Rechnungen
         </a>
       </div>
@@ -62,7 +62,7 @@ import {GetOpenBillResponse, GetTableWithGroupResponse} from '../_shared/waiterr
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-mobile-link-table',
-  imports: [NgIf, AsyncPipe, NgForOf, DfxTr, DfxCurrencyCentPipe, RouterLink, AppIconsModule, AppBackDirective],
+  imports: [NgIf, AsyncPipe, NgForOf, DfxTr, DfxCurrencyCentPipe, RouterLink, BiComponent, AppBackDirective],
 })
 export class WebLinkTableComponent {
   httpClient = inject(HttpClient);

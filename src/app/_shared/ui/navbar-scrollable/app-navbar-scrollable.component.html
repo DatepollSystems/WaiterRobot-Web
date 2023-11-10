@@ -1,4 +1,4 @@
-<nav class="navbar bg-dark navbar-dark pt-0 pb-2 ps-md-3">
+<nav class="navbar bg-body-tertiary nav-underline pt-0 pb-2 ps-md-3">
   <div class="my-container" [class.container-xxxl]="(isFullScreen$ | async) === false">
     <ul
       *ngIf="!editMode"
@@ -26,31 +26,31 @@
         *ngIf="edible && (showEditArrow || isMobile)"
       >
         <a class="nav-link" draggable="false" routerLinkActive="active" (click)="onEdit()">
-          <i-bs name="pencil-fill" />
+          <bi name="pencil-fill" />
         </a>
       </li>
     </ul>
 
     <div *ngIf="editMode" class="edit-container">
-      <h5 class="text-white">{{ 'NAV_EDIT_CUSTOMIZE' | tr }}</h5>
+      <h5>{{ 'NAV_EDIT_CUSTOMIZE' | tr }}</h5>
       <btn-toolbar>
         <button class="btn btn-sm btn-outline-secondary" (click)="onClose()">
-          <i-bs name="trash" />
+          <bi name="trash" />
           {{ 'CLOSE' | tr }}
         </button>
 
         <button class="btn btn-sm btn-success" (click)="onSave()">
-          <i-bs name="save" />
+          <bi name="save" />
           {{ 'SAVE' | tr }}
         </button>
 
         <button class="btn btn-sm btn-outline-danger" (click)="onReset()">
-          <i-bs name="arrow-clockwise" />
+          <bi name="arrow-clockwise" />
           {{ 'RESET' | tr }}
         </button>
 
         <button class="btn btn-sm btn-outline-info" (click)="openModal(bookMarkModalContent)" *ngIf="allowBookmarks">
-          <i-bs name="star-fill" />
+          <bi name="star-fill" />
           {{ 'NAV_EDIT_BOOKMARK' | tr }}
         </button>
       </btn-toolbar>
@@ -75,7 +75,7 @@
             ngbTooltip="{{ 'NAV_EDIT_BOOKMARK_DELETE' | tr }}"
             placement="bottom"
           >
-            <i-bs name="trash" />
+            <bi name="trash" />
           </button>
         </div>
       </div>
@@ -96,7 +96,7 @@
           <label for="name">{{ 'NAME' | tr }}</label>
           <input
             ngModel
-            class="form-control bg-dark text-white"
+            class="form-control"
             required
             type="text"
             id="name"

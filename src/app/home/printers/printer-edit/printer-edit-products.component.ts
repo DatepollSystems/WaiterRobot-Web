@@ -3,8 +3,8 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewChild} fro
 import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {NgxBootstrapIconsModule} from 'ngx-bootstrap-icons';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
@@ -27,7 +27,7 @@ import {GetProductMinResponse} from '../../../_shared/waiterrobot-backend';
               routerLink="/home/products/{{ products.id }}"
               ngbTooltip="{{ 'OPEN' | tr }}"
             >
-              <i-bs name="arrow-up-right-square-fill" />
+              <bi name="arrow-up-right-square-fill" />
             </a>
           </td>
         </ng-container>
@@ -43,7 +43,7 @@ import {GetProductMinResponse} from '../../../_shared/waiterrobot-backend';
   selector: 'app-printer-edit-products',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DfxTableModule, DfxTr, NgIf, RouterLink, NgbTooltip, NgxBootstrapIconsModule, DfxSortModule],
+  imports: [DfxTableModule, DfxTr, NgIf, RouterLink, NgbTooltip, DfxSortModule, BiComponent],
 })
 export class PrinterEditProductsComponent implements AfterViewInit {
   columnsToDisplay = ['name', 'actions'];

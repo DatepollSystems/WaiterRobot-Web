@@ -5,12 +5,12 @@ import {RouterLink} from '@angular/router';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
 import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';
 import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-list-with-delete.component';
 import {GetUserResponse} from '../../_shared/waiterrobot-backend';
@@ -23,7 +23,7 @@ import {UsersService} from './services/users.service';
     <btn-toolbar>
       <div>
         <a routerLink="../create" class="btn btn-sm btn-success">
-          <i-bs name="plus-circle" />
+          <bi name="plus-circle" />
           {{ 'ADD_2' | tr }}</a
         >
       </div>
@@ -40,7 +40,7 @@ import {UsersService} from './services/users.service';
           (click)="filter.reset()"
           *ngIf="(filter?.value?.length ?? 0) > 0"
         >
-          <i-bs name="x-circle-fill" />
+          <bi name="x-circle-fill" />
         </button>
       </div>
     </form>
@@ -80,7 +80,7 @@ import {UsersService} from './services/users.service';
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let user" ngb-cell>
             <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ user.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
-              <i-bs name="pencil-square" />
+              <bi name="pencil-square" />
             </a>
             <button
               type="button"
@@ -88,7 +88,7 @@ import {UsersService} from './services/users.service';
               ngbTooltip="{{ 'DELETE' | tr }}"
               (click)="onDelete(user.id, $event)"
             >
-              <i-bs name="trash" />
+              <bi name="trash" />
             </button>
           </td>
         </ng-container>
@@ -113,7 +113,7 @@ import {UsersService} from './services/users.service';
     DfxTableModule,
     DfxSortModule,
     DfxTr,
-    AppIconsModule,
+    BiComponent,
     AppSpinnerRowComponent,
     AppBtnToolbarComponent,
     AppActivatedPipe,

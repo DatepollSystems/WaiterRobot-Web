@@ -6,19 +6,19 @@ import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingFails, DfxHideIfPingSucceeds} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {NotificationService} from '../_shared/notifications/notification.service';
 import {AuthService} from '../_shared/services/auth/auth.service';
-import {AppDownloadBtnListComponent} from '../_shared/ui/button/app-download-btn-list.component';
 import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
+import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.component';
+import {AppDownloadBtnListComponent} from '../_shared/ui/button/app-download-btn-list.component';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
-import {AppIconsModule} from '../_shared/ui/icons.module';
 import {JwtResponse} from '../_shared/waiterrobot-backend';
 import {AppAccountNotActivatedDialog} from './account-not-activated-dialog.component';
 import {AppPasswordChangeDialogComponent} from './password-change-dialog.component';
-import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.component';
 
 @Component({
   template: `
@@ -29,14 +29,14 @@ import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.compon
 
           <form [formGroup]="form" (ngSubmit)="onSignIn()" class="d-flex flex-column gap-3">
             <div class="alert alert-warning" role="alert" hideIfOnline>
-              <i-bs name="wifi-off" />
+              <bi name="wifi-off" />
               {{ 'OFFLINE' | tr }}
             </div>
 
             <div hideIfOffline>
               <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="/json">
                 <div class="d-flex gap-3 align-items-center">
-                  <i-bs name="exclamation-triangle-fill" />
+                  <bi name="exclamation-triangle-fill" />
                   <div>
                     <b>{{ 'ABOUT_MAINTENANCE_1' | tr }}</b> {{ 'ABOUT_MAINTENANCE_2' | tr }}
                     <br />
@@ -110,7 +110,7 @@ import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.compon
     DfxHideIfPingFails,
     DfxHideIfOnline,
     DfxHideIfOffline,
-    AppIconsModule,
+    BiComponent,
     AppOutsideLayoutComponent,
   ],
 })

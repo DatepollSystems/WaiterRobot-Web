@@ -4,12 +4,12 @@ import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
-import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocationDto} from '../../../_shared/waiterrobot-backend';
 import {AppDatetimeInputComponent} from '../../../_shared/ui/datetime-picker/datetime-picker.component';
+import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
+import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocationDto} from '../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
@@ -19,7 +19,7 @@ import {AppDatetimeInputComponent} from '../../../_shared/ui/datetime-picker/dat
       <div class="row mb-3">
         <div class="form-group col-12 col-md-4 col-xl-6">
           <label for="name">{{ 'NAME' | tr }}</label>
-          <input class="form-control bg-dark text-white" formControlName="name" name="name" type="text" placeholder="{{ 'NAME' | tr }}" />
+          <input class="form-control" formControlName="name" name="name" type="text" placeholder="{{ 'NAME' | tr }}" />
 
           <small *ngIf="form.controls.name.invalid" class="text-danger"> {{ 'HOME_ORGS_NAME_INCORRECT' | tr }} </small>
         </div>
@@ -50,20 +50,14 @@ import {AppDatetimeInputComponent} from '../../../_shared/ui/datetime-picker/dat
       <div class="row">
         <div class="form-group col-12 col-md-7 col-xl-4">
           <label for="street">{{ 'HOME_ORGS_STREET' | tr }}</label>
-          <input
-            formControlName="street"
-            class="form-control bg-dark text-white"
-            type="text"
-            id="street"
-            placeholder="{{ 'HOME_ORGS_STREET' | tr }}"
-          />
+          <input formControlName="street" class="form-control" type="text" id="street" placeholder="{{ 'HOME_ORGS_STREET' | tr }}" />
           <small *ngIf="form.controls.street.invalid" class="text-danger"> {{ 'HOME_ORGS_STREET_INCORRECT' | tr }} </small>
         </div>
         <div class="form-group col-12 col-md-4 col-xl-2">
           <label for="streetNumber">{{ 'HOME_ORGS_STREETNUMBER' | tr }}</label>
           <input
             formControlName="streetNumber"
-            class="form-control bg-dark text-white"
+            class="form-control"
             type="text"
             id="streetNumber"
             placeholder="{{ 'HOME_ORGS_STREETNUMBER' | tr }}"
@@ -75,7 +69,7 @@ import {AppDatetimeInputComponent} from '../../../_shared/ui/datetime-picker/dat
           <label for="postalCode">{{ 'HOME_ORGS_POSTAL_CODE' | tr }}</label>
           <input
             formControlName="postalCode"
-            class="form-control bg-dark text-white"
+            class="form-control"
             type="text"
             id="postalCode"
             placeholder="{{ 'HOME_ORGS_POSTAL_CODE' | tr }}"
@@ -85,13 +79,7 @@ import {AppDatetimeInputComponent} from '../../../_shared/ui/datetime-picker/dat
 
         <div class="form-group col-12 col-md-7 col-xl-4">
           <label for="city">{{ 'HOME_ORGS_CITY' | tr }}</label>
-          <input
-            formControlName="city"
-            class="form-control bg-dark text-white"
-            type="text"
-            id="city"
-            placeholder="{{ 'HOME_ORGS_CITY' | tr }}"
-          />
+          <input formControlName="city" class="form-control" type="text" id="city" placeholder="{{ 'HOME_ORGS_CITY' | tr }}" />
           <small *ngIf="form.controls.city.invalid" class="text-danger"> {{ 'HOME_ORGS_CITY_INCORRECT' | tr }} </small>
         </div>
       </div>
@@ -105,7 +93,7 @@ import {AppDatetimeInputComponent} from '../../../_shared/ui/datetime-picker/dat
     </form>
   `,
   selector: 'app-event-edit-form',
-  imports: [ReactiveFormsModule, DfxTr, AppIconsModule, NgbInputDatepicker, NgIf, AsyncPipe, AppDatetimeInputComponent],
+  imports: [ReactiveFormsModule, DfxTr, BiComponent, NgbInputDatepicker, NgIf, AsyncPipe, AppDatetimeInputComponent],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

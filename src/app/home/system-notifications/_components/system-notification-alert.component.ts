@@ -1,9 +1,9 @@
 import {DatePipe, NgClass, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
 
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {GetSystemNotificationResponse} from '../../../_shared/waiterrobot-backend';
 
 @Component({
@@ -21,10 +21,10 @@ import {GetSystemNotificationResponse} from '../../../_shared/waiterrobot-backen
       <div class="d-flex justify-content-between">
         <div class="d-flex justify-content-start align-items-center gap-2">
           <ng-container [ngSwitch]="notification.type">
-            <i-bs *ngSwitchCase="'INFO'" name="info-circle-fill" />
-            <i-bs *ngSwitchCase="'SUCCESS'" name="check-circle-fill" />
-            <i-bs *ngSwitchCase="'DANGER'" name="exclamation-triangle-fill" />
-            <i-bs *ngSwitchCase="'WARNING'" name="exclamation-triangle-fill" />
+            <bi *ngSwitchCase="'INFO'" name="info-circle-fill" />
+            <bi *ngSwitchCase="'SUCCESS'" name="check-circle-fill" />
+            <bi *ngSwitchCase="'DANGER'" name="exclamation-triangle-fill" />
+            <bi *ngSwitchCase="'WARNING'" name="exclamation-triangle-fill" />
           </ng-container>
           <h5 class="mt-2">
             {{ notification.title ?? (notification.type | s_lowerCaseAllExceptFirstLetter) }}
@@ -45,7 +45,7 @@ import {GetSystemNotificationResponse} from '../../../_shared/waiterrobot-backen
   standalone: true,
   selector: 'app-system-notification-alert',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, AppIconsModule, NgIf, DfxLowerCaseExceptFirstLettersPipe, NgSwitch, NgSwitchCase, DatePipe],
+  imports: [NgClass, BiComponent, NgIf, DfxLowerCaseExceptFirstLettersPipe, NgSwitch, NgSwitchCase, DatePipe],
 })
 export class AppSystemNotificationAlertComponent {
   @Input({required: true}) notification!: GetSystemNotificationResponse;

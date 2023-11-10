@@ -6,12 +6,12 @@ import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 
 import {delay, tap} from 'rxjs';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {passwordMatchValidator} from '../_shared/regex';
 import {AuthService} from '../_shared/services/auth/auth.service';
 import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.component';
-import {AppIconsModule} from '../_shared/ui/icons.module';
 
 @Component({
   template: `
@@ -129,7 +129,7 @@ import {AppIconsModule} from '../_shared/ui/icons.module';
   selector: 'app-password-reset',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, RouterLink, NgIf, NgSwitch, NgSwitchCase, AsyncPipe, DfxTr, AppIconsModule, AppOutsideLayoutComponent],
+  imports: [ReactiveFormsModule, RouterLink, NgIf, NgSwitch, NgSwitchCase, AsyncPipe, DfxTr, BiComponent, AppOutsideLayoutComponent],
 })
 export class ForgotPasswordComponent {
   fb = inject(FormBuilder);

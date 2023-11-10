@@ -8,8 +8,7 @@ import {debounceTime, distinctUntilChanged, filter, map, merge, Observable, Subj
 import {NgbModule, NgbTypeahead, NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 
 import {s_is} from 'dfts-helper';
-
-import {AppIconsModule} from '../icons.module';
+import {BiComponent} from 'dfx-bootstrap-icons';
 
 type inputType = any | string;
 type inputTypes = inputType[];
@@ -19,7 +18,7 @@ type inputTypes = inputType[];
   templateUrl: './chip-input.component.html',
   styleUrls: ['./chip-input.component.scss'],
   standalone: true,
-  imports: [CommonModule, NgbModule, FormsModule, ReactiveFormsModule, AppIconsModule],
+  imports: [CommonModule, NgbModule, FormsModule, ReactiveFormsModule, BiComponent],
 })
 export class ChipInput {
   formCtrl = new UntypedFormControl();

@@ -4,23 +4,27 @@ import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Inpu
 import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {ColorGithubModule} from 'ngx-color/github';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {AppIsLightColorPipe} from './app-is-light-color.pipe';
-import {AppIconsModule} from '../icons.module';
 
 @Component({
   template: `
     <div class="btn-group">
       <button
         id="color-picker-button"
-        class="btn btn-outline-secondary"
+        class="btn btn-outline-info"
         (click)="showColorPicker.set(!showColorPicker())"
         [disabled]="disabled"
         type="button"
         [style.background-color]="color"
         [style.border-color]="color"
-        [ngClass]="{'text-white': !(color | isLightColor), 'text-dark': color | isLightColor}"
+        [ngClass]="{
+          'text-white': !(color | isLightColor) && color,
+          'text-dark': (color | isLightColor) && color,
+          'text-body-emphasis': !color
+        }"
         [autoClose]="'outside'"
         placement="bottom"
         [ngbPopover]="popContent"
@@ -31,13 +35,13 @@ import {AppIconsModule} from '../icons.module';
       </button>
 
       <button
-        class="btn btn-outline-secondary text-white"
+        class="btn btn-outline-secondary"
         (click)="color = undefined; colorChange.emit(undefined)"
         [disabled]="disabled"
         type="button"
         ngbTooltip="{{ 'RESET' | tr }}"
       >
-        <i-bs name="x-circle-fill" />
+        <bi name="x-circle-fill" />
       </button>
     </div>
 
@@ -65,7 +69,7 @@ import {AppIconsModule} from '../icons.module';
   standalone: true,
   selector: 'app-color-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, DfxTr, ColorGithubModule, AppIconsModule, NgbPopover, NgForOf, NgClass, AppIsLightColorPipe, NgbTooltip],
+  imports: [NgIf, DfxTr, ColorGithubModule, BiComponent, NgbPopover, NgForOf, NgClass, AppIsLightColorPipe, NgbTooltip],
 })
 export class AppColorPicker {
   @Input() color?: string | null;

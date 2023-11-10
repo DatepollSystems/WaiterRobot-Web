@@ -5,17 +5,17 @@ import {combineLatest, map} from 'rxjs';
 
 import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
+import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 import {CreatePrinterDto, GetPrinterResponse, UpdatePrinterDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 import {PrintersService} from '../_services/printers.service';
 import {AppPrinterEditForm} from './printer-edit-form.component';
 import {PrinterEditProductsComponent} from './printer-edit-products.component';
-import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 
 @Component({
   template: `
@@ -31,7 +31,7 @@ import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
         <ng-container *isEditing="entity">
           <div>
             <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
-              <i-bs name="trash" />
+              <bi name="trash" />
               {{ 'DELETE' | tr }}
             </button>
           </div>
@@ -81,7 +81,7 @@ import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
     NgIf,
     NgbNavModule,
     DfxTr,
-    AppIconsModule,
+    BiComponent,
     AppFormModule,
     AppPrinterEditForm,
     AppContinuesCreationSwitchComponent,

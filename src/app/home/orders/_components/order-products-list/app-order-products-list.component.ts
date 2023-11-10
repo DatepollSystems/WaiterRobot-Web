@@ -7,9 +7,9 @@ import {BehaviorSubject, combineLatest, map} from 'rxjs';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {s_fromStorage, st_set} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {AppIconsModule} from '../../../../_shared/ui/icons.module';
 import {GetImplodedOrderProductResponse} from '../../../../_shared/waiterrobot-backend';
 import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
 import {AppOrderProductsListTableComponent} from './app-order-products-list-table.component';
@@ -49,7 +49,7 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
                     ngbTooltip="{{ 'HOME_ORDER_REQUEUE' | tr }}"
                     placement="left"
                   >
-                    <i-bs name="printer" />
+                    <bi name="printer" />
                   </button>
                 </div>
               </div>
@@ -76,7 +76,7 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
     RouterLink,
     KeyValuePipe,
     AppOrderProductsListTableComponent,
-    AppIconsModule,
+    BiComponent,
     NgbTooltip,
   ],
   selector: 'app-order-products-list',

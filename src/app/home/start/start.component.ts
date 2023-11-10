@@ -8,6 +8,7 @@ import {catchError, combineLatest, filter, interval, map, of, share, startWith, 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {i_complete} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTimeSpanPipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
@@ -15,7 +16,6 @@ import {EnvironmentHelper} from '../../_shared/EnvironmentHelper';
 import {AuthService} from '../../_shared/services/auth/auth.service';
 import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
 import {AppDownloadBtnListComponent} from '../../_shared/ui/button/app-download-btn-list.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {GetEventOrLocationResponse, GetOrganisationResponse, JsonInfoResponse} from '../../_shared/waiterrobot-backend';
 import {AppSelectDialogComponent} from '../app-select-dialog.component';
 import {EventsService} from '../events/_services/events.service';
@@ -35,7 +35,7 @@ import {OrganisationsService} from '../organisations/_services/organisations.ser
     DfxTimeSpanPipe,
     DfxTr,
     AppDownloadBtnListComponent,
-    AppIconsModule,
+    BiComponent,
     AsyncPipe,
     AppSelectDialogComponent,
   ],

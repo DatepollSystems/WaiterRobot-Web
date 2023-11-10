@@ -5,12 +5,12 @@ import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {combineLatest, filter, map, merge, share, shareReplay, Subject, switchMap, take, tap} from 'rxjs';
 
 import {notNullAndUndefined} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {AppBtnToolbarComponent} from '../../../_shared/ui/button/app-btn-toolbar.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {DuplicateWaiterResponse, IdAndNameResponse} from '../../../_shared/waiterrobot-backend';
 import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
 
@@ -50,7 +50,7 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
               {{ duplicateWaiter.name }}
             </div>
             <button class="btn btn-sm btn-warning" (click)="$event.stopPropagation()" *ngIf="ignoreFeature">
-              <i-bs name="person-x-fill" />
+              <bi name="person-x-fill" />
               {{ 'IGNORE' | tr }}
             </button>
           </button>
@@ -62,7 +62,7 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
   `,
   imports: [
     NgIf,
-    AppIconsModule,
+    BiComponent,
     DfxTr,
     AppBtnToolbarComponent,
     NgForOf,

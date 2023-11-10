@@ -18,11 +18,11 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/WaiterRobot-Web",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": ["zone.js", "@angular/localize/init"],
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets", "src/site.webmanifest"],
@@ -30,20 +30,15 @@
               "src/styles.scss",
               "node_modules/dfx-helper/styles/helper.scss",
               "node_modules/dfx-helper/styles/colors.scss",
-              "node_modules/dfx-helper/styles/transform.scss"
+              "node_modules/dfx-helper/styles/transform.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "allowedCommonJsDependencies": ["rfdc", "clone-deep"],
             "scripts": [],
-            "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true,
-            "customWebpackConfig": {
-              "path": "./custom-webpack.config.js",
-              "replaceDuplicatePlugins": true
-            }
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -58,8 +53,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -87,8 +80,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -108,8 +99,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -121,19 +110,19 @@
           "defaultConfiguration": ""
         },
         "serve": {
-          "builder": "@angular-builders/custom-webpack:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "WaiterRobot-Web:build",
-            "proxyConfig": "src/proxy.json"
+            "buildTarget": "WaiterRobot-Web:build",
+            "proxyConfig": "src/proxy.js"
           },
           "configurations": {
             "lava": {
-              "browserTarget": "WaiterRobot-Web:build:local-lava",
-              "proxyConfig": "src/proxy.lava.json",
+              "buildTarget": "WaiterRobot-Web:build:local-lava",
+              "proxyConfig": "src/proxy.lava.js",
               "port": 4300
             },
             "production": {
-              "browserTarget": "WaiterRobot-Web:build:production"
+              "buildTarget": "WaiterRobot-Web:build:production"
             }
           }
         },

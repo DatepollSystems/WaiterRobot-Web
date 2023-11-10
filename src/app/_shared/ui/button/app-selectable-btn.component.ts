@@ -7,10 +7,9 @@ import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {PlacementArray} from '@ng-bootstrap/ng-bootstrap/util/positioning';
 
 import {IHasID, UndefinedOr} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {HasGetSelected, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-
-import {AppIconsModule} from '../icons.module';
 
 @Component({
   template: `
@@ -18,14 +17,14 @@ import {AppIconsModule} from '../icons.module';
       <button
         *ngIf="_selectedEntity?.id !== entity?.id; else deselect"
         type="button"
-        class="btn btn-sm btn-outline-primary text-white"
+        class="btn btn-sm btn-outline-primary text-body-emphasis"
         (click)="onSelect(entity); $event.stopPropagation()"
         attr.aria-label="{{ 'SELECT' | tr }}"
         ngbTooltip="{{ 'SELECT' | tr }}"
         placement="start"
         container="body"
       >
-        <i-bs name="check2-square" />
+        <bi name="check2-square" />
       </button>
       <ng-template #deselect>
         <button
@@ -37,7 +36,7 @@ import {AppIconsModule} from '../icons.module';
           [placement]="placement"
           container="body"
         >
-          <i-bs name="x-circle-fill" />
+          <bi name="x-circle-fill" />
         </button>
       </ng-template>
     </ng-container>
@@ -45,7 +44,7 @@ import {AppIconsModule} from '../icons.module';
   selector: 'selectable-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgIf, DfxTr, AppIconsModule, NgbTooltipModule, NgSub],
+  imports: [NgIf, DfxTr, BiComponent, NgbTooltipModule, NgSub],
 })
 export class AppSelectableBtnComponent {
   @Input() entity?: IHasID<string | number>;

@@ -1,5 +1,3 @@
-import {NgModule} from '@angular/core';
-
 import {
   apple,
   arrowClockwise,
@@ -38,7 +36,6 @@ import {
   gripVertical,
   infoCircleFill,
   listUl,
-  NgxBootstrapIconsModule,
   pencilFill,
   pencilSquare,
   people,
@@ -62,9 +59,9 @@ import {
   viewStacked,
   wifiOff,
   xCircleFill,
-} from 'ngx-bootstrap-icons';
+} from 'dfx-bootstrap-icons';
 
-const icons = {
+export const ICONS = {
   people,
   peopleFill,
   calendarEventFill,
@@ -126,9 +123,3 @@ const icons = {
   cashCoin,
   bookHalf,
 };
-
-@NgModule({
-  imports: [NgxBootstrapIconsModule.pick(icons)],
-  exports: [NgxBootstrapIconsModule],
-})
-export class AppIconsModule {}

@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 
-import {NgxBootstrapIconsModule} from 'ngx-bootstrap-icons';
-
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
@@ -12,11 +11,11 @@ import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.c
     <div class="d-flex flex-column gap-2" nav>
       <div class="list-group">
         <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
-          <i-bs name="cash-coin" />
+          <bi name="cash-coin" />
           {{ 'Rechnungen' | tr }}
         </a>
         <a class="list-group-item list-group-item-action" routerLink="unpaid" routerLinkActive="active">
-          <i-bs name="book-half" />
+          <bi name="book-half" />
           {{ 'Unpaid Reasons' | tr }}
         </a>
       </div>
@@ -25,6 +24,6 @@ import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.c
   selector: 'app-bills',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AppEntitiesLayoutComponent, NgxBootstrapIconsModule, RouterLink, RouterLinkActive, DfxTr],
+  imports: [AppEntitiesLayoutComponent, RouterLink, RouterLinkActive, DfxTr, BiComponent],
 })
 export class BillsComponent {}

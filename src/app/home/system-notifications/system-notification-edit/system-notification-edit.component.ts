@@ -3,11 +3,11 @@ import {Component} from '@angular/core';
 
 import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {
   CreateSystemNotificationDto,
   GetSystemNotificationResponse,
@@ -33,7 +33,7 @@ import {SystemNotificationEditFormComponent} from './system-notification-edit-fo
 
         <div *isEditing="entity">
           <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
-            <i-bs name="trash" />
+            <bi name="trash" />
             {{ 'DELETE' | tr }}
           </button>
         </div>
@@ -69,7 +69,7 @@ import {SystemNotificationEditFormComponent} from './system-notification-edit-fo
     </ng-template>
   `,
   selector: 'app-user-edit',
-  imports: [AsyncPipe, NgIf, DfxTr, NgbNavModule, AppIconsModule, AppFormModule, SystemNotificationEditFormComponent],
+  imports: [AsyncPipe, NgIf, DfxTr, NgbNavModule, BiComponent, AppFormModule, SystemNotificationEditFormComponent],
   standalone: true,
 })
 export class SystemNotificationEditComponent extends AbstractModelEditComponent<

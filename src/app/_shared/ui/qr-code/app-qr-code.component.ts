@@ -6,6 +6,7 @@ import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
 
 import {d_format, s_chunks} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxCutPipe, IsMobileService, WINDOW} from 'dfx-helper';
 import {QRCodeComponent} from 'dfx-qrcode';
 import {DfxTr, dfxTranslate} from 'dfx-translate';
@@ -13,7 +14,6 @@ import {DfxTr, dfxTranslate} from 'dfx-translate';
 import {qrCodeData, QrCodeService} from '../../services/qr-code.service';
 import {AppBtnToolbarComponent} from '../button/app-btn-toolbar.component';
 import {CopyDirective} from '../copy.directive';
-import {AppIconsModule} from '../icons.module';
 
 @Component({
   template: `
@@ -39,12 +39,12 @@ import {AppIconsModule} from '../icons.module';
         <div class="card-footer text-muted">
           <btn-toolbar padding="false">
             <button class="btn btn-sm btn-secondary" (click)="back()">
-              <i-bs name="arrow-left" />
+              <bi name="arrow-left" />
               {{ 'GO_BACK' | tr }}
             </button>
 
             <button class="btn btn-sm btn-info" (click)="print()">
-              <i-bs name="printer" aria-label="Copy content to clipboard" />
+              <bi name="printer" aria-label="Copy content to clipboard" />
               {{ 'PRINT' | tr }}
             </button>
 
@@ -60,7 +60,7 @@ import {AppIconsModule} from '../icons.module';
               aria-label="Copy link"
               placement="right"
             >
-              <i-bs name="clipboard" aria-label="Copy content to clipboard" />
+              <bi name="clipboard" aria-label="Copy content to clipboard" />
               {{ 'COPY' | tr }}
             </button>
           </btn-toolbar>
@@ -86,7 +86,7 @@ import {AppIconsModule} from '../icons.module';
   selector: 'app-qr-code',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, QRCodeComponent, NgbTooltipModule, AppIconsModule, AppBtnToolbarComponent, CopyDirective, DfxCutPipe, DfxTr],
+  imports: [NgIf, AsyncPipe, QRCodeComponent, NgbTooltipModule, BiComponent, AppBtnToolbarComponent, CopyDirective, DfxCutPipe, DfxTr],
 })
 export class AppQrCodeViewComponent {
   qrCodeData?: qrCodeData;

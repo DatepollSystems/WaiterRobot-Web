@@ -4,17 +4,17 @@ import {RouterLink} from '@angular/router';
 
 import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
+import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directives';
+import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TableGroupEditFormComponent} from './table-group-edit-form.component';
-import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
-import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directives';
 
 @Component({
   template: `
@@ -30,14 +30,14 @@ import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directi
         <ng-container *isEditingAndNotDeleted="entity">
           <div>
             <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
-              <i-bs name="trash" />
+              <bi name="trash" />
               {{ 'DELETE' | tr }}
             </button>
           </div>
 
           <div>
             <a routerLink="../tables/{{ entity.id }}" class="btn btn-sm btn-primary">
-              <i-bs name="columns-gap" />
+              <bi name="columns-gap" />
               {{ 'HOME_TABLE_GROUP_SHOW_TABLES' | tr }}</a
             >
           </div>
@@ -48,7 +48,7 @@ import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directi
         </div>
       </btn-toolbar>
 
-      <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs bg-dark" (navChange)="navigateToTab($event.nextId)">
+      <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs" (navChange)="navigateToTab($event.nextId)">
         <li [ngbNavItem]="'DATA'">
           <a ngbNavLink>{{ 'DATA' | tr }}</a>
           <ng-template ngbNavContent>
@@ -66,7 +66,7 @@ import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directi
         </li>
       </ul>
 
-      <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
     </div>
 
     <ng-template #loading>
@@ -83,7 +83,7 @@ import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directi
     LowerCasePipe,
     DfxTr,
     NgbNavModule,
-    AppIconsModule,
+    BiComponent,
     AppFormModule,
     TableGroupEditFormComponent,
     AppContinuesCreationSwitchComponent,

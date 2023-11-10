@@ -6,13 +6,13 @@ import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
 
 import {d_formatWithHoursMinutesAndSeconds} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTrackByModule} from 'dfx-helper';
 import {QRCodeComponent} from 'dfx-qrcode';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {MobileLinkService} from '../../_shared/services/mobile-link.service';
 import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
 
 @Component({
@@ -25,7 +25,7 @@ import {GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
       <btn-toolbar>
         <div>
           <button class="btn btn-sm btn-primary" (click)="pdf()" [class.spinner]="generating" [disabled]="generating">
-            <i-bs name="printer" />
+            <bi name="printer" />
             {{ 'HOME_TABLE_PRINT_GENERATE' | tr }}
           </button>
         </div>
@@ -107,7 +107,7 @@ import {GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
     DfxTrackByModule,
     QRCodeComponent,
     AppBtnToolbarComponent,
-    AppIconsModule,
+    BiComponent,
     NgbDropdownModule,
     AsyncPipe,
   ],

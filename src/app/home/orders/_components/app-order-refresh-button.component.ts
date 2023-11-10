@@ -3,9 +3,9 @@ import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {OrdersService} from '../orders.service';
 
 @Component({
@@ -17,13 +17,13 @@ import {OrdersService} from '../orders.service';
       ngbTooltip="{{ 'HOME_ORDER_REFRESH_NOW' | tr }}"
       placement="left"
     >
-      <i-bs name="arrow-clockwise" />
+      <bi name="arrow-clockwise" />
       <span class="badge text-bg-secondary" *ngIf="countdown">{{ countdown }}</span>
     </button>
   `,
   standalone: true,
   selector: 'app-order-refresh-btn',
-  imports: [DfxTr, NgbTooltip, AppIconsModule, NgIf],
+  imports: [DfxTr, NgbTooltip, BiComponent, NgIf],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrderRefreshButtonComponent {

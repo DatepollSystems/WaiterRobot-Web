@@ -3,9 +3,8 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
-
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
 
 @Component({
   template: `
@@ -23,7 +22,7 @@ import {AppIconsModule} from '../../../_shared/ui/icons.module';
       <div class="circle pulse green" *ngIf="printState === 'QUEUED'; else sentToPrint"></div>
 
       <ng-template #sentToPrint>
-        <i-bs name="check2-square" />
+        <bi name="check2-square" />
       </ng-template>
     </div>
     <ng-template #tipContent>
@@ -63,7 +62,7 @@ import {AppIconsModule} from '../../../_shared/ui/icons.module';
   standalone: true,
   selector: 'app-order-product-state-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, AppIconsModule, NgIf, DfxTr, NgSwitch, NgSwitchCase, DatePipe, NgbTooltip],
+  imports: [NgClass, BiComponent, NgIf, DfxTr, NgSwitch, NgSwitchCase, DatePipe, NgbTooltip],
 })
 export class AppOrderProductStateBadgeComponent {
   @Input({required: true}) printState!: 'PRINTED' | 'SENT_TO_PRINT' | 'QUEUED';

@@ -5,6 +5,7 @@ import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
@@ -12,7 +13,6 @@ import {DfxTr} from 'dfx-translate';
 import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
 import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
 import {AppSelectableBtnComponent} from '../../_shared/ui/button/app-selectable-btn.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {GetEventOrLocationResponse} from '../../_shared/waiterrobot-backend';
@@ -26,14 +26,14 @@ import {EventsService} from './_services/events.service';
       <btn-toolbar *ngIf="myUser?.isAdmin">
         <div>
           <a routerLink="../create" class="btn btn-sm btn-success">
-            <i-bs name="plus-circle" />
+            <bi name="plus-circle" />
             {{ 'ADD_2' | tr }}</a
           >
         </div>
 
         <div>
           <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-            <i-bs name="trash" />
+            <bi name="trash" />
             {{ 'DELETE' | tr }}
           </button>
         </div>
@@ -41,7 +41,7 @@ import {EventsService} from './_services/events.service';
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+          <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
           <button
             class="btn btn-outline-secondary"
             type="button"
@@ -50,7 +50,7 @@ import {EventsService} from './_services/events.service';
             (click)="filter.reset()"
             *ngIf="(filter.value?.length ?? 0) > 0"
           >
-            <i-bs name="x-circle-fill" />
+            <bi name="x-circle-fill" />
           </button>
         </div>
       </form>
@@ -112,26 +112,30 @@ import {EventsService} from './_services/events.service';
             <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
             <td *ngbCellDef="let event" ngb-cell>
               <selectable-button class="me-2" [entity]="event" [selectedEntityService]="eventsService" />
-              <a class="btn btn-sm me-2 btn-outline-success text-white" routerLink="../{{ event.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
-                <i-bs name="pencil-square" />
+              <a
+                class="btn btn-sm me-2 btn-outline-success text-body-emphasis"
+                routerLink="../{{ event.id }}"
+                ngbTooltip="{{ 'EDIT' | tr }}"
+              >
+                <bi name="pencil-square" />
               </a>
               <button
                 type="button"
-                class="btn btn-sm btn-outline-secondary text-white me-2"
+                class="btn btn-sm btn-outline-secondary text-body-emphasis me-2"
                 ngbTooltip="{{ 'COPY' | tr }}"
                 (click)="$event.stopPropagation(); clone(event.id)"
                 *ngIf="myUser?.isAdmin"
               >
-                <i-bs name="clipboard" />
+                <bi name="clipboard" />
               </button>
               <button
                 type="button"
-                class="btn btn-sm btn-outline-danger text-white"
+                class="btn btn-sm btn-outline-danger text-body-emphasis"
                 ngbTooltip="{{ 'DELETE' | tr }}"
                 (click)="onDelete(event.id, $event)"
                 *ngIf="myUser?.isAdmin"
               >
-                <i-bs name="trash" />
+                <bi name="trash" />
               </button>
             </td>
           </ng-container>
@@ -156,7 +160,7 @@ import {EventsService} from './_services/events.service';
     DfxTableModule,
     DfxSortModule,
     NgbTooltip,
-    AppIconsModule,
+    BiComponent,
     AppSpinnerRowComponent,
     AppSelectableBtnComponent,
     AppBtnToolbarComponent,

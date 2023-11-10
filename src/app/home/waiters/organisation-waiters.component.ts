@@ -5,21 +5,21 @@ import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {MobileLinkService} from '../../_shared/services/mobile-link.service';
 import {QrCodeService} from '../../_shared/services/qr-code.service';
+import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';
 import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {GetWaiterResponse} from '../../_shared/waiterrobot-backend';
 import {OrganisationsService} from '../organisations/_services/organisations.service';
 import {OrganisationWaitersService} from './_services/organisation-waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
-import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';
 
 @Component({
   template: `
@@ -29,21 +29,21 @@ import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';
       <btn-toolbar>
         <div>
           <a routerLink="../create" class="btn btn-sm btn-success">
-            <i-bs name="plus-circle" />
+            <bi name="plus-circle" />
             {{ 'ADD_2' | tr }}</a
           >
         </div>
 
         <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_WAITERS_SELECT' | tr) : undefined }}">
           <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-            <i-bs name="trash" />
+            <bi name="trash" />
             {{ 'DELETE' | tr }}
           </button>
         </div>
 
         <div>
           <a routerLink="duplicates" class="btn btn-sm btn-secondary">
-            <i-bs name="person-bounding-box" />
+            <bi name="person-bounding-box" />
             {{ 'HOME_WAITERS_DUPLICATES' | tr }}</a
           >
         </div>
@@ -61,7 +61,7 @@ import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';
           (click)="filter.reset()"
           *ngIf="(filter.value?.length ?? 0) > 0"
         >
-          <i-bs name="x-circle-fill" />
+          <bi name="x-circle-fill" />
         </button>
       </div>
     </form>
@@ -120,7 +120,7 @@ import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';
               ngbTooltip="{{ 'HOME_WAITERS_EDIT_QR_CODE' | tr }}"
               (click)="openLoginQRCode(waiter.signInToken, $event)"
             >
-              <i-bs name="qr-code"></i-bs>
+              <bi name="qr-code" />
             </button>
             <a
               class="btn btn-sm m-1 btn-outline-secondary text-white"
@@ -129,10 +129,10 @@ import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';
               ngbTooltip="{{ 'NAV_ORDERS' | tr }}"
               (click)="$event.stopPropagation()"
             >
-              <i-bs name="stack" />
+              <bi name="stack" />
             </a>
             <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ waiter.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
-              <i-bs name="pencil-square" />
+              <bi name="pencil-square" />
             </a>
             <button
               type="button"
@@ -140,7 +140,7 @@ import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';
               ngbTooltip="{{ 'DELETE' | tr }}"
               (click)="onDelete(waiter.id, $event)"
             >
-              <i-bs name="trash" />
+              <bi name="trash" />
             </button>
           </td>
         </ng-container>
@@ -167,7 +167,7 @@ import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';
     DfxArrayMapNamePipe,
     DfxImplodePipe,
     AppBtnToolbarComponent,
-    AppIconsModule,
+    BiComponent,
     AppSpinnerRowComponent,
     BtnWaiterSignInQrCodeComponent,
     AppActivatedPipe,

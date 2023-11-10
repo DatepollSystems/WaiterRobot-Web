@@ -9,12 +9,12 @@ import {debounceTime, filter, tap} from 'rxjs';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {notNullAndUndefined} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
 import {PaginatedDataSource} from '../../../_shared/paginated-data-source';
 import {getActivatedRouteIdParam} from '../../../_shared/services/getActivatedRouteIdParam';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {GetOrderMinResponse} from '../../../_shared/waiterrobot-backend';
 import {AppOrderStateBadgeComponent} from '../../orders/_components/app-order-state-badge.component';
@@ -24,7 +24,7 @@ import {OrdersService} from '../../orders/orders.service';
   template: `
     <form class="my-2">
       <div class="input-group">
-        <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+        <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
         <button
           class="btn btn-outline-secondary"
           type="button"
@@ -33,7 +33,7 @@ import {OrdersService} from '../../orders/orders.service';
           (click)="filter.reset()"
           *ngIf="(filter.value?.length ?? 0) > 0"
         >
-          <i-bs name="x-circle-fill" />
+          <bi name="x-circle-fill" />
         </button>
       </div>
     </form>
@@ -73,11 +73,11 @@ import {OrdersService} from '../../orders/orders.service';
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
             <a
-              class="btn btn-sm m-1 btn-outline-primary text-white"
+              class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"
               routerLink="/home/orders/{{ order.id }}"
               ngbTooltip="{{ 'OPEN' | tr }}"
             >
-              <i-bs name="arrow-up-right-square-fill" />
+              <bi name="arrow-up-right-square-fill" />
             </a>
           </td>
         </ng-container>
@@ -108,7 +108,7 @@ import {OrdersService} from '../../orders/orders.service';
     DfxTr,
     DfxSortModule,
     NgbTooltip,
-    AppIconsModule,
+    BiComponent,
     AppOrderStateBadgeComponent,
     AppSpinnerRowComponent,
   ],

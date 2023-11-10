@@ -6,12 +6,12 @@ import {RouterLink} from '@angular/router';
 import {debounceTime, filter, map, switchMap, tap} from 'rxjs';
 
 import {HasNumberIDAndName} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
-import {AppIconsModule} from '../../../_shared/ui/icons.module';
 import {CreateTableDto, GetTableWithGroupResponse, UpdateTableDto} from '../../../_shared/waiterrobot-backend';
 import {TablesService} from '../_services/tables.service';
 
@@ -22,13 +22,7 @@ import {TablesService} from '../_services/tables.service';
     <form #formRef [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column flex-md-row gap-4 mb-3">
       <div class="form-group col-12 col-md-3">
         <label for="number">{{ 'NUMBER' | tr }}</label>
-        <input
-          formControlName="number"
-          class="form-control bg-dark text-white"
-          type="number"
-          id="number"
-          placeholder="{{ 'NUMBER' | tr }}"
-        />
+        <input formControlName="number" class="form-control" type="number" id="number" placeholder="{{ 'NUMBER' | tr }}" />
 
         <small *ngIf="form.controls.number.errors?.required" class="text-danger">
           {{ 'HOME_TABLES_NUMBER_INCORRECT' | tr }}
@@ -41,7 +35,7 @@ import {TablesService} from '../_services/tables.service';
 
       <div class="form-group col-12 col-md-3">
         <label for="seats">{{ 'SEATS' | tr }}</label>
-        <input formControlName="seats" class="form-control bg-dark text-white" type="number" id="seats" placeholder="{{ 'SEATS' | tr }}" />
+        <input formControlName="seats" class="form-control" type="number" id="seats" placeholder="{{ 'SEATS' | tr }}" />
         <small *ngIf="form.controls.seats.invalid" class="text-danger">
           {{ 'HOME_TABLES_SEATS_INCORRECT' | tr }}
         </small>
@@ -50,10 +44,10 @@ import {TablesService} from '../_services/tables.service';
       <div class="form-group col">
         <label for="selectGroup">{{ 'HOME_TABLE_GROUPS' | tr }}</label>
         <div class="input-group">
-          <span class="input-group-text bg-dark text-white" id="selectGroup-addon">
-            <i-bs name="diagram-3" />
+          <span class="input-group-text" id="selectGroup-addon">
+            <bi name="diagram-3" />
           </span>
-          <select class="form-select bg-dark text-white" id="selectGroup" formControlName="groupId">
+          <select class="form-select" id="selectGroup" formControlName="groupId">
             <option [value]="-1" disabled>{{ 'HOME_TABLES_GROUPS_DEFAULT' | tr }}</option>
             <option [value]="group.id" *ngFor="let group of tableGroups; trackById">
               {{ group.name }}
@@ -69,15 +63,15 @@ import {TablesService} from '../_services/tables.service';
     <div class="form-group col-12 col-md-5" *ngIf="publicTableIdLink">
       <label for="publicId">{{ 'HOME_TABLES_PUBLIC_ID' | tr }}</label>
       <div class="input-group">
-        <input class="form-control bg-dark text-white" type="text" id="publicId" [value]="publicTableIdLink" readonly />
-        <a [href]="publicTableIdLink" target="_blank" class="btn btn-outline-light" type="button">{{ 'OPEN' | tr }}</a>
+        <input class="form-control" type="text" id="publicId" [value]="publicTableIdLink" readonly />
+        <a [href]="publicTableIdLink" target="_blank" class="btn btn-outline-info" type="button">{{ 'OPEN' | tr }}</a>
       </div>
     </div>
   `,
   selector: 'app-table-edit-form',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, AsyncPipe, NgIf, NgForOf, DfxTr, DfxTrackById, AppIconsModule, RouterLink],
+  imports: [ReactiveFormsModule, AsyncPipe, NgIf, NgForOf, DfxTr, DfxTrackById, BiComponent, RouterLink],
 })
 export class TableEditFormComponent extends AbstractModelEditFormComponent<CreateTableDto, UpdateTableDto> {
   tablesService = inject(TablesService);

@@ -4,12 +4,12 @@ import {toSignal} from '@angular/core/rxjs-interop';
 
 import {map, switchMap} from 'rxjs';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
 import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
 import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
-import {AppIconsModule} from '../../_shared/ui/icons.module';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {DeadLettersService} from './dead-letters.service';
 
@@ -23,7 +23,7 @@ import {DeadLettersService} from './dead-letters.service';
 
         <div>
           <button class="btn btn-sm btn-danger" (click)="onDelete(deadLetter.id)">
-            <i-bs name="trash" />
+            <bi name="trash" />
             {{ 'DELETE' | tr }}
           </button>
         </div>
@@ -57,7 +57,7 @@ import {DeadLettersService} from './dead-letters.service';
     `,
   ],
   selector: 'app-dead-letter-view',
-  imports: [NgIf, DfxTr, AppIconsModule, AppBtnToolbarComponent, AppBackButtonComponent, AppSpinnerRowComponent, DatePipe],
+  imports: [NgIf, DfxTr, BiComponent, AppBtnToolbarComponent, AppBackButtonComponent, AppSpinnerRowComponent, DatePipe],
   standalone: true,
 })
 export class DeadLetterViewComponent {
