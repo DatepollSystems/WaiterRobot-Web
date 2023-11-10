@@ -1,6 +1,9 @@
 import {AsyncPipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
+import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink, RouterLinkActive} from '@angular/router';
+
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
@@ -16,25 +19,43 @@ import {TableGroupsService} from './_services/table-groups.service';
       <div class="d-flex flex-column gap-3" nav>
         <div class="list-group">
           <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
-            <bi name="columns-gap" />
-            {{ 'HOME_TABLES' | tr }}</a
-          >
+            <div class="d-flex justify-content-between">
+              <div>
+                <bi name="columns-gap" />
+                {{ 'HOME_TABLES' | tr }}
+              </div>
+
+              <span class="badge bg-secondary rounded-pill" ngbTooltip="Gruppenanzahl" placement="right">
+                {{ allTablesAmount() ?? '' }}
+              </span>
+            </div>
+          </a>
 
           <a class="list-group-item list-group-item-action" routerLink="groups/all" routerLinkActive="active">
-            <bi name="diagram-3" />
-            {{ 'HOME_TABLE_GROUPS' | tr }}</a
-          >
+            <div class="d-flex justify-content-between">
+              <div>
+                <bi name="diagram-3" />
+                {{ 'HOME_TABLE_GROUPS' | tr }}
+              </div>
+              <span class="badge bg-secondary rounded-pill" ngbTooltip="Gruppenanzahl" placement="right">
+                {{ tableGroups()?.length ?? '-' }}
+              </span>
+            </div>
+          </a>
         </div>
         <app-list-nav-items
           path="/home/tables/groups/tables/"
-          [entities]="tableGroups$ | async"
+          [entities]="tableGroups() ?? []"
           titleTr="HOME_TABLE_GROUPS"
           selectTr="HOME_TABLES_GROUPS_SELECT"
         >
           <ng-template let-entity appListNavItem>
-            <app-text-with-color-indicator [color]="entity.color">
-              {{ entity.name }}
-            </app-text-with-color-indicator>
+            <div class="d-flex justify-content-between">
+              <app-text-with-color-indicator [color]="entity.color">
+                {{ entity.name }}
+              </app-text-with-color-indicator>
+              <span class="badge bg-secondary rounded-pill" ngbTooltip="Tischanzahl" placement="right">{{ entity.tables.length }}</span>
+            </div>
           </ng-template>
         </app-list-nav-items>
       </div>
@@ -53,8 +74,16 @@ import {TableGroupsService} from './_services/table-groups.service';
     AsyncPipe,
     AppListNavItemDirective,
     AppTextWithColorIndicatorComponent,
+    NgbTooltip,
   ],
 })
 export class TablesComponent {
-  tableGroups$ = inject(TableGroupsService).getAll$();
+  tableGroups = toSignal(inject(TableGroupsService).getAll$());
+
+  allTablesAmount = computed(
+    () =>
+      this.tableGroups()
+        ?.map((it) => it.tables.length)
+        ?.reduce((previous, current) => (current += previous)),
+  );
 }

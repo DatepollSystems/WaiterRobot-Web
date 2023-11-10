@@ -13,15 +13,12 @@ import {FullScreenService} from '../services/fullscreen.service';
         <ng-content select="[nav]" />
       </div>
       <div [class.col-lg-8]="showNav" [class.col-xl-9]="showNav" [class.col-xxl-10]="isFullScreen && showNav" [class.col]="!showNav">
-        <div class="card bg">
-          <div class="card-body px-3 px-md-4">
-            <router-outlet />
-          </div>
+        <div class="px-3 px-md-4">
+          <router-outlet />
         </div>
       </div>
     </div>
   `,
-  styles: ['.bg {background-color: var(--primary-8)}'],
   selector: 'entities-layout-component',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, RouterOutlet, NgSub],
