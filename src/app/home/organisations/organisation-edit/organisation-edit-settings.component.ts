@@ -33,7 +33,7 @@ import {OrganisationsSettingsService} from '../_services/organisations-settings.
       <div class="form-group col-12 col-md-10 col-lg-8 col-xl-6">
         <label for="name">{{ 'HOME_ORGS_SETTINGS_TIMEZONE' | tr }}</label>
         <div class="input-group">
-          <span class="input-group-text" id="timezone-addon">@</span>
+          <span class="input-group-text" id="timezone-addon">&#64;</span>
           <input
             type="text"
             class="form-control bg-dark text-white"
