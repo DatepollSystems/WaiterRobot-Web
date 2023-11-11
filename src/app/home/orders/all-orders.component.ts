@@ -80,7 +80,7 @@ import {OrdersService} from './orders.service';
 
     <form class="mt-2">
       <div class="input-group">
-        <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+        <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
         <button
           class="btn btn-outline-secondary"
           type="button"
@@ -163,7 +163,7 @@ import {OrdersService} from './orders.service';
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
             <button
-              class="btn btn-sm m-1 btn-outline-primary text-white"
+              class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"
               (click)="$event.stopPropagation(); openOrder(order)"
               ngbTooltip="{{ 'OPEN' | tr }}"
               placement="left"

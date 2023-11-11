@@ -1,7 +1,10 @@
 import {ChangeDetectionStrategy, Component, signal} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 
+import {NgbDropdown, NgbDropdownButtonItem, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
+
 import {BiComponent, BiName, circleHalf, moonStarsFill, provideIcons, sunFill} from 'dfx-bootstrap-icons';
+import {DfxTr} from 'dfx-translate';
 
 interface Theme {
   id: 'auto' | 'dark' | 'light';
@@ -11,18 +14,18 @@ interface Theme {
 
 @Component({
   template: `
-    <div class="d-flex gap-2">
-      <label for="theme">
-        <bi width="16" height="16" [name]="currentTheme().icon" class="text-body-emphasis" />
-      </label>
-      <select class="rounded-3 px-2" name="theme" id="theme" (change)="setTheme($any($event.target).value)">
+    <div ngbDropdown display="dynamic">
+      <a class="nav-link" id="themeDropdown" ngbDropdownToggle>
+        <bi [name]="currentTheme().icon" class="text-body-emphasis" ariaLabel="Theme picker" />
+      </a>
+      <div ngbDropdownMenu aria-labelledby="themeDropdown" class="p-1">
         @for (theme of themes; track theme.id) {
-        <option [class.active]="theme.id === currentTheme().id" [value]="theme.id">
+        <button ngbDropdownItem class="rounded-1 mt-1" [class.active]="theme.id === currentTheme().id" (click)="setTheme(theme.id)">
           <bi [name]="theme.icon" />
           {{ theme.name }}
-        </option>
+        </button>
         }
-      </select>
+      </div>
     </div>
   `,
   styles: `
@@ -33,7 +36,16 @@ interface Theme {
   selector: 'theme-picker',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, BiComponent],
+  imports: [
+    ReactiveFormsModule,
+    BiComponent,
+    DfxTr,
+    NgbDropdownButtonItem,
+    NgbDropdownItem,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+  ],
   providers: [provideIcons({circleHalf, sunFill, moonStarsFill})],
 })
 export class ThemePickerComponent {

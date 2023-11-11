@@ -51,7 +51,7 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
               <div hideIfPingFails url="/json" class="d-flex flex-column gap-3">
                 <div class="form-floating">
                   <input
-                    class="form-control bg-dark text-white"
+                    class="form-control"
                     autocomplete="on"
                     type="email"
                     id="email"
@@ -63,7 +63,7 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
 
                 <div class="form-floating">
                   <input
-                    class="form-control bg-dark text-white"
+                    class="form-control"
                     autocomplete="on"
                     type="password"
                     id="password"

@@ -21,7 +21,7 @@ import {FooterModule} from '../_shared/ui/footer/footer.module';
             <a class="list-group-item list-group-item-action" routerLink="/about">{{ 'GO_BACK' | tr }}</a>
           </ul>
         </div>
-        <div class="text-white col-md-7 col-lg-9">
+        <div class="col-md-7 col-lg-9">
           <div class="card p-3">
             <div class="card-body">
               <div class="card-text" style="line-height: 27px">

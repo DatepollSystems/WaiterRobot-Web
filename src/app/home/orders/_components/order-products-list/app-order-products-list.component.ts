@@ -38,9 +38,11 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
           <div class="mt-2 d-flex flex-column gap-3" *ngIf="groupedOrderProducts$ | async as grouped">
             <div class="card" *ngFor="let groups of grouped | keyvalue">
               <div class="card-header d-flex flex-wrap gap-2 justify-content-between mt-1">
-                <h4 class="d-flex align-items-center gap-2">
-                  {{ groups.value.printerName }}
-                </h4>
+                <a routerLink="/home/printers/{{ groups.value.printerId }}">
+                  <h4 class="d-flex align-items-center gap-2">
+                    {{ groups.value.printerName }}
+                  </h4>
+                </a>
                 <div>
                   <button
                     class="btn btn-sm btn-warning"
@@ -54,7 +56,7 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
                 </div>
               </div>
               <div class="card-body">
-                <app-order-products-list-table [orderProducts]="groups.value.orderProducts" />
+                <app-order-products-list-table [orderProducts]="groups.value.orderProducts" hidePrintedBy />
               </div>
             </div>
           </div>
@@ -109,7 +111,12 @@ export class AppOrderProductsListComponent {
       const groups = new Map<number, groupedType>();
       for (const orderProduct of orderProducts) {
         const group =
-          groups.get(orderProduct.printedBy.id) ?? ({printerName: orderProduct.printedBy.name, orderProducts: []} as groupedType);
+          groups.get(orderProduct.printedBy.id) ??
+          ({
+            printerId: orderProduct.printedBy.id,
+            printerName: orderProduct.printedBy.name,
+            orderProducts: [],
+          } as groupedType);
         group.orderProducts.push(orderProduct);
         groups.set(orderProduct.printedBy.id, group);
       }
@@ -124,5 +131,6 @@ type orderProductGroupedByType = 'OFF' | 'PRINTER';
 
 type groupedType = {
   printerName: string;
+  printerId: number;
   orderProducts: GetImplodedOrderProductResponse[];
 };

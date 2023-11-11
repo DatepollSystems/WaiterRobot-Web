@@ -20,7 +20,7 @@ import {WaitersService} from '../_services/waiters.service';
     <form class="d-flex flex-column flex-sm-row gap-2">
       <div class="flex-grow-1">
         <div class="input-group">
-          <input class="form-control bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+          <input class="form-control" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
           <button
             class="btn btn-outline-secondary"
             type="button"
@@ -88,7 +88,7 @@ import {WaitersService} from '../_services/waiters.service';
           <td *ngbCellDef="let session" ngb-cell>
             <button
               type="button"
-              class="btn btn-sm m-1 btn-outline-danger text-white"
+              class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
               ngbTooltip="{{ 'DELETE' | tr }}"
               placement="left"
               (click)="onDelete(session.id)"

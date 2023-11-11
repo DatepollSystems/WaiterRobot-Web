@@ -1,5 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
+
+@font-face {
+  font-family: LogoFont;
+  src: url(./assets/MontserratAlternates-Bold.ttf) format("truetype");
+}
+
 html,
 body {
   overscroll-behavior: auto;
@@ -13,12 +19,12 @@ a:hover {
 }
 
 /* Fix vertical text alignment in buttons with icons */
-.btn > i-bs > svg.bi {
+.btn > bi > svg.bi {
   vertical-align: -0.125em;
 }
 
 /** Fix button icon alignment */
-.btn-sm > i-bs > svg.bi {
+.btn-sm > bi > svg.bi {
   vertical-align: -0.22em !important;
 }
 

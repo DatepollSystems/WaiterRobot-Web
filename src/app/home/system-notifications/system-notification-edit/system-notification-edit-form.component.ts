@@ -24,7 +24,7 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
       <div class="row gy-2">
         <div class="form-group col-sm">
           <label for="title">{{ 'TITLE' | tr }}</label>
-          <input class="form-control bg-dark text-white" type="text" id="title" formControlName="title" placeholder="{{ 'TITLE' | tr }}" />
+          <input class="form-control" type="text" id="title" formControlName="title" placeholder="{{ 'TITLE' | tr }}" />
 
           <small *ngIf="form.controls.title.invalid" class="text-danger">
             {{ 'HOME_SYSTEM_NOTIFICATIONS_TITLE_INCORRECT' | tr }}
@@ -34,10 +34,10 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
         <div class="form-group col-sm">
           <label for="type">{{ 'TYPE' | tr }}</label>
           <div class="input-group">
-            <span class="input-group-text bg-dark text-white" id="type-addon">
+            <span class="input-group-text" id="type-addon">
               <bi name="diagram-3" />
             </span>
-            <select class="form-select bg-dark text-white" id="type" formControlName="type">
+            <select class="form-select" id="type" formControlName="type">
               <option [value]="''" disabled>{{ 'HOME_SYSTEM_NOTIFICATIONS_TYPE_DEFAULT' | tr }}</option>
               <option [value]="type" *ngFor="let type of systemNotificationTypes; trackById">
                 {{ type | s_lowerCaseAllExceptFirstLetter }}
@@ -77,7 +77,7 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
         <div class="form-group">
           <label for="description">{{ 'DESCRIPTION' | tr }}</label>
           <textarea
-            class="form-control bg-dark text-white"
+            class="form-control"
             placeholder="{{ 'DESCRIPTION' | tr }}..."
             id="description"
             cdkTextareaAutosize

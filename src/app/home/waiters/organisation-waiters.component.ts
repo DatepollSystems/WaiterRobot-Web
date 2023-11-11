@@ -52,7 +52,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
 
     <form>
       <div class="input-group">
-        <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+        <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
         <button
           class="btn btn-outline-secondary"
           type="button"
@@ -116,14 +116,14 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
           <td *ngbCellDef="let waiter" ngb-cell>
             <button
               type="button"
-              class="btn btn-sm m-1 btn-outline-info text-white"
+              class="btn btn-sm m-1 btn-outline-info text-body-emphasis"
               ngbTooltip="{{ 'HOME_WAITERS_EDIT_QR_CODE' | tr }}"
               (click)="openLoginQRCode(waiter.signInToken, $event)"
             >
               <bi name="qr-code" />
             </button>
             <a
-              class="btn btn-sm m-1 btn-outline-secondary text-white"
+              class="btn btn-sm m-1 btn-outline-secondary text-body-emphasis"
               routerLink="../{{ waiter.id }}"
               [queryParams]="{tab: 'ORDERS'}"
               ngbTooltip="{{ 'NAV_ORDERS' | tr }}"
@@ -131,12 +131,12 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
             >
               <bi name="stack" />
             </a>
-            <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ waiter.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+            <a class="btn btn-sm m-1 btn-outline-success text-body-emphasis" routerLink="../{{ waiter.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
               <bi name="pencil-square" />
             </a>
             <button
               type="button"
-              class="btn btn-sm m-1 btn-outline-danger text-white"
+              class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
               ngbTooltip="{{ 'DELETE' | tr }}"
               (click)="onDelete(waiter.id, $event)"
             >

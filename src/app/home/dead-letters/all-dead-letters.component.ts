@@ -32,7 +32,7 @@ import {DeadLettersService} from './dead-letters.service';
 
     <form>
       <div class="input-group">
-        <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+        <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
         <button
           class="btn btn-outline-secondary"
           type="button"
@@ -102,12 +102,12 @@ import {DeadLettersService} from './dead-letters.service';
         <ng-container ngbColumnDef="actions">
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let it" ngb-cell>
-            <a class="btn btn-sm m-1 btn-outline-success text-white" routerLink="../{{ it.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+            <a class="btn btn-sm m-1 btn-outline-success text-body-emphasis" routerLink="../{{ it.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
               <bi name="pencil-square" />
             </a>
             <button
               type="button"
-              class="btn btn-sm m-1 btn-outline-danger text-white"
+              class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
               ngbTooltip="{{ 'DELETE' | tr }}"
               (click)="onDelete(it.id, $event)"
             >

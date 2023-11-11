@@ -30,7 +30,7 @@ import {BillsService} from './bills.service';
 
     <form class="mt-2">
       <div class="input-group">
-        <input class="form-control ml-2 bg-dark text-white" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
+        <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
         <button
           class="btn btn-outline-secondary"
           type="button"
@@ -86,7 +86,7 @@ import {BillsService} from './bills.service';
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let bill" ngb-cell>
             <a
-              class="btn btn-sm m-1 btn-outline-primary text-white"
+              class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"
               routerLink="../{{ bill.id }}"
               ngbTooltip="{{ 'OPEN' | tr }}"
               placement="left"

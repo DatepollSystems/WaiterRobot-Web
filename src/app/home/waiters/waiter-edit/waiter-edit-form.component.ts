@@ -20,7 +20,7 @@ import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, Updat
       <div class="row g-3">
         <div class="form-group col-sm-12 col-md-4 col-lg-5 col-xl-6">
           <label for="name">{{ 'NAME' | tr }}</label>
-          <input class="form-control bg-dark text-white" type="text" id="name" placeholder="{{ 'NAME' | tr }}" formControlName="name" />
+          <input class="form-control" type="text" id="name" placeholder="{{ 'NAME' | tr }}" formControlName="name" />
 
           <small *ngIf="form.controls.name.invalid" class="text-danger">
             {{ 'HOME_WAITERS_EDIT_NAME_INCORRECT' | tr }}

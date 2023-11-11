@@ -60,7 +60,7 @@ import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.c
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ROLE' | tr }}</th>
           <td *ngbCellDef="let organisationUser" ngb-cell>
             {{ organisationUser.role }}
-            <a class="btn btn-sm m-1 btn-outline-success text-white" ngbTooltip="{{ 'EDIT' | tr }}">
+            <a class="btn btn-sm m-1 btn-outline-success" ngbTooltip="{{ 'EDIT' | tr }}">
               <bi name="pencil-square" />
             </a>
           </td>
@@ -71,7 +71,7 @@ import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.c
           <td *ngbCellDef="let organisationUser" ngb-cell>
             <button
               type="button"
-              class="btn btn-sm m-1 btn-outline-danger text-white"
+              class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
               ngbTooltip="{{ 'DELETE' | tr }}"
               (click)="onOrgUserDelete(organisationUser)"
               *ngIf="myUserEmailAddress !== organisationUser.email_address"

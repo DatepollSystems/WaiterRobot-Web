@@ -134,7 +134,8 @@
 
             <div>
               <ul class="navbar-nav" [class.mobile-background-1]="ui.isMobile">
-                <li class="nav-item" *ngIf="vm?.myUser?.isAdmin">
+                @if (vm?.myUser?.isAdmin) {
+                <li class="nav-item">
                   <div ngbDropdown display="dynamic">
                     <a class="nav-link" id="adminDropDown" ngbDropdownToggle> {{ 'NAV_INSTANCE_ADMINISTRATION' | tr }}</a>
                     <div ngbDropdownMenu aria-labelledby="adminDropDown">
@@ -153,6 +154,7 @@
                     </div>
                   </div>
                 </li>
+                }
 
                 <li class="nav-item">
                   <div ngbDropdown display="dynamic">
@@ -160,18 +162,20 @@
                     <div ngbDropdownMenu aria-labelledby="settingsDropdown">
                       <div class="px-3 py-1">
                         <h5>{{ 'NAV_USER_SETTINGS_WELCOME' | tr }} {{ vm?.myUser?.firstname }},</h5>
-                        <a (click)="openUserEmailQRCode(vm.myUser)" *ngIf="vm?.myUser">
+                        @if (vm?.myUser) {
+                        <a (click)="openUserEmailQRCode(vm.myUser)">
                           <u>{{ vm.myUser.emailAddress }}</u>
                           <bi name="qr-code" class="ms-1" />
                         </a>
+                        }
+
                         <small>
                           <br />
-                          <b *ngIf="vm?.myUser?.isAdmin" class="clickable" (click)="switchAdminMode()"
-                            >{{ 'NAV_USER_SETTINGS_ADMIN' | tr }}</b
-                          >
-                          <b *ngIf="this.adminModeChanged" class="clickable" (click)="switchAdminMode()"
-                            >{{ 'NAV_USER_SETTINGS_ADMIN_SWITCH' | tr }}</b
-                          >
+                          @if (vm?.myUser?.isAdmin) {
+                          <b class="clickable" (click)="switchAdminMode()"> {{ 'NAV_USER_SETTINGS_ADMIN' | tr }} </b>
+                          } @if (adminModeChanged) {
+                          <b class="clickable" (click)="switchAdminMode()"> {{ 'NAV_USER_SETTINGS_ADMIN_SWITCH' | tr }} </b>
+                          }
                         </small>
                       </div>
                       <div class="dropdown-divider d-none d-xxl-block"></div>
@@ -182,6 +186,7 @@
                         <bi name="arrows-fullscreen" />
                         } {{'NAV_FULLSCREEN' | tr}}
                       </button>
+
                       <div class="dropdown-divider"></div>
                       <a ngbDropdownItem routerLinkActive="active" routerLink="usettings/settings">
                         <bi name="gear-wide-connected" />
@@ -198,9 +203,7 @@
                     </div>
                   </div>
                 </li>
-                <li class="nav-item align-items-center d-flex">
-                  <theme-picker />
-                </li>
+                <li class="nav-item d-flex align-items-center"><theme-picker /></li>
               </ul>
             </div>
           </div>
@@ -240,26 +243,26 @@
         </div>
       </div>
 
-      <div *ngIf="activeSystemNotificationsService.allSystemNotifications().length > 0">
-        <app-system-notification-alert
-          *ngFor="let systemNotification of activeSystemNotificationsService.getFilteredSystemNotifications()"
-          [notification]="systemNotification"
-          (ignore)="activeSystemNotificationsService.ignore($event)"
-        />
-
-        <div class="d-flex justify-content-end mb-4">
-          <small *ngIf="activeSystemNotificationsService.ignoredSystemNotifications().length === 0">
-            <bi name="arrows-collapse" class="me-2" />
-            <a (click)="activeSystemNotificationsService.ignoreAll()">Alle verstecken</a>
-          </small>
-          <small *ngIf="activeSystemNotificationsService.ignoredSystemNotifications().length > 0">
-            <bi name="arrows-expand" class="me-2" />
-            <a (click)="activeSystemNotificationsService.resetIgnore()"
-              >{{activeSystemNotificationsService.ignoredSystemNotifications().length}}x Nachricht(en) anzeigen</a
-            >
-          </small>
-        </div>
+      @if (activeSystemNotificationsService.allSystemNotifications().length > 0) { @for (systemNotification of
+      activeSystemNotificationsService.getFilteredSystemNotifications(); track systemNotification.id) {
+      <app-system-notification-alert [notification]="systemNotification" (ignore)="activeSystemNotificationsService.ignore($event)" />
+      }
+      <div class="d-flex justify-content-end mb-4">
+        @if (activeSystemNotificationsService.ignoredSystemNotifications().length === 0) {
+        <small>
+          <bi name="arrows-collapse" class="me-2" />
+          <a (click)="activeSystemNotificationsService.ignoreAll()">Alle verstecken</a>
+        </small>
+        } @else {
+        <small>
+          <bi name="arrows-expand" class="me-2" />
+          <a (click)="activeSystemNotificationsService.resetIgnore()">
+            {{activeSystemNotificationsService.ignoredSystemNotifications().length}}x Nachricht(en) anzeigen
+          </a>
+        </small>
+        }
       </div>
+      }
 
       <router-outlet />
     </div>

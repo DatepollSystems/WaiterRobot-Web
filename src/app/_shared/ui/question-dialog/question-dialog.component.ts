@@ -1,39 +1,43 @@
-import {NgForOf, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {loggerOf} from 'dfts-helper';
-import {DfxTrackByProperty} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+import {BiComponent, BiName} from 'dfx-bootstrap-icons';
 
 @Component({
   template: `
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-question-title">{{ (title ? title : question) | tr }}</h4>
+    <div class="modal-header border-bottom-0">
+      <h1 class="modal-title fs-5">{{ (title ? title : question) | tr }}</h1>
       <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.close()"></button>
     </div>
-    <div class="modal-body" *ngIf="question || info">
-      <p *ngIf="question">
-        <strong>{{ question | tr }}</strong>
+    @if (question || info) { @if (info) {
+    <div [innerHTML]="info"></div>
+    } @else {
+    <strong>{{ question | tr }}</strong>
+    }
+    <div class="modal-body py-0">
+      <p>
+        This is a modal sheet, a variation of the modal that docs itself to the bottom of the viewport like the newer share sheets in iOS.
       </p>
-      <div *ngIf="info" [innerHTML]="info"></div>
     </div>
+    }
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
-      <button
-        *ngFor="let answer of answers; trackByProperty: 'value'"
-        (click)="answerQuestion(answer.value)"
-        type="button"
-        class="btn btn-outline-secondary"
-      >
+      @for (answer of answers; track answer.value) {
+      <button (click)="answerQuestion(answer.value)" class="btn btn-outline-secondary" type="button">
+        @if (answer.icon) {
+        <bi [name]="answer.icon" />
+        }
         {{ answer.text | tr }}
       </button>
+      }
     </div>
   `,
   selector: 'app-question-modal',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgForOf, DfxTr, DfxTrackByProperty],
+  imports: [DfxTr, BiComponent],
   standalone: true,
 })
 export class QuestionDialogComponent {
@@ -41,12 +45,12 @@ export class QuestionDialogComponent {
   public static NO_VALUE = 'no';
   public static YES_NO_ANSWERS: answerType[] = [
     {
-      icon: 'done',
+      icon: 'check-circle-fill',
       text: 'YES',
       value: QuestionDialogComponent.YES_VALUE,
     },
     {
-      icon: 'close',
+      icon: 'x-circle-fill',
       text: 'NO',
       value: QuestionDialogComponent.NO_VALUE,
     },
@@ -70,7 +74,7 @@ export class QuestionDialogComponent {
 }
 
 export type answerType = {
-  icon: string | null;
+  icon?: BiName;
   text: string;
   value: string;
 };
@@ -79,7 +83,7 @@ export function injectConfirmDialog(): (title: string, info?: string) => Promise
   const modal = inject(NgbModal);
 
   return (title: string, info?: string): Promise<boolean> => {
-    const modalRef = modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'lg'});
+    const modalRef = modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'md'});
     modalRef.componentInstance.title = title;
 
     if (info) {

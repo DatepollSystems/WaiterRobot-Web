@@ -1,5 +1,5 @@
 import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
-import {AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewChild} from '@angular/core';
+import {AfterViewInit, booleanAttribute, ChangeDetectionStrategy, Component, Input, ViewChild} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
 import {Subject} from 'rxjs';
@@ -82,6 +82,13 @@ export class AppOrderProductsListTableComponent implements AfterViewInit {
 
   @ViewChild(NgbSort) sort?: NgbSort;
   columnsToDisplay = ['product', 'note', 'printState', 'printedBy'];
+
+  @Input({transform: booleanAttribute})
+  set hidePrintedBy(it: boolean) {
+    if (it) {
+      this.columnsToDisplay.pop();
+    }
+  }
 
   dataSource$ = new Subject<NgbTableDataSource<GetImplodedOrderProductResponse>>();
 

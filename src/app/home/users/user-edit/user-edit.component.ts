@@ -41,7 +41,7 @@ import {UserEditOrganisationsComponent} from './user-edit-organisations.componen
         #nav="ngbNav"
         [activeId]="activeTab$ | async"
         [destroyOnHide]="false"
-        class="nav-tabs bg-dark"
+        class="nav-tabs"
         (navChange)="navigateToTab($event.nextId)"
       >
         <li [ngbNavItem]="'DATA'">
@@ -64,7 +64,7 @@ import {UserEditOrganisationsComponent} from './user-edit-organisations.componen
         </li>
       </ul>
 
-      <div [ngbNavOutlet]="nav" class="mt-2 bg-dark"></div>
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
     </div>
 
     <ng-template #loading>

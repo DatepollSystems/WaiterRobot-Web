@@ -1,7 +1,7 @@
 <div class="d-flex flex-column">
   <h1>{{ 'NAV_USER_SETTINGS' | tr }}</h1>
 
-  <div class="card text-white mb-3">
+  <div class="card mb-3">
     <div class="card-body">
       <h4 class="card-title">{{ 'HOME_USERSETTINGS_USER_SETTINGS_EMAIL' | tr }}</h4>
       <h6 class="card-subtitle mb-2">{{ 'HOME_USERSETTINGS_USER_SETTINGS_EMAIL_SUBTITLE' | tr }}</h6>
@@ -12,7 +12,7 @@
               <label for="email">{{ 'EMAIL' | tr }}</label>
               <input
                 ngModel
-                class="form-control bg-dark text-white mb-1"
+                class="form-control mb-1"
                 type="email"
                 id="email"
                 #emailModel="ngModel"
@@ -31,7 +31,7 @@
     </div>
   </div>
 
-  <div class="card text-white">
+  <div class="card">
     <div class="card-body">
       <h4 class="card-title">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD' | tr }}</h4>
       <form #passwordForm="ngForm" (ngSubmit)="changePassword(passwordForm)">
@@ -41,7 +41,7 @@
               <label for="oldPassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_OLD' | tr }}</label>
               <input
                 ngModel
-                class="form-control bg-dark text-white mb-1"
+                class="form-control mb-1"
                 type="password"
                 id="oldPassword"
                 #passwordModel="ngModel"
@@ -59,7 +59,7 @@
               <label for="newPassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | tr }}</label>
               <input
                 ngModel
-                class="form-control bg-dark text-white mb-1"
+                class="form-control mb-1"
                 type="password"
                 id="newPassword"
                 (ngModelChange)="newPasswordsChange($event, undefined)"
@@ -78,7 +78,7 @@
               <label for="newPasswordAgain">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_AGAIN' | tr }}</label>
               <input
                 ngModel
-                class="form-control bg-dark text-white mb-1"
+                class="form-control mb-1"
                 type="password"
                 id="newPasswordAgain"
                 (ngModelChange)="newPasswordsChange(undefined, $event)"

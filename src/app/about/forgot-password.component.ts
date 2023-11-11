@@ -27,7 +27,7 @@ import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.compon
 
                 <div class="form-floating">
                   <input
-                    class="form-control bg-dark text-white"
+                    class="form-control"
                     autocomplete="on"
                     type="email"
                     id="email"
@@ -58,13 +58,7 @@ import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.compon
                 <div class="alert alert-info d-flex" role="alert">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_EMAIL_SENT' | tr }}</div>
 
                 <div class="form-floating">
-                  <input
-                    class="form-control bg-dark text-white"
-                    type="text"
-                    id="resetToken"
-                    formControlName="resetToken"
-                    placeholder="XXXXXXXXXXXXX"
-                  />
+                  <input class="form-control" type="text" id="resetToken" formControlName="resetToken" placeholder="XXXXXXXXXXXXX" />
                   <label for="resetToken">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_RESET_TOKEN' | tr }}</label>
                 </div>
 
@@ -74,7 +68,7 @@ import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.compon
 
                 <div class="form-floating">
                   <input
-                    class="form-control bg-dark text-white"
+                    class="form-control"
                     type="password"
                     id="password"
                     formControlName="newPassword"
@@ -89,7 +83,7 @@ import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.compon
 
                 <div class="form-floating">
                   <input
-                    class="form-control bg-dark text-white"
+                    class="form-control"
                     type="password"
                     id="password"
                     formControlName="confirmPassword"

@@ -24,13 +24,7 @@ import {passwordMatchValidator} from '../_shared/regex';
           class="d-flex flex-column gap-3"
         >
           <div class="form-floating">
-            <input
-              class="form-control bg-dark text-white"
-              type="password"
-              id="password"
-              formControlName="newPassword"
-              placeholder="{{ 'PASSWORD' | tr }}"
-            />
+            <input class="form-control" type="password" id="password" formControlName="newPassword" placeholder="{{ 'PASSWORD' | tr }}" />
             <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | tr }}</label>
           </div>
 
@@ -40,7 +34,7 @@ import {passwordMatchValidator} from '../_shared/regex';
 
           <div class="form-floating">
             <input
-              class="form-control bg-dark text-white"
+              class="form-control"
               type="password"
               id="password"
               formControlName="confirmPassword"
