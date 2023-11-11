@@ -8,7 +8,7 @@ main {
 }
 
 .mobile-background-0 {
-  background-color: black;
+  background-color: var(--bs-secondary-bg);
   border-top-right-radius: 15px;
   border-top-left-radius: 15px;
   padding-top: 5px;
@@ -18,16 +18,12 @@ main {
 }
 
 .mobile-background-1 {
-  background-color: black;
+  background-color: var(--bs-secondary-bg);
   border-bottom-right-radius: 15px;
   border-bottom-left-radius: 15px;
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 5px;
-}
-
-.bg {
-  background-color: var(--primary-9);
 }
 
 small > a:hover {
