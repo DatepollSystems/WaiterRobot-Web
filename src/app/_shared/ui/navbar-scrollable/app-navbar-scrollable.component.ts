@@ -11,7 +11,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {FullScreenService} from '../../services/fullscreen.service';
-import {AppBtnToolbarComponent} from '../button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../button/scrollable-toolbar.component';
 
 @Component({
   selector: 'app-navbar-scrollable',
@@ -25,7 +25,7 @@ import {AppBtnToolbarComponent} from '../button/app-btn-toolbar.component';
     DfxTranslateModule,
     BiComponent,
     NgbTooltipModule,
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
     FormsModule,
     AsyncPipe,
   ],

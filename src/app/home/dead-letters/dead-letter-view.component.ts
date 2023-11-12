@@ -9,7 +9,7 @@ import {DfxTr} from 'dfx-translate';
 
 import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
 import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
-import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {DeadLettersService} from './dead-letters.service';
 
@@ -18,7 +18,7 @@ import {DeadLettersService} from './dead-letters.service';
     <div *ngIf="deadLetter() as deadLetter; else loading">
       <h1>Dead Letter "{{ deadLetter.id }}"</h1>
 
-      <btn-toolbar>
+      <scrollable-toolbar>
         <back-button />
 
         <div>
@@ -27,7 +27,7 @@ import {DeadLettersService} from './dead-letters.service';
             {{ 'DELETE' | tr }}
           </button>
         </div>
-      </btn-toolbar>
+      </scrollable-toolbar>
 
       <div class="d-flex flex-wrap gap-2 mb-4">
         <span class="badge text-bg-primary">{{ deadLetter.createdAt | date: 'dd.MM.YYYY HH:mm:ss:SSS' }}</span>
@@ -57,7 +57,7 @@ import {DeadLettersService} from './dead-letters.service';
     `,
   ],
   selector: 'app-dead-letter-view',
-  imports: [NgIf, DfxTr, BiComponent, AppBtnToolbarComponent, AppBackButtonComponent, AppSpinnerRowComponent, DatePipe],
+  imports: [NgIf, DfxTr, BiComponent, ScrollableToolbarComponent, AppBackButtonComponent, AppSpinnerRowComponent, DatePipe],
   standalone: true,
 })
 export class DeadLetterViewComponent {

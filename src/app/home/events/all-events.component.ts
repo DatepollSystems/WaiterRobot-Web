@@ -11,7 +11,7 @@ import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
-import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppSelectableBtnComponent} from '../../_shared/ui/button/app-selectable-btn.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
@@ -23,7 +23,7 @@ import {EventsService} from './_services/events.service';
     <h1>{{ 'NAV_EVENTS' | tr }}</h1>
 
     <ng-container *ngSub="myUser$ as myUser">
-      <btn-toolbar *ngIf="myUser?.isAdmin">
+      <scrollable-toolbar *ngIf="myUser?.isAdmin">
         <div>
           <a routerLink="../create" class="btn btn-sm btn-success">
             <bi name="plus-circle" />
@@ -37,7 +37,7 @@ import {EventsService} from './_services/events.service';
             {{ 'DELETE' | tr }}
           </button>
         </div>
-      </btn-toolbar>
+      </scrollable-toolbar>
 
       <form>
         <div class="input-group">
@@ -163,7 +163,7 @@ import {EventsService} from './_services/events.service';
     BiComponent,
     AppSpinnerRowComponent,
     AppSelectableBtnComponent,
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
     AsyncPipe,
   ],
   standalone: true,

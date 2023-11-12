@@ -2,7 +2,7 @@ import {AfterViewInit, booleanAttribute, ChangeDetectionStrategy, Component, Ele
 
 @Component({
   template: `
-    <div [class.pb-3]="padding" [class.pt-1]="padding">
+    <div [class.pb-3]="!disablePadding" [class.pt-1]="!disablePadding">
       <div
         #contentWrapper
         id="overflow-container"
@@ -29,20 +29,20 @@ import {AfterViewInit, booleanAttribute, ChangeDetectionStrategy, Component, Ele
         scrollbar-width: none; /* Firefox */
       }
 
-      :host(btn-toolbar)::ng-deep.btn {
+      :host(scrollable-toolbar)::ng-deep.btn {
         word-break: keep-all;
         white-space: nowrap;
       }
     `,
   ],
-  selector: 'btn-toolbar',
+  selector: 'scrollable-toolbar',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppBtnToolbarComponent implements AfterViewInit {
+export class ScrollableToolbarComponent implements AfterViewInit {
   @ViewChild('contentWrapper') content!: ElementRef;
 
-  @Input({transform: booleanAttribute}) padding = true;
+  @Input({transform: booleanAttribute}) disablePadding = false;
 
   ngAfterViewInit(): void {
     for (const child of this.content.nativeElement.children) {

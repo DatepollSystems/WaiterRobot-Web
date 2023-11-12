@@ -12,7 +12,7 @@ import {QRCodeComponent} from 'dfx-qrcode';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {MobileLinkService} from '../../_shared/services/mobile-link.service';
-import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
 
 @Component({
@@ -22,7 +22,7 @@ import {GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
       <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.dismiss()"></button>
     </div>
     <div class="modal-body">
-      <btn-toolbar>
+      <scrollable-toolbar>
         <div>
           <button class="btn btn-sm btn-primary" (click)="pdf()" [class.spinner]="generating" [disabled]="generating">
             <bi name="printer" />
@@ -38,7 +38,7 @@ import {GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
             {{ 'HOME_TABLE_PRINT_MD' | tr }}
           </button>
         </div>
-      </btn-toolbar>
+      </scrollable-toolbar>
 
       <ngb-progressbar
         *ngIf="progress"
@@ -106,7 +106,7 @@ import {GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
     DfxTranslateModule,
     DfxTrackByModule,
     QRCodeComponent,
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
     BiComponent,
     NgbDropdownModule,
     AsyncPipe,

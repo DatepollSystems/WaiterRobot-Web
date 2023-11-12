@@ -11,7 +11,7 @@ import {DfxTr} from 'dfx-translate';
 
 import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
 import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
-import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {injectConfirmDialog} from '../../_shared/ui/question-dialog/question-dialog.component';
 import {AppOrderRefreshButtonComponent} from './_components/app-order-refresh-button.component';
 import {AppOrderStateBadgeComponent} from './_components/app-order-state-badge.component';
@@ -21,12 +21,12 @@ import {OrdersService} from './orders.service';
 @Component({
   template: `
     <ng-container *ngIf="vm$ | async as vm">
-      <div class="d-flex flex-wrap justify-content-between gap-2 gap-md-0">
+      <div class="d-flex flex-wrap justify-content-between gap-2 gap-md-0 mb-2">
         <h1 class="mb-0">{{ 'HOME_ORDER' | tr }} #{{ vm.order.orderNumber }}</h1>
         <app-order-refresh-btn [countdown]="vm.countdown" />
       </div>
 
-      <div class="d-flex flex-wrap gap-2 mt-2 mb-4">
+      <scrollable-toolbar>
         <app-order-state-badge
           [orderState]="vm.order.state"
           [orderProductPrintStates]="vm.orderProductPrintStates"
@@ -35,9 +35,9 @@ import {OrdersService} from './orders.service';
         />
 
         <span
-          class="badge bg-secondary d-flex align-items-center gap-2 ms-md-5 not-selectable"
+          class="badge bg-secondary d-flex align-items-center gap-2"
           *ngIf="vm.order.state !== 'QUEUED'"
-          ngbTooltip="Erstellt um"
+          [ngbTooltip]="'HOME_ORDER_CREATED_AT' | tr"
         >
           <bi name="save" />
           {{ vm.order.createdAt | date: 'dd.MM.yy HH:mm:ss' }}
@@ -60,9 +60,9 @@ import {OrdersService} from './orders.service';
           <bi name="people" />
           {{ vm.order.waiter.name }}
         </a>
-      </div>
+      </scrollable-toolbar>
 
-      <btn-toolbar padding="false">
+      <scrollable-toolbar disablePadding>
         <back-button />
         <div>
           <button class="btn btn-sm btn-warning" (click)="requeueOrder(vm.order.id)" *ngIf="vm.showRequeueButton">
@@ -70,7 +70,7 @@ import {OrdersService} from './orders.service';
             {{ 'HOME_ORDER_REQUEUE' | tr }}
           </button>
         </div>
-      </btn-toolbar>
+      </scrollable-toolbar>
 
       <hr />
 
@@ -89,7 +89,7 @@ import {OrdersService} from './orders.service';
     AsyncPipe,
     DatePipe,
     BiComponent,
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
     AppBackButtonComponent,
     AppOrderStateBadgeComponent,
     AppOrderRefreshButtonComponent,

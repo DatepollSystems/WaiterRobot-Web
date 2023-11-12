@@ -12,7 +12,7 @@ import {DfxArrayPluck, DfxImplodePipe, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {AppSoldOutPipe} from '../../_shared/ui/app-sold-out.pipe';
-import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {DfxCurrencyCentPipe} from '../../_shared/ui/currency.pipe';
 import {AppOrderModeSwitchComponent} from '../../_shared/ui/form/app-order-mode-switch.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
@@ -27,7 +27,7 @@ import {ProductsService} from './_services/products.service';
     <ng-container *ngIf="entity$ | async as entity">
       <h1>{{ entity?.name }} {{ 'HOME_PROD_GROUP_PRODUCTS_VIEW' | tr }}</h1>
 
-      <btn-toolbar>
+      <scrollable-toolbar>
         <div>
           <a routerLink="../../../create" [queryParams]="{group: entity?.id}" class="btn btn-sm btn-success">
             <bi name="plus-circle" />
@@ -51,7 +51,7 @@ import {ProductsService} from './_services/products.service';
         <div class="d-flex align-items-center">
           <app-order-mode-switch [orderMode]="orderMode()" (orderModeChange)="setOrderMode($event)" />
         </div>
-      </btn-toolbar>
+      </scrollable-toolbar>
 
       <form>
         <div class="input-group">
@@ -204,7 +204,7 @@ import {ProductsService} from './_services/products.service';
     DfxSortModule,
     DfxImplodePipe,
     DfxArrayPluck,
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
     AppSpinnerRowComponent,
     BiComponent,
     AppSoldOutPipe,

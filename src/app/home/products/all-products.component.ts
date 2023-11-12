@@ -11,7 +11,7 @@ import {DfxArrayPluck, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {AppSoldOutPipe} from '../../_shared/ui/app-sold-out.pipe';
-import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/color/app-text-with-color-indicator.component';
 import {DfxCurrencyCentPipe} from '../../_shared/ui/currency.pipe';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
@@ -23,7 +23,7 @@ import {ProductsService} from './_services/products.service';
   template: `
     <h1>{{ 'HOME_PROD_ALL' | tr }}</h1>
 
-    <btn-toolbar>
+    <scrollable-toolbar>
       <div>
         <a routerLink="../create" class="btn btn-sm btn-success">
           <bi name="plus-circle" />
@@ -37,7 +37,7 @@ import {ProductsService} from './_services/products.service';
           {{ 'DELETE' | tr }}
         </button>
       </div>
-    </btn-toolbar>
+    </scrollable-toolbar>
 
     <form>
       <div class="input-group">
@@ -158,7 +158,7 @@ import {ProductsService} from './_services/products.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
     DfxTr,
     BiComponent,
     NgIf,

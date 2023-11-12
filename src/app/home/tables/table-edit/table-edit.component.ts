@@ -28,7 +28,7 @@ import {TableEditOrderProductsComponent} from './table-edit-order-products.compo
       <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | tr }} {{ entity.group.name }} {{ entity.number }}</h1>
       <h1 *isEditingAndDeleted="entity">{{ entity.group.name }} - {{ entity.number }} {{ 'DELETED' | tr }}</h1>
 
-      <btn-toolbar>
+      <scrollable-toolbar>
         <back-button />
         <ng-container *isNotDeleted="entity">
           <app-model-edit-save-btn
@@ -58,7 +58,7 @@ import {TableEditOrderProductsComponent} from './table-edit-order-products.compo
         <div class="d-flex align-items-center" *isCreating="entity">
           <app-continues-creation-switch (continuesCreationChange)="continuesCreation = $event" />
         </div>
-      </btn-toolbar>
+      </scrollable-toolbar>
 
       <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs" (navChange)="navigateToTab($event.nextId)">
         <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">

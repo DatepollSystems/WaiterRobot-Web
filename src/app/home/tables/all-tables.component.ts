@@ -9,7 +9,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
-import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/color/app-text-with-color-indicator.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNumberListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-number-list-with-delete.component';
@@ -21,7 +21,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
   template: `
     <h1>{{ 'HOME_TABLES' | tr }}</h1>
 
-    <btn-toolbar>
+    <scrollable-toolbar>
       <div>
         <a routerLink="../create" class="btn btn-sm btn-success">
           <bi name="plus-circle" />
@@ -42,7 +42,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
           {{ 'PRINT' | tr }}
         </button>
       </div>
-    </btn-toolbar>
+    </scrollable-toolbar>
 
     <form>
       <div class="input-group">
@@ -171,7 +171,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
     DfxSortModule,
     BiComponent,
     AppSpinnerRowComponent,
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
     AppTextWithColorIndicatorComponent,
   ],
 })

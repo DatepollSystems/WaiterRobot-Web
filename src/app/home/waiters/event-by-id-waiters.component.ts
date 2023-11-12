@@ -13,7 +13,7 @@ import {DfxTr} from 'dfx-translate';
 import {MobileLinkService} from '../../_shared/services/mobile-link.service';
 import {QrCodeService} from '../../_shared/services/qr-code.service';
 import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';
-import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {BtnWaiterCreateQrCodeComponent} from '../../_shared/ui/button/app-waiter-create-qr-code-btn.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListByIdComponent} from '../../_shared/ui/models-list-by-id/abstract-models-with-name-list-by-id.component';
@@ -27,7 +27,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
     <ng-container *ngIf="entity$ | async as entity">
       <h1>{{ entity?.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</h1>
 
-      <btn-toolbar>
+      <scrollable-toolbar>
         <a routerLink="../../create" [queryParams]="{event: entity?.id}" class="btn btn-sm btn-success">
           <bi name="plus-circle" />
           {{ 'ADD_2' | tr }}</a
@@ -40,7 +40,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
         </div>
 
         <app-waiter-create-qrcode-btn *ngIf="entity" [token]="entity.waiterCreateToken" />
-      </btn-toolbar>
+      </scrollable-toolbar>
     </ng-container>
 
     <form>
@@ -166,7 +166,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
     BtnWaiterCreateQrCodeComponent,
     AppSpinnerRowComponent,
     BiComponent,
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
     BtnWaiterSignInQrCodeComponent,
     AppActivatedPipe,
   ],

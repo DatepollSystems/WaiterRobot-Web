@@ -11,7 +11,7 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxCutPipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-list-with-delete.component';
 import {DeadLetterResponse} from '../../_shared/waiterrobot-backend';
@@ -21,14 +21,14 @@ import {DeadLettersService} from './dead-letters.service';
   template: `
     <h1>{{ 'Dead Letters' | tr }}</h1>
 
-    <btn-toolbar>
+    <scrollable-toolbar>
       <div>
         <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
           <bi name="trash" />
           {{ 'DELETE' | tr }}
         </button>
       </div>
-    </btn-toolbar>
+    </scrollable-toolbar>
 
     <form>
       <div class="input-group">
@@ -95,7 +95,7 @@ import {DeadLettersService} from './dead-letters.service';
         </ng-container>
 
         <ng-container ngbColumnDef="createdAt">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'Erstellt um' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_CREATED_AT' | tr }}</th>
           <td *ngbCellDef="let it" ngb-cell>{{ it.createdAt | date: 'dd.MM.YYYY HH:mm:ss:SSS' }}</td>
         </ng-container>
 
@@ -139,7 +139,7 @@ import {DeadLettersService} from './dead-letters.service';
     BiComponent,
     AppSpinnerRowComponent,
     DfxCutPipe,
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
   ],
 })
 export class AllDeadLettersComponent extends AbstractModelsListWithDeleteComponent<DeadLetterResponse> {

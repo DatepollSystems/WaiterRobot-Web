@@ -33,7 +33,7 @@
 
     <div *ngIf="editMode" class="edit-container">
       <h5>{{ 'NAV_EDIT_CUSTOMIZE' | tr }}</h5>
-      <btn-toolbar>
+      <scrollable-toolbar>
         <button class="btn btn-sm btn-outline-secondary" (click)="onClose()">
           <bi name="trash" />
           {{ 'CLOSE' | tr }}
@@ -53,7 +53,7 @@
           <bi name="star-fill" />
           {{ 'NAV_EDIT_BOOKMARK' | tr }}
         </button>
-      </btn-toolbar>
+      </scrollable-toolbar>
 
       <div
         class="list"

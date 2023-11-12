@@ -17,7 +17,7 @@ import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSor
 import {DfxTr} from 'dfx-translate';
 
 import {PaginatedDataSource} from '../../_shared/paginated-data-source';
-import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {injectConfirmDialog} from '../../_shared/ui/question-dialog/question-dialog.component';
 import {GetOrderMinResponse} from '../../_shared/waiterrobot-backend';
@@ -32,7 +32,7 @@ import {OrdersService} from './orders.service';
       <app-order-refresh-btn />
     </div>
 
-    <btn-toolbar>
+    <scrollable-toolbar>
       <div>
         <button class="btn btn-sm btn-info" (click)="exportCsv()">
           <bi name="filetype-csv" />
@@ -52,7 +52,7 @@ import {OrdersService} from './orders.service';
           {{ 'PRINT ALL' | tr }}
         </button>
       </div>
-    </btn-toolbar>
+    </scrollable-toolbar>
 
     <div class="d-flex justify-content-start justify-content-md-end">
       <div class="form-check form-switch form-check-reverse">
@@ -219,7 +219,7 @@ import {OrdersService} from './orders.service';
     BiComponent,
     AppOrderStateBadgeComponent,
     AppOrderRefreshButtonComponent,
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
     AppSpinnerRowComponent,
   ],
 })

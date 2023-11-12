@@ -23,7 +23,7 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
       <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
       <h1 *isCreating="entity">{{ 'ADD_2' | tr }}</h1>
 
-      <btn-toolbar>
+      <scrollable-toolbar>
         <back-button />
 
         <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid()" [editing]="entity !== 'CREATE'" />
@@ -40,7 +40,7 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
         <div class="d-flex align-items-center" *isCreating="entity">
           <app-continues-creation-switch (continuesCreationChange)="continuesCreation = $event" />
         </div>
-      </btn-toolbar>
+      </scrollable-toolbar>
 
       <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs" (navChange)="navigateToTab($event.nextId)">
         <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">

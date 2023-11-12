@@ -11,7 +11,7 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/color/app-text-with-color-indicator.component';
 import {AppOrderModeSwitchComponent} from '../../_shared/ui/form/app-order-mode-switch.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
@@ -26,7 +26,7 @@ import {TableGroupsService} from './_services/table-groups.service';
   template: `
     <h1>{{ 'HOME_TABLE_GROUPS' | tr }}</h1>
 
-    <btn-toolbar>
+    <scrollable-toolbar>
       <div>
         <a routerLink="../create" class="btn btn-sm btn-success">
           <bi name="plus-circle" />
@@ -42,7 +42,7 @@ import {TableGroupsService} from './_services/table-groups.service';
       <div class="d-flex align-items-center">
         <app-order-mode-switch [orderMode]="orderMode()" (orderModeChange)="setOrderMode($event)" />
       </div>
-    </btn-toolbar>
+    </scrollable-toolbar>
 
     <form>
       <div class="input-group">
@@ -166,7 +166,7 @@ import {TableGroupsService} from './_services/table-groups.service';
     DfxTableModule,
     DfxSortModule,
     AppSpinnerRowComponent,
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
     BiComponent,
     AppTextWithColorIndicatorComponent,
     AppOrderModeSwitchComponent,

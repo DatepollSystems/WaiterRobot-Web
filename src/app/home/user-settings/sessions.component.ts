@@ -9,7 +9,7 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
 import {SessionModel} from '../../_shared/model/session.model';
-import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {UserSessionsService} from './_services/user-sessions.service';
@@ -18,14 +18,14 @@ import {UserSessionsService} from './_services/user-sessions.service';
   template: `
     <h1>{{ 'NAV_USER_SESSIONS' | tr }}</h1>
 
-    <btn-toolbar>
+    <scrollable-toolbar>
       <div>
         <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
           <bi name="trash" />
           {{ 'DELETE' | tr }}
         </button>
       </div>
-    </btn-toolbar>
+    </scrollable-toolbar>
 
     <form>
       <div class="input-group">
@@ -122,7 +122,7 @@ import {UserSessionsService} from './_services/user-sessions.service';
     DfxTr,
     BiComponent,
     AppSpinnerRowComponent,
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
   ],
 })
 export class SessionsComponent extends AbstractModelsWithNameListWithDeleteComponent<SessionModel> {

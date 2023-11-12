@@ -11,7 +11,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
-import {AppBtnToolbarComponent} from '../../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../../_shared/ui/button/scrollable-toolbar.component';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {GetPrinterResponse} from '../../../_shared/waiterrobot-backend';
@@ -22,7 +22,7 @@ import {PrinterBatchUpdateDto, PrinterBatchUpdateModalComponent} from './printer
   template: `
     <h1>{{ 'NAV_PRINTERS' | tr }}</h1>
 
-    <btn-toolbar>
+    <scrollable-toolbar>
       <div>
         <a routerLink="../create" class="btn btn-sm btn-success">
           <bi name="plus-circle" />
@@ -43,7 +43,7 @@ import {PrinterBatchUpdateDto, PrinterBatchUpdateModalComponent} from './printer
           {{ 'HOME_PRINTER_BATCH_UPDATE' | tr }}
         </button>
       </div>
-    </btn-toolbar>
+    </scrollable-toolbar>
 
     <form>
       <div class="input-group">
@@ -170,7 +170,7 @@ import {PrinterBatchUpdateDto, PrinterBatchUpdateModalComponent} from './printer
     DfxSortModule,
     BiComponent,
     AppSpinnerRowComponent,
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
   ],
 })
 export class AllPrintersComponent extends AbstractModelsWithNameListWithDeleteComponent<GetPrinterResponse> {

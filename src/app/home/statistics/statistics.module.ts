@@ -15,7 +15,7 @@ import {eventSelectedGuard} from '../../_shared/services/guards/event-selected-g
 import {organisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
-import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppDatetimeInputComponent} from '../../_shared/ui/datetime-picker/datetime-picker.component';
 import {CountCardComponent} from './components/count-card.component';
 import {SumProductGroupsComponent} from './components/sum-product-groups.component';
@@ -53,7 +53,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     AppBackButtonComponent,
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
     AppDatetimeInputComponent,
     AppEntitiesLayoutComponent,
     BarChartModule,

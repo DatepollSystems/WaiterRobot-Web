@@ -10,7 +10,7 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
 import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';
-import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-list-with-delete.component';
 import {GetSystemNotificationResponse} from '../../_shared/waiterrobot-backend';
@@ -21,7 +21,7 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
   template: `
     <h1>{{ 'NAV_SYSTEM_NOTIFICATIONS' | tr }}</h1>
 
-    <btn-toolbar>
+    <scrollable-toolbar>
       <div>
         <a routerLink="../create" class="btn btn-sm btn-success">
           <bi name="plus-circle" />
@@ -34,7 +34,7 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
           {{ 'DELETE' | tr }}
         </button>
       </div>
-    </btn-toolbar>
+    </scrollable-toolbar>
 
     <form>
       <div class="input-group">
@@ -148,7 +148,7 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
     DfxTr,
     BiComponent,
     AppSpinnerRowComponent,
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
     AppSystemNotificationTypeBadgeComponent,
     AppActivatedPipe,
   ],

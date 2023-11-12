@@ -12,7 +12,7 @@ import {QRCodeComponent} from 'dfx-qrcode';
 import {DfxTr, dfxTranslate} from 'dfx-translate';
 
 import {qrCodeData, QrCodeService} from '../../services/qr-code.service';
-import {AppBtnToolbarComponent} from '../button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../button/scrollable-toolbar.component';
 import {CopyDirective} from '../copy.directive';
 
 @Component({
@@ -37,7 +37,7 @@ import {CopyDirective} from '../copy.directive';
           <a [href]="qrCodeData.data" target="_blank" rel="noopener">{{ qrCodeData.data | s_cut: 43 : '..' }}</a>
         </div>
         <div class="card-footer text-muted">
-          <btn-toolbar padding="false">
+          <scrollable-toolbar disablePadding>
             <button class="btn btn-sm btn-secondary" (click)="back()">
               <bi name="arrow-left" />
               {{ 'GO_BACK' | tr }}
@@ -63,7 +63,7 @@ import {CopyDirective} from '../copy.directive';
               <bi name="clipboard" aria-label="Copy content to clipboard" />
               {{ 'COPY' | tr }}
             </button>
-          </btn-toolbar>
+          </scrollable-toolbar>
         </div>
       </div>
     </div>
@@ -86,7 +86,7 @@ import {CopyDirective} from '../copy.directive';
   selector: 'app-qr-code',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, QRCodeComponent, NgbTooltipModule, BiComponent, AppBtnToolbarComponent, CopyDirective, DfxCutPipe, DfxTr],
+  imports: [NgIf, AsyncPipe, QRCodeComponent, NgbTooltipModule, BiComponent, ScrollableToolbarComponent, CopyDirective, DfxCutPipe, DfxTr],
 })
 export class AppQrCodeViewComponent {
   qrCodeData?: qrCodeData;

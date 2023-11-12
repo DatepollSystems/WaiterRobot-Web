@@ -24,7 +24,7 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
       <h1 *isCreating="entity">{{ 'ADD_2' | tr }}</h1>
 
       <ng-container *ngSub="myUser$ as myUser">
-        <btn-toolbar>
+        <scrollable-toolbar>
           <back-button />
 
           <app-model-edit-save-btn
@@ -46,7 +46,7 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
               <selectable-button class="my-2" [entity]="entity" [selectedEntityService]="organisationsService" placement="top" />
             </div>
           </ng-container>
-        </btn-toolbar>
+        </scrollable-toolbar>
 
         <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs" (navChange)="navigateToTab($event.nextId)">
           <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">

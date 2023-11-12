@@ -10,7 +10,7 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
-import {AppBtnToolbarComponent} from '../../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../../_shared/ui/button/scrollable-toolbar.component';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {DuplicateWaiterResponse} from '../../../_shared/waiterrobot-backend';
 import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
@@ -19,11 +19,11 @@ import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
   template: `
     <h1>{{ 'HOME_WAITERS_DUPLICATES' | tr }}</h1>
 
-    <btn-toolbar>
+    <scrollable-toolbar>
       <div>
         <a routerLink="../" class="btn btn-sm btn-outline-secondary">{{ 'GO_BACK' | tr }}</a>
       </div>
-    </btn-toolbar>
+    </scrollable-toolbar>
 
     <form>
       <div class="input-group">
@@ -90,7 +90,7 @@ import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
     DfxTr,
     BiComponent,
     AppSpinnerRowComponent,
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
   ],
   selector: 'app-duplicate-organisation-waiters',
   changeDetection: ChangeDetectionStrategy.OnPush,

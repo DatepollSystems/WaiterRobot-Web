@@ -9,7 +9,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AppBtnToolbarComponent} from '../../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../../_shared/ui/button/scrollable-toolbar.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
 import {DuplicateWaiterResponse, IdAndNameResponse} from '../../../_shared/waiterrobot-backend';
 import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
@@ -21,7 +21,7 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
     <ng-container *ngIf="vm$ | async as vm">
       <h1>"{{ vm.duplicateWaiter.name }}" Duplikate</h1>
 
-      <btn-toolbar>
+      <scrollable-toolbar>
         <div>
           <a routerLink="../../" class="btn btn-sm btn-outline-secondary">{{ 'GO_BACK' | tr }}</a>
         </div>
@@ -30,7 +30,7 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
             {{ 'SAVE' | tr }}
           </button>
         </div>
-      </btn-toolbar>
+      </scrollable-toolbar>
       <div class="col-12 col-md-4">
         <div class="list-group">
           <button
@@ -64,7 +64,7 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
     NgIf,
     BiComponent,
     DfxTr,
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
     NgForOf,
     DfxTrackById,
     RouterLink,

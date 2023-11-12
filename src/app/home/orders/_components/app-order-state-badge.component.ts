@@ -10,7 +10,7 @@ import {GetImplodedOrderProductResponse, GetOrderResponse} from '../../../_share
 
 @Component({
   template: `
-    <div
+    <span
       [ngClass]="{
         'text-bg-light': orderState === 'QUEUED' || orderState === 'IN_PROGRESS',
         'text-bg-success': orderState === 'FINISHED'
@@ -32,9 +32,9 @@ import {GetImplodedOrderProductResponse, GetOrderResponse} from '../../../_share
       <ng-template #processed>
         <bi name="check2-square" />
       </ng-template>
-    </div>
+    </span>
     <ng-template #popContent class="d-flex flex-column">
-      <div *ngIf="createdAt">Erstellt um: {{ createdAt | date: 'dd.MM.yy HH:mm:ss' }}</div>
+      <div *ngIf="createdAt">{{ 'HOME_ORDER_CREATED_AT' | tr }}: {{ createdAt | date: 'dd.MM.yy HH:mm:ss' }}</div>
       <div *ngIf="processedAt">Verarbeitet um: {{ processedAt | date: 'dd.MM.yy HH:mm:ss' }}</div>
       <div>Gedruckte Produkte: {{ printedProducts }} von {{ allProducts }}</div>
     </ng-template>
@@ -42,8 +42,8 @@ import {GetImplodedOrderProductResponse, GetOrderResponse} from '../../../_share
   styles: [
     `
       .circle {
-        width: 10px;
-        height: 10px;
+        width: 15px;
+        height: 15px;
         border-radius: 50%;
         box-shadow: 0 0 1px 1px #0000001a;
       }

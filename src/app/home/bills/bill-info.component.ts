@@ -11,7 +11,7 @@ import {DfxTr} from 'dfx-translate';
 
 import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
 import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
-import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppBillPaymentStateBadgeComponent} from './_components/app-bill-payment-state-badge.component';
 import {AppOrderProductsListTableComponent} from './_components/app-bill-products-list-table.component';
 import {AppBillRefreshButtonComponent} from './_components/app-bill-refresh-button.component';
@@ -20,14 +20,14 @@ import {BillsService} from './bills.service';
 @Component({
   template: `
     <ng-container *ngIf="vm$ | async as vm">
-      <div class="d-flex flex-wrap justify-content-between gap-2 gap-md-0">
+      <div class="d-flex flex-wrap justify-content-between gap-2 gap-md-0 mb-2">
         <h1 class="mb-0">{{ 'HOME_BILL' | tr }} #{{ vm.bill.id }}</h1>
       </div>
 
-      <div class="d-flex flex-wrap gap-2 mt-2 mb-4">
+      <scrollable-toolbar>
         <app-bill-payment-state-badge [unpaidReason]="vm.bill.unpaidReason?.reason" />
 
-        <span class="badge bg-secondary d-flex align-items-center gap-2 ms-md-5 not-selectable" ngbTooltip="Erstellt um">
+        <span class="badge bg-secondary d-flex align-items-center gap-2" [ngbTooltip]="'HOME_ORDER_CREATED_AT' | tr">
           <bi name="save" />
           {{ vm.bill.createdAt | date: 'dd.MM.yy HH:mm:ss' }}
         </span>
@@ -49,11 +49,11 @@ import {BillsService} from './bills.service';
           <bi name="people" />
           {{ vm.bill.waiter.name }}
         </a>
-      </div>
+      </scrollable-toolbar>
 
-      <btn-toolbar padding="false">
+      <scrollable-toolbar disablePadding>
         <back-button />
-      </btn-toolbar>
+      </scrollable-toolbar>
 
       <hr />
 
@@ -67,7 +67,7 @@ import {BillsService} from './bills.service';
     NgIf,
     AsyncPipe,
     DatePipe,
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
     AppBackButtonComponent,
     AppBillRefreshButtonComponent,
     BiComponent,

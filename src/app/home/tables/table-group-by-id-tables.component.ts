@@ -9,7 +9,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
-import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNumberListByIdComponent} from '../../_shared/ui/models-list-by-id/abstract-models-with-number-list-by-id.component';
 import {GetTableGroupResponse, GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
@@ -22,7 +22,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
     <ng-container *ngIf="entity$ | async as entity">
       <h1>"{{ entity?.name }}" {{ 'HOME_TABLE_GROUP_TABLES_VIEW' | tr }}</h1>
 
-      <btn-toolbar>
+      <scrollable-toolbar>
         <a routerLink="../../../create" [queryParams]="{group: entity?.id}" class="btn btn-sm btn-success">
           <bi name="plus-circle" />
           {{ 'HOME_TABLE' | tr }} {{ 'ADD_3' | tr | lowercase }}</a
@@ -46,7 +46,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
             {{ 'PRINT' | tr }}
           </button>
         </div>
-      </btn-toolbar>
+      </scrollable-toolbar>
     </ng-container>
 
     <form>
@@ -171,7 +171,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
     DfxTableModule,
     DfxSortModule,
     BiComponent,
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
     AppSpinnerRowComponent,
   ],
 })

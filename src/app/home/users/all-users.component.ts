@@ -10,7 +10,7 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
 import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';
-import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-list-with-delete.component';
 import {GetUserResponse} from '../../_shared/waiterrobot-backend';
@@ -20,14 +20,14 @@ import {UsersService} from './services/users.service';
   template: `
     <h1>{{ 'NAV_USERS' | tr }}</h1>
 
-    <btn-toolbar>
+    <scrollable-toolbar>
       <div>
         <a routerLink="../create" class="btn btn-sm btn-success">
           <bi name="plus-circle" />
           {{ 'ADD_2' | tr }}</a
         >
       </div>
-    </btn-toolbar>
+    </scrollable-toolbar>
 
     <form>
       <div class="input-group">
@@ -115,7 +115,7 @@ import {UsersService} from './services/users.service';
     DfxTr,
     BiComponent,
     AppSpinnerRowComponent,
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
     AppActivatedPipe,
   ],
 })

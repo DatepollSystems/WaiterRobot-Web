@@ -13,7 +13,7 @@ import {DfxTr} from 'dfx-translate';
 import {MobileLinkService} from '../../_shared/services/mobile-link.service';
 import {QrCodeService} from '../../_shared/services/qr-code.service';
 import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';
-import {AppBtnToolbarComponent} from '../../_shared/ui/button/app-btn-toolbar.component';
+import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {GetWaiterResponse} from '../../_shared/waiterrobot-backend';
@@ -26,7 +26,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
     <ng-container *ngIf="selectedOrganisation$ | async as selectedOrganisation">
       <h1>{{ selectedOrganisation?.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</h1>
 
-      <btn-toolbar>
+      <scrollable-toolbar>
         <div>
           <a routerLink="../create" class="btn btn-sm btn-success">
             <bi name="plus-circle" />
@@ -47,7 +47,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
             {{ 'HOME_WAITERS_DUPLICATES' | tr }}</a
           >
         </div>
-      </btn-toolbar>
+      </scrollable-toolbar>
     </ng-container>
 
     <form>
@@ -166,7 +166,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
     DfxSortModule,
     DfxArrayMapNamePipe,
     DfxImplodePipe,
-    AppBtnToolbarComponent,
+    ScrollableToolbarComponent,
     BiComponent,
     AppSpinnerRowComponent,
     BtnWaiterSignInQrCodeComponent,
