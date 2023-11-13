@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {RouterLink, RouterLinkActive} from '@angular/router';
 import {toSignal} from '@angular/core/rxjs-interop';
+import {RouterLink, RouterLinkActive} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
@@ -26,7 +26,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
             <div class="d-flex justify-content-between">
               <div>
                 <bi name="diagram-3" />
-                {{ 'HOME_PROD_GROUP' | tr }}
+                {{ 'HOME_PROD_GROUPS' | tr }}
               </div>
               <div>
                 <span class="badge bg-secondary rounded-pill" ngbTooltip="Gruppenanzahl" placement="right">
@@ -40,7 +40,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
         <app-list-nav-items
           path="/home/products/groups/products/"
           [entities]="productGroups() ?? []"
-          titleTr="HOME_PROD_GROUP"
+          titleTr="HOME_PROD_GROUPS"
           selectTr="HOME_PROD_GROUP_SELECT"
         >
           <ng-template let-entity appListNavItem>

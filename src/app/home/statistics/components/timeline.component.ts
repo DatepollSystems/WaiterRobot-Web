@@ -37,7 +37,7 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
               [class.active]="selected === 'PRODUCT_GROUPS'"
               (click)="selectedTimelineType$.next('PRODUCT_GROUPS')"
             >
-              {{ 'HOME_PROD_GROUP' | tr }}
+              {{ 'HOME_PROD_GROUPS' | tr }}
             </button>
             <button
               type="button"
@@ -77,6 +77,7 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
                 <option [value]="2">{{ 'HOME_STATISTICS_MINUTES_2' | tr }}</option>
                 <option [value]="5">{{ 'HOME_STATISTICS_MINUTES_5' | tr }}</option>
                 <option [value]="10">{{ 'HOME_STATISTICS_MINUTES_10' | tr }}</option>
+                <option [value]="20">{{ 'HOME_STATISTICS_MINUTES_20' | tr }}</option>
                 <option [value]="30">{{ 'HOME_STATISTICS_MINUTES_30' | tr }}</option>
                 <option [value]="60">{{ 'HOME_STATISTICS_HOURS_1' | tr }}</option>
                 <option [value]="180">{{ 'HOME_STATISTICS_HOURS_3' | tr }}</option>

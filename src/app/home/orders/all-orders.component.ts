@@ -11,7 +11,7 @@ import {NgbProgressbar, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {SortDirection} from 'dfx-bootstrap-table/lib/sort/sort-direction';
 import {Download} from 'src/app/_shared/services/download.service';
 
-import {b_fromStorage, loggerOf, n_from, s_imploder, st_set} from 'dfts-helper';
+import {loggerOf, n_from, s_imploder} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
@@ -53,20 +53,6 @@ import {OrdersService} from './orders.service';
         </button>
       </div>
     </scrollable-toolbar>
-
-    <div class="d-flex justify-content-start justify-content-md-end">
-      <div class="form-check form-switch form-check-reverse">
-        <label class="form-check-label" for="continuousCreation">In neuen Tab öffnen</label>
-        <input
-          [formControl]="openInNewTab"
-          (change)="setOpenInNewTab()"
-          class="form-check-input"
-          type="checkbox"
-          role="switch"
-          id="continuousCreation"
-        />
-      </div>
-    </div>
 
     <ng-container *ngIf="download$ | async as download">
       <ngb-progressbar
@@ -162,14 +148,14 @@ import {OrdersService} from './orders.service';
         <ng-container ngbColumnDef="actions">
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
-            <button
+            <a
               class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"
-              (click)="$event.stopPropagation(); openOrder(order)"
+              routerLink="/home/orders/{{ order.id }}"
               ngbTooltip="{{ 'OPEN' | tr }}"
               placement="left"
             >
               <bi name="arrow-up-right-square-fill" />
-            </button>
+            </a>
             <button
               class="btn btn-sm m-1 btn-warning"
               (click)="$event.stopPropagation(); requeueOrder(order)"
@@ -182,7 +168,7 @@ import {OrdersService} from './orders.service';
         </ng-container>
 
         <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-        <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row (click)="openOrder(order)" class="clickable"></tr>
+        <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row routerLink="/home/orders/{{ order.id }}"></tr>
       </table>
     </div>
 
@@ -231,8 +217,6 @@ export class AllOrdersComponent implements AfterViewInit {
 
   lumber = loggerOf('AllOrders');
 
-  openInNewTab = new FormControl<boolean>(b_fromStorage('open_order_in_new_tab') ?? true);
-
   @ViewChild(NgbSort) sort!: NgbSort;
   @ViewChild(NgbPaginator) paginator!: NgbPaginator;
   columnsToDisplay = ['select', 'orderNumber', 'state', 'table.tableGroup.name', 'waiter.name', 'createdAt', 'actions'];
@@ -272,10 +256,6 @@ export class AllOrdersComponent implements AfterViewInit {
     );
   }
 
-  setOpenInNewTab(): void {
-    st_set('open_order_in_new_tab', this.openInNewTab.value ?? true);
-  }
-
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -292,16 +272,6 @@ export class AllOrdersComponent implements AfterViewInit {
       },
       queryParamsHandling: 'merge', // remove to replace all query params by provided
     });
-  }
-
-  openOrder(it: GetOrderMinResponse): void {
-    if (this.openInNewTab.value ?? true) {
-      const url = this.router.serializeUrl(this.router.createUrlTree([`/home/orders/${it.id}`]));
-
-      window.open(url, '_blank');
-      return;
-    }
-    void this.router.navigateByUrl(`/home/orders/${it.id}`);
   }
 
   exportCsv(): void {

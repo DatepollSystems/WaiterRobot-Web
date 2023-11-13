@@ -13,6 +13,7 @@ import {DfxTr} from 'dfx-translate';
 
 import {AppSoldOutPipe} from '../../_shared/ui/app-sold-out.pipe';
 import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
+import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/color/app-text-with-color-indicator.component';
 import {DfxCurrencyCentPipe} from '../../_shared/ui/currency.pipe';
 import {AppOrderModeSwitchComponent} from '../../_shared/ui/form/app-order-mode-switch.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
@@ -25,7 +26,15 @@ import {ProductsService} from './_services/products.service';
 @Component({
   template: `
     <ng-container *ngIf="entity$ | async as entity">
-      <h1>{{ entity?.name }} {{ 'HOME_PROD_GROUP_PRODUCTS_VIEW' | tr }}</h1>
+      <app-text-with-color-indicator [color]="entity.color" [size]="30" placement="right">
+        <h1 class="mb-0">{{ 'HOME_PROD_GROUP_PRODUCTS_VIEW' | tr }} {{ entity?.name }}</h1>
+      </app-text-with-color-indicator>
+
+      <!-- This is necessary because other pages utilize the h1 tag, which includes a bottom margin for toolbar
+        alignment. However, in this case, we employ the h1 tag with a color indicator, causing the h1 tag not to
+        be centered in alignment with the color indicator. To address this, we set the h1 margin to 0,
+        requiring us to manually add the margin here for proper alignment with other pages. -->
+      <div class="mt-2"></div>
 
       <scrollable-toolbar>
         <div>
@@ -209,6 +218,7 @@ import {ProductsService} from './_services/products.service';
     BiComponent,
     AppSoldOutPipe,
     AppOrderModeSwitchComponent,
+    AppTextWithColorIndicatorComponent,
   ],
 })
 export class ProductGroupByIdProductsComponent extends AbstractModelsWithNameListByIdComponent<

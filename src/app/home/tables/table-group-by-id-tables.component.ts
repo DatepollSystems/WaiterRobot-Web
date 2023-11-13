@@ -10,6 +10,7 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
 import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
+import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/color/app-text-with-color-indicator.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNumberListByIdComponent} from '../../_shared/ui/models-list-by-id/abstract-models-with-number-list-by-id.component';
 import {GetTableGroupResponse, GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
@@ -20,7 +21,15 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
 @Component({
   template: `
     <ng-container *ngIf="entity$ | async as entity">
-      <h1>"{{ entity?.name }}" {{ 'HOME_TABLE_GROUP_TABLES_VIEW' | tr }}</h1>
+      <app-text-with-color-indicator [color]="entity.color" [size]="30" placement="right">
+        <h1 class="mb-0">{{ 'HOME_TABLE_GROUP_TABLES_VIEW' | tr }} {{ entity?.name }}</h1>
+      </app-text-with-color-indicator>
+
+      <!-- This is necessary because other pages utilize the h1 tag, which includes a bottom margin for toolbar
+      alignment. However, in this case, we employ the h1 tag with a color indicator, causing the h1 tag not to
+      be centered in alignment with the color indicator. To address this, we set the h1 margin to 0,
+      requiring us to manually add the margin here for proper alignment with other pages. -->
+      <div class="mt-2"></div>
 
       <scrollable-toolbar>
         <a routerLink="../../../create" [queryParams]="{group: entity?.id}" class="btn btn-sm btn-success">
@@ -173,6 +182,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
     BiComponent,
     ScrollableToolbarComponent,
     AppSpinnerRowComponent,
+    AppTextWithColorIndicatorComponent,
   ],
 })
 export class TableGroupByIdTablesComponent extends AbstractModelsWithNumberListByIdComponent<

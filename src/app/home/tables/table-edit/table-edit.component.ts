@@ -25,7 +25,7 @@ import {TableEditOrderProductsComponent} from './table-edit-order-products.compo
   template: `
     <div *ngIf="entity$ | async as entity; else loading">
       <h1 *isCreating="entity">{{ 'HOME_TABLES_ADD' | tr }}</h1>
-      <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | tr }} {{ entity.group.name }} {{ entity.number }}</h1>
+      <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | tr }} {{ entity.group.name }} - {{ entity.number }}</h1>
       <h1 *isEditingAndDeleted="entity">{{ entity.group.name }} - {{ entity.number }} {{ 'DELETED' | tr }}</h1>
 
       <scrollable-toolbar>

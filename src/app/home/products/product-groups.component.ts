@@ -24,7 +24,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
 
 @Component({
   template: `
-    <h1>{{ 'HOME_PROD_GROUP' | tr }}</h1>
+    <h1>{{ 'HOME_PROD_GROUPS' | tr }}</h1>
 
     <scrollable-toolbar>
       <div>

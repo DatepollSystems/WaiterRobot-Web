@@ -14,9 +14,9 @@ import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.c
           <bi name="cash-coin" />
           {{ 'Rechnungen' | tr }}
         </a>
-        <a class="list-group-item list-group-item-action" routerLink="unpaid" routerLinkActive="active">
+        <a class="list-group-item list-group-item-action" routerLink="unpaidReasons" routerLinkActive="active">
           <bi name="book-half" />
-          {{ 'Unpaid Reasons' | tr }}
+          {{ 'HOME_BILL_UNPAID_REASON' | tr }}
         </a>
       </div>
     </div>

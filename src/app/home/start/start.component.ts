@@ -1,9 +1,10 @@
-import {AsyncPipe, DatePipe, NgIf, UpperCasePipe} from '@angular/common';
+import {AsyncPipe, DatePipe, JsonPipe, NgIf, UpperCasePipe} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 
-import {catchError, combineLatest, filter, interval, map, of, share, startWith, switchMap, tap, timer} from 'rxjs';
+import {catchError, combineLatest, filter, interval, map, of, startWith, tap} from 'rxjs';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
@@ -16,10 +17,11 @@ import {EnvironmentHelper} from '../../_shared/EnvironmentHelper';
 import {AuthService} from '../../_shared/services/auth/auth.service';
 import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
 import {AppDownloadBtnListComponent} from '../../_shared/ui/button/app-download-btn-list.component';
-import {GetEventOrLocationResponse, GetOrganisationResponse, JsonInfoResponse} from '../../_shared/waiterrobot-backend';
+import {GetEventOrLocationResponse, GetOrganisationResponse} from '../../_shared/waiterrobot-backend';
 import {AppSelectDialogComponent} from '../app-select-dialog.component';
 import {EventsService} from '../events/_services/events.service';
 import {OrganisationsService} from '../organisations/_services/organisations.service';
+import {ServerInfoService} from './server-info.service';
 
 @Component({
   selector: 'app-start',
@@ -38,53 +40,21 @@ import {OrganisationsService} from '../organisations/_services/organisations.ser
     BiComponent,
     AsyncPipe,
     AppSelectDialogComponent,
+    JsonPipe,
   ],
 })
 export class StartComponent {
   isProduction = EnvironmentHelper.getProduction();
   type = EnvironmentHelper.getType();
-
-  localTime$ = interval(1000).pipe(
-    map(() => new Date()),
-    tap(() => this.refreshIn--),
-    share(),
-  );
-
-  browserInfos = i_complete();
   frontendVersion = EnvironmentHelper.getWebVersion();
 
   httpClient = inject(HttpClient);
 
-  refreshIn = 5;
-  serverInfo$ = timer(0, 5000).pipe(
-    map(() => new Date().getTime()),
-    switchMap((startMs) =>
-      this.httpClient.get<JsonInfoResponse>('/json').pipe(
-        map((response) => {
-          this.refreshIn = 5;
-          return {
-            ...response,
-            status: 'Online' as const,
-            lastPing: new Date(),
-            responseTime: new Date().getTime() - startMs - 5,
-          };
-        }),
-        catchError(() => {
-          this.refreshIn = 5;
-          return of({
-            status: 'Offline' as const,
-            lastPing: undefined,
-            responseTime: undefined,
-            info: undefined,
-            version: undefined,
-            serverTime: undefined,
-            serverStartTime: undefined,
-          });
-        }),
-      ),
-    ),
-    share(),
-  );
+  serverInfoService = inject(ServerInfoService);
+
+  localTime = toSignal(interval(1000).pipe(map(() => new Date())), {initialValue: new Date()});
+
+  browserInfos = i_complete();
 
   errors$ = this.httpClient.get('/user/myself').pipe(
     catchError(() => of(true)),
@@ -93,8 +63,6 @@ export class StartComponent {
 
   myUser$ = inject(MyUserService).getUser$();
   selectedEvent$ = this.eventsService.getSelected$;
-
-  cdr = inject(ChangeDetectorRef);
 
   vm$ = combineLatest([
     this.organisationsService.getAll$(),

@@ -8,7 +8,7 @@ import {EventsService} from '../../events/_services/events.service';
 
 @Component({
   template:
-    ' <app-sum-statistics *ngIf="sumDtos$ | async as sumDtos" [sumDtos]="sumDtos" chartType="PIE">{{ \'HOME_PROD_GROUP\' | tr }}</app-sum-statistics> ',
+    ' <app-sum-statistics *ngIf="sumDtos$ | async as sumDtos" [sumDtos]="sumDtos" chartType="PIE">{{ \'HOME_PROD_GROUPS\' | tr }}</app-sum-statistics> ',
   selector: 'app-statistics-sum-product-groups',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

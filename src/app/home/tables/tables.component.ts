@@ -25,7 +25,7 @@ import {TableGroupsService} from './_services/table-groups.service';
               </div>
 
               <div>
-                <span class="badge bg-secondary rounded-pill" ngbTooltip="Gruppenanzahl" placement="right">
+                <span class="badge bg-secondary rounded-pill" [ngbTooltip]="'HOME_TABLES_COUNT' | tr" placement="right">
                   {{ allTablesAmount() ?? '' }}
                 </span>
               </div>
@@ -39,7 +39,7 @@ import {TableGroupsService} from './_services/table-groups.service';
                 {{ 'HOME_TABLE_GROUPS' | tr }}
               </div>
               <div>
-                <span class="badge bg-secondary rounded-pill" ngbTooltip="Gruppenanzahl" placement="right">
+                <span class="badge bg-secondary rounded-pill" [ngbTooltip]="'HOME_TABLE_GROUPS_COUNT' | tr" placement="right">
                   {{ tableGroups()?.length ?? '-' }}
                 </span>
               </div>
@@ -58,7 +58,9 @@ import {TableGroupsService} from './_services/table-groups.service';
                 {{ entity.name }}
               </app-text-with-color-indicator>
               <div>
-                <span class="badge bg-secondary rounded-pill" ngbTooltip="Tischanzahl" placement="right">{{ entity.tables.length }}</span>
+                <span class="badge bg-secondary rounded-pill" [ngbTooltip]="'HOME_TABLES_COUNT' | tr" placement="right">{{
+                  entity.tables.length
+                }}</span>
               </div>
             </div>
           </ng-template>

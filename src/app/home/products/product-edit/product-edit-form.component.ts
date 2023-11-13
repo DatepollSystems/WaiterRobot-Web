@@ -51,7 +51,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
 
       <div class="d-flex flex-column flex-md-row gap-4 mb-3">
         <div class="form-group col">
-          <label for="selectGroup">{{ 'HOME_PROD_GROUP' | tr }}</label>
+          <label for="selectGroup">{{ 'HOME_PROD_GROUPS' | tr }}</label>
           <div class="input-group">
             <span class="input-group-text" id="selectGroup-addon">
               <bi name="diagram-3" />
