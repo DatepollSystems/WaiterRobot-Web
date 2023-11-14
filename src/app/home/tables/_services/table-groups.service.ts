@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 
-import {BehaviorSubject, map, Observable, switchMap, take, tap} from 'rxjs';
+import {BehaviorSubject, map, Observable, switchMap, tap} from 'rxjs';
 
 import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
@@ -14,7 +14,7 @@ import {
   IdResponse,
   UpdateTableGroupDto,
 } from '../../../_shared/waiterrobot-backend';
-import {EventsService} from '../../events/_services/events.service';
+import {SelectedEventService} from '../../events/_services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
 export class TableGroupsService
@@ -28,17 +28,15 @@ export class TableGroupsService
 {
   url = '/config/table/group';
 
-  constructor(
-    private httpClient: HttpClient,
-    private eventsService: EventsService,
-  ) {}
+  private httpClient = inject(HttpClient);
+  private selectedEventService = inject(SelectedEventService);
 
   triggerGet$ = new BehaviorSubject(true);
 
   getAll$(): Observable<GetTableGroupResponse[]> {
     return this.triggerGet$.pipe(
-      switchMap(() => this.eventsService.getSelectedNotNull$),
-      switchMap(({id: eventId}) => this.httpClient.get<GetTableGroupResponse[]>(this.url, {params: {eventId}})),
+      switchMap(() => this.selectedEventService.selectedIdNotNull$),
+      switchMap((eventId) => this.httpClient.get<GetTableGroupResponse[]>(this.url, {params: {eventId}})),
       map((it) => it.sort((a, b) => (a.position ?? 1000000) - (b.position ?? 1000000))),
     );
   }
@@ -60,14 +58,10 @@ export class TableGroupsService
   }
 
   order$(dto: EntityOrderDto[]): Observable<IdResponse[]> {
-    return this.eventsService.getSelectedNotNull$.pipe(
-      take(1),
-      switchMap((event) =>
-        this.httpClient.patch<IdResponse[]>(`${this.url}/order`, dto, {
-          params: {eventId: event.id},
-        }),
-      ),
-      tap(() => this.triggerGet$.next(true)),
-    );
+    return this.httpClient
+      .patch<IdResponse[]>(`${this.url}/order`, dto, {
+        params: {eventId: this.selectedEventService.selectedId()!},
+      })
+      .pipe(tap(() => this.triggerGet$.next(true)));
   }
 }

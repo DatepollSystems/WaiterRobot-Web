@@ -11,7 +11,7 @@ export const isAuthenticated = (route: ActivatedRouteSnapshot, state: RouterStat
   } else {
     authService.redirectUrl = state.url;
 
-    void inject(Router).navigate(['/about']);
+    void inject(Router).navigate(['/login']);
     return false;
   }
 };

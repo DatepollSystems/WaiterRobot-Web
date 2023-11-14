@@ -1,16 +1,31 @@
 import {inject} from '@angular/core';
 import {ActivatedRouteSnapshot, Router, RouterStateSnapshot} from '@angular/router';
 
-import {getLogMessage, o_fromStorage} from 'dfts-helper';
+import {getLogMessage, n_from, n_isNumeric} from 'dfts-helper';
 
-import {AuthService} from '../auth/auth.service';
+import {selectedEventRouteParamKey, SelectedEventService} from '../../../home/events/_services/selected-event.service';
+import {RedirectService} from '../redirect.service';
 
 export function eventSelectedGuard(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
   const router = inject(Router);
-  if (!o_fromStorage('selected_event')) {
-    console.log(getLogMessage('LOG', 'eventSelectedGuard', 'canActivate', 'No event selected; Routing to home'));
-    inject(AuthService).redirectUrl = state.url;
-    void router.navigate(['/home/select']);
+
+  inject(RedirectService).setRedirectUrl(state.url);
+
+  const selectedService = inject(SelectedEventService);
+
+  const selectedId = selectedService.selectedId;
+
+  if (!selectedId()) {
+    const paramSelectedId = route.paramMap.get(selectedEventRouteParamKey);
+    if (paramSelectedId && n_isNumeric(paramSelectedId)) {
+      console.info('found param', paramSelectedId);
+      selectedService.setSelected(n_from(paramSelectedId));
+    }
+  }
+
+  if (!selectedId()) {
+    console.warn(getLogMessage('WARNING', 'eventSelectedGuard', 'canActivate', 'No event selected; Routing to select'));
+    void router.navigateByUrl('/select');
     return false;
   }
   return true;

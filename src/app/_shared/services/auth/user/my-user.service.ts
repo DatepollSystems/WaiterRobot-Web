@@ -1,36 +1,56 @@
 import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {computed, inject, Injectable, signal} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 
-import {catchError, map, merge, Observable, of, shareReplay, Subject, tap, throwError} from 'rxjs';
+import {filter, map, merge, Observable, Subject} from 'rxjs';
 
-import {loggerOf, o_fromStorage, st_set} from 'dfts-helper';
+import {connect} from 'ngxtension/connect';
+
+import {loggerOf, notNullAndUndefined} from 'dfts-helper';
 
 import {GetMyselfResponse} from '../../../waiterrobot-backend';
 import {MyUserModel} from './my-user.model';
+
+type MyUserState = {
+  status: 'UNSET' | 'LOADING' | 'LOADED';
+  manualOverwritten: boolean;
+  myUser?: MyUserModel;
+};
 
 @Injectable({
   providedIn: 'root',
 })
 export class MyUserService {
-  httpClient = inject(HttpClient);
-  lumber = loggerOf('MyUserService');
+  private httpClient = inject(HttpClient);
+  private lumber = loggerOf('MyUserService');
 
-  manualUserChange: Subject<MyUserModel> = new Subject<MyUserModel>();
+  private manualUserChange: Subject<MyUserModel> = new Subject<MyUserModel>();
 
-  user$ = merge(
-    this.httpClient.get<GetMyselfResponse>('/user/myself').pipe(
-      tap((it) => st_set('my_user', it)),
-      catchError((error: unknown) => {
-        const user = o_fromStorage<GetMyselfResponse>('my_user');
-        this.lumber.info('getUserRequest', 'Try to read user from storage', user);
-        return user ? of(user) : throwError(() => error);
-      }),
-      map((it) => new MyUserModel(it)),
-    ),
-    this.manualUserChange.asObservable(),
-  ).pipe(shareReplay(1));
+  private myUserLoaded$ = this.httpClient.get<GetMyselfResponse>('/user/myself').pipe(map((it) => new MyUserModel(it)));
+
+  private myUserState = signal<MyUserState>({status: 'UNSET', manualOverwritten: false});
+
+  constructor() {
+    connect(
+      this.myUserState,
+      merge(
+        this.manualUserChange.pipe(map((myUser) => ({myUser, manualOverwritten: true}))),
+        this.myUserLoaded$.pipe(map((myUser) => ({myUser, status: 'LOADED' as const}))),
+      ),
+    );
+  }
+
+  setUser(it: MyUserModel): void {
+    this.manualUserChange.next(it);
+  }
+
+  user = computed(() => this.myUserState().myUser);
+  status = computed(() => this.myUserState().status);
+  manualOverwritten = computed(() => this.myUserState().manualOverwritten);
+
+  user$ = toObservable(this.user);
 
   getUser$(): Observable<MyUserModel> {
-    return this.user$;
+    return this.user$.pipe(filter(notNullAndUndefined));
   }
 }

@@ -11,12 +11,13 @@ import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
-import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppSelectableBtnComponent} from '../../_shared/ui/button/app-selectable-btn.component';
+import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {GetOrganisationResponse} from '../../_shared/waiterrobot-backend';
 import {OrganisationsService} from './_services/organisations.service';
+import {SelectedOrganisationService} from './_services/selected-organisation.service';
 
 @Component({
   template: `
@@ -95,12 +96,12 @@ import {OrganisationsService} from './_services/organisations.service';
             </ng-container>
 
             <ng-container ngbColumnDef="street">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_STREET' | tr }}, {{ 'HOME_ORGS_STREETNUMBER' | tr }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_STREET' | tr }} , {{ 'HOME_ORGS_STREETNUMBER' | tr }}</th>
               <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.street }} {{ organisation.streetNumber }}</td>
             </ng-container>
 
             <ng-container ngbColumnDef="city">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_CITY' | tr }}, {{ 'HOME_ORGS_COUNTRY_CODE' | tr }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_CITY' | tr }} , {{ 'HOME_ORGS_COUNTRY_CODE' | tr }}</th>
               <td *ngbCellDef="let organisation" ngb-cell>
                 {{ organisation.postalCode }} {{ organisation.city }}, {{ organisation.countryCode | uppercase }}
               </td>
@@ -109,7 +110,13 @@ import {OrganisationsService} from './_services/organisations.service';
             <ng-container ngbColumnDef="actions">
               <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
               <td *ngbCellDef="let organisation" ngb-cell>
-                <selectable-button class="me-2" [entity]="organisation" [selectedEntityService]="organisationsService" />
+                <selectable-button
+                  class="me-2"
+                  placement="top"
+                  [entityId]="organisation.id"
+                  [selectedId]="selectedOrganisationService.selectedId()"
+                  (selectedChange)="setSelected($event)"
+                />
                 <a
                   class="btn btn-sm me-2 btn-outline-success text-body-emphasis"
                   routerLink="../{{ organisation.id }}"
@@ -160,10 +167,15 @@ import {OrganisationsService} from './_services/organisations.service';
 })
 export class AllOrganisationsComponent extends AbstractModelsWithNameListWithDeleteComponent<GetOrganisationResponse> {
   myUser$ = inject(MyUserService).getUser$();
+  selectedOrganisationService = inject(SelectedOrganisationService);
 
   constructor(public organisationsService: OrganisationsService) {
     super(organisationsService);
 
     this.columnsToDisplay = ['id', 'name', 'street', 'city', 'actions'];
+  }
+
+  setSelected(it: number | undefined): void {
+    this.selectedOrganisationService.setSelected(it);
   }
 }

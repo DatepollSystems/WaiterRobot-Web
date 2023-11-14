@@ -47,7 +47,7 @@ import {TableGroupsService} from './_services/table-groups.service';
           </a>
         </div>
         <app-list-nav-items
-          path="/home/tables/groups/tables/"
+          path="groups/tables/"
           [entities]="tableGroups() ?? []"
           titleTr="HOME_TABLE_GROUPS"
           selectTr="HOME_TABLES_GROUPS_SELECT"

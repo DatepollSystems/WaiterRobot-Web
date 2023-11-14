@@ -1,12 +1,12 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 
 import {Observable, switchMap} from 'rxjs';
 
 import {HasGetAll} from 'dfx-helper';
 
 import {GetMediatorResponse} from '../../../_shared/waiterrobot-backend';
-import {OrganisationsService} from '../../organisations/_services/organisations.service';
+import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,14 +14,12 @@ import {OrganisationsService} from '../../organisations/_services/organisations.
 export class MediatorsService implements HasGetAll<GetMediatorResponse> {
   url = '/config/mediator';
 
-  constructor(
-    private httpClient: HttpClient,
-    private organisationsService: OrganisationsService,
-  ) {}
+  private httpClient = inject(HttpClient);
+  private selectedOrganisationService = inject(SelectedOrganisationService);
 
   getAll$(): Observable<GetMediatorResponse[]> {
-    return this.organisationsService.getSelectedNotNull$.pipe(
-      switchMap(({id: organisationId}) => this.httpClient.get<GetMediatorResponse[]>(this.url, {params: {organisationId}})),
+    return this.selectedOrganisationService.selectedIdNotNull$.pipe(
+      switchMap((organisationId) => this.httpClient.get<GetMediatorResponse[]>(this.url, {params: {organisationId}})),
     );
   }
 }

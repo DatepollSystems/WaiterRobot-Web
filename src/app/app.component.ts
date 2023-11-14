@@ -1,4 +1,7 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
+import {Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from '@angular/router';
+
+import {Subject, takeUntil} from 'rxjs';
 
 import {LoadingBarRouterModule} from '@ngx-loading-bar/router';
 
@@ -8,6 +11,10 @@ import {ToastsContainerComponent} from './_shared/notifications/toasts-container
 @Component({
   template: `
     <ngx-loading-bar [includeSpinner]="false" color="#7599AA" />
+
+    <div class="justify-content-center" style="margin-top: 40%;" #spinnerElement>
+      <div class="loader"></div>
+    </div>
 
     <router-outlet />
 
@@ -19,7 +26,27 @@ import {ToastsContainerComponent} from './_shared/notifications/toasts-container
   imports: [ToastsContainerComponent, LoadingBarRouterModule],
 })
 export class AppComponent {
-  constructor() {
+  @ViewChild('spinnerElement')
+  spinnerElement!: ElementRef;
+
+  loaded$ = new Subject<boolean>();
+
+  private _navigationInterceptor(event: Event): void {
+    if (event instanceof NavigationStart) {
+      this.renderer.setStyle(this.spinnerElement.nativeElement, 'display', 'flex');
+    }
+    if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+      this.renderer.setStyle(this.spinnerElement.nativeElement, 'display', 'none');
+      this.loaded$.next(true);
+    }
+  }
+
+  constructor(
+    router: Router,
+    private renderer: Renderer2,
+  ) {
+    router.events.pipe(takeUntil(this.loaded$)).subscribe((event) => this._navigationInterceptor(event));
+
     if (EnvironmentHelper.getProduction()) {
       console.log(`
            .--.       .--.

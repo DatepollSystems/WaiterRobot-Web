@@ -20,10 +20,10 @@ interface Theme {
       </a>
       <div ngbDropdownMenu aria-labelledby="themeDropdown" class="p-1">
         @for (theme of themes; track theme.id) {
-        <button ngbDropdownItem class="rounded-1 mt-1" [class.active]="theme.id === currentTheme().id" (click)="setTheme(theme.id)">
-          <bi [name]="theme.icon" />
-          {{ theme.name }}
-        </button>
+          <button ngbDropdownItem class="rounded-1 mt-1" [class.active]="theme.id === currentTheme().id" (click)="setTheme(theme.id)">
+            <bi [name]="theme.icon" />
+            {{ theme.name }}
+          </button>
         }
       </div>
     </div>

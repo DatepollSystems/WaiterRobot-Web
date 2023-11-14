@@ -8,7 +8,7 @@ export const isNotAuthenticated = (route: ActivatedRouteSnapshot): boolean => {
     if (route.queryParams.mode?.includes('preview') || route.queryParams.preview !== undefined) {
       return true;
     }
-    void inject(Router).navigate(['/home']);
+    void inject(Router).navigate(['/']);
     return false;
   } else {
     return true;

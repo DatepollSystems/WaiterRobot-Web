@@ -1,24 +1,18 @@
-import {AsyncPipe, LowerCasePipe, NgIf} from '@angular/common';
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
-
-import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
-
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
 import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directives';
 import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '../../../_shared/waiterrobot-backend';
-import {EventsService} from '../../events/_services/events.service';
+import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TableGroupEditFormComponent} from './table-group-edit-form.component';
 
 @Component({
   template: `
-    <div *ngIf="entity$ | async as entity; else loading">
+    @if (entity$ | async; as entity) {
       <h1 *isCreating="entity">{{ 'HOME_TABLE_GROUPS_ADD' | tr }}</h1>
       <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
       <h1 *isEditingAndDeleted="entity">{{ entity.name }} {{ 'DELETED' | tr }}</h1>
@@ -54,12 +48,11 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
           <ng-template ngbNavContent>
             <app-table-group-edit-form
               #form
-              *ngIf="selectedEvent$ | async as selectedEvent"
               (formValid)="setValid($event)"
               (submitUpdate)="submit('UPDATE', $event)"
               (submitCreate)="submit('CREATE', $event)"
               [tableGroup]="entity"
-              [selectedEventId]="selectedEvent?.id"
+              [selectedEventId]="selectedEventId()!"
               [formDisabled]="entity !== 'CREATE' && !!entity.deleted"
             />
           </ng-template>
@@ -67,28 +60,14 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
       </ul>
 
       <div [ngbNavOutlet]="nav" class="mt-2"></div>
-    </div>
-
-    <ng-template #loading>
+    } @else {
       <app-spinner-row />
-    </ng-template>
+    }
   `,
   selector: 'app-table-group-edit',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    AsyncPipe,
-    RouterLink,
-    NgIf,
-    LowerCasePipe,
-    DfxTr,
-    NgbNavModule,
-    BiComponent,
-    AppFormModule,
-    TableGroupEditFormComponent,
-    AppContinuesCreationSwitchComponent,
-    AppDeletedDirectives,
-  ],
+  imports: [RouterLink, AppFormModule, TableGroupEditFormComponent, AppContinuesCreationSwitchComponent, AppDeletedDirectives],
 })
 export class TableGroupEditComponent extends AbstractModelEditComponent<
   CreateTableGroupDto,
@@ -99,12 +78,9 @@ export class TableGroupEditComponent extends AbstractModelEditComponent<
   defaultTab = 'DATA' as const;
   continuousUsePropertyNames = ['eventId'];
 
-  selectedEvent$ = this.eventsService.getSelected$;
+  selectedEventId = inject(SelectedEventService).selectedId;
 
-  constructor(
-    tableGroupsService: TableGroupsService,
-    private eventsService: EventsService,
-  ) {
+  constructor(tableGroupsService: TableGroupsService) {
     super(tableGroupsService);
   }
 }

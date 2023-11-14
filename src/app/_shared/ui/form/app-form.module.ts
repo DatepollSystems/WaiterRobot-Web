@@ -1,5 +1,8 @@
-import {NgIf} from '@angular/common';
+/* eslint-disable @angular-eslint/sort-ngmodule-metadata-arrays */
+import {AsyncPipe} from '@angular/common';
 import {NgModule} from '@angular/core';
+
+import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
@@ -12,14 +15,18 @@ import {AppModelEditSaveBtn} from './app-model-edit-save-btn.component';
 
 @NgModule({
   declarations: [AppIsCreatingDirective, AppIsEditingDirective, AppModelEditSaveBtn],
-  imports: [AppBackButtonComponent, ScrollableToolbarComponent, AppSpinnerRowComponent, BiComponent, DfxTr, NgIf],
+  imports: [AppBackButtonComponent, AppSpinnerRowComponent, ScrollableToolbarComponent, AsyncPipe, BiComponent, DfxTr, NgbNavModule],
   exports: [
-    AppBackButtonComponent,
-    ScrollableToolbarComponent,
     AppIsCreatingDirective,
     AppIsEditingDirective,
     AppModelEditSaveBtn,
+    AppBackButtonComponent,
     AppSpinnerRowComponent,
+    ScrollableToolbarComponent,
+    AsyncPipe,
+    BiComponent,
+    DfxTr,
+    NgbNavModule,
   ],
 })
 export class AppFormModule {}

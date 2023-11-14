@@ -1,10 +1,15 @@
 import {Routes} from '@angular/router';
 
+import {isAuthenticated} from './_shared/services/auth/is-authenticated.guard';
+
 export const ROUTES: Routes = [
-  {path: '', redirectTo: '/about', pathMatch: 'full'},
   {path: 'info', title: 'INFORMATION', loadChildren: () => import('./info/info.routes').then((m) => m.ROUTES)},
-  {path: 'about', loadChildren: () => import('./about/about.routes').then((m) => m.ROUTES)},
-  {path: 'home', loadChildren: () => import('./home/home.routes').then((m) => m.ROUTES)},
+  {path: 'login', loadChildren: () => import('./login/login.routes').then((m) => m.ROUTES)},
+  {
+    path: '',
+    loadChildren: () => import('./home/home.routes').then((m) => m.ROUTES),
+    canActivate: [isAuthenticated],
+  },
   {
     path: 'ml',
     loadChildren: () => import('./mobile-link/mobile-link.routes').then((m) => m.ROUTES),
@@ -18,5 +23,5 @@ export const ROUTES: Routes = [
     title: '404',
     loadComponent: () => import('./page-not-found.component').then((m) => m.PageNotFoundComponent),
   },
-  {path: '**', redirectTo: '/not-found'},
+  //{path: '**', redirectTo: '/not-found'},
 ];

@@ -2,9 +2,6 @@ import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
-import {ColorGithubModule} from 'ngx-color/github';
-
-import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {allowedCharacterSet} from '../../../_shared/regex';
@@ -39,7 +36,7 @@ import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '.
     </form>
   `,
   selector: 'app-table-group-edit-form',
-  imports: [ReactiveFormsModule, NgIf, AsyncPipe, DfxTr, BiComponent, ColorGithubModule, AppColorPicker],
+  imports: [ReactiveFormsModule, NgIf, AsyncPipe, DfxTr, AppColorPicker],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

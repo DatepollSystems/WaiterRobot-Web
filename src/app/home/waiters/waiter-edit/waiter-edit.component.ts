@@ -1,5 +1,5 @@
 import {AsyncPipe, NgIf} from '@angular/common';
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 
 import {combineLatest, filter, map, shareReplay, startWith, switchMap} from 'rxjs';
 
@@ -15,6 +15,7 @@ import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 import {CreateWaiterDto, GetWaiterResponse, UpdateWaiterDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 import {OrganisationsService} from '../../organisations/_services/organisations.service';
+import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
 import {WaitersService} from '../_services/waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from '../btn-waiter-sign-in-qr-code.component';
 import {AppProductEditFormComponent} from './waiter-edit-form.component';
@@ -63,7 +64,7 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
               (submitUpdate)="submit('UPDATE', $event)"
               (submitCreate)="submit('CREATE', $event)"
               [waiter]="entity"
-              [selectedOrganisationId]="vm.selectedOrganisation?.id"
+              [selectedOrganisationId]="selectedOrganisationId()!"
               [selectedEvent]="vm.selectedEvent"
               [events]="vm.events"
             />
@@ -119,6 +120,8 @@ export class WaiterEditComponent extends AbstractModelEditComponent<
 
   events = this.eventsService.getAll$().pipe(shareReplay(1));
 
+  selectedOrganisationId = inject(SelectedOrganisationService).selectedId;
+
   vm$ = combineLatest([
     this.route.queryParams.pipe(
       map((params) => params.group as string),
@@ -126,7 +129,6 @@ export class WaiterEditComponent extends AbstractModelEditComponent<
       map((id) => n_from(id)),
       startWith(undefined),
     ),
-    this.organisationsService.getSelected$,
     this.eventsService.getSelected$,
     this.route.queryParams.pipe(
       map((params) => params.event as string),
@@ -137,9 +139,8 @@ export class WaiterEditComponent extends AbstractModelEditComponent<
     ),
     this.events,
   ]).pipe(
-    map(([selectedWaiterId, selectedOrganisation, selectedEvent, queryEvent, events]) => ({
+    map(([selectedWaiterId, selectedEvent, queryEvent, events]) => ({
       selectedWaiterId,
-      selectedOrganisation,
       selectedEvent: queryEvent ?? selectedEvent,
       events,
     })),

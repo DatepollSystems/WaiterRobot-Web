@@ -17,38 +17,36 @@ import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-too
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {GetWaiterResponse} from '../../_shared/waiterrobot-backend';
-import {OrganisationsService} from '../organisations/_services/organisations.service';
+import {SelectedOrganisationService} from '../organisations/_services/selected-organisation.service';
 import {OrganisationWaitersService} from './_services/organisation-waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
 
 @Component({
   template: `
-    <ng-container *ngIf="selectedOrganisation$ | async as selectedOrganisation">
-      <h1>{{ selectedOrganisation?.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</h1>
+    <h1>{{ selectedOrganisation()?.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</h1>
 
-      <scrollable-toolbar>
-        <div>
-          <a routerLink="../create" class="btn btn-sm btn-success">
-            <bi name="plus-circle" />
-            {{ 'ADD_2' | tr }}</a
-          >
-        </div>
+    <scrollable-toolbar>
+      <div>
+        <a routerLink="../create" class="btn btn-sm btn-success">
+          <bi name="plus-circle" />
+          {{ 'ADD_2' | tr }}</a
+        >
+      </div>
 
-        <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_WAITERS_SELECT' | tr) : undefined }}">
-          <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-            <bi name="trash" />
-            {{ 'DELETE' | tr }}
-          </button>
-        </div>
+      <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_WAITERS_SELECT' | tr) : undefined }}">
+        <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+          <bi name="trash" />
+          {{ 'DELETE' | tr }}
+        </button>
+      </div>
 
-        <div>
-          <a routerLink="duplicates" class="btn btn-sm btn-secondary">
-            <bi name="person-bounding-box" />
-            {{ 'HOME_WAITERS_DUPLICATES' | tr }}</a
-          >
-        </div>
-      </scrollable-toolbar>
-    </ng-container>
+      <div>
+        <a routerLink="duplicates" class="btn btn-sm btn-secondary">
+          <bi name="person-bounding-box" />
+          {{ 'HOME_WAITERS_DUPLICATES' | tr }}</a
+        >
+      </div>
+    </scrollable-toolbar>
 
     <form>
       <div class="input-group">
@@ -174,7 +172,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
   ],
 })
 export class OrganisationWaitersComponent extends AbstractModelsWithNameListWithDeleteComponent<GetWaiterResponse> {
-  selectedOrganisation$ = inject(OrganisationsService).getSelected$;
+  selectedOrganisation = inject(SelectedOrganisationService).selected;
 
   constructor(
     entitiesService: OrganisationWaitersService,

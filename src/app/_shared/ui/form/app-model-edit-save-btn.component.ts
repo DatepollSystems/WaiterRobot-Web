@@ -3,14 +3,17 @@ import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Inpu
 @Component({
   template: `
     <button class="btn btn-sm btn-success" form="ngForm" (click)="this.submit.emit()" [disabled]="_valid === 'INVALID'">
-      <span *ngIf="editing">
-        <bi name="save" />
-        {{ 'SAVE' | tr }}
-      </span>
-      <span *ngIf="!editing">
-        <bi name="plus-circle" />
-        {{ 'ADD' | tr }}
-      </span>
+      @if (editing) {
+        <span>
+          <bi name="save" />
+          {{ 'SAVE' | tr }}
+        </span>
+      } @else {
+        <span>
+          <bi name="plus-circle" />
+          {{ 'ADD' | tr }}
+        </span>
+      }
       <ng-content />
     </button>
   `,

@@ -4,17 +4,6 @@
       <div class="card-body">
         <h5 class="card-title">{{ 'HOME_START_SETUP' | tr }}</h5>
 
-        @if (vm$ | async;as vm) {
-        <app-select-dialog
-          *ngIf="!vm.selectedOrganisation || !vm.selectedEvent"
-          [selectedOrganisation]="vm.selectedOrganisation"
-          [organisations]="vm.organisations"
-          [selectedEvent]="vm.selectedEvent"
-          [events]="vm.events"
-          (selectEvent)="selectEvent($event)"
-          (selectOrganisation)="selectOrganisation($event)"
-        />
-        } @if (!!(selectedEvent$ | async)) {
         <div class="d-flex gap-2 flex-wrap">
           <a class="btn btn-outline-info btn-sm" routerLink="tables/create">
             <bi name="plus-circle" />
@@ -37,7 +26,6 @@
             {{ 'HOME_START_SETUP_CREATE_PRODUCT_GROUP' | tr }}</a
           >
         </div>
-        }
       </div>
     </div>
 

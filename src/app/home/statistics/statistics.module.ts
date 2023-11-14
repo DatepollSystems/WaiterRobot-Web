@@ -11,8 +11,6 @@ import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-
 import {DfxCountUp, DfxPrint, DfxTrackById} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {eventSelectedGuard} from '../../_shared/services/guards/event-selected-guard';
-import {organisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard';
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
@@ -30,7 +28,6 @@ const routes: Routes = [
   {
     path: '',
     component: StatisticsComponent,
-    canActivate: [organisationSelectedGuard, eventSelectedGuard],
     children: [
       {path: 'overview', component: StatisticsOverviewComponent},
       {path: '', pathMatch: 'full', redirectTo: 'overview'},
@@ -53,7 +50,6 @@ const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     AppBackButtonComponent,
-    ScrollableToolbarComponent,
     AppDatetimeInputComponent,
     AppEntitiesLayoutComponent,
     BarChartModule,
@@ -74,6 +70,7 @@ const routes: Routes = [
     NgbTooltipModule,
     PieChartModule,
     ReactiveFormsModule,
+    ScrollableToolbarComponent,
   ],
 })
 export class StatisticsModule {}

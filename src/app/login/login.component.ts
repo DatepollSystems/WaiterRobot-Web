@@ -94,7 +94,7 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
       </div>
     </outside-layout-component>
   `,
-  selector: 'app-about',
+  selector: 'app-login',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -114,7 +114,7 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
     AppOutsideLayoutComponent,
   ],
 })
-export class AboutComponent {
+export class LoginComponent {
   form = inject(FormBuilder).nonNullable.group({
     email: ['', [Validators.required, Validators.email, Validators.min(3)]],
     password: ['', [Validators.required, Validators.min(0)]],
@@ -144,7 +144,7 @@ export class AboutComponent {
     this.authService.setSessionToken(response.refreshToken);
     this.notificationService.tsuccess('ABOUT_SIGNIN_SUCCESSFUL');
 
-    void this.router.navigateByUrl(this.authService.redirectUrl ?? '/home');
+    void this.router.navigateByUrl(this.authService.redirectUrl ?? '/');
   };
 
   onSignIn(): void {

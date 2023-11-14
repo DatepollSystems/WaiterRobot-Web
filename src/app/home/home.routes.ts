@@ -1,12 +1,12 @@
 import {Routes} from '@angular/router';
 
-import {isAuthenticated} from '../_shared/services/auth/is-authenticated.guard';
+import {eventSelectedGuard} from '../_shared/services/guards/event-selected-guard';
+import {organisationSelectedGuard} from '../_shared/services/guards/organisation-selected-guard';
 
 export const ROUTES: Routes = [
   {
     path: '',
     loadComponent: () => import('./home.component').then((c) => c.HomeComponent),
-    canActivate: [isAuthenticated],
     children: [
       {
         path: '',
@@ -48,10 +48,34 @@ export const ROUTES: Routes = [
         title: 'NAV_ORGANISATIONS',
         loadChildren: () => import('./organisations/organisations.routes').then((m) => m.ROUTES),
       },
+    ],
+  },
+  {
+    path: 'o/:soId',
+    loadComponent: () => import('./home.component').then((c) => c.HomeComponent),
+    canActivate: [organisationSelectedGuard],
+    children: [
       {
         path: 'events',
         title: 'NAV_EVENTS',
         loadChildren: () => import('./events/events.routes').then((m) => m.ROUTES),
+      },
+      {
+        path: 'waiters',
+        title: 'NAV_WAITERS',
+        loadChildren: () => import('./waiters/waiters.routes').then((m) => m.ROUTES),
+      },
+    ],
+  },
+  {
+    path: 'o/:soId/e/:seId',
+    loadComponent: () => import('./home.component').then((c) => c.HomeComponent),
+    canActivate: [organisationSelectedGuard, eventSelectedGuard],
+    children: [
+      {
+        path: 'waiters',
+        title: 'NAV_WAITERS',
+        loadChildren: () => import('./waiters/waiters.routes').then((m) => m.ROUTES),
       },
       {
         path: 'printers',
@@ -62,11 +86,6 @@ export const ROUTES: Routes = [
         path: 'tables',
         title: 'HOME_TABLES',
         loadChildren: () => import('./tables/tables.routes').then((m) => m.ROUTES),
-      },
-      {
-        path: 'waiters',
-        title: 'NAV_WAITERS',
-        loadChildren: () => import('./waiters/waiters.routes').then((m) => m.ROUTES),
       },
       {
         path: 'products',

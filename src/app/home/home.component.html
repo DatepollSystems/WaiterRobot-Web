@@ -1,272 +1,276 @@
-<ng-container *ngSub="uiControls$; let ui">
-  <ng-container *ngSub="vm$; let vm">
-    <nav class="navbar bg-body-tertiary navbar-expand-md">
-      <div class="my-container" [class.container-xxxl]="!isFullScreen()">
-        <a class="navbar-brand align-items-center" routerLink="/home">
-          <img id="brand" [ngSrc]="logoUrl" width="30" height="30" class="align-self-center ms-2" alt="kellner.team logo" />
+<nav class="navbar bg-body-tertiary navbar-expand-md">
+  <div class="my-container" [class.container-xxxl]="!isFullScreen()">
+    <a class="navbar-brand align-items-center" routerLink="/">
+      <img id="brand" [ngSrc]="logoUrl" width="30" height="30" class="align-self-center ms-2" alt="kellner.team logo" />
 
-          <ng-container *ngIf="ui.isMobile">
-            <div
-              *ngIf="showEnvironmentType && environmentType === 'dev'"
-              (click)="showEnvironmentType = !showEnvironmentType"
-              class="badge bg-warning text-dark ms-3 me-1 not-selectable"
-            >
-              <span *ngIf="environmentType === 'dev'">DEV</span>
-            </div>
-            <div style="font-size: 12px" *ngIf="vm?.myUser?.isAdmin" class="badge bg-danger text-dark ms-3 me-1 not-selectable">
-              <span>ADMIN</span>
-            </div>
-          </ng-container>
-        </a>
-
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          (click)="toggleNav()"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <div class="d-flex flex-column flex-md-row justify-content-md-between flex-fill" [class.container-xxxl]="ui.isMobile">
-            <div>
-              <ul class="navbar-nav" [class.mobile-background-0]="ui.isMobile">
-                <li class="d-flex align-items-center" *ngIf="!ui.isMobile">
-                  <div
-                    *ngIf="showEnvironmentType && environmentType === 'dev'"
-                    (click)="showEnvironmentType = !showEnvironmentType"
-                    class="badge bg-warning text-dark ms-1 me-1 not-selectable"
-                  >
-                    <span *ngIf="environmentType === 'dev'">DEV</span>
-                  </div>
-                  <div style="font-size: 12px" *ngIf="vm?.myUser?.isAdmin" class="badge bg-danger text-dark ms-1 me-1 not-selectable">
-                    <span>ADMIN</span>
-                  </div>
-                </li>
-
-                <li class="nav-item">
-                  @if (vm?.myUser?.isAdmin) {
-                  <a class="nav-link" routerLink="organisations/all">
-                    <b>{{ 'NAV_ORGANISATIONS' | tr }}</b>
-                    <span *ngIf="vm?.selectedOrganisation"> ({{ vm?.selectedOrganisation.name }})</span>
-                  </a>
-                  } @else {
-                  <div ngbDropdown display="dynamic">
-                    <a class="nav-link" id="organisationSwitcherDropdown" ngbDropdownToggle>
-                      @if (vm?.selectedOrganisation) {
-                      <span><b>{{ vm.selectedOrganisation.name }}</b></span>
-                      } @else {
-                      <span>{{ 'NAV_ORGANISATIONS' | tr }}</span>
-                      }
-                    </a>
-                    <div ngbDropdownMenu aria-labelledby="organisationSwitcherDropdown">
-                      <h6 class="dropdown-header">
-                        <b>{{ 'NAV_ORGANISATIONS' | tr }}</b>
-                      </h6>
-                      @if (vm?.selectedOrganisation) {
-                      <a ngbDropdownItem routerLink="organisations/{{ vm.selectedOrganisation.id }}">
-                        <b>{{ vm?.selectedOrganisation.name }}</b><small> {{ 'NAV_EDIT' | tr }}</small>
-                      </a>
-                      } @for (orgM of vm?.organisations ?? []; track orgM.id) {
-                      <span
-                        class="fake-dropdown-item"
-                        *ngIf="orgM.id !== vm?.selectedOrganisation?.id"
-                        (click)="onSelectOrg(orgM); $event.stopPropagation()"
-                      >
-                        {{ orgM.name }}
-                      </span>
-                      } @empty {
-                      <span class="fake-dropdown-item unselectable"> {{ 'NAV_ORGANISATIONS_NO_ORGS' | tr }} </span>
-                      }
-                      <div class="dropdown-divider"></div>
-                      @if (vm?.myUser?.isAdmin) {
-                      <a ngbDropdownItem routerLinkActive="active" routerLink="organisations/create"> <b>+</b> {{ 'ADD_2' | tr }} </a>
-                      }
-                      <a ngbDropdownItem routerLinkActive="active" routerLink="organisations/all">
-                        <bi name="building" />
-                        {{ 'SHOW_ALL' | tr }}
-                      </a>
-                    </div>
-                  </div>
-                  }
-                </li>
-
-                <li class="nav-item">
-                  <div ngbDropdown display="dynamic">
-                    <a class="nav-link" id="eventSwitcherDropdown" [class.disabled]="!vm?.selectedOrganisation" ngbDropdownToggle>
-                      @if (vm?.selectedEvent) {
-                      <span><b>{{ vm.selectedEvent.name }}</b></span>
-                      } @else {
-                      <span>{{ 'NAV_EVENTS' | tr }}</span>
-                      }
-                    </a>
-                    <div ngbDropdownMenu aria-labelledby="eventSwitcherDropdown">
-                      <h6 class="dropdown-header">
-                        <b>{{ 'NAV_EVENTS' | tr }}</b>
-                      </h6>
-                      @if (vm?.selectedEvent) {
-                      <a ngbDropdownItem routerLink="events/{{ vm.selectedEvent.id }}">
-                        <b>{{ vm.selectedEvent.name }}</b><small> {{ 'NAV_EDIT' | tr }}</small>
-                      </a>
-                      } @for (eventM of vm?.events ?? []; track eventM.id) { @if (eventM.id !== vm?.selectedEvent?.id) {
-                      <span class="fake-dropdown-item" (click)="onSelectEvent(eventM); $event.stopPropagation()">{{ eventM.name }}</span>
-                      } } @empty {
-                      <span class="fake-dropdown-item unselectable"> {{ 'NAV_EVENTS_NO_EVENTS' | tr }} </span>
-                      }
-                      <div class="dropdown-divider"></div>
-                      @if (vm?.myUser?.isAdmin) {
-                      <a ngbDropdownItem routerLink="events/create"><b>+</b> {{ 'ADD_2' | tr }}</a>
-                      }
-                      <a ngbDropdownItem routerLink="events/all">
-                        <bi name="calendar-event-fill" />
-                        {{ 'SHOW_ALL' | tr }}
-                      </a>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <ul class="navbar-nav" [class.mobile-background-1]="ui.isMobile">
-                @if (vm?.myUser?.isAdmin) {
-                <li class="nav-item">
-                  <div ngbDropdown display="dynamic">
-                    <a class="nav-link" id="adminDropDown" ngbDropdownToggle> {{ 'NAV_INSTANCE_ADMINISTRATION' | tr }}</a>
-                    <div ngbDropdownMenu aria-labelledby="adminDropDown">
-                      <a ngbDropdownItem routerLinkActive="active" routerLink="users">
-                        <bi name="person-badge" />
-                        {{ 'NAV_USERS' | tr }}
-                      </a>
-                      <a ngbDropdownItem routerLinkActive="active" routerLink="system-notifications">
-                        <bi name="bell" />
-                        {{ 'NAV_SYSTEM_NOTIFICATIONS' | tr }}
-                      </a>
-                      <a ngbDropdownItem routerLinkActive="active" routerLink="dead-letters">
-                        <bi name="braces" />
-                        {{ 'Dead Letters' | tr }}
-                      </a>
-                    </div>
-                  </div>
-                </li>
-                }
-
-                <li class="nav-item">
-                  <div ngbDropdown display="dynamic">
-                    <a class="nav-link" id="settingsDropdown" ngbDropdownToggle>{{ 'SETTINGS' | tr }}</a>
-                    <div ngbDropdownMenu aria-labelledby="settingsDropdown">
-                      <div class="px-3 py-1">
-                        <h5>{{ 'NAV_USER_SETTINGS_WELCOME' | tr }} {{ vm?.myUser?.firstname }},</h5>
-                        @if (vm?.myUser) {
-                        <a (click)="openUserEmailQRCode(vm.myUser)">
-                          <u>{{ vm.myUser.emailAddress }}</u>
-                          <bi name="qr-code" class="ms-1" />
-                        </a>
-                        }
-
-                        <small>
-                          <br />
-                          @if (vm?.myUser?.isAdmin) {
-                          <b class="clickable" (click)="switchAdminMode()"> {{ 'NAV_USER_SETTINGS_ADMIN' | tr }} </b>
-                          } @if (adminModeChanged) {
-                          <b class="clickable" (click)="switchAdminMode()"> {{ 'NAV_USER_SETTINGS_ADMIN_SWITCH' | tr }} </b>
-                          }
-                        </small>
-                      </div>
-                      <div class="dropdown-divider d-none d-xxl-block"></div>
-                      <button ngbDropdownItem class="d-none d-xxl-block" (click)="fullScreenService.setFullScreen(!isFullScreen())">
-                        @if (isFullScreen()) {
-                        <bi name="fullscreen-exit" />
-                        } @else {
-                        <bi name="arrows-fullscreen" />
-                        } {{'NAV_FULLSCREEN' | tr}}
-                      </button>
-
-                      <div class="dropdown-divider"></div>
-                      <a ngbDropdownItem routerLinkActive="active" routerLink="usettings/settings">
-                        <bi name="gear-wide-connected" />
-                        {{ 'NAV_USER_SETTINGS' | tr }}
-                      </a>
-                      <a ngbDropdownItem routerLinkActive="active" routerLink="usettings/sessions">
-                        <bi name="file-lock" />
-                        {{ 'NAV_USER_SESSIONS' | tr }}
-                      </a>
-                      <button ngbDropdownItem (click)="logout()">
-                        <bi name="box-arrow-left" />
-                        {{ 'NAV_LOGOUT' | tr }}
-                      </button>
-                    </div>
-                  </div>
-                </li>
-                <li class="nav-item d-flex align-items-center"><theme-picker /></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+      @if (isMobile()) { @if (showEnvironmentType && environmentType === 'dev') {
+      <div (click)="showEnvironmentType = !showEnvironmentType" class="badge bg-warning text-dark ms-3 me-1 not-selectable">
+        <span>DEV</span>
       </div>
-    </nav>
-
-    <app-navbar-scrollable [isMobile]="ui.isMobile" [items]="navItems" />
-  </ng-container>
-
-  <main class="pb-5">
-    <div class="my-container" [class.container-xxxl]="!isFullScreen()" [class.px-md-2]="isFullScreen()">
-      <div class="alert alert-warning" role="alert" hideIfOnline>
-        <bi name="wifi-off" />
-        {{ 'OFFLINE' | tr }}
+      } @if (myUserService.user()?.isAdmin) {
+      <div style="font-size: 12px" class="badge bg-danger text-dark ms-3 me-1 not-selectable">
+        <span>ADMIN</span>
       </div>
+      } }
+    </a>
 
-      <div hideIfOffline>
-        <div hideIfPingSucceeds url="/json">
-          <div class="alert alert-warning" role="alert">
-            <div class="d-flex gap-3 align-items-center">
-              <bi name="exclamation-triangle-fill" />
-              <div>
-                <b>{{ 'ABOUT_MAINTENANCE_1' | tr }}</b>
-                <br />
-                {{'ABOUT_MAINTENANCE_2' | tr}}
-                <br />
-                {{'ABOUT_MAINTENANCE_3' | tr}}
-                <a style="text-decoration: underline; color: #664d03" href="https://status.kellner.team" target="_blank" rel="noopener"
-                  >status.kellner.team</a
-                >.
-                <br />
-                {{'ABOUT_MAINTENANCE_4' | tr}}
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      (click)="toggleNav()"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="d-flex flex-column flex-md-row justify-content-md-between flex-fill" [class.container-xxxl]="isMobile()">
+        <div>
+          <ul class="navbar-nav" [class.mobile-background-0]="isMobile()">
+            @if (!isMobile()) {
+            <li class="nav-item d-flex align-items-center">
+              @if (showEnvironmentType && environmentType === 'dev') {
+              <div (click)="showEnvironmentType = !showEnvironmentType" class="badge bg-warning text-dark ms-1 me-1 not-selectable">
+                <span>DEV</span>
               </div>
+              } @if (myUserService.user()?.isAdmin) {
+              <div style="font-size: 12px" class="badge bg-danger text-dark ms-1 me-1 not-selectable">
+                <span>ADMIN</span>
+              </div>
+              }
+            </li>
+            }
+
+            <li class="nav-item">
+              @if (myUserService.user()?.isAdmin) {
+              <a class="nav-link" routerLink="/organisations/all">
+                <b>{{ 'NAV_ORGANISATIONS' | tr }}</b>
+                @if (selectedOrganisationService.selected(); as selected) {
+                <span> ({{ selected.name }})</span>
+                }
+              </a>
+              } @else {
+              <div ngbDropdown display="dynamic">
+                <a class="nav-link" id="organisationSwitcherDropdown" ngbDropdownToggle>
+                  @if (selectedOrganisationService.selected(); as selected) {
+                  <span><b>{{selected.name }}</b></span>
+                  } @else {
+                  <span>{{ 'NAV_ORGANISATIONS' | tr }}</span>
+                  }
+                </a>
+                <div ngbDropdownMenu aria-labelledby="organisationSwitcherDropdown">
+                  <h6 class="dropdown-header">
+                    <b>{{ 'NAV_ORGANISATIONS' | tr }}</b>
+                  </h6>
+                  @if (selectedOrganisationService.selected(); as selected) {
+                  <a ngbDropdownItem routerLink="/organisations/{{ selected.id }}">
+                    <b>{{ selected.name }}</b><small> {{ 'NAV_EDIT' | tr }}</small>
+                  </a>
+                  } @for (orgM of organisations(); track orgM.id) { @if (orgM.id !== selectedOrganisationService.selected()?.id) {
+                  <span
+                    class="fake-dropdown-item"
+                    (click)="this.selectedOrganisationService.setSelected(orgM.id); $event.stopPropagation()"
+                  >
+                    {{ orgM.name }}
+                  </span>
+                  } } @empty {
+                  <span class="fake-dropdown-item unselectable"> {{ 'NAV_ORGANISATIONS_NO_ORGS' | tr }} </span>
+                  }
+                  <div class="dropdown-divider"></div>
+                  @if (myUserService.user()?.isAdmin) {
+                  <a ngbDropdownItem routerLinkActive="active" routerLink="organisations/create"> <b>+</b> {{ 'ADD_2' | tr }} </a>
+                  }
+                  <a ngbDropdownItem routerLinkActive="active" routerLink="organisations/all">
+                    <bi name="building" />
+                    {{ 'SHOW_ALL' | tr }}
+                  </a>
+                </div>
+              </div>
+              }
+            </li>
+
+            <li class="nav-item">
+              <div ngbDropdown display="dynamic">
+                <a
+                  class="nav-link"
+                  id="eventSwitcherDropdown"
+                  [class.disabled]="!selectedOrganisationService.selectedId()"
+                  ngbDropdownToggle
+                >
+                  @if (selectedEventService.selected(); as selected) {
+                  <span><b>{{ selected.name }}</b></span>
+                  } @else {
+                  <span>{{ 'NAV_EVENTS' | tr }}</span>
+                  }
+                </a>
+                <div ngbDropdownMenu aria-labelledby="eventSwitcherDropdown">
+                  <h6 class="dropdown-header">
+                    <b>{{ 'NAV_EVENTS' | tr }}</b>
+                  </h6>
+                  @if (selectedEventService.selected(); as selected) {
+                  <a ngbDropdownItem routerLink="/o/{{selectedOrganisationService.selectedId()!}}/events/{{ selected.id }}">
+                    <b>{{ selected.name }}</b><small> {{ 'NAV_EDIT' | tr }}</small>
+                  </a>
+                  } @for (eventM of events(); track eventM.id) { @if (eventM.id !== selectedEventService.selected()?.id) {
+                  <span class="fake-dropdown-item" (click)="selectedEventService.setSelected(eventM.id); $event.stopPropagation()"
+                    >{{ eventM.name }}</span
+                  >
+                  } } @empty {
+                  <span class="fake-dropdown-item unselectable"> {{ 'NAV_EVENTS_NO_EVENTS' | tr }} </span>
+                  }
+                  <div class="dropdown-divider"></div>
+                  @if (myUserService.user()?.isAdmin) {
+                  <a ngbDropdownItem routerLink="/o/{{selectedOrganisationService.selectedId()!}}/events/create"
+                    ><b>+</b> {{ 'ADD_2' | tr }}</a
+                  >
+                  }
+                  <a ngbDropdownItem routerLink="/o/{{selectedOrganisationService.selectedId()!}}/events/all">
+                    <bi name="calendar-event-fill" />
+                    {{ 'SHOW_ALL' | tr }}
+                  </a>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <ul class="navbar-nav" [class.mobile-background-1]="isMobile()">
+            @if (myUserService.user()?.isAdmin) {
+            <li class="nav-item">
+              <div ngbDropdown display="dynamic">
+                <a class="nav-link" id="adminDropDown" ngbDropdownToggle> {{ 'NAV_INSTANCE_ADMINISTRATION' | tr }}</a>
+                <div ngbDropdownMenu aria-labelledby="adminDropDown">
+                  <a ngbDropdownItem routerLinkActive="active" routerLink="users">
+                    <bi name="person-badge" />
+                    {{ 'NAV_USERS' | tr }}
+                  </a>
+                  <a ngbDropdownItem routerLinkActive="active" routerLink="system-notifications">
+                    <bi name="bell" />
+                    {{ 'NAV_SYSTEM_NOTIFICATIONS' | tr }}
+                  </a>
+                  <a ngbDropdownItem routerLinkActive="active" routerLink="dead-letters">
+                    <bi name="braces" />
+                    {{ 'Dead Letters' | tr }}
+                  </a>
+                </div>
+              </div>
+            </li>
+            }
+
+            <li class="nav-item">
+              <div ngbDropdown display="dynamic">
+                <a class="nav-link" id="settingsDropdown" ngbDropdownToggle>{{ 'SETTINGS' | tr }}</a>
+                <div ngbDropdownMenu aria-labelledby="settingsDropdown">
+                  <div class="px-3 py-1">
+                    @if (myUserService.user(); as user) {
+                    <h5>{{ 'NAV_USER_SETTINGS_WELCOME' | tr }} {{ user.firstname }},</h5>
+                    <a (click)="openUserEmailQRCode()">
+                      <u>{{ user.emailAddress }}</u>
+                      <bi name="qr-code" class="ms-1" />
+                    </a>
+                    }
+
+                    <small>
+                      <br />
+                      @if (myUserService.user()?.isAdmin) {
+                      <b class="clickable" (click)="switchAdminMode()"> {{ 'NAV_USER_SETTINGS_ADMIN' | tr }} </b>
+                      } @if (myUserService.manualOverwritten()) {
+                      <b class="clickable" (click)="switchAdminMode()"> {{ 'NAV_USER_SETTINGS_ADMIN_SWITCH' | tr }} </b>
+                      }
+                    </small>
+                  </div>
+                  <div class="dropdown-divider d-none d-xxl-block"></div>
+                  <button ngbDropdownItem class="d-none d-xxl-block" (click)="fullScreenService.setFullScreen(!isFullScreen())">
+                    @if (isFullScreen()) {
+                    <bi name="fullscreen-exit" />
+                    } @else {
+                    <bi name="arrows-fullscreen" />
+                    } {{'NAV_FULLSCREEN' | tr}}
+                  </button>
+
+                  <div class="dropdown-divider"></div>
+                  <a ngbDropdownItem routerLinkActive="active" routerLink="/usettings/settings">
+                    <bi name="gear-wide-connected" />
+                    {{ 'NAV_USER_SETTINGS' | tr }}
+                  </a>
+                  <a ngbDropdownItem routerLinkActive="active" routerLink="/usettings/sessions">
+                    <bi name="file-lock" />
+                    {{ 'NAV_USER_SESSIONS' | tr }}
+                  </a>
+                  <button ngbDropdownItem (click)="this.authService.logout()">
+                    <bi name="box-arrow-left" />
+                    {{ 'NAV_LOGOUT' | tr }}
+                  </button>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item d-flex align-items-center"><theme-picker /></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<app-navbar-scrollable [isMobile]="isMobile()" [items]="navItems()" />
+
+<main class="pb-5">
+  <div class="my-container" [class.container-xxxl]="!isFullScreen()" [class.px-md-2]="isFullScreen()">
+    <div class="alert alert-warning" role="alert" hideIfOnline>
+      <bi name="wifi-off" />
+      {{ 'OFFLINE' | tr }}
+    </div>
+
+    <div hideIfOffline>
+      <div hideIfPingSucceeds url="/json">
+        <div class="alert alert-warning" role="alert">
+          <div class="d-flex gap-3 align-items-center">
+            <bi name="exclamation-triangle-fill" />
+            <div>
+              <b>{{ 'ABOUT_MAINTENANCE_1' | tr }}</b>
+              <br />
+              {{'ABOUT_MAINTENANCE_2' | tr}}
+              <br />
+              {{'ABOUT_MAINTENANCE_3' | tr}}
+              <a style="text-decoration: underline; color: #664d03" href="https://status.kellner.team" target="_blank" rel="noopener"
+                >status.kellner.team</a
+              >.
+              <br />
+              {{'ABOUT_MAINTENANCE_4' | tr}}
             </div>
           </div>
         </div>
       </div>
-
-      @if (activeSystemNotificationsService.allSystemNotifications().length > 0) { @for (systemNotification of
-      activeSystemNotificationsService.getFilteredSystemNotifications(); track systemNotification.id) {
-      <app-system-notification-alert [notification]="systemNotification" (ignore)="activeSystemNotificationsService.ignore($event)" />
-      }
-      <div class="d-flex justify-content-end mb-4">
-        @if (activeSystemNotificationsService.ignoredSystemNotifications().length === 0) {
-        <small>
-          <bi name="arrows-collapse" class="me-2" />
-          <a (click)="activeSystemNotificationsService.ignoreAll()">Alle verstecken</a>
-        </small>
-        } @else {
-        <small>
-          <bi name="arrows-expand" class="me-2" />
-          <a (click)="activeSystemNotificationsService.resetIgnore()">
-            {{activeSystemNotificationsService.ignoredSystemNotifications().length}}x Nachricht(en) anzeigen
-          </a>
-        </small>
-        }
-      </div>
-      }
-
-      <router-outlet />
     </div>
-  </main>
-</ng-container>
+
+    @if (activeSystemNotificationsService.allSystemNotifications().length > 0) { @for (systemNotification of
+    activeSystemNotificationsService.getFilteredSystemNotifications(); track systemNotification.id) {
+    <app-system-notification-alert [notification]="systemNotification" (ignore)="activeSystemNotificationsService.ignore($event)" />
+    }
+    <div class="d-flex justify-content-end mb-4">
+      @if (activeSystemNotificationsService.ignoredSystemNotifications().length === 0) {
+      <small>
+        <bi name="arrows-collapse" class="me-2" />
+        <a (click)="activeSystemNotificationsService.ignoreAll()">Alle verstecken</a>
+      </small>
+      } @else {
+      <small>
+        <bi name="arrows-expand" class="me-2" />
+        <a (click)="activeSystemNotificationsService.resetIgnore()">
+          {{activeSystemNotificationsService.ignoredSystemNotifications().length}}x Nachricht(en) anzeigen
+        </a>
+      </small>
+      }
+    </div>
+    }
+
+    <router-outlet />
+  </div>
+</main>
 
 <app-footer />

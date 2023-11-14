@@ -1,13 +1,11 @@
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
-import {RouterLink} from '@angular/router';
 
 import {debounceTime, filter, map, switchMap, tap} from 'rxjs';
 
 import {HasNumberIDAndName} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
@@ -49,9 +47,11 @@ import {TablesService} from '../_services/tables.service';
           </span>
           <select class="form-select" id="selectGroup" formControlName="groupId">
             <option [value]="-1" disabled>{{ 'HOME_TABLES_GROUPS_DEFAULT' | tr }}</option>
-            <option [value]="group.id" *ngFor="let group of tableGroups; trackById">
-              {{ group.name }}
-            </option>
+            @for (group of tableGroups; track group.id) {
+              <option [value]="group.id">
+                {{ group.name }}
+              </option>
+            }
           </select>
         </div>
 
@@ -71,7 +71,7 @@ import {TablesService} from '../_services/tables.service';
   selector: 'app-table-edit-form',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, AsyncPipe, NgIf, NgForOf, DfxTr, DfxTrackById, BiComponent, RouterLink],
+  imports: [ReactiveFormsModule, AsyncPipe, NgIf, DfxTr, BiComponent],
 })
 export class TableEditFormComponent extends AbstractModelEditFormComponent<CreateTableDto, UpdateTableDto> {
   tablesService = inject(TablesService);

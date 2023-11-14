@@ -1,10 +1,10 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 
 import {BehaviorSubject, combineLatest, distinctUntilChanged, filter, map, Observable, shareReplay, switchMap, tap} from 'rxjs';
 
 import {notNullAndUndefined, o_fromStorage, s_from, st_remove, st_set} from 'dfts-helper';
-import {HasDelete, HasGetAll, HasGetSelected, HasGetSingle} from 'dfx-helper';
+import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
 
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
 import {
@@ -14,14 +14,13 @@ import {
   IdResponse,
   UpdateEventOrLocationDto,
 } from '../../../_shared/waiterrobot-backend';
-import {OrganisationsService} from '../../organisations/_services/organisations.service';
+import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventsService
   implements
-    HasGetSelected<GetEventOrLocationResponse>,
     HasGetAll<GetEventOrLocationResponse>,
     HasGetSingle<GetEventOrLocationResponse>,
     HasCreateWithIdResponse<CreateEventOrLocationDto>,
@@ -31,10 +30,8 @@ export class EventsService
   private url = '/config/event';
   private selectedStorageKey = 'selected_event';
 
-  constructor(
-    private httpClient: HttpClient,
-    private organisationsService: OrganisationsService,
-  ) {}
+  private httpClient = inject(HttpClient);
+  private selectedOrganisationService = inject(SelectedOrganisationService);
 
   create$(dto: CreateEventOrLocationDto): Observable<IdResponse> {
     return this.httpClient.post<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
@@ -55,7 +52,7 @@ export class EventsService
     this.selectedChange.next(it);
   }
 
-  getSelected$ = combineLatest([this.selectedChange, this.organisationsService.getSelected$]).pipe(
+  getSelected$ = combineLatest([this.selectedChange, this.selectedOrganisationService.selected$]).pipe(
     map(([selected, selectedOrganisation]) => {
       if (selectedOrganisation !== undefined && selectedOrganisation.id === selected?.organisationId) {
         return selected;
@@ -72,8 +69,8 @@ export class EventsService
   triggerGet$ = new BehaviorSubject(true);
 
   getAll$(): Observable<GetEventOrLocationResponse[]> {
-    return combineLatest([this.triggerGet$, this.organisationsService.getSelectedNotNull$]).pipe(
-      switchMap(([, {id: organisationId}]) => this.httpClient.get<GetEventOrLocationResponse[]>(this.url, {params: {organisationId}})),
+    return combineLatest([this.triggerGet$, this.selectedOrganisationService.selectedIdNotNull$]).pipe(
+      switchMap(([, organisationId]) => this.httpClient.get<GetEventOrLocationResponse[]>(this.url, {params: {organisationId}})),
       map((it) => it.sort((a, b) => a.name.trim().toLowerCase().localeCompare(b.name.trim().toLowerCase()))),
       tap((entities) => {
         const selected = this.selectedChange.getValue();

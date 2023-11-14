@@ -1,12 +1,9 @@
 import {Routes} from '@angular/router';
 
-import {organisationSelectedGuard} from '../../_shared/services/guards/organisation-selected-guard';
-
 export const ROUTES: Routes = [
   {
     path: '',
     loadComponent: () => import('./waiters.component').then((c) => c.WaitersComponent),
-    canActivate: [organisationSelectedGuard],
     children: [
       {path: 'organisation', loadComponent: () => import('./organisation-waiters.component').then((c) => c.OrganisationWaitersComponent)},
       {

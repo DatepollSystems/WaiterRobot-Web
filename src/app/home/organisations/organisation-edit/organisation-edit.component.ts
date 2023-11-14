@@ -13,6 +13,7 @@ import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-mode
 import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} from '../../../_shared/waiterrobot-backend';
 import {OrganisationsService} from '../_services/organisations.service';
+import {SelectedOrganisationService} from '../_services/selected-organisation.service';
 import {AppOrganisationEditFormComponent} from './organisation-edit-form.component';
 import {OrganisationEditSettingsComponent} from './organisation-edit-settings.component';
 import {OrganisationEditUsersComponent} from './organisation-edit-users.component';
@@ -42,8 +43,12 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
               </button>
             </div>
             <div>
-              <!--suppress TypeScriptValidateTypes -->
-              <selectable-button class="my-2" [entity]="entity" [selectedEntityService]="organisationsService" placement="top" />
+              <selectable-button
+                class="my-2"
+                [entityId]="entity.id"
+                [selectedId]="selectedOrganisationService.selectedId()"
+                (selectedChange)="selectedOrganisationService.setSelected($event)"
+              />
             </div>
           </ng-container>
         </scrollable-toolbar>
@@ -115,6 +120,8 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<
   override onlyEditingTabs = ['USERS' as const, 'SETTINGS' as const];
 
   myUser$ = inject(MyUserService).getUser$();
+
+  selectedOrganisationService = inject(SelectedOrganisationService);
 
   constructor(public organisationsService: OrganisationsService) {
     super(organisationsService);

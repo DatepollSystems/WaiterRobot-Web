@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 
 import {BehaviorSubject, combineLatest, map, Observable, switchMap, tap} from 'rxjs';
 
@@ -15,7 +15,7 @@ import {
   IdResponse,
   UpdateTableDto,
 } from '../../../_shared/waiterrobot-backend';
-import {EventsService} from '../../events/_services/events.service';
+import {SelectedEventService} from '../../events/_services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
 export class TablesService
@@ -29,17 +29,15 @@ export class TablesService
 {
   url = '/config/table';
 
-  constructor(
-    private httpClient: HttpClient,
-    private eventsService: EventsService,
-  ) {}
+  private httpClient = inject(HttpClient);
+  private selectedEventService = inject(SelectedEventService);
 
   triggerGet$ = new BehaviorSubject(true);
 
   getAll$(): Observable<GetTableWithGroupResponse[]> {
     return this.triggerGet$.pipe(
-      switchMap(() => this.eventsService.getSelectedNotNull$),
-      switchMap(({id: eventId}) =>
+      switchMap(() => this.selectedEventService.selectedIdNotNull$),
+      switchMap((eventId) =>
         combineLatest([
           this.httpClient.get<GetTableWithGroupResponse[]>(this.url, {params: {eventId}}),
           this.getTableIdsWithActiveOrders$(eventId),
@@ -53,11 +51,11 @@ export class TablesService
 
   getByParent$(groupId: number): Observable<GetTableWithGroupResponse[]> {
     return this.triggerGet$.pipe(
-      switchMap(() => this.eventsService.getSelectedNotNull$),
-      switchMap(({id}) =>
+      switchMap(() => this.selectedEventService.selectedIdNotNull$),
+      switchMap((eventId) =>
         combineLatest([
           this.httpClient.get<GetTableWithGroupResponse[]>(this.url, {params: {groupId}}),
-          this.getTableIdsWithActiveOrders$(id),
+          this.getTableIdsWithActiveOrders$(eventId),
         ]),
       ),
       map(([tables, tableIdsWithActiveOrders]) =>

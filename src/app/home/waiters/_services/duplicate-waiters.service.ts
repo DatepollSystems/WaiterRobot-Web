@@ -1,27 +1,25 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 
 import {BehaviorSubject, combineLatest, Observable, switchMap, tap} from 'rxjs';
 
 import {HasGetAll} from 'dfx-helper';
 
 import {DuplicateWaiterResponse, MergeWaiterDto} from '../../../_shared/waiterrobot-backend';
-import {OrganisationsService} from '../../organisations/_services/organisations.service';
+import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
 
 @Injectable({providedIn: 'root'})
 export class DuplicateWaitersService implements HasGetAll<DuplicateWaiterResponse> {
   url = '/config/waiter/duplicates';
 
-  constructor(
-    private httpClient: HttpClient,
-    private organisationService: OrganisationsService,
-  ) {}
+  private httpClient = inject(HttpClient);
+  private selectedOrganisationService = inject(SelectedOrganisationService);
 
   trigger = new BehaviorSubject(true);
 
   getAll$(): Observable<DuplicateWaiterResponse[]> {
-    return combineLatest([this.trigger, this.organisationService.getSelectedNotNull$]).pipe(
-      switchMap(([, {id: organisationId}]) => this.httpClient.get<DuplicateWaiterResponse[]>(this.url, {params: {organisationId}})),
+    return combineLatest([this.trigger, this.selectedOrganisationService.selectedIdNotNull$]).pipe(
+      switchMap((organisationId) => this.httpClient.get<DuplicateWaiterResponse[]>(this.url, {params: {organisationId}})),
     );
   }
 
