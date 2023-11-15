@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {computed, inject, Injectable, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 
-import {BehaviorSubject, filter, map, merge, switchMap} from 'rxjs';
+import {BehaviorSubject, catchError, EMPTY, filter, map, merge, switchMap} from 'rxjs';
 
 import {connect} from 'ngxtension/connect';
 
@@ -27,6 +27,7 @@ export class SelectedOrganisationService {
   private selectedLoaded$ = this.selectedIdChange$.pipe(
     filter(notNullAndUndefined),
     switchMap((organisationId) => this.httpClient.get<GetOrganisationResponse>(`/config/organisation/${organisationId}`)),
+    catchError(() => EMPTY),
   );
 
   private selectedState = signal<SelectedOrganisationState>({status: 'UNSET'});

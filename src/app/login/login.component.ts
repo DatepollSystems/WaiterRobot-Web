@@ -23,76 +23,87 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
 @Component({
   template: `
     <outside-layout-component>
-      <div class="card w-100">
-        <div class="card-body">
-          <ng-container *ngIf="form.statusChanges | async" />
+      <ng-container *ngIf="form.statusChanges | async" />
 
-          <form [formGroup]="form" (ngSubmit)="onSignIn()" class="d-flex flex-column gap-3">
-            <div class="alert alert-warning" role="alert" hideIfOnline>
-              <bi name="wifi-off" />
-              {{ 'OFFLINE' | tr }}
-            </div>
+      <form [formGroup]="form" (ngSubmit)="onSignIn()" class="d-flex flex-column gap-3">
+        <div class="alert alert-warning" role="alert" hideIfOnline>
+          <bi name="wifi-off" />
+          {{ 'OFFLINE' | tr }}
+        </div>
 
-            <div hideIfOffline>
-              <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="/json">
-                <div class="d-flex gap-3 align-items-center">
-                  <bi name="exclamation-triangle-fill" />
-                  <div>
-                    <b>{{ 'ABOUT_MAINTENANCE_1' | tr }}</b> {{ 'ABOUT_MAINTENANCE_2' | tr }}
-                    <br />
-                    Besuche
-                    <a style="text-decoration: underline; color: #664d03" href="https://status.kellner.team" target="_blank" rel="noopener"
-                      >status.kellner.team</a
-                    >
-                    für weitere Informationen!
-                  </div>
-                </div>
-              </div>
-              <div hideIfPingFails url="/json" class="d-flex flex-column gap-3">
-                <div class="form-floating">
-                  <input
-                    class="form-control"
-                    autocomplete="on"
-                    type="email"
-                    id="email"
-                    formControlName="email"
-                    placeholder="{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}"
-                  />
-                  <label for="email">{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}</label>
-                </div>
-
-                <div class="form-floating">
-                  <input
-                    class="form-control"
-                    autocomplete="on"
-                    type="password"
-                    id="password"
-                    formControlName="password"
-                    placeholder="{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}"
-                  />
-                  <label for="password">{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}</label>
-                </div>
-
-                <div class="d-flex">
-                  <button [disabled]="!form.valid" type="submit" class="btn btn-primary w-100">{{ 'ABOUT_SIGNIN' | tr }}</button>
-                </div>
+        <div hideIfOffline>
+          <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="/json">
+            <div class="d-flex gap-3 align-items-center">
+              <bi name="exclamation-triangle-fill" />
+              <div>
+                <b>{{ 'ABOUT_MAINTENANCE_1' | tr }}</b> {{ 'ABOUT_MAINTENANCE_2' | tr }}
+                <br />
+                Besuche
+                <a style="text-decoration: underline; color: #664d03" href="https://status.kellner.team" target="_blank" rel="noopener"
+                  >status.kellner.team</a
+                >
+                für weitere Informationen!
               </div>
             </div>
-
-            <div class="text-center">
-              <a routerLink="forgot-password">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD' | tr }}</a>
+          </div>
+          <div hideIfPingFails url="/json" class="d-flex flex-column">
+            <h1 class="fs-2">{{ 'ABOUT_SIGNIN' | tr }}</h1>
+            <div class="form-floating">
+              <input
+                class="form-control"
+                autocomplete="on"
+                type="email"
+                id="email"
+                formControlName="email"
+                placeholder="{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}"
+              />
+              <label for="email">{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}</label>
             </div>
-          </form>
-        </div>
-      </div>
 
-      <div class="card w-100">
-        <div class="card-body">
-          <h5 class="card-title">{{ 'ABOUT_APP_DISCOVER' | tr }}</h5>
-          <app-download-btn-list [showQRCodeButton]="false" />
+            <div class="form-floating">
+              <input
+                class="form-control"
+                autocomplete="on"
+                type="password"
+                id="password"
+                formControlName="password"
+                placeholder="{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}"
+              />
+              <label for="password">{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}</label>
+            </div>
+
+            <div class="d-flex">
+              <button [disabled]="!form.valid" type="submit" class="btn btn-primary w-100">{{ 'ABOUT_SIGNIN' | tr }}</button>
+            </div>
+          </div>
         </div>
-      </div>
+
+        <div class="text-center">
+          <a routerLink="forgot-password">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD' | tr }}</a>
+        </div>
+      </form>
+
+      <h5 class="mt-5">{{ 'ABOUT_APP_DISCOVER' | tr }}</h5>
+      <app-download-btn-list [showQRCodeButton]="false" />
     </outside-layout-component>
+  `,
+  styles: `
+
+.form-floating:focus-within {
+  z-index: 2;
+}
+  input[type="email"] {
+  z-index: 400;
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
   `,
   selector: 'app-login',
   standalone: true,
