@@ -145,15 +145,15 @@
               <div ngbDropdown display="dynamic">
                 <a class="nav-link" id="adminDropDown" ngbDropdownToggle> {{ 'NAV_INSTANCE_ADMINISTRATION' | tr }}</a>
                 <div ngbDropdownMenu aria-labelledby="adminDropDown">
-                  <a ngbDropdownItem routerLinkActive="active" routerLink="users">
+                  <a ngbDropdownItem routerLinkActive="active" routerLink="/users">
                     <bi name="person-badge" />
                     {{ 'NAV_USERS' | tr }}
                   </a>
-                  <a ngbDropdownItem routerLinkActive="active" routerLink="system-notifications">
+                  <a ngbDropdownItem routerLinkActive="active" routerLink="/system-notifications">
                     <bi name="bell" />
                     {{ 'NAV_SYSTEM_NOTIFICATIONS' | tr }}
                   </a>
-                  <a ngbDropdownItem routerLinkActive="active" routerLink="dead-letters">
+                  <a ngbDropdownItem routerLinkActive="active" routerLink="/dead-letters">
                     <bi name="braces" />
                     {{ 'Dead Letters' | tr }}
                   </a>

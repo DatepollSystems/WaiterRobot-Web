@@ -6,11 +6,7 @@ import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.compon
 @Component({
   template: `
     <outside-layout-component>
-      <div class="card w-100">
-        <div class="card-body">
-          <router-outlet />
-        </div>
-      </div>
+      <router-outlet />
     </outside-layout-component>
   `,
   selector: 'app-mobile-link',

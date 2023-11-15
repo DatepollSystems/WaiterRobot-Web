@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 
 import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
 
@@ -25,9 +25,9 @@ export class WaitersService
     HasUpdateWithIdResponse<UpdateWaiterDto>,
     HasDelete<GetWaiterResponse>
 {
-  url = '/config/waiter';
+  private httpClient = inject(HttpClient);
 
-  constructor(private httpClient: HttpClient) {}
+  url = '/config/waiter';
 
   triggerGet$ = new BehaviorSubject(true);
 

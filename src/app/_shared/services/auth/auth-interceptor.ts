@@ -4,25 +4,25 @@ import {inject} from '@angular/core';
 import {BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError} from 'rxjs';
 
 import {loggerOf} from 'dfts-helper';
-import {WINDOW} from 'dfx-helper';
+import {injectWindow} from 'dfx-helper';
 
 import {EnvironmentHelper} from '../../EnvironmentHelper';
 import {NotificationService} from '../../notifications/notification.service';
 import {JwtResponse} from '../../waiterrobot-backend';
-import {AuthService} from './auth.service';
+import {AuthService, loginPwChangeUrl, loginUrl, refreshUrl} from './auth.service';
 
 /**
  * Don't intercept this requests
  */
-const paths = [AuthService.signInUrl, AuthService.signInPwChangeUrl, AuthService.refreshUrl, 'assets/i18n'];
+const paths = [loginUrl, loginPwChangeUrl, refreshUrl, 'assets/i18n'];
 
 let isRefreshing = false;
-const refreshTokenSubject: BehaviorSubject<string | undefined> = new BehaviorSubject<string | undefined>(undefined);
+const nextAccessTokenSubject: BehaviorSubject<string | undefined> = new BehaviorSubject<string | undefined>(undefined);
 
 export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   const authService = inject(AuthService);
   const notificationService = inject(NotificationService);
-  const window = inject(WINDOW);
+  const window = injectWindow();
   const lumber = loggerOf('authInterceptor');
 
   let toIntercept = true;
@@ -36,9 +36,7 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
   if (!toIntercept) {
     return next(req);
   } else {
-    if (authService.isJWTTokenValid()) {
-      req = addToken(req, authService.getJWTToken());
-    }
+    req = addToken(req, authService.accessToken());
 
     return next(req).pipe(
       catchError((error) => {
@@ -57,17 +55,17 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
 
               if (!isRefreshing) {
                 isRefreshing = true;
-                refreshTokenSubject.next(undefined);
+                nextAccessTokenSubject.next(undefined);
 
-                return authService.refreshJWTToken().pipe(
+                return authService.refreshAccessToken().pipe(
                   switchMap((data: JwtResponse) => {
                     lumber.info('handle401Error', 'JWT token refreshed');
                     isRefreshing = false;
-                    refreshTokenSubject.next(data.accessToken);
+                    nextAccessTokenSubject.next(data.accessToken);
                     return next(addToken(req, data.accessToken));
                   }),
                   catchError(() => {
-                    lumber.error('handle401Error', 'Could not refresh jwt token with session token');
+                    lumber.error('handle401Error', 'Could not refresh access token with refresh token');
                     if (EnvironmentHelper.getType() === 'prod') {
                       authService.clearStorage();
                       window?.location.reload();
@@ -82,7 +80,7 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
                   }),
                 );
               } else {
-                return refreshTokenSubject.pipe(
+                return nextAccessTokenSubject.pipe(
                   filter((token) => token != undefined),
                   take(1),
                   switchMap((jwt: string | undefined) => {

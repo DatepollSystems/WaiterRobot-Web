@@ -1,11 +1,12 @@
 import {AsyncPipe, NgIf} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, effect, inject} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
+import {loggerOf} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingFails, DfxHideIfPingSucceeds} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
@@ -15,8 +16,6 @@ import {AuthService} from '../_shared/services/auth/auth.service';
 import {AppLogoWithTextComponent} from '../_shared/ui/app-logo-with-text.component';
 import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.component';
 import {AppDownloadBtnListComponent} from '../_shared/ui/button/app-download-btn-list.component';
-import {FooterModule} from '../_shared/ui/footer/footer.module';
-import {JwtResponse} from '../_shared/waiterrobot-backend';
 import {AppAccountNotActivatedDialog} from './account-not-activated-dialog.component';
 import {AppPasswordChangeDialogComponent} from './password-change-dialog.component';
 
@@ -113,7 +112,6 @@ input[type="password"] {
     DfxTr,
     AppLogoWithTextComponent,
     AppDownloadBtnListComponent,
-    FooterModule,
     AsyncPipe,
     NgIf,
     ReactiveFormsModule,
@@ -126,70 +124,67 @@ input[type="password"] {
   ],
 })
 export class LoginComponent {
+  router = inject(Router);
+  modal = inject(NgbModal);
+  authService = inject(AuthService);
+  notificationService = inject(NotificationService);
+
+  logger = loggerOf('LoginComponent');
+
   form = inject(FormBuilder).nonNullable.group({
     email: ['', [Validators.required, Validators.email, Validators.min(3)]],
     password: ['', [Validators.required, Validators.min(0)]],
   });
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private modal: NgbModal,
-    private authService: AuthService,
-    private notificationService: NotificationService,
-  ) {
-    this.route.queryParamMap.pipe(takeUntilDestroyed()).subscribe((params) => {
-      console.log(params);
-      if (params.get('email') && params.get('onetimePassword')) {
-        // eslint-disable-next-line @typescript-eslint/no-extra-non-null-assertion
-        this.form.controls.email.setValue(params.get('email')!!);
-        // eslint-disable-next-line @typescript-eslint/no-extra-non-null-assertion
-        this.form.controls.password.setValue(params.get('onetimePassword')!!);
-        this.onSignIn();
+  constructor() {
+    inject(ActivatedRoute)
+      .queryParamMap.pipe(takeUntilDestroyed())
+      .subscribe((params) => {
+        this.logger.log('const', 'URL params', params);
+        const email = params.get('email');
+        const password = params.get('onetimePassword');
+        if (email && password) {
+          this.form.controls.email.setValue(email);
+          this.form.controls.password.setValue(password);
+          this.onSignIn();
+        }
+      });
+
+    effect(() => {
+      if (this.authService.loginError() === 'ACCOUNT_NOT_ACTIVATED') {
+        this.modal.open(AppAccountNotActivatedDialog);
+      }
+
+      if (this.authService.loginError() === 'PASSWORD_CHANGE_REQUIRED') {
+        void this.modal.open(AppPasswordChangeDialogComponent)?.result?.then((result) => {
+          if (result) {
+            if (result === this.form.controls.password.getRawValue()) {
+              this.notificationService.terror('ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_FAILED');
+              return;
+            }
+            this.authService.triggerLoginWithPwChange.next({
+              email: this.form.controls.email.getRawValue(),
+              newPassword: result as string,
+              oldPassword: this.form.controls.password.getRawValue(),
+            });
+          }
+        });
+      }
+    });
+
+    effect(() => {
+      if (this.authService.status() === 'LOGGED_IN') {
+        this.notificationService.tsuccess('ABOUT_SIGNIN_SUCCESSFUL');
+
+        void this.router.navigateByUrl(this.authService.redirectUrl() ?? '/');
       }
     });
   }
 
-  onSuccessfulSignIn = (response: JwtResponse): void => {
-    this.authService.setJWTToken(response.accessToken);
-    this.authService.setSessionToken(response.refreshToken);
-    this.notificationService.tsuccess('ABOUT_SIGNIN_SUCCESSFUL');
-
-    void this.router.navigateByUrl(this.authService.redirectUrl ?? '/');
-  };
-
   onSignIn(): void {
     const email = this.form.controls.email.getRawValue();
     const password = this.form.controls.password.getRawValue();
-    this.authService.sendSignInRequest(email, password).subscribe({
-      next: (response) => this.onSuccessfulSignIn(response),
-      error: (error) => {
-        if (error?.error?.codeName === 'ACCOUNT_NOT_ACTIVATED') {
-          this.modal.open(AppAccountNotActivatedDialog);
-          return;
-        }
 
-        if (error?.error?.codeName === 'PASSWORD_CHANGE_REQUIRED') {
-          void this.modal.open(AppPasswordChangeDialogComponent)?.result?.then((result) => {
-            if (result) {
-              if (result === password) {
-                this.notificationService.terror('ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_FAILED');
-                return;
-              }
-              this.authService.sendSignInWithPasswordChangeRequest(email, password, result as string).subscribe({
-                next: (response) => this.onSuccessfulSignIn(response),
-                error: () => {
-                  this.notificationService.terror('ABOUT_SIGNIN_FAILED');
-                },
-              });
-            }
-          });
-
-          return;
-        }
-
-        this.notificationService.terror('ABOUT_SIGNIN_FAILED');
-      },
-    });
+    this.authService.triggerLogin.next({email, password});
   }
 }

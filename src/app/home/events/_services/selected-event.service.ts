@@ -2,13 +2,14 @@ import {HttpClient} from '@angular/common/http';
 import {computed, inject, Injectable, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 
-import {BehaviorSubject, filter, map, merge, switchMap} from 'rxjs';
+import {BehaviorSubject, combineLatest, filter, map, merge, switchMap} from 'rxjs';
 
 import {connect} from 'ngxtension/connect';
 
 import {n_fromStorage, notNullAndUndefined, st_set} from 'dfts-helper';
 
 import {GetEventOrLocationResponse} from '../../../_shared/waiterrobot-backend';
+import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
 
 type SelectedEventState = {
   status: 'UNSET' | 'LOADING' | 'LOADED';
@@ -21,12 +22,21 @@ export const selectedEventRouteParamKey = 'seId';
 @Injectable({providedIn: 'root'})
 export class SelectedEventService {
   private httpClient = inject(HttpClient);
+  private selectedOrganisationService = inject(SelectedOrganisationService);
 
-  private selectedIdChange$ = new BehaviorSubject<number | undefined>(n_fromStorage(selectedEventRouteParamKey));
+  private selectedIdChange = new BehaviorSubject<number | undefined>(n_fromStorage(selectedEventRouteParamKey));
 
-  private selectedLoaded$ = this.selectedIdChange$.pipe(
+  private selectedLoaded$ = this.selectedIdChange.pipe(
     filter(notNullAndUndefined),
-    switchMap((eventId) => this.httpClient.get<GetEventOrLocationResponse>(`/config/event/${eventId}`)),
+    switchMap((eventId) =>
+      combineLatest([
+        this.selectedOrganisationService.selectedId$,
+        this.httpClient.get<GetEventOrLocationResponse>(`/config/event/${eventId}`),
+      ]),
+    ),
+    map(([selectedOrganisationId, selectedEvent]) =>
+      selectedOrganisationId && selectedEvent.organisationId === selectedOrganisationId ? selectedEvent : undefined,
+    ),
   );
 
   private selectedState = signal<SelectedEventState>({status: 'UNSET'});
@@ -35,21 +45,21 @@ export class SelectedEventService {
     connect(
       this.selectedState,
       merge(
-        this.selectedIdChange$.pipe(
+        this.selectedIdChange.pipe(
           map((selectedId) => ({
             selectedId,
             selected: undefined,
             status: selectedId ? ('LOADING' as const) : ('UNSET' as const),
           })),
         ),
-        this.selectedLoaded$.pipe(map((selected) => ({selected, status: 'LOADED' as const}))),
+        this.selectedLoaded$.pipe(map((selected) => ({selected, status: selected ? ('LOADED' as const) : ('UNSET' as const)}))),
       ),
     );
   }
 
   setSelected(it: number | undefined): void {
     st_set(selectedEventRouteParamKey, it);
-    this.selectedIdChange$.next(it);
+    this.selectedIdChange.next(it);
   }
 
   status = computed(() => this.selectedState().status);

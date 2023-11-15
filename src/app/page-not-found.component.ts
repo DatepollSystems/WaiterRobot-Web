@@ -13,9 +13,11 @@ import {FooterModule} from './_shared/ui/footer/footer.module';
   selector: 'app-page-not-found',
   template: `
     <outside-layout-component>
-      <img ngSrc="/assets/404.webp" priority width="700" height="580" alt="Image of cat which hides in a box" />
-      <h2 class="text-center">{{ '404_TITLE' | tr }}</h2>
-      <button class="btn btn-primary btn-lg mt-4 mb-4" (click)="goBack()">
+      <div class="d-flex justify-content-center">
+        <img ngSrc="/assets/404.webp" priority width="400" height="320" alt="Image of cat which hides in a box" />
+      </div>
+      <h2 class="text-center mt-5">{{ '404_TITLE' | tr }}</h2>
+      <button class="btn btn-primary btn-lg mt-5 mb-4 w-100" (click)="goBack()">
         {{ 'GO_BACK' | tr }}
       </button>
     </outside-layout-component>
@@ -33,7 +35,7 @@ export class PageNotFoundComponent {
     const lastLocationState = n_fromStorage('404_location_state');
 
     if (lastLocationState !== undefined && lastLocationState + 2 === this.currentNavigationId) {
-      void this.router.navigateByUrl('/home');
+      void this.router.navigateByUrl('/');
     }
   }
 

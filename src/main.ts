@@ -26,7 +26,13 @@ import {provideDfxTranslate, withAutoTranslatedLanguages, withDefaultLanguage} f
 import {CustomTitleStrategy} from './app/_shared/custom-title.strategy';
 import {EnvironmentHelper} from './app/_shared/EnvironmentHelper';
 import {authInterceptor} from './app/_shared/services/auth/auth-interceptor';
-import {AuthService} from './app/_shared/services/auth/auth.service';
+import {
+  loginPwChangeUrl,
+  loginUrl,
+  refreshUrl,
+  requestPasswordChangeUrl,
+  sendPasswordChangeUrl,
+} from './app/_shared/services/auth/auth.service';
 import {errorInterceptor} from './app/_shared/services/auth/error-interceptor';
 import {CustomDateParserFormatter, CustomDateTimeAdapter} from './app/_shared/services/datepicker-adapter';
 import {NgbDateTimeAdapter} from './app/_shared/ui/datetime-picker/datetime-adapter';
@@ -39,14 +45,7 @@ bootstrapApplication(AppComponent, {
     provideDfxHelper(
       withMobileBreakpoint(767),
       withBaseUrlInterceptor(EnvironmentHelper.getAPIUrl(), ['assets/i18n', 'assets/licenses.json']),
-      withLoggingInterceptor([
-        'json',
-        AuthService.signInUrl,
-        AuthService.signInPwChangeUrl,
-        AuthService.requestPasswordChangeUrl,
-        AuthService.sendPasswordChangeUrl,
-        AuthService.refreshUrl,
-      ]),
+      withLoggingInterceptor(['json', loginUrl, loginPwChangeUrl, requestPasswordChangeUrl, sendPasswordChangeUrl, refreshUrl]),
       withWindow(),
     ),
     provideDfxTranslate(withDefaultLanguage('de'), withAutoTranslatedLanguages(['en', 'es', 'fr', 'it', 'pt'])),

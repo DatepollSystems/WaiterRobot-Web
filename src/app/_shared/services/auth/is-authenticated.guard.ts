@@ -9,7 +9,7 @@ export const isAuthenticated = (route: ActivatedRouteSnapshot, state: RouterStat
   if (authService.isAuthenticated()) {
     return true;
   } else {
-    authService.redirectUrl = state.url;
+    authService.setRedirectUrl(state.url);
 
     void inject(Router).navigate(['/login']);
     return false;

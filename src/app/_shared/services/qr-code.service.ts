@@ -15,7 +15,7 @@ export class QrCodeService {
     st_set('qr-code-data', props);
     // Converts the route into a string that can be used with the window.open() function
     //const url = this.router.serializeUrl(this.router.createUrlTree(['/home/qrcode/view']));
-    void this.router.navigateByUrl('/home/qrcode/view');
+    void this.router.navigateByUrl('/qrcode/view');
   }
 
   getQRCodeData = (): qrCodeData | undefined => o_fromStorage('qr-code-data') as qrCodeData | undefined;

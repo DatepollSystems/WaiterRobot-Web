@@ -34,7 +34,9 @@ import {CopyDirective} from '../copy.directive';
         <div class="card-body">
           <p *ngIf="qrCodeData.info.length > 0" id="info-text" class="card-text">{{ qrCodeData.info | tr }}</p>
 
-          <a [href]="qrCodeData.data" target="_blank" rel="noopener">{{ qrCodeData.data | s_cut: 43 : '..' }}</a>
+          <a [href]="qrCodeData.data" target="_blank" rel="noopener" [ngbTooltip]="qrCodeData.data">{{
+            qrCodeData.data | s_cut: 82 : '...'
+          }}</a>
         </div>
         <div class="card-footer text-muted">
           <scrollable-toolbar disablePadding>
