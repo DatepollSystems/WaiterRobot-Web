@@ -44,7 +44,7 @@ import {OrdersService} from './orders.service';
         </span>
 
         <a
-          routerLink="/home/tables/{{ vm.order.table.id }}"
+          routerLink="../../tables/{{ vm.order.table.id }}"
           class="badge bg-secondary d-flex align-items-center gap-2"
           ngbTooltip="{{ 'HOME_ORDER_OPEN_TABLE' | tr }}"
         >
@@ -53,7 +53,7 @@ import {OrdersService} from './orders.service';
         </a>
 
         <a
-          routerLink="/home/waiters/{{ vm.order.waiter.id }}"
+          routerLink="../../waiters/{{ vm.order.waiter.id }}"
           class="badge bg-primary d-flex align-items-center gap-2"
           ngbTooltip="{{ 'HOME_ORDER_OPEN_WAITER' | tr }}"
         >

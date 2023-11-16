@@ -22,7 +22,7 @@ import {GetImplodedBillProductResponse} from '../../../_shared/waiterrobot-backe
           <td *ngbCellDef="let order" ngb-cell>
             <div class="d-flex align-items-center gap-2">
               <span class="badge rounded-pill text-bg-info" ngbTooltip="{{ 'AMOUNT' | tr }}">{{ order.amount }}x</span>
-              <a routerLink="/home/products/{{ order.productId }}">
+              <a routerLink="../../products/{{ order.productId }}">
                 {{ order.name }}
               </a>
             </div>

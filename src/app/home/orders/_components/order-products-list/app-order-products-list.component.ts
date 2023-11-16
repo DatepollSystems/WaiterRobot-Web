@@ -38,7 +38,7 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
           <div class="mt-2 d-flex flex-column gap-3" *ngIf="groupedOrderProducts$ | async as grouped">
             <div class="card" *ngFor="let groups of grouped | keyvalue">
               <div class="card-header d-flex flex-wrap gap-2 justify-content-between mt-1">
-                <a routerLink="/home/printers/{{ groups.value.printerId }}">
+                <a routerLink="../../printers/{{ groups.value.printerId }}">
                   <h4 class="d-flex align-items-center gap-2">
                     {{ groups.value.printerName }}
                   </h4>

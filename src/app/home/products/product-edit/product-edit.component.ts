@@ -12,13 +12,13 @@ import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-
 import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directives';
 import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../../_shared/waiterrobot-backend';
+import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {PrintersService} from '../../printers/_services/printers.service';
 import {TableEditFormComponent} from '../../tables/table-edit/table-edit-form.component';
 import {AllergensService} from '../_services/allergens.service';
 import {ProductGroupsService} from '../_services/product-groups.service';
 import {ProductsService} from '../_services/products.service';
 import {AppProductEditFormComponent} from './product-edit-form.component';
-import {SelectedEventService} from '../../events/_services/selected-event.service';
 
 @Component({
   template: `
@@ -40,7 +40,7 @@ import {SelectedEventService} from '../../events/_services/selected-event.servic
           </div>
 
           <div>
-            <button class="btn btn-sm btn-primary" routerLink="/home/products/groups/products/{{ entity.group.id }}">
+            <button class="btn btn-sm btn-primary" routerLink="../groups/products/{{ entity.group.id }}">
               <bi name="diagram-3" />
               {{ 'HOME_PROD_GO_TO_GROUP' | tr }}
             </button>

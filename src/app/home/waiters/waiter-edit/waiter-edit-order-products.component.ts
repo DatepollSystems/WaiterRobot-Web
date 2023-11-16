@@ -60,10 +60,10 @@ import {OrdersService} from '../../orders/orders.service';
         <ng-container ngbColumnDef="table.tableGroup.name">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_TABLE' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
-            <a (click)="$event.stopPropagation()" routerLink="/home/tables/groups/tables/{{ order.table.group.id }}">{{
+            <a (click)="$event.stopPropagation()" routerLink="../../tables/groups/tables/{{ order.table.group.id }}">{{
               order.table.group.name
             }}</a>
-            - <a (click)="$event.stopPropagation()" routerLink="/home/tables/{{ order.table.id }}">{{ order.table.number }}</a>
+            - <a (click)="$event.stopPropagation()" routerLink="../../tables/{{ order.table.id }}">{{ order.table.number }}</a>
           </td>
         </ng-container>
 
@@ -77,7 +77,7 @@ import {OrdersService} from '../../orders/orders.service';
           <td *ngbCellDef="let order" ngb-cell>
             <a
               class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"
-              routerLink="/home/orders/{{ order.id }}"
+              routerLink="../../orders/{{ order.id }}"
               ngbTooltip="{{ 'OPEN' | tr }}"
             >
               <bi name="arrow-up-right-square-fill" />
@@ -86,7 +86,7 @@ import {OrdersService} from '../../orders/orders.service';
         </ng-container>
 
         <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-        <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row routerLink="/home/orders/{{ order.id }}" class="clickable"></tr>
+        <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row routerLink="../../orders/{{ order.id }}" class="clickable"></tr>
       </table>
     </div>
 

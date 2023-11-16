@@ -22,7 +22,7 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
           <td *ngbCellDef="let order" ngb-cell>
             <div class="d-flex align-items-center gap-2">
               <span class="badge rounded-pill text-bg-info" ngbTooltip="{{ 'AMOUNT' | tr }}">{{ order.amount }}x</span>
-              <a routerLink="/home/products/{{ order.product.id }}">
+              <a routerLink="../../products/{{ order.product.id }}">
                 {{ order.product.name }}
               </a>
             </div>
@@ -50,7 +50,7 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
         <ng-container ngbColumnDef="printedBy">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_PRINTERS' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
-            <a routerLink="/home/printers/{{ order.printedBy.id }}">
+            <a routerLink="../../printers/{{ order.printedBy.id }}">
               {{ order.printedBy.name }}
             </a>
           </td>

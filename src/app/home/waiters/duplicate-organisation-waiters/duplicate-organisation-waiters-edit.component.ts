@@ -96,7 +96,7 @@ export class DuplicateOrganisationWaitersEditComponent {
     switchMap((name) => this.allDuplicateWaiters$.pipe(map((waiters) => waiters.find((it) => it.name === name)))),
     filter((waiter): waiter is DuplicateWaiterResponse => {
       if (!waiter) {
-        void this.router.navigateByUrl('/home/waiters/organisation/duplicates');
+        void this.router.navigateByUrl('/o/organisationId/e/eventId/waiters/organisation/duplicates');
         return false;
       }
       return true;
@@ -192,13 +192,13 @@ export class DuplicateOrganisationWaitersEditComponent {
             if (i > 98) {
               console.warn('duplicateWaiter merge - Could not find another duplicate waiter', allDuplicateWaiters);
             } else {
-              void this.router.navigateByUrl(`/home/waiters/organisation/duplicates/merge/"${next!.name}"`);
+              void this.router.navigateByUrl(`/o/organisationId/e/eventId/waiters/organisation/duplicates/merge/"${next!.name}"`);
               return;
             }
-            void this.router.navigateByUrl('/home/waiters/organisation/duplicates');
+            void this.router.navigateByUrl('/o/organisationId/e/eventId/waiters/organisation/duplicates');
           });
       } else {
-        void this.router.navigateByUrl('/home/waiters/organisation/duplicates');
+        void this.router.navigateByUrl('/o/organisationId/e/eventId/waiters/organisation/duplicates');
       }
     });
   }

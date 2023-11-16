@@ -24,7 +24,7 @@ import {GetProductMinResponse} from '../../../_shared/waiterrobot-backend';
           <td *ngbCellDef="let products" ngb-cell>
             <a
               class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"
-              routerLink="/home/products/{{ products.id }}"
+              routerLink="../../products/{{ products.id }}"
               ngbTooltip="{{ 'OPEN' | tr }}"
             >
               <bi name="arrow-up-right-square-fill" />
@@ -33,7 +33,7 @@ import {GetProductMinResponse} from '../../../_shared/waiterrobot-backend';
         </ng-container>
 
         <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-        <tr *ngbRowDef="let product; columns: columnsToDisplay" ngb-row routerLink="/home/products/{{ product.id }}" class="clickable"></tr>
+        <tr *ngbRowDef="let product; columns: columnsToDisplay" ngb-row routerLink="../../products/{{ product.id }}" class="clickable"></tr>
       </table>
     </div>
     <div class="w-100 text-center" *ngIf="_products.data.length < 1">

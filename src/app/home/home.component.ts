@@ -108,7 +108,7 @@ export class HomeComponent {
     inject(ActivatedRoute)
       .paramMap.pipe(takeUntilDestroyed())
       .subscribe((params) => {
-        console.log('read params', params);
+        this.lumber.log('const', 'try to read home params', params);
         const selectedOrganisation = params.get(selectedOrganisationRouteParamKey);
         if (selectedOrganisation && n_isNumeric(selectedOrganisation)) {
           this.lumber.info('const', 'set selected organisation from route param', selectedOrganisation);

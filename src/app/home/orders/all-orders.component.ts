@@ -114,17 +114,17 @@ import {OrdersService} from './orders.service';
         <ng-container ngbColumnDef="table.tableGroup.name">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_TABLE' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
-            <a (click)="$event.stopPropagation()" routerLink="/home/tables/groups/tables/{{ order.table.group.id }}">{{
+            <a (click)="$event.stopPropagation()" routerLink="../../tables/groups/tables/{{ order.table.group.id }}">{{
               order.table.group.name
             }}</a>
-            - <a (click)="$event.stopPropagation()" routerLink="/home/tables/{{ order.table.id }}">{{ order.table.number }}</a>
+            - <a (click)="$event.stopPropagation()" routerLink="../../tables/{{ order.table.id }}">{{ order.table.number }}</a>
           </td>
         </ng-container>
 
         <ng-container ngbColumnDef="waiter.name">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
-            <a (click)="$event.stopPropagation()" routerLink="/home/waiters/{{ order.waiter.id }}">{{ order.waiter.name }}</a>
+            <a (click)="$event.stopPropagation()" routerLink="../../waiters/{{ order.waiter.id }}">{{ order.waiter.name }}</a>
           </td>
         </ng-container>
 
@@ -230,7 +230,7 @@ export class AllOrdersComponent implements AfterViewInit {
     this.activatedRoute.queryParamMap.pipe(
       map((it) => ({
         page: it.get('page') ? n_from(it.get('page')) : 1,
-        pageSize: it.get('pageSize') ? n_from(it.get('pageSize')) : 50,
+        pageSize: it.get('pageSize') ? n_from(it.get('pageSize')) : 20,
         sort: it.get('sort') ?? 'createdAt',
         direction: (it.get('direction') ?? 'desc') as SortDirection,
       })),
@@ -239,7 +239,7 @@ export class AllOrdersComponent implements AfterViewInit {
     {
       initialValue: {
         page: 1,
-        pageSize: 50,
+        pageSize: 20,
         sort: 'createdAt',
         direction: 'desc' as SortDirection,
       },

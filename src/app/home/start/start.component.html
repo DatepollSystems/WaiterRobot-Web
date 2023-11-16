@@ -5,23 +5,23 @@
         <h5 class="card-title">{{ 'HOME_START_SETUP' | tr }}</h5>
 
         <div class="d-flex gap-2 flex-wrap">
-          <a class="btn btn-outline-info btn-sm" routerLink="tables/create">
+          <a class="btn btn-outline-info btn-sm" routerLink="o/organisationId/e/eventId/tables/create">
             <bi name="plus-circle" />
             {{ 'HOME_START_SETUP_CREATE_TABLE' | tr }}</a
           >
-          <a class="btn btn-outline-info btn-sm" routerLink="products/create">
+          <a class="btn btn-outline-info btn-sm" routerLink="o/organisationId/e/eventId/products/create">
             <bi name="plus-circle" />
             {{ 'HOME_START_SETUP_CREATE_PRODUCT' | tr }}</a
           >
-          <a class="btn btn-outline-info btn-sm" routerLink="waiters/create">
+          <a class="btn btn-outline-info btn-sm" routerLink="o/organisationId/e/eventId/waiters/create">
             <bi name="plus-circle" />
             {{ 'HOME_START_SETUP_CREATE_WAITER' | tr }}</a
           >
-          <a class="btn btn-outline-info btn-sm" routerLink="tables/groups/create">
+          <a class="btn btn-outline-info btn-sm" routerLink="o/organisationId/e/eventId/tables/groups/create">
             <bi name="plus-circle" />
             {{ 'HOME_START_SETUP_CREATE_TABLE_GROUP' | tr }}</a
           >
-          <a class="btn btn-outline-info btn-sm" routerLink="products/groups/create">
+          <a class="btn btn-outline-info btn-sm" routerLink="o/organisationId/e/eventId/products/groups/create">
             <bi name="plus-circle" />
             {{ 'HOME_START_SETUP_CREATE_PRODUCT_GROUP' | tr }}</a
           >
@@ -35,16 +35,19 @@
         <app-download-btn-list />
       </div>
     </div>
-    <ng-container *ngIf="((errors$ | async) && !isProduction)">
-      <div class="card p-2">
-        <div class="card-body">
-          <button class="btn btn-sm btn-warning" (click)="logout()">Logout</button>
-        </div>
+
+    @if (((errors$ | async) && !isProduction)) {
+    <div class="card p-2">
+      <div class="card-body">
+        <button class="btn btn-sm btn-warning" (click)="logout()">Logout</button>
       </div>
-    </ng-container>
+    </div>
+    }
   </div>
 
-  <div class="col-12 col-xl-4" *ngIf="(myUser$ | async)?.isAdmin">
+  @if ((myUser$ | async)?.isAdmin) {
+
+  <div class="col-12 col-xl-4">
     <div class="card p-2 mb-3">
       <div class="card-body">
         <h5 class="card-title">{{ 'HOME_START_STATISTICS' | tr }}</h5>
@@ -116,6 +119,8 @@
       </div>
     </div>
   </div>
+
+  }
 </div>
 
 @if (type === 'dev') {

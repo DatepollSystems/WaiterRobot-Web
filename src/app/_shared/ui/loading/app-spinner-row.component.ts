@@ -1,13 +1,12 @@
-import {NgIf} from '@angular/common';
 import {booleanAttribute, ChangeDetectionStrategy, Component, Input} from '@angular/core';
-
-import {AppSpinnerComponent} from './app-spinner.component';
 
 @Component({
   template: `
-    <div class="b-spinner-row" *ngIf="show">
-      <app-spinner />
-    </div>
+    @if (show) {
+      <div class="b-spinner-row">
+        <div class="loader" aria-label=""></div>
+      </div>
+    }
   `,
   styles: [
     `
@@ -15,13 +14,12 @@ import {AppSpinnerComponent} from './app-spinner.component';
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-top: 10px;
+        margin-top: 30px;
         margin-bottom: 30px;
       }
     `,
   ],
   selector: 'app-spinner-row',
-  imports: [NgIf, AppSpinnerComponent],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

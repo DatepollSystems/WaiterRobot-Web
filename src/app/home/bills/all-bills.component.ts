@@ -68,17 +68,17 @@ import {BillsService} from './bills.service';
         <ng-container ngbColumnDef="waiter.name">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</th>
           <td *ngbCellDef="let bill" ngb-cell>
-            <a (click)="$event.stopPropagation()" routerLink="/home/waiters/{{ bill.waiter.id }}">{{ bill.waiter.name }}</a>
+            <a (click)="$event.stopPropagation()" routerLink="../../waiters/{{ bill.waiter.id }}">{{ bill.waiter.name }}</a>
           </td>
         </ng-container>
 
         <ng-container ngbColumnDef="table.tableGroup.name">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_TABLE' | tr }}</th>
           <td *ngbCellDef="let bill" ngb-cell>
-            <a (click)="$event.stopPropagation()" routerLink="/home/tables/groups/tables/{{ bill.table.group.id }}">{{
+            <a (click)="$event.stopPropagation()" routerLink="../../tables/groups/tables/{{ bill.table.group.id }}">{{
               bill.table.group.name
             }}</a>
-            - <a (click)="$event.stopPropagation()" routerLink="/home/tables/{{ bill.table.id }}">{{ bill.table.number }}</a>
+            - <a (click)="$event.stopPropagation()" routerLink="../../tables/{{ bill.table.id }}">{{ bill.table.number }}</a>
           </td>
         </ng-container>
 

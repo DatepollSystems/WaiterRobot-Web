@@ -18,15 +18,16 @@ export function eventSelectedGuard(route: ActivatedRouteSnapshot, state: RouterS
   if (!selectedId()) {
     const paramSelectedId = route.paramMap.get(selectedEventRouteParamKey);
     if (paramSelectedId && n_isNumeric(paramSelectedId)) {
-      console.info('found param', paramSelectedId);
+      console.info(getLogMessage('INFO', 'routeGuard', 'canActivate', 'Found event param'), paramSelectedId);
       selectedService.setSelected(n_from(paramSelectedId));
-    }
-  }
 
-  if (!selectedId()) {
-    console.warn(getLogMessage('WARNING', 'eventSelectedGuard', 'canActivate', 'No event selected; Routing to select'));
+      return true;
+    }
+
+    console.warn(getLogMessage('WARNING', 'routeGuard', 'canActivate', 'No event selected; Routing to select view'));
     void router.navigateByUrl('/select');
     return false;
   }
+
   return true;
 }

@@ -41,10 +41,10 @@ import {TableEditOrderProductsComponent} from './table-edit-order-products.compo
           </div>
 
           <div>
-            <button class="btn btn-sm btn-primary" routerLink="/home/tables/groups/tables/{{ entity.groupId }}">
+            <a class="btn btn-sm btn-primary" routerLink="../groups/tables/{{ entity.groupId }}">
               <bi name="diagram-3" />
               {{ 'HOME_TABLE_GO_TO_GROUP' | tr }}
-            </button>
+            </a>
           </div>
         </ng-container>
 

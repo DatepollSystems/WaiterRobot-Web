@@ -33,7 +33,7 @@ import {BillsService} from './bills.service';
         </span>
 
         <a
-          routerLink="/home/tables/{{ vm.bill.table.id }}"
+          routerLink="../../tables/{{ vm.bill.table.id }}"
           class="badge bg-secondary d-flex align-items-center gap-2"
           ngbTooltip="{{ 'HOME_ORDER_OPEN_TABLE' | tr }}"
         >
@@ -42,7 +42,7 @@ import {BillsService} from './bills.service';
         </a>
 
         <a
-          routerLink="/home/waiters/{{ vm.bill.waiter.id }}"
+          routerLink="../../waiters/{{ vm.bill.waiter.id }}"
           class="badge bg-primary d-flex align-items-center gap-2"
           ngbTooltip="{{ 'HOME_ORDER_OPEN_WAITER' | tr }}"
         >

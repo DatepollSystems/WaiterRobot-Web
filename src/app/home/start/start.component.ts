@@ -1,4 +1,4 @@
-import {AsyncPipe, DatePipe, JsonPipe, NgIf, UpperCasePipe} from '@angular/common';
+import {AsyncPipe, DatePipe, JsonPipe, UpperCasePipe} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
@@ -26,7 +26,6 @@ import {ServerInfoService} from './server-info.service';
   standalone: true,
   providers: [ServerInfoService],
   imports: [
-    NgIf,
     DatePipe,
     UpperCasePipe,
     RouterLink,
@@ -45,10 +44,12 @@ export class StartComponent {
   frontendVersion = EnvironmentHelper.getWebVersion();
 
   httpClient = inject(HttpClient);
-
+  authService = inject(AuthService);
   serverInfoService = inject(ServerInfoService);
 
   localTime = toSignal(interval(1000).pipe(map(() => new Date())), {initialValue: new Date()});
+
+  myUser$ = inject(MyUserService).getUser$();
 
   browserInfos = i_complete();
 
@@ -56,10 +57,6 @@ export class StartComponent {
     catchError(() => of(true)),
     filter((it) => it === true),
   );
-
-  myUser$ = inject(MyUserService).getUser$();
-
-  constructor(private authService: AuthService) {}
 
   logout(): void {
     this.authService.logout();

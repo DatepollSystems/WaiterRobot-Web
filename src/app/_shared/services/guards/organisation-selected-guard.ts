@@ -20,16 +20,17 @@ export function organisationSelectedGuard(route: ActivatedRouteSnapshot, state: 
 
   if (!selectedId()) {
     const paramSelectedId = route.paramMap.get(selectedOrganisationRouteParamKey);
-    console.info('found param', paramSelectedId);
     if (paramSelectedId && n_isNumeric(paramSelectedId)) {
+      console.info(getLogMessage('INFO', 'routeGuard', 'canActivate', 'Found organisation param'), paramSelectedId);
       selectedService.setSelected(n_from(paramSelectedId));
-    }
-  }
 
-  if (!selectedId()) {
-    console.log(getLogMessage('LOG', 'organisationSelectedGuard', 'canActivate', 'No organisation selected; Routing to select'));
+      return true;
+    }
+
+    console.warn(getLogMessage('WARNING', 'routeGuard', 'canActivate', 'No organisation selected; Routing to select view'));
     void router.navigateByUrl('/select');
     return false;
   }
+
   return true;
 }
