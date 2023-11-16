@@ -1,13 +1,11 @@
-import {AsyncPipe, NgForOf, NgIf, NgTemplateOutlet} from '@angular/common';
-import {AfterViewInit, ChangeDetectionStrategy, Component, ContentChild, Directive, inject, Input, TemplateRef} from '@angular/core';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {NavigationEnd, Router, RouterLink, RouterLinkActive} from '@angular/router';
+import {NgTemplateOutlet} from '@angular/common';
+import {ChangeDetectionStrategy, Component, ContentChild, Directive, Input, TemplateRef} from '@angular/core';
+import {RouterLink, RouterLinkActive} from '@angular/router';
 
-import {filter, map, Observable, startWith, tap} from 'rxjs';
+import {NgbCollapse} from '@ng-bootstrap/ng-bootstrap';
 
 import {HasIDAndName, StringOrNumber} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 interface AppListNavItemContext {
@@ -27,67 +25,88 @@ export class AppListNavItemDirective {
 
 @Component({
   template: `
-    <ng-container *ngIf="selected$ | async" />
-
     <div class="d-none d-lg-block">
-      <h6 class="fw-bold" *ngIf="titleTr && (entities?.length ?? 0) > 0">{{ titleTr | tr }}</h6>
+      @if (titleTr && (entities?.length ?? 0) > 0) {
+        <h6 class="fw-bold">{{ titleTr | tr }}</h6>
+      }
       <div class="list-group">
-        <ng-container *ngIf="entities; else loading">
-          <a
-            *ngFor="let entity of entities; trackById"
-            class="list-group-item list-group-item-action "
-            [routerLink]="path + entity.id"
-            routerLinkActive="active"
-          >
-            <ng-container *ngTemplateOutlet="navItemRef || emptyRef; context: {$implicit: entity}"></ng-container>
+        @if (entities) {
+          @for (entity of entities; track entity.id) {
+            <a class="list-group-item list-group-item-action " [routerLink]="path + entity.id" routerLinkActive="active">
+              <ng-container *ngTemplateOutlet="navItemRef || emptyRef; context: {$implicit: entity}"></ng-container>
 
-            <ng-template #emptyRef>{{ entity.name }}</ng-template>
-          </a>
-        </ng-container>
+              <ng-template #emptyRef>{{ entity.name }}</ng-template>
+            </a>
+          }
+        } @else {
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            {{ 'LOADING' | tr }}
+
+            <div class="spinner-border spinner-border-sm">
+              <span class="visually-hidden">{{ 'LOADING' | tr }}</span>
+            </div>
+          </div>
+        }
       </div>
     </div>
 
-    <div class="list-group d-lg-none">
-      <div class="input-group">
-        <span class="input-group-text" id="select-nav-addon"><bi name="people" /></span>
-        <select [formControl]="selectFormControl" class="form-select" id="select-nav" #select (change)="onNavigate(select.value)">
-          <option value="default">{{ selectTr | tr }}</option>
-          <option value="{{ path }}{{ entity.id }}" *ngFor="let entity of entities; trackById">
-            {{ entity.name }}
-          </option>
-        </select>
-      </div>
+    <button
+      class="btn w-100 btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle
+        d-flex justify-content-between align-items-center"
+      type="button"
+      (click)="collapse.toggle()"
+      [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample"
+    >
+      {{ selectTr | tr }}
+      <bi name="chevron-expand" />
+    </button>
 
-      <ng-template #loading>
-        <div class="list-group-item d-flex justify-content-between align-items-center">
-          {{ 'LOADING' | tr }}
+    <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+      <div class="list-group">
+        @if (entities) {
+          @for (entity of entities; track entity.id) {
+            <a class="list-group-item list-group-item-action " [routerLink]="path + entity.id" routerLinkActive="active">
+              <ng-container *ngTemplateOutlet="navItemRef || emptyRef; context: {$implicit: entity}"></ng-container>
 
-          <div class="spinner-border spinner-border-sm">
-            <span class="visually-hidden">{{ 'LOADING' | tr }}</span>
+              <ng-template #emptyRef>{{ entity.name }}</ng-template>
+            </a>
+          }
+        } @else {
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            {{ 'LOADING' | tr }}
+
+            <div class="spinner-border spinner-border-sm">
+              <span class="visually-hidden">{{ 'LOADING' | tr }}</span>
+            </div>
           </div>
-        </div>
-      </ng-template>
+        }
+      </div>
     </div>
   `,
+  styles: `
+  .bd-toc-toggle {
+    color: var(--bs-body-color);
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+  }
+
+    .bd-toc-toggle[aria-expanded="true"] {
+    box-shadow: 0 0 0 3px rgba(var(--bd-violet-rgb), 0.25);
+  }
+
+   .bd-toc-toggle[aria-expanded="true"] {
+    color: var(--bd-violet);
+    background-color: var(--bs-body-bg);
+    border-color: var(--bd-violet);
+  }
+   `,
   standalone: true,
   selector: 'app-list-nav-items',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    RouterLinkActive,
-    NgIf,
-    NgForOf,
-    DfxTr,
-    DfxTrackById,
-    BiComponent,
-    AsyncPipe,
-    RouterLink,
-    ReactiveFormsModule,
-    NgTemplateOutlet,
-  ],
+  imports: [RouterLink, RouterLinkActive, DfxTr, BiComponent, NgTemplateOutlet, NgbCollapse],
 })
-export class AppListNavItemsComponent implements AfterViewInit {
-  router = inject(Router);
-
+export class AppListNavItemsComponent {
   @Input() entities: HasIDAndName<StringOrNumber>[] | null = null;
 
   @Input() path!: string;
@@ -99,27 +118,5 @@ export class AppListNavItemsComponent implements AfterViewInit {
   @ContentChild(AppListNavItemDirective, {read: TemplateRef})
   navItemRef?: TemplateRef<unknown>;
 
-  selectFormControl = new FormControl('default');
-  selected$?: Observable<string>;
-
-  ngAfterViewInit(): void {
-    this.selected$ = this.router.events.pipe(
-      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
-      map((select) => (select.url.includes(this.path) && !select.url.includes('all') ? select.url : 'default')),
-      startWith(
-        this.router.url.substring(0, this.router.url.lastIndexOf('/') + 1).includes(this.path) && !this.router.url.includes('all')
-          ? this.router.url
-          : 'default',
-      ),
-      tap((e) => {
-        this.selectFormControl.setValue(e);
-      }),
-    );
-  }
-
-  onNavigate(value: string): void {
-    if (value !== 'default') {
-      void this.router.navigateByUrl(value);
-    }
-  }
+  isCollapsed = true;
 }

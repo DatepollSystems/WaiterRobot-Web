@@ -21,6 +21,7 @@ import {
   cashStack,
   check2Square,
   checkCircleFill,
+  chevronExpand,
   circleHalf,
   clipboard,
   columnsGap,
@@ -128,4 +129,5 @@ export const ICONS = {
   circleHalf,
   sunFill,
   moonStarsFill,
+  chevronExpand,
 };
