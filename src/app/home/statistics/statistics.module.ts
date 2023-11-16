@@ -15,6 +15,7 @@ import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.c
 import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppDatetimeInputComponent} from '../../_shared/ui/datetime-picker/datetime-picker.component';
+import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {CountCardComponent} from './components/count-card.component';
 import {SumProductGroupsComponent} from './components/sum-product-groups.component';
 import {SumProductsPerWaiterComponent} from './components/sum-products-per-waiter.component';
@@ -52,6 +53,7 @@ const routes: Routes = [
     AppBackButtonComponent,
     AppDatetimeInputComponent,
     AppEntitiesLayoutComponent,
+    AppSpinnerRowComponent,
     BarChartModule,
     BiComponent,
     CommonModule,

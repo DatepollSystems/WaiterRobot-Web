@@ -4,7 +4,7 @@ import {StatisticsService} from './statistics.service';
 
 @Component({
   template: `
-    <h1>{{ 'WHOLE' | tr }} {{ 'NAV_STATISTICS' | tr }}</h1>
+    <h1 class="fs-2">{{ 'WHOLE' | tr }} {{ 'NAV_STATISTICS' | tr }}</h1>
 
     @if (countDto$(); as countDto) {
       <div class="row mt-2 mb-4 row-cols-1 row-cols-md-2 row-cols-xl-4 gy-3">
@@ -59,9 +59,13 @@ import {StatisticsService} from './statistics.service';
       </div>
     }
 
+    <hr />
+
     <div class="row mb-4">
       <app-statistics-timeline />
     </div>
+
+    <hr style="margin-top: -80px" />
 
     <div class="row mb-4 row-cols-1 row-cols-lg-2 gy-2">
       <div class="col">
