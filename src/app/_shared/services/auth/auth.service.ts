@@ -70,6 +70,10 @@ export class AuthService {
       return EMPTY;
     }),
     map(({accessToken, refreshToken}) => ({accessToken, refreshToken, status: 'LOGGED_IN' as const})),
+    tap((it) => {
+      st_set('refreshToken', it.refreshToken);
+      st_set('accessToken', it.accessToken);
+    }),
   );
 
   private loginWithPwChange$ = this.triggerLoginWithPwChange.pipe(
@@ -83,6 +87,10 @@ export class AuthService {
       } as SignInWithPasswordChangeDto),
     ),
     map(({accessToken, refreshToken}) => ({accessToken, refreshToken, status: 'LOGGED_IN' as const})),
+    tap((it) => {
+      st_set('refreshToken', it.refreshToken);
+      st_set('accessToken', it.accessToken);
+    }),
     catchError(() => {
       this.notificationService.terror('ABOUT_SIGNIN_FAILED');
       return of({status: 'ERROR' as const});
@@ -102,6 +110,12 @@ export class AuthService {
     }),
     map(() => ({status: 'LOGGED_OUT' as const})),
   );
+
+  refreshToken = computed(() => this.authState().refreshToken);
+  accessToken = computed(() => this.authState().accessToken);
+  status = computed(() => this.authState().status);
+  loginError = computed(() => this.authState().loginError);
+  redirectUrl = computed(() => this.authState().redirectUrl);
 
   constructor() {
     connect(
@@ -139,12 +153,6 @@ export class AuthService {
   setRedirectUrl(redirectUrl: string): void {
     this.authState.update((it) => ({...it, redirectUrl}));
   }
-
-  refreshToken = computed(() => this.authState().refreshToken);
-  accessToken = computed(() => this.authState().accessToken);
-  status = computed(() => this.authState().status);
-  loginError = computed(() => this.authState().loginError);
-  redirectUrl = computed(() => this.authState().redirectUrl);
 
   refreshAccessToken(): Observable<JwtResponse> {
     return this.httpClient

@@ -1,7 +1,8 @@
 import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 
-import {combineLatest, filter, map, shareReplay, startWith, switchMap} from 'rxjs';
+import {combineLatest, filter, map, shareReplay, startWith, tap} from 'rxjs';
 
 import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
@@ -14,13 +15,13 @@ import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-
 import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 import {CreateWaiterDto, GetWaiterResponse, UpdateWaiterDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
-import {OrganisationsService} from '../../organisations/_services/organisations.service';
 import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
 import {WaitersService} from '../_services/waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from '../btn-waiter-sign-in-qr-code.component';
 import {AppProductEditFormComponent} from './waiter-edit-form.component';
 import {WaiterEditOrderProductsComponent} from './waiter-edit-order-products.component';
 import {WaiterSessionsComponent} from './waiter-sessions.component';
+import {SelectedEventService} from '../../events/_services/selected-event.service';
 
 @Component({
   template: `
@@ -58,15 +59,14 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
           <a ngbNavLink>{{ 'DATA' | tr }}</a>
           <ng-template ngbNavContent>
             <app-waiter-edit-form
-              *ngIf="vm$ | async as vm"
               #form
               (formValid)="setValid($event)"
               (submitUpdate)="submit('UPDATE', $event)"
               (submitCreate)="submit('CREATE', $event)"
               [waiter]="entity"
               [selectedOrganisationId]="selectedOrganisationId()!"
-              [selectedEvent]="vm.selectedEvent"
-              [events]="vm.events"
+              [selectedEvent]="selectedEvent()"
+              [events]="events()"
             />
           </ng-template>
         </li>
@@ -118,39 +118,32 @@ export class WaiterEditComponent extends AbstractModelEditComponent<
   override onlyEditingTabs = ['SESSIONS' as const, 'ORDERS' as const];
   continuousUsePropertyNames = ['activated', 'eventIds', 'organisationId'];
 
-  events = this.eventsService.getAll$().pipe(shareReplay(1));
-
   selectedOrganisationId = inject(SelectedOrganisationService).selectedId;
+  private allEvents$ = inject(EventsService).getAll$().pipe(shareReplay(1));
 
-  vm$ = combineLatest([
-    this.route.queryParams.pipe(
-      map((params) => params.group as string),
-      filter(n_isNumeric),
-      map((id) => n_from(id)),
-      startWith(undefined),
-    ),
-    this.eventsService.getSelected$,
-    this.route.queryParams.pipe(
-      map((params) => params.event as string),
-      filter(n_isNumeric),
-      map((id) => n_from(id)),
-      switchMap((id) => this.events.pipe(map((events) => events.find((event) => event.id === id)))),
-      startWith(undefined),
-    ),
-    this.events,
-  ]).pipe(
-    map(([selectedWaiterId, selectedEvent, queryEvent, events]) => ({
-      selectedWaiterId,
-      selectedEvent: queryEvent ?? selectedEvent,
-      events,
-    })),
+  selectedEvent = toSignal(
+    combineLatest([
+      combineLatest([
+        this.allEvents$,
+        this.route.queryParams.pipe(
+          takeUntilDestroyed(),
+          map((params) => params.event as string),
+          filter(n_isNumeric),
+          map((id) => n_from(id)),
+          tap((it) => this.lumber.info('selectedEvent', 'found in query', it)),
+          startWith(undefined),
+        ),
+      ]).pipe(
+        map(([allEvents, eventId]) => allEvents.find((event) => event.id === eventId)),
+        tap((it) => this.lumber.info('selectedEvent', 'found in event array', it)),
+      ),
+      inject(SelectedEventService).selected$,
+    ]).pipe(map(([queryEvent, selectedEvent]) => queryEvent ?? selectedEvent)),
   );
 
-  constructor(
-    waitersService: WaitersService,
-    public eventsService: EventsService,
-    private organisationsService: OrganisationsService,
-  ) {
+  events = toSignal(this.allEvents$, {initialValue: []});
+
+  constructor(waitersService: WaitersService) {
     super(waitersService);
   }
 }

@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 
 import {BehaviorSubject, forkJoin, map, Observable, switchMap, tap} from 'rxjs';
 
@@ -14,7 +14,7 @@ import {
   IdResponse,
   UpdatePrinterDto,
 } from '../../../_shared/waiterrobot-backend';
-import {EventsService} from '../../events/_services/events.service';
+import {SelectedEventService} from '../../events/_services/selected-event.service';
 
 @Injectable({
   providedIn: 'root',
@@ -28,17 +28,15 @@ export class PrintersService
 {
   url = '/config/printer';
 
-  constructor(
-    private httpClient: HttpClient,
-    private eventsService: EventsService,
-  ) {}
+  private httpClient = inject(HttpClient);
+  private selectedEventService = inject(SelectedEventService);
 
   triggerGet$ = new BehaviorSubject(true);
 
   getAll$(): Observable<GetPrinterResponse[]> {
     return this.triggerGet$.pipe(
-      switchMap(() => this.eventsService.getSelectedNotNull$),
-      switchMap(({id: eventId}) => this.httpClient.get<GetPrinterResponse[]>(this.url, {params: {eventId}})),
+      switchMap(() => this.selectedEventService.selectedIdNotNull$),
+      switchMap((eventId) => this.httpClient.get<GetPrinterResponse[]>(this.url, {params: {eventId}})),
       map((it) => {
         it = it.map((ps) => {
           ps.fontScale = ps.fontScale / 10;

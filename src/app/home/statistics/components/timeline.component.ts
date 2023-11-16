@@ -1,6 +1,6 @@
 import {formatDate} from '@angular/common';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl} from '@angular/forms';
 
@@ -12,7 +12,7 @@ import {d_from, notNullAndUndefined} from 'dfts-helper';
 
 import {dateToBackendDateTimeString} from '../../../_shared/services/datepicker-adapter';
 import {StatisticsTimelineResponse} from '../../../_shared/waiterrobot-backend';
-import {EventsService} from '../../events/_services/events.service';
+import {SelectedEventService} from '../../events/_services/selected-event.service';
 
 type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
 
@@ -121,7 +121,9 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
 export class TimelineComponent {
   curve = shape.curveNatural;
 
-  selectedEvent$ = this.eventsService.getSelectedNotNull$;
+  httpClient = inject(HttpClient);
+
+  selectedEvent$ = inject(SelectedEventService).selectedNotNull$;
   startDateFormControl = new FormControl<string>('');
   endDateFormControl = new FormControl<string>('');
 
@@ -186,10 +188,7 @@ export class TimelineComponent {
     }),
   );
 
-  constructor(
-    private httpClient: HttpClient,
-    private eventsService: EventsService,
-  ) {
+  constructor() {
     this.selectedEvent$.pipe(takeUntilDestroyed()).subscribe((it) => {
       this.startDateFormControl.setValue(it.startDate ?? null);
       this.endDateFormControl.setValue(it.endDate ?? null);

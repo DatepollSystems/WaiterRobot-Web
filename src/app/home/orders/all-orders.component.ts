@@ -150,7 +150,7 @@ import {OrdersService} from './orders.service';
           <td *ngbCellDef="let order" ngb-cell>
             <a
               class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"
-              routerLink="/home/orders/{{ order.id }}"
+              routerLink="../{{ order.id }}"
               ngbTooltip="{{ 'OPEN' | tr }}"
               placement="left"
             >
@@ -168,7 +168,7 @@ import {OrdersService} from './orders.service';
         </ng-container>
 
         <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-        <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row routerLink="/home/orders/{{ order.id }}"></tr>
+        <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row routerLink="../{{ order.id }}"></tr>
       </table>
     </div>
 

@@ -1,27 +1,25 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 
-import {BehaviorSubject, filter, map, Observable, switchMap, take, tap, timer} from 'rxjs';
+import {BehaviorSubject, map, Observable, switchMap, take, tap, timer} from 'rxjs';
 
-import {n_generate_int, notNullAndUndefined} from 'dfts-helper';
+import {n_generate_int} from 'dfts-helper';
 import {HasGetSingle} from 'dfx-helper';
 
 import {NotificationService} from '../../_shared/notifications/notification.service';
 import {Download, DownloadService} from '../../_shared/services/download.service';
 import {GetPaginatedFn, getPaginationParams, PageableDto} from '../../_shared/services/services.interface';
 import {GetOrderMinResponse, GetOrderResponse, PaginatedResponseGetOrderMinResponse} from '../../_shared/waiterrobot-backend';
-import {EventsService} from '../events/_services/events.service';
+import {SelectedEventService} from '../events/_services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
 export class OrdersService implements HasGetSingle<GetOrderResponse> {
   url = '/config/order';
 
-  constructor(
-    private httpClient: HttpClient,
-    private eventsService: EventsService,
-    private downloadService: DownloadService,
-    private notificationService: NotificationService,
-  ) {}
+  private httpClient = inject(HttpClient);
+  private selectedEventService = inject(SelectedEventService);
+  private downloadService = inject(DownloadService);
+  private notificationService = inject(NotificationService);
 
   private readonly refreshIn = 30;
 
@@ -42,18 +40,18 @@ export class OrdersService implements HasGetSingle<GetOrderResponse> {
   }
 
   download$(): Observable<Download> {
-    return this.eventsService.getSelectedNotNull$.pipe(
+    return this.selectedEventService.selectedIdNotNull$.pipe(
       take(1),
-      switchMap((event) =>
-        this.downloadService.download$(`${this.url}/export/${event.id}`, `orders_export_${n_generate_int(100, 9999)}.csv`),
+      switchMap((eventId) =>
+        this.downloadService.download$(`${this.url}/export/${eventId}`, `orders_export_${n_generate_int(100, 9999)}.csv`),
       ),
     );
   }
 
   printAllTest$(): Observable<unknown> {
-    return this.eventsService.getSelectedNotNull$.pipe(
+    return this.selectedEventService.selectedIdNotNull$.pipe(
       take(1),
-      switchMap(({id: eventId}) => this.httpClient.post(`${this.url}/all`, {}, {params: {eventId}})),
+      switchMap((eventId) => this.httpClient.post(`${this.url}/all`, {}, {params: {eventId}})),
     );
   }
 
@@ -68,11 +66,10 @@ export class OrdersService implements HasGetSingle<GetOrderResponse> {
   getAllPaginatedFn(): GetPaginatedFn<GetOrderMinResponse> {
     return (options: PageableDto) =>
       this.triggerRefresh.pipe(
-        switchMap(() => this.eventsService.getSelected$),
-        filter(notNullAndUndefined),
+        switchMap(() => this.selectedEventService.selectedIdNotNull$),
         switchMap((eventId) =>
           this.httpClient.get<PaginatedResponseGetOrderMinResponse>(`${this.url}`, {
-            params: getPaginationParams(options).append('eventId', eventId.id),
+            params: getPaginationParams(options).append('eventId', eventId),
           }),
         ),
       );

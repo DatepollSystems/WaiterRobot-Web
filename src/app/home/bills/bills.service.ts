@@ -1,33 +1,24 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 
-import {BehaviorSubject, filter, map, Observable, switchMap, timer} from 'rxjs';
+import {BehaviorSubject, Observable, switchMap, timer} from 'rxjs';
 
-import {notNullAndUndefined} from 'dfts-helper';
 import {HasGetSingle} from 'dfx-helper';
 
 import {GetPaginatedFn, getPaginationParams, PageableDto} from '../../_shared/services/services.interface';
 import {GetBillMinResponse, GetBillResponse, PaginatedResponseGetBillMinResponse} from '../../_shared/waiterrobot-backend';
-import {EventsService} from '../events/_services/events.service';
+import {SelectedEventService} from '../events/_services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
 export class BillsService implements HasGetSingle<GetBillResponse> {
   url = '/config/billing';
 
-  constructor(
-    private httpClient: HttpClient,
-    private eventsService: EventsService,
-  ) {}
+  private httpClient = inject(HttpClient);
+  private selectedEventService = inject(SelectedEventService);
 
   private readonly refreshIn = 30;
 
   public triggerRefresh = new BehaviorSubject<boolean>(true);
-
-  countdown$ = (): Observable<number> =>
-    this.triggerRefresh.pipe(
-      switchMap(() => timer(0, 1000)),
-      map((tick) => this.refreshIn - (tick % this.refreshIn)),
-    );
 
   getSingle$(id: GetBillResponse['id']): Observable<GetBillResponse> {
     return this.triggerRefresh.pipe(
@@ -39,11 +30,10 @@ export class BillsService implements HasGetSingle<GetBillResponse> {
   getAllPaginatedFn(): GetPaginatedFn<GetBillMinResponse> {
     return (options: PageableDto) =>
       this.triggerRefresh.pipe(
-        switchMap(() => this.eventsService.getSelected$),
-        filter(notNullAndUndefined),
-        switchMap((event) =>
+        switchMap(() => this.selectedEventService.selectedIdNotNull$),
+        switchMap((eventId) =>
           this.httpClient.get<PaginatedResponseGetBillMinResponse>(`${this.url}`, {
-            params: getPaginationParams(options).append('eventId', event.id),
+            params: getPaginationParams(options).append('eventId', eventId),
           }),
         ),
       );

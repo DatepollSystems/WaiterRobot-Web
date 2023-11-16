@@ -32,7 +32,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
           <input class="form-control" type="string" id="price" placeholder="{{ 'PRICE' | tr }}" formControlName="price" />
 
           <small *ngIf="form.controls.price.invalid" class="text-danger">
-            {{ 'PRICE_INCORRECT' | tr }}
+            {{ 'HOME_PROD_PRICE_INCORRECT' | tr }}
           </small>
         </div>
 

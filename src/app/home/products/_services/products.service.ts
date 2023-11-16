@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 
 import {BehaviorSubject, map, Observable, switchMap, tap} from 'rxjs';
 
@@ -16,7 +16,7 @@ import {
   IdResponse,
   UpdateProductDto,
 } from '../../../_shared/waiterrobot-backend';
-import {EventsService} from '../../events/_services/events.service';
+import {SelectedEventService} from '../../events/_services/selected-event.service';
 
 @Injectable({
   providedIn: 'root',
@@ -32,17 +32,15 @@ export class ProductsService
 {
   url = '/config/product';
 
-  constructor(
-    private httpClient: HttpClient,
-    private eventsService: EventsService,
-  ) {}
+  private httpClient = inject(HttpClient);
+  private selectedEventService = inject(SelectedEventService);
 
   triggerGet$ = new BehaviorSubject(true);
 
   getAll$(): Observable<GetProductMaxResponse[]> {
     return this.triggerGet$.pipe(
-      switchMap(() => this.eventsService.getSelectedNotNull$),
-      switchMap(({id: eventId}) => this.httpClient.get<GetProductMaxResponse[]>(this.url, {params: {eventId}})),
+      switchMap(() => this.selectedEventService.selectedIdNotNull$),
+      switchMap((eventId) => this.httpClient.get<GetProductMaxResponse[]>(this.url, {params: {eventId}})),
       map((products) => products.sort((a, b) => (a.position ?? 100000) - (b.position ?? 100000))),
     );
   }

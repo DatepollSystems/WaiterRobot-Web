@@ -1,27 +1,21 @@
-import {AsyncPipe, NgIf} from '@angular/common';
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {AsyncPipe} from '@angular/common';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
-
-import {combineLatest, map} from 'rxjs';
-
-import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
-
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
+import {toSignal} from '@angular/core/rxjs-interop';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
 import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directives';
 import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} from '../../../_shared/waiterrobot-backend';
-import {EventsService} from '../../events/_services/events.service';
 import {PrintersService} from '../../printers/_services/printers.service';
 import {ProductGroupsService} from '../_services/product-groups.service';
 import {ProductGroupEditFormComponent} from './product-group-edit-form.component';
+import {SelectedEventService} from '../../events/_services/selected-event.service';
 
 @Component({
   template: `
-    <div *ngIf="entity$ | async as entity; else loading">
+    @if (entity$ | async; as entity) {
       <h1 *isCreating="entity">{{ 'HOME_PROD_GROUPS_ADD' | tr }}</h1>
       <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
       <h1 *isEditingAndDeleted="entity">{{ entity.name }} {{ 'DELETED' | tr }}</h1>
@@ -64,13 +58,12 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
           <ng-template ngbNavContent>
             <app-product-group-edit-form
               #form
-              *ngIf="vm$ | async as vm"
               (formValid)="setValid($event)"
               (submitUpdate)="submit('UPDATE', $event)"
               (submitCreate)="submit('CREATE', $event)"
               [productGroup]="entity"
-              [printers]="vm.printers"
-              [selectedEventId]="vm.selectedEvent?.id"
+              [printers]="printers()"
+              [selectedEventId]="selectedEventId()"
               [formDisabled]="entity !== 'CREATE' && !!entity.deleted"
             />
           </ng-template>
@@ -78,27 +71,14 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
       </ul>
 
       <div [ngbNavOutlet]="nav" class="mt-2"></div>
-    </div>
-
-    <ng-template #loading>
+    } @else {
       <app-spinner-row />
-    </ng-template>
+    }
   `,
   selector: 'app-product-group-edit',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    AsyncPipe,
-    RouterLink,
-    DfxTr,
-    NgbNavModule,
-    BiComponent,
-    AppFormModule,
-    AppContinuesCreationSwitchComponent,
-    ProductGroupEditFormComponent,
-    AppDeletedDirectives,
-  ],
+  imports: [AsyncPipe, RouterLink, AppFormModule, AppContinuesCreationSwitchComponent, ProductGroupEditFormComponent, AppDeletedDirectives],
 })
 export class ProductGroupEditComponent extends AbstractModelEditComponent<
   CreateProductGroupDto,
@@ -110,18 +90,10 @@ export class ProductGroupEditComponent extends AbstractModelEditComponent<
 
   override continuousUsePropertyNames = ['eventId'];
 
-  vm$ = combineLatest([this.printersService.getAll$(), this.eventsService.getSelected$]).pipe(
-    map(([printers, selectedEvent]) => ({
-      printers,
-      selectedEvent,
-    })),
-  );
+  printers = toSignal(inject(PrintersService).getAll$(), {initialValue: []});
+  selectedEventId = inject(SelectedEventService).selectedId;
 
-  constructor(
-    groupsService: ProductGroupsService,
-    private printersService: PrintersService,
-    private eventsService: EventsService,
-  ) {
+  constructor(groupsService: ProductGroupsService) {
     super(groupsService);
   }
 }

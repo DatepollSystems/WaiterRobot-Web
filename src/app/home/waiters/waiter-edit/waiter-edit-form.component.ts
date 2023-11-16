@@ -102,8 +102,9 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
 
   @Input()
   set selectedEvent(it: GetEventOrLocationMinResponse | undefined) {
+    console.warn('setting selected event', it);
     if (it) {
-      this.lumber.log('selectedEvent', 'set selected event', it);
+      this.lumber.info('selectedEvent', 'set selected event', it);
       this._selectedEvent = it;
       this.form.controls.eventIds.setValue(
         [...this.form.controls.eventIds.getRawValue(), it.id].filter((value, index, array) => array.indexOf(value) === index),

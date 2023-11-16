@@ -1,31 +1,28 @@
-import {AsyncPipe, NgIf} from '@angular/common';
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {AsyncPipe} from '@angular/common';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 
-import {combineLatest, filter, map, startWith} from 'rxjs';
-
-import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
+import {filter, map} from 'rxjs';
 
 import {n_from, n_isNumeric} from 'dfts-helper';
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
 import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directives';
 import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../../_shared/waiterrobot-backend';
-import {EventsService} from '../../events/_services/events.service';
 import {PrintersService} from '../../printers/_services/printers.service';
 import {TableEditFormComponent} from '../../tables/table-edit/table-edit-form.component';
 import {AllergensService} from '../_services/allergens.service';
 import {ProductGroupsService} from '../_services/product-groups.service';
 import {ProductsService} from '../_services/products.service';
 import {AppProductEditFormComponent} from './product-edit-form.component';
+import {SelectedEventService} from '../../events/_services/selected-event.service';
 
 @Component({
   template: `
-    <div *ngIf="entity$ | async as entity; else loading">
+    @if (entity$ | async; as entity) {
       <h1 *isCreating="entity">{{ 'HOME_PROD_ADD' | tr }}</h1>
       <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
       <h1 *isEditingAndDeleted="entity">{{ entity.name }} {{ 'DELETED' | tr }}</h1>
@@ -58,84 +55,66 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
         <li [ngbNavItem]="'DATA'">
           <a ngbNavLink>{{ 'DATA' | tr }}</a>
           <ng-template ngbNavContent>
-            <ng-container *ngIf="vm$ | async as vm">
-              <div class="alert alert-warning" *ngIf="vm.productGroups.length < 1">
-                <a routerLink="../groups/create">{{ 'HOME_PROD_ADD_GROUP_FIRST' | tr }}</a>
-              </div>
-              <app-product-edit-form
-                #form
-                (formValid)="setValid($event)"
-                (submitUpdate)="submit('UPDATE', $event)"
-                (submitCreate)="submit('CREATE', $event)"
-                [allergens]="vm.allergens"
-                [printers]="vm.printers"
-                [productGroups]="vm.productGroups"
-                [selectedEventId]="vm.selectedEvent?.id"
-                [selectedProductGroupId]="vm.selectedProductGroupId"
-                [product]="entity"
-                [formDisabled]="vm.productGroups.length < 1 || (entity !== 'CREATE' && !!entity.deleted)"
-              />
-            </ng-container>
+            @if ((productGroups()?.length ?? 1) < 1) {
+              @defer (on timer(200)) {
+                <div class="alert alert-warning">
+                  <a routerLink="../groups/create">{{ 'HOME_PROD_ADD_GROUP_FIRST' | tr }}</a>
+                </div>
+              }
+            }
+            <app-product-edit-form
+              #form
+              (formValid)="setValid($event)"
+              (submitUpdate)="submit('UPDATE', $event)"
+              (submitCreate)="submit('CREATE', $event)"
+              [allergens]="allergens()"
+              [printers]="printers()"
+              [productGroups]="productGroups() ?? []"
+              [selectedEventId]="selectedEventId()"
+              [selectedProductGroupId]="selectedProductGroupId()"
+              [product]="entity"
+              [formDisabled]="(productGroups()?.length ?? 1) < 1 || (entity !== 'CREATE' && !!entity.deleted)"
+            />
           </ng-template>
         </li>
       </ul>
 
       <div [ngbNavOutlet]="nav" class="mt-2"></div>
-    </div>
-
-    <ng-template #loading>
+    } @else {
       <app-spinner-row />
-    </ng-template>
+    }
   `,
   selector: 'app-product-edit',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    NgIf,
-    RouterLink,
     AsyncPipe,
-    DfxTr,
-    NgbNavModule,
     AppFormModule,
-    BiComponent,
     AppProductEditFormComponent,
     AppContinuesCreationSwitchComponent,
     TableEditFormComponent,
     AppDeletedDirectives,
+    RouterLink,
   ],
 })
 export class ProductEditComponent extends AbstractModelEditComponent<CreateProductDto, UpdateProductDto, GetProductMaxResponse, 'DATA'> {
   defaultTab = 'DATA' as const;
   continuousUsePropertyNames = ['groupId', 'printerId', 'eventId', 'allergenIds'];
 
-  vm$ = combineLatest([
+  selectedProductGroupId = toSignal(
     this.route.queryParams.pipe(
       map((params) => params.group as string),
       filter(n_isNumeric),
       map((id) => n_from(id)),
-      startWith(undefined),
     ),
-    this.productGroupsService.getAll$(),
-    this.allergensService.getAll$(),
-    this.printersService.getAll$(),
-    this.eventsService.getSelected$,
-  ]).pipe(
-    map(([selectedProductGroupId, productGroups, allergens, printers, selectedEvent]) => ({
-      selectedProductGroupId,
-      productGroups,
-      allergens,
-      printers,
-      selectedEvent,
-    })),
   );
 
-  constructor(
-    productsService: ProductsService,
-    private allergensService: AllergensService,
-    private printersService: PrintersService,
-    private eventsService: EventsService,
-    private productGroupsService: ProductGroupsService,
-  ) {
+  productGroups = toSignal(inject(ProductGroupsService).getAll$());
+  printers = toSignal(inject(PrintersService).getAll$(), {initialValue: []});
+  selectedEventId = inject(SelectedEventService).selectedId;
+  allergens = toSignal(inject(AllergensService).getAll$(), {initialValue: []});
+
+  constructor(productsService: ProductsService) {
     super(productsService);
   }
 }

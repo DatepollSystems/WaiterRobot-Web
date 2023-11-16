@@ -1,25 +1,19 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-
-import {combineLatest, map} from 'rxjs';
-
-import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
-
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
+import {toSignal} from '@angular/core/rxjs-interop';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
 import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 import {CreatePrinterDto, GetPrinterResponse, UpdatePrinterDto} from '../../../_shared/waiterrobot-backend';
-import {EventsService} from '../../events/_services/events.service';
 import {PrintersService} from '../_services/printers.service';
 import {AppPrinterEditForm} from './printer-edit-form.component';
 import {PrinterEditProductsComponent} from './printer-edit-products.component';
+import {SelectedEventService} from '../../events/_services/selected-event.service';
 
 @Component({
   template: `
-    <div *ngIf="entity$ | async as entity; else loading">
+    @if (entity$ | async; as entity) {
       <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
       <h1 *isCreating="entity">{{ 'ADD_2' | tr }}</h1>
 
@@ -47,13 +41,12 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
           <a ngbNavLink>{{ 'DATA' | tr }}</a>
           <ng-template ngbNavContent>
             <app-printer-edit-form
-              *ngIf="vm$ | async as vm"
               #form
               (formValid)="setValid($event)"
               (submitUpdate)="submit('UPDATE', $event)"
               (submitCreate)="submit('CREATE', $event)"
-              [selectedEventId]="vm.selectedEvent?.id"
-              [availableFonts]="vm.fonts"
+              [selectedEventId]="selectedEvent()"
+              [availableFonts]="fonts()"
               [printer]="entity"
             />
           </ng-template>
@@ -67,26 +60,14 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
       </ul>
 
       <div [ngbNavOutlet]="nav" class="mt-2"></div>
-    </div>
-
-    <ng-template #loading>
+    } @else {
       <app-spinner-row />
-    </ng-template>
+    }
   `,
   selector: 'app-printer-edit',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    AsyncPipe,
-    NgIf,
-    NgbNavModule,
-    DfxTr,
-    BiComponent,
-    AppFormModule,
-    AppPrinterEditForm,
-    AppContinuesCreationSwitchComponent,
-    PrinterEditProductsComponent,
-  ],
+  imports: [AsyncPipe, AppFormModule, AppPrinterEditForm, AppContinuesCreationSwitchComponent, PrinterEditProductsComponent],
 })
 export class PrinterEditComponent extends AbstractModelEditComponent<
   CreatePrinterDto,
@@ -99,11 +80,9 @@ export class PrinterEditComponent extends AbstractModelEditComponent<
 
   override continuousUsePropertyNames = ['eventId'];
 
-  selectedEvent$ = inject(EventsService).getSelected$;
+  selectedEvent = inject(SelectedEventService).selectedId;
 
-  vm$ = combineLatest([this.selectedEvent$, this.printersService.getAllFonts$()]).pipe(
-    map(([selectedEvent, fonts]) => ({selectedEvent, fonts})),
-  );
+  fonts = toSignal(this.printersService.getAllFonts$(), {initialValue: []});
 
   constructor(private printersService: PrintersService) {
     super(printersService);
