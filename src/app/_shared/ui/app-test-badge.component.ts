@@ -17,4 +17,4 @@ import {DfxTr} from 'dfx-translate';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [BiComponent, DfxTr, NgbTooltip],
 })
-export class AppLogoWithTextComponent {}
+export class AppTestBadge {}

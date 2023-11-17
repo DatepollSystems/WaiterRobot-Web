@@ -17,7 +17,7 @@ import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSor
 import {DfxTr} from 'dfx-translate';
 
 import {PaginatedDataSource} from '../../_shared/paginated-data-source';
-import {AppLogoWithTextComponent} from '../../_shared/ui/app-test-badge.component';
+import {AppTestBadge} from '../../_shared/ui/app-test-badge.component';
 import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {injectConfirmDialog} from '../../_shared/ui/question-dialog/question-dialog.component';
@@ -222,7 +222,7 @@ import {OrdersService} from './orders.service';
     AppOrderRefreshButtonComponent,
     ScrollableToolbarComponent,
     AppSpinnerRowComponent,
-    AppLogoWithTextComponent,
+    AppTestBadge,
   ],
 })
 export class AllOrdersComponent {

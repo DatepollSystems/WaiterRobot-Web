@@ -10,7 +10,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
-import {AppLogoWithTextComponent} from '../../_shared/ui/app-test-badge.component';
+import {AppTestBadge} from '../../_shared/ui/app-test-badge.component';
 import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {injectConfirmDialog} from '../../_shared/ui/question-dialog/question-dialog.component';
@@ -102,7 +102,7 @@ import {OrdersService} from './orders.service';
     RouterLink,
     DfxTr,
     NgbTooltip,
-    AppLogoWithTextComponent,
+    AppTestBadge,
     BiComponent,
   ],
 })
