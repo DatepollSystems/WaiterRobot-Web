@@ -298,6 +298,8 @@
   "HOME_PRINTER_BATCH_UPDATE_INVALID": "Wähle mindestens einen Wert zum überschreiben aus.",
 
   "HOME_ORDERS_ALL": "Alle Bestellungen",
+  "HOME_ORDER_TEST": "Test",
+  "HOME_ORDER_TEST_DESCRIPTION": "Testbestellung",
   "HOME_ORDER_TABLE": "Tischgruppe - Tisch Nr.",
   "HOME_ORDER_NUMBER": "Bestell. Nr.",
   "HOME_ORDER_NOTE": "Notiz",

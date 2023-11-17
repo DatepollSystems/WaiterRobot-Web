@@ -10,6 +10,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
+import {AppLogoWithTextComponent} from '../../_shared/ui/app-test-badge.component';
 import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {injectConfirmDialog} from '../../_shared/ui/question-dialog/question-dialog.component';
@@ -33,6 +34,10 @@ import {OrdersService} from './orders.service';
           [createdAt]="vm.order.createdAt"
           [processedAt]="vm.order.processedAt"
         />
+
+        @if (vm.order.test) {
+          <app-test-badge />
+        }
 
         <span
           class="badge bg-secondary d-flex align-items-center gap-2"
@@ -97,6 +102,8 @@ import {OrdersService} from './orders.service';
     RouterLink,
     DfxTr,
     NgbTooltip,
+    AppLogoWithTextComponent,
+    BiComponent,
   ],
 })
 export class OrderInfoComponent {

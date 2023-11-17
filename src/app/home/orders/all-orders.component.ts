@@ -1,6 +1,6 @@
 import {SelectionModel} from '@angular/cdk/collections';
-import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
-import {AfterViewInit, ChangeDetectionStrategy, Component, inject, ViewChild} from '@angular/core';
+import {AsyncPipe, DatePipe} from '@angular/common';
+import {ChangeDetectionStrategy, Component, effect, inject, signal, ViewChild} from '@angular/core';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
@@ -17,6 +17,7 @@ import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSor
 import {DfxTr} from 'dfx-translate';
 
 import {PaginatedDataSource} from '../../_shared/paginated-data-source';
+import {AppLogoWithTextComponent} from '../../_shared/ui/app-test-badge.component';
 import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {injectConfirmDialog} from '../../_shared/ui/question-dialog/question-dialog.component';
@@ -47,36 +48,38 @@ import {OrdersService} from './orders.service';
         </button>
       </div>
       <div>
-        <button class="btn btn-sm btn-warning" (click)="printAllTest()">
-          <bi name="printer" />
-          {{ 'PRINT ALL' | tr }}
+        <button class="btn btn-sm btn-warning" (click)="printAllTest()" ngbTooltip="Beinhaltet alle Produkte">
+          <bi name="bug" />
+          {{ 'Testbestellung aufgeben' | tr }}
         </button>
       </div>
     </scrollable-toolbar>
 
-    <ng-container *ngIf="download$ | async as download">
-      <ngb-progressbar
-        type="success"
-        *ngIf="download.state !== 'DONE'"
-        [showValue]="download.state !== 'PENDING'"
-        [striped]="download.state === 'PENDING'"
-        [value]="download.progress"
-      />
-    </ng-container>
+    @if (download$ | async; as download) {
+      @if (download.state !== 'DONE') {
+        <ngb-progressbar
+          type="success"
+          [showValue]="download.state !== 'PENDING'"
+          [striped]="download.state === 'PENDING'"
+          [value]="download.progress"
+        />
+      }
+    }
 
     <form class="mt-2">
       <div class="input-group">
         <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          ngbTooltip="{{ 'CLEAR' | tr }}"
-          placement="bottom"
-          (click)="filter.reset()"
-          *ngIf="(filter.value?.length ?? 0) > 0"
-        >
-          <bi name="x-circle-fill" />
-        </button>
+        @if ((filter.value?.length ?? 0) > 0) {
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            ngbTooltip="{{ 'CLEAR' | tr }}"
+            placement="bottom"
+            (click)="filter.reset()"
+          >
+            <bi name="x-circle-fill" />
+          </button>
+        }
       </div>
     </form>
 
@@ -131,12 +134,18 @@ import {OrdersService} from './orders.service';
         <ng-container ngbColumnDef="state">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
-            <app-order-state-badge
-              [orderState]="order.state"
-              [orderProductPrintStates]="order.orderProductPrintStates"
-              [createdAt]="order.createdAt"
-              [processedAt]="order.processedAt"
-            />
+            <div class="d-flex align-items-center gap-2">
+              <app-order-state-badge
+                [orderState]="order.state"
+                [orderProductPrintStates]="order.orderProductPrintStates"
+                [createdAt]="order.createdAt"
+                [processedAt]="order.processedAt"
+              />
+
+              @if (order.test) {
+                <app-test-badge />
+              }
+            </div>
           </td>
         </ng-container>
 
@@ -172,27 +181,33 @@ import {OrdersService} from './orders.service';
       </table>
     </div>
 
-    <div class="w-100 text-center" *ngIf="(dataSource.data?.numberOfItems ?? 1) < 1">
-      {{ 'HOME_STATISTICS_NO_DATA' | tr }}
-    </div>
+    @if ((dataSource.data?.numberOfItems ?? 1) < 1) {
+      <div class="w-100 text-center">
+        {{ 'HOME_STATISTICS_NO_DATA' | tr }}
+      </div>
+    }
 
-    <app-spinner-row *ngIf="!dataSource.data" />
+    @if (!dataSource.data) {
+      <app-spinner-row />
+    }
 
     <!-- Set collection size  -->
-    <ngb-paginator
-      [collectionSize]="dataSource.data?.numberOfItems ?? 1000000000"
-      [pageSize]="tableOptions().pageSize"
-      [pageSizes]="[10, 20, 50, 100, 200]"
-      [page]="tableOptions().page"
-      (pageChange)="updateQueryParams()"
-    />
+    <!-- TODO: fix number of items -->
+    @if (dataSource.data?.numberOfItems; as numberOfItems) {
+      <ngb-paginator
+        [collectionSize]="numberOfItems"
+        [pageSize]="tableOptions().pageSize"
+        [pageSizes]="[10, 20, 50, 100, 200]"
+        [page]="tableOptions().page"
+        (pageChange)="updateQueryParams()"
+      />
+    }
   `,
   selector: 'app-all-orders',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,
-    NgIf,
     DatePipe,
     AsyncPipe,
     ReactiveFormsModule,
@@ -207,18 +222,27 @@ import {OrdersService} from './orders.service';
     AppOrderRefreshButtonComponent,
     ScrollableToolbarComponent,
     AppSpinnerRowComponent,
+    AppLogoWithTextComponent,
   ],
 })
-export class AllOrdersComponent implements AfterViewInit {
+export class AllOrdersComponent {
   private confirmDialog = injectConfirmDialog();
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
-  private ordersService = inject(OrdersService);
+  ordersService = inject(OrdersService);
 
   lumber = loggerOf('AllOrders');
 
-  @ViewChild(NgbSort) sort!: NgbSort;
-  @ViewChild(NgbPaginator) paginator!: NgbPaginator;
+  @ViewChild(NgbSort) set sort(it: NgbSort) {
+    this._sort.set(it);
+  }
+  _sort = signal<NgbSort | undefined>(undefined);
+
+  @ViewChild(NgbPaginator, {static: false}) set paginator(it: NgbPaginator) {
+    this._paginator.set(it);
+  }
+  _paginator = signal<NgbPaginator | undefined>(undefined);
+
   columnsToDisplay = ['select', 'orderNumber', 'state', 'table.tableGroup.name', 'waiter.name', 'createdAt', 'actions'];
   dataSource = new PaginatedDataSource<GetOrderMinResponse>(this.ordersService.getAllPaginatedFn());
   filter = new FormControl<string>('');
@@ -254,21 +278,30 @@ export class AllOrdersComponent implements AfterViewInit {
         this.dataSource.filter = it ?? '';
       }),
     );
-  }
 
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    effect(() => {
+      const paginator = this._paginator();
+      if (paginator) {
+        this.dataSource.paginator = paginator;
+      }
+    });
+
+    effect(() => {
+      const sort = this._sort();
+      if (sort) {
+        this.dataSource.sort = sort;
+      }
+    });
   }
 
   updateQueryParams(): void {
     void this.router.navigate([], {
       relativeTo: this.activatedRoute,
       queryParams: {
-        pageSize: this.paginator.pageSize,
-        page: this.paginator.page,
-        sort: this.sort.active,
-        direction: this.sort.direction,
+        pageSize: this._paginator()!.pageSize,
+        page: this._paginator()!.page,
+        sort: this._sort()!.active,
+        direction: this._sort()!.direction,
       },
       queryParamsHandling: 'merge', // remove to replace all query params by provided
     });
@@ -279,7 +312,11 @@ export class AllOrdersComponent implements AfterViewInit {
   }
 
   printAllTest(): void {
-    this.ordersService.printAllTest$().subscribe();
+    void this.confirmDialog('Testbestellung aufgeben?').then((result) => {
+      if (result) {
+        this.ordersService.printAllTest();
+      }
+    });
   }
 
   requeueOrder(it: GetOrderMinResponse): void {

@@ -15,7 +15,7 @@
     </a>
 
     <button
-      class="navbar-toggler"
+      class="navbar-toggler me-2"
       type="button"
       data-toggle="collapse"
       (click)="toggleNav()"
@@ -221,58 +221,56 @@
 
 <app-navbar-scrollable [isMobile]="isMobile()" [items]="navItems()" />
 
-<main class="pb-5">
-  <div class="my-container" [class.container-xxxl]="!isFullScreen()" [class.px-md-2]="isFullScreen()">
-    <div class="alert alert-warning" role="alert" hideIfOnline>
-      <bi name="wifi-off" />
-      {{ 'OFFLINE' | tr }}
-    </div>
+<main class="pb-5 px-2 my-container" [class.container-xxxl]="!isFullScreen()" [class.px-md-2]="isFullScreen()">
+  <div class="alert alert-warning" role="alert" hideIfOnline>
+    <bi name="wifi-off" />
+    {{ 'OFFLINE' | tr }}
+  </div>
 
-    <div hideIfOffline>
-      <div hideIfPingSucceeds url="/json">
-        <div class="alert alert-warning" role="alert">
-          <div class="d-flex gap-3 align-items-center">
-            <bi name="exclamation-triangle-fill" />
-            <div>
-              <b>{{ 'ABOUT_MAINTENANCE_1' | tr }}</b>
-              <br />
-              {{'ABOUT_MAINTENANCE_2' | tr}}
-              <br />
-              {{'ABOUT_MAINTENANCE_3' | tr}}
-              <a style="text-decoration: underline; color: #664d03" href="https://status.kellner.team" target="_blank" rel="noopener"
-                >status.kellner.team</a
-              >.
-              <br />
-              {{'ABOUT_MAINTENANCE_4' | tr}}
-            </div>
+  <div hideIfOffline>
+    <div hideIfPingSucceeds url="/json">
+      <div class="alert alert-warning" role="alert">
+        <div class="d-flex gap-3 align-items-center">
+          <bi name="exclamation-triangle-fill" />
+          <div>
+            <b>{{ 'ABOUT_MAINTENANCE_1' | tr }}</b>
+            <br />
+            {{'ABOUT_MAINTENANCE_2' | tr}}
+            <br />
+            {{'ABOUT_MAINTENANCE_3' | tr}}
+            <a style="text-decoration: underline; color: #664d03" href="https://status.kellner.team" target="_blank" rel="noopener"
+              >status.kellner.team</a
+            >.
+            <br />
+            {{'ABOUT_MAINTENANCE_4' | tr}}
           </div>
         </div>
       </div>
     </div>
-
-    @if (activeSystemNotificationsService.allSystemNotifications().length > 0) { @for (systemNotification of
-    activeSystemNotificationsService.getFilteredSystemNotifications(); track systemNotification.id) {
-    <app-system-notification-alert [notification]="systemNotification" (ignore)="activeSystemNotificationsService.ignore($event)" />
-    }
-    <div class="d-flex justify-content-end mb-4">
-      @if (activeSystemNotificationsService.ignoredSystemNotifications().length === 0) {
-      <small>
-        <bi name="arrows-collapse" class="me-2" />
-        <a (click)="activeSystemNotificationsService.ignoreAll()">Alle verstecken</a>
-      </small>
-      } @else {
-      <small>
-        <bi name="arrows-expand" class="me-2" />
-        <a (click)="activeSystemNotificationsService.resetIgnore()">
-          {{activeSystemNotificationsService.ignoredSystemNotifications().length}}x Nachricht(en) anzeigen
-        </a>
-      </small>
-      }
-    </div>
-    }
-
-    <router-outlet />
   </div>
+
+  @if (activeSystemNotificationsService.allSystemNotifications().length > 0) { @for (systemNotification of
+  activeSystemNotificationsService.getFilteredSystemNotifications(); track systemNotification.id) {
+  <app-system-notification-alert [notification]="systemNotification" (ignore)="activeSystemNotificationsService.ignore($event)" />
+  }
+  <div class="d-flex justify-content-end mb-4">
+    @if (activeSystemNotificationsService.ignoredSystemNotifications().length === 0) {
+    <small>
+      <bi name="arrows-collapse" class="me-2" />
+      <a (click)="activeSystemNotificationsService.ignoreAll()">Alle verstecken</a>
+    </small>
+    } @else {
+    <small>
+      <bi name="arrows-expand" class="me-2" />
+      <a (click)="activeSystemNotificationsService.resetIgnore()">
+        {{activeSystemNotificationsService.ignoredSystemNotifications().length}}x Nachricht(en) anzeigen
+      </a>
+    </small>
+    }
+  </div>
+  }
+
+  <router-outlet />
 </main>
 
 <app-footer />

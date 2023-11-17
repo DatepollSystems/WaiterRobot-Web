@@ -37,7 +37,7 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
         <ng-container *ngSwitchCase="'PRINTER'">
           <div class="mt-2 d-flex flex-column gap-3" *ngIf="groupedOrderProducts$ | async as grouped">
             <div class="card" *ngFor="let groups of grouped | keyvalue">
-              <div class="card-header d-flex flex-wrap gap-2 justify-content-between mt-1">
+              <div class="card-header d-flex flex-wrap gap-2 justify-content-between pt-2">
                 <a routerLink="../../printers/{{ groups.value.printerId }}">
                   <h4 class="d-flex align-items-center gap-2">
                     {{ groups.value.printerName }}

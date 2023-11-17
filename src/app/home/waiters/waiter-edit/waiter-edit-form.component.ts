@@ -1,10 +1,9 @@
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {HasNumberIDAndName} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {allowedCharacterSet} from '../../../_shared/regex';
@@ -42,7 +41,7 @@ import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, Updat
       </div>
 
       <div class="d-flex flex-column flex-md-row gap-2 gap-md-4 mt-2">
-        <div class="form-check">
+        <div class="form-check form-switch">
           <input class="form-check-input" type="checkbox" id="activated" formControlName="activated" />
           <label class="form-check-label" for="activated">
             {{ 'HOME_USERS_ACTIVATED' | tr }}
@@ -52,7 +51,7 @@ import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, Updat
     </form>
   `,
   selector: 'app-waiter-edit-form',
-  imports: [ReactiveFormsModule, NgIf, NgForOf, AsyncPipe, DfxTr, DfxTrackById, BiComponent, ChipInput],
+  imports: [ReactiveFormsModule, NgIf, AsyncPipe, DfxTr, BiComponent, ChipInput],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

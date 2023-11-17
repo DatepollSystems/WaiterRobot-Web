@@ -59,29 +59,29 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../../_shared/wa
         </div>
       </div>
 
+      <div class="form-check mt-3">
+        <input class="form-check-input" type="checkbox" id="sendInvitation" formControlName="sendInvitation" />
+        <label class="form-check-label" for="sendInvitation">
+          {{ 'HOME_USERS_SEND_INVITE' | tr }}
+        </label>
+      </div>
+
       <div class="d-flex flex-column flex-md-row gap-2 gap-md-4 mt-2">
-        <div class="form-check">
+        <div class="form-check form-switch">
           <input class="form-check-input" type="checkbox" id="isAdmin" formControlName="isAdmin" />
           <label class="form-check-label" for="isAdmin">
             {{ 'HOME_USERS_ADMIN' | tr }}
           </label>
         </div>
 
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="sendInvitation" formControlName="sendInvitation" />
-          <label class="form-check-label" for="sendInvitation">
-            {{ 'HOME_USERS_SEND_INVITE' | tr }}
-          </label>
-        </div>
-
-        <div class="form-check" *ngIf="_isEdit">
+        <div class="form-check form-switch" *ngIf="_isEdit">
           <input class="form-check-input" type="checkbox" id="activated" formControlName="activated" />
           <label class="form-check-label" for="activated">
             {{ 'HOME_USERS_ACTIVATED' | tr }}
           </label>
         </div>
 
-        <div class="form-check">
+        <div class="form-check form-switch">
           <input class="form-check-input" type="checkbox" id="forcePasswordChange" formControlName="forcePasswordChange" />
           <label class="form-check-label" for="forcePasswordChange">
             {{ 'HOME_USERS_FORCE_PASSWORD_CHANGE' | tr }}

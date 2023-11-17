@@ -13,6 +13,7 @@ import {
   boxArrowLeft,
   boxArrowUpRight,
   braces,
+  bug,
   building,
   calendarDate,
   calendarEventFill,
@@ -57,6 +58,7 @@ import {
   starFill,
   sunFill,
   table,
+  terminalFill,
   trash,
   union,
   upcScan,
@@ -130,4 +132,6 @@ export const ICONS = {
   sunFill,
   moonStarsFill,
   chevronExpand,
+  terminalFill,
+  bug,
 };

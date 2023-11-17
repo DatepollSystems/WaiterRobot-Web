@@ -1,3 +1,4 @@
+ 
 /* tslint:disable */
 /*
  * ---------------------------------------------------------------
@@ -376,14 +377,15 @@ export interface GetBillResponse {
   createdAt: string;
   /** @format int32 */
   pricePaidSum: number;
-  unpaidReason?: GetBillUnpaidReasonMinResponse;
+  unpaidReason?: GetBillUnpaidReasonResponse;
   implodedBillProducts: GetImplodedBillProductResponse[];
 }
 
-export interface GetBillUnpaidReasonMinResponse {
+export interface GetBillUnpaidReasonResponse {
   /** @format int64 */
   id: number;
   reason: string;
+  description?: string;
   isGlobal: boolean;
 }
 
@@ -505,6 +507,7 @@ export interface GetOrderResponse {
   /** @format date-time */
   createdAt: string;
   orderProducts: GetImplodedOrderProductResponse[];
+  test: boolean;
 }
 
 export interface GetPrinterMinResponse {
@@ -889,7 +892,7 @@ export interface SignInWithPasswordChangeDto {
    */
   sessionInformation?: string;
   stayLoggedIn?: boolean;
-  password?: string;
+  password: string;
 }
 
 export interface UserLoginDto {
@@ -1294,6 +1297,7 @@ export interface GetOrderMinResponse {
   /** @format date-time */
   createdAt: string;
   orderProductPrintStates: ('PRINTED' | 'SENT_TO_PRINT' | 'QUEUED')[];
+  test: boolean;
 }
 
 export interface PaginatedResponseGetOrderMinResponse {
@@ -1340,7 +1344,7 @@ export interface GetBillMinResponse {
   createdAt: string;
   /** @format int32 */
   pricePaidSum: number;
-  unpaidReason?: GetBillUnpaidReasonMinResponse;
+  unpaidReason?: GetBillUnpaidReasonResponse;
 }
 
 export interface PaginatedResponseGetBillMinResponse {

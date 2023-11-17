@@ -48,11 +48,13 @@ export class OrdersService implements HasGetSingle<GetOrderResponse> {
     );
   }
 
-  printAllTest$(): Observable<unknown> {
-    return this.selectedEventService.selectedIdNotNull$.pipe(
-      take(1),
-      switchMap((eventId) => this.httpClient.post(`${this.url}/all`, {}, {params: {eventId}})),
-    );
+  printAllTest(): void {
+    this.selectedEventService.selectedIdNotNull$
+      .pipe(
+        take(1),
+        switchMap((eventId) => this.httpClient.post(`${this.url}/test/all`, {}, {params: {eventId}})),
+      )
+      .subscribe(() => this.notificationService.tsuccess('SENT'));
   }
 
   requeueOrder$(id: GetOrderResponse['id']): Observable<unknown> {

@@ -106,7 +106,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
       </div>
 
       <div class="d-flex flex-column flex-md-row gap-2 gap-md-5 mb-3">
-        <div class="form-check">
+        <div class="form-check form-switch">
           <input formControlName="soldOut" class="form-check-input" type="checkbox" id="soldOut" />
           <label class="form-check-label" for="soldOut">
             {{ 'HOME_PROD_SOLD_OUT' | tr }}

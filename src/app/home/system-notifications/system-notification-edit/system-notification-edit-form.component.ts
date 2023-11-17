@@ -93,7 +93,7 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
       </div>
 
       <div class="d-flex flex-column flex-md-row gap-2 gap-md-4 mt-2">
-        <div class="form-check">
+        <div class="form-check form-switch">
           <input class="form-check-input" type="checkbox" id="active" formControlName="active" />
           <label class="form-check-label" for="active">
             {{ 'ACTIVE' | tr }}

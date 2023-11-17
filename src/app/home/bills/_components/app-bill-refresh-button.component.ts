@@ -6,7 +6,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {BillsService} from '../bills.service';
+import {BillsService} from '../_services/bills.service';
 
 @Component({
   template: `

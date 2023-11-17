@@ -25,7 +25,7 @@ export class AppListNavItemDirective {
 
 @Component({
   template: `
-    <div class="d-none d-lg-block">
+    <div class="d-none d-md-block">
       @if (titleTr && (entities?.length ?? 0) > 0) {
         <h6 class="fw-bold">{{ titleTr | tr }}</h6>
       }
@@ -52,7 +52,7 @@ export class AppListNavItemDirective {
 
     <button
       class="btn w-100 btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle
-        d-flex justify-content-between align-items-center"
+        justify-content-between align-items-center d-flex d-md-none"
       type="button"
       (click)="collapse.toggle()"
       [attr.aria-expanded]="!isCollapsed"

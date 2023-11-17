@@ -19,7 +19,7 @@ import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.c
 import {GetBillMinResponse} from '../../_shared/waiterrobot-backend';
 import {AppBillPaymentStateBadgeComponent} from './_components/app-bill-payment-state-badge.component';
 import {AppBillRefreshButtonComponent} from './_components/app-bill-refresh-button.component';
-import {BillsService} from './bills.service';
+import {BillsService} from './_services/bills.service';
 
 @Component({
   template: `

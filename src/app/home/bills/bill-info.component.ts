@@ -15,7 +15,7 @@ import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-too
 import {AppBillPaymentStateBadgeComponent} from './_components/app-bill-payment-state-badge.component';
 import {AppOrderProductsListTableComponent} from './_components/app-bill-products-list-table.component';
 import {AppBillRefreshButtonComponent} from './_components/app-bill-refresh-button.component';
-import {BillsService} from './bills.service';
+import {BillsService} from './_services/bills.service';
 
 @Component({
   template: `
