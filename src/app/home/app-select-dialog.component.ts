@@ -6,7 +6,9 @@ import {GetEventOrLocationResponse, GetOrganisationResponse} from '../_shared/wa
   template: `
     <div class="d-flex flex-column flex-lg-row align-items-center justify-content-between">
       <p class="mb-1 mb-lg-0 text-center">Wähle eine Organisation aus</p>
-      @if (selectedOrganisation === undefined) {
+      @if (selectedOrganisation; as selectedOrg) {
+        <span>{{ selectedOrg.name }}</span>
+      } @else {
         <div class="btn-group d-flex flex-wrap" role="group" aria-label="Select organisation">
           @for (organisation of organisations; track organisation.id) {
             <button type="button" class="btn btn-sm btn-outline-primary" (click)="selectOrganisation.emit(organisation)">
@@ -14,8 +16,6 @@ import {GetEventOrLocationResponse, GetOrganisationResponse} from '../_shared/wa
             </button>
           }
         </div>
-      } @else {
-        <span>{{ selectedOrganisation?.name }}</span>
       }
     </div>
     <div class="d-flex flex-column flex-lg-row align-items-center justify-content-between mt-3">

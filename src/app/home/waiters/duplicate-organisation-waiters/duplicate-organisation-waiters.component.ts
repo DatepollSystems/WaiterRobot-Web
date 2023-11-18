@@ -28,7 +28,7 @@ import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
     <form>
       <div class="input-group">
         <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
-        @if ((filter?.value?.length ?? 0) > 0) {
+        @if ((filter.value?.length ?? 0) > 0) {
           <button
             class="btn btn-outline-secondary"
             type="button"

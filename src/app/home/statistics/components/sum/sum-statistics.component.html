@@ -30,7 +30,7 @@
 
     <ng-content select="[top]" />
 
-    @if (!sumDtos || sumDtos?.length === 0) {
+    @if (!sumDtos || sumDtos.length === 0) {
     <div class="text-center">
       <span style="font-size: 1.2rem">{{ 'HOME_STATISTICS_NO_DATA' | tr }}</span>
     </div>
