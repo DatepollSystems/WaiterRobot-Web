@@ -11,11 +11,11 @@
         - name: checkout your repository using git
           uses: actions/checkout@v3
 
-        # PNPM
-        - uses: pnpm/action-setup@v2
+
+        - name: setup node and pnpm
+          uses: dafnik/setup-node-pnpm@v2
           with:
-            version: 7
-        - run: pnpm install --frozen-lockfile --ignore-scripts
+            install-ignore-scripts: true
 
         - name: generate license report
           id: license-report
