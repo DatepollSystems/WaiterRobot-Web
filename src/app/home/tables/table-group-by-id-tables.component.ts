@@ -1,4 +1,4 @@
-import {AsyncPipe, LowerCasePipe, NgIf} from '@angular/common';
+import {AsyncPipe, LowerCasePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -20,7 +20,7 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
 
 @Component({
   template: `
-    <ng-container *ngIf="entity$ | async as entity">
+    @if (entity$ | async; as entity) {
       <app-text-with-color-indicator [color]="entity.color" [size]="30" placement="right">
         <h1 class="mb-0">{{ 'HOME_TABLE_GROUP_TABLES_VIEW' | tr }} {{ entity?.name }}</h1>
       </app-text-with-color-indicator>
@@ -56,21 +56,22 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
           </button>
         </div>
       </scrollable-toolbar>
-    </ng-container>
+    }
 
     <form>
       <div class="input-group">
         <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          ngbTooltip="{{ 'CLEAR' | tr }}"
-          placement="bottom"
-          (click)="filter.reset()"
-          *ngIf="(filter?.value?.length ?? 0) > 0"
-        >
-          <bi name="x-circle-fill" />
-        </button>
+        @if ((filter?.value?.length ?? 0) > 0) {
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            ngbTooltip="{{ 'CLEAR' | tr }}"
+            placement="bottom"
+            (click)="filter.reset()"
+          >
+            <bi name="x-circle-fill" />
+          </button>
+        }
       </div>
     </form>
 
@@ -110,10 +111,12 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
         <ng-container ngbColumnDef="status">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | tr }}</th>
           <td *ngbCellDef="let table" ngb-cell>
-            <span class="badge text-bg-warning d-inline-flex align-items-center gap-2" *ngIf="table.hasActiveOrders">
-              <bi name="exclamation-triangle-fill" />
-              {{ 'HOME_TABLE_UNPAID_PRODUCTS' | tr }}</span
-            >
+            @if (table.hasActiveOrders) {
+              <span class="badge text-bg-warning d-inline-flex align-items-center gap-2">
+                <bi name="exclamation-triangle-fill" />
+                {{ 'HOME_TABLE_UNPAID_PRODUCTS' | tr }}</span
+              >
+            }
           </td>
         </ng-container>
 
@@ -172,7 +175,6 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
   imports: [
     ReactiveFormsModule,
     AsyncPipe,
-    NgIf,
     RouterLink,
     LowerCasePipe,
     NgbTooltip,

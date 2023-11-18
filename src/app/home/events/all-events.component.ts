@@ -1,4 +1,4 @@
-import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -23,35 +23,38 @@ import {SelectedEventService} from './_services/selected-event.service';
   template: `
     <h1>{{ 'NAV_EVENTS' | tr }}</h1>
 
-    <scrollable-toolbar *ngIf="myUser()?.isAdmin">
-      <div>
-        <a routerLink="../create" class="btn btn-sm btn-success">
-          <bi name="plus-circle" />
-          {{ 'ADD_2' | tr }}</a
-        >
-      </div>
+    @if (myUser()?.isAdmin) {
+      <scrollable-toolbar>
+        <div>
+          <a routerLink="../create" class="btn btn-sm btn-success">
+            <bi name="plus-circle" />
+            {{ 'ADD_2' | tr }}</a
+          >
+        </div>
 
-      <div>
-        <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-          <bi name="trash" />
-          {{ 'DELETE' | tr }}
-        </button>
-      </div>
-    </scrollable-toolbar>
+        <div>
+          <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+            <bi name="trash" />
+            {{ 'DELETE' | tr }}
+          </button>
+        </div>
+      </scrollable-toolbar>
+    }
 
     <form>
       <div class="input-group">
         <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          ngbTooltip="{{ 'CLEAR' | tr }}"
-          placement="bottom"
-          (click)="filter.reset()"
-          *ngIf="(filter.value?.length ?? 0) > 0"
-        >
-          <bi name="x-circle-fill" />
-        </button>
+        @if ((filter.value?.length ?? 0) > 0) {
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            ngbTooltip="{{ 'CLEAR' | tr }}"
+            placement="bottom"
+            (click)="filter.reset()"
+          >
+            <bi name="x-circle-fill" />
+          </button>
+        }
       </div>
     </form>
 
@@ -121,24 +124,26 @@ import {SelectedEventService} from './_services/selected-event.service';
             <a class="btn btn-sm me-2 btn-outline-success text-body-emphasis" routerLink="../{{ event.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
               <bi name="pencil-square" />
             </a>
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-secondary text-body-emphasis me-2"
-              ngbTooltip="{{ 'COPY' | tr }}"
-              (click)="$event.stopPropagation(); clone(event.id)"
-              *ngIf="myUser()?.isAdmin"
-            >
-              <bi name="clipboard" />
-            </button>
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-danger text-body-emphasis"
-              ngbTooltip="{{ 'DELETE' | tr }}"
-              (click)="onDelete(event.id, $event)"
-              *ngIf="myUser()?.isAdmin"
-            >
-              <bi name="trash" />
-            </button>
+            @if (myUser()?.isAdmin) {
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-secondary text-body-emphasis me-2"
+                ngbTooltip="{{ 'COPY' | tr }}"
+                (click)="$event.stopPropagation(); clone(event.id)"
+              >
+                <bi name="clipboard" />
+              </button>
+            }
+            @if (myUser()?.isAdmin) {
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-danger text-body-emphasis"
+                ngbTooltip="{{ 'DELETE' | tr }}"
+                (click)="onDelete(event.id, $event)"
+              >
+                <bi name="trash" />
+              </button>
+            }
           </td>
         </ng-container>
 
@@ -156,7 +161,6 @@ import {SelectedEventService} from './_services/selected-event.service';
     RouterLink,
     DatePipe,
     NgSub,
-    NgIf,
     DfxTr,
     DfxTableModule,
     DfxSortModule,

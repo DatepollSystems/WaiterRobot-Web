@@ -1,4 +1,4 @@
-import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
@@ -21,7 +21,7 @@ import {OrdersService} from './orders.service';
 
 @Component({
   template: `
-    <ng-container *ngIf="vm$ | async as vm">
+    @if (vm$ | async; as vm) {
       <div class="d-flex flex-wrap justify-content-between gap-2 gap-md-0 mb-2">
         <h1 class="mb-0">{{ 'HOME_ORDER' | tr }} #{{ vm.order.orderNumber }}</h1>
         <app-order-refresh-btn [countdown]="vm.countdown" />
@@ -39,14 +39,12 @@ import {OrdersService} from './orders.service';
           <app-test-badge />
         }
 
-        <span
-          class="badge bg-secondary d-flex align-items-center gap-2"
-          *ngIf="vm.order.state !== 'QUEUED'"
-          [ngbTooltip]="'HOME_ORDER_CREATED_AT' | tr"
-        >
-          <bi name="save" />
-          {{ vm.order.createdAt | date: 'dd.MM.yy HH:mm:ss' }}
-        </span>
+        @if (vm.order.state !== 'QUEUED') {
+          <span class="badge bg-secondary d-flex align-items-center gap-2" [ngbTooltip]="'HOME_ORDER_CREATED_AT' | tr">
+            <bi name="save" />
+            {{ vm.order.createdAt | date: 'dd.MM.yy HH:mm:ss' }}
+          </span>
+        }
 
         <a
           routerLink="../../tables/{{ vm.order.table.id }}"
@@ -70,10 +68,12 @@ import {OrdersService} from './orders.service';
       <scrollable-toolbar disablePadding>
         <back-button />
         <div>
-          <button class="btn btn-sm btn-warning" (click)="requeueOrder(vm.order.id)" *ngIf="vm.showRequeueButton">
-            <bi name="printer" />
-            {{ 'HOME_ORDER_REQUEUE' | tr }}
-          </button>
+          @if (vm.showRequeueButton) {
+            <button class="btn btn-sm btn-warning" (click)="requeueOrder(vm.order.id)">
+              <bi name="printer" />
+              {{ 'HOME_ORDER_REQUEUE' | tr }}
+            </button>
+          }
         </div>
       </scrollable-toolbar>
 
@@ -84,13 +84,12 @@ import {OrdersService} from './orders.service';
         (requeueOrdersOfPrinter)="requeueOrdersOfPrinter(vm.order.id, $event)"
         [showRequeueButton]="vm.showRequeueButton"
       />
-    </ng-container>
+    }
   `,
   selector: 'app-orders-info',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     AsyncPipe,
     DatePipe,
     BiComponent,

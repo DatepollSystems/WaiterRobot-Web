@@ -26,9 +26,11 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
           <label for="title">{{ 'TITLE' | tr }}</label>
           <input class="form-control" type="text" id="title" formControlName="title" placeholder="{{ 'TITLE' | tr }}" />
 
-          <small *ngIf="form.controls.title.invalid" class="text-danger">
-            {{ 'HOME_SYSTEM_NOTIFICATIONS_TITLE_INCORRECT' | tr }}
-          </small>
+          @if (form.controls.title.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_SYSTEM_NOTIFICATIONS_TITLE_INCORRECT' | tr }}
+            </small>
+          }
         </div>
 
         <div class="form-group col-sm">
@@ -39,14 +41,18 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
             </span>
             <select class="form-select" id="type" formControlName="type">
               <option [value]="''" disabled>{{ 'HOME_SYSTEM_NOTIFICATIONS_TYPE_DEFAULT' | tr }}</option>
-              <option [value]="type" *ngFor="let type of systemNotificationTypes; trackById">
-                {{ type | s_lowerCaseAllExceptFirstLetter }}
-              </option>
+              @for (type of systemNotificationTypes; track type) {
+                <option [value]="type">
+                  {{ type | s_lowerCaseAllExceptFirstLetter }}
+                </option>
+              }
             </select>
           </div>
-          <small *ngIf="form.controls.type.invalid" class="text-danger">
-            {{ 'HOME_SYSTEM_NOTIFICATIONS_TYPE_INCORRECT' | tr }}
-          </small>
+          @if (form.controls.type.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_SYSTEM_NOTIFICATIONS_TYPE_INCORRECT' | tr }}
+            </small>
+          }
         </div>
 
         <div class="form-group col-sm">
@@ -86,9 +92,11 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
             formControlName="description"
           ></textarea>
 
-          <small *ngIf="form.controls.description.invalid" class="text-danger">
-            {{ 'HOME_SYSTEM_NOTIFICATIONS_DESCRIPTION_INCORRECT' | tr }}
-          </small>
+          @if (form.controls.description.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_SYSTEM_NOTIFICATIONS_DESCRIPTION_INCORRECT' | tr }}
+            </small>
+          }
         </div>
       </div>
 

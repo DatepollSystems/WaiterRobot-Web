@@ -21,7 +21,9 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
           <label for="name">{{ 'NAME' | tr }}</label>
           <input class="form-control" formControlName="name" name="name" type="text" placeholder="{{ 'NAME' | tr }}" />
 
-          <small *ngIf="form.controls.name.invalid" class="text-danger"> {{ 'HOME_ORGS_NAME_INCORRECT' | tr }} </small>
+          @if (form.controls.name.invalid) {
+            <small class="text-danger"> {{ 'HOME_ORGS_NAME_INCORRECT' | tr }} </small>
+          }
         </div>
 
         <div class="form-group col-12 col-md-4 col-xl-3">
@@ -51,7 +53,9 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
         <div class="form-group col-12 col-md-7 col-xl-4">
           <label for="street">{{ 'HOME_ORGS_STREET' | tr }}</label>
           <input formControlName="street" class="form-control" type="text" id="street" placeholder="{{ 'HOME_ORGS_STREET' | tr }}" />
-          <small *ngIf="form.controls.street.invalid" class="text-danger"> {{ 'HOME_ORGS_STREET_INCORRECT' | tr }} </small>
+          @if (form.controls.street.invalid) {
+            <small class="text-danger"> {{ 'HOME_ORGS_STREET_INCORRECT' | tr }} </small>
+          }
         </div>
         <div class="form-group col-12 col-md-4 col-xl-2">
           <label for="streetNumber">{{ 'HOME_ORGS_STREETNUMBER' | tr }}</label>
@@ -62,7 +66,9 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
             id="streetNumber"
             placeholder="{{ 'HOME_ORGS_STREETNUMBER' | tr }}"
           />
-          <small *ngIf="form.controls.streetNumber.invalid" class="text-danger"> {{ 'HOME_ORGS_STREETNUMBER_INCORRECT' | tr }} </small>
+          @if (form.controls.streetNumber.invalid) {
+            <small class="text-danger"> {{ 'HOME_ORGS_STREETNUMBER_INCORRECT' | tr }} </small>
+          }
         </div>
 
         <div class="form-group col-12 col-md-4 col-xl-2">
@@ -74,21 +80,27 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
             id="postalCode"
             placeholder="{{ 'HOME_ORGS_POSTAL_CODE' | tr }}"
           />
-          <small *ngIf="form.controls.postalCode.invalid" class="text-danger"> {{ 'HOME_ORGS_POSTAL_CODE_INCORRECT' | tr }} </small>
+          @if (form.controls.postalCode.invalid) {
+            <small class="text-danger"> {{ 'HOME_ORGS_POSTAL_CODE_INCORRECT' | tr }} </small>
+          }
         </div>
 
         <div class="form-group col-12 col-md-7 col-xl-4">
           <label for="city">{{ 'HOME_ORGS_CITY' | tr }}</label>
           <input formControlName="city" class="form-control" type="text" id="city" placeholder="{{ 'HOME_ORGS_CITY' | tr }}" />
-          <small *ngIf="form.controls.city.invalid" class="text-danger"> {{ 'HOME_ORGS_CITY_INCORRECT' | tr }} </small>
+          @if (form.controls.city.invalid) {
+            <small class="text-danger"> {{ 'HOME_ORGS_CITY_INCORRECT' | tr }} </small>
+          }
         </div>
       </div>
 
       <div class="d-flex flex-column flex-md-row justify-content-between gap-2 gap-md-4 mt-2">
-        <div class="form-check" *ngIf="_isEdit">
-          <input class="form-check-input" type="checkbox" id="updateWaiterCreateToken" formControlName="updateWaiterCreateToken" />
-          <label class="form-check-label" for="updateWaiterCreateToken"> {{ 'HOME_EVENTS_UPDATE_CREATE_WAITER_TOKEN' | tr }} </label>
-        </div>
+        @if (_isEdit) {
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="updateWaiterCreateToken" formControlName="updateWaiterCreateToken" />
+            <label class="form-check-label" for="updateWaiterCreateToken"> {{ 'HOME_EVENTS_UPDATE_CREATE_WAITER_TOKEN' | tr }} </label>
+          </div>
+        }
       </div>
     </form>
   `,

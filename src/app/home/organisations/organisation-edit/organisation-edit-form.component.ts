@@ -20,7 +20,9 @@ import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} f
           <label for="name">{{ 'NAME' | tr }}</label>
           <input class="form-control" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
 
-          <small *ngIf="form.controls.name.invalid" class="text-danger"> {{ 'HOME_ORGS_NAME_INCORRECT' | tr }} </small>
+          @if (form.controls.name.invalid) {
+            <small class="text-danger"> {{ 'HOME_ORGS_NAME_INCORRECT' | tr }} </small>
+          }
         </div>
       </div>
 
@@ -28,7 +30,9 @@ import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} f
         <div class="form-group col-12 col-md-7">
           <label for="street">{{ 'HOME_ORGS_STREET' | tr }}</label>
           <input class="form-control" type="text" id="street" formControlName="street" placeholder="{{ 'HOME_ORGS_STREET' | tr }}" />
-          <small *ngIf="form.controls.street.invalid" class="text-danger"> {{ 'HOME_ORGS_STREET_INCORRECT' | tr }} </small>
+          @if (form.controls.street.invalid) {
+            <small class="text-danger"> {{ 'HOME_ORGS_STREET_INCORRECT' | tr }} </small>
+          }
         </div>
         <div class="form-group col-12 col-md-4">
           <label for="streetNumber">{{ 'HOME_ORGS_STREETNUMBER' | tr }}</label>
@@ -39,7 +43,9 @@ import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} f
             formControlName="streetNumber"
             placeholder="{{ 'HOME_ORGS_STREETNUMBER' | tr }}"
           />
-          <small *ngIf="form.controls.streetNumber.invalid" class="text-danger"> {{ 'HOME_ORGS_STREETNUMBER_INCORRECT' | tr }} </small>
+          @if (form.controls.streetNumber.invalid) {
+            <small class="text-danger"> {{ 'HOME_ORGS_STREETNUMBER_INCORRECT' | tr }} </small>
+          }
         </div>
       </div>
 
@@ -53,13 +59,17 @@ import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} f
             formControlName="postalCode"
             placeholder="{{ 'HOME_ORGS_POSTAL_CODE' | tr }}"
           />
-          <small *ngIf="form.controls.postalCode.invalid" class="text-danger"> {{ 'HOME_ORGS_POSTAL_CODE_INCORRECT' | tr }} </small>
+          @if (form.controls.postalCode.invalid) {
+            <small class="text-danger"> {{ 'HOME_ORGS_POSTAL_CODE_INCORRECT' | tr }} </small>
+          }
         </div>
 
         <div class="form-group col-12 col-md-6">
           <label for="city">{{ 'HOME_ORGS_CITY' | tr }}</label>
           <input class="form-control" type="text" id="city" formControlName="city" placeholder="{{ 'HOME_ORGS_CITY' | tr }}" />
-          <small *ngIf="form.controls.city.invalid" class="text-danger"> {{ 'HOME_ORGS_CITY_INCORRECT' | tr }} </small>
+          @if (form.controls.city.invalid) {
+            <small class="text-danger"> {{ 'HOME_ORGS_CITY_INCORRECT' | tr }} </small>
+          }
         </div>
 
         <div class="form-group col-12 col-md-2">
@@ -71,7 +81,9 @@ import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} f
             formControlName="countryCode"
             placeholder="{{ 'HOME_ORGS_COUNTRY_CODE' | tr }}"
           />
-          <small *ngIf="form.controls.countryCode.invalid" class="text-danger"> {{ 'HOME_ORGS_COUNTRY_CODE_INCORRECT' | tr }} </small>
+          @if (form.controls.countryCode.invalid) {
+            <small class="text-danger"> {{ 'HOME_ORGS_COUNTRY_CODE_INCORRECT' | tr }} </small>
+          }
         </div>
       </div>
     </form>

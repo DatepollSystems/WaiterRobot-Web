@@ -1,4 +1,4 @@
-import {NgClass, NgIf} from '@angular/common';
+import {NgClass} from '@angular/common';
 import {booleanAttribute, ChangeDetectionStrategy, Component, Input, numberAttribute, Optional, Self} from '@angular/core';
 import {ControlValueAccessor, FormsModule, NgControl} from '@angular/forms';
 
@@ -45,7 +45,9 @@ import {NgbDateTimeStruct} from './datetime.struct';
       </button>
     </div>
 
-    <small *ngIf="error" class="text-warning">inkorrektes Datum</small>
+    @if (error) {
+      <small class="text-warning">inkorrektes Datum</small>
+    }
 
     <ng-template #calendarContent>
       <div>
@@ -69,7 +71,7 @@ import {NgbDateTimeStruct} from './datetime.struct';
   standalone: true,
   selector: 'app-datetime-input',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BiComponent, NgbInputDatepicker, NgbTimepicker, NgClass, NgbPopover, NgbDatepicker, NgIf, FormsModule, BiComponent],
+  imports: [BiComponent, NgbInputDatepicker, NgbTimepicker, NgClass, NgbPopover, NgbDatepicker, FormsModule, BiComponent],
 })
 export class AppDatetimeInputComponent implements ControlValueAccessor {
   @Input()

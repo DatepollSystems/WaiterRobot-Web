@@ -1,4 +1,4 @@
-import {DatePipe, NgClass, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
+import {DatePipe, NgClass} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -14,22 +14,33 @@ import {DfxTr} from 'dfx-translate';
       class="badge d-flex align-items-center gap-2 not-selectable"
       style="width: min-content"
     >
-      <ng-container [ngSwitch]="printState">
-        <span *ngSwitchCase="'QUEUED'">{{ 'HOME_ORDER_QUEUED' | tr }}</span>
-        <span *ngSwitchCase="'SENT_TO_PRINT'">{{ 'HOME_ORDER_SENT_TO_PRINT' | tr }}</span>
-        <span *ngSwitchCase="'PRINTED'">{{ 'HOME_ORDER_PROCESSED' | tr }}</span>
-      </ng-container>
-      <div class="circle pulse green" *ngIf="printState === 'QUEUED'; else sentToPrint"></div>
+      @switch (printState) {
+        @case ('QUEUED') {
+          <span>{{ 'HOME_ORDER_QUEUED' | tr }}</span>
+        }
+        @case ('SENT_TO_PRINT') {
+          <span>{{ 'HOME_ORDER_SENT_TO_PRINT' | tr }}</span>
+        }
+        @case ('PRINTED') {
+          <span>{{ 'HOME_ORDER_PROCESSED' | tr }}</span>
+        }
+      }
 
-      <ng-template #sentToPrint>
+      @if (printState === 'QUEUED') {
+        <div class="circle pulse green"></div>
+      } @else {
         <bi name="check2-square" />
-      </ng-template>
+      }
     </div>
     <ng-template #tipContent>
-      <ng-container [ngSwitch]="printState">
-        <span *ngSwitchCase="'SENT_TO_PRINT'">{{ sentToPrinterAt | date: 'dd.MM.yy HH:mm:ss' }}</span>
-        <span *ngSwitchCase="'PRINTED'">{{ printedAt | date: 'dd.MM.yy HH:mm:ss' }}</span>
-      </ng-container>
+      @switch (printState) {
+        @case ('SENT_TO_PRINT') {
+          <span>{{ sentToPrinterAt | date: 'dd.MM.yy HH:mm:ss' }}</span>
+        }
+        @case ('PRINTED') {
+          <span>{{ printedAt | date: 'dd.MM.yy HH:mm:ss' }}</span>
+        }
+      }
     </ng-template>
   `,
   styles: [
@@ -62,7 +73,7 @@ import {DfxTr} from 'dfx-translate';
   standalone: true,
   selector: 'app-order-product-state-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, BiComponent, NgIf, DfxTr, NgSwitch, NgSwitchCase, DatePipe, NgbTooltip],
+  imports: [NgClass, BiComponent, DfxTr, DatePipe, NgbTooltip],
 })
 export class AppOrderProductStateBadgeComponent {
   @Input({required: true}) printState!: 'PRINTED' | 'SENT_TO_PRINT' | 'QUEUED';

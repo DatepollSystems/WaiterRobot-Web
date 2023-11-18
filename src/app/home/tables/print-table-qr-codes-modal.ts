@@ -1,4 +1,4 @@
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {Component, Input} from '@angular/core';
 
 import {NgbActiveModal, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
@@ -7,7 +7,6 @@ import {jsPDF} from 'jspdf';
 
 import {d_formatWithHoursMinutesAndSeconds} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTrackByModule} from 'dfx-helper';
 import {QRCodeComponent} from 'dfx-qrcode';
 import {DfxTranslateModule} from 'dfx-translate';
 
@@ -40,38 +39,37 @@ import {GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
         </div>
       </scrollable-toolbar>
 
-      <ngb-progressbar
-        *ngIf="progress"
-        type="primary"
-        class="my-2"
-        textType="white"
-        [value]="progress"
-        [showValue]="true"
-      ></ngb-progressbar>
+      @if (progress) {
+        <ngb-progressbar type="primary" class="my-2" textType="white" [value]="progress" [showValue]="true"></ngb-progressbar>
+      }
 
       <div class="alert alert-info mb-2" role="alert">Deaktiviere mögliche Seitenränder beim drucken.</div>
 
-      <div class="alert alert-info" role="alert" *ngIf="generating">{{ 'DO_NOT_CLOSE_WINDOW' | tr }}!</div>
+      @if (generating) {
+        <div class="alert alert-info" role="alert">{{ 'DO_NOT_CLOSE_WINDOW' | tr }}!</div>
+      }
 
       <div class="main">
         <div class="d-flex flex-wrap justify-content-center">
-          <div *ngFor="let mytable of tables; trackById" class="qr-code-item">
-            <qrcode
-              [imageSrc]="qrCodeSize === 'MD' ? '/assets/mono.png' : undefined"
-              [imageWidth]="60"
-              [imageHeight]="60"
-              [size]="8"
-              [errorCorrectionLevel]="qrCodeSize === 'MD' ? 'H' : 'M'"
-              [margin]="0"
-              [data]="parser(mytable)"
-              cssClass="text-center"
-              elementType="canvas"
-            />
+          @for (mytable of tables; track mytable.id) {
+            <div class="qr-code-item">
+              <qrcode
+                [imageSrc]="qrCodeSize === 'MD' ? '/assets/mono.png' : undefined"
+                [imageWidth]="60"
+                [imageHeight]="60"
+                [size]="8"
+                [errorCorrectionLevel]="qrCodeSize === 'MD' ? 'H' : 'M'"
+                [margin]="0"
+                [data]="parser(mytable)"
+                cssClass="text-center"
+                elementType="canvas"
+              />
 
-            <div class="text-center text-black qr-code-label">
-              <b>{{ mytable.group.name }} - {{ mytable.number }}</b>
+              <div class="text-center text-black qr-code-label">
+                <b>{{ mytable.group.name }} - {{ mytable.number }}</b>
+              </div>
             </div>
-          </div>
+          }
         </div>
       </div>
     </div>
@@ -100,11 +98,8 @@ import {GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
   selector: 'app-print-table-qr-codes-modal',
   standalone: true,
   imports: [
-    NgForOf,
-    NgIf,
     NgbProgressbarModule,
     DfxTranslateModule,
-    DfxTrackByModule,
     QRCodeComponent,
     ScrollableToolbarComponent,
     BiComponent,

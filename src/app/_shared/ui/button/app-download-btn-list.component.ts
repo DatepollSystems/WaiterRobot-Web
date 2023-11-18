@@ -1,4 +1,4 @@
-import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
+import {NgOptimizedImage} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {NgbModal, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
@@ -21,47 +21,51 @@ export type appDownload = {
 
 @Component({
   template: `
-    <div
-      *ngFor="let appLink of appDownloadLinks; trackByProperty: 'text'"
-      class="btn-group m-1"
-      role="group"
-      aria-label="App download infos"
-    >
-      <a class="btn btn-outline-info" [class.customLogo]="appLink.img" target="_blank" rel="noopener" href="{{ appLink.link }}">
-        <bi *ngIf="appLink.icon" [name]="appLink.icon" />
-        <img *ngIf="appLink.img" ngSrc="{{ appLink.img }}" alt="" height="16em;" width="16em;" />
-        <img *ngIf="appLink.img2" ngSrc="{{ appLink.img2 }}" alt="" height="16em;" width="16em;" />
-        {{ appLink.text }}
-      </a>
+    @for (appLink of appDownloadLinks; track appLink) {
+      <div class="btn-group m-1" role="group" aria-label="App download infos">
+        <a class="btn btn-outline-info" [class.customLogo]="appLink.img" target="_blank" rel="noopener" href="{{ appLink.link }}">
+          @if (appLink.icon) {
+            <bi [name]="appLink.icon" />
+          }
+          @if (appLink.img) {
+            <img ngSrc="{{ appLink.img }}" alt="" height="16em;" width="16em;" />
+          }
+          @if (appLink.img2) {
+            <img ngSrc="{{ appLink.img2 }}" alt="" height="16em;" width="16em;" />
+          }
+          {{ appLink.text }}
+        </a>
 
-      <button
-        type="button"
-        class="btn btn-outline-info"
-        (click)="showQRCode(appLink)"
-        *ngIf="showQRCodeButton"
-        placement="top"
-        attr.aria-label="{{ 'ABOUT_APP_QR_CODE_TOOLTIP' | tr }}"
-        ngbTooltip="{{ 'ABOUT_APP_QR_CODE_TOOLTIP' | tr }}"
-      >
-        <bi name="upc-scan" />
-      </button>
+        @if (showQRCodeButton) {
+          <button
+            type="button"
+            class="btn btn-outline-info"
+            (click)="showQRCode(appLink)"
+            placement="top"
+            attr.aria-label="{{ 'ABOUT_APP_QR_CODE_TOOLTIP' | tr }}"
+            ngbTooltip="{{ 'ABOUT_APP_QR_CODE_TOOLTIP' | tr }}"
+          >
+            <bi name="upc-scan" />
+          </button>
+        }
 
-      <button
-        type="button"
-        class="btn btn-outline-info"
-        (click)="c.copy(t)"
-        aria-label="Copy app link"
-        [copyable]="appLink.link"
-        #c="copy"
-        ngbTooltip="{{ 'COPIED' | tr }}"
-        #t="ngbTooltip"
-        autoClose="false"
-        triggers="manual"
-        placement="bottom"
-      >
-        <bi name="clipboard" />
-      </button>
-    </div>
+        <button
+          type="button"
+          class="btn btn-outline-info"
+          (click)="c.copy(t)"
+          aria-label="Copy app link"
+          [copyable]="appLink.link"
+          #c="copy"
+          ngbTooltip="{{ 'COPIED' | tr }}"
+          #t="ngbTooltip"
+          autoClose="false"
+          triggers="manual"
+          placement="bottom"
+        >
+          <bi name="clipboard" />
+        </button>
+      </div>
+    }
   `,
   styles: [
     `
@@ -81,7 +85,7 @@ export type appDownload = {
   selector: 'app-download-btn-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgIf, NgForOf, NgbTooltipModule, DfxTranslateModule, DfxTrackByModule, BiComponent, CopyDirective, NgOptimizedImage],
+  imports: [NgbTooltipModule, DfxTranslateModule, DfxTrackByModule, BiComponent, CopyDirective, NgOptimizedImage],
 })
 export class AppDownloadBtnListComponent {
   appDownloadLinks: appDownload[] = a_shuffle([

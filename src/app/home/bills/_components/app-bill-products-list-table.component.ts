@@ -1,4 +1,4 @@
-import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewChild} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
@@ -59,7 +59,7 @@ import {GetImplodedBillProductResponse} from '../../../_shared/waiterrobot-backe
   ],
   standalone: true,
   selector: 'app-bill-products-list-table',
-  imports: [DfxSortModule, DfxTableModule, DfxTr, AsyncPipe, NgIf, DatePipe, RouterLink, NgSub, NgbTooltip, DfxCurrencyCentPipe],
+  imports: [DfxSortModule, DfxTableModule, DfxTr, AsyncPipe, DatePipe, RouterLink, NgSub, NgbTooltip, DfxCurrencyCentPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrderProductsListTableComponent implements AfterViewInit {

@@ -1,37 +1,38 @@
 <nav class="navbar bg-body-tertiary nav-underline pt-0 pb-2 ps-md-3">
   <div class="my-container" [class.container-xxxl]="!isFullScreen()">
+    @if (!editMode) {
     <ul
-      *ngIf="!editMode"
       class="navbar-nav d-flex flex-row flex-fill justify-content-sm-start overflow-container overflow-auto user-select-none ps-3 ps-md-0"
       (mouseenter)="onMouseEnter()"
       (mouseleave)="onMouseLeave()"
     >
-      <ng-container *ngFor="let item of _savedItems">
-        <li class="nav-item me-3" *ngIf="item.show ?? true">
-          <a class="nav-link" draggable="false" routerLinkActive="active" [routerLink]="item.routerLink">
-            <span *ngIf="!item.bookmark; else notBookmark"> {{ item.text | tr }} </span>
-            <ng-template #notBookmark> {{ item.text }} </ng-template>
-          </a>
-        </li>
-      </ng-container>
-      <ng-container *ngFor="let item of _itemsToView">
-        <li class="nav-item me-3" *ngIf="item.show ?? true">
-          <a class="nav-link" draggable="false" routerLinkActive="active" [routerLink]="item.routerLink">{{ item.text | tr }}</a>
-        </li>
-      </ng-container>
-      <li
-        class="nav-item me-3"
-        ngbTooltip="{{ 'NAV_EDIT_CUSTOMIZE' | tr }}"
-        placement="bottom"
-        *ngIf="edible && (showEditArrow || isMobile)"
-      >
+      @for (item of _savedItems; track item) { @if (item.show ?? true) {
+      <li class="nav-item me-3">
+        <a class="nav-link" draggable="false" routerLinkActive="active" [routerLink]="item.routerLink">
+          @if (!item.bookmark) {
+          <span> {{ item.text | tr }} </span>
+          } @else {
+
+          <span>{{ item.text }}</span>
+
+          }
+          <ng-template #notBookmark> {{ item.text }} </ng-template>
+        </a>
+      </li>
+      } } @for (item of _itemsToView; track item) { @if (item.show ?? true) {
+      <li class="nav-item me-3">
+        <a class="nav-link" draggable="false" routerLinkActive="active" [routerLink]="item.routerLink">{{ item.text | tr }}</a>
+      </li>
+      } } @if (edible && (showEditArrow || isMobile)) {
+      <li class="nav-item me-3" ngbTooltip="{{ 'NAV_EDIT_CUSTOMIZE' | tr }}" placement="bottom">
         <a class="nav-link" draggable="false" routerLinkActive="active" (click)="onEdit()">
           <bi name="pencil-fill" />
         </a>
       </li>
+      }
     </ul>
-
-    <div *ngIf="editMode" class="edit-container">
+    } @if (editMode) {
+    <div class="edit-container">
       <h5>{{ 'NAV_EDIT_CUSTOMIZE' | tr }}</h5>
       <scrollable-toolbar>
         <button class="btn btn-sm btn-outline-secondary" (click)="onClose()">
@@ -49,10 +50,12 @@
           {{ 'RESET' | tr }}
         </button>
 
-        <button class="btn btn-sm btn-outline-info" (click)="openModal(bookMarkModalContent)" *ngIf="allowBookmarks">
+        @if (allowBookmarks) {
+        <button class="btn btn-sm btn-outline-info" (click)="openModal(bookMarkModalContent)">
           <bi name="star-fill" />
           {{ 'NAV_EDIT_BOOKMARK' | tr }}
         </button>
+        }
       </scrollable-toolbar>
 
       <div
@@ -63,23 +66,29 @@
         [cdkDropListOrientation]="isMobile ? 'vertical' : 'horizontal'"
         (cdkDropListDropped)="drop($event)"
       >
-        <div class="box" [class.h-box]="!isMobile" [class.v-box]="isMobile" *ngFor="let item of _itemsCopy" cdkDrag>
-          <span *ngIf="!item.bookmark; else notBookmark">{{ item.text | tr }}</span>
+        @for (item of _itemsCopy; track item) {
+        <div class="box" [class.h-box]="!isMobile" [class.v-box]="isMobile" cdkDrag>
+          @if (!item.bookmark) {
+          <span>{{ item.text | tr }}</span>
+          } @else { #notBookmark| }
           <ng-template #notBookmark>
             <span>{{ item.text }}</span>
           </ng-template>
+          @if (item.bookmark) {
           <button
             class="btn btn-sm btn-secondary ms-2"
-            *ngIf="item.bookmark"
             (click)="removeBookmark(item)"
             ngbTooltip="{{ 'NAV_EDIT_BOOKMARK_DELETE' | tr }}"
             placement="bottom"
           >
             <bi name="trash" />
           </button>
+          }
         </div>
+        }
       </div>
     </div>
+    }
   </div>
 </nav>
 
@@ -106,7 +115,9 @@
             maxlength="35"
             placeholder="{{ 'NAME' | tr }}"
           />
-          <small *ngIf="nameModel.invalid" class="text-danger"> {{ 'NAV_EDIT_BOOKMARK_ADD_INVALID' | tr }} </small>
+          @if (nameModel.invalid) {
+          <small class="text-danger"> {{ 'NAV_EDIT_BOOKMARK_ADD_INVALID' | tr }} </small>
+          }
         </div>
       </div>
     </form>

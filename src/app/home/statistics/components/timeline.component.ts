@@ -20,32 +20,34 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
   template: `
     <h3>{{ 'HOME_STATISTICS_ORDER_HISTORY' | tr }}</h3>
     <div class="d-flex flex-wrap gap-2 justify-content-between align-items-end">
-      <div class="btn-group" role="group" aria-label="Basic example" *ngIf="selectedTimelineType$ | async as selected">
-        <button
-          type="button"
-          class="btn btn-outline-primary"
-          [class.active]="selected === 'PRODUCTS'"
-          (click)="selectedTimelineType$.next('PRODUCTS')"
-        >
-          {{ 'HOME_PROD_ALL' | tr }}
-        </button>
-        <button
-          type="button"
-          class="btn btn-outline-primary"
-          [class.active]="selected === 'PRODUCT_GROUPS'"
-          (click)="selectedTimelineType$.next('PRODUCT_GROUPS')"
-        >
-          {{ 'HOME_PROD_GROUPS' | tr }}
-        </button>
-        <button
-          type="button"
-          class="btn btn-outline-primary"
-          [class.active]="selected === 'WAITERS'"
-          (click)="selectedTimelineType$.next('WAITERS')"
-        >
-          {{ 'NAV_WAITERS' | tr }}
-        </button>
-      </div>
+      @if (selectedTimelineType$ | async; as selected) {
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            [class.active]="selected === 'PRODUCTS'"
+            (click)="selectedTimelineType$.next('PRODUCTS')"
+          >
+            {{ 'HOME_PROD_ALL' | tr }}
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            [class.active]="selected === 'PRODUCT_GROUPS'"
+            (click)="selectedTimelineType$.next('PRODUCT_GROUPS')"
+          >
+            {{ 'HOME_PROD_GROUPS' | tr }}
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            [class.active]="selected === 'WAITERS'"
+            (click)="selectedTimelineType$.next('WAITERS')"
+          >
+            {{ 'NAV_WAITERS' | tr }}
+          </button>
+        </div>
+      }
 
       <div class="row align-items-end justify-content-end gy-2">
         <div class="form-group col-12 col-md-6 col-lg-4">

@@ -15,58 +15,61 @@ import {OrganisationsSettingsService} from '../_services/organisations-settings.
 @Component({
   template: `
     <ng-container *ngIf="timeZoneValidChanges$ | async" />
-    <div class="d-flex flex-column gap-4 mt-2" *ngIf="vm$ | async as vm">
-      <div class="form-check form-switch">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          role="switch"
-          id="activateWaiterOnSignInViaCreateToken"
-          [checked]="vm.settings.activateWaiterOnLoginViaCreateToken"
-          (change)="setActivateWaiterOnLoginViaCreateToken(vm.organisationId, $event)"
-        />
-        <label class="form-check-label" for="activateWaiterOnSignInViaCreateToken">
-          {{ 'HOME_ORGS_SETTINGS_ACTIVATE_WAITER_ON_SIGN_IN_VIA_CREATE_TOKEN' | tr }}</label
-        >
-      </div>
-
-      <div class="form-group col-12 col-md-10 col-lg-8 col-xl-6">
-        <label for="name">{{ 'HOME_ORGS_SETTINGS_TIMEZONE' | tr }}</label>
-        <div class="input-group">
-          <span class="input-group-text" id="timezone-addon">&#64;</span>
+    @if (vm$ | async; as vm) {
+      <div class="d-flex flex-column gap-4 mt-2">
+        <div class="form-check form-switch">
           <input
-            type="text"
-            class="form-control"
-            placeholder="Europe/Vienna"
-            aria-label="TimeZone"
-            aria-describedby="timezone-addon"
-            [formControl]="timeZoneFormControl"
-            [ngbTypeahead]="search"
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="activateWaiterOnSignInViaCreateToken"
+            [checked]="vm.settings.activateWaiterOnLoginViaCreateToken"
+            (change)="setActivateWaiterOnLoginViaCreateToken(vm.organisationId, $event)"
           />
-          <button
-            class="btn btn-success"
-            type="button"
-            [disabled]="timeZoneFormControl.errors?.invalidTimeZone || timeZoneFormControl.getRawValue() === vm.settings.timezone"
-            (click)="setTimeZone(vm.organisationId, timeZoneFormControl.getRawValue()!)"
+          <label class="form-check-label" for="activateWaiterOnSignInViaCreateToken">
+            {{ 'HOME_ORGS_SETTINGS_ACTIVATE_WAITER_ON_SIGN_IN_VIA_CREATE_TOKEN' | tr }}</label
           >
-            {{ 'SAVE' | tr }}
-          </button>
         </div>
-        <div>
-          <small
-            *ngIf="timeZoneFormControl.getRawValue() !== vm.settings.timezone && !timeZoneFormControl.errors?.invalidTimeZone"
-            class="text-warning"
-          >
-            {{ 'UNSAVED_DATA' | tr }}
-          </small>
-        </div>
-        <div>
-          <small *ngIf="timeZoneFormControl.errors?.invalidTimeZone" class="text-danger">
-            {{ 'HOME_ORGS_SETTINGS_TIMEZONE_INVALID' | tr }}
-          </small>
+
+        <div class="form-group col-12 col-md-10 col-lg-8 col-xl-6">
+          <label for="name">{{ 'HOME_ORGS_SETTINGS_TIMEZONE' | tr }}</label>
+          <div class="input-group">
+            <span class="input-group-text" id="timezone-addon">&#64;</span>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Europe/Vienna"
+              aria-label="TimeZone"
+              aria-describedby="timezone-addon"
+              [formControl]="timeZoneFormControl"
+              [ngbTypeahead]="search"
+            />
+            <button
+              class="btn btn-success"
+              type="button"
+              [disabled]="timeZoneFormControl.errors?.invalidTimeZone || timeZoneFormControl.getRawValue() === vm.settings.timezone"
+              (click)="setTimeZone(vm.organisationId, timeZoneFormControl.getRawValue()!)"
+            >
+              {{ 'SAVE' | tr }}
+            </button>
+          </div>
+          <div>
+            @if (timeZoneFormControl.getRawValue() !== vm.settings.timezone && !timeZoneFormControl.errors?.invalidTimeZone) {
+              <small class="text-warning">
+                {{ 'UNSAVED_DATA' | tr }}
+              </small>
+            }
+          </div>
+          <div>
+            @if (timeZoneFormControl.errors?.invalidTimeZone) {
+              <small class="text-danger">
+                {{ 'HOME_ORGS_SETTINGS_TIMEZONE_INVALID' | tr }}
+              </small>
+            }
+          </div>
         </div>
       </div>
-    </div>
+    }
   `,
   selector: 'app-organisation-edit-settings',
   standalone: true,

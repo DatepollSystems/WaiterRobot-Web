@@ -18,7 +18,7 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
 
 @Component({
   template: `
-    <ng-container *ngIf="vm$ | async as vm">
+    @if (vm$ | async; as vm) {
       <h1>"{{ vm.duplicateWaiter.name }}" Duplikate</h1>
 
       <scrollable-toolbar>
@@ -33,32 +33,38 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
       </scrollable-toolbar>
       <div class="col-12 col-md-4">
         <div class="list-group">
-          <button
-            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-            *ngFor="let duplicateWaiter of vm.duplicateWaitersToMerge; trackById"
-            (click)="selectMainDuplicateWaiter(duplicateWaiter)"
-            [class.active]="duplicateWaiter.selectedAsMain"
-          >
-            <div>
-              <input
-                class="form-check-input me-1"
-                type="checkbox"
-                *ngIf="!duplicateWaiter.selectedAsMain"
-                [checked]="duplicateWaiter.selectedToMerge"
-                (click)="selectDuplicateWaiterToMerge(duplicateWaiter); $event.stopPropagation()"
-              />
-              {{ duplicateWaiter.name }}
-            </div>
-            <button class="btn btn-sm btn-warning" (click)="$event.stopPropagation()" *ngIf="ignoreFeature">
-              <bi name="person-x-fill" />
-              {{ 'IGNORE' | tr }}
+          @for (duplicateWaiter of vm.duplicateWaitersToMerge; track duplicateWaiter) {
+            <button
+              class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+              (click)="selectMainDuplicateWaiter(duplicateWaiter)"
+              [class.active]="duplicateWaiter.selectedAsMain"
+            >
+              <div>
+                @if (!duplicateWaiter.selectedAsMain) {
+                  <input
+                    class="form-check-input me-1"
+                    type="checkbox"
+                    [checked]="duplicateWaiter.selectedToMerge"
+                    (click)="selectDuplicateWaiterToMerge(duplicateWaiter); $event.stopPropagation()"
+                  />
+                }
+                {{ duplicateWaiter.name }}
+              </div>
+              @if (ignoreFeature) {
+                <button class="btn btn-sm btn-warning" (click)="$event.stopPropagation()">
+                  <bi name="person-x-fill" />
+                  {{ 'IGNORE' | tr }}
+                </button>
+              }
             </button>
-          </button>
+          }
         </div>
-        <div class="text-danger mt-2" *ngIf="!vm.minTwo">Markiere mindestens zwei Namen welche du zusammenführen willst</div>
+        @if (!vm.minTwo) {
+          <div class="text-danger mt-2">Markiere mindestens zwei Namen welche du zusammenführen willst</div>
+        }
       </div>
       <app-continues-creation-switch (continuesCreationChange)="continueMerge = $event" text="HOME_WAITERS_DUPLICATES_CONTINUE" />
-    </ng-container>
+    }
   `,
   imports: [
     NgIf,

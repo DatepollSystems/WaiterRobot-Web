@@ -33,9 +33,11 @@ import {PrintersService} from '../_services/printers.service';
               placeholder="{{ 'HOME_PRINTER_FONT_SCALE' | tr }}"
             />
 
-            <small *ngIf="form.controls.fontScale.invalid" class="text-danger">
-              {{ 'HOME_PRINTER_FONT_SCALE_INVALID' | tr }}
-            </small>
+            @if (form.controls.fontScale.invalid) {
+              <small class="text-danger">
+                {{ 'HOME_PRINTER_FONT_SCALE_INVALID' | tr }}
+              </small>
+            }
           </div>
 
           <div class="form-check form-switch mt-1">
@@ -47,13 +49,17 @@ import {PrintersService} from '../_services/printers.service';
         </div>
 
         <div>
-          <div class="form-group" *ngIf="availableFonts$ | async as availableFonts">
-            <label for="font">{{ 'HOME_PRINTER_FONT' | tr }}</label>
+          @if (availableFonts$ | async; as availableFonts) {
+            <div class="form-group">
+              <label for="font">{{ 'HOME_PRINTER_FONT' | tr }}</label>
 
-            <select class="form-select" aria-label="Font select" id="font" formControlName="font">
-              <option *ngFor="let font of availableFonts" [value]="font.code">{{ font.description }}</option>
-            </select>
-          </div>
+              <select class="form-select" aria-label="Font select" id="font" formControlName="font">
+                @for (font of availableFonts; track font) {
+                  <option [value]="font.code">{{ font.description }}</option>
+                }
+              </select>
+            </div>
+          }
           <div class="form-check form-switch mt-1">
             <input formControlName="updateFont" class="form-check-input" type="checkbox" role="switch" id="updateFont" />
             <label class="form-check-label" for="updateFont"
@@ -73,9 +79,11 @@ import {PrintersService} from '../_services/printers.service';
               placeholder="{{ 'HOME_PRINTER_BON_WIDTH' | tr }}"
             />
 
-            <small *ngIf="form.controls.bonWidth.invalid" class="text-danger">
-              {{ 'HOME_PRINTER_BON_WIDTH_INVALID' | tr }}
-            </small>
+            @if (form.controls.bonWidth.invalid) {
+              <small class="text-danger">
+                {{ 'HOME_PRINTER_BON_WIDTH_INVALID' | tr }}
+              </small>
+            }
           </div>
           <div class="form-check form-switch mt-1">
             <input formControlName="updateBonWidth" class="form-check-input" type="checkbox" role="switch" id="updateBonWidth" />
@@ -96,9 +104,11 @@ import {PrintersService} from '../_services/printers.service';
               placeholder="{{ 'HOME_PRINTER_BON_PADDING' | tr }}"
             />
 
-            <small *ngIf="form.controls.bonPadding.invalid" class="text-danger">
-              {{ 'HOME_PRINTER_BON_PADDING_INVALID' | tr }}
-            </small>
+            @if (form.controls.bonPadding.invalid) {
+              <small class="text-danger">
+                {{ 'HOME_PRINTER_BON_PADDING_INVALID' | tr }}
+              </small>
+            }
           </div>
           <div class="form-check form-switch mt-1">
             <input formControlName="updateBonPadding" class="form-check-input" type="checkbox" role="switch" id="updateBonPadding" />
@@ -119,9 +129,11 @@ import {PrintersService} from '../_services/printers.service';
               placeholder="{{ 'HOME_PRINTER_BON_PADDING_TOP' | tr }}"
             />
 
-            <small *ngIf="form.controls.bonPaddingTop.invalid" class="text-danger">
-              {{ 'HOME_PRINTER_BON_PADDING_TOP_INVALID' | tr }}
-            </small>
+            @if (form.controls.bonPaddingTop.invalid) {
+              <small class="text-danger">
+                {{ 'HOME_PRINTER_BON_PADDING_TOP_INVALID' | tr }}
+              </small>
+            }
           </div>
           <div class="form-check form-switch mt-1">
             <input formControlName="updateBonPaddingTop" class="form-check-input" type="checkbox" role="switch" id="updateBonPaddingTop" />
@@ -132,18 +144,17 @@ import {PrintersService} from '../_services/printers.service';
         </div>
       </form>
 
-      <small
-        *ngIf="
-          !form.controls.updateFont.value &&
-          !form.controls.updateFontScale.value &&
-          !form.controls.updateBonWidth.value &&
-          !form.controls.updateBonPadding.value &&
-          !form.controls.updateBonPaddingTop.value
-        "
-        class="text-danger"
-      >
-        {{ 'HOME_PRINTER_BATCH_UPDATE_INVALID' | tr }}
-      </small>
+      @if (
+        !form.controls.updateFont.value &&
+        !form.controls.updateFontScale.value &&
+        !form.controls.updateBonWidth.value &&
+        !form.controls.updateBonPadding.value &&
+        !form.controls.updateBonPaddingTop.value
+      ) {
+        <small class="text-danger">
+          {{ 'HOME_PRINTER_BATCH_UPDATE_INVALID' | tr }}
+        </small>
+      }
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>

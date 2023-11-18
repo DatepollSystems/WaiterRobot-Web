@@ -1,4 +1,4 @@
-import {DatePipe, NgClass, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
+import {DatePipe, NgClass} from '@angular/common';
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
@@ -20,19 +20,38 @@ import {GetSystemNotificationResponse} from '../../../_shared/waiterrobot-backen
     >
       <div class="d-flex justify-content-between">
         <div class="d-flex justify-content-start align-items-center gap-2">
-          <ng-container [ngSwitch]="notification.type">
-            <bi *ngSwitchCase="'INFO'" name="info-circle-fill" />
-            <bi *ngSwitchCase="'SUCCESS'" name="check-circle-fill" />
-            <bi *ngSwitchCase="'DANGER'" name="exclamation-triangle-fill" />
-            <bi *ngSwitchCase="'WARNING'" name="exclamation-triangle-fill" />
-          </ng-container>
+          @switch (notification.type) {
+            @case ('INFO') {
+              <bi name="info-circle-fill" />
+            }
+            @case ('SUCCESS') {
+              <bi name="check-circle-fill" />
+            }
+            @case ('DANGER') {
+              <bi name="exclamation-triangle-fill" />
+            }
+            @case ('WARNING') {
+              <bi name="exclamation-triangle-fill" />
+            }
+          }
+
           <h5 class="mt-2">
             {{ notification.title ?? (notification.type | s_lowerCaseAllExceptFirstLetter) }}
-            <span *ngIf="notification.starts || notification.ends">(</span
-            ><span *ngIf="notification.starts"
-              >{{ notification.starts | date: 'dd.MM.YYYY HH:mm' }}<span *ngIf="notification.starts && notification.ends"> - </span
-              >{{ notification.ends | date: getEndsFormatting() }}</span
-            ><span *ngIf="notification.starts || notification.ends">)</span>
+            @if (notification.starts || notification.ends) {
+              <span>(</span>
+            }
+            @if (notification.starts) {
+              <span
+                >{{ notification.starts | date: 'dd.MM.YYYY HH:mm' }}
+                @if (notification.starts && notification.ends) {
+                  <span> - </span>
+                }
+                {{ notification.ends | date: getEndsFormatting() }}</span
+              >
+            }
+            @if (notification.starts || notification.ends) {
+              <span>)</span>
+            }
           </h5>
         </div>
         <button type="button" class="btn-close" aria-label="Close the alert" (click)="ignore.emit(notification.id)"></button>
@@ -45,7 +64,7 @@ import {GetSystemNotificationResponse} from '../../../_shared/waiterrobot-backen
   standalone: true,
   selector: 'app-system-notification-alert',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, BiComponent, NgIf, DfxLowerCaseExceptFirstLettersPipe, NgSwitch, NgSwitchCase, DatePipe],
+  imports: [NgClass, BiComponent, DfxLowerCaseExceptFirstLettersPipe, DatePipe],
 })
 export class AppSystemNotificationAlertComponent {
   @Input({required: true}) notification!: GetSystemNotificationResponse;

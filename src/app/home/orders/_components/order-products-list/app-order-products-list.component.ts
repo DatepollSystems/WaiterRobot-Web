@@ -1,4 +1,4 @@
-import {AsyncPipe, DatePipe, KeyValuePipe, NgClass, NgForOf, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
+import {AsyncPipe, DatePipe, KeyValuePipe, NgClass} from '@angular/common';
 import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
@@ -16,7 +16,7 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
 
 @Component({
   template: `
-    <ng-container *ngIf="vm$ | async as vm">
+    @if (vm$ | async; as vm) {
       <div class="d-flex flex-column flex-sm-row gap-2 justify-content-between mb-4">
         <div class="d-flex align-items-center gap-2">
           <span>Gruppierung:</span>
@@ -29,49 +29,52 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
         </div>
       </div>
 
-      <ng-container [ngSwitch]="vm.groupedBy">
-        <div *ngSwitchCase="'OFF'">
-          <app-order-products-list-table [orderProducts]="_orderProducts" />
-        </div>
-
-        <ng-container *ngSwitchCase="'PRINTER'">
-          <div class="mt-2 d-flex flex-column gap-3" *ngIf="groupedOrderProducts$ | async as grouped">
-            <div class="card" *ngFor="let groups of grouped | keyvalue">
-              <div class="card-header d-flex flex-wrap gap-2 justify-content-between pt-2">
-                <a routerLink="../../printers/{{ groups.value.printerId }}">
-                  <h4 class="d-flex align-items-center gap-2">
-                    {{ groups.value.printerName }}
-                  </h4>
-                </a>
-                <div>
-                  <button
-                    class="btn btn-sm btn-warning"
-                    (click)="requeueOrdersOfPrinter.next(groups.key)"
-                    *ngIf="showRequeueButton"
-                    ngbTooltip="{{ 'HOME_ORDER_REQUEUE' | tr }}"
-                    placement="left"
-                  >
-                    <bi name="printer" />
-                  </button>
-                </div>
-              </div>
-              <div class="card-body">
-                <app-order-products-list-table [orderProducts]="groups.value.orderProducts" hidePrintedBy />
-              </div>
-            </div>
+      @switch (vm.groupedBy) {
+        @case ('OFF') {
+          <div>
+            <app-order-products-list-table [orderProducts]="_orderProducts" />
           </div>
-        </ng-container>
-      </ng-container>
-    </ng-container>
+        }
+
+        @case ('PRINTER') {
+          @if (groupedOrderProducts$ | async; as grouped) {
+            <div class="mt-2 d-flex flex-column gap-3">
+              @for (groups of grouped | keyvalue; track groups.value.printerId) {
+                <div class="card">
+                  <div class="card-header d-flex flex-wrap gap-2 justify-content-between pt-2">
+                    <a routerLink="../../printers/{{ groups.value.printerId }}">
+                      <h4 class="d-flex align-items-center gap-2">
+                        {{ groups.value.printerName }}
+                      </h4>
+                    </a>
+                    <div>
+                      @if (showRequeueButton) {
+                        <button
+                          class="btn btn-sm btn-warning"
+                          (click)="requeueOrdersOfPrinter.next(groups.key)"
+                          ngbTooltip="{{ 'HOME_ORDER_REQUEUE' | tr }}"
+                          placement="left"
+                        >
+                          <bi name="printer" />
+                        </button>
+                      }
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <app-order-products-list-table [orderProducts]="groups.value.orderProducts" hidePrintedBy />
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        }
+      }
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     DfxTr,
-    NgIf,
     AsyncPipe,
-    NgSwitch,
-    NgSwitchCase,
-    NgForOf,
     AppOrderProductStateBadgeComponent,
     NgClass,
     DatePipe,

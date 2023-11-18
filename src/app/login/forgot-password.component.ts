@@ -18,8 +18,8 @@ import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.compon
     <outside-layout-component>
       <div class="card w-100">
         <div class="card-body">
-          <ng-container [ngSwitch]="resetState()">
-            <ng-container *ngSwitchCase="'REQUEST'">
+          @switch (resetState()) {
+            @case ('REQUEST') {
               <ng-container *ngIf="requestPasswordResetForm.statusChanges | async" />
 
               <form [formGroup]="requestPasswordResetForm" (ngSubmit)="requestPasswordReset()" class="d-flex flex-column gap-3">
@@ -44,12 +44,16 @@ import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.compon
                 </div>
               </form>
 
-              <div class="text-center mt-4" *ngIf="requestPasswordResetForm.valid">
-                <button class="btn btn-link" (click)="resetState.set('SET')">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_ALREADY_SENT' | tr }}</button>
-              </div>
-            </ng-container>
+              @if (requestPasswordResetForm.valid) {
+                <div class="text-center mt-4">
+                  <button class="btn btn-link" (click)="resetState.set('SET')">
+                    {{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_ALREADY_SENT' | tr }}
+                  </button>
+                </div>
+              }
+            }
 
-            <ng-container *ngSwitchCase="'SET'">
+            @case ('SET') {
               <ng-container *ngIf="resetPasswordForm.statusChanges | async" />
 
               <form [formGroup]="resetPasswordForm" (ngSubmit)="resetPassword()" class="d-flex flex-column gap-3">
@@ -62,9 +66,11 @@ import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.compon
                   <label for="resetToken">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_RESET_TOKEN' | tr }}</label>
                 </div>
 
-                <small class="text-danger" *ngIf="resetPasswordForm.controls.resetToken.invalid">
-                  {{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_RESET_TOKEN_INCORRECT' | tr }}
-                </small>
+                @if (resetPasswordForm.controls.resetToken.invalid) {
+                  <small class="text-danger">
+                    {{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_RESET_TOKEN_INCORRECT' | tr }}
+                  </small>
+                }
 
                 <div class="form-floating">
                   <input
@@ -77,9 +83,11 @@ import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.compon
                   <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | tr }}</label>
                 </div>
 
-                <small class="text-danger" *ngIf="resetPasswordForm.controls.newPassword.invalid">
-                  {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
-                </small>
+                @if (resetPasswordForm.controls.newPassword.invalid) {
+                  <small class="text-danger">
+                    {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
+                  </small>
+                }
 
                 <div class="form-floating">
                   <input
@@ -92,13 +100,17 @@ import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.compon
                   <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_AGAIN' | tr }}</label>
                 </div>
 
-                <small class="text-danger" *ngIf="resetPasswordForm.controls.confirmPassword.invalid">
-                  {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
-                </small>
+                @if (resetPasswordForm.controls.confirmPassword.invalid) {
+                  <small class="text-danger">
+                    {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
+                  </small>
+                }
 
-                <small class="text-danger" *ngIf="resetPasswordForm.hasError('mismatch')">
-                  {{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_DONT_MATCH' | tr }}
-                </small>
+                @if (resetPasswordForm.hasError('mismatch')) {
+                  <small class="text-danger">
+                    {{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_DONT_MATCH' | tr }}
+                  </small>
+                }
 
                 <div class="d-flex">
                   <button [disabled]="!resetPasswordForm.valid" type="submit" class="btn btn-primary w-100">
@@ -106,16 +118,16 @@ import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.compon
                   </button>
                 </div>
               </form>
-            </ng-container>
+            }
 
-            <ng-container *ngSwitchCase="'SUCCESS'">
+            @case ('SUCCESS') {
               <div class="alert alert-success d-flex" role="alert">
                 {{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_SUCCESS' | tr }}
               </div>
 
               <a routerLink="/about" class="btn btn-secondary">{{ 'GO_BACK' | tr }}</a>
-            </ng-container>
-          </ng-container>
+            }
+          }
         </div>
       </div>
     </outside-layout-component>

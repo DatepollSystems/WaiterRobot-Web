@@ -1,4 +1,4 @@
-import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
@@ -19,7 +19,7 @@ import {BillsService} from './_services/bills.service';
 
 @Component({
   template: `
-    <ng-container *ngIf="vm$ | async as vm">
+    @if (vm$ | async; as vm) {
       <div class="d-flex flex-wrap justify-content-between gap-2 gap-md-0 mb-2">
         <h1 class="mb-0">{{ 'HOME_BILL' | tr }} #{{ vm.bill.id }}</h1>
       </div>
@@ -58,13 +58,12 @@ import {BillsService} from './_services/bills.service';
       <hr />
 
       <app-bill-products-list-table [billProducts]="vm.bill.implodedBillProducts" [priceSum]="vm.bill.pricePaidSum" />
-    </ng-container>
+    }
   `,
   selector: 'app-orders-info',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     AsyncPipe,
     DatePipe,
     ScrollableToolbarComponent,

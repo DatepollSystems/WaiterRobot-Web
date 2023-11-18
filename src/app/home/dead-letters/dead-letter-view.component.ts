@@ -1,4 +1,4 @@
-import {DatePipe, NgIf} from '@angular/common';
+import {DatePipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 
@@ -15,34 +15,34 @@ import {DeadLettersService} from './dead-letters.service';
 
 @Component({
   template: `
-    <div *ngIf="deadLetter() as deadLetter; else loading">
-      <h1>Dead Letter "{{ deadLetter.id }}"</h1>
+    @if (deadLetter(); as deadLetter) {
+      <div>
+        <h1>Dead Letter "{{ deadLetter.id }}"</h1>
 
-      <scrollable-toolbar>
-        <back-button />
+        <scrollable-toolbar>
+          <back-button />
 
-        <div>
-          <button class="btn btn-sm btn-danger" (click)="onDelete(deadLetter.id)">
-            <bi name="trash" />
-            {{ 'DELETE' | tr }}
-          </button>
+          <div>
+            <button class="btn btn-sm btn-danger" (click)="onDelete(deadLetter.id)">
+              <bi name="trash" />
+              {{ 'DELETE' | tr }}
+            </button>
+          </div>
+        </scrollable-toolbar>
+
+        <div class="d-flex flex-wrap gap-2 mb-4">
+          <span class="badge text-bg-primary">{{ deadLetter.createdAt | date: 'dd.MM.YYYY HH:mm:ss:SSS' }}</span>
+          <span class="badge text-bg-secondary">{{ deadLetter.queue }}</span>
+          <span class="badge text-bg-secondary">{{ deadLetter.exchange }}</span>
         </div>
-      </scrollable-toolbar>
 
-      <div class="d-flex flex-wrap gap-2 mb-4">
-        <span class="badge text-bg-primary">{{ deadLetter.createdAt | date: 'dd.MM.YYYY HH:mm:ss:SSS' }}</span>
-        <span class="badge text-bg-secondary">{{ deadLetter.queue }}</span>
-        <span class="badge text-bg-secondary">{{ deadLetter.exchange }}</span>
+        <div class="json-box">
+          <pre id="json-data">{{ deadLetter.body }}</pre>
+        </div>
       </div>
-
-      <div class="json-box">
-        <pre id="json-data">{{ deadLetter.body }}</pre>
-      </div>
-    </div>
-
-    <ng-template #loading>
+    } @else {
       <app-spinner-row />
-    </ng-template>
+    }
   `,
   styles: [
     `
@@ -57,7 +57,7 @@ import {DeadLettersService} from './dead-letters.service';
     `,
   ],
   selector: 'app-dead-letter-view',
-  imports: [NgIf, DfxTr, BiComponent, ScrollableToolbarComponent, AppBackButtonComponent, AppSpinnerRowComponent, DatePipe],
+  imports: [DfxTr, BiComponent, ScrollableToolbarComponent, AppBackButtonComponent, AppSpinnerRowComponent, DatePipe],
   standalone: true,
 })
 export class DeadLetterViewComponent {

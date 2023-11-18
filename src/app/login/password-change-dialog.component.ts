@@ -28,9 +28,11 @@ import {passwordMatchValidator} from '../_shared/regex';
             <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | tr }}</label>
           </div>
 
-          <small class="text-danger" *ngIf="passwordForm.controls.newPassword.invalid">
-            {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
-          </small>
+          @if (passwordForm.controls.newPassword.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
+            </small>
+          }
 
           <div class="form-floating">
             <input
@@ -43,13 +45,17 @@ import {passwordMatchValidator} from '../_shared/regex';
             <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_AGAIN' | tr }}</label>
           </div>
 
-          <small class="text-danger" *ngIf="passwordForm.controls.confirmPassword.invalid">
-            {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
-          </small>
+          @if (passwordForm.controls.confirmPassword.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
+            </small>
+          }
 
-          <small class="text-danger" *ngIf="passwordForm.hasError('mismatch')">
-            {{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_DONT_MATCH' | tr }}
-          </small>
+          @if (passwordForm.hasError('mismatch')) {
+            <small class="text-danger">
+              {{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_DONT_MATCH' | tr }}
+            </small>
+          }
         </form>
       </div>
     </div>

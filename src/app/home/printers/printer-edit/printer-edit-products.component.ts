@@ -1,4 +1,3 @@
-import {NgIf} from '@angular/common';
 import {AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewChild} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
@@ -36,14 +35,16 @@ import {GetProductMinResponse} from '../../../_shared/waiterrobot-backend';
         <tr *ngbRowDef="let product; columns: columnsToDisplay" ngb-row routerLink="../../products/{{ product.id }}" class="clickable"></tr>
       </table>
     </div>
-    <div class="w-100 text-center" *ngIf="_products.data.length < 1">
-      {{ 'HOME_STATISTICS_NO_DATA' | tr }}
-    </div>
+    @if (_products.data.length < 1) {
+      <div class="w-100 text-center">
+        {{ 'HOME_STATISTICS_NO_DATA' | tr }}
+      </div>
+    }
   `,
   selector: 'app-printer-edit-products',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DfxTableModule, DfxTr, NgIf, RouterLink, NgbTooltip, DfxSortModule, BiComponent],
+  imports: [DfxTableModule, DfxTr, RouterLink, NgbTooltip, DfxSortModule, BiComponent],
 })
 export class PrinterEditProductsComponent implements AfterViewInit {
   columnsToDisplay = ['name', 'actions'];

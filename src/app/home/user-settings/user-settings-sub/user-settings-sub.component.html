@@ -20,7 +20,9 @@
                 name="email"
                 [ngModel]="emailAddress$ | async"
               />
-              <small *ngIf="emailModel.invalid || !emailAddressValid" class="text-danger"> {{ 'HOME_USERS_EMAIL_INCORRECT' | tr }} </small>
+              @if (emailModel.invalid || !emailAddressValid) {
+              <small class="text-danger"> {{ 'HOME_USERS_EMAIL_INCORRECT' | tr }} </small>
+              }
             </div>
           </div>
         </div>
@@ -50,7 +52,9 @@
                 name="oldPassword"
                 placeholder="{{ 'PASSWORD' | tr }}"
               />
-              <small *ngIf="passwordModel.invalid" class="text-danger"> {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }} </small>
+              @if (passwordModel.invalid) {
+              <small class="text-danger"> {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }} </small>
+              }
             </div>
           </div>
 
@@ -69,7 +73,9 @@
                 name="newPassword"
                 placeholder="{{ 'PASSWORD' | tr }}"
               />
-              <small *ngIf="newPasswordModel.invalid" class="text-danger"> {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }} </small>
+              @if (newPasswordModel.invalid) {
+              <small class="text-danger"> {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }} </small>
+              }
             </div>
           </div>
 
@@ -89,12 +95,15 @@
                 placeholder="{{ 'PASSWORD' | tr }}"
               />
 
-              <div *ngIf="newPasswordAgainModel.invalid">
+              @if (newPasswordAgainModel.invalid) {
+              <div>
                 <small class="text-danger"> {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }} </small>
               </div>
-              <div *ngIf="!newPasswordsMatch">
+              } @if (!newPasswordsMatch) {
+              <div>
                 <small class="text-danger"> {{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_DONT_MATCH' | tr }} </small>
               </div>
+              }
             </div>
           </div>
         </div>

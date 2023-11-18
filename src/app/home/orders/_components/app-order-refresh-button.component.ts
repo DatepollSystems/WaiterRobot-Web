@@ -1,4 +1,3 @@
-import {NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -18,12 +17,14 @@ import {OrdersService} from '../orders.service';
       placement="left"
     >
       <bi name="arrow-clockwise" />
-      <span class="badge text-bg-secondary" *ngIf="countdown">{{ countdown }}</span>
+      @if (countdown) {
+        <span class="badge text-bg-secondary">{{ countdown }}</span>
+      }
     </button>
   `,
   standalone: true,
   selector: 'app-order-refresh-btn',
-  imports: [DfxTr, NgbTooltip, BiComponent, NgIf],
+  imports: [DfxTr, NgbTooltip, BiComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrderRefreshButtonComponent {

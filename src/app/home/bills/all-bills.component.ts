@@ -1,4 +1,4 @@
-import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {AfterViewInit, ChangeDetectionStrategy, Component, inject, ViewChild} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
@@ -31,16 +31,17 @@ import {BillsService} from './_services/bills.service';
     <form class="mt-2">
       <div class="input-group">
         <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          ngbTooltip="{{ 'CLEAR' | tr }}"
-          placement="bottom"
-          (click)="filter.reset()"
-          *ngIf="(filter.value?.length ?? 0) > 0"
-        >
-          <bi name="x-circle-fill" />
-        </button>
+        @if ((filter.value?.length ?? 0) > 0) {
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            ngbTooltip="{{ 'CLEAR' | tr }}"
+            placement="bottom"
+            (click)="filter.reset()"
+          >
+            <bi name="x-circle-fill" />
+          </button>
+        }
       </div>
     </form>
 
@@ -101,11 +102,15 @@ import {BillsService} from './_services/bills.service';
       </table>
     </div>
 
-    <div class="w-100 text-center" *ngIf="(dataSource.data?.numberOfItems ?? 1) < 1">
-      {{ 'HOME_STATISTICS_NO_DATA' | tr }}
-    </div>
+    @if ((dataSource.data?.numberOfItems ?? 1) < 1) {
+      <div class="w-100 text-center">
+        {{ 'HOME_STATISTICS_NO_DATA' | tr }}
+      </div>
+    }
 
-    <app-spinner-row *ngIf="!dataSource.data" />
+    @if (!dataSource.data) {
+      <app-spinner-row />
+    }
 
     <ngb-paginator [collectionSize]="dataSource.data?.numberOfItems ?? 0" [pageSizes]="[10, 20, 50, 100, 200]" [pageSize]="50" />
   `,
@@ -114,7 +119,6 @@ import {BillsService} from './_services/bills.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,
-    NgIf,
     DatePipe,
     AsyncPipe,
     ReactiveFormsModule,

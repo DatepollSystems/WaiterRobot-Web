@@ -22,21 +22,27 @@ import {TablesService} from '../_services/tables.service';
         <label for="number">{{ 'NUMBER' | tr }}</label>
         <input formControlName="number" class="form-control" type="number" id="number" placeholder="{{ 'NUMBER' | tr }}" />
 
-        <small *ngIf="form.controls.number.errors?.required" class="text-danger">
-          {{ 'HOME_TABLES_NUMBER_INCORRECT' | tr }}
-        </small>
+        @if (form.controls.number.errors?.required) {
+          <small class="text-danger">
+            {{ 'HOME_TABLES_NUMBER_INCORRECT' | tr }}
+          </small>
+        }
 
-        <small *ngIf="(existsAlready$ | async) && form.controls.number.errors?.existsAlready" class="text-danger">
-          {{ 'HOME_TABLES_NUMBER_EXISTS_ALREADY' | tr }}
-        </small>
+        @if ((existsAlready$ | async) && form.controls.number.errors?.existsAlready) {
+          <small class="text-danger">
+            {{ 'HOME_TABLES_NUMBER_EXISTS_ALREADY' | tr }}
+          </small>
+        }
       </div>
 
       <div class="form-group col-12 col-md-3">
         <label for="seats">{{ 'SEATS' | tr }}</label>
         <input formControlName="seats" class="form-control" type="number" id="seats" placeholder="{{ 'SEATS' | tr }}" />
-        <small *ngIf="form.controls.seats.invalid" class="text-danger">
-          {{ 'HOME_TABLES_SEATS_INCORRECT' | tr }}
-        </small>
+        @if (form.controls.seats.invalid) {
+          <small class="text-danger">
+            {{ 'HOME_TABLES_SEATS_INCORRECT' | tr }}
+          </small>
+        }
       </div>
 
       <div class="form-group col">
@@ -55,18 +61,22 @@ import {TablesService} from '../_services/tables.service';
           </select>
         </div>
 
-        <small *ngIf="form.controls.groupId.invalid" class="text-danger">
-          {{ 'HOME_TABLES_GROUPS_INCORRECT' | tr }}
-        </small>
+        @if (form.controls.groupId.invalid) {
+          <small class="text-danger">
+            {{ 'HOME_TABLES_GROUPS_INCORRECT' | tr }}
+          </small>
+        }
       </div>
     </form>
-    <div class="form-group col-12 col-md-5" *ngIf="publicTableIdLink">
-      <label for="publicId">{{ 'HOME_TABLES_PUBLIC_ID' | tr }}</label>
-      <div class="input-group">
-        <input class="form-control" type="text" id="publicId" [value]="publicTableIdLink" readonly />
-        <a [href]="publicTableIdLink" target="_blank" class="btn btn-outline-info" type="button">{{ 'OPEN' | tr }}</a>
+    @if (publicTableIdLink) {
+      <div class="form-group col-12 col-md-5">
+        <label for="publicId">{{ 'HOME_TABLES_PUBLIC_ID' | tr }}</label>
+        <div class="input-group">
+          <input class="form-control" type="text" id="publicId" [value]="publicTableIdLink" readonly />
+          <a [href]="publicTableIdLink" target="_blank" class="btn btn-outline-info" type="button">{{ 'OPEN' | tr }}</a>
+        </div>
       </div>
-    </div>
+    }
   `,
   selector: 'app-table-edit-form',
   standalone: true,

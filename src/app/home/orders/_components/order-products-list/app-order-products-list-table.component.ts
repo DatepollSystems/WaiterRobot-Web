@@ -1,4 +1,4 @@
-import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {AfterViewInit, booleanAttribute, ChangeDetectionStrategy, Component, Input, ViewChild} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
@@ -8,15 +8,14 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {GetImplodedOrderProductResponse} from 'src/app/_shared/waiterrobot-backend';
 
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
-import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
 
 @Component({
   template: `
-    <div class="table-responsive" *ngSub="dataSource$; let dataSource">
-      <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="product" ngbSortDirection="asc">
+    <div class="table-responsive">
+      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="product" ngbSortDirection="asc">
         <ng-container ngbColumnDef="product">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
@@ -63,18 +62,7 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
   `,
   standalone: true,
   selector: 'app-order-products-list-table',
-  imports: [
-    DfxSortModule,
-    DfxTableModule,
-    DfxTr,
-    AppOrderProductStateBadgeComponent,
-    AsyncPipe,
-    NgIf,
-    DatePipe,
-    RouterLink,
-    NgSub,
-    NgbTooltip,
-  ],
+  imports: [DfxSortModule, DfxTableModule, DfxTr, AppOrderProductStateBadgeComponent, AsyncPipe, DatePipe, RouterLink, NgbTooltip],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrderProductsListTableComponent implements AfterViewInit {

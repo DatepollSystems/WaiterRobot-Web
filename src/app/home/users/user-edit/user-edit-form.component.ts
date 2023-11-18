@@ -18,26 +18,32 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../../_shared/wa
           <label for="email">{{ 'EMAIL' | tr }}</label>
           <input class="form-control" type="email" id="email" formControlName="emailAddress" placeholder="{{ 'EMAIL' | tr }}" />
 
-          <small *ngIf="form.controls.emailAddress.invalid" class="text-danger">
-            {{ 'HOME_USERS_EMAIL_INCORRECT' | tr }}
-          </small>
+          @if (form.controls.emailAddress.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_USERS_EMAIL_INCORRECT' | tr }}
+            </small>
+          }
         </div>
 
         <div class="form-group col-sm">
           <label for="firstname">{{ 'FIRSTNAME' | tr }}</label>
           <input class="form-control" type="text" id="firstname" formControlName="firstname" placeholder="{{ 'FIRSTNAME' | tr }}" />
 
-          <small *ngIf="form.controls.firstname.invalid" class="text-danger">
-            {{ 'HOME_USERS_NAME_INCORRECT' | tr }}
-          </small>
+          @if (form.controls.firstname.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_USERS_NAME_INCORRECT' | tr }}
+            </small>
+          }
         </div>
 
         <div class="form-group col-sm">
           <label for="surname">{{ 'SURNAME' | tr }}</label>
           <input class="form-control" type="text" id="surname" formControlName="surname" placeholder="{{ 'SURNAME' | tr }}" />
-          <small *ngIf="form.controls.surname.invalid" class="text-danger">
-            {{ 'HOME_USERS_SUR_NAME_INCORRECT' | tr }}
-          </small>
+          @if (form.controls.surname.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_USERS_SUR_NAME_INCORRECT' | tr }}
+            </small>
+          }
         </div>
       </div>
 
@@ -47,15 +53,19 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../../_shared/wa
             <label for="password">{{ 'PASSWORD' | tr }}</label>
             <input class="form-control" type="password" id="password" formControlName="password" placeholder="*******" />
 
-            <small *ngIf="form.controls.password.invalid" class="text-danger">
-              {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
-            </small>
+            @if (form.controls.password.invalid) {
+              <small class="text-danger">
+                {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
+              </small>
+            }
           </div>
 
-          <div class="form-check form-switch mt-2" *ngIf="_isEdit">
-            <input class="form-check-input" type="checkbox" role="switch" id="updatePassword" formControlName="updatePassword" />
-            <label class="form-check-label" for="updatePassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD' | tr }}</label>
-          </div>
+          @if (_isEdit) {
+            <div class="form-check form-switch mt-2">
+              <input class="form-check-input" type="checkbox" role="switch" id="updatePassword" formControlName="updatePassword" />
+              <label class="form-check-label" for="updatePassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD' | tr }}</label>
+            </div>
+          }
         </div>
       </div>
 
@@ -74,12 +84,14 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../../_shared/wa
           </label>
         </div>
 
-        <div class="form-check form-switch" *ngIf="_isEdit">
-          <input class="form-check-input" type="checkbox" id="activated" formControlName="activated" />
-          <label class="form-check-label" for="activated">
-            {{ 'HOME_USERS_ACTIVATED' | tr }}
-          </label>
-        </div>
+        @if (_isEdit) {
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="activated" formControlName="activated" />
+            <label class="form-check-label" for="activated">
+              {{ 'HOME_USERS_ACTIVATED' | tr }}
+            </label>
+          </div>
+        }
 
         <div class="form-check form-switch">
           <input class="form-check-input" type="checkbox" id="forcePasswordChange" formControlName="forcePasswordChange" />

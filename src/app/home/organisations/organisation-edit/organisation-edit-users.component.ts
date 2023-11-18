@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, Input, ViewChild} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
@@ -10,7 +10,6 @@ import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {notNullAndUndefined} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
-import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {getActivatedRouteIdParam} from '../../../_shared/services/getActivatedRouteIdParam';
@@ -25,16 +24,17 @@ import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.c
       <form class="col-12 col-md-6">
         <div class="input-group">
           <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            ngbTooltip="{{ 'CLEAR' | tr }}"
-            placement="bottom"
-            (click)="filter.reset()"
-            *ngIf="(filter.value?.length ?? 0) > 0"
-          >
-            <bi name="x-circle-fill" />
-          </button>
+          @if ((filter.value?.length ?? 0) > 0) {
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              ngbTooltip="{{ 'CLEAR' | tr }}"
+              placement="bottom"
+              (click)="filter.reset()"
+            >
+              <bi name="x-circle-fill" />
+            </button>
+          }
         </div>
       </form>
 
@@ -69,15 +69,16 @@ import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.c
         <ng-container ngbColumnDef="actions">
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
           <td *ngbCellDef="let organisationUser" ngb-cell>
-            <button
-              type="button"
-              class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
-              ngbTooltip="{{ 'DELETE' | tr }}"
-              (click)="onOrgUserDelete(organisationUser)"
-              *ngIf="myUserEmailAddress !== organisationUser.email_address"
-            >
-              <bi name="trash" />
-            </button>
+            @if (myUserEmailAddress !== organisationUser.email_address) {
+              <button
+                type="button"
+                class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
+                ngbTooltip="{{ 'DELETE' | tr }}"
+                (click)="onOrgUserDelete(organisationUser)"
+              >
+                <bi name="trash" />
+              </button>
+            }
           </td>
         </ng-container>
 
@@ -89,7 +90,7 @@ import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.c
   selector: 'app-organisation-edit-users',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, NgbTooltip, NgIf, BiComponent, DfxTableModule, DfxSortModule, DfxTr, NgSub, AsyncPipe],
+  imports: [ReactiveFormsModule, NgbTooltip, BiComponent, DfxTableModule, DfxSortModule, DfxTr, AsyncPipe],
 })
 export class OrganisationEditUsersComponent {
   modal = inject(NgbModal);

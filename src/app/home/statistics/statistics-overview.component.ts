@@ -30,9 +30,11 @@ import {StatisticsService} from './statistics.service';
             <div class="card-body d-flex flex-column justify-content-between align-items-center gap-2">
               <h4 class="mt-1">{{ 'HOME_STATISTICS_BEST_WAITER' | tr }}</h4>
               <div style="font-size: 2rem" class="text-center">
-                <ng-container *ngIf="countDto.bestWaiter; else bestWaiterUnknown">
+                @if (countDto.bestWaiter) {
                   {{ countDto.bestWaiter.name }} ({{ countDto.bestWaiter.value }})
-                </ng-container>
+                } @else {
+                  <span>{{ 'UNKNOWN' | tr }}</span>
+                }
                 <ng-template #bestWaiterUnknown>
                   <span>{{ 'UNKNOWN' | tr }}</span>
                 </ng-template>
@@ -46,9 +48,11 @@ import {StatisticsService} from './statistics.service';
             <div class="card-body d-flex flex-column justify-content-between align-items-center gap-2">
               <h4 class="mt-1">{{ 'HOME_STATISTICS_BEST_PRODUCT' | tr }}</h4>
               <div style="font-size: 2rem" class="text-center">
-                <ng-container *ngIf="countDto.bestProduct; else bestWaiterUnknown">
+                @if (countDto.bestProduct) {
                   {{ countDto.bestProduct.name }} ({{ countDto.bestProduct.value }}x)
-                </ng-container>
+                } @else {
+                  #bestWaiterUnknown|
+                }
                 <ng-template #bestWaiterUnknown>
                   <span>{{ 'UNKNOWN' | tr }}</span>
                 </ng-template>

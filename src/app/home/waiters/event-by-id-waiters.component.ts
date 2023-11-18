@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -24,7 +24,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
 
 @Component({
   template: `
-    <ng-container *ngIf="entity$ | async as entity">
+    @if (entity$ | async; as entity) {
       <h1>{{ entity?.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</h1>
 
       <scrollable-toolbar>
@@ -39,23 +39,26 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
           </button>
         </div>
 
-        <app-waiter-create-qrcode-btn *ngIf="entity" [token]="entity.waiterCreateToken" />
+        @if (entity) {
+          <app-waiter-create-qrcode-btn [token]="entity.waiterCreateToken" />
+        }
       </scrollable-toolbar>
-    </ng-container>
+    }
 
     <form>
       <div class="input-group">
         <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          ngbTooltip="{{ 'CLEAR' | tr }}"
-          placement="bottom"
-          (click)="filter.reset()"
-          *ngIf="(filter.value?.length ?? 0) > 0"
-        >
-          <bi name="x-circle-fill" />
-        </button>
+        @if ((filter.value?.length ?? 0) > 0) {
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            ngbTooltip="{{ 'CLEAR' | tr }}"
+            placement="bottom"
+            (click)="filter.reset()"
+          >
+            <bi name="x-circle-fill" />
+          </button>
+        }
       </div>
     </form>
 
@@ -157,7 +160,6 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
     AsyncPipe,
     RouterLink,
     NgbTooltip,
-    NgIf,
     DfxTr,
     DfxTableModule,
     DfxSortModule,

@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -51,16 +51,17 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
     <form>
       <div class="input-group">
         <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          ngbTooltip="{{ 'CLEAR' | tr }}"
-          placement="bottom"
-          (click)="filter.reset()"
-          *ngIf="(filter.value?.length ?? 0) > 0"
-        >
-          <bi name="x-circle-fill" />
-        </button>
+        @if ((filter.value?.length ?? 0) > 0) {
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            ngbTooltip="{{ 'CLEAR' | tr }}"
+            placement="bottom"
+            (click)="filter.reset()"
+          >
+            <bi name="x-circle-fill" />
+          </button>
+        }
       </div>
     </form>
 
@@ -158,7 +159,6 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
     AsyncPipe,
     RouterLink,
     DfxTr,
-    NgIf,
     NgbTooltip,
     DfxTableModule,
     DfxSortModule,

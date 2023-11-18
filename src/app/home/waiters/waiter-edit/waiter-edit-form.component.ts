@@ -21,9 +21,11 @@ import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, Updat
           <label for="name">{{ 'NAME' | tr }}</label>
           <input class="form-control" type="text" id="name" placeholder="{{ 'NAME' | tr }}" formControlName="name" />
 
-          <small *ngIf="form.controls.name.invalid" class="text-danger">
-            {{ 'HOME_WAITERS_EDIT_NAME_INCORRECT' | tr }}
-          </small>
+          @if (form.controls.name.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_WAITERS_EDIT_NAME_INCORRECT' | tr }}
+            </small>
+          }
         </div>
 
         <chip-input

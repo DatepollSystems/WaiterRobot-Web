@@ -1,4 +1,4 @@
-import {DatePipe, NgClass, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
+import {DatePipe, NgClass} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -22,20 +22,31 @@ import {GetImplodedOrderProductResponse, GetOrderResponse} from '../../../_share
       class="badge d-flex align-items-center gap-2 not-selectable"
       style="width: min-content"
     >
-      <ng-container [ngSwitch]="orderState">
-        <span *ngSwitchCase="'QUEUED'">{{ 'HOME_ORDER_QUEUED' | tr }}</span>
-        <span *ngSwitchCase="'IN_PROGRESS'">{{ 'HOME_ORDER_IN_WORK' | tr }}</span>
-        <span *ngSwitchCase="'FINISHED'">{{ 'HOME_ORDER_PROCESSED' | tr }}</span>
-      </ng-container>
+      @switch (orderState) {
+        @case ('QUEUED') {
+          <span>{{ 'HOME_ORDER_QUEUED' | tr }}</span>
+        }
+        @case ('IN_PROGRESS') {
+          <span>{{ 'HOME_ORDER_IN_WORK' | tr }}</span>
+        }
+        @case ('FINISHED') {
+          <span>{{ 'HOME_ORDER_PROCESSED' | tr }}</span>
+        }
+      }
 
-      <div class="circle pulse green" *ngIf="orderState === 'QUEUED' || orderState === 'IN_PROGRESS'; else processed"></div>
-      <ng-template #processed>
+      @if (orderState === 'QUEUED' || orderState === 'IN_PROGRESS') {
+        <div class="circle pulse green"></div>
+      } @else {
         <bi name="check2-square" />
-      </ng-template>
+      }
     </span>
     <ng-template #popContent class="d-flex flex-column">
-      <div *ngIf="createdAt">{{ 'HOME_ORDER_CREATED_AT' | tr }}: {{ createdAt | date: 'dd.MM.yy HH:mm:ss' }}</div>
-      <div *ngIf="processedAt">Verarbeitet um: {{ processedAt | date: 'dd.MM.yy HH:mm:ss' }}</div>
+      @if (createdAt) {
+        <div>{{ 'HOME_ORDER_CREATED_AT' | tr }}: {{ createdAt | date: 'dd.MM.yy HH:mm:ss' }}</div>
+      }
+      @if (processedAt) {
+        <div>Verarbeitet um: {{ processedAt | date: 'dd.MM.yy HH:mm:ss' }}</div>
+      }
       <div>Gedruckte Produkte: {{ printedProducts }} von {{ allProducts }}</div>
     </ng-template>
   `,
@@ -69,7 +80,7 @@ import {GetImplodedOrderProductResponse, GetOrderResponse} from '../../../_share
   standalone: true,
   selector: 'app-order-state-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, BiComponent, NgIf, DfxTr, NgbTooltip, DatePipe, NgbPopover, NgSwitch, NgSwitchCase],
+  imports: [NgClass, BiComponent, DfxTr, NgbTooltip, DatePipe, NgbPopover],
 })
 export class AppOrderStateBadgeComponent {
   @Input({required: true}) orderState!: GetOrderResponse['state'];

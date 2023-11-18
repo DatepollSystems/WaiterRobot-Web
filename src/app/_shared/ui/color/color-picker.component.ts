@@ -1,4 +1,4 @@
-import {NgClass, NgForOf, NgIf} from '@angular/common';
+import {NgClass} from '@angular/common';
 import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, Output, signal} from '@angular/core';
 
 import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -47,13 +47,9 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
 
     <ng-template #popContent>
       <div class="d-flex flex-row flex-wrap" style="width: 200px">
-        <button
-          class="color-btn"
-          type="button"
-          (click)="changeColor(color)"
-          [style.background-color]="color"
-          *ngFor="let color of colors"
-        ></button>
+        @for (color of colors; track color) {
+          <button class="color-btn" type="button" (click)="changeColor(color)" [style.background-color]="color"></button>
+        }
       </div>
     </ng-template>
   `,
@@ -69,7 +65,7 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
   standalone: true,
   selector: 'app-color-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, DfxTr, ColorGithubModule, BiComponent, NgbPopover, NgForOf, NgClass, AppIsLightColorPipe, NgbTooltip],
+  imports: [DfxTr, ColorGithubModule, BiComponent, NgbPopover, NgClass, AppIsLightColorPipe, NgbTooltip],
 })
 export class AppColorPicker {
   @Input() color?: string | null;

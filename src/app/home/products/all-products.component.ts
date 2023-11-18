@@ -1,4 +1,4 @@
-import {AsyncPipe, NgClass, NgIf} from '@angular/common';
+import {AsyncPipe, NgClass} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -42,16 +42,17 @@ import {ProductsService} from './_services/products.service';
     <form>
       <div class="input-group">
         <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          ngbTooltip="{{ 'CLEAR' | tr }}"
-          placement="bottom"
-          (click)="filter.reset()"
-          *ngIf="(filter.value?.length ?? 0) > 0"
-        >
-          <bi name="x-circle-fill" />
-        </button>
+        @if ((filter.value?.length ?? 0) > 0) {
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            ngbTooltip="{{ 'CLEAR' | tr }}"
+            placement="bottom"
+            (click)="filter.reset()"
+          >
+            <bi name="x-circle-fill" />
+          </button>
+        }
       </div>
     </form>
 
@@ -110,9 +111,11 @@ import {ProductsService} from './_services/products.service';
         <ng-container ngbColumnDef="initialStock">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_AMOUNT_LEFT' | tr }}</th>
           <td *ngbCellDef="let product" ngb-cell>
-            <span *ngIf="product.initialStock">
-              {{ product.initialStock - product.amountOrdered }}
-            </span>
+            @if (product.initialStock) {
+              <span>
+                {{ product.initialStock - product.amountOrdered }}
+              </span>
+            }
           </td>
         </ng-container>
 
@@ -161,7 +164,6 @@ import {ProductsService} from './_services/products.service';
     ScrollableToolbarComponent,
     DfxTr,
     BiComponent,
-    NgIf,
     NgClass,
     ReactiveFormsModule,
     DfxTableModule,

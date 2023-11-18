@@ -1,5 +1,5 @@
 import {CdkDragDrop, DragDropModule, moveItemInArray} from '@angular/cdk/drag-drop';
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {AfterViewInit, booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, Output, TemplateRef} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
@@ -17,8 +17,6 @@ import {ScrollableToolbarComponent} from '../button/scrollable-toolbar.component
   selector: 'app-navbar-scrollable',
   standalone: true,
   imports: [
-    NgIf,
-    NgForOf,
     RouterLink,
     RouterLinkActive,
     DragDropModule,

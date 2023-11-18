@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf, UpperCasePipe} from '@angular/common';
+import {AsyncPipe, UpperCasePipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -24,39 +24,42 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
     <h1>{{ 'HOME_ORGS_ALL' | tr }}</h1>
 
     <ng-container *ngSub="myUser$ as myUser">
-      <scrollable-toolbar *ngIf="myUser?.isAdmin">
-        <div>
-          <a routerLink="../create" class="btn btn-sm btn-success">
-            <bi name="plus-circle" />
-            {{ 'ADD_2' | tr }}</a
-          >
-        </div>
+      @if (myUser?.isAdmin) {
+        <scrollable-toolbar>
+          <div>
+            <a routerLink="../create" class="btn btn-sm btn-success">
+              <bi name="plus-circle" />
+              {{ 'ADD_2' | tr }}</a
+            >
+          </div>
 
-        <div>
-          <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-            <bi name="trash" />
-            {{ 'DELETE' | tr }}
-          </button>
-        </div>
-      </scrollable-toolbar>
+          <div>
+            <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+              <bi name="trash" />
+              {{ 'DELETE' | tr }}
+            </button>
+          </div>
+        </scrollable-toolbar>
+      }
 
       <form>
         <div class="input-group">
           <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            ngbTooltip="{{ 'CLEAR' | tr }}"
-            placement="bottom"
-            (click)="filter.reset()"
-            *ngIf="(filter.value?.length ?? 0) > 0"
-          >
-            <bi name="x-circle-fill" />
-          </button>
+          @if ((filter.value?.length ?? 0) > 0) {
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              ngbTooltip="{{ 'CLEAR' | tr }}"
+              placement="bottom"
+              (click)="filter.reset()"
+            >
+              <bi name="x-circle-fill" />
+            </button>
+          }
         </div>
       </form>
 
-      <ng-container *ngIf="dataSource$ | async as dataSource">
+      @if (dataSource$ | async; as dataSource) {
         <div class="table-responsive">
           <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
             <ng-container ngbColumnDef="select">
@@ -124,15 +127,16 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
                 >
                   <bi name="pencil-square" />
                 </a>
-                <button
-                  type="button"
-                  class="btn btn-sm btn-outline-danger text-body-emphasis"
-                  ngbTooltip="{{ 'DELETE' | tr }}"
-                  (click)="onDelete(organisation.id, $event)"
-                  *ngIf="myUser?.isAdmin"
-                >
-                  <bi name="trash" />
-                </button>
+                @if (myUser?.isAdmin) {
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-outline-danger text-body-emphasis"
+                    ngbTooltip="{{ 'DELETE' | tr }}"
+                    (click)="onDelete(organisation.id, $event)"
+                  >
+                    <bi name="trash" />
+                  </button>
+                }
               </td>
             </ng-container>
 
@@ -141,7 +145,7 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
           </table>
         </div>
         <ngb-paginator [collectionSize]="dataSource.data.length" />
-      </ng-container>
+      }
       <app-spinner-row [show]="isLoading" />
     </ng-container>
   `,
@@ -152,7 +156,6 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
     RouterLink,
     UpperCasePipe,
     NgSub,
-    NgIf,
     NgbTooltip,
     DfxTr,
     DfxTableModule,

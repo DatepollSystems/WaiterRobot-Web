@@ -47,23 +47,23 @@ import {EnvironmentHelper} from '../../EnvironmentHelper';
           <li [ngbNavItem]="2">
             <a ngbNavLink>{{ 'ABOUT_MODAL_TECHNICAL_USED_LIBRARIES' | tr }}</a>
             <ng-template ngbNavContent>
-              <div class="list-group" *ngIf="licenses$ | async as licenses">
-                <a
-                  *ngFor="let license of licenses"
-                  class="list-group-item list-group-item-action"
-                  [href]="license.link"
-                  rel="noopener"
-                  target="_blank"
-                >
-                  <div class="d-flex w-100 justify-content-between">
-                    <h6 class="mb-1">{{ license.name }}</h6>
-                    <small>{{ license.licenseType }}</small>
-                  </div>
-                  <small class="mb-1" *ngIf="license.author !== 'n/a'">by {{ license.author }}</small>
-                  <br />
-                  <small>{{ license.installedVersion }}</small>
-                </a>
-              </div>
+              @if (licenses$ | async; as licenses) {
+                <div class="list-group">
+                  @for (license of licenses; track license) {
+                    <a class="list-group-item list-group-item-action" [href]="license.link" rel="noopener" target="_blank">
+                      <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">{{ license.name }}</h6>
+                        <small>{{ license.licenseType }}</small>
+                      </div>
+                      @if (license.author !== 'n/a') {
+                        <small class="mb-1">by {{ license.author }}</small>
+                      }
+                      <br />
+                      <small>{{ license.installedVersion }}</small>
+                    </a>
+                  }
+                </div>
+              }
             </ng-template>
           </li>
         </ul>

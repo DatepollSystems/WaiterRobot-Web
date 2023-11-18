@@ -19,9 +19,11 @@ import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '.
           <label for="name">{{ 'NAME' | tr }}</label>
           <input class="form-control" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
 
-          <small *ngIf="form.controls.name.invalid" class="text-danger">
-            {{ 'HOME_TABLE_GROUP_NAME_INCORRECT' | tr }}
-          </small>
+          @if (form.controls.name.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_TABLE_GROUP_NAME_INCORRECT' | tr }}
+            </small>
+          }
         </div>
 
         <div class="d-flex flex-column">

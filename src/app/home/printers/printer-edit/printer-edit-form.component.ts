@@ -20,9 +20,11 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
         <label for="name">{{ 'NAME' | tr }}</label>
         <input class="form-control" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
 
-        <small *ngIf="form.controls.name.invalid" class="text-danger">
-          {{ 'HOME_PRINTER_NAME_INCORRECT' | tr }}
-        </small>
+        @if (form.controls.name.invalid) {
+          <small class="text-danger">
+            {{ 'HOME_PRINTER_NAME_INCORRECT' | tr }}
+          </small>
+        }
       </div>
 
       <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3">
@@ -37,16 +39,20 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
             placeholder="{{ 'HOME_PRINTER_FONT_SCALE' | tr }}"
           />
 
-          <small *ngIf="form.controls.fontScale.invalid" class="text-danger">
-            {{ 'HOME_PRINTER_FONT_SCALE_INVALID' | tr }}
-          </small>
+          @if (form.controls.fontScale.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_PRINTER_FONT_SCALE_INVALID' | tr }}
+            </small>
+          }
         </div>
 
         <div class="col form-group">
           <label for="font">{{ 'HOME_PRINTER_FONT' | tr }}</label>
 
           <select class="form-select" aria-label="Font select" id="font" formControlName="font">
-            <option *ngFor="let font of availableFonts" [value]="font.code">{{ font.description }}</option>
+            @for (font of availableFonts; track font) {
+              <option [value]="font.code">{{ font.description }}</option>
+            }
           </select>
         </div>
 
@@ -60,9 +66,11 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
             placeholder="{{ 'HOME_PRINTER_BON_WIDTH' | tr }}"
           />
 
-          <small *ngIf="form.controls.bonWidth.invalid" class="text-danger">
-            {{ 'HOME_PRINTER_BON_WIDTH_INVALID' | tr }}
-          </small>
+          @if (form.controls.bonWidth.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_PRINTER_BON_WIDTH_INVALID' | tr }}
+            </small>
+          }
         </div>
 
         <div class="col form-group">
@@ -76,9 +84,11 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
             placeholder="{{ 'HOME_PRINTER_BON_PADDING' | tr }}"
           />
 
-          <small *ngIf="form.controls.bonPadding.invalid" class="text-danger">
-            {{ 'HOME_PRINTER_BON_PADDING_INVALID' | tr }}
-          </small>
+          @if (form.controls.bonPadding.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_PRINTER_BON_PADDING_INVALID' | tr }}
+            </small>
+          }
         </div>
 
         <div class="col form-group">
@@ -92,9 +102,11 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
             placeholder="{{ 'HOME_PRINTER_BON_PADDING_TOP' | tr }}"
           />
 
-          <small *ngIf="form.controls.bonPaddingTop.invalid" class="text-danger">
-            {{ 'HOME_PRINTER_BON_PADDING_TOP_INVALID' | tr }}
-          </small>
+          @if (form.controls.bonPaddingTop.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_PRINTER_BON_PADDING_TOP_INVALID' | tr }}
+            </small>
+          }
         </div>
       </div>
     </form>

@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 
 import {combineLatest, map, Observable, switchMap, tap} from 'rxjs';
@@ -15,22 +15,23 @@ import {UsersOrganisationsService} from '../services/users-organisations.service
 @Component({
   template: `
     <div class="d-flex flex-column">
-      <chip-input
-        *ngIf="vm$ | async as vm"
-        [formatter]="formatter"
-        (valueChange)="orgUserChange($event)"
-        [allModelsToAutoComplete]="vm.organisations"
-        [models]="vm.selectedOrganisations"
-        minInputLengthKick="0"
-        validationErrorText="{{ 'INCORRECT_INPUT' | tr }}"
-        placeholder="{{ 'HOME_USERS_ORGS_INPUT_PLACEHOLDER' | tr }}"
-      />
+      @if (vm$ | async; as vm) {
+        <chip-input
+          [formatter]="formatter"
+          (valueChange)="orgUserChange($event)"
+          [allModelsToAutoComplete]="vm.organisations"
+          [models]="vm.selectedOrganisations"
+          minInputLengthKick="0"
+          validationErrorText="{{ 'INCORRECT_INPUT' | tr }}"
+          placeholder="{{ 'HOME_USERS_ORGS_INPUT_PLACEHOLDER' | tr }}"
+        />
+      }
     </div>
   `,
   selector: 'app-user-edit-organisations',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, DfxTr, AsyncPipe, ChipInput],
+  imports: [DfxTr, AsyncPipe, ChipInput],
 })
 export class UserEditOrganisationsComponent {
   usersOrganisationsService = inject(UsersOrganisationsService);

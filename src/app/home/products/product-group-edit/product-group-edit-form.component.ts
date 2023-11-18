@@ -24,9 +24,11 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
           <label for="name">{{ 'NAME' | tr }}</label>
           <input class="form-control" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
 
-          <small *ngIf="form.controls.name.invalid" class="text-danger">
-            {{ 'HOME_PROD_GROUP_NAME_INCORRECT' | tr }}
-          </small>
+          @if (form.controls.name.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_PROD_GROUP_NAME_INCORRECT' | tr }}
+            </small>
+          }
         </div>
       </div>
 
@@ -42,28 +44,34 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
           </div>
         </div>
 
-        <div class="col" *ngIf="this._isEdit">
-          <div class="form-group mb-2">
-            <label for="selectPrinter">{{ 'NAV_PRINTERS' | tr }}</label>
-            <div class="input-group">
-              <span class="input-group-text" id="selectPrinter-addon"><bi name="diagram-3" /></span>
-              <select class="form-select" id="selectPrinter" formControlName="printerId">
-                <option [ngValue]="-1">{{ 'HOME_PROD_PRINTER_SELECT_DEFAULT' | tr }}</option>
-                <option [ngValue]="printer.id" *ngFor="let printer of this.printers; trackById">
-                  {{ printer.name }}
-                </option>
-              </select>
+        @if (this._isEdit) {
+          <div class="col">
+            <div class="form-group mb-2">
+              <label for="selectPrinter">{{ 'NAV_PRINTERS' | tr }}</label>
+              <div class="input-group">
+                <span class="input-group-text" id="selectPrinter-addon"><bi name="diagram-3" /></span>
+                <select class="form-select" id="selectPrinter" formControlName="printerId">
+                  <option [ngValue]="-1">{{ 'HOME_PROD_PRINTER_SELECT_DEFAULT' | tr }}</option>
+                  @for (printer of this.printers; track printer) {
+                    <option [ngValue]="printer.id">
+                      {{ printer.name }}
+                    </option>
+                  }
+                </select>
+              </div>
+              @if (form.controls.printerId.invalid) {
+                <small class="text-danger">
+                  {{ 'HOME_PROD_GROUP_ID_INCORRECT' | tr }}
+                </small>
+              }
             </div>
-            <small *ngIf="form.controls.printerId.invalid" class="text-danger">
-              {{ 'HOME_PROD_GROUP_ID_INCORRECT' | tr }}
-            </small>
-          </div>
 
-          <div class="form-check form-switch mt-2">
-            <input class="form-check-input" type="checkbox" role="switch" id="updatePrinter" formControlName="updatePrinterId" />
-            <label class="form-check-label" for="updatePrinter">{{ 'HOME_PROD_GROUP_PRINTER_UPDATE' | tr }}</label>
+            <div class="form-check form-switch mt-2">
+              <input class="form-check-input" type="checkbox" role="switch" id="updatePrinter" formControlName="updatePrinterId" />
+              <label class="form-check-label" for="updatePrinter">{{ 'HOME_PROD_GROUP_PRINTER_UPDATE' | tr }}</label>
+            </div>
           </div>
-        </div>
+        }
       </div>
     </form>
   `,

@@ -22,18 +22,22 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
           <label for="name">{{ 'NAME' | tr }}</label>
           <input formControlName="name" class="form-control" type="text" id="name" placeholder="{{ 'NAME' | tr }}" />
 
-          <small *ngIf="form.controls.name.invalid" class="text-danger">
-            {{ 'HOME_PROD_NAME_INCORRECT' | tr }}
-          </small>
+          @if (form.controls.name.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_PROD_NAME_INCORRECT' | tr }}
+            </small>
+          }
         </div>
 
         <div class="form-group col-12 col-md-3 col-lg-2">
           <label for="price">{{ 'PRICE' | tr }}</label>
           <input class="form-control" type="string" id="price" placeholder="{{ 'PRICE' | tr }}" formControlName="price" />
 
-          <small *ngIf="form.controls.price.invalid" class="text-danger">
-            {{ 'HOME_PROD_PRICE_INCORRECT' | tr }}
-          </small>
+          @if (form.controls.price.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_PROD_PRICE_INCORRECT' | tr }}
+            </small>
+          }
         </div>
 
         <chip-input
@@ -58,14 +62,18 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
             </span>
             <select class="form-select" id="selectGroup" formControlName="groupId">
               <option [value]="-1" disabled>{{ 'HOME_PROD_GROUPS_DEFAULT' | tr }}</option>
-              <option [value]="productGroup.id" *ngFor="let productGroup of productGroups; trackById">
-                {{ productGroup.name }}
-              </option>
+              @for (productGroup of productGroups; track productGroup) {
+                <option [value]="productGroup.id">
+                  {{ productGroup.name }}
+                </option>
+              }
             </select>
           </div>
-          <small *ngIf="form.controls.groupId.invalid" class="text-danger">
-            {{ 'HOME_PROD_GROUP_ID_INCORRECT' | tr }}
-          </small>
+          @if (form.controls.groupId.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_PROD_GROUP_ID_INCORRECT' | tr }}
+            </small>
+          }
         </div>
 
         <div class="form-group col">
@@ -76,14 +84,18 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
             </span>
             <select class="form-select" id="selectPrinter" formControlName="printerId">
               <option [value]="-1" disabled>{{ 'HOME_PROD_PRINTER_SELECT_DEFAULT' | tr }}</option>
-              <option [value]="printer.id" *ngFor="let printer of this.printers; trackById">
-                {{ printer.name }}
-              </option>
+              @for (printer of this.printers; track printer) {
+                <option [value]="printer.id">
+                  {{ printer.name }}
+                </option>
+              }
             </select>
           </div>
-          <small *ngIf="form.controls.printerId.invalid" class="text-danger">
-            {{ 'HOME_PROD_PRINTER_ID_INCORRECT' | tr }}
-          </small>
+          @if (form.controls.printerId.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_PROD_PRINTER_ID_INCORRECT' | tr }}
+            </small>
+          }
         </div>
 
         <div class="form-group col-12 col-md-3 col-lg-2">
@@ -95,13 +107,17 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
             placeholder="{{ 'HOME_PROD_AMOUNT_LEFT_SET' | tr }}"
             formControlName="initialStock"
           />
-          <small *ngIf="form.controls.initialStock.invalid" class="text-danger">
-            {{ 'HOME_PROD_AMOUNT_LEFT_SET_INCORRECT' | tr }}
-          </small>
-          <small *ngIf="form.controls.initialStock.value && _product" class="d-flex justify-content-between">
-            <span>{{ 'HOME_PROD_AMOUNT_LEFT' | tr }}: {{ form.controls.initialStock.value - _product.amountOrdered }}</span>
-            <span>{{ 'HOME_PROD_AMOUNT_ORDERED' | tr }}: {{ _product.amountOrdered }}</span>
-          </small>
+          @if (form.controls.initialStock.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_PROD_AMOUNT_LEFT_SET_INCORRECT' | tr }}
+            </small>
+          }
+          @if (form.controls.initialStock.value && _product) {
+            <small class="d-flex justify-content-between">
+              <span>{{ 'HOME_PROD_AMOUNT_LEFT' | tr }}: {{ form.controls.initialStock.value - _product.amountOrdered }}</span>
+              <span>{{ 'HOME_PROD_AMOUNT_ORDERED' | tr }}: {{ _product.amountOrdered }}</span>
+            </small>
+          }
         </div>
       </div>
 
@@ -113,12 +129,14 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
           </label>
         </div>
 
-        <div class="form-check" *ngIf="_isEdit">
-          <input formControlName="resetOrderedProducts" class="form-check-input" type="checkbox" id="resetOrderedProducts" />
-          <label class="form-check-label" for="resetOrderedProducts">
-            {{ 'HOME_PROD_AMOUNT_ORDERED_RESET' | tr }}
-          </label>
-        </div>
+        @if (_isEdit) {
+          <div class="form-check">
+            <input formControlName="resetOrderedProducts" class="form-check-input" type="checkbox" id="resetOrderedProducts" />
+            <label class="form-check-label" for="resetOrderedProducts">
+              {{ 'HOME_PROD_AMOUNT_ORDERED_RESET' | tr }}
+            </label>
+          </div>
+        }
       </div>
     </form>
   `,
