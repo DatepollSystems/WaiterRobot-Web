@@ -1,4 +1,4 @@
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -6,7 +6,6 @@ import {startWith} from 'rxjs';
 
 import {HasNumberIDAndName} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {allowedCharacterSet} from '../../../_shared/regex';
@@ -52,7 +51,7 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
                 <span class="input-group-text" id="selectPrinter-addon"><bi name="diagram-3" /></span>
                 <select class="form-select" id="selectPrinter" formControlName="printerId">
                   <option [ngValue]="-1">{{ 'HOME_PROD_PRINTER_SELECT_DEFAULT' | tr }}</option>
-                  @for (printer of this.printers; track printer) {
+                  @for (printer of this.printers; track printer.id) {
                     <option [ngValue]="printer.id">
                       {{ printer.name }}
                     </option>
@@ -76,7 +75,7 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
     </form>
   `,
   selector: 'app-product-group-edit-form',
-  imports: [ReactiveFormsModule, NgIf, NgForOf, AsyncPipe, DfxTr, DfxTrackById, BiComponent, AppColorPicker],
+  imports: [ReactiveFormsModule, NgIf, AsyncPipe, DfxTr, BiComponent, AppColorPicker],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -8,7 +8,7 @@ import {BarChartModule, LineChartModule, PieChartModule} from '@swimlane/ngx-cha
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxCountUp, DfxPrint, DfxTrackById} from 'dfx-helper';
+import {DfxCountUp, DfxPrint} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
@@ -62,7 +62,6 @@ const routes: Routes = [
     DfxPrint,
     DfxSortModule,
     DfxTableModule,
-    DfxTrackById,
     DfxTranslateModule,
     LineChartModule,
     NgbDropdownModule,

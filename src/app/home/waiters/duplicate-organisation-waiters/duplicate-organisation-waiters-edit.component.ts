@@ -1,4 +1,4 @@
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 
@@ -6,7 +6,6 @@ import {combineLatest, filter, map, merge, share, shareReplay, Subject, switchMa
 
 import {notNullAndUndefined} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {ScrollableToolbarComponent} from '../../../_shared/ui/button/scrollable-toolbar.component';
@@ -33,7 +32,7 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
       </scrollable-toolbar>
       <div class="col-12 col-md-4">
         <div class="list-group">
-          @for (duplicateWaiter of vm.duplicateWaitersToMerge; track duplicateWaiter) {
+          @for (duplicateWaiter of vm.duplicateWaitersToMerge; track duplicateWaiter.id) {
             <button
               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
               (click)="selectMainDuplicateWaiter(duplicateWaiter)"
@@ -66,17 +65,7 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
       <app-continues-creation-switch (continuesCreationChange)="continueMerge = $event" text="HOME_WAITERS_DUPLICATES_CONTINUE" />
     }
   `,
-  imports: [
-    NgIf,
-    BiComponent,
-    DfxTr,
-    ScrollableToolbarComponent,
-    NgForOf,
-    DfxTrackById,
-    RouterLink,
-    AsyncPipe,
-    AppContinuesCreationSwitchComponent,
-  ],
+  imports: [NgIf, BiComponent, DfxTr, ScrollableToolbarComponent, RouterLink, AsyncPipe, AppContinuesCreationSwitchComponent],
   selector: 'app-duplicate-organisation-waiters-edit',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,

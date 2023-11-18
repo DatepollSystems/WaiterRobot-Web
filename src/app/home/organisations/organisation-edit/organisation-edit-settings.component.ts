@@ -1,4 +1,4 @@
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {AbstractControl, FormControl, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 
@@ -74,7 +74,7 @@ import {OrganisationsSettingsService} from '../_services/organisations-settings.
   selector: 'app-organisation-edit-settings',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, BiComponent, DfxTr, AsyncPipe, NgIf, NgForOf, NgbTypeahead],
+  imports: [ReactiveFormsModule, BiComponent, DfxTr, AsyncPipe, NgIf, NgbTypeahead],
 })
 export class OrganisationEditSettingsComponent {
   organisationSettingsService$ = inject(OrganisationsSettingsService);

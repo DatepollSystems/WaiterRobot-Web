@@ -5,7 +5,6 @@ import {NgbModal, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {a_shuffle} from 'dfts-helper';
 import {BiComponent, BiName, BiNamesEnum} from 'dfx-bootstrap-icons';
-import {DfxTrackByModule} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
 import {QrCodeService} from '../../services/qr-code.service';
@@ -21,7 +20,7 @@ export type appDownload = {
 
 @Component({
   template: `
-    @for (appLink of appDownloadLinks; track appLink) {
+    @for (appLink of appDownloadLinks; track appLink.url) {
       <div class="btn-group m-1" role="group" aria-label="App download infos">
         <a class="btn btn-outline-info" [class.customLogo]="appLink.img" target="_blank" rel="noopener" href="{{ appLink.link }}">
           @if (appLink.icon) {
@@ -85,7 +84,7 @@ export type appDownload = {
   selector: 'app-download-btn-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgbTooltipModule, DfxTranslateModule, DfxTrackByModule, BiComponent, CopyDirective, NgOptimizedImage],
+  imports: [NgbTooltipModule, DfxTranslateModule, BiComponent, CopyDirective, NgOptimizedImage],
 })
 export class AppDownloadBtnListComponent {
   appDownloadLinks: appDownload[] = a_shuffle([

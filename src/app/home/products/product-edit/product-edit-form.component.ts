@@ -1,10 +1,9 @@
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {a_pluck, HasNumberIDAndName, n_from, s_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {allowedCharacterSet} from '../../../_shared/regex';
@@ -62,7 +61,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
             </span>
             <select class="form-select" id="selectGroup" formControlName="groupId">
               <option [value]="-1" disabled>{{ 'HOME_PROD_GROUPS_DEFAULT' | tr }}</option>
-              @for (productGroup of productGroups; track productGroup) {
+              @for (productGroup of productGroups; track productGroup.id) {
                 <option [value]="productGroup.id">
                   {{ productGroup.name }}
                 </option>
@@ -84,7 +83,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
             </span>
             <select class="form-select" id="selectPrinter" formControlName="printerId">
               <option [value]="-1" disabled>{{ 'HOME_PROD_PRINTER_SELECT_DEFAULT' | tr }}</option>
-              @for (printer of this.printers; track printer) {
+              @for (printer of this.printers; track printer.id) {
                 <option [value]="printer.id">
                   {{ printer.name }}
                 </option>
@@ -141,7 +140,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
     </form>
   `,
   selector: 'app-product-edit-form',
-  imports: [ReactiveFormsModule, NgIf, NgForOf, AsyncPipe, DfxTr, DfxTrackById, BiComponent, ChipInput],
+  imports: [ReactiveFormsModule, NgIf, AsyncPipe, DfxTr, BiComponent, ChipInput],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

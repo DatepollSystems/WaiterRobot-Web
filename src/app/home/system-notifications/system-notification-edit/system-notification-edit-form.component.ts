@@ -1,5 +1,5 @@
 import {TextFieldModule} from '@angular/cdk/text-field';
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -117,7 +117,6 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
     AsyncPipe,
     DfxTr,
     BiComponent,
-    NgForOf,
     TextFieldModule,
     DfxLowerCaseExceptFirstLettersPipe,
     AppDatetimeInputComponent,

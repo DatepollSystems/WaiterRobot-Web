@@ -1,4 +1,4 @@
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -54,7 +54,7 @@ import {PrintersService} from '../_services/printers.service';
               <label for="font">{{ 'HOME_PRINTER_FONT' | tr }}</label>
 
               <select class="form-select" aria-label="Font select" id="font" formControlName="font">
-                @for (font of availableFonts; track font) {
+                @for (font of availableFonts; track font.code) {
                   <option [value]="font.code">{{ font.description }}</option>
                 }
               </select>
@@ -177,7 +177,7 @@ import {PrintersService} from '../_services/printers.service';
   `,
   selector: 'app-printer-batch-update-modal',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DfxTr, ReactiveFormsModule, NgIf, AsyncPipe, NgForOf],
+  imports: [DfxTr, ReactiveFormsModule, NgIf, AsyncPipe],
   standalone: true,
 })
 export class PrinterBatchUpdateModalComponent extends AComponent {

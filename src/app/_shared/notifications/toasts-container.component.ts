@@ -7,7 +7,7 @@ import {NotificationService} from './notification.service';
 
 @Component({
   template: `
-    @for (toast of notificationService.toasts$ | async; track toast) {
+    @for (toast of notificationService.toasts$ | async; track toast.textOrTpl) {
       <ngb-toast
         [class]="toast.classname"
         [autohide]="true"

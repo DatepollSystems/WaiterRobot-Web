@@ -1,10 +1,9 @@
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {n_from, s_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTrackById} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {allowedCharacterSet} from '../../../_shared/regex';
@@ -50,7 +49,7 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
           <label for="font">{{ 'HOME_PRINTER_FONT' | tr }}</label>
 
           <select class="form-select" aria-label="Font select" id="font" formControlName="font">
-            @for (font of availableFonts; track font) {
+            @for (font of availableFonts; track font.code) {
               <option [value]="font.code">{{ font.description }}</option>
             }
           </select>
@@ -112,7 +111,7 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
     </form>
   `,
   selector: 'app-printer-edit-form',
-  imports: [ReactiveFormsModule, NgIf, NgForOf, AsyncPipe, DfxTr, DfxTrackById, BiComponent],
+  imports: [ReactiveFormsModule, NgIf, AsyncPipe, DfxTr, BiComponent],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

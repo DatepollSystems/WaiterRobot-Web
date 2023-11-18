@@ -49,7 +49,7 @@ import {EnvironmentHelper} from '../../EnvironmentHelper';
             <ng-template ngbNavContent>
               @if (licenses$ | async; as licenses) {
                 <div class="list-group">
-                  @for (license of licenses; track license) {
+                  @for (license of licenses; track license.name) {
                     <a class="list-group-item list-group-item-action" [href]="license.link" rel="noopener" target="_blank">
                       <div class="d-flex w-100 justify-content-between">
                         <h6 class="mb-1">{{ license.name }}</h6>
