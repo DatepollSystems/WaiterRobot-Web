@@ -20,6 +20,8 @@
         - name: generate license report
           id: license-report
           uses: dafnik/generate-license-report@v2
+          with:
+            license-report-path: 'src/assets/licenses.json'
 
         - name: create new pull request if needed
           if: steps.license-report.outputs.diff != ''
