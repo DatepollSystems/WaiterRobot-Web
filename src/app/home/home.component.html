@@ -1,5 +1,5 @@
 <nav class="navbar bg-body-tertiary navbar-expand-md">
-  <div class="my-container" [class.container-xxxl]="!isFullScreen()">
+  <div class="my-container px-1 px-md-2" [class.container-xxxl]="!isFullScreen()">
     <a class="navbar-brand align-items-center" routerLink="/">
       <img id="brand" [ngSrc]="logoUrl" width="30" height="30" class="align-self-center ms-2" alt="kellner.team logo" />
 
@@ -221,7 +221,7 @@
 
 <app-navbar-scrollable [isMobile]="isMobile()" [items]="navItems()" />
 
-<main class="pb-5 px-2 my-container" [class.container-xxxl]="!isFullScreen()" [class.px-md-2]="isFullScreen()">
+<main class="pb-5 px-2 px-md-3 my-container" [class.container-xxxl]="!isFullScreen()" [class.px-md-2]="isFullScreen()">
   <div class="alert alert-warning" role="alert" hideIfOnline>
     <bi name="wifi-off" />
     {{ 'OFFLINE' | tr }}

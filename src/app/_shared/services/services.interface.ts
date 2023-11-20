@@ -1,8 +1,13 @@
 import {HttpParams} from '@angular/common/http';
+import {inject, Signal} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {toSignal} from '@angular/core/rxjs-interop';
 
-import {Observable} from 'rxjs';
+import {map, Observable} from 'rxjs';
 
-import {IHasID} from 'dfts-helper';
+import {SortDirection} from 'dfx-bootstrap-table/lib/sort/sort-direction';
+
+import {IHasID, n_from} from 'dfts-helper';
 import {HasCreate, HasUpdate} from 'dfx-helper';
 
 import {IdResponse} from '../waiterrobot-backend';
@@ -47,4 +52,38 @@ export function getPaginationParams(options: PageableDto): HttpParams {
     params = params.append('query', options.query);
   }
   return params;
+}
+
+export function getSort(active?: string, direction?: 'asc' | 'desc' | ''): string | undefined {
+  let sort = undefined;
+  if (!(!active || !direction || (direction as unknown) === '')) {
+    sort = `${active},${direction}`;
+  }
+  return sort;
+}
+
+export function injectPaginationAndSortParams(
+  defaultSortBy: string,
+  defaultSortDirection: SortDirection = 'desc',
+): Signal<{page: number; size: number; sort: string; direction: SortDirection}> {
+  const activatedRoute = inject(ActivatedRoute);
+
+  return toSignal(
+    activatedRoute.queryParamMap.pipe(
+      map((it) => ({
+        page: it.get('page') ? n_from(it.get('page')) : 0,
+        size: it.get('size') ? n_from(it.get('size')) : 20,
+        sort: it.get('sort') ?? defaultSortBy,
+        direction: (it.get('direction') as SortDirection | undefined) ?? defaultSortDirection,
+      })),
+    ),
+    {
+      initialValue: {
+        page: 0,
+        size: 20,
+        sort: defaultSortBy,
+        direction: defaultSortDirection,
+      },
+    },
+  );
 }

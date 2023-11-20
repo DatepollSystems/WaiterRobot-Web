@@ -127,9 +127,7 @@ export class _PaginatedDataSource<T, P extends NgbTableDataSourcePaginator = Ngb
         let sort = undefined;
         const active = this.sort?.active;
         const direction = this.sort?.direction;
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        if (!(!active || !direction || direction === '')) {
+        if (!(!active || !direction || (direction as unknown) === '')) {
           sort = `${active},${direction}`;
         }
         return this._fn({

@@ -39,6 +39,8 @@ import {NgbDateTimeAdapter} from './app/_shared/ui/datetime-picker/datetime-adap
 import {ICONS} from './app/_shared/ui/icons';
 import {AppComponent} from './app/app.component';
 import {ROUTES} from './app/app.routes';
+import {NgbPaginatorIntl} from './app/_shared/ui/paginator/paginator-intl.service';
+import {CustomPaginatorIntl} from './app/_shared/services/custom-paginator-intl';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -63,6 +65,7 @@ bootstrapApplication(AppComponent, {
     },
     {provide: NgbDateTimeAdapter, useClass: CustomDateTimeAdapter},
     {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter},
+    {provide: NgbPaginatorIntl, useClass: CustomPaginatorIntl},
     provideHttpClient(
       withInterceptors([baseUrlInterceptor, postPutJsonContentTypeInterceptor, loggingInterceptor, authInterceptor, errorInterceptor]),
     ),

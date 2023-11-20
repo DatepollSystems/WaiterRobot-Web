@@ -1,25 +1,26 @@
 import {AsyncPipe, DatePipe} from '@angular/common';
-import {AfterViewInit, ChangeDetectionStrategy, Component, inject, ViewChild} from '@angular/core';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {RouterLink} from '@angular/router';
+import {AfterViewInit, ChangeDetectionStrategy, Component, inject, signal, ViewChild} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 
-import {debounceTime, tap} from 'rxjs';
+import {debounceTime, map, merge, pipe, switchMap, tap} from 'rxjs';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxCurrencyCentPipe} from 'src/app/_shared/ui/currency.pipe';
+import {computedFrom} from 'ngxtension/computed-from';
 
 import {loggerOf} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
+import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
-import {PaginatedDataSource} from '../../_shared/paginated-data-source';
-import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
-import {GetBillMinResponse} from '../../_shared/waiterrobot-backend';
 import {AppBillPaymentStateBadgeComponent} from './_components/app-bill-payment-state-badge.component';
 import {AppBillRefreshButtonComponent} from './_components/app-bill-refresh-button.component';
 import {BillsService} from './_services/bills.service';
+import {getSort, injectPaginationAndSortParams} from '../../_shared/services/services.interface';
+import {NgbPaginator} from '../../_shared/ui/paginator/paginator.component';
+import {NgbPaginatorModule} from '../../_shared/ui/paginator/paginator.module';
+import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
 
 @Component({
   template: `
@@ -28,25 +29,8 @@ import {BillsService} from './_services/bills.service';
       <app-bill-refresh-btn />
     </div>
 
-    <form class="mt-2">
-      <div class="input-group">
-        <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
-        @if ((filter.value?.length ?? 0) > 0) {
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            ngbTooltip="{{ 'CLEAR' | tr }}"
-            placement="bottom"
-            (click)="filter.reset()"
-          >
-            <bi name="x-circle-fill" />
-          </button>
-        }
-      </div>
-    </form>
-
     <div class="table-responsive">
-      <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="createdAt" ngbSortDirection="desc">
+      <table ngb-table [hover]="true" [dataSource]="dataSource()" ngb-sort ngbSortActive="createdAt" ngbSortDirection="desc">
         <ng-container ngbColumnDef="createdAt">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_CREATED_AT' | tr }}</th>
           <td *ngbCellDef="let bill" ngb-cell>{{ bill.createdAt | date: 'dd.MM.yy HH:mm:ss' }}</td>
@@ -100,19 +84,23 @@ import {BillsService} from './_services/bills.service';
         <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
         <tr *ngbRowDef="let bill; columns: columnsToDisplay" ngb-row routerLink="../{{ bill.id }}" class="clickable"></tr>
       </table>
+
+      <app-progress-bar [hidden]="!loading()" />
     </div>
 
-    @if ((dataSource.data?.numberOfItems ?? 1) < 1) {
-      <div class="w-100 text-center">
+    @if (!loading() && dataSource().length < 1) {
+      <div class="w-100 text-center mt-2">
         {{ 'HOME_STATISTICS_NO_DATA' | tr }}
       </div>
     }
 
-    @if (!dataSource.data) {
-      <app-spinner-row />
-    }
-
-    <ngb-paginator [collectionSize]="dataSource.data?.numberOfItems ?? 0" [pageSizes]="[10, 20, 50, 100, 200]" [pageSize]="50" />
+    <ngb-paginator
+      [pageSize]="paginationAndSortParams().size"
+      [pageIndex]="paginationAndSortParams().page"
+      [length]="totalElements()"
+      [pageSizeOptions]="[10, 20, 50, 100, 200]"
+      showFirstLastButtons
+    />
   `,
   selector: 'app-all-bills',
   standalone: true,
@@ -125,40 +113,63 @@ import {BillsService} from './_services/bills.service';
     NgbTooltip,
     DfxTableModule,
     DfxSortModule,
-    DfxPaginationModule,
     DfxTr,
     BiComponent,
-    AppSpinnerRowComponent,
     DfxCurrencyCentPipe,
     AppBillPaymentStateBadgeComponent,
     AppBillRefreshButtonComponent,
+    NgbPaginatorModule,
+    AppProgressBarComponent,
   ],
 })
 export class AllBillsComponent implements AfterViewInit {
   private billsService = inject(BillsService);
+  router = inject(Router);
+  activatedRoute = inject(ActivatedRoute);
+  paginationAndSortParams = injectPaginationAndSortParams('createdAt', 'desc');
 
   lumber = loggerOf('AllOrders');
 
-  @ViewChild(NgbSort) sort?: NgbSort;
+  @ViewChild(NgbSort, {static: true}) sort!: NgbSort;
   @ViewChild(NgbPaginator, {static: true}) paginator!: NgbPaginator;
   columnsToDisplay = ['createdAt', 'price', 'unpaidReason.name', 'waiter.name', 'table.tableGroup.name', 'actions'];
-  dataSource = new PaginatedDataSource<GetBillMinResponse>(this.billsService.getAllPaginatedFn());
-  filter = new FormControl<string>('');
 
-  constructor() {
-    this.filter.valueChanges
-      .pipe(
-        takeUntilDestroyed(),
-        debounceTime(700),
-        tap((it) => {
-          this.dataSource.filter = it ?? '';
+  loading = signal(true);
+  totalElements = signal<number>(0);
+
+  dataSource = computedFrom(
+    [this.paginationAndSortParams],
+    pipe(
+      debounceTime(350),
+      tap(() => this.loading.set(true)),
+      switchMap(([options]) =>
+        this.billsService.getAllPaginated({
+          page: options.page,
+          size: options.size,
+          sort: getSort(options.sort, options.direction),
         }),
-      )
-      .subscribe();
-  }
+      ),
+      tap(() => this.loading.set(false)),
+      tap((it) => this.totalElements.set(it.numberOfItems)),
+      map((it) => it.data),
+    ),
+    {initialValue: []},
+  );
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    merge(this.paginator.page, this.sort.sortChange).subscribe(() => {
+      const queryParams = {
+        size: this.paginator.pageSize,
+        page: this.paginator.pageIndex,
+        sort: this.sort.active,
+        direction: this.sort.direction,
+      };
+
+      void this.router.navigate([], {
+        relativeTo: this.activatedRoute,
+        queryParamsHandling: 'merge',
+        queryParams,
+      });
+    });
   }
 }

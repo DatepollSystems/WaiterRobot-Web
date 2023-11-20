@@ -1,9 +1,10 @@
 import {HttpClient} from '@angular/common/http';
 import {computed, inject, Injectable, signal} from '@angular/core';
 
-import {BehaviorSubject, catchError, EMPTY, map, merge, Observable, of, Subject, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, catchError, map, merge, Observable, of, Subject, switchMap, tap} from 'rxjs';
 
 import {connect} from 'ngxtension/connect';
+import {filterNil} from 'ngxtension/filter-nil';
 
 import {i_complete, s_from, s_fromStorage, st_removeAll, st_set} from 'dfts-helper';
 import {injectWindow} from 'dfx-helper';
@@ -51,24 +52,28 @@ export class AuthService {
 
   private login$ = this.triggerLogin.pipe(
     switchMap(({email, password}) =>
-      this.httpClient.post<JwtResponse>(loginUrl, {
-        email,
-        password,
-        sessionInformation: AuthService.getSessionInformation(),
-        stayLoggedIn: true,
-      } as UserLoginDto),
+      this.httpClient
+        .post<JwtResponse>(loginUrl, {
+          email,
+          password,
+          sessionInformation: AuthService.getSessionInformation(),
+          stayLoggedIn: true,
+        } as UserLoginDto)
+        .pipe(
+          catchError((error) => {
+            const codeName = error?.error?.codeName as unknown;
+            if (codeName === 'ACCOUNT_NOT_ACTIVATED' || codeName === 'PASSWORD_CHANGE_REQUIRED') {
+              this.triggerLoginError.next(codeName);
+              return of(undefined);
+            }
+
+            this.notificationService.terror('ABOUT_SIGNIN_FAILED');
+
+            return of(undefined);
+          }),
+        ),
     ),
-    catchError((error) => {
-      const codeName = error?.error?.codeName as unknown;
-      if (codeName === 'ACCOUNT_NOT_ACTIVATED' || codeName === 'PASSWORD_CHANGE_REQUIRED') {
-        this.triggerLoginError.next(codeName);
-        return EMPTY;
-      }
-
-      this.notificationService.terror('ABOUT_SIGNIN_FAILED');
-
-      return EMPTY;
-    }),
+    filterNil(),
     map(({accessToken, refreshToken}) => ({accessToken, refreshToken, status: 'LOGGED_IN' as const})),
     tap((it) => {
       st_set('refreshToken', it.refreshToken);
@@ -78,35 +83,42 @@ export class AuthService {
 
   private loginWithPwChange$ = this.triggerLoginWithPwChange.pipe(
     switchMap(({email, newPassword, oldPassword}) =>
-      this.httpClient.post<JwtResponse>(loginPwChangeUrl, {
-        email,
-        oldPassword,
-        newPassword,
-        sessionInformation: AuthService.getSessionInformation(),
-        stayLoggedIn: true,
-      } as SignInWithPasswordChangeDto),
+      this.httpClient
+        .post<JwtResponse>(loginPwChangeUrl, {
+          email,
+          oldPassword,
+          newPassword,
+          sessionInformation: AuthService.getSessionInformation(),
+          stayLoggedIn: true,
+        } as SignInWithPasswordChangeDto)
+        .pipe(
+          catchError(() => {
+            this.notificationService.terror('ABOUT_SIGNIN_FAILED');
+            return of(undefined);
+          }),
+        ),
     ),
+    filterNil(),
     map(({accessToken, refreshToken}) => ({accessToken, refreshToken, status: 'LOGGED_IN' as const})),
     tap((it) => {
       st_set('refreshToken', it.refreshToken);
       st_set('accessToken', it.accessToken);
     }),
-    catchError(() => {
-      this.notificationService.terror('ABOUT_SIGNIN_FAILED');
-      return of({status: 'ERROR' as const});
-    }),
   );
 
   private logout$ = this.triggerLogout.pipe(
-    switchMap(() => this.httpClient.post('/auth/logout', {refreshToken: this.refreshToken()})),
+    switchMap(() =>
+      this.httpClient.post('/auth/logout', {refreshToken: this.refreshToken()}).pipe(
+        catchError(() => {
+          this.clearStorage();
+          this.window?.location.reload();
+          return of({status: 'LOGGED_OUT' as const});
+        }),
+      ),
+    ),
     tap(() => {
       this.clearStorage();
       this.window?.location.reload();
-    }),
-    catchError(() => {
-      this.clearStorage();
-      this.window?.location.reload();
-      return of({status: 'LOGGED_OUT' as const});
     }),
     map(() => ({status: 'LOGGED_OUT' as const})),
   );
