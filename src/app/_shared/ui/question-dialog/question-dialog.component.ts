@@ -12,18 +12,15 @@ import {BiComponent, BiName} from 'dfx-bootstrap-icons';
       <h1 class="modal-title fs-5">{{ (title ? title : question) | tr }}</h1>
       <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.close()"></button>
     </div>
-    @if (question || info) {
-      @if (info) {
-        <div [innerHTML]="info"></div>
-      } @else {
-        <strong>{{ question | tr }}</strong>
+    <div class="modal-body py-0">
+      @if (question || info) {
+        @if (info) {
+          <div [innerHTML]="info"></div>
+        } @else {
+          <strong>{{ question | tr }}</strong>
+        }
       }
-      <div class="modal-body py-0">
-        <p>
-          This is a modal sheet, a variation of the modal that docs itself to the bottom of the viewport like the newer share sheets in iOS.
-        </p>
-      </div>
-    }
+    </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
       @for (answer of answers; track answer.value) {

@@ -2,7 +2,7 @@ import {booleanAttribute, ChangeDetectionStrategy, Component, Input} from '@angu
 
 @Component({
   template: `
-    <div class="mt-1">
+    <div class="my-2">
       @if (!hidden) {
         <div class="progress-bar">
           <div class="progress-bar-value"></div>

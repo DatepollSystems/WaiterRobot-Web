@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 
-import {NgbPaginatorIntl} from '../ui/paginator/paginator-intl.service';
+import {NgbPaginatorIntl} from 'dfx-bootstrap-table';
 
 @Injectable()
 export class CustomPaginatorIntl extends NgbPaginatorIntl {

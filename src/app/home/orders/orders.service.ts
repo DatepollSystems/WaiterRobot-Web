@@ -8,9 +8,9 @@ import {HasGetSingle} from 'dfx-helper';
 
 import {NotificationService} from '../../_shared/notifications/notification.service';
 import {Download, DownloadService} from '../../_shared/services/download.service';
-import {GetPaginatedFn, getPaginationParams, PageableDto} from '../../_shared/services/services.interface';
 import {GetOrderMinResponse, GetOrderResponse, PaginatedResponseGetOrderMinResponse} from '../../_shared/waiterrobot-backend';
 import {SelectedEventService} from '../events/_services/selected-event.service';
+import {GetPaginatedFn, getPaginationParams, PageableDto} from '../../_shared/services/pagination';
 
 @Injectable({providedIn: 'root'})
 export class OrdersService implements HasGetSingle<GetOrderResponse> {
@@ -65,16 +65,30 @@ export class OrdersService implements HasGetSingle<GetOrderResponse> {
     return this.httpClient.get(`${this.url}/${id}/requeue/${printerId}`).pipe(tap(() => this.triggerRefresh.next(true)));
   }
 
-  getAllPaginatedFn(): GetPaginatedFn<GetOrderMinResponse> {
-    return (options: PageableDto) =>
-      this.triggerRefresh.pipe(
-        switchMap(() => this.selectedEventService.selectedIdNotNull$),
-        switchMap((eventId) =>
-          this.httpClient.get<PaginatedResponseGetOrderMinResponse>(`${this.url}`, {
-            params: getPaginationParams(options).append('eventId', eventId),
-          }),
-        ),
-      );
+  getAllPaginated(
+    options: PageableDto,
+    tableGroupId?: number,
+    tableId?: number,
+    waiterId?: number,
+  ): Observable<PaginatedResponseGetOrderMinResponse> {
+    let params = getPaginationParams(options);
+    if (tableGroupId) {
+      params = params.append('tableGroupId', tableGroupId);
+    }
+    if (tableId) {
+      params = params.append('tableId', tableId);
+    }
+    if (waiterId) {
+      params = params.append('waiterId', waiterId);
+    }
+    return this.triggerRefresh.pipe(
+      switchMap(() => this.selectedEventService.selectedIdNotNull$),
+      switchMap((eventId) =>
+        this.httpClient.get<PaginatedResponseGetOrderMinResponse>(`${this.url}`, {
+          params: params.append('eventId', eventId),
+        }),
+      ),
+    );
   }
 
   getPaginatedFnByWaiterId(waiterId$: Observable<number>): GetPaginatedFn<GetOrderMinResponse> {

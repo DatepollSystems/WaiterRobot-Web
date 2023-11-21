@@ -1,7 +1,6 @@
 import {AsyncPipe, DatePipe} from '@angular/common';
-import {AfterViewInit, ChangeDetectionStrategy, Component, inject, signal, ViewChild} from '@angular/core';
-import {ReactiveFormsModule} from '@angular/forms';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {AfterViewInit, ChangeDetectionStrategy, Component, inject, ViewChild} from '@angular/core';
+import {RouterLink} from '@angular/router';
 
 import {debounceTime, map, merge, pipe, switchMap, tap} from 'rxjs';
 
@@ -9,18 +8,15 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxCurrencyCentPipe} from 'src/app/_shared/ui/currency.pipe';
 import {computedFrom} from 'ngxtension/computed-from';
 
-import {loggerOf} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
+import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
 import {AppBillPaymentStateBadgeComponent} from './_components/app-bill-payment-state-badge.component';
 import {AppBillRefreshButtonComponent} from './_components/app-bill-refresh-button.component';
 import {BillsService} from './_services/bills.service';
-import {getSort, injectPaginationAndSortParams} from '../../_shared/services/services.interface';
-import {NgbPaginator} from '../../_shared/ui/paginator/paginator.component';
-import {NgbPaginatorModule} from '../../_shared/ui/paginator/paginator.module';
 import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
+import {getSortParam, injectPagination} from '../../_shared/services/pagination';
 
 @Component({
   template: `
@@ -30,7 +26,14 @@ import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar
     </div>
 
     <div class="table-responsive">
-      <table ngb-table [hover]="true" [dataSource]="dataSource()" ngb-sort ngbSortActive="createdAt" ngbSortDirection="desc">
+      <table
+        ngb-table
+        [hover]="true"
+        [dataSource]="dataSource()"
+        ngb-sort
+        [ngbSortActive]="pagination.params().sort"
+        [ngbSortDirection]="pagination.params().direction"
+      >
         <ng-container ngbColumnDef="createdAt">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_CREATED_AT' | tr }}</th>
           <td *ngbCellDef="let bill" ngb-cell>{{ bill.createdAt | date: 'dd.MM.yy HH:mm:ss' }}</td>
@@ -85,19 +88,19 @@ import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar
         <tr *ngbRowDef="let bill; columns: columnsToDisplay" ngb-row routerLink="../{{ bill.id }}" class="clickable"></tr>
       </table>
 
-      <app-progress-bar [hidden]="!loading()" />
+      <app-progress-bar [hidden]="!pagination.loading()" />
     </div>
 
-    @if (!loading() && dataSource().length < 1) {
+    @if (!pagination.loading() && dataSource().length < 1) {
       <div class="w-100 text-center mt-2">
         {{ 'HOME_STATISTICS_NO_DATA' | tr }}
       </div>
     }
 
     <ngb-paginator
-      [pageSize]="paginationAndSortParams().size"
-      [pageIndex]="paginationAndSortParams().page"
-      [length]="totalElements()"
+      [pageSize]="pagination.params().size"
+      [pageIndex]="pagination.params().page"
+      [length]="pagination.totalElements()"
       [pageSizeOptions]="[10, 20, 50, 100, 200]"
       showFirstLastButtons
     />
@@ -109,67 +112,54 @@ import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar
     RouterLink,
     DatePipe,
     AsyncPipe,
-    ReactiveFormsModule,
     NgbTooltip,
     DfxTableModule,
     DfxSortModule,
+    DfxPaginationModule,
     DfxTr,
     BiComponent,
     DfxCurrencyCentPipe,
     AppBillPaymentStateBadgeComponent,
     AppBillRefreshButtonComponent,
-    NgbPaginatorModule,
     AppProgressBarComponent,
   ],
 })
 export class AllBillsComponent implements AfterViewInit {
   private billsService = inject(BillsService);
-  router = inject(Router);
-  activatedRoute = inject(ActivatedRoute);
-  paginationAndSortParams = injectPaginationAndSortParams('createdAt', 'desc');
 
-  lumber = loggerOf('AllOrders');
+  pagination = injectPagination('createdAt', 'desc');
 
   @ViewChild(NgbSort, {static: true}) sort!: NgbSort;
   @ViewChild(NgbPaginator, {static: true}) paginator!: NgbPaginator;
   columnsToDisplay = ['createdAt', 'price', 'unpaidReason.name', 'waiter.name', 'table.tableGroup.name', 'actions'];
 
-  loading = signal(true);
-  totalElements = signal<number>(0);
-
   dataSource = computedFrom(
-    [this.paginationAndSortParams],
+    [this.pagination.params],
     pipe(
       debounceTime(350),
-      tap(() => this.loading.set(true)),
+      tap(() => this.pagination.loading.set(true)),
       switchMap(([options]) =>
         this.billsService.getAllPaginated({
           page: options.page,
           size: options.size,
-          sort: getSort(options.sort, options.direction),
+          sort: getSortParam(options.sort, options.direction),
         }),
       ),
-      tap(() => this.loading.set(false)),
-      tap((it) => this.totalElements.set(it.numberOfItems)),
+      tap(() => this.pagination.loading.set(false)),
+      tap((it) => this.pagination.totalElements.set(it.numberOfItems)),
       map((it) => it.data),
     ),
     {initialValue: []},
   );
 
   ngAfterViewInit(): void {
-    merge(this.paginator.page, this.sort.sortChange).subscribe(() => {
-      const queryParams = {
+    merge(this.paginator.page, this.sort.sortChange).subscribe(() =>
+      this.pagination.updateParams({
         size: this.paginator.pageSize,
         page: this.paginator.pageIndex,
         sort: this.sort.active,
         direction: this.sort.direction,
-      };
-
-      void this.router.navigate([], {
-        relativeTo: this.activatedRoute,
-        queryParamsHandling: 'merge',
-        queryParams,
-      });
-    });
+      }),
+    );
   }
 }

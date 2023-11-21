@@ -22,6 +22,7 @@ import {
   withWindow,
 } from 'dfx-helper';
 import {provideDfxTranslate, withAutoTranslatedLanguages, withDefaultLanguage} from 'dfx-translate';
+import {NgbPaginatorIntl} from 'dfx-bootstrap-table';
 
 import {CustomTitleStrategy} from './app/_shared/custom-title.strategy';
 import {EnvironmentHelper} from './app/_shared/EnvironmentHelper';
@@ -39,7 +40,6 @@ import {NgbDateTimeAdapter} from './app/_shared/ui/datetime-picker/datetime-adap
 import {ICONS} from './app/_shared/ui/icons';
 import {AppComponent} from './app/app.component';
 import {ROUTES} from './app/app.routes';
-import {NgbPaginatorIntl} from './app/_shared/ui/paginator/paginator-intl.service';
 import {CustomPaginatorIntl} from './app/_shared/services/custom-paginator-intl';
 
 bootstrapApplication(AppComponent, {

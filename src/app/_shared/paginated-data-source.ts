@@ -1,26 +1,15 @@
 import {DataSource} from '@angular/cdk/table';
 import {ChangeDetectorRef, inject} from '@angular/core';
 
-import {BehaviorSubject, combineLatest, merge, Observable, of, Subject, Subscription, switchMap} from 'rxjs';
+import {BehaviorSubject, combineLatest, merge, Observable, of, Subscription, switchMap} from 'rxjs';
 
-import {NgbPaginator, NgbSort, Sort} from 'dfx-bootstrap-table';
+import {NgbPaginator, NgbSort, PageEvent, Sort} from 'dfx-bootstrap-table';
 
-import {GetPaginatedFn, PaginationResponse} from './services/services.interface';
-
-/**
- * Interface that matches the required API parts of the MatPaginator.
- * Decoupled so that users can depend on either the legacy or MDC-based paginator.
- */
-export interface NgbTableDataSourcePaginator {
-  pageChange: Subject<number>;
-  page: number;
-  pageSize: number;
-  collectionSize: number;
-  initialized: Observable<void>;
-}
+import {PaginationResponse} from './services/services.interface';
+import {GetPaginatedFn} from './services/pagination';
 
 /** Shared base class with MDC-based implementation. */
-export class _PaginatedDataSource<T, P extends NgbTableDataSourcePaginator = NgbTableDataSourcePaginator> extends DataSource<T> {
+export class _PaginatedDataSource<T, P extends NgbPaginator = NgbPaginator> extends DataSource<T> {
   /** Stream emitting render data to the table (depends on ordered data changes). */
   private readonly _renderData = new BehaviorSubject<T[]>([]);
 
@@ -118,8 +107,8 @@ export class _PaginatedDataSource<T, P extends NgbTableDataSourcePaginator = Ngb
     // pipeline can progress to the next step. Note that the value from these streams are not used,
     // they purely act as a signal to progress in the pipeline.
     const sortChange: Observable<Sort | null | void> = this._sort ? merge(this._sort.sortChange, this._sort.initialized) : of(null);
-    const pageChange: Observable<number | null | void> = this._paginator
-      ? merge(this._paginator.pageChange, this._paginator.initialized)
+    const pageChange: Observable<PageEvent | null | void> = this._paginator
+      ? merge(this._paginator.page, this._paginator.initialized)
       : of(null);
 
     const paginatedData = combineLatest([this._filter, sortChange, pageChange]).pipe(
@@ -131,7 +120,7 @@ export class _PaginatedDataSource<T, P extends NgbTableDataSourcePaginator = Ngb
           sort = `${active},${direction}`;
         }
         return this._fn({
-          page: this.paginator?.page ? this.paginator.page - 1 : undefined,
+          page: this.paginator?.page ? this.paginator.pageIndex : undefined,
           size: this.paginator?.pageSize,
           sort,
           query,
@@ -168,4 +157,4 @@ export class _PaginatedDataSource<T, P extends NgbTableDataSourcePaginator = Ngb
   }
 }
 
-export class PaginatedDataSource<T> extends _PaginatedDataSource<T, NgbPaginator> {}
+export class PaginatedDataSource<T> extends _PaginatedDataSource<T> {}

@@ -144,7 +144,7 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
             <tr *ngbRowDef="let organisation; columns: columnsToDisplay" ngb-row routerLink="../{{ organisation.id }}"></tr>
           </table>
         </div>
-        <ngb-paginator [collectionSize]="dataSource.data.length" />
+        <ngb-paginator [length]="dataSource.data.length" />
       }
       <app-spinner-row [show]="isLoading" />
     </ng-container>

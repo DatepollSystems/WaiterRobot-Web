@@ -101,7 +101,7 @@ import {OrdersService} from '../../orders/orders.service';
       <app-spinner-row />
     }
 
-    <ngb-paginator [collectionSize]="dataSource.data?.numberOfItems ?? 0" [pageSizes]="[10, 20, 50, 100, 200]" [pageSize]="50" />
+    <ngb-paginator [length]="dataSource.data?.numberOfItems ?? 0" [pageSizeOptions]="[10, 20, 50, 100, 200]" [pageSize]="50" />
   `,
   selector: 'app-waiter-edit-order-products',
   standalone: true,

@@ -1,22 +1,20 @@
 import {SelectionModel} from '@angular/cdk/collections';
 import {AsyncPipe, DatePipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, effect, inject, signal, ViewChild} from '@angular/core';
-import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {AfterViewInit, ChangeDetectionStrategy, Component, inject, ViewChild} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
 
-import {debounceTime, forkJoin, map, Observable, shareReplay, tap} from 'rxjs';
+import {debounceTime, forkJoin, map, merge, Observable, pipe, switchMap, tap} from 'rxjs';
 
 import {NgbProgressbar, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {SortDirection} from 'dfx-bootstrap-table/lib/sort/sort-direction';
 import {Download} from 'src/app/_shared/services/download.service';
+import {computedFrom} from 'ngxtension/computed-from';
 
-import {loggerOf, n_from, s_imploder} from 'dfts-helper';
+import {loggerOf, s_imploder} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
-import {PaginatedDataSource} from '../../_shared/paginated-data-source';
 import {AppTestBadge} from '../../_shared/ui/app-test-badge.component';
 import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
@@ -25,6 +23,8 @@ import {GetOrderMinResponse} from '../../_shared/waiterrobot-backend';
 import {AppOrderRefreshButtonComponent} from './_components/app-order-refresh-button.component';
 import {AppOrderStateBadgeComponent} from './_components/app-order-state-badge.component';
 import {OrdersService} from './orders.service';
+import {getSortParam, injectPagination} from '../../_shared/services/pagination';
+import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
 
 @Component({
   template: `
@@ -66,32 +66,14 @@ import {OrdersService} from './orders.service';
       }
     }
 
-    <form class="mt-2">
-      <div class="input-group">
-        <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
-        @if ((filter.value?.length ?? 0) > 0) {
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            ngbTooltip="{{ 'CLEAR' | tr }}"
-            placement="bottom"
-            (click)="filter.reset()"
-          >
-            <bi name="x-circle-fill" />
-          </button>
-        }
-      </div>
-    </form>
-
     <div class="table-responsive">
       <table
         ngb-table
         [hover]="true"
-        [dataSource]="dataSource"
+        [dataSource]="dataSource()"
         ngb-sort
-        [ngbSortActive]="tableOptions().sort"
-        [ngbSortDirection]="tableOptions().direction"
-        (ngbSortChange)="updateQueryParams()"
+        [ngbSortActive]="pagination.params().sort"
+        [ngbSortDirection]="pagination.params().direction"
       >
         <ng-container ngbColumnDef="select">
           <th *ngbHeaderCellDef ngb-header-cell></th>
@@ -179,29 +161,23 @@ import {OrdersService} from './orders.service';
         <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
         <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row routerLink="../{{ order.id }}"></tr>
       </table>
+
+      <app-progress-bar [hidden]="!pagination.loading()" />
     </div>
 
-    @if ((dataSource.data?.numberOfItems ?? 1) < 1) {
-      <div class="w-100 text-center">
+    @if (!pagination.loading() && dataSource().length < 1) {
+      <div class="w-100 text-center mt-2">
         {{ 'HOME_STATISTICS_NO_DATA' | tr }}
       </div>
     }
 
-    @if (!dataSource.data) {
-      <app-spinner-row />
-    }
-
-    <!-- Set collection size  -->
-    <!-- TODO: fix number of items -->
-    @if (dataSource.data?.numberOfItems; as numberOfItems) {
-      <ngb-paginator
-        [collectionSize]="numberOfItems"
-        [pageSize]="tableOptions().pageSize"
-        [pageSizes]="[10, 20, 50, 100, 200]"
-        [page]="tableOptions().page"
-        (pageChange)="updateQueryParams()"
-      />
-    }
+    <ngb-paginator
+      [length]="pagination.totalElements()"
+      [pageSize]="pagination.params().size"
+      [pageSizeOptions]="[10, 20, 50, 100, 200]"
+      [pageIndex]="pagination.params().page"
+      showFirstLastButtons
+    />
   `,
   selector: 'app-all-orders',
   standalone: true,
@@ -223,88 +199,53 @@ import {OrdersService} from './orders.service';
     ScrollableToolbarComponent,
     AppSpinnerRowComponent,
     AppTestBadge,
+    AppProgressBarComponent,
   ],
 })
-export class AllOrdersComponent {
+export class AllOrdersComponent implements AfterViewInit {
   private confirmDialog = injectConfirmDialog();
-  private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
   ordersService = inject(OrdersService);
+
+  pagination = injectPagination('createdAt', 'desc');
 
   lumber = loggerOf('AllOrders');
 
-  @ViewChild(NgbSort) set sort(it: NgbSort) {
-    this._sort.set(it);
-  }
-  _sort = signal<NgbSort | undefined>(undefined);
-
-  @ViewChild(NgbPaginator, {static: false}) set paginator(it: NgbPaginator) {
-    this._paginator.set(it);
-  }
-  _paginator = signal<NgbPaginator | undefined>(undefined);
+  @ViewChild(NgbSort) sort!: NgbSort;
+  @ViewChild(NgbPaginator) paginator!: NgbPaginator;
 
   columnsToDisplay = ['select', 'orderNumber', 'state', 'table.tableGroup.name', 'waiter.name', 'createdAt', 'actions'];
-  dataSource = new PaginatedDataSource<GetOrderMinResponse>(this.ordersService.getAllPaginatedFn());
-  filter = new FormControl<string>('');
   selection = new SelectionModel<GetOrderMinResponse>(true, [], false, (a, b) => a.id === b.id);
 
   download$?: Observable<Download>;
 
-  tableOptions = toSignal(
-    this.activatedRoute.queryParamMap.pipe(
-      map((it) => ({
-        page: it.get('page') ? n_from(it.get('page')) : 1,
-        pageSize: it.get('pageSize') ? n_from(it.get('pageSize')) : 20,
-        sort: it.get('sort') ?? 'createdAt',
-        direction: (it.get('direction') ?? 'desc') as SortDirection,
-      })),
-      shareReplay(1),
+  dataSource = computedFrom(
+    [this.pagination.params],
+    pipe(
+      debounceTime(350),
+      tap(() => this.pagination.loading.set(true)),
+      switchMap(([options]) =>
+        this.ordersService.getAllPaginated({
+          page: options.page,
+          size: options.size,
+          sort: getSortParam(options.sort, options.direction),
+        }),
+      ),
+      tap(() => this.pagination.loading.set(false)),
+      tap((it) => this.pagination.totalElements.set(it.numberOfItems)),
+      map((it) => it.data),
     ),
-    {
-      initialValue: {
-        page: 1,
-        pageSize: 20,
-        sort: 'createdAt',
-        direction: 'desc' as SortDirection,
-      },
-    },
+    {initialValue: []},
   );
 
-  constructor() {
-    this.filter.valueChanges.pipe(
-      takeUntilDestroyed(),
-      debounceTime(700),
-      tap((it) => {
-        this.dataSource.filter = it ?? '';
+  ngAfterViewInit(): void {
+    merge(this.paginator.page, this.sort.sortChange).subscribe(() =>
+      this.pagination.updateParams({
+        size: this.paginator.pageSize,
+        page: this.paginator.pageIndex,
+        sort: this.sort.active,
+        direction: this.sort.direction,
       }),
     );
-
-    effect(() => {
-      const paginator = this._paginator();
-      if (paginator) {
-        this.dataSource.paginator = paginator;
-      }
-    });
-
-    effect(() => {
-      const sort = this._sort();
-      if (sort) {
-        this.dataSource.sort = sort;
-      }
-    });
-  }
-
-  updateQueryParams(): void {
-    void this.router.navigate([], {
-      relativeTo: this.activatedRoute,
-      queryParams: {
-        pageSize: this._paginator()!.pageSize,
-        page: this._paginator()!.page,
-        sort: this._sort()!.active,
-        direction: this._sort()!.direction,
-      },
-      queryParamsHandling: 'merge', // remove to replace all query params by provided
-    });
   }
 
   exportCsv(): void {
