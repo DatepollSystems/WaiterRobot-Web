@@ -1,7 +1,7 @@
-import {AfterViewInit, Component, Inject, inject} from '@angular/core';
+import {AfterViewInit, Component, Inject, inject, signal} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {distinctUntilChanged, filter, map, shareReplay, switchMap} from 'rxjs';
+import {distinctUntilChanged, filter, map, shareReplay, switchMap, tap} from 'rxjs';
 
 import {IHasID, n_from, n_isNumeric} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from 'dfx-helper';
@@ -20,7 +20,9 @@ export abstract class AbstractModelsListByIdComponent<
 {
   protected route = inject(ActivatedRoute);
 
-  protected idParam$ = this.route.paramMap.pipe(
+  entityLoading = signal(true);
+
+  private idParam$ = this.route.paramMap.pipe(
     map((params) => params.get('id')),
     filter((id): id is string => {
       if (id !== null && n_isNumeric(id)) {
@@ -32,10 +34,15 @@ export abstract class AbstractModelsListByIdComponent<
     }),
     map((id) => n_from(id)),
     distinctUntilChanged(),
+    tap(() => this.isLoading.set(true)),
     shareReplay(1),
   );
 
-  entity$ = this.idParam$.pipe(switchMap((id) => this.byIdEntityService.getSingle$(id)));
+  entity$ = this.idParam$.pipe(
+    tap(() => this.entityLoading.set(true)),
+    switchMap((id) => this.byIdEntityService.getSingle$(id)),
+    tap(() => this.entityLoading.set(false)),
+  );
 
   protected constructor(
     @Inject(null)

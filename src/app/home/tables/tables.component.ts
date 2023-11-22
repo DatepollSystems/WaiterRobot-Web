@@ -7,14 +7,14 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {AppListNavItemDirective, AppListNavItemsComponent} from '../../_shared/ui/app-list-nav-items.component';
 import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/color/app-text-with-color-indicator.component';
+import {EntitiesLayout} from '../../_shared/ui/entities.layout';
 import {TableGroupsService} from './_services/table-groups.service';
 
 @Component({
   template: `
-    <entities-layout-component>
+    <entities-layout>
       <div class="d-flex flex-column gap-3" nav>
         <div class="list-group">
           <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
@@ -66,7 +66,7 @@ import {TableGroupsService} from './_services/table-groups.service';
           </ng-template>
         </app-list-nav-items>
       </div>
-    </entities-layout-component>
+    </entities-layout>
   `,
   selector: 'app-tables',
   standalone: true,
@@ -76,7 +76,7 @@ import {TableGroupsService} from './_services/table-groups.service';
     RouterLinkActive,
     DfxTr,
     BiComponent,
-    AppEntitiesLayoutComponent,
+    EntitiesLayout,
     AppListNavItemsComponent,
     AppListNavItemDirective,
     AppTextWithColorIndicatorComponent,

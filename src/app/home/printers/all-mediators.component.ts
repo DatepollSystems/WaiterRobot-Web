@@ -67,7 +67,7 @@ import {MediatorsService} from './_services/mediators.service';
       </table>
     </div>
 
-    <app-spinner-row [show]="isLoading" />
+    <app-spinner-row [show]="isLoading()" />
   `,
   selector: 'app-all-mediators',
   standalone: true,

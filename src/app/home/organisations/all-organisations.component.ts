@@ -7,13 +7,12 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
 import {AppSelectableBtnComponent} from '../../_shared/ui/button/app-selectable-btn.component';
 import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
-import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
+import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {GetOrganisationResponse} from '../../_shared/waiterrobot-backend';
 import {OrganisationsService} from './_services/organisations.service';
@@ -21,10 +20,10 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
 
 @Component({
   template: `
-    <h1>{{ 'HOME_ORGS_ALL' | tr }}</h1>
+    <div class="d-flex flex-column gap-3">
+      <h1 class="my-0">{{ 'HOME_ORGS_ALL' | tr }}</h1>
 
-    <ng-container *ngSub="myUser$ as myUser">
-      @if (myUser?.isAdmin) {
+      @if (myUser()?.isAdmin) {
         <scrollable-toolbar>
           <div>
             <a routerLink="../create" class="btn btn-sm btn-success">
@@ -63,7 +62,7 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
         <div class="table-responsive">
           <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
             <ng-container ngbColumnDef="select">
-              <th *ngbHeaderCellDef ngb-header-cell [class.d-none]="!myUser?.isAdmin">
+              <th *ngbHeaderCellDef ngb-header-cell [class.d-none]="!myUser()?.isAdmin">
                 <div class="form-check">
                   <input
                     class="form-check-input"
@@ -74,7 +73,7 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
                   />
                 </div>
               </th>
-              <td *ngbCellDef="let selectable" ngb-cell [class.d-none]="!myUser?.isAdmin">
+              <td *ngbCellDef="let selectable" ngb-cell (click)="$event.stopPropagation()" [class.d-none]="!myUser()?.isAdmin">
                 <div class="form-check">
                   <input
                     class="form-check-input"
@@ -127,7 +126,7 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
                 >
                   <bi name="pencil-square" />
                 </a>
-                @if (myUser?.isAdmin) {
+                @if (myUser()?.isAdmin) {
                   <button
                     type="button"
                     class="btn btn-sm btn-outline-danger text-body-emphasis"
@@ -146,8 +145,8 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
         </div>
         <ngb-paginator [length]="dataSource.data.length" />
       }
-      <app-spinner-row [show]="isLoading" />
-    </ng-container>
+      <app-progress-bar [hidden]="!isLoading()" />
+    </div>
   `,
   selector: 'app-all-organisations',
   standalone: true,
@@ -155,7 +154,6 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
     ReactiveFormsModule,
     RouterLink,
     UpperCasePipe,
-    NgSub,
     NgbTooltip,
     DfxTr,
     DfxTableModule,
@@ -163,18 +161,17 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
     DfxPaginationModule,
     BiComponent,
     ScrollableToolbarComponent,
-    AppSpinnerRowComponent,
     AppSelectableBtnComponent,
     AsyncPipe,
+    AppProgressBarComponent,
   ],
 })
 export class AllOrganisationsComponent extends AbstractModelsWithNameListWithDeleteComponent<GetOrganisationResponse> {
-  myUser$ = inject(MyUserService).getUser$();
+  myUser = inject(MyUserService).user;
   selectedOrganisationService = inject(SelectedOrganisationService);
 
   constructor(public organisationsService: OrganisationsService) {
     super(organisationsService);
-
     this.columnsToDisplay = ['id', 'name', 'street', 'city', 'actions'];
   }
 

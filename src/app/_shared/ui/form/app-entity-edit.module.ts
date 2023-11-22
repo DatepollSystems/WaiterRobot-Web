@@ -7,16 +7,14 @@ import {DfxTr} from 'dfx-translate';
 import {AppBackButtonComponent} from '../button/app-back-button.component';
 import {ScrollableToolbarComponent} from '../button/scrollable-toolbar.component';
 import {AppSpinnerRowComponent} from '../loading/app-spinner-row.component';
-import {AppIsCreatingDirective, AppIsEditingDirective} from './app-form-state.directives';
-import {AppModelEditSaveBtn} from './app-model-edit-save-btn.component';
+import {AppIsCreatingDirective, AppIsEditingDirective} from './app-entity-state.directives';
 
 @NgModule({
   declarations: [AppIsCreatingDirective, AppIsEditingDirective],
-  imports: [AppModelEditSaveBtn, AppBackButtonComponent, AppSpinnerRowComponent, ScrollableToolbarComponent, BiComponent, DfxTr],
+  imports: [AppBackButtonComponent, AppSpinnerRowComponent, ScrollableToolbarComponent, BiComponent, DfxTr],
   exports: [
     AppIsCreatingDirective,
     AppIsEditingDirective,
-    AppModelEditSaveBtn,
     AppBackButtonComponent,
     AppSpinnerRowComponent,
     ScrollableToolbarComponent,
@@ -24,4 +22,4 @@ import {AppModelEditSaveBtn} from './app-model-edit-save-btn.component';
     DfxTr,
   ],
 })
-export class AppFormModule {}
+export class AppEntityEditModule {}

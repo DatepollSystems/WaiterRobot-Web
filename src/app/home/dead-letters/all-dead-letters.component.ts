@@ -62,13 +62,12 @@ import {DeadLettersService} from './dead-letters.service';
                 />
               </div>
             </th>
-            <td *ngbCellDef="let selectable" ngb-cell>
+            <td *ngbCellDef="let selectable" ngb-cell (click)="$event.stopPropagation()">
               <div class="form-check">
                 <input
                   class="form-check-input"
                   type="checkbox"
                   name="checked"
-                  (click)="$event.stopPropagation()"
                   (change)="$event ? selection.toggle(selectable) : null"
                   [checked]="selection.isSelected(selectable)"
                 />
@@ -123,7 +122,7 @@ import {DeadLettersService} from './dead-letters.service';
         </table>
       </div>
 
-      <app-progress-bar [hidden]="!isLoading" />
+      <app-progress-bar [hidden]="!isLoading()" />
     </div>
   `,
   selector: 'app-all-dead-letters',

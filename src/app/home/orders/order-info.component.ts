@@ -22,68 +22,70 @@ import {OrdersService} from './orders.service';
 @Component({
   template: `
     @if (vm$ | async; as vm) {
-      <div class="d-flex flex-wrap justify-content-between gap-2 gap-md-0 mb-2">
-        <h1 class="mb-0">{{ 'HOME_ORDER' | tr }} #{{ vm.order.orderNumber }}</h1>
-        <app-order-refresh-btn [countdown]="vm.countdown" />
-      </div>
-
-      <scrollable-toolbar>
-        <app-order-state-badge
-          [orderState]="vm.order.state"
-          [orderProductPrintStates]="vm.orderProductPrintStates"
-          [createdAt]="vm.order.createdAt"
-          [processedAt]="vm.order.processedAt"
-        />
-
-        @if (vm.order.test) {
-          <app-test-badge />
-        }
-
-        @if (vm.order.state !== 'QUEUED') {
-          <span class="badge bg-secondary d-flex align-items-center gap-2" [ngbTooltip]="'HOME_ORDER_CREATED_AT' | tr">
-            <bi name="save" />
-            {{ vm.order.createdAt | date: 'dd.MM.yy HH:mm:ss' }}
-          </span>
-        }
-
-        <a
-          routerLink="../../tables/{{ vm.order.table.id }}"
-          class="badge bg-secondary d-flex align-items-center gap-2"
-          ngbTooltip="{{ 'HOME_ORDER_OPEN_TABLE' | tr }}"
-        >
-          <bi name="columns-gap" />
-          {{ vm.order.table.group.name }} - {{ vm.order.table.number }}
-        </a>
-
-        <a
-          routerLink="../../waiters/{{ vm.order.waiter.id }}"
-          class="badge bg-primary d-flex align-items-center gap-2"
-          ngbTooltip="{{ 'HOME_ORDER_OPEN_WAITER' | tr }}"
-        >
-          <bi name="people" />
-          {{ vm.order.waiter.name }}
-        </a>
-      </scrollable-toolbar>
-
-      <scrollable-toolbar disablePadding>
-        <back-button />
-        <div>
-          @if (vm.showRequeueButton) {
-            <button class="btn btn-sm btn-warning" (click)="requeueOrder(vm.order.id)">
-              <bi name="printer" />
-              {{ 'HOME_ORDER_REQUEUE' | tr }}
-            </button>
-          }
+      <div class="d-flex flex-column gap-3">
+        <div class="d-flex flex-wrap justify-content-between gap-2 gap-md-0">
+          <h1 class="my-0">{{ 'HOME_ORDER' | tr }} #{{ vm.order.orderNumber }}</h1>
+          <app-order-refresh-btn [countdown]="vm.countdown" />
         </div>
-      </scrollable-toolbar>
 
-      <hr />
+        <scrollable-toolbar>
+          <app-order-state-badge
+            [orderState]="vm.order.state"
+            [orderProductPrintStates]="vm.orderProductPrintStates"
+            [createdAt]="vm.order.createdAt"
+            [processedAt]="vm.order.processedAt"
+          />
 
-      <app-order-products-list
-        [orderProducts]="vm.order.orderProducts"
-        (requeueOrdersOfPrinter)="requeueOrdersOfPrinter(vm.order.id, $event)"
-        [showRequeueButton]="vm.showRequeueButton"
-      />
+          @if (vm.order.test) {
+            <app-test-badge />
+          }
+
+          @if (vm.order.state !== 'QUEUED') {
+            <span class="badge bg-secondary d-flex align-items-center gap-2" [ngbTooltip]="'HOME_ORDER_CREATED_AT' | tr">
+              <bi name="save" />
+              {{ vm.order.createdAt | date: 'dd.MM.yy HH:mm:ss' }}
+            </span>
+          }
+
+          <a
+            routerLink="../../tables/{{ vm.order.table.id }}"
+            class="badge bg-secondary d-flex align-items-center gap-2"
+            ngbTooltip="{{ 'HOME_ORDER_OPEN_TABLE' | tr }}"
+          >
+            <bi name="columns-gap" />
+            {{ vm.order.table.group.name }} - {{ vm.order.table.number }}
+          </a>
+
+          <a
+            routerLink="../../waiters/{{ vm.order.waiter.id }}"
+            class="badge bg-primary d-flex align-items-center gap-2"
+            ngbTooltip="{{ 'HOME_ORDER_OPEN_WAITER' | tr }}"
+          >
+            <bi name="people" />
+            {{ vm.order.waiter.name }}
+          </a>
+        </scrollable-toolbar>
+
+        <scrollable-toolbar>
+          <back-button />
+          <div>
+            @if (vm.showRequeueButton) {
+              <button class="btn btn-sm btn-warning" (click)="requeueOrder(vm.order.id)">
+                <bi name="printer" />
+                {{ 'HOME_ORDER_REQUEUE' | tr }}
+              </button>
+            }
+          </div>
+        </scrollable-toolbar>
+
+        <hr />
+
+        <app-order-products-list
+          [orderProducts]="vm.order.orderProducts"
+          (requeueOrdersOfPrinter)="requeueOrdersOfPrinter(vm.order.id, $event)"
+          [showRequeueButton]="vm.showRequeueButton"
+        />
+      </div>
     }
   `,
   selector: 'app-orders-info',

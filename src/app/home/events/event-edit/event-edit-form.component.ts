@@ -1,4 +1,3 @@
-import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -9,15 +8,17 @@ import {DfxTr} from 'dfx-translate';
 
 import {AppDatetimeInputComponent} from '../../../_shared/ui/datetime-picker/datetime-picker.component';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
+import {injectIsValid} from '../../../_shared/ui/form/form';
 import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocationDto} from '../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
-    @if (formStatusChanges | async) {}
+    @if (isValid()) {}
 
-    <form #formRef [formGroup]="form" (ngSubmit)="submit()">
-      <div class="row mb-3">
-        <div class="form-group col-12 col-md-4 col-xl-6">
+    <form #formRef [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column gap-3">
+      <div class="d-flex flex-column flex-sm-row gap-4 gap-md-3 flex-wrap">
+        <div class="form-group flex-fill">
           <label for="name">{{ 'NAME' | tr }}</label>
           <input class="form-control" formControlName="name" name="name" type="text" placeholder="{{ 'NAME' | tr }}" />
 
@@ -26,7 +27,7 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
           }
         </div>
 
-        <div class="form-group col-12 col-md-4 col-xl-3">
+        <div class="form-group flex-fill">
           <label for="startDate">{{ 'HOME_EVENTS_START_DATE' | tr }}</label>
           <app-datetime-input
             id="startDate"
@@ -37,7 +38,7 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
           />
         </div>
 
-        <div class="form-group col-12 col-md-4 col-xl-3">
+        <div class="form-group flex-fill">
           <label for="endDate">{{ 'HOME_EVENTS_END_DATE' | tr }}</label>
           <app-datetime-input
             id="endDate"
@@ -49,15 +50,15 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
         </div>
       </div>
 
-      <div class="row">
-        <div class="form-group col-12 col-md-7 col-xl-4">
+      <div class="d-flex flex-column flex-md-row gap-4 gap-md-3 flex-wrap">
+        <div class="form-group flex-fill">
           <label for="street">{{ 'HOME_ORGS_STREET' | tr }}</label>
           <input formControlName="street" class="form-control" type="text" id="street" placeholder="{{ 'HOME_ORGS_STREET' | tr }}" />
           @if (form.controls.street.invalid) {
             <small class="text-danger"> {{ 'HOME_ORGS_STREET_INCORRECT' | tr }} </small>
           }
         </div>
-        <div class="form-group col-12 col-md-4 col-xl-2">
+        <div class="form-group flex-fill">
           <label for="streetNumber">{{ 'HOME_ORGS_STREETNUMBER' | tr }}</label>
           <input
             formControlName="streetNumber"
@@ -71,7 +72,7 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
           }
         </div>
 
-        <div class="form-group col-12 col-md-4 col-xl-2">
+        <div class="form-group flex-fill">
           <label for="postalCode">{{ 'HOME_ORGS_POSTAL_CODE' | tr }}</label>
           <input
             formControlName="postalCode"
@@ -85,7 +86,7 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
           }
         </div>
 
-        <div class="form-group col-12 col-md-7 col-xl-4">
+        <div class="form-group flex-fill">
           <label for="city">{{ 'HOME_ORGS_CITY' | tr }}</label>
           <input formControlName="city" class="form-control" type="text" id="city" placeholder="{{ 'HOME_ORGS_CITY' | tr }}" />
           @if (form.controls.city.invalid) {
@@ -94,18 +95,20 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
         </div>
       </div>
 
-      <div class="d-flex flex-column flex-md-row justify-content-between gap-2 gap-md-4 mt-2">
-        @if (isCreating) {
+      @if (!isCreating()) {
+        <div class="d-flex flex-column flex-md-row justify-content-between gap-2 gap-md-4 mt-2">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" id="updateWaiterCreateToken" formControlName="updateWaiterCreateToken" />
             <label class="form-check-label" for="updateWaiterCreateToken"> {{ 'HOME_EVENTS_UPDATE_CREATE_WAITER_TOKEN' | tr }} </label>
           </div>
-        }
-      </div>
+        </div>
+      }
+
+      <app-model-edit-save-btn [valid]="isValid()" [creating]="isCreating()" />
     </form>
   `,
   selector: 'app-event-edit-form',
-  imports: [ReactiveFormsModule, DfxTr, BiComponent, NgbInputDatepicker, AsyncPipe, AppDatetimeInputComponent],
+  imports: [ReactiveFormsModule, DfxTr, BiComponent, NgbInputDatepicker, AppDatetimeInputComponent, AppModelEditSaveBtn],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -122,6 +125,8 @@ export class AppEventEditFormComponent extends AbstractModelEditFormComponent<Cr
     organisationId: [-1, [Validators.required, Validators.min(0)]],
     id: [-1],
   });
+
+  isValid = injectIsValid(this.form);
 
   @Input()
   set event(it: GetEventOrLocationResponse | 'CREATE') {

@@ -13,6 +13,7 @@ export function errorInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn)
       if (
         error?.status === 401 ||
         error?.status === 403 ||
+        error?.status === 500 ||
         error?.status === 502 ||
         error?.status === 503 ||
         error?.status === 504 ||

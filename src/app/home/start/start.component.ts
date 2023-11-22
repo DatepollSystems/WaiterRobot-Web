@@ -49,7 +49,7 @@ export class StartComponent {
 
   localTime = toSignal(interval(1000).pipe(map(() => new Date())), {initialValue: new Date()});
 
-  myUser$ = inject(MyUserService).getUser$();
+  myUser = inject(MyUserService).user;
 
   browserInfos = i_complete();
 

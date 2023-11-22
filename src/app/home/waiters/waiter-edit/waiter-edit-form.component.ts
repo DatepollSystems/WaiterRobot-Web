@@ -1,4 +1,3 @@
-import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -10,13 +9,15 @@ import {DfxTr} from 'dfx-translate';
 
 import {allowedCharacterSet} from '../../../_shared/regex';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
+import {injectIsValid} from '../../../_shared/ui/form/form';
 import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, UpdateWaiterDto} from '../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
-    @if (formStatusChanges | async) {}
+    @if (isValid()) {}
 
-    <form #formRef [formGroup]="form" (ngSubmit)="submit()">
+    <form #formRef [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column gap-3">
       <div class="row g-3">
         <div class="form-group col-sm-12 col-md-4 col-lg-5 col-xl-6">
           <label for="name">{{ 'NAME' | tr }}</label>
@@ -45,7 +46,7 @@ import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, Updat
         </div>
       </div>
 
-      <div class="d-flex flex-column flex-md-row gap-2 gap-md-4 mt-2">
+      <div class="d-flex flex-column flex-md-row gap-2 gap-md-4">
         <div class="form-check form-switch">
           <input class="form-check-input" type="checkbox" id="activated" formControlName="activated" />
           <label class="form-check-label" for="activated">
@@ -53,14 +54,16 @@ import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, Updat
           </label>
         </div>
       </div>
+
+      <app-model-edit-save-btn [valid]="isValid()" [creating]="isCreating()" />
     </form>
   `,
   selector: 'app-waiter-edit-form',
-  imports: [ReactiveFormsModule, AsyncPipe, DfxTr, BiComponent, NgSelectModule],
+  imports: [ReactiveFormsModule, DfxTr, BiComponent, NgSelectModule, AppModelEditSaveBtn],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppProductEditFormComponent extends AbstractModelEditFormComponent<CreateWaiterDto, UpdateWaiterDto> {
+export class AppWaiterEditFormComponent extends AbstractModelEditFormComponent<CreateWaiterDto, UpdateWaiterDto> {
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(70), Validators.pattern(allowedCharacterSet)]],
     eventIds: [new Array<number>()],
@@ -68,6 +71,8 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     activated: [true, [Validators.required]],
     id: [-1],
   });
+
+  isValid = injectIsValid(this.form);
 
   @Input()
   set waiter(it: GetWaiterResponse | 'CREATE') {
@@ -110,7 +115,8 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     if (it) {
       this.lumber.info('selectedEvent', 'set selected event', it);
       this._selectedEvent = it;
-      if (!this.isCreating) {
+      if (this.isCreating()) {
+        this.lumber.info('selectedEvent', 'isCreating - adding selected event to selected events for waiter');
         this.form.controls.eventIds.setValue(
           [...this.form.controls.eventIds.getRawValue(), it.id].filter((value, index, array) => array.indexOf(value) === index),
         );

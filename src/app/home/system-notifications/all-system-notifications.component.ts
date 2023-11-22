@@ -68,13 +68,12 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
                 />
               </div>
             </th>
-            <td *ngbCellDef="let selectable" ngb-cell>
+            <td *ngbCellDef="let selectable" ngb-cell (click)="$event.stopPropagation()">
               <div class="form-check">
                 <input
                   class="form-check-input"
                   type="checkbox"
                   name="checked"
-                  (click)="$event.stopPropagation()"
                   (change)="$event ? selection.toggle(selectable) : null"
                   [checked]="selection.isSelected(selectable)"
                 />
@@ -133,7 +132,7 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
         </table>
       </div>
 
-      <app-progress-bar [hidden]="!isLoading" />
+      <app-progress-bar [hidden]="!isLoading()" />
     </div>
   `,
   selector: 'app-all-system-notifications',

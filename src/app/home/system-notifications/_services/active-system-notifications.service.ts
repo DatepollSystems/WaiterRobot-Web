@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {computed, Injectable, signal} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 
-import {BehaviorSubject, switchMap} from 'rxjs';
+import {BehaviorSubject, catchError, EMPTY, switchMap} from 'rxjs';
 
 import {s_fromStorage, st_remove, st_set} from 'dfts-helper';
 
@@ -18,7 +18,10 @@ export class ActiveSystemNotificationsService {
   triggerGet$ = new BehaviorSubject(true);
 
   allSystemNotifications = toSignal(
-    this.triggerGet$.pipe(switchMap(() => this.httpClient.get<GetSystemNotificationResponse[]>(this.url))),
+    this.triggerGet$.pipe(
+      switchMap(() => this.httpClient.get<GetSystemNotificationResponse[]>(this.url)),
+      catchError(() => EMPTY),
+    ),
     {initialValue: []},
   );
   ignoredSystemNotifications = signal((JSON.parse(s_fromStorage(this.storageKey) ?? '[]') as number[]) ?? []);

@@ -9,7 +9,7 @@ import {DfxTr} from 'dfx-translate';
 import {AppDatetimeInputComponent} from '../../../_shared/ui/datetime-picker/datetime-picker.component';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
-import {injectIsValid} from '../../../_shared/ui/form/tab';
+import {injectIsValid} from '../../../_shared/ui/form/form';
 import {
   CreateSystemNotificationDto,
   GetSystemNotificationResponse,
@@ -21,9 +21,9 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
   template: `
     @if (isValid()) {}
 
-    <form #formRef [formGroup]="form" (ngSubmit)="submit()">
-      <div class="row gy-2">
-        <div class="form-group col-sm">
+    <form #formRef [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column gap-3">
+      <div class="d-flex flex-column flex-md-row gap-4 gap-md-3">
+        <div class="form-group flex-fill">
           <label for="title">{{ 'TITLE' | tr }}</label>
           <input class="form-control" type="text" id="title" formControlName="title" placeholder="{{ 'TITLE' | tr }}" />
 
@@ -34,7 +34,7 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
           }
         </div>
 
-        <div class="form-group col-sm">
+        <div class="form-group flex-fill">
           <label for="type">{{ 'TYPE' | tr }}</label>
           <div class="input-group">
             <span class="input-group-text" id="type-addon">
@@ -56,7 +56,7 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
           }
         </div>
 
-        <div class="form-group col-sm">
+        <div class="form-group flex-fill">
           <label for="starts">{{ 'STARTS' | tr }}</label>
 
           <app-datetime-input
@@ -68,7 +68,7 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
           />
         </div>
 
-        <div class="form-group col-sm">
+        <div class="form-group flex-fill">
           <label for="ends">{{ 'ENDS' | tr }}</label>
           <app-datetime-input
             id="ends"
@@ -80,25 +80,23 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
         </div>
       </div>
 
-      <div class="row gy-2 mt-2">
-        <div class="form-group">
-          <label for="description">{{ 'DESCRIPTION' | tr }}</label>
-          <textarea
-            class="form-control"
-            placeholder="{{ 'DESCRIPTION' | tr }}..."
-            id="description"
-            #autosize="cdkTextareaAutosize"
-            [cdkTextareaAutosize]="true"
-            [cdkAutosizeMinRows]="4"
-            formControlName="description"
-          ></textarea>
+      <div class="form-group">
+        <label for="description">{{ 'DESCRIPTION' | tr }}</label>
+        <textarea
+          class="form-control"
+          placeholder="{{ 'DESCRIPTION' | tr }}..."
+          id="description"
+          #autosize="cdkTextareaAutosize"
+          [cdkTextareaAutosize]="true"
+          [cdkAutosizeMinRows]="4"
+          formControlName="description"
+        ></textarea>
 
-          @if (form.controls.description.invalid) {
-            <small class="text-danger">
-              {{ 'HOME_SYSTEM_NOTIFICATIONS_DESCRIPTION_INCORRECT' | tr }}
-            </small>
-          }
-        </div>
+        @if (form.controls.description.invalid) {
+          <small class="text-danger">
+            {{ 'HOME_SYSTEM_NOTIFICATIONS_DESCRIPTION_INCORRECT' | tr }}
+          </small>
+        }
       </div>
 
       <div class="d-flex flex-column flex-md-row gap-2 gap-md-4 mt-2">

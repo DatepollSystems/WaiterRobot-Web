@@ -1,65 +1,55 @@
-import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
-import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
-import {CreatePrinterDto, GetPrinterResponse, UpdatePrinterDto} from '../../../_shared/waiterrobot-backend';
+import {AppEntityEditModule} from '../../../_shared/ui/form/app-entity-edit.module';
+import {injectContinuousCreation, injectOnDelete} from '../../../_shared/ui/form/edit';
+import {injectOnSubmit} from '../../../_shared/ui/form/form';
+import {GetPrinterResponse} from '../../../_shared/waiterrobot-backend';
+import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {PrintersService} from '../_services/printers.service';
 import {AppPrinterEditForm} from './printer-edit-form.component';
 import {PrinterEditProductsComponent} from './printer-edit-products.component';
-import {SelectedEventService} from '../../events/_services/selected-event.service';
 
 @Component({
   template: `
-    @if (entity$ | async; as entity) {
-      <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
-      <h1 *isCreating="entity">{{ 'ADD_2' | tr }}</h1>
+    @if (entity(); as entity) {
+      <div class="d-flex flex-column gap-2">
+        <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
+        <h1 *isCreating="entity">{{ 'ADD_2' | tr }}</h1>
 
-      <scrollable-toolbar>
-        <back-button />
+        <scrollable-toolbar>
+          <back-button />
 
-        <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid()" [creating]="entity !== 'CREATE'" />
+          <ng-container *isEditing="entity">
+            <div>
+              <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+                <bi name="trash" />
+                {{ 'DELETE' | tr }}
+              </button>
+            </div>
+          </ng-container>
 
-        <ng-container *isEditing="entity">
-          <div>
-            <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
-              <bi name="trash" />
-              {{ 'DELETE' | tr }}
-            </button>
+          <div class="d-flex align-items-center" *isCreating="entity">
+            <app-continues-creation-switch (continuesCreationChange)="continuousCreation.set($event)" />
           </div>
-        </ng-container>
+        </scrollable-toolbar>
 
-        <div class="d-flex align-items-center" *isCreating="entity">
-          <app-continues-creation-switch (continuesCreationChange)="continuesCreation = $event" />
-        </div>
-      </scrollable-toolbar>
+        <hr />
+        <app-printer-edit-form
+          #form
+          (submitUpdate)="onSubmit('UPDATE', $event)"
+          (submitCreate)="onSubmit('CREATE', $event)"
+          [selectedEventId]="selectedEvent()"
+          [availableFonts]="fonts()"
+          [printer]="entity"
+        />
 
-      <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs" (navChange)="navigateToTab($event.nextId)">
-        <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">
-          <a ngbNavLink>{{ 'DATA' | tr }}</a>
-          <ng-template ngbNavContent>
-            <app-printer-edit-form
-              #form
-              (formValid)="setValid($event)"
-              (submitUpdate)="submit('UPDATE', $event)"
-              (submitCreate)="submit('CREATE', $event)"
-              [selectedEventId]="selectedEvent()"
-              [availableFonts]="fonts()"
-              [printer]="entity"
-            />
-          </ng-template>
-        </li>
-        <li [ngbNavItem]="'PRODUCTS'" *isEditing="entity" [destroyOnHide]="true">
-          <a ngbNavLink>{{ 'HOME_PROD_ALL' | tr }}</a>
-          <ng-template ngbNavContent>
-            <app-printer-edit-products [products]="entity.products" />
-          </ng-template>
-        </li>
-      </ul>
+        <h2 class="mt-5" *isEditing="entity">{{ 'HOME_PROD_ALL' | tr }}</h2>
 
-      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        <app-printer-edit-products *isEditing="entity" [products]="entity.products" />
+      </div>
     } @else {
       <app-spinner-row />
     }
@@ -67,18 +57,21 @@ import {SelectedEventService} from '../../events/_services/selected-event.servic
   selector: 'app-printer-edit',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AsyncPipe, AppFormModule, AppPrinterEditForm, AppContinuesCreationSwitchComponent, PrinterEditProductsComponent],
+  imports: [AppEntityEditModule, AppPrinterEditForm, AppContinuesCreationSwitchComponent, PrinterEditProductsComponent],
 })
-export class PrinterEditComponent extends AbstractModelEditComponent<
-  CreatePrinterDto,
-  UpdatePrinterDto,
-  GetPrinterResponse,
-  'DATA' | 'PRODUCTS'
-> {
-  defaultTab = 'DATA' as const;
-  onlyEditingTabs = ['PRODUCTS' as const];
-
-  override continuousUsePropertyNames = ['eventId'];
+export class PrinterEditComponent extends AbstractModelEditComponent<GetPrinterResponse> {
+  onDelete = injectOnDelete((it: number) => this.printersService.delete$(it).subscribe());
+  continuousCreation = injectContinuousCreation({
+    formComponent: this.form,
+    continuousUsePropertyNames: ['eventId', 'font', 'bonWidth', 'bonPadding', 'bonPaddingTop'],
+  });
+  onSubmit = injectOnSubmit({
+    entityService: this.printersService,
+    continuousCreation: {
+      enabled: this.continuousCreation.enabled,
+      patch: this.continuousCreation.patch,
+    },
+  });
 
   selectedEvent = inject(SelectedEventService).selectedId;
 

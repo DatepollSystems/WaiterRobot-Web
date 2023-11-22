@@ -1,4 +1,3 @@
-import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -10,11 +9,13 @@ import {DfxTr} from 'dfx-translate';
 
 import {allowedCharacterSet} from '../../../_shared/regex';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
+import {injectIsValid} from '../../../_shared/ui/form/form';
 import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../../_shared/waiterrobot-backend';
+import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
 
 @Component({
   template: `
-    @if (formStatusChanges | async) {}
+    @if (isValid()) {}
 
     <form #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-3">
@@ -52,6 +53,10 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
             clearAllText="Clear"
             formControlName="allergenIds"
           >
+            <ng-template ng-label-tmp let-item="item" let-clear="clear">
+              <span class="ng-value-icon left" (click)="clear(item)" aria-hidden="true">×</span>
+              <span class="ng-value-label">({{ item.shortName }}) {{ item.name }}</span>
+            </ng-template>
           </ng-select>
         </div>
       </div>
@@ -132,7 +137,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
           </label>
         </div>
 
-        @if (isCreating) {
+        @if (!isCreating()) {
           <div class="form-check">
             <input formControlName="resetOrderedProducts" class="form-check-input" type="checkbox" id="resetOrderedProducts" />
             <label class="form-check-label" for="resetOrderedProducts">
@@ -141,10 +146,12 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
           </div>
         }
       </div>
+
+      <app-model-edit-save-btn [valid]="isValid()" [creating]="isCreating()" />
     </form>
   `,
   selector: 'app-product-edit-form',
-  imports: [ReactiveFormsModule, AsyncPipe, DfxTr, BiComponent, NgSelectModule],
+  imports: [ReactiveFormsModule, DfxTr, BiComponent, NgSelectModule, AppModelEditSaveBtn],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -161,6 +168,8 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     initialStock: [null as number | null, [Validators.min(0)]],
     id: [-1],
   });
+
+  isValid = injectIsValid(this.form);
 
   override overrideRawValue = (value: typeof this.form.value): unknown => {
     const match: string[] = s_from(value.price).split(/[,.]/);

@@ -1,22 +1,27 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import {Injectable, TemplateRef} from '@angular/core';
+import {Injectable, signal, TemplateRef} from '@angular/core';
 
-import {BehaviorSubject, first} from 'rxjs';
+import {first} from 'rxjs';
 
 import {dfxTranslate$} from 'dfx-translate';
 
+export type Toast = {
+  textOrTpl: string | TemplateRef<unknown>;
+  delay: number;
+  classname: string;
+};
+
 @Injectable({providedIn: 'root'})
 export class NotificationService {
-  private delay = 4000;
-  private toasts: any[] = [];
-  toasts$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>(this.toasts);
+  private delay = 40000;
+
+  toasts = signal<Toast[]>([]);
 
   private translate = dfxTranslate$();
 
   constructor() {}
 
   info(str: string): void {
-    this.show(str, {delay: this.delay});
+    this.show(str, {delay: this.delay, classname: 'bg-info text-dark'});
   }
 
   tinfo(translationKey: string): void {
@@ -55,12 +60,11 @@ export class NotificationService {
       .subscribe((translation) => this.error(translation));
   }
 
-  private show(textOrTpl: string | TemplateRef<any>, options: any = {}): void {
-    this.toasts.push({textOrTpl, ...options});
-    this.toasts$.next(this.toasts.slice());
+  private show(textOrTpl: string | TemplateRef<unknown>, options: Omit<Toast, 'textOrTpl'>): void {
+    this.toasts.set([...this.toasts(), {textOrTpl, ...options}]);
   }
 
-  remove(toast: any): void {
-    this.toasts = this.toasts.filter((t) => t !== toast);
+  remove(toast: Toast): void {
+    this.toasts.set(this.toasts().filter((t) => t !== toast));
   }
 }

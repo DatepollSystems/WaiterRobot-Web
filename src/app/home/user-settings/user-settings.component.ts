@@ -4,11 +4,11 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
+import {EntitiesLayout} from '../../_shared/ui/entities.layout';
 
 @Component({
   template: `
-    <entities-layout-component>
+    <entities-layout>
       <div class="list-group" nav>
         <a class="list-group-item list-group-item-action" routerLink="settings" routerLinkActive="active">
           <bi name="gear-wide-connected" />
@@ -19,11 +19,11 @@ import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.c
           {{ 'NAV_USER_SESSIONS' | tr }}</a
         >
       </div>
-    </entities-layout-component>
+    </entities-layout>
   `,
   selector: 'app-user-settings',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterLinkActive, DfxTr, AppEntitiesLayoutComponent, BiComponent],
+  imports: [RouterLink, RouterLinkActive, DfxTr, EntitiesLayout, BiComponent],
   standalone: true,
 })
 export class UserSettingsComponent {}

@@ -10,7 +10,7 @@ import {AppBackButtonComponent} from '../../../_shared/ui/button/app-back-button
 import {ScrollableToolbarComponent} from '../../../_shared/ui/button/scrollable-toolbar.component';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
-import {injectIsValid} from '../../../_shared/ui/form/tab';
+import {injectIsValid} from '../../../_shared/ui/form/form';
 import {
   CreateUserDto,
   GetOrganisationResponse,
@@ -23,7 +23,7 @@ import {
   template: `
     @if (isValid()) {}
 
-    <form #formRef [formGroup]="form" (ngSubmit)="submit()">
+    <form #formRef [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column gap-3">
       <div class="row gy-2">
         <div class="form-group col-sm">
           <label for="email">{{ 'EMAIL' | tr }}</label>
@@ -58,7 +58,7 @@ import {
         </div>
       </div>
 
-      <div class="row gy-2 mt-1">
+      <div class="row gy-2">
         <div class="col col-md-6">
           <div class="form-group mb-2">
             <label for="password">{{ 'PASSWORD' | tr }}</label>
@@ -96,14 +96,14 @@ import {
         </div>
       </div>
 
-      <div class="form-check mt-3">
+      <div class="form-check">
         <input class="form-check-input" type="checkbox" id="sendInvitation" formControlName="sendInvitation" />
         <label class="form-check-label" for="sendInvitation">
           {{ 'HOME_USERS_SEND_INVITE' | tr }}
         </label>
       </div>
 
-      <div class="d-flex flex-column flex-md-row gap-2 gap-md-4 mt-2">
+      <div class="d-flex flex-column flex-md-row gap-2 gap-md-4">
         <div class="form-check form-switch">
           <input class="form-check-input" type="checkbox" id="isAdmin" formControlName="isAdmin" />
           <label class="form-check-label" for="isAdmin">

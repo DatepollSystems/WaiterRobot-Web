@@ -163,7 +163,7 @@
             }
 
             <li class="nav-item">
-              <div ngbDropdown display="dynamic">
+              <div ngbDropdown display="dynamic" autoClose="outside">
                 <a class="nav-link" id="settingsDropdown" ngbDropdownToggle>{{ 'SETTINGS' | tr }}</a>
                 <div ngbDropdownMenu aria-labelledby="settingsDropdown">
                   <div class="px-3 py-1">
@@ -179,13 +179,20 @@
                       <br />
                       @if (myUserService.user()?.isAdmin) {
                       <b class="clickable" (click)="switchAdminMode()"> {{ 'NAV_USER_SETTINGS_ADMIN' | tr }} </b>
-                      } @if (myUserService.manualOverwritten()) {
+                      } @if (myUserService.manualOverwritten() && !myUserService.user()?.isAdmin) {
                       <b class="clickable" (click)="switchAdminMode()"> {{ 'NAV_USER_SETTINGS_ADMIN_SWITCH' | tr }} </b>
                       }
                     </small>
                   </div>
                   <div class="dropdown-divider d-none d-xxl-block"></div>
-                  <button ngbDropdownItem class="d-none d-xxl-block" (click)="fullScreenService.setFullScreen(!isFullScreen())">
+
+                  <theme-picker />
+
+                  <button
+                    ngbDropdownItem
+                    class="d-none d-xxl-inline-flex gap-2 align-items-center"
+                    (click)="fullScreenService.setFullScreen(!isFullScreen()); $event.stopPropagation()"
+                  >
                     @if (isFullScreen()) {
                     <bi name="fullscreen-exit" />
                     } @else {
@@ -209,9 +216,6 @@
                 </div>
               </div>
             </li>
-            <li class="nav-item d-flex align-items-center">
-              <theme-picker />
-            </li>
           </ul>
         </div>
       </div>
@@ -228,7 +232,7 @@
   </div>
 
   <div hideIfOffline>
-    <div hideIfPingSucceeds url="/json">
+    <div hideIfPingSucceeds url="/json" refreshTime="10">
       <div class="alert alert-warning" role="alert">
         <div class="d-flex gap-3 align-items-center">
           <bi name="exclamation-triangle-fill" />

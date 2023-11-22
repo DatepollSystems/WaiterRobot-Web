@@ -42,7 +42,7 @@ import {CopyDirective} from '../copy.directive';
             }}</a>
           </div>
           <div class="card-footer text-muted">
-            <scrollable-toolbar disablePadding>
+            <scrollable-toolbar>
               <button class="btn btn-sm btn-secondary" (click)="back()">
                 <bi name="arrow-left" />
                 {{ 'GO_BACK' | tr }}

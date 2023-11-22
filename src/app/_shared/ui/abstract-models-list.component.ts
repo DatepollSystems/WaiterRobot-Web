@@ -1,4 +1,5 @@
-import {AfterViewInit, Component, Inject, inject, ViewChild} from '@angular/core';
+import {HttpErrorResponse} from '@angular/common/http';
+import {AfterViewInit, Component, Inject, inject, signal, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
 
@@ -20,7 +21,7 @@ export abstract class AbstractModelsListComponent<EntityType> implements AfterVi
   @ViewChild(NgbSort) sort?: NgbSort;
   @ViewChild(NgbPaginator) paginator?: NgbPaginator;
 
-  isLoading = true;
+  isLoading = signal(true);
 
   get columnsToDisplay(): string[] {
     return this._columnsToDisplay;
@@ -32,7 +33,7 @@ export abstract class AbstractModelsListComponent<EntityType> implements AfterVi
 
   _columnsToDisplay: string[] = [];
 
-  protected sortingDataAccessors?: Map<string, (it: EntityType) => any>;
+  protected sortingDataAccessors?: Map<string, (it: EntityType) => string | number>;
   public filter = new FormControl('');
 
   dataSource$: Observable<NgbTableDataSource<EntityType>> = of(new NgbTableDataSource<EntityType>());
@@ -54,7 +55,9 @@ export abstract class AbstractModelsListComponent<EntityType> implements AfterVi
       ),
       entitiesStream.pipe(
         catchError((error: unknown) => {
-          void this.router.navigateByUrl('/not-found');
+          if (error instanceof HttpErrorResponse && error.status === 404) {
+            void this.router.navigateByUrl('/not-found');
+          }
           return throwError(() => error);
         }),
       ),
@@ -66,9 +69,8 @@ export abstract class AbstractModelsListComponent<EntityType> implements AfterVi
           dataSource.sortingDataAccessor = (item, property) => {
             const fun = this.sortingDataAccessors?.get(property);
             if (!fun) {
-              return item[property as keyof EntityType];
+              return item[property as keyof EntityType] as string | number;
             }
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
             return fun(item);
           };
         }
@@ -80,7 +82,7 @@ export abstract class AbstractModelsListComponent<EntityType> implements AfterVi
         }
         dataSource.filter = filterTerm ?? '';
 
-        this.isLoading = false;
+        this.isLoading.set(false);
 
         return of(dataSource);
       }),

@@ -8,26 +8,27 @@ import {DfxTr} from 'dfx-translate';
 
 import {allowedCharacterSet} from '../../../_shared/regex';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
+import {injectIsValid} from '../../../_shared/ui/form/form';
 import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrinterDto} from '../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
-    @if (formStatusChanges | async) {}
+    @if (isValid()) {}
 
     <form #formRef [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column gap-3">
-      <div class="form-group">
-        <label for="name">{{ 'NAME' | tr }}</label>
-        <input class="form-control" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
+      <div class="d-flex flex-column flex-lg-row gap-4">
+        <div class="flex-fill form-group">
+          <label for="name">{{ 'NAME' | tr }}</label>
+          <input class="form-control" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
 
-        @if (form.controls.name.invalid) {
-          <small class="text-danger">
-            {{ 'HOME_PRINTER_NAME_INCORRECT' | tr }}
-          </small>
-        }
-      </div>
-
-      <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3">
-        <div class="col form-group">
+          @if (form.controls.name.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_PRINTER_NAME_INCORRECT' | tr }}
+            </small>
+          }
+        </div>
+        <div class="flex-fill form-group">
           <label for="fontScale">{{ 'HOME_PRINTER_FONT_SCALE' | tr }}</label>
           <input
             class="form-control"
@@ -45,7 +46,7 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
           }
         </div>
 
-        <div class="col form-group">
+        <div class="flex-fill form-group">
           <label for="font">{{ 'HOME_PRINTER_FONT' | tr }}</label>
 
           <select class="form-select" aria-label="Font select" id="font" formControlName="font">
@@ -54,8 +55,10 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
             }
           </select>
         </div>
+      </div>
 
-        <div class="col form-group">
+      <div class="d-flex flex-column flex-lg-row justify-content-between gap-4">
+        <div class="flex-fill form-group">
           <label for="bonWidth">{{ 'HOME_PRINTER_BON_WIDTH' | tr }}</label>
           <input
             class="form-control"
@@ -72,7 +75,7 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
           }
         </div>
 
-        <div class="col form-group">
+        <div class="flex-fill form-group">
           <label for="bonPadding">{{ 'HOME_PRINTER_BON_PADDING' | tr }}</label>
           <input
             class="form-control"
@@ -90,7 +93,7 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
           }
         </div>
 
-        <div class="col form-group">
+        <div class="flex-fill form-group">
           <label for="bonPaddingTop">{{ 'HOME_PRINTER_BON_PADDING_TOP' | tr }}</label>
           <input
             class="form-control"
@@ -108,10 +111,12 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
           }
         </div>
       </div>
+
+      <app-model-edit-save-btn [valid]="isValid()" [creating]="isCreating()" />
     </form>
   `,
   selector: 'app-printer-edit-form',
-  imports: [ReactiveFormsModule, AsyncPipe, DfxTr, BiComponent],
+  imports: [ReactiveFormsModule, AsyncPipe, DfxTr, BiComponent, AppModelEditSaveBtn],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -126,6 +131,8 @@ export class AppPrinterEditForm extends AbstractModelEditFormComponent<CreatePri
     eventId: [-1, [Validators.required, Validators.min(0)]],
     id: [-1],
   });
+
+  isValid = injectIsValid(this.form);
 
   override overrideRawValue = (value: typeof this.form.value): unknown => {
     this.lumber.info('overrideRawValue', 'Scale', value.fontScale);

@@ -12,7 +12,7 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
 import {ScrollableToolbarComponent} from '../../../_shared/ui/button/scrollable-toolbar.component';
-import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
+import {AppProgressBarComponent} from '../../../_shared/ui/loading/app-progress-bar.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {GetPrinterResponse} from '../../../_shared/waiterrobot-backend';
 import {PrintersService} from '../_services/printers.service';
@@ -20,142 +20,135 @@ import {PrinterBatchUpdateDto, PrinterBatchUpdateModalComponent} from './printer
 
 @Component({
   template: `
-    <h1>{{ 'NAV_PRINTERS' | tr }}</h1>
+    <div class="d-flex flex-column gap-3">
+      <h1 class="my-0">{{ 'NAV_PRINTERS' | tr }}</h1>
 
-    <scrollable-toolbar>
-      <div>
-        <a routerLink="../create" class="btn btn-sm btn-success">
-          <bi name="plus-circle" />
-          {{ 'ADD_2' | tr }}</a
-        >
-      </div>
-
-      <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PRINTER_SELECT' | tr) : undefined }}">
-        <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-          <bi name="trash" />
-          {{ 'DELETE' | tr }}
-        </button>
-      </div>
-
-      <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PRINTER_SELECT' | tr) : undefined }}">
-        <button class="btn btn-sm btn-secondary" [class.disabled]="!selection.hasValue()" (click)="onBatchUpdatePrinters()">
-          <bi name="pencil-square" />
-          {{ 'HOME_PRINTER_BATCH_UPDATE' | tr }}
-        </button>
-      </div>
-    </scrollable-toolbar>
-
-    <form>
-      <div class="input-group">
-        <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
-        @if ((filter.value?.length ?? 0) > 0) {
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            ngbTooltip="{{ 'CLEAR' | tr }}"
-            placement="bottom"
-            (click)="filter.reset()"
+      <scrollable-toolbar>
+        <div>
+          <a routerLink="../create" class="btn btn-sm btn-success">
+            <bi name="plus-circle" />
+            {{ 'ADD_2' | tr }}</a
           >
-            <bi name="x-circle-fill" />
+        </div>
+
+        <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PRINTER_SELECT' | tr) : undefined }}">
+          <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+            <bi name="trash" />
+            {{ 'DELETE' | tr }}
           </button>
-        }
-      </div>
-    </form>
+        </div>
 
-    <div class="table-responsive">
-      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort>
-        <ng-container ngbColumnDef="select">
-          <th *ngbHeaderCellDef ngb-header-cell>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                name="checked"
-                (change)="$event ? toggleAllRows() : null"
-                [checked]="selection.hasValue() && isAllSelected()"
-              />
-            </div>
-          </th>
-          <td *ngbCellDef="let selectable" ngb-cell>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                name="checked"
-                (click)="$event.stopPropagation()"
-                (change)="$event ? selection.toggle(selectable) : null"
-                [checked]="selection.isSelected(selectable)"
-              />
-            </div>
-          </td>
-        </ng-container>
+        <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PRINTER_SELECT' | tr) : undefined }}">
+          <button class="btn btn-sm btn-secondary" [class.disabled]="!selection.hasValue()" (click)="onBatchUpdatePrinters()">
+            <bi name="pencil-square" />
+            {{ 'HOME_PRINTER_BATCH_UPDATE' | tr }}
+          </button>
+        </div>
+      </scrollable-toolbar>
 
-        <ng-container ngbColumnDef="name">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
-          <td *ngbCellDef="let printer" ngb-cell>{{ printer.name }}</td>
-        </ng-container>
-
-        <ng-container ngbColumnDef="fontScale">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_FONT_SCALE' | tr }}</th>
-          <td *ngbCellDef="let printer" ngb-cell>{{ printer.fontScale }}</td>
-        </ng-container>
-
-        <ng-container ngbColumnDef="font">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_FONT' | tr }}</th>
-          <td *ngbCellDef="let printer" ngb-cell>{{ printer.font.description }}</td>
-        </ng-container>
-
-        <ng-container ngbColumnDef="bonWidth">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_WIDTH' | tr }}</th>
-          <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonWidth }}</td>
-        </ng-container>
-
-        <ng-container ngbColumnDef="bonPadding">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_PADDING' | tr }}</th>
-          <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonPadding }}</td>
-        </ng-container>
-
-        <ng-container ngbColumnDef="bonPaddingTop">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_PADDING_TOP' | tr }}</th>
-          <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonPaddingTop }}</td>
-        </ng-container>
-
-        <ng-container ngbColumnDef="actions">
-          <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
-          <td *ngbCellDef="let printer" ngb-cell>
-            <a
-              class="btn btn-sm m-1 btn-outline-success text-body-emphasis"
-              routerLink="../{{ printer.id }}"
-              ngbTooltip="{{ 'EDIT' | tr }}"
-            >
-              <bi name="pencil-square" />
-            </a>
-            <a
-              class="btn btn-sm m-1 btn-outline-secondary text-body-emphasis"
-              routerLink="../{{ printer.id }}"
-              [queryParams]="{tab: 'PRODUCTS'}"
-              ngbTooltip="{{ 'HOME_PROD_ALL' | tr }}"
-              (click)="$event.stopPropagation()"
-            >
-              <bi name="columns-gap" />
-            </a>
+      <form>
+        <div class="input-group">
+          <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+          @if ((filter.value?.length ?? 0) > 0) {
             <button
+              class="btn btn-outline-secondary"
               type="button"
-              class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
-              ngbTooltip="{{ 'DELETE' | tr }}"
-              (click)="onDelete(printer.id, $event)"
+              ngbTooltip="{{ 'CLEAR' | tr }}"
+              placement="bottom"
+              (click)="filter.reset()"
             >
-              <bi name="trash" />
+              <bi name="x-circle-fill" />
             </button>
-          </td>
-        </ng-container>
+          }
+        </div>
+      </form>
 
-        <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-        <tr *ngbRowDef="let printer; columns: columnsToDisplay" ngb-row routerLink="../{{ printer.id }}"></tr>
-      </table>
+      <div class="table-responsive">
+        <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort>
+          <ng-container ngbColumnDef="select">
+            <th *ngbHeaderCellDef ngb-header-cell>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="checked"
+                  (change)="$event ? toggleAllRows() : null"
+                  [checked]="selection.hasValue() && isAllSelected()"
+                />
+              </div>
+            </th>
+            <td *ngbCellDef="let selectable" ngb-cell (click)="$event.stopPropagation()">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="checked"
+                  (change)="$event ? selection.toggle(selectable) : null"
+                  [checked]="selection.isSelected(selectable)"
+                />
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container ngbColumnDef="name">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+            <td *ngbCellDef="let printer" ngb-cell>{{ printer.name }}</td>
+          </ng-container>
+
+          <ng-container ngbColumnDef="fontScale">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_FONT_SCALE' | tr }}</th>
+            <td *ngbCellDef="let printer" ngb-cell>{{ printer.fontScale }}</td>
+          </ng-container>
+
+          <ng-container ngbColumnDef="font">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_FONT' | tr }}</th>
+            <td *ngbCellDef="let printer" ngb-cell>{{ printer.font.description }}</td>
+          </ng-container>
+
+          <ng-container ngbColumnDef="bonWidth">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_WIDTH' | tr }}</th>
+            <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonWidth }}</td>
+          </ng-container>
+
+          <ng-container ngbColumnDef="bonPadding">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_PADDING' | tr }}</th>
+            <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonPadding }}</td>
+          </ng-container>
+
+          <ng-container ngbColumnDef="bonPaddingTop">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_PADDING_TOP' | tr }}</th>
+            <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonPaddingTop }}</td>
+          </ng-container>
+
+          <ng-container ngbColumnDef="actions">
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+            <td *ngbCellDef="let printer" ngb-cell>
+              <a
+                class="btn btn-sm m-1 btn-outline-success text-body-emphasis"
+                routerLink="../{{ printer.id }}"
+                ngbTooltip="{{ 'EDIT' | tr }}"
+              >
+                <bi name="pencil-square" />
+              </a>
+
+              <button
+                type="button"
+                class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
+                ngbTooltip="{{ 'DELETE' | tr }}"
+                (click)="onDelete(printer.id, $event)"
+              >
+                <bi name="trash" />
+              </button>
+            </td>
+          </ng-container>
+
+          <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+          <tr *ngbRowDef="let printer; columns: columnsToDisplay" ngb-row routerLink="../{{ printer.id }}"></tr>
+        </table>
+      </div>
+
+      <app-progress-bar [hidden]="!isLoading()" />
     </div>
-
-    <app-spinner-row [show]="isLoading" />
   `,
   selector: 'app-event-by-id-printers',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -169,8 +162,8 @@ import {PrinterBatchUpdateDto, PrinterBatchUpdateModalComponent} from './printer
     DfxTableModule,
     DfxSortModule,
     BiComponent,
-    AppSpinnerRowComponent,
     ScrollableToolbarComponent,
+    AppProgressBarComponent,
   ],
 })
 export class AllPrintersComponent extends AbstractModelsWithNameListWithDeleteComponent<GetPrinterResponse> {

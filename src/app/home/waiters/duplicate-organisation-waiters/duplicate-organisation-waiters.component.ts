@@ -11,75 +11,76 @@ import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
 import {ScrollableToolbarComponent} from '../../../_shared/ui/button/scrollable-toolbar.component';
-import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {DuplicateWaiterResponse} from '../../../_shared/waiterrobot-backend';
 import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
 
 @Component({
   template: `
-    <h1>{{ 'HOME_WAITERS_DUPLICATES' | tr }}</h1>
+    <div class="d-flex flex-column gap-3">
+      <h1 class="my-0">{{ 'HOME_WAITERS_DUPLICATES' | tr }}</h1>
 
-    <scrollable-toolbar>
-      <div>
-        <a routerLink="../" class="btn btn-sm btn-outline-secondary">{{ 'GO_BACK' | tr }}</a>
-      </div>
-    </scrollable-toolbar>
+      <scrollable-toolbar>
+        <div>
+          <a routerLink="../" class="btn btn-sm btn-outline-secondary">{{ 'GO_BACK' | tr }}</a>
+        </div>
+      </scrollable-toolbar>
 
-    <form>
-      <div class="input-group">
-        <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
-        @if ((filter.value?.length ?? 0) > 0) {
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            ngbTooltip="{{ 'CLEAR' | tr }}"
-            placement="bottom"
-            (click)="filter.reset()"
-          >
-            <bi name="x-circle-fill" />
-          </button>
+      <form>
+        <div class="input-group">
+          <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+          @if ((filter.value?.length ?? 0) > 0) {
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              ngbTooltip="{{ 'CLEAR' | tr }}"
+              placement="bottom"
+              (click)="filter.reset()"
+            >
+              <bi name="x-circle-fill" />
+            </button>
+          }
+        </div>
+      </form>
+
+      <div class="table-responsive">
+        <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort>
+          <ng-container ngbColumnDef="name">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+            <td *ngbCellDef="let duplicateWaiter" ngb-cell>{{ duplicateWaiter.name }}</td>
+          </ng-container>
+
+          <ng-container ngbColumnDef="count">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'COUNT' | tr }}</th>
+            <td *ngbCellDef="let duplicateWaiter" ngb-cell>
+              {{ duplicateWaiter.waiters.length }}
+            </td>
+          </ng-container>
+
+          <ng-container ngbColumnDef="actions">
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+            <td *ngbCellDef="let duplicateWaiter" ngb-cell>
+              <a
+                class="btn btn-sm m-1 btn-outline-danger"
+                routerLink="./merge/&quot;{{ duplicateWaiter.name }}&quot;"
+                ngbTooltip="{{ 'MERGE' | tr }}"
+              >
+                <bi name="union" />
+              </a>
+            </td>
+          </ng-container>
+
+          <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+          <tr
+            *ngbRowDef="let duplicateWaiter; columns: columnsToDisplay"
+            ngb-row
+            class="clickable"
+            routerLink="./merge/&quot;{{ duplicateWaiter.name }}&quot;"
+          ></tr>
+        </table>
+        @if (_dataSource.data.length < 1) {
+          <div class="text-center fs-3">Keine Dupliakte gefunden!</div>
         }
       </div>
-    </form>
-
-    <div class="table-responsive">
-      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort>
-        <ng-container ngbColumnDef="name">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
-          <td *ngbCellDef="let duplicateWaiter" ngb-cell>{{ duplicateWaiter.name }}</td>
-        </ng-container>
-
-        <ng-container ngbColumnDef="count">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'COUNT' | tr }}</th>
-          <td *ngbCellDef="let duplicateWaiter" ngb-cell>
-            {{ duplicateWaiter.waiters.length }}
-          </td>
-        </ng-container>
-
-        <ng-container ngbColumnDef="actions">
-          <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
-          <td *ngbCellDef="let duplicateWaiter" ngb-cell>
-            <a
-              class="btn btn-sm m-1 btn-outline-danger"
-              routerLink="./merge/&quot;{{ duplicateWaiter.name }}&quot;"
-              ngbTooltip="{{ 'MERGE' | tr }}"
-            >
-              <bi name="union" />
-            </a>
-          </td>
-        </ng-container>
-
-        <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-        <tr
-          *ngbRowDef="let duplicateWaiter; columns: columnsToDisplay"
-          ngb-row
-          class="clickable"
-          routerLink="./merge/&quot;{{ duplicateWaiter.name }}&quot;"
-        ></tr>
-      </table>
-      @if (_dataSource.data.length < 1) {
-        <div class="text-center fs-3">Keine Dupliakte gefunden!</div>
-      }
     </div>
   `,
   imports: [
@@ -91,7 +92,6 @@ import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
     DfxSortModule,
     DfxTr,
     BiComponent,
-    AppSpinnerRowComponent,
     ScrollableToolbarComponent,
   ],
   selector: 'app-duplicate-organisation-waiters',

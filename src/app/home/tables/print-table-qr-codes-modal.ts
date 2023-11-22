@@ -20,7 +20,7 @@ import {GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
       <h4 class="modal-title" id="app-tables-qr-codes-title">{{ 'HOME_TABLE_PRINT_TITLE' | tr }}</h4>
       <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.dismiss()"></button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body d-flex flex-column gap-3">
       <scrollable-toolbar>
         <div>
           <button class="btn btn-sm btn-primary" (click)="pdf()" [class.spinner]="generating" [disabled]="generating">

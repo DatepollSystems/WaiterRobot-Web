@@ -88,33 +88,35 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
       </div>
     </div>
     <hr />
-    @if (timelineResponse$ | async; as timelineResponse) {
-      @if (timelineResponse.data.length > 0) {
-        <div style="height: 500px; width: 98%">
-          <ngx-charts-line-chart
-            [showXAxisLabel]="true"
-            [showYAxisLabel]="true"
-            [showGridLines]="true"
-            [yScaleMax]="timelineResponse.highestValue"
-            [xAxis]="true"
-            [yAxis]="true"
-            [xAxisTickFormatting]="xFormatting"
-            [legend]="false"
-            xAxisLabel="{{ 'DATE' | tr }}"
-            yAxisLabel="{{ 'COUNT' | tr }}"
-            [timeline]="true"
-            [curve]="curve"
-            [results]="timelineResponse.data"
-          />
-        </div>
+    <div style="height: 500px">
+      @if (timelineResponse$ | async; as timelineResponse) {
+        @if (timelineResponse.data.length > 0) {
+          <div style="height: 100%; width: 98%">
+            <ngx-charts-line-chart
+              [showXAxisLabel]="true"
+              [showYAxisLabel]="true"
+              [showGridLines]="true"
+              [yScaleMax]="timelineResponse.highestValue"
+              [xAxis]="true"
+              [yAxis]="true"
+              [xAxisTickFormatting]="xFormatting"
+              [legend]="false"
+              xAxisLabel="{{ 'DATE' | tr }}"
+              yAxisLabel="{{ 'COUNT' | tr }}"
+              [timeline]="true"
+              [curve]="curve"
+              [results]="timelineResponse.data"
+            />
+          </div>
+        } @else {
+          <h5 class="text-center my-4" style="height: 100px">{{ 'HOME_STATISTICS_NO_DATA_FOR_THIS_TIME' | tr }}</h5>
+        }
       } @else {
-        <h5 class="text-center my-4">{{ 'HOME_STATISTICS_NO_DATA_FOR_THIS_TIME' | tr }}</h5>
+        <div class="d-flex justify-content-center">
+          <app-spinner-row />
+        </div>
       }
-    } @else {
-      <div style="height: 500px" class="d-flex justify-content-center">
-        <app-spinner-row />
-      </div>
-    }
+    </div>
   `,
   selector: 'app-statistics-timeline',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -142,15 +144,22 @@ export class TimelineComponent {
       debounceTime(400),
       filter(notNullAndUndefined),
       filter((it) => it.length > 0),
+      startWith(undefined),
     ),
     merge(this.endDateFormControl.valueChanges, this.selectedEvent$.pipe(map((it) => it.endDate))).pipe(
       debounceTime(400),
       filter(notNullAndUndefined),
       filter((it) => it.length > 0),
+      startWith(undefined),
     ),
   ]).pipe(
     switchMap(([event, precision, type, startDate, endDate]) => {
       let params = new HttpParams().set('eventId', event.id);
+
+      if (!startDate || !endDate) {
+        return of({highestValue: 0, data: []});
+      }
+
       // remove UTC timezone to make it a local time, so we can read the correct UTC time
       const startDateD = d_from(startDate.split('.')[0]);
       const endDateD = d_from(endDate.split('.')[0]);

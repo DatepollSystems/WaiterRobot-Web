@@ -55,13 +55,12 @@ import {WaitersService} from '../_services/waiters.service';
               />
             </div>
           </th>
-          <td *ngbCellDef="let selectable" ngb-cell>
+          <td *ngbCellDef="let selectable" ngb-cell (click)="$event.stopPropagation()">
             <div class="form-check">
               <input
                 class="form-check-input"
                 type="checkbox"
                 name="checked"
-                (click)="$event.stopPropagation()"
                 (change)="$event ? selection.toggle(selectable) : null"
                 [checked]="selection.isSelected(selectable)"
               />
@@ -92,7 +91,7 @@ import {WaitersService} from '../_services/waiters.service';
               class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
               ngbTooltip="{{ 'DELETE' | tr }}"
               placement="left"
-              (click)="onDelete(session.id)"
+              (click)="onDelete(session.id, $event)"
             >
               <bi name="trash" />
             </button>
@@ -104,7 +103,7 @@ import {WaitersService} from '../_services/waiters.service';
       </table>
     </div>
 
-    <app-spinner-row [show]="isLoading" />
+    <app-spinner-row [show]="isLoading()" />
   `,
   selector: 'app-waiter-sessions',
   standalone: true,

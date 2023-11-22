@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {computed, inject, Injectable, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 
-import {BehaviorSubject, combineLatest, filter, map, merge, switchMap} from 'rxjs';
+import {BehaviorSubject, catchError, combineLatest, filter, map, merge, of, switchMap} from 'rxjs';
 
 import {connect} from 'ngxtension/connect';
 
@@ -37,6 +37,7 @@ export class SelectedEventService {
     map(([selectedOrganisationId, selectedEvent]) =>
       selectedOrganisationId && selectedEvent.organisationId === selectedOrganisationId ? selectedEvent : undefined,
     ),
+    catchError(() => of(undefined)),
   );
 
   private selectedState = signal<SelectedEventState>({status: 'UNSET'});

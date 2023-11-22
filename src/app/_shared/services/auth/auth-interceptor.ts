@@ -90,16 +90,16 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
                 );
               }
             default:
-              return throwError(() => error.error.message as string);
+              return throwError(() => error);
           }
         } else if (error.error instanceof ErrorEvent) {
           // Client Side Error
           lumber.error('intercept', 'Client side error');
-          return throwError(() => error.error.message as string);
+          return throwError(() => error as unknown);
         } else {
           // Server Side Error
           lumber.error('intercept', 'Server side error');
-          return throwError(() => error.error.message as string);
+          return throwError(() => error as unknown);
         }
       }),
     );

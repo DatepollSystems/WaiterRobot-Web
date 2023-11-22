@@ -1,32 +1,32 @@
-import {AsyncPipe, NgTemplateOutlet} from '@angular/common';
+import {NgTemplateOutlet} from '@angular/common';
 import {ChangeDetectionStrategy, Component, HostBinding, TemplateRef} from '@angular/core';
 
-import {NgbToastModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbToast} from '@ng-bootstrap/ng-bootstrap';
 
-import {NotificationService} from './notification.service';
+import {NotificationService, Toast} from './notification.service';
 
 @Component({
   template: `
-    @for (toast of notificationService.toasts$ | async; track toast.textOrTpl) {
+    @for (toast of notificationService.toasts(); track toast.textOrTpl) {
       <ngb-toast
         [class]="toast.classname"
         [autohide]="true"
         [animation]="true"
-        [delay]="toast.delay || 5000"
+        [delay]="toast.delay"
         (hidden)="notificationService.remove(toast)"
       >
-        @if (isTemplate(toast)) {
-          <ng-template [ngTemplateOutlet]="toast.textOrTpl" />
+        @if (isTemplate(toast.textOrTpl)) {
+          <ng-template [ngTemplateOutlet]="$any(toast.textOrTpl)" />
+        } @else {
+          {{ toast.textOrTpl }}
         }
-
-        <ng-template #text>{{ toast.textOrTpl }}</ng-template>
       </ngb-toast>
     }
   `,
   styles: [':host { position: fixed; bottom: 25px; right: 0; margin: 0.5em; z-index: 1200;}'],
   selector: 'app-toasts',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgbToastModule, NgTemplateOutlet, AsyncPipe],
+  imports: [NgTemplateOutlet, NgbToast],
   standalone: true,
 })
 export class ToastsContainerComponent {
@@ -34,7 +34,7 @@ export class ToastsContainerComponent {
 
   constructor(public notificationService: NotificationService) {}
 
-  isTemplate(toast: any): boolean {
-    return toast.textOrTpl instanceof TemplateRef;
+  isTemplate(textOrTpl: Toast['textOrTpl']): textOrTpl is string {
+    return textOrTpl instanceof TemplateRef;
   }
 }

@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {computed, inject, Injectable, signal} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
-import {catchError, EMPTY, interval, map, merge, Observable, of, switchMap, timer} from 'rxjs';
+import {catchError, interval, map, merge, Observable, of, switchMap, timer} from 'rxjs';
 
 import {connect} from 'ngxtension/connect';
 
@@ -28,6 +28,7 @@ export class ServerInfoService {
   });
 
   private getJsonInfo$ = timer(0, 5000).pipe(
+    takeUntilDestroyed(),
     map(() => new Date().getTime()),
     switchMap((startMs) =>
       this.httpClient.get<JsonInfoResponse>('/json').pipe(
@@ -40,28 +41,21 @@ export class ServerInfoService {
             responseTime: new Date().getTime() - startMs - 5,
           },
         })),
-        catchError(() =>
-          of({
-            status: 'Offline' as const,
-          }),
-        ),
+        catchError(() => of({status: 'Offline' as const})),
       ),
     ),
   );
 
-  private getAdminInfo$: Observable<AdminInfoResponse> = this.httpClient
+  private getAdminInfo$: Observable<AdminInfoResponse | undefined> = this.httpClient
     .get<AdminInfoResponse>('/config/info/environment')
-    .pipe(catchError(() => EMPTY));
+    .pipe(catchError(() => of(undefined)));
 
   constructor() {
     interval(1000)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.serverInfoState.update((it) => ({...it, refreshIn: it.refreshIn - 1})));
 
-    connect(
-      this.serverInfoState,
-      merge(this.getJsonInfo$.pipe(takeUntilDestroyed()), this.getAdminInfo$.pipe(map((adminInfo) => ({adminInfo})))),
-    );
+    connect(this.serverInfoState, merge(this.getJsonInfo$, this.getAdminInfo$.pipe(map((adminInfo) => ({adminInfo})))));
   }
 
   public status = computed(() => this.serverInfoState().status);

@@ -1,5 +1,6 @@
 import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 
 import {combineLatest, filter, map, merge, share, shareReplay, Subject, switchMap, take, tap} from 'rxjs';
@@ -18,54 +19,59 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
 @Component({
   template: `
     @if (vm$ | async; as vm) {
-      <h1>"{{ vm.duplicateWaiter.name }}" Duplikate</h1>
+      <div class="d-flex flex-column gap-2">
+        <h1>"{{ vm.duplicateWaiter.name }}" Duplikate</h1>
 
-      <scrollable-toolbar>
-        <div>
-          <a routerLink="../../" class="btn btn-sm btn-outline-secondary">{{ 'GO_BACK' | tr }}</a>
-        </div>
-        <div>
-          <button class="btn btn-sm btn-success" (click)="merge()" [disabled]="!vm.minTwo">
-            {{ 'SAVE' | tr }}
-          </button>
-        </div>
-      </scrollable-toolbar>
-      <div class="col-12 col-md-4">
-        <div class="list-group">
-          @for (duplicateWaiter of vm.duplicateWaitersToMerge; track duplicateWaiter.id) {
-            <button
-              class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-              (click)="selectMainDuplicateWaiter(duplicateWaiter)"
-              [class.active]="duplicateWaiter.selectedAsMain"
-            >
-              <div>
-                @if (!duplicateWaiter.selectedAsMain) {
-                  <input
-                    class="form-check-input me-1"
-                    type="checkbox"
-                    [checked]="duplicateWaiter.selectedToMerge"
-                    (click)="selectDuplicateWaiterToMerge(duplicateWaiter); $event.stopPropagation()"
-                  />
-                }
-                {{ duplicateWaiter.name }}
-              </div>
-              @if (ignoreFeature) {
-                <button class="btn btn-sm btn-warning" (click)="$event.stopPropagation()">
-                  <bi name="person-x-fill" />
-                  {{ 'IGNORE' | tr }}
-                </button>
-              }
+        <scrollable-toolbar>
+          <div>
+            <a routerLink="../../" class="btn btn-sm btn-outline-secondary">{{ 'GO_BACK' | tr }}</a>
+          </div>
+          <div>
+            <button class="btn btn-sm btn-success" (click)="merge()" [disabled]="!vm.minTwo">
+              {{ 'SAVE' | tr }}
             </button>
+          </div>
+        </scrollable-toolbar>
+
+        <hr />
+
+        <div class="col-12 col-md-4">
+          <div class="list-group">
+            @for (duplicateWaiter of vm.duplicateWaitersToMerge; track duplicateWaiter.id) {
+              <button
+                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                (click)="selectMainDuplicateWaiter(duplicateWaiter)"
+                [class.active]="duplicateWaiter.selectedAsMain"
+              >
+                <div>
+                  @if (!duplicateWaiter.selectedAsMain) {
+                    <input
+                      class="form-check-input me-1"
+                      type="checkbox"
+                      [checked]="duplicateWaiter.selectedToMerge"
+                      (click)="selectDuplicateWaiterToMerge(duplicateWaiter); $event.stopPropagation()"
+                    />
+                  }
+                  {{ duplicateWaiter.name }}
+                </div>
+                @if (ignoreFeature) {
+                  <button class="btn btn-sm btn-warning" (click)="$event.stopPropagation()">
+                    <bi name="person-x-fill" />
+                    {{ 'IGNORE' | tr }}
+                  </button>
+                }
+              </button>
+            }
+          </div>
+          @if (!vm.minTwo) {
+            <div class="text-danger">Markiere mindestens zwei Namen welche du zusammenführen willst</div>
           }
         </div>
-        @if (!vm.minTwo) {
-          <div class="text-danger mt-2">Markiere mindestens zwei Namen welche du zusammenführen willst</div>
-        }
+        <app-continues-creation-switch (continuesCreationChange)="continueMerge = $event" text="HOME_WAITERS_DUPLICATES_CONTINUE" />
       </div>
-      <app-continues-creation-switch (continuesCreationChange)="continueMerge = $event" text="HOME_WAITERS_DUPLICATES_CONTINUE" />
     }
   `,
-  imports: [BiComponent, DfxTr, ScrollableToolbarComponent, RouterLink, AsyncPipe, AppContinuesCreationSwitchComponent],
+  imports: [BiComponent, DfxTr, ScrollableToolbarComponent, RouterLink, AsyncPipe, AppContinuesCreationSwitchComponent, FormsModule],
   selector: 'app-duplicate-organisation-waiters-edit',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,

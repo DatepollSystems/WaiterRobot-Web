@@ -3,13 +3,12 @@ import {toSignal} from '@angular/core/rxjs-interop';
 
 import {Observable, switchMap} from 'rxjs';
 
-import {DfxTr} from 'dfx-translate';
-
 import {injectIdParam$} from '../../../_shared/services/injectActivatedRouteIdParam';
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
-import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
-import {injectEditDelete} from '../../../_shared/ui/form/tab';
-import {CreateUserDto, GetUserResponse, IdAndNameResponse, UpdateUserDto} from '../../../_shared/waiterrobot-backend';
+import {AppEntityEditModule} from '../../../_shared/ui/form/app-entity-edit.module';
+import {injectOnDelete} from '../../../_shared/ui/form/edit';
+import {injectOnSubmit} from '../../../_shared/ui/form/form';
+import {GetUserResponse, IdAndNameResponse} from '../../../_shared/waiterrobot-backend';
 import {OrganisationsUsersService} from '../../organisations/_services/organisations-users.service';
 import {OrganisationsService} from '../../organisations/_services/organisations.service';
 import {UsersOrganisationsService} from '../services/users-organisations.service';
@@ -37,8 +36,8 @@ import {UserEditFormComponent} from './user-edit-form.component';
 
         <app-user-edit-form
           #form
-          (submitUpdate)="submit('UPDATE', $event)"
-          (submitCreate)="submit('CREATE', $event)"
+          (submitUpdate)="onSubmit('UPDATE', $event)"
+          (submitCreate)="onSubmit('CREATE', $event)"
           (userOrganisations)="orgUserChange($event)"
           [user]="entity"
           [organisations]="organisations()"
@@ -50,18 +49,19 @@ import {UserEditFormComponent} from './user-edit-form.component';
     }
   `,
   selector: 'app-user-edit',
-  imports: [DfxTr, AppFormModule, UserEditFormComponent],
+  imports: [AppEntityEditModule, UserEditFormComponent],
   standalone: true,
 })
-export class UserEditComponent extends AbstractModelEditComponent<CreateUserDto, UpdateUserDto, GetUserResponse> {
+export class UserEditComponent extends AbstractModelEditComponent<GetUserResponse> {
+  onDelete = injectOnDelete((it: number) => this.usersService.delete$(it).subscribe());
+  onSubmit = injectOnSubmit({entityService: this.usersService});
+
   constructor(private usersService: UsersService) {
     super(usersService);
   }
 
   usersOrganisationsService = inject(UsersOrganisationsService);
   organisationsUsersService = inject(OrganisationsUsersService);
-
-  onDelete = injectEditDelete((it: number) => this.usersService.delete$(it).subscribe());
 
   selectedOrganisations = toSignal(injectIdParam$().pipe(switchMap((id) => this.usersOrganisationsService.getByUserId$(id))), {
     initialValue: [],

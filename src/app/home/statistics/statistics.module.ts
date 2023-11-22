@@ -11,10 +11,10 @@ import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-
 import {DfxCountUp, DfxPrint} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppDatetimeInputComponent} from '../../_shared/ui/datetime-picker/datetime-picker.component';
+import {EntitiesLayout} from '../../_shared/ui/entities.layout';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {CountCardComponent} from './components/count-card.component';
 import {SumProductGroupsComponent} from './components/sum-product-groups.component';
@@ -52,7 +52,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     AppBackButtonComponent,
     AppDatetimeInputComponent,
-    AppEntitiesLayoutComponent,
     AppSpinnerRowComponent,
     BarChartModule,
     BiComponent,
@@ -63,6 +62,7 @@ const routes: Routes = [
     DfxSortModule,
     DfxTableModule,
     DfxTranslateModule,
+    EntitiesLayout,
     LineChartModule,
     NgbDropdownModule,
     NgbInputDatepicker,

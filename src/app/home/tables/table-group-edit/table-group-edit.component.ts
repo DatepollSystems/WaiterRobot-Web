@@ -3,63 +3,58 @@ import {RouterLink} from '@angular/router';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
-import {AppDeletedDirectives} from '../../../_shared/ui/form/app-deleted.directives';
-import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
-import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '../../../_shared/waiterrobot-backend';
+import {AppDeletedDirectives} from '../../../_shared/ui/form/app-entity-deleted.directives';
+import {AppEntityEditModule} from '../../../_shared/ui/form/app-entity-edit.module';
+import {injectContinuousCreation, injectOnDelete} from '../../../_shared/ui/form/edit';
+import {injectOnSubmit} from '../../../_shared/ui/form/form';
+import {GetTableGroupResponse} from '../../../_shared/waiterrobot-backend';
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TableGroupEditFormComponent} from './table-group-edit-form.component';
 
 @Component({
   template: `
-    @if (entity$ | async; as entity) {
-      <h1 *isCreating="entity">{{ 'HOME_TABLE_GROUPS_ADD' | tr }}</h1>
-      <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
-      <h1 *isEditingAndDeleted="entity">{{ entity.name }} {{ 'DELETED' | tr }}</h1>
+    @if (entity(); as entity) {
+      <div class="d-flex flex-column gap-2">
+        <h1 *isCreating="entity">{{ 'HOME_TABLE_GROUPS_ADD' | tr }}</h1>
+        <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
+        <h1 *isEditingAndDeleted="entity">{{ entity.name }} {{ 'DELETED' | tr }}</h1>
 
-      <scrollable-toolbar>
-        <back-button />
-        <app-model-edit-save-btn *isNotDeleted="entity" (submit)="form?.submit()" [valid]="valid()" [creating]="entity !== 'CREATE'" />
+        <scrollable-toolbar>
+          <back-button />
 
-        <ng-container *isEditingAndNotDeleted="entity">
-          <div>
-            <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
-              <bi name="trash" />
-              {{ 'DELETE' | tr }}
-            </button>
+          <ng-container *isEditingAndNotDeleted="entity">
+            <div>
+              <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+                <bi name="trash" />
+                {{ 'DELETE' | tr }}
+              </button>
+            </div>
+
+            <div>
+              <a routerLink="../tables/{{ entity.id }}" class="btn btn-sm btn-primary">
+                <bi name="columns-gap" />
+                {{ 'HOME_TABLE_GROUP_SHOW_TABLES' | tr }}</a
+              >
+            </div>
+          </ng-container>
+
+          <div class="d-flex align-items-center" *isCreating="entity">
+            <app-continues-creation-switch (continuesCreationChange)="continuousCreation.set($event)" />
           </div>
+        </scrollable-toolbar>
 
-          <div>
-            <a routerLink="../tables/{{ entity.id }}" class="btn btn-sm btn-primary">
-              <bi name="columns-gap" />
-              {{ 'HOME_TABLE_GROUP_SHOW_TABLES' | tr }}</a
-            >
-          </div>
-        </ng-container>
+        <hr />
 
-        <div class="d-flex align-items-center" *isCreating="entity">
-          <app-continues-creation-switch (continuesCreationChange)="continuesCreation = $event" />
-        </div>
-      </scrollable-toolbar>
-
-      <ul ngbNav #nav="ngbNav" [activeId]="activeTab$ | async" class="nav-tabs" (navChange)="navigateToTab($event.nextId)">
-        <li [ngbNavItem]="'DATA'">
-          <a ngbNavLink>{{ 'DATA' | tr }}</a>
-          <ng-template ngbNavContent>
-            <app-table-group-edit-form
-              #form
-              (formValid)="setValid($event)"
-              (submitUpdate)="submit('UPDATE', $event)"
-              (submitCreate)="submit('CREATE', $event)"
-              [tableGroup]="entity"
-              [selectedEventId]="selectedEventId()!"
-              [formDisabled]="entity !== 'CREATE' && !!entity.deleted"
-            />
-          </ng-template>
-        </li>
-      </ul>
-
-      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        <app-table-group-edit-form
+          #form
+          (submitUpdate)="onSubmit('UPDATE', $event)"
+          (submitCreate)="onSubmit('CREATE', $event)"
+          [tableGroup]="entity"
+          [selectedEventId]="selectedEventId()!"
+          [formDisabled]="entity !== 'CREATE' && !!entity.deleted"
+        />
+      </div>
     } @else {
       <app-spinner-row />
     }
@@ -67,20 +62,25 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
   selector: 'app-table-group-edit',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, AppFormModule, TableGroupEditFormComponent, AppContinuesCreationSwitchComponent, AppDeletedDirectives],
+  imports: [RouterLink, AppEntityEditModule, TableGroupEditFormComponent, AppContinuesCreationSwitchComponent, AppDeletedDirectives],
 })
-export class TableGroupEditComponent extends AbstractModelEditComponent<
-  CreateTableGroupDto,
-  UpdateTableGroupDto,
-  GetTableGroupResponse,
-  'DATA'
-> {
-  defaultTab = 'DATA' as const;
-  continuousUsePropertyNames = ['eventId'];
+export class TableGroupEditComponent extends AbstractModelEditComponent<GetTableGroupResponse> {
+  onDelete = injectOnDelete((it: number) => this.tableGroupsService.delete$(it).subscribe());
+  continuousCreation = injectContinuousCreation({
+    formComponent: this.form,
+    continuousUsePropertyNames: ['eventId'],
+  });
+  onSubmit = injectOnSubmit({
+    entityService: this.tableGroupsService,
+    continuousCreation: {
+      enabled: this.continuousCreation.enabled,
+      patch: this.continuousCreation.patch,
+    },
+  });
 
   selectedEventId = inject(SelectedEventService).selectedId;
 
-  constructor(tableGroupsService: TableGroupsService) {
+  constructor(private tableGroupsService: TableGroupsService) {
     super(tableGroupsService);
   }
 }

@@ -58,13 +58,12 @@ import {UserSessionsService} from './_services/user-sessions.service';
               />
             </div>
           </th>
-          <td *ngbCellDef="let selectable" ngb-cell>
+          <td *ngbCellDef="let selectable" ngb-cell (click)="$event.stopPropagation()">
             <div class="form-check">
               <input
                 class="form-check-input"
                 type="checkbox"
                 name="checked"
-                (click)="$event.stopPropagation()"
                 (change)="$event ? selection.toggle(selectable) : null"
                 [checked]="selection.isSelected(selectable)"
               />
@@ -107,7 +106,7 @@ import {UserSessionsService} from './_services/user-sessions.service';
       </table>
     </div>
 
-    <app-spinner-row [show]="isLoading" />
+    <app-spinner-row [show]="isLoading()" />
   `,
   selector: 'app-sessions',
   standalone: true,

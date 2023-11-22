@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 
-import {BehaviorSubject, Observable, shareReplay, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, catchError, EMPTY, Observable, shareReplay, switchMap, tap} from 'rxjs';
 
 import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
@@ -48,6 +48,7 @@ export class OrganisationsService
     return this.triggerGet$.pipe(
       switchMap(() => this.httpClient.get<GetOrganisationResponse[]>(this.url)),
       shareReplay(1),
+      catchError(() => EMPTY),
     );
   }
 

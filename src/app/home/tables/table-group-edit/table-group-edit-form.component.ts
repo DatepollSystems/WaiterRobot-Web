@@ -7,11 +7,13 @@ import {DfxTr} from 'dfx-translate';
 import {allowedCharacterSet} from '../../../_shared/regex';
 import {AppColorPicker} from '../../../_shared/ui/color/color-picker.component';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
+import {injectIsValid} from '../../../_shared/ui/form/form';
 import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '../../../_shared/waiterrobot-backend';
+import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
 
 @Component({
   template: `
-    @if (formStatusChanges | async) {}
+    @if (isValid()) {}
 
     <form #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-5">
@@ -35,10 +37,12 @@ import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '.
           />
         </div>
       </div>
+
+      <app-model-edit-save-btn [valid]="isValid()" [creating]="isCreating()" />
     </form>
   `,
   selector: 'app-table-group-edit-form',
-  imports: [ReactiveFormsModule, AsyncPipe, DfxTr, AppColorPicker],
+  imports: [ReactiveFormsModule, AsyncPipe, DfxTr, AppColorPicker, AppModelEditSaveBtn],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -49,6 +53,8 @@ export class TableGroupEditFormComponent extends AbstractModelEditFormComponent<
     color: new FormControl<string | undefined>(undefined),
     id: [-1],
   });
+
+  isValid = injectIsValid(this.form);
 
   @Input()
   set tableGroup(it: GetTableGroupResponse | 'CREATE') {

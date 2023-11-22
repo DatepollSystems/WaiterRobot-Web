@@ -1,43 +1,37 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 
-import {NgbDropdown, NgbDropdownButtonItem, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 import {ThemeService} from './theme.service';
 
 @Component({
   template: `
-    <div ngbDropdown display="dynamic">
-      <a class="nav-link" id="themeDropdown" ngbDropdownToggle>
-        <bi [name]="themeService.currentTheme().icon" class="text-body-emphasis" ariaLabel="Theme picker" />
-      </a>
-      <div ngbDropdownMenu aria-labelledby="themeDropdown" class="p-1">
-        @for (theme of themeService.themes; track theme.id) {
-          <button
-            ngbDropdownItem
-            class="rounded-1 mt-1"
-            [class.active]="theme.id === themeService.currentTheme().id"
-            (click)="themeService.setTheme(theme.id)"
-          >
-            <bi [name]="theme.icon" />
-            {{ theme.name }}
-          </button>
-        }
-      </div>
-    </div>
-  `,
-  styles: `
-  a {
-    text-decoration: none;
-  }
+    <button ngbDropdownItem class="d-inline-flex gap-2 align-items-center" (click)="changeTheme()">
+      <bi [name]="themeService.currentTheme().icon" class="text-body-emphasis" ariaLabel="Theme picker" />
+      Theme: {{ themeService.currentTheme().name }}
+    </button>
   `,
   selector: 'theme-picker',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BiComponent, DfxTr, NgbDropdownButtonItem, NgbDropdownItem, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu],
+  imports: [BiComponent, NgbDropdownItem],
 })
 export class ThemePickerComponent {
   themeService = inject(ThemeService);
+
+  changeTheme(): void {
+    const currentTheme = this.themeService.currentTheme();
+    switch (currentTheme.id) {
+      case 'auto':
+        this.themeService.setTheme('light');
+        break;
+      case 'light':
+        this.themeService.setTheme('dark');
+        break;
+      case 'dark':
+        this.themeService.setTheme('auto');
+    }
+  }
 }

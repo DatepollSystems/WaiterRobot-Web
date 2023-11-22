@@ -61,9 +61,9 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
     const input = this.formRef?.nativeElement.querySelector(focuses.join(','));
     if (input) {
       input.focus();
-      this.lumber.log('reset', 'Input to focus', input);
+      this.lumber.log('setInputFocus', 'Input to focus', input);
     } else {
-      this.lumber.log('reset', 'No input found to focus');
+      this.lumber.log('setInputFocus', 'No input found to focus');
     }
   }
 

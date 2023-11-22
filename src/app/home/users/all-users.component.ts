@@ -100,7 +100,7 @@ import {UsersService} from './services/users.service';
         </table>
       </div>
 
-      <app-progress-bar [hidden]="!isLoading" />
+      <app-progress-bar [hidden]="!isLoading()" />
     </div>
   `,
   selector: 'app-all-users',

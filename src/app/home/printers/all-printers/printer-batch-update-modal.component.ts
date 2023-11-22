@@ -1,8 +1,6 @@
-import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
-
-import {debounceTime} from 'rxjs';
+import {toSignal} from '@angular/core/rxjs-interop';
 
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
@@ -10,6 +8,7 @@ import {n_from, s_from} from 'dfts-helper';
 import {AComponent} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
+import {injectIsValid} from '../../../_shared/ui/form/form';
 import {PrintersService} from '../_services/printers.service';
 
 @Component({
@@ -19,7 +18,7 @@ import {PrintersService} from '../_services/printers.service';
       <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.close()"></button>
     </div>
     <div class="modal-body">
-      @if (formValueChanges | async) {}
+      @if (isValid()) {}
 
       <form [formGroup]="form" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
         <div>
@@ -49,17 +48,15 @@ import {PrintersService} from '../_services/printers.service';
         </div>
 
         <div>
-          @if (availableFonts$ | async; as availableFonts) {
-            <div class="form-group">
-              <label for="font">{{ 'HOME_PRINTER_FONT' | tr }}</label>
+          <div class="form-group">
+            <label for="font">{{ 'HOME_PRINTER_FONT' | tr }}</label>
 
-              <select class="form-select" aria-label="Font select" id="font" formControlName="font">
-                @for (font of availableFonts; track font.code) {
-                  <option [value]="font.code">{{ font.description }}</option>
-                }
-              </select>
-            </div>
-          }
+            <select class="form-select" aria-label="Font select" id="font" formControlName="font">
+              @for (font of availableFonts(); track font.code) {
+                <option [value]="font.code">{{ font.description }}</option>
+              }
+            </select>
+          </div>
           <div class="form-check form-switch mt-1">
             <input formControlName="updateFont" class="form-check-input" type="checkbox" role="switch" id="updateFont" />
             <label class="form-check-label" for="updateFont"
@@ -177,14 +174,14 @@ import {PrintersService} from '../_services/printers.service';
   `,
   selector: 'app-printer-batch-update-modal',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DfxTr, ReactiveFormsModule, AsyncPipe],
+  imports: [DfxTr, ReactiveFormsModule],
   standalone: true,
 })
 export class PrinterBatchUpdateModalComponent extends AComponent {
   fb = inject(FormBuilder);
   printersService = inject(PrintersService);
 
-  availableFonts$ = this.printersService.getAllFonts$();
+  availableFonts = toSignal(this.printersService.getAllFonts$(), {initialValue: []});
 
   form = this.fb.nonNullable.group({
     updateFontScale: [false],
@@ -199,7 +196,7 @@ export class PrinterBatchUpdateModalComponent extends AComponent {
     bonPaddingTop: [null as number | null, [Validators.min(0), Validators.max(30)]],
   });
 
-  formValueChanges = this.form.valueChanges.pipe(debounceTime(300));
+  isValid = injectIsValid(this.form);
 
   constructor(public activeModal: NgbActiveModal) {
     super();

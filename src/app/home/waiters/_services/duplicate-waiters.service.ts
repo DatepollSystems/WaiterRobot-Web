@@ -19,7 +19,7 @@ export class DuplicateWaitersService implements HasGetAll<DuplicateWaiterRespons
 
   getAll$(): Observable<DuplicateWaiterResponse[]> {
     return combineLatest([this.trigger, this.selectedOrganisationService.selectedIdNotNull$]).pipe(
-      switchMap((organisationId) => this.httpClient.get<DuplicateWaiterResponse[]>(this.url, {params: {organisationId}})),
+      switchMap(([, organisationId]) => this.httpClient.get<DuplicateWaiterResponse[]>(this.url, {params: {organisationId}})),
     );
   }
 

@@ -36,8 +36,8 @@ dependencies:
     specifier: 17.0.2
     version: 17.0.2(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/platform-browser@17.0.2)(rxjs@7.8.1)
   '@ng-bootstrap/ng-bootstrap':
-    specifier: 16.0.0-rc.0
-    version: 16.0.0-rc.0(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2)(@angular/localize@17.0.2)(@popperjs/core@2.11.8)(rxjs@7.8.1)
+    specifier: 16.0.0
+    version: 16.0.0(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2)(@angular/localize@17.0.2)(@popperjs/core@2.11.8)(rxjs@7.8.1)
   '@ng-select/ng-select':
     specifier: ^12.0.4
     version: 12.0.4(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2)
@@ -63,17 +63,17 @@ dependencies:
     specifier: 1.1.1
     version: 1.1.1(tslib@2.6.2)
   dfx-bootstrap-icons:
-    specifier: 0.0.1-beta.0
-    version: 0.0.1-beta.0(@angular/common@17.0.2)(@angular/core@17.0.2)
+    specifier: 1.0.0
+    version: 1.0.0(@angular/common@17.0.2)(@angular/core@17.0.2)
   dfx-bootstrap-table:
-    specifier: 3.0.0-beta.3
-    version: 3.0.0-beta.3(@angular/animations@17.0.2)(@angular/cdk@17.0.0)(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2)(bootstrap@5.3.2)(rxjs@7.8.1)
+    specifier: 3.0.1
+    version: 3.0.1(@angular/animations@17.0.2)(@angular/cdk@17.0.0)(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2)(bootstrap@5.3.2)(rxjs@7.8.1)
   dfx-helper:
     specifier: 7.0.0-beta.0
     version: 7.0.0-beta.0(@angular/cdk@17.0.0)(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/platform-browser@17.0.2)(@angular/router@17.0.2)(dfts-helper@1.1.1)(rxjs@7.8.1)
   dfx-qrcode:
-    specifier: 2.0.0-beta.0
-    version: 2.0.0-beta.0(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/platform-browser@17.0.2)
+    specifier: 2.0.0
+    version: 2.0.0(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/platform-browser@17.0.2)
   dfx-translate:
     specifier: 4.0.0-beta.0
     version: 4.0.0-beta.0(@angular/common@17.0.2)(@angular/core@17.0.2)(rxjs@7.8.1)
@@ -3914,8 +3914,8 @@ packages:
       call-bind: 1.0.2
     dev: true
 
-  /@ng-bootstrap/ng-bootstrap@16.0.0-rc.0(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2)(@angular/localize@17.0.2)(@popperjs/core@2.11.8)(rxjs@7.8.1):
-    resolution: {integrity: sha512-AssKPPs7pT6Sc77vsqzWZgXi9a5pMe4FSc4yw81WMjQpIhCOix9mdXwpxrmz77kSV6JOhaX9pnZ5aIOTJaQ/2Q==}
+  /@ng-bootstrap/ng-bootstrap@16.0.0(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2)(@angular/localize@17.0.2)(@popperjs/core@2.11.8)(rxjs@7.8.1):
+    resolution: {integrity: sha512-+FJ3e6cX9DW2t7021Ji3oz433rk3+4jLfqzU+Jyx6/vJz1dIOaML3EAY6lYuW4TLiXgMPOMvs6KzPFALGh4Lag==}
     peerDependencies:
       '@angular/common': ^17.0.0
       '@angular/core': ^17.0.0
@@ -6624,8 +6624,8 @@ packages:
       tslib: 2.6.0
     dev: false
 
-  /dfx-bootstrap-icons@0.0.1-beta.0(@angular/common@17.0.2)(@angular/core@17.0.2):
-    resolution: {integrity: sha512-qQyON+wq1nE5+LmzSqSut7LhfctEusu0igcYSJ9fU067knz6rAyUI+reMt3iw530Hp6yaNDy5tV6dPgJYZbZZA==}
+  /dfx-bootstrap-icons@1.0.0(@angular/common@17.0.2)(@angular/core@17.0.2):
+    resolution: {integrity: sha512-OIqBo+7Qfd9FJkG7czl5hug+vOmrIxosIamwWREV7Tt8f/abriNjtPY2NNsTAGlBPbOMORSE9igsv0VCewUSQg==}
     peerDependencies:
       '@angular/common': '17'
       '@angular/core': '17'
@@ -6635,8 +6635,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /dfx-bootstrap-table@3.0.0-beta.3(@angular/animations@17.0.2)(@angular/cdk@17.0.0)(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2)(bootstrap@5.3.2)(rxjs@7.8.1):
-    resolution: {integrity: sha512-pS6r7CdY2u52Okm+JSdMyvk1l6naieE8GOYdBktaUJO2fzsIm6pX2Yefrz8StgmdJYr51mkzP0nSsLoO6Mb7WQ==}
+  /dfx-bootstrap-table@3.0.1(@angular/animations@17.0.2)(@angular/cdk@17.0.0)(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2)(bootstrap@5.3.2)(rxjs@7.8.1):
+    resolution: {integrity: sha512-CkjH7xH0uOeo7QSXACSUashSJz9/VcJwlX1wH9mIEfAt3XmGR/sq87rNre+c7O7/nQAsmFGYMfkHoLIvFw7Ymg==}
     peerDependencies:
       '@angular/animations': '17'
       '@angular/cdk': '17'
@@ -6677,8 +6677,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /dfx-qrcode@2.0.0-beta.0(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/platform-browser@17.0.2):
-    resolution: {integrity: sha512-boj3KGH8o0O+GowyNk9nOdCtQBvys6Qh+Tr+mzrp59+1i32Rg8H0v/p7udoD/lquDLwu9f8CNhRzbPo9h07aCA==}
+  /dfx-qrcode@2.0.0(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/platform-browser@17.0.2):
+    resolution: {integrity: sha512-l7Qd11Sz+f5v1KCdNOmhHiNwlMV4IrOg2Q9zepfrzqp5x0bk9eDC58jesfxzCciq/WuBcaeve/P81WZT/pD9Vw==}
     peerDependencies:
       '@angular/common': '17'
       '@angular/core': '17'

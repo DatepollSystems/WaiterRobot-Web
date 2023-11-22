@@ -16,7 +16,7 @@ export const AbstractModelsWithNameListWithDeleteAndOrderStyle = `
       0 3px 14px 2px rgba(0, 0, 0, 0.12);
       display: table;
       color: white;
-      background-color: var(--primary-8);
+      background-color: var(--bs-body-bg);
       padding: 0 4px 0 4px;
     }
 
@@ -28,7 +28,7 @@ export const AbstractModelsWithNameListWithDeleteAndOrderStyle = `
     }
 
     .cdk-drag-placeholder {
-      background-color: var(--primary-6);
+      background-color: var(--bs-tertiary-bg);
     }
 
     .cdk-drag-animating {

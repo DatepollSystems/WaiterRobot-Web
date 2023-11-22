@@ -8,86 +8,79 @@ import {HasNumberIDAndName} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {MobileLinkService} from '../../../_shared/services/mobile-link.service';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
+import {injectIsValid} from '../../../_shared/ui/form/form';
 import {CreateTableDto, GetTableWithGroupResponse, UpdateTableDto} from '../../../_shared/waiterrobot-backend';
 import {TablesService} from '../_services/tables.service';
 
 @Component({
   template: `
-    @if (formStatusChanges | async) {}
+    @if (isValid()) {}
 
-    <form #formRef [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column flex-md-row gap-4 mb-3">
-      <div class="form-group col-12 col-md-3">
-        <label for="number">{{ 'NUMBER' | tr }}</label>
-        <input formControlName="number" class="form-control" type="number" id="number" placeholder="{{ 'NUMBER' | tr }}" />
+    <form #formRef [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column gap-3">
+      <div class="d-flex flex-column flex-lg-row gap-4">
+        <div class="form-group flex-fill">
+          <label for="number">{{ 'NUMBER' | tr }}</label>
+          <input formControlName="number" class="form-control" type="number" id="number" placeholder="{{ 'NUMBER' | tr }}" />
 
-        @if (form.controls.number.errors?.required) {
-          <small class="text-danger">
-            {{ 'HOME_TABLES_NUMBER_INCORRECT' | tr }}
-          </small>
-        }
+          @if (form.controls.number.errors?.required) {
+            <small class="text-danger">
+              {{ 'HOME_TABLES_NUMBER_INCORRECT' | tr }}
+            </small>
+          }
 
-        @if ((existsAlready$ | async) && form.controls.number.errors?.existsAlready) {
-          <small class="text-danger">
-            {{ 'HOME_TABLES_NUMBER_EXISTS_ALREADY' | tr }}
-          </small>
-        }
-      </div>
-
-      <div class="form-group col-12 col-md-3">
-        <label for="seats">{{ 'SEATS' | tr }}</label>
-        <input formControlName="seats" class="form-control" type="number" id="seats" placeholder="{{ 'SEATS' | tr }}" />
-        @if (form.controls.seats.invalid) {
-          <small class="text-danger">
-            {{ 'HOME_TABLES_SEATS_INCORRECT' | tr }}
-          </small>
-        }
-      </div>
-
-      <div class="form-group col">
-        <label for="selectGroup">{{ 'HOME_TABLE_GROUPS' | tr }}</label>
-        <div class="input-group">
-          <span class="input-group-text" id="selectGroup-addon">
-            <bi name="diagram-3" />
-          </span>
-          <select class="form-select" id="selectGroup" formControlName="groupId">
-            <option [value]="-1" disabled>{{ 'HOME_TABLES_GROUPS_DEFAULT' | tr }}</option>
-            @for (group of tableGroups; track group.id) {
-              <option [value]="group.id">
-                {{ group.name }}
-              </option>
-            }
-          </select>
+          @if ((existsAlready$ | async) && form.controls.number.errors?.existsAlready) {
+            <small class="text-danger">
+              {{ 'HOME_TABLES_NUMBER_EXISTS_ALREADY' | tr }}
+            </small>
+          }
         </div>
 
-        @if (form.controls.groupId.invalid) {
-          <small class="text-danger">
-            {{ 'HOME_TABLES_GROUPS_INCORRECT' | tr }}
-          </small>
-        }
+        <div class="form-group flex-fill">
+          <label for="seats">{{ 'SEATS' | tr }}</label>
+          <input formControlName="seats" class="form-control" type="number" id="seats" placeholder="{{ 'SEATS' | tr }}" />
+          @if (form.controls.seats.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_TABLES_SEATS_INCORRECT' | tr }}
+            </small>
+          }
+        </div>
+
+        <div class="form-group flex-fill">
+          <label for="selectGroup">{{ 'HOME_TABLE_GROUPS' | tr }}</label>
+          <div class="input-group">
+            <span class="input-group-text" id="selectGroup-addon">
+              <bi name="diagram-3" />
+            </span>
+            <select class="form-select" id="selectGroup" formControlName="groupId">
+              <option [value]="-1" disabled>{{ 'HOME_TABLES_GROUPS_DEFAULT' | tr }}</option>
+              @for (group of tableGroups; track group.id) {
+                <option [value]="group.id">
+                  {{ group.name }}
+                </option>
+              }
+            </select>
+          </div>
+
+          @if (form.controls.groupId.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_TABLES_GROUPS_INCORRECT' | tr }}
+            </small>
+          }
+        </div>
       </div>
+
+      <app-model-edit-save-btn [valid]="isValid()" [creating]="isCreating()" />
     </form>
-    @if (publicTableIdLink) {
-      <div class="form-group col-12 col-md-5">
-        <label for="publicId">{{ 'HOME_TABLES_PUBLIC_ID' | tr }}</label>
-        <div class="input-group">
-          <input class="form-control" type="text" id="publicId" [value]="publicTableIdLink" readonly />
-          <a [href]="publicTableIdLink" target="_blank" class="btn btn-outline-info" type="button">{{ 'OPEN' | tr }}</a>
-        </div>
-      </div>
-    }
   `,
   selector: 'app-table-edit-form',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, AsyncPipe, DfxTr, BiComponent],
+  imports: [ReactiveFormsModule, AsyncPipe, DfxTr, BiComponent, AppModelEditSaveBtn],
 })
 export class TableEditFormComponent extends AbstractModelEditFormComponent<CreateTableDto, UpdateTableDto> {
   tablesService = inject(TablesService);
-  ml = inject(MobileLinkService);
-
-  publicTableIdLink?: string;
 
   override form = this.fb.nonNullable.group({
     number: this.fb.control<number | undefined>(undefined, [Validators.required, Validators.min(0)]),
@@ -96,6 +89,8 @@ export class TableEditFormComponent extends AbstractModelEditFormComponent<Creat
     groupId: [-1, [Validators.required, Validators.min(0)]],
     id: [-1],
   });
+
+  isValid = injectIsValid(this.form);
 
   existsAlready$ = this.form.valueChanges.pipe(
     map((form) => ({number: form.number, groupId: form.groupId})),
@@ -127,7 +122,6 @@ export class TableEditFormComponent extends AbstractModelEditFormComponent<Creat
     }
 
     this._table = it;
-    this.publicTableIdLink = this.ml.createTableLink(it.publicId);
     this.form.patchValue({
       number: it.number,
       seats: it.seats,

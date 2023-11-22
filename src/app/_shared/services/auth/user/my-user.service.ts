@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {computed, inject, Injectable, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 
-import {filter, map, merge, Observable, Subject} from 'rxjs';
+import {catchError, filter, map, merge, Observable, of, Subject} from 'rxjs';
 
 import {connect} from 'ngxtension/connect';
 
@@ -35,7 +35,10 @@ export class MyUserService {
       this.myUserState,
       merge(
         this.manualUserChange.pipe(map((myUser) => ({myUser, manualOverwritten: true}))),
-        this.myUserLoaded$.pipe(map((myUser) => ({myUser, status: 'LOADED' as const}))),
+        this.myUserLoaded$.pipe(
+          map((myUser) => ({myUser, status: 'LOADED' as const})),
+          catchError(() => of({status: 'UNSET' as const})),
+        ),
       ),
     );
   }

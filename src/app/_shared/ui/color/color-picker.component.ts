@@ -75,18 +75,18 @@ export class AppColorPicker {
   showColorPicker = signal(false);
 
   colors = [
-    '#ff5151',
-    '#ffce5c',
-    '#27dd70',
-    '#16e7d9',
-    '#CD47FF',
-    '#726DFF',
-    '#726DFF',
-    '#B6F423',
-    '#BE935B',
-    '#ff5151',
-    '#ffce5c',
-    '#27dd70',
+    '#EBEFFF',
+    '#1B2347',
+    '#C9D1FB',
+    '#6750A4',
+    '#D4DBFA',
+    '#607DFF',
+    '#F8FFA8',
+    '#EFFF32',
+    '#E0FFC0',
+    '#ACFF56',
+    '#FFDBF7',
+    '#FF60DC',
   ];
 
   @Output()

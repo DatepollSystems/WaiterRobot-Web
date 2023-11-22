@@ -5,14 +5,14 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
 import {AppListNavItemsComponent} from '../../_shared/ui/app-list-nav-items.component';
+import {EntitiesLayout} from '../../_shared/ui/entities.layout';
 import {getEventsOrderedBySelected} from '../events/_services/getEventsOrderedBySelected';
 import {SelectedOrganisationService} from '../organisations/_services/selected-organisation.service';
 
 @Component({
   template: `
-    <entities-layout-component>
+    <entities-layout>
       <div class="d-flex flex-column gap-3" nav>
         <div class="list-group">
           @if (selectedOrganisation(); as selectedOrganisation) {
@@ -24,12 +24,12 @@ import {SelectedOrganisationService} from '../organisations/_services/selected-o
         </div>
         <app-list-nav-items path="event/" [entities]="events$ | async" titleTr="NAV_EVENTS" selectTr="HOME_EVENTS_SELECT" />
       </div>
-    </entities-layout-component>
+    </entities-layout>
   `,
   selector: 'app-waiters',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AsyncPipe, RouterLink, RouterLinkActive, DfxTr, BiComponent, AppEntitiesLayoutComponent, AppListNavItemsComponent],
+  imports: [AsyncPipe, RouterLink, RouterLinkActive, DfxTr, BiComponent, EntitiesLayout, AppListNavItemsComponent],
 })
 export class WaitersComponent {
   selectedOrganisation = inject(SelectedOrganisationService).selected;

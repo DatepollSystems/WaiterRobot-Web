@@ -6,7 +6,7 @@ import {DfxTr} from 'dfx-translate';
 @Component({
   template: `
     <div class="d-flex justify-content-end mt-3">
-      <button class="btn btn-success d-inline-flex gap-2" type="submit" [disabled]="!valid">
+      <button class="btn btn-success btn-lg d-inline-flex gap-2" type="submit" [disabled]="!valid">
         @if (creating) {
           <bi name="plus-circle" />
           <span>

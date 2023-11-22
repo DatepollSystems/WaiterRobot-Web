@@ -1,4 +1,3 @@
-import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -11,11 +10,13 @@ import {DfxTr} from 'dfx-translate';
 import {allowedCharacterSet} from '../../../_shared/regex';
 import {AppColorPicker} from '../../../_shared/ui/color/color-picker.component';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
+import {injectIsValid} from '../../../_shared/ui/form/form';
 import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} from '../../../_shared/waiterrobot-backend';
+import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
 
 @Component({
   template: `
-    @if (formStatusChanges | async) {}
+    @if (isValid()) {}
 
     <form #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-4">
@@ -43,7 +44,7 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
           </div>
         </div>
 
-        @if (this.isCreating) {
+        @if (isCreating()) {
           <div class="col">
             <div class="form-group mb-2">
               <label for="selectPrinter">{{ 'NAV_PRINTERS' | tr }}</label>
@@ -72,10 +73,12 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
           </div>
         }
       </div>
+
+      <app-model-edit-save-btn [valid]="isValid()" [creating]="isCreating()" />
     </form>
   `,
   selector: 'app-product-group-edit-form',
-  imports: [ReactiveFormsModule, AsyncPipe, DfxTr, BiComponent, AppColorPicker],
+  imports: [ReactiveFormsModule, DfxTr, BiComponent, AppColorPicker, AppModelEditSaveBtn],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -88,6 +91,8 @@ export class ProductGroupEditFormComponent extends AbstractModelEditFormComponen
     eventId: [-1, [Validators.required, Validators.min(0)]],
     id: [-1],
   });
+
+  isValid = injectIsValid(this.form);
 
   override overrideRawValue = (value: typeof this.form.value): unknown => {
     if (value.updatePrinterId === false || value.updatePrinterId === undefined || value.printerId === -1) {

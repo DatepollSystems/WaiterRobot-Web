@@ -4,10 +4,9 @@ import {NgbDropdown, NgbDropdownButtonItem, NgbDropdownItem, NgbDropdownMenu, Ng
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 
+import {ThemeService} from '../../home/theme.service';
 import {AppLogoWithTextComponent} from './app-logo-with-text.component';
 import {FooterModule} from './footer/footer.module';
-import {ThemePickerComponent} from '../../home/theme.component';
-import {ThemeService} from '../../home/theme.service';
 
 @Component({
   template: `
@@ -65,7 +64,6 @@ import {ThemeService} from '../../home/theme.service';
   imports: [
     AppLogoWithTextComponent,
     FooterModule,
-    ThemePickerComponent,
     NgbDropdown,
     NgbDropdownMenu,
     NgbDropdownItem,

@@ -4,10 +4,10 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
+import {EntitiesLayout} from '../../_shared/ui/entities.layout';
 
 @Component({
-  template: ` <entities-layout-component>
+  template: ` <entities-layout>
     <div class="d-flex flex-column gap-2" nav>
       <div class="list-group">
         <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
@@ -20,10 +20,10 @@ import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.c
         </a>
       </div>
     </div>
-  </entities-layout-component>`,
+  </entities-layout>`,
   selector: 'app-bills',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AppEntitiesLayoutComponent, RouterLink, RouterLinkActive, DfxTr, BiComponent],
+  imports: [EntitiesLayout, RouterLink, RouterLinkActive, DfxTr, BiComponent],
 })
 export class BillsComponent {}

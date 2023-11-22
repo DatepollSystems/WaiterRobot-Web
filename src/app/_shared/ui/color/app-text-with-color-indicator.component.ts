@@ -25,7 +25,7 @@ import {AppColorIndicatorComponent} from './app-color-indicator.component';
   imports: [AppColorIndicatorComponent],
 })
 export class AppTextWithColorIndicatorComponent {
-  @Input({required: true}) color?: string | null;
+  @Input() color?: string | null;
   @Input() placement: 'left' | 'right' = 'left';
 
   @Input() size = 20;

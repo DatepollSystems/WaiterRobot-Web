@@ -1,12 +1,11 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-
-import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
+import {RouterOutlet} from '@angular/router';
 
 @Component({
-  template: '<entities-layout-component showNav="false" />',
+  template: '<router-outlet/>',
   selector: 'app-users',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AppEntitiesLayoutComponent],
+  imports: [RouterOutlet],
   standalone: true,
 })
 export class UsersComponent {}

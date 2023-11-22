@@ -21,7 +21,7 @@ export class MobileLinkService {
   }
 
   private createWaiterAuthLink(token: string, purpose: 'SIGN_IN' | 'CREATE'): string {
-    return `${this.createShareableLink('ml')}/signIn?token=${token}&purpose=${purpose}`;
+    return `${this.createShareableLink('ml')}/signIn?purpose=${purpose}&token=${token}`;
   }
 
   private createShareableLink(type: 'ml' | 'wl'): string {

@@ -4,11 +4,11 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.component';
+import {EntitiesLayout} from '../../_shared/ui/entities.layout';
 
 @Component({
   template: `
-    <entities-layout-component>
+    <entities-layout>
       <ng-container nav>
         <div class="list-group">
           <a class="list-group-item list-group-item-action" routerLink="printers" routerLinkActive="active">
@@ -21,11 +21,11 @@ import {AppEntitiesLayoutComponent} from '../../_shared/ui/app-entities-layout.c
           >
         </div>
       </ng-container>
-    </entities-layout-component>
+    </entities-layout>
   `,
   selector: 'app-printers',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterLinkActive, DfxTr, BiComponent, AppEntitiesLayoutComponent],
+  imports: [RouterLink, RouterLinkActive, DfxTr, BiComponent, EntitiesLayout],
 })
 export class PrintersComponent {}
