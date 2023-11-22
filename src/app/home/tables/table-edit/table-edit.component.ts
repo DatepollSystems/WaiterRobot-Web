@@ -28,7 +28,7 @@ import {TableEditOrderProductsComponent} from './table-edit-order-products.compo
         <back-button />
         <ng-container *isNotDeleted="entity">
           @if ((activeTab$ | async) === 'DATA') {
-            <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid()" [editing]="entity !== 'CREATE'" />
+            <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid()" [creating]="entity !== 'CREATE'" />
           }
         </ng-container>
 

@@ -1,5 +1,4 @@
 import {TextFieldModule} from '@angular/cdk/text-field';
-import {AsyncPipe, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -9,6 +8,8 @@ import {DfxTr} from 'dfx-translate';
 
 import {AppDatetimeInputComponent} from '../../../_shared/ui/datetime-picker/datetime-picker.component';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
+import {injectIsValid} from '../../../_shared/ui/form/tab';
 import {
   CreateSystemNotificationDto,
   GetSystemNotificationResponse,
@@ -18,7 +19,7 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
 
 @Component({
   template: `
-    <ng-container *ngIf="formStatusChanges | async" />
+    @if (isValid()) {}
 
     <form #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="row gy-2">
@@ -86,9 +87,9 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
             class="form-control"
             placeholder="{{ 'DESCRIPTION' | tr }}..."
             id="description"
-            cdkTextareaAutosize
             #autosize="cdkTextareaAutosize"
-            cdkAutosizeMinRows="4"
+            [cdkTextareaAutosize]="true"
+            [cdkAutosizeMinRows]="4"
             formControlName="description"
           ></textarea>
 
@@ -108,18 +109,19 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
           </label>
         </div>
       </div>
+
+      <app-model-edit-save-btn [valid]="isValid()" [creating]="isCreating()" />
     </form>
   `,
   selector: 'app-system-notification-edit-form',
   imports: [
     ReactiveFormsModule,
-    NgIf,
-    AsyncPipe,
     DfxTr,
     BiComponent,
     TextFieldModule,
     DfxLowerCaseExceptFirstLettersPipe,
     AppDatetimeInputComponent,
+    AppModelEditSaveBtn,
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -140,10 +142,12 @@ export class SystemNotificationEditFormComponent extends AbstractModelEditFormCo
     id: [-1],
   });
 
+  isValid = injectIsValid(this.form);
+
   @Input()
   set systemNotification(it: GetSystemNotificationResponse | 'CREATE') {
     if (it === 'CREATE') {
-      this.isEdit = false;
+      this.isCreating.set(true);
       return;
     }
 

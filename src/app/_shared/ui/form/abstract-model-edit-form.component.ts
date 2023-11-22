@@ -1,4 +1,4 @@
-// noinspection NonAsciiCharacters,JSNonASCIINames
+// noinspection JSNonASCIINames NonAsciiCharacters
 
 import {
   AfterViewInit,
@@ -8,15 +8,13 @@ import {
   EventEmitter,
   inject,
   Input,
-  OnInit,
   Output,
+  signal,
   ViewChild,
 } from '@angular/core';
-import {AbstractControl, FormBuilder, FormControlStatus, FormGroup, ɵFormGroupValue} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, ɵFormGroupValue} from '@angular/forms';
 
-import {delay, distinctUntilChanged, EMPTY, Observable, of, startWith, tap} from 'rxjs';
-
-import {IHasID, loggerOf} from 'dfts-helper';
+import {loggerOf} from 'dfts-helper';
 import {AComponent} from 'dfx-helper';
 
 const focuses = ['input', 'select', 'textarea'];
@@ -25,16 +23,10 @@ const focuses = ['input', 'select', 'textarea'];
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOType extends IHasID<UpdateDTOType['id']>>
-  extends AComponent
-  implements OnInit, AfterViewInit
-{
+export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOType> extends AComponent implements AfterViewInit {
   lumber = loggerOf('AModelEditForm');
 
   fb = inject(FormBuilder);
-
-  @Output()
-  formValid = new EventEmitter<'VALID' | 'INVALID'>();
 
   @Output()
   submitCreate = new EventEmitter<CreateDTOType>();
@@ -42,16 +34,10 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
   @Output()
   submitUpdate = new EventEmitter<UpdateDTOType>();
 
-  protected set isEdit(it: boolean) {
-    this._isEdit = it;
-  }
-
-  _isEdit = true;
+  isCreating = signal(false);
 
   abstract form: FormGroup;
   @ViewChild('formRef') formRef?: ElementRef;
-
-  formStatusChanges?: Observable<FormControlStatus>;
 
   @Input()
   set formDisabled(it: boolean) {
@@ -60,30 +46,9 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
     }
   }
 
-  ngOnInit(): void {
-    this.formStatusChanges = this.form.statusChanges.pipe(
-      startWith(this.form.valid ? ('VALID' as FormControlStatus) : ('INVALID' as FormControlStatus)),
-      distinctUntilChanged(),
-      tap((formStatus) => {
-        const valid = formStatus === 'VALID' ? 'VALID' : 'INVALID';
-        this.lumber.log('formValidChange', `is valid = ${valid}`, this.form.value);
-        this.formValid.emit(valid);
-      }),
-    );
-  }
-
   ngAfterViewInit(): void {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const input = this.formRef?.nativeElement.querySelector(focuses.join(','));
-    if (input && !this._isEdit) {
-      of(EMPTY)
-        .pipe(delay(1))
-        .subscribe(() => {
-          input.focus();
-          this.lumber.log('ngAfterViewInit', 'Input to focus', input);
-        });
-    } else if (!input) {
-      this.lumber.log('ngAfterViewInit', 'No input found to focus');
+    if (this.isCreating()) {
+      this.setInputFocus();
     }
   }
 
@@ -91,17 +56,7 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
     return value;
   }
 
-  submit(): void {
-    const formValue = this.overrideRawValue(this.form.getRawValue());
-    if (this._isEdit) {
-      this.submitUpdate.emit(formValue as UpdateDTOType);
-      return;
-    }
-    this.submitCreate.emit(formValue as CreateDTOType);
-  }
-
-  reset(): void {
-    this.form.reset();
+  private setInputFocus(): void {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const input = this.formRef?.nativeElement.querySelector(focuses.join(','));
     if (input) {
@@ -110,6 +65,20 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
     } else {
       this.lumber.log('reset', 'No input found to focus');
     }
+  }
+
+  submit(): void {
+    const formValue = this.overrideRawValue(this.form.getRawValue());
+    if (this.isCreating()) {
+      this.submitCreate.emit(formValue as CreateDTOType);
+      return;
+    }
+    this.submitUpdate.emit(formValue as UpdateDTOType);
+  }
+
+  reset(): void {
+    this.form.reset();
+    this.setInputFocus();
   }
 
   patchValue<

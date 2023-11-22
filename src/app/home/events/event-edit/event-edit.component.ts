@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 
 import {NgbInputDatepicker, NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
@@ -26,7 +26,7 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
         <scrollable-toolbar>
           <back-button />
 
-          <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid()" [editing]="entity !== 'CREATE'" />
+          <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid()" [creating]="entity !== 'CREATE'" />
 
           <ng-container *isEditing="entity">
             @if (myUser()?.isAdmin) {
@@ -76,7 +76,6 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AsyncPipe,
-    NgIf,
     NgbInputDatepicker,
     NgbNavModule,
     DfxTr,

@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -15,7 +15,7 @@ import {TablesService} from '../_services/tables.service';
 
 @Component({
   template: `
-    <ng-container *ngIf="formStatusChanges | async" />
+    @if (formStatusChanges | async) {}
 
     <form #formRef [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column flex-md-row gap-4 mb-3">
       <div class="form-group col-12 col-md-3">
@@ -81,7 +81,7 @@ import {TablesService} from '../_services/tables.service';
   selector: 'app-table-edit-form',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, AsyncPipe, NgIf, DfxTr, BiComponent],
+  imports: [ReactiveFormsModule, AsyncPipe, DfxTr, BiComponent],
 })
 export class TableEditFormComponent extends AbstractModelEditFormComponent<CreateTableDto, UpdateTableDto> {
   tablesService = inject(TablesService);
@@ -122,7 +122,7 @@ export class TableEditFormComponent extends AbstractModelEditFormComponent<Creat
   @Input()
   set table(it: GetTableWithGroupResponse | 'CREATE') {
     if (it === 'CREATE') {
-      this.isEdit = false;
+      this.isCreating.set(true);
       return;
     }
 

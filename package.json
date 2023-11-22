@@ -35,6 +35,7 @@
     "@angular/platform-browser-dynamic": "17.0.2",
     "@angular/router": "17.0.2",
     "@ng-bootstrap/ng-bootstrap": "16.0.0-rc.0",
+    "@ng-select/ng-select": "^12.0.4",
     "@ngx-loading-bar/core": "6.0.2",
     "@ngx-loading-bar/router": "6.0.2",
     "@popperjs/core": "2.11.8",

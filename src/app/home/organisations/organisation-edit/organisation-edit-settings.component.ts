@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {AbstractControl, FormControl, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 
@@ -9,12 +9,12 @@ import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {getActivatedRouteIdParam} from '../../../_shared/services/getActivatedRouteIdParam';
+import {injectIdParam$} from '../../../_shared/services/injectActivatedRouteIdParam';
 import {OrganisationsSettingsService} from '../_services/organisations-settings.service';
 
 @Component({
   template: `
-    <ng-container *ngIf="timeZoneValidChanges$ | async" />
+    @if (timeZoneValidChanges$ | async) {}
     @if (vm$ | async; as vm) {
       <div class="d-flex flex-column gap-4 mt-2">
         <div class="form-check form-switch">
@@ -74,12 +74,12 @@ import {OrganisationsSettingsService} from '../_services/organisations-settings.
   selector: 'app-organisation-edit-settings',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, BiComponent, DfxTr, AsyncPipe, NgIf, NgbTypeahead],
+  imports: [ReactiveFormsModule, BiComponent, DfxTr, AsyncPipe, NgbTypeahead],
 })
 export class OrganisationEditSettingsComponent {
   organisationSettingsService$ = inject(OrganisationsSettingsService);
 
-  organisationId$ = getActivatedRouteIdParam().pipe(shareReplay(1));
+  organisationId$ = injectIdParam$().pipe(shareReplay(1));
   settings$ = this.organisationId$.pipe(
     switchMap((id) => this.organisationSettingsService$.getSettings$(id)),
     shareReplay(1),

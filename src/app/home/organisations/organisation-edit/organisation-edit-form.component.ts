@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -12,7 +12,7 @@ import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} f
 
 @Component({
   template: `
-    <ng-container *ngIf="formStatusChanges | async" />
+    @if (formStatusChanges | async) {}
 
     <form #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-3">
@@ -89,7 +89,7 @@ import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} f
     </form>
   `,
   selector: 'app-organisation-edit-form',
-  imports: [ReactiveFormsModule, DfxTr, BiComponent, NgbInputDatepicker, NgIf, AsyncPipe],
+  imports: [ReactiveFormsModule, DfxTr, BiComponent, NgbInputDatepicker, AsyncPipe],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -107,7 +107,7 @@ export class AppOrganisationEditFormComponent extends AbstractModelEditFormCompo
   @Input()
   set organisation(it: GetOrganisationResponse | 'CREATE') {
     if (it === 'CREATE') {
-      this.isEdit = false;
+      this.isCreating.set(true);
       return;
     }
 

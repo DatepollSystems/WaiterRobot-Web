@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -13,7 +13,7 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
 
 @Component({
   template: `
-    <ng-container *ngIf="formStatusChanges | async" />
+    @if (formStatusChanges | async) {}
 
     <form #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="row mb-3">
@@ -95,7 +95,7 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
       </div>
 
       <div class="d-flex flex-column flex-md-row justify-content-between gap-2 gap-md-4 mt-2">
-        @if (_isEdit) {
+        @if (isCreating) {
           <div class="form-check">
             <input class="form-check-input" type="checkbox" id="updateWaiterCreateToken" formControlName="updateWaiterCreateToken" />
             <label class="form-check-label" for="updateWaiterCreateToken"> {{ 'HOME_EVENTS_UPDATE_CREATE_WAITER_TOKEN' | tr }} </label>
@@ -105,7 +105,7 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
     </form>
   `,
   selector: 'app-event-edit-form',
-  imports: [ReactiveFormsModule, DfxTr, BiComponent, NgbInputDatepicker, NgIf, AsyncPipe, AppDatetimeInputComponent],
+  imports: [ReactiveFormsModule, DfxTr, BiComponent, NgbInputDatepicker, AsyncPipe, AppDatetimeInputComponent],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -126,7 +126,7 @@ export class AppEventEditFormComponent extends AbstractModelEditFormComponent<Cr
   @Input()
   set event(it: GetEventOrLocationResponse | 'CREATE') {
     if (it === 'CREATE') {
-      this.isEdit = false;
+      this.isCreating.set(true);
       return;
     }
 

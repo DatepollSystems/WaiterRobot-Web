@@ -7,7 +7,7 @@ import {map, switchMap} from 'rxjs';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
+import {injectIdParam$} from '../../_shared/services/injectActivatedRouteIdParam';
 import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
@@ -16,7 +16,7 @@ import {DeadLettersService} from './dead-letters.service';
 @Component({
   template: `
     @if (deadLetter(); as deadLetter) {
-      <div>
+      <div class="d-flex flex-column gap-2">
         <h1>Dead Letter "{{ deadLetter.id }}"</h1>
 
         <scrollable-toolbar>
@@ -62,7 +62,7 @@ import {DeadLettersService} from './dead-letters.service';
 })
 export class DeadLetterViewComponent {
   deadLettersService = inject(DeadLettersService);
-  idParam$ = getActivatedRouteIdParam();
+  idParam$ = injectIdParam$();
 
   deadLetter = toSignal(
     this.idParam$.pipe(

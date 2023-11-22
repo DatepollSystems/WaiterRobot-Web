@@ -11,95 +11,97 @@ import {DfxTr} from 'dfx-translate';
 
 import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';
 import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
-import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
+import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
 import {AbstractModelsListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-list-with-delete.component';
 import {GetUserResponse} from '../../_shared/waiterrobot-backend';
 import {UsersService} from './services/users.service';
 
 @Component({
   template: `
-    <h1>{{ 'NAV_USERS' | tr }}</h1>
+    <div class="d-flex flex-column gap-3">
+      <h1 class="my-0">{{ 'NAV_USERS' | tr }}</h1>
 
-    <scrollable-toolbar>
-      <div>
-        <a routerLink="../create" class="btn btn-sm btn-success">
-          <bi name="plus-circle" />
-          {{ 'ADD_2' | tr }}</a
-        >
-      </div>
-    </scrollable-toolbar>
-
-    <form>
-      <div class="input-group">
-        <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
-        @if ((filter.value?.length ?? 0) > 0) {
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            ngbTooltip="{{ 'CLEAR' | tr }}"
-            placement="bottom"
-            (click)="filter.reset()"
+      <scrollable-toolbar>
+        <div>
+          <a routerLink="../create" class="btn btn-sm btn-success">
+            <bi name="plus-circle" />
+            {{ 'ADD_2' | tr }}</a
           >
-            <bi name="x-circle-fill" />
-          </button>
-        }
-      </div>
-    </form>
+        </div>
+      </scrollable-toolbar>
 
-    <div class="table-responsive">
-      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="id" ngbSortDirection="asc">
-        <ng-container ngbColumnDef="id">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
-          <td *ngbCellDef="let user" ngb-cell>{{ user.id }}</td>
-        </ng-container>
-
-        <ng-container ngbColumnDef="name">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
-          <td *ngbCellDef="let user" ngb-cell>{{ user.firstname }} {{ user.surname }}</td>
-        </ng-container>
-
-        <ng-container ngbColumnDef="email_address">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'EMAIL' | tr }}</th>
-          <td *ngbCellDef="let user" ngb-cell>{{ user.emailAddress }}</td>
-        </ng-container>
-
-        <ng-container ngbColumnDef="is_admin">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ADMIN' | tr }}</th>
-          <td *ngbCellDef="let user" ngb-cell>
-            {{ user.role === 'ADMIN' | activated }}
-          </td>
-        </ng-container>
-
-        <ng-container ngbColumnDef="activated">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ACTIVATED' | tr }}</th>
-          <td *ngbCellDef="let user" ngb-cell>
-            {{ user.activated | activated }}
-          </td>
-        </ng-container>
-
-        <ng-container ngbColumnDef="actions">
-          <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
-          <td *ngbCellDef="let user" ngb-cell>
-            <a class="btn btn-sm m-1 btn-outline-success text-body-emphasis" routerLink="../{{ user.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
-              <bi name="pencil-square" />
-            </a>
+      <form>
+        <div class="input-group">
+          <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+          @if ((filter.value?.length ?? 0) > 0) {
             <button
+              class="btn btn-outline-secondary"
               type="button"
-              class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
-              ngbTooltip="{{ 'DELETE' | tr }}"
-              (click)="onDelete(user.id, $event)"
+              ngbTooltip="{{ 'CLEAR' | tr }}"
+              placement="bottom"
+              (click)="filter.reset()"
             >
-              <bi name="trash" />
+              <bi name="x-circle-fill" />
             </button>
-          </td>
-        </ng-container>
+          }
+        </div>
+      </form>
 
-        <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-        <tr *ngbRowDef="let user; columns: columnsToDisplay" ngb-row routerLink="../{{ user.id }}"></tr>
-      </table>
+      <div class="table-responsive">
+        <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="id" ngbSortDirection="asc">
+          <ng-container ngbColumnDef="id">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
+            <td *ngbCellDef="let user" ngb-cell>{{ user.id }}</td>
+          </ng-container>
+
+          <ng-container ngbColumnDef="name">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+            <td *ngbCellDef="let user" ngb-cell>{{ user.firstname }} {{ user.surname }}</td>
+          </ng-container>
+
+          <ng-container ngbColumnDef="email_address">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'EMAIL' | tr }}</th>
+            <td *ngbCellDef="let user" ngb-cell>{{ user.emailAddress }}</td>
+          </ng-container>
+
+          <ng-container ngbColumnDef="is_admin">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ADMIN' | tr }}</th>
+            <td *ngbCellDef="let user" ngb-cell>
+              {{ user.role === 'ADMIN' | activated }}
+            </td>
+          </ng-container>
+
+          <ng-container ngbColumnDef="activated">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ACTIVATED' | tr }}</th>
+            <td *ngbCellDef="let user" ngb-cell>
+              {{ user.activated | activated }}
+            </td>
+          </ng-container>
+
+          <ng-container ngbColumnDef="actions">
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+            <td *ngbCellDef="let user" ngb-cell>
+              <a class="btn btn-sm m-1 btn-outline-success text-body-emphasis" routerLink="../{{ user.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+                <bi name="pencil-square" />
+              </a>
+              <button
+                type="button"
+                class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
+                ngbTooltip="{{ 'DELETE' | tr }}"
+                (click)="onDelete(user.id, $event)"
+              >
+                <bi name="trash" />
+              </button>
+            </td>
+          </ng-container>
+
+          <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+          <tr *ngbRowDef="let user; columns: columnsToDisplay" ngb-row routerLink="../{{ user.id }}"></tr>
+        </table>
+      </div>
+
+      <app-progress-bar [hidden]="!isLoading" />
     </div>
-
-    <app-spinner-row [show]="isLoading" />
   `,
   selector: 'app-all-users',
   standalone: true,
@@ -114,9 +116,9 @@ import {UsersService} from './services/users.service';
     DfxSortModule,
     DfxTr,
     BiComponent,
-    AppSpinnerRowComponent,
     ScrollableToolbarComponent,
     AppActivatedPipe,
+    AppProgressBarComponent,
   ],
 })
 export class AllUsersComponent extends AbstractModelsListWithDeleteComponent<GetUserResponse> {

@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -12,7 +12,7 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
 
 @Component({
   template: `
-    <ng-container *ngIf="formStatusChanges | async" />
+    @if (formStatusChanges | async) {}
 
     <form #formRef [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column gap-3">
       <div class="form-group">
@@ -111,7 +111,7 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
     </form>
   `,
   selector: 'app-printer-edit-form',
-  imports: [ReactiveFormsModule, NgIf, AsyncPipe, DfxTr, BiComponent],
+  imports: [ReactiveFormsModule, AsyncPipe, DfxTr, BiComponent],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -143,7 +143,7 @@ export class AppPrinterEditForm extends AbstractModelEditFormComponent<CreatePri
   @Input()
   set printer(it: GetPrinterResponse | 'CREATE') {
     if (it === 'CREATE') {
-      this.isEdit = false;
+      this.isCreating.set(true);
       return;
     }
 

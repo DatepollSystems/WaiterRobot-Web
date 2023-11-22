@@ -12,7 +12,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
-import {getActivatedRouteIdParam} from '../../../_shared/services/getActivatedRouteIdParam';
+import {injectIdParam$} from '../../../_shared/services/injectActivatedRouteIdParam';
 import {injectConfirmDialog} from '../../../_shared/ui/question-dialog/question-dialog.component';
 import {GetOrganisationResponse, OrganisationUserResponse} from '../../../_shared/waiterrobot-backend';
 import {OrganisationsUsersService} from '../_services/organisations-users.service';
@@ -99,7 +99,7 @@ export class OrganisationEditUsersComponent {
 
   organisationsUsersService = inject(OrganisationsUsersService);
 
-  entities$ = getActivatedRouteIdParam().pipe(switchMap((id) => this.organisationsUsersService.getByOrganisationId$(id)));
+  entities$ = injectIdParam$().pipe(switchMap((id) => this.organisationsUsersService.getByOrganisationId$(id)));
   filter = new FormControl('');
   columnsToDisplay = ['name', 'email', 'actions'];
   @ViewChild(NgbSort, {static: true}) sort: NgbSort | undefined;

@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 
@@ -65,7 +65,7 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
       <app-continues-creation-switch (continuesCreationChange)="continueMerge = $event" text="HOME_WAITERS_DUPLICATES_CONTINUE" />
     }
   `,
-  imports: [NgIf, BiComponent, DfxTr, ScrollableToolbarComponent, RouterLink, AsyncPipe, AppContinuesCreationSwitchComponent],
+  imports: [BiComponent, DfxTr, ScrollableToolbarComponent, RouterLink, AsyncPipe, AppContinuesCreationSwitchComponent],
   selector: 'app-duplicate-organisation-waiters-edit',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,

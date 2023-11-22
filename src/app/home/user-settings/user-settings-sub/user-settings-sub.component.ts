@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
 import {FormsModule, NgForm} from '@angular/forms';
 
@@ -16,7 +16,7 @@ import {UserSettingsService} from '../_services/user-settings.service';
   selector: 'app-user-settings-sub',
   templateUrl: './user-settings-sub.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, NgIf, DfxTr, AsyncPipe, NgSub],
+  imports: [FormsModule, DfxTr, AsyncPipe, NgSub],
   standalone: true,
 })
 export class UserSettingsSubComponent {

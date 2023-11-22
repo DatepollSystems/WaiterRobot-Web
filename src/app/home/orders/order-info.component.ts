@@ -9,7 +9,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
+import {injectIdParam$} from '../../_shared/services/injectActivatedRouteIdParam';
 import {AppTestBadge} from '../../_shared/ui/app-test-badge.component';
 import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
@@ -109,10 +109,7 @@ export class OrderInfoComponent {
   confirmDialog = injectConfirmDialog();
   ordersService = inject(OrdersService);
 
-  vm$ = combineLatest([
-    getActivatedRouteIdParam().pipe(switchMap((id) => this.ordersService.getSingle$(id))),
-    this.ordersService.countdown$(),
-  ]).pipe(
+  vm$ = combineLatest([injectIdParam$().pipe(switchMap((id) => this.ordersService.getSingle$(id))), this.ordersService.countdown$()]).pipe(
     map(([order, countdown]) => {
       const createdAt = new Date(order.createdAt);
       createdAt.setSeconds(createdAt.getSeconds() + 60);

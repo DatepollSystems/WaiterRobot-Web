@@ -1,13 +1,8 @@
-import {AsyncPipe, NgIf} from '@angular/common';
 import {Component} from '@angular/core';
-
-import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
-
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
 import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
+import {injectEditDelete} from '../../../_shared/ui/form/tab';
 import {
   CreateSystemNotificationDto,
   GetSystemNotificationResponse,
@@ -18,16 +13,13 @@ import {SystemNotificationEditFormComponent} from './system-notification-edit-fo
 
 @Component({
   template: `
-    @if (entity$ | async; as entity) {
-      <div>
+    @if (entity(); as entity) {
+      <div class="d-flex flex-column gap-2">
         <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} "{{ entity.title }}"</h1>
         <h1 *isCreating="entity">{{ 'ADD_2' | tr }}</h1>
 
         <scrollable-toolbar>
           <back-button />
-          @if ((activeTab$ | async) === 'DATA') {
-            <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid()" [editing]="entity !== 'CREATE'" />
-          }
 
           <div *isEditing="entity">
             <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
@@ -37,47 +29,31 @@ import {SystemNotificationEditFormComponent} from './system-notification-edit-fo
           </div>
         </scrollable-toolbar>
 
-        <ul
-          ngbNav
-          #nav="ngbNav"
-          [activeId]="activeTab$ | async"
-          [destroyOnHide]="false"
-          class="nav-tabs"
-          (navChange)="navigateToTab($event.nextId)"
-        >
-          <li [ngbNavItem]="'DATA'">
-            <a ngbNavLink>{{ 'DATA' | tr }}</a>
-            <ng-template ngbNavContent>
-              <app-system-notification-edit-form
-                #form
-                (formValid)="setValid($event)"
-                (submitUpdate)="submit('UPDATE', $event)"
-                (submitCreate)="submit('CREATE', $event)"
-                [systemNotification]="entity"
-              />
-            </ng-template>
-          </li>
-        </ul>
+        <hr />
 
-        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        <app-system-notification-edit-form
+          #form
+          (submitUpdate)="submit('UPDATE', $event)"
+          (submitCreate)="submit('CREATE', $event)"
+          [systemNotification]="entity"
+        />
       </div>
     } @else {
       <app-spinner-row />
     }
   `,
   selector: 'app-user-edit',
-  imports: [AsyncPipe, NgIf, DfxTr, NgbNavModule, BiComponent, AppFormModule, SystemNotificationEditFormComponent],
+  imports: [AppFormModule, SystemNotificationEditFormComponent],
   standalone: true,
 })
 export class SystemNotificationEditComponent extends AbstractModelEditComponent<
   CreateSystemNotificationDto,
   UpdateSystemNotificationDto,
-  GetSystemNotificationResponse,
-  'DATA'
+  GetSystemNotificationResponse
 > {
-  defaultTab = 'DATA' as const;
-
-  constructor(systemNotificationsService: SystemNotificationsService) {
+  constructor(private systemNotificationsService: SystemNotificationsService) {
     super(systemNotificationsService);
   }
+
+  onDelete = injectEditDelete((it: number) => this.systemNotificationsService.delete$(it).subscribe());
 }

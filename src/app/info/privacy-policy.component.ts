@@ -13,7 +13,7 @@ import {DfxTr} from 'dfx-translate';
     <br />
     <p>Mit einem Website-Besuch werden keine Drittinhalte nachgeladen oder sonstige Trackingmaßnahmen betrieben.</p>
     <p>
-      Falls du trotzdem fragen hast, kannst du dich gerne an <a href="mailto:contact@kaulex.dev">kaulex&#64;datepollsystems.org</a>
+      Falls du trotzdem fragen hast, kannst du dich gerne an <a href="mailto:contact@kaulex.dev">contact&#64;kaulex.dev</a>
       wenden
     </p>
 

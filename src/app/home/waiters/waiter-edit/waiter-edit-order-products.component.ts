@@ -14,7 +14,7 @@ import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSor
 import {DfxTr} from 'dfx-translate';
 
 import {PaginatedDataSource} from '../../../_shared/paginated-data-source';
-import {getActivatedRouteIdParam} from '../../../_shared/services/getActivatedRouteIdParam';
+import {injectIdParam$} from '../../../_shared/services/injectActivatedRouteIdParam';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {GetOrderMinResponse} from '../../../_shared/waiterrobot-backend';
 import {AppOrderStateBadgeComponent} from '../../orders/_components/app-order-state-badge.component';
@@ -126,7 +126,7 @@ export class WaiterEditOrderProductsComponent implements AfterViewInit {
   @ViewChild(NgbSort) sort?: NgbSort;
   @ViewChild(NgbPaginator, {static: true}) paginator!: NgbPaginator;
   dataSource = new PaginatedDataSource<GetOrderMinResponse>(
-    this.ordersService.getPaginatedFnByWaiterId(getActivatedRouteIdParam().pipe(filter(notNullAndUndefined))),
+    this.ordersService.getPaginatedFnByWaiterId(injectIdParam$().pipe(filter(notNullAndUndefined))),
   );
   filter = new FormControl<string>('');
   columnsToDisplay = ['orderNumber', 'state', 'table.tableGroup.name', 'createdAt', 'actions'];

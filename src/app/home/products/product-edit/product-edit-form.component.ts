@@ -1,19 +1,20 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
+
+import {NgSelectModule} from '@ng-select/ng-select';
 
 import {a_pluck, HasNumberIDAndName, n_from, s_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {allowedCharacterSet} from '../../../_shared/regex';
-import {ChipInput} from '../../../_shared/ui/chip-input/chip-input.component';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
 import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
-    <ng-container *ngIf="formStatusChanges | async" />
+    @if (formStatusChanges | async) {}
 
     <form #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-3">
@@ -39,17 +40,20 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
           }
         </div>
 
-        <chip-input
-          class="col"
-          editable="false"
-          label="{{ 'HOME_PROD_ALLERGENS' | tr }}"
-          placeholder="{{ 'HOME_PROD_ALLERGENS_PLACEHOLDER' | tr }}"
-          [minInputLengthKick]="0"
-          [formatter]="formatter"
-          [models]="_product?.allergens"
-          [allModelsToAutoComplete]="allergens"
-          (valueChange)="allergenChange($event)"
-        />
+        <div class="form-group col">
+          <label for="allergenSelect">{{ 'HOME_PROD_ALLERGENS' | tr }}</label>
+          <ng-select
+            [items]="allergens"
+            bindLabel="name"
+            bindValue="id"
+            labelForId="allergenSelect"
+            [multiple]="true"
+            placeholder="{{ 'HOME_PROD_ALLERGENS_PLACEHOLDER' | tr }}"
+            clearAllText="Clear"
+            formControlName="allergenIds"
+          >
+          </ng-select>
+        </div>
       </div>
 
       <div class="d-flex flex-column flex-md-row gap-4 mb-3">
@@ -128,7 +132,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
           </label>
         </div>
 
-        @if (_isEdit) {
+        @if (isCreating) {
           <div class="form-check">
             <input formControlName="resetOrderedProducts" class="form-check-input" type="checkbox" id="resetOrderedProducts" />
             <label class="form-check-label" for="resetOrderedProducts">
@@ -140,7 +144,7 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../.
     </form>
   `,
   selector: 'app-product-edit-form',
-  imports: [ReactiveFormsModule, NgIf, AsyncPipe, DfxTr, BiComponent, ChipInput],
+  imports: [ReactiveFormsModule, AsyncPipe, DfxTr, BiComponent, NgSelectModule],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -162,7 +166,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     const match: string[] = s_from(value.price).split(/[,.]/);
     const euro = n_from(match[0] ?? 0);
     const cent = n_from(match[1]?.padEnd(2, '0') ?? 0);
-    // @ts-ignore
+    // @ts-expect-error price is a string
     value.price = euro * 100 + cent;
 
     this.lumber.log('overrideRawValue', 'Euro to cent', match, value.price);
@@ -173,7 +177,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
   @Input()
   set product(it: GetProductMaxResponse | 'CREATE') {
     if (it === 'CREATE') {
-      this.isEdit = false;
+      this.isCreating.set(true);
       return;
     }
 
@@ -223,12 +227,4 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
 
   @Input()
   allergens!: HasNumberIDAndName[];
-
-  formatter = (it: unknown): string => (it as HasNumberIDAndName).name;
-
-  selectedAllergens: number[] = [];
-  allergenChange = (allergens: HasNumberIDAndName[]): void => {
-    this.selectedAllergens = allergens.map((a) => a.id);
-    this.form.controls.allergenIds.setValue(this.selectedAllergens);
-  };
 }

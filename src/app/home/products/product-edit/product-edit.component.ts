@@ -29,7 +29,7 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
 
       <scrollable-toolbar>
         <back-button />
-        <app-model-edit-save-btn *isNotDeleted="entity" (submit)="form?.submit()" [valid]="valid()" [editing]="entity !== 'CREATE'" />
+        <app-model-edit-save-btn *isNotDeleted="entity" (submit)="form?.submit()" [valid]="valid()" [creating]="entity !== 'CREATE'" />
 
         <ng-container *isEditingAndNotDeleted="entity">
           <div>

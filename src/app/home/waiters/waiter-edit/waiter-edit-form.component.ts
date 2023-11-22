@@ -1,19 +1,20 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
+
+import {NgSelectModule} from '@ng-select/ng-select';
 
 import {HasNumberIDAndName} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {allowedCharacterSet} from '../../../_shared/regex';
-import {ChipInput} from '../../../_shared/ui/chip-input/chip-input.component';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
 import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, UpdateWaiterDto} from '../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
-    <ng-container *ngIf="formStatusChanges | async" />
+    @if (formStatusChanges | async) {}
 
     <form #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="row g-3">
@@ -28,18 +29,20 @@ import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, Updat
           }
         </div>
 
-        <chip-input
-          dark="true"
-          class="col-sm-12 col-md-8 col-lg-7 col-xl-6"
-          placeholder="{{ 'HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER' | tr }}"
-          label="{{ 'HOME_WAITERS_EDIT_EVENTS' | tr }}"
-          editable="false"
-          minInputLengthKick="0"
-          [formatter]="formatter"
-          [models]="_isEdit ? _waiter?.events : !!_selectedEvent ? [_selectedEvent] : []"
-          [allModelsToAutoComplete]="events"
-          (valueChange)="eventsChange($event)"
-        />
+        <div class="form-group col-sm-12 col-md-8 col-lg-7 col-xl-6">
+          <label for="eventSelect">{{ 'HOME_WAITERS_EDIT_EVENTS' | tr }}</label>
+          <ng-select
+            [items]="events"
+            bindLabel="name"
+            bindValue="id"
+            labelForId="eventSelect"
+            [multiple]="true"
+            placeholder="{{ 'HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER' | tr }}"
+            clearAllText="Clear"
+            formControlName="eventIds"
+          >
+          </ng-select>
+        </div>
       </div>
 
       <div class="d-flex flex-column flex-md-row gap-2 gap-md-4 mt-2">
@@ -53,7 +56,7 @@ import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, Updat
     </form>
   `,
   selector: 'app-waiter-edit-form',
-  imports: [ReactiveFormsModule, NgIf, AsyncPipe, DfxTr, BiComponent, ChipInput],
+  imports: [ReactiveFormsModule, AsyncPipe, DfxTr, BiComponent, NgSelectModule],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -69,7 +72,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
   @Input()
   set waiter(it: GetWaiterResponse | 'CREATE') {
     if (it === 'CREATE') {
-      this.isEdit = false;
+      this.isCreating.set(true);
       return;
     }
 
@@ -107,22 +110,15 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     if (it) {
       this.lumber.info('selectedEvent', 'set selected event', it);
       this._selectedEvent = it;
-      this.form.controls.eventIds.setValue(
-        [...this.form.controls.eventIds.getRawValue(), it.id].filter((value, index, array) => array.indexOf(value) === index),
-      );
+      if (!this.isCreating) {
+        this.form.controls.eventIds.setValue(
+          [...this.form.controls.eventIds.getRawValue(), it.id].filter((value, index, array) => array.indexOf(value) === index),
+        );
+      }
     }
   }
-
   _selectedEvent?: GetEventOrLocationMinResponse;
 
   @Input()
   events!: HasNumberIDAndName[];
-
-  formatter = (it: unknown): string => (it as HasNumberIDAndName).name;
-
-  selectedEvents: number[] = [];
-  eventsChange = (events: HasNumberIDAndName[]): void => {
-    this.selectedEvents = events.map((a) => a.id);
-    this.form.controls.eventIds.setValue(this.selectedEvents);
-  };
 }

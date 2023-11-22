@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -15,7 +15,7 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
 
 @Component({
   template: `
-    <ng-container *ngIf="formStatusChanges | async" />
+    @if (formStatusChanges | async) {}
 
     <form #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-4">
@@ -43,7 +43,7 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
           </div>
         </div>
 
-        @if (this._isEdit) {
+        @if (this.isCreating) {
           <div class="col">
             <div class="form-group mb-2">
               <label for="selectPrinter">{{ 'NAV_PRINTERS' | tr }}</label>
@@ -75,7 +75,7 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
     </form>
   `,
   selector: 'app-product-group-edit-form',
-  imports: [ReactiveFormsModule, NgIf, AsyncPipe, DfxTr, BiComponent, AppColorPicker],
+  imports: [ReactiveFormsModule, AsyncPipe, DfxTr, BiComponent, AppColorPicker],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -109,7 +109,7 @@ export class ProductGroupEditFormComponent extends AbstractModelEditFormComponen
   @Input()
   set productGroup(it: GetProductGroupResponse | 'CREATE') {
     if (it === 'CREATE') {
-      this.isEdit = false;
+      this.isCreating.set(true);
       return;
     }
 

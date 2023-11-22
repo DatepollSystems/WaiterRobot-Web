@@ -1,15 +1,13 @@
-import {AfterViewInit, booleanAttribute, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild} from '@angular/core';
 
 @Component({
   template: `
-    <div [class.pb-3]="!disablePadding" [class.pt-1]="!disablePadding">
-      <div
-        #contentWrapper
-        id="overflow-container"
-        class="d-flex flex-row flex-fill justify-content-sm-start overflow-auto user-select-none gap-3 gap-md-3"
-      >
-        <ng-content />
-      </div>
+    <div
+      #contentWrapper
+      id="overflow-container"
+      class="d-flex flex-row flex-fill justify-content-sm-start overflow-auto user-select-none gap-3 gap-md-3"
+    >
+      <ng-content />
     </div>
   `,
   styles: [
@@ -41,8 +39,6 @@ import {AfterViewInit, booleanAttribute, ChangeDetectionStrategy, Component, Ele
 })
 export class ScrollableToolbarComponent implements AfterViewInit {
   @ViewChild('contentWrapper') content!: ElementRef;
-
-  @Input({transform: booleanAttribute}) disablePadding = false;
 
   ngAfterViewInit(): void {
     for (const child of this.content.nativeElement.children) {

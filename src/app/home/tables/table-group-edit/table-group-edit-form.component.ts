@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -11,7 +11,7 @@ import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '.
 
 @Component({
   template: `
-    <ng-container *ngIf="formStatusChanges | async" />
+    @if (formStatusChanges | async) {}
 
     <form #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-5">
@@ -38,7 +38,7 @@ import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '.
     </form>
   `,
   selector: 'app-table-group-edit-form',
-  imports: [ReactiveFormsModule, NgIf, AsyncPipe, DfxTr, AppColorPicker],
+  imports: [ReactiveFormsModule, AsyncPipe, DfxTr, AppColorPicker],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -53,7 +53,7 @@ export class TableGroupEditFormComponent extends AbstractModelEditFormComponent<
   @Input()
   set tableGroup(it: GetTableGroupResponse | 'CREATE') {
     if (it === 'CREATE') {
-      this.isEdit = false;
+      this.isCreating.set(true);
       return;
     }
 

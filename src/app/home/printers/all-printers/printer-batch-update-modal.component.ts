@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -19,7 +19,7 @@ import {PrintersService} from '../_services/printers.service';
       <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.close()"></button>
     </div>
     <div class="modal-body">
-      <ng-container *ngIf="formValueChanges | async" />
+      @if (formValueChanges | async) {}
 
       <form [formGroup]="form" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
         <div>
@@ -177,7 +177,7 @@ import {PrintersService} from '../_services/printers.service';
   `,
   selector: 'app-printer-batch-update-modal',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DfxTr, ReactiveFormsModule, NgIf, AsyncPipe],
+  imports: [DfxTr, ReactiveFormsModule, AsyncPipe],
   standalone: true,
 })
 export class PrinterBatchUpdateModalComponent extends AComponent {

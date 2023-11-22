@@ -38,6 +38,9 @@ dependencies:
   '@ng-bootstrap/ng-bootstrap':
     specifier: 16.0.0-rc.0
     version: 16.0.0-rc.0(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2)(@angular/localize@17.0.2)(@popperjs/core@2.11.8)(rxjs@7.8.1)
+  '@ng-select/ng-select':
+    specifier: ^12.0.4
+    version: 12.0.4(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2)
   '@ngx-loading-bar/core':
     specifier: 6.0.2
     version: 6.0.2(@angular/common@17.0.2)(rxjs@7.8.1)
@@ -3927,6 +3930,20 @@ packages:
       '@angular/localize': 17.0.2(@angular/compiler-cli@17.0.2)(@angular/compiler@17.0.2)
       '@popperjs/core': 2.11.8
       rxjs: 7.8.1
+      tslib: 2.6.2
+    dev: false
+
+  /@ng-select/ng-select@12.0.4(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/forms@17.0.2):
+    resolution: {integrity: sha512-bcvYLCdmKtJBZRLFLfnKauPqVlJJDecMzU4pZ360h1V8EsE4BCHoabNJQptqOESigcxBY1bpAe0i6aKu6JgL5Q==}
+    engines: {node: '>= 16', npm: '>= 8'}
+    peerDependencies:
+      '@angular/common': ^17.0.0-rc.0
+      '@angular/core': ^17.0.0-rc.0
+      '@angular/forms': ^17.0.0-rc.0
+    dependencies:
+      '@angular/common': 17.0.2(@angular/core@17.0.2)(rxjs@7.8.1)
+      '@angular/core': 17.0.2(rxjs@7.8.1)(zone.js@0.14.2)
+      '@angular/forms': 17.0.2(@angular/common@17.0.2)(@angular/core@17.0.2)(@angular/platform-browser@17.0.2)(rxjs@7.8.1)
       tslib: 2.6.2
     dev: false
 

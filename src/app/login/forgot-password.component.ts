@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
+import {AsyncPipe, NgSwitch, NgSwitchCase} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -20,7 +20,7 @@ import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.compon
         <div class="card-body">
           @switch (resetState()) {
             @case ('REQUEST') {
-              <ng-container *ngIf="requestPasswordResetForm.statusChanges | async" />
+              @if (requestPasswordResetForm.statusChanges | async) {}
 
               <form [formGroup]="requestPasswordResetForm" (ngSubmit)="requestPasswordReset()" class="d-flex flex-column gap-3">
                 <h3>Password Zurücksetzung anfordern</h3>
@@ -54,7 +54,7 @@ import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.compon
             }
 
             @case ('SET') {
-              <ng-container *ngIf="resetPasswordForm.statusChanges | async" />
+              @if (resetPasswordForm.statusChanges | async) {}
 
               <form [formGroup]="resetPasswordForm" (ngSubmit)="resetPassword()" class="d-flex flex-column gap-3">
                 <h3>{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_RESET' | tr }}</h3>
@@ -135,7 +135,7 @@ import {AppOutsideLayoutComponent} from '../_shared/ui/app-outside-layout.compon
   selector: 'app-password-reset',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, RouterLink, NgIf, NgSwitch, NgSwitchCase, AsyncPipe, DfxTr, BiComponent, AppOutsideLayoutComponent],
+  imports: [ReactiveFormsModule, RouterLink, NgSwitch, NgSwitchCase, AsyncPipe, DfxTr, BiComponent, AppOutsideLayoutComponent],
 })
 export class ForgotPasswordComponent {
   fb = inject(FormBuilder);

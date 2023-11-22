@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 
 import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
@@ -30,7 +30,7 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
             <back-button />
 
             @if ((activeTab$ | async) === 'DATA') {
-              <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid()" [editing]="entity !== 'CREATE'" />
+              <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid()" [creating]="entity !== 'CREATE'" />
             }
 
             <ng-container *isEditing="entity">
@@ -97,7 +97,6 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
   imports: [
     AsyncPipe,
     NgSub,
-    NgIf,
     NgbNavModule,
     DfxTr,
     AppFormModule,

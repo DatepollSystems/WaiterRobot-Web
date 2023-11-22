@@ -1,16 +1,27 @@
-import {AsyncPipe, NgIf} from '@angular/common';
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {ReactiveFormsModule, Validators} from '@angular/forms';
+import {ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 
-import {BiComponent} from 'dfx-bootstrap-icons';
+import {NgSelectModule} from '@ng-select/ng-select';
+
 import {DfxTr} from 'dfx-translate';
 
+import {AppBackButtonComponent} from '../../../_shared/ui/button/app-back-button.component';
+import {ScrollableToolbarComponent} from '../../../_shared/ui/button/scrollable-toolbar.component';
 import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
-import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../../_shared/waiterrobot-backend';
+import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
+import {injectIsValid} from '../../../_shared/ui/form/tab';
+import {
+  CreateUserDto,
+  GetOrganisationResponse,
+  GetUserResponse,
+  IdAndNameResponse,
+  UpdateUserDto,
+} from '../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
-    <ng-container *ngIf="formStatusChanges | async" />
+    @if (isValid()) {}
 
     <form #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="row gy-2">
@@ -60,12 +71,28 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../../_shared/wa
             }
           </div>
 
-          @if (_isEdit) {
+          @if (!isCreating()) {
             <div class="form-check form-switch mt-2">
               <input class="form-check-input" type="checkbox" role="switch" id="updatePassword" formControlName="updatePassword" />
               <label class="form-check-label" for="updatePassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD' | tr }}</label>
             </div>
           }
+        </div>
+
+        <div class="form-group col">
+          <label for="orgSelect">{{ 'NAV_ORGANISATIONS' | tr }}</label>
+          <ng-select
+            [items]="organisations"
+            bindLabel="name"
+            bindValue="id"
+            labelForId="orgSelect"
+            [multiple]="true"
+            placeholder="{{ 'HOME_USERS_ORGS_INPUT_PLACEHOLDER' | tr }}"
+            clearAllText="Clear"
+            (change)="userOrganisations.emit($event)"
+            formControlName="selectedOrganisations"
+          >
+          </ng-select>
         </div>
       </div>
 
@@ -84,7 +111,7 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../../_shared/wa
           </label>
         </div>
 
-        @if (_isEdit) {
+        @if (!isCreating()) {
           <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" id="activated" formControlName="activated" />
             <label class="form-check-label" for="activated">
@@ -100,15 +127,27 @@ import {CreateUserDto, GetUserResponse, UpdateUserDto} from '../../../_shared/wa
           </label>
         </div>
       </div>
+
+      <app-model-edit-save-btn [valid]="isValid()" [creating]="isCreating()" />
     </form>
   `,
   selector: 'app-user-edit-form',
-  imports: [ReactiveFormsModule, NgIf, AsyncPipe, DfxTr, BiComponent],
+  imports: [
+    ReactiveFormsModule,
+    DfxTr,
+    AppBackButtonComponent,
+    ScrollableToolbarComponent,
+    AppModelEditSaveBtn,
+    NgSelectModule,
+    FormsModule,
+  ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserEditFormComponent extends AbstractModelEditFormComponent<CreateUserDto, UpdateUserDto> {
-  override form = this.fb.nonNullable.group({
+  @Output() userOrganisations = new EventEmitter<[]>();
+
+  form = inject(FormBuilder).nonNullable.group({
     emailAddress: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(255), Validators.email]],
     firstname: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(35)]],
     surname: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(35)]],
@@ -118,13 +157,16 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Create
     activated: [true, [Validators.required]],
     sendInvitation: [false, [Validators.required]],
     forcePasswordChange: [false, [Validators.required]],
+    selectedOrganisations: [new Array<number>()],
     id: [-1],
   });
 
+  isValid = injectIsValid(this.form);
+
   override overrideRawValue = (value: typeof this.form.value): unknown => {
-    // @ts-ignore
+    // @ts-expect-error role does not exist
     value.role = value.isAdmin ? 'ADMIN' : 'USER';
-    if ((value.updatePassword === false || value.updatePassword === undefined) && this._isEdit) {
+    if ((value.updatePassword === false || value.updatePassword === undefined) && !this.isCreating()) {
       value.password = undefined;
     }
 
@@ -143,33 +185,32 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Create
   constructor() {
     super();
 
-    this.unsubscribe(
-      this.form.controls.updatePassword.valueChanges.subscribe((value) =>
-        value ? this.form.controls.password.enable() : this.form.controls.password.disable(),
-      ),
-      this.form.controls.sendInvitation.valueChanges.subscribe((it) => {
-        if (it) {
-          this.lastForcePasswordChangeValue = this.form.controls.forcePasswordChange.getRawValue();
-          this.form.controls.forcePasswordChange.disable();
-          this.form.controls.forcePasswordChange.setValue(true);
-          this.lastActivatedValue = this.form.controls.activated.getRawValue();
-          this.form.controls.activated.disable();
-          this.form.controls.activated.setValue(true);
-          return;
-        }
+    this.form.controls.updatePassword.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((value) => (value ? this.form.controls.password.enable() : this.form.controls.password.disable()));
 
-        this.form.controls.forcePasswordChange.setValue(this.lastForcePasswordChangeValue!);
-        this.form.controls.forcePasswordChange.enable();
-        this.form.controls.activated.setValue(this.lastActivatedValue!);
-        this.form.controls.activated.enable();
-      }),
-    );
+    this.form.controls.sendInvitation.valueChanges.pipe(takeUntilDestroyed()).subscribe((it) => {
+      if (it) {
+        this.lastForcePasswordChangeValue = this.form.controls.forcePasswordChange.getRawValue();
+        this.form.controls.forcePasswordChange.disable();
+        this.form.controls.forcePasswordChange.setValue(true);
+        this.lastActivatedValue = this.form.controls.activated.getRawValue();
+        this.form.controls.activated.disable();
+        this.form.controls.activated.setValue(true);
+        return;
+      }
+
+      this.form.controls.forcePasswordChange.setValue(this.lastForcePasswordChangeValue!);
+      this.form.controls.forcePasswordChange.enable();
+      this.form.controls.activated.setValue(this.lastActivatedValue!);
+      this.form.controls.activated.enable();
+    });
   }
 
   @Input()
   set user(it: GetUserResponse | 'CREATE') {
     if (it === 'CREATE') {
-      this.isEdit = false;
+      this.isCreating.set(true);
       this.form.controls.password.setValidators([Validators.required, Validators.minLength(6)]);
       return;
     }
@@ -184,5 +225,10 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Create
       activated: it.activated,
       forcePasswordChange: it.forcePasswordChange,
     });
+  }
+
+  @Input() organisations: GetOrganisationResponse[] = [];
+  @Input() set selectedOrganisations(selectedOrganisations: IdAndNameResponse[]) {
+    this.form.controls.selectedOrganisations.setValue(selectedOrganisations.map((it) => it.id));
   }
 }

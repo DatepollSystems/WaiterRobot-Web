@@ -1,35 +1,35 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, Input} from '@angular/core';
+
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxTr} from 'dfx-translate';
 
 @Component({
   template: `
-    <button class="btn btn-sm btn-success" form="ngForm" (click)="this.submit.emit()" [disabled]="_valid === 'INVALID'">
-      @if (editing) {
-        <span>
-          <bi name="save" />
-          {{ 'SAVE' | tr }}
-        </span>
-      } @else {
-        <span>
+    <div class="d-flex justify-content-end mt-3">
+      <button class="btn btn-success d-inline-flex gap-2" type="submit" [disabled]="!valid">
+        @if (creating) {
           <bi name="plus-circle" />
-          {{ 'ADD' | tr }}
-        </span>
-      }
-      <ng-content />
-    </button>
+          <span>
+            {{ 'ADD' | tr }}
+          </span>
+        } @else {
+          <bi name="save" />
+          <span>
+            {{ 'SAVE' | tr }}
+          </span>
+        }
+        <ng-content />
+      </button>
+    </div>
   `,
   selector: 'app-model-edit-save-btn',
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [BiComponent, DfxTr],
 })
 export class AppModelEditSaveBtn {
-  @Input({transform: booleanAttribute}) editing = false;
+  @Input({transform: booleanAttribute, required: true}) creating!: boolean;
 
   @Input()
-  set valid(it: 'VALID' | 'INVALID' | null) {
-    this._valid = it ?? 'INVALID';
-  }
-  _valid: 'VALID' | 'INVALID' = 'INVALID';
-
-  @Output()
-  // eslint-disable-next-line @angular-eslint/no-output-native
-  submit = new EventEmitter<void>();
+  valid = false;
 }

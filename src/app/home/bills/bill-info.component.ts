@@ -9,7 +9,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {getActivatedRouteIdParam} from '../../_shared/services/getActivatedRouteIdParam';
+import {injectIdParam$} from '../../_shared/services/injectActivatedRouteIdParam';
 import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppBillPaymentStateBadgeComponent} from './_components/app-bill-payment-state-badge.component';
@@ -80,7 +80,7 @@ import {BillsService} from './_services/bills.service';
 export class BillInfoComponent {
   billsService = inject(BillsService);
 
-  vm$ = combineLatest([getActivatedRouteIdParam().pipe(switchMap((id) => this.billsService.getSingle$(id)))]).pipe(
+  vm$ = combineLatest([injectIdParam$().pipe(switchMap((id) => this.billsService.getSingle$(id)))]).pipe(
     map(([bill]) => {
       return {
         bill,

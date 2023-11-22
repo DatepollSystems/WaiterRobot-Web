@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 
@@ -15,13 +15,13 @@ import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-
 import {AppFormModule} from '../../../_shared/ui/form/app-form.module';
 import {CreateWaiterDto, GetWaiterResponse, UpdateWaiterDto} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
+import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
 import {WaitersService} from '../_services/waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from '../btn-waiter-sign-in-qr-code.component';
 import {AppProductEditFormComponent} from './waiter-edit-form.component';
 import {WaiterEditOrderProductsComponent} from './waiter-edit-order-products.component';
 import {WaiterSessionsComponent} from './waiter-sessions.component';
-import {SelectedEventService} from '../../events/_services/selected-event.service';
 
 @Component({
   template: `
@@ -33,7 +33,7 @@ import {SelectedEventService} from '../../events/_services/selected-event.servic
         <scrollable-toolbar>
           <back-button />
           @if ((activeTab$ | async) === 'DATA') {
-            <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid()" [editing]="entity !== 'CREATE'" />
+            <app-model-edit-save-btn (submit)="form?.submit()" [valid]="valid()" [creating]="entity !== 'CREATE'" />
           }
 
           <ng-container *isEditing="entity">
@@ -93,7 +93,6 @@ import {SelectedEventService} from '../../events/_services/selected-event.servic
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AsyncPipe,
-    NgIf,
     DfxTr,
     NgbNavModule,
     BiComponent,

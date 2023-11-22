@@ -1,15 +1,15 @@
 import {Location} from '@angular/common';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, inject, signal, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ChangeDetectionStrategy, Component, Inject, inject, ViewChild} from '@angular/core';
+import {toSignal} from '@angular/core/rxjs-interop';
+import {ActivatedRoute} from '@angular/router';
 
-import {combineLatest, map, Observable, of, share, shareReplay, switchMap, tap} from 'rxjs';
+import {map, Observable, of, switchMap, tap} from 'rxjs';
 
-import {IHasID, loggerOf, n_from, n_isNumeric, s_from, s_is} from 'dfts-helper';
-import {HasDelete, HasGetSingle} from 'dfx-helper';
+import {IHasID, loggerOf, n_from, n_isNumeric, s_from} from 'dfts-helper';
+import {HasGetSingle} from 'dfx-helper';
 
 import {NotificationService} from '../../notifications/notification.service';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../services/services.interface';
-import {injectConfirmDialog} from '../question-dialog/question-dialog.component';
 import {AbstractModelEditFormComponent} from './abstract-model-edit-form.component';
 
 @Component({
@@ -20,38 +20,19 @@ export abstract class AbstractModelEditComponent<
   CreateDTOType,
   UpdateDTOType extends IHasID<UpdateDTOType['id']>,
   EntityType extends IHasID<EntityType['id']>,
-  Tab,
 > {
   protected location = inject(Location);
-  protected router = inject(Router);
   protected route = inject(ActivatedRoute);
-  protected confirmDialog = injectConfirmDialog();
-  protected cdr = inject(ChangeDetectorRef);
   protected notificationService = inject(NotificationService);
 
   @ViewChild('form') form?: AbstractModelEditFormComponent<CreateDTOType, UpdateDTOType>;
 
-  valid = signal<'VALID' | 'INVALID'>('INVALID');
-
-  entity$: Observable<EntityType | 'CREATE'> = this.route.paramMap.pipe(
-    map((params) => params.get('id')),
-    switchMap((id) => (n_isNumeric(id) ? this.entityService.getSingle$(n_from(id)) : of('CREATE' as const))),
-    share(),
-    shareReplay(1),
-  );
-
-  protected defaultTab!: Tab;
-  protected onlyEditingTabs: Tab[] = [];
-  public activeTab$ = combineLatest([
-    this.route.queryParamMap.pipe(
-      tap((it) => this.lumber.info('activeTab', 'Params', it)),
-      map((params) => (s_is(params.get('tab')) ? (params.get('tab') as Tab) : undefined)),
+  entity = toSignal(
+    inject(ActivatedRoute).paramMap.pipe(
+      map((params) => params.get('id')),
+      map((id) => (n_isNumeric(id) ? n_from(id) : undefined)),
+      switchMap((it) => (it ? this.entityService.getSingle$(it) : of('CREATE' as const))),
     ),
-    this.entity$,
-  ]).pipe(
-    map(([tab, entity]) => (tab === undefined || (entity === 'CREATE' && this.onlyEditingTabs.includes(tab)) ? this.defaultTab : tab)),
-    share(),
-    shareReplay(1),
   );
 
   protected continuousUsePropertyNames: string[] = [];
@@ -61,16 +42,8 @@ export abstract class AbstractModelEditComponent<
 
   protected constructor(
     @Inject(null)
-    protected entityService: HasGetSingle<EntityType> &
-      HasCreateWithIdResponse<CreateDTOType> &
-      HasUpdateWithIdResponse<UpdateDTOType> &
-      HasDelete<EntityType>,
+    protected entityService: HasGetSingle<EntityType> & HasCreateWithIdResponse<CreateDTOType> & HasUpdateWithIdResponse<UpdateDTOType>,
   ) {}
-
-  setValid(valid: 'VALID' | 'INVALID'): void {
-    this.valid.set(valid);
-    this.cdr.detectChanges();
-  }
 
   submit(method: 'CREATE' | 'UPDATE', dto: CreateDTOType | UpdateDTOType): void {
     this.lumber.info('submit', `method: "${method}"; Continuous creation: "${s_from(this.continuesCreation)}"`, dto);
@@ -116,23 +89,5 @@ export abstract class AbstractModelEditComponent<
     if (!this.continuesCreation) {
       this.location.back();
     }
-  }
-
-  public navigateToTab(tab: Tab): void {
-    void this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {tab: tab},
-      queryParamsHandling: 'merge',
-      skipLocationChange: true,
-    });
-  }
-
-  public onDelete(modelId: EntityType['id']): void {
-    void this.confirmDialog('DELETE_CONFIRMATION').then((result) => {
-      if (result) {
-        this.entityService.delete$(modelId).subscribe();
-        this.location.back();
-      }
-    });
   }
 }

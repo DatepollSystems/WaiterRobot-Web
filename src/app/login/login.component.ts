@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, effect, inject} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -22,7 +22,7 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
 @Component({
   template: `
     <outside-layout-component>
-      <ng-container *ngIf="form.statusChanges | async" />
+      @if (form.statusChanges | async) {}
 
       <form [formGroup]="form" (ngSubmit)="onSignIn()" class="d-flex flex-column gap-3">
         <div class="alert alert-warning" role="alert" hideIfOnline>
@@ -113,7 +113,6 @@ input[type="password"] {
     AppLogoWithTextComponent,
     AppDownloadBtnListComponent,
     AsyncPipe,
-    NgIf,
     ReactiveFormsModule,
     DfxHideIfPingSucceeds,
     DfxHideIfPingFails,

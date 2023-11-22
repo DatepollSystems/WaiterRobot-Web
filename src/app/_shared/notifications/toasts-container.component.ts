@@ -16,9 +16,7 @@ import {NotificationService} from './notification.service';
         (hidden)="notificationService.remove(toast)"
       >
         @if (isTemplate(toast)) {
-          <ng-template [ngIfElse]="text">
-            <ng-template [ngTemplateOutlet]="toast.textOrTpl" />
-          </ng-template>
+          <ng-template [ngTemplateOutlet]="toast.textOrTpl" />
         }
 
         <ng-template #text>{{ toast.textOrTpl }}</ng-template>

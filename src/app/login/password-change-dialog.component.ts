@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -16,7 +16,7 @@ import {passwordMatchValidator} from '../_shared/regex';
     </div>
     <div class="modal-body">
       <div class="mb-3">
-        <ng-container *ngIf="passwordForm.statusChanges | async" />
+        @if (passwordForm.statusChanges | async) {}
 
         <form
           [formGroup]="passwordForm"
@@ -73,7 +73,7 @@ import {passwordMatchValidator} from '../_shared/regex';
   `,
   selector: 'app-account-not-activated-modal',
   standalone: true,
-  imports: [DfxTr, NgIf, FormsModule, ReactiveFormsModule, AsyncPipe],
+  imports: [DfxTr, FormsModule, ReactiveFormsModule, AsyncPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppPasswordChangeDialogComponent {
