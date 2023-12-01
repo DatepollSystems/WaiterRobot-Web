@@ -104,7 +104,7 @@ import {MyUserService} from './home/_shared/services/user/my-user.service';
           </div>
         </div>
 
-        <div class=" col-12 col-xl-4">
+        <div class=" col-12 col-xl-4" style="margin-top: auto">
           <div class="card px-2 pt-2" [class.transparent]="theme().id === 'dark'" [class.light-transparent]="theme().id === 'light'">
             <div class="card-body">
               <h5>Backend</h5>
