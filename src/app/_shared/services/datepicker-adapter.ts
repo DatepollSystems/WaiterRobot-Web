@@ -5,8 +5,8 @@ import {Injectable} from '@angular/core';
 
 import {NgbDateParserFormatter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 
-import {NgbDateTimeAdapter} from '../ui/datetime-picker/datetime-adapter';
-import {NgbDateTimeStruct} from '../ui/datetime-picker/datetime.struct';
+import {NgbDateTimeAdapter} from '../../home/_shared/components/datetime-picker/datetime-adapter';
+import {NgbDateTimeStruct} from '../../home/_shared/components/datetime-picker/datetime.struct';
 
 const DATE_DELIMITER = '-';
 const TIME_DELIMITER = ':';

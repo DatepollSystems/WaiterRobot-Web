@@ -10,8 +10,8 @@ import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bo
 import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {DfxCurrencyCentPipe} from '../../../_shared/ui/currency.pipe';
 import {GetImplodedBillProductResponse} from '../../../_shared/waiterrobot-backend';
+import {DfxCurrencyCentPipe} from '../../_shared/pipes/currency.pipe';
 
 @Component({
   template: `

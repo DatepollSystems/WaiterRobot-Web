@@ -5,8 +5,8 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {AppListNavItemsComponent} from '../../_shared/ui/app-list-nav-items.component';
-import {EntitiesLayout} from '../../_shared/ui/entities.layout';
+import {AppListNavItemsComponent} from '../_shared/layouts/app-list-nav-items.component';
+import {EntitiesLayout} from '../_shared/layouts/entities.layout';
 import {getEventsOrderedBySelected} from '../events/_services/getEventsOrderedBySelected';
 import {SelectedOrganisationService} from '../organisations/_services/selected-organisation.service';
 

@@ -4,7 +4,7 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {EntitiesLayout} from '../../_shared/ui/entities.layout';
+import {EntitiesLayout} from '../_shared/layouts/entities.layout';
 
 @Component({
   template: `

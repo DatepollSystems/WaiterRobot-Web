@@ -8,7 +8,7 @@ import {n_from, s_from} from 'dfts-helper';
 import {AComponent} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {injectIsValid} from '../../../_shared/ui/form/form';
+import {injectIsValid} from '../../../_shared/form';
 import {PrintersService} from '../_services/printers.service';
 
 @Component({

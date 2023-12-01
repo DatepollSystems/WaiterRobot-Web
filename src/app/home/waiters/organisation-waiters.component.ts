@@ -10,13 +10,13 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {MobileLinkService} from '../../_shared/services/mobile-link.service';
-import {QrCodeService} from '../../_shared/services/qr-code.service';
-import {AppActivatedPipe} from '../../_shared/ui/app-activated.pipe';
-import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
-import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {GetWaiterResponse} from '../../_shared/waiterrobot-backend';
+import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
+import {AbstractModelsWithNameListWithDeleteComponent} from '../_shared/list/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
+import {AppActivatedPipe} from '../_shared/pipes/app-activated.pipe';
+import {MobileLinkService} from '../_shared/services/mobile-link.service';
+import {QrCodeService} from '../_shared/services/qr-code.service';
 import {SelectedOrganisationService} from '../organisations/_services/selected-organisation.service';
 import {OrganisationWaitersService} from './_services/organisation-waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';

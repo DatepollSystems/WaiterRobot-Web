@@ -10,8 +10,8 @@ import {DfxTr} from 'dfx-translate';
 
 import {SessionModel} from '../../../_shared/model/session.model';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
-import {AbstractModelsWithNameListByIdComponent} from '../../../_shared/ui/models-list-by-id/abstract-models-with-name-list-by-id.component';
 import {GetWaiterResponse} from '../../../_shared/waiterrobot-backend';
+import {AbstractModelsWithNameListByIdComponent} from '../../_shared/list/models-list-by-id/abstract-models-with-name-list-by-id.component';
 import {WaiterSessionsService} from '../_services/waiter-sessions.service';
 import {WaitersService} from '../_services/waiters.service';
 

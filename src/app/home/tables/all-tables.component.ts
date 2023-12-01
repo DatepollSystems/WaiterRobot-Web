@@ -9,11 +9,11 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
-import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
-import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/color/app-text-with-color-indicator.component';
 import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
-import {AbstractModelsWithNumberListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-number-list-with-delete.component';
 import {GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
+import {AppTextWithColorIndicatorComponent} from '../_shared/components/color/app-text-with-color-indicator.component';
+import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
+import {AbstractModelsWithNumberListWithDeleteComponent} from '../_shared/list/models-list-with-delete/abstract-models-with-number-list-with-delete.component';
 import {TablesService} from './_services/tables.service';
 import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
 

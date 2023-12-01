@@ -11,10 +11,10 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
-import {ScrollableToolbarComponent} from '../../../_shared/ui/button/scrollable-toolbar.component';
 import {AppProgressBarComponent} from '../../../_shared/ui/loading/app-progress-bar.component';
-import {AbstractModelsWithNameListWithDeleteComponent} from '../../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {GetPrinterResponse} from '../../../_shared/waiterrobot-backend';
+import {ScrollableToolbarComponent} from '../../_shared/components/scrollable-toolbar.component';
+import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/list/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {PrintersService} from '../_services/printers.service';
 import {PrinterBatchUpdateDto, PrinterBatchUpdateModalComponent} from './printer-batch-update-modal.component';
 

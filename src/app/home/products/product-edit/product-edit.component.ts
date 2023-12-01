@@ -6,12 +6,12 @@ import {filter, map} from 'rxjs';
 
 import {n_from, n_isNumeric} from 'dfts-helper';
 
-import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
-import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
-import {AppDeletedDirectives} from '../../../_shared/ui/form/app-entity-deleted.directives';
-import {AppEntityEditModule} from '../../../_shared/ui/form/app-entity-edit.module';
-import {injectContinuousCreation, injectOnDelete} from '../../../_shared/ui/form/edit';
-import {injectOnSubmit} from '../../../_shared/ui/form/form';
+import {AbstractModelEditComponent} from '../../_shared/form/abstract-model-edit.component';
+import {AppContinuesCreationSwitchComponent} from '../../_shared/form/app-continues-creation-switch.component';
+import {AppDeletedDirectives} from '../../_shared/form/app-entity-deleted.directives';
+import {AppEntityEditModule} from '../../_shared/form/app-entity-edit.module';
+import {injectContinuousCreation, injectOnDelete} from '../../_shared/form/edit';
+import {injectOnSubmit} from '../../../_shared/form';
 import {GetProductMaxResponse} from '../../../_shared/waiterrobot-backend';
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {PrintersService} from '../../printers/_services/printers.service';

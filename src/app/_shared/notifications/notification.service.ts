@@ -12,7 +12,7 @@ export type Toast = {
 
 @Injectable({providedIn: 'root'})
 export class NotificationService {
-  private delay = 40000;
+  private delay = 5000;
 
   toasts = signal<Toast[]>([]);
 

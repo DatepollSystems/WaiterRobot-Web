@@ -13,10 +13,10 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
-import {PaginatedDataSource} from '../../../_shared/paginated-data-source';
-import {injectIdParam$} from '../../../_shared/services/injectActivatedRouteIdParam';
 import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
 import {GetOrderMinResponse} from '../../../_shared/waiterrobot-backend';
+import {PaginatedDataSource} from '../../_shared/paginated-data-source';
+import {injectIdParam$} from '../../_shared/services/injectActivatedRouteIdParam';
 import {AppOrderStateBadgeComponent} from '../../orders/_components/app-order-state-badge.component';
 import {OrdersService} from '../../orders/orders.service';
 

@@ -9,12 +9,12 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
-import {MyUserService} from '../../_shared/services/auth/user/my-user.service';
-import {AppSelectableBtnComponent} from '../../_shared/ui/button/app-selectable-btn.component';
-import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
-import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {GetEventOrLocationResponse} from '../../_shared/waiterrobot-backend';
+import {AppSelectableBtnComponent} from '../_shared/components/button/app-selectable-btn.component';
+import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
+import {AbstractModelsWithNameListWithDeleteComponent} from '../_shared/list/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
+import {MyUserService} from '../_shared/services/user/my-user.service';
 import {EventsService} from './_services/events.service';
 import {SelectedEventService} from './_services/selected-event.service';
 

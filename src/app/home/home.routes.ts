@@ -1,12 +1,12 @@
 import {Routes} from '@angular/router';
 
-import {eventSelectedGuard} from '../_shared/services/guards/event-selected-guard';
-import {organisationSelectedGuard} from '../_shared/services/guards/organisation-selected-guard';
+import {eventSelectedGuard} from './_shared/guards/event-selected-guard';
+import {organisationSelectedGuard} from './_shared/guards/organisation-selected-guard';
 
 export const ROUTES: Routes = [
   {
     path: '',
-    loadComponent: () => import('./home.component').then((c) => c.HomeComponent),
+    loadComponent: () => import('./home.layout').then((c) => c.HomeLayout),
     children: [
       {
         path: '',
@@ -36,12 +36,12 @@ export const ROUTES: Routes = [
       {
         path: 'select',
         title: 'Select',
-        loadComponent: () => import('./app-select-dialog-view.component').then((m) => m.AppSelectDialogViewComponent),
+        loadComponent: () => import('./select-dialog-view.component').then((m) => m.SelectDialogViewComponent),
       },
       {
         path: 'qrcode/view',
         title: 'QR-Code',
-        loadComponent: () => import('../_shared/ui/qr-code/app-qr-code.component').then((m) => m.AppQrCodeViewComponent),
+        loadComponent: () => import('./qr-code.component').then((m) => m.AppQrCodeViewComponent),
       },
       {
         path: 'organisations',

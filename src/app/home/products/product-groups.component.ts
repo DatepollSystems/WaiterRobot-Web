@@ -11,15 +11,15 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
-import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/color/app-text-with-color-indicator.component';
-import {AppOrderModeSwitchComponent} from '../../_shared/ui/form/app-order-mode-switch.component';
 import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
+import {GetProductGroupResponse} from '../../_shared/waiterrobot-backend';
+import {AppTextWithColorIndicatorComponent} from '../_shared/components/color/app-text-with-color-indicator.component';
+import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
+import {AppOrderModeSwitchComponent} from '../_shared/form/app-order-mode-switch.component';
 import {
   AbstractModelsWithNameListWithDeleteAndOrderComponent,
   AbstractModelsWithNameListWithDeleteAndOrderStyle,
-} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete-and-order.component';
-import {GetProductGroupResponse} from '../../_shared/waiterrobot-backend';
+} from '../_shared/list/models-list-with-delete/abstract-models-with-name-list-with-delete-and-order.component';
 import {ProductGroupsService} from './_services/product-groups.service';
 
 @Component({

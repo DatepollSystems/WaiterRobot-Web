@@ -11,17 +11,17 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayPluck, DfxImplodePipe, NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AppSoldOutPipe} from '../../_shared/ui/app-sold-out.pipe';
-import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
-import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/color/app-text-with-color-indicator.component';
-import {DfxCurrencyCentPipe} from '../../_shared/ui/currency.pipe';
-import {EntitiesHeaderWithPlaceholderLayout} from '../../_shared/ui/entities-header-with-placeholder.layout';
-import {AppOrderModeSwitchComponent} from '../../_shared/ui/form/app-order-mode-switch.component';
 import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
-import {AbstractModelsWithNameListByIdComponent} from '../../_shared/ui/models-list-by-id/abstract-models-with-name-list-by-id.component';
-import {AbstractModelsWithNameListWithDeleteAndOrderStyle} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete-and-order.component';
 import {GetProductGroupResponse, GetProductMaxResponse} from '../../_shared/waiterrobot-backend';
+import {AppTextWithColorIndicatorComponent} from '../_shared/components/color/app-text-with-color-indicator.component';
+import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
+import {AppOrderModeSwitchComponent} from '../_shared/form/app-order-mode-switch.component';
+import {EntitiesHeaderWithPlaceholderLayout} from '../_shared/layouts/entities-header-with-placeholder.layout';
+import {AbstractModelsWithNameListByIdComponent} from '../_shared/list/models-list-by-id/abstract-models-with-name-list-by-id.component';
+import {AbstractModelsWithNameListWithDeleteAndOrderStyle} from '../_shared/list/models-list-with-delete/abstract-models-with-name-list-with-delete-and-order.component';
+import {AppSoldOutPipe} from '../_shared/pipes/app-sold-out.pipe';
+import {DfxCurrencyCentPipe} from '../_shared/pipes/currency.pipe';
 import {ProductGroupsService} from './_services/product-groups.service';
 import {ProductsService} from './_services/products.service';
 

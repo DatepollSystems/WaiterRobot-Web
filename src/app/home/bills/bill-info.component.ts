@@ -9,9 +9,9 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {injectIdParam$} from '../../_shared/services/injectActivatedRouteIdParam';
-import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
-import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
+import {AppBackButtonComponent} from '../_shared/components/button/app-back-button.component';
+import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
+import {injectIdParam$} from '../_shared/services/injectActivatedRouteIdParam';
 import {AppBillPaymentStateBadgeComponent} from './_components/app-bill-payment-state-badge.component';
 import {AppOrderProductsListTableComponent} from './_components/app-bill-products-list-table.component';
 import {AppBillRefreshButtonComponent} from './_components/app-bill-refresh-button.component';

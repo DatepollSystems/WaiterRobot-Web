@@ -9,8 +9,8 @@ import {notNullAndUndefined} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {ScrollableToolbarComponent} from '../../../_shared/ui/button/scrollable-toolbar.component';
-import {AppContinuesCreationSwitchComponent} from '../../../_shared/ui/form/app-continues-creation-switch.component';
+import {ScrollableToolbarComponent} from '../../_shared/components/scrollable-toolbar.component';
+import {AppContinuesCreationSwitchComponent} from '../../_shared/form/app-continues-creation-switch.component';
 import {DuplicateWaiterResponse, IdAndNameResponse} from '../../../_shared/waiterrobot-backend';
 import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
 

@@ -10,9 +10,9 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {QRCodeComponent} from 'dfx-qrcode';
 import {DfxTranslateModule} from 'dfx-translate';
 
-import {MobileLinkService} from '../../_shared/services/mobile-link.service';
-import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
+import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
+import {MobileLinkService} from '../_shared/services/mobile-link.service';
 
 @Component({
   template: `

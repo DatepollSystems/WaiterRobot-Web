@@ -7,10 +7,10 @@ import {n_generate_int} from 'dfts-helper';
 import {HasGetSingle} from 'dfx-helper';
 
 import {NotificationService} from '../../_shared/notifications/notification.service';
-import {Download, DownloadService} from '../../_shared/services/download.service';
 import {GetOrderMinResponse, GetOrderResponse, PaginatedResponseGetOrderMinResponse} from '../../_shared/waiterrobot-backend';
+import {Download, DownloadService} from '../_shared/services/download.service';
+import {GetPaginatedFn, getPaginationParams, PageableDto} from '../_shared/services/pagination';
 import {SelectedEventService} from '../events/_services/selected-event.service';
-import {GetPaginatedFn, getPaginationParams, PageableDto} from '../../_shared/services/pagination';
 
 @Injectable({providedIn: 'root'})
 export class OrdersService implements HasGetSingle<GetOrderResponse> {

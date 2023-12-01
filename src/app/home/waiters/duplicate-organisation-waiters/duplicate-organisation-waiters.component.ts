@@ -9,9 +9,9 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
-import {AbstractModelsListComponent} from '../../../_shared/ui/abstract-models-list.component';
-import {ScrollableToolbarComponent} from '../../../_shared/ui/button/scrollable-toolbar.component';
 import {DuplicateWaiterResponse} from '../../../_shared/waiterrobot-backend';
+import {ScrollableToolbarComponent} from '../../_shared/components/scrollable-toolbar.component';
+import {AbstractModelsListComponent} from '../../_shared/list/abstract-models-list.component';
 import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
 
 @Component({

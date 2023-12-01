@@ -12,9 +12,9 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
-import {injectIdParam$} from '../../../_shared/services/injectActivatedRouteIdParam';
-import {injectConfirmDialog} from '../../../_shared/ui/question-dialog/question-dialog.component';
 import {GetOrganisationResponse, OrganisationUserResponse} from '../../../_shared/waiterrobot-backend';
+import {injectConfirmDialog} from '../../_shared/components/question-dialog.component';
+import {injectIdParam$} from '../../_shared/services/injectActivatedRouteIdParam';
 import {OrganisationsUsersService} from '../_services/organisations-users.service';
 import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.component';
 

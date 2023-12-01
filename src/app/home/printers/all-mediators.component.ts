@@ -9,9 +9,9 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AbstractModelsListComponent} from '../../_shared/ui/abstract-models-list.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {GetMediatorResponse} from '../../_shared/waiterrobot-backend';
+import {AbstractModelsListComponent} from '../_shared/list/abstract-models-list.component';
 import {MediatorsService} from './_services/mediators.service';
 
 @Component({

@@ -9,7 +9,7 @@ import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {injectIdParam$} from '../../../_shared/services/injectActivatedRouteIdParam';
+import {injectIdParam$} from '../../_shared/services/injectActivatedRouteIdParam';
 import {OrganisationsSettingsService} from '../_services/organisations-settings.service';
 
 @Component({

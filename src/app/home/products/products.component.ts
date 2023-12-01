@@ -7,9 +7,9 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {AppListNavItemDirective, AppListNavItemsComponent} from '../../_shared/ui/app-list-nav-items.component';
-import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/color/app-text-with-color-indicator.component';
-import {EntitiesLayout} from '../../_shared/ui/entities.layout';
+import {AppTextWithColorIndicatorComponent} from '../_shared/components/color/app-text-with-color-indicator.component';
+import {AppListNavItemDirective, AppListNavItemsComponent} from '../_shared/layouts/app-list-nav-items.component';
+import {EntitiesLayout} from '../_shared/layouts/entities.layout';
 import {ProductGroupsService} from './_services/product-groups.service';
 
 @Component({

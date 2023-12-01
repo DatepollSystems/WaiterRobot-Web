@@ -2,13 +2,13 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
-import {AppSelectableBtnComponent} from '../../../_shared/ui/button/app-selectable-btn.component';
-import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
-import {AppEntityEditModule} from '../../../_shared/ui/form/app-entity-edit.module';
-import {injectContinuousCreation, injectOnDelete} from '../../../_shared/ui/form/edit';
-import {injectOnSubmit} from '../../../_shared/ui/form/form';
+import {AppSelectableBtnComponent} from '../../_shared/components/button/app-selectable-btn.component';
+import {AbstractModelEditComponent} from '../../_shared/form/abstract-model-edit.component';
+import {AppEntityEditModule} from '../../_shared/form/app-entity-edit.module';
+import {injectContinuousCreation, injectOnDelete} from '../../_shared/form/edit';
+import {injectOnSubmit} from '../../../_shared/form';
 import {GetEventOrLocationResponse} from '../../../_shared/waiterrobot-backend';
+import {MyUserService} from '../../_shared/services/user/my-user.service';
 import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
 import {EventsService} from '../_services/events.service';
 import {SelectedEventService} from '../_services/selected-event.service';

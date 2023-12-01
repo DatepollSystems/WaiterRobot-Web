@@ -10,12 +10,12 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
-import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
-import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/color/app-text-with-color-indicator.component';
-import {EntitiesHeaderWithPlaceholderLayout} from '../../_shared/ui/entities-header-with-placeholder.layout';
 import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
-import {AbstractModelsListByIdComponent} from '../../_shared/ui/models-list-by-id/abstract-models-list-by-id.component';
 import {GetTableGroupResponse, GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
+import {AppTextWithColorIndicatorComponent} from '../_shared/components/color/app-text-with-color-indicator.component';
+import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
+import {EntitiesHeaderWithPlaceholderLayout} from '../_shared/layouts/entities-header-with-placeholder.layout';
+import {AbstractModelsListByIdComponent} from '../_shared/list/models-list-by-id/abstract-models-list-by-id.component';
 import {TableGroupsService} from './_services/table-groups.service';
 import {TablesService} from './_services/tables.service';
 import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';

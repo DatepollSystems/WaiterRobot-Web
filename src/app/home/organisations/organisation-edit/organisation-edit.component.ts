@@ -2,13 +2,13 @@ import {Component, computed, inject} from '@angular/core';
 
 import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
-import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
-import {AppSelectableBtnComponent} from '../../../_shared/ui/button/app-selectable-btn.component';
-import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
-import {AppEntityEditModule} from '../../../_shared/ui/form/app-entity-edit.module';
-import {injectOnDelete, injectTabControls} from '../../../_shared/ui/form/edit';
-import {injectOnSubmit} from '../../../_shared/ui/form/form';
+import {AppSelectableBtnComponent} from '../../_shared/components/button/app-selectable-btn.component';
+import {AbstractModelEditComponent} from '../../_shared/form/abstract-model-edit.component';
+import {AppEntityEditModule} from '../../_shared/form/app-entity-edit.module';
+import {injectOnDelete, injectTabControls} from '../../_shared/form/edit';
+import {injectOnSubmit} from '../../../_shared/form';
 import {GetOrganisationResponse} from '../../../_shared/waiterrobot-backend';
+import {MyUserService} from '../../_shared/services/user/my-user.service';
 import {OrganisationsService} from '../_services/organisations.service';
 import {SelectedOrganisationService} from '../_services/selected-organisation.service';
 import {AppOrganisationEditFormComponent} from './organisation-edit-form.component';

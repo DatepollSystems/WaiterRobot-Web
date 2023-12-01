@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 
-import {AbstractModelEditComponent} from '../../../_shared/ui/form/abstract-model-edit.component';
-import {AppEntityEditModule} from '../../../_shared/ui/form/app-entity-edit.module';
-import {injectOnDelete} from '../../../_shared/ui/form/edit';
-import {injectOnSubmit} from '../../../_shared/ui/form/form';
+import {AbstractModelEditComponent} from '../../_shared/form/abstract-model-edit.component';
+import {AppEntityEditModule} from '../../_shared/form/app-entity-edit.module';
+import {injectOnDelete} from '../../_shared/form/edit';
+import {injectOnSubmit} from '../../../_shared/form';
 import {GetSystemNotificationResponse} from '../../../_shared/waiterrobot-backend';
 import {SystemNotificationsService} from '../_services/system-notifications.service';
 import {SystemNotificationEditFormComponent} from './system-notification-edit-form.component';

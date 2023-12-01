@@ -9,7 +9,7 @@ import {NgSub, WINDOW} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {NotificationService} from '../../../_shared/notifications/notification.service';
-import {MyUserService} from '../../../_shared/services/auth/user/my-user.service';
+import {MyUserService} from '../../_shared/services/user/my-user.service';
 import {UserSettingsService} from '../_services/user-settings.service';
 
 @Component({

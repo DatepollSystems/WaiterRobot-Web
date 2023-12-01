@@ -7,11 +7,11 @@ import {HasNumberIDAndName} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {allowedCharacterSet} from '../../../_shared/regex';
-import {AbstractModelEditFormComponent} from '../../../_shared/ui/form/abstract-model-edit-form.component';
-import {AppModelEditSaveBtn} from '../../../_shared/ui/form/app-model-edit-save-btn.component';
-import {injectIsValid} from '../../../_shared/ui/form/form';
+import {AbstractModelEditFormComponent} from '../../_shared/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '../../_shared/form/app-model-edit-save-btn.component';
+import {injectIsValid} from '../../../_shared/form';
 import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, UpdateWaiterDto} from '../../../_shared/waiterrobot-backend';
+import {allowedCharacterSet} from '../../_shared/regex';
 
 @Component({
   template: `

@@ -7,10 +7,10 @@ import {map, switchMap} from 'rxjs';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {injectIdParam$} from '../../_shared/services/injectActivatedRouteIdParam';
-import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
-import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
+import {AppBackButtonComponent} from '../_shared/components/button/app-back-button.component';
+import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
+import {injectIdParam$} from '../_shared/services/injectActivatedRouteIdParam';
 import {DeadLettersService} from './dead-letters.service';
 
 @Component({

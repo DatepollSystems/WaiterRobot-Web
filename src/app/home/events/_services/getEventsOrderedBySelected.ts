@@ -2,8 +2,8 @@ import {inject} from '@angular/core';
 
 import {Observable} from 'rxjs';
 
-import {getOrderBySelected} from '../../../_shared/services/getOrderBySelected';
 import {GetEventOrLocationResponse} from '../../../_shared/waiterrobot-backend';
+import {getOrderBySelected} from '../../_shared/services/getOrderBySelected';
 import {EventsService} from './events.service';
 import {SelectedEventService} from './selected-event.service';
 

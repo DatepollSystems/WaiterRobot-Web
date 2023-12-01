@@ -9,11 +9,11 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {injectIdParam$} from '../../_shared/services/injectActivatedRouteIdParam';
-import {AppTestBadge} from '../../_shared/ui/app-test-badge.component';
-import {AppBackButtonComponent} from '../../_shared/ui/button/app-back-button.component';
-import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
-import {injectConfirmDialog} from '../../_shared/ui/question-dialog/question-dialog.component';
+import {AppTestBadge} from '../_shared/components/app-test-badge.component';
+import {AppBackButtonComponent} from '../_shared/components/button/app-back-button.component';
+import {injectConfirmDialog} from '../_shared/components/question-dialog.component';
+import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
+import {injectIdParam$} from '../_shared/services/injectActivatedRouteIdParam';
 import {AppOrderRefreshButtonComponent} from './_components/app-order-refresh-button.component';
 import {AppOrderStateBadgeComponent} from './_components/app-order-state-badge.component';
 import {AppOrderProductsListComponent} from './_components/order-products-list/app-order-products-list.component';

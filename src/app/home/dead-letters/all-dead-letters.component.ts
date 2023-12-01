@@ -11,10 +11,10 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxCutPipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
 import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
-import {AbstractModelsListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-list-with-delete.component';
 import {DeadLetterResponse} from '../../_shared/waiterrobot-backend';
+import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
+import {AbstractModelsListWithDeleteComponent} from '../_shared/list/models-list-with-delete/abstract-models-list-with-delete.component';
 import {DeadLettersService} from './dead-letters.service';
 
 @Component({

@@ -10,13 +10,13 @@ import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayPluck, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AppSoldOutPipe} from '../../_shared/ui/app-sold-out.pipe';
-import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
-import {AppTextWithColorIndicatorComponent} from '../../_shared/ui/color/app-text-with-color-indicator.component';
-import {DfxCurrencyCentPipe} from '../../_shared/ui/currency.pipe';
 import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
-import {AbstractModelsWithNameListWithDeleteComponent} from '../../_shared/ui/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {GetProductMaxResponse} from '../../_shared/waiterrobot-backend';
+import {AppTextWithColorIndicatorComponent} from '../_shared/components/color/app-text-with-color-indicator.component';
+import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
+import {AbstractModelsWithNameListWithDeleteComponent} from '../_shared/list/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
+import {AppSoldOutPipe} from '../_shared/pipes/app-sold-out.pipe';
+import {DfxCurrencyCentPipe} from '../_shared/pipes/currency.pipe';
 import {ProductsService} from './_services/products.service';
 
 @Component({

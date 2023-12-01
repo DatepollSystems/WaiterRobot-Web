@@ -6,8 +6,8 @@ import {BehaviorSubject, Observable, switchMap} from 'rxjs';
 import {HasGetSingle} from 'dfx-helper';
 
 import {GetBillResponse, PaginatedResponseGetBillMinResponse} from '../../../_shared/waiterrobot-backend';
+import {getPaginationParams, PageableDto} from '../../_shared/services/pagination';
 import {SelectedEventService} from '../../events/_services/selected-event.service';
-import {getPaginationParams, PageableDto} from '../../../_shared/services/pagination';
 
 @Injectable({providedIn: 'root'})
 export class BillsService implements HasGetSingle<GetBillResponse> {

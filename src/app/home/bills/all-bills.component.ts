@@ -6,14 +6,14 @@ import {debounceTime, map, merge, pipe, switchMap, tap} from 'rxjs';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {computedFrom} from 'ngxtension/computed-from';
-import {DfxCurrencyCentPipe} from 'src/app/_shared/ui/currency.pipe';
+import {DfxCurrencyCentPipe} from 'src/app/home/_shared/pipes/currency.pipe';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
-import {getSortParam, injectPagination} from '../../_shared/services/pagination';
 import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
+import {getSortParam, injectPagination} from '../_shared/services/pagination';
 import {AppBillPaymentStateBadgeComponent} from './_components/app-bill-payment-state-badge.component';
 import {AppBillRefreshButtonComponent} from './_components/app-bill-refresh-button.component';
 import {BillsService} from './_services/bills.service';

@@ -10,21 +10,21 @@ import {debounceTime, forkJoin, map, merge, Observable, pipe, startWith, switchM
 import {NgbProgressbar, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {computedFrom} from 'ngxtension/computed-from';
-import {Download} from 'src/app/_shared/services/download.service';
+import {Download} from 'src/app/home/_shared/services/download.service';
 
 import {loggerOf, n_from, s_imploder} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
-import {getSortParam, injectPagination} from '../../_shared/services/pagination';
-import {AppTestBadge} from '../../_shared/ui/app-test-badge.component';
-import {ScrollableToolbarComponent} from '../../_shared/ui/button/scrollable-toolbar.component';
-import {injectCustomFormBuilder} from '../../_shared/ui/form/form';
 import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
-import {injectConfirmDialog} from '../../_shared/ui/question-dialog/question-dialog.component';
 import {GetOrderMinResponse, GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
+import {AppTestBadge} from '../_shared/components/app-test-badge.component';
+import {injectConfirmDialog} from '../_shared/components/question-dialog.component';
+import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
+import {injectCustomFormBuilder} from '../../_shared/form';
+import {getSortParam, injectPagination} from '../_shared/services/pagination';
 import {TableGroupsService} from '../tables/_services/table-groups.service';
 import {TablesService} from '../tables/_services/tables.service';
 import {OrganisationWaitersService} from '../waiters/_services/organisation-waiters.service';
@@ -77,25 +77,21 @@ import {OrdersService} from './orders.service';
 
       <form [formGroup]="filterForm" class="d-flex flex-column flex-sm-wrap flex-sm-row gap-2">
         <div class="form-group col-12 col-sm-5 col-md-3 col-xl-2">
-          <label for="tableGroupSelect">{{ 'HOME_TABLE_GROUP_SELECT' | tr }}</label>
           <ng-select
             [items]="tableGroups()"
-            labelForId="tableGroupSelect"
             bindValue="id"
             bindLabel="name"
             formControlName="tableGroupId"
-            [placeholder]="'HOME_TABLE_GROUP' | tr"
+            [placeholder]="'HOME_TABLE_GROUP_SELECT' | tr"
           />
         </div>
         <div class="form-group col-12 col-sm-5 col-md-3 col-xl-2">
-          <label for="tableSelect">{{ 'HOME_TABLE_SELECT' | tr }}</label>
           <ng-select
             [items]="tables()"
             bindValue="id"
             formControlName="tableId"
-            labelForId="tableSelect"
             [searchFn]="customTableSearch"
-            [placeholder]="'HOME_TABLE' | tr"
+            [placeholder]="'HOME_TABLE_SELECT' | tr"
           >
             <ng-template ng-label-tmp let-item="item" let-clear="clear">
               <span class="ng-value-icon left" (click)="clear(item)" aria-hidden="true">×</span>
@@ -108,14 +104,12 @@ import {OrdersService} from './orders.service';
         </div>
 
         <div class="form-group col-12 col-sm-5 col-md-3 col-xl-2">
-          <label for="waiterSelect">{{ 'HOME_WAITERS_SELECT' | tr }}</label>
           <ng-select
             [items]="waiters()"
-            labelForId="waiterSelect"
             bindValue="id"
             bindLabel="name"
             formControlName="waiterId"
-            [placeholder]="'NAV_WAITERS' | tr"
+            [placeholder]="'HOME_WAITERS_SELECT' | tr"
           />
         </div>
       </form>

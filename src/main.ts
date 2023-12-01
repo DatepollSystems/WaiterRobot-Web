@@ -10,6 +10,7 @@ import {provideRouter, TitleStrategy, withPreloading} from '@angular/router';
 import {NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 
 import {provideBi, withIcons} from 'dfx-bootstrap-icons';
+import {NgbPaginatorIntl} from 'dfx-bootstrap-table';
 import {
   baseUrlInterceptor,
   DfxPreloadStrategy,
@@ -22,7 +23,6 @@ import {
   withWindow,
 } from 'dfx-helper';
 import {provideDfxTranslate, withAutoTranslatedLanguages, withDefaultLanguage} from 'dfx-translate';
-import {NgbPaginatorIntl} from 'dfx-bootstrap-table';
 
 import {CustomTitleStrategy} from './app/_shared/custom-title.strategy';
 import {EnvironmentHelper} from './app/_shared/EnvironmentHelper';
@@ -34,13 +34,13 @@ import {
   requestPasswordChangeUrl,
   sendPasswordChangeUrl,
 } from './app/_shared/services/auth/auth.service';
-import {errorInterceptor} from './app/_shared/services/auth/error-interceptor';
+import {CustomPaginatorIntl} from './app/_shared/services/custom-paginator-intl';
 import {CustomDateParserFormatter, CustomDateTimeAdapter} from './app/_shared/services/datepicker-adapter';
-import {NgbDateTimeAdapter} from './app/_shared/ui/datetime-picker/datetime-adapter';
+import {errorInterceptor} from './app/_shared/services/error-interceptor';
+import {NgbDateTimeAdapter} from './app/home/_shared/components/datetime-picker/datetime-adapter';
 import {ICONS} from './app/_shared/ui/icons';
 import {AppComponent} from './app/app.component';
 import {ROUTES} from './app/app.routes';
-import {CustomPaginatorIntl} from './app/_shared/services/custom-paginator-intl';
 
 bootstrapApplication(AppComponent, {
   providers: [
