@@ -1,7 +1,9 @@
 import {ChangeDetectionStrategy, Component, effect, inject} from '@angular/core';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+
+import {map, shareReplay} from 'rxjs';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NotificationService} from 'src/app/_shared/notifications/notification.service';
@@ -12,8 +14,8 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingFails, DfxHideIfPingSucceeds} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AppDownloadBtnListComponent} from '../../_shared/ui/app-download-btn-list.component';
 import {injectIsValid} from '../../_shared/form';
+import {AppDownloadBtnListComponent} from '../../_shared/ui/app-download-btn-list.component';
 import {AppAccountNotActivatedDialog} from './account-not-activated-dialog.component';
 import {AppPasswordChangeDialogComponent} from './password-change-dialog.component';
 
@@ -120,6 +122,9 @@ export class LoginComponent {
   modal = inject(NgbModal);
   authService = inject(AuthService);
   notificationService = inject(NotificationService);
+  queryParams = inject(ActivatedRoute).queryParamMap.pipe(takeUntilDestroyed(), shareReplay(1));
+
+  isPreview = toSignal(this.queryParams.pipe(map((params) => !!params.get('preview'))), {initialValue: true});
 
   logger = loggerOf('LoginComponent');
 
@@ -131,18 +136,16 @@ export class LoginComponent {
   formValid = injectIsValid(this.form);
 
   constructor() {
-    inject(ActivatedRoute)
-      .queryParamMap.pipe(takeUntilDestroyed())
-      .subscribe((params) => {
-        this.logger.log('const', 'URL params', params);
-        const email = params.get('email');
-        const password = params.get('onetimePassword');
-        if (email && password) {
-          this.form.controls.email.setValue(email);
-          this.form.controls.password.setValue(password);
-          this.onSignIn();
-        }
-      });
+    this.queryParams.subscribe((params) => {
+      this.logger.log('const', 'URL params', params);
+      const email = params.get('email');
+      const password = params.get('onetimePassword');
+      if (email && password) {
+        this.form.controls.email.setValue(email);
+        this.form.controls.password.setValue(password);
+        this.onSignIn();
+      }
+    });
 
     effect(() => {
       if (this.authService.loginError() === 'ACCOUNT_NOT_ACTIVATED') {
@@ -167,9 +170,7 @@ export class LoginComponent {
     });
 
     effect(() => {
-      if (this.authService.status() === 'LOGGED_IN') {
-        this.notificationService.tsuccess('ABOUT_SIGNIN_SUCCESSFUL');
-
+      if (this.authService.status() === 'LOGGED_IN' && !this.isPreview()) {
         void this.router.navigateByUrl(this.authService.redirectUrl() ?? '/');
       }
     });

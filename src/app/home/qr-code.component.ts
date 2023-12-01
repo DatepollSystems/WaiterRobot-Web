@@ -1,5 +1,5 @@
 import {Location} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, effect, inject} from '@angular/core';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {toJpeg} from 'html-to-image';
@@ -7,33 +7,31 @@ import {jsPDF} from 'jspdf';
 
 import {d_format, s_chunks} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxCutPipe, injectIsMobile, WINDOW} from 'dfx-helper';
+import {DfxCutPipe, injectIsMobile, injectWindow} from 'dfx-helper';
 import {QRCodeComponent} from 'dfx-qrcode';
 import {DfxTr, dfxTranslate} from 'dfx-translate';
 
 import {CopyDirective} from '../_shared/ui/copy.directive';
 import {ScrollableToolbarComponent} from './_shared/components/scrollable-toolbar.component';
-import {qrCodeData, QrCodeService} from './_shared/services/qr-code.service';
+import {QrCodeService} from './_shared/services/qr-code.service';
 
 @Component({
   template: `
-    @if (qrCodeData) {
+    @if (qrCodeData(); as data) {
       <div class="my-container d-flex flex-row flex-wrap gap-5 align-items-center justify-content-center h-100">
         <div id="qrcode" class="qrcode-rounded">
-          <qrcode [size]="isMobile() ? 8 : 14" errorCorrectionLevel="M" [margin]="0" colorLight="#f6f6f6" [data]="qrCodeData.data" />
+          <qrcode [size]="isMobile() ? 8 : 14" errorCorrectionLevel="M" [margin]="0" colorLight="#f6f6f6" [data]="data.data" />
         </div>
         <div class="card">
           <div class="card-header">
-            {{ qrCodeData.text | tr }}
+            {{ data.text | tr }}
           </div>
           <div class="card-body">
-            @if (qrCodeData.info.length > 0) {
-              <p id="info-text" class="card-text">{{ qrCodeData.info | tr }}</p>
+            @if (data.info.length > 0) {
+              <p id="info-text" class="card-text">{{ data.info | tr }}</p>
             }
 
-            <a [href]="qrCodeData.data" target="_blank" rel="noopener" [ngbTooltip]="qrCodeData.data">{{
-              qrCodeData.data | s_cut: 82 : '...'
-            }}</a>
+            <a [href]="data.data" target="_blank" rel="noopener" [ngbTooltip]="data.data">{{ data.data | s_cut: 82 : '...' }}</a>
           </div>
           <div class="card-footer text-muted">
             <scrollable-toolbar>
@@ -50,7 +48,7 @@ import {qrCodeData, QrCodeService} from './_shared/services/qr-code.service';
               <button
                 class="btn btn-sm btn-primary"
                 (click)="c.copy(t)"
-                [copyable]="qrCodeData.data"
+                [copyable]="data.data"
                 #c="copy"
                 ngbTooltip="{{ 'COPIED' | tr }}"
                 #t="ngbTooltip"
@@ -89,21 +87,19 @@ import {qrCodeData, QrCodeService} from './_shared/services/qr-code.service';
   imports: [QRCodeComponent, NgbTooltipModule, BiComponent, ScrollableToolbarComponent, CopyDirective, DfxCutPipe, DfxTr],
 })
 export class AppQrCodeViewComponent {
-  qrCodeData?: qrCodeData;
+  qrCodeData = inject(QrCodeService).data;
+  window = injectWindow();
   isMobile = injectIsMobile();
   location = inject(Location);
 
   translate = dfxTranslate();
 
-  constructor(
-    qrCodeService: QrCodeService,
-    @Inject(WINDOW) private window?: Window,
-  ) {
-    this.qrCodeData = qrCodeService.getQRCodeData();
-
-    if (!this.qrCodeData) {
-      this.back();
-    }
+  constructor() {
+    effect(() => {
+      if (!this.qrCodeData()) {
+        this.back();
+      }
+    });
   }
 
   async print(): Promise<void> {
@@ -112,8 +108,9 @@ export class AppQrCodeViewComponent {
     const canvas = await toJpeg(qrCode, {quality: 0.7, backgroundColor: '#FFFFFF'});
     pdf.addImage(canvas, 'JPEG', 70, 20, 450, 450);
 
-    if (this.qrCodeData?.info && this.qrCodeData?.info?.length > 0) {
-      const text = await this.translate(this.qrCodeData.info);
+    const info = this.qrCodeData()?.info;
+    if (info && info.length > 0) {
+      const text = await this.translate(info);
 
       let height = 500;
       for (const chunk of s_chunks(text, 50)) {

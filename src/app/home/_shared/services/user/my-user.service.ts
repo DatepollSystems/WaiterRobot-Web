@@ -2,12 +2,13 @@ import {HttpClient} from '@angular/common/http';
 import {computed, inject, Injectable, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 
-import {catchError, filter, map, merge, Observable, of, Subject} from 'rxjs';
+import {catchError, filter, map, merge, Observable, of, Subject, switchMap, throwError} from 'rxjs';
 
 import {connect} from 'ngxtension/connect';
 
 import {loggerOf, notNullAndUndefined} from 'dfts-helper';
 
+import {AuthService} from '../../../../_shared/services/auth/auth.service';
 import {GetMyselfResponse} from '../../../../_shared/waiterrobot-backend';
 import {MyUserModel} from './my-user.model';
 
@@ -22,11 +23,18 @@ type MyUserState = {
 })
 export class MyUserService {
   private httpClient = inject(HttpClient);
+  private authStatus$ = inject(AuthService).status$;
   private lumber = loggerOf('MyUserService');
 
   private manualUserChange: Subject<MyUserModel> = new Subject<MyUserModel>();
 
-  private myUserLoaded$ = this.httpClient.get<GetMyselfResponse>('/user/myself').pipe(map((it) => new MyUserModel(it)));
+  private myUserLoaded$ = this.authStatus$.pipe(
+    switchMap((status) =>
+      status === 'LOGGED_IN'
+        ? this.httpClient.get<GetMyselfResponse>('/user/myself').pipe(map((it) => new MyUserModel(it)))
+        : throwError(() => 'Not logged in'),
+    ),
+  );
 
   private myUserState = signal<MyUserState>({status: 'UNSET', manualOverwritten: false});
 

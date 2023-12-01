@@ -2,11 +2,14 @@ import {HttpClient} from '@angular/common/http';
 import {computed, inject, Injectable, signal} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
-import {connect} from 'ngxtension/connect';
-
 import {catchError, interval, map, merge, Observable, of, switchMap, timer} from 'rxjs';
 
-import {AdminInfoResponse, JsonInfoResponse} from '../../_shared/waiterrobot-backend';
+import {connect} from 'ngxtension/connect';
+
+import {b_fromStorage, st_set} from 'dfts-helper';
+
+import {AdminInfoResponse, JsonInfoResponse} from '../waiterrobot-backend';
+import {AuthService} from './auth/auth.service';
 
 type ServerInfoState = {
   status: 'Online' | 'Offline' | 'Pending';
@@ -23,6 +26,7 @@ const refreshIn = 20;
 @Injectable()
 export class SystemInfoService {
   private httpClient = inject(HttpClient);
+  private authService = inject(AuthService);
 
   private serverInfoState = signal<ServerInfoState>({
     status: 'Pending',
@@ -48,9 +52,10 @@ export class SystemInfoService {
     ),
   );
 
-  private getAdminInfo$: Observable<AdminInfoResponse | undefined> = this.httpClient
-    .get<AdminInfoResponse>('/config/info/environment')
-    .pipe(catchError(() => of(undefined)));
+  private getAdminInfo$: Observable<AdminInfoResponse | undefined> = this.authService.status$.pipe(
+    switchMap((status) => (status === 'LOGGED_IN' ? this.httpClient.get<AdminInfoResponse>('/config/info/environment') : of(undefined))),
+    catchError(() => of(undefined)),
+  );
 
   constructor() {
     interval(1000)
@@ -70,5 +75,13 @@ export class SystemInfoService {
   providedIn: 'root',
 })
 export class SystemInfoShowService {
-  public show = signal(false);
+  _show = signal(b_fromStorage('show_devmenu') ?? false);
+
+  show = computed(() => this._show());
+
+  set(it: boolean) {
+    st_set('show_devmenu', it);
+    this._show.set(it);
+    console.warn(`Developer mode ${it ? 'enabled' : 'disabled'}`);
+  }
 }

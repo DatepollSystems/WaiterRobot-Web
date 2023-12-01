@@ -1,5 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {computed, inject, Injectable, signal} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 
 import {BehaviorSubject, catchError, map, merge, Observable, of, Subject, switchMap, tap} from 'rxjs';
 
@@ -126,6 +127,7 @@ export class AuthService {
   refreshToken = computed(() => this.authState().refreshToken);
   accessToken = computed(() => this.authState().accessToken);
   status = computed(() => this.authState().status);
+  status$ = toObservable(this.status);
   loginError = computed(() => this.authState().loginError);
   redirectUrl = computed(() => this.authState().redirectUrl);
 

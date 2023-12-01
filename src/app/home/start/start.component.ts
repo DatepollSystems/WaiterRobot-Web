@@ -10,8 +10,8 @@ import {DfxTr} from 'dfx-translate';
 
 import {EnvironmentHelper} from '../../_shared/EnvironmentHelper';
 import {AuthService} from '../../_shared/services/auth/auth.service';
+import {SystemInfoShowService} from '../../_shared/services/system-info.service';
 import {AppDownloadBtnListComponent} from '../../_shared/ui/app-download-btn-list.component';
-import {SystemInfoShowService} from '../_services/system-info.service';
 import {MyUserService} from '../_shared/services/user/my-user.service';
 
 @Component({
@@ -28,7 +28,7 @@ export class StartComponent {
   httpClient = inject(HttpClient);
   authService = inject(AuthService);
   myUser = inject(MyUserService).user;
-  showSystemInfo = inject(SystemInfoShowService).show;
+  showSystemInfoService = inject(SystemInfoShowService);
 
   errors$ = this.httpClient.get('/user/myself').pipe(
     catchError(() => of(true)),

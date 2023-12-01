@@ -65,6 +65,6 @@ export class NotificationService {
   }
 
   remove(toast: Toast): void {
-    this.toasts.set(this.toasts().filter((t) => t !== toast));
+    this.toasts.update((toasts) => toasts.filter((t) => t !== toast));
   }
 }

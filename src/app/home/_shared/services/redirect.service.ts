@@ -1,4 +1,4 @@
-import {inject, Injectable, signal} from '@angular/core';
+import {computed, inject, Injectable, signal} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {loggerOf} from 'dfts-helper';
@@ -10,18 +10,20 @@ export class RedirectService {
   private logger = loggerOf('RedirectService');
   private router = inject(Router);
 
-  private redirectUrl = signal<string | undefined>(undefined);
+  private _redirectUrl = signal<string | undefined>(undefined);
+
+  redirectUrl = computed(() => this._redirectUrl());
 
   setRedirectUrl(it: string): void {
-    this.redirectUrl.set(it);
+    this._redirectUrl.set(it);
   }
 
   resetRedirectUrl(): void {
-    this.redirectUrl.set(undefined);
+    this._redirectUrl.set(undefined);
   }
 
   redirect(...replaces: {toReplace: string; replaceWith: string}[]): void {
-    let redirectUrl = this.redirectUrl() ?? '/';
+    let redirectUrl = this._redirectUrl() ?? '/';
     for (const replace of replaces) {
       redirectUrl = redirectUrl?.replace(replace.toReplace, replace.replaceWith);
     }

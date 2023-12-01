@@ -19,7 +19,6 @@ import {QrCodeService} from './_shared/services/qr-code.service';
 import {MyUserService} from './_shared/services/user/my-user.service';
 import {EventsService} from './events/_services/events.service';
 import {selectedEventRouteParamKey, SelectedEventService} from './events/_services/selected-event.service';
-import {HomeSystemInfoComponent} from './home-system-info.component';
 import {ThemePickerComponent} from './home-theme.component';
 import {OrganisationsService} from './organisations/_services/organisations.service';
 import {selectedOrganisationRouteParamKey, SelectedOrganisationService} from './organisations/_services/selected-organisation.service';
@@ -79,7 +78,6 @@ small > a:hover {
     DfxHideIfOffline,
     AppSystemNotificationAlertComponent,
     ThemePickerComponent,
-    HomeSystemInfoComponent,
   ],
 })
 export class HomeLayout {

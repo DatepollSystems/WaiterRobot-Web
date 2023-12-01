@@ -10,17 +10,21 @@ import {i_complete} from 'dfts-helper';
 import {DfxTimeSpanPipe, injectIsMobile} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {EnvironmentHelper} from '../_shared/EnvironmentHelper';
-import {SystemInfoService, SystemInfoShowService} from './_services/system-info.service';
-import {Hotkeys} from './_shared/services/hot-keys.service';
-import {MyUserService} from './_shared/services/user/my-user.service';
+import {EnvironmentHelper} from './_shared/EnvironmentHelper';
+import {AuthService} from './_shared/services/auth/auth.service';
+import {SystemInfoService, SystemInfoShowService} from './_shared/services/system-info.service';
+import {ThemeService} from './_shared/services/theme.service';
+import {Hotkeys} from './home/_shared/services/hot-keys.service';
+import {QrCodeService} from './home/_shared/services/qr-code.service';
+import {RedirectService} from './home/_shared/services/redirect.service';
+import {MyUserService} from './home/_shared/services/user/my-user.service';
 
 @Component({
   template: `
-    @if (myUser()?.isAdmin && show()) {
-      <div class="row w-100 g-2 py-2" style="z-index: 1000000; bottom: 20px" [class.position-fixed]="!isMobile()">
+    @if (showService.show()) {
+      <div class="row w-100 g-2 px-2 my-2" style="z-index: 1000000; bottom: 30px; left: 20px" [class.position-fixed]="!isMobile()">
         <div class="col-12 col-xl-4" style="margin-top: auto">
-          <div class="card px-2 pt-2 transparent">
+          <div class="card px-2 pt-2" [class.transparent]="theme().id === 'dark'" [class.light-transparent]="theme().id === 'light'">
             <div class="card-body">
               <h5 class="card-title">{{ 'HOME_START_STATISTICS' | tr }}</h5>
               <ul class="list-unstyled px-2">
@@ -64,16 +68,44 @@ import {MyUserService} from './_shared/services/user/my-user.service';
                 <li class="d-flex justify-content-between mb-2">
                   API: <span>{{ apiUrl }}</span>
                 </li>
-                <li class="d-flex justify-content-between">
+                <li class="d-flex justify-content-between mb-2">
                   Logo: <span>{{ logoUrl }}</span>
                 </li>
+                <hr />
+                @if (authService.status() === 'LOGGED_IN') {
+                  <li class="d-flex justify-content-between mb-2">
+                    User: <span>{{ myUser()?.emailAddress }}</span>
+                  </li>
+                  <li class="d-flex justify-content-between mb-2">
+                    isAdmin: <span>{{ myUser()?.isAdmin }}</span>
+                  </li>
+                } @else {
+                  <li class="d-flex justify-content-between mb-2">User: <span>Logged out</span></li>
+                }
+                <li class="d-flex justify-content-between mb-2">
+                  Selected Theme: <span>{{ theme().name }}</span>
+                </li>
+                <li class="d-flex justify-content-between mb-2">
+                  Auth redirect: <span>{{ authService.redirectUrl() ?? '-' }}</span>
+                </li>
+                <li class="d-flex justify-content-between mb-2">
+                  Selected redirect: <span>{{ redirectUrl() ?? '-' }}</span>
+                </li>
+                @if (qrCodeData(); as data) {
+                  <li>
+                    QrCode Data:
+                    <pre><code>{{  qrCodeData() | json }}</code></pre>
+                  </li>
+                } @else {
+                  <li class="d-flex justify-content-between mb-2">QrCode Data: <span>-</span></li>
+                }
               </ul>
             </div>
           </div>
         </div>
 
         <div class=" col-12 col-xl-4">
-          <div class="card px-2 pt-2 transparent">
+          <div class="card px-2 pt-2" [class.transparent]="theme().id === 'dark'" [class.light-transparent]="theme().id === 'light'">
             <div class="card-body">
               <h5>Backend</h5>
               <ul class="list-unstyled d-flex flex-column gap-2">
@@ -117,11 +149,14 @@ import {MyUserService} from './_shared/services/user/my-user.service';
                       Started: <span>{{ publicInfo.serverStartTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
                     </li>
                   }
-                  @if (serverInfoService.adminInfo(); as adminInfo) {
-                    <li>
-                      Environment Info:
-                      <pre><code>{{ adminInfo | json }}</code></pre>
-                    </li>
+
+                  @if (authService.status() === 'LOGGED_IN') {
+                    @if (serverInfoService.adminInfo(); as adminInfo) {
+                      <li>
+                        Environment Info:
+                        <pre><code>{{ adminInfo | json }}</code></pre>
+                      </li>
+                    }
                   }
                 }
               </ul>
@@ -135,6 +170,10 @@ import {MyUserService} from './_shared/services/user/my-user.service';
   .transparent {
   background-color: rgba(0, 0, 0, 0.85);
   }
+
+  .light-transparent {
+  background-color: rgba(0, 0, 0, 0.35);
+  }
   `,
   selector: 'app-system-info',
   standalone: true,
@@ -142,7 +181,7 @@ import {MyUserService} from './_shared/services/user/my-user.service';
   imports: [DatePipe, DfxTimeSpanPipe, DfxTr, JsonPipe, NgbTooltip],
   providers: [SystemInfoService],
 })
-export class HomeSystemInfoComponent {
+export class SystemInfoComponent {
   isProduction = EnvironmentHelper.getProduction();
   type = EnvironmentHelper.getType();
   apiUrl = EnvironmentHelper.getAPIUrl();
@@ -151,22 +190,24 @@ export class HomeSystemInfoComponent {
 
   isMobile = injectIsMobile();
   serverInfoService = inject(SystemInfoService);
+  myUser = inject(MyUserService).user;
+  theme = inject(ThemeService).currentTheme;
+  redirectUrl = inject(RedirectService).redirectUrl;
+  authService = inject(AuthService);
+  qrCodeData = inject(QrCodeService).data;
 
   localTime = toSignal(interval(1000).pipe(map(() => new Date())), {initialValue: new Date()});
 
-  myUser = inject(MyUserService).user;
-
   browserInfos = i_complete();
 
-  show = inject(SystemInfoShowService).show;
+  showService = inject(SystemInfoShowService);
 
   constructor() {
     inject(Hotkeys)
       .addShortcut({keys: 'meta.k'})
       .pipe(takeUntilDestroyed())
       .subscribe(() => {
-        this.show.set(!this.show());
-        console.warn(`Developer mode ${this.show() ? 'enabled' : 'disabled'}`);
+        this.showService.set(!this.showService.show());
       });
   }
 }
