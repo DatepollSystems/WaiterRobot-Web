@@ -30,4 +30,4 @@
             title: Generated new licenses report
             branch-suffix: timestamp
             commit-message: 'chore: generate new license report'
-            body: ```${{ steps.license-report.outputs.diff }}```
+            body: ${{ steps.license-report.outputs.diff }}
