@@ -2,7 +2,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {AsyncPipe, DatePipe} from '@angular/common';
 import {AfterViewInit, ChangeDetectionStrategy, Component, inject, ViewChild} from '@angular/core';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 
 import {debounceTime, forkJoin, map, merge, Observable, pipe, startWith, switchMap, tap} from 'rxjs';
@@ -17,13 +17,13 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
+import {injectCustomFormBuilder, injectIsValid} from '../../_shared/form';
 import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
 import {AppSpinnerRowComponent} from '../../_shared/ui/loading/app-spinner-row.component';
 import {GetOrderMinResponse, GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
 import {AppTestBadge} from '../_shared/components/app-test-badge.component';
 import {injectConfirmDialog} from '../_shared/components/question-dialog.component';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
-import {injectCustomFormBuilder} from '../../_shared/form';
 import {getSortParam, injectPagination} from '../_shared/services/pagination';
 import {TableGroupsService} from '../tables/_services/table-groups.service';
 import {TablesService} from '../tables/_services/tables.service';
@@ -73,7 +73,7 @@ import {OrdersService} from './orders.service';
         }
       }
 
-      @if (filterForm.valueChanges | async) {}
+      @if (isValid()) {}
 
       <form [formGroup]="filterForm" class="d-flex flex-column flex-sm-wrap flex-sm-row gap-2">
         <div class="form-group col-12 col-sm-5 col-md-3 col-xl-2">
@@ -233,9 +233,9 @@ import {OrdersService} from './orders.service';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    AsyncPipe,
     RouterLink,
     DatePipe,
-    AsyncPipe,
     ReactiveFormsModule,
     NgbTooltip,
     NgbProgressbar,
@@ -244,14 +244,13 @@ import {OrdersService} from './orders.service';
     DfxPaginationModule,
     DfxTr,
     BiComponent,
+    NgSelectModule,
     AppOrderStateBadgeComponent,
     AppOrderRefreshButtonComponent,
     ScrollableToolbarComponent,
     AppSpinnerRowComponent,
     AppTestBadge,
     AppProgressBarComponent,
-    NgSelectModule,
-    FormsModule,
   ],
 })
 export class AllOrdersComponent implements AfterViewInit {
@@ -278,6 +277,8 @@ export class AllOrdersComponent implements AfterViewInit {
     tableGroupId: [undefined as unknown as number],
     waiterId: [undefined as unknown as number],
   });
+
+  isValid = injectIsValid(this.filterForm);
 
   dataSource = computedFrom(
     [
