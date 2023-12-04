@@ -2,8 +2,10 @@ const exec = require('child_process').exec;
 const fs = require('fs');
 const path = require('path');
 
+const distPath = './dist/WaiterRobot-Web/browser/';
+
 // find the styles css file
-const files = getFilesFromPath('./dist/WaiterRobot-Web', '.css');
+const files = getFilesFromPath(distPath, '.css');
 let data = [];
 
 if (!files && files.length <= 0) {
@@ -13,32 +15,28 @@ if (!files && files.length <= 0) {
 
 for (let f of files) {
   // get original file size
-  const originalSize = getFilesizeInKiloBytes('./dist/WaiterRobot-Web/' + f) + 'kb';
-  var o = {file: f, originalSize: originalSize, newSize: ''};
-  data.push(o);
+  const originalSize = getFilesizeInKiloBytes(distPath + f) + 'kb';
+  data.push({file: f, originalSize: originalSize, newSize: ''});
 }
 
 console.log('Run PurgeCSS...');
 
-exec(
-  'purgecss -css dist/WaiterRobot-Web/*.css --content dist/WaiterRobot-Web/index.html dist/WaiterRobot-Web/*.js -o dist/WaiterRobot-Web/',
-  function (error, stdout, stderr) {
-    if (error) {
-      console.log(error);
-      return;
-    }
+exec(`purgecss -css ${distPath}*.css --content ${distPath}index.html ${distPath}*.js -o ${distPath}`, function (error, stdout, stderr) {
+  if (error) {
+    console.log(error);
+    return;
+  }
 
-    console.log('PurgeCSS done');
+  console.log('PurgeCSS done');
 
-    for (let d of data) {
-      // get new file size
-      const newSize = getFilesizeInKiloBytes('./dist/WaiterRobot-Web/' + d.file) + 'kb';
-      d.newSize = newSize;
-    }
+  for (let d of data) {
+    // get new file size
+    const newSize = getFilesizeInKiloBytes(distPath + d.file) + 'kb';
+    d.newSize = newSize;
+  }
 
-    console.table(data);
-  },
-);
+  console.table(data);
+});
 
 function getFilesizeInKiloBytes(filename) {
   const stats = fs.statSync(filename);
