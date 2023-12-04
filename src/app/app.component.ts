@@ -1,9 +1,7 @@
 import {ChangeDetectionStrategy, Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
-import {Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from '@angular/router';
+import {Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet} from '@angular/router';
 
 import {Subject, takeUntil} from 'rxjs';
-
-import {LoadingBarRouterModule} from '@ngx-loading-bar/router';
 
 import {EnvironmentHelper} from './_shared/EnvironmentHelper';
 import {ToastsContainerComponent} from './_shared/notifications/toasts-container.component';
@@ -11,8 +9,6 @@ import {SystemInfoComponent} from './system-info.component';
 
 @Component({
   template: `
-    <ngx-loading-bar [includeSpinner]="false" color="#7599AA" />
-
     <div class="flex-column" #spinnerElement>
       <div class="d-flex justify-content-center" style="padding-top: 25%">
         <div class="loader"></div>
@@ -48,7 +44,7 @@ import {SystemInfoComponent} from './system-info.component';
   standalone: true,
   selector: 'app-root',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ToastsContainerComponent, LoadingBarRouterModule, SystemInfoComponent],
+  imports: [ToastsContainerComponent, SystemInfoComponent, RouterOutlet],
 })
 export class AppComponent {
   @ViewChild('spinnerElement')
