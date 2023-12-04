@@ -9,8 +9,8 @@ import {ThemeService} from '../_shared/services/theme.service';
 @Component({
   template: `
     <button ngbDropdownItem class="d-inline-flex gap-2 align-items-center" (click)="changeTheme()">
-      <bi [name]="themeService.currentTheme().icon" class="text-body-emphasis" ariaLabel="Theme picker" />
-      Theme: {{ themeService.currentTheme().name }}
+      <bi [name]="themeService.selectedTheme().icon" class="text-body-emphasis" ariaLabel="Theme picker" />
+      Theme: {{ themeService.selectedTheme().name }}
     </button>
   `,
   selector: 'theme-picker',
@@ -22,8 +22,8 @@ export class ThemePickerComponent {
   themeService = inject(ThemeService);
 
   changeTheme(): void {
-    const currentTheme = this.themeService.currentTheme();
-    switch (currentTheme.id) {
+    const selectedTheme = this.themeService.selectedTheme();
+    switch (selectedTheme.id) {
       case 'auto':
         this.themeService.setTheme('light');
         break;

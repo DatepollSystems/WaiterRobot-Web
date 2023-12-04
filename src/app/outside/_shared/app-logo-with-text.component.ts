@@ -1,5 +1,5 @@
 import {NgOptimizedImage} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 
 import {EnvironmentHelper} from '../../_shared/EnvironmentHelper';
 import {ThemeService} from '../../_shared/services/theme.service';
@@ -7,7 +7,9 @@ import {ThemeService} from '../../_shared/services/theme.service';
 @Component({
   template: `
     <div id="brand" class="d-flex gap-4 align-items-center justify-content-center ps-2 ps-sm-0">
-      <img alt="kellner.team logo" [ngSrc]="logoUrl" priority="true" height="110" width="110" />
+      @if (!hideLogo) {
+        <img alt="kellner.team logo" [ngSrc]="logoUrl" priority="true" height="110" width="110" />
+      }
 
       <div class="d-flex flex-wrap align-items-center py-1 gap-1 mt-3">
         <svg width="118pt" height="23pt" viewBox="0 0 118 23" xmlns="http://www.w3.org/2000/svg">
@@ -43,4 +45,7 @@ export class AppLogoWithTextComponent {
   logoUrl = EnvironmentHelper.getLogoUrl();
 
   currentTheme = inject(ThemeService).currentTheme;
+
+  @Input({transform: booleanAttribute})
+  hideLogo = false;
 }

@@ -6,8 +6,8 @@ import {NgbDropdown, NgbDropdownButtonItem, NgbDropdownItem, NgbDropdownMenu, Ng
 import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {ThemeService} from '../_shared/services/theme.service';
-import {AppLogoWithTextComponent} from './_shared/app-logo-with-text.component';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
+import {AppLogoWithTextComponent} from './_shared/app-logo-with-text.component';
 
 @Component({
   template: `
@@ -24,14 +24,14 @@ import {FooterModule} from '../_shared/ui/footer/footer.module';
     <div class="theme-switcher">
       <div ngbDropdown display="dynamic">
         <button type="button" class="btn btn-primary" ngbDropdownToggle>
-          <bi [name]="themeService.currentTheme().icon" />
+          <bi [name]="themeService.selectedTheme().icon" />
         </button>
         <div ngbDropdownMenu aria-labelledby="themeDropdown" class="p-1">
           @for (theme of themeService.themes; track theme.id) {
             <button
               ngbDropdownItem
               class="rounded-1 mt-1"
-              [class.active]="theme.id === themeService.currentTheme().id"
+              [class.active]="theme.id === themeService.selectedTheme().id"
               (click)="themeService.setTheme(theme.id)"
             >
               <bi [name]="theme.icon" />
