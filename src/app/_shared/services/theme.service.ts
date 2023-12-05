@@ -39,9 +39,9 @@ export class ThemeService {
 
   getPreferredTheme(): Theme {
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return this.themes.find((t) => t.id === 'dark')!;
+      return this.themes[2];
     } else {
-      return this.themes.find((t) => t.id === 'light')!;
+      return this.themes[1];
     }
   }
 
