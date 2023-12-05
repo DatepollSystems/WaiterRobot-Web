@@ -13,5 +13,9 @@ export const ROUTES: Routes = [
     path: '',
     loadChildren: () => import('./outside/outside.routes').then((m) => m.ROUTES),
   },
+  {
+    path: 'maxi',
+    loadChildren: () => import('./maxi/maxi.routes').then((m) => m.ROUTES),
+  },
   {path: '**', redirectTo: '/not-found'},
 ];

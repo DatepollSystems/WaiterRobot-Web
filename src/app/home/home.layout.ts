@@ -22,8 +22,8 @@ import {selectedEventRouteParamKey, SelectedEventService} from './events/_servic
 import {ThemePickerComponent} from './home-theme.component';
 import {OrganisationsService} from './organisations/_services/organisations.service';
 import {selectedOrganisationRouteParamKey, SelectedOrganisationService} from './organisations/_services/selected-organisation.service';
-import {AppSystemNotificationAlertComponent} from './system-notifications/_components/system-notification-alert.component';
-import {ActiveSystemNotificationsService} from './system-notifications/_services/active-system-notifications.service';
+import {AppSystemNotificationAlertComponent} from './_admin/system-notifications/_components/system-notification-alert.component';
+import {ActiveSystemNotificationsService} from './_admin/system-notifications/_services/active-system-notifications.service';
 
 @Component({
   selector: 'app-home',

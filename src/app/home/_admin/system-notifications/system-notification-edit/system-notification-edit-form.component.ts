@@ -6,15 +6,15 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AppDatetimeInputComponent} from '../../_shared/components/datetime-picker/datetime-picker.component';
-import {AbstractModelEditFormComponent} from '../../_shared/form/abstract-model-edit-form.component';
-import {AppModelEditSaveBtn} from '../../_shared/form/app-model-edit-save-btn.component';
-import {injectIsValid} from '../../../_shared/form';
+import {AppDatetimeInputComponent} from '../../../_shared/components/datetime-picker/datetime-picker.component';
+import {AbstractModelEditFormComponent} from '../../../_shared/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '../../../_shared/form/app-model-edit-save-btn.component';
+import {injectIsValid} from '../../../../_shared/form';
 import {
   CreateSystemNotificationDto,
   GetSystemNotificationResponse,
   UpdateSystemNotificationDto,
-} from '../../../_shared/waiterrobot-backend';
+} from '../../../../_shared/waiterrobot-backend';
 import {systemNotificationTypes} from '../_services/system-notifications.service';
 
 @Component({

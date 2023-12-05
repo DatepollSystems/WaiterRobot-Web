@@ -6,7 +6,7 @@ import {BehaviorSubject, map, Observable, switchMap, tap} from 'rxjs';
 import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
 
-import {DeadLetterResponse} from '../../_shared/waiterrobot-backend';
+import {DeadLetterResponse} from '../../../_shared/waiterrobot-backend';
 
 @Injectable({providedIn: 'root'})
 export class DeadLettersService implements HasGetAll<DeadLetterResponse>, HasGetSingle<DeadLetterResponse>, HasDelete<DeadLetterResponse> {

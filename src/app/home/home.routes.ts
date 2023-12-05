@@ -16,17 +16,22 @@ export const ROUTES: Routes = [
       {
         path: 'users',
         title: 'NAV_USERS',
-        loadChildren: () => import('./users/users.routes').then((m) => m.ROUTES),
+        loadChildren: () => import('./_admin/users/users.routes').then((m) => m.ROUTES),
       },
       {
         path: 'system-notifications',
         title: 'NAV_SYSTEM_NOTIFICATIONS',
-        loadChildren: () => import('./system-notifications/system-notifications.routes').then((m) => m.ROUTES),
+        loadChildren: () => import('./_admin/system-notifications/system-notifications.routes').then((m) => m.ROUTES),
       },
       {
         path: 'dead-letters',
         title: 'NAV_SYSTEM_NOTIFICATIONS',
-        loadChildren: () => import('./dead-letters/dead-letters.routes').then((m) => m.ROUTES),
+        loadChildren: () => import('./_admin/dead-letters/dead-letters.routes').then((m) => m.ROUTES),
+      },
+      {
+        path: 'tmp-notifications',
+        title: 'NAV_TMP_NOTIFICATIONS',
+        loadChildren: () => import('./_admin/tmp-notifications/tmp-notifications.routes').then((m) => m.ROUTES),
       },
       {
         path: 'usettings',
