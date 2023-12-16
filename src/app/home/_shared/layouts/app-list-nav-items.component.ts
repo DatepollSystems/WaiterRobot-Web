@@ -63,7 +63,7 @@ export class AppListNavItemDirective {
     </button>
 
     <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
-      <div class="list-group" style="height: 200px; overflow: scroll">
+      <div class="list-group" style="max-height: 185px; overflow: scroll">
         @if (entities) {
           @for (entity of entities; track entity.id) {
             <a class="list-group-item list-group-item-action " [routerLink]="path + entity.id" routerLinkActive="active">
