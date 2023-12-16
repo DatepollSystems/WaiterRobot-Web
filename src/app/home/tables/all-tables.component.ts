@@ -100,7 +100,18 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
 
           <ng-container ngbColumnDef="number">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NUMBER' | tr }}</th>
-            <td *ngbCellDef="let table" ngb-cell>{{ table.number }}</td>
+            <td *ngbCellDef="let table" ngb-cell>
+              <div class="d-inline-flex align-items-center gap-2">
+                <span class="pt-1">{{ table.number }}</span>
+                <a
+                  [ngbTooltip]="'HOME_TABLES_PUBLIC_ID' | tr"
+                  placement="right"
+                  (click)="$event.stopPropagation()"
+                  routerLink="/wl/t/{{ table.publicId }}"
+                  ><bi name="box-arrow-up-right"></bi
+                ></a>
+              </div>
+            </td>
           </ng-container>
 
           <ng-container ngbColumnDef="status">
@@ -112,13 +123,6 @@ import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
                   {{ 'HOME_TABLE_UNPAID_PRODUCTS' | tr }}</span
                 >
               }
-            </td>
-          </ng-container>
-
-          <ng-container ngbColumnDef="publicId">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_TABLES_PUBLIC_ID' | tr }}</th>
-            <td *ngbCellDef="let table" ngb-cell>
-              <a (click)="$event.stopPropagation()" routerLink="/wl/t/{{ table.publicId }}">{{ 'OPEN' | tr }}</a>
             </td>
           </ng-container>
 
@@ -197,7 +201,7 @@ export class AllTablesComponent extends AbstractModelsWithNumberListWithDeleteCo
   constructor(protected entitiesService: TablesService) {
     super(entitiesService);
 
-    this.columnsToDisplay = ['group', 'number', 'status', 'publicId', 'seats', 'actions'];
+    this.columnsToDisplay = ['group', 'number', 'status', 'seats', 'actions'];
 
     this.sortingDataAccessors = new Map();
     this.sortingDataAccessors.set('group', (it) => it.group.name);
