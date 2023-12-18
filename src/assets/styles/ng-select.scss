@@ -1,3 +1,4 @@
+/* Import bootstrap */
 @import '../../../node_modules/bootstrap/scss/functions';
 @import '../../../node_modules/bootstrap/scss/variables';
 @import '../../../node_modules/bootstrap/scss/variables-dark';
@@ -51,7 +52,7 @@
 }
 
 .ng-select.ng-select-disabled > .ng-select-container {
-  background-color: #f9f9f9;
+  background-color: $input-disabled-bg;
 }
 
 .ng-select .ng-has-value .ng-placeholder {
@@ -367,7 +368,7 @@
 }
 
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-disabled {
-  color: #ccc;
+  color: $input-disabled-bg;
 }
 
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-child {

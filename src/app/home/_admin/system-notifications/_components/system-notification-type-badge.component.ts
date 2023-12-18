@@ -4,7 +4,7 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
 
-import {GetSystemNotificationResponse} from '../../../_shared/waiterrobot-backend';
+import {GetSystemNotificationResponse} from '../../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `

@@ -6,7 +6,7 @@ import {BehaviorSubject, catchError, EMPTY, switchMap} from 'rxjs';
 
 import {s_fromStorage, st_remove, st_set} from 'dfts-helper';
 
-import {GetSystemNotificationResponse} from '../../../_shared/waiterrobot-backend';
+import {GetSystemNotificationResponse} from '../../../../_shared/waiterrobot-backend';
 
 @Injectable({providedIn: 'root'})
 export class ActiveSystemNotificationsService {

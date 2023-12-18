@@ -1,6 +1,6 @@
-import {Injectable, signal, TemplateRef} from '@angular/core';
+import {Injectable, TemplateRef} from '@angular/core';
 
-import {first} from 'rxjs';
+import {BehaviorSubject, first} from 'rxjs';
 
 import {dfxTranslate$} from 'dfx-translate';
 
@@ -14,7 +14,7 @@ export type Toast = {
 export class NotificationService {
   private delay = 5000;
 
-  toasts = signal<Toast[]>([]);
+  toasts = new BehaviorSubject<Toast[]>([]);
 
   private translate = dfxTranslate$();
 
@@ -61,10 +61,10 @@ export class NotificationService {
   }
 
   private show(textOrTpl: string | TemplateRef<unknown>, options: Omit<Toast, 'textOrTpl'>): void {
-    this.toasts.set([...this.toasts(), {textOrTpl, ...options}]);
+    this.toasts.next([...this.toasts.getValue(), {textOrTpl, ...options}]);
   }
 
   remove(toast: Toast): void {
-    this.toasts.update((toasts) => toasts.filter((t) => t !== toast));
+    this.toasts.next(this.toasts.getValue().filter((t) => t !== toast));
   }
 }

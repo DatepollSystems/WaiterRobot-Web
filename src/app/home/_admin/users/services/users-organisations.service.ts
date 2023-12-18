@@ -3,8 +3,8 @@ import {Injectable} from '@angular/core';
 
 import {Observable, switchMap} from 'rxjs';
 
-import {IdAndNameResponse} from '../../../_shared/waiterrobot-backend';
-import {OrganisationsUsersService} from '../../organisations/_services/organisations-users.service';
+import {IdAndNameResponse} from '../../../../_shared/waiterrobot-backend';
+import {OrganisationsUsersService} from '../../../organisations/_services/organisations-users.service';
 
 @Injectable({
   providedIn: 'root',

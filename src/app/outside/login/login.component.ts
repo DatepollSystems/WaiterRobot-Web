@@ -172,6 +172,7 @@ export class LoginComponent {
     effect(() => {
       if (this.authService.status() === 'LOGGED_IN' && !this.isPreview()) {
         void this.router.navigateByUrl(this.authService.redirectUrl() ?? '/');
+        this.notificationService.success('Erfolgreich angemeldet!');
       }
     });
   }

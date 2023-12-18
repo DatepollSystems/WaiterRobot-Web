@@ -6,18 +6,18 @@ import {NgSelectModule} from '@ng-select/ng-select';
 
 import {DfxTr} from 'dfx-translate';
 
-import {AppBackButtonComponent} from '../../_shared/components/button/app-back-button.component';
-import {ScrollableToolbarComponent} from '../../_shared/components/scrollable-toolbar.component';
-import {AbstractModelEditFormComponent} from '../../_shared/form/abstract-model-edit-form.component';
-import {AppModelEditSaveBtn} from '../../_shared/form/app-model-edit-save-btn.component';
-import {injectIsValid} from '../../../_shared/form';
+import {AppBackButtonComponent} from '../../../_shared/components/button/app-back-button.component';
+import {ScrollableToolbarComponent} from '../../../_shared/components/scrollable-toolbar.component';
+import {AbstractModelEditFormComponent} from '../../../_shared/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '../../../_shared/form/app-model-edit-save-btn.component';
+import {injectIsValid} from '../../../../_shared/form';
 import {
   CreateUserDto,
   GetOrganisationResponse,
   GetUserResponse,
   IdAndNameResponse,
   UpdateUserDto,
-} from '../../../_shared/waiterrobot-backend';
+} from '../../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `

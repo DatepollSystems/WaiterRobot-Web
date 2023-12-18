@@ -6,13 +6,13 @@ import {BehaviorSubject, map, Observable, switchMap, tap} from 'rxjs';
 import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
 
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../../_shared/services/services.interface';
 import {
   CreateSystemNotificationDto,
   GetSystemNotificationResponse,
   IdResponse,
   UpdateSystemNotificationDto,
-} from '../../../_shared/waiterrobot-backend';
+} from '../../../../_shared/waiterrobot-backend';
 import {ActiveSystemNotificationsService} from './active-system-notifications.service';
 
 @Injectable({providedIn: 'root'})

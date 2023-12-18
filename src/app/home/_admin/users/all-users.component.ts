@@ -9,11 +9,11 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
-import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
-import {GetUserResponse} from '../../_shared/waiterrobot-backend';
-import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
-import {AbstractModelsListWithDeleteComponent} from '../_shared/list/models-list-with-delete/abstract-models-list-with-delete.component';
-import {AppActivatedPipe} from '../_shared/pipes/app-activated.pipe';
+import {AppProgressBarComponent} from '../../../_shared/ui/loading/app-progress-bar.component';
+import {GetUserResponse} from '../../../_shared/waiterrobot-backend';
+import {ScrollableToolbarComponent} from '../../_shared/components/scrollable-toolbar.component';
+import {AbstractModelsListWithDeleteComponent} from '../../_shared/list/models-list-with-delete/abstract-models-list-with-delete.component';
+import {AppActivatedPipe} from '../../_shared/pipes/app-activated.pipe';
 import {UsersService} from './services/users.service';
 
 @Component({
