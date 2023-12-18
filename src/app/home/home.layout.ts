@@ -7,12 +7,14 @@ import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {loggerOf, n_from, n_isNumeric, s_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingSucceeds, IsMobileService} from 'dfx-helper';
+import {DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingSucceeds, injectIsMobile, injectIsMobile$} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {EnvironmentHelper} from '../_shared/EnvironmentHelper';
 import {AuthService} from '../_shared/services/auth/auth.service';
 import {FooterModule} from '../_shared/ui/footer/footer.module';
+import {AppSystemNotificationAlertComponent} from './_admin/system-notifications/_components/system-notification-alert.component';
+import {ActiveSystemNotificationsService} from './_admin/system-notifications/_services/active-system-notifications.service';
 import {AppNavbarScrollableComponent} from './_shared/components/navbar-scrollable/app-navbar-scrollable.component';
 import {FullScreenService} from './_shared/services/fullscreen.service';
 import {QrCodeService} from './_shared/services/qr-code.service';
@@ -22,8 +24,6 @@ import {selectedEventRouteParamKey, SelectedEventService} from './events/_servic
 import {ThemePickerComponent} from './home-theme.component';
 import {OrganisationsService} from './organisations/_services/organisations.service';
 import {selectedOrganisationRouteParamKey, SelectedOrganisationService} from './organisations/_services/selected-organisation.service';
-import {AppSystemNotificationAlertComponent} from './_admin/system-notifications/_components/system-notification-alert.component';
-import {ActiveSystemNotificationsService} from './_admin/system-notifications/_services/active-system-notifications.service';
 
 @Component({
   selector: 'app-home',
@@ -93,12 +93,11 @@ export class HomeLayout {
   activeSystemNotificationsService = inject(ActiveSystemNotificationsService);
   qrCodeService = inject(QrCodeService);
   fullScreenService = inject(FullScreenService);
-  isMobileService = inject(IsMobileService);
 
   showEnvironmentType = true;
 
   isFullScreen = this.fullScreenService.isFullScreen;
-  isMobile = this.isMobileService.isMobile;
+  isMobile = injectIsMobile();
 
   organisations = toSignal(inject(OrganisationsService).getAll$(), {initialValue: []});
   events = toSignal(inject(EventsService).getAll$(), {initialValue: []});
@@ -128,14 +127,16 @@ export class HomeLayout {
         }
       });
 
-    this.isMobileService.isMobile$.pipe(takeUntilDestroyed()).subscribe((it) => {
-      if (it) {
-        const navContent = document.getElementById('navbarSupportedContent');
-        if (navContent != null) {
-          navContent.style.display = 'none';
+    injectIsMobile$()
+      .pipe(takeUntilDestroyed())
+      .subscribe((it) => {
+        if (it) {
+          const navContent = document.getElementById('navbarSupportedContent');
+          if (navContent != null) {
+            navContent.style.display = 'none';
+          }
         }
-      }
-    });
+      });
 
     inject(ActivatedRoute)
       .paramMap.pipe(takeUntilDestroyed())
