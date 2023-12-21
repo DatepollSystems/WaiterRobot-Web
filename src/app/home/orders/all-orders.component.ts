@@ -15,6 +15,7 @@ import {Download} from 'src/app/home/_shared/services/download.service';
 import {loggerOf, n_from, s_imploder} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
+import {injectIsMobile} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {injectCustomFormBuilder, injectIsValid} from '../../_shared/form';
@@ -25,6 +26,7 @@ import {AppTestBadge} from '../_shared/components/app-test-badge.component';
 import {injectConfirmDialog} from '../_shared/components/question-dialog.component';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {getSortParam, injectPagination} from '../_shared/services/pagination';
+import {ProductsService} from '../products/_services/products.service';
 import {TableGroupsService} from '../tables/_services/table-groups.service';
 import {TablesService} from '../tables/_services/tables.service';
 import {OrganisationWaitersService} from '../waiters/_services/organisation-waiters.service';
@@ -73,9 +75,9 @@ import {OrdersService} from './orders.service';
         }
       }
 
-      @if (isValid()) {}
+      @if (isFilterValid()) {}
 
-      <form [formGroup]="filterForm" class="d-flex flex-column flex-sm-wrap flex-sm-row gap-2">
+      <form [formGroup]="filterForm" class="d-flex flex-column flex-md-wrap flex-sm-row gap-2">
         <div class="form-group col-12 col-sm-5 col-md-3 col-xl-2">
           <ng-select
             [items]="tableGroups()"
@@ -111,6 +113,19 @@ import {OrdersService} from './orders.service';
             formControlName="waiterId"
             [placeholder]="'HOME_WAITERS_SELECT' | tr"
           />
+        </div>
+
+        <div class="form-group col-12 col-sm-5 col-md-3 col-xl-2">
+          <ng-select
+            [items]="products()"
+            bindLabel="name"
+            bindValue="id"
+            [multiple]="true"
+            placeholder="{{ 'Select Product' | tr }}"
+            clearAllText="Clear"
+            formControlName="productIds"
+          >
+          </ng-select>
         </div>
       </form>
 
@@ -262,6 +277,8 @@ export class AllOrdersComponent implements AfterViewInit {
   route = inject(ActivatedRoute);
   router = inject(Router);
 
+  isMobile = injectIsMobile();
+
   lumber = loggerOf('AllOrders');
 
   @ViewChild(NgbSort) sort!: NgbSort;
@@ -276,19 +293,22 @@ export class AllOrdersComponent implements AfterViewInit {
     tableId: [undefined as unknown as number],
     tableGroupId: [undefined as unknown as number],
     waiterId: [undefined as unknown as number],
+    productIds: [new Array<number>()],
   });
 
-  isValid = injectIsValid(this.filterForm);
+  isFilterValid = injectIsValid(this.filterForm);
 
   dataSource = computedFrom(
     [
       this.pagination.params,
-      this.filterForm.valueChanges.pipe(startWith({tableId: undefined, waiterId: undefined, tableGroupId: undefined})),
+      this.filterForm.valueChanges.pipe(
+        startWith({tableId: undefined, waiterId: undefined, tableGroupId: undefined, productIds: undefined}),
+      ),
     ],
     pipe(
       debounceTime(350),
       tap(() => this.pagination.loading.set(true)),
-      switchMap(([options, {tableId, waiterId, tableGroupId}]) =>
+      switchMap(([options, {tableId, waiterId, tableGroupId, productIds}]) =>
         this.ordersService.getAllPaginated(
           {
             page: options.page,
@@ -298,6 +318,7 @@ export class AllOrdersComponent implements AfterViewInit {
           tableGroupId,
           tableId,
           waiterId,
+          productIds,
         ),
       ),
       map((it) => {
@@ -312,6 +333,7 @@ export class AllOrdersComponent implements AfterViewInit {
   tables = toSignal(inject(TablesService).getAll$(), {initialValue: []});
   tableGroups = toSignal(inject(TableGroupsService).getAll$(), {initialValue: []});
   waiters = toSignal(inject(OrganisationWaitersService).getAll$(), {initialValue: []});
+  products = toSignal(inject(ProductsService).getAll$(), {initialValue: []});
 
   constructor() {
     this.route.queryParamMap

@@ -70,6 +70,7 @@ export class OrdersService implements HasGetSingle<GetOrderResponse> {
     tableGroupId?: number,
     tableId?: number,
     waiterId?: number,
+    productIds?: number[],
   ): Observable<PaginatedResponseGetOrderMinResponse> {
     let params = getPaginationParams(options);
     if (tableGroupId) {
@@ -80,6 +81,11 @@ export class OrdersService implements HasGetSingle<GetOrderResponse> {
     }
     if (waiterId) {
       params = params.append('waiterId', waiterId);
+    }
+    if (productIds) {
+      for (const productId of productIds) {
+        params = params.append('productIds', productId);
+      }
     }
     return this.triggerRefresh.pipe(
       switchMap(() => this.selectedEventService.selectedIdNotNull$),
