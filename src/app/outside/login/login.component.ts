@@ -24,6 +24,7 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
     @if (formValid()) {}
 
     <form [formGroup]="form" (ngSubmit)="onSignIn()" class="d-flex flex-column gap-3">
+      <h1 class="fs-2">{{ 'ABOUT_SIGNIN' | tr }}</h1>
       <div class="alert alert-warning" role="alert" hideIfOnline>
         <bi name="wifi-off" />
         {{ 'OFFLINE' | tr }}
@@ -44,40 +45,41 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
             </div>
           </div>
         </div>
-        <div hideIfPingFails url="/json" class="d-flex flex-column">
-          <h1 class="fs-2">{{ 'ABOUT_SIGNIN' | tr }}</h1>
-          <div class="form-floating">
-            <input
-              class="form-control"
-              autocomplete="on"
-              type="email"
-              id="email"
-              formControlName="email"
-              placeholder="{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}"
-            />
-            <label for="email">{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}</label>
+        <div hideIfPingFails url="/json">
+          <div class="d-flex flex-column">
+            <div class="form-floating">
+              <input
+                class="form-control"
+                autocomplete="on"
+                type="email"
+                id="email"
+                formControlName="email"
+                placeholder="{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}"
+              />
+              <label for="email">{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}</label>
+            </div>
+
+            <div class="form-floating">
+              <input
+                class="form-control"
+                autocomplete="on"
+                type="password"
+                id="password"
+                formControlName="password"
+                placeholder="{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}"
+              />
+              <label for="password">{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}</label>
+            </div>
+
+            <div class="d-flex">
+              <button [disabled]="!form.valid" type="submit" class="btn btn-primary w-100">{{ 'ABOUT_SIGNIN' | tr }}</button>
+            </div>
           </div>
 
-          <div class="form-floating">
-            <input
-              class="form-control"
-              autocomplete="on"
-              type="password"
-              id="password"
-              formControlName="password"
-              placeholder="{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}"
-            />
-            <label for="password">{{ 'ABOUT_SIGNIN_PASSWORD' | tr }}</label>
-          </div>
-
-          <div class="d-flex">
-            <button [disabled]="!form.valid" type="submit" class="btn btn-primary w-100">{{ 'ABOUT_SIGNIN' | tr }}</button>
+          <div class="text-center">
+            <a routerLink="forgot-password">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD' | tr }}</a>
           </div>
         </div>
-      </div>
-
-      <div class="text-center">
-        <a routerLink="forgot-password">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD' | tr }}</a>
       </div>
     </form>
 

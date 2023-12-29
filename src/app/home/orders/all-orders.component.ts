@@ -381,12 +381,10 @@ export class AllOrdersComponent implements AfterViewInit {
   }
 
   customTableSearch(term: string, item: GetTableWithGroupResponse): boolean {
-    term = term.toLowerCase().trim();
-    return (
-      item.group.name.toLowerCase().trim().indexOf(term) > -1 ||
-      item.number.toString().toLowerCase().trim().indexOf(term) > -1 ||
-      `${item.group.name} - ${item.number}`.toLowerCase().trim().indexOf(term) > -1
-    );
+    term = term.toLowerCase().trim().replace(/\s/g, '');
+    const groupName = item.group.name.toLowerCase().trim().replace(/\s/g, '');
+    const tableNumber = item.number.toString();
+    return groupName.indexOf(term) > -1 || tableNumber.indexOf(term) > -1 || `${groupName}-${tableNumber}`.indexOf(term) > -1;
   }
 
   exportCsv(): void {

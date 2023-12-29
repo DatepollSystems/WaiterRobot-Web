@@ -29,7 +29,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
                 {{ 'HOME_PROD_GROUPS' | tr }}
               </div>
               <div>
-                <span class="badge bg-secondary rounded-pill" ngbTooltip="Gruppenanzahl" placement="right">
+                <span class="badge bg-secondary rounded-pill" ngbTooltip="Gruppenanzahl" placement="left">
                   {{ productGroups()?.length ?? '-' }}
                 </span>
               </div>
