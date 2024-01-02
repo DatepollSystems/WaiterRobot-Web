@@ -9,7 +9,7 @@ import {provideRouter, TitleStrategy, withPreloading} from '@angular/router';
 
 import {NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 
-import {provideBi, withIcons} from 'dfx-bootstrap-icons';
+import {biCacheInterceptor, provideBi, withCDN} from 'dfx-bootstrap-icons';
 import {NgbPaginatorIntl} from 'dfx-bootstrap-table';
 import {
   baseUrlInterceptor,
@@ -37,16 +37,15 @@ import {
 import {CustomPaginatorIntl} from './app/_shared/services/custom-paginator-intl';
 import {CustomDateParserFormatter, CustomDateTimeAdapter} from './app/_shared/services/datepicker-adapter';
 import {errorInterceptor} from './app/_shared/services/error-interceptor';
-import {NgbDateTimeAdapter} from './app/home/_shared/components/datetime-picker/datetime-adapter';
-import {ICONS} from './app/_shared/ui/icons';
 import {AppComponent} from './app/app.component';
 import {ROUTES} from './app/app.routes';
+import {NgbDateTimeAdapter} from './app/home/_shared/components/datetime-picker/datetime-adapter';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideDfxHelper(
       withMobileBreakpoint(767),
-      withBaseUrlInterceptor(EnvironmentHelper.getAPIUrl(), ['assets/i18n', 'assets/licenses.json']),
+      withBaseUrlInterceptor(EnvironmentHelper.getAPIUrl(), ['assets/i18n', 'assets/licenses.json', 'share.dafnik.me']),
       withLoggingInterceptor(['json', loginUrl, loginPwChangeUrl, requestPasswordChangeUrl, sendPasswordChangeUrl, refreshUrl]),
       withWindow(),
     ),
@@ -67,9 +66,16 @@ bootstrapApplication(AppComponent, {
     {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter},
     {provide: NgbPaginatorIntl, useClass: CustomPaginatorIntl},
     provideHttpClient(
-      withInterceptors([baseUrlInterceptor, postPutJsonContentTypeInterceptor, loggingInterceptor, authInterceptor, errorInterceptor]),
+      withInterceptors([
+        baseUrlInterceptor,
+        postPutJsonContentTypeInterceptor,
+        loggingInterceptor,
+        authInterceptor,
+        errorInterceptor,
+        biCacheInterceptor,
+      ]),
     ),
-    provideBi(withIcons(ICONS)),
+    provideBi(withCDN('https://share.dafnik.me/dfx-bootstrap-icons')),
   ],
 }).catch((err) => console.error(err));
 
