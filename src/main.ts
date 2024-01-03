@@ -46,7 +46,15 @@ bootstrapApplication(AppComponent, {
     provideDfxHelper(
       withMobileBreakpoint(767),
       withBaseUrlInterceptor(EnvironmentHelper.getAPIUrl(), ['assets/i18n', 'assets/licenses.json', 'share.dafnik.me']),
-      withLoggingInterceptor(['json', loginUrl, loginPwChangeUrl, requestPasswordChangeUrl, sendPasswordChangeUrl, refreshUrl]),
+      withLoggingInterceptor([
+        'json',
+        loginUrl,
+        loginPwChangeUrl,
+        requestPasswordChangeUrl,
+        sendPasswordChangeUrl,
+        refreshUrl,
+        'share.dafnik.me',
+      ]),
       withWindow(),
     ),
     provideDfxTranslate(withDefaultLanguage('de'), withAutoTranslatedLanguages(['en', 'es', 'fr', 'it', 'pt'])),

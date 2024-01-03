@@ -119,6 +119,18 @@
               {
                 "pattern": "dfts**",
                 "group": "builtin"
+              },
+              {
+                "pattern": "qshared**",
+                "group": "parent"
+              },
+              {
+                "pattern": "@home-shared**",
+                "group": "parent"
+              },
+              {
+                "pattern": "@outside-shared**",
+                "group": "parent"
               }
             ],
             "pathGroupsExcludedImportTypes": [

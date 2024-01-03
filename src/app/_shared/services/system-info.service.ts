@@ -79,7 +79,7 @@ export class SystemInfoShowService {
 
   show = computed(() => this._show());
 
-  set(it: boolean) {
+  set(it: boolean): void {
     st_set('show_devmenu', it);
     this._show.set(it);
     console.warn(`Developer mode ${it ? 'enabled' : 'disabled'}`);

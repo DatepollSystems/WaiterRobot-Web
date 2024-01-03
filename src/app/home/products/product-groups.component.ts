@@ -34,7 +34,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
             {{ 'ADD_2' | tr }}</a
           >
         </div>
-        <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PROD_SELECT' | tr) : undefined }}">
+        <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PROD_SELECT_INFO' | tr) : undefined }}">
           <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
             <bi name="trash" />
             {{ 'DELETE' | tr }}

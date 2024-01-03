@@ -169,7 +169,7 @@ export class MaxiComponent {
 
   localDate = toSignal(interval(1000).pipe(map(() => new Date())), {initialValue: new Date()});
 
-  close(event: MouseEvent, toRemove: number) {
+  close(event: MouseEvent, toRemove: number): void {
     event.preventDefault();
     event.stopImmediatePropagation();
     void this.maxiService.state.remove(toRemove);

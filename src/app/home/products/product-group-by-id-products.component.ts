@@ -48,7 +48,7 @@ import {ProductsService} from './_services/products.service';
               >
             </div>
 
-            <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PROD_SELECT' | tr) : undefined }}">
+            <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PROD_SELECT_INFO' | tr) : undefined }}">
               <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
                 <bi name="trash" />
                 {{ 'DELETE' | tr }}
@@ -182,6 +182,16 @@ import {ProductsService} from './_services/products.service';
                   >
                     <bi name="trash" />
                   </button>
+
+                  <a
+                    class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
+                    routerLink="../../../../orders"
+                    [queryParams]="{productIds: product.id}"
+                    ngbTooltip="{{ 'NAV_ORDERS' | tr }}"
+                    (click)="$event.stopPropagation()"
+                  >
+                    <bi name="stack" />
+                  </a>
                 </td>
               </ng-container>
 

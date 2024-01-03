@@ -1,0 +1,217 @@
+<div class="d-flex flex-column gap-3">
+  <div class="d-flex align-items-center justify-content-between">
+    <h1 class="my-0">{{ 'NAV_ORDERS' | tr }}</h1>
+
+    <div class="d-inline-flex gap-2 me-2">
+      <app-order-refresh-btn />
+      @if (isMobile()) {
+      <button type="button" class="btn btn-outline-info position-relative" (click)="collapse.toggle()">
+        <bi name="filter-circle" />
+        @if (filterCount() !== 0) {
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          {{ filterCount() }}
+          <span class="visually-hidden">unread messages</span>
+        </span>
+        }
+      </button>
+      }
+    </div>
+  </div>
+
+  <scrollable-toolbar>
+    <div>
+      <button class="btn btn-sm btn-info" (click)="exportCsv()">
+        <bi name="filetype-csv" />
+        {{ 'EXPORT' | tr }}
+      </button>
+    </div>
+
+    <div>
+      <button class="btn btn-sm btn-warning" (click)="requeueOrders()" [class.disabled]="!selection.hasValue()">
+        <bi name="printer" />
+        {{ 'HOME_ORDER_REQUEUE' | tr }}
+      </button>
+    </div>
+    <div>
+      <button class="btn btn-sm btn-warning" (click)="printAllTest()" ngbTooltip="Beinhaltet alle Produkte">
+        <bi name="bug" />
+        {{ 'Testbestellung aufgeben' | tr }}
+      </button>
+    </div>
+  </scrollable-toolbar>
+
+  @if (download$ | async; as download) { @if (download.state !== 'DONE') {
+  <ngb-progressbar
+    type="success"
+    [showValue]="download.state !== 'PENDING'"
+    [striped]="download.state === 'PENDING'"
+    [value]="download.progress"
+  />
+  } } @if (isFilterValid()) {}
+
+  <div #collapse="ngbCollapse" [ngbCollapse]="isMobile()">
+    <form [formGroup]="filterForm" class="d-flex flex-column flex-md-wrap flex-sm-row gap-2">
+      <div class="form-group col-12 col-sm-5 col-md-3 col-xl-2">
+        <ng-select
+          [items]="tableGroups()"
+          bindValue="id"
+          bindLabel="name"
+          formControlName="tableGroupId"
+          [placeholder]="'HOME_TABLE_GROUP_SELECT' | tr"
+        />
+      </div>
+      <div class="form-group col-12 col-sm-5 col-md-3 col-xl-2">
+        <ng-select
+          [items]="tables()"
+          bindValue="id"
+          formControlName="tableId"
+          [searchFn]="customTableSearch"
+          [placeholder]="'HOME_TABLE_SELECT' | tr"
+        >
+          <ng-template ng-label-tmp let-item="item" let-clear="clear">
+            <span class="ng-value-icon left" (click)="clear(item)" aria-hidden="true">×</span>
+            <span class="ng-value-label">{{ item?.group?.name ?? '' }} {{ item?.number ?? '' }}</span>
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+            <span class="ng-option-label">{{ item.group.name }} - {{ item.number }}</span>
+          </ng-template>
+        </ng-select>
+      </div>
+
+      <div class="form-group col-12 col-sm-5 col-md-3 col-xl-2">
+        <ng-select
+          [items]="waiters()"
+          bindValue="id"
+          bindLabel="name"
+          formControlName="waiterId"
+          [placeholder]="'HOME_WAITERS_SELECT' | tr"
+        />
+      </div>
+
+      <div class="form-group col-12 col-sm-5 col-md-3 col-xl-2">
+        <ng-select
+          [items]="products()"
+          bindLabel="name"
+          bindValue="id"
+          [multiple]="true"
+          placeholder="{{ 'HOME_PROD_SELECT' | tr }}"
+          clearAllText="Clear"
+          formControlName="productIds"
+        >
+        </ng-select>
+      </div>
+    </form>
+  </div>
+
+  <hr />
+
+  <div class="table-responsive">
+    <table
+      ngb-table
+      [hover]="true"
+      [dataSource]="dataSource()"
+      ngb-sort
+      [ngbSortDirection]="pagination.params().direction"
+      [ngbSortActive]="pagination.params().sort"
+    >
+      <ng-container ngbColumnDef="select">
+        <th *ngbHeaderCellDef ngb-header-cell></th>
+        <td *ngbCellDef="let selectable" ngb-cell (click)="$event.stopPropagation()">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="checked"
+              (change)="$event ? selection.toggle(selectable) : null"
+              [checked]="selection.isSelected(selectable)"
+            />
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container ngbColumnDef="orderNumber">
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_NUMBER' | tr }}</th>
+        <td *ngbCellDef="let order" ngb-cell>{{ order.orderNumber }}</td>
+      </ng-container>
+
+      <ng-container ngbColumnDef="table.tableGroup.name">
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_TABLE' | tr }}</th>
+        <td *ngbCellDef="let order" ngb-cell>
+          <a (click)="$event.stopPropagation()" routerLink="../../tables/groups/tables/{{ order.table.group.id }}"
+            >{{ order.table.group.name }}</a
+          >
+          - <a (click)="$event.stopPropagation()" routerLink="../../tables/{{ order.table.id }}">{{ order.table.number }}</a>
+        </td>
+      </ng-container>
+
+      <ng-container ngbColumnDef="waiter.name">
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</th>
+        <td *ngbCellDef="let order" ngb-cell>
+          <a (click)="$event.stopPropagation()" routerLink="../../waiters/{{ order.waiter.id }}">{{ order.waiter.name }}</a>
+        </td>
+      </ng-container>
+
+      <ng-container ngbColumnDef="state">
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | tr }}</th>
+        <td *ngbCellDef="let order" ngb-cell>
+          <div class="d-flex align-items-center gap-2">
+            <app-order-state-badge
+              [orderState]="order.state"
+              [orderProductPrintStates]="order.orderProductPrintStates"
+              [createdAt]="order.createdAt"
+              [processedAt]="order.processedAt"
+            />
+
+            @if (order.test) {
+            <app-test-badge />
+            }
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container ngbColumnDef="createdAt">
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_CREATED_AT' | tr }}</th>
+        <td *ngbCellDef="let order" ngb-cell>{{ order.createdAt | date: 'dd.MM.yy HH:mm:ss' }}</td>
+      </ng-container>
+
+      <ng-container ngbColumnDef="actions">
+        <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+        <td *ngbCellDef="let order" ngb-cell>
+          <a
+            class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"
+            routerLink="../{{ order.id }}"
+            ngbTooltip="{{ 'OPEN' | tr }}"
+            placement="left"
+          >
+            <bi name="arrow-up-right-square-fill" />
+          </a>
+          <button
+            class="btn btn-sm m-1 btn-warning"
+            (click)="$event.stopPropagation(); requeueOrder(order)"
+            ngbTooltip="{{ 'HOME_ORDER_REQUEUE' | tr }}"
+            placement="bottom"
+          >
+            <bi name="printer" />
+          </button>
+        </td>
+      </ng-container>
+
+      <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+      <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row routerLink="../{{ order.id }}"></tr>
+    </table>
+  </div>
+
+  <app-progress-bar [hidden]="!pagination.loading()" />
+
+  @if (!pagination.loading() && dataSource().length < 1) {
+  <div class="w-100 text-center mt-2">{{ 'HOME_STATISTICS_NO_DATA' | tr }}</div>
+  }
+
+  <ngb-paginator
+    [length]="pagination.totalElements()"
+    [pageSize]="pagination.params().size"
+    [pageSizeOptions]="[10, 20, 50, 100, 200]"
+    [pageIndex]="pagination.params().page"
+    showFirstLastButtons
+  />
+</div>

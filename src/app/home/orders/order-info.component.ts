@@ -4,16 +4,16 @@ import {RouterLink} from '@angular/router';
 
 import {combineLatest, map, switchMap} from 'rxjs';
 
+import {AppTestBadge} from '@home-shared/components/app-test-badge.component';
+import {AppBackButtonComponent} from '@home-shared/components/button/app-back-button.component';
+import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
+import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+import {injectIdParam$} from '@home-shared/services/injectActivatedRouteIdParam';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {AppTestBadge} from '../_shared/components/app-test-badge.component';
-import {AppBackButtonComponent} from '../_shared/components/button/app-back-button.component';
-import {injectConfirmDialog} from '../_shared/components/question-dialog.component';
-import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
-import {injectIdParam$} from '../_shared/services/injectActivatedRouteIdParam';
 import {AppOrderRefreshButtonComponent} from './_components/app-order-refresh-button.component';
 import {AppOrderStateBadgeComponent} from './_components/app-order-state-badge.component';
 import {AppOrderProductsListComponent} from './_components/order-products-list/app-order-products-list.component';

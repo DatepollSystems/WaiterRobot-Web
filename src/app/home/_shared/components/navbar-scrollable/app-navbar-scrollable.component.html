@@ -32,26 +32,23 @@
       }
     </ul>
     } @if (editMode) {
-    <div class="edit-container">
-      <h5>{{ 'NAV_EDIT_CUSTOMIZE' | tr }}</h5>
+    <div class="edit-container d-flex flex-column gap-3">
+      <h5 class="my-0">{{ 'NAV_EDIT_CUSTOMIZE' | tr }}</h5>
       <scrollable-toolbar>
-        <button class="btn btn-sm btn-outline-secondary" (click)="onClose()">
-          <bi name="trash" />
-          {{ 'CLOSE' | tr }}
-        </button>
+        <button class="btn btn-sm btn-secondary" (click)="onClose()">{{ 'CLOSE' | tr }}</button>
 
         <button class="btn btn-sm btn-success" (click)="onSave()">
           <bi name="save" />
           {{ 'SAVE' | tr }}
         </button>
 
-        <button class="btn btn-sm btn-outline-danger" (click)="onReset()">
+        <button class="btn btn-sm btn-danger" (click)="onReset()">
           <bi name="arrow-clockwise" />
           {{ 'RESET' | tr }}
         </button>
 
         @if (allowBookmarks) {
-        <button class="btn btn-sm btn-outline-info" (click)="openModal(bookMarkModalContent)">
+        <button class="btn btn-sm btn-info" (click)="openModal(bookMarkModalContent)">
           <bi name="star-fill" />
           {{ 'NAV_EDIT_BOOKMARK' | tr }}
         </button>

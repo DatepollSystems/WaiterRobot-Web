@@ -14,12 +14,12 @@ a:hover {
 }
 
 /* Fix vertical text alignment in buttons with icons */
-.btn > bi > svg.bi {
+.btn > bi > svg {
   vertical-align: -0.125em;
 }
 
 /** Fix button icon alignment */
-.btn-sm > bi > svg.bi {
+.btn-sm > bi > svg {
   vertical-align: -0.22em !important;
 }
 
