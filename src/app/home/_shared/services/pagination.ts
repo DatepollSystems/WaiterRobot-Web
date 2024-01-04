@@ -3,12 +3,10 @@ import {inject, signal, Signal, WritableSignal} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {map, Observable} from 'rxjs';
+import {map} from 'rxjs';
 
 import {n_from} from 'dfts-helper';
 import {SortDirection} from 'dfx-bootstrap-table';
-
-import {PaginationResponse} from '../../../_shared/services/services.interface';
 
 export type PageableDto = {
   /**
@@ -24,7 +22,6 @@ export type PageableDto = {
   sort?: string;
   query?: string;
 };
-export type GetPaginatedFn<T> = (options: PageableDto) => Observable<PaginationResponse<T>>;
 
 export function getPaginationParams(options: PageableDto): HttpParams {
   let params = new HttpParams();

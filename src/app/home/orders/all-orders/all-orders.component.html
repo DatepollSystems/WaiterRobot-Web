@@ -7,9 +7,9 @@
       @if (isMobile()) {
       <button type="button" class="btn btn-outline-info position-relative" (click)="collapse.toggle()">
         <bi name="filter-circle" />
-        @if (filterCount() !== 0) {
+        @if (filter.count() !== 0) {
         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-          {{ filterCount() }}
+          {{ filter.count() }}
           <span class="visually-hidden">unread messages</span>
         </span>
         }
@@ -47,26 +47,32 @@
     [striped]="download.state === 'PENDING'"
     [value]="download.progress"
   />
-  } } @if (isFilterValid()) {}
+  } }
 
   <div #collapse="ngbCollapse" [ngbCollapse]="isMobile()">
-    <form [formGroup]="filterForm" class="d-flex flex-column flex-md-wrap flex-sm-row gap-2">
-      <div class="form-group col-12 col-sm-5 col-md-3 col-xl-2">
+    @if (filter.valid()) {}
+
+    <form [formGroup]="filter.form" class="d-flex flex-column flex-sm-wrap flex-sm-row gap-2">
+      <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
         <ng-select
           [items]="tableGroups()"
           bindValue="id"
           bindLabel="name"
-          formControlName="tableGroupId"
+          formControlName="tableGroupIds"
           [placeholder]="'HOME_TABLE_GROUP_SELECT' | tr"
+          [multiple]="true"
+          clearAllText="Clear"
         />
       </div>
-      <div class="form-group col-12 col-sm-5 col-md-3 col-xl-2">
+      <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
         <ng-select
           [items]="tables()"
           bindValue="id"
-          formControlName="tableId"
+          formControlName="tableIds"
           [searchFn]="customTableSearch"
           [placeholder]="'HOME_TABLE_SELECT' | tr"
+          [multiple]="true"
+          clearAllText="Clear"
         >
           <ng-template ng-label-tmp let-item="item" let-clear="clear">
             <span class="ng-value-icon left" (click)="clear(item)" aria-hidden="true">×</span>
@@ -78,27 +84,40 @@
         </ng-select>
       </div>
 
-      <div class="form-group col-12 col-sm-5 col-md-3 col-xl-2">
+      <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
+        <ng-select
+          [items]="productGroups()"
+          bindValue="id"
+          bindLabel="name"
+          formControlName="productGroupIds"
+          [placeholder]="'HOME_PROD_GROUPS_SELECT' | tr"
+          [multiple]="true"
+          clearAllText="Clear"
+        />
+      </div>
+
+      <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
+        <ng-select
+          [items]="products()"
+          bindValue="id"
+          bindLabel="name"
+          formControlName="productIds"
+          [placeholder]="'HOME_PROD_SELECT' | tr"
+          [multiple]="true"
+          clearAllText="Clear"
+        />
+      </div>
+
+      <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
         <ng-select
           [items]="waiters()"
           bindValue="id"
           bindLabel="name"
-          formControlName="waiterId"
+          formControlName="waiterIds"
           [placeholder]="'HOME_WAITERS_SELECT' | tr"
-        />
-      </div>
-
-      <div class="form-group col-12 col-sm-5 col-md-3 col-xl-2">
-        <ng-select
-          [items]="products()"
-          bindLabel="name"
-          bindValue="id"
           [multiple]="true"
-          placeholder="{{ 'HOME_PROD_SELECT' | tr }}"
           clearAllText="Clear"
-          formControlName="productIds"
-        >
-        </ng-select>
+        />
       </div>
     </form>
   </div>

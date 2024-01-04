@@ -3,13 +3,14 @@ import {inject, Injectable} from '@angular/core';
 
 import {BehaviorSubject, map, Observable, switchMap, take, tap, timer} from 'rxjs';
 
+import {Download, DownloadService} from '@home-shared/services/download.service';
+import {getPaginationParams, PageableDto} from '@home-shared/services/pagination';
+import {NotificationService} from '@shared/notifications/notification.service';
+import {GetOrderResponse, PaginatedResponseGetOrderMinResponse} from '@shared/waiterrobot-backend';
+
 import {n_generate_int} from 'dfts-helper';
 import {HasGetSingle} from 'dfx-helper';
 
-import {NotificationService} from '../../_shared/notifications/notification.service';
-import {GetOrderMinResponse, GetOrderResponse, PaginatedResponseGetOrderMinResponse} from '../../_shared/waiterrobot-backend';
-import {Download, DownloadService} from '../_shared/services/download.service';
-import {GetPaginatedFn, getPaginationParams, PageableDto} from '../_shared/services/pagination';
 import {SelectedEventService} from '../events/_services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
@@ -67,24 +68,31 @@ export class OrdersService implements HasGetSingle<GetOrderResponse> {
 
   getAllPaginated(
     options: PageableDto,
-    tableGroupId?: number,
-    tableId?: number,
-    waiterId?: number,
+    tableIds?: number[],
+    tableGroupIds?: number[],
     productIds?: number[],
+    productGroupIds?: number[],
+    waiterIds?: number[],
   ): Observable<PaginatedResponseGetOrderMinResponse> {
     let params = getPaginationParams(options);
-    if (tableGroupId) {
-      params = params.append('tableGroupId', tableGroupId);
+    if (tableGroupIds) {
+      for (const it of tableGroupIds) {
+        params = params.append('tableGroupIds', it);
+      }
     }
-    if (tableId) {
-      params = params.append('tableId', tableId);
+    if (tableIds) {
+      for (const it of tableIds) {
+        params = params.append('tableIds', it);
+      }
     }
-    if (waiterId) {
-      params = params.append('waiterId', waiterId);
+    if (waiterIds) {
+      for (const it of waiterIds) {
+        params = params.append('waiterIds', it);
+      }
     }
     if (productIds) {
-      for (const productId of productIds) {
-        params = params.append('productIds', productId);
+      for (const it of productIds) {
+        params = params.append('productIds', it);
       }
     }
     return this.triggerRefresh.pipe(
@@ -95,27 +103,5 @@ export class OrdersService implements HasGetSingle<GetOrderResponse> {
         }),
       ),
     );
-  }
-
-  getPaginatedFnByWaiterId(waiterId$: Observable<number>): GetPaginatedFn<GetOrderMinResponse> {
-    return (options: PageableDto) =>
-      waiterId$.pipe(
-        switchMap((waiterId) =>
-          this.httpClient.get<PaginatedResponseGetOrderMinResponse>(`${this.url}`, {
-            params: getPaginationParams(options).append('waiterId', waiterId),
-          }),
-        ),
-      );
-  }
-
-  getPaginatedFnByTableIdId(tableId$: Observable<number>): GetPaginatedFn<GetOrderMinResponse> {
-    return (options: PageableDto) =>
-      tableId$.pipe(
-        switchMap((waiterId) =>
-          this.httpClient.get<PaginatedResponseGetOrderMinResponse>(`${this.url}`, {
-            params: getPaginationParams(options).append('tableId', waiterId),
-          }),
-        ),
-      );
   }
 }

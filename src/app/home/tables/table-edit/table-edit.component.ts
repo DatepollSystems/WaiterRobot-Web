@@ -5,21 +5,21 @@ import {RouterLink} from '@angular/router';
 
 import {filter, map} from 'rxjs';
 
+import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
+import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
+import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
+import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
+import {injectContinuousCreation, injectOnDelete} from '@home-shared/form/edit';
+import {MobileLinkService} from '@home-shared/services/mobile-link.service';
+import {injectOnSubmit} from '@shared/form';
+import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
+
 import {n_from, n_isNumeric} from 'dfts-helper';
 
-import {AbstractModelEditComponent} from '../../_shared/form/abstract-model-edit.component';
-import {AppContinuesCreationSwitchComponent} from '../../_shared/form/app-continues-creation-switch.component';
-import {AppDeletedDirectives} from '../../_shared/form/app-entity-deleted.directives';
-import {AppEntityEditModule} from '../../_shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectOnDelete} from '../../_shared/form/edit';
-import {injectOnSubmit} from '../../../_shared/form';
-import {GetTableWithGroupResponse} from '../../../_shared/waiterrobot-backend';
-import {MobileLinkService} from '../../_shared/services/mobile-link.service';
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TablesService} from '../_services/tables.service';
 import {TableEditFormComponent} from './table-edit-form.component';
-import {TableEditOrderProductsComponent} from './table-edit-order-products.component';
 
 @Component({
   template: `
@@ -105,7 +105,6 @@ import {TableEditOrderProductsComponent} from './table-edit-order-products.compo
     AppEntityEditModule,
     AppContinuesCreationSwitchComponent,
     TableEditFormComponent,
-    TableEditOrderProductsComponent,
     AppDeletedDirectives,
     LowerCasePipe,
   ],

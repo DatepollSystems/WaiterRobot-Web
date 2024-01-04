@@ -3,10 +3,7 @@ import {inject, Injectable} from '@angular/core';
 
 import {BehaviorSubject, combineLatest, map, Observable, switchMap, tap} from 'rxjs';
 
-import {s_from} from 'dfts-helper';
-import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from 'dfx-helper';
-
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
 import {
   CreateTableDto,
   GetTableGroupResponse,
@@ -14,7 +11,11 @@ import {
   GetTableWithGroupResponse,
   IdResponse,
   UpdateTableDto,
-} from '../../../_shared/waiterrobot-backend';
+} from '@shared/waiterrobot-backend';
+
+import {s_from} from 'dfts-helper';
+import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from 'dfx-helper';
+
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 
 @Injectable({providedIn: 'root'})

@@ -1,30 +1,32 @@
 import {SelectionModel} from '@angular/cdk/collections';
 import {AsyncPipe, DatePipe} from '@angular/common';
 import {AfterViewInit, ChangeDetectionStrategy, Component, inject, ViewChild} from '@angular/core';
-import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
+import {toSignal} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {RouterLink} from '@angular/router';
 
-import {debounceTime, forkJoin, map, merge, Observable, pipe, startWith, switchMap, tap} from 'rxjs';
+import {debounceTime, forkJoin, map, merge, Observable, pipe, switchMap, tap} from 'rxjs';
 
 import {AppTestBadge} from '@home-shared/components/app-test-badge.component';
 import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {Download} from '@home-shared/services/download.service';
+import {injectFilter} from '@home-shared/services/filter';
 import {getSortParam, injectPagination} from '@home-shared/services/pagination';
 import {NgbCollapse, NgbProgressbar, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
-import {injectCustomFormBuilder, injectIsValid} from '@shared/form';
+import {injectCustomFormBuilder} from '@shared/form';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetOrderMinResponse, GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 import {computedFrom} from 'ngxtension/computed-from';
 
-import {loggerOf, n_from, s_imploder} from 'dfts-helper';
+import {loggerOf, s_imploder} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {injectIsMobile} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
+import {ProductGroupsService} from '../../products/_services/product-groups.service';
 import {ProductsService} from '../../products/_services/products.service';
 import {TableGroupsService} from '../../tables/_services/table-groups.service';
 import {TablesService} from '../../tables/_services/tables.service';
@@ -65,9 +67,6 @@ export class AllOrdersComponent implements AfterViewInit {
 
   pagination = injectPagination('createdAt', 'desc');
 
-  route = inject(ActivatedRoute);
-  router = inject(Router);
-
   isMobile = injectIsMobile();
 
   lumber = loggerOf('AllOrders');
@@ -80,47 +79,33 @@ export class AllOrdersComponent implements AfterViewInit {
 
   download$?: Observable<Download>;
 
-  filterForm = injectCustomFormBuilder().group({
-    tableId: [undefined as unknown as number],
-    tableGroupId: [undefined as unknown as number],
-    waiterId: [undefined as unknown as number],
-    productIds: [new Array<number>()],
-  });
-  filterFormValueChanges = this.filterForm.valueChanges.pipe(
-    startWith({tableId: undefined, waiterId: undefined, tableGroupId: undefined, productIds: undefined}),
-  );
-
-  isFilterValid = injectIsValid(this.filterForm);
-
-  fieldNames: (keyof typeof this.filterForm.controls)[] = Object.keys(
-    this.filterForm.controls,
-  ) as (keyof typeof this.filterForm.controls)[];
-  filterCount = computedFrom(
-    [this.filterFormValueChanges],
-    map(([form]) =>
-      this.fieldNames.reduce(
-        (count, fieldName) => count + (Array.isArray(form[fieldName]) ? (form[fieldName] as []).length : form[fieldName] ? 1 : 0),
-        0,
-      ),
-    ),
+  filter = injectFilter(
+    injectCustomFormBuilder().group({
+      tableIds: [new Array<number>()],
+      tableGroupIds: [new Array<number>()],
+      productIds: [new Array<number>()],
+      productGroupIds: [new Array<number>()],
+      waiterIds: [new Array<number>()],
+    }),
   );
 
   dataSource = computedFrom(
-    [this.pagination.params, this.filterFormValueChanges],
+    [this.pagination.params, this.filter.valueChanges],
     pipe(
       debounceTime(350),
       tap(() => this.pagination.loading.set(true)),
-      switchMap(([options, {tableId, waiterId, tableGroupId, productIds}]) =>
+      switchMap(([options, filter]) =>
         this.ordersService.getAllPaginated(
           {
             page: options.page,
             size: options.size,
             sort: getSortParam(options.sort, options.direction),
           },
-          tableGroupId,
-          tableId,
-          waiterId,
-          productIds,
+          filter?.tableIds,
+          filter?.tableGroupIds,
+          filter?.productIds,
+          filter?.productGroupIds,
+          filter?.waiterIds,
         ),
       ),
       map((it) => {
@@ -134,44 +119,9 @@ export class AllOrdersComponent implements AfterViewInit {
 
   tables = toSignal(inject(TablesService).getAll$(), {initialValue: []});
   tableGroups = toSignal(inject(TableGroupsService).getAll$(), {initialValue: []});
-  waiters = toSignal(inject(OrganisationWaitersService).getAll$(), {initialValue: []});
   products = toSignal(inject(ProductsService).getAll$(), {initialValue: []});
-
-  constructor() {
-    this.route.queryParamMap
-      .pipe(
-        takeUntilDestroyed(),
-        map((params) => ({
-          tableId: params.get('tableId'),
-          waiterId: params.get('waiterId'),
-          tableGroupId: params.get('tableGroupId'),
-          productIds: params.getAll('productIds'),
-        })),
-      )
-      .subscribe(({waiterId, tableId, tableGroupId, productIds}) => {
-        if (tableId && n_from(tableId) !== this.filterForm.controls.tableId.value) {
-          this.filterForm.controls.tableId.patchValue(n_from(tableId));
-        }
-        if (waiterId && n_from(waiterId) !== this.filterForm.controls.waiterId.value) {
-          this.filterForm.controls.waiterId.patchValue(n_from(waiterId));
-        }
-        if (tableGroupId && n_from(tableGroupId) !== this.filterForm.controls.tableGroupId.value) {
-          this.filterForm.controls.tableGroupId.patchValue(n_from(tableGroupId));
-        }
-        if (productIds.length > 0) {
-          this.filterForm.controls.productIds.setValue(updateArrayValues(this.filterForm.controls.productIds.value, productIds));
-        }
-      });
-
-    this.filterForm.valueChanges.pipe(takeUntilDestroyed()).subscribe((queryParams) => {
-      this.lumber.info('filterFormValueChanges', 'Set query params', queryParams);
-      void this.router.navigate([], {
-        relativeTo: this.route,
-        queryParamsHandling: 'merge',
-        queryParams,
-      });
-    });
-  }
+  productGroups = toSignal(inject(ProductGroupsService).getAll$(), {initialValue: []});
+  waiters = toSignal(inject(OrganisationWaitersService).getAll$(), {initialValue: []});
 
   ngAfterViewInit(): void {
     merge(this.paginator.page, this.sort.sortChange).subscribe(() => {
@@ -231,24 +181,4 @@ export class AllOrdersComponent implements AfterViewInit {
       }
     });
   }
-}
-
-function updateArrayValues(originalArray: number[], newArray: string[]): number[] {
-  const mappedNewArray = newArray.map(n_from);
-  const toAdd: number[] = [];
-  const toRemove: number[] = [];
-
-  for (const item of mappedNewArray) {
-    if (!originalArray.includes(item)) {
-      toAdd.push(item);
-    }
-  }
-
-  for (const item of originalArray) {
-    if (!mappedNewArray.includes(item)) {
-      toRemove.push(item);
-    }
-  }
-
-  return [...originalArray.filter((item) => !toRemove.includes(item)), ...toAdd];
 }

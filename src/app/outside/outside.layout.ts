@@ -47,7 +47,7 @@ import {AppLogoWithTextComponent} from './_shared/app-logo-with-text.component';
     `
       .d-container {
         min-height: 95%;
-        background-color: var(--bs-tertiary-bg);
+        background-color: var(--bs-body-bg);
         padding-top: 6%;
         padding-bottom: 6%;
       }

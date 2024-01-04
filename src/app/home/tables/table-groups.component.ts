@@ -4,21 +4,21 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
+import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
+import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+import {AppOrderModeSwitchComponent} from '@home-shared/form/app-order-mode-switch.component';
+import {
+  AbstractModelsWithNameListWithDeleteAndOrderComponent,
+  AbstractModelsWithNameListWithDeleteAndOrderStyle,
+} from '@home-shared/list/models-list-with-delete/abstract-models-with-name-list-with-delete-and-order.component';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+import {GetTableGroupResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
-import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
-import {GetTableGroupResponse} from '../../_shared/waiterrobot-backend';
-import {AppTextWithColorIndicatorComponent} from '../_shared/components/color/app-text-with-color-indicator.component';
-import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
-import {AppOrderModeSwitchComponent} from '../_shared/form/app-order-mode-switch.component';
-import {
-  AbstractModelsWithNameListWithDeleteAndOrderComponent,
-  AbstractModelsWithNameListWithDeleteAndOrderStyle,
-} from '../_shared/list/models-list-with-delete/abstract-models-with-name-list-with-delete-and-order.component';
 import {TableGroupsService} from './_services/table-groups.service';
 
 @Component({

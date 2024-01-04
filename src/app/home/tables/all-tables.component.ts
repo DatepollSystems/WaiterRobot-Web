@@ -3,19 +3,19 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
+import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
+import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+import {AbstractModelsWithNumberListWithDeleteComponent} from '@home-shared/list/models-list-with-delete/abstract-models-with-number-list-with-delete.component';
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
-import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
-import {GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
-import {AppTextWithColorIndicatorComponent} from '../_shared/components/color/app-text-with-color-indicator.component';
-import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
-import {AbstractModelsWithNumberListWithDeleteComponent} from '../_shared/list/models-list-with-delete/abstract-models-with-number-list-with-delete.component';
 import {TablesService} from './_services/tables.service';
-import {PrintTableQrCodesModalComponent} from './print-table-qr-codes-modal';
+import {PrintTableQrCodesModal} from './print-table-qr-codes.modal';
 
 @Component({
   template: `
@@ -208,7 +208,7 @@ export class AllTablesComponent extends AbstractModelsWithNumberListWithDeleteCo
   }
 
   printSelectedTables(): void {
-    const modalRef = this.modal.open(PrintTableQrCodesModalComponent, {
+    const modalRef = this.modal.open(PrintTableQrCodesModal, {
       ariaLabelledBy: 'app-tables-qr-codes-title',
       size: 'lg',
     });

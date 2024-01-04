@@ -1,7 +1,10 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, Input} from '@angular/core';
 
+import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+import {MobileLinkService} from '@home-shared/services/mobile-link.service';
 import {NgbActiveModal, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
+import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
 
@@ -9,10 +12,6 @@ import {d_formatWithHoursMinutesAndSeconds} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {QRCodeComponent} from 'dfx-qrcode';
 import {DfxTranslateModule} from 'dfx-translate';
-
-import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
-import {GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
-import {MobileLinkService} from '../_shared/services/mobile-link.service';
 
 @Component({
   template: `
@@ -107,7 +106,7 @@ import {MobileLinkService} from '../_shared/services/mobile-link.service';
     AsyncPipe,
   ],
 })
-export class PrintTableQrCodesModalComponent {
+export class PrintTableQrCodesModal {
   @Input() tables?: GetTableWithGroupResponse[];
 
   qrCodeSize: 'SM' | 'MD' = 'MD';

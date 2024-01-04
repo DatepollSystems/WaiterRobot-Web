@@ -4,20 +4,21 @@ import {toSignal} from '@angular/core/rxjs-interop';
 
 import {map, switchMap} from 'rxjs';
 
+import {AppBackButtonComponent} from '@home-shared/components/button/app-back-button.component';
+import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+import {injectIdParam$} from '@home-shared/services/injectActivatedRouteIdParam';
+import {AppSpinnerRowComponent} from '@shared/ui/loading/app-spinner-row.component';
+
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {AppBackButtonComponent} from '../../_shared/components/button/app-back-button.component';
-import {ScrollableToolbarComponent} from '../../_shared/components/scrollable-toolbar.component';
-import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
-import {injectIdParam$} from '../../_shared/services/injectActivatedRouteIdParam';
 import {DeadLettersService} from './dead-letters.service';
 
 @Component({
   template: `
     @if (deadLetter(); as deadLetter) {
-      <div class="d-flex flex-column gap-2">
-        <h1>Dead Letter "{{ deadLetter.id }}"</h1>
+      <div class="d-flex flex-column gap-3">
+        <h1 class="my-0">Dead Letter "{{ deadLetter.id }}"</h1>
 
         <scrollable-toolbar>
           <back-button />
@@ -35,6 +36,8 @@ import {DeadLettersService} from './dead-letters.service';
           <span class="badge text-bg-secondary">{{ deadLetter.queue }}</span>
           <span class="badge text-bg-secondary">{{ deadLetter.exchange }}</span>
         </div>
+
+        <hr />
 
         <div class="json-box">
           <pre id="json-data">{{ deadLetter.body }}</pre>

@@ -2,14 +2,14 @@ import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/cor
 import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 
+import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
+import {AppListNavItemDirective, AppListNavItemsComponent} from '@home-shared/layouts/app-list-nav-items.component';
+import {EntitiesLayout} from '@home-shared/layouts/entities.layout';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {AppTextWithColorIndicatorComponent} from '../_shared/components/color/app-text-with-color-indicator.component';
-import {AppListNavItemDirective, AppListNavItemsComponent} from '../_shared/layouts/app-list-nav-items.component';
-import {EntitiesLayout} from '../_shared/layouts/entities.layout';
 import {TableGroupsService} from './_services/table-groups.service';
 
 @Component({

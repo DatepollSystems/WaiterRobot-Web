@@ -107,7 +107,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
 
           <ng-container ngbColumnDef="events">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_EVENTS' | tr }}</th>
-            <td *ngbCellDef="let waiter" ngb-cell>{{ waiter.events | a_mapName | s_implode: ', ' : 20 : '...' }}</td>
+            <td *ngbCellDef="let waiter" ngb-cell>{{ waiter.events | a_mapName | s_implode: ', ' : 30 : '...' }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="actions">

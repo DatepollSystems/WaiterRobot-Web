@@ -3,10 +3,11 @@ import {inject, Injectable} from '@angular/core';
 
 import {BehaviorSubject, map, Observable, switchMap, tap} from 'rxjs';
 
+import {HasCreateWithIdResponse, HasOrdered, HasUpdateWithIdResponse} from '@shared/services/services.interface';
+
 import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
 
-import {HasCreateWithIdResponse, HasOrdered, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
 import {
   CreateTableGroupDto,
   EntityOrderDto,

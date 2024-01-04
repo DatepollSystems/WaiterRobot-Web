@@ -64,7 +64,6 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
     `
       #footerContainer {
         background-color: var(--bs-tertiary-bg);
-        color: var(--bs-secondary-color);
       }
 
       .footerHeaderContainer {
@@ -84,15 +83,6 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
 
       li {
         text-align: end;
-      }
-
-      li a {
-        color: #eeeeee;
-      }
-
-      li a:hover {
-        color: #bdbdbd;
-        cursor: pointer;
       }
     `,
   ],

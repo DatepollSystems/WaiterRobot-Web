@@ -2,14 +2,14 @@ import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
-import {DfxTr} from 'dfx-translate';
+import {AppColorPicker} from '@home-shared/components/color/color-picker.component';
+import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
+import {allowedCharacterSet} from '@home-shared/regex';
+import {injectIsValid} from '@shared/form';
+import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '@shared/waiterrobot-backend';
 
-import {AppColorPicker} from '../../_shared/components/color/color-picker.component';
-import {AbstractModelEditFormComponent} from '../../_shared/form/abstract-model-edit-form.component';
-import {AppModelEditSaveBtn} from '../../_shared/form/app-model-edit-save-btn.component';
-import {injectIsValid} from '../../../_shared/form';
-import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '../../../_shared/waiterrobot-backend';
-import {allowedCharacterSet} from '../../_shared/regex';
+import {DfxTr} from 'dfx-translate';
 
 @Component({
   template: `

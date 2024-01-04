@@ -105,11 +105,6 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
             </td>
           </ng-container>
 
-          <ng-container ngbColumnDef="events">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_EVENTS' | tr }}</th>
-            <td *ngbCellDef="let waiter" ngb-cell>{{ waiter.events | a_mapName | s_implode: ', ' : 20 : '...' }}</td>
-          </ng-container>
-
           <ng-container ngbColumnDef="actions">
             <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
             <td *ngbCellDef="let waiter" ngb-cell>
@@ -196,7 +191,7 @@ export class EventByIdWaitersComponent extends AbstractModelsWithNameListByIdCom
   ) {
     super(waitersService, eventsService);
 
-    this.columnsToDisplay = ['name', 'activated', 'events', 'actions'];
+    this.columnsToDisplay = ['name', 'activated', 'actions'];
   }
 
   openLoginQRCode(token: string, $event: MouseEvent): void {

@@ -4,14 +4,15 @@ import {ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {debounceTime, filter, map, switchMap, tap} from 'rxjs';
 
+import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
+import {injectIsValid} from '@shared/form';
+import {CreateTableDto, GetTableWithGroupResponse, UpdateTableDto} from '@shared/waiterrobot-backend';
+
 import {HasNumberIDAndName} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {AbstractModelEditFormComponent} from '../../_shared/form/abstract-model-edit-form.component';
-import {AppModelEditSaveBtn} from '../../_shared/form/app-model-edit-save-btn.component';
-import {injectIsValid} from '../../../_shared/form';
-import {CreateTableDto, GetTableWithGroupResponse, UpdateTableDto} from '../../../_shared/waiterrobot-backend';
 import {TablesService} from '../_services/tables.service';
 
 @Component({

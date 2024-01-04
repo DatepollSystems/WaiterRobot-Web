@@ -1,13 +1,14 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
-import {AbstractModelEditComponent} from '../../_shared/form/abstract-model-edit.component';
-import {AppContinuesCreationSwitchComponent} from '../../_shared/form/app-continues-creation-switch.component';
-import {AppDeletedDirectives} from '../../_shared/form/app-entity-deleted.directives';
-import {AppEntityEditModule} from '../../_shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectOnDelete} from '../../_shared/form/edit';
-import {injectOnSubmit} from '../../../_shared/form';
-import {GetTableGroupResponse} from '../../../_shared/waiterrobot-backend';
+import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
+import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
+import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
+import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
+import {injectContinuousCreation, injectOnDelete} from '@home-shared/form/edit';
+import {injectOnSubmit} from '@shared/form';
+import {GetTableGroupResponse} from '@shared/waiterrobot-backend';
+
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TableGroupEditFormComponent} from './table-group-edit-form.component';
