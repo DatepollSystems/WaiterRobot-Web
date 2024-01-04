@@ -81,8 +81,8 @@ dependencies:
     specifier: ^9.0.0
     version: 9.0.0(@angular/common@17.0.4)(@angular/core@17.0.4)
   ngxtension:
-    specifier: 1.4.0
-    version: 1.4.0(@angular/common@17.0.4)(@angular/core@17.0.4)(@use-gesture/vanilla@10.3.0)(rxjs@7.8.1)
+    specifier: 1.7.0
+    version: 1.7.0(@angular/common@17.0.4)(@angular/core@17.0.4)(@use-gesture/vanilla@10.3.0)(rxjs@7.8.1)
   rxjs:
     specifier: 7.8.1
     version: 7.8.1
@@ -7825,8 +7825,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /ngxtension@1.4.0(@angular/common@17.0.4)(@angular/core@17.0.4)(@use-gesture/vanilla@10.3.0)(rxjs@7.8.1):
-    resolution: {integrity: sha512-/9J3nJjfqcyGHIwchx1uB5JTFdj0+W5AUQXZv0tfhsQ4UWrTEwoV+R2Agx0BZJR3BrLsjaBnbLZ5PQxp4woVCA==}
+  /ngxtension@1.7.0(@angular/common@17.0.4)(@angular/core@17.0.4)(@use-gesture/vanilla@10.3.0)(rxjs@7.8.1):
+    resolution: {integrity: sha512-eZ8Tv3jYuHsin1VY089xzaghUttGd0SDrm/Uf9JD10kb6HuOBCWUNZhP2Gor+LMZAp0qaHIvYy1YoSZJvQdeHw==}
     engines: {node: '>=18'}
     peerDependencies:
       '@angular/common': '>=16.0.0'

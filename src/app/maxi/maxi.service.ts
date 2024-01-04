@@ -32,7 +32,7 @@ type MaxiState = {
   currentSession: MaxiSession | null;
   currentSessionOrders: MaxiOrderTry[];
   intervalInMs: number;
-  eventId?: number;
+  eventId: number | undefined;
 };
 
 @Injectable({providedIn: 'root'})
@@ -45,6 +45,7 @@ export class MaxiService {
     intervalInMs: 1000,
     currentSession: null,
     currentSessionOrders: [],
+    eventId: undefined,
   };
 
   form = inject(NonNullableFormBuilder).group({

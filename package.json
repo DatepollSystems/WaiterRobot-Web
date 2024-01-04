@@ -49,7 +49,7 @@
     "html-to-image": "1.11.11",
     "jspdf": "2.5.1",
     "ngx-color": "^9.0.0",
-    "ngxtension": "1.4.0",
+    "ngxtension": "1.7.0",
     "rxjs": "7.8.1",
     "tslib": "2.6.2",
     "zone.js": "0.14.2"
