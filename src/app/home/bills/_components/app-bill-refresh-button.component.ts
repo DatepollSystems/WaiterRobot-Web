@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
@@ -11,6 +11,7 @@ import {BillsService} from '../_services/bills.service';
   template: `
     <button
       type="button"
+      [class.spinner]="loading"
       class="btn btn-outline-secondary d-flex align-items-center gap-2"
       (click)="billsService.triggerRefresh.next(true)"
       [ngbTooltip]="'HOME_ORDER_REFRESH_NOW' | tr"
@@ -31,4 +32,5 @@ export class AppBillRefreshButtonComponent {
   billsService = inject(BillsService);
 
   @Input() countdown?: number;
+  @Input({transform: booleanAttribute}) loading = false;
 }

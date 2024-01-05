@@ -69,12 +69,19 @@ export function injectFilter<
       distinctUntilChanged(),
     )
     .subscribe((controls: {[key: string]: string[]}) => {
+      console.log(controls);
       for (const key in controls) {
         const params = controls[key];
-        if (params.length > 0) {
-          form.controls[key as keyof typeof form.controls].patchValue(
-            synchronizeArrays(form.controls[key as keyof typeof form.controls].value, params),
-          );
+        if (Array.isArray(form.controls[key as keyof typeof form.controls].value)) {
+          if (params.length > 0) {
+            form.controls[key as keyof typeof form.controls].patchValue(
+              synchronizeArrays(form.controls[key as keyof typeof form.controls].value, params),
+            );
+          }
+        } else {
+          if (params[0] !== undefined && n_from(params[0]) !== form.controls[key as keyof typeof form.controls].value) {
+            form.controls[key as keyof typeof form.controls].patchValue(n_from(params[0]));
+          }
         }
       }
     });

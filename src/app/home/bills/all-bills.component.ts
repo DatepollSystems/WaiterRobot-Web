@@ -1,80 +1,162 @@
 import {AsyncPipe, DatePipe} from '@angular/common';
-import {AfterViewInit, ChangeDetectionStrategy, Component, inject, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, computed, inject, ViewChild} from '@angular/core';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {RouterLink} from '@angular/router';
 
-import {debounceTime, map, merge, pipe, startWith, switchMap, tap} from 'rxjs';
+import {debounceTime, map, merge, Observable, pipe, switchMap, tap} from 'rxjs';
 
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+import {Download} from '@home-shared/services/download.service';
+import {injectFilter} from '@home-shared/services/filter';
+import {getSortParam, injectPagination} from '@home-shared/services/pagination';
+import {NgbCollapse, NgbProgressbar, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
+import {injectCustomFormBuilder} from '@shared/form';
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 import {computedFrom} from 'ngxtension/computed-from';
 import {DfxCurrencyCentPipe} from 'src/app/home/_shared/pipes/currency.pipe';
 
-import {loggerOf, n_from} from 'dfts-helper';
+import {loggerOf} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
+import {injectIsMobile} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {injectCustomFormBuilder, injectIsValid} from '../../_shared/form';
-import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
-import {GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
-import {getSortParam, injectPagination} from '../_shared/services/pagination';
+import {ProductGroupsService} from '../products/_services/product-groups.service';
+import {ProductsService} from '../products/_services/products.service';
 import {TableGroupsService} from '../tables/_services/table-groups.service';
 import {TablesService} from '../tables/_services/tables.service';
 import {OrganisationWaitersService} from '../waiters/_services/organisation-waiters.service';
 import {AppBillPaymentStateBadgeComponent} from './_components/app-bill-payment-state-badge.component';
 import {AppBillRefreshButtonComponent} from './_components/app-bill-refresh-button.component';
 import {BillsService} from './_services/bills.service';
+import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
 
 @Component({
   template: `
     <div class="d-flex flex-column gap-3">
       <div class="d-flex align-items-center justify-content-between">
         <h1 class="my-0">{{ 'NAV_BILLS' | tr }}</h1>
-        <app-bill-refresh-btn />
+        <div class="d-inline-flex gap-2 me-2">
+          <app-bill-refresh-btn [loading]="pagination.loading()" />
+          @if (isMobile()) {
+            <button type="button" class="btn btn-outline-info position-relative" (click)="collapse.toggle()">
+              <bi name="filter-circle" />
+              @if (filter.count() !== 0) {
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  {{ filter.count() }}
+                  <span class="visually-hidden">unread messages</span>
+                </span>
+              }
+            </button>
+          }
+        </div>
       </div>
 
-      @if (isValid()) {}
+      <scrollable-toolbar>
+        <div>
+          <button class="btn btn-sm btn-info" (click)="exportCsv()">
+            <bi name="filetype-csv" />
+            {{ 'EXPORT' | tr }}
+          </button>
+        </div>
+      </scrollable-toolbar>
 
-      <form [formGroup]="filterForm" class="d-flex flex-column flex-sm-wrap flex-sm-row gap-2">
-        <div class="form-group col-12 col-sm-5 col-xl-3">
-          <ng-select
-            [items]="tableGroups()"
-            bindValue="id"
-            bindLabel="name"
-            formControlName="tableGroupId"
-            [placeholder]="'HOME_TABLE_GROUP_SELECT' | tr"
+      @if (download$ | async; as download) {
+        @if (download.state !== 'DONE') {
+          <ngb-progressbar
+            type="success"
+            [showValue]="download.state !== 'PENDING'"
+            [striped]="download.state === 'PENDING'"
+            [value]="download.progress"
           />
-        </div>
-        <div class="form-group col-12 col-sm-5 col-xl-3">
-          <ng-select
-            [items]="tables()"
-            bindValue="id"
-            formControlName="tableId"
-            [searchFn]="customTableSearch"
-            [placeholder]="'HOME_TABLE_SELECT' | tr"
-          >
-            <ng-template ng-label-tmp let-item="item" let-clear="clear">
-              <span class="ng-value-icon left" (click)="clear(item)" aria-hidden="true">×</span>
-              <span class="ng-value-label">{{ item?.group?.name ?? '' }} {{ item?.number ?? '' }}</span>
-            </ng-template>
-            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-              <span class="ng-option-label">{{ item.group.name }} - {{ item.number }}</span>
-            </ng-template>
-          </ng-select>
-        </div>
+        }
+      }
 
-        <div class="form-group col-12 col-sm-5 col-xl-3">
-          <ng-select
-            [items]="waiters()"
-            bindValue="id"
-            bindLabel="name"
-            formControlName="waiterId"
-            [placeholder]="'HOME_WAITERS_SELECT' | tr"
-          />
-        </div>
-      </form>
+      <div #collapse="ngbCollapse" [ngbCollapse]="isMobile()">
+        @if (filter.valid()) {}
+
+        <form [formGroup]="filter.form" class="d-flex flex-column flex-sm-wrap flex-sm-row gap-2">
+          <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
+            <ng-select
+              [items]="unpaidReasonsFilter()"
+              bindValue="id"
+              bindLabel="reason"
+              formControlName="unpaidReasonId"
+              [placeholder]="'Zahlungsstatus' | tr"
+            />
+          </div>
+
+          <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
+            <ng-select
+              [items]="tableGroups()"
+              bindValue="id"
+              bindLabel="name"
+              formControlName="tableGroupIds"
+              [placeholder]="'HOME_TABLE_GROUP_SELECT' | tr"
+              [multiple]="true"
+              clearAllText="Clear"
+            />
+          </div>
+          <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
+            <ng-select
+              [items]="tables()"
+              bindValue="id"
+              formControlName="tableIds"
+              [searchFn]="customTableSearch"
+              [placeholder]="'HOME_TABLE_SELECT' | tr"
+              [multiple]="true"
+              clearAllText="Clear"
+            >
+              <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                <span class="ng-value-icon left" (click)="clear(item)" aria-hidden="true">×</span>
+                <span class="ng-value-label">{{ item?.group?.name ?? '' }} - {{ item?.number ?? '' }}</span>
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                <span class="ng-option-label">{{ item.group.name }} - {{ item.number }}</span>
+              </ng-template>
+            </ng-select>
+          </div>
+
+          <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
+            <ng-select
+              [items]="productGroups()"
+              bindValue="id"
+              bindLabel="name"
+              formControlName="productGroupIds"
+              [placeholder]="'HOME_PROD_GROUPS_SELECT' | tr"
+              [multiple]="true"
+              clearAllText="Clear"
+            />
+          </div>
+
+          <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
+            <ng-select
+              [items]="products()"
+              bindValue="id"
+              bindLabel="name"
+              formControlName="productIds"
+              [placeholder]="'HOME_PROD_SELECT' | tr"
+              [multiple]="true"
+              clearAllText="Clear"
+            />
+          </div>
+
+          <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
+            <ng-select
+              [items]="waiters()"
+              bindValue="id"
+              bindLabel="name"
+              formControlName="waiterIds"
+              [placeholder]="'HOME_WAITERS_SELECT' | tr"
+              [multiple]="true"
+              clearAllText="Clear"
+            />
+          </div>
+        </form>
+      </div>
 
       <hr />
 
@@ -178,6 +260,9 @@ import {BillsService} from './_services/bills.service';
     AppProgressBarComponent,
     NgSelectModule,
     ReactiveFormsModule,
+    NgbCollapse,
+    ScrollableToolbarComponent,
+    NgbProgressbar,
   ],
 })
 export class AllBillsComponent implements AfterViewInit {
@@ -185,41 +270,45 @@ export class AllBillsComponent implements AfterViewInit {
 
   private billsService = inject(BillsService);
 
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
+  isMobile = injectIsMobile();
 
   pagination = injectPagination('createdAt', 'desc');
+
+  download$?: Observable<Download>;
 
   @ViewChild(NgbSort, {static: true}) sort!: NgbSort;
   @ViewChild(NgbPaginator, {static: true}) paginator!: NgbPaginator;
   columnsToDisplay = ['createdAt', 'price', 'unpaidReason.name', 'waiter.name', 'table.tableGroup.name', 'actions'];
 
-  filterForm = injectCustomFormBuilder().group({
-    tableId: [undefined as unknown as number],
-    tableGroupId: [undefined as unknown as number],
-    waiterId: [undefined as unknown as number],
-  });
-
-  isValid = injectIsValid(this.filterForm);
+  filter = injectFilter(
+    injectCustomFormBuilder().group({
+      tableIds: [new Array<number>()],
+      tableGroupIds: [new Array<number>()],
+      productIds: [new Array<number>()],
+      productGroupIds: [new Array<number>()],
+      waiterIds: [new Array<number>()],
+      unpaidReasonId: [undefined as unknown as number],
+    }),
+  );
 
   dataSource = computedFrom(
-    [
-      this.pagination.params,
-      this.filterForm.valueChanges.pipe(startWith({tableId: undefined, waiterId: undefined, tableGroupId: undefined})),
-    ],
+    [this.pagination.params, this.filter.valueChanges],
     pipe(
       debounceTime(350),
       tap(() => this.pagination.loading.set(true)),
-      switchMap(([options, {tableId, waiterId, tableGroupId}]) =>
+      switchMap(([options, filter]) =>
         this.billsService.getAllPaginated(
           {
             page: options.page,
             size: options.size,
             sort: getSortParam(options.sort, options.direction),
           },
-          tableGroupId,
-          tableId,
-          waiterId,
+          filter?.tableIds,
+          filter?.tableGroupIds,
+          filter?.productIds,
+          filter?.productGroupIds,
+          filter?.waiterIds,
+          filter?.unpaidReasonId,
         ),
       ),
       tap(() => this.pagination.loading.set(false)),
@@ -231,38 +320,14 @@ export class AllBillsComponent implements AfterViewInit {
 
   tables = toSignal(inject(TablesService).getAll$(), {initialValue: []});
   tableGroups = toSignal(inject(TableGroupsService).getAll$(), {initialValue: []});
+  products = toSignal(inject(ProductsService).getAll$(), {initialValue: []});
+  productGroups = toSignal(inject(ProductGroupsService).getAll$(), {initialValue: []});
   waiters = toSignal(inject(OrganisationWaitersService).getAll$(), {initialValue: []});
+  unpaidReasons = toSignal(inject(UnpaidReasonsService).getAll$(), {initialValue: []});
+  unpaidReasonsFilter = computed(() => [{id: -1, reason: 'Bezahlt'}, ...this.unpaidReasons()]);
 
   constructor() {
-    this.route.queryParamMap
-      .pipe(
-        takeUntilDestroyed(),
-        map((params) => ({
-          tableId: params.get('tableId'),
-          waiterId: params.get('waiterId'),
-          tableGroupId: params.get('tableGroupId'),
-        })),
-      )
-      .subscribe(({waiterId, tableId, tableGroupId}) => {
-        if (tableId && n_from(tableId) !== this.filterForm.controls.tableId.value) {
-          this.filterForm.controls.tableId.patchValue(n_from(tableId));
-        }
-        if (waiterId && n_from(waiterId) !== this.filterForm.controls.waiterId.value) {
-          this.filterForm.controls.waiterId.patchValue(n_from(waiterId));
-        }
-        if (tableGroupId && n_from(tableGroupId) !== this.filterForm.controls.tableGroupId.value) {
-          this.filterForm.controls.tableGroupId.patchValue(n_from(tableGroupId));
-        }
-      });
-
-    this.filterForm.valueChanges.pipe(takeUntilDestroyed()).subscribe((queryParams) => {
-      this.lumber.info('filterFormValueChanges', 'Set query params', queryParams);
-      void this.router.navigate([], {
-        relativeTo: this.route,
-        queryParamsHandling: 'merge',
-        queryParams,
-      });
-    });
+    this.billsService.triggerRefresh.pipe(takeUntilDestroyed()).subscribe(() => this.pagination.loading.set(true));
   }
 
   ngAfterViewInit(): void {
@@ -285,5 +350,9 @@ export class AllBillsComponent implements AfterViewInit {
       item.number.toString().toLowerCase().trim().indexOf(term) > -1 ||
       `${item.group.name} - ${item.number}`.toLowerCase().trim().indexOf(term) > -1
     );
+  }
+
+  exportCsv(): void {
+    this.download$ = this.billsService.download$();
   }
 }

@@ -1,7 +1,7 @@
 import {SelectionModel} from '@angular/cdk/collections';
 import {AsyncPipe, DatePipe} from '@angular/common';
 import {AfterViewInit, ChangeDetectionStrategy, Component, inject, ViewChild} from '@angular/core';
-import {toSignal} from '@angular/core/rxjs-interop';
+import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
@@ -122,6 +122,10 @@ export class AllOrdersComponent implements AfterViewInit {
   products = toSignal(inject(ProductsService).getAll$(), {initialValue: []});
   productGroups = toSignal(inject(ProductGroupsService).getAll$(), {initialValue: []});
   waiters = toSignal(inject(OrganisationWaitersService).getAll$(), {initialValue: []});
+
+  constructor() {
+    this.ordersService.triggerRefresh.pipe(takeUntilDestroyed()).subscribe(() => this.pagination.loading.set(true));
+  }
 
   ngAfterViewInit(): void {
     merge(this.paginator.page, this.sort.sortChange).subscribe(() => {

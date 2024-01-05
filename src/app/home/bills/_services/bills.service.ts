@@ -1,12 +1,16 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 
-import {BehaviorSubject, Observable, switchMap} from 'rxjs';
+import {BehaviorSubject, Observable, switchMap, take} from 'rxjs';
 
+import {Download, DownloadService} from '@home-shared/services/download.service';
+import {getPaginationParams, PageableDto} from '@home-shared/services/pagination';
+import {p_add} from '@shared/params';
+import {GetBillResponse, PaginatedResponseGetBillMinResponse} from '@shared/waiterrobot-backend';
+
+import {n_generate_int} from 'dfts-helper';
 import {HasGetSingle} from 'dfx-helper';
 
-import {GetBillResponse, PaginatedResponseGetBillMinResponse} from '../../../_shared/waiterrobot-backend';
-import {getPaginationParams, PageableDto} from '../../_shared/services/pagination';
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
@@ -14,6 +18,7 @@ export class BillsService implements HasGetSingle<GetBillResponse> {
   url = '/config/billing';
 
   private httpClient = inject(HttpClient);
+  private downloadService = inject(DownloadService);
   private selectedEventService = inject(SelectedEventService);
 
   public triggerRefresh = new BehaviorSubject<boolean>(true);
@@ -24,30 +29,37 @@ export class BillsService implements HasGetSingle<GetBillResponse> {
 
   getAllPaginated(
     options: PageableDto,
-    tableGroupId?: number,
-    tableId?: number,
-    waiterId?: number,
+    tableIds?: number[],
+    tableGroupIds?: number[],
+    productIds?: number[],
+    productGroupIds?: number[],
+    waiterIds?: number[],
     unpaidReasonId?: number,
   ): Observable<PaginatedResponseGetBillMinResponse> {
     let params = getPaginationParams(options);
-    if (tableGroupId) {
-      params = params.append('tableGroupId', tableGroupId);
-    }
-    if (tableId) {
-      params = params.append('tableId', tableId);
-    }
-    if (waiterId) {
-      params = params.append('waiterId', waiterId);
-    }
-    if (unpaidReasonId) {
-      params = params.append('unpaidReasonId', unpaidReasonId);
-    }
+
+    params = p_add(params, 'tableIds', tableIds);
+    params = p_add(params, 'tableGroupIds', tableGroupIds);
+    params = p_add(params, 'productIds', productIds);
+    params = p_add(params, 'productGroupIds', productGroupIds);
+    params = p_add(params, 'waiterIds', waiterIds);
+    params = p_add(params, 'unpaidReasonId', unpaidReasonId);
+
     return this.triggerRefresh.pipe(
       switchMap(() => this.selectedEventService.selectedIdNotNull$),
       switchMap((eventId) =>
         this.httpClient.get<PaginatedResponseGetBillMinResponse>(`${this.url}`, {
           params: params.append('eventId', eventId),
         }),
+      ),
+    );
+  }
+
+  download$(): Observable<Download> {
+    return this.selectedEventService.selectedIdNotNull$.pipe(
+      take(1),
+      switchMap((eventId) =>
+        this.downloadService.download$(`${this.url}/export/${eventId}`, `bills_export_${n_generate_int(100, 9999)}.csv`),
       ),
     );
   }

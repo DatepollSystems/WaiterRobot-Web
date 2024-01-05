@@ -3,7 +3,7 @@
     <h1 class="my-0">{{ 'NAV_ORDERS' | tr }}</h1>
 
     <div class="d-inline-flex gap-2 me-2">
-      <app-order-refresh-btn />
+      <app-order-refresh-btn [loading]="pagination.loading()" />
       @if (isMobile()) {
       <button type="button" class="btn btn-outline-info position-relative" (click)="collapse.toggle()">
         <bi name="filter-circle" />

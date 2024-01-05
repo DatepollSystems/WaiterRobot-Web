@@ -6,6 +6,7 @@ import {BehaviorSubject, map, Observable, switchMap, take, tap, timer} from 'rxj
 import {Download, DownloadService} from '@home-shared/services/download.service';
 import {getPaginationParams, PageableDto} from '@home-shared/services/pagination';
 import {NotificationService} from '@shared/notifications/notification.service';
+import {p_add} from '@shared/params';
 import {GetOrderResponse, PaginatedResponseGetOrderMinResponse} from '@shared/waiterrobot-backend';
 
 import {n_generate_int} from 'dfts-helper';
@@ -75,26 +76,11 @@ export class OrdersService implements HasGetSingle<GetOrderResponse> {
     waiterIds?: number[],
   ): Observable<PaginatedResponseGetOrderMinResponse> {
     let params = getPaginationParams(options);
-    if (tableGroupIds) {
-      for (const it of tableGroupIds) {
-        params = params.append('tableGroupIds', it);
-      }
-    }
-    if (tableIds) {
-      for (const it of tableIds) {
-        params = params.append('tableIds', it);
-      }
-    }
-    if (waiterIds) {
-      for (const it of waiterIds) {
-        params = params.append('waiterIds', it);
-      }
-    }
-    if (productIds) {
-      for (const it of productIds) {
-        params = params.append('productIds', it);
-      }
-    }
+    params = p_add(params, 'tableIds', tableIds);
+    params = p_add(params, 'tableGroupIds', tableGroupIds);
+    params = p_add(params, 'productIds', productIds);
+    params = p_add(params, 'productGroupIds', productGroupIds);
+    params = p_add(params, 'waiterIds', waiterIds);
     return this.triggerRefresh.pipe(
       switchMap(() => this.selectedEventService.selectedIdNotNull$),
       switchMap((eventId) =>

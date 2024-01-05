@@ -140,7 +140,7 @@
 
         <div>
           <ul class="navbar-nav" [class.mobile-background-1]="isMobile()">
-            @if (myUserService.user()?.isAdmin) {
+            @defer (when myUserService.user()?.isAdmin) { @if (myUserService.user()?.isAdmin) {
             <li class="nav-item">
               <div ngbDropdown display="dynamic">
                 <a class="nav-link" id="adminDropDown" ngbDropdownToggle> {{ 'NAV_INSTANCE_ADMINISTRATION' | tr }}</a>
@@ -164,7 +164,7 @@
                 </div>
               </div>
             </li>
-            }
+            } }
 
             <li class="nav-item">
               <div ngbDropdown display="dynamic" autoClose="outside">
