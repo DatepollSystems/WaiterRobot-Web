@@ -155,10 +155,17 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
               clearAllText="Clear"
             />
           </div>
+
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-sm btn-secondary" (click)="filter.form.reset()" [disabled]="filter.count() === 0">
+              <bi name="x-circle-fill" />
+              Alle löschen
+            </button>
+          </div>
         </form>
       </div>
 
-      <hr />
+      <hr class="my-1" />
 
       <div class="table-responsive">
         <table
@@ -196,7 +203,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
           </ng-container>
 
           <ng-container ngbColumnDef="table.tableGroup.name">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_TABLE' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_ORDER_TABLE' | tr }}</th>
             <td *ngbCellDef="let bill" ngb-cell>
               <a (click)="$event.stopPropagation()" routerLink="../../tables/groups/tables/{{ bill.table.group.id }}">{{
                 bill.table.group.name

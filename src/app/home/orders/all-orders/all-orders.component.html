@@ -76,7 +76,7 @@
         >
           <ng-template ng-label-tmp let-item="item" let-clear="clear">
             <span class="ng-value-icon left" (click)="clear(item)" aria-hidden="true">×</span>
-            <span class="ng-value-label">{{ item?.group?.name ?? '' }} {{ item?.number ?? '' }}</span>
+            <span class="ng-value-label">{{ item?.group?.name ?? '' }} - {{ item?.number ?? '' }}</span>
           </ng-template>
           <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
             <span class="ng-option-label">{{ item.group.name }} - {{ item.number }}</span>
@@ -119,10 +119,17 @@
           clearAllText="Clear"
         />
       </div>
+
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-sm btn-secondary" (click)="filter.form.reset()" [disabled]="filter.count() === 0">
+          <bi name="x-circle-fill" />
+          Alle löschen
+        </button>
+      </div>
     </form>
   </div>
 
-  <hr />
+  <hr class="my-1" />
 
   <div class="table-responsive">
     <table
@@ -154,7 +161,7 @@
       </ng-container>
 
       <ng-container ngbColumnDef="table.tableGroup.name">
-        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_TABLE' | tr }}</th>
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_ORDER_TABLE' | tr }}</th>
         <td *ngbCellDef="let order" ngb-cell>
           <a (click)="$event.stopPropagation()" routerLink="../../tables/groups/tables/{{ order.table.group.id }}"
             >{{ order.table.group.name }}</a
