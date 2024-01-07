@@ -77,8 +77,9 @@ import {TableEditFormComponent} from './table-edit-form.component';
         <hr />
 
         @if ((tableGroups()?.length ?? 1) < 1) {
-          <div class="alert alert-warning">
-            <a routerLink="../groups/create">{{ 'HOME_TABLE_ADD_GROUP_FIRST' | tr }}</a>
+          <div class="alert alert-warning d-flex gap-2">
+            <bi name="exclamation-triangle-fill" />
+            <a class="link-warning" routerLink="../groups/create">{{ 'HOME_TABLE_ADD_GROUP_FIRST' | tr }}</a>
           </div>
         }
 

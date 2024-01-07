@@ -90,6 +90,6 @@ export class TablesComponent {
     () =>
       this.tableGroups()
         ?.map((it) => it.tables.length)
-        ?.reduce((previous, current) => (current += previous)),
+        ?.reduce((current, previous) => current + previous, 0),
   );
 }

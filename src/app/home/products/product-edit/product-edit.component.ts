@@ -65,8 +65,9 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
 
         @if ((productGroups()?.length ?? 1) < 1) {
           @defer (on timer(200)) {
-            <div class="alert alert-warning">
-              <a routerLink="../groups/create">{{ 'HOME_PROD_ADD_GROUP_FIRST' | tr }}</a>
+            <div class="alert alert-warning d-flex gap-2">
+              <bi name="exclamation-triangle-fill" />
+              <a class="link-warning" routerLink="../groups/create">{{ 'HOME_PROD_ADD_GROUP_FIRST' | tr }}</a>
             </div>
           }
         }
