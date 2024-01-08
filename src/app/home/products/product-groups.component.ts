@@ -125,15 +125,33 @@ import {ProductGroupsService} from './_services/product-groups.service';
             <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
             <td *ngbCellDef="let productGroup" ngb-cell>
               <a
-                class="btn btn-sm me-2 btn-outline-success text-body-emphasis"
+                class="btn btn-sm mx-1 btn-outline-success text-body-emphasis"
                 routerLink="../{{ productGroup.id }}"
                 ngbTooltip="{{ 'EDIT' | tr }}"
               >
                 <bi name="pencil-square" />
               </a>
+              <a
+                class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
+                routerLink="../../../orders"
+                [queryParams]="{productGroupIds: productGroup.id}"
+                ngbTooltip="{{ 'NAV_ORDERS' | tr }}"
+                (click)="$event.stopPropagation()"
+              >
+                <bi name="stack" />
+              </a>
+              <a
+                class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
+                routerLink="../../../bills"
+                [queryParams]="{productGroupIds: productGroup.id}"
+                ngbTooltip="{{ 'NAV_BILLS' | tr }}"
+                (click)="$event.stopPropagation()"
+              >
+                <bi name="cash-coin" />
+              </a>
               <button
                 type="button"
-                class="btn btn-sm me-2 btn-outline-danger text-body-emphasis"
+                class="btn btn-sm mx-1 btn-outline-danger text-body-emphasis"
                 ngbTooltip="{{ 'DELETE' | tr }}"
                 (click)="onDelete(productGroup.id, $event)"
               >

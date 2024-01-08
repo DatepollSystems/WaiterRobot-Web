@@ -8,12 +8,12 @@ import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {loggerOf, n_from, n_isNumeric} from 'dfts-helper';
 
+import {injectOnSubmit} from '../../../_shared/form';
+import {GetWaiterResponse} from '../../../_shared/waiterrobot-backend';
 import {AbstractModelEditComponent} from '../../_shared/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../_shared/form/app-continues-creation-switch.component';
 import {AppEntityEditModule} from '../../_shared/form/app-entity-edit.module';
 import {injectContinuousCreation, injectOnDelete, injectTabControls} from '../../_shared/form/edit';
-import {injectOnSubmit} from '../../../_shared/form';
-import {GetWaiterResponse} from '../../../_shared/waiterrobot-backend';
 import {EventsService} from '../../events/_services/events.service';
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
@@ -46,14 +46,18 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
               <a
                 class="btn btn-sm btn-outline-secondary text-body-emphasis"
                 routerLink="../../orders"
-                [queryParams]="{waiterId: entity.id}"
+                [queryParams]="{waiterIds: entity.id}"
               >
                 <bi name="stack" />
                 {{ 'NAV_ORDERS' | tr }}
               </a>
             </div>
             <div>
-              <a class="btn btn-sm btn-outline-secondary text-body-emphasis" routerLink="../../bills" [queryParams]="{waiterId: entity.id}">
+              <a
+                class="btn btn-sm btn-outline-secondary text-body-emphasis"
+                routerLink="../../bills"
+                [queryParams]="{waiterIds: entity.id}"
+              >
                 <bi name="cash-coin" />
                 {{ 'NAV_BILLS' | tr }}
               </a>

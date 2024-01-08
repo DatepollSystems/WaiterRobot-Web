@@ -119,7 +119,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
               <a
                 class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
                 routerLink="../../../orders"
-                [queryParams]="{waiterId: waiter.id}"
+                [queryParams]="{waiterIds: waiter.id}"
                 ngbTooltip="{{ 'NAV_ORDERS' | tr }}"
                 (click)="$event.stopPropagation()"
               >
@@ -128,7 +128,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
               <a
                 class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
                 routerLink="../../../bills"
-                [queryParams]="{waiterId: waiter.id}"
+                [queryParams]="{waiterIds: waiter.id}"
                 ngbTooltip="{{ 'NAV_BILLS' | tr }}"
                 (click)="$event.stopPropagation()"
               >

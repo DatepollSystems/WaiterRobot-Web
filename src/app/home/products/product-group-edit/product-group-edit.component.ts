@@ -2,13 +2,14 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 
-import {AbstractModelEditComponent} from '../../_shared/form/abstract-model-edit.component';
-import {AppContinuesCreationSwitchComponent} from '../../_shared/form/app-continues-creation-switch.component';
-import {AppDeletedDirectives} from '../../_shared/form/app-entity-deleted.directives';
-import {AppEntityEditModule} from '../../_shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectOnDelete} from '../../_shared/form/edit';
-import {injectOnSubmit} from '../../../_shared/form';
-import {GetProductGroupResponse} from '../../../_shared/waiterrobot-backend';
+import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
+import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
+import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
+import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
+import {injectContinuousCreation, injectOnDelete} from '@home-shared/form/edit';
+import {injectOnSubmit} from '@shared/form';
+import {GetProductGroupResponse} from '@shared/waiterrobot-backend';
+
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {PrintersService} from '../../printers/_services/printers.service';
 import {ProductGroupsService} from '../_services/product-groups.service';
@@ -38,6 +39,27 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
                 <bi name="columns-gap" />
                 {{ 'HOME_PROD_GROUP_SHOW_TABLES' | tr }}</a
               >
+            </div>
+
+            <div>
+              <a
+                class="btn btn-sm btn-outline-secondary text-body-emphasis"
+                routerLink="../../../orders"
+                [queryParams]="{productGroupIds: entity.id}"
+              >
+                <bi name="stack" />
+                {{ 'NAV_ORDERS' | tr }}
+              </a>
+            </div>
+            <div>
+              <a
+                class="btn btn-sm btn-outline-secondary text-body-emphasis"
+                routerLink="../../../bills"
+                [queryParams]="{productGroupIds: entity.id}"
+              >
+                <bi name="cash-coin" />
+                {{ 'NAV_BILLS' | tr }}
+              </a>
             </div>
           </ng-container>
 

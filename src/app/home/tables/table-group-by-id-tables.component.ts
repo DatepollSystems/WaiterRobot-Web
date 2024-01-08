@@ -155,7 +155,7 @@ import {PrintTableQrCodesModal} from './print-table-qr-codes.modal';
                 <a
                   class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
                   routerLink="../../../../orders"
-                  [queryParams]="{tableId: table.id}"
+                  [queryParams]="{tableIds: table.id}"
                   ngbTooltip="{{ 'NAV_ORDERS' | tr }}"
                   (click)="$event.stopPropagation()"
                 >
@@ -164,7 +164,7 @@ import {PrintTableQrCodesModal} from './print-table-qr-codes.modal';
                 <a
                   class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
                   routerLink="../../../../bills"
-                  [queryParams]="{tableId: table.id}"
+                  [queryParams]="{tableIds: table.id}"
                   ngbTooltip="{{ 'NAV_BILLS' | tr }}"
                   (click)="$event.stopPropagation()"
                 >

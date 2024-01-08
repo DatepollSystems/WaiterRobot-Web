@@ -168,21 +168,12 @@ import {ProductsService} from './_services/products.service';
                 <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
                 <td *ngbCellDef="let product" ngb-cell>
                   <a
-                    class="btn btn-sm me-2 btn-outline-success text-body-emphasis"
+                    class="btn btn-sm mx-1 btn-outline-success text-body-emphasis"
                     routerLink="../../../{{ product.id }}"
                     ngbTooltip="{{ 'EDIT' | tr }}"
                   >
                     <bi name="pencil-square" />
                   </a>
-                  <button
-                    type="button"
-                    class="btn btn-sm me-2 btn-outline-danger text-body-emphasis"
-                    ngbTooltip="{{ 'DELETE' | tr }}"
-                    (click)="onDelete(product.id, $event)"
-                  >
-                    <bi name="trash" />
-                  </button>
-
                   <a
                     class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
                     routerLink="../../../../orders"
@@ -192,6 +183,23 @@ import {ProductsService} from './_services/products.service';
                   >
                     <bi name="stack" />
                   </a>
+                  <a
+                    class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
+                    routerLink="../../../../bills"
+                    [queryParams]="{productIds: product.id}"
+                    ngbTooltip="{{ 'NAV_BILLS' | tr }}"
+                    (click)="$event.stopPropagation()"
+                  >
+                    <bi name="cash-coin" />
+                  </a>
+                  <button
+                    type="button"
+                    class="btn btn-sm mx-1 btn-outline-danger text-body-emphasis"
+                    ngbTooltip="{{ 'DELETE' | tr }}"
+                    (click)="onDelete(product.id, $event)"
+                  >
+                    <bi name="trash" />
+                  </button>
                 </td>
               </ng-container>
 

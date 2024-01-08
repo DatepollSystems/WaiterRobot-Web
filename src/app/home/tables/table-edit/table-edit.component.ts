@@ -56,13 +56,17 @@ import {TableEditFormComponent} from './table-edit-form.component';
             </div>
 
             <div>
-              <a class="btn btn-sm btn-outline-secondary text-body-emphasis" routerLink="../../orders" [queryParams]="{tableId: entity.id}">
+              <a
+                class="btn btn-sm btn-outline-secondary text-body-emphasis"
+                routerLink="../../orders"
+                [queryParams]="{tableIds: entity.id}"
+              >
                 <bi name="stack" />
                 {{ 'NAV_ORDERS' | tr }}
               </a>
             </div>
             <div>
-              <a class="btn btn-sm btn-outline-secondary text-body-emphasis" routerLink="../../bills" [queryParams]="{tableId: entity.id}">
+              <a class="btn btn-sm btn-outline-secondary text-body-emphasis" routerLink="../../bills" [queryParams]="{tableIds: entity.id}">
                 <bi name="cash-coin" />
                 {{ 'NAV_BILLS' | tr }}
               </a>

@@ -133,7 +133,7 @@ import {TableGroupsService} from './_services/table-groups.service';
                 <a
                   class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
                   routerLink="../../../orders"
-                  [queryParams]="{tableGroupId: tableGroup.id}"
+                  [queryParams]="{tableGroupIds: tableGroup.id}"
                   ngbTooltip="{{ 'NAV_ORDERS' | tr }}"
                   (click)="$event.stopPropagation()"
                 >
@@ -142,7 +142,7 @@ import {TableGroupsService} from './_services/table-groups.service';
                 <a
                   class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
                   routerLink="../../../bills"
-                  [queryParams]="{tableGroupId: tableGroup.id}"
+                  [queryParams]="{tableGroupIds: tableGroup.id}"
                   ngbTooltip="{{ 'NAV_BILLS' | tr }}"
                   (click)="$event.stopPropagation()"
                 >

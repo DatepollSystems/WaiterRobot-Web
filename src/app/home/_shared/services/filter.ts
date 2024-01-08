@@ -11,7 +11,7 @@ import {injectIsValid} from '@shared/form';
 import {loggerOf, n_from} from 'dfts-helper';
 import {computedFrom} from 'ngxtension/computed-from';
 
-import {distinctUntilChanged, map, Observable, startWith} from 'rxjs';
+import {distinctUntilChanged, map, merge, Observable, shareReplay} from 'rxjs';
 
 export function injectFilter<
   TControl extends {
@@ -31,10 +31,14 @@ export function injectFilter<
 
   const keys = Object.keys(form.controls) as (keyof typeof form.controls)[];
 
-  const valueChanges = form.valueChanges.pipe(
-    // @ts-expect-error bullshit
-    startWith(undefined),
-  ) as Observable<Partial<{[K in keyof TControl]: ɵValue<TControl[K]>}> | undefined>;
+  const queryParamChanges = route.queryParamMap.pipe(
+    takeUntilDestroyed(),
+    map((params) => keys.reduce((acc, curr) => ({...acc, [curr]: params.getAll(curr as string)}), {})),
+    distinctUntilChanged(),
+    shareReplay(1),
+  );
+
+  const valueChanges = merge(queryParamChanges, form.valueChanges) as Observable<Partial<{[K in keyof TControl]: ɵValue<TControl[K]>}>>;
 
   const valid = injectIsValid(form);
 
@@ -62,29 +66,23 @@ export function injectFilter<
   });
 
   // Subscribe to route to set the form filter on change
-  route.queryParamMap
-    .pipe(
-      takeUntilDestroyed(),
-      map((params) => keys.reduce((acc, curr) => ({...acc, [curr]: params.getAll(curr as string)}), {})),
-      distinctUntilChanged(),
-    )
-    .subscribe((controls: {[key: string]: string[]}) => {
-      console.log(controls);
-      for (const key in controls) {
-        const params = controls[key];
-        if (Array.isArray(form.controls[key as keyof typeof form.controls].value)) {
-          if (params.length > 0) {
-            form.controls[key as keyof typeof form.controls].patchValue(
-              synchronizeArrays(form.controls[key as keyof typeof form.controls].value, params),
-            );
-          }
-        } else {
-          if (params[0] !== undefined && n_from(params[0]) !== form.controls[key as keyof typeof form.controls].value) {
-            form.controls[key as keyof typeof form.controls].patchValue(n_from(params[0]));
-          }
+  queryParamChanges.subscribe((controls: {[key: string]: string[]}) => {
+    for (const key in controls) {
+      const params = controls[key];
+      if (Array.isArray(form.controls[key as keyof typeof form.controls].value)) {
+        if (params.length > 0) {
+          form.controls[key as keyof typeof form.controls].patchValue(
+            synchronizeArrays(form.controls[key as keyof typeof form.controls].value, params),
+            {emitEvent: false, onlySelf: true},
+          );
+        }
+      } else {
+        if (params[0] !== undefined && n_from(params[0]) !== form.controls[key as keyof typeof form.controls].value) {
+          form.controls[key as keyof typeof form.controls].patchValue(n_from(params[0]), {emitEvent: false, onlySelf: true});
         }
       }
-    });
+    }
+  });
 
   return {
     form,

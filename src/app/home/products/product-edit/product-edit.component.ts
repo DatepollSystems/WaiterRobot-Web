@@ -55,6 +55,16 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
                 {{ 'NAV_ORDERS' | tr }}
               </a>
             </div>
+            <div>
+              <a
+                class="btn btn-sm btn-outline-secondary text-body-emphasis"
+                routerLink="../../bills"
+                [queryParams]="{productIds: entity.id}"
+              >
+                <bi name="cash-coin" />
+                {{ 'NAV_BILLS' | tr }}
+              </a>
+            </div>
           </ng-container>
           <div class="d-flex align-items-center" *isCreating="entity">
             <app-continues-creation-switch (continuesCreationChange)="continuousCreation.set($event)" />
