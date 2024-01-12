@@ -2,12 +2,12 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 
+import {injectOnSubmit} from '../../../_shared/form';
+import {GetEventOrLocationResponse} from '../../../_shared/waiterrobot-backend';
 import {AppSelectableBtnComponent} from '../../_shared/components/button/app-selectable-btn.component';
 import {AbstractModelEditComponent} from '../../_shared/form/abstract-model-edit.component';
 import {AppEntityEditModule} from '../../_shared/form/app-entity-edit.module';
 import {injectContinuousCreation, injectOnDelete} from '../../_shared/form/edit';
-import {injectOnSubmit} from '../../../_shared/form';
-import {GetEventOrLocationResponse} from '../../../_shared/waiterrobot-backend';
 import {MyUserService} from '../../_shared/services/user/my-user.service';
 import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
 import {EventsService} from '../_services/events.service';
@@ -56,7 +56,7 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
         />
       </div>
     } @else {
-      <app-spinner-row />
+      <app-edit-placeholder />
     }
   `,
   selector: 'app-event-edit',

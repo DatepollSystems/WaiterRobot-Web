@@ -1,15 +1,15 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {toSignal} from '@angular/core/rxjs-interop';
+import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {injectIsValid} from '@shared/form';
 
 import {n_from, s_from} from 'dfts-helper';
 import {AComponent} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {injectIsValid} from '../../../_shared/form';
-import {PrintersService} from '../_services/printers.service';
+import {PrintersService} from './_services/printers.service';
 
 @Component({
   template: `
@@ -177,7 +177,7 @@ import {PrintersService} from '../_services/printers.service';
   imports: [DfxTr, ReactiveFormsModule],
   standalone: true,
 })
-export class PrinterBatchUpdateModalComponent extends AComponent {
+export class PrintersBatchUpdateModal extends AComponent {
   fb = inject(FormBuilder);
   printersService = inject(PrintersService);
 

@@ -1,38 +1,209 @@
 import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {RouterLink, RouterLinkActive} from '@angular/router';
+import {ReactiveFormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
+
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AppListNavItemsComponent} from '../_shared/layouts/app-list-nav-items.component';
-import {EntitiesLayout} from '../_shared/layouts/entities.layout';
-import {getEventsOrderedBySelected} from '../events/_services/getEventsOrderedBySelected';
+import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
+import {GetWaiterResponse} from '../../_shared/waiterrobot-backend';
+import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
+import {AbstractModelsWithNameListWithDeleteComponent} from '../_shared/list/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
+import {AppActivatedPipe} from '../_shared/pipes/app-activated.pipe';
+import {MobileLinkService} from '../_shared/services/mobile-link.service';
+import {QrCodeService} from '../_shared/services/qr-code.service';
 import {SelectedOrganisationService} from '../organisations/_services/selected-organisation.service';
+import {OrganisationWaitersService} from './_services/organisation-waiters.service';
+import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
 
 @Component({
   template: `
-    <entities-layout>
-      <div class="d-flex flex-column gap-3" nav>
-        <div class="list-group">
-          @if (selectedOrganisation(); as selectedOrganisation) {
-            <a class="list-group-item list-group-item-action" routerLink="organisation" routerLinkActive="active">
-              <bi name="people" />
-              {{ selectedOrganisation.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</a
+    <div class="d-flex flex-column gap-3">
+      <h1 class="my-0">{{ selectedOrganisation()?.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</h1>
+
+      <scrollable-toolbar>
+        <div>
+          <a routerLink="../create" class="btn btn-sm btn-success">
+            <bi name="plus-circle" />
+            {{ 'ADD_2' | tr }}</a
+          >
+        </div>
+
+        <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_WAITERS_SELECT_INFO' | tr) : undefined }}">
+          <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+            <bi name="trash" />
+            {{ 'DELETE' | tr }}
+          </button>
+        </div>
+
+        <div>
+          <a routerLink="duplicates" class="btn btn-sm btn-secondary">
+            <bi name="person-bounding-box" />
+            {{ 'HOME_WAITERS_DUPLICATES' | tr }}</a
+          >
+        </div>
+      </scrollable-toolbar>
+
+      <form>
+        <div class="input-group">
+          <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+          @if ((filter.value?.length ?? 0) > 0) {
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              ngbTooltip="{{ 'CLEAR' | tr }}"
+              placement="bottom"
+              (click)="filter.reset()"
             >
+              <bi name="x-circle-fill" />
+            </button>
           }
         </div>
-        <app-list-nav-items path="event/" [entities]="events$ | async" titleTr="NAV_EVENTS" selectTr="HOME_EVENTS_SELECT" />
+      </form>
+
+      <div class="table-responsive">
+        <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
+          <ng-container ngbColumnDef="select">
+            <th *ngbHeaderCellDef ngb-header-cell>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="checked"
+                  (change)="$event ? toggleAllRows() : null"
+                  [checked]="selection.hasValue() && isAllSelected()"
+                />
+              </div>
+            </th>
+            <td *ngbCellDef="let selectable" ngb-cell (click)="$event.stopPropagation()">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="checked"
+                  (change)="$event ? selection.toggle(selectable) : null"
+                  [checked]="selection.isSelected(selectable)"
+                />
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container ngbColumnDef="name">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+            <td *ngbCellDef="let waiter" ngb-cell>{{ waiter.name }}</td>
+          </ng-container>
+
+          <ng-container ngbColumnDef="activated">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ACTIVATED' | tr }}</th>
+            <td *ngbCellDef="let waiter" ngb-cell>
+              {{ waiter.activated | activated }}
+            </td>
+          </ng-container>
+
+          <ng-container ngbColumnDef="events">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_EVENTS' | tr }}</th>
+            <td *ngbCellDef="let waiter" ngb-cell>{{ waiter.events | a_mapName | s_implode: ', ' : 30 : '...' }}</td>
+          </ng-container>
+
+          <ng-container ngbColumnDef="actions">
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+            <td *ngbCellDef="let waiter" ngb-cell>
+              <button
+                type="button"
+                class="btn btn-sm mx-1 btn-outline-info text-body-emphasis"
+                ngbTooltip="{{ 'HOME_WAITERS_EDIT_QR_CODE' | tr }}"
+                (click)="openLoginQRCode(waiter.signInToken, $event)"
+              >
+                <bi name="qr-code" />
+              </button>
+              <a
+                class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
+                routerLink="../../orders"
+                [queryParams]="{waiterIds: waiter.id}"
+                ngbTooltip="{{ 'NAV_ORDERS' | tr }}"
+                (click)="$event.stopPropagation()"
+              >
+                <bi name="stack" />
+              </a>
+              <a
+                class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
+                routerLink="../../bills"
+                [queryParams]="{waiterIds: waiter.id}"
+                ngbTooltip="{{ 'NAV_BILLS' | tr }}"
+                (click)="$event.stopPropagation()"
+              >
+                <bi name="cash-coin" />
+              </a>
+              <a
+                class="btn btn-sm mx-1 btn-outline-success text-body-emphasis"
+                routerLink="../{{ waiter.id }}"
+                ngbTooltip="{{ 'EDIT' | tr }}"
+              >
+                <bi name="pencil-square" />
+              </a>
+              <button
+                type="button"
+                class="btn btn-sm mx-1 btn-outline-danger text-body-emphasis"
+                ngbTooltip="{{ 'DELETE' | tr }}"
+                (click)="onDelete(waiter.id, $event)"
+              >
+                <bi name="trash" />
+              </button>
+            </td>
+          </ng-container>
+
+          <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+          <tr *ngbRowDef="let waiter; columns: columnsToDisplay" ngb-row routerLink="../{{ waiter.id }}"></tr>
+        </table>
       </div>
-    </entities-layout>
+
+      <app-progress-bar [hidden]="!isLoading()" />
+    </div>
   `,
-  selector: 'app-waiters',
+  selector: 'app-organisation-waiters',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AsyncPipe, RouterLink, RouterLinkActive, DfxTr, BiComponent, EntitiesLayout, AppListNavItemsComponent],
+  imports: [
+    ReactiveFormsModule,
+    AsyncPipe,
+    RouterLink,
+    DfxTr,
+    NgbTooltip,
+    DfxTableModule,
+    DfxSortModule,
+    DfxArrayMapNamePipe,
+    DfxImplodePipe,
+    ScrollableToolbarComponent,
+    BiComponent,
+    BtnWaiterSignInQrCodeComponent,
+    AppActivatedPipe,
+    AppProgressBarComponent,
+  ],
 })
-export class WaitersComponent {
+export class WaitersComponent extends AbstractModelsWithNameListWithDeleteComponent<GetWaiterResponse> {
   selectedOrganisation = inject(SelectedOrganisationService).selected;
 
-  events$ = getEventsOrderedBySelected();
+  constructor(
+    entitiesService: OrganisationWaitersService,
+    private qrCodeService: QrCodeService,
+    private mobileLink: MobileLinkService,
+  ) {
+    super(entitiesService);
+
+    this.columnsToDisplay = ['name', 'activated', 'events', 'actions'];
+  }
+
+  openLoginQRCode(token: string, $event: MouseEvent): void {
+    $event.stopPropagation();
+    this.qrCodeService.openQRCodePage({
+      data: this.mobileLink.createWaiterSignInLink(token),
+      text: 'HOME_WAITERS_EDIT_QR_CODE',
+      info: 'HOME_WAITERS_EDIT_QR_CODE_DESCRIPTION',
+    });
+  }
 }

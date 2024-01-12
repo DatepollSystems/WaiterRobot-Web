@@ -3,7 +3,7 @@ import {Routes} from '@angular/router';
 export const ROUTES: Routes = [
   {
     path: '',
-    loadComponent: () => import('./user-settings.component').then((c) => c.UserSettingsComponent),
+    loadComponent: () => import('./user-settings.layout').then((c) => c.UserSettingsLayout),
     children: [
       {
         path: 'settings',

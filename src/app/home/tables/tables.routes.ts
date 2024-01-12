@@ -3,11 +3,11 @@ import {Routes} from '@angular/router';
 export const ROUTES: Routes = [
   {
     path: '',
-    loadComponent: () => import('./tables.component').then((c) => c.TablesComponent),
+    loadComponent: () => import('./tables.layout').then((c) => c.TablesLayout),
     children: [
       {
         path: 'all',
-        loadComponent: () => import('./all-tables.component').then((c) => c.AllTablesComponent),
+        loadComponent: () => import('./tables.component').then((c) => c.TablesComponent),
       },
       {
         path: ':id',
@@ -23,7 +23,7 @@ export const ROUTES: Routes = [
       },
       {
         path: 'groups/tables/:id',
-        loadComponent: () => import('./table-group-by-id-tables.component').then((c) => c.TableGroupByIdTablesComponent),
+        loadComponent: () => import('./tables-by-group.component').then((c) => c.TablesByGroupComponent),
       },
       {
         path: 'groups/:id',

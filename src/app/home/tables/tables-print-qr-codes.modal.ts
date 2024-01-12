@@ -106,7 +106,7 @@ import {DfxTranslateModule} from 'dfx-translate';
     AsyncPipe,
   ],
 })
-export class PrintTableQrCodesModal {
+export class TablesPrintQrCodesModal {
   @Input() tables?: GetTableWithGroupResponse[];
 
   qrCodeSize: 'SM' | 'MD' = 'MD';

@@ -5,30 +5,24 @@ import {RouterLink} from '@angular/router';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
+import {s_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxCutPipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {AppProgressBarComponent} from '../../../_shared/ui/loading/app-progress-bar.component';
-import {GetSystemNotificationResponse} from '../../../_shared/waiterrobot-backend';
+import {DeadLetterResponse} from '../../../_shared/waiterrobot-backend';
 import {ScrollableToolbarComponent} from '../../_shared/components/scrollable-toolbar.component';
 import {AbstractModelsListWithDeleteComponent} from '../../_shared/list/models-list-with-delete/abstract-models-list-with-delete.component';
-import {AppActivatedPipe} from '../../_shared/pipes/app-activated.pipe';
-import {AppSystemNotificationTypeBadgeComponent} from './_components/system-notification-type-badge.component';
-import {SystemNotificationsService} from './_services/system-notifications.service';
+import {DeadLettersService} from './dead-letters.service';
 
 @Component({
   template: `
     <div class="d-flex flex-column gap-3">
-      <h1 class="my-0">{{ 'NAV_SYSTEM_NOTIFICATIONS' | tr }}</h1>
+      <h1 class="my-0">{{ 'Dead Letters' | tr }}</h1>
 
       <scrollable-toolbar>
-        <div>
-          <a routerLink="../create" class="btn btn-sm btn-success">
-            <bi name="plus-circle" />
-            {{ 'ADD_2' | tr }}</a
-          >
-        </div>
         <div>
           <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
             <bi name="trash" />
@@ -55,7 +49,7 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
       </form>
 
       <div class="table-responsive">
-        <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="id" ngbSortDirection="asc">
+        <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="id" ngbSortDirection="desc">
           <ng-container ngbColumnDef="select">
             <th *ngbHeaderCellDef ngb-header-cell>
               <div class="form-check">
@@ -81,33 +75,29 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
             </td>
           </ng-container>
 
-          <ng-container ngbColumnDef="title">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'TITLE' | tr }}</th>
-            <td *ngbCellDef="let it" ngb-cell>{{ it.title }}</td>
+          <ng-container ngbColumnDef="id">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
+            <td *ngbCellDef="let it" ngb-cell>{{ it.id }}</td>
           </ng-container>
 
-          <ng-container ngbColumnDef="type">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'TYPE' | tr }}</th>
-            <td *ngbCellDef="let it" ngb-cell>
-              <app-system-notification-type-badge [type]="it.type" />
-            </td>
+          <ng-container ngbColumnDef="queue">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'Queue' | tr }}</th>
+            <td *ngbCellDef="let it" ngb-cell>{{ it.queue }}</td>
           </ng-container>
 
-          <ng-container ngbColumnDef="starts">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STARTS' | tr }}</th>
-            <td *ngbCellDef="let it" ngb-cell>{{ it.starts | date: 'dd.MM.YYYY HH:mm' }}</td>
+          <ng-container ngbColumnDef="exchange">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'Exchange' | tr }}</th>
+            <td *ngbCellDef="let it" ngb-cell>{{ it.exchange }}</td>
           </ng-container>
 
-          <ng-container ngbColumnDef="ends">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ENDS' | tr }}</th>
-            <td *ngbCellDef="let it" ngb-cell>{{ it.ends | date: 'dd.MM.YYYY HH:mm' }}</td>
+          <ng-container ngbColumnDef="body">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'Body' | tr }}</th>
+            <td *ngbCellDef="let it" ngb-cell>{{ it.body | s_cut: 60 : '...' }}</td>
           </ng-container>
 
-          <ng-container ngbColumnDef="active">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ACTIVE' | tr }}</th>
-            <td *ngbCellDef="let it" ngb-cell>
-              {{ it.active | activated }}
-            </td>
+          <ng-container ngbColumnDef="createdAt">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_CREATED_AT' | tr }}</th>
+            <td *ngbCellDef="let it" ngb-cell>{{ it.createdAt | date: 'dd.MM.YYYY HH:mm:ss:SSS' }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="actions">
@@ -135,7 +125,7 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
       <app-progress-bar [hidden]="!isLoading()" />
     </div>
   `,
-  selector: 'app-all-system-notifications',
+  selector: 'app-all-dead-letters',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -148,17 +138,16 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
     DfxSortModule,
     DfxTr,
     BiComponent,
+    DfxCutPipe,
     ScrollableToolbarComponent,
-    AppSystemNotificationTypeBadgeComponent,
-    AppActivatedPipe,
     AppProgressBarComponent,
   ],
 })
-export class AllSystemNotificationsComponent extends AbstractModelsListWithDeleteComponent<GetSystemNotificationResponse> {
-  constructor(private systemNotificationsService: SystemNotificationsService) {
-    super(systemNotificationsService);
-    this.columnsToDisplay = ['title', 'type', 'starts', 'ends', 'active', 'actions'];
+export class DeadLettersComponent extends AbstractModelsListWithDeleteComponent<DeadLetterResponse> {
+  constructor(deadLettersService: DeadLettersService) {
+    super(deadLettersService);
+    this.columnsToDisplay = ['id', 'queue', 'exchange', 'body', 'createdAt'];
   }
 
-  override nameMap = (it: GetSystemNotificationResponse): string => it.title ?? it.type;
+  override nameMap = (it: DeadLetterResponse): string => s_from(it.id);
 }

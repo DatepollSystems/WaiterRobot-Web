@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 
+import {injectOnSubmit} from '../../../../_shared/form';
+import {GetSystemNotificationResponse} from '../../../../_shared/waiterrobot-backend';
 import {AbstractModelEditComponent} from '../../../_shared/form/abstract-model-edit.component';
 import {AppEntityEditModule} from '../../../_shared/form/app-entity-edit.module';
 import {injectOnDelete} from '../../../_shared/form/edit';
-import {injectOnSubmit} from '../../../../_shared/form';
-import {GetSystemNotificationResponse} from '../../../../_shared/waiterrobot-backend';
 import {SystemNotificationsService} from '../_services/system-notifications.service';
 import {SystemNotificationEditFormComponent} from './system-notification-edit-form.component';
 
@@ -36,7 +36,7 @@ import {SystemNotificationEditFormComponent} from './system-notification-edit-fo
         />
       </div>
     } @else {
-      <app-spinner-row />
+      <app-edit-placeholder />
     }
   `,
   selector: 'app-user-edit',

@@ -249,10 +249,7 @@ import {ProductsService} from './_services/products.service';
     AppProgressBarComponent,
   ],
 })
-export class ProductGroupByIdProductsComponent extends AbstractModelsWithNameListByIdComponent<
-  GetProductMaxResponse,
-  GetProductGroupResponse
-> {
+export class ProductsByGroupComponent extends AbstractModelsWithNameListByIdComponent<GetProductMaxResponse, GetProductGroupResponse> {
   constructor(
     private entityService: ProductsService,
     groupsService: ProductGroupsService,

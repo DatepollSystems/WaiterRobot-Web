@@ -3,15 +3,15 @@ import {Routes} from '@angular/router';
 export const ROUTES: Routes = [
   {
     path: '',
-    loadComponent: () => import('./printers.component').then((c) => c.PrintersComponent),
+    loadComponent: () => import('./printers.layout').then((c) => c.PrintersLayout),
     children: [
       {
         path: 'mediators',
-        loadComponent: () => import('./all-mediators.component').then((c) => c.AllMediatorsComponent),
+        loadComponent: () => import('./mediators.component').then((c) => c.MediatorsComponent),
       },
       {
         path: 'printers',
-        loadComponent: () => import('./all-printers/all-printers.component').then((c) => c.AllPrintersComponent),
+        loadComponent: () => import('./printers.component').then((c) => c.PrintersComponent),
       },
       {
         path: ':id',

@@ -80,7 +80,7 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
         />
       </div>
     } @else {
-      <app-spinner-row />
+      <app-edit-placeholder />
     }
   `,
   selector: 'app-product-group-edit',

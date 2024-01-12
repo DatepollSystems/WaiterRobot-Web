@@ -3,16 +3,16 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
+import {AbstractModelsListComponent} from '@home-shared/list/abstract-models-list.component';
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+import {TempNotification} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxCutPipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {AppProgressBarComponent} from '../../../_shared/ui/loading/app-progress-bar.component';
-import {TempNotification} from '../../../_shared/waiterrobot-backend';
-import {AbstractModelsListComponent} from '../../_shared/list/abstract-models-list.component';
 import {TmpNotificationsService} from './tmp-notifications.service';
 
 @Component({
@@ -84,7 +84,7 @@ import {TmpNotificationsService} from './tmp-notifications.service';
     AppProgressBarComponent,
   ],
 })
-export class AllTmpNotificationsComponent extends AbstractModelsListComponent<TempNotification> {
+export class TmpNotificationsComponent extends AbstractModelsListComponent<TempNotification> {
   constructor(public deadLettersService: TmpNotificationsService) {
     super(deadLettersService);
     this.columnsToDisplay = ['to', 'subject', 'body', 'createdAt'];

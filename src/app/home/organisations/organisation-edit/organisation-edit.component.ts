@@ -2,12 +2,12 @@ import {Component, computed, inject} from '@angular/core';
 
 import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
+import {injectOnSubmit} from '../../../_shared/form';
+import {GetOrganisationResponse} from '../../../_shared/waiterrobot-backend';
 import {AppSelectableBtnComponent} from '../../_shared/components/button/app-selectable-btn.component';
 import {AbstractModelEditComponent} from '../../_shared/form/abstract-model-edit.component';
 import {AppEntityEditModule} from '../../_shared/form/app-entity-edit.module';
 import {injectOnDelete, injectTabControls} from '../../_shared/form/edit';
-import {injectOnSubmit} from '../../../_shared/form';
-import {GetOrganisationResponse} from '../../../_shared/waiterrobot-backend';
 import {MyUserService} from '../../_shared/services/user/my-user.service';
 import {OrganisationsService} from '../_services/organisations.service';
 import {SelectedOrganisationService} from '../_services/selected-organisation.service';
@@ -86,7 +86,7 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
         <div [ngbNavOutlet]="nav"></div>
       </div>
     } @else {
-      <app-spinner-row />
+      <app-edit-placeholder />
     }
   `,
   selector: 'app-organisation-edit',

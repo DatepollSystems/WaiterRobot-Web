@@ -103,7 +103,7 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
         <div [ngbNavOutlet]="nav"></div>
       </div>
     } @else {
-      <app-spinner-row />
+      <app-edit-placeholder />
     }
   `,
   selector: 'app-waiter-edit',

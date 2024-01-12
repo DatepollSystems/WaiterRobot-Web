@@ -78,7 +78,7 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
         />
       </div>
     } @else {
-      <app-spinner-row />
+      <app-edit-placeholder />
     }
   `,
   selector: 'app-table-group-edit',

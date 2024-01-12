@@ -18,7 +18,7 @@ import {DfxTr} from 'dfx-translate';
 
 import {TableGroupsService} from './_services/table-groups.service';
 import {TablesService} from './_services/tables.service';
-import {PrintTableQrCodesModal} from './print-table-qr-codes.modal';
+import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
 
 @Component({
   template: `
@@ -207,7 +207,7 @@ import {PrintTableQrCodesModal} from './print-table-qr-codes.modal';
     EntitiesHeaderWithPlaceholderLayout,
   ],
 })
-export class TableGroupByIdTablesComponent extends AbstractModelsListByIdComponent<GetTableWithGroupResponse, GetTableGroupResponse> {
+export class TablesByGroupComponent extends AbstractModelsListByIdComponent<GetTableWithGroupResponse, GetTableGroupResponse> {
   override nameMap = (it: GetTableWithGroupResponse): string => s_from(it.number);
 
   private modal = inject(NgbModal);
@@ -219,7 +219,7 @@ export class TableGroupByIdTablesComponent extends AbstractModelsListByIdCompone
   }
 
   printSelectedTables(): void {
-    const modalRef = this.modal.open(PrintTableQrCodesModal, {
+    const modalRef = this.modal.open(TablesPrintQrCodesModal, {
       ariaLabelledBy: 'app-tables-qr-codes-title',
       size: 'lg',
     });

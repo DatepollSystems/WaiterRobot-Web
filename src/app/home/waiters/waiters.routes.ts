@@ -3,9 +3,9 @@ import {Routes} from '@angular/router';
 export const ROUTES: Routes = [
   {
     path: '',
-    loadComponent: () => import('./waiters.component').then((c) => c.WaitersComponent),
+    loadComponent: () => import('./waiters.layout').then((c) => c.WaitersLayout),
     children: [
-      {path: 'organisation', loadComponent: () => import('./organisation-waiters.component').then((c) => c.OrganisationWaitersComponent)},
+      {path: 'organisation', loadComponent: () => import('./waiters.component').then((c) => c.WaitersComponent)},
       {
         path: 'organisation/duplicates',
         loadComponent: () =>
@@ -20,7 +20,7 @@ export const ROUTES: Routes = [
             (c) => c.DuplicateOrganisationWaitersEditComponent,
           ),
       },
-      {path: 'event/:id', loadComponent: () => import('./event-by-id-waiters.component').then((c) => c.EventByIdWaitersComponent)},
+      {path: 'event/:id', loadComponent: () => import('./waiters-by-event.component').then((c) => c.WaitersByEventComponent)},
       {path: ':id', loadComponent: () => import('./waiter-edit/waiter-edit.component').then((c) => c.WaiterEditComponent)},
       {path: '', pathMatch: 'full', redirectTo: 'organisation'},
     ],

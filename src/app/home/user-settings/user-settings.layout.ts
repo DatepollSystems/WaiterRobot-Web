@@ -26,4 +26,4 @@ import {EntitiesLayout} from '../_shared/layouts/entities.layout';
   imports: [RouterLink, RouterLinkActive, DfxTr, EntitiesLayout, BiComponent],
   standalone: true,
 })
-export class UserSettingsComponent {}
+export class UserSettingsLayout {}

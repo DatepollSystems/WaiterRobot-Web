@@ -4,7 +4,7 @@ export const ROUTES: Routes = [
   {
     path: '',
     children: [
-      {path: 'all', loadComponent: () => import('./all-dead-letters.component').then((c) => c.AllDeadLettersComponent)},
+      {path: 'all', loadComponent: () => import('./dead-letters.component').then((c) => c.DeadLettersComponent)},
       {
         path: ':id',
         loadComponent: () => import('./dead-letter-view.component').then((c) => c.DeadLetterViewComponent),

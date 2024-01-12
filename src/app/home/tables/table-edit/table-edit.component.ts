@@ -99,7 +99,7 @@ import {TableEditFormComponent} from './table-edit-form.component';
         />
       </div>
     } @else {
-      <app-spinner-row />
+      <app-edit-placeholder />
     }
   `,
   selector: 'app-table-edit',

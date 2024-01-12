@@ -1,12 +1,12 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 
+import {injectOnSubmit} from '../../../_shared/form';
+import {GetPrinterResponse} from '../../../_shared/waiterrobot-backend';
 import {AbstractModelEditComponent} from '../../_shared/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '../../_shared/form/app-continues-creation-switch.component';
 import {AppEntityEditModule} from '../../_shared/form/app-entity-edit.module';
 import {injectContinuousCreation, injectOnDelete} from '../../_shared/form/edit';
-import {injectOnSubmit} from '../../../_shared/form';
-import {GetPrinterResponse} from '../../../_shared/waiterrobot-backend';
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {PrintersService} from '../_services/printers.service';
 import {AppPrinterEditForm} from './printer-edit-form.component';
@@ -51,7 +51,7 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
         <app-printer-edit-products *isEditing="entity" [products]="entity.products" />
       </div>
     } @else {
-      <app-spinner-row />
+      <app-edit-placeholder />
     }
   `,
   selector: 'app-printer-edit',

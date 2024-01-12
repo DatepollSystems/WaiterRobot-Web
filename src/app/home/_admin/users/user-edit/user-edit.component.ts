@@ -3,11 +3,11 @@ import {toSignal} from '@angular/core/rxjs-interop';
 
 import {Observable, switchMap} from 'rxjs';
 
+import {injectOnSubmit} from '../../../../_shared/form';
+import {GetUserResponse, IdAndNameResponse} from '../../../../_shared/waiterrobot-backend';
 import {AbstractModelEditComponent} from '../../../_shared/form/abstract-model-edit.component';
 import {AppEntityEditModule} from '../../../_shared/form/app-entity-edit.module';
 import {injectOnDelete} from '../../../_shared/form/edit';
-import {injectOnSubmit} from '../../../../_shared/form';
-import {GetUserResponse, IdAndNameResponse} from '../../../../_shared/waiterrobot-backend';
 import {injectIdParam$} from '../../../_shared/services/injectActivatedRouteIdParam';
 import {OrganisationsUsersService} from '../../../organisations/_services/organisations-users.service';
 import {OrganisationsService} from '../../../organisations/_services/organisations.service';
@@ -45,7 +45,7 @@ import {UserEditFormComponent} from './user-edit-form.component';
         />
       </div>
     } @else {
-      <app-spinner-row />
+      <app-edit-placeholder />
     }
   `,
   selector: 'app-user-edit',

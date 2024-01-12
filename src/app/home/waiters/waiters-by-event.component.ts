@@ -182,7 +182,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
     EntitiesHeaderWithPlaceholderLayout,
   ],
 })
-export class EventByIdWaitersComponent extends AbstractModelsWithNameListByIdComponent<GetWaiterResponse, GetEventOrLocationResponse> {
+export class WaitersByEventComponent extends AbstractModelsWithNameListByIdComponent<GetWaiterResponse, GetEventOrLocationResponse> {
   constructor(
     waitersService: WaitersService,
     eventsService: EventsService,

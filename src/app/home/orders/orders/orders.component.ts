@@ -26,6 +26,7 @@ import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSor
 import {injectIsMobile} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
+
 import {ProductGroupsService} from '../../products/_services/product-groups.service';
 import {ProductsService} from '../../products/_services/products.service';
 import {TableGroupsService} from '../../tables/_services/table-groups.service';
@@ -36,8 +37,8 @@ import {AppOrderStateBadgeComponent} from '../_components/app-order-state-badge.
 import {OrdersService} from '../orders.service';
 
 @Component({
-  templateUrl: 'all-orders.component.html',
-  selector: 'app-all-orders',
+  templateUrl: 'orders.component.html',
+  selector: 'app-orders',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -61,7 +62,7 @@ import {OrdersService} from '../orders.service';
     AppProgressBarComponent,
   ],
 })
-export class AllOrdersComponent implements AfterViewInit {
+export class OrdersComponent implements AfterViewInit {
   private confirmDialog = injectConfirmDialog();
   private ordersService = inject(OrdersService);
 

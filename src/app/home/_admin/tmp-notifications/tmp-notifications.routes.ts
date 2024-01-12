@@ -4,7 +4,7 @@ export const ROUTES: Routes = [
   {
     path: '',
     children: [
-      {path: 'all', loadComponent: () => import('./all-tmp-notifications.component').then((c) => c.AllTmpNotificationsComponent)},
+      {path: 'all', loadComponent: () => import('./tmp-notifications.component').then((c) => c.TmpNotificationsComponent)},
       {
         path: 'view',
         loadComponent: () => import('./tmp-notification-view.component').then((c) => c.TmpNotificationViewComponent),

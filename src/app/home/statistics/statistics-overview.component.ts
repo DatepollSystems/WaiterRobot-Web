@@ -35,9 +35,6 @@ import {StatisticsService} from './statistics.service';
                 } @else {
                   <span>{{ 'UNKNOWN' | tr }}</span>
                 }
-                <ng-template #bestWaiterUnknown>
-                  <span>{{ 'UNKNOWN' | tr }}</span>
-                </ng-template>
               </div>
             </div>
           </div>
@@ -51,11 +48,8 @@ import {StatisticsService} from './statistics.service';
                 @if (countDto.bestProduct) {
                   {{ countDto.bestProduct.name }} ({{ countDto.bestProduct.value }}x)
                 } @else {
-                  #bestWaiterUnknown|
-                }
-                <ng-template #bestWaiterUnknown>
                   <span>{{ 'UNKNOWN' | tr }}</span>
-                </ng-template>
+                }
               </div>
             </div>
           </div>

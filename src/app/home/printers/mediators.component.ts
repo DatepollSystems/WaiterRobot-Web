@@ -86,7 +86,7 @@ import {MediatorsService} from './_services/mediators.service';
     AppSpinnerRowComponent,
   ],
 })
-export class AllMediatorsComponent extends AbstractModelsListComponent<GetMediatorResponse> {
+export class MediatorsComponent extends AbstractModelsListComponent<GetMediatorResponse> {
   constructor(mediatorsService: MediatorsService) {
     super(mediatorsService);
 
