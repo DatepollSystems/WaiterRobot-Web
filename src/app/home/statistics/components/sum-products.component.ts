@@ -4,7 +4,7 @@ import {StatisticsService} from '../statistics.service';
 
 @Component({
   template: `
-    <app-sum-statistics [sumDtos]="sumDtos()" [height]="sumDtos().length * 3">
+    <app-sum-statistics [sumDtos]="sumDtos()" [height]="sumDtos().length * 2.3">
       <span>{{ 'HOME_PROD_ALL' | tr }}</span>
       @if (standalone) {
         <div top>

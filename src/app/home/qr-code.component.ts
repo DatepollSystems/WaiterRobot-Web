@@ -2,6 +2,7 @@ import {Location} from '@angular/common';
 import {ChangeDetectionStrategy, Component, effect, inject} from '@angular/core';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {CopyDirective} from '@shared/ui/copy.directive';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
 
@@ -11,7 +12,6 @@ import {DfxCutPipe, injectIsMobile, injectWindow} from 'dfx-helper';
 import {QRCodeComponent} from 'dfx-qrcode';
 import {DfxTr, dfxTranslate} from 'dfx-translate';
 
-import {CopyDirective} from '../_shared/ui/copy.directive';
 import {ScrollableToolbarComponent} from './_shared/components/scrollable-toolbar.component';
 import {QrCodeService} from './_shared/services/qr-code.service';
 

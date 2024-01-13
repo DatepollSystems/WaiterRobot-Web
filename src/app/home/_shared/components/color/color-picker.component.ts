@@ -2,7 +2,6 @@ import {NgClass} from '@angular/common';
 import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, Output, signal} from '@angular/core';
 
 import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {ColorGithubModule} from 'ngx-color/github';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
@@ -65,7 +64,7 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
   standalone: true,
   selector: 'app-color-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DfxTr, ColorGithubModule, BiComponent, NgbPopover, NgClass, AppIsLightColorPipe, NgbTooltip],
+  imports: [DfxTr, BiComponent, NgbPopover, NgClass, AppIsLightColorPipe, NgbTooltip],
 })
 export class AppColorPicker {
   @Input() color?: string | null;
