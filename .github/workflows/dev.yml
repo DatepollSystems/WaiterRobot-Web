@@ -86,7 +86,7 @@ jobs:
     if: github.ref == 'refs/heads/develop'
     steps:
       - name: fetching new version on lava server
-        uses: appleboy/ssh-action@v1.0.0
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.LAVA_SSH_HOST }}
           username: ${{ secrets.LAVA_SSH_USER }}
@@ -152,7 +152,7 @@ jobs:
     if: github.ref == 'refs/heads/develop'
     steps:
       - name: fetching new version on lava server
-        uses: appleboy/ssh-action@v1.0.0
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.LAVA_SSH_HOST }}
           username: ${{ secrets.LAVA_SSH_USER }}
