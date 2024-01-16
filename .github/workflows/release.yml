@@ -20,7 +20,7 @@ jobs:
       - name: build
         run: pnpm build:prod
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         name: upload artifact
         with:
           name: WaiterRobot-Web-prod
@@ -37,7 +37,7 @@ jobs:
       - name: setup node and pnpm
         uses: dafnik/setup-node-pnpm@v2
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: WaiterRobot-Web-prod
           path: ./dist/WaiterRobot-Web
