@@ -1,4 +1,4 @@
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, LowerCasePipe, NgOptimizedImage} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -12,7 +12,7 @@ import {FooterComponent} from './footer.component';
 
 @NgModule({
   declarations: [AboutModalComponent, FooterComponent],
-  imports: [AsyncPipe, DfxTr, FormsModule, NgbNavModule, RouterLink],
+  imports: [AsyncPipe, DfxTr, FormsModule, LowerCasePipe, NgbNavModule, NgOptimizedImage, RouterLink],
   exports: [FooterComponent],
 })
 export class FooterModule {}

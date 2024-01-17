@@ -13,7 +13,7 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
 import {Download} from '@home-shared/services/download.service';
 import {injectFilter} from '@home-shared/services/filter';
 import {getSortParam, injectPagination} from '@home-shared/services/pagination';
-import {NgbCollapse, NgbProgressbar, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbCollapse, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {injectCustomFormBuilder} from '@shared/form';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
@@ -25,7 +25,6 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {injectIsMobile} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-
 
 import {ProductGroupsService} from '../../products/_services/product-groups.service';
 import {ProductsService} from '../../products/_services/products.service';
@@ -48,7 +47,6 @@ import {OrdersService} from '../orders.service';
     ReactiveFormsModule,
     NgbTooltip,
     NgbCollapse,
-    NgbProgressbar,
     DfxTableModule,
     DfxSortModule,
     DfxPaginationModule,

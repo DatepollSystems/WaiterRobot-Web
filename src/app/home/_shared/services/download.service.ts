@@ -56,8 +56,7 @@ function download(saver?: (b: Blob) => void): (source: Observable<HttpEvent<Blob
           }
           return previous;
         },
-        // Set progress to 100, so it will be rendered in the ui
-        {state: 'PENDING', progress: 100},
+        {state: 'PENDING', progress: 0},
       ),
     );
 }

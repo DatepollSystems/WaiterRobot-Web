@@ -41,12 +41,7 @@
   </scrollable-toolbar>
 
   @if (download$ | async; as download) { @if (download.state !== 'DONE') {
-  <ngb-progressbar
-    type="success"
-    [showValue]="download.state !== 'PENDING'"
-    [striped]="download.state === 'PENDING'"
-    [value]="download.progress"
-  />
+  <app-progress-bar />
   } }
 
   <div #collapse="ngbCollapse" [ngbCollapse]="isMobile()">
@@ -121,9 +116,19 @@
       </div>
 
       <div class="d-flex justify-content-end">
-        <button class="btn btn-sm btn-secondary" (click)="filter.form.reset()" [disabled]="filter.count() === 0">
+        <button
+          type="button"
+          class="btn btn-sm btn-secondary position-relative"
+          (click)="filter.form.reset()"
+          [disabled]="filter.count() === 0"
+        >
           <bi name="x-circle-fill" />
-          Alle löschen
+          {{'DELETE_ALL' | tr}} @if (filter.count() !== 0) {
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            {{ filter.count() }}
+            <span class="visually-hidden">selected filters</span>
+          </span>
+          }
         </button>
       </div>
     </form>

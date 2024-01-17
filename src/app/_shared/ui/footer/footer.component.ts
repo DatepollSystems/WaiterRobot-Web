@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 
+import {a_shuffle} from 'dfts-helper';
 import {injectWindow} from 'dfx-helper';
 import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
 
@@ -42,10 +43,31 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
         <div class="container-fluid">
           <div class="my-container {{ container }}">
             <div class="d-flex flex-column flex-md-row justify-content-between">
-              <div class="d-flex align-items-center gap-1">
+              <div class="d-flex align-items-center gap-1 text-body-emphasis">
                 <div>Made with</div>
-                <div class="heart" (click)="heart()">♥</div>
-                <div>by Alex, Dominik & Fabian</div>
+                <div class="heart fs-3" (click)="heart()">♥</div>
+                <div>by</div>
+
+                @for (name of names; track name; let last = $last) {
+                  <div class="d-inline-flex">
+                    @if (last) {
+                      <span class="me-1">&</span>
+                    }
+                    <div class="hover-div text-decoration-underline">
+                      <span class="hover-text">{{ name }}</span>
+                      <img
+                        class="hidden-image"
+                        [ngSrc]="'/assets/people/' + (name | lowercase) + '.png'"
+                        height="128"
+                        width="128"
+                        alt="Image"
+                      />
+                    </div>
+                    @if (!last) {
+                      <span>,</span>
+                    }
+                  </div>
+                }
               </div>
               <div class="d-flex align-items-center">
                 <a class="link-body-emphasis" routerLink="/info/imprint"> {{ 'ABOUT_IMPRINT' | tr }} & {{ 'ABOUT_PRIVACY_POLICY' | tr }}</a>
@@ -82,12 +104,41 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
       }
 
       .heart {
-        font-size: 16px;
         color: red;
+        margin-top: -5px;
       }
 
       .heart:hover {
         transform: scale(1.4);
+      }
+
+      .hover-div {
+        display: flex;
+        justify-content: flex-start;
+        position: relative;
+      }
+
+      .hover-text {
+        cursor: pointer;
+      }
+
+      .hidden-image {
+        cursor: initial;
+        position: absolute;
+        top: -128px; /* Adjust the positioning as needed */
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.5s;
+      }
+
+      .hover-text:hover {
+        font-weight: 500;
+      }
+
+      .hover-text:hover + .hidden-image {
+        bottom: 0;
+        opacity: 1;
       }
     `,
   ],
@@ -95,6 +146,8 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterComponent {
+  names = a_shuffle(['Alex', 'Dominik', 'Fabian']);
+
   selected$ = inject(TranslateStore).selectedLanguage$;
   setLanguage = dfxTranslateSetLanguage();
 

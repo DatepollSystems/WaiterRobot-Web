@@ -10,7 +10,7 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
 import {Download} from '@home-shared/services/download.service';
 import {injectFilter} from '@home-shared/services/filter';
 import {getSortParam, injectPagination} from '@home-shared/services/pagination';
-import {NgbCollapse, NgbProgressbar, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbCollapse, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {injectCustomFormBuilder} from '@shared/form';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
@@ -66,12 +66,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
 
       @if (download$ | async; as download) {
         @if (download.state !== 'DONE') {
-          <ngb-progressbar
-            type="success"
-            [showValue]="download.state !== 'PENDING'"
-            [striped]="download.state === 'PENDING'"
-            [value]="download.progress"
-          />
+          <app-progress-bar />
         }
       }
 
@@ -156,12 +151,21 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
             />
           </div>
 
-          <div class="d-flex justify-content-end">
-            <button class="btn btn-sm btn-secondary" (click)="filter.form.reset()" [disabled]="filter.count() === 0">
-              <bi name="x-circle-fill" />
-              Alle löschen
-            </button>
-          </div>
+          <button
+            type="button"
+            class="btn btn-sm btn-secondary position-relative"
+            (click)="filter.form.reset()"
+            [disabled]="filter.count() === 0"
+          >
+            <bi name="x-circle-fill" />
+            {{ 'DELETE_ALL' | tr }}
+            @if (filter.count() !== 0) {
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {{ filter.count() }}
+                <span class="visually-hidden">selected filters</span>
+              </span>
+            }
+          </button>
         </form>
       </div>
 
@@ -269,7 +273,6 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
     ReactiveFormsModule,
     NgbCollapse,
     ScrollableToolbarComponent,
-    NgbProgressbar,
   ],
 })
 export class BillsComponent implements AfterViewInit {
