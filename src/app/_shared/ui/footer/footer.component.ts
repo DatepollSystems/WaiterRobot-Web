@@ -44,13 +44,9 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
             <div class="d-flex flex-column flex-md-row justify-content-between">
               <div class="d-flex align-items-center gap-1">
                 <div>Made with</div>
-                <div style="font-size: 16px; color: red" (click)="heart()">♥</div>
-                <div>
-                  by
-                  <a class="link-body-emphasis" href="https://datepollsystems.org" rel="noopener" target="_blank">DatePoll-Systems</a>
-                </div>
+                <div class="heart" (click)="heart()">♥</div>
+                <div>by Alex, Dominik & Fabian</div>
               </div>
-
               <div class="d-flex align-items-center">
                 <a class="link-body-emphasis" routerLink="/info/imprint"> {{ 'ABOUT_IMPRINT' | tr }} & {{ 'ABOUT_PRIVACY_POLICY' | tr }}</a>
               </div>
@@ -83,6 +79,15 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
 
       li {
         text-align: end;
+      }
+
+      .heart {
+        font-size: 16px;
+        color: red;
+      }
+
+      .heart:hover {
+        transform: scale(1.4);
       }
     `,
   ],

@@ -10,8 +10,7 @@
     "build:lava": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --configuration lava && cp ./LICENSE ./dist/WaiterRobot-Web/ && npm run postbuild",
     "build:localfire": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --configuration localfire && cp ./LICENSE ./dist/WaiterRobot-Web/ && npm run postbuild",
     "build:stats": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --stats-json",
-    "analyze": "npm run build:stats && webpack-bundle-analyzer dist/WaiterRobot-Web/stats.json",
-    "analyze:source": "npm run build:stats && source-map-explorer dist/WaiterRobot-Web/**/*.js",
+    "analyze": "npm run build:stats && source-map-explorer dist/WaiterRobot-Web/**/*.js",
     "test": "ng test",
     "lint": "ng lint",
     "prettify": "prettier --write .",
@@ -24,6 +23,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-devkit/build-angular": "^17.0.10",
     "@angular/animations": "17.0.9",
     "@angular/cdk": "17.0.5",
     "@angular/common": "17.0.9",
@@ -54,7 +54,6 @@
     "zone.js": "0.14.3"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "17.0.10",
     "@angular-eslint/builder": "17.2.0",
     "@angular-eslint/eslint-plugin": "17.2.0",
     "@angular-eslint/eslint-plugin-template": "17.2.0",
@@ -85,8 +84,7 @@
     "purgecss": "5.0.0",
     "source-map-explorer": "2.5.3",
     "swagger-typescript-api": "^13.0.0",
-    "typescript": "5.2.2",
-    "webpack-bundle-analyzer": "4.10.1"
+    "typescript": "5.2.2"
   },
   "lint-staged": {
     "*.{js,ts}": "eslint --cache --fix",
