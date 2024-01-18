@@ -1,15 +1,14 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 
 import {NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
+import {ThemeService} from '@shared/services/theme.service';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-
-import {ThemeService} from '../_shared/services/theme.service';
 
 @Component({
   template: `
     <button ngbDropdownItem class="d-inline-flex gap-2 align-items-center" (click)="changeTheme()">
-      <bi [name]="themeService.selectedTheme().icon" class="text-body-emphasis" ariaLabel="Theme picker" />
+      <bi [name]="themeService.selectedTheme().icon ?? 'circle-half'" class="text-body-emphasis" ariaLabel="Theme picker" />
       Theme: {{ themeService.selectedTheme().name }}
     </button>
   `,

@@ -63,8 +63,8 @@ dependencies:
     specifier: 1.1.0
     version: 1.1.0(@angular/common@17.1.0)(@angular/core@17.1.0)
   dfx-bootstrap-table:
-    specifier: 3.0.1
-    version: 3.0.1(@angular/animations@17.1.0)(@angular/cdk@17.1.0)(@angular/common@17.1.0)(@angular/core@17.1.0)(@angular/forms@17.1.0)(bootstrap@5.3.2)(rxjs@7.8.1)
+    specifier: 3.1.0
+    version: 3.1.0(@angular/animations@17.1.0)(@angular/cdk@17.1.0)(@angular/common@17.1.0)(@angular/core@17.1.0)(@angular/forms@17.1.0)(bootstrap@5.3.2)(rxjs@7.8.1)
   dfx-helper:
     specifier: 7.0.0-beta.0
     version: 7.0.0-beta.0(@angular/cdk@17.1.0)(@angular/common@17.1.0)(@angular/core@17.1.0)(@angular/platform-browser@17.1.0)(@angular/router@17.1.0)(dfts-helper@1.1.1)(rxjs@7.8.1)
@@ -4903,8 +4903,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /dfx-bootstrap-table@3.0.1(@angular/animations@17.1.0)(@angular/cdk@17.1.0)(@angular/common@17.1.0)(@angular/core@17.1.0)(@angular/forms@17.1.0)(bootstrap@5.3.2)(rxjs@7.8.1):
-    resolution: {integrity: sha512-CkjH7xH0uOeo7QSXACSUashSJz9/VcJwlX1wH9mIEfAt3XmGR/sq87rNre+c7O7/nQAsmFGYMfkHoLIvFw7Ymg==}
+  /dfx-bootstrap-table@3.1.0(@angular/animations@17.1.0)(@angular/cdk@17.1.0)(@angular/common@17.1.0)(@angular/core@17.1.0)(@angular/forms@17.1.0)(bootstrap@5.3.2)(rxjs@7.8.1):
+    resolution: {integrity: sha512-0KW7sT1zSBZ79S/KRHMg0/tLeZbekonSj+hR49hsbuheeI3Plr6Wes1Hezdp+aVKVRArWrd9Cjp+7siS1r7X7A==}
     peerDependencies:
       '@angular/animations': '17'
       '@angular/cdk': '17'
