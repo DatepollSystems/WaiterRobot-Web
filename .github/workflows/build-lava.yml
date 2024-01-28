@@ -24,7 +24,9 @@ jobs:
 
       - name: Version
         # VERSION 3.4.0-lava-12345 -> 3.4.0-lava
-        run: echo "VERSION=${${{ github.ref_name }}%-*}" >> "$GITHUB_OUTPUT"
+        run: |
+          VERSION=${{ github.ref_name }}
+          echo "VERSION=${VERSION%-*}" >> "$GITHUB_OUTPUT"
 
       - name: Build and push Docker lava-local image
         uses: docker/build-push-action@v5

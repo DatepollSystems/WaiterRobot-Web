@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - "*.*.*"
+      - "!*.*.*-lava-*"
 
 jobs:
   build:
@@ -24,8 +25,6 @@ jobs:
 
       - name: Build and push Docker local image
         uses: docker/build-push-action@v5
-        env:
-          VERSION: ${{ github.ref_name }}
         with:
           push: true
           platforms: linux/amd64,linux/arm64
