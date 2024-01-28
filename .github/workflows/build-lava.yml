@@ -22,11 +22,11 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Version
+      - name: version
         # VERSION 3.4.0-lava-12345 -> 3.4.0-lava
         run: |
           VERSION=${{ github.ref_name }}
-          echo "VERSION=${VERSION%-*}" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION%-*}" >> "$GITHUB_OUTPUT"
 
       - name: Build and push Docker lava-local image
         uses: docker/build-push-action@v5
@@ -39,7 +39,7 @@ jobs:
           # tags: 3.4.0-lava-12345_local, 3.4.0-lava_local, latest-lava_local
           tags: |
             ghcr.io/datepollsystems/waiterrobot-web:${{ github.ref_name }}_local
-            ghcr.io/datepollsystems/waiterrobot-web:${{ steps.version.outputs.VERSION }}_local
+            ghcr.io/datepollsystems/waiterrobot-web:${{ steps.version.outputs.version }}_local
             ghcr.io/datepollsystems/waiterrobot-web:latest-lava_local
 
       - name: Build and push Docker lava-lava image
@@ -53,5 +53,5 @@ jobs:
           # tags: 3.4.0-lava-12345_lava, 3.4.0-lava_lava, latest-lava_lava
           tags: |
             ghcr.io/datepollsystems/waiterrobot-web:${{ github.ref_name }}_lava
-            ghcr.io/datepollsystems/waiterrobot-web:${{ steps.main-version.outputs.MAIN_VERSION }}_lava
+            ghcr.io/datepollsystems/waiterrobot-web:${{ steps.version.outputs.version }}_lava
             ghcr.io/datepollsystems/waiterrobot-web:latest-lava_lava
