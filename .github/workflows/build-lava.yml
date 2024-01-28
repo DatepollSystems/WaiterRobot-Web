@@ -22,8 +22,9 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: version
-        # VERSION 3.4.0-lava-12345 -> 3.4.0-lava
+      - name: Extract version
+        id: version
+        # 3.4.0-lava-12345 -> 3.4.0-lava
         run: |
           VERSION=${{ github.ref_name }}
           echo "version=${VERSION%-*}" >> "$GITHUB_OUTPUT"
