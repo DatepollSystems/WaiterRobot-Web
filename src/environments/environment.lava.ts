@@ -1,15 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import {Environment} from './IEnvironment';
+
 declare const require: any;
 
-export const environment: {
-  version: string;
-  production: boolean;
-  type: 'dev' | 'testing' | 'prod';
-  apiUrl: string;
-  logoUrl?: string;
-  titlePrefix?: string;
-} = {
-  version: require('../../package.json').version as string,
+export const environment: Environment = {
+  version: `${require('../../package.json').version}_lava`,
   production: true,
   type: 'testing',
   apiUrl: 'https://lava.kellner.team/api/v1',

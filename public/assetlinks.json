@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "org.datepollsystems.waiterrobot.android",
+      "sha256_cert_fingerprints": [
+        "01:47:A1:FB:E6:2D:49:95:BF:1A:2D:6E:4B:FA:7C:AD:1B:B3:82:DD:C2:F7:E0:AB:70:69:D7:85:AF:DD:AF:5C",
+        "D2:26:F3:C5:93:E3:21:30:C4:4A:18:84:6F:9D:09:52:61:7B:1E:8E:02:90:D6:9F:B2:92:41:F2:CF:4B:BE:52"
+      ]
+    }
+  }
+]

@@ -1,0 +1,12 @@
+version: '3.8'
+
+name: kellner-local-web-dev
+
+services:
+  web:
+    container_name: kellner-local-web-dev-web
+    build:
+      context: .
+      target: local
+    ports:
+      - "3000:80"

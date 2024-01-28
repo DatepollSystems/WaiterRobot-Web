@@ -1,0 +1,93 @@
+version: '3.8'
+
+name: kellner-local-web-dev
+
+services:
+  mariadb:
+    container_name: kellner-local-web-dev-db
+    image: mariadb:11.2.2-jammy
+    restart: always
+    volumes:
+      - kellner-db:/var/lib/mysql:z
+    environment:
+      MYSQL_DATABASE: waiterrobot
+      MYSQL_USER: waiterrobot
+      MYSQL_PASSWORD: waiterrobot
+      MYSQL_ROOT_PASSWORD: waiterrobot
+    networks:
+      - kellner-backend
+    healthcheck:
+      test: "healthcheck.sh --connect --innodb_initialized"
+      interval: 3s
+      timeout: 1s
+      retries: 5
+
+  rabbitmq:
+    container_name: kellner-local-web-dev-rabbit
+    image: rabbitmq:3.12.10-management
+    restart: always
+    volumes:
+      - kellner-rabbit:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=waiterrobot
+      - RABBITMQ_DEFAULT_PASS=waiterrobot
+    networks:
+      - kellner-backend
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+  backend:
+    container_name: kellner-local-web-dev-backend
+    image: ghcr.io/datepollsystems/waiterrobot-backend:monolith-lava
+    restart: unless-stopped
+    ports:
+      - "80:8080"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      mariadb:
+        condition: service_healthy
+    volumes:
+      - kellner-backend:/var/lib/waiterrobot
+    environment:
+      - WAITERROBOT_PORT=8080
+      - WAITERROBOT_KEYS_DIRECTORY=/var/lib/waiterrobot/authentication-keys
+      - HOST=localhost
+      - SWAGGER_ENABLED=true
+      - DATABASE_TYPE=mariadb
+      - DATABASE_HOST=kellner-local-web-dev-db
+      - DATABASE_PORT=3306
+      - DATABASE_NAME=waiterrobot
+      - DATABASE_USER=waiterrobot
+      - DATABASE_PASSWORD=waiterrobot
+      - DATABASE_SPRING_DIALECT=org.hibernate.dialect.MariaDBDialect
+      - RABBIT_HOST=kellner-local-web-dev-rabbit
+      - RABBIT_PORT=5672
+      - RABBIT_USERNAME=waiterrobot
+      - RABBIT_PASSWORD=waiterrobot
+      - MAIL_HOST=smtp.gmail.com
+      - MAIL_PORT=587
+      - MAIL_USERNAME=test@test.at
+      - MAIL_PASSWORD=Secret_Password
+      - MAIL_ENABLED=false
+      - TEMP_NOTIFICATIONS_ENABLED=true
+      - RATE_LIMIT_ENABLED=true
+      - RATE_LIMIT_DURATION_IN_SECONDS=120
+      - RATE_LIMIT_TRIES=40
+    networks:
+      - kellner-backend
+    # No healthcheck possible as the container is distroless and therefor has no bash nor other tools to make requests
+
+volumes:
+  kellner-db:
+  kellner-rabbit:
+  kellner-backend:
+
+networks:
+  kellner-backend:
+
+
+

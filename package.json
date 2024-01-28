@@ -8,7 +8,7 @@
     "postbuild": "node tools/postbuild.js",
     "build:prod": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --configuration production && cp ./LICENSE ./dist/WaiterRobot-Web/ && pnpm postbuild",
     "build:lava": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --configuration lava && cp ./LICENSE ./dist/WaiterRobot-Web/ && npm run postbuild",
-    "build:localfire": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --configuration localfire && cp ./LICENSE ./dist/WaiterRobot-Web/ && npm run postbuild",
+    "build:local": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --configuration local && cp ./LICENSE ./dist/WaiterRobot-Web/ && npm run postbuild",
     "build:stats": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --stats-json",
     "analyze": "npm run build:stats && source-map-explorer dist/WaiterRobot-Web/**/*.js",
     "test": "ng test",

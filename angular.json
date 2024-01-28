@@ -60,14 +60,6 @@
                 }
               ]
             },
-            "local-lava": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.local-lava.ts"
-                }
-              ]
-            },
             "lava": {
               "fileReplacements": [
                 {
@@ -87,11 +79,11 @@
                 }
               ]
             },
-            "localfire": {
+            "local": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.localfire.ts"
+                  "with": "src/environments/environment.local.ts"
                 }
               ],
               "optimization": true,
@@ -113,17 +105,6 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "buildTarget": "WaiterRobot-Web:build",
-            "proxyConfig": "src/proxy.js"
-          },
-          "configurations": {
-            "lava": {
-              "buildTarget": "WaiterRobot-Web:build:local-lava",
-              "proxyConfig": "src/proxy.lava.js",
-              "port": 4300
-            },
-            "production": {
-              "buildTarget": "WaiterRobot-Web:build:production"
-            }
           }
         },
         "extract-i18n": {
