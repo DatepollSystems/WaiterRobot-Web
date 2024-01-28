@@ -32,6 +32,15 @@ docker compose -f compose-local-dev.yml -f compose-local.yml up --build
 
 Open [localhost:3000](http://localhost:3000). To Stop press <kbd>Ctrl</kbd> + <kbd>C</kbd>.
 
+## Using nginx container with auto rebuild on changes
+
+```shell
+docker compose -f compose-local-dev.yml -f compose-local.yml watch
+```
+
+Open [localhost:3000](http://localhost:3000). To Stop press <kbd>Ctrl</kbd> + <kbd>C</kbd>.
+> Browser will not reload automatically, you need to refresh manually after rebuild is completed.
+
 # Release new version
 
 ## Lava

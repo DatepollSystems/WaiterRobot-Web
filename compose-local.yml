@@ -5,8 +5,18 @@ name: kellner-local-web-dev
 services:
   web:
     container_name: kellner-local-web-dev-web
+    restart: unless-stopped
     build:
       context: .
       target: local
+    develop:
+      watch:
+        - action: rebuild
+          path: ./src
+        - action: rebuild
+          path: package.json
+        - action: rebuild
+          path: angular.json
+
     ports:
       - "3000:80"
