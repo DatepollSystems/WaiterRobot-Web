@@ -1,72 +1,79 @@
 [
   {
+    "name": "@angular-devkit/build-angular",
+    "licenseType": "MIT",
+    "link": "git+https://github.com/angular/angular-cli.git",
+    "installedVersion": "17.0.10",
+    "author": "Angular Authors"
+  },
+  {
     "name": "@angular/animations",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "17.0.4",
+    "installedVersion": "17.1.0",
     "author": "angular"
   },
   {
     "name": "@angular/cdk",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/components.git",
-    "installedVersion": "17.0.1",
+    "installedVersion": "17.1.0",
     "author": "n/a"
   },
   {
     "name": "@angular/common",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "17.0.4",
+    "installedVersion": "17.1.0",
     "author": "angular"
   },
   {
     "name": "@angular/compiler",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "17.0.4",
+    "installedVersion": "17.1.0",
     "author": "angular"
   },
   {
     "name": "@angular/core",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "17.0.4",
+    "installedVersion": "17.1.0",
     "author": "angular"
   },
   {
     "name": "@angular/forms",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "17.0.4",
+    "installedVersion": "17.1.0",
     "author": "angular"
   },
   {
     "name": "@angular/localize",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "17.0.4",
+    "installedVersion": "17.1.0",
     "author": "angular"
   },
   {
     "name": "@angular/platform-browser",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "17.0.4",
+    "installedVersion": "17.1.0",
     "author": "angular"
   },
   {
     "name": "@angular/platform-browser-dynamic",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "17.0.4",
+    "installedVersion": "17.1.0",
     "author": "angular"
   },
   {
     "name": "@angular/router",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "17.0.4",
+    "installedVersion": "17.1.0",
     "author": "angular"
   },
   {
@@ -122,14 +129,14 @@
     "name": "dfx-bootstrap-icons",
     "licenseType": "MIT",
     "link": "git+ssh://git@github.com/Dafnik/dfts-common.git",
-    "installedVersion": "1.0.0",
+    "installedVersion": "1.1.0",
     "author": "Dafnik contact@dafnik.me https://dafnik.me"
   },
   {
     "name": "dfx-bootstrap-table",
     "licenseType": "MIT",
     "link": "git+ssh://git@github.com/Dafnik/dfts-common.git",
-    "installedVersion": "3.0.1",
+    "installedVersion": "3.1.0",
     "author": "Dafnik contact@dafnik.me https://dafnik.me"
   },
   {
@@ -143,7 +150,7 @@
     "name": "dfx-qrcode",
     "licenseType": "MIT",
     "link": "git+ssh://git@github.com/Dafnik/dfts-common.git",
-    "installedVersion": "2.0.0",
+    "installedVersion": "2.0.1",
     "author": "Dafnik contact@dafnik.me https://dafnik.me"
   },
   {
@@ -162,17 +169,10 @@
   },
   {"name": "jspdf", "licenseType": "MIT", "link": "git+https://github.com/MrRio/jsPDF.git", "installedVersion": "2.5.1", "author": "n/a"},
   {
-    "name": "ngx-color",
-    "licenseType": "MIT",
-    "link": "git+https://github.com/scttcper/ngx-color.git",
-    "installedVersion": "9.0.0",
-    "author": "n/a"
-  },
-  {
     "name": "ngxtension",
     "licenseType": "MIT",
     "link": "git+https://github.com/nartc/ngxtension-platform.git",
-    "installedVersion": "1.4.0",
+    "installedVersion": "1.9.9",
     "author": "n/a"
   },
   {
@@ -193,7 +193,7 @@
     "name": "zone.js",
     "licenseType": "MIT",
     "link": "git://github.com/angular/angular.git",
-    "installedVersion": "0.14.2",
+    "installedVersion": "0.14.3",
     "author": "Brian Ford"
   }
 ]
