@@ -6,7 +6,7 @@ import {catchError, EMPTY, filter, map, merge, Observable, of, Subject, switchMa
 
 import {connect} from 'ngxtension/connect';
 
-import {loggerOf, notNullAndUndefined} from 'dfts-helper';
+import {notNullAndUndefined} from 'dfts-helper';
 
 import {AuthService} from '../../../../_shared/services/auth/auth.service';
 import {GetMyselfResponse} from '../../../../_shared/waiterrobot-backend';
@@ -24,7 +24,6 @@ type MyUserState = {
 export class MyUserService {
   private httpClient = inject(HttpClient);
   private authStatus$ = inject(AuthService).status$;
-  private lumber = loggerOf('MyUserService');
 
   private manualUserChange: Subject<MyUserModel> = new Subject<MyUserModel>();
 

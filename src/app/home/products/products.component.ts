@@ -174,7 +174,7 @@ import {ProductsService} from './_services/products.service';
         </table>
       </div>
 
-      <app-progress-bar [hidden]="!isLoading()" />
+      <app-progress-bar [show]="isLoading()" />
     </div>
   `,
   selector: 'app-all-products',

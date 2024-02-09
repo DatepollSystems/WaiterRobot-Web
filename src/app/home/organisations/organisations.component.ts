@@ -4,13 +4,14 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {StopPropagationDirective} from '@home-shared/stop-propagation';
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+import {GetOrganisationResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
-import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
-import {GetOrganisationResponse} from '../../_shared/waiterrobot-backend';
 import {AppSelectableBtnComponent} from '../_shared/components/button/app-selectable-btn.component';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../_shared/list/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
@@ -120,7 +121,35 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
                   (selectedChange)="setSelected($event)"
                 />
                 <a
+                  class="btn btn-sm me-2 btn-outline-secondary text-body-emphasis"
+                  stopPropagation
+                  routerLink="../{{ organisation.id }}"
+                  [queryParams]="{tab: 'USERS'}"
+                  ngbTooltip="{{ 'USER' | tr }}"
+                >
+                  <bi name="people" />
+                </a>
+                <a
+                  class="btn btn-sm me-2 btn-outline-secondary text-body-emphasis"
+                  stopPropagation
+                  routerLink="../{{ organisation.id }}"
+                  [queryParams]="{tab: 'SETTINGS'}"
+                  ngbTooltip="{{ 'SETTINGS' | tr }}"
+                >
+                  <bi name="gear" />
+                </a>
+                <a
+                  class="btn btn-sm me-2 btn-outline-secondary text-body-emphasis"
+                  stopPropagation
+                  routerLink="../{{ organisation.id }}"
+                  [queryParams]="{tab: 'STRIPE'}"
+                  ngbTooltip="{{ 'STRIPE' | tr }}"
+                >
+                  <bi name="stripe" />
+                </a>
+                <a
                   class="btn btn-sm me-2 btn-outline-success text-body-emphasis"
+                  stopPropagation
                   routerLink="../{{ organisation.id }}"
                   ngbTooltip="{{ 'EDIT' | tr }}"
                 >
@@ -131,6 +160,7 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
                     type="button"
                     class="btn btn-sm btn-outline-danger text-body-emphasis"
                     ngbTooltip="{{ 'DELETE' | tr }}"
+                    stopPropagation
                     (click)="onDelete(organisation.id, $event)"
                   >
                     <bi name="trash" />
@@ -145,7 +175,7 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
         </div>
         <ngb-paginator [length]="dataSource.data.length" />
       }
-      <app-progress-bar [hidden]="!isLoading()" />
+      <app-progress-bar [show]="isLoading()" />
     </div>
   `,
   selector: 'app-all-organisations',
@@ -164,6 +194,7 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
     AppSelectableBtnComponent,
     AsyncPipe,
     AppProgressBarComponent,
+    StopPropagationDirective,
   ],
 })
 export class OrganisationsComponent extends AbstractModelsWithNameListWithDeleteComponent<GetOrganisationResponse> {

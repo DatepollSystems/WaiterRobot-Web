@@ -1,20 +1,22 @@
 import {HttpClient} from '@angular/common/http';
-import {inject, Injectable, signal} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 
-import {BehaviorSubject, Observable, switchMap} from 'rxjs';
+import {BehaviorSubject, map, Observable, switchMap} from 'rxjs';
 
 import {TempNotification} from '../../../_shared/waiterrobot-backend';
 
 @Injectable({providedIn: 'root'})
 export class TmpNotificationsService {
-  private httpClient = inject(HttpClient);
-  url = '/public/temp-notifications';
+  #httpClient = inject(HttpClient);
+  #url = '/public/temp-notifications';
 
-  triggerGet$ = new BehaviorSubject(true);
+  #triggerGet$ = new BehaviorSubject(true);
 
   getAll$(): Observable<TempNotification[]> {
-    return this.triggerGet$.pipe(switchMap(() => this.httpClient.get<TempNotification[]>(`${this.url}`)));
+    return this.#triggerGet$.pipe(switchMap(() => this.#httpClient.get<TempNotification[]>(`${this.#url}`)));
   }
 
-  single = signal<TempNotification | undefined>(undefined);
+  getSingle$(id: string): Observable<TempNotification | undefined> {
+    return this.getAll$().pipe(map((notifications) => notifications.find((it) => it.id === id)));
+  }
 }

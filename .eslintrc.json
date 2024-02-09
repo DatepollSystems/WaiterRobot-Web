@@ -29,7 +29,7 @@
       ],
       "rules": {
         "@typescript-eslint/explicit-module-boundary-types": [
-          "warn",
+          "off",
           {
             "allowArgumentsExplicitlyTypedAsAny": true
           }

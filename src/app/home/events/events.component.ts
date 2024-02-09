@@ -154,7 +154,7 @@ import {SelectedEventService} from './_services/selected-event.service';
         </table>
       </div>
 
-      <app-progress-bar [hidden]="!isLoading()" />
+      <app-progress-bar [show]="isLoading()" />
     </div>
   `,
   selector: 'app-all-events',

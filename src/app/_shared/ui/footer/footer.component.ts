@@ -48,11 +48,8 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
                 <div class="heart fs-3" (click)="heart()">♥</div>
                 <div>by</div>
 
-                @for (name of names; track name; let last = $last) {
+                @for (name of names; track name; let index = $index) {
                   <div class="d-inline-flex">
-                    @if (last) {
-                      <span class="me-1">&</span>
-                    }
                     <div class="hover-div text-decoration-underline">
                       <span class="hover-text">{{ name }}</span>
                       <img
@@ -63,8 +60,11 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
                         alt="Image"
                       />
                     </div>
-                    @if (!last) {
+                    @if (index < 1) {
                       <span>,</span>
+                    }
+                    @if (index === 1) {
+                      <span class="ms-1">&</span>
                     }
                   </div>
                 }

@@ -124,7 +124,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
         </table>
       </div>
 
-      <app-progress-bar [hidden]="!isLoading()" />
+      <app-progress-bar [show]="isLoading()" />
     </div>
   `,
   selector: 'app-all-unpaid-reasons',

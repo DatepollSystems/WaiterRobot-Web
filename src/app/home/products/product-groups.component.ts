@@ -171,7 +171,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
         </table>
       </div>
 
-      <app-progress-bar [hidden]="!isLoading()" />
+      <app-progress-bar [show]="isLoading()" />
     </div>
   `,
   styles: [AbstractModelsWithNameListWithDeleteAndOrderStyle],

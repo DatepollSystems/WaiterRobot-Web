@@ -235,7 +235,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
         </table>
       </div>
 
-      <app-progress-bar [hidden]="!pagination.loading()" />
+      <app-progress-bar [show]="pagination.loading()" />
 
       @if (!pagination.loading() && dataSource().length < 1) {
         <div class="w-100 text-center mt-2">

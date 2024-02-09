@@ -1,18 +1,19 @@
 import {Component, computed, inject} from '@angular/core';
 
+import {AppSelectableBtnComponent} from '@home-shared/components/button/app-selectable-btn.component';
+import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
+import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
+import {injectOnDelete, injectTabControls} from '@home-shared/form/edit';
+import {MyUserService} from '@home-shared/services/user/my-user.service';
 import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
+import {injectOnSubmit} from '@shared/form';
+import {GetOrganisationResponse} from '@shared/waiterrobot-backend';
 
-import {injectOnSubmit} from '../../../_shared/form';
-import {GetOrganisationResponse} from '../../../_shared/waiterrobot-backend';
-import {AppSelectableBtnComponent} from '../../_shared/components/button/app-selectable-btn.component';
-import {AbstractModelEditComponent} from '../../_shared/form/abstract-model-edit.component';
-import {AppEntityEditModule} from '../../_shared/form/app-entity-edit.module';
-import {injectOnDelete, injectTabControls} from '../../_shared/form/edit';
-import {MyUserService} from '../../_shared/services/user/my-user.service';
 import {OrganisationsService} from '../_services/organisations.service';
 import {SelectedOrganisationService} from '../_services/selected-organisation.service';
 import {AppOrganisationEditFormComponent} from './organisation-edit-form.component';
 import {OrganisationEditSettingsComponent} from './organisation-edit-settings.component';
+import {OrganisationEditStripeComponent} from './organisation-edit-stripe.component';
 import {OrganisationEditUsersComponent} from './organisation-edit-users.component';
 
 @Component({
@@ -44,7 +45,7 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
           </ng-container>
         </scrollable-toolbar>
 
-        <hr />
+        <div class="mt-1"></div>
 
         <ul
           ngbNav
@@ -66,15 +67,20 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
             </ng-template>
           </li>
 
-          @if (myUser()?.isAdmin) {
-            <li [ngbNavItem]="'USERS'" *isEditing="entity" [destroyOnHide]="true">
-              <a ngbNavLink>{{ 'USER' | tr }}</a>
-              <ng-template ngbNavContent>
-                <!--suppress TypeScriptValidateTypes -->
-                <app-organisation-edit-users [organisation]="entity" [myUserEmailAddress]="myUser()?.emailAddress" />
-              </ng-template>
-            </li>
-          }
+          <li [ngbNavItem]="'USERS'" *isEditing="entity" [destroyOnHide]="true">
+            <a ngbNavLink>{{ 'USER' | tr }}</a>
+            <ng-template ngbNavContent>
+              <!--suppress TypeScriptValidateTypes -->
+              <app-organisation-edit-users [organisation]="entity" [myUserEmailAddress]="myUser()?.emailAddress" />
+            </ng-template>
+          </li>
+
+          <li [ngbNavItem]="'STRIPE'" *isEditing="entity" [destroyOnHide]="true">
+            <a ngbNavLink>{{ 'STRIPE' | tr }}</a>
+            <ng-template ngbNavContent>
+              <app-organisation-edit-stripe />
+            </ng-template>
+          </li>
           <li [ngbNavItem]="'SETTINGS'" *isEditing="entity" [destroyOnHide]="true">
             <a ngbNavLink>{{ 'SETTINGS' | tr }}</a>
             <ng-template ngbNavContent>
@@ -98,12 +104,13 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
     AppOrganisationEditFormComponent,
     OrganisationEditUsersComponent,
     OrganisationEditSettingsComponent,
+    OrganisationEditStripeComponent,
   ],
 })
 export class OrganisationEditComponent extends AbstractModelEditComponent<GetOrganisationResponse> {
   onSubmit = injectOnSubmit({entityService: this.organisationsService});
-  tabControls = injectTabControls<'DATA' | 'USERS' | 'SETTINGS'>({
-    onlyEditingTabs: ['USERS', 'SETTINGS'],
+  tabControls = injectTabControls<'DATA' | 'USERS' | 'SETTINGS' | 'STRIPE'>({
+    onlyEditingTabs: ['USERS', 'SETTINGS', 'STRIPE'],
     defaultTab: 'DATA',
     isCreating: computed(() => this.entity() === 'CREATE'),
   });

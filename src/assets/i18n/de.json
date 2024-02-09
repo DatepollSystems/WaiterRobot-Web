@@ -64,6 +64,7 @@
   "DELETED": "(gelöscht)",
   "PRICE": "Preis",
   "PRICE_PER_PIECE": "Preis / Stk.",
+  "SUCCESSFUL_ACTION": "Aktion erfolgreich.",
 
   "ORDER_MODE_SWITCH": "Anordnen",
   "COLOR_PICKER": "Farbe auswählen",
@@ -76,6 +77,11 @@
 
   "404": "Nicht gefunden",
   "404_TITLE": "Was du auch immer gesucht hast, wir haben es leider nicht gefunden.",
+
+  "STRIPE": "Stripe",
+  "STRIPE_ACCOUNT": "Stripe-Account",
+  "STRIPE_ACCOUNT_EMPTY": "Keine Stripe-Accounts vorhanden.",
+  "STRIPE_ACCOUNT_BALANCE_NOT_EMPTY": "Stripe-Account hat noch Einlagen.",
 
   "ABOUT": "Über",
   "ABOUT_SIGNIN": "Anmelden",

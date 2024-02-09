@@ -5,7 +5,7 @@
     "paths": {
       "@shared/*": ["src/app/_shared/*"],
       "@home-shared/*": ["src/app/home/_shared/*"],
-      "@outside-shared/*": ["src/app/outside/_shared/*"]
+      "@outside-shared/*": ["src/app/outside/_shared/*"],
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
@@ -21,17 +21,14 @@
     "resolveJsonModule": true,
     "target": "ES2022",
     "module": "es2020",
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "lib": ["es2018", "dom"],
     "useDefineForClassFields": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
-  }
+    "strictTemplates": true,
+  },
 }

@@ -122,7 +122,7 @@ import {DeadLettersService} from './dead-letters.service';
         </table>
       </div>
 
-      <app-progress-bar [hidden]="!isLoading()" />
+      <app-progress-bar [show]="isLoading()" />
     </div>
   `,
   selector: 'app-all-dead-letters',

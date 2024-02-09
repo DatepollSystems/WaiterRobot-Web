@@ -147,7 +147,7 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
         </table>
       </div>
 
-      <app-progress-bar [hidden]="!isLoading()" />
+      <app-progress-bar [show]="isLoading()" />
     </div>
   `,
   selector: 'app-event-by-id-printers',

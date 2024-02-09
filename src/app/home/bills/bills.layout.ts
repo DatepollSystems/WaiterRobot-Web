@@ -8,18 +8,18 @@ import {EntitiesLayout} from '../_shared/layouts/entities.layout';
 
 @Component({
   template: ` <entities-layout>
-    <div class="d-flex flex-column gap-2" nav>
+    <ng-container nav>
       <div class="list-group">
         <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
           <bi name="cash-coin" />
-          {{ 'Rechnungen' | tr }}
+          {{ 'NAV_BILLS' | tr }}
         </a>
-        <a class="list-group-item list-group-item-action" routerLink="unpaidReasons" routerLinkActive="active">
+        <a class="list-group-item list-group-item-action" routerLink="reasons/all" routerLinkActive="active">
           <bi name="book-half" />
           {{ 'HOME_BILL_UNPAID_REASON' | tr }}
         </a>
       </div>
-    </div>
+    </ng-container>
   </entities-layout>`,
   selector: 'app-bills',
   standalone: true,

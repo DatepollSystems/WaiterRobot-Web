@@ -132,7 +132,7 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
         </table>
       </div>
 
-      <app-progress-bar [hidden]="!isLoading()" />
+      <app-progress-bar [show]="isLoading()" />
     </div>
   `,
   selector: 'app-all-system-notifications',

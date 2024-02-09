@@ -26,34 +26,38 @@ import {BillsService} from './_services/bills.service';
         </div>
 
         <scrollable-toolbar>
+          <back-button />
+
           <app-bill-payment-state-badge [unpaidReason]="vm.bill.unpaidReason?.reason" />
 
-          <span class="badge bg-secondary d-flex align-items-center gap-2" [ngbTooltip]="'HOME_ORDER_CREATED_AT' | tr">
-            <bi name="save" />
-            {{ vm.bill.createdAt | date: 'dd.MM.yy HH:mm:ss' }}
-          </span>
+          <div>
+            <span class="badge bg-secondary d-flex align-items-center gap-2" [ngbTooltip]="'HOME_ORDER_CREATED_AT' | tr">
+              <bi name="save" />
+              {{ vm.bill.createdAt | date: 'dd.MM.yy HH:mm:ss' }}
+            </span>
+          </div>
 
-          <a
-            routerLink="../../tables/{{ vm.bill.table.id }}"
-            class="badge bg-secondary d-flex align-items-center gap-2"
-            ngbTooltip="{{ 'HOME_ORDER_OPEN_TABLE' | tr }}"
-          >
-            <bi name="columns-gap" />
-            {{ vm.bill.table.group.name }} - {{ vm.bill.table.number }}
-          </a>
+          <div>
+            <a
+              routerLink="../../tables/{{ vm.bill.table.id }}"
+              class="badge bg-secondary d-flex align-items-center gap-2"
+              ngbTooltip="{{ 'HOME_ORDER_OPEN_TABLE' | tr }}"
+            >
+              <bi name="columns-gap" />
+              {{ vm.bill.table.group.name }} - {{ vm.bill.table.number }}
+            </a>
+          </div>
 
-          <a
-            routerLink="../../waiters/{{ vm.bill.waiter.id }}"
-            class="badge bg-primary d-flex align-items-center gap-2"
-            ngbTooltip="{{ 'HOME_ORDER_OPEN_WAITER' | tr }}"
-          >
-            <bi name="people" />
-            {{ vm.bill.waiter.name }}
-          </a>
-        </scrollable-toolbar>
-
-        <scrollable-toolbar>
-          <back-button />
+          <div>
+            <a
+              routerLink="../../waiters/{{ vm.bill.waiter.id }}"
+              class="badge bg-primary d-flex align-items-center gap-2"
+              ngbTooltip="{{ 'HOME_ORDER_OPEN_WAITER' | tr }}"
+            >
+              <bi name="people" />
+              {{ vm.bill.waiter.name }}
+            </a>
+          </div>
         </scrollable-toolbar>
 
         <hr />

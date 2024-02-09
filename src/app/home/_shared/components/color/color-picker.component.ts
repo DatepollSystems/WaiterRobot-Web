@@ -10,10 +10,10 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
 
 @Component({
   template: `
-    <div class="btn-group">
+    <div class="btn-group" role="group">
       <button
         id="color-picker-button"
-        class="btn btn-outline-info"
+        class="btn btn-outline-secondary"
         (click)="showColorPicker.set(!showColorPicker())"
         [disabled]="disabled"
         type="button"
@@ -33,15 +33,16 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
         {{ 'COLOR_PICKER' | tr }}
       </button>
 
-      <button
-        class="btn btn-outline-secondary"
-        (click)="color = undefined; colorChange.emit(undefined)"
-        [disabled]="disabled"
-        type="button"
-        ngbTooltip="{{ 'RESET' | tr }}"
-      >
-        <bi name="x-circle-fill" />
-      </button>
+      <div ngbTooltip="{{ 'RESET' | tr }}">
+        <button
+          class="btn btn-outline-secondary"
+          (click)="color = undefined; colorChange.emit(undefined)"
+          [disabled]="disabled"
+          type="button"
+        >
+          <bi name="x-circle-fill" />
+        </button>
+      </div>
     </div>
 
     <ng-template #popContent>

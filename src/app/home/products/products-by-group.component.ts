@@ -216,7 +216,7 @@ import {ProductsService} from './_services/products.service';
         }
       }
 
-      <app-progress-bar [hidden]="!isLoading()" />
+      <app-progress-bar [show]="isLoading()" />
     </div>
   `,
   styles: [AbstractModelsWithNameListWithDeleteAndOrderStyle],

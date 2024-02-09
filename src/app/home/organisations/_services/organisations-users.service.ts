@@ -3,8 +3,7 @@ import {Injectable} from '@angular/core';
 
 import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
 
-import {OrganisationUserDto, OrganisationUserResponse} from '../../../_shared/waiterrobot-backend';
-import {EventsService} from '../../events/_services/events.service';
+import {OrganisationUserDto, OrganisationUserResponse} from '@shared/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
@@ -12,10 +11,7 @@ import {EventsService} from '../../events/_services/events.service';
 export class OrganisationsUsersService {
   url = '/config/organisation/users';
 
-  constructor(
-    private httpClient: HttpClient,
-    private eventsService: EventsService,
-  ) {}
+  constructor(private httpClient: HttpClient) {}
 
   triggerGet$ = new BehaviorSubject(true);
 

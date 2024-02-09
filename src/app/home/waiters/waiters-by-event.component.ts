@@ -138,6 +138,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
                 class="btn btn-sm mx-1 btn-outline-success text-body-emphasis"
                 routerLink="../../{{ waiter.id }}"
                 ngbTooltip="{{ 'EDIT' | tr }}"
+                (click)="$event.stopPropagation()"
               >
                 <bi name="pencil-square" />
               </a>
@@ -157,7 +158,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
         </table>
       </div>
 
-      <app-progress-bar [hidden]="!isLoading()" />
+      <app-progress-bar [show]="isLoading()" />
     </div>
   `,
   selector: 'app-event-by-id-waiters',

@@ -86,10 +86,9 @@ import {TableGroupsService} from './_services/table-groups.service';
 export class TablesLayout {
   tableGroups = toSignal(inject(TableGroupsService).getAll$());
 
-  allTablesAmount = computed(
-    () =>
-      this.tableGroups()
-        ?.map((it) => it.tables.length)
-        ?.reduce((current, previous) => current + previous, 0),
+  allTablesAmount = computed(() =>
+    this.tableGroups()
+      ?.map((it) => it.tables.length)
+      ?.reduce((current, previous) => current + previous, 0),
   );
 }

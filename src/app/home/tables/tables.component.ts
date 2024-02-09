@@ -175,7 +175,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
         </table>
       </div>
 
-      <app-progress-bar [hidden]="!isLoading()" />
+      <app-progress-bar [show]="isLoading()" />
     </div>
   `,
   selector: 'app-all-tables',

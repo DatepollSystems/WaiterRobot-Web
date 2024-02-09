@@ -1,9 +1,9 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, input} from '@angular/core';
 
 @Component({
   template: `
     <div class="my-2 my-md-0">
-      @if (!hidden) {
+      @if (show()) {
         <div class="progress-bar">
           <div class="progress-bar-value"></div>
         </div>
@@ -45,6 +45,5 @@ import {booleanAttribute, ChangeDetectionStrategy, Component, Input} from '@angu
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppProgressBarComponent {
-  @Input({transform: booleanAttribute})
-  hidden = false;
+  show = input(false, {transform: booleanAttribute});
 }

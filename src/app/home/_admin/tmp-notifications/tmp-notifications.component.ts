@@ -7,6 +7,7 @@ import {AbstractModelsListComponent} from '@home-shared/list/abstract-models-lis
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {TempNotification} from '@shared/waiterrobot-backend';
+import {StopPropagationDirective} from '@home-shared/stop-propagation';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
@@ -39,6 +40,10 @@ import {TmpNotificationsService} from './tmp-notifications.service';
 
       <div class="table-responsive">
         <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="id" ngbSortDirection="desc">
+          <ng-container ngbColumnDef="id">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'Id' | tr }}</th>
+            <td *ngbCellDef="let it" ngb-cell>{{ it.id | s_cut: 20 : '...' }}</td>
+          </ng-container>
           <ng-container ngbColumnDef="to">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'To' | tr }}</th>
             <td *ngbCellDef="let it" ngb-cell>{{ it.to }}</td>
@@ -56,15 +61,24 @@ import {TmpNotificationsService} from './tmp-notifications.service';
 
           <ng-container ngbColumnDef="createdAt">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_CREATED_AT' | tr }}</th>
-            <td *ngbCellDef="let it" ngb-cell>{{ it.createdAt | date: 'dd.MM.YYYY HH:mm:ss:SSS' }}</td>
+            <td *ngbCellDef="let it" ngb-cell>{{ it.createdAt | date: 'dd.MM.YY HH:mm:ss:SSS' }}</td>
+          </ng-container>
+
+          <ng-container ngbColumnDef="actions">
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ACTIONS' | tr }}</th>
+            <td *ngbCellDef="let it" ngb-cell>
+              <a [routerLink]="'../view/' + it.id" stopPropagation class="btn btn-sm btn-outline-primary">
+                <bi name="arrow-up-right-square" />
+              </a>
+            </td>
           </ng-container>
 
           <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-          <tr *ngbRowDef="let it; columns: columnsToDisplay" ngb-row routerLink="../view" (click)="deadLettersService.single.set(it)"></tr>
+          <tr *ngbRowDef="let it; columns: columnsToDisplay" ngb-row [routerLink]="'../view/' + it.id"></tr>
         </table>
       </div>
 
-      <app-progress-bar [hidden]="!isLoading()" />
+      <app-progress-bar [show]="isLoading()" />
     </div>
   `,
   selector: 'app-all-dead-letters',
@@ -82,11 +96,12 @@ import {TmpNotificationsService} from './tmp-notifications.service';
     BiComponent,
     DfxCutPipe,
     AppProgressBarComponent,
+    StopPropagationDirective,
   ],
 })
 export class TmpNotificationsComponent extends AbstractModelsListComponent<TempNotification> {
   constructor(public deadLettersService: TmpNotificationsService) {
     super(deadLettersService);
-    this.columnsToDisplay = ['to', 'subject', 'body', 'createdAt'];
+    this.columnsToDisplay = ['id', 'to', 'subject', 'body', 'createdAt', 'actions'];
   }
 }

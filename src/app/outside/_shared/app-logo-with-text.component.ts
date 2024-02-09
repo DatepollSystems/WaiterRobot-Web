@@ -6,7 +6,7 @@ import {ThemeService} from '../../_shared/services/theme.service';
 
 @Component({
   template: `
-    <div id="brand" class="d-flex gap-4 align-items-center justify-content-center ps-2 ps-sm-0">
+    <div class="d-flex gap-4 align-items-center justify-content-center ps-2 ps-sm-0">
       @if (!hideLogo) {
         <img alt="kellner.team logo" [ngSrc]="logoUrl" priority="true" height="110" width="110" />
       }

@@ -171,7 +171,7 @@ import {TableGroupsService} from './_services/table-groups.service';
         </div>
       }
 
-      <app-progress-bar [hidden]="!isLoading()" />
+      <app-progress-bar [show]="isLoading()" />
     </div>
   `,
   styles: [AbstractModelsWithNameListWithDeleteAndOrderStyle],
