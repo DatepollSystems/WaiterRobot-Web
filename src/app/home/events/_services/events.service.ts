@@ -3,17 +3,18 @@ import {inject, Injectable} from '@angular/core';
 
 import {BehaviorSubject, catchError, combineLatest, EMPTY, map, Observable, shareReplay, switchMap, tap} from 'rxjs';
 
-import {s_from} from 'dfts-helper';
-import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
-
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
 import {
   CreateEventOrLocationDto,
   GetEventOrLocationResponse,
   GetProductResponse,
   IdResponse,
   UpdateEventOrLocationDto,
-} from '../../../_shared/waiterrobot-backend';
+} from '@shared/waiterrobot-backend';
+
+import {s_from} from 'dfts-helper';
+import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
+
 import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
 
 @Injectable({

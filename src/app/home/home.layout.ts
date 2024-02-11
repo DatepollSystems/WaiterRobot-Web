@@ -4,15 +4,15 @@ import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
+import {EnvironmentHelper} from '@shared/EnvironmentHelper';
+import {AuthService} from '@shared/services/auth/auth.service';
+import {FooterModule} from '@shared/ui/footer/footer.module';
 
 import {loggerOf, n_from, n_isNumeric, s_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingSucceeds, injectIsMobile, injectIsMobile$} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {EnvironmentHelper} from '../_shared/EnvironmentHelper';
-import {AuthService} from '../_shared/services/auth/auth.service';
-import {FooterModule} from '../_shared/ui/footer/footer.module';
 import {AppSystemNotificationAlertComponent} from './_admin/system-notifications/_components/system-notification-alert.component';
 import {ActiveSystemNotificationsService} from './_admin/system-notifications/_services/active-system-notifications.service';
 import {AppNavbarScrollableComponent} from './_shared/components/navbar-scrollable/app-navbar-scrollable.component';

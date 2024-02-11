@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {computed, inject, Injectable, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 
-import {catchError, filter, map, merge, Observable, of, Subject, switchMap, throwError} from 'rxjs';
+import {catchError, EMPTY, filter, map, merge, Observable, of, Subject, switchMap} from 'rxjs';
 
 import {connect} from 'ngxtension/connect';
 
@@ -30,9 +30,7 @@ export class MyUserService {
 
   private myUserLoaded$ = this.authStatus$.pipe(
     switchMap((status) =>
-      status === 'LOGGED_IN'
-        ? this.httpClient.get<GetMyselfResponse>('/user/myself').pipe(map((it) => new MyUserModel(it)))
-        : throwError(() => 'Not logged in'),
+      status === 'LOGGED_IN' ? this.httpClient.get<GetMyselfResponse>('/user/myself').pipe(map((it) => new MyUserModel(it))) : EMPTY,
     ),
   );
 

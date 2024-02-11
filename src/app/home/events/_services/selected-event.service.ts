@@ -5,10 +5,10 @@ import {toObservable} from '@angular/core/rxjs-interop';
 import {BehaviorSubject, catchError, combineLatest, filter, map, merge, of, switchMap} from 'rxjs';
 
 import {connect} from 'ngxtension/connect';
+import {GetEventOrLocationResponse} from '@shared/waiterrobot-backend';
 
 import {n_fromStorage, notNullAndUndefined, st_set} from 'dfts-helper';
 
-import {GetEventOrLocationResponse} from '../../../_shared/waiterrobot-backend';
 import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
 
 type SelectedEventState = {
@@ -34,9 +34,14 @@ export class SelectedEventService {
         this.httpClient.get<GetEventOrLocationResponse>(`/config/event/${eventId}`),
       ]),
     ),
-    map(([selectedOrganisationId, selectedEvent]) =>
-      selectedOrganisationId && selectedEvent.organisationId === selectedOrganisationId ? selectedEvent : undefined,
-    ),
+    map(([selectedOrganisationId, selectedEvent]) => {
+      if (selectedOrganisationId && selectedEvent.organisationId === selectedOrganisationId) {
+        return selectedEvent;
+      }
+
+      this.setSelected(undefined);
+      return undefined;
+    }),
     catchError(() => of(undefined)),
   );
 
