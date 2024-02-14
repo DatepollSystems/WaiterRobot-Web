@@ -22,7 +22,7 @@ For instructions see [here](https://docs.github.com/en/packages/working-with-a-g
 docker compose -f compose-local-dev.yml up & pnpm start && echo "Press Ctrl+C again to stop the containers" && fg
 ```
 
-Open [localhost:4200](http://localhost:4200). To stop press <kbd>Ctrl</kbd> + <kbd>C</kbd> twice (first time to stop ng serve and second to stop the containers).
+To stop press <kbd>Ctrl</kbd> + <kbd>C</kbd> twice (first time to stop ng serve and second to stop the containers).
 
 ## Using nginx container
 
@@ -30,7 +30,7 @@ Open [localhost:4200](http://localhost:4200). To stop press <kbd>Ctrl</kbd> + <k
 docker compose -f compose-local-dev.yml -f compose-local.yml up --build
 ```
 
-Open [localhost:3000](http://localhost:3000). To Stop press <kbd>Ctrl</kbd> + <kbd>C</kbd>.
+To Stop press <kbd>Ctrl</kbd> + <kbd>C</kbd>.
 
 ## Using nginx container with auto rebuild on changes
 
@@ -38,8 +38,14 @@ Open [localhost:3000](http://localhost:3000). To Stop press <kbd>Ctrl</kbd> + <k
 docker compose -f compose-local-dev.yml -f compose-local.yml watch
 ```
 
-Open [localhost:3000](http://localhost:3000). To Stop press <kbd>Ctrl</kbd> + <kbd>C</kbd>.
+To Stop press <kbd>Ctrl</kbd> + <kbd>C</kbd>.
 > Browser will not reload automatically, you need to refresh manually after rebuild is completed.
+
+- Web interface: [http://localhost:4200/](http://localhost:4200/)
+- API: [http://localhost/api](http://localhost/api)
+- RabbitMQ Management: [http://localhost:15672/](http://localhost:15672/)
+  - Username: `waiterrobot`
+  - Password: `waiterrobot`
 
 # Release new version
 
@@ -51,9 +57,9 @@ The CI will then build the new docker container image and push it to the github 
 
 ## Prod
 
-1. Increase the version in the [package.json](package.json) file.
-2. Commit and push [package.json](package.json).
-3. Run `bash tools/release.sh`
+1. Run `bash tools/release.sh`
+2. Increase the version in the [package.json](package.json) file.
+3. Commit and push [package.json](package.json).
 
 This Will create a new lava release using version specified in [package.json](package.json) and automatically appending `-lava-{timestamp}`.
 

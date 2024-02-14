@@ -31,6 +31,8 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=waiterrobot
       - RABBITMQ_DEFAULT_PASS=waiterrobot
+    ports:
+      - "15672:15672"
     networks:
       - kellner-backend
     healthcheck:
@@ -41,7 +43,7 @@ services:
 
   backend:
     container_name: kellner-local-web-dev-backend
-    image: ghcr.io/datepollsystems/waiterrobot-backend:monolith-lava
+    image: ghcr.io/datepollsystems/waiterrobot-backend:latest-lava
     restart: unless-stopped
     ports:
       - "80:8080"
