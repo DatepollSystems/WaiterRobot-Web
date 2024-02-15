@@ -33,16 +33,14 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
         {{ 'COLOR_PICKER' | tr }}
       </button>
 
-      <div ngbTooltip="{{ 'RESET' | tr }}">
-        <button
-          class="btn btn-outline-secondary"
-          (click)="color = undefined; colorChange.emit(undefined)"
-          [disabled]="disabled"
-          type="button"
-        >
-          <bi name="x-circle-fill" />
-        </button>
-      </div>
+      <button
+        class="btn btn-outline-secondary"
+        (click)="color = undefined; colorChange.emit(undefined)"
+        [disabled]="disabled"
+        type="button"
+      >
+        <bi name="x-circle-fill" [ngbTooltip]="'RESET' | tr" />
+      </button>
     </div>
 
     <ng-template #popContent>

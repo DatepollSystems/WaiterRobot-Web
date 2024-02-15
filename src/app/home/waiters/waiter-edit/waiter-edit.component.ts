@@ -8,6 +8,7 @@ import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {loggerOf, n_from, n_isNumeric} from 'dfts-helper';
 
+
 import {injectOnSubmit} from '../../../_shared/form';
 import {GetWaiterResponse} from '../../../_shared/waiterrobot-backend';
 import {AbstractModelEditComponent} from '../../_shared/form/abstract-model-edit.component';
@@ -43,21 +44,13 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
             <app-btn-waiter-signin-qrcode [token]="entity.signInToken" />
 
             <div>
-              <a
-                class="btn btn-sm btn-outline-secondary text-body-emphasis"
-                routerLink="../../orders"
-                [queryParams]="{waiterIds: entity.id}"
-              >
+              <a class="btn btn-sm btn-secondary" routerLink="../../orders" [queryParams]="{waiterIds: entity.id}">
                 <bi name="stack" />
                 {{ 'NAV_ORDERS' | tr }}
               </a>
             </div>
             <div>
-              <a
-                class="btn btn-sm btn-outline-secondary text-body-emphasis"
-                routerLink="../../bills"
-                [queryParams]="{waiterIds: entity.id}"
-              >
+              <a class="btn btn-sm btn-secondary" routerLink="../../bills" [queryParams]="{waiterIds: entity.id}">
                 <bi name="cash-coin" />
                 {{ 'NAV_BILLS' | tr }}
               </a>

@@ -15,7 +15,7 @@ import {SystemInfoComponent} from './system-info.component';
         <div class="loader"></div>
       </div>
 
-      <app-logo-with-text hideLogo />
+      <app-logo-with-text hideLogo class="mt-2" />
     </div>
 
     <app-system-info />

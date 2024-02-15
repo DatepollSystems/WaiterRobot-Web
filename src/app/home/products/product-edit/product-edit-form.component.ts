@@ -7,10 +7,10 @@ import {a_pluck, HasNumberIDAndName, n_from, s_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {AbstractModelEditFormComponent} from '../../_shared/form/abstract-model-edit-form.component';
-import {AppModelEditSaveBtn} from '../../_shared/form/app-model-edit-save-btn.component';
 import {injectIsValid} from '../../../_shared/form';
 import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '../../../_shared/waiterrobot-backend';
+import {AbstractModelEditFormComponent} from '../../_shared/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '../../_shared/form/app-model-edit-save-btn.component';
 import {allowedCharacterSet} from '../../_shared/regex';
 
 @Component({
@@ -88,7 +88,7 @@ import {allowedCharacterSet} from '../../_shared/regex';
           <label for="selectPrinter">{{ 'NAV_PRINTERS' | tr }}</label>
           <div class="input-group">
             <span class="input-group-text" id="selectPrinter-addon">
-              <bi name="diagram-3" />
+              <bi name="printer" />
             </span>
             <select class="form-select" id="selectPrinter" formControlName="printerId">
               <option [value]="-1" disabled>{{ 'HOME_PROD_PRINTER_SELECT_DEFAULT' | tr }}</option>

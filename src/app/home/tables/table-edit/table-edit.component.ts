@@ -16,6 +16,7 @@ import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
 import {n_from, n_isNumeric} from 'dfts-helper';
 
+
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TablesService} from '../_services/tables.service';
@@ -56,17 +57,13 @@ import {TableEditFormComponent} from './table-edit-form.component';
             </div>
 
             <div>
-              <a
-                class="btn btn-sm btn-outline-secondary text-body-emphasis"
-                routerLink="../../orders"
-                [queryParams]="{tableIds: entity.id}"
-              >
+              <a class="btn btn-sm btn-secondary" routerLink="../../orders" [queryParams]="{tableIds: entity.id}">
                 <bi name="stack" />
                 {{ 'NAV_ORDERS' | tr }}
               </a>
             </div>
             <div>
-              <a class="btn btn-sm btn-outline-secondary text-body-emphasis" routerLink="../../bills" [queryParams]="{tableIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" routerLink="../../bills" [queryParams]="{tableIds: entity.id}">
                 <bi name="cash-coin" />
                 {{ 'NAV_BILLS' | tr }}
               </a>

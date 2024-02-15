@@ -5,7 +5,7 @@
 
       @if (isMobile()) { @if (showEnvironmentType && environmentType === 'dev') {
       <div (click)="showEnvironmentType = !showEnvironmentType" class="badge bg-warning text-dark ms-3 me-1 not-selectable">
-        <span>DEV</span>
+        <span>LOCAL</span>
       </div>
       } @if (myUserService.user()?.isAdmin) {
       <div style="font-size: 12px" class="badge bg-danger text-dark ms-3 me-1 not-selectable">
@@ -35,7 +35,7 @@
             <li class="nav-item d-flex align-items-center">
               @if (showEnvironmentType && environmentType === 'dev') {
               <div (click)="showEnvironmentType = !showEnvironmentType" class="badge bg-warning text-dark ms-1 me-1 not-selectable">
-                <span>DEV</span>
+                <span>LOCAL</span>
               </div>
               } @if (myUserService.user()?.isAdmin) {
               <div style="font-size: 12px" class="badge bg-danger text-dark ms-1 me-1 not-selectable">

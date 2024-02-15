@@ -56,7 +56,7 @@ export function injectFilter<
   );
 
   // Subscribe to form to set params on change
-  valueChanges.pipe(takeUntilDestroyed(), distinctUntilChanged()).subscribe((queryParams) => {
+  form.valueChanges.pipe(takeUntilDestroyed(), distinctUntilChanged()).subscribe((queryParams) => {
     lumber.info('filterFormValueChanges', 'Set query params', queryParams);
     void router.navigate([], {
       relativeTo: route,

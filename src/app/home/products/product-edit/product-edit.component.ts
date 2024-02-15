@@ -6,6 +6,7 @@ import {filter, map} from 'rxjs';
 
 import {n_from, n_isNumeric} from 'dfts-helper';
 
+
 import {injectOnSubmit} from '../../../_shared/form';
 import {GetProductMaxResponse} from '../../../_shared/waiterrobot-backend';
 import {AbstractModelEditComponent} from '../../_shared/form/abstract-model-edit.component';
@@ -39,28 +40,27 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
             </div>
 
             <div>
-              <button class="btn btn-sm btn-primary" routerLink="../groups/products/{{ entity.group.id }}">
+              <a class="btn btn-sm btn-primary" routerLink="../groups/products/{{ entity.group.id }}">
                 <bi name="diagram-3" />
                 {{ 'HOME_PROD_GO_TO_GROUP' | tr }}
-              </button>
+              </a>
             </div>
 
             <div>
-              <a
-                class="btn btn-sm btn-outline-secondary text-body-emphasis"
-                routerLink="../../orders"
-                [queryParams]="{productIds: entity.id}"
-              >
+              <a class="btn btn-sm btn-secondary" routerLink="../../printers/{{ entity.printer.id }}">
+                <bi name="printer" />
+                {{ 'NAV_PRINTERS' | tr }} {{ 'OPEN_2' | tr }}
+              </a>
+            </div>
+
+            <div>
+              <a class="btn btn-sm btn-secondary" routerLink="../../orders" [queryParams]="{productIds: entity.id}">
                 <bi name="stack" />
                 {{ 'NAV_ORDERS' | tr }}
               </a>
             </div>
             <div>
-              <a
-                class="btn btn-sm btn-outline-secondary text-body-emphasis"
-                routerLink="../../bills"
-                [queryParams]="{productIds: entity.id}"
-              >
+              <a class="btn btn-sm btn-secondary" routerLink="../../bills" [queryParams]="{productIds: entity.id}">
                 <bi name="cash-coin" />
                 {{ 'NAV_BILLS' | tr }}
               </a>

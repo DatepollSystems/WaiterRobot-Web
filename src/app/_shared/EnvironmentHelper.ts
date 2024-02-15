@@ -1,6 +1,10 @@
 import {environment} from '../../environments/environment';
 
 export class EnvironmentHelper {
+  public static get() {
+    return environment;
+  }
+
   public static getAPIUrl(): string {
     return environment.apiUrl;
   }
