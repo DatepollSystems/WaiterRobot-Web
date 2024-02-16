@@ -25,7 +25,7 @@
 
         - name: create new pull request if needed
           if: steps.license-report.outputs.has-no-changes != 'true'
-          uses: peter-evans/create-pull-request@v5
+          uses: peter-evans/create-pull-request@v6
           with:
             title: Generated new licenses report
             branch-suffix: timestamp
