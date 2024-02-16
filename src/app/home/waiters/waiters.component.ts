@@ -42,7 +42,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
         </div>
 
         <div>
-          <a routerLink="duplicates" class="btn btn-sm btn-secondary">
+          <a routerLink="../duplicates" class="btn btn-sm btn-secondary">
             <bi name="person-bounding-box" />
             {{ 'HOME_WAITERS_DUPLICATES' | tr }}</a
           >

@@ -8,7 +8,6 @@ import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {loggerOf, n_from, n_isNumeric} from 'dfts-helper';
 
-
 import {injectOnSubmit} from '../../../_shared/form';
 import {GetWaiterResponse} from '../../../_shared/waiterrobot-backend';
 import {AbstractModelEditComponent} from '../../_shared/form/abstract-model-edit.component';

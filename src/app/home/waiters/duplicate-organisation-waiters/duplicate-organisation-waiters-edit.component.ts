@@ -9,9 +9,9 @@ import {notNullAndUndefined} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
+import {DuplicateWaiterResponse, IdAndNameResponse} from '../../../_shared/waiterrobot-backend';
 import {ScrollableToolbarComponent} from '../../_shared/components/scrollable-toolbar.component';
 import {AppContinuesCreationSwitchComponent} from '../../_shared/form/app-continues-creation-switch.component';
-import {DuplicateWaiterResponse, IdAndNameResponse} from '../../../_shared/waiterrobot-backend';
 import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
 
 type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean; selectedAsMain: boolean};
@@ -97,7 +97,7 @@ export class DuplicateOrganisationWaitersEditComponent {
     switchMap((name) => this.allDuplicateWaiters$.pipe(map((waiters) => waiters.find((it) => it.name === name)))),
     filter((waiter): waiter is DuplicateWaiterResponse => {
       if (!waiter) {
-        void this.router.navigateByUrl('/o/organisationId/e/eventId/waiters/organisation/duplicates');
+        void this.router.navigateByUrl('/o/organisationId/e/eventId/waiters/duplicates');
         return false;
       }
       return true;
@@ -193,13 +193,13 @@ export class DuplicateOrganisationWaitersEditComponent {
             if (i > 98) {
               console.warn('duplicateWaiter merge - Could not find another duplicate waiter', allDuplicateWaiters);
             } else {
-              void this.router.navigateByUrl(`/o/organisationId/e/eventId/waiters/organisation/duplicates/merge/"${next!.name}"`);
+              void this.router.navigateByUrl(`/o/organisationId/e/eventId/waiters/duplicates/merge/"${next!.name}"`);
               return;
             }
-            void this.router.navigateByUrl('/o/organisationId/e/eventId/waiters/organisation/duplicates');
+            void this.router.navigateByUrl('/o/organisationId/e/eventId/waiters/duplicates');
           });
       } else {
-        void this.router.navigateByUrl('/o/organisationId/e/eventId/waiters/organisation/duplicates');
+        void this.router.navigateByUrl('/o/organisationId/e/eventId/waiters/duplicates');
       }
     });
   }

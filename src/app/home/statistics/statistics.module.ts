@@ -22,15 +22,12 @@ import {SumProductsPerWaiterComponent} from './components/sum-products-per-waite
 import {SumProductsComponent} from './components/sum-products.component';
 import {SumStatisticsComponent} from './components/sum/sum-statistics.component';
 import {TimelineComponent} from './components/timeline.component';
-import {StatisticsOverviewComponent} from './statistics-overview.component';
+import {StatisticsComponent} from './statistics.component';
 
 const routes: Routes = [
   {
     path: '',
-    children: [
-      {path: 'overview', component: StatisticsOverviewComponent},
-      {path: '', pathMatch: 'full', redirectTo: 'overview'},
-    ],
+    children: [{path: '', component: StatisticsComponent}],
   },
   {path: 'products', component: SumProductsComponent},
 ];
@@ -38,7 +35,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     CountCardComponent,
-    StatisticsOverviewComponent,
+    StatisticsComponent,
     SumProductGroupsComponent,
     SumProductsComponent,
     SumProductsPerWaiterComponent,

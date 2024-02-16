@@ -7,17 +7,22 @@ export const ROUTES: Routes = [
     children: [
       {
         path: 'mediators',
-        loadComponent: () => import('./mediators.component').then((c) => c.MediatorsComponent),
+        children: [
+          {
+            path: 'all',
+            loadComponent: () => import('./mediators.component').then((c) => c.MediatorsComponent),
+          },
+        ],
       },
       {
-        path: 'printers',
+        path: 'all',
         loadComponent: () => import('./printers.component').then((c) => c.PrintersComponent),
       },
       {
         path: ':id',
         loadComponent: () => import('./printer-edit/printer-edit.component').then((c) => c.PrinterEditComponent),
       },
-      {path: '', pathMatch: 'full', redirectTo: 'printers'},
+      {path: '', pathMatch: 'full', redirectTo: 'all'},
     ],
   },
 ];

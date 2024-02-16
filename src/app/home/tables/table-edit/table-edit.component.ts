@@ -16,7 +16,6 @@ import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
 import {n_from, n_isNumeric} from 'dfts-helper';
 
-
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TablesService} from '../_services/tables.service';
@@ -48,13 +47,6 @@ import {TableEditFormComponent} from './table-edit-form.component';
                 </a>
               </div>
             }
-
-            <div>
-              <a class="btn btn-sm btn-primary" routerLink="../groups/tables/{{ entity.groupId }}">
-                <bi name="diagram-3" />
-                {{ 'HOME_TABLE_GO_TO_GROUP' | tr }}
-              </a>
-            </div>
 
             <div>
               <a class="btn btn-sm btn-secondary" routerLink="../../orders" [queryParams]="{tableIds: entity.id}">

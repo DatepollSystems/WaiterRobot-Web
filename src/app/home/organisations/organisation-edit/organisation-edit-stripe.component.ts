@@ -1,18 +1,20 @@
 import {ChangeDetectionStrategy, Component, effect, inject, ViewChild} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
 
 import {filter, of, pipe, startWith, switchMap} from 'rxjs';
 
+import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
+import {StopPropagationDirective} from '@home-shared/stop-propagation';
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+import {CreateStripeAccountDto, GetStripeAccountResponse, UpdateStripeAccountDto} from '@shared/waiterrobot-backend';
 import {computedFrom} from 'ngxtension/computed-from';
 import {injectParams} from 'ngxtension/inject-params';
-import {CreateStripeAccountDto, UpdateStripeAccountDto} from '@shared/waiterrobot-backend';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
 
-import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {notNullAndUndefined} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
 import {OrganisationsStripeService} from '../_services/organisations-stripe.service';
@@ -69,7 +71,13 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
           <ng-container ngbColumnDef="event">
             <th *ngbHeaderCellDef ngb-header-cell>{{ 'NAV_EVENTS' | tr }}</th>
             <td *ngbCellDef="let stripeAccount" ngb-cell>
-              {{ stripeAccount.event?.name ?? '-' }}
+              @if (stripeAccount.event; as event) {
+                <a routerLink="../../o/{{ stripeAccount.organisationId }}/events/{{ event.id }}" stopPropagation>
+                  {{ event.name }}
+                </a>
+              } @else {
+                -
+              }
             </td>
           </ng-container>
 
@@ -121,6 +129,8 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
     ReactiveFormsModule,
     AppProgressBarComponent,
     StripeAccountStateBadge,
+    RouterLink,
+    StopPropagationDirective,
   ],
 })
 export class OrganisationEditStripeComponent {
@@ -167,9 +177,13 @@ export class OrganisationEditStripeComponent {
       ariaLabelledBy: 'modal-title-org-stripe-create',
       size: 'lg',
     });
-    (modalRef.componentInstance as OrganisationStripeAccountModal).action = 'CREATE';
-    (modalRef.componentInstance as OrganisationStripeAccountModal).organisationId = Number(this.idParam());
-    (modalRef.componentInstance as OrganisationStripeAccountModal).existingStripeAccountCount = this.stripeState.data()?.length ?? 0;
+    void (modalRef.componentInstance as OrganisationStripeAccountModal).state.set({
+      type: 'CREATE',
+      organisationId: Number(this.idParam()),
+      existingStripeAccountCount: this.stripeState.data()?.length ?? 0,
+      name: undefined,
+      eventId: undefined,
+    });
     modalRef.closed.subscribe((it?: CreateStripeAccountDto) => {
       if (it) {
         void this.stripeState.create(it);
@@ -177,15 +191,18 @@ export class OrganisationEditStripeComponent {
     });
   }
 
-  onUpdateStripeAccount(stripeAccount: UpdateStripeAccountDto): void {
+  onUpdateStripeAccount(stripeAccount: GetStripeAccountResponse): void {
     const modalRef = this.modal.open(OrganisationStripeAccountModal, {
       ariaLabelledBy: 'modal-title-org-stripe-update',
       size: 'lg',
     });
-    (modalRef.componentInstance as OrganisationStripeAccountModal).action = 'UPDATE';
-    (modalRef.componentInstance as OrganisationStripeAccountModal).organisationId = Number(this.idParam());
-    (modalRef.componentInstance as OrganisationStripeAccountModal).existingStripeAccountCount = this.stripeState.data()?.length ?? 0;
-    (modalRef.componentInstance as OrganisationStripeAccountModal).form.controls.name.patchValue(stripeAccount.name);
+    void (modalRef.componentInstance as OrganisationStripeAccountModal).state.set({
+      type: 'UPDATE',
+      organisationId: Number(this.idParam()),
+      existingStripeAccountCount: this.stripeState.data()?.length ?? 0,
+      name: stripeAccount.name,
+      eventId: stripeAccount.event?.id,
+    });
     modalRef.closed.subscribe((it?: Omit<UpdateStripeAccountDto, 'id'>) => {
       if (it) {
         void this.stripeState.update({

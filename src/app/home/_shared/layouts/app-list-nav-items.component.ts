@@ -85,22 +85,22 @@ export class AppListNavItemDirective {
     </div>
   `,
   styles: `
-  .bd-toc-toggle {
-    color: var(--bs-body-color);
-    border: 1px solid var(--bs-border-color);
-    border-radius: var(--bs-border-radius);
-  }
+    .bd-toc-toggle {
+      color: var(--bs-body-color);
+      border: 1px solid var(--bs-border-color);
+      border-radius: var(--bs-border-radius);
+    }
 
-    .bd-toc-toggle[aria-expanded="true"] {
-    box-shadow: 0 0 0 3px rgba(var(--bd-violet-rgb), 0.25);
-  }
+    .bd-toc-toggle[aria-expanded='true'] {
+      box-shadow: 0 0 0 3px rgba(var(--bd-violet-rgb), 0.25);
+    }
 
-   .bd-toc-toggle[aria-expanded="true"] {
-    color: var(--bd-violet);
-    background-color: var(--bs-body-bg);
-    border-color: var(--bd-violet);
-  }
-   `,
+    .bd-toc-toggle[aria-expanded='true'] {
+      color: var(--bd-violet);
+      background-color: var(--bs-body-bg);
+      border-color: var(--bd-violet);
+    }
+  `,
   standalone: true,
   selector: 'app-list-nav-items',
   changeDetection: ChangeDetectionStrategy.OnPush,

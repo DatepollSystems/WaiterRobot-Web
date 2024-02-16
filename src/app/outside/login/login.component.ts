@@ -91,22 +91,21 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
     </div>
   `,
   styles: `
+    .form-floating:focus-within {
+      z-index: 2;
+    }
+    input[type='email'] {
+      z-index: 400;
+      margin-bottom: -1px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
 
-.form-floating:focus-within {
-  z-index: 2;
-}
-  input[type="email"] {
-  z-index: 400;
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
+    input[type='password'] {
+      margin-bottom: 10px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
   `,
   selector: 'app-login',
   standalone: true,

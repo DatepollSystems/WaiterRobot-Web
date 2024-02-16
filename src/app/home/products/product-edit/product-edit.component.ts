@@ -4,16 +4,16 @@ import {RouterLink} from '@angular/router';
 
 import {filter, map} from 'rxjs';
 
+import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
+import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
+import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
+import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
+import {injectContinuousCreation, injectOnDelete} from '@home-shared/form/edit';
+import {injectOnSubmit} from '@shared/form';
+import {GetProductMaxResponse} from '@shared/waiterrobot-backend';
+
 import {n_from, n_isNumeric} from 'dfts-helper';
 
-
-import {injectOnSubmit} from '../../../_shared/form';
-import {GetProductMaxResponse} from '../../../_shared/waiterrobot-backend';
-import {AbstractModelEditComponent} from '../../_shared/form/abstract-model-edit.component';
-import {AppContinuesCreationSwitchComponent} from '../../_shared/form/app-continues-creation-switch.component';
-import {AppDeletedDirectives} from '../../_shared/form/app-entity-deleted.directives';
-import {AppEntityEditModule} from '../../_shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectOnDelete} from '../../_shared/form/edit';
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {PrintersService} from '../../printers/_services/printers.service';
 import {AllergensService} from '../_services/allergens.service';
@@ -37,20 +37,6 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
                 <bi name="trash" />
                 {{ 'DELETE' | tr }}
               </button>
-            </div>
-
-            <div>
-              <a class="btn btn-sm btn-primary" routerLink="../groups/products/{{ entity.group.id }}">
-                <bi name="diagram-3" />
-                {{ 'HOME_PROD_GO_TO_GROUP' | tr }}
-              </a>
-            </div>
-
-            <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../printers/{{ entity.printer.id }}">
-                <bi name="printer" />
-                {{ 'NAV_PRINTERS' | tr }} {{ 'OPEN_2' | tr }}
-              </a>
             </div>
 
             <div>

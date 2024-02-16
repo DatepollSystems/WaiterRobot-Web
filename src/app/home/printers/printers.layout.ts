@@ -11,11 +11,11 @@ import {EntitiesLayout} from '../_shared/layouts/entities.layout';
     <entities-layout>
       <ng-container nav>
         <div class="list-group">
-          <a class="list-group-item list-group-item-action" routerLink="printers" routerLinkActive="active">
+          <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
             <bi name="printer" />
             {{ 'NAV_PRINTERS' | tr }}</a
           >
-          <a class="list-group-item list-group-item-action" routerLink="mediators" routerLinkActive="active">
+          <a class="list-group-item list-group-item-action" routerLink="mediators/all" routerLinkActive="active">
             <bi name="router" />
             {{ 'HOME_PRINTER_NAV_MEDIATOR' | tr }}</a
           >

@@ -1,11 +1,13 @@
 import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
+import {RouterLink} from '@angular/router';
 
 import {debounceTime, filter, map, switchMap, tap} from 'rxjs';
 
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {injectIsValid} from '@shared/form';
 import {CreateTableDto, GetTableWithGroupResponse, UpdateTableDto} from '@shared/waiterrobot-backend';
 
@@ -51,9 +53,22 @@ import {TablesService} from '../_services/tables.service';
         <div class="form-group flex-fill">
           <label for="selectGroup">{{ 'HOME_TABLE_GROUPS' | tr }}</label>
           <div class="input-group">
-            <span class="input-group-text" id="selectGroup-addon">
-              <bi name="diagram-3" />
-            </span>
+            @if (isCreating()) {
+              <span class="input-group-text" id="selectGroup-addon">
+                <bi name="diagram-3" />
+              </span>
+            } @else {
+              <a
+                routerLink="../groups/{{ form.controls.groupId.value }}"
+                class="input-group-text"
+                id="selectGroup-addon"
+                [ngbTooltip]="('HOME_TABLE_GROUP' | tr) + ('OPEN_2' | tr)"
+                placement="bottom"
+              >
+                <bi name="diagram-3" />
+              </a>
+            }
+
             <select class="form-select" id="selectGroup" formControlName="groupId">
               <option [value]="-1" disabled>{{ 'HOME_TABLES_GROUPS_DEFAULT' | tr }}</option>
               @for (group of tableGroups; track group.id) {
@@ -78,7 +93,7 @@ import {TablesService} from '../_services/tables.service';
   selector: 'app-table-edit-form',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, AsyncPipe, DfxTr, BiComponent, AppModelEditSaveBtn],
+  imports: [ReactiveFormsModule, AsyncPipe, DfxTr, BiComponent, AppModelEditSaveBtn, RouterLink, NgbTooltip],
 })
 export class TableEditFormComponent extends AbstractModelEditFormComponent<CreateTableDto, UpdateTableDto> {
   tablesService = inject(TablesService);

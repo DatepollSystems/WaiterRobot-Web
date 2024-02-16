@@ -83,6 +83,6 @@ import {StatisticsService} from './statistics.service';
   `,
   selector: 'app-statistics-overview',
 })
-export class StatisticsOverviewComponent {
+export class StatisticsComponent {
   countDto$ = inject(StatisticsService).counts;
 }

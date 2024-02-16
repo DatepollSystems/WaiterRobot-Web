@@ -134,14 +134,14 @@ import {MaxiService} from './maxi.service';
     </div>
   `,
   styles: `
-.close {
-font-size: 1.4rem;
-opacity: 0.1;
-transition: opacity 0.3s;
-}
-.nav-link:hover > .close {
-topacity: 0.8;
-}
+    .close {
+      font-size: 1.4rem;
+      opacity: 0.1;
+      transition: opacity 0.3s;
+    }
+    .nav-link:hover > .close {
+      topacity: 0.8;
+    }
   `,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,

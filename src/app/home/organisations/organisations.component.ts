@@ -3,8 +3,8 @@ import {Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {StopPropagationDirective} from '@home-shared/stop-propagation';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetOrganisationResponse} from '@shared/waiterrobot-backend';
 
@@ -173,9 +173,11 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
             <tr *ngbRowDef="let organisation; columns: columnsToDisplay" ngb-row routerLink="../{{ organisation.id }}"></tr>
           </table>
         </div>
+
+        <app-progress-bar [show]="isLoading()" />
+
         <ngb-paginator [length]="dataSource.data.length" />
       }
-      <app-progress-bar [show]="isLoading()" />
     </div>
   `,
   selector: 'app-all-organisations',

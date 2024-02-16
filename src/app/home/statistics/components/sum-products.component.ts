@@ -20,7 +20,7 @@ import {StatisticsService} from '../statistics.service';
         </div>
       } @else {
         <div bottom>
-          <a class="btn btn-info btn-sm" routerLink="../products">{{ 'SHOW_ALL' | tr }}</a>
+          <a class="btn btn-info btn-sm" routerLink="products">{{ 'SHOW_ALL' | tr }}</a>
         </div>
       }
     </app-sum-statistics>

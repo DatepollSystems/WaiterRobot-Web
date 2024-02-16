@@ -1,6 +1,8 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
+import {RouterLink} from '@angular/router';
 
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
 
 import {a_pluck, HasNumberIDAndName, n_from, s_from} from 'dfts-helper';
@@ -65,9 +67,21 @@ import {allowedCharacterSet} from '../../_shared/regex';
         <div class="form-group col">
           <label for="selectGroup">{{ 'HOME_PROD_GROUPS' | tr }}</label>
           <div class="input-group">
-            <span class="input-group-text" id="selectGroup-addon">
-              <bi name="diagram-3" />
-            </span>
+            @if (isCreating()) {
+              <span class="input-group-text" id="selectGroup-addon">
+                <bi name="diagram-3" />
+              </span>
+            } @else {
+              <a
+                routerLink="../groups/{{ form.controls.groupId.value }}"
+                class="input-group-text"
+                id="selectGroup-addon"
+                [ngbTooltip]="('HOME_PROD_GROUP' | tr) + ('OPEN_2' | tr)"
+                placement="bottom"
+              >
+                <bi name="diagram-3" />
+              </a>
+            }
             <select class="form-select" id="selectGroup" formControlName="groupId">
               <option [value]="-1" disabled>{{ 'HOME_PROD_GROUPS_DEFAULT' | tr }}</option>
               @for (productGroup of productGroups; track productGroup.id) {
@@ -87,9 +101,21 @@ import {allowedCharacterSet} from '../../_shared/regex';
         <div class="form-group col">
           <label for="selectPrinter">{{ 'NAV_PRINTERS' | tr }}</label>
           <div class="input-group">
-            <span class="input-group-text" id="selectPrinter-addon">
-              <bi name="printer" />
-            </span>
+            @if (isCreating()) {
+              <span class="input-group-text" id="selectPrinter-addon">
+                <bi name="printer" />
+              </span>
+            } @else {
+              <a
+                routerLink="../../printers/{{ form.controls.printerId.value }}"
+                class="input-group-text"
+                id="selectPrinter-addon"
+                [ngbTooltip]="('NAV_PRINTERS' | tr) + ('OPEN_2' | tr)"
+                placement="bottom"
+              >
+                <bi name="printer" />
+              </a>
+            }
             <select class="form-select" id="selectPrinter" formControlName="printerId">
               <option [value]="-1" disabled>{{ 'HOME_PROD_PRINTER_SELECT_DEFAULT' | tr }}</option>
               @for (printer of this.printers; track printer.id) {
@@ -151,7 +177,7 @@ import {allowedCharacterSet} from '../../_shared/regex';
     </form>
   `,
   selector: 'app-product-edit-form',
-  imports: [ReactiveFormsModule, DfxTr, BiComponent, NgSelectModule, AppModelEditSaveBtn],
+  imports: [ReactiveFormsModule, DfxTr, BiComponent, NgSelectModule, AppModelEditSaveBtn, RouterLink, NgbTooltip],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -8,8 +8,6 @@ import {connect} from 'ngxtension/connect';
 
 import {b_fromStorage, st_set} from 'dfts-helper';
 
-
-
 import {AdminInfoResponse, JsonInfoResponse} from '../waiterrobot-backend';
 import {AuthService} from './auth/auth.service';
 

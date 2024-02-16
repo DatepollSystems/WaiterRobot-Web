@@ -16,7 +16,7 @@ import {SelectedOrganisationService} from '../organisations/_services/selected-o
       <div class="d-flex flex-column gap-3" nav>
         <div class="list-group">
           @if (selectedOrganisation(); as selectedOrganisation) {
-            <a class="list-group-item list-group-item-action" routerLink="organisation" routerLinkActive="active">
+            <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
               <bi name="people" />
               {{ selectedOrganisation.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</a
             >

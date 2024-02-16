@@ -56,6 +56,10 @@ export class EventsService
     );
   }
 
+  getAllById$(organisationId: number): Observable<GetEventOrLocationResponse[]> {
+    return this.triggerGet$.pipe(switchMap(() => this.httpClient.get<GetEventOrLocationResponse[]>(this.url, {params: {organisationId}})));
+  }
+
   getSingle$(id: number): Observable<GetEventOrLocationResponse> {
     return this.triggerGet$.pipe(switchMap(() => this.httpClient.get<GetEventOrLocationResponse>(`${this.url}/${id}`)));
   }

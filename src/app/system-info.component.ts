@@ -19,7 +19,6 @@ import {i_complete} from 'dfts-helper';
 import {DfxTimeSpanPipe, injectIsMobile} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-
 @Component({
   template: `
     @defer (when showService.show()) {
@@ -183,13 +182,13 @@ import {DfxTr} from 'dfx-translate';
     }
   `,
   styles: `
-  .transparent {
-  background-color: rgba(0, 0, 0, 0.85);
-  }
+    .transparent {
+      background-color: rgba(0, 0, 0, 0.85);
+    }
 
-  .light-transparent {
-  background-color: rgba(0, 0, 0, 0.35);
-  }
+    .light-transparent {
+      background-color: rgba(0, 0, 0, 0.35);
+    }
   `,
   selector: 'app-system-info',
   standalone: true,
