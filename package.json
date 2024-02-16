@@ -15,7 +15,7 @@
     "lint": "ng lint",
     "prettify": "prettier --write .",
     "e2e": "ng e2e",
-    "prepare": "husky install && npm run translate:types",
+    "prepare": "husky && npm run translate:types",
     "translate:types": "translate-cli generateTypes",
     "translate:reset": "translate-cli resetTypes",
     "api:types": "swagger-typescript-api -p http://localhost:8080/api/swagger/api-docs -o ./src/app/_shared/ -n waiterrobot-backend.d.ts --no-client && prettier --write ./src/app/_shared/waiterrobot-backend.d.ts",
