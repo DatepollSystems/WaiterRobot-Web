@@ -6,7 +6,7 @@ services:
   mariadb:
     container_name: kellner-local-web-dev-db
     image: mariadb:11.2.2-jammy
-    restart: always
+    restart: unless-stopped
     volumes:
       - kellner-db:/var/lib/mysql:z
     environment:
@@ -25,7 +25,7 @@ services:
   rabbitmq:
     container_name: kellner-local-web-dev-rabbit
     image: rabbitmq:3.12.10-management
-    restart: always
+    restart: unless-stopped
     volumes:
       - kellner-rabbit:/var/lib/rabbitmq
     environment:
