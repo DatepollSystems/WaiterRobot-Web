@@ -56,19 +56,18 @@ Open [http://localhost:4300/](http://localhost:4200/).
 
 ## Lava
 
-Run `bash tools/releaseLava.sh` \
-This will create and push a new lava version tag using version specified in [package.json](package.json).
-It automatically appends `-lava-{timestamp}` to the version.
-The CI will then build the new docker container image and push it to the GitHub registry.
+Run `bash tools/releaseLava.sh`
+> This will create and push a new lava version tag using version specified in [package.json](package.json).
+> The `-lava-{timestamp}` suffix will be automatically appended. \
+> The CI will then build the new docker container image and push it to the GitHub registry.
 
 ## Prod
 
 1. Run `bash tools/release.sh`
+   > This will create and push a new prod version tag using the version specified in [package.json](package.json). \
+   > The CI will then build the new docker container image and push it to the GitHub registry.
 2. Increase the version in the [package.json](package.json) file.
 3. Commit and push [package.json](package.json).
-
-This will create and push a new prod version tag using the version specified in [package.json](package.json).
-The CI will then build the new docker container image and push it to the GitHub registry.
 
 # Deploy
 
