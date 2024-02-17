@@ -22,7 +22,7 @@ For instructions see [here](https://docs.github.com/en/packages/working-with-a-g
 docker compose -f compose-local-dev.yml up & pnpm start && echo "Press Ctrl+C again to stop the containers" && fg
 ```
 
-To stop press <kbd>Ctrl</kbd> + <kbd>C</kbd> twice (first time to stop ng serve and second to stop the containers).
+Open [http://localhost:4200/](http://localhost:4200/). To stop press <kbd>Ctrl</kbd> + <kbd>C</kbd> twice (first time to stop ng serve and second to stop the containers).
 
 ## Using nginx container
 
@@ -30,7 +30,7 @@ To stop press <kbd>Ctrl</kbd> + <kbd>C</kbd> twice (first time to stop ng serve 
 docker compose -f compose-local-dev.yml -f compose-local.yml up --build
 ```
 
-To Stop press <kbd>Ctrl</kbd> + <kbd>C</kbd>.
+Open [http://localhost:4200/](http://localhost:4200/). To Stop press <kbd>Ctrl</kbd> + <kbd>C</kbd>.
 
 ## Using nginx container with auto rebuild on changes
 
@@ -38,14 +38,18 @@ To Stop press <kbd>Ctrl</kbd> + <kbd>C</kbd>.
 docker compose -f compose-local-dev.yml -f compose-local.yml watch
 ```
 
-To Stop press <kbd>Ctrl</kbd> + <kbd>C</kbd>.
+Open [http://localhost:4200/](http://localhost:4200/). To Stop press <kbd>Ctrl</kbd> + <kbd>C</kbd>.
 > Browser will not reload automatically, you need to refresh manually after rebuild is completed.
 
-- Web interface: [http://localhost:4200/](http://localhost:4200/)
-- API: [http://localhost/api](http://localhost/api)
-- RabbitMQ Management: [http://localhost:15672/](http://localhost:15672/)
-  - Username: `waiterrobot`
-  - Password: `waiterrobot`
+## Using the lava backend
+
+> This will connect to the lava backend hosted on [https://lava.kellner.team](https://lava.kellner.team).
+
+```shell
+ng serve -c lava
+```
+
+Open [http://localhost:4300/](http://localhost:4200/).
 
 # Release new version
 

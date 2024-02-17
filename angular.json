@@ -97,6 +97,14 @@
                   "maximumWarning": "6kb"
                 }
               ]
+            },
+            "local-lava": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local-lava.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": ""
@@ -105,6 +113,16 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "buildTarget": "WaiterRobot-Web:build"
+          },
+          "configurations": {
+            "lava": {
+              "buildTarget": "WaiterRobot-Web:build:local-lava",
+              "proxyConfig": "src/proxy.lava.js",
+              "port": 4300
+            },
+            "production": {
+              "buildTarget": "WaiterRobot-Web:build:production"
+            }
           }
         },
         "extract-i18n": {
