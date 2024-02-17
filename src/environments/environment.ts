@@ -1,18 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import {Environment} from './IEnvironment';
+
 declare const require: any;
 
-export const environment: {
-  version: string;
-  production: boolean;
-  type: 'dev' | 'testing' | 'prod';
-  apiUrl: string;
-  logoUrl?: string;
-  titlePrefix?: string;
-} = {
+export const environment: Environment = {
   version: `${require('../../package.json').version}-DEV-${getTime()}`,
   production: false,
   type: 'dev',
-  apiUrl: 'http://localhost:4200/api/v1',
+  apiUrl: 'http://localhost/api/v1',
+  titlePrefix: 'dev.kellner.team',
 };
 
 function getTime(): string {
