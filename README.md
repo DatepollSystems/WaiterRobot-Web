@@ -7,9 +7,10 @@
 # Setup
 
 1. Install [Node](https://nodejs.org/) (consider using [node version manager](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating) to manage multiple node versions)
-2. Install [pnpm](https://pnpm.io/installation)
-3. Run `pnpm install`
-4. Login to the GitHub container registry (see [here](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-with-a-personal-access-token-classic))
+2. Install [Docker](https://docs.docker.com/engine/install/)
+3. Install [pnpm](https://pnpm.io/installation)
+4. Run `pnpm install`
+5. Login to the GitHub container registry (see [here](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-with-a-personal-access-token-classic))
 
 # Local dev
 
