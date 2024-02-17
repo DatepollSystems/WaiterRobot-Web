@@ -43,7 +43,7 @@ Open [http://localhost:4200/](http://localhost:4200/). To Stop press <kbd>Ctrl</
 
 ## Using the lava backend
 
-> This will connect to the lava backend hosted on [https://lava.kellner.team](https://lava.kellner.team).
+> This will connect to the lava backend hosted on [lava.kellner.team](https://lava.kellner.team).
 
 ```shell
 ng serve -c lava
@@ -56,8 +56,9 @@ Open [http://localhost:4300/](http://localhost:4200/).
 ## Lava
 
 Run `bash tools/releaseLava.sh` \
-This will create and push a new lava version tag using version specified in [package.json](package.json). It automatically appends `-lava-{timestamp}` to the version.
-The CI will then build the new docker container image and push it to the github registry.
+This will create and push a new lava version tag using version specified in [package.json](package.json).
+It automatically appends `-lava-{timestamp}` to the version.
+The CI will then build the new docker container image and push it to the GitHub registry.
 
 ## Prod
 
@@ -65,7 +66,8 @@ The CI will then build the new docker container image and push it to the github 
 2. Increase the version in the [package.json](package.json) file.
 3. Commit and push [package.json](package.json).
 
-This Will create a new lava release using version specified in [package.json](package.json) and automatically appending `-lava-{timestamp}`.
+This will create and push a new prod version tag using the version specified in [package.json](package.json).
+The CI will then build the new docker container image and push it to the GitHub registry.
 
 # Deploy
 
@@ -83,6 +85,6 @@ Samples:
 
 - `3.4.0`, `latest` -> prod release for [my.kellner.team](https://my.kellner.team/api)
 - `3.4.0_lava`, `latest_lava` -> prod release for [lava.kellner.team](https://lava.kellner.team/api)
-- `3.4.0-lava-20240118135000_lava`, `3.4.0-lava_lava`, `latest-lava_lava` -> pre/beta/lava release for [lava.kellner.team](https://lava.kellner.team/api)
 - `3.4.0_local`, `latest_local` -> prod release for [localhost](http://localhost/api)
+- `3.4.0-lava-20240118135000_lava`, `3.4.0-lava_lava`, `latest-lava_lava` -> pre/beta/lava release for [lava.kellner.team](https://lava.kellner.team/api)
 - `3.4.0-lava-20240118135000_local`, `3.4.0-lava_local`, `latest-lava_local` -> pre/beta/lava release for [localhost](http://localhost/api)
