@@ -53,10 +53,10 @@ services:
       mariadb:
         condition: service_healthy
     volumes:
-      - kellner-backend:/home/nonroot/waiterrobot
+      - kellner-backend:/var/lib/kellner-team
     environment:
       - WAITERROBOT_PORT=8080
-      - WAITERROBOT_KEYS_DIRECTORY=/home/nonroot/waiterrobot/authentication-keys
+      - WAITERROBOT_KEYS_DIRECTORY=/var/lib/kellner-team/authentication-keys
       - HOST=localhost
       - SWAGGER_ENABLED=true
       - DATABASE_TYPE=mariadb
