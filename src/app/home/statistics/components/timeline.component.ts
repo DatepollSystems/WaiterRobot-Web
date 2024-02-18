@@ -4,14 +4,14 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl} from '@angular/forms';
 
-import {BehaviorSubject, combineLatest, debounceTime, filter, map, merge, of, startWith, switchMap} from 'rxjs';
+import {dateToBackendDateTimeString} from '@shared/services/datepicker-adapter';
+import {StatisticsTimelineResponse} from '@shared/waiterrobot-backend';
 
 import * as shape from 'd3-shape';
 
 import {d_from, notNullAndUndefined} from 'dfts-helper';
 
-import {dateToBackendDateTimeString} from '../../../_shared/services/datepicker-adapter';
-import {StatisticsTimelineResponse} from '../../../_shared/waiterrobot-backend';
+import {BehaviorSubject, combineLatest, debounceTime, filter, map, merge, of, startWith, switchMap} from 'rxjs';
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 
 type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
@@ -54,10 +54,10 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
           <label for="startDate">{{ 'HOME_EVENTS_START_DATE' | tr }}</label>
           <app-datetime-input
             id="startDate"
-            [formControl]="startDateFormControl"
             minuteStep="30"
+            [formControl]="startDateFormControl"
             [seconds]="false"
-            placeholder="{{ 'DATETIME_PLACEHOLDER' | tr }}"
+            [placeholder]="'DATETIME_PLACEHOLDER' | tr"
           />
         </div>
 
@@ -65,15 +65,15 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
           <label for="endDate">{{ 'HOME_EVENTS_END_DATE' | tr }}</label>
           <app-datetime-input
             id="endDate"
-            [formControl]="endDateFormControl"
             minuteStep="30"
+            [formControl]="endDateFormControl"
             [seconds]="false"
-            placeholder="{{ 'DATETIME_PLACEHOLDER' | tr }}"
+            [placeholder]="'DATETIME_PLACEHOLDER' | tr"
           />
         </div>
 
         <div class="col-12 col-md-4 col-lg-3">
-          <select [formControl]="selectedTimelinePrecision$" class="form-select" id="timeline-precision-select">
+          <select class="form-select" id="timeline-precision-select" [formControl]="selectedTimelinePrecision$">
             <option [value]="2">{{ 'HOME_STATISTICS_MINUTES_2' | tr }}</option>
             <option [value]="5">{{ 'HOME_STATISTICS_MINUTES_5' | tr }}</option>
             <option [value]="10">{{ 'HOME_STATISTICS_MINUTES_10' | tr }}</option>
@@ -101,8 +101,8 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
               [yAxis]="true"
               [xAxisTickFormatting]="xFormatting"
               [legend]="false"
-              xAxisLabel="{{ 'DATE' | tr }}"
-              yAxisLabel="{{ 'COUNT' | tr }}"
+              [xAxisLabel]="'DATE' | tr"
+              [yAxisLabel]="'COUNT' | tr"
               [timeline]="true"
               [curve]="curve"
               [results]="timelineResponse.data"

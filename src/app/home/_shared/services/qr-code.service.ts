@@ -1,15 +1,19 @@
-import {computed, Injectable, signal} from '@angular/core';
+import {computed, inject, Injectable, signal} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {st_set} from 'dfts-helper';
 
-export type qrCodeData = {data: string; text: string; info: string};
+export interface qrCodeData {
+  data: string;
+  text: string;
+  info: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class QrCodeService {
-  constructor(private router: Router) {}
+  #router = inject(Router);
 
   private _data = signal<qrCodeData | undefined>(undefined);
 
@@ -18,6 +22,6 @@ export class QrCodeService {
   openQRCodePage(props: qrCodeData): void {
     st_set('qr-code-data', props);
     this._data.set(props);
-    void this.router.navigateByUrl('/qrcode/view');
+    void this.#router.navigateByUrl('/qrcode/view');
   }
 }

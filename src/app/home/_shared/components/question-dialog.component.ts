@@ -3,8 +3,8 @@ import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {loggerOf} from 'dfts-helper';
-import {DfxTr} from 'dfx-translate';
 import {BiComponent, BiName} from 'dfx-bootstrap-icons';
+import {DfxTr} from 'dfx-translate';
 
 @Component({
   template: `
@@ -24,7 +24,7 @@ import {BiComponent, BiName} from 'dfx-bootstrap-icons';
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
       @for (answer of answers; track answer.value) {
-        <button (click)="answerQuestion(answer.value)" class="btn btn-outline-secondary" type="button">
+        <button class="btn btn-outline-secondary" type="button" (click)="answerQuestion(answer.value)">
           @if (answer.icon) {
             <bi [name]="answer.icon" />
           }
@@ -39,6 +39,8 @@ import {BiComponent, BiName} from 'dfx-bootstrap-icons';
   standalone: true,
 })
 export class QuestionDialogComponent {
+  activeModal = inject(NgbActiveModal);
+
   public static YES_VALUE = 'yes';
   public static NO_VALUE = 'no';
   public static YES_NO_ANSWERS: answerType[] = [
@@ -63,19 +65,17 @@ export class QuestionDialogComponent {
 
   lumber = loggerOf('QuestionDialogComponent');
 
-  constructor(public activeModal: NgbActiveModal) {}
-
   answerQuestion(value: string): void {
     this.lumber.info('answerQuestion', 'Question dialog result:', value);
     this.activeModal.close(value);
   }
 }
 
-export type answerType = {
+export interface answerType {
   icon?: BiName;
   text: string;
   value: string;
-};
+}
 
 export function injectConfirmDialog(): (title: string, info?: string) => Promise<boolean> {
   const modal = inject(NgbModal);
@@ -96,7 +96,9 @@ export function injectConfirmDialog(): (title: string, info?: string) => Promise
           }
           resolve(false);
         })
-        .catch(() => resolve(false));
+        .catch(() => {
+          resolve(false);
+        });
     });
   };
 }

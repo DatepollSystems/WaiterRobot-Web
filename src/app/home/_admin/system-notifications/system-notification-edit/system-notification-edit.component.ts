@@ -19,7 +19,7 @@ import {SystemNotificationEditFormComponent} from './system-notification-edit-fo
           <back-button />
 
           <div *isEditing="entity">
-            <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+            <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
               <bi name="trash" />
               {{ 'DELETE' | tr }}
             </button>
@@ -30,9 +30,9 @@ import {SystemNotificationEditFormComponent} from './system-notification-edit-fo
 
         <app-system-notification-edit-form
           #form
+          [systemNotification]="entity"
           (submitUpdate)="onSubmit('UPDATE', $event)"
           (submitCreate)="onSubmit('CREATE', $event)"
-          [systemNotification]="entity"
         />
       </div>
     } @else {

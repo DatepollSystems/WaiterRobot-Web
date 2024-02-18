@@ -32,8 +32,8 @@ export class AppListNavItemDirective {
       <div class="list-group">
         @if (entities) {
           @for (entity of entities; track entity.id) {
-            <a class="list-group-item list-group-item-action " [routerLink]="path + entity.id" routerLinkActive="active">
-              <ng-container *ngTemplateOutlet="navItemRef || emptyRef; context: {$implicit: entity}"></ng-container>
+            <a class="list-group-item list-group-item-action " routerLinkActive="active" [routerLink]="path + entity.id">
+              <ng-container *ngTemplateOutlet="navItemRef || emptyRef; context: {$implicit: entity}" />
 
               <ng-template #emptyRef>{{ entity.name }}</ng-template>
             </a>
@@ -54,9 +54,9 @@ export class AppListNavItemDirective {
       class="btn w-100 btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle
         justify-content-between align-items-center d-flex d-md-none"
       type="button"
-      (click)="collapse.toggle()"
-      [attr.aria-expanded]="!isCollapsed"
       aria-controls="collapseExample"
+      [attr.aria-expanded]="!isCollapsed"
+      (click)="collapse.toggle()"
     >
       {{ selectTr | tr }}
       <bi name="chevron-expand" />
@@ -66,8 +66,8 @@ export class AppListNavItemDirective {
       <div class="list-group" style="max-height: 185px; overflow: scroll">
         @if (entities) {
           @for (entity of entities; track entity.id) {
-            <a class="list-group-item list-group-item-action " [routerLink]="path + entity.id" routerLinkActive="active">
-              <ng-container *ngTemplateOutlet="navItemRef || emptyRef; context: {$implicit: entity}"></ng-container>
+            <a class="list-group-item list-group-item-action " routerLinkActive="active" [routerLink]="path + entity.id">
+              <ng-container *ngTemplateOutlet="navItemRef || emptyRef; context: {$implicit: entity}" />
 
               <ng-template #emptyRef>{{ entity.name }}</ng-template>
             </a>

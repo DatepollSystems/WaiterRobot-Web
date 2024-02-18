@@ -12,11 +12,11 @@ import {DfxTr} from 'dfx-translate';
       <button
         type="button"
         class="btn btn-sm btn-outline-primary text-body-emphasis"
-        (click)="selectedChange.next(entityId); $event.stopPropagation()"
-        attr.aria-label="{{ 'SELECT' | tr }}"
-        ngbTooltip="{{ 'SELECT' | tr }}"
-        [placement]="placement"
         container="body"
+        [attr.aria-label]="'SELECT' | tr"
+        [ngbTooltip]="'SELECT' | tr"
+        [placement]="placement"
+        (click)="selectedChange.next(entityId); $event.stopPropagation()"
       >
         <bi name="check2-square" />
       </button>
@@ -24,11 +24,11 @@ import {DfxTr} from 'dfx-translate';
       <button
         type="button"
         class="btn btn-sm btn-primary"
-        (click)="selectedChange.next(undefined); $event.stopPropagation()"
-        attr.aria-label="{{ 'CLEAR_SELECTION' | tr }}"
-        ngbTooltip="{{ 'CLEAR_SELECTION' | tr }}"
-        [placement]="placement"
         container="body"
+        [attr.aria-label]="'CLEAR_SELECTION' | tr"
+        [ngbTooltip]="'CLEAR_SELECTION' | tr"
+        [placement]="placement"
+        (click)="selectedChange.next(undefined); $event.stopPropagation()"
       >
         <bi name="x-circle-fill" />
       </button>
@@ -44,7 +44,7 @@ export class AppSelectableBtnComponent {
 
   @Input() selectedId?: number;
 
-  @Output() selectedChange = new EventEmitter<number | undefined>();
+  @Output() readonly selectedChange = new EventEmitter<number | undefined>();
 
   @Input() placement: PlacementArray = 'right';
 }

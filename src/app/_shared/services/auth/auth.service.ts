@@ -13,13 +13,13 @@ import {injectWindow} from 'dfx-helper';
 import {NotificationService} from '../../notifications/notification.service';
 import {JwtResponse, RefreshJwtWithSessionTokenDto, SignInWithPasswordChangeDto, UserLoginDto} from '../../waiterrobot-backend';
 
-type AuthState = {
+interface AuthState {
   status: 'LOGGED_OUT' | 'ERROR' | 'LOADING' | 'LOGGED_IN';
   loginError?: 'ACCOUNT_NOT_ACTIVATED' | 'PASSWORD_CHANGE_REQUIRED';
   accessToken?: string;
   refreshToken?: string;
   redirectUrl?: string;
-};
+}
 
 export const loginUrl = '/auth/login';
 export const loginPwChangeUrl = '/auth/passwordChange';

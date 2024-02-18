@@ -3,9 +3,9 @@ import {RouterOutlet} from '@angular/router';
 
 import {NgbDropdown, NgbDropdownButtonItem, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 
-import {BiComponent} from 'dfx-bootstrap-icons';
+import {ThemeService} from '@shared/services/theme.service';
 
-import {ThemeService} from '../_shared/services/theme.service';
+import {BiComponent} from 'dfx-bootstrap-icons';
 
 @Component({
   template: `
@@ -20,6 +20,7 @@ import {ThemeService} from '../_shared/services/theme.service';
         <div ngbDropdownMenu aria-labelledby="themeDropdown" class="p-1">
           @for (theme of themeService.themes; track theme.id) {
             <button
+              type="button"
               ngbDropdownItem
               class="rounded-1 mt-1"
               [class.active]="theme.id === themeService.selectedTheme().id"

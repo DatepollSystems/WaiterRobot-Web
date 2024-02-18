@@ -14,9 +14,11 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
       <button
         id="color-picker-button"
         class="btn btn-outline-secondary"
-        (click)="showColorPicker.set(!showColorPicker())"
-        [disabled]="disabled"
         type="button"
+        placement="bottom"
+        container="body"
+        popoverClass="color-picker-class"
+        [disabled]="disabled"
         [style.background-color]="color"
         [style.border-color]="color"
         [ngClass]="{
@@ -25,19 +27,17 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
           'text-body-emphasis': !color
         }"
         [autoClose]="'outside'"
-        placement="bottom"
         [ngbPopover]="popContent"
-        container="body"
-        popoverClass="color-picker-class"
+        (click)="showColorPicker.set(!showColorPicker())"
       >
         {{ 'COLOR_PICKER' | tr }}
       </button>
 
       <button
         class="btn btn-outline-secondary"
-        (click)="color = undefined; colorChange.emit(undefined)"
-        [disabled]="disabled"
         type="button"
+        [disabled]="disabled"
+        (click)="color = undefined; colorChange.emit(undefined)"
       >
         <bi name="x-circle-fill" [ngbTooltip]="'RESET' | tr" />
       </button>
@@ -46,7 +46,9 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
     <ng-template #popContent>
       <div class="d-flex flex-row flex-wrap" style="width: 200px">
         @for (color of colors; track color) {
-          <button class="color-btn" type="button" (click)="changeColor(color)" [style.background-color]="color"></button>
+          <button class="color-btn" type="button" [style.background-color]="color" (click)="changeColor(color)">
+            <span class="visually-hidden">Pick {{ color }}</span>
+          </button>
         }
       </div>
     </ng-template>
@@ -88,7 +90,7 @@ export class AppColorPicker {
   ];
 
   @Output()
-  colorChange: EventEmitter<string> = new EventEmitter<string>();
+  readonly colorChange: EventEmitter<string> = new EventEmitter<string>();
 
   changeColor(event: string): void {
     this.color = event;

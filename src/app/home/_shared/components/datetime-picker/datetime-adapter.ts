@@ -32,7 +32,7 @@ export abstract class NgbDateTimeAdapter<T> {
   abstract toModel(dateTime: NgbDateTimeStruct | null): T | null;
 }
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class NgbDateTimeStructAdapter extends NgbDateTimeAdapter<NgbDateTimeStruct> {
   /**
    * Converts a NgbTimeStruct value into NgbTimeStruct value

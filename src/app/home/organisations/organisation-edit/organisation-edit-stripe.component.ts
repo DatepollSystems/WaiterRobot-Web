@@ -2,20 +2,20 @@ import {ChangeDetectionStrategy, Component, effect, inject, ViewChild} from '@an
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
-import {filter, of, pipe, startWith, switchMap} from 'rxjs';
-
 import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
 import {StopPropagationDirective} from '@home-shared/stop-propagation';
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {CreateStripeAccountDto, GetStripeAccountResponse, UpdateStripeAccountDto} from '@shared/waiterrobot-backend';
-import {computedFrom} from 'ngxtension/computed-from';
-import {injectParams} from 'ngxtension/inject-params';
 
 import {notNullAndUndefined} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
+import {computedFrom} from 'ngxtension/computed-from';
+import {injectParams} from 'ngxtension/inject-params';
+
+import {filter, of, pipe, startWith, switchMap} from 'rxjs';
 
 import {OrganisationsStripeService} from '../_services/organisations-stripe.service';
 import {OrganisationStripeAccountModal} from './organisation-stripe-account-modal.component';
@@ -26,20 +26,20 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
     <div class="d-flex flex-column gap-2 pt-3">
       <div class="d-flex flex-column flex-md-row gap-3 justify-content-between">
         <div>
-          <button class="btn btn-success" type="button" (click)="onCreateStripeAccount()" [disabled]="stripeState.loading()">
+          <button class="btn btn-success" type="button" [disabled]="stripeState.loading()" (click)="onCreateStripeAccount()">
             <bi name="save" />
             {{ 'ADD_3' | tr }}
           </button>
         </div>
         <div>
           <div class="input-group">
-            <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+            <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
             @if ((filter.value?.length ?? 0) > 0) {
               <button
                 class="btn btn-outline-secondary"
                 type="button"
-                ngbTooltip="{{ 'CLEAR' | tr }}"
                 placement="bottom"
+                [ngbTooltip]="'CLEAR' | tr"
                 (click)="filter.reset()"
               >
                 <bi name="x-circle-fill" />
@@ -50,7 +50,7 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
       </div>
 
       <div class="table-responsive mt-3">
-        <table ngb-table [hover]="true" [dataSource]="dataSource()" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
+        <table ngb-table ngb-sort ngbSortActive="name" ngbSortDirection="asc" [hover]="true" [dataSource]="dataSource()">
           <ng-container ngbColumnDef="name">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
             <td *ngbCellDef="let stripeAccount" ngb-cell>
@@ -72,7 +72,7 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
             <th *ngbHeaderCellDef ngb-header-cell>{{ 'NAV_EVENTS' | tr }}</th>
             <td *ngbCellDef="let stripeAccount" ngb-cell>
               @if (stripeAccount.event; as event) {
-                <a routerLink="../../o/{{ stripeAccount.organisationId }}/events/{{ event.id }}" stopPropagation>
+                <a stopPropagation [routerLink]="'../../o/' + stripeAccount.organisationId + '/events/' + event.id">
                   {{ event.name }}
                 </a>
               } @else {
@@ -87,7 +87,7 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
               <button
                 type="button"
                 class="btn btn-sm m-1 btn-outline-success text-body-emphasis"
-                ngbTooltip="{{ 'EDIT' | tr }}"
+                [ngbTooltip]="'EDIT' | tr"
                 (click)="$event.stopPropagation(); onUpdateStripeAccount(stripeAccount)"
               >
                 <bi name="pencil-square" />
@@ -95,7 +95,7 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
               <button
                 type="button"
                 class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
-                ngbTooltip="{{ 'DELETE' | tr }}"
+                [ngbTooltip]="'DELETE' | tr"
                 (click)="$event.stopPropagation(); onDeleteStripeAccount(stripeAccount.id)"
               >
                 <bi name="trash" />
@@ -155,7 +155,7 @@ export class OrganisationEditStripeComponent {
         if (this.sort) {
           dataSource.sort = this.sort;
         }
-        dataSource.filter = filterTerm ?? '';
+        dataSource.filter = filterTerm;
 
         return of(dataSource);
       }),

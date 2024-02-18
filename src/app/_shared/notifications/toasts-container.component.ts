@@ -1,5 +1,5 @@
 import {AsyncPipe, NgTemplateOutlet} from '@angular/common';
-import {ChangeDetectionStrategy, Component, HostBinding, TemplateRef} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostBinding, inject, TemplateRef} from '@angular/core';
 
 import {NgbToast} from '@ng-bootstrap/ng-bootstrap';
 
@@ -32,7 +32,7 @@ import {NotificationService, Toast} from './notification.service';
 export class ToastsContainerComponent {
   @HostBinding('class.ngb-toasts') toasts = true;
 
-  constructor(public notificationService: NotificationService) {}
+  notificationService = inject(NotificationService);
 
   isTemplate(textOrTpl: Toast['textOrTpl']): textOrTpl is string {
     return textOrTpl instanceof TemplateRef;

@@ -32,15 +32,9 @@ import {UsersService} from './services/users.service';
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
           @if ((filter.value?.length ?? 0) > 0) {
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              ngbTooltip="{{ 'CLEAR' | tr }}"
-              placement="bottom"
-              (click)="filter.reset()"
-            >
+            <button class="btn btn-outline-secondary" type="button" placement="bottom" [ngbTooltip]="'CLEAR' | tr" (click)="filter.reset()">
               <bi name="x-circle-fill" />
             </button>
           }
@@ -48,7 +42,7 @@ import {UsersService} from './services/users.service';
       </form>
 
       <div class="table-responsive">
-        <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="id" ngbSortDirection="asc">
+        <table ngb-table ngb-sort ngbSortActive="id" ngbSortDirection="asc" [hover]="true" [dataSource]="(dataSource$ | async) ?? []">
           <ng-container ngbColumnDef="id">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
             <td *ngbCellDef="let user" ngb-cell>{{ user.id }}</td>
@@ -81,13 +75,13 @@ import {UsersService} from './services/users.service';
           <ng-container ngbColumnDef="actions">
             <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
             <td *ngbCellDef="let user" ngb-cell>
-              <a class="btn btn-sm m-1 btn-outline-success text-body-emphasis" routerLink="../{{ user.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+              <a class="btn btn-sm m-1 btn-outline-success text-body-emphasis" [routerLink]="'../' + user.id" [ngbTooltip]="'EDIT' | tr">
                 <bi name="pencil-square" />
               </a>
               <button
                 type="button"
                 class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
-                ngbTooltip="{{ 'DELETE' | tr }}"
+                [ngbTooltip]="'DELETE' | tr"
                 (click)="onDelete(user.id, $event)"
               >
                 <bi name="trash" />
@@ -96,7 +90,7 @@ import {UsersService} from './services/users.service';
           </ng-container>
 
           <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-          <tr *ngbRowDef="let user; columns: columnsToDisplay" ngb-row routerLink="../{{ user.id }}"></tr>
+          <tr *ngbRowDef="let user; columns: columnsToDisplay" ngb-row [routerLink]="'../' + user.id"></tr>
         </table>
       </div>
 

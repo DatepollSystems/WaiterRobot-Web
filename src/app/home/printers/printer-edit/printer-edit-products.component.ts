@@ -3,16 +3,16 @@ import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
+import {GetProductMinResponse} from '@shared/waiterrobot-backend';
+
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
 
-import {GetProductMinResponse} from '../../../_shared/waiterrobot-backend';
-
 @Component({
   template: `
     <div class="table-responsive">
-      <table ngb-table [hover]="true" [dataSource]="_products" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
+      <table ngb-table ngb-sort ngbSortActive="name" ngbSortDirection="asc" [hover]="true" [dataSource]="_products">
         <ng-container ngbColumnDef="name">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
           <td *ngbCellDef="let product" ngb-cell>{{ product.name }}</td>
@@ -20,11 +20,11 @@ import {GetProductMinResponse} from '../../../_shared/waiterrobot-backend';
 
         <ng-container ngbColumnDef="actions">
           <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
-          <td *ngbCellDef="let products" ngb-cell>
+          <td *ngbCellDef="let product" ngb-cell>
             <a
               class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"
-              routerLink="../../products/{{ products.id }}"
-              ngbTooltip="{{ 'OPEN' | tr }}"
+              [routerLink]="'../../products/' + product.id"
+              [ngbTooltip]="'OPEN' | tr"
             >
               <bi name="arrow-up-right-square-fill" />
             </a>
@@ -32,7 +32,12 @@ import {GetProductMinResponse} from '../../../_shared/waiterrobot-backend';
         </ng-container>
 
         <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-        <tr *ngbRowDef="let product; columns: columnsToDisplay" ngb-row routerLink="../../products/{{ product.id }}" class="clickable"></tr>
+        <tr
+          *ngbRowDef="let product; columns: columnsToDisplay"
+          ngb-row
+          class="clickable"
+          [routerLink]="'../../products/' + product.id"
+        ></tr>
       </table>
     </div>
     @if (_products.data.length < 1) {

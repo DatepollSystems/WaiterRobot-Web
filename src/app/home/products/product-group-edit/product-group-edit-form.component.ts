@@ -1,18 +1,18 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
+import {AppColorPicker} from '@home-shared/components/color/color-picker.component';
+import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
+import {allowedCharacterSet} from '@home-shared/regex';
 
-import {startWith} from 'rxjs';
+import {injectIsValid} from '@shared/form';
+import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} from '@shared/waiterrobot-backend';
 
 import {HasNumberIDAndName} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {injectIsValid} from '../../../_shared/form';
-import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} from '../../../_shared/waiterrobot-backend';
-import {AppColorPicker} from '../../_shared/components/color/color-picker.component';
-import {AbstractModelEditFormComponent} from '../../_shared/form/abstract-model-edit-form.component';
-import {AppModelEditSaveBtn} from '../../_shared/form/app-model-edit-save-btn.component';
-import {allowedCharacterSet} from '../../_shared/regex';
+import {startWith} from 'rxjs';
 
 @Component({
   template: `
@@ -22,7 +22,7 @@ import {allowedCharacterSet} from '../../_shared/regex';
       <div class="d-flex flex-column flex-md-row gap-4 mb-4">
         <div class="form-group col">
           <label for="name">{{ 'NAME' | tr }}</label>
-          <input class="form-control" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
+          <input class="form-control" type="text" id="name" formControlName="name" [placeholder]="'NAME' | tr" />
 
           @if (form.controls.name.invalid) {
             <small class="text-danger">
@@ -38,8 +38,8 @@ import {allowedCharacterSet} from '../../_shared/regex';
             <label for="name">{{ 'COLOR' | tr }}</label>
             <app-color-picker
               [color]="form.controls.color.getRawValue()"
-              (colorChange)="form.controls.color.setValue($event)"
               [disabled]="form.disabled"
+              (colorChange)="form.controls.color.setValue($event)"
             />
           </div>
         </div>
@@ -105,9 +105,13 @@ export class ProductGroupEditFormComponent extends AbstractModelEditFormComponen
   constructor() {
     super();
     this.unsubscribe(
-      this.form.controls.updatePrinterId.valueChanges
-        .pipe(startWith(false))
-        .subscribe((value) => (value ? this.form.controls.printerId.enable() : this.form.controls.printerId.disable())),
+      this.form.controls.updatePrinterId.valueChanges.pipe(startWith(false)).subscribe((value) => {
+        if (value) {
+          this.form.controls.printerId.enable();
+        } else {
+          this.form.controls.printerId.disable();
+        }
+      }),
     );
   }
 

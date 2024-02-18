@@ -1,10 +1,10 @@
 <nav class="navbar bg-body-tertiary navbar-expand-md">
   <div class="my-container px-1 px-md-2" [class.container-xxxl]="!isFullScreen()">
     <a class="navbar-brand align-items-center" routerLink="/">
-      <img id="brand" [ngSrc]="logoUrl" width="30" height="30" priority="true" class="align-self-center ms-2" alt="kellner.team logo" />
+      <img id="brand" width="30" height="30" priority="true" class="align-self-center ms-2" alt="kellner.team logo" [ngSrc]="logoUrl" />
 
       @if (isMobile()) { @if (showEnvironmentType && environmentType === 'dev') {
-      <div (click)="showEnvironmentType = !showEnvironmentType" class="badge bg-warning text-dark ms-3 me-1 not-selectable">
+      <div class="badge bg-warning text-dark ms-3 me-1 not-selectable" (click)="showEnvironmentType = !showEnvironmentType">
         <span>LOCAL</span>
       </div>
       } @if (myUserService.user()?.isAdmin) {
@@ -18,11 +18,11 @@
       class="navbar-toggler me-2"
       type="button"
       data-toggle="collapse"
-      (click)="toggleNav()"
       data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent"
       aria-expanded="false"
       aria-label="Toggle navigation"
+      (click)="toggleNav()"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -34,7 +34,7 @@
             @if (!isMobile()) {
             <li class="nav-item d-flex align-items-center">
               @if (showEnvironmentType && environmentType === 'dev') {
-              <div (click)="showEnvironmentType = !showEnvironmentType" class="badge bg-warning text-dark ms-1 me-1 not-selectable">
+              <div class="badge bg-warning text-dark ms-1 me-1 not-selectable" (click)="showEnvironmentType = !showEnvironmentType">
                 <span>LOCAL</span>
               </div>
               } @if (myUserService.user()?.isAdmin) {
@@ -67,7 +67,7 @@
                     <b>{{ 'NAV_ORGANISATIONS' | tr }}</b>
                   </h6>
                   @if (selectedOrganisationService.selected(); as selected) {
-                  <a ngbDropdownItem routerLink="/organisations/{{ selected.id }}">
+                  <a ngbDropdownItem [routerLink]="'/organisations/' + selected.id">
                     <b>{{ selected.name }}</b><small> {{ 'NAV_EDIT' | tr }}</small>
                   </a>
                   } @for (orgM of organisations(); track orgM.id) { @if (orgM.id !== selectedOrganisationService.selected()?.id) {
@@ -98,8 +98,8 @@
                 <a
                   class="nav-link"
                   id="eventSwitcherDropdown"
-                  [class.disabled]="!selectedOrganisationService.selectedId()"
                   ngbDropdownToggle
+                  [class.disabled]="!selectedOrganisationService.selectedId()"
                 >
                   @if (selectedEventService.selected(); as selected) {
                   <span><b>{{ selected.name }}</b></span>
@@ -112,7 +112,7 @@
                     <b>{{ 'NAV_EVENTS' | tr }}</b>
                   </h6>
                   @if (selectedEventService.selected(); as selected) {
-                  <a ngbDropdownItem routerLink="/o/{{selectedOrganisationService.selectedId()!}}/events/{{ selected.id }}">
+                  <a ngbDropdownItem [routerLink]="'/o/' + selectedOrganisationService.selectedId()! + '/events/' + selected.id">
                     <b>{{ selected.name }}</b><small> {{ 'NAV_EDIT' | tr }}</small>
                   </a>
                   } @for (eventM of events(); track eventM.id) { @if (eventM.id !== selectedEventService.selected()?.id) {
@@ -124,11 +124,11 @@
                   }
                   <div class="dropdown-divider"></div>
                   @if (myUserService.user()?.isAdmin) {
-                  <a ngbDropdownItem routerLink="/o/{{selectedOrganisationService.selectedId()!}}/events/create"
+                  <a ngbDropdownItem [routerLink]="'/o/' + selectedOrganisationService.selectedId()! + '/events/create'"
                     ><b>+</b> {{ 'ADD_2' | tr }}</a
                   >
                   }
-                  <a ngbDropdownItem routerLink="/o/{{selectedOrganisationService.selectedId()!}}/events/all">
+                  <a ngbDropdownItem  [routerLink]="'/o/' + selectedOrganisationService.selectedId()! + '/events/all'">
                     <bi name="calendar-event-fill" />
                     {{ 'SHOW_ALL' | tr }}
                   </a>
@@ -193,6 +193,7 @@
                   <theme-picker />
 
                   <button
+                    type="button"
                     ngbDropdownItem
                     class="d-none d-xxl-inline-flex gap-2 align-items-center"
                     (click)="fullScreenService.setFullScreen(!isFullScreen()); $event.stopPropagation()"
@@ -213,7 +214,7 @@
                     <bi name="file-lock" />
                     {{ 'NAV_USER_SESSIONS' | tr }}
                   </a>
-                  <button ngbDropdownItem (click)="this.authService.logout()">
+                  <button type="button" ngbDropdownItem (click)="this.authService.logout()">
                     <bi name="box-arrow-left" />
                     {{ 'NAV_LOGOUT' | tr }}
                   </button>

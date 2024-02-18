@@ -48,7 +48,7 @@ export class BillsService implements HasGetSingle<GetBillResponse> {
     return this.triggerRefresh.pipe(
       switchMap(() => this.selectedEventService.selectedIdNotNull$),
       switchMap((eventId) =>
-        this.httpClient.get<PaginatedResponseGetBillMinResponse>(`${this.url}`, {
+        this.httpClient.get<PaginatedResponseGetBillMinResponse>(this.url, {
           params: params.append('eventId', eventId),
         }),
       ),

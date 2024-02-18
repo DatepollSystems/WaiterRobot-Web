@@ -9,12 +9,12 @@ import {DfxTr} from 'dfx-translate';
 @Component({
   template: `
     <div
+      class="badge not-selectable"
+      style="width: min-content"
       [ngClass]="{
         'text-bg-warning': !!unpaidReason,
         'text-bg-success': !unpaidReason
       }"
-      class="badge not-selectable"
-      style="width: min-content"
     >
       @if (!unpaidReason) {
         <div class="d-flex gap-2 align-items-center">
@@ -32,10 +32,10 @@ import {DfxTr} from 'dfx-translate';
           @default {
             <div
               class="d-flex gap-2 align-items-center"
-              [ngbPopover]="unpaidReason ? popContent : null"
               placement="right"
               triggers="mouseenter:mouseleave"
               popoverTitle="Rechnungsdetails"
+              [ngbPopover]="unpaidReason ? popContent : null"
             >
               <span>{{ 'Unbezahlt' | tr }}</span>
               <bi name="cone-striped" />

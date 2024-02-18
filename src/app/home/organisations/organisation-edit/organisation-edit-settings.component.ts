@@ -2,14 +2,14 @@ import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {AbstractControl, FormControl, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 
-import {combineLatest, debounceTime, distinctUntilChanged, map, Observable, OperatorFunction, shareReplay, switchMap, tap} from 'rxjs';
+import {injectIdParam$} from '@home-shared/services/injectActivatedRouteIdParam';
 
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {injectIdParam$} from '../../_shared/services/injectActivatedRouteIdParam';
+import {combineLatest, debounceTime, distinctUntilChanged, map, Observable, OperatorFunction, shareReplay, switchMap, tap} from 'rxjs';
 import {OrganisationsSettingsService} from '../_services/organisations-settings.service';
 
 @Component({
@@ -99,7 +99,7 @@ export class OrganisationEditSettingsComponent {
   );
 
   setActivateWaiterOnLoginViaCreateToken(organisationId: number, event: Event): void {
-    this.organisationSettingsService$.setActivateWaiterOnLoginViaCreateToken(organisationId, (<HTMLInputElement>event.target).checked);
+    this.organisationSettingsService$.setActivateWaiterOnLoginViaCreateToken(organisationId, (event.target as HTMLInputElement).checked);
   }
 
   setTimeZone(organisationId: number, it: string): void {
@@ -111,7 +111,7 @@ export class OrganisationEditSettingsComponent {
       debounceTime(200),
       distinctUntilChanged(),
       map(([settings, term]) =>
-        term.length < 2 ? [] : settings.availableTimezones.filter((v) => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10),
+        term.length < 2 ? [] : settings.availableTimezones.filter((v) => v.toLowerCase().includes(term.toLowerCase())).slice(0, 10),
       ),
     );
 

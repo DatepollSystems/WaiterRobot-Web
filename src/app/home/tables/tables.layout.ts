@@ -25,7 +25,7 @@ import {TableGroupsService} from './_services/table-groups.service';
               </div>
 
               <div>
-                <span class="badge bg-secondary rounded-pill" [ngbTooltip]="'HOME_TABLES_COUNT' | tr" placement="left">
+                <span class="badge bg-secondary rounded-pill" placement="left" [ngbTooltip]="'HOME_TABLES_COUNT' | tr">
                   {{ allTablesAmount() ?? '' }}
                 </span>
               </div>
@@ -39,7 +39,7 @@ import {TableGroupsService} from './_services/table-groups.service';
                 {{ 'HOME_TABLE_GROUPS' | tr }}
               </div>
               <div>
-                <span class="badge bg-secondary rounded-pill" [ngbTooltip]="'HOME_TABLE_GROUPS_COUNT' | tr" placement="left">
+                <span class="badge bg-secondary rounded-pill" placement="left" [ngbTooltip]="'HOME_TABLE_GROUPS_COUNT' | tr">
                   {{ tableGroups()?.length ?? '-' }}
                 </span>
               </div>
@@ -48,9 +48,9 @@ import {TableGroupsService} from './_services/table-groups.service';
         </div>
         <app-list-nav-items
           path="groups/tables/"
-          [entities]="tableGroups() ?? []"
           titleTr="HOME_TABLE_GROUPS"
           selectTr="HOME_TABLES_GROUPS_SELECT"
+          [entities]="tableGroups() ?? []"
         >
           <ng-template let-entity appListNavItem>
             <div class="d-flex justify-content-between">
@@ -58,7 +58,7 @@ import {TableGroupsService} from './_services/table-groups.service';
                 {{ entity.name }}
               </app-text-with-color-indicator>
               <div>
-                <span class="badge bg-secondary rounded-pill" [ngbTooltip]="'HOME_TABLES_COUNT' | tr" placement="left">{{
+                <span class="badge bg-secondary rounded-pill" placement="left" [ngbTooltip]="'HOME_TABLES_COUNT' | tr">{{
                   entity.tables.length
                 }}</span>
               </div>
@@ -89,6 +89,6 @@ export class TablesLayout {
   allTablesAmount = computed(() =>
     this.tableGroups()
       ?.map((it) => it.tables.length)
-      ?.reduce((current, previous) => current + previous, 0),
+      .reduce((current, previous) => current + previous, 0),
   );
 }

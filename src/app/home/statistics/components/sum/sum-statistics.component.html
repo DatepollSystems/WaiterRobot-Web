@@ -16,13 +16,13 @@
             } }
           </button>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button ngbDropdownItem (click)="setChartType('BAR')">
+            <button type="button" ngbDropdownItem (click)="setChartType('BAR')">
               <bi name="bar-chart-line-fill" /> {{ 'HOME_STATISTICS_BAR_CHART' | tr }}
             </button>
-            <button ngbDropdownItem (click)="setChartType('PIE')">
+            <button type="button" ngbDropdownItem (click)="setChartType('PIE')">
               <bi name="pie-chart-fill" /> {{ 'HOME_STATISTICS_PIE_CHART' | tr }}
             </button>
-            <button ngbDropdownItem (click)="setChartType('TEXT')"><bi name="list-ul" /> {{ 'HOME_STATISTICS_TEXT_CHART' | tr }}</button>
+            <button type="button" ngbDropdownItem (click)="setChartType('TEXT')"><bi name="list-ul" /> {{ 'HOME_STATISTICS_TEXT_CHART' | tr }}</button>
           </div>
         </div>
       </div>

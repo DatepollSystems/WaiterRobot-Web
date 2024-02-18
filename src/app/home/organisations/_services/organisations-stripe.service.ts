@@ -15,11 +15,11 @@ import {NotificationService} from '@shared/notifications/notification.service';
 
 import {injectWindow} from 'dfx-helper';
 
-type OrganisationStripeState = {
+interface OrganisationStripeState {
   loading: boolean;
   organisationId: number | undefined;
   data: GetStripeAccountResponse[] | undefined;
-};
+}
 
 @Injectable({
   providedIn: 'root',

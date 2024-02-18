@@ -4,7 +4,7 @@ import {AppColorIndicatorComponent} from './app-color-indicator.component';
 
 @Component({
   template: `
-    <div class="d-flex align-items-center" [class]="color ? 'gap-3' : ''">
+    <div [class]="'d-flex align-items-center' + color ? 'gap-3' : ''">
       @if (placement === 'left') {
         @if (color) {
           <app-color-indicator [color]="color" [size]="size" />

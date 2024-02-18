@@ -2,30 +2,26 @@ import {TextFieldModule} from '@angular/cdk/text-field';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
+import {AppDatetimeInputComponent} from '@home-shared/components/datetime-picker/datetime-picker.component';
+import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
+import {injectIsValid} from '@shared/form';
+import {CreateSystemNotificationDto, GetSystemNotificationResponse, UpdateSystemNotificationDto} from '@shared/waiterrobot-backend';
+
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-
-import {AppDatetimeInputComponent} from '../../../_shared/components/datetime-picker/datetime-picker.component';
-import {AbstractModelEditFormComponent} from '../../../_shared/form/abstract-model-edit-form.component';
-import {AppModelEditSaveBtn} from '../../../_shared/form/app-model-edit-save-btn.component';
-import {injectIsValid} from '../../../../_shared/form';
-import {
-  CreateSystemNotificationDto,
-  GetSystemNotificationResponse,
-  UpdateSystemNotificationDto,
-} from '../../../../_shared/waiterrobot-backend';
 import {systemNotificationTypes} from '../_services/system-notifications.service';
 
 @Component({
   template: `
     @if (isValid()) {}
 
-    <form #formRef [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column gap-3">
+    <form #formRef class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 gap-md-3">
         <div class="form-group flex-fill">
           <label for="title">{{ 'TITLE' | tr }}</label>
-          <input class="form-control" type="text" id="title" formControlName="title" placeholder="{{ 'TITLE' | tr }}" />
+          <input class="form-control" type="text" id="title" formControlName="title" [placeholder]="'TITLE' | tr" />
 
           @if (form.controls.title.invalid) {
             <small class="text-danger">
@@ -41,7 +37,7 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
               <bi name="diagram-3" />
             </span>
             <select class="form-select" id="type" formControlName="type">
-              <option [value]="''" disabled>{{ 'HOME_SYSTEM_NOTIFICATIONS_TYPE_DEFAULT' | tr }}</option>
+              <option disabled [value]="''">{{ 'HOME_SYSTEM_NOTIFICATIONS_TYPE_DEFAULT' | tr }}</option>
               @for (type of systemNotificationTypes; track type) {
                 <option [value]="type">
                   {{ type | s_lowerCaseAllExceptFirstLetter }}
@@ -64,7 +60,7 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
             formControlName="starts"
             minuteStep="15"
             [seconds]="false"
-            placeholder="{{ 'DATETIME_PLACEHOLDER' | tr }}"
+            [placeholder]="'DATETIME_PLACEHOLDER' | tr"
           />
         </div>
 
@@ -75,7 +71,7 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
             formControlName="ends"
             minuteStep="15"
             [seconds]="false"
-            placeholder="{{ 'DATETIME_PLACEHOLDER' | tr }}"
+            [placeholder]="'DATETIME_PLACEHOLDER' | tr"
           />
         </div>
       </div>
@@ -83,13 +79,13 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
       <div class="form-group">
         <label for="description">{{ 'DESCRIPTION' | tr }}</label>
         <textarea
-          class="form-control"
-          placeholder="{{ 'DESCRIPTION' | tr }}..."
-          id="description"
           #autosize="cdkTextareaAutosize"
+          class="form-control"
+          id="description"
+          formControlName="description"
+          [placeholder]="('DESCRIPTION' | tr) + '...'"
           [cdkTextareaAutosize]="true"
           [cdkAutosizeMinRows]="4"
-          formControlName="description"
         ></textarea>
 
         @if (form.controls.description.invalid) {

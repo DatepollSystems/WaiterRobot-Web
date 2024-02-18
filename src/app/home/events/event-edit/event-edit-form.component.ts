@@ -1,26 +1,26 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
+import {AppDatetimeInputComponent} from '@home-shared/components/datetime-picker/datetime-picker.component';
+import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
+
 import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
+import {injectIsValid} from '@shared/form';
+import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocationDto} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
-
-import {AppDatetimeInputComponent} from '../../_shared/components/datetime-picker/datetime-picker.component';
-import {AbstractModelEditFormComponent} from '../../_shared/form/abstract-model-edit-form.component';
-import {AppModelEditSaveBtn} from '../../_shared/form/app-model-edit-save-btn.component';
-import {injectIsValid} from '../../../_shared/form';
-import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocationDto} from '../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
     @if (isValid()) {}
 
-    <form #formRef [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column gap-3">
+    <form #formRef class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-sm-row gap-4 gap-md-3 flex-wrap">
         <div class="form-group flex-fill">
           <label for="name">{{ 'NAME' | tr }}</label>
-          <input class="form-control" formControlName="name" name="name" type="text" placeholder="{{ 'NAME' | tr }}" />
+          <input class="form-control" formControlName="name" name="name" type="text" [placeholder]="'NAME' | tr" />
 
           @if (form.controls.name.invalid) {
             <small class="text-danger"> {{ 'HOME_ORGS_NAME_INCORRECT' | tr }} </small>
@@ -34,7 +34,7 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
             formControlName="startDate"
             minuteStep="30"
             [seconds]="false"
-            placeholder="{{ 'DATETIME_PLACEHOLDER' | tr }}"
+            [placeholder]="'DATETIME_PLACEHOLDER' | tr"
           />
         </div>
 
@@ -45,7 +45,7 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
             formControlName="endDate"
             minuteStep="30"
             [seconds]="false"
-            placeholder="{{ 'DATETIME_PLACEHOLDER' | tr }}"
+            [placeholder]="'DATETIME_PLACEHOLDER' | tr"
           />
         </div>
       </div>
@@ -53,7 +53,7 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
       <div class="d-flex flex-column flex-md-row gap-4 gap-md-3 flex-wrap">
         <div class="form-group flex-fill">
           <label for="street">{{ 'HOME_ORGS_STREET' | tr }}</label>
-          <input formControlName="street" class="form-control" type="text" id="street" placeholder="{{ 'HOME_ORGS_STREET' | tr }}" />
+          <input formControlName="street" class="form-control" type="text" id="street" [placeholder]="'HOME_ORGS_STREET' | tr" />
           @if (form.controls.street.invalid) {
             <small class="text-danger"> {{ 'HOME_ORGS_STREET_INCORRECT' | tr }} </small>
           }
@@ -65,7 +65,7 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
             class="form-control"
             type="text"
             id="streetNumber"
-            placeholder="{{ 'HOME_ORGS_STREETNUMBER' | tr }}"
+            [placeholder]="'HOME_ORGS_STREETNUMBER' | tr"
           />
           @if (form.controls.streetNumber.invalid) {
             <small class="text-danger"> {{ 'HOME_ORGS_STREETNUMBER_INCORRECT' | tr }} </small>
@@ -79,7 +79,7 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
             class="form-control"
             type="text"
             id="postalCode"
-            placeholder="{{ 'HOME_ORGS_POSTAL_CODE' | tr }}"
+            [placeholder]="'HOME_ORGS_POSTAL_CODE' | tr"
           />
           @if (form.controls.postalCode.invalid) {
             <small class="text-danger"> {{ 'HOME_ORGS_POSTAL_CODE_INCORRECT' | tr }} </small>
@@ -88,7 +88,7 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
 
         <div class="form-group flex-fill">
           <label for="city">{{ 'HOME_ORGS_CITY' | tr }}</label>
-          <input formControlName="city" class="form-control" type="text" id="city" placeholder="{{ 'HOME_ORGS_CITY' | tr }}" />
+          <input formControlName="city" class="form-control" type="text" id="city" [placeholder]="'HOME_ORGS_CITY' | tr" />
           @if (form.controls.city.invalid) {
             <small class="text-danger"> {{ 'HOME_ORGS_CITY_INCORRECT' | tr }} </small>
           }

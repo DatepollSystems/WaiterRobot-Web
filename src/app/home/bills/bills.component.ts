@@ -4,8 +4,6 @@ import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
-import {debounceTime, map, merge, Observable, pipe, switchMap, tap} from 'rxjs';
-
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {Download} from '@home-shared/services/download.service';
 import {injectFilter} from '@home-shared/services/filter';
@@ -15,14 +13,16 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import {injectCustomFormBuilder} from '@shared/form';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
-import {computedFrom} from 'ngxtension/computed-from';
-import {DfxCurrencyCentPipe} from 'src/app/home/_shared/pipes/currency.pipe';
 
 import {loggerOf} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {injectIsMobile} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
+import {computedFrom} from 'ngxtension/computed-from';
+
+import {debounceTime, map, merge, Observable, pipe, switchMap, tap} from 'rxjs';
+import {DfxCurrencyCentPipe} from 'src/app/home/_shared/pipes/currency.pipe';
 
 import {ProductGroupsService} from '../products/_services/product-groups.service';
 import {ProductsService} from '../products/_services/products.service';
@@ -57,7 +57,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
 
       <scrollable-toolbar>
         <div>
-          <button class="btn btn-sm btn-info" (click)="exportCsv()">
+          <button type="button" class="btn btn-sm btn-info" (click)="exportCsv()">
             <bi name="filetype-csv" />
             {{ 'EXPORT' | tr }}
           </button>
@@ -73,43 +73,43 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
       <div #collapse="ngbCollapse" [ngbCollapse]="isMobile()">
         @if (filter.valid()) {}
 
-        <form [formGroup]="filter.form" class="d-flex flex-column flex-sm-wrap flex-sm-row gap-2">
+        <form class="d-flex flex-column flex-sm-wrap flex-sm-row gap-2" [formGroup]="filter.form">
           <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
             <ng-select
-              [items]="unpaidReasonsFilter()"
               bindValue="id"
               bindLabel="reason"
               formControlName="unpaidReasonId"
+              [items]="unpaidReasonsFilter()"
               [placeholder]="'Zahlungsstatus' | tr"
             />
           </div>
 
           <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
             <ng-select
-              [items]="tableGroups()"
               bindValue="id"
               bindLabel="name"
               formControlName="tableGroupIds"
+              clearAllText="Clear"
+              [items]="tableGroups()"
               [placeholder]="'HOME_TABLE_GROUP_SELECT' | tr"
               [multiple]="true"
-              clearAllText="Clear"
             />
           </div>
           <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
             <ng-select
-              [items]="tables()"
               bindValue="id"
               formControlName="tableIds"
+              clearAllText="Clear"
+              [items]="tables()"
               [searchFn]="customTableSearch"
               [placeholder]="'HOME_TABLE_SELECT' | tr"
               [multiple]="true"
-              clearAllText="Clear"
             >
-              <ng-template ng-label-tmp let-item="item" let-clear="clear">
-                <span class="ng-value-icon left" (click)="clear(item)" aria-hidden="true">×</span>
+              <ng-template let-item="item" let-clear="clear" ng-label-tmp>
+                <span class="ng-value-icon left" aria-hidden="true" (click)="clear(item)">×</span>
                 <span class="ng-value-label">{{ item?.group?.name ?? '' }} - {{ item?.number ?? '' }}</span>
               </ng-template>
-              <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+              <ng-template let-item="item" let-index="index" let-search="searchTerm" ng-option-tmp>
                 <span class="ng-option-label">{{ item.group.name }} - {{ item.number }}</span>
               </ng-template>
             </ng-select>
@@ -117,45 +117,45 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
 
           <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
             <ng-select
-              [items]="productGroups()"
               bindValue="id"
               bindLabel="name"
               formControlName="productGroupIds"
+              clearAllText="Clear"
+              [items]="productGroups()"
               [placeholder]="'HOME_PROD_GROUPS_SELECT' | tr"
               [multiple]="true"
-              clearAllText="Clear"
             />
           </div>
 
           <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
             <ng-select
-              [items]="products()"
               bindValue="id"
               bindLabel="name"
               formControlName="productIds"
+              clearAllText="Clear"
+              [items]="products()"
               [placeholder]="'HOME_PROD_SELECT' | tr"
               [multiple]="true"
-              clearAllText="Clear"
             />
           </div>
 
           <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
             <ng-select
-              [items]="waiters()"
               bindValue="id"
               bindLabel="name"
               formControlName="waiterIds"
+              clearAllText="Clear"
+              [items]="waiters()"
               [placeholder]="'HOME_WAITERS_SELECT' | tr"
               [multiple]="true"
-              clearAllText="Clear"
             />
           </div>
 
           <button
             type="button"
             class="btn btn-sm btn-secondary position-relative"
-            (click)="filter.form.reset()"
             [disabled]="filter.count() === 0"
+            (click)="filter.form.reset()"
           >
             <bi name="x-circle-fill" />
             {{ 'DELETE_ALL' | tr }}
@@ -174,9 +174,9 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
       <div class="table-responsive">
         <table
           ngb-table
+          ngb-sort
           [hover]="true"
           [dataSource]="dataSource()"
-          ngb-sort
           [ngbSortActive]="pagination.params().sort"
           [ngbSortDirection]="pagination.params().direction"
         >
@@ -202,17 +202,17 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
           <ng-container ngbColumnDef="waiter.name">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</th>
             <td *ngbCellDef="let bill" ngb-cell>
-              <a (click)="$event.stopPropagation()" routerLink="../../waiters/{{ bill.waiter.id }}">{{ bill.waiter.name }}</a>
+              <a [routerLink]="'../../waiters/' + bill.waiter.id" (click)="$event.stopPropagation()">{{ bill.waiter.name }}</a>
             </td>
           </ng-container>
 
           <ng-container ngbColumnDef="table.tableGroup.name">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_ORDER_TABLE' | tr }}</th>
             <td *ngbCellDef="let bill" ngb-cell>
-              <a (click)="$event.stopPropagation()" routerLink="../../tables/groups/tables/{{ bill.table.group.id }}">{{
+              <a [routerLink]="'../../tables/groups/tables/' + bill.table.group.id" (click)="$event.stopPropagation()">{{
                 bill.table.group.name
               }}</a>
-              - <a (click)="$event.stopPropagation()" routerLink="../../tables/{{ bill.table.id }}">{{ bill.table.number }}</a>
+              - <a [routerLink]="'../../tables/' + bill.table.id" (click)="$event.stopPropagation()">{{ bill.table.number }}</a>
             </td>
           </ng-container>
 
@@ -221,9 +221,9 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
             <td *ngbCellDef="let bill" ngb-cell>
               <a
                 class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"
-                routerLink="../{{ bill.id }}"
-                ngbTooltip="{{ 'OPEN' | tr }}"
                 placement="left"
+                [routerLink]="'../' + bill.id"
+                [ngbTooltip]="'OPEN' | tr"
               >
                 <bi name="arrow-up-right-square-fill" />
               </a>
@@ -231,7 +231,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
           </ng-container>
 
           <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-          <tr *ngbRowDef="let bill; columns: columnsToDisplay" ngb-row routerLink="../{{ bill.id }}" class="clickable"></tr>
+          <tr *ngbRowDef="let bill; columns: columnsToDisplay" ngb-row class="clickable" [routerLink]="'../' + bill.id"></tr>
         </table>
       </div>
 
@@ -244,11 +244,11 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
       }
 
       <ngb-paginator
+        showFirstLastButtons
         [pageSize]="pagination.params().size"
         [pageIndex]="pagination.params().page"
         [length]="pagination.totalElements()"
         [pageSizeOptions]="[10, 20, 50, 100, 200]"
-        showFirstLastButtons
       />
     </div>
   `,
@@ -305,7 +305,9 @@ export class BillsComponent implements AfterViewInit {
     [this.pagination.params, this.filter.valueChanges],
     pipe(
       debounceTime(350),
-      tap(() => this.pagination.loading.set(true)),
+      tap(() => {
+        this.pagination.loading.set(true);
+      }),
       switchMap(([options, filter]) =>
         this.billsService.getAllPaginated(
           {
@@ -321,8 +323,12 @@ export class BillsComponent implements AfterViewInit {
           filter?.unpaidReasonId,
         ),
       ),
-      tap(() => this.pagination.loading.set(false)),
-      tap((it) => this.pagination.totalElements.set(it.numberOfItems)),
+      tap(() => {
+        this.pagination.loading.set(false);
+      }),
+      tap((it) => {
+        this.pagination.totalElements.set(it.numberOfItems);
+      }),
       map((it) => it.data),
     ),
     {initialValue: []},
@@ -337,7 +343,9 @@ export class BillsComponent implements AfterViewInit {
   unpaidReasonsFilter = computed(() => [{id: -1, reason: 'Bezahlt'}, ...this.unpaidReasons()]);
 
   constructor() {
-    this.billsService.triggerRefresh.pipe(takeUntilDestroyed()).subscribe(() => this.pagination.loading.set(true));
+    this.billsService.triggerRefresh.pipe(takeUntilDestroyed()).subscribe(() => {
+      this.pagination.loading.set(true);
+    });
   }
 
   ngAfterViewInit(): void {
@@ -356,9 +364,9 @@ export class BillsComponent implements AfterViewInit {
   customTableSearch(term: string, item: GetTableWithGroupResponse): boolean {
     term = term.toLowerCase().trim();
     return (
-      item.group.name.toLowerCase().trim().indexOf(term) > -1 ||
-      item.number.toString().toLowerCase().trim().indexOf(term) > -1 ||
-      `${item.group.name} - ${item.number}`.toLowerCase().trim().indexOf(term) > -1
+      item.group.name.toLowerCase().trim().includes(term) ||
+      item.number.toString().toLowerCase().trim().includes(term) ||
+      `${item.group.name} - ${item.number}`.toLowerCase().trim().includes(term)
     );
   }
 

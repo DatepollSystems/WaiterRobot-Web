@@ -2,18 +2,18 @@ import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, RouterLink} from '@angular/router';
+import {AppBackDirective} from '@home-shared/components/button/app-back-button.component';
+import {DfxCurrencyCentPipe} from '@home-shared/pipes/currency.pipe';
 
-import {combineLatest, map, shareReplay, switchMap} from 'rxjs';
-
-import {filterNil} from 'ngxtension/filter-nil';
-import {AppSpinnerRowComponent} from 'src/app/_shared/ui/loading/app-spinner-row.component';
+import {GetOpenBillResponse, GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {GetOpenBillResponse, GetTableWithGroupResponse} from '../../_shared/waiterrobot-backend';
-import {AppBackDirective} from '../../home/_shared/components/button/app-back-button.component';
-import {DfxCurrencyCentPipe} from '../../home/_shared/pipes/currency.pipe';
+import {filterNil} from 'ngxtension/filter-nil';
+
+import {combineLatest, map, shareReplay, switchMap} from 'rxjs';
+import {AppSpinnerRowComponent} from 'src/app/_shared/ui/loading/app-spinner-row.component';
 
 @Component({
   template: `
@@ -49,7 +49,7 @@ import {DfxCurrencyCentPipe} from '../../home/_shared/pipes/currency.pipe';
       }
 
       <div class="mt-3 d-flex flex-column flex-md-row justify-content-between gap-2">
-        <button back class="btn btn-secondary btn-sm">{{ 'GO_BACK' | tr }}</button>
+        <button type="button" back class="btn btn-secondary btn-sm">{{ 'GO_BACK' | tr }}</button>
         <!--      <div class="d-flex gap-2">-->
         <!--        <a routerLink="./orders" class="btn btn-outline-primary btn-sm">-->
         <!--          <bi name="view-stacked" />-->

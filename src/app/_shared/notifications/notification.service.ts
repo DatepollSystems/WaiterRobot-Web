@@ -1,14 +1,14 @@
 import {Injectable, TemplateRef} from '@angular/core';
 
-import {BehaviorSubject, first} from 'rxjs';
-
 import {dfxTranslate$} from 'dfx-translate';
 
-export type Toast = {
+import {BehaviorSubject, first} from 'rxjs';
+
+export interface Toast {
   textOrTpl: string | TemplateRef<unknown>;
   delay: number;
   classname: string;
-};
+}
 
 @Injectable({providedIn: 'root'})
 export class NotificationService {
@@ -18,8 +18,6 @@ export class NotificationService {
 
   private translate = dfxTranslate$();
 
-  constructor() {}
-
   info(str: string): void {
     this.show(str, {delay: this.delay, classname: 'bg-info text-dark'});
   }
@@ -27,7 +25,9 @@ export class NotificationService {
   tinfo(translationKey: string): void {
     this.translate(translationKey)
       .pipe(first())
-      .subscribe((translation) => this.info(translation));
+      .subscribe((translation) => {
+        this.info(translation);
+      });
   }
 
   success(str: string): void {
@@ -37,7 +37,9 @@ export class NotificationService {
   tsuccess(translationKey: string): void {
     this.translate(translationKey)
       .pipe(first())
-      .subscribe((translation) => this.success(translation));
+      .subscribe((translation) => {
+        this.success(translation);
+      });
   }
 
   warning(str: string, delay?: number): void {
@@ -47,7 +49,9 @@ export class NotificationService {
   twarning(translationKey: string): void {
     this.translate(translationKey)
       .pipe(first())
-      .subscribe((translation) => this.warning(translation));
+      .subscribe((translation) => {
+        this.warning(translation);
+      });
   }
 
   error(str: string, delay?: number): void {
@@ -57,7 +61,9 @@ export class NotificationService {
   terror(translationKey: string): void {
     this.translate(translationKey)
       .pipe(first())
-      .subscribe((translation) => this.error(translation));
+      .subscribe((translation) => {
+        this.error(translation);
+      });
   }
 
   private show(textOrTpl: string | TemplateRef<unknown>, options: Omit<Toast, 'textOrTpl'>): void {

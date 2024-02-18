@@ -1,17 +1,17 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {MobileLinkService} from '@home-shared/services/mobile-link.service';
 import {NgbActiveModal, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
 import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
-import {toJpeg} from 'html-to-image';
-import {jsPDF} from 'jspdf';
 
 import {d_formatWithHoursMinutesAndSeconds} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {QRCodeComponent} from 'dfx-qrcode';
 import {DfxTranslateModule} from 'dfx-translate';
+import {toJpeg} from 'html-to-image';
+import {jsPDF} from 'jspdf';
 
 @Component({
   template: `
@@ -22,7 +22,7 @@ import {DfxTranslateModule} from 'dfx-translate';
     <div class="modal-body d-flex flex-column gap-3">
       <scrollable-toolbar>
         <div>
-          <button class="btn btn-sm btn-primary" (click)="pdf()" [class.spinner]="generating" [disabled]="generating">
+          <button type="button" class="btn btn-sm btn-primary" [class.spinner]="generating" [disabled]="generating" (click)="pdf()">
             <bi name="printer" />
             {{ 'HOME_TABLE_PRINT_GENERATE' | tr }}
           </button>
@@ -39,7 +39,7 @@ import {DfxTranslateModule} from 'dfx-translate';
       </scrollable-toolbar>
 
       @if (progress) {
-        <ngb-progressbar type="primary" class="my-2" textType="white" [value]="progress" [showValue]="true"></ngb-progressbar>
+        <ngb-progressbar type="primary" class="my-2" textType="white" [value]="progress" [showValue]="true" />
       }
 
       <div class="alert alert-info mb-2" role="alert">Deaktiviere mögliche Seitenränder beim drucken.</div>
@@ -53,6 +53,8 @@ import {DfxTranslateModule} from 'dfx-translate';
           @for (mytable of tables; track mytable.id) {
             <div class="qr-code-item">
               <qrcode
+                cssClass="text-center"
+                elementType="canvas"
                 [imageSrc]="qrCodeSize === 'MD' ? '/assets/mono.png' : undefined"
                 [imageWidth]="60"
                 [imageHeight]="60"
@@ -60,8 +62,6 @@ import {DfxTranslateModule} from 'dfx-translate';
                 [errorCorrectionLevel]="qrCodeSize === 'MD' ? 'H' : 'M'"
                 [margin]="0"
                 [data]="parser(mytable)"
-                cssClass="text-center"
-                elementType="canvas"
               />
 
               <div class="text-center text-black qr-code-label">
@@ -107,19 +107,17 @@ import {DfxTranslateModule} from 'dfx-translate';
   ],
 })
 export class TablesPrintQrCodesModal {
+  activeModal = inject(NgbActiveModal);
+  #mobileLink = inject(MobileLinkService);
+
   @Input() tables?: GetTableWithGroupResponse[];
 
   qrCodeSize: 'SM' | 'MD' = 'MD';
   generating = false;
   progress?: number;
 
-  constructor(
-    public activeModal: NgbActiveModal,
-    private mobileLink: MobileLinkService,
-  ) {}
-
   parser = (table: GetTableWithGroupResponse): string => {
-    return this.mobileLink.createTableLink(table.publicId);
+    return this.#mobileLink.createTableLink(table.publicId);
   };
 
   async pdf(): Promise<void> {
@@ -158,7 +156,7 @@ export class TablesPrintQrCodesModal {
       }
       this.progress += steps;
     }
-    pdf.save(`tables-${d_formatWithHoursMinutesAndSeconds(new Date()) ?? ''}.pdf`);
+    pdf.save(`tables-${d_formatWithHoursMinutesAndSeconds(new Date())}.pdf`);
     this.generating = false;
     this.progress = undefined;
   }

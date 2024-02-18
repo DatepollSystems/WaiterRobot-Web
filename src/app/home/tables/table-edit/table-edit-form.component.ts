@@ -3,8 +3,6 @@ import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
-import {debounceTime, filter, map, switchMap, tap} from 'rxjs';
-
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -15,17 +13,19 @@ import {HasNumberIDAndName} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
+import {debounceTime, filter, map, switchMap, tap} from 'rxjs';
+
 import {TablesService} from '../_services/tables.service';
 
 @Component({
   template: `
     @if (isValid()) {}
 
-    <form #formRef [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column gap-3">
+    <form #formRef class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-lg-row gap-4">
         <div class="form-group flex-fill">
           <label for="number">{{ 'NUMBER' | tr }}</label>
-          <input formControlName="number" class="form-control" type="number" id="number" placeholder="{{ 'NUMBER' | tr }}" />
+          <input formControlName="number" class="form-control" type="number" id="number" [placeholder]="'NUMBER' | tr" />
 
           @if (form.controls.number.errors?.required) {
             <small class="text-danger">
@@ -42,7 +42,7 @@ import {TablesService} from '../_services/tables.service';
 
         <div class="form-group flex-fill">
           <label for="seats">{{ 'SEATS' | tr }}</label>
-          <input formControlName="seats" class="form-control" type="number" id="seats" placeholder="{{ 'SEATS' | tr }}" />
+          <input formControlName="seats" class="form-control" type="number" id="seats" [placeholder]="'SEATS' | tr" />
           @if (form.controls.seats.invalid) {
             <small class="text-danger">
               {{ 'HOME_TABLES_SEATS_INCORRECT' | tr }}
@@ -59,18 +59,18 @@ import {TablesService} from '../_services/tables.service';
               </span>
             } @else {
               <a
-                routerLink="../groups/{{ form.controls.groupId.value }}"
                 class="input-group-text"
                 id="selectGroup-addon"
-                [ngbTooltip]="('HOME_TABLE_GROUP' | tr) + ('OPEN_2' | tr)"
                 placement="bottom"
+                [routerLink]="'../groups/' + form.controls.groupId.value"
+                [ngbTooltip]="('HOME_TABLE_GROUP' | tr) + ('OPEN_2' | tr)"
               >
                 <bi name="diagram-3" />
               </a>
             }
 
             <select class="form-select" id="selectGroup" formControlName="groupId">
-              <option [value]="-1" disabled>{{ 'HOME_TABLES_GROUPS_DEFAULT' | tr }}</option>
+              <option disabled [value]="-1">{{ 'HOME_TABLES_GROUPS_DEFAULT' | tr }}</option>
               @for (group of tableGroups; track group.id) {
                 <option [value]="group.id">
                   {{ group.name }}
@@ -119,7 +119,7 @@ export class TableEditFormComponent extends AbstractModelEditFormComponent<Creat
       return true;
     }),
     debounceTime(300),
-    switchMap(({number, groupId}) => this.tablesService.checkIfExists(groupId as number, number as number)),
+    switchMap(({number, groupId}) => this.tablesService.checkIfExists(groupId!, number!)),
     tap((exists) => {
       if (exists) {
         this.form.controls.number.setErrors({existsAlready: true});

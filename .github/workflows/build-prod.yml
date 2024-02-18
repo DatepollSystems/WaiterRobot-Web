@@ -3,8 +3,8 @@ name: Build prod
 on:
   push:
     tags:
-      - "*.*.*"
-      - "!*.*.*-lava-*"
+      - '*.*.*'
+      - '!*.*.*-lava-*'
 
 jobs:
   build:

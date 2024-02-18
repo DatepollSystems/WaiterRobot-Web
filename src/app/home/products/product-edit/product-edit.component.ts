@@ -2,8 +2,6 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 
-import {filter, map} from 'rxjs';
-
 import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
 import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
@@ -13,6 +11,8 @@ import {injectOnSubmit} from '@shared/form';
 import {GetProductMaxResponse} from '@shared/waiterrobot-backend';
 
 import {n_from, n_isNumeric} from 'dfts-helper';
+
+import {filter, map} from 'rxjs';
 
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {PrintersService} from '../../printers/_services/printers.service';
@@ -33,7 +33,7 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
           <back-button />
           <ng-container *isEditingAndNotDeleted="entity">
             <div>
-              <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+              <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
                 <bi name="trash" />
                 {{ 'DELETE' | tr }}
               </button>
@@ -52,7 +52,7 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
               </a>
             </div>
           </ng-container>
-          <div class="d-flex align-items-center" *isCreating="entity">
+          <div *isCreating="entity" class="d-flex align-items-center">
             <app-continues-creation-switch (continuesCreationChange)="continuousCreation.set($event)" />
           </div>
         </scrollable-toolbar>
@@ -69,8 +69,6 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
         }
         <app-product-edit-form
           #form
-          (submitUpdate)="onSubmit('UPDATE', $event)"
-          (submitCreate)="onSubmit('CREATE', $event)"
           [allergens]="allergens()"
           [printers]="printers()"
           [productGroups]="productGroups() ?? []"
@@ -78,6 +76,8 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
           [selectedProductGroupId]="selectedProductGroupId()"
           [product]="entity"
           [formDisabled]="(productGroups()?.length ?? 1) < 1 || (entity !== 'CREATE' && !!entity.deleted)"
+          (submitUpdate)="onSubmit('UPDATE', $event)"
+          (submitCreate)="onSubmit('CREATE', $event)"
         />
       </div>
     } @else {

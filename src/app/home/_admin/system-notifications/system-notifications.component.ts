@@ -2,18 +2,18 @@ import {AsyncPipe, DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+import {AbstractModelsListWithDeleteComponent} from '@home-shared/list/models-list-with-delete/abstract-models-list-with-delete.component';
+import {AppActivatedPipe} from '@home-shared/pipes/app-activated.pipe';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+import {GetSystemNotificationResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
-
-import {AppProgressBarComponent} from '../../../_shared/ui/loading/app-progress-bar.component';
-import {GetSystemNotificationResponse} from '../../../_shared/waiterrobot-backend';
-import {ScrollableToolbarComponent} from '../../_shared/components/scrollable-toolbar.component';
-import {AbstractModelsListWithDeleteComponent} from '../../_shared/list/models-list-with-delete/abstract-models-list-with-delete.component';
-import {AppActivatedPipe} from '../../_shared/pipes/app-activated.pipe';
 import {AppSystemNotificationTypeBadgeComponent} from './_components/system-notification-type-badge.component';
 import {SystemNotificationsService} from './_services/system-notifications.service';
 
@@ -30,7 +30,7 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
           >
         </div>
         <div>
-          <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+          <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
             <bi name="trash" />
             {{ 'DELETE' | tr }}
           </button>
@@ -39,15 +39,9 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
           @if ((filter.value?.length ?? 0) > 0) {
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              ngbTooltip="{{ 'CLEAR' | tr }}"
-              placement="bottom"
-              (click)="filter.reset()"
-            >
+            <button class="btn btn-outline-secondary" type="button" placement="bottom" [ngbTooltip]="'CLEAR' | tr" (click)="filter.reset()">
               <bi name="x-circle-fill" />
             </button>
           }
@@ -55,7 +49,7 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
       </form>
 
       <div class="table-responsive">
-        <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="id" ngbSortDirection="asc">
+        <table ngb-table ngb-sort ngbSortActive="id" ngbSortDirection="asc" [hover]="true" [dataSource]="(dataSource$ | async) ?? []">
           <ng-container ngbColumnDef="select">
             <th *ngbHeaderCellDef ngb-header-cell>
               <div class="form-check">
@@ -63,8 +57,8 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
                   class="form-check-input"
                   type="checkbox"
                   name="checked"
-                  (change)="$event ? toggleAllRows() : null"
                   [checked]="selection.hasValue() && isAllSelected()"
+                  (change)="$event ? toggleAllRows() : null"
                 />
               </div>
             </th>
@@ -74,8 +68,8 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
                   class="form-check-input"
                   type="checkbox"
                   name="checked"
-                  (change)="$event ? selection.toggle(selectable) : null"
                   [checked]="selection.isSelected(selectable)"
+                  (change)="$event ? selection.toggle(selectable) : null"
                 />
               </div>
             </td>
@@ -113,13 +107,13 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
           <ng-container ngbColumnDef="actions">
             <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
             <td *ngbCellDef="let it" ngb-cell>
-              <a class="btn btn-sm m-1 btn-outline-success text-body-emphasis" routerLink="../{{ it.id }}" ngbTooltip="{{ 'EDIT' | tr }}">
+              <a class="btn btn-sm m-1 btn-outline-success text-body-emphasis" [routerLink]="'../' + it.id" [ngbTooltip]="'EDIT' | tr">
                 <bi name="pencil-square" />
               </a>
               <button
                 type="button"
                 class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
-                ngbTooltip="{{ 'DELETE' | tr }}"
+                [ngbTooltip]="'DELETE' | tr"
                 (click)="onDelete(it.id, $event)"
               >
                 <bi name="trash" />
@@ -128,7 +122,7 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
           </ng-container>
 
           <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-          <tr *ngbRowDef="let it; columns: columnsToDisplay" ngb-row routerLink="../{{ it.id }}"></tr>
+          <tr *ngbRowDef="let it; columns: columnsToDisplay" ngb-row [routerLink]="'../' + it.id"></tr>
         </table>
       </div>
 

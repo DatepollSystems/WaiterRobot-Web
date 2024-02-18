@@ -8,7 +8,7 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
   template: `
     <footer id="footerContainer" class="unselectable">
       <div class="container-fluid">
-        <div class="my-container {{ container }} footerHeaderContainer">
+        <div [class]="container + ' my-container footerHeaderContainer'">
           <div class="d-flex flex-column flex-md-row justify-content-between">
             <div>
               <h3>
@@ -41,7 +41,7 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
 
       <div id="footerBarContainer">
         <div class="container-fluid">
-          <div class="my-container {{ container }}">
+          <div [class]="'my-container ' + container">
             <div class="d-flex flex-column flex-md-row justify-content-between">
               <div class="d-flex align-items-center gap-1 text-body-emphasis">
                 <div>Made with</div>
@@ -54,10 +54,10 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
                       <span class="hover-text">{{ name }}</span>
                       <img
                         class="hidden-image"
-                        [ngSrc]="'/assets/people/' + (name | lowercase) + '.png'"
                         height="128"
                         width="128"
                         alt="Image"
+                        [ngSrc]="'/assets/people/' + (name | lowercase) + '.png'"
                       />
                     </div>
                     @if (index < 1) {

@@ -5,13 +5,13 @@ import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+import {GetProductMaxResponse} from '@shared/waiterrobot-backend';
+
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayPluck, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-
-import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
-import {GetProductMaxResponse} from '../../_shared/waiterrobot-backend';
 import {AppTextWithColorIndicatorComponent} from '../_shared/components/color/app-text-with-color-indicator.component';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../_shared/list/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
@@ -32,8 +32,8 @@ import {ProductsService} from './_services/products.service';
           >
         </div>
 
-        <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PROD_SELECT_INFO' | tr) : undefined }}">
-          <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+        <div [ngbTooltip]="!selection.hasValue() ? ('HOME_PROD_SELECT_INFO' | tr) : undefined">
+          <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
             <bi name="trash" />
             {{ 'DELETE' | tr }}
           </button>
@@ -42,15 +42,9 @@ import {ProductsService} from './_services/products.service';
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
           @if ((filter.value?.length ?? 0) > 0) {
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              ngbTooltip="{{ 'CLEAR' | tr }}"
-              placement="bottom"
-              (click)="filter.reset()"
-            >
+            <button class="btn btn-outline-secondary" type="button" placement="bottom" [ngbTooltip]="'CLEAR' | tr" (click)="filter.reset()">
               <bi name="x-circle-fill" />
             </button>
           }
@@ -58,7 +52,7 @@ import {ProductsService} from './_services/products.service';
       </form>
 
       <div class="table-responsive">
-        <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="group" ngbSortDirection="asc">
+        <table ngb-table ngb-sort ngbSortActive="group" ngbSortDirection="asc" [hover]="true" [dataSource]="(dataSource$ | async) ?? []">
           <ng-container ngbColumnDef="select">
             <th *ngbHeaderCellDef ngb-header-cell>
               <div class="form-check">
@@ -66,8 +60,8 @@ import {ProductsService} from './_services/products.service';
                   class="form-check-input"
                   type="checkbox"
                   name="checked"
-                  (change)="$event ? toggleAllRows() : null"
                   [checked]="selection.hasValue() && isAllSelected()"
+                  (change)="$event ? toggleAllRows() : null"
                 />
               </div>
             </th>
@@ -77,8 +71,8 @@ import {ProductsService} from './_services/products.service';
                   class="form-check-input"
                   type="checkbox"
                   name="checked"
-                  (change)="$event ? selection.toggle(selectable) : null"
                   [checked]="selection.isSelected(selectable)"
+                  (change)="$event ? selection.toggle(selectable) : null"
                 />
               </div>
             </td>
@@ -134,8 +128,8 @@ import {ProductsService} from './_services/products.service';
             <td *ngbCellDef="let product" ngb-cell>
               <a
                 class="btn btn-sm mx-1 btn-outline-success text-body-emphasis"
-                routerLink="../{{ product.id }}"
-                ngbTooltip="{{ 'EDIT' | tr }}"
+                [routerLink]="'../' + product.id"
+                [ngbTooltip]="'EDIT' | tr"
               >
                 <bi name="pencil-square" />
               </a>
@@ -144,7 +138,7 @@ import {ProductsService} from './_services/products.service';
                 class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
                 routerLink="../../orders"
                 [queryParams]="{productIds: product.id}"
-                ngbTooltip="{{ 'NAV_ORDERS' | tr }}"
+                [ngbTooltip]="'NAV_ORDERS' | tr"
                 (click)="$event.stopPropagation()"
               >
                 <bi name="stack" />
@@ -153,7 +147,7 @@ import {ProductsService} from './_services/products.service';
                 class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
                 routerLink="../../bills"
                 [queryParams]="{productIds: product.id}"
-                ngbTooltip="{{ 'NAV_BILLS' | tr }}"
+                [ngbTooltip]="'NAV_BILLS' | tr"
                 (click)="$event.stopPropagation()"
               >
                 <bi name="cash-coin" />
@@ -161,7 +155,7 @@ import {ProductsService} from './_services/products.service';
               <button
                 type="button"
                 class="btn btn-sm mx-1 btn-outline-danger text-body-emphasis"
-                ngbTooltip="{{ 'DELETE' | tr }}"
+                [ngbTooltip]="'DELETE' | tr"
                 (click)="onDelete(product.id, $event)"
               >
                 <bi name="trash" />
@@ -170,7 +164,7 @@ import {ProductsService} from './_services/products.service';
           </ng-container>
 
           <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-          <tr *ngbRowDef="let product; columns: columnsToDisplay" ngb-row routerLink="../{{ product.id }}"></tr>
+          <tr *ngbRowDef="let product; columns: columnsToDisplay" ngb-row [routerLink]="'../' + product.id"></tr>
         </table>
       </div>
 

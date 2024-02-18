@@ -2,11 +2,11 @@ import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 
+import {passwordMatchValidator} from '@home-shared/regex';
+
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {DfxTr} from 'dfx-translate';
-
-import {passwordMatchValidator} from '../../home/_shared/regex';
 
 @Component({
   template: `
@@ -19,12 +19,12 @@ import {passwordMatchValidator} from '../../home/_shared/regex';
         @if (passwordForm.statusChanges | async) {}
 
         <form
+          class="d-flex flex-column gap-3"
           [formGroup]="passwordForm"
           (ngSubmit)="activeModal.close(passwordForm.controls.newPassword.getRawValue())"
-          class="d-flex flex-column gap-3"
         >
           <div class="form-floating">
-            <input class="form-control" type="password" id="password" formControlName="newPassword" placeholder="{{ 'PASSWORD' | tr }}" />
+            <input class="form-control" type="password" id="password" formControlName="newPassword" [placeholder]="'PASSWORD' | tr" />
             <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | tr }}</label>
           </div>
 
@@ -35,13 +35,7 @@ import {passwordMatchValidator} from '../../home/_shared/regex';
           }
 
           <div class="form-floating">
-            <input
-              class="form-control"
-              type="password"
-              id="password"
-              formControlName="confirmPassword"
-              placeholder="{{ 'PASSWORD' | tr }}"
-            />
+            <input class="form-control" type="password" id="password" formControlName="confirmPassword" [placeholder]="'PASSWORD' | tr" />
             <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_AGAIN' | tr }}</label>
           </div>
 
@@ -85,5 +79,5 @@ export class AppPasswordChangeDialogComponent {
     {validators: passwordMatchValidator},
   );
 
-  constructor(public activeModal: NgbActiveModal) {}
+  activeModal = inject(NgbActiveModal);
 }

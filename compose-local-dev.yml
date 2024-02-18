@@ -17,7 +17,7 @@ services:
     networks:
       - kellner-backend
     healthcheck:
-      test: "healthcheck.sh --connect --innodb_initialized"
+      test: 'healthcheck.sh --connect --innodb_initialized'
       interval: 3s
       timeout: 1s
       retries: 5
@@ -32,7 +32,7 @@ services:
       - RABBITMQ_DEFAULT_USER=waiterrobot
       - RABBITMQ_DEFAULT_PASS=waiterrobot
     ports:
-      - "15672:15672"
+      - '15672:15672'
     networks:
       - kellner-backend
     healthcheck:
@@ -46,7 +46,7 @@ services:
     image: ghcr.io/datepollsystems/waiterrobot-backend:latest-lava
     restart: unless-stopped
     ports:
-      - "80:8080"
+      - '80:8080'
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -90,6 +90,3 @@ volumes:
 
 networks:
   kellner-backend:
-
-
-

@@ -45,7 +45,7 @@ export function injectContinuousCreation(options: {
     if ((continuousUsePropertyNames?.length ?? 0) > 0) {
       console.info('checkContinuousCreation - continuous use properties found trying to reseed them');
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
+      // @ts-expect-error
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       for (const modelKeyValuePairs of Object.keys(dto as Record<string, never>).map((key) => [String(key), dto[key]])) {
         if (continuousUsePropertyNames?.includes(modelKeyValuePairs[0] as string)) {
@@ -61,7 +61,9 @@ export function injectContinuousCreation(options: {
     }
   };
 
-  const set = (it: boolean) => enabled.set(it);
+  const set = (it: boolean) => {
+    enabled.set(it);
+  };
 
   return {
     set,
@@ -83,7 +85,9 @@ export function injectTabControls<Tab>(options: {isCreating?: Signal<boolean>; d
     [
       isCreating ?? signal(false),
       route.queryParamMap.pipe(
-        tap((it) => console.log('activeTab - Params', it)),
+        tap((it) => {
+          console.log('activeTab - Params', it);
+        }),
         map((params) => (params.get('tab') ?? undefined) as Tab | undefined),
         startWith(undefined),
       ),

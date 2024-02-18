@@ -1,33 +1,31 @@
 {
   "root": true,
   "reportUnusedDisableDirectives": true,
-  "extends": [
-    "prettier"
-  ],
+  "extends": ["prettier"],
+  "ignorePatterns": ["environment.*.ts", "postbuild.js"],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.js"],
+      "env": {"node": true},
+      "extends": ["eslint:recommended", "prettier"],
+      "rules": {}
+    },
+    {
+      "files": ["*.ts"],
       "parserOptions": {
-        "project": [
-          "tsconfig.json",
-          "e2e/tsconfig.json"
-        ],
-        "createDefaultProgram": true
+        "project": ["tsconfig.(app|spec).json"]
       },
       "extends": [
         "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking",
-        "plugin:@angular-eslint/recommended",
+        "plugin:@typescript-eslint/strict-type-checked",
+        "plugin:@typescript-eslint/stylistic-type-checked",
+        "plugin:@angular-eslint/all",
         "plugin:@angular-eslint/template/process-inline-templates",
-        "plugin:import/typescript",
-        "plugin:import/errors",
-        "plugin:import/warnings",
-        "plugin:import/recommended"
+        "prettier"
       ],
       "rules": {
+        "@angular-eslint/prefer-on-push-component-change-detection": "off",
+
         "@typescript-eslint/explicit-module-boundary-types": [
           "off",
           {
@@ -38,120 +36,56 @@
         "@typescript-eslint/ban-ts-comment": "warn",
         "@typescript-eslint/no-unsafe-call": "off",
         "@typescript-eslint/no-unsafe-member-access": "off",
-        "no-empty-function": "off",
-        "@typescript-eslint/no-empty-function": "off",
+        "no-empty-function": "warn",
+        "@typescript-eslint/no-empty-function": "warn",
         "@typescript-eslint/restrict-plus-operands": "off",
         "@typescript-eslint/member-ordering": "off",
         "@typescript-eslint/unbound-method": "off",
+        "@typescript-eslint/no-extraneous-class": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
         "@angular-eslint/sort-ngmodule-metadata-arrays": "error",
         "@angular-eslint/component-class-suffix": "off",
-        "@angular-eslint/component-selector": [
-          "error",
-          {
-            "type": "element",
-            "style": "kebab-case"
-          }
-        ],
-        "@angular-eslint/directive-selector": [
-          "error",
-          {
-            "type": "attribute",
-            "style": "camelCase"
-          }
-        ],
+        "@angular-eslint/use-component-selector": "off",
+        "@angular-eslint/template/i18n": "off",
+        "@angular-eslint/template/no-inline-styles": "off",
+        "@angular-eslint/template/no-call-expression": "off",
+        "@angular-eslint/template/click-events-have-key-events": "warn",
+        "@angular-eslint/template/interactive-supports-focus": "warn",
+        "@angular-eslint/component-max-inline-declarations": "off",
+        "@angular-eslint/prefer-standalone-component": "off",
         "dot-notation": "error",
-        "id-denylist": [
-          "error",
-          "any",
-          "Number",
-          "String",
-          "string",
-          "Boolean",
-          "boolean",
-          "Undefined",
-          "undefined"
-        ],
+        "id-denylist": ["error", "any", "Number", "String", "string", "Boolean", "boolean", "Undefined", "undefined"],
         "no-shadow": "error",
         "no-unused-expressions": "error",
-        "quotes": [
-          "error",
-          "single"
-        ],
+        "quotes": ["error", "single"],
         "semi": "error",
         "import/named": "off",
-        "import/no-unresolved": "off",
-        "import/order": [
-          "error",
-          {
-            "newlines-between": "always",
-            // <-- Changed configuration here to get proper imports order I want
-            "groups": [
-              // <-- Changed configuration here to get proper imports order I want
-              "internal",
-              // angular imports - configured in 'import/internal-regex'
-              "unknown",
-              // rxjs imports
-              "external",
-              // all libraries imports - configured in 'import/external-module-folders'
-              "builtin",
-              // internal-library imports
-              [
-                "parent",
-                "sibling",
-                "index"
-              ]
-              // relative paths
-            ],
-            "pathGroups": [
-              // <-- Changed configuration here to get proper imports order I want
-              {
-                "pattern": "rxjs",
-                "group": "unknown"
-              },
-              {
-                "pattern": "rxjs/**",
-                "group": "unknown"
-              },
-              {
-                "pattern": "dfx**",
-                "group": "builtin"
-              },
-              {
-                "pattern": "dfts**",
-                "group": "builtin"
-              },
-              {
-                "pattern": "qshared**",
-                "group": "parent"
-              },
-              {
-                "pattern": "@home-shared**",
-                "group": "parent"
-              },
-              {
-                "pattern": "@outside-shared**",
-                "group": "parent"
-              }
-            ],
-            "pathGroupsExcludedImportTypes": [
-              "type",
-              "object"
-            ]
-          }
-        ]
+        "import/no-unresolved": "off"
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ],
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/all", "prettier"],
+      "rules": {
+        "@angular-eslint/template/i18n": "off",
+        "@angular-eslint/template/no-inline-styles": "off",
+        "@angular-eslint/template/no-call-expression": "off",
+        "@angular-eslint/template/no-any": "warn",
+        "@angular-eslint/template/elements-content": "warn",
+        "@angular-eslint/template/click-events-have-key-events": "warn",
+        "@angular-eslint/template/interactive-supports-focus": "warn",
+        "@angular-eslint/component-max-inline-declarations": "off"
+      }
+    },
+    {
+      "files": ["*.json"],
+      "extends": ["plugin:jsonc/recommended-with-jsonc", "prettier"],
+      "rules": {}
+    },
+    {
+      "files": ["*.md"],
+      "extends": ["plugin:markdown/recommended", "prettier"],
       "rules": {}
     }
-  ],
-  "settings": {
-    "import/internal-regex": "@angular/"
-  }
+  ]
 }

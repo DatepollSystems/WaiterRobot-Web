@@ -9,6 +9,7 @@ import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from 'dfx-helper';
 import {AbstractModelsListWithDeleteComponent} from '../models-list-with-delete/abstract-models-list-with-delete.component';
 
 @Component({
+  standalone: true,
   template: '',
 })
 export abstract class AbstractModelsListByIdComponent<
@@ -34,14 +35,20 @@ export abstract class AbstractModelsListByIdComponent<
     }),
     map((id) => n_from(id)),
     distinctUntilChanged(),
-    tap(() => this.isLoading.set(true)),
+    tap(() => {
+      this.isLoading.set(true);
+    }),
     shareReplay(1),
   );
 
   entity$ = this.idParam$.pipe(
-    tap(() => this.entityLoading.set(true)),
+    tap(() => {
+      this.entityLoading.set(true);
+    }),
     switchMap((id) => this.byIdEntityService.getSingle$(id)),
-    tap(() => this.entityLoading.set(false)),
+    tap(() => {
+      this.entityLoading.set(false);
+    }),
   );
 
   protected constructor(

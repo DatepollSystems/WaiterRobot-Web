@@ -11,11 +11,11 @@ import {OrdersService} from '../orders.service';
   template: `
     <button
       type="button"
-      [class.spinner]="loading"
       class="btn btn-outline-secondary d-flex align-items-center gap-2"
-      (click)="ordersService.triggerRefresh.next(true)"
-      ngbTooltip="{{ 'HOME_ORDER_REFRESH_NOW' | tr }}"
       placement="left"
+      [class.spinner]="loading"
+      [ngbTooltip]="'HOME_ORDER_REFRESH_NOW' | tr"
+      (click)="ordersService.triggerRefresh.next(true)"
     >
       <bi name="arrow-clockwise" />
       @if (countdown) {

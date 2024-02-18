@@ -1,14 +1,14 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {AppSelectableBtnComponent} from '@home-shared/components/button/app-selectable-btn.component';
+import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
+import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
+import {injectContinuousCreation, injectOnDelete} from '@home-shared/form/edit';
+import {MyUserService} from '@home-shared/services/user/my-user.service';
+
+import {injectOnSubmit} from '@shared/form';
+import {GetEventOrLocationResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-
-import {injectOnSubmit} from '../../../_shared/form';
-import {GetEventOrLocationResponse} from '../../../_shared/waiterrobot-backend';
-import {AppSelectableBtnComponent} from '../../_shared/components/button/app-selectable-btn.component';
-import {AbstractModelEditComponent} from '../../_shared/form/abstract-model-edit.component';
-import {AppEntityEditModule} from '../../_shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectOnDelete} from '../../_shared/form/edit';
-import {MyUserService} from '../../_shared/services/user/my-user.service';
 import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
 import {EventsService} from '../_services/events.service';
 import {SelectedEventService} from '../_services/selected-event.service';
@@ -27,7 +27,7 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
           <ng-container *isEditing="entity">
             @if (myUser()?.isAdmin) {
               <div>
-                <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
+                <button type="button" class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
                   <bi name="trash" />
                   {{ 'DELETE' | tr }}
                 </button>
@@ -48,11 +48,11 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
 
         <app-event-edit-form
           #form
-          (submitUpdate)="onSubmit('UPDATE', $event)"
-          (submitCreate)="onSubmit('CREATE', $event)"
           [selectedOrganisationId]="selectedOrganisationId()!"
           [formDisabled]="!myUser()?.isAdmin"
           [event]="entity"
+          (submitUpdate)="onSubmit('UPDATE', $event)"
+          (submitCreate)="onSubmit('CREATE', $event)"
         />
       </div>
     } @else {

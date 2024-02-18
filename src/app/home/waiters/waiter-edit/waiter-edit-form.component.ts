@@ -1,27 +1,27 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
+import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
+import {allowedCharacterSet} from '@home-shared/regex';
+
 import {NgSelectModule} from '@ng-select/ng-select';
+import {injectIsValid} from '@shared/form';
+import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, UpdateWaiterDto} from '@shared/waiterrobot-backend';
 
 import {HasNumberIDAndName} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {AbstractModelEditFormComponent} from '../../_shared/form/abstract-model-edit-form.component';
-import {AppModelEditSaveBtn} from '../../_shared/form/app-model-edit-save-btn.component';
-import {injectIsValid} from '../../../_shared/form';
-import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, UpdateWaiterDto} from '../../../_shared/waiterrobot-backend';
-import {allowedCharacterSet} from '../../_shared/regex';
-
 @Component({
   template: `
     @if (isValid()) {}
 
-    <form #formRef [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column gap-3">
+    <form #formRef class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="submit()">
       <div class="row g-3">
         <div class="form-group col-sm-12 col-md-4 col-lg-5 col-xl-6">
           <label for="name">{{ 'NAME' | tr }}</label>
-          <input class="form-control" type="text" id="name" placeholder="{{ 'NAME' | tr }}" formControlName="name" />
+          <input class="form-control" type="text" id="name" formControlName="name" [placeholder]="'NAME' | tr" />
 
           @if (form.controls.name.invalid) {
             <small class="text-danger">
@@ -33,16 +33,15 @@ import {allowedCharacterSet} from '../../_shared/regex';
         <div class="form-group col-sm-12 col-md-8 col-lg-7 col-xl-6">
           <label for="eventSelect">{{ 'HOME_WAITERS_EDIT_EVENTS' | tr }}</label>
           <ng-select
-            [items]="events"
             bindLabel="name"
             bindValue="id"
             labelForId="eventSelect"
-            [multiple]="true"
-            placeholder="{{ 'HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER' | tr }}"
             clearAllText="Clear"
             formControlName="eventIds"
-          >
-          </ng-select>
+            [items]="events"
+            [multiple]="true"
+            [placeholder]="'HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER' | tr"
+          />
         </div>
       </div>
 

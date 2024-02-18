@@ -2,13 +2,15 @@ import {inject, Injectable} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {RouterStateSnapshot, TitleStrategy} from '@angular/router';
 
-import {first} from 'rxjs';
-
 import {dfxTranslate$} from 'dfx-translate';
+
+import {first} from 'rxjs';
 
 import {EnvironmentHelper} from './EnvironmentHelper';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CustomTitleStrategy extends TitleStrategy {
   titlePrefix = EnvironmentHelper.getTitlePrefix();
 
@@ -24,6 +26,8 @@ export class CustomTitleStrategy extends TitleStrategy {
     }
     this.translate(title)
       .pipe(first())
-      .subscribe((translation) => this.title.setTitle(`${this.titlePrefix} - ${translation}`));
+      .subscribe((translation) => {
+        this.title.setTitle(`${this.titlePrefix} - ${translation}`);
+      });
   }
 }

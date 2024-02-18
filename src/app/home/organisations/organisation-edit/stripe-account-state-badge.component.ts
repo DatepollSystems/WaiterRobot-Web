@@ -1,21 +1,22 @@
 import {Component, inject, input, signal} from '@angular/core';
 
 import {GetStripeAccountResponse} from '@shared/waiterrobot-backend';
+import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {DfxTr} from 'dfx-translate';
-import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {OrganisationsStripeService} from '../_services/organisations-stripe.service';
 
 @Component({
   template: `
     <button
+      type="button"
       class="btn btn-sm d-inline-flex gap-2 align-items-center justify-content-between"
-      (click)="$event.stopPropagation(); openLink()"
       [class.spinner]="loading()"
       [disabled]="loading()"
       [class.btn-primary]="state() === 'ACTIVE'"
       [class.btn-warning]="state() === 'ONBOARDING'"
+      (click)="$event.stopPropagation(); openLink()"
     >
       @switch (state()) {
         @case ('ONBOARDING') {

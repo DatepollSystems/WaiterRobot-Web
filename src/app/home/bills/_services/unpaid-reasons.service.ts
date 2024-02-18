@@ -1,11 +1,11 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 
-import {BehaviorSubject, Observable, switchMap} from 'rxjs';
+import {GetBillUnpaidReasonResponse} from '@shared/waiterrobot-backend';
 
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
 
-import {GetBillUnpaidReasonResponse} from '../../../_shared/waiterrobot-backend';
+import {BehaviorSubject, Observable, switchMap} from 'rxjs';
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
@@ -31,7 +31,7 @@ export class UnpaidReasonsService
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  delete$(id: GetBillUnpaidReasonResponse['id']): Observable<unknown> {
+  delete$(_: GetBillUnpaidReasonResponse['id']): Observable<unknown> {
     throw new Error('Method not implemented.');
   }
 }

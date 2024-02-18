@@ -2,32 +2,26 @@ import {ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output}
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 
+import {AppBackButtonComponent} from '@home-shared/components/button/app-back-button.component';
+import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
+
 import {NgSelectModule} from '@ng-select/ng-select';
+import {injectIsValid} from '@shared/form';
+import {CreateUserDto, GetOrganisationResponse, GetUserResponse, IdAndNameResponse, UpdateUserDto} from '@shared/waiterrobot-backend';
 
 import {DfxTr} from 'dfx-translate';
-
-import {AppBackButtonComponent} from '../../../_shared/components/button/app-back-button.component';
-import {ScrollableToolbarComponent} from '../../../_shared/components/scrollable-toolbar.component';
-import {AbstractModelEditFormComponent} from '../../../_shared/form/abstract-model-edit-form.component';
-import {AppModelEditSaveBtn} from '../../../_shared/form/app-model-edit-save-btn.component';
-import {injectIsValid} from '../../../../_shared/form';
-import {
-  CreateUserDto,
-  GetOrganisationResponse,
-  GetUserResponse,
-  IdAndNameResponse,
-  UpdateUserDto,
-} from '../../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
     @if (isValid()) {}
 
-    <form #formRef [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column gap-3">
+    <form #formRef class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="submit()">
       <div class="row gy-2">
         <div class="form-group col-sm">
           <label for="email">{{ 'EMAIL' | tr }}</label>
-          <input class="form-control" type="email" id="email" formControlName="emailAddress" placeholder="{{ 'EMAIL' | tr }}" />
+          <input class="form-control" type="email" id="email" formControlName="emailAddress" [placeholder]="'EMAIL' | tr" />
 
           @if (form.controls.emailAddress.invalid) {
             <small class="text-danger">
@@ -38,7 +32,7 @@ import {
 
         <div class="form-group col-sm">
           <label for="firstname">{{ 'FIRSTNAME' | tr }}</label>
-          <input class="form-control" type="text" id="firstname" formControlName="firstname" placeholder="{{ 'FIRSTNAME' | tr }}" />
+          <input class="form-control" type="text" id="firstname" formControlName="firstname" [placeholder]="'FIRSTNAME' | tr" />
 
           @if (form.controls.firstname.invalid) {
             <small class="text-danger">
@@ -49,7 +43,7 @@ import {
 
         <div class="form-group col-sm">
           <label for="surname">{{ 'SURNAME' | tr }}</label>
-          <input class="form-control" type="text" id="surname" formControlName="surname" placeholder="{{ 'SURNAME' | tr }}" />
+          <input class="form-control" type="text" id="surname" formControlName="surname" [placeholder]="'SURNAME' | tr" />
           @if (form.controls.surname.invalid) {
             <small class="text-danger">
               {{ 'HOME_USERS_SUR_NAME_INCORRECT' | tr }}
@@ -82,17 +76,16 @@ import {
         <div class="form-group col">
           <label for="orgSelect">{{ 'NAV_ORGANISATIONS' | tr }}</label>
           <ng-select
-            [items]="organisations"
             bindLabel="name"
             bindValue="id"
             labelForId="orgSelect"
-            [multiple]="true"
-            placeholder="{{ 'HOME_USERS_ORGS_INPUT_PLACEHOLDER' | tr }}"
             clearAllText="Clear"
-            (change)="userOrganisations.emit($event)"
             formControlName="selectedOrganisations"
-          >
-          </ng-select>
+            [items]="organisations"
+            [multiple]="true"
+            [placeholder]="'HOME_USERS_ORGS_INPUT_PLACEHOLDER' | tr"
+            (change)="userOrganisations.emit($event)"
+          />
         </div>
       </div>
 
@@ -145,7 +138,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserEditFormComponent extends AbstractModelEditFormComponent<CreateUserDto, UpdateUserDto> {
-  @Output() userOrganisations = new EventEmitter<[]>();
+  @Output() readonly userOrganisations = new EventEmitter<[]>();
 
   form = inject(FormBuilder).nonNullable.group({
     emailAddress: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(255), Validators.email]],
@@ -185,9 +178,13 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Create
   constructor() {
     super();
 
-    this.form.controls.updatePassword.valueChanges
-      .pipe(takeUntilDestroyed())
-      .subscribe((value) => (value ? this.form.controls.password.enable() : this.form.controls.password.disable()));
+    this.form.controls.updatePassword.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+      if (value) {
+        this.form.controls.password.enable();
+      } else {
+        this.form.controls.password.disable();
+      }
+    });
 
     this.form.controls.sendInvitation.valueChanges.pipe(takeUntilDestroyed()).subscribe((it) => {
       if (it) {

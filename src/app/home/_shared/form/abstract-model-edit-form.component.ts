@@ -20,6 +20,7 @@ import {AComponent} from 'dfx-helper';
 const focuses = ['input', 'select', 'textarea'];
 
 @Component({
+  standalone: true,
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -29,10 +30,10 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
   fb = inject(FormBuilder);
 
   @Output()
-  submitCreate = new EventEmitter<CreateDTOType>();
+  readonly submitCreate = new EventEmitter<CreateDTOType>();
 
   @Output()
-  submitUpdate = new EventEmitter<UpdateDTOType>();
+  readonly submitUpdate = new EventEmitter<UpdateDTOType>();
 
   isCreating = signal(false);
 

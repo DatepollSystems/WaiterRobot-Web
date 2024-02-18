@@ -9,10 +9,10 @@ import {DfxTr} from 'dfx-translate';
 @Component({
   template: `
     <div
-      [ngClass]="{'text-bg-light': printState === 'QUEUED', 'text-bg-success': printState === 'SENT_TO_PRINT'}"
-      [ngbTooltip]="sentToPrinterAt || printedAt ? tipContent : null"
       class="badge d-flex align-items-center gap-2 not-selectable"
       style="width: min-content"
+      [ngClass]="{'text-bg-light': printState === 'QUEUED', 'text-bg-success': printState === 'SENT_TO_PRINT'}"
+      [ngbTooltip]="sentToPrinterAt || printedAt ? tipContent : null"
     >
       @switch (printState) {
         @case ('QUEUED') {

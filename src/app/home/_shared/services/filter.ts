@@ -15,7 +15,7 @@ import {distinctUntilChanged, map, merge, Observable, shareReplay} from 'rxjs';
 
 export function injectFilter<
   TControl extends {
-    [K in keyof TControl]: AbstractControl<any>;
+    [K in keyof TControl]: AbstractControl<unknown>;
   } = any,
 >(
   form: FormGroup<TControl>,

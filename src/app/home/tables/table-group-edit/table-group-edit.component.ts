@@ -26,14 +26,14 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
 
           <ng-container *isEditingAndNotDeleted="entity">
             <div>
-              <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+              <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
                 <bi name="trash" />
                 {{ 'DELETE' | tr }}
               </button>
             </div>
 
             <div>
-              <a routerLink="../tables/{{ entity.id }}" class="btn btn-sm btn-primary">
+              <a class="btn btn-sm btn-primary" [routerLink]="'../tables/' + entity.id">
                 <bi name="columns-gap" />
                 {{ 'HOME_TABLE_GROUP_SHOW_TABLES' | tr }}</a
               >
@@ -53,7 +53,7 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
             </div>
           </ng-container>
 
-          <div class="d-flex align-items-center" *isCreating="entity">
+          <div *isCreating="entity" class="d-flex align-items-center">
             <app-continues-creation-switch (continuesCreationChange)="continuousCreation.set($event)" />
           </div>
         </scrollable-toolbar>
@@ -62,11 +62,11 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
 
         <app-table-group-edit-form
           #form
-          (submitUpdate)="onSubmit('UPDATE', $event)"
-          (submitCreate)="onSubmit('CREATE', $event)"
           [tableGroup]="entity"
           [selectedEventId]="selectedEventId()!"
           [formDisabled]="entity !== 'CREATE' && !!entity.deleted"
+          (submitUpdate)="onSubmit('UPDATE', $event)"
+          (submitCreate)="onSubmit('CREATE', $event)"
         />
       </div>
     } @else {

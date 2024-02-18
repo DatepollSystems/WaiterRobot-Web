@@ -74,15 +74,27 @@ export class TablesService
   }
 
   create$(dto: CreateTableDto): Observable<IdResponse> {
-    return this.httpClient.post<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
+    return this.httpClient.post<IdResponse>(this.url, dto).pipe(
+      tap(() => {
+        this.triggerGet$.next(true);
+      }),
+    );
   }
 
   update$(dto: UpdateTableDto): Observable<IdResponse> {
-    return this.httpClient.put<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
+    return this.httpClient.put<IdResponse>(this.url, dto).pipe(
+      tap(() => {
+        this.triggerGet$.next(true);
+      }),
+    );
   }
 
   delete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(tap(() => this.triggerGet$.next(true)));
+    return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(
+      tap(() => {
+        this.triggerGet$.next(true);
+      }),
+    );
   }
 
   checkIfExists(groupId: number, tableNumber: number): Observable<boolean> {

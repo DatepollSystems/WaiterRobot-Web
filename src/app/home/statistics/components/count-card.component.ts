@@ -12,7 +12,7 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
           @if (count === 0) {
             <span>0</span>
           } @else {
-            <span [countUp]="count" animationDuration="2000" clickable="false"></span>
+            <span animationDuration="2000" clickable="false" [countUp]="count"></span>
           }
           <ng-content select="[valuePrefix]" />
         </div>

@@ -2,8 +2,6 @@ import {AsyncPipe, DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
-import {combineLatest, map, switchMap} from 'rxjs';
-
 import {AppTestBadge} from '@home-shared/components/app-test-badge.component';
 import {AppBackButtonComponent} from '@home-shared/components/button/app-back-button.component';
 import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
@@ -13,6 +11,8 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
+
+import {combineLatest, map, switchMap} from 'rxjs';
 
 import {AppOrderRefreshButtonComponent} from './_components/app-order-refresh-button.component';
 import {AppOrderStateBadgeComponent} from './_components/app-order-state-badge.component';
@@ -48,18 +48,18 @@ import {OrdersService} from './orders.service';
           }
 
           <a
-            routerLink="../../tables/{{ vm.order.table.id }}"
             class="badge bg-secondary d-flex align-items-center gap-2"
-            ngbTooltip="{{ 'HOME_ORDER_OPEN_TABLE' | tr }}"
+            [routerLink]="'../../tables/' + vm.order.table.id"
+            [ngbTooltip]="'HOME_ORDER_OPEN_TABLE' | tr"
           >
             <bi name="columns-gap" />
             {{ vm.order.table.group.name }} - {{ vm.order.table.number }}
           </a>
 
           <a
-            routerLink="../../waiters/{{ vm.order.waiter.id }}"
             class="badge bg-primary d-flex align-items-center gap-2"
-            ngbTooltip="{{ 'HOME_ORDER_OPEN_WAITER' | tr }}"
+            [routerLink]="'../../waiters/' + vm.order.waiter.id"
+            [ngbTooltip]="'HOME_ORDER_OPEN_WAITER' | tr"
           >
             <bi name="people" />
             {{ vm.order.waiter.name }}
@@ -70,7 +70,7 @@ import {OrdersService} from './orders.service';
           <back-button />
           <div>
             @if (vm.showRequeueButton) {
-              <button class="btn btn-sm btn-warning" (click)="requeueOrder(vm.order.id)">
+              <button type="button" class="btn btn-sm btn-warning" (click)="requeueOrder(vm.order.id)">
                 <bi name="printer" />
                 {{ 'HOME_ORDER_REQUEUE' | tr }}
               </button>
@@ -82,8 +82,8 @@ import {OrdersService} from './orders.service';
 
         <app-order-products-list
           [orderProducts]="vm.order.orderProducts"
-          (requeueOrdersOfPrinter)="requeueOrdersOfPrinter(vm.order.id, $event)"
           [showRequeueButton]="vm.showRequeueButton"
+          (requeueOrdersOfPrinter)="requeueOrdersOfPrinter(vm.order.id, $event)"
         />
       </div>
     }

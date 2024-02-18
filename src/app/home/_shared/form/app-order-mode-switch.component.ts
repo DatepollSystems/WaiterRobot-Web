@@ -7,7 +7,7 @@ import {DfxTr} from 'dfx-translate';
 @Component({
   template: `
     <div class="form-check form-switch mb-0">
-      <input [formControl]="formControl" class="form-check-input" type="checkbox" role="switch" id="orderMode" />
+      <input class="form-check-input" type="checkbox" role="switch" id="orderMode" [formControl]="formControl" />
       <label class="form-check-label text-nowrap" for="orderMode">{{ 'ORDER_MODE_SWITCH' | tr }}</label>
     </div>
   `,
@@ -20,7 +20,7 @@ export class AppOrderModeSwitchComponent {
   formControl = new FormControl(false);
 
   @Output()
-  orderModeChange = new EventEmitter<boolean>();
+  readonly orderModeChange = new EventEmitter<boolean>();
 
   @Input({transform: booleanAttribute})
   set orderMode(it: boolean) {
@@ -29,7 +29,7 @@ export class AppOrderModeSwitchComponent {
 
   constructor() {
     this.formControl.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
-      this.orderModeChange.next(value === null ? false : value);
+      this.orderModeChange.next(value ?? false);
     });
   }
 }

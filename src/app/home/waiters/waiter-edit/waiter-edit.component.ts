@@ -1,19 +1,19 @@
 import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
-
-import {combineLatest, filter, map, shareReplay, startWith, tap} from 'rxjs';
+import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
+import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
+import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
+import {injectContinuousCreation, injectOnDelete, injectTabControls} from '@home-shared/form/edit';
 
 import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
+import {injectOnSubmit} from '@shared/form';
+import {GetWaiterResponse} from '@shared/waiterrobot-backend';
+
 import {loggerOf, n_from, n_isNumeric} from 'dfts-helper';
 
-import {injectOnSubmit} from '../../../_shared/form';
-import {GetWaiterResponse} from '../../../_shared/waiterrobot-backend';
-import {AbstractModelEditComponent} from '../../_shared/form/abstract-model-edit.component';
-import {AppContinuesCreationSwitchComponent} from '../../_shared/form/app-continues-creation-switch.component';
-import {AppEntityEditModule} from '../../_shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectOnDelete, injectTabControls} from '../../_shared/form/edit';
+import {combineLatest, filter, map, shareReplay, startWith, tap} from 'rxjs';
 import {EventsService} from '../../events/_services/events.service';
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
@@ -34,7 +34,7 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
 
           <ng-container *isEditing="entity">
             <div>
-              <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+              <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
                 <bi name="trash" />
                 {{ 'DELETE' | tr }}
               </button>
@@ -56,7 +56,7 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
             </div>
           </ng-container>
 
-          <div class="d-flex align-items-center" *isCreating="entity">
+          <div *isCreating="entity" class="d-flex align-items-center">
             <app-continues-creation-switch (continuesCreationChange)="continuousCreation.set($event)" />
           </div>
         </scrollable-toolbar>
@@ -64,10 +64,10 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
         <hr />
 
         <ul
-          ngbNav
           #nav="ngbNav"
-          [activeId]="tabControls.activeTab()"
+          ngbNav
           class="nav-tabs"
+          [activeId]="tabControls.activeTab()"
           (navChange)="tabControls.navigateToTab($event.nextId)"
         >
           <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">
@@ -75,16 +75,16 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
             <ng-template ngbNavContent>
               <app-waiter-edit-form
                 #form
-                (submitUpdate)="onSubmit('UPDATE', $event)"
-                (submitCreate)="onSubmit('CREATE', $event)"
                 [waiter]="entity"
                 [selectedOrganisationId]="selectedOrganisationId()!"
                 [selectedEvent]="selectedEvent()"
                 [events]="events()"
+                (submitUpdate)="onSubmit('UPDATE', $event)"
+                (submitCreate)="onSubmit('CREATE', $event)"
               />
             </ng-template>
           </li>
-          <li [ngbNavItem]="'SESSIONS'" *isEditing="entity" [destroyOnHide]="true">
+          <li *isEditing="entity" [ngbNavItem]="'SESSIONS'" [destroyOnHide]="true">
             <a ngbNavLink>{{ 'NAV_USER_SESSIONS' | tr }}</a>
             <ng-template ngbNavContent>
               <app-waiter-sessions />

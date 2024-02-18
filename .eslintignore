@@ -1,5 +1,5 @@
 .angular
 package.json
 pnpm-lock.yaml
-/dist
-/node_modules
+dist/
+node_modules/

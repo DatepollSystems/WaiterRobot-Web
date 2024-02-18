@@ -2,10 +2,10 @@ import {Location, NgOptimizedImage} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {Router} from '@angular/router';
 
+import {FooterModule} from '@shared/ui/footer/footer.module';
+
 import {n_fromStorage, st_set} from 'dfts-helper';
 import {DfxTr} from 'dfx-translate';
-
-import {FooterModule} from '../_shared/ui/footer/footer.module';
 
 @Component({
   selector: 'app-page-not-found',
@@ -14,7 +14,7 @@ import {FooterModule} from '../_shared/ui/footer/footer.module';
       <img ngSrc="/assets/404.webp" priority width="400" height="320" alt="Image of cat which hides in a box" />
     </div>
     <h2 class="text-center mt-5">{{ '404_TITLE' | tr }}</h2>
-    <button class="btn btn-primary btn-lg mt-5 mb-4 w-100" (click)="goBack()">
+    <button type="button" class="btn btn-primary btn-lg mt-5 mb-4 w-100" (click)="goBack()">
       {{ 'GO_BACK' | tr }}
     </button>
   `,

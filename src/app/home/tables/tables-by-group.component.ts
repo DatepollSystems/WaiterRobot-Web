@@ -25,30 +25,35 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
     <div class="d-flex flex-column gap-3">
       @if (entity$ | async; as entity) {
         <entities-header-with-placeholder-layout [loading]="entityLoading()">
-          <app-text-with-color-indicator [color]="entity.color" [size]="30" placement="right">
+          <app-text-with-color-indicator placement="right" [color]="entity.color" [size]="30">
             <h1 class="mb-0">{{ 'HOME_TABLE_GROUP_TABLES_VIEW' | tr }} {{ entity.name }}</h1>
           </app-text-with-color-indicator>
 
           <scrollable-toolbar>
-            <a routerLink="../../../create" [queryParams]="{group: entity.id}" class="btn btn-sm btn-success">
+            <a routerLink="../../../create" class="btn btn-sm btn-success" [queryParams]="{group: entity.id}">
               <bi name="plus-circle" />
               {{ 'HOME_TABLE' | tr }} {{ 'ADD_3' | tr | lowercase }}</a
             >
 
-            <a routerLink="../../{{ entity.id }}" class="btn btn-sm btn-primary">
+            <a class="btn btn-sm btn-primary" [routerLink]="'../../' + entity.id">
               <bi name="pencil-square" />
               {{ 'HOME_TABLE_GROUP' | tr }} {{ 'EDIT' | tr | lowercase }}</a
             >
 
-            <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_TABLE_SELECT_REQUIRED' | tr) : undefined }}">
-              <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+            <div [ngbTooltip]="!selection.hasValue() ? ('HOME_TABLE_SELECT_REQUIRED' | tr) : undefined">
+              <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
                 <bi name="trash" />
                 {{ 'DELETE' | tr }}
               </button>
             </div>
 
-            <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_TABLE_SELECT_REQUIRED' | tr) : undefined }}">
-              <button class="btn btn-sm btn-secondary" [class.disabled]="!selection.hasValue()" (click)="printSelectedTables()">
+            <div [ngbTooltip]="!selection.hasValue() ? ('HOME_TABLE_SELECT_REQUIRED' | tr) : undefined">
+              <button
+                type="button"
+                class="btn btn-sm btn-secondary"
+                [class.disabled]="!selection.hasValue()"
+                (click)="printSelectedTables()"
+              >
                 <bi name="table" />
                 {{ 'PRINT' | tr }}
               </button>
@@ -59,15 +64,9 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
           @if ((filter.value?.length ?? 0) > 0) {
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              ngbTooltip="{{ 'CLEAR' | tr }}"
-              placement="bottom"
-              (click)="filter.reset()"
-            >
+            <button class="btn btn-outline-secondary" type="button" placement="bottom" [ngbTooltip]="'CLEAR' | tr" (click)="filter.reset()">
               <bi name="x-circle-fill" />
             </button>
           }
@@ -78,11 +77,11 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
         <div class="table-responsive">
           <table
             ngb-table
-            [hover]="true"
-            [dataSource]="isLoading() ? [] : dataSource"
             ngb-sort
             ngbSortActive="number"
             ngbSortDirection="asc"
+            [hover]="true"
+            [dataSource]="isLoading() ? [] : dataSource"
           >
             <ng-container ngbColumnDef="select">
               <th *ngbHeaderCellDef ngb-header-cell>
@@ -91,8 +90,8 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                     class="form-check-input"
                     type="checkbox"
                     name="checked"
-                    (change)="$event ? toggleAllRows() : null"
                     [checked]="selection.hasValue() && isAllSelected()"
+                    (change)="$event ? toggleAllRows() : null"
                   />
                 </div>
               </th>
@@ -102,8 +101,8 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                     class="form-check-input"
                     type="checkbox"
                     name="checked"
-                    (change)="$event ? selection.toggle(selectable) : null"
                     [checked]="selection.isSelected(selectable)"
+                    (change)="$event ? selection.toggle(selectable) : null"
                   />
                 </div>
               </td>
@@ -115,12 +114,12 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                 <div class="d-inline-flex align-items-center gap-2">
                   <span class="pt-1">{{ table.number }}</span>
                   <a
-                    [ngbTooltip]="'HOME_TABLES_PUBLIC_ID' | tr"
                     placement="right"
+                    [ngbTooltip]="'HOME_TABLES_PUBLIC_ID' | tr"
+                    [routerLink]="'/wl/t/' + table.publicId"
                     (click)="$event.stopPropagation()"
-                    routerLink="/wl/t/{{ table.publicId }}"
-                    ><bi name="box-arrow-up-right"></bi
-                  ></a>
+                    ><bi name="box-arrow-up-right"
+                  /></a>
                 </div>
               </td>
             </ng-container>
@@ -147,8 +146,8 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
               <td *ngbCellDef="let table" ngb-cell>
                 <a
                   class="btn btn-sm mx-1 btn-outline-success text-body-emphasis"
-                  routerLink="../../../{{ table.id }}"
-                  ngbTooltip="{{ 'EDIT' | tr }}"
+                  [routerLink]="'../../../' + table.id"
+                  [ngbTooltip]="'EDIT' | tr"
                 >
                   <bi name="pencil-square" />
                 </a>
@@ -156,7 +155,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                   class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
                   routerLink="../../../../orders"
                   [queryParams]="{tableIds: table.id}"
-                  ngbTooltip="{{ 'NAV_ORDERS' | tr }}"
+                  [ngbTooltip]="'NAV_ORDERS' | tr"
                   (click)="$event.stopPropagation()"
                 >
                   <bi name="stack" />
@@ -165,7 +164,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                   class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
                   routerLink="../../../../bills"
                   [queryParams]="{tableIds: table.id}"
-                  ngbTooltip="{{ 'NAV_BILLS' | tr }}"
+                  [ngbTooltip]="'NAV_BILLS' | tr"
                   (click)="$event.stopPropagation()"
                 >
                   <bi name="cash-coin" />
@@ -173,7 +172,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                 <button
                   type="button"
                   class="btn btn-sm mx-1 btn-outline-danger text-body-emphasis"
-                  ngbTooltip="{{ 'DELETE' | tr }}"
+                  [ngbTooltip]="'DELETE' | tr"
                   (click)="onDelete(table.id, $event)"
                 >
                   <bi name="trash" />
@@ -182,7 +181,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
             </ng-container>
 
             <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-            <tr *ngbRowDef="let table; columns: columnsToDisplay" ngb-row routerLink="../../../{{ table.id }}"></tr>
+            <tr *ngbRowDef="let table; columns: columnsToDisplay" ngb-row [routerLink]="'../../../' + table.id"></tr>
           </table>
         </div>
       }

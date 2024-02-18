@@ -39,9 +39,9 @@ import {ProductGroupsService} from './_services/product-groups.service';
 
         <app-list-nav-items
           path="groups/products/"
-          [entities]="productGroups() ?? []"
           titleTr="HOME_PROD_GROUPS"
           selectTr="HOME_PROD_GROUP_SELECT"
+          [entities]="productGroups() ?? []"
         >
           <ng-template let-entity appListNavItem>
             <app-text-with-color-indicator [color]="entity.color">

@@ -19,4 +19,4 @@ services:
           path: angular.json
 
     ports:
-      - "4200:80"
+      - '4200:80'

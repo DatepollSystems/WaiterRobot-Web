@@ -3,10 +3,10 @@
  */
 import {Injectable} from '@angular/core';
 
-import {NgbDateParserFormatter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDateTimeAdapter} from '@home-shared/components/datetime-picker/datetime-adapter';
+import {NgbDateTimeStruct} from '@home-shared/components/datetime-picker/datetime.struct';
 
-import {NgbDateTimeAdapter} from '../../home/_shared/components/datetime-picker/datetime-adapter';
-import {NgbDateTimeStruct} from '../../home/_shared/components/datetime-picker/datetime.struct';
+import {NgbDateParserFormatter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 
 const DATE_DELIMITER = '-';
 const TIME_DELIMITER = ':';
@@ -14,7 +14,9 @@ const TIME_DELIMITER = ':';
 /**
  * This Service handles how the date is represented in scripts i.e. ngModel.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CustomDateTimeAdapter extends NgbDateTimeAdapter<string> {
   fromModel(value: string | null): NgbDateTimeStruct | null {
     if (value) {
@@ -60,7 +62,9 @@ export function dateToBackendDateTimeString(date: Date): string {
 /**
  * This Service handles how the date is rendered and parsed from keyboard i.e. in the bound input field.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CustomDateParserFormatter extends NgbDateParserFormatter {
   readonly SPLIT_DELIMITER = '-';
   readonly DELIMITER = '.';

@@ -11,6 +11,7 @@ import {injectConfirmDialog} from '../../components/question-dialog.component';
 import {AbstractModelsListComponent} from '../abstract-models-list.component';
 
 @Component({
+  standalone: true,
   template: '',
 })
 export abstract class AbstractModelsListWithDeleteComponent<
@@ -81,6 +82,6 @@ export abstract class AbstractModelsListWithDeleteComponent<
       return;
     }
 
-    this.selection?.select(...this._dataSource.data);
+    this.selection.select(...this._dataSource.data);
   }
 }

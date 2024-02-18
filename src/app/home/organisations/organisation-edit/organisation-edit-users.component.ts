@@ -2,8 +2,6 @@ import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, Input, ViewChild} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 
-import {combineLatest, filter, of, startWith, switchMap} from 'rxjs';
-
 import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
 import {injectIdParam$} from '@home-shared/services/injectActivatedRouteIdParam';
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -13,6 +11,8 @@ import {notNullAndUndefined} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
+
+import {combineLatest, filter, of, startWith, switchMap} from 'rxjs';
 
 import {OrganisationsUsersService} from '../_services/organisations-users.service';
 import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.component';
@@ -29,13 +29,13 @@ import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.c
         </div>
         <div>
           <div class="input-group">
-            <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+            <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
             @if ((filter.value?.length ?? 0) > 0) {
               <button
                 class="btn btn-outline-secondary"
                 type="button"
-                ngbTooltip="{{ 'CLEAR' | tr }}"
                 placement="bottom"
+                [ngbTooltip]="'CLEAR' | tr"
                 (click)="filter.reset()"
               >
                 <bi name="x-circle-fill" />
@@ -46,7 +46,7 @@ import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.c
       </div>
 
       <div class="table-responsive mt-3">
-        <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort>
+        <table ngb-table ngb-sort [hover]="true" [dataSource]="(dataSource$ | async) ?? []">
           <ng-container ngbColumnDef="name">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
             <td *ngbCellDef="let organisationUser" ngb-cell>{{ organisationUser.firstname }} {{ organisationUser.surname }}</td>
@@ -61,7 +61,7 @@ import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.c
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ROLE' | tr }}</th>
             <td *ngbCellDef="let organisationUser" ngb-cell>
               {{ organisationUser.role }}
-              <a class="btn btn-sm m-1 btn-outline-success" ngbTooltip="{{ 'EDIT' | tr }}">
+              <a class="btn btn-sm m-1 btn-outline-success" [ngbTooltip]="'EDIT' | tr">
                 <bi name="pencil-square" />
               </a>
             </td>
@@ -74,7 +74,7 @@ import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.c
                 <button
                   type="button"
                   class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
-                  ngbTooltip="{{ 'DELETE' | tr }}"
+                  [ngbTooltip]="'DELETE' | tr"
                   (click)="onOrgUserDelete(organisationUser)"
                 >
                   <bi name="trash" />
@@ -113,7 +113,7 @@ export class OrganisationEditUsersComponent {
       if (this.sort) {
         dataSource.sort = this.sort;
       }
-      dataSource.filter = filterTerm ?? '';
+      dataSource.filter = filterTerm;
 
       return of(dataSource);
     }),

@@ -65,7 +65,6 @@
   "ABOUT_SIGNIN_PASSWORD": "Password",
   "ABOUT_SIGNIN_SUCCESSFUL": "Successfully registered",
   "ABOUT_SIGNIN_FAILED": "Login failed!",
-  "ABOUT_SIGNIN_FORGOT_PASSWORD": "If you have forgotten your password, please contact",
   "ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_INFO": "Password change required",
   "ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_FAILED": "Please use a changed new password!",
   "ABOUT_SIGNIN_FORGOT_PASSWORD": "Login problems or forget password?",

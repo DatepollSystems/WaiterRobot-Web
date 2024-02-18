@@ -24,7 +24,7 @@
         <a class="nav-link" draggable="false" routerLinkActive="active" [routerLink]="item.routerLink">{{ item.text | tr }}</a>
       </li>
       } } @if (edible && (showEditArrow || isMobile)) {
-      <li class="nav-item me-3" ngbTooltip="{{ 'NAV_EDIT_CUSTOMIZE' | tr }}" placement="bottom">
+      <li class="nav-item me-3" placement="bottom" [ngbTooltip]="'NAV_EDIT_CUSTOMIZE' | tr">
         <a class="nav-link" draggable="false" routerLinkActive="active" (click)="onEdit()">
           <bi name="pencil-fill" />
         </a>
@@ -35,20 +35,20 @@
     <div class="edit-container d-flex flex-column gap-3">
       <h5 class="my-0">{{ 'NAV_EDIT_CUSTOMIZE' | tr }}</h5>
       <scrollable-toolbar>
-        <button class="btn btn-sm btn-secondary" (click)="onClose()">{{ 'CLOSE' | tr }}</button>
+        <button type="button" class="btn btn-sm btn-secondary" (click)="onClose()">{{ 'CLOSE' | tr }}</button>
 
-        <button class="btn btn-sm btn-success" (click)="onSave()">
+        <button type="button" class="btn btn-sm btn-success" (click)="onSave()">
           <bi name="save" />
           {{ 'SAVE' | tr }}
         </button>
 
-        <button class="btn btn-sm btn-danger" (click)="onReset()">
+        <button type="button" class="btn btn-sm btn-danger" (click)="onReset()">
           <bi name="arrow-clockwise" />
           {{ 'RESET' | tr }}
         </button>
 
         @if (allowBookmarks) {
-        <button class="btn btn-sm btn-info" (click)="openModal(bookMarkModalContent)">
+        <button type="button" class="btn btn-sm btn-info" (click)="openModal(bookMarkModalContent)">
           <bi name="star-fill" />
           {{ 'NAV_EDIT_BOOKMARK' | tr }}
         </button>
@@ -57,14 +57,14 @@
 
       <div
         class="list"
+        cdkDropList
         [class.h-list]="!isMobile"
         [class.v-list]="isMobile"
-        cdkDropList
         [cdkDropListOrientation]="isMobile ? 'vertical' : 'horizontal'"
         (cdkDropListDropped)="drop($event)"
       >
         @for (item of _itemsCopy; track item) {
-        <div class="box" [class.h-box]="!isMobile" [class.v-box]="isMobile" cdkDrag>
+        <div class="box" cdkDrag [class.h-box]="!isMobile" [class.v-box]="isMobile">
           @if (!item.bookmark) {
           <span>{{ item.text | tr }}</span>
           } @else { #notBookmark| }
@@ -73,10 +73,11 @@
           </ng-template>
           @if (item.bookmark) {
           <button
+            type="button"
             class="btn btn-sm btn-secondary ms-2"
-            (click)="removeBookmark(item)"
-            ngbTooltip="{{ 'NAV_EDIT_BOOKMARK_DELETE' | tr }}"
             placement="bottom"
+            [ngbTooltip]="'NAV_EDIT_BOOKMARK_DELETE' | tr"
+            (click)="removeBookmark(item)"
           >
             <bi name="trash" />
           </button>
@@ -101,16 +102,16 @@
         <div class="form-group">
           <label for="name">{{ 'NAME' | tr }}</label>
           <input
+            #nameModel="ngModel"
             ngModel
             class="form-control"
             required
             type="text"
             id="name"
             name="name"
-            #nameModel="ngModel"
             minlength="3"
             maxlength="35"
-            placeholder="{{ 'NAME' | tr }}"
+            [placeholder]="'NAME' | tr"
           />
           @if (nameModel.invalid) {
           <small class="text-danger"> {{ 'NAV_EDIT_BOOKMARK_ADD_INVALID' | tr }} </small>

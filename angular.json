@@ -122,7 +122,7 @@
           "configurations": {
             "lava": {
               "buildTarget": "WaiterRobot-Web:build:local-lava",
-              "proxyConfig": "src/proxy.lava.js",
+              "proxyConfig": "src/proxy.lava.json",
               "port": 4300
             },
             "production": {

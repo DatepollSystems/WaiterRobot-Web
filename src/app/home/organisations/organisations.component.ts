@@ -34,7 +34,7 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
           </div>
 
           <div>
-            <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+            <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
               <bi name="trash" />
               {{ 'DELETE' | tr }}
             </button>
@@ -44,15 +44,9 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
           @if ((filter.value?.length ?? 0) > 0) {
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              ngbTooltip="{{ 'CLEAR' | tr }}"
-              placement="bottom"
-              (click)="filter.reset()"
-            >
+            <button class="btn btn-outline-secondary" type="button" placement="bottom" [ngbTooltip]="'CLEAR' | tr" (click)="filter.reset()">
               <bi name="x-circle-fill" />
             </button>
           }
@@ -61,7 +55,7 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
 
       @if (dataSource$ | async; as dataSource) {
         <div class="table-responsive">
-          <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
+          <table ngb-table ngb-sort ngbSortActive="name" ngbSortDirection="asc" [hover]="true" [dataSource]="dataSource">
             <ng-container ngbColumnDef="select">
               <th *ngbHeaderCellDef ngb-header-cell [class.d-none]="!myUser()?.isAdmin">
                 <div class="form-check">
@@ -69,20 +63,20 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
                     class="form-check-input"
                     type="checkbox"
                     name="checked"
-                    (change)="$event ? toggleAllRows() : null"
                     [checked]="selection.hasValue() && isAllSelected()"
+                    (change)="$event ? toggleAllRows() : null"
                   />
                 </div>
               </th>
-              <td *ngbCellDef="let selectable" ngb-cell (click)="$event.stopPropagation()" [class.d-none]="!myUser()?.isAdmin">
+              <td *ngbCellDef="let selectable" ngb-cell [class.d-none]="!myUser()?.isAdmin" (click)="$event.stopPropagation()">
                 <div class="form-check">
                   <input
                     class="form-check-input"
                     type="checkbox"
                     name="checked"
+                    [checked]="selection.isSelected(selectable)"
                     (click)="$event.stopPropagation()"
                     (change)="$event ? selection.toggle(selectable) : null"
-                    [checked]="selection.isSelected(selectable)"
                   />
                 </div>
               </td>
@@ -123,35 +117,35 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
                 <a
                   class="btn btn-sm me-2 btn-outline-secondary text-body-emphasis"
                   stopPropagation
-                  routerLink="../{{ organisation.id }}"
+                  [routerLink]="'../' + organisation.id"
                   [queryParams]="{tab: 'USERS'}"
-                  ngbTooltip="{{ 'USER' | tr }}"
+                  [ngbTooltip]="'USER' | tr"
                 >
                   <bi name="people" />
                 </a>
                 <a
                   class="btn btn-sm me-2 btn-outline-secondary text-body-emphasis"
                   stopPropagation
-                  routerLink="../{{ organisation.id }}"
+                  [routerLink]="'../' + organisation.id"
                   [queryParams]="{tab: 'SETTINGS'}"
-                  ngbTooltip="{{ 'SETTINGS' | tr }}"
+                  [ngbTooltip]="'SETTINGS' | tr"
                 >
                   <bi name="gear" />
                 </a>
                 <a
                   class="btn btn-sm me-2 btn-outline-secondary text-body-emphasis"
                   stopPropagation
-                  routerLink="../{{ organisation.id }}"
+                  [routerLink]="'../' + organisation.id"
                   [queryParams]="{tab: 'STRIPE'}"
-                  ngbTooltip="{{ 'STRIPE' | tr }}"
+                  [ngbTooltip]="'STRIPE' | tr"
                 >
                   <bi name="stripe" />
                 </a>
                 <a
                   class="btn btn-sm me-2 btn-outline-success text-body-emphasis"
                   stopPropagation
-                  routerLink="../{{ organisation.id }}"
-                  ngbTooltip="{{ 'EDIT' | tr }}"
+                  [routerLink]="'../' + organisation.id"
+                  [ngbTooltip]="'EDIT' | tr"
                 >
                   <bi name="pencil-square" />
                 </a>
@@ -159,8 +153,8 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
                   <button
                     type="button"
                     class="btn btn-sm btn-outline-danger text-body-emphasis"
-                    ngbTooltip="{{ 'DELETE' | tr }}"
                     stopPropagation
+                    [ngbTooltip]="'DELETE' | tr"
                     (click)="onDelete(organisation.id, $event)"
                   >
                     <bi name="trash" />
@@ -170,7 +164,7 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
             </ng-container>
 
             <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-            <tr *ngbRowDef="let organisation; columns: columnsToDisplay" ngb-row routerLink="../{{ organisation.id }}"></tr>
+            <tr *ngbRowDef="let organisation; columns: columnsToDisplay" ngb-row [routerLink]="'../' + organisation.id"></tr>
           </table>
         </div>
 

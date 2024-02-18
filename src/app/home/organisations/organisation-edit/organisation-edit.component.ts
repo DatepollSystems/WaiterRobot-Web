@@ -29,7 +29,7 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
           <ng-container *isEditing="entity">
             @if (myUser()?.isAdmin) {
               <div>
-                <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
+                <button type="button" class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
                   <bi name="trash" />
                   {{ 'DELETE' | tr }}
                 </button>
@@ -48,10 +48,10 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
         <div class="mt-1"></div>
 
         <ul
-          ngbNav
           #nav="ngbNav"
-          [activeId]="tabControls.activeTab()"
+          ngbNav
           class="nav-tabs"
+          [activeId]="tabControls.activeTab()"
           (navChange)="tabControls.navigateToTab($event.nextId)"
         >
           <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">
@@ -59,15 +59,15 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
             <ng-template ngbNavContent>
               <app-organisation-edit-form
                 #form
-                (submitUpdate)="onSubmit('UPDATE', $event)"
-                (submitCreate)="onSubmit('CREATE', $event)"
                 [formDisabled]="!myUser()?.isAdmin"
                 [organisation]="entity"
+                (submitUpdate)="onSubmit('UPDATE', $event)"
+                (submitCreate)="onSubmit('CREATE', $event)"
               />
             </ng-template>
           </li>
 
-          <li [ngbNavItem]="'USERS'" *isEditing="entity" [destroyOnHide]="true">
+          <li *isEditing="entity" [ngbNavItem]="'USERS'" [destroyOnHide]="true">
             <a ngbNavLink>{{ 'USER' | tr }}</a>
             <ng-template ngbNavContent>
               <!--suppress TypeScriptValidateTypes -->
@@ -75,13 +75,13 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
             </ng-template>
           </li>
 
-          <li [ngbNavItem]="'STRIPE'" *isEditing="entity" [destroyOnHide]="true">
+          <li *isEditing="entity" [ngbNavItem]="'STRIPE'" [destroyOnHide]="true">
             <a ngbNavLink>{{ 'STRIPE' | tr }}</a>
             <ng-template ngbNavContent>
               <app-organisation-edit-stripe />
             </ng-template>
           </li>
-          <li [ngbNavItem]="'SETTINGS'" *isEditing="entity" [destroyOnHide]="true">
+          <li *isEditing="entity" [ngbNavItem]="'SETTINGS'" [destroyOnHide]="true">
             <a ngbNavLink>{{ 'SETTINGS' | tr }}</a>
             <ng-template ngbNavContent>
               <app-organisation-edit-settings />

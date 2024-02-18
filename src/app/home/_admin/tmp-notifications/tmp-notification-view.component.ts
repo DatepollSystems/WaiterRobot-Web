@@ -2,20 +2,20 @@ import {DatePipe} from '@angular/common';
 import {Component, computed, inject, ViewChild, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {filter, map, pipe, startWith, switchMap} from 'rxjs';
-
 import {AppBackButtonComponent} from '@home-shared/components/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {NgbNavModule, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+import {cl_copy} from 'dfts-helper';
+
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxCutPipe} from 'dfx-helper';
+import {DfxTr} from 'dfx-translate';
 import {PdfJsViewerComponent, PdfJsViewerModule} from 'ng2-pdfjs-viewer';
 import {computedFrom} from 'ngxtension/computed-from';
 import {injectParams} from 'ngxtension/inject-params';
 
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
-import {cl_copy} from 'dfts-helper';
-import {DfxCutPipe} from 'dfx-helper';
+import {filter, map, pipe, startWith, switchMap} from 'rxjs';
 
 import {TmpNotificationsService} from './tmp-notifications.service';
 
@@ -43,13 +43,13 @@ import {TmpNotificationsService} from './tmp-notifications.service';
         @if (it.bodyHTML) {
           <h3 class="my-0">HTML</h3>
 
-          <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-tabs">
+          <ul #nav="ngbNav" ngbNav class="nav-tabs" [activeId]="1">
             <li [ngbNavItem]="1">
-              <button ngbNavLink>Preview</button>
+              <button type="button" ngbNavLink>Preview</button>
               <ng-template ngbNavContent>
                 <div class="json-box">
                   <div class="d-flex justify-content-end">
-                    <button class="ms-auto btn btn-dark btn-sm" (click)="copy(it.bodyHTML)" ngbTooltip="Copy">
+                    <button type="button" class="ms-auto btn btn-dark btn-sm" ngbTooltip="Copy" (click)="copy(it.bodyHTML)">
                       <bi name="copy" />
                     </button>
                   </div>
@@ -58,11 +58,11 @@ import {TmpNotificationsService} from './tmp-notifications.service';
               </ng-template>
             </li>
             <li [ngbNavItem]="2">
-              <button ngbNavLink>Source</button>
+              <button type="button" ngbNavLink>Source</button>
               <ng-template ngbNavContent>
                 <div class="json-box">
                   <div class="d-flex justify-content-end mb-2">
-                    <button class="ms-auto btn btn-dark btn-sm" (click)="copy(it.bodyHTML)" ngbTooltip="Copy">
+                    <button type="button" class="ms-auto btn btn-dark btn-sm" ngbTooltip="Copy" (click)="copy(it.bodyHTML)">
                       <bi name="copy" />
                     </button>
                   </div>
@@ -82,7 +82,7 @@ import {TmpNotificationsService} from './tmp-notifications.service';
         <div class="d-flex gap-2">
           <div class="json-box" style="width: 50%">
             <div class="d-flex justify-content-end mb-2">
-              <button class="ms-auto btn btn-dark btn-sm" (click)="copy(it.body)" ngbTooltip="Copy">
+              <button type="button" class="ms-auto btn btn-dark btn-sm" ngbTooltip="Copy" (click)="copy(it.body)">
                 <bi name="copy" />
               </button>
             </div>
@@ -91,7 +91,7 @@ import {TmpNotificationsService} from './tmp-notifications.service';
 
           @if (tmpNotificationPdf(); as pdf) {
             <div style="height: 600px; width: 50%">
-              <ng2-pdfjs-viewer [pdfSrc]="pdf" [viewBookmark]="false"></ng2-pdfjs-viewer>
+              <ng2-pdfjs-viewer [pdfSrc]="pdf" [viewBookmark]="false" />
             </div>
           }
         </div>
@@ -153,6 +153,7 @@ import {TmpNotificationsService} from './tmp-notifications.service';
     NgbTooltip,
     DfxCutPipe,
   ],
+  // eslint-disable-next-line @angular-eslint/use-component-view-encapsulation
   encapsulation: ViewEncapsulation.None,
   standalone: true,
 })

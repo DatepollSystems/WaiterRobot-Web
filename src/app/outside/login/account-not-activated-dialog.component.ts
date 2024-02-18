@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
@@ -22,5 +22,5 @@ import {DfxTr} from 'dfx-translate';
   imports: [DfxTr],
 })
 export class AppAccountNotActivatedDialog {
-  constructor(public activeModal: NgbActiveModal) {}
+  activeModal = inject(NgbActiveModal);
 }

@@ -3,14 +3,14 @@ import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core'
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {passwordMatchValidator} from '@home-shared/regex';
 
-import {delay, tap} from 'rxjs';
+import {AuthService} from '@shared/services/auth/auth.service';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {AuthService} from '../../_shared/services/auth/auth.service';
-import {passwordMatchValidator} from '../../home/_shared/regex';
+import {delay, tap} from 'rxjs';
 
 @Component({
   template: `
@@ -20,7 +20,7 @@ import {passwordMatchValidator} from '../../home/_shared/regex';
           @case ('REQUEST') {
             @if (requestPasswordResetForm.statusChanges | async) {}
 
-            <form [formGroup]="requestPasswordResetForm" (ngSubmit)="requestPasswordReset()" class="d-flex flex-column gap-3">
+            <form class="d-flex flex-column gap-3" [formGroup]="requestPasswordResetForm" (ngSubmit)="requestPasswordReset()">
               <h3>Password Zurücksetzung anfordern</h3>
 
               <div class="form-floating">
@@ -30,13 +30,13 @@ import {passwordMatchValidator} from '../../home/_shared/regex';
                   type="email"
                   id="email"
                   formControlName="email"
-                  placeholder="{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}"
+                  [placeholder]="'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr"
                 />
                 <label for="email">{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}</label>
               </div>
 
               <div class="d-flex">
-                <button [disabled]="!requestPasswordResetForm.valid" type="submit" class="btn btn-primary w-100">
+                <button type="submit" class="btn btn-primary w-100" [disabled]="!requestPasswordResetForm.valid">
                   {{ 'SENT' | tr }}
                 </button>
               </div>
@@ -44,7 +44,7 @@ import {passwordMatchValidator} from '../../home/_shared/regex';
 
             @if (requestPasswordResetForm.valid) {
               <div class="text-center mt-4">
-                <button class="btn btn-link" (click)="resetState.set('SET')">
+                <button type="button" class="btn btn-link" (click)="resetState.set('SET')">
                   {{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_ALREADY_SENT' | tr }}
                 </button>
               </div>
@@ -54,7 +54,7 @@ import {passwordMatchValidator} from '../../home/_shared/regex';
           @case ('SET') {
             @if (resetPasswordForm.statusChanges | async) {}
 
-            <form [formGroup]="resetPasswordForm" (ngSubmit)="resetPassword()" class="d-flex flex-column gap-3">
+            <form class="d-flex flex-column gap-3" [formGroup]="resetPasswordForm" (ngSubmit)="resetPassword()">
               <h3>{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_RESET' | tr }}</h3>
 
               <div class="alert alert-info d-flex" role="alert">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_EMAIL_SENT' | tr }}</div>
@@ -71,13 +71,7 @@ import {passwordMatchValidator} from '../../home/_shared/regex';
               }
 
               <div class="form-floating">
-                <input
-                  class="form-control"
-                  type="password"
-                  id="password"
-                  formControlName="newPassword"
-                  placeholder="{{ 'PASSWORD' | tr }}"
-                />
+                <input class="form-control" type="password" id="password" formControlName="newPassword" [placeholder]="'PASSWORD' | tr" />
                 <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | tr }}</label>
               </div>
 
@@ -93,7 +87,7 @@ import {passwordMatchValidator} from '../../home/_shared/regex';
                   type="password"
                   id="password"
                   formControlName="confirmPassword"
-                  placeholder="{{ 'PASSWORD' | tr }}"
+                  [placeholder]="'PASSWORD' | tr"
                 />
                 <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_AGAIN' | tr }}</label>
               </div>
@@ -111,7 +105,7 @@ import {passwordMatchValidator} from '../../home/_shared/regex';
               }
 
               <div class="d-flex">
-                <button [disabled]="!resetPasswordForm.valid" type="submit" class="btn btn-primary w-100">
+                <button type="submit" class="btn btn-primary w-100" []="!resetPasswordForm.valid">
                   {{ 'SENT' | tr }}
                 </button>
               </div>
@@ -175,7 +169,9 @@ export class ForgotPasswordComponent {
 
   requestPasswordReset(): void {
     const email = this.requestPasswordResetForm.controls.email.getRawValue();
-    this.authService.sendPasswordResetRequest(email).subscribe(() => this.resetState.set('SET'));
+    this.authService.sendPasswordResetRequest(email).subscribe(() => {
+      this.resetState.set('SET');
+    });
   }
 
   resetPassword(): void {
@@ -185,7 +181,9 @@ export class ForgotPasswordComponent {
     this.authService
       .sendPasswordReset(email, resetToken, newPassword)
       .pipe(
-        tap(() => this.resetState.set('SUCCESS')),
+        tap(() => {
+          this.resetState.set('SUCCESS');
+        }),
         delay(5000),
       )
       .subscribe(() => {

@@ -3,8 +3,6 @@ import {DatePipe, JsonPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 
-import {interval, map} from 'rxjs';
-
 import {Hotkeys} from '@home-shared/services/hot-keys.service';
 import {QrCodeService} from '@home-shared/services/qr-code.service';
 import {RedirectService} from '@home-shared/services/redirect.service';
@@ -19,6 +17,8 @@ import {i_complete} from 'dfts-helper';
 import {DfxTimeSpanPipe, injectIsMobile} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
+import {interval, map} from 'rxjs';
+
 @Component({
   template: `
     @defer (when showService.show()) {
@@ -26,8 +26,8 @@ import {DfxTr} from 'dfx-translate';
         <div
           class="col-12 col-md-8 col-lg-6 col-xl-4 col-xxl-3"
           cdkDrag
-          [cdkDragDisabled]="isMobile()"
           style="z-index: 1000000; bottom: 30px; left: 20px"
+          [cdkDragDisabled]="isMobile()"
           [class.position-fixed]="!isMobile()"
         >
           <div class="card px-2 pt-2" [class.transparent]="theme().id === 'dark'" [class.light-transparent]="theme().id === 'light'">
@@ -75,12 +75,12 @@ import {DfxTr} from 'dfx-translate';
                     isAdmin: <span>{{ myUser()?.isAdmin }}</span>
                   </li>
                 } @else {
-                  <li class="d-flex justify-content-between">User: <span>Logged out</span></li>
+                  <li class="d-flex justify-content-between">User: <span i18n>Logged out</span></li>
                 }
                 <li class="d-flex justify-content-between">
                   Selected Theme: <span>{{ theme().name }}</span>
                 </li>
-                <li class="d-flex justify-content-between flex-wrap">
+                <li i18n class="d-flex justify-content-between flex-wrap">
                   Auth redirect:
 
                   @if (authService.redirectUrl(); as it) {
@@ -89,7 +89,7 @@ import {DfxTr} from 'dfx-translate';
                     <span>-</span>
                   }
                 </li>
-                <li class="d-flex justify-content-between flex-wrap">
+                <li i18n class="d-flex justify-content-between flex-wrap">
                   Selected redirect:
 
                   @if (redirectUrl(); as it) {
@@ -99,7 +99,7 @@ import {DfxTr} from 'dfx-translate';
                   }
                 </li>
 
-                <li class="d-flex justify-content-between flex-wrap">
+                <li i18n class="d-flex justify-content-between flex-wrap">
                   QrCode Data:
 
                   @if (qrCodeData(); as it) {
@@ -116,13 +116,13 @@ import {DfxTr} from 'dfx-translate';
         <div
           class="col-12 col-md-8 col-lg-6 col-xl-4 col-xxl-3"
           cdkDrag
-          [cdkDragDisabled]="isMobile()"
           style="z-index: 1000000; bottom: 30px; left: 50%"
+          [cdkDragDisabled]="isMobile()"
           [class.position-fixed]="!isMobile()"
         >
           <div class="card px-2 pt-2" [class.transparent]="theme().id === 'dark'" [class.light-transparent]="theme().id === 'light'">
             <div class="card-body">
-              <h5>Backend</h5>
+              <h5 i18n>Backend</h5>
               <ul class="list-unstyled d-flex flex-column gap-2">
                 <li class="d-flex justify-content-between">
                   Status:
@@ -141,9 +141,19 @@ import {DfxTr} from 'dfx-translate';
                       <div class="d-flex">
                         <div>
                           {{ publicInfo.responseTime }}ms&nbsp;
-                          <span placement="bottom" ngbTooltip="Last ping">({{ publicInfo.lastPing | date: 'HH:mm:ss' }} )</span>
+                          <span placement="bottom" i18n-placement ngbTooltip="Last ping" i18n-ngbTooltip
+                            >({{ publicInfo.lastPing | date: 'HH:mm:ss' }} )</span
+                          >
                         </div>
-                        <div placement="bottom" ngbTooltip="Next refresh" aria-label="Next refresh in">
+                        <div
+                          i18n
+                          placement="bottom"
+                          i18n-placement
+                          ngbTooltip="Next refresh"
+                          i18n-ngbTooltip
+                          aria-label="Next refresh in"
+                          i18n-aria-label
+                        >
                           &nbsp;&nbsp;/&nbsp;&nbsp;{{ serverInfoService.refreshIn() }} s
                         </div>
                       </div>

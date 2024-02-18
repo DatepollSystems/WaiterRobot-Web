@@ -21,7 +21,7 @@ export class AppBackDirective {
   goBack(): void {
     if (this.window) {
       if (this.closeOnNoHistory && this.window.history.length < 2) {
-        this.window?.close();
+        this.window.close();
       } else {
         this.location.back();
       }
@@ -34,7 +34,7 @@ export class AppBackDirective {
 @Component({
   template: `
     <div>
-      <button class="btn btn-sm btn-dark text-white" back>{{ 'GO_BACK' | tr }}</button>
+      <button type="button" class="btn btn-sm btn-dark text-white" back>{{ 'GO_BACK' | tr }}</button>
     </div>
   `,
   selector: 'back-button',

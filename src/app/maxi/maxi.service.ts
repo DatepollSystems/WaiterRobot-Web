@@ -2,21 +2,21 @@ import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import {NonNullableFormBuilder, Validators} from '@angular/forms';
 
-import {BehaviorSubject, catchError, combineLatest, filter, map, Observable, of, Subject, switchMap, timer, withLatestFrom} from 'rxjs';
-
-import {signalSlice} from 'ngxtension/signal-slice';
+import {IdResponse} from '@shared/waiterrobot-backend';
 
 import {n_generate_int} from 'dfts-helper';
 
-import {IdResponse} from '../_shared/waiterrobot-backend';
+import {signalSlice} from 'ngxtension/signal-slice';
 
-type MaxiOrderTry = {
+import {BehaviorSubject, catchError, combineLatest, filter, map, Observable, of, Subject, switchMap, timer, withLatestFrom} from 'rxjs';
+
+interface MaxiOrderTry {
   id: number;
   sent: Date;
   success: boolean;
-};
+}
 
-type MaxiSession = {
+interface MaxiSession {
   id: number;
   started: Date;
   ended?: Date;
@@ -24,16 +24,16 @@ type MaxiSession = {
   intervalInMs: number;
   orders: MaxiOrderTry[];
   successRate: number;
-};
+}
 
-type MaxiState = {
+interface MaxiState {
   activeTab: 'CREATE' | number;
   sessions: MaxiSession[];
   currentSession: MaxiSession | null;
   currentSessionOrders: MaxiOrderTry[];
   intervalInMs: number;
   eventId: number | undefined;
-};
+}
 
 @Injectable({providedIn: 'root'})
 export class MaxiService {
@@ -63,7 +63,7 @@ export class MaxiService {
       this.form.valueChanges,
       (state) =>
         this.load$.pipe(
-          switchMap(({intervalInMs, eventId}) => combineLatest([of(eventId), timer(0, intervalInMs ?? 10000)])),
+          switchMap(({intervalInMs, eventId}) => combineLatest([of(eventId), timer(0, intervalInMs)])),
           withLatestFrom(this.running),
           filter(([, running]) => running),
           switchMap(([[eventId]]) =>

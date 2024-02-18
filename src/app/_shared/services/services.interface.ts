@@ -15,4 +15,8 @@ export interface HasOrdered<T extends IHasID<T['id']>> {
   order$(dto: {entityId: T['id']; order: number}[]): Observable<IdResponse[]>;
 }
 
-export type PaginationResponse<T> = {numberOfItems: number; numberOfPages: number; data: T[]};
+export interface PaginationResponse<T> {
+  numberOfItems: number;
+  numberOfPages: number;
+  data: T[];
+}

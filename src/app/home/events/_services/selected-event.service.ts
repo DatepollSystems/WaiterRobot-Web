@@ -11,11 +11,11 @@ import {n_fromStorage, notNullAndUndefined, st_set} from 'dfts-helper';
 
 import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
 
-type SelectedEventState = {
+interface SelectedEventState {
   status: 'UNSET' | 'LOADING' | 'LOADED';
   selectedId?: number;
   selected?: GetEventOrLocationResponse;
-};
+}
 
 export const selectedEventRouteParamKey = 'seId';
 

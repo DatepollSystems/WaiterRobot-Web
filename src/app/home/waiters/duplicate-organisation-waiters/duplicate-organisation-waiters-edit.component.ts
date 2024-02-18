@@ -1,17 +1,17 @@
 import {AsyncPipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
 
-import {combineLatest, filter, map, merge, share, shareReplay, Subject, switchMap, take, tap} from 'rxjs';
+import {DuplicateWaiterResponse, IdAndNameResponse} from '@shared/waiterrobot-backend';
 
 import {notNullAndUndefined} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {DuplicateWaiterResponse, IdAndNameResponse} from '../../../_shared/waiterrobot-backend';
-import {ScrollableToolbarComponent} from '../../_shared/components/scrollable-toolbar.component';
-import {AppContinuesCreationSwitchComponent} from '../../_shared/form/app-continues-creation-switch.component';
+import {combineLatest, filter, map, merge, share, shareReplay, Subject, switchMap, take, tap} from 'rxjs';
 import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
 
 type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean; selectedAsMain: boolean};
@@ -27,7 +27,7 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
             <a routerLink="../../" class="btn btn-sm btn-outline-secondary">{{ 'GO_BACK' | tr }}</a>
           </div>
           <div>
-            <button class="btn btn-sm btn-success" (click)="merge()" [disabled]="!vm.minTwo">
+            <button type="button" class="btn btn-sm btn-success" [disabled]="!vm.minTwo" (click)="merge()">
               {{ 'SAVE' | tr }}
             </button>
           </div>
@@ -39,9 +39,10 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
           <div class="list-group">
             @for (duplicateWaiter of vm.duplicateWaitersToMerge; track duplicateWaiter.id) {
               <button
+                type="button"
                 class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-                (click)="selectMainDuplicateWaiter(duplicateWaiter)"
                 [class.active]="duplicateWaiter.selectedAsMain"
+                (click)="selectMainDuplicateWaiter(duplicateWaiter)"
               >
                 <div>
                   @if (!duplicateWaiter.selectedAsMain) {
@@ -55,7 +56,7 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
                   {{ duplicateWaiter.name }}
                 </div>
                 @if (ignoreFeature) {
-                  <button class="btn btn-sm btn-warning" (click)="$event.stopPropagation()">
+                  <button type="button" class="btn btn-sm btn-warning" (click)="$event.stopPropagation()">
                     <bi name="person-x-fill" />
                     {{ 'IGNORE' | tr }}
                   </button>
@@ -67,7 +68,7 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
             <div class="text-danger">Markiere mindestens zwei Namen welche du zusammenführen willst</div>
           }
         </div>
-        <app-continues-creation-switch (continuesCreationChange)="continueMerge = $event" text="HOME_WAITERS_DUPLICATES_CONTINUE" />
+        <app-continues-creation-switch text="HOME_WAITERS_DUPLICATES_CONTINUE" (continuesCreationChange)="continueMerge = $event" />
       </div>
     }
   `,
@@ -77,27 +78,27 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
   standalone: true,
 })
 export class DuplicateOrganisationWaitersEditComponent {
+  #duplicateWaitersService = inject(DuplicateWaitersService);
+  #route = inject(ActivatedRoute);
+  #router = inject(Router);
+
   continueMerge = false;
 
   ignoreFeature = false;
 
-  constructor(
-    private duplicateWaitersService: DuplicateWaitersService,
-    private route: ActivatedRoute,
-    private router: Router,
-  ) {}
+  private allDuplicateWaiters$ = this.#duplicateWaitersService.getAll$().pipe(share(), shareReplay(1));
 
-  private allDuplicateWaiters$ = this.duplicateWaitersService.getAll$().pipe(share(), shareReplay(1));
-
-  private duplicateWaiter$ = this.route.paramMap.pipe(
+  private duplicateWaiter$ = this.#route.paramMap.pipe(
     map((params) => params.get('name')),
     filter(notNullAndUndefined),
     map((name) => name.replace('"', '').replace('"', '')),
-    tap((name) => console.log('param name', name)),
+    tap((name) => {
+      console.log('param name', name);
+    }),
     switchMap((name) => this.allDuplicateWaiters$.pipe(map((waiters) => waiters.find((it) => it.name === name)))),
     filter((waiter): waiter is DuplicateWaiterResponse => {
       if (!waiter) {
-        void this.router.navigateByUrl('/o/organisationId/e/eventId/waiters/duplicates');
+        void this.#router.navigateByUrl('/o/organisationId/e/eventId/waiters/duplicates');
         return false;
       }
       return true;
@@ -123,7 +124,9 @@ export class DuplicateOrganisationWaitersEditComponent {
     ),
     this.setDuplicateWaitersToMerge,
   ).pipe(
-    tap((waiters) => console.log('duplicate waiters', waiters)),
+    tap((waiters) => {
+      console.log('duplicate waiters', waiters);
+    }),
     share(),
     shareReplay(1),
   );
@@ -171,7 +174,7 @@ export class DuplicateOrganisationWaitersEditComponent {
         return;
       }
 
-      this.duplicateWaitersService
+      this.#duplicateWaitersService
         .merge({
           waiterId: mainDuplicateWaiter.id,
           waiterIds: waiters.filter((it) => it.selectedToMerge && !it.selectedAsMain).map((value) => value.id),
@@ -186,20 +189,20 @@ export class DuplicateOrganisationWaitersEditComponent {
             while (i < 100) {
               next = allDuplicateWaiters[i];
               i++;
-              if (next && next.name !== duplicateWaiter.name) {
+              if (next.name !== duplicateWaiter.name) {
                 break;
               }
             }
             if (i > 98) {
               console.warn('duplicateWaiter merge - Could not find another duplicate waiter', allDuplicateWaiters);
             } else {
-              void this.router.navigateByUrl(`/o/organisationId/e/eventId/waiters/duplicates/merge/"${next!.name}"`);
+              void this.#router.navigateByUrl(`/o/organisationId/e/eventId/waiters/duplicates/merge/"${next!.name}"`);
               return;
             }
-            void this.router.navigateByUrl('/o/organisationId/e/eventId/waiters/duplicates');
+            void this.#router.navigateByUrl('/o/organisationId/e/eventId/waiters/duplicates');
           });
       } else {
-        void this.router.navigateByUrl('/o/organisationId/e/eventId/waiters/duplicates');
+        void this.#router.navigateByUrl('/o/organisationId/e/eventId/waiters/duplicates');
       }
     });
   }

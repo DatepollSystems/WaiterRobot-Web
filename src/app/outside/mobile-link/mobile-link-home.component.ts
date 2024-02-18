@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
-import {DfxTr} from 'dfx-translate';
+import {AppDownloadBtnListComponent} from '@shared/ui/app-download-btn-list.component';
 
-import {AppDownloadBtnListComponent} from '../../_shared/ui/app-download-btn-list.component';
+import {DfxTr} from 'dfx-translate';
 
 @Component({
   template: `

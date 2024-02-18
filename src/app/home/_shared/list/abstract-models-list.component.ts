@@ -3,13 +3,14 @@ import {AfterViewInit, Component, Inject, inject, signal, ViewChild} from '@angu
 import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
 
-import {catchError, combineLatest, debounceTime, map, Observable, of, startWith, switchMap, tap, throwError} from 'rxjs';
-
 import {loggerOf} from 'dfts-helper';
 import {NgbPaginator, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {HasGetAll} from 'dfx-helper';
 
+import {catchError, combineLatest, debounceTime, map, Observable, of, startWith, switchMap, tap, throwError} from 'rxjs';
+
 @Component({
+  standalone: true,
   template: '',
 })
 export abstract class AbstractModelsListComponent<EntityType> implements AfterViewInit {
@@ -80,7 +81,7 @@ export abstract class AbstractModelsListComponent<EntityType> implements AfterVi
         if (this.paginator) {
           dataSource.paginator = this.paginator;
         }
-        dataSource.filter = filterTerm ?? '';
+        dataSource.filter = filterTerm;
 
         this.isLoading.set(false);
 

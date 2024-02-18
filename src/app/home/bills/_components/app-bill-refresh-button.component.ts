@@ -11,11 +11,11 @@ import {BillsService} from '../_services/bills.service';
   template: `
     <button
       type="button"
-      [class.spinner]="loading"
       class="btn btn-outline-secondary d-flex align-items-center gap-2"
-      (click)="billsService.triggerRefresh.next(true)"
-      [ngbTooltip]="'HOME_ORDER_REFRESH_NOW' | tr"
       placement="left"
+      [class.spinner]="loading"
+      [ngbTooltip]="'HOME_ORDER_REFRESH_NOW' | tr"
+      (click)="billsService.triggerRefresh.next(true)"
     >
       <bi name="arrow-clockwise" />
       @if (countdown) {

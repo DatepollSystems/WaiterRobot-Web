@@ -4,10 +4,10 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
 import {AbstractModelsListComponent} from '@home-shared/list/abstract-models-list.component';
+import {StopPropagationDirective} from '@home-shared/stop-propagation';
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {TempNotification} from '@shared/waiterrobot-backend';
-import {StopPropagationDirective} from '@home-shared/stop-propagation';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
@@ -23,15 +23,9 @@ import {TmpNotificationsService} from './tmp-notifications.service';
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
           @if ((filter.value?.length ?? 0) > 0) {
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              ngbTooltip="{{ 'CLEAR' | tr }}"
-              placement="bottom"
-              (click)="filter.reset()"
-            >
+            <button class="btn btn-outline-secondary" type="button" placement="bottom" [ngbTooltip]="'CLEAR' | tr" (click)="filter.reset()">
               <bi name="x-circle-fill" />
             </button>
           }
@@ -39,7 +33,7 @@ import {TmpNotificationsService} from './tmp-notifications.service';
       </form>
 
       <div class="table-responsive">
-        <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="id" ngbSortDirection="desc">
+        <table ngb-table ngb-sort ngbSortActive="id" ngbSortDirection="desc" [hover]="true" [dataSource]="(dataSource$ | async) ?? []">
           <ng-container ngbColumnDef="id">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'Id' | tr }}</th>
             <td *ngbCellDef="let it" ngb-cell>{{ it.id | s_cut: 20 : '...' }}</td>
@@ -67,7 +61,7 @@ import {TmpNotificationsService} from './tmp-notifications.service';
           <ng-container ngbColumnDef="actions">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ACTIONS' | tr }}</th>
             <td *ngbCellDef="let it" ngb-cell>
-              <a [routerLink]="'../view/' + it.id" stopPropagation class="btn btn-sm btn-outline-primary">
+              <a stopPropagation class="btn btn-sm btn-outline-primary" [routerLink]="'../view/' + it.id">
                 <bi name="arrow-up-right-square" />
               </a>
             </td>

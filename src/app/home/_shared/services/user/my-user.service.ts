@@ -2,21 +2,21 @@ import {HttpClient} from '@angular/common/http';
 import {computed, inject, Injectable, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 
-import {catchError, EMPTY, filter, map, merge, Observable, of, Subject, switchMap} from 'rxjs';
-
-import {connect} from 'ngxtension/connect';
+import {AuthService} from '@shared/services/auth/auth.service';
+import {GetMyselfResponse} from '@shared/waiterrobot-backend';
 
 import {notNullAndUndefined} from 'dfts-helper';
 
-import {AuthService} from '../../../../_shared/services/auth/auth.service';
-import {GetMyselfResponse} from '../../../../_shared/waiterrobot-backend';
+import {connect} from 'ngxtension/connect';
+
+import {catchError, EMPTY, filter, map, merge, Observable, of, Subject, switchMap} from 'rxjs';
 import {MyUserModel} from './my-user.model';
 
-type MyUserState = {
+interface MyUserState {
   status: 'UNSET' | 'LOADING' | 'LOADED';
   manualOverwritten: boolean;
   myUser?: MyUserModel;
-};
+}
 
 @Injectable({
   providedIn: 'root',

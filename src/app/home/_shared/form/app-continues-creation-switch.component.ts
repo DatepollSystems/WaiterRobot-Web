@@ -1,14 +1,14 @@
 import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 
-import {Subscription} from 'rxjs';
-
 import {DfxTr} from 'dfx-translate';
+
+import {Subscription} from 'rxjs';
 
 @Component({
   template: `
     <div class="form-check form-switch mb-0">
-      <input [formControl]="formControl" class="form-check-input" type="checkbox" role="switch" id="continuousCreation" />
+      <input class="form-check-input" type="checkbox" role="switch" id="continuousCreation" [formControl]="formControl" />
       <label class="form-check-label text-nowrap" for="continuousCreation">{{ text | tr }}</label>
     </div>
   `,
@@ -21,7 +21,7 @@ export class AppContinuesCreationSwitchComponent implements OnDestroy {
   formControl = new FormControl(false);
 
   @Output()
-  continuesCreationChange = new EventEmitter<boolean>();
+  readonly continuesCreationChange = new EventEmitter<boolean>();
 
   @Input({transform: booleanAttribute})
   set continuesCreation(it: boolean) {
@@ -34,7 +34,7 @@ export class AppContinuesCreationSwitchComponent implements OnDestroy {
 
   constructor() {
     this.subscription = this.formControl.valueChanges.subscribe((value) => {
-      this.continuesCreationChange.next(value === null ? false : value);
+      this.continuesCreationChange.next(value ?? false);
     });
   }
 

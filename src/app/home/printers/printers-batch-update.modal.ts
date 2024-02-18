@@ -20,7 +20,7 @@ import {PrintersService} from './_services/printers.service';
     <div class="modal-body">
       @if (isValid()) {}
 
-      <form [formGroup]="form" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+      <form class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3" [formGroup]="form">
         <div>
           <div class="form-group">
             <label for="fontScale">{{ 'HOME_PRINTER_FONT_SCALE' | tr }}</label>
@@ -29,7 +29,7 @@ import {PrintersService} from './_services/printers.service';
               type="number"
               id="fontScale"
               formControlName="fontScale"
-              placeholder="{{ 'HOME_PRINTER_FONT_SCALE' | tr }}"
+              [placeholder]="'HOME_PRINTER_FONT_SCALE' | tr"
             />
 
             @if (form.controls.fontScale.invalid) {
@@ -73,7 +73,7 @@ import {PrintersService} from './_services/printers.service';
               type="number"
               id="bonWidth"
               formControlName="bonWidth"
-              placeholder="{{ 'HOME_PRINTER_BON_WIDTH' | tr }}"
+              [placeholder]="'HOME_PRINTER_BON_WIDTH' | tr"
             />
 
             @if (form.controls.bonWidth.invalid) {
@@ -98,7 +98,7 @@ import {PrintersService} from './_services/printers.service';
               type="number"
               id="bonPadding"
               formControlName="bonPadding"
-              placeholder="{{ 'HOME_PRINTER_BON_PADDING' | tr }}"
+              [placeholder]="'HOME_PRINTER_BON_PADDING' | tr"
             />
 
             @if (form.controls.bonPadding.invalid) {
@@ -123,7 +123,7 @@ import {PrintersService} from './_services/printers.service';
               type="number"
               id="bonPaddingTop"
               formControlName="bonPaddingTop"
-              placeholder="{{ 'HOME_PRINTER_BON_PADDING_TOP' | tr }}"
+              [placeholder]="'HOME_PRINTER_BON_PADDING_TOP' | tr"
             />
 
             @if (form.controls.bonPaddingTop.invalid) {
@@ -158,7 +158,6 @@ import {PrintersService} from './_services/printers.service';
       <button
         type="submit"
         class="btn btn-warning"
-        (click)="submit()"
         [disabled]="
           (!form.controls.updateFont.value &&
             !form.controls.updateFontScale.value &&
@@ -167,6 +166,7 @@ import {PrintersService} from './_services/printers.service';
             !form.controls.updateBonPaddingTop.value) ||
           !form.valid
         "
+        (click)="submit()"
       >
         {{ 'SAVE' | tr }}
       </button>
@@ -208,13 +208,21 @@ export class PrintersBatchUpdateModal extends AComponent {
     this.form.controls.bonPaddingTop.disable();
 
     this.unsubscribe(
-      this.form.controls.updateFontScale.valueChanges.subscribe((value) => this.updateFormControl(this.form.controls.fontScale, value)),
-      this.form.controls.updateFont.valueChanges.subscribe((value) => this.updateFormControl(this.form.controls.font, value)),
-      this.form.controls.updateBonWidth.valueChanges.subscribe((value) => this.updateFormControl(this.form.controls.bonWidth, value)),
-      this.form.controls.updateBonPadding.valueChanges.subscribe((value) => this.updateFormControl(this.form.controls.bonPadding, value)),
-      this.form.controls.updateBonPaddingTop.valueChanges.subscribe((value) =>
-        this.updateFormControl(this.form.controls.bonPaddingTop, value),
-      ),
+      this.form.controls.updateFontScale.valueChanges.subscribe((value) => {
+        this.updateFormControl(this.form.controls.fontScale, value);
+      }),
+      this.form.controls.updateFont.valueChanges.subscribe((value) => {
+        this.updateFormControl(this.form.controls.font, value);
+      }),
+      this.form.controls.updateBonWidth.valueChanges.subscribe((value) => {
+        this.updateFormControl(this.form.controls.bonWidth, value);
+      }),
+      this.form.controls.updateBonPadding.valueChanges.subscribe((value) => {
+        this.updateFormControl(this.form.controls.bonPadding, value);
+      }),
+      this.form.controls.updateBonPaddingTop.valueChanges.subscribe((value) => {
+        this.updateFormControl(this.form.controls.bonPaddingTop, value);
+      }),
     );
   }
 
@@ -245,10 +253,10 @@ export class PrintersBatchUpdateModal extends AComponent {
   }
 }
 
-export type PrinterBatchUpdateDto = {
+export interface PrinterBatchUpdateDto {
   font?: string;
   fontScale?: number;
   bonWidth?: number;
   bonPadding?: number;
   bonPaddingTop?: number | null;
-};
+}

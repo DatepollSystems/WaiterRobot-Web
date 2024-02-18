@@ -5,11 +5,11 @@ import {AbstractControl, FormBuilder, ReactiveFormsModule} from '@angular/forms'
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
 
+import {NotificationService} from '@shared/notifications/notification.service';
+
 import {HasIDAndName, s_isEmail} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr, dfxTranslate$} from 'dfx-translate';
-
-import {NotificationService} from '../../../_shared/notifications/notification.service';
 import {OrganisationsUsersService} from '../_services/organisations-users.service';
 
 @Component({
@@ -24,13 +24,13 @@ import {OrganisationsUsersService} from '../_services/organisations-users.servic
         <div class="form-group col">
           <label for="emailSelect">{{ 'EMAIL' | tr }}</label>
           <ng-select
-            [addTag]="true"
             labelForId="emailSelect"
-            [multiple]="true"
-            placeholder="{{ 'HOME_ORGS_USERS_EMAIL_PLACEHOLDER' | tr }}"
             clearAllText="Clear"
-            [notFoundText]="'HOME_ORGS_USERS_EMAIL_PLACEHOLDER' | tr"
             formControlName="emailAddresses"
+            [addTag]="true"
+            [multiple]="true"
+            [placeholder]="'HOME_ORGS_USERS_EMAIL_PLACEHOLDER' | tr"
+            [notFoundText]="'HOME_ORGS_USERS_EMAIL_PLACEHOLDER' | tr"
           />
           @if (form.hasError('emailIsInvalid')) {
             <small class="text-danger">
@@ -53,6 +53,10 @@ import {OrganisationsUsersService} from '../_services/organisations-users.servic
   imports: [DfxTr, LowerCasePipe, BiComponent, NgSelectModule, ReactiveFormsModule, AsyncPipe],
 })
 export class OrganisationUserAddModalComponent {
+  activeModal = inject(NgbActiveModal);
+  #notificationService = inject(NotificationService);
+  #organisationsUsersService = inject(OrganisationsUsersService);
+
   entity!: HasIDAndName<number>;
 
   translate$ = dfxTranslate$();
@@ -64,7 +68,7 @@ export class OrganisationUserAddModalComponent {
     {validators: this.emailArrayValidator},
   );
 
-  emailArrayValidator(control: AbstractControl): {[s: string]: boolean} | null {
+  emailArrayValidator(control: AbstractControl): Record<string, boolean> | null {
     const emails = (control.get('emailAddresses')?.value as {label: string}[] | undefined) ?? [];
 
     console.log('emails', emails);
@@ -82,21 +86,15 @@ export class OrganisationUserAddModalComponent {
     return {emailIsInvalid: true};
   }
 
-  constructor(
-    public activeModal: NgbActiveModal,
-    private notificationService: NotificationService,
-    private organisationsUsersService: OrganisationsUsersService,
-  ) {}
-
   submit(): void {
     const emails = this.form.controls.emailAddresses.getRawValue();
     console.log('emails', emails);
     for (const email of emails) {
-      this.organisationsUsersService.create$(this.entity.id, email.label, {role: 'ADMIN'}).subscribe({
+      this.#organisationsUsersService.create$(this.entity.id, email.label, {role: 'ADMIN'}).subscribe({
         error: () => {
-          this.translate$('HOME_ORGS_USERS_USER_NOT_FOUND').subscribe((translation) =>
-            this.notificationService.warning(email.label + translation),
-          );
+          this.translate$('HOME_ORGS_USERS_USER_NOT_FOUND').subscribe((translation) => {
+            this.#notificationService.warning(email.label + translation);
+          });
         },
       });
     }

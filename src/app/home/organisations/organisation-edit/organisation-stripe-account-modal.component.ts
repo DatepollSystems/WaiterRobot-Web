@@ -2,27 +2,27 @@ import {AsyncPipe, LowerCasePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 
-import {filter, map, Observable, pipe, startWith, switchMap} from 'rxjs';
-
 import {allowedCharacterSet} from '@home-shared/regex';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {CreateStripeAccountDto} from '@shared/waiterrobot-backend';
-import {computedFrom} from 'ngxtension/computed-from';
-import {signalSlice} from 'ngxtension/signal-slice';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
+import {computedFrom} from 'ngxtension/computed-from';
+import {signalSlice} from 'ngxtension/signal-slice';
+
+import {filter, map, Observable, pipe, startWith, switchMap} from 'rxjs';
 
 import {EventsService} from '../../events/_services/events.service';
 
-type OrganisationStripeAccountModalState = {
+interface OrganisationStripeAccountModalState {
   name: string | undefined;
   organisationId: number | undefined;
   eventId: number | undefined;
   existingStripeAccountCount: number | undefined;
   type: 'CREATE' | 'UPDATE' | undefined;
-};
+}
 
 @Component({
   template: `
@@ -42,7 +42,7 @@ type OrganisationStripeAccountModalState = {
             class="form-control"
             type="text"
             id="stripeName"
-            placeholder="Stripe Account #{{ (state.existingStripeAccountCount() ?? 0) + 1 }}"
+            [placeholder]="'Stripe Account #' + (state.existingStripeAccountCount() ?? 0) + 1"
           />
 
           @if (form.controls.name.invalid) {
@@ -58,9 +58,9 @@ type OrganisationStripeAccountModalState = {
             formControlName="eventId"
             bindValue="id"
             id="event"
-            [items]="events()"
             bindLabel="name"
-            placeholder="{{ 'NAV_EVENTS' | tr }}"
+            [items]="events()"
+            [placeholder]="'NAV_EVENTS' | tr"
           />
         </div>
       </div>

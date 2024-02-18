@@ -2,16 +2,16 @@ import {HttpClient} from '@angular/common/http';
 import {computed, inject, Injectable, signal} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
-import {catchError, interval, map, merge, Observable, of, switchMap, timer} from 'rxjs';
+import {b_fromStorage, st_set} from 'dfts-helper';
 
 import {connect} from 'ngxtension/connect';
 
-import {b_fromStorage, st_set} from 'dfts-helper';
+import {catchError, interval, map, merge, Observable, of, switchMap, timer} from 'rxjs';
 
 import {AdminInfoResponse, JsonInfoResponse} from '../waiterrobot-backend';
 import {AuthService} from './auth/auth.service';
 
-type ServerInfoState = {
+interface ServerInfoState {
   status: 'Online' | 'Offline' | 'Pending';
   refreshIn: number;
   publicInfo?: {
@@ -19,11 +19,13 @@ type ServerInfoState = {
     responseTime: number;
   } & JsonInfoResponse;
   adminInfo?: AdminInfoResponse;
-};
+}
 
 const refreshIn = 20;
 
-@Injectable()
+@Injectable({
+  providedIn: 'any',
+})
 export class SystemInfoService {
   private httpClient = inject(HttpClient);
   private authService = inject(AuthService);
@@ -60,7 +62,9 @@ export class SystemInfoService {
   constructor() {
     interval(1000)
       .pipe(takeUntilDestroyed())
-      .subscribe(() => this.serverInfoState.update((it) => ({...it, refreshIn: it.refreshIn - 1})));
+      .subscribe(() => {
+        this.serverInfoState.update((it) => ({...it, refreshIn: it.refreshIn - 1}));
+      });
 
     connect(this.serverInfoState, merge(this.getJsonInfo$, this.getAdminInfo$.pipe(map((adminInfo) => ({adminInfo})))));
   }

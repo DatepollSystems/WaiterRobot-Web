@@ -3,24 +3,24 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
+import {GetImplodedOrderProductResponse, GetOrderResponse} from '@shared/waiterrobot-backend';
+
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
-
-import {GetImplodedOrderProductResponse, GetOrderResponse} from '../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
     <span
-      [ngClass]="{
-        'text-bg-light': orderState === 'QUEUED' || orderState === 'IN_PROGRESS',
-        'text-bg-success': orderState === 'FINISHED'
-      }"
-      [ngbPopover]="popContent"
       placement="right"
       triggers="mouseenter:mouseleave"
       popoverTitle="Bestelldetails"
       class="badge d-flex align-items-center gap-2 not-selectable"
       style="width: min-content"
+      [ngClass]="{
+        'text-bg-light': orderState === 'QUEUED' || orderState === 'IN_PROGRESS',
+        'text-bg-success': orderState === 'FINISHED'
+      }"
+      [ngbPopover]="popContent"
     >
       @switch (orderState) {
         @case ('QUEUED') {

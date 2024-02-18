@@ -2,25 +2,25 @@ import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
+import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
+import {allowedCharacterSet} from '@home-shared/regex';
+import {injectIsValid} from '@shared/form';
+import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrinterDto} from '@shared/waiterrobot-backend';
+
 import {n_from, s_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
-
-import {AbstractModelEditFormComponent} from '../../_shared/form/abstract-model-edit-form.component';
-import {AppModelEditSaveBtn} from '../../_shared/form/app-model-edit-save-btn.component';
-import {injectIsValid} from '../../../_shared/form';
-import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrinterDto} from '../../../_shared/waiterrobot-backend';
-import {allowedCharacterSet} from '../../_shared/regex';
 
 @Component({
   template: `
     @if (isValid()) {}
 
-    <form #formRef [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column gap-3">
+    <form #formRef class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-lg-row gap-4">
         <div class="flex-fill form-group">
           <label for="name">{{ 'NAME' | tr }}</label>
-          <input class="form-control" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
+          <input class="form-control" type="text" id="name" formControlName="name" [placeholder]="'NAME' | tr" />
 
           @if (form.controls.name.invalid) {
             <small class="text-danger">
@@ -36,7 +36,7 @@ import {allowedCharacterSet} from '../../_shared/regex';
             id="fontScale"
             step="0.1"
             formControlName="fontScale"
-            placeholder="{{ 'HOME_PRINTER_FONT_SCALE' | tr }}"
+            [placeholder]="'HOME_PRINTER_FONT_SCALE' | tr"
           />
 
           @if (form.controls.fontScale.invalid) {
@@ -65,7 +65,7 @@ import {allowedCharacterSet} from '../../_shared/regex';
             type="number"
             id="bonWidth"
             formControlName="bonWidth"
-            placeholder="{{ 'HOME_PRINTER_BON_WIDTH' | tr }}"
+            [placeholder]="'HOME_PRINTER_BON_WIDTH' | tr"
           />
 
           @if (form.controls.bonWidth.invalid) {
@@ -83,7 +83,7 @@ import {allowedCharacterSet} from '../../_shared/regex';
             id="bonPadding"
             step="1"
             formControlName="bonPadding"
-            placeholder="{{ 'HOME_PRINTER_BON_PADDING' | tr }}"
+            [placeholder]="'HOME_PRINTER_BON_PADDING' | tr"
           />
 
           @if (form.controls.bonPadding.invalid) {
@@ -101,7 +101,7 @@ import {allowedCharacterSet} from '../../_shared/regex';
             step="1"
             id="bonPaddingTop"
             formControlName="bonPaddingTop"
-            placeholder="{{ 'HOME_PRINTER_BON_PADDING_TOP' | tr }}"
+            [placeholder]="'HOME_PRINTER_BON_PADDING_TOP' | tr"
           />
 
           @if (form.controls.bonPaddingTop.invalid) {
@@ -138,7 +138,7 @@ export class AppPrinterEditForm extends AbstractModelEditFormComponent<CreatePri
     this.lumber.info('overrideRawValue', 'Scale', value.fontScale);
     const match: string[] = s_from(value.fontScale).split(/[,.]/);
     const big = n_from(match[0] ?? 1);
-    const small = n_from(match[1] ? match[1][0] ?? 0 : 0);
+    const small = n_from(match[1] ? match[1][0] : 0);
 
     value.fontScale = big * 10 + small;
 

@@ -40,6 +40,7 @@ docker compose -f compose-local-dev.yml -f compose-local.yml watch
 ```
 
 Open [http://localhost:4200/](http://localhost:4200/). To Stop press <kbd>Ctrl</kbd> + <kbd>C</kbd>.
+
 > Browser will not reload automatically, you need to refresh manually after rebuild is completed.
 
 ## Using the lava backend
@@ -57,6 +58,7 @@ Open [http://localhost:4300/](http://localhost:4200/).
 ## Lava
 
 Run `bash tools/releaseLava.sh`
+
 > This will create and push a new lava version tag using version specified in [package.json](package.json).
 > The `-lava-{timestamp}` suffix will be automatically appended. \
 > The CI will then build the new docker container image and push it to the GitHub registry.

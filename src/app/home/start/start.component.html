@@ -49,7 +49,7 @@
     } @if (((errors$ | async) && !isProduction)) {
     <div class="card p-2">
       <div class="card-body">
-        <button class="btn btn-sm btn-warning" (click)="logout()">Logout</button>
+        <button type="button" class="btn btn-sm btn-warning" (click)="logout()">Logout</button>
       </div>
     </div>
     }

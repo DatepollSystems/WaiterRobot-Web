@@ -3,8 +3,6 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
-import {forkJoin} from 'rxjs';
-
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '@home-shared/list/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -14,6 +12,8 @@ import {GetPrinterResponse} from '@shared/waiterrobot-backend';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxTr} from 'dfx-translate';
+
+import {forkJoin} from 'rxjs';
 
 import {PrintersService} from './_services/printers.service';
 import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-update.modal';
@@ -31,15 +31,15 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
           >
         </div>
 
-        <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PRINTER_SELECT' | tr) : undefined }}">
-          <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+        <div [ngbTooltip]="!selection.hasValue() ? ('HOME_PRINTER_SELECT' | tr) : undefined">
+          <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
             <bi name="trash" />
             {{ 'DELETE' | tr }}
           </button>
         </div>
 
-        <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PRINTER_SELECT' | tr) : undefined }}">
-          <button class="btn btn-sm btn-secondary" [class.disabled]="!selection.hasValue()" (click)="onBatchUpdatePrinters()">
+        <div [ngbTooltip]="!selection.hasValue() ? ('HOME_PRINTER_SELECT' | tr) : undefined">
+          <button type="button" class="btn btn-sm btn-secondary" [class.disabled]="!selection.hasValue()" (click)="onBatchUpdatePrinters()">
             <bi name="pencil-square" />
             {{ 'HOME_PRINTER_BATCH_UPDATE' | tr }}
           </button>
@@ -48,15 +48,9 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
           @if ((filter.value?.length ?? 0) > 0) {
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              ngbTooltip="{{ 'CLEAR' | tr }}"
-              placement="bottom"
-              (click)="filter.reset()"
-            >
+            <button class="btn btn-outline-secondary" type="button" placement="bottom" [ngbTooltip]="'CLEAR' | tr" (click)="filter.reset()">
               <bi name="x-circle-fill" />
             </button>
           }
@@ -64,7 +58,7 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
       </form>
 
       <div class="table-responsive">
-        <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort>
+        <table ngb-table ngb-sort [hover]="true" [dataSource]="(dataSource$ | async) ?? []">
           <ng-container ngbColumnDef="select">
             <th *ngbHeaderCellDef ngb-header-cell>
               <div class="form-check">
@@ -72,8 +66,8 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
                   class="form-check-input"
                   type="checkbox"
                   name="checked"
-                  (change)="$event ? toggleAllRows() : null"
                   [checked]="selection.hasValue() && isAllSelected()"
+                  (change)="$event ? toggleAllRows() : null"
                 />
               </div>
             </th>
@@ -83,8 +77,8 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
                   class="form-check-input"
                   type="checkbox"
                   name="checked"
-                  (change)="$event ? selection.toggle(selectable) : null"
                   [checked]="selection.isSelected(selectable)"
+                  (change)="$event ? selection.toggle(selectable) : null"
                 />
               </div>
             </td>
@@ -123,18 +117,14 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
           <ng-container ngbColumnDef="actions">
             <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
             <td *ngbCellDef="let printer" ngb-cell>
-              <a
-                class="btn btn-sm m-1 btn-outline-success text-body-emphasis"
-                routerLink="../{{ printer.id }}"
-                ngbTooltip="{{ 'EDIT' | tr }}"
-              >
+              <a class="btn btn-sm m-1 btn-outline-success text-body-emphasis" [routerLink]="'../' + printer.id" [ngbTooltip]="'EDIT' | tr">
                 <bi name="pencil-square" />
               </a>
 
               <button
                 type="button"
                 class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
-                ngbTooltip="{{ 'DELETE' | tr }}"
+                [ngbTooltip]="'DELETE' | tr"
                 (click)="onDelete(printer.id, $event)"
               >
                 <bi name="trash" />
@@ -143,7 +133,7 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
           </ng-container>
 
           <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-          <tr *ngbRowDef="let printer; columns: columnsToDisplay" ngb-row routerLink="../{{ printer.id }}"></tr>
+          <tr *ngbRowDef="let printer; columns: columnsToDisplay" ngb-row [routerLink]="'../' + printer.id"></tr>
         </table>
       </div>
 
@@ -201,6 +191,6 @@ export class PrintersComponent extends AbstractModelsWithNameListWithDeleteCompo
           });
         }
       })
-      .catch(() => {});
+      .catch();
   }
 }

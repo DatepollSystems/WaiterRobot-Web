@@ -1,22 +1,22 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
+
+import {OrganisationSettingResponse} from '@shared/waiterrobot-backend';
 
 import {BehaviorSubject, map, Observable, switchMap} from 'rxjs';
-
-import {OrganisationSettingResponse} from '../../../_shared/waiterrobot-backend';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrganisationsSettingsService {
-  constructor(private httpService: HttpClient) {}
+  #httpService = inject(HttpClient);
 
   settingsChange = new BehaviorSubject(true);
 
   getSettings$(organisationId: number): Observable<OrganisationSettingResponse> {
     return this.settingsChange.pipe(
       switchMap(() =>
-        this.httpService.get<OrganisationSettingResponse>('/config/organisation/settings', {
+        this.#httpService.get<OrganisationSettingResponse>('/config/organisation/settings', {
           params: {organisationId},
         }),
       ),
@@ -28,7 +28,7 @@ export class OrganisationsSettingsService {
   }
 
   private set(organisationId: number, key: string, value: boolean | number | string): void {
-    this.httpService.put(`/config/organisation/${organisationId}/setting/${key}`, {value}).subscribe({
+    this.#httpService.put(`/config/organisation/${organisationId}/setting/${key}`, {value}).subscribe({
       next: () => {
         this.settingsChange.next(true);
       },

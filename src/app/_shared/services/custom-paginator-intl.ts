@@ -2,13 +2,15 @@ import {Injectable} from '@angular/core';
 
 import {NgbPaginatorIntl} from 'dfx-bootstrap-table';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CustomPaginatorIntl extends NgbPaginatorIntl {
-  itemsPerPageLabel: string = 'Einträge pro Seite:';
-  nextPageLabel: string = 'Nächste Seite';
-  previousPageLabel: string = 'Vorherige Seite';
-  firstPageLabel: string = 'Erste Seite';
-  lastPageLabel: string = 'Letzte Seite';
+  itemsPerPageLabel = 'Einträge pro Seite:';
+  nextPageLabel = 'Nächste Seite';
+  previousPageLabel = 'Vorherige Seite';
+  firstPageLabel = 'Erste Seite';
+  lastPageLabel = 'Letzte Seite';
 
   getRangeLabel: (page: number, pageSize: number, length: number) => string = (page: number, pageSize: number, length: number) => {
     if (length == 0 || pageSize == 0) {

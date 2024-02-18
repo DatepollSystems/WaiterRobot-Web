@@ -19,7 +19,7 @@ import {DfxTr} from 'dfx-translate';
       <div class="d-flex flex-column flex-md-row gap-4 mb-5">
         <div class="form-group col">
           <label for="name">{{ 'NAME' | tr }}</label>
-          <input class="form-control" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
+          <input class="form-control" type="text" id="name" formControlName="name" [placeholder]="'NAME' | tr" />
 
           @if (form.controls.name.invalid) {
             <small class="text-danger">
@@ -32,8 +32,8 @@ import {DfxTr} from 'dfx-translate';
           <label for="name">{{ 'COLOR' | tr }}</label>
           <app-color-picker
             [color]="form.controls.color.getRawValue()"
-            (colorChange)="form.controls.color.setValue($event)"
             [disabled]="form.disabled"
+            (colorChange)="form.controls.color.setValue($event)"
           />
         </div>
       </div>

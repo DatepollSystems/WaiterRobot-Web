@@ -22,7 +22,7 @@ import {SelectedOrganisationService} from '../organisations/_services/selected-o
             >
           }
         </div>
-        <app-list-nav-items path="event/" [entities]="events$ | async" titleTr="NAV_EVENTS" selectTr="HOME_EVENTS_SELECT" />
+        <app-list-nav-items path="event/" titleTr="NAV_EVENTS" selectTr="HOME_EVENTS_SELECT" [entities]="events$ | async" />
       </div>
     </entities-layout>
   `,

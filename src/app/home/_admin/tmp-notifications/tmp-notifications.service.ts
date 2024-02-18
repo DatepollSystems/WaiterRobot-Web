@@ -1,9 +1,9 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 
-import {BehaviorSubject, map, Observable, switchMap} from 'rxjs';
+import {TempNotification} from '@shared/waiterrobot-backend';
 
-import {TempNotification} from '../../../_shared/waiterrobot-backend';
+import {BehaviorSubject, map, Observable, switchMap} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class TmpNotificationsService {
@@ -13,7 +13,7 @@ export class TmpNotificationsService {
   #triggerGet$ = new BehaviorSubject(true);
 
   getAll$(): Observable<TempNotification[]> {
-    return this.#triggerGet$.pipe(switchMap(() => this.#httpClient.get<TempNotification[]>(`${this.#url}`)));
+    return this.#triggerGet$.pipe(switchMap(() => this.#httpClient.get<TempNotification[]>(this.#url)));
   }
 
   getSingle$(id: string): Observable<TempNotification | undefined> {

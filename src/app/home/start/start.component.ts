@@ -3,15 +3,15 @@ import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
-import {catchError, filter, of} from 'rxjs';
+import {EnvironmentHelper} from '@shared/EnvironmentHelper';
+import {AuthService} from '@shared/services/auth/auth.service';
+import {SystemInfoShowService} from '@shared/services/system-info.service';
+import {AppDownloadBtnListComponent} from '@shared/ui/app-download-btn-list.component';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
-import {EnvironmentHelper} from '../../_shared/EnvironmentHelper';
-import {AuthService} from '../../_shared/services/auth/auth.service';
-import {SystemInfoShowService} from '../../_shared/services/system-info.service';
-import {AppDownloadBtnListComponent} from '../../_shared/ui/app-download-btn-list.component';
+import {catchError, filter, of} from 'rxjs';
 import {MyUserService} from '../_shared/services/user/my-user.service';
 
 @Component({

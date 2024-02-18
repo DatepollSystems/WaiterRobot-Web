@@ -3,8 +3,6 @@ import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/cor
 import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 
-import {filter, map} from 'rxjs';
-
 import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
 import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
@@ -15,6 +13,8 @@ import {injectOnSubmit} from '@shared/form';
 import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
 import {n_from, n_isNumeric} from 'dfts-helper';
+
+import {filter, map} from 'rxjs';
 
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {TableGroupsService} from '../_services/table-groups.service';
@@ -34,7 +34,7 @@ import {TableEditFormComponent} from './table-edit-form.component';
 
           <ng-container *isEditingAndNotDeleted="entity">
             <div>
-              <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+              <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
                 <bi name="trash" />
                 {{ 'DELETE' | tr }}
               </button>
@@ -62,7 +62,7 @@ import {TableEditFormComponent} from './table-edit-form.component';
             </div>
           </ng-container>
 
-          <div class="d-flex align-items-center" *isCreating="entity">
+          <div *isCreating="entity" class="d-flex align-items-center">
             <app-continues-creation-switch (continuesCreationChange)="continuousCreation.set($event)" />
           </div>
         </scrollable-toolbar>
@@ -78,13 +78,13 @@ import {TableEditFormComponent} from './table-edit-form.component';
 
         <app-table-edit-form
           #form
-          (submitUpdate)="onSubmit('UPDATE', $event)"
-          (submitCreate)="onSubmit('CREATE', $event)"
           [tableGroups]="tableGroups() ?? []"
           [selectedEventId]="selectedEventId()!"
           [selectedTableGroupId]="selectedTableGroupId()"
           [table]="entity"
           [formDisabled]="(tableGroups()?.length ?? 1) < 1 || (entity !== 'CREATE' && !!entity.deleted)"
+          (submitUpdate)="onSubmit('UPDATE', $event)"
+          (submitCreate)="onSubmit('CREATE', $event)"
         />
       </div>
     } @else {

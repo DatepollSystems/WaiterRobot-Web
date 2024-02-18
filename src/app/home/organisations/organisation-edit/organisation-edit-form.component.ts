@@ -1,25 +1,25 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
+import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
+
 import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
+import {injectIsValid} from '@shared/form';
+import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
-
-import {AbstractModelEditFormComponent} from '../../_shared/form/abstract-model-edit-form.component';
-import {AppModelEditSaveBtn} from '../../_shared/form/app-model-edit-save-btn.component';
-import {injectIsValid} from '../../../_shared/form';
-import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} from '../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
     @if (isValid()) {}
 
-    <form #formRef [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column gap-3">
+    <form #formRef class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-sm-row gap-3 gap-md-4">
         <div class="form-group flex-fill">
           <label for="name">{{ 'NAME' | tr }}</label>
-          <input class="form-control" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
+          <input class="form-control" type="text" id="name" formControlName="name" [placeholder]="'NAME' | tr" />
 
           @if (form.controls.name.invalid) {
             <small class="text-danger"> {{ 'HOME_ORGS_NAME_INCORRECT' | tr }} </small>
@@ -32,7 +32,7 @@ import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} f
             type="text"
             id="countryCode"
             formControlName="countryCode"
-            placeholder="{{ 'HOME_ORGS_COUNTRY_CODE' | tr }}"
+            [placeholder]="'HOME_ORGS_COUNTRY_CODE' | tr"
           />
           @if (form.controls.countryCode.invalid) {
             <small class="text-danger"> {{ 'HOME_ORGS_COUNTRY_CODE_INCORRECT' | tr }} </small>
@@ -43,7 +43,7 @@ import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} f
       <div class="d-flex flex-column flex-sm-row gap-4">
         <div class="form-group flex-fill">
           <label for="street">{{ 'HOME_ORGS_STREET' | tr }}</label>
-          <input class="form-control" type="text" id="street" formControlName="street" placeholder="{{ 'HOME_ORGS_STREET' | tr }}" />
+          <input class="form-control" type="text" id="street" formControlName="street" [placeholder]="'HOME_ORGS_STREET' | tr" />
           @if (form.controls.street.invalid) {
             <small class="text-danger"> {{ 'HOME_ORGS_STREET_INCORRECT' | tr }} </small>
           }
@@ -55,7 +55,7 @@ import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} f
             type="text"
             id="streetNumber"
             formControlName="streetNumber"
-            placeholder="{{ 'HOME_ORGS_STREETNUMBER' | tr }}"
+            [placeholder]="'HOME_ORGS_STREETNUMBER' | tr"
           />
           @if (form.controls.streetNumber.invalid) {
             <small class="text-danger"> {{ 'HOME_ORGS_STREETNUMBER_INCORRECT' | tr }} </small>
@@ -69,7 +69,7 @@ import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} f
             type="text"
             id="postalCode"
             formControlName="postalCode"
-            placeholder="{{ 'HOME_ORGS_POSTAL_CODE' | tr }}"
+            [placeholder]="'HOME_ORGS_POSTAL_CODE' | tr"
           />
           @if (form.controls.postalCode.invalid) {
             <small class="text-danger"> {{ 'HOME_ORGS_POSTAL_CODE_INCORRECT' | tr }} </small>
@@ -78,7 +78,7 @@ import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} f
 
         <div class="form-group flex-fill">
           <label for="city">{{ 'HOME_ORGS_CITY' | tr }}</label>
-          <input class="form-control" type="text" id="city" formControlName="city" placeholder="{{ 'HOME_ORGS_CITY' | tr }}" />
+          <input class="form-control" type="text" id="city" formControlName="city" [placeholder]="'HOME_ORGS_CITY' | tr" />
           @if (form.controls.city.invalid) {
             <small class="text-danger"> {{ 'HOME_ORGS_CITY_INCORRECT' | tr }} </small>
           }

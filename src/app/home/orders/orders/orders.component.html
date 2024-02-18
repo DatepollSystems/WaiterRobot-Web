@@ -20,20 +20,20 @@
 
   <scrollable-toolbar>
     <div>
-      <button class="btn btn-sm btn-info" (click)="exportCsv()">
+      <button type="button" class="btn btn-sm btn-info" (click)="exportCsv()">
         <bi name="filetype-csv" />
         {{ 'EXPORT' | tr }}
       </button>
     </div>
 
     <div>
-      <button class="btn btn-sm btn-warning" (click)="requeueOrders()" [class.disabled]="!selection.hasValue()">
+      <button type="button" class="btn btn-sm btn-warning" [class.disabled]="!selection.hasValue()" (click)="requeueOrders()">
         <bi name="printer" />
         {{ 'HOME_ORDER_REQUEUE' | tr }}
       </button>
     </div>
     <div>
-      <button class="btn btn-sm btn-warning" (click)="printAllTest()" ngbTooltip="Beinhaltet alle Produkte">
+      <button type="button" class="btn btn-sm btn-warning" ngbTooltip="Beinhaltet alle Produkte" (click)="printAllTest()">
         <bi name="bug" />
         {{ 'Testbestellung aufgeben' | tr }}
       </button>
@@ -47,33 +47,33 @@
   <div #collapse="ngbCollapse" [ngbCollapse]="isMobile()">
     @if (filter.valid()) {}
 
-    <form [formGroup]="filter.form" class="d-flex flex-column flex-sm-wrap flex-sm-row gap-2">
+    <form class="d-flex flex-column flex-sm-wrap flex-sm-row gap-2" [formGroup]="filter.form">
       <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
         <ng-select
-          [items]="tableGroups()"
           bindValue="id"
           bindLabel="name"
           formControlName="tableGroupIds"
+          clearAllText="Clear"
+          [items]="tableGroups()"
           [placeholder]="'HOME_TABLE_GROUP_SELECT' | tr"
           [multiple]="true"
-          clearAllText="Clear"
         />
       </div>
       <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
         <ng-select
-          [items]="tables()"
           bindValue="id"
           formControlName="tableIds"
+          clearAllText="Clear"
+          [items]="tables()"
           [searchFn]="customTableSearch"
           [placeholder]="'HOME_TABLE_SELECT' | tr"
           [multiple]="true"
-          clearAllText="Clear"
         >
-          <ng-template ng-label-tmp let-item="item" let-clear="clear">
-            <span class="ng-value-icon left" (click)="clear(item)" aria-hidden="true">×</span>
+          <ng-template let-item="item" let-clear="clear" ng-label-tmp>
+            <span class="ng-value-icon left" aria-hidden="true" (click)="clear(item)">×</span>
             <span class="ng-value-label">{{ item?.group?.name ?? '' }} - {{ item?.number ?? '' }}</span>
           </ng-template>
-          <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+          <ng-template let-item="item" let-index="index" let-search="searchTerm" ng-option-tmp>
             <span class="ng-option-label">{{ item.group.name }} - {{ item.number }}</span>
           </ng-template>
         </ng-select>
@@ -81,37 +81,37 @@
 
       <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
         <ng-select
-          [items]="productGroups()"
           bindValue="id"
           bindLabel="name"
           formControlName="productGroupIds"
+          clearAllText="Clear"
+          [items]="productGroups()"
           [placeholder]="'HOME_PROD_GROUPS_SELECT' | tr"
           [multiple]="true"
-          clearAllText="Clear"
         />
       </div>
 
       <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
         <ng-select
-          [items]="products()"
           bindValue="id"
           bindLabel="name"
           formControlName="productIds"
+          clearAllText="Clear"
+          [items]="products()"
           [placeholder]="'HOME_PROD_SELECT' | tr"
           [multiple]="true"
-          clearAllText="Clear"
         />
       </div>
 
       <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
         <ng-select
-          [items]="waiters()"
           bindValue="id"
           bindLabel="name"
           formControlName="waiterIds"
+          clearAllText="Clear"
+          [items]="waiters()"
           [placeholder]="'HOME_WAITERS_SELECT' | tr"
           [multiple]="true"
-          clearAllText="Clear"
         />
       </div>
 
@@ -119,8 +119,8 @@
         <button
           type="button"
           class="btn btn-sm btn-secondary position-relative"
-          (click)="filter.form.reset()"
           [disabled]="filter.count() === 0"
+          (click)="filter.form.reset()"
         >
           <bi name="x-circle-fill" />
           {{'DELETE_ALL' | tr}} @if (filter.count() !== 0) {
@@ -139,9 +139,9 @@
   <div class="table-responsive">
     <table
       ngb-table
+      ngb-sort
       [hover]="true"
       [dataSource]="dataSource()"
-      ngb-sort
       [ngbSortDirection]="pagination.params().direction"
       [ngbSortActive]="pagination.params().sort"
     >
@@ -153,8 +153,8 @@
               class="form-check-input"
               type="checkbox"
               name="checked"
-              (change)="$event ? selection.toggle(selectable) : null"
               [checked]="selection.isSelected(selectable)"
+              (change)="$event ? selection.toggle(selectable) : null"
             />
           </div>
         </td>
@@ -168,17 +168,17 @@
       <ng-container ngbColumnDef="table.tableGroup.name">
         <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_ORDER_TABLE' | tr }}</th>
         <td *ngbCellDef="let order" ngb-cell>
-          <a (click)="$event.stopPropagation()" routerLink="../../tables/groups/tables/{{ order.table.group.id }}"
+          <a [routerLink]="'../../tables/groups/tables/' + order.table.group.id" (click)="$event.stopPropagation()"
             >{{ order.table.group.name }}</a
           >
-          - <a (click)="$event.stopPropagation()" routerLink="../../tables/{{ order.table.id }}">{{ order.table.number }}</a>
+          - <a [routerLink]="'../../tables/' + order.table.id" (click)="$event.stopPropagation()">{{ order.table.number }}</a>
         </td>
       </ng-container>
 
       <ng-container ngbColumnDef="waiter.name">
         <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</th>
         <td *ngbCellDef="let order" ngb-cell>
-          <a (click)="$event.stopPropagation()" routerLink="../../waiters/{{ order.waiter.id }}">{{ order.waiter.name }}</a>
+          <a [routerLink]="'../../waiters/' + order.waiter.id" (click)="$event.stopPropagation()">{{ order.waiter.name }}</a>
         </td>
       </ng-container>
 
@@ -210,17 +210,18 @@
         <td *ngbCellDef="let order" ngb-cell>
           <a
             class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"
-            routerLink="../{{ order.id }}"
-            ngbTooltip="{{ 'OPEN' | tr }}"
             placement="left"
+            [routerLink]="'../' + order.id"
+            [ngbTooltip]="'OPEN' | tr"
           >
             <bi name="arrow-up-right-square-fill" />
           </a>
           <button
+            type="button"
             class="btn btn-sm m-1 btn-warning"
-            (click)="$event.stopPropagation(); requeueOrder(order)"
-            ngbTooltip="{{ 'HOME_ORDER_REQUEUE' | tr }}"
             placement="bottom"
+            [ngbTooltip]="'HOME_ORDER_REQUEUE' | tr"
+            (click)="$event.stopPropagation(); requeueOrder(order)"
           >
             <bi name="printer" />
           </button>
@@ -228,7 +229,7 @@
       </ng-container>
 
       <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-      <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row routerLink="../{{ order.id }}"></tr>
+      <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row [routerLink]="'../' + order.id"></tr>
     </table>
   </div>
 
@@ -239,10 +240,10 @@
   }
 
   <ngb-paginator
+    showFirstLastButtons
     [length]="pagination.totalElements()"
     [pageSize]="pagination.params().size"
     [pageSizeOptions]="[10, 20, 50, 100, 200]"
     [pageIndex]="pagination.params().page"
-    showFirstLastButtons
   />
 </div>

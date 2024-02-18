@@ -2,12 +2,12 @@ import {AsyncPipe, DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
-import {combineLatest, map, switchMap} from 'rxjs';
-
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
+
+import {combineLatest, map, switchMap} from 'rxjs';
 
 import {AppBackButtonComponent} from '../_shared/components/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
@@ -39,9 +39,9 @@ import {BillsService} from './_services/bills.service';
 
           <div>
             <a
-              routerLink="../../tables/{{ vm.bill.table.id }}"
               class="badge bg-secondary d-flex align-items-center gap-2"
-              ngbTooltip="{{ 'HOME_ORDER_OPEN_TABLE' | tr }}"
+              [routerLink]="'../../tables/' + vm.bill.table.id"
+              [ngbTooltip]="'HOME_ORDER_OPEN_TABLE' | tr"
             >
               <bi name="columns-gap" />
               {{ vm.bill.table.group.name }} - {{ vm.bill.table.number }}
@@ -50,9 +50,9 @@ import {BillsService} from './_services/bills.service';
 
           <div>
             <a
-              routerLink="../../waiters/{{ vm.bill.waiter.id }}"
               class="badge bg-primary d-flex align-items-center gap-2"
-              ngbTooltip="{{ 'HOME_ORDER_OPEN_WAITER' | tr }}"
+              [routerLink]="'../../waiters/' + vm.bill.waiter.id"
+              [ngbTooltip]="'HOME_ORDER_OPEN_WAITER' | tr"
             >
               <bi name="people" />
               {{ vm.bill.waiter.name }}

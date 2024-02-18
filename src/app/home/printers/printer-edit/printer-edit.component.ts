@@ -27,14 +27,14 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
 
           <ng-container *isEditing="entity">
             <div>
-              <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+              <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
                 <bi name="trash" />
                 {{ 'DELETE' | tr }}
               </button>
             </div>
           </ng-container>
 
-          <div class="d-flex align-items-center" *isCreating="entity">
+          <div *isCreating="entity" class="d-flex align-items-center">
             <app-continues-creation-switch (continuesCreationChange)="continuousCreation.set($event)" />
           </div>
         </scrollable-toolbar>
@@ -42,10 +42,10 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
         <hr />
 
         <ul
-          ngbNav
           #nav="ngbNav"
-          [activeId]="tabControls.activeTab()"
+          ngbNav
           class="nav-tabs"
+          [activeId]="tabControls.activeTab()"
           (navChange)="tabControls.navigateToTab($event.nextId)"
         >
           <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">
@@ -53,16 +53,16 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
             <ng-template ngbNavContent>
               <app-printer-edit-form
                 #form
-                (submitUpdate)="onSubmit('UPDATE', $event)"
-                (submitCreate)="onSubmit('CREATE', $event)"
                 [selectedEventId]="selectedEvent()"
                 [availableFonts]="fonts()"
                 [printer]="entity"
+                (submitUpdate)="onSubmit('UPDATE', $event)"
+                (submitCreate)="onSubmit('CREATE', $event)"
               />
             </ng-template>
           </li>
 
-          <li [ngbNavItem]="'PRODUCTS'" *isEditing="entity" [destroyOnHide]="true">
+          <li *isEditing="entity" [ngbNavItem]="'PRODUCTS'" [destroyOnHide]="true">
             <a ngbNavLink>{{ 'HOME_PROD_ALL' | tr }}</a>
             <ng-template ngbNavContent>
               <app-printer-edit-products *isEditing="entity" [products]="entity.products" />
