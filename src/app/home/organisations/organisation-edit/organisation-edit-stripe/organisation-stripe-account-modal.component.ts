@@ -14,7 +14,7 @@ import {signalSlice} from 'ngxtension/signal-slice';
 
 import {filter, map, Observable, pipe, startWith, switchMap} from 'rxjs';
 
-import {EventsService} from '../../events/_services/events.service';
+import {EventsService} from '../../../events/_services/events.service';
 
 interface OrganisationStripeAccountModalState {
   name: string | undefined;

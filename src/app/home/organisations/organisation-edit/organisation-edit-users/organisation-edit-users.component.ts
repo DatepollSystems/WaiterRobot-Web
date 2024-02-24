@@ -14,7 +14,7 @@ import {DfxTr} from 'dfx-translate';
 
 import {combineLatest, filter, of, startWith, switchMap} from 'rxjs';
 
-import {OrganisationsUsersService} from '../_services/organisations-users.service';
+import {OrganisationsUsersService} from '../../_services/organisations-users.service';
 import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.component';
 
 @Component({

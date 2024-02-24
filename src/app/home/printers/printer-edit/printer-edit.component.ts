@@ -10,7 +10,7 @@ import {injectOnSubmit} from '@shared/form';
 import {GetPrinterResponse} from '@shared/waiterrobot-backend';
 
 import {SelectedEventService} from '../../events/_services/selected-event.service';
-import {OrganisationEditUsersComponent} from '../../organisations/organisation-edit/organisation-edit-users.component';
+import {OrganisationEditUsersComponent} from '../../organisations/organisation-edit/organisation-edit-users/organisation-edit-users.component';
 import {PrintersService} from '../_services/printers.service';
 import {AppPrinterEditForm} from './printer-edit-form.component';
 import {PrinterEditProductsComponent} from './printer-edit-products.component';

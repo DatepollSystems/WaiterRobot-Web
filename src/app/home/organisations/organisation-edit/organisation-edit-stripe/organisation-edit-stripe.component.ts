@@ -17,7 +17,7 @@ import {injectParams} from 'ngxtension/inject-params';
 
 import {filter, of, pipe, startWith, switchMap} from 'rxjs';
 
-import {OrganisationsStripeService} from '../_services/organisations-stripe.service';
+import {OrganisationsStripeService} from '../../_services/organisations-stripe.service';
 import {OrganisationStripeAccountModal} from './organisation-stripe-account-modal.component';
 import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
 

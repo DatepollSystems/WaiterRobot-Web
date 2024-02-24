@@ -5,7 +5,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {DfxTr} from 'dfx-translate';
 
-import {OrganisationsStripeService} from '../_services/organisations-stripe.service';
+import {OrganisationsStripeService} from '../../_services/organisations-stripe.service';
 
 @Component({
   template: `

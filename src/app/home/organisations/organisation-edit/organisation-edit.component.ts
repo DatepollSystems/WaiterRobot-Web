@@ -13,8 +13,8 @@ import {OrganisationsService} from '../_services/organisations.service';
 import {SelectedOrganisationService} from '../_services/selected-organisation.service';
 import {AppOrganisationEditFormComponent} from './organisation-edit-form.component';
 import {OrganisationEditSettingsComponent} from './organisation-edit-settings.component';
-import {OrganisationEditStripeComponent} from './organisation-edit-stripe.component';
-import {OrganisationEditUsersComponent} from './organisation-edit-users.component';
+import {OrganisationEditStripeComponent} from './organisation-edit-stripe/organisation-edit-stripe.component';
+import {OrganisationEditUsersComponent} from './organisation-edit-users/organisation-edit-users.component';
 
 @Component({
   template: `

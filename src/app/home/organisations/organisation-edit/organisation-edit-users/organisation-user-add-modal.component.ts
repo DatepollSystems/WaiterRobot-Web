@@ -10,7 +10,7 @@ import {NotificationService} from '@shared/notifications/notification.service';
 import {HasIDAndName, s_isEmail} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr, dfxTranslate$} from 'dfx-translate';
-import {OrganisationsUsersService} from '../_services/organisations-users.service';
+import {OrganisationsUsersService} from '../../_services/organisations-users.service';
 
 @Component({
   template: `
