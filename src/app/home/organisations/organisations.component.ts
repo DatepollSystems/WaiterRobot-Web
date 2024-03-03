@@ -133,15 +133,6 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
                   <bi name="gear" />
                 </a>
                 <a
-                  class="btn btn-sm me-2 btn-outline-secondary text-body-emphasis"
-                  stopPropagation
-                  [routerLink]="'../' + organisation.id"
-                  [queryParams]="{tab: 'STRIPE'}"
-                  [ngbTooltip]="'STRIPE' | tr"
-                >
-                  <bi name="stripe" />
-                </a>
-                <a
                   class="btn btn-sm me-2 btn-outline-success text-body-emphasis"
                   stopPropagation
                   [routerLink]="'../' + organisation.id"

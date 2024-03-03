@@ -15,6 +15,9 @@ import {AppOrganisationEditFormComponent} from './organisation-edit-form.compone
 import {OrganisationEditSettingsComponent} from './organisation-edit-settings.component';
 import {OrganisationEditStripeComponent} from './organisation-edit-stripe/organisation-edit-stripe.component';
 import {OrganisationEditUsersComponent} from './organisation-edit-users/organisation-edit-users.component';
+import {OrganisationsSettingsService} from '../_services/organisations-settings.service';
+import {injectIdParam$} from '@home-shared/services/injectActivatedRouteIdParam';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   template: `
@@ -75,12 +78,14 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users/organisa
             </ng-template>
           </li>
 
-          <li *isEditing="entity" [ngbNavItem]="'STRIPE'" [destroyOnHide]="true">
-            <a ngbNavLink>{{ 'STRIPE' | tr }}</a>
-            <ng-template ngbNavContent>
-              <app-organisation-edit-stripe />
-            </ng-template>
-          </li>
+          @if (settingsState.settings()?.stripeEnabled) {
+            <li *isEditing="entity" [ngbNavItem]="'STRIPE'" [destroyOnHide]="true">
+              <a ngbNavLink>{{ 'STRIPE' | tr }}</a>
+              <ng-template ngbNavContent>
+                <app-organisation-edit-stripe />
+              </ng-template>
+            </li>
+          }
           <li *isEditing="entity" [ngbNavItem]="'SETTINGS'" [destroyOnHide]="true">
             <a ngbNavLink>{{ 'SETTINGS' | tr }}</a>
             <ng-template ngbNavContent>
@@ -119,7 +124,13 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<GetOrg
   myUser = inject(MyUserService).user;
   selectedOrganisationService = inject(SelectedOrganisationService);
 
+  settingsState = inject(OrganisationsSettingsService).state;
+
   constructor(private organisationsService: OrganisationsService) {
     super(organisationsService);
+
+    injectIdParam$()
+      .pipe(takeUntilDestroyed())
+      .subscribe((id) => void this.settingsState.load(id));
   }
 }

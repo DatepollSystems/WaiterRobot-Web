@@ -1,3 +1,5 @@
+/* eslint-disable */
+/* tslint:disable */
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -294,6 +296,14 @@ export interface OrganisationUserDto {
 
 export interface OrganisationSettingStringSetDto {
   value: string;
+}
+
+export interface OrganisationSettingsResponse {
+  activateWaiterOnLoginViaCreateToken: boolean;
+  timezone: string;
+  stripeEnabled: boolean;
+  /** @uniqueItems true */
+  availableTimezones: string[];
 }
 
 export interface OrganisationSettingBooleanSetDto {
@@ -1327,13 +1337,6 @@ export interface PaginatedResponseGetOrganisationResponse {
   /** @format int32 */
   numberOfPages: number;
   data: GetOrganisationResponse[];
-}
-
-export interface OrganisationSettingResponse {
-  activateWaiterOnLoginViaCreateToken: boolean;
-  /** @uniqueItems true */
-  availableTimezones: string[];
-  timezone: string;
 }
 
 export interface GetOrderMinResponse {

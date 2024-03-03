@@ -1,9 +1,16 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 
-import {OrganisationSettingResponse} from '@shared/waiterrobot-backend';
+import {OrganisationSettingsResponse} from '@shared/waiterrobot-backend';
 
-import {BehaviorSubject, map, Observable, switchMap} from 'rxjs';
+import {combineLatest, map, Observable, of, startWith, switchMap} from 'rxjs';
+import {signalSlice} from 'ngxtension/signal-slice';
+
+type OrganisationsSettingsState = {
+  organisationId: number | undefined;
+  state: 'LOADING' | 'SETTING' | 'DONE';
+  settings: OrganisationSettingsResponse | undefined;
+};
 
 @Injectable({
   providedIn: 'root',
@@ -11,15 +18,10 @@ import {BehaviorSubject, map, Observable, switchMap} from 'rxjs';
 export class OrganisationsSettingsService {
   #httpService = inject(HttpClient);
 
-  settingsChange = new BehaviorSubject(true);
-
-  getSettings$(organisationId: number): Observable<OrganisationSettingResponse> {
-    return this.settingsChange.pipe(
-      switchMap(() =>
-        this.#httpService.get<OrganisationSettingResponse>('/config/organisation/settings', {
-          params: {organisationId},
-        }),
-      ),
+  #getSettings$(organisationId: number): Observable<OrganisationSettingsResponse> {
+    return this.#httpService.get<OrganisationSettingsResponse>('/config/organisation/settings', {
+      params: {organisationId},
+    }).pipe(
       map((it) => {
         it.availableTimezones = it.availableTimezones.sort((a, b) => a.trim().toLowerCase().localeCompare(b.trim().toLowerCase()));
         return it;
@@ -27,19 +29,37 @@ export class OrganisationsSettingsService {
     );
   }
 
-  private set(organisationId: number, key: string, value: boolean | number | string): void {
-    this.#httpService.put(`/config/organisation/${organisationId}/setting/${key}`, {value}).subscribe({
-      next: () => {
-        this.settingsChange.next(true);
-      },
-    });
+  #set(organisationId: number, key: string, value: boolean | number | string): Observable<Partial<OrganisationsSettingsState>> {
+    return this.#httpService.put<OrganisationSettingsResponse>(`/config/organisation/${organisationId}/setting/${key}`, {value}).pipe(
+        map((settings) => ({state: 'DONE' as const, settings})),
+        startWith({state: 'SETTING' as const})
+      );
   }
 
-  public setActivateWaiterOnLoginViaCreateToken(organisationId: number, value: boolean): void {
-    this.set(organisationId, 'activateWaiterOnLoginViaCreateToken', value);
-  }
+  #initialState: OrganisationsSettingsState = {
+    organisationId: undefined,
+    state: 'LOADING',
+    settings: undefined
+  };
 
-  public setTimeZone(organisationId: number, value: string): void {
-    this.set(organisationId, 'timezone', value);
-  }
+  state = signalSlice({
+    initialState: this.#initialState,
+    actionSources: {
+      load: (_state, $: Observable<number>) => $.pipe(
+        switchMap((organisationId) => combineLatest([this.#getSettings$(organisationId), of(organisationId)])),
+        map(([settings, organisationId]) => (
+          {state: 'DONE', settings, organisationId}
+        )),
+      ),
+      setActivateWaiterOnLoginViaCreateToken: (_state, $: Observable<boolean>) => $.pipe(
+        switchMap((value) => this.#set(_state().organisationId!, 'activateWaiterOnLoginViaCreateToken', value)),
+      ),
+      setTimeZone: (_state, $: Observable<string>) => $.pipe(
+        switchMap((value) => this.#set(_state().organisationId!, 'timezone', value)),
+      ),
+      setStripeEnabled: (_state, $: Observable<boolean>) => $.pipe(
+        switchMap((value) => this.#set(_state().organisationId!, 'stripeEnabled', value)),
+      )
+    },
+  });
 }
