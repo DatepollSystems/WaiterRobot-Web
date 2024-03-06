@@ -39,7 +39,7 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
                 <b>{{ 'ABOUT_MAINTENANCE_1' | tr }}</b> {{ 'ABOUT_MAINTENANCE_2' | tr }}
                 <br />
                 Besuche
-                <a style="text-decoration: underline; color: #664d03" href="https://status.kellner.team" target="_blank" rel="noopener"
+                <a style="text-decoration: underline; color: #664d03" href="https://status.kellner.team" target="_blank" rel="noreferrer"
                   >status.kellner.team</a
                 >
                 für weitere Informationen!

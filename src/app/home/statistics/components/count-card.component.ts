@@ -1,5 +1,6 @@
 import {NumberInput} from '@angular/cdk/coercion';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {injectBlurSetting} from '@home-shared/services/blur-setting.service';
 
 @Component({
   template: `
@@ -8,7 +9,7 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
         <h4 class="mt-1">
           <ng-content />
         </h4>
-        <div class="heading text-center">
+        <div class="heading text-center" [class.unblur]="isBlurred()">
           @if (count === 0) {
             <span>0</span>
           } @else {
@@ -31,4 +32,6 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 })
 export class CountCardComponent {
   @Input() count: NumberInput;
+
+  isBlurred = injectBlurSetting().isBlurred;
 }

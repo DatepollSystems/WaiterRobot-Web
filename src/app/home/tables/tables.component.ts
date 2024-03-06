@@ -12,6 +12,7 @@ import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxArrayPluck} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {TablesService} from './_services/tables.service';
@@ -102,8 +103,9 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                   [ngbTooltip]="'HOME_TABLES_PUBLIC_ID' | tr"
                   [routerLink]="'/wl/t/' + table.publicId"
                   (click)="$event.stopPropagation()"
-                  ><bi name="box-arrow-up-right"
-                /></a>
+                >
+                  <bi name="box-arrow-up-right" />
+                </a>
               </div>
             </td>
           </ng-container>
@@ -114,8 +116,30 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
               @if (table.hasActiveOrders) {
                 <span class="badge text-bg-warning d-inline-flex align-items-center gap-2">
                   <bi name="exclamation-triangle-fill" />
-                  {{ 'HOME_TABLE_UNPAID_PRODUCTS' | tr }}</span
-                >
+                  {{ 'HOME_TABLE_UNPAID_PRODUCTS' | tr }}
+                </span>
+              } @else {
+                @if (table.missingNextTable && sort?.active === 'group') {
+                  <div class="position-relative">
+                    <div class="position-absolute" style="bottom: -25px; left: 0px">
+                      <a
+                        class="badge text-bg-danger d-inline-flex align-items-center gap-2"
+                        [routerLink]="'../create'"
+                        [queryParams]="{group: table.group.id, number: table.number + 1}"
+                        (click)="$event.stopPropagation()"
+                      >
+                        <bi name="exclamation-octagon-fill" />
+                        Unvollständige Reihenfolge
+                      </a>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                      <div>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      </div>
+                    </div>
+                  </div>
+                }
               }
             </td>
           </ng-container>
@@ -161,12 +185,24 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
           </ng-container>
 
           <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-          <tr *ngbRowDef="let table; columns: columnsToDisplay" ngb-row [routerLink]="'../' + table.id"></tr>
+          <tr
+            *ngbRowDef="let table; columns: columnsToDisplay"
+            ngb-row
+            [routerLink]="'../' + table.id"
+            [class.thick-bottom-border]="table.missingNextTable && sort?.active === 'group'"
+          ></tr>
         </table>
       </div>
 
       <app-progress-bar [show]="isLoading()" />
     </div>
+  `,
+  styles: `
+    .thick-bottom-border {
+      border-bottom: #8a3d3d;
+      border-bottom-style: dashed;
+      border-bottom-width: 2px;
+    }
   `,
   selector: 'app-all-tables',
   standalone: true,
@@ -183,6 +219,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
     ScrollableToolbarComponent,
     AppTextWithColorIndicatorComponent,
     AppProgressBarComponent,
+    DfxArrayPluck,
   ],
 })
 export class TablesComponent extends AbstractModelsWithNumberListWithDeleteComponent<GetTableWithGroupResponse> {

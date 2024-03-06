@@ -22,7 +22,7 @@ export interface appDownload {
   template: `
     @for (appLink of appDownloadLinks; track appLink.link) {
       <div class="btn-group m-1" role="group" aria-label="App download infos">
-        <a class="btn btn-outline-info" target="_blank" rel="noopener" [class.customLogo]="appLink.img" [href]="appLink.link">
+        <a class="btn btn-outline-info" target="_blank" rel="noreferrer" [class.customLogo]="appLink.img" [href]="appLink.link">
           @if (appLink.icon) {
             <bi [name]="appLink.icon" />
           }

@@ -12,7 +12,7 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
           <div class="d-flex flex-column flex-md-row justify-content-between">
             <div>
               <h3>
-                <a class="link-body-emphasis" href="https://kellner.team" rel="noopener" target="_blank">kellner.team</a>
+                <a class="link-body-emphasis" href="https://kellner.team" rel="noreferrer" target="_blank">kellner.team</a>
               </h3>
             </div>
             <div class="col-md-2">
@@ -20,19 +20,19 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
                 <li>
                   <app-about-modal />
                 </li>
-                <li>
-                  <label for="changeLanguage">{{ 'LANGUAGE' | tr }}</label>
-                  <div class="input-group">
-                    <select class="form-select" id="changeLanguage" [ngModel]="selected$ | async" (ngModelChange)="setLang($event)">
-                      <option value="de">{{ 'LANGUAGE_GERMAN' | tr }}</option>
-                      <option value="en">{{ 'LANGUAGE_ENGLISH' | tr }}</option>
-                      <option value="es">{{ 'LANGUAGE_SPANISH' | tr }}</option>
-                      <option value="fr">{{ 'LANGUAGE_FRANCE' | tr }}</option>
-                      <option value="it">{{ 'LANGUAGE_ITALIEN' | tr }}</option>
-                      <option value="pt">{{ 'LANGUAGE_PORTUGUES' | tr }}</option>
-                    </select>
-                  </div>
-                </li>
+                <!--                <li>-->
+                <!--                  <label for="changeLanguage">{{ 'LANGUAGE' | tr }}</label>-->
+                <!--                  <div class="input-group">-->
+                <!--                    <select class="form-select" id="changeLanguage" [ngModel]="selected$ | async" (ngModelChange)="setLang($event)">-->
+                <!--                      <option value="de">{{ 'LANGUAGE_GERMAN' | tr }}</option>-->
+                <!--                      <option value="en">{{ 'LANGUAGE_ENGLISH' | tr }}</option>-->
+                <!--                      <option value="es">{{ 'LANGUAGE_SPANISH' | tr }}</option>-->
+                <!--                      <option value="fr">{{ 'LANGUAGE_FRANCE' | tr }}</option>-->
+                <!--                      <option value="it">{{ 'LANGUAGE_ITALIEN' | tr }}</option>-->
+                <!--                      <option value="pt">{{ 'LANGUAGE_PORTUGUES' | tr }}</option>-->
+                <!--                    </select>-->
+                <!--                  </div>-->
+                <!--                </li>-->
               </ul>
             </div>
           </div>

@@ -147,6 +147,14 @@ export class TableEditFormComponent extends AbstractModelEditFormComponent<Creat
   }
 
   @Input()
+  set number(it: number | undefined) {
+    if (it) {
+      this.lumber.log('setNumber', 'set', it);
+      this.form.controls.number.setValue(it);
+    }
+  }
+
+  @Input()
   set selectedTableGroupId(id: number | undefined | null) {
     if (id) {
       this.lumber.log('selectedTableGroupId', 'set selected group', id);

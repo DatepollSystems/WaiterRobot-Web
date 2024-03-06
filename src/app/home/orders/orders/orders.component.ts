@@ -118,7 +118,7 @@ export class OrdersComponent implements AfterViewInit {
     {initialValue: []},
   );
 
-  tables = toSignal(inject(TablesService).getAll$(), {initialValue: []});
+  tables = toSignal(inject(TablesService).getAllWithoutExtra$(), {initialValue: []});
   tableGroups = toSignal(inject(TableGroupsService).getAll$(), {initialValue: []});
   products = toSignal(inject(ProductsService).getAll$(), {initialValue: []});
   productGroups = toSignal(inject(ProductGroupsService).getAll$(), {initialValue: []});

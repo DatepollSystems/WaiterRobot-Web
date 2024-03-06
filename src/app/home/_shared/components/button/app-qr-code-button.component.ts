@@ -13,7 +13,7 @@ import {QrCodeService} from '../../services/qr-code.service';
   template: `
     <ng-template #popContent>
       <p>{{ info | tr }}</p>
-      <a target="_blank" rel="noopener" [href]="data">{{ data | s_cut: 82 : '...' }}</a>
+      <a target="_blank" rel="noreferrer" [href]="data">{{ data | s_cut: 82 : '...' }}</a>
     </ng-template>
     <ng-template #popTitle>
       <b>{{ text | tr }}</b>

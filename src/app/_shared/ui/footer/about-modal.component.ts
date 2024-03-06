@@ -13,7 +13,7 @@ import {EnvironmentHelper} from '../../EnvironmentHelper';
 @Component({
   template: `
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-link" (click)="open(content)">{{ 'ABOUT' | tr }}</button>
+    <button type="button" class="btn" (click)="open(content)">{{ 'ABOUT' | tr }}</button>
 
     <ng-template #content let-modal>
       <div class="modal-header">
@@ -50,7 +50,7 @@ import {EnvironmentHelper} from '../../EnvironmentHelper';
               @if (licenses$ | async; as licenses) {
                 <div class="list-group">
                   @for (license of licenses; track license.name) {
-                    <a class="list-group-item list-group-item-action" rel="noopener" target="_blank" [href]="license.link">
+                    <a class="list-group-item list-group-item-action" rel="noreferrer" target="_blank" [href]="license.link">
                       <div class="d-flex w-100 justify-content-between">
                         <h6 class="mb-1">{{ license.name }}</h6>
                         <small>{{ license.licenseType }}</small>

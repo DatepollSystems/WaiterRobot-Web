@@ -15,9 +15,9 @@ import {DfxTr} from 'dfx-translate';
     <h3 class="mt-4">Contact / Kontakt <br /></h3>
 
     <ul>
-      <li><a href="mailto:contact@kaulex.dev">contact&#64;kaulex.dev</a></li>
+      <li><a href="mailto:contact@kaulex.dev" rel="noreferrer">contact&#64;kaulex.dev</a></li>
       <li>
-        <a href="mailto:contact@dafnik.me">contact&#64;dafnik.me</a>
+        <a href="mailto:contact@dafnik.me" rel="noreferrer">contact&#64;dafnik.me</a>
       </li>
     </ul>
   `,

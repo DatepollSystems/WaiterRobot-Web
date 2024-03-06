@@ -31,7 +31,7 @@ import {QrCodeService} from './_shared/services/qr-code.service';
               <p id="info-text" class="card-text">{{ data.info | tr }}</p>
             }
 
-            <a target="_blank" rel="noopener" [href]="data.data" [ngbTooltip]="data.data">{{ data.data | s_cut: 82 : '...' }}</a>
+            <a target="_blank" rel="noreferrer" [href]="data.data" [ngbTooltip]="data.data">{{ data.data | s_cut: 82 : '...' }}</a>
           </div>
           <div class="card-footer text-muted">
             <scrollable-toolbar>

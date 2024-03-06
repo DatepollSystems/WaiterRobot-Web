@@ -16,6 +16,7 @@ import {AppBackButtonComponent} from '../_shared/components/button/app-back-butt
 import {AppDatetimeInputComponent} from '../_shared/components/datetime-picker/datetime-picker.component';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {EntitiesLayout} from '../_shared/layouts/entities.layout';
+import {BlurToggleComponent} from './blur-toggle.component';
 import {CountCardComponent} from './components/count-card.component';
 import {SumProductGroupsComponent} from './components/sum-product-groups.component';
 import {SumProductsPerWaiterComponent} from './components/sum-products-per-waiter.component';
@@ -49,6 +50,7 @@ const routes: Routes = [
     AppSpinnerRowComponent,
     BarChartModule,
     BiComponent,
+    BlurToggleComponent,
     CommonModule,
     DfxCountUp,
     DfxPaginationModule,

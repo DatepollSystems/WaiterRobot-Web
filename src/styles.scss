@@ -14,7 +14,7 @@ a:hover {
 }
 
 /* Fix vertical text alignment in buttons with icons */
-bi > svg {
+bi > bi > svg {
   vertical-align: -0.125em;
 }
 
@@ -25,6 +25,20 @@ bi > svg {
 
 a.btn > img {
   vertical-align: -0.15em;
+}
+
+.unblur {
+  font-size: 2.8rem;
+
+  transition: 0.25s filter linear;
+  -webkit-transition: 0.25s filter linear;
+  -moz-transition: 0.25s filter linear;
+  -o-transition: 0.25s filter linear;
+  filter: blur(12px);
+}
+
+.unblur:hover {
+  filter: blur(0);
 }
 
 .color-picker-class > .popover-body {

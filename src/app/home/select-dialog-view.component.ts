@@ -84,7 +84,7 @@ export class AppSelectDialogComponent {
             (selectEvent)="selectEvent($event.id)"
             (selectOrganisation)="selectedOrganisationService.setSelected($event.id)"
           />
-          <a class="btn btn-sm btn-outline-warning mt-3" href="/">Zurück zur Startseite</a>
+          <a class="btn btn-sm btn-outline-warning mt-3" routerLink="/">Zurück zur Startseite</a>
         } @loading (minimum 450) {
           <app-spinner-row />
         }

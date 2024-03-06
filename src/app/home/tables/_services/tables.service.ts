@@ -1,13 +1,12 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 
-import {BehaviorSubject, combineLatest, map, Observable, switchMap, tap} from 'rxjs';
-
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
 import {
   CreateTableDto,
   GetTableGroupResponse,
   GetTableIdsWithActiveOrdersResponse,
+  GetTableWithGroupMinResponse,
   GetTableWithGroupResponse,
   IdResponse,
   UpdateTableDto,
@@ -15,6 +14,8 @@ import {
 
 import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from 'dfx-helper';
+
+import {BehaviorSubject, combineLatest, map, Observable, switchMap, tap} from 'rxjs';
 
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 
@@ -35,6 +36,19 @@ export class TablesService
 
   triggerGet$ = new BehaviorSubject(true);
 
+  #isNextTableMissing(table: GetTableWithGroupResponse, index: number, tables: GetTableWithGroupResponse[]): boolean {
+    const nextTable = tables.at(index + 1);
+    return !!nextTable && table.group.id === nextTable.group.id && table.number + 1 !== nextTable.number;
+  }
+
+  #sortByGroupIdAndNumber(a: GetTableWithGroupResponse, b: GetTableWithGroupMinResponse) {
+    if (a.group.id !== b.group.id) {
+      return a.group.id - b.group.id;
+    }
+
+    return a.number - b.number;
+  }
+
   getAll$(): Observable<GetTableWithGroupResponse[]> {
     return this.triggerGet$.pipe(
       switchMap(() => this.selectedEventService.selectedIdNotNull$),
@@ -45,8 +59,19 @@ export class TablesService
         ]),
       ),
       map(([tables, tableIdsWithActiveOrders]) =>
-        tables.map((table) => ({...table, hasActiveOrders: tableIdsWithActiveOrders.tableIds.includes(table.id)})),
+        tables.sort(this.#sortByGroupIdAndNumber).map((table, index) => ({
+          ...table,
+          hasActiveOrders: tableIdsWithActiveOrders.tableIds.includes(table.id),
+          missingNextTable: this.#isNextTableMissing(table, index, tables),
+        })),
       ),
+    );
+  }
+
+  getAllWithoutExtra$(): Observable<GetTableWithGroupResponse[]> {
+    return this.triggerGet$.pipe(
+      switchMap(() => this.selectedEventService.selectedIdNotNull$),
+      switchMap((eventId) => this.httpClient.get<GetTableWithGroupResponse[]>(this.url, {params: {eventId}})),
     );
   }
 
@@ -60,7 +85,11 @@ export class TablesService
         ]),
       ),
       map(([tables, tableIdsWithActiveOrders]) =>
-        tables.map((table) => ({...table, hasActiveOrders: tableIdsWithActiveOrders.tableIds.includes(table.id)})),
+        tables.map((table, index) => ({
+          ...table,
+          hasActiveOrders: tableIdsWithActiveOrders.tableIds.includes(table.id),
+          missingNextTable: this.#isNextTableMissing(table, index, tables),
+        })),
       ),
     );
   }

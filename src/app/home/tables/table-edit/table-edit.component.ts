@@ -14,7 +14,7 @@ import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
 import {n_from, n_isNumeric} from 'dfts-helper';
 
-import {filter, map} from 'rxjs';
+import {filter, map, shareReplay} from 'rxjs';
 
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {TableGroupsService} from '../_services/table-groups.service';
@@ -82,6 +82,7 @@ import {TableEditFormComponent} from './table-edit-form.component';
           [selectedEventId]="selectedEventId()!"
           [selectedTableGroupId]="selectedTableGroupId()"
           [table]="entity"
+          [number]="selectedNumber()"
           [formDisabled]="(tableGroups()?.length ?? 1) < 1 || (entity !== 'CREATE' && !!entity.deleted)"
           (submitUpdate)="onSubmit('UPDATE', $event)"
           (submitCreate)="onSubmit('CREATE', $event)"
@@ -120,9 +121,20 @@ export class TableEditComponent extends AbstractModelEditComponent<GetTableWithG
   ml = inject(MobileLinkService);
   selectedEventId = inject(SelectedEventService).selectedId;
   tableGroups = toSignal(inject(TableGroupsService).getAll$());
+
+  queryParams = this.route.queryParams.pipe(shareReplay());
+
   selectedTableGroupId = toSignal(
-    this.route.queryParams.pipe(
+    this.queryParams.pipe(
       map((params) => params.group as string),
+      filter(n_isNumeric),
+      map((id) => n_from(id)),
+    ),
+  );
+
+  selectedNumber = toSignal(
+    this.queryParams.pipe(
+      map((params) => params.number as string),
       filter(n_isNumeric),
       map((id) => n_from(id)),
     ),
