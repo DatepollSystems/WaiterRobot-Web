@@ -1,20 +1,20 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 @Component({
   template: `
-    <span class="badge text-bg-warning d-flex align-items-center gap-2" [ngbTooltip]="'HOME_ORDER_TEST_DESCRIPTION' | tr">
-      {{ 'HOME_ORDER_TEST' | tr }}
+    <span class="badge text-bg-warning d-flex align-items-center gap-2" [ngbTooltip]="'HOME_ORDER_TEST_DESCRIPTION' | transloco">
+      {{ 'HOME_ORDER_TEST' | transloco }}
       <bi name="terminal-fill" />
     </span>
   `,
   standalone: true,
   selector: 'app-test-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BiComponent, DfxTr, NgbTooltip],
+  imports: [BiComponent, TranslocoPipe, NgbTooltip],
 })
 export class AppTestBadge {}

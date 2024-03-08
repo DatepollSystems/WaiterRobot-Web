@@ -1,36 +1,36 @@
 import {NgOptimizedImage} from '@angular/common';
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 
-import {NgbModal, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {QrCodeService} from '@home-shared/services/qr-code.service';
+
+import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {a_shuffle} from 'dfts-helper';
 import {BiComponent, BiName, BiNamesEnum} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
-
-import {QrCodeService} from '../../home/_shared/services/qr-code.service';
 import {CopyDirective} from './copy.directive';
 
-export type appDownload = {
+export interface appDownload {
   text: string;
   link: string;
   icon?: BiName;
   img?: string;
   img2?: string;
-};
+}
 
 @Component({
   template: `
     @for (appLink of appDownloadLinks; track appLink.link) {
       <div class="btn-group m-1" role="group" aria-label="App download infos">
-        <a class="btn btn-outline-info" [class.customLogo]="appLink.img" target="_blank" rel="noopener" href="{{ appLink.link }}">
+        <a class="btn btn-outline-info" target="_blank" rel="noreferrer" [class.customLogo]="appLink.img" [href]="appLink.link">
           @if (appLink.icon) {
             <bi [name]="appLink.icon" />
           }
           @if (appLink.img) {
-            <img ngSrc="{{ appLink.img }}" alt="" height="16em;" width="16em;" />
+            <img alt="" height="16em;" width="16em;" [ngSrc]="appLink.img" />
           }
           @if (appLink.img2) {
-            <img ngSrc="{{ appLink.img2 }}" alt="" height="16em;" width="16em;" />
+            <img alt="" height="16em;" width="16em;" [ngSrc]="appLink.img2" />
           }
           {{ appLink.text }}
         </a>
@@ -39,27 +39,27 @@ export type appDownload = {
           <button
             type="button"
             class="btn btn-outline-info"
-            (click)="showQRCode(appLink)"
             placement="top"
-            attr.aria-label="{{ 'ABOUT_APP_QR_CODE_TOOLTIP' | tr }}"
-            ngbTooltip="{{ 'ABOUT_APP_QR_CODE_TOOLTIP' | tr }}"
+            [attr.aria-label]="'ABOUT_APP_QR_CODE_TOOLTIP' | transloco"
+            [ngbTooltip]="'ABOUT_APP_QR_CODE_TOOLTIP' | transloco"
+            (click)="showQRCode(appLink)"
           >
             <bi name="upc-scan" />
           </button>
         }
 
         <button
+          #c="copy"
+          #t="ngbTooltip"
           type="button"
           class="btn btn-outline-info"
-          (click)="c.copy(t)"
           aria-label="Copy app link"
-          [copyable]="appLink.link"
-          #c="copy"
-          ngbTooltip="{{ 'COPIED' | tr }}"
-          #t="ngbTooltip"
           autoClose="false"
           triggers="manual"
           placement="bottom"
+          [copyable]="appLink.link"
+          [ngbTooltip]="'COPIED' | transloco"
+          (click)="c.copy(t)"
         >
           <bi name="clipboard" />
         </button>
@@ -84,7 +84,7 @@ export type appDownload = {
   selector: 'app-download-btn-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgbTooltipModule, BiComponent, CopyDirective, NgOptimizedImage, DfxTr],
+  imports: [NgbTooltipModule, BiComponent, CopyDirective, NgOptimizedImage, TranslocoPipe],
 })
 export class AppDownloadBtnListComponent {
   appDownloadLinks: appDownload[] = a_shuffle([
@@ -114,12 +114,9 @@ export class AppDownloadBtnListComponent {
 
   @Input() showQRCodeButton = true;
 
-  constructor(
-    private modal: NgbModal,
-    private qrCodeService: QrCodeService,
-  ) {}
+  #qrCodeService = inject(QrCodeService);
 
   showQRCode(appLink: appDownload): void {
-    this.qrCodeService.openQRCodePage({data: appLink.link, text: 'ABOUT_APP_QR_CODE_MODAL_TITLE', info: ''});
+    this.#qrCodeService.openQRCodePage({data: appLink.link, text: 'ABOUT_APP_QR_CODE_MODAL_TITLE', info: ''});
   }
 }

@@ -11,23 +11,9 @@ export function errorInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn)
   return next(req).pipe(
     catchError((error: {status: number}) => {
       // Rate limit exceeded
-      if (error?.status === 429) {
+      if (error.status === 429) {
         notificationService.terror('ABOUT_SIGNIN_FAILED_RATE_LIMIT');
-        return throwError(() => error);
       }
-      if (
-        error?.status === 401 ||
-        error?.status === 403 ||
-        error?.status === 500 ||
-        error?.status === 502 ||
-        error?.status === 503 ||
-        error?.status === 504 ||
-        error?.status === 404 ||
-        error?.status === 0
-      ) {
-        return throwError(() => error);
-      }
-      notificationService.terror('REQUEST_ERROR');
       return throwError(() => error);
     }),
   );

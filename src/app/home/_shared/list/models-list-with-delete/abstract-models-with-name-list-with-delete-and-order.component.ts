@@ -1,10 +1,10 @@
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {Component, Inject, signal} from '@angular/core';
 
+import {HasOrdered} from '@shared/services/services.interface';
+
 import {HasIDAndName} from 'dfts-helper';
 import {HasDelete, HasGetAll} from 'dfx-helper';
-
-import {HasOrdered} from '../../../../_shared/services/services.interface';
 import {AbstractModelsWithNameListWithDeleteComponent} from './abstract-models-with-name-list-with-delete.component';
 
 export const AbstractModelsWithNameListWithDeleteAndOrderStyle = `
@@ -41,6 +41,7 @@ export const AbstractModelsWithNameListWithDeleteAndOrderStyle = `
   `;
 
 @Component({
+  standalone: true,
   template: '',
   selector: 'abstract-models-with-name-list-with-delete-and-order',
 })

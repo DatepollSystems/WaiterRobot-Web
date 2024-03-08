@@ -1,9 +1,9 @@
 import {booleanAttribute, ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 import {OrdersService} from '../orders.service';
 
@@ -11,11 +11,11 @@ import {OrdersService} from '../orders.service';
   template: `
     <button
       type="button"
-      [class.spinner]="loading"
       class="btn btn-outline-secondary d-flex align-items-center gap-2"
-      (click)="ordersService.triggerRefresh.next(true)"
-      ngbTooltip="{{ 'HOME_ORDER_REFRESH_NOW' | tr }}"
       placement="left"
+      [class.btnSpinner]="loading"
+      [ngbTooltip]="'HOME_ORDER_REFRESH_NOW' | transloco"
+      (click)="ordersService.triggerRefresh.next(true)"
     >
       <bi name="arrow-clockwise" />
       @if (countdown) {
@@ -25,7 +25,7 @@ import {OrdersService} from '../orders.service';
   `,
   standalone: true,
   selector: 'app-order-refresh-btn',
-  imports: [DfxTr, NgbTooltip, BiComponent],
+  imports: [TranslocoPipe, NgbTooltip, BiComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrderRefreshButtonComponent {

@@ -3,10 +3,10 @@ import {RouterOutlet} from '@angular/router';
 
 import {NgbDropdown, NgbDropdownButtonItem, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 
-import {BiComponent} from 'dfx-bootstrap-icons';
+import {ThemeService} from '@shared/services/theme.service';
+import {FooterModule} from '@shared/ui/footer/footer.module';
 
-import {ThemeService} from '../_shared/services/theme.service';
-import {FooterModule} from '../_shared/ui/footer/footer.module';
+import {BiComponent} from 'dfx-bootstrap-icons';
 import {AppLogoWithTextComponent} from './_shared/app-logo-with-text.component';
 
 @Component({
@@ -29,6 +29,7 @@ import {AppLogoWithTextComponent} from './_shared/app-logo-with-text.component';
         <div ngbDropdownMenu aria-labelledby="themeDropdown" class="p-1">
           @for (theme of themeService.themes; track theme.id) {
             <button
+              type="button"
               ngbDropdownItem
               class="rounded-1 mt-1"
               [class.active]="theme.id === themeService.selectedTheme().id"

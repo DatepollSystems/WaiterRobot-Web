@@ -52,6 +52,7 @@
   "UNKNOWN": "Unbekannt",
   "UNSAVED_DATA": "Ungespeicherte Daten gefunden!",
   "OPEN": "Öffnen",
+  "OPEN_2": " öffnen",
   "TITLE": "Titel",
   "TYPE": "Typ",
   "STARTS": "Startet",
@@ -64,6 +65,7 @@
   "DELETED": "(gelöscht)",
   "PRICE": "Preis",
   "PRICE_PER_PIECE": "Preis / Stk.",
+  "SUCCESSFUL_ACTION": "Aktion erfolgreich.",
 
   "ORDER_MODE_SWITCH": "Anordnen",
   "COLOR_PICKER": "Farbe auswählen",
@@ -76,6 +78,11 @@
 
   "404": "Nicht gefunden",
   "404_TITLE": "Was du auch immer gesucht hast, wir haben es leider nicht gefunden.",
+
+  "STRIPE": "Stripe",
+  "STRIPE_ACCOUNT": "Stripe-Account",
+  "STRIPE_ACCOUNT_EMPTY": "Keine Stripe-Accounts vorhanden.",
+  "STRIPE_ACCOUNT_BALANCE_NOT_EMPTY": "Stripe-Account hat noch Einlagen.",
 
   "ABOUT": "Über",
   "ABOUT_SIGNIN": "Anmelden",
@@ -214,7 +221,6 @@
   "HOME_PROD": "Produkt",
   "HOME_PROD_SELECT": "Produkt(e)",
   "HOME_PROD_SELECT_INFO": "Wähle zuerst mindestens ein Produkt aus",
-  "HOME_PROD_GO_TO_GROUP": "Produktgruppe öffnen",
   "HOME_PROD_GROUP": "Produktgruppe",
   "HOME_PROD_GROUPS": "Produktgruppen",
   "HOME_PROD_GROUP_SELECT": "Produktgruppe auswählen",
@@ -261,7 +267,6 @@
   "HOME_TABLE": "Tisch",
   "HOME_TABLE_SELECT_REQUIRED": "Wähle zuerst mindestens einen Tisch aus",
   "HOME_TABLE_GROUP_SELECT_INFO": "Wähle zuerst mindestens eine Tischgruppe aus",
-  "HOME_TABLE_GO_TO_GROUP": "Tischgruppe öffnen",
   "HOME_TABLE_SELECT": "Tisch(e)",
   "HOME_TABLES_GROUPS_SELECT": "Tischgruppe auswählen",
   "HOME_TABLES_PUBLIC_ID": "Öffentlicher Link",

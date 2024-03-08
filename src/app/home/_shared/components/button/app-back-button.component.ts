@@ -1,9 +1,9 @@
 import {Location} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Directive, HostListener, inject, Input} from '@angular/core';
 import {Router} from '@angular/router';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {WINDOW} from 'dfx-helper';
-import {DfxTr} from 'dfx-translate';
 
 @Directive({
   selector: '[back]',
@@ -21,7 +21,7 @@ export class AppBackDirective {
   goBack(): void {
     if (this.window) {
       if (this.closeOnNoHistory && this.window.history.length < 2) {
-        this.window?.close();
+        this.window.close();
       } else {
         this.location.back();
       }
@@ -34,12 +34,12 @@ export class AppBackDirective {
 @Component({
   template: `
     <div>
-      <button class="btn btn-sm btn-dark text-white" back>{{ 'GO_BACK' | tr }}</button>
+      <button type="button" class="btn btn-sm btn-dark text-white" back>{{ 'GO_BACK' | transloco }}</button>
     </div>
   `,
   selector: 'back-button',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DfxTr, AppBackDirective],
+  imports: [TranslocoPipe, AppBackDirective],
 })
 export class AppBackButtonComponent {}

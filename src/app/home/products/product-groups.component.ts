@@ -5,14 +5,14 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
+
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+import {GetProductGroupResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {NgSub} from 'dfx-helper';
-import {DfxTr} from 'dfx-translate';
-
-import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
-import {GetProductGroupResponse} from '../../_shared/waiterrobot-backend';
 import {AppTextWithColorIndicatorComponent} from '../_shared/components/color/app-text-with-color-indicator.component';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {AppOrderModeSwitchComponent} from '../_shared/form/app-order-mode-switch.component';
@@ -25,19 +25,19 @@ import {ProductGroupsService} from './_services/product-groups.service';
 @Component({
   template: `
     <div class="d-flex flex-column gap-3">
-      <h1 class="my-0">{{ 'HOME_PROD_GROUPS' | tr }}</h1>
+      <h1 class="my-0">{{ 'HOME_PROD_GROUPS' | transloco }}</h1>
 
       <scrollable-toolbar>
         <div>
           <a routerLink="../create" class="btn btn-sm btn-success">
             <bi name="plus-circle" />
-            {{ 'ADD_2' | tr }}</a
+            {{ 'ADD_2' | transloco }}</a
           >
         </div>
-        <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_PROD_SELECT_INFO' | tr) : undefined }}">
-          <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+        <div [ngbTooltip]="!selection.hasValue() ? ('HOME_PROD_SELECT_INFO' | transloco) : undefined">
+          <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
             <bi name="trash" />
-            {{ 'DELETE' | tr }}
+            {{ 'DELETE' | transloco }}
           </button>
         </div>
         <div class="d-flex align-items-center">
@@ -47,13 +47,13 @@ import {ProductGroupsService} from './_services/product-groups.service';
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
           @if ((filter.value?.length ?? 0) > 0) {
             <button
               class="btn btn-outline-secondary"
               type="button"
-              ngbTooltip="{{ 'CLEAR' | tr }}"
               placement="bottom"
+              [ngbTooltip]="'CLEAR' | transloco"
               (click)="filter.reset()"
             >
               <bi name="x-circle-fill" />
@@ -64,19 +64,19 @@ import {ProductGroupsService} from './_services/product-groups.service';
 
       <div class="table-responsive">
         <table
-          ngb-table
-          [hover]="true"
           *ngSub="dataSource$; let dataSource"
-          [dataSource]="dataSource ?? []"
+          ngb-table
           ngb-sort
           ngbSortActive="name"
           ngbSortDirection="asc"
-          [ngbSortDisabled]="orderMode()"
           cdkDropList
           cdkDropListLockAxis="y"
-          (cdkDropListDropped)="drop($event)"
+          [hover]="true"
+          [dataSource]="dataSource ?? []"
+          [ngbSortDisabled]="orderMode()"
           [cdkDropListData]="dataSource"
           [cdkDropListDisabled]="!orderMode()"
+          (cdkDropListDropped)="drop($event)"
         >
           <ng-container ngbColumnDef="select">
             <th *ngbHeaderCellDef ngb-header-cell>
@@ -86,15 +86,15 @@ import {ProductGroupsService} from './_services/product-groups.service';
                     class="form-check-input"
                     type="checkbox"
                     name="checked"
-                    (change)="$event ? toggleAllRows() : null"
                     [checked]="selection.hasValue() && isAllSelected()"
+                    (change)="$event ? toggleAllRows() : null"
                   />
                 </div>
               }
             </th>
             <td *ngbCellDef="let selectable" ngb-cell (click)="$event.stopPropagation()">
               @if (orderMode()) {
-                <button class="btn btn-sm btn-outline-primary text-body-emphasis" cdkDragHandle>
+                <button type="button" class="btn btn-sm btn-outline-primary text-body-emphasis" cdkDragHandle>
                   <bi name="grip-vertical" />
                 </button>
               }
@@ -104,8 +104,8 @@ import {ProductGroupsService} from './_services/product-groups.service';
                     class="form-check-input"
                     type="checkbox"
                     name="checked"
-                    (change)="$event ? selection.toggle(selectable) : null"
                     [checked]="selection.isSelected(selectable)"
+                    (change)="$event ? selection.toggle(selectable) : null"
                   />
                 </div>
               }
@@ -113,7 +113,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
           </ng-container>
 
           <ng-container ngbColumnDef="name">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
             <td *ngbCellDef="let productGroup" ngb-cell>
               <app-text-with-color-indicator [color]="productGroup.color">
                 {{ productGroup.name }}
@@ -122,12 +122,12 @@ import {ProductGroupsService} from './_services/product-groups.service';
           </ng-container>
 
           <ng-container ngbColumnDef="actions">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
             <td *ngbCellDef="let productGroup" ngb-cell>
               <a
                 class="btn btn-sm mx-1 btn-outline-success text-body-emphasis"
-                routerLink="../{{ productGroup.id }}"
-                ngbTooltip="{{ 'EDIT' | tr }}"
+                [routerLink]="'../' + productGroup.id"
+                [ngbTooltip]="'EDIT' | transloco"
               >
                 <bi name="pencil-square" />
               </a>
@@ -135,7 +135,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
                 class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
                 routerLink="../../../orders"
                 [queryParams]="{productGroupIds: productGroup.id}"
-                ngbTooltip="{{ 'NAV_ORDERS' | tr }}"
+                [ngbTooltip]="'NAV_ORDERS' | transloco"
                 (click)="$event.stopPropagation()"
               >
                 <bi name="stack" />
@@ -144,7 +144,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
                 class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
                 routerLink="../../../bills"
                 [queryParams]="{productGroupIds: productGroup.id}"
-                ngbTooltip="{{ 'NAV_BILLS' | tr }}"
+                [ngbTooltip]="'NAV_BILLS' | transloco"
                 (click)="$event.stopPropagation()"
               >
                 <bi name="cash-coin" />
@@ -152,7 +152,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
               <button
                 type="button"
                 class="btn btn-sm mx-1 btn-outline-danger text-body-emphasis"
-                ngbTooltip="{{ 'DELETE' | tr }}"
+                [ngbTooltip]="'DELETE' | transloco"
                 (click)="onDelete(productGroup.id, $event)"
               >
                 <bi name="trash" />
@@ -166,12 +166,12 @@ import {ProductGroupsService} from './_services/product-groups.service';
             ngb-row
             cdkDrag
             [cdkDragData]="productGroup"
-            routerLink="../{{ productGroup.id }}"
+            [routerLink]="'../' + productGroup.id"
           ></tr>
         </table>
       </div>
 
-      <app-progress-bar [hidden]="!isLoading()" />
+      <app-progress-bar [show]="isLoading()" />
     </div>
   `,
   styles: [AbstractModelsWithNameListWithDeleteAndOrderStyle],
@@ -186,7 +186,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
     CdkDrag,
     CdkDragHandle,
     NgSub,
-    DfxTr,
+    TranslocoPipe,
     DfxTableModule,
     DfxSortModule,
     NgbTooltip,

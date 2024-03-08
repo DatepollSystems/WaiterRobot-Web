@@ -8,7 +8,7 @@ import {map} from 'rxjs';
 import {n_from} from 'dfts-helper';
 import {SortDirection} from 'dfx-bootstrap-table';
 
-export type PageableDto = {
+export interface PageableDto {
   /**
    * @format int32
    * @min 0
@@ -21,7 +21,7 @@ export type PageableDto = {
   size?: number;
   sort?: string;
   query?: string;
-};
+}
 
 export function getPaginationParams(options: PageableDto): HttpParams {
   let params = new HttpParams();

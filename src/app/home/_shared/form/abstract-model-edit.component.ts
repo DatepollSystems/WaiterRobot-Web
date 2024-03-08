@@ -10,6 +10,7 @@ import {HasGetSingle} from 'dfx-helper';
 import {AbstractModelEditFormComponent} from './abstract-model-edit-form.component';
 
 @Component({
+  standalone: true,
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

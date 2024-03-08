@@ -1,10 +1,9 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
+
+import {OrganisationUserDto, OrganisationUserResponse} from '@shared/waiterrobot-backend';
 
 import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
-
-import {OrganisationUserDto, OrganisationUserResponse} from '../../../_shared/waiterrobot-backend';
-import {EventsService} from '../../events/_services/events.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,22 +11,27 @@ import {EventsService} from '../../events/_services/events.service';
 export class OrganisationsUsersService {
   url = '/config/organisation/users';
 
-  constructor(
-    private httpClient: HttpClient,
-    private eventsService: EventsService,
-  ) {}
+  #httpClient = inject(HttpClient);
 
   triggerGet$ = new BehaviorSubject(true);
 
   getByOrganisationId$(organisationId: number): Observable<OrganisationUserResponse[]> {
-    return this.triggerGet$.pipe(switchMap(() => this.httpClient.get<OrganisationUserResponse[]>(this.url, {params: {organisationId}})));
+    return this.triggerGet$.pipe(switchMap(() => this.#httpClient.get<OrganisationUserResponse[]>(this.url, {params: {organisationId}})));
   }
 
   delete$(organisationId: number, uEmail: string): Observable<unknown> {
-    return this.httpClient.delete(`/config/organisation/${organisationId}/user/${uEmail}`).pipe(tap(() => this.triggerGet$.next(true)));
+    return this.#httpClient.delete(`/config/organisation/${organisationId}/user/${uEmail}`).pipe(
+      tap(() => {
+        this.triggerGet$.next(true);
+      }),
+    );
   }
 
   create$(organisationId: number, uEmail: string, dto: OrganisationUserDto): Observable<unknown> {
-    return this.httpClient.put(`/config/organisation/${organisationId}/user/${uEmail}`, dto).pipe(tap(() => this.triggerGet$.next(true)));
+    return this.#httpClient.put(`/config/organisation/${organisationId}/user/${uEmail}`, dto).pipe(
+      tap(() => {
+        this.triggerGet$.next(true);
+      }),
+    );
   }
 }

@@ -5,10 +5,10 @@ import {FormsModule} from '@angular/forms';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 
 import {NgbModal, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {s_fromStorage, st_remove, st_set} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTranslateModule} from 'dfx-translate';
 
 import {FullScreenService} from '../../services/fullscreen.service';
 import {ScrollableToolbarComponent} from '../scrollable-toolbar.component';
@@ -20,12 +20,12 @@ import {ScrollableToolbarComponent} from '../scrollable-toolbar.component';
     RouterLink,
     RouterLinkActive,
     DragDropModule,
-    DfxTranslateModule,
     BiComponent,
     NgbTooltipModule,
     ScrollableToolbarComponent,
     FormsModule,
     AsyncPipe,
+    TranslocoPipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app-navbar-scrollable.component.html',
@@ -47,7 +47,7 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
     if (this._savedItems) {
       this._savedItems = this._savedItems.filter((it) => {
         for (const newItem of this._items) {
-          if (it.bookmark || newItem.text === it.text) {
+          if (it.bookmark ?? newItem.text === it.text) {
             return true;
           }
         }
@@ -71,7 +71,7 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
   _savedItems?: NavItem[];
 
   @Output()
-  savedPreferencesChange = new EventEmitter<NavItem[]>();
+  readonly savedPreferencesChange = new EventEmitter<NavItem[]>();
 
   editMode = false;
   showEditArrow = false;
@@ -166,7 +166,7 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
   }
 
   openModal(content: TemplateRef<unknown>): void {
-    void this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result?.then((result) => {
+    void this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       if (result) {
         this._itemsCopy.push({text: result as string, routerLink: this.router.url, show: true, bookmark: true});
       }
@@ -178,9 +178,9 @@ export class AppNavbarScrollableComponent implements AfterViewInit {
   }
 }
 
-export type NavItem = {
+export interface NavItem {
   text: string;
   routerLink: string;
   show?: boolean;
   bookmark?: boolean;
-};
+}

@@ -25,7 +25,7 @@ export class RedirectService {
   redirect(...replaces: {toReplace: string; replaceWith: string}[]): void {
     let redirectUrl = this._redirectUrl() ?? '/';
     for (const replace of replaces) {
-      redirectUrl = redirectUrl?.replace(replace.toReplace, replace.replaceWith);
+      redirectUrl = redirectUrl.replace(replace.toReplace, replace.replaceWith);
     }
     this.logger.log('redirect', 'Triggered', redirectUrl);
     void this.router.navigateByUrl(redirectUrl);

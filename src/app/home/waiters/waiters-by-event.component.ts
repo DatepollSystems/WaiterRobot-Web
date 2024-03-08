@@ -4,14 +4,14 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
+
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+import {GetEventOrLocationResponse, GetWaiterResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
-import {DfxTr} from 'dfx-translate';
-
-import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
-import {GetEventOrLocationResponse, GetWaiterResponse} from '../../_shared/waiterrobot-backend';
 import {BtnWaiterCreateQrCodeComponent} from '../_shared/components/button/app-waiter-create-qr-code-btn.component';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {EntitiesHeaderWithPlaceholderLayout} from '../_shared/layouts/entities-header-with-placeholder.layout';
@@ -28,17 +28,17 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
     <div class="d-flex flex-column gap-3">
       @if (entity$ | async; as entity) {
         <entities-header-with-placeholder-layout [loading]="entityLoading()">
-          <h1 class="my-0">{{ entity?.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</h1>
+          <h1 class="my-0">{{ entity?.name }} {{ 'HOME_WAITERS_NAV_ORGANISATION' | transloco }}</h1>
 
           <scrollable-toolbar>
-            <a routerLink="../../create" [queryParams]="{event: entity?.id}" class="btn btn-sm btn-success">
+            <a routerLink="../../create" class="btn btn-sm btn-success" [queryParams]="{event: entity?.id}">
               <bi name="plus-circle" />
-              {{ 'ADD_2' | tr }}</a
+              {{ 'ADD_2' | transloco }}</a
             >
-            <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_WAITERS_SELECT_INFO' | tr) : undefined }}">
-              <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+            <div [ngbTooltip]="!selection.hasValue() ? ('HOME_WAITERS_SELECT_INFO' | transloco) : undefined">
+              <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
                 <bi name="trash" />
-                {{ 'DELETE' | tr }}
+                {{ 'DELETE' | transloco }}
               </button>
             </div>
 
@@ -51,13 +51,13 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
           @if ((filter.value?.length ?? 0) > 0) {
             <button
               class="btn btn-outline-secondary"
               type="button"
-              ngbTooltip="{{ 'CLEAR' | tr }}"
               placement="bottom"
+              [ngbTooltip]="'CLEAR' | transloco"
               (click)="filter.reset()"
             >
               <bi name="x-circle-fill" />
@@ -67,7 +67,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
       </form>
 
       <div class="table-responsive">
-        <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
+        <table ngb-table ngb-sort ngbSortActive="name" ngbSortDirection="asc" [hover]="true" [dataSource]="(dataSource$ | async) ?? []">
           <ng-container ngbColumnDef="select">
             <th *ngbHeaderCellDef ngb-header-cell>
               <div class="form-check">
@@ -75,8 +75,8 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
                   class="form-check-input"
                   type="checkbox"
                   name="checked"
-                  (change)="$event ? toggleAllRows() : null"
                   [checked]="selection.hasValue() && isAllSelected()"
+                  (change)="$event ? toggleAllRows() : null"
                 />
               </div>
             </th>
@@ -86,32 +86,32 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
                   class="form-check-input"
                   type="checkbox"
                   name="checked"
-                  (change)="$event ? selection.toggle(selectable) : null"
                   [checked]="selection.isSelected(selectable)"
+                  (change)="$event ? selection.toggle(selectable) : null"
                 />
               </div>
             </td>
           </ng-container>
 
           <ng-container ngbColumnDef="name">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
             <td *ngbCellDef="let waiter" ngb-cell>{{ waiter.name }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="activated">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ACTIVATED' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ACTIVATED' | transloco }}</th>
             <td *ngbCellDef="let waiter" ngb-cell>
               {{ waiter.activated | activated }}
             </td>
           </ng-container>
 
           <ng-container ngbColumnDef="actions">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
             <td *ngbCellDef="let waiter" ngb-cell>
               <button
                 type="button"
                 class="btn btn-sm mx-1 btn-outline-info text-body-emphasis"
-                ngbTooltip="{{ 'HOME_WAITERS_EDIT_QR_CODE' | tr }}"
+                [ngbTooltip]="'HOME_WAITERS_EDIT_QR_CODE' | transloco"
                 (click)="openLoginQRCode(waiter.signInToken, $event)"
               >
                 <bi name="qr-code" />
@@ -120,7 +120,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
                 class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
                 routerLink="../../../orders"
                 [queryParams]="{waiterIds: waiter.id}"
-                ngbTooltip="{{ 'NAV_ORDERS' | tr }}"
+                [ngbTooltip]="'NAV_ORDERS' | transloco"
                 (click)="$event.stopPropagation()"
               >
                 <bi name="stack" />
@@ -129,22 +129,23 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
                 class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
                 routerLink="../../../bills"
                 [queryParams]="{waiterIds: waiter.id}"
-                ngbTooltip="{{ 'NAV_BILLS' | tr }}"
+                [ngbTooltip]="'NAV_BILLS' | transloco"
                 (click)="$event.stopPropagation()"
               >
                 <bi name="cash-coin" />
               </a>
               <a
                 class="btn btn-sm mx-1 btn-outline-success text-body-emphasis"
-                routerLink="../../{{ waiter.id }}"
-                ngbTooltip="{{ 'EDIT' | tr }}"
+                [routerLink]="'../../' + waiter.id"
+                [ngbTooltip]="'EDIT' | transloco"
+                (click)="$event.stopPropagation()"
               >
                 <bi name="pencil-square" />
               </a>
               <button
                 type="button"
                 class="btn btn-sm mx-1 btn-outline-danger text-body-emphasis"
-                ngbTooltip="{{ 'DELETE' | tr }}"
+                [ngbTooltip]="'DELETE' | transloco"
                 (click)="onDelete(waiter.id, $event)"
               >
                 <bi name="trash" />
@@ -153,11 +154,11 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
           </ng-container>
 
           <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-          <tr *ngbRowDef="let waiter; columns: columnsToDisplay" ngb-row routerLink="../../{{ waiter.id }}"></tr>
+          <tr *ngbRowDef="let waiter; columns: columnsToDisplay" ngb-row [routerLink]="'../../' + waiter.id"></tr>
         </table>
       </div>
 
-      <app-progress-bar [hidden]="!isLoading()" />
+      <app-progress-bar [show]="isLoading()" />
     </div>
   `,
   selector: 'app-event-by-id-waiters',
@@ -168,7 +169,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
     AsyncPipe,
     RouterLink,
     NgbTooltip,
-    DfxTr,
+    TranslocoPipe,
     DfxTableModule,
     DfxSortModule,
     DfxArrayMapNamePipe,

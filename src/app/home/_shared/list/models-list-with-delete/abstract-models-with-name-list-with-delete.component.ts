@@ -5,6 +5,7 @@ import {HasIDAndName} from 'dfts-helper';
 import {AbstractModelsListWithDeleteComponent} from './abstract-models-list-with-delete.component';
 
 @Component({
+  standalone: true,
   template: '',
   selector: 'abstract-models-with-name-list-with-delete',
 })

@@ -1,12 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 
-import {BehaviorSubject, map, Observable, switchMap, tap} from 'rxjs';
-
-import {s_from} from 'dfts-helper';
-import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from 'dfx-helper';
-
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
 import {
   CreateProductDto,
   EntityOrderDto,
@@ -15,7 +10,12 @@ import {
   GetProductResponse,
   IdResponse,
   UpdateProductDto,
-} from '../../../_shared/waiterrobot-backend';
+} from '@shared/waiterrobot-backend';
+
+import {s_from} from 'dfts-helper';
+import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from 'dfx-helper';
+
+import {BehaviorSubject, map, Observable, switchMap, tap} from 'rxjs';
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 
 @Injectable({
@@ -57,15 +57,27 @@ export class ProductsService
   }
 
   create$(dto: CreateProductDto): Observable<IdResponse> {
-    return this.httpClient.post<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
+    return this.httpClient.post<IdResponse>(this.url, dto).pipe(
+      tap(() => {
+        this.triggerGet$.next(true);
+      }),
+    );
   }
 
   update$(dto: UpdateProductDto): Observable<IdResponse> {
-    return this.httpClient.put<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
+    return this.httpClient.put<IdResponse>(this.url, dto).pipe(
+      tap(() => {
+        this.triggerGet$.next(true);
+      }),
+    );
   }
 
   delete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(tap(() => this.triggerGet$.next(true)));
+    return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(
+      tap(() => {
+        this.triggerGet$.next(true);
+      }),
+    );
   }
 
   order$(groupId: number, dto: EntityOrderDto[]): Observable<IdResponse[]> {
@@ -73,6 +85,10 @@ export class ProductsService
       .patch<IdResponse[]>(`${this.url}/order`, dto, {
         params: {groupId},
       })
-      .pipe(tap(() => this.triggerGet$.next(true)));
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
   }
 }

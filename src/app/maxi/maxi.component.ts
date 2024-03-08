@@ -2,17 +2,17 @@ import {DatePipe, JsonPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
-
-import {interval, map} from 'rxjs';
+import {AppActivatedPipe} from '@home-shared/pipes/app-activated.pipe';
 
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
+import {TranslocoPipe} from '@ngneat/transloco';
+
+import {injectIsValid} from '@shared/form';
 
 import {DfxTimeSpanPipe} from 'dfx-helper';
-import {DfxTr} from 'dfx-translate';
 
-import {injectIsValid} from '../_shared/form';
-import {AppActivatedPipe} from '../home/_shared/pipes/app-activated.pipe';
+import {interval, map} from 'rxjs';
 import {EventsService} from '../home/events/_services/events.service';
 import {MaxiService} from './maxi.service';
 
@@ -22,46 +22,49 @@ import {MaxiService} from './maxi.service';
     <div class="d-flex flex-column gap-3">
       <h1 class="my-0">maxi-tester-v1</h1>
 
-      <form [formGroup]="maxiService.form" class="d-flex gap-3">
+      <form class="d-flex gap-3" [formGroup]="maxiService.form">
         <div class="form-group">
-          <label for="interval">{{ 'Interval (in ms)' | tr }}</label>
-          <input formControlName="intervalInMs" class="form-control" type="number" id="interval" placeholder="{{ '10' | tr }}" />
+          <label for="interval">{{ 'Interval (in ms)' | transloco }}</label>
+          <input formControlName="intervalInMs" class="form-control" type="number" id="interval" [placeholder]="'10' | transloco" />
           @if (maxiService.form.controls.intervalInMs.invalid) {
             <small class="text-danger">
-              {{ 'Interval needs to be bigger than 0' | tr }}
+              {{ 'Interval needs to be bigger than 0' | transloco }}
             </small>
           }
         </div>
 
         <div class="form-group col-4">
-          <label for="event">{{ 'Event' | tr }}</label>
+          <label for="event">{{ 'Event' | transloco }}</label>
           <ng-select
-            [items]="events()"
             bindValue="id"
             bindLabel="name"
             formControlName="eventId"
             labelForId="event"
-            [placeholder]="'Event select' | tr"
+            [items]="events()"
+            [placeholder]="'Event select' | transloco"
           />
         </div>
       </form>
 
       <div class="d-inline-flex gap-2">
-        <button class="btn btn-primary" (click)="maxiService.state.start()" [disabled]="!isValid()">Start Test</button>
-        <button class="btn btn-danger" (click)="maxiService.state.end()" [disabled]="!maxiService.state.currentSession()">End Test</button>
-        <button class="btn btn-info d-inline-flex gap-2">
+        <button type="button" class="btn btn-primary" [disabled]="!isValid()" (click)="maxiService.state.start()">Start Test</button>
+        <button type="button" class="btn btn-danger" [disabled]="!maxiService.state.currentSession()" (click)="maxiService.state.end()">
+          End Test
+        </button>
+        <button type="button" class="btn btn-info d-inline-flex gap-2">
           <span>Status: {{ maxiService.state.currentSession() ? 'Running' : 'Stopped' }}</span>
         </button>
       </div>
 
-      <ul ngbNav #nav="ngbNav" [activeId]="maxiService.state.activeTab()" class="nav-tabs">
+      <ul #nav="ngbNav" ngbNav class="nav-tabs" [activeId]="maxiService.state.activeTab()">
         <li [ngbNavItem]="'CREATE'">
-          <button ngbNavLink>Neuer Test</button>
+          <button type="button" ngbNavLink>Neuer Test</button>
           <ng-template ngbNavContent>
             <div class="d-flex flex-column gap-3">
               @if (maxiService.state.currentSession(); as session) {
                 <div class="d-flex align-items-center gap-2">
                   <button
+                    type="button"
                     class="btn btn-sm"
                     [class.btn-success]="session.successRate === 100"
                     [class.btn-danger]="session.successRate !== 100"
@@ -87,14 +90,17 @@ import {MaxiService} from './maxi.service';
         </li>
         @for (session of maxiService.state.sessions(); track session) {
           <li [ngbNavItem]="session.id">
-            <button ngbNavLink>
+            <button ngbNavLink type="button">
               Test - {{ session.id }}
-              <span class="btn-close ms-3 fw-light" (click)="close($event, session.id)"></span>
+              <button type="button" class="btn-close ms-3 fw-light" (click)="close($event, session.id)">
+                <span class="visually-hidden">Remove test</span>
+              </button>
             </button>
             <ng-template ngbNavContent>
               <div class="d-flex flex-column gap-3">
                 <div class="d-flex align-items-center gap-2">
                   <button
+                    type="button"
                     class="btn btn-sm"
                     [class.btn-success]="session.successRate === 100"
                     [class.btn-danger]="session.successRate !== 100"
@@ -130,24 +136,24 @@ import {MaxiService} from './maxi.service';
         }
       </ul>
 
-      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+      <div class="mt-2" [ngbNavOutlet]="nav"></div>
     </div>
   `,
   styles: `
-.close {
-font-size: 1.4rem;
-opacity: 0.1;
-transition: opacity 0.3s;
-}
-.nav-link:hover > .close {
-topacity: 0.8;
-}
+    .close {
+      font-size: 1.4rem;
+      opacity: 0.1;
+      transition: opacity 0.3s;
+    }
+    .nav-link:hover > .close {
+      topacity: 0.8;
+    }
   `,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    DfxTr,
+    TranslocoPipe,
     NgSelectModule,
     JsonPipe,
     DatePipe,

@@ -1,14 +1,14 @@
 import {Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
+import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
+import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
+import {injectOnDelete} from '@home-shared/form/edit';
+import {injectIdParam$} from '@home-shared/services/injectActivatedRouteIdParam';
+
+import {injectOnSubmit} from '@shared/form';
+import {GetUserResponse, IdAndNameResponse} from '@shared/waiterrobot-backend';
 
 import {Observable, switchMap} from 'rxjs';
-
-import {injectOnSubmit} from '../../../../_shared/form';
-import {GetUserResponse, IdAndNameResponse} from '../../../../_shared/waiterrobot-backend';
-import {AbstractModelEditComponent} from '../../../_shared/form/abstract-model-edit.component';
-import {AppEntityEditModule} from '../../../_shared/form/app-entity-edit.module';
-import {injectOnDelete} from '../../../_shared/form/edit';
-import {injectIdParam$} from '../../../_shared/services/injectActivatedRouteIdParam';
 import {OrganisationsUsersService} from '../../../organisations/_services/organisations-users.service';
 import {OrganisationsService} from '../../../organisations/_services/organisations.service';
 import {UsersOrganisationsService} from '../services/users-organisations.service';
@@ -19,15 +19,15 @@ import {UserEditFormComponent} from './user-edit-form.component';
   template: `
     @if (entity(); as entity) {
       <div class="d-flex flex-column gap-2">
-        <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} "{{ entity.firstname }} {{ entity.surname }}"</h1>
-        <h1 *isCreating="entity">{{ 'ADD_2' | tr }}</h1>
+        <h1 *isEditing="entity">{{ 'EDIT_2' | transloco }} "{{ entity.firstname }} {{ entity.surname }}"</h1>
+        <h1 *isCreating="entity">{{ 'ADD_2' | transloco }}</h1>
 
         <scrollable-toolbar>
           <back-button />
           <div *isEditing="entity">
-            <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
+            <button type="button" class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
               <bi name="trash" />
-              {{ 'DELETE' | tr }}
+              {{ 'DELETE' | transloco }}
             </button>
           </div>
         </scrollable-toolbar>
@@ -36,12 +36,12 @@ import {UserEditFormComponent} from './user-edit-form.component';
 
         <app-user-edit-form
           #form
-          (submitUpdate)="onSubmit('UPDATE', $event)"
-          (submitCreate)="onSubmit('CREATE', $event)"
-          (userOrganisations)="orgUserChange($event)"
           [user]="entity"
           [organisations]="organisations()"
           [selectedOrganisations]="selectedOrganisations()"
+          (submitUpdate)="onSubmit('UPDATE', $event)"
+          (submitCreate)="onSubmit('CREATE', $event)"
+          (userOrganisations)="orgUserChange($event)"
         />
       </div>
     } @else {

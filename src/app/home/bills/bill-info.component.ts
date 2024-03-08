@@ -2,12 +2,12 @@ import {AsyncPipe, DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
-import {combineLatest, map, switchMap} from 'rxjs';
-
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
+
+import {combineLatest, map, switchMap} from 'rxjs';
 
 import {AppBackButtonComponent} from '../_shared/components/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
@@ -22,38 +22,42 @@ import {BillsService} from './_services/bills.service';
     @if (vm$ | async; as vm) {
       <div class="d-flex flex-column gap-3">
         <div class="d-flex flex-wrap justify-content-between gap-2 gap-md-0">
-          <h1 class="my-0">{{ 'HOME_BILL' | tr }} #{{ vm.bill.id }}</h1>
+          <h1 class="my-0">{{ 'HOME_BILL' | transloco }} #{{ vm.bill.id }}</h1>
         </div>
 
         <scrollable-toolbar>
+          <back-button />
+
           <app-bill-payment-state-badge [unpaidReason]="vm.bill.unpaidReason?.reason" />
 
-          <span class="badge bg-secondary d-flex align-items-center gap-2" [ngbTooltip]="'HOME_ORDER_CREATED_AT' | tr">
-            <bi name="save" />
-            {{ vm.bill.createdAt | date: 'dd.MM.yy HH:mm:ss' }}
-          </span>
+          <div>
+            <span class="badge bg-secondary d-flex align-items-center gap-2" [ngbTooltip]="'HOME_ORDER_CREATED_AT' | transloco">
+              <bi name="save" />
+              {{ vm.bill.createdAt | date: 'dd.MM.yy HH:mm:ss' }}
+            </span>
+          </div>
 
-          <a
-            routerLink="../../tables/{{ vm.bill.table.id }}"
-            class="badge bg-secondary d-flex align-items-center gap-2"
-            ngbTooltip="{{ 'HOME_ORDER_OPEN_TABLE' | tr }}"
-          >
-            <bi name="columns-gap" />
-            {{ vm.bill.table.group.name }} - {{ vm.bill.table.number }}
-          </a>
+          <div>
+            <a
+              class="badge bg-secondary d-flex align-items-center gap-2"
+              [routerLink]="'../../tables/' + vm.bill.table.id"
+              [ngbTooltip]="'HOME_ORDER_OPEN_TABLE' | transloco"
+            >
+              <bi name="columns-gap" />
+              {{ vm.bill.table.group.name }} - {{ vm.bill.table.number }}
+            </a>
+          </div>
 
-          <a
-            routerLink="../../waiters/{{ vm.bill.waiter.id }}"
-            class="badge bg-primary d-flex align-items-center gap-2"
-            ngbTooltip="{{ 'HOME_ORDER_OPEN_WAITER' | tr }}"
-          >
-            <bi name="people" />
-            {{ vm.bill.waiter.name }}
-          </a>
-        </scrollable-toolbar>
-
-        <scrollable-toolbar>
-          <back-button />
+          <div>
+            <a
+              class="badge bg-primary d-flex align-items-center gap-2"
+              [routerLink]="'../../waiters/' + vm.bill.waiter.id"
+              [ngbTooltip]="'HOME_ORDER_OPEN_WAITER' | transloco"
+            >
+              <bi name="people" />
+              {{ vm.bill.waiter.name }}
+            </a>
+          </div>
         </scrollable-toolbar>
 
         <hr />
@@ -73,7 +77,7 @@ import {BillsService} from './_services/bills.service';
     AppBillRefreshButtonComponent,
     BiComponent,
     RouterLink,
-    DfxTr,
+    TranslocoPipe,
     NgbTooltip,
     AppBillPaymentStateBadgeComponent,
     AppOrderProductsListTableComponent,

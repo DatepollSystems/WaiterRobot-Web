@@ -4,13 +4,13 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
+
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+import {GetBillUnpaidReasonResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxTr} from 'dfx-translate';
-
-import {AppProgressBarComponent} from '../../_shared/ui/loading/app-progress-bar.component';
-import {GetBillUnpaidReasonResponse} from '../../_shared/waiterrobot-backend';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {AbstractModelsListWithDeleteComponent} from '../_shared/list/models-list-with-delete/abstract-models-list-with-delete.component';
 import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
@@ -18,32 +18,32 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
 @Component({
   template: `
     <div class="d-flex flex-column gap-3">
-      <h1 class="my-0">{{ 'HOME_BILL_UNPAID_REASON' | tr }}</h1>
+      <h1 class="my-0">{{ 'HOME_BILL_UNPAID_REASON' | transloco }}</h1>
       <scrollable-toolbar>
         <div>
           <a routerLink="../create" class="btn btn-sm btn-success">
             <bi name="plus-circle" />
-            {{ 'ADD_2' | tr }}</a
+            {{ 'ADD_2' | transloco }}</a
           >
         </div>
 
-        <div ngbTooltip="{{ !selection.hasValue() ? ('HOME_TABLE_SELECT_REQUIRED' | tr) : undefined }}">
-          <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+        <div [ngbTooltip]="!selection.hasValue() ? ('HOME_TABLE_SELECT_REQUIRED' | transloco) : undefined">
+          <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
             <bi name="trash" />
-            {{ 'DELETE' | tr }}
+            {{ 'DELETE' | transloco }}
           </button>
         </div>
       </scrollable-toolbar>
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
           @if ((filter.value?.length ?? 0) > 0) {
             <button
               class="btn btn-outline-secondary"
               type="button"
-              ngbTooltip="{{ 'CLEAR' | tr }}"
               placement="bottom"
+              [ngbTooltip]="'CLEAR' | transloco"
               (click)="filter.reset()"
             >
               <bi name="x-circle-fill" />
@@ -53,7 +53,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
       </form>
 
       <div class="table-responsive">
-        <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="reason" ngbSortDirection="asc">
+        <table ngb-table ngb-sort ngbSortActive="reason" ngbSortDirection="asc" [hover]="true" [dataSource]="(dataSource$ | async) ?? []">
           <ng-container ngbColumnDef="select">
             <th *ngbHeaderCellDef ngb-header-cell>
               <div class="form-check">
@@ -61,8 +61,8 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
                   class="form-check-input"
                   type="checkbox"
                   name="checked"
-                  (change)="$event ? toggleAllRows() : null"
                   [checked]="selection.hasValue() && isAllSelected()"
+                  (change)="$event ? toggleAllRows() : null"
                 />
               </div>
             </th>
@@ -72,45 +72,45 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
                   class="form-check-input"
                   type="checkbox"
                   name="checked"
-                  (change)="$event ? selection.toggle(selectable) : null"
                   [checked]="selection.isSelected(selectable)"
+                  (change)="$event ? selection.toggle(selectable) : null"
                 />
               </div>
             </td>
           </ng-container>
 
           <ng-container ngbColumnDef="reason">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'Reason' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'Reason' | transloco }}</th>
             <td *ngbCellDef="let reason" ngb-cell>{{ reason.reason }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="description">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'Description' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'Description' | transloco }}</th>
             <td *ngbCellDef="let reason" ngb-cell>{{ reason.description }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="isGlobal">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'is Global' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'is Global' | transloco }}</th>
             <td *ngbCellDef="let reason" ngb-cell>
               {{ reason.isGlobal }}
             </td>
           </ng-container>
 
           <ng-container ngbColumnDef="actions">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
             <td *ngbCellDef="let reason" ngb-cell>
               @if (!reason.isGlobal) {
                 <a
                   class="btn btn-sm me-2 btn-outline-success text-body-emphasis"
-                  routerLink="../{{ reason.id }}"
-                  ngbTooltip="{{ 'EDIT' | tr }}"
+                  [routerLink]="'../' + reason.id"
+                  [ngbTooltip]="'EDIT' | transloco"
                 >
                   <bi name="pencil-square" />
                 </a>
                 <button
                   type="button"
                   class="btn btn-sm me-2 btn-outline-danger text-body-emphasis"
-                  ngbTooltip="{{ 'DELETE' | tr }}"
+                  [ngbTooltip]="'DELETE' | transloco"
                   (click)="onDelete(reason.id, $event)"
                 >
                   <bi name="trash" />
@@ -120,11 +120,11 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
           </ng-container>
 
           <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-          <tr *ngbRowDef="let reason; columns: columnsToDisplay" ngb-row routerLink="../{{ reason.id }}"></tr>
+          <tr *ngbRowDef="let reason; columns: columnsToDisplay" ngb-row [routerLink]="'../' + reason.id"></tr>
         </table>
       </div>
 
-      <app-progress-bar [hidden]="!isLoading()" />
+      <app-progress-bar [show]="isLoading()" />
     </div>
   `,
   selector: 'app-all-unpaid-reasons',
@@ -137,7 +137,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
     NgbTooltip,
     DfxTableModule,
     DfxSortModule,
-    DfxTr,
+    TranslocoPipe,
     BiComponent,
     ScrollableToolbarComponent,
     AppProgressBarComponent,

@@ -2,15 +2,15 @@ import {DatePipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 
-import {map, switchMap} from 'rxjs';
-
 import {AppBackButtonComponent} from '@home-shared/components/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {injectIdParam$} from '@home-shared/services/injectActivatedRouteIdParam';
+import {TranslocoPipe} from '@ngneat/transloco';
 import {AppSpinnerRowComponent} from '@shared/ui/loading/app-spinner-row.component';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
+
+import {map, switchMap} from 'rxjs';
 
 import {DeadLettersService} from './dead-letters.service';
 
@@ -24,9 +24,9 @@ import {DeadLettersService} from './dead-letters.service';
           <back-button />
 
           <div>
-            <button class="btn btn-sm btn-danger" (click)="onDelete(deadLetter.id)">
+            <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(deadLetter.id)">
               <bi name="trash" />
-              {{ 'DELETE' | tr }}
+              {{ 'DELETE' | transloco }}
             </button>
           </div>
         </scrollable-toolbar>
@@ -60,7 +60,7 @@ import {DeadLettersService} from './dead-letters.service';
     `,
   ],
   selector: 'app-dead-letter-view',
-  imports: [DfxTr, BiComponent, ScrollableToolbarComponent, AppBackButtonComponent, AppSpinnerRowComponent, DatePipe],
+  imports: [TranslocoPipe, BiComponent, ScrollableToolbarComponent, AppBackButtonComponent, AppSpinnerRowComponent, DatePipe],
   standalone: true,
 })
 export class DeadLetterViewComponent {

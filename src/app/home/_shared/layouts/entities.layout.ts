@@ -9,7 +9,7 @@ import {FullScreenService} from '../services/fullscreen.service';
       <div class="col-md-4 col-lg-3 col-xl-2" [class.col-xxl-1]="isFullScreen()">
         <ng-content select="[nav]" />
       </div>
-      <div [class.col-xxl-10]="isFullScreen()" class="col-md-7 col-lg-8 col-xl-9">
+      <div class="col-md-7 col-lg-8 col-xl-9" [class.col-xxl-10]="isFullScreen()">
         <router-outlet />
       </div>
     </div>

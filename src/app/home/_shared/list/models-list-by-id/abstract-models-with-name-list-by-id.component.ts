@@ -5,6 +5,7 @@ import {HasIDAndName, IHasID} from 'dfts-helper';
 import {AbstractModelsListByIdComponent} from './abstract-models-list-by-id.component';
 
 @Component({
+  standalone: true,
   template: '',
 })
 export abstract class AbstractModelsWithNameListByIdComponent<

@@ -2,10 +2,10 @@ import {ChangeDetectionStrategy, Component, effect, EventEmitter, inject, Input,
 import {toSignal} from '@angular/core/rxjs-interop';
 import {Router} from '@angular/router';
 
-import {s_from} from 'dfts-helper';
+import {AppSpinnerRowComponent} from '@shared/ui/loading/app-spinner-row.component';
+import {GetEventOrLocationResponse, GetOrganisationResponse} from '@shared/waiterrobot-backend';
 
-import {AppSpinnerRowComponent} from '../_shared/ui/loading/app-spinner-row.component';
-import {GetEventOrLocationResponse, GetOrganisationResponse} from '../_shared/waiterrobot-backend';
+import {s_from} from 'dfts-helper';
 import {RedirectService} from './_shared/services/redirect.service';
 import {EventsService} from './events/_services/events.service';
 import {SelectedEventService} from './events/_services/selected-event.service';
@@ -60,10 +60,10 @@ export class AppSelectDialogComponent {
   selectedEvent?: GetEventOrLocationResponse;
 
   @Output()
-  selectOrganisation = new EventEmitter<GetOrganisationResponse>();
+  readonly selectOrganisation = new EventEmitter<GetOrganisationResponse>();
 
   @Output()
-  selectEvent = new EventEmitter<GetEventOrLocationResponse>();
+  readonly selectEvent = new EventEmitter<GetEventOrLocationResponse>();
 }
 
 @Component({
@@ -84,7 +84,7 @@ export class AppSelectDialogComponent {
             (selectEvent)="selectEvent($event.id)"
             (selectOrganisation)="selectedOrganisationService.setSelected($event.id)"
           />
-          <a class="btn btn-sm btn-outline-warning mt-3" href="/">Zurück zur Startseite</a>
+          <a class="btn btn-sm btn-outline-warning mt-3" routerLink="/">Zurück zur Startseite</a>
         } @loading (minimum 450) {
           <app-spinner-row />
         }

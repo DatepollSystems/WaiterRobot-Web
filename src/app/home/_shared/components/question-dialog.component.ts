@@ -1,15 +1,15 @@
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {loggerOf} from 'dfts-helper';
-import {DfxTr} from 'dfx-translate';
 import {BiComponent, BiName} from 'dfx-bootstrap-icons';
 
 @Component({
   template: `
     <div class="modal-header border-bottom-0">
-      <h1 class="modal-title fs-5">{{ (title ? title : question) | tr }}</h1>
+      <h1 class="modal-title fs-5">{{ (title ? title : question) | transloco }}</h1>
       <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.close()"></button>
     </div>
     <div class="modal-body py-0">
@@ -17,28 +17,30 @@ import {BiComponent, BiName} from 'dfx-bootstrap-icons';
         @if (info) {
           <div [innerHTML]="info"></div>
         } @else {
-          <strong>{{ question | tr }}</strong>
+          <strong>{{ question | transloco }}</strong>
         }
       }
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | transloco }}</button>
       @for (answer of answers; track answer.value) {
-        <button (click)="answerQuestion(answer.value)" class="btn btn-outline-secondary" type="button">
+        <button class="btn btn-outline-secondary" type="button" (click)="answerQuestion(answer.value)">
           @if (answer.icon) {
             <bi [name]="answer.icon" />
           }
-          {{ answer.text | tr }}
+          {{ answer.text | transloco }}
         </button>
       }
     </div>
   `,
   selector: 'app-question-modal',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DfxTr, BiComponent],
+  imports: [TranslocoPipe, BiComponent],
   standalone: true,
 })
 export class QuestionDialogComponent {
+  activeModal = inject(NgbActiveModal);
+
   public static YES_VALUE = 'yes';
   public static NO_VALUE = 'no';
   public static YES_NO_ANSWERS: answerType[] = [
@@ -63,19 +65,17 @@ export class QuestionDialogComponent {
 
   lumber = loggerOf('QuestionDialogComponent');
 
-  constructor(public activeModal: NgbActiveModal) {}
-
   answerQuestion(value: string): void {
     this.lumber.info('answerQuestion', 'Question dialog result:', value);
     this.activeModal.close(value);
   }
 }
 
-export type answerType = {
+export interface answerType {
   icon?: BiName;
   text: string;
   value: string;
-};
+}
 
 export function injectConfirmDialog(): (title: string, info?: string) => Promise<boolean> {
   const modal = inject(NgbModal);
@@ -96,7 +96,9 @@ export function injectConfirmDialog(): (title: string, info?: string) => Promise
           }
           resolve(false);
         })
-        .catch(() => resolve(false));
+        .catch(() => {
+          resolve(false);
+        });
     });
   };
 }

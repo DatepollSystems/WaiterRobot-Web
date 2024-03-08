@@ -1,6 +1,5 @@
+import {GetMyselfResponse} from '@shared/waiterrobot-backend';
 import {HasIDAndName} from 'dfts-helper';
-
-import {GetMyselfResponse} from '../../../../_shared/waiterrobot-backend';
 
 export class MyUserModel implements HasIDAndName<number> {
   public readonly id: number;

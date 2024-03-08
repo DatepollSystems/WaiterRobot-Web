@@ -3,9 +3,9 @@ import {inject, Signal} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {FormBuilder, FormGroup, NonNullableFormBuilder} from '@angular/forms';
 
-import {distinctUntilChanged, map, Observable, tap} from 'rxjs';
-
 import {IHasID, s_from} from 'dfts-helper';
+
+import {distinctUntilChanged, map, Observable} from 'rxjs';
 
 import {NotificationService} from './notifications/notification.service';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from './services/services.interface';
@@ -56,9 +56,12 @@ export function injectOnSubmit<CreateDTOType, UpdateDTOType extends IHasID<Updat
         throw Error('Not implemented');
     }
 
-    obs$
-      .pipe(tap(() => (continuousCreation ? (continuousCreation.enabled() ? continuousCreation.patch(dto) : undefined) : undefined)))
-      .subscribe(() => notificationService.tsuccess('SAVED'));
+    obs$.subscribe(() => {
+      if (continuousCreation && continuousCreation.enabled()) {
+        continuousCreation.patch(dto);
+      }
+      notificationService.tsuccess('SAVED');
+    });
 
     // If checkContinuousCreation is provided let it handle the redirect
     if (!continuousCreation || !continuousCreation.enabled()) {

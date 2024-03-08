@@ -1,19 +1,19 @@
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import {WINDOW} from 'dfx-helper';
+import {injectWindow} from 'dfx-helper';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MobileLinkService {
-  constructor(@Inject(WINDOW) private window: Window | undefined) {}
+  #window = injectWindow();
 
   public createWaiterSignInLink(token: string): string {
-    return `${this.createWaiterAuthLink(token, 'SIGN_IN')}`;
+    return this.createWaiterAuthLink(token, 'SIGN_IN');
   }
 
   public createWaiterSignInViaCreateTokenLink(token: string): string {
-    return `${this.createWaiterAuthLink(token, 'CREATE')}`;
+    return this.createWaiterAuthLink(token, 'CREATE');
   }
 
   public createTableLink(publicTableId: string): string {
@@ -25,9 +25,9 @@ export class MobileLinkService {
   }
 
   private createShareableLink(type: 'ml' | 'wl'): string {
-    return this.window
-      ? `${this.window.location.protocol}//${this.window.location.hostname}${
-          this.window.location.port.length > 0 ? ':' + this.window.location.port : ''
+    return this.#window
+      ? `${this.#window.location.protocol}//${this.#window.location.hostname}${
+          this.#window.location.port.length > 0 ? ':' + this.#window.location.port : ''
         }/${type}`
       : '';
   }

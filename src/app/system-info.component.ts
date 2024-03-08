@@ -1,14 +1,14 @@
+import {CdkDrag} from '@angular/cdk/drag-drop';
 import {DatePipe, JsonPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
-
-import {interval, map} from 'rxjs';
 
 import {Hotkeys} from '@home-shared/services/hot-keys.service';
 import {QrCodeService} from '@home-shared/services/qr-code.service';
 import {RedirectService} from '@home-shared/services/redirect.service';
 import {MyUserService} from '@home-shared/services/user/my-user.service';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';
 import {AuthService} from '@shared/services/auth/auth.service';
 import {SystemInfoService, SystemInfoShowService} from '@shared/services/system-info.service';
@@ -16,151 +16,175 @@ import {ThemeService} from '@shared/services/theme.service';
 
 import {i_complete} from 'dfts-helper';
 import {DfxTimeSpanPipe, injectIsMobile} from 'dfx-helper';
-import {DfxTr} from 'dfx-translate';
+
+import {interval, map} from 'rxjs';
 
 @Component({
   template: `
     @defer (when showService.show()) {
       @if (showService.show()) {
-        <div class="row w-100 g-2 px-2 my-2" style="z-index: 1000000; bottom: 30px; left: 20px" [class.position-fixed]="!isMobile()">
-          <div class="col-12 col-xl-4" style="margin-top: auto">
-            <div class="card px-2 pt-2" [class.transparent]="theme().id === 'dark'" [class.light-transparent]="theme().id === 'light'">
-              <div class="card-body">
-                <h5 class="card-title">{{ 'HOME_START_STATISTICS' | tr }}</h5>
-                <ul class="list-unstyled px-2">
-                  <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-                    Web version: <span>{{ frontendVersion }}</span>
+        <div
+          class="col-12 col-md-8 col-lg-6 col-xl-4 col-xxl-3"
+          cdkDrag
+          style="z-index: 1000000; bottom: 30px; left: 20px"
+          [cdkDragDisabled]="isMobile()"
+          [class.position-fixed]="!isMobile()"
+        >
+          <div class="card px-2 pt-2" [class.transparent]="theme().id === 'dark'" [class.light-transparent]="theme().id === 'light'">
+            <div class="card-body">
+              <h5 class="card-title">{{ 'HOME_START_STATISTICS' | transloco }}</h5>
+              <ul class="list-unstyled px-2 d-flex flex-column gap-2">
+                <li class="d-flex flex-column flex-sm-row justify-content-between">
+                  Local time: <span>{{ localTime() | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
+                </li>
+                <li class="d-flex justify-content-between">
+                  OS: <span>{{ browserInfos.os }}</span>
+                </li>
+                <li class="d-flex justify-content-between">
+                  OS version: <span>{{ browserInfos.osVersion }}</span>
+                </li>
+                <li class="d-flex justify-content-between">
+                  Browser: <span>{{ browserInfos.name }}</span>
+                </li>
+                <li class="d-flex justify-content-between">
+                  Browser version: <span>{{ browserInfos.version }}</span>
+                </li>
+                <li class="d-flex justify-content-between">
+                  Mobile: <span>{{ browserInfos.mobile }}</span>
+                </li>
+                <li class="d-flex justify-content-between">
+                  Screen size: <span>{{ browserInfos.screenSize }}</span>
+                </li>
+                <li class="d-flex justify-content-between">
+                  Local storage: <span>{{ browserInfos.localStorage }}</span>
+                </li>
+                <li class="d-flex justify-content-between">
+                  Cookies: <span>{{ browserInfos.cookies }}</span>
+                </li>
+                <hr />
+                <pre><code>{{ environment | json }}</code></pre>
+                <li class="d-flex justify-content-between">
+                  Logo: <span>{{ logoUrl }}</span>
+                </li>
+                <hr />
+                @if (authService.status() === 'LOGGED_IN') {
+                  <li class="d-flex justify-content-between">
+                    User: <span>{{ myUser()?.emailAddress }}</span>
                   </li>
-                  <li class="d-flex flex-column flex-sm-row justify-content-between mb-2">
-                    Local time: <span>{{ localTime() | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
+                  <li class="d-flex justify-content-between">
+                    isAdmin: <span>{{ myUser()?.isAdmin }}</span>
                   </li>
-                  <li class="d-flex justify-content-between mb-2">
-                    OS: <span>{{ browserInfos.os }}</span>
-                  </li>
-                  <li class="d-flex justify-content-between mb-2">
-                    OS version: <span>{{ browserInfos.osVersion }}</span>
-                  </li>
-                  <li class="d-flex justify-content-between mb-2">
-                    Browser: <span>{{ browserInfos.name }}</span>
-                  </li>
-                  <li class="d-flex justify-content-between mb-2">
-                    Browser version: <span>{{ browserInfos.version }}</span>
-                  </li>
-                  <li class="d-flex justify-content-between mb-2">
-                    Mobile: <span>{{ browserInfos.mobile }}</span>
-                  </li>
-                  <li class="d-flex justify-content-between mb-2">
-                    Screen size: <span>{{ browserInfos.screenSize }}</span>
-                  </li>
-                  <li class="d-flex justify-content-between mb-2">
-                    Local storage: <span>{{ browserInfos.localStorage }}</span>
-                  </li>
-                  <li class="d-flex justify-content-between mb-2">
-                    Cookies: <span>{{ browserInfos.cookies }}</span>
-                  </li>
-                  <hr />
-                  <li class="d-flex justify-content-between mb-2">
-                    isProduction: <span>{{ isProduction }}</span>
-                  </li>
-                  <li class="d-flex justify-content-between mb-2">
-                    Environment: <span>{{ type }}</span>
-                  </li>
-                  <li class="d-flex justify-content-between mb-2">
-                    API: <span>{{ apiUrl }}</span>
-                  </li>
-                  <li class="d-flex justify-content-between mb-2">
-                    Logo: <span>{{ logoUrl }}</span>
-                  </li>
-                  <hr />
-                  @if (authService.status() === 'LOGGED_IN') {
-                    <li class="d-flex justify-content-between mb-2">
-                      User: <span>{{ myUser()?.emailAddress }}</span>
-                    </li>
-                    <li class="d-flex justify-content-between mb-2">
-                      isAdmin: <span>{{ myUser()?.isAdmin }}</span>
-                    </li>
+                } @else {
+                  <li class="d-flex justify-content-between">User: <span i18n>Logged out</span></li>
+                }
+                <li class="d-flex justify-content-between">
+                  Selected Theme: <span>{{ theme().name }}</span>
+                </li>
+                <li i18n class="d-flex justify-content-between flex-wrap">
+                  Auth redirect:
+
+                  @if (authService.redirectUrl(); as it) {
+                    <pre><code>{{  it }}</code></pre>
                   } @else {
-                    <li class="d-flex justify-content-between mb-2">User: <span>Logged out</span></li>
+                    <span>-</span>
                   }
-                  <li class="d-flex justify-content-between mb-2">
-                    Selected Theme: <span>{{ theme().name }}</span>
-                  </li>
-                  <li class="d-flex justify-content-between mb-2">
-                    Auth redirect: <span>{{ authService.redirectUrl() ?? '-' }}</span>
-                  </li>
-                  <li class="d-flex justify-content-between mb-2">
-                    Selected redirect: <span>{{ redirectUrl() ?? '-' }}</span>
-                  </li>
-                  @if (qrCodeData(); as data) {
-                    <li>
-                      QrCode Data:
-                      <pre><code>{{  qrCodeData() | json }}</code></pre>
-                    </li>
+                </li>
+                <li i18n class="d-flex justify-content-between flex-wrap">
+                  Selected redirect:
+
+                  @if (redirectUrl(); as it) {
+                    <pre><code>{{  it }}</code></pre>
                   } @else {
-                    <li class="d-flex justify-content-between mb-2">QrCode Data: <span>-</span></li>
+                    <span>-</span>
                   }
-                </ul>
-              </div>
+                </li>
+
+                <li i18n class="d-flex justify-content-between flex-wrap">
+                  QrCode Data:
+
+                  @if (qrCodeData(); as it) {
+                    <pre><code>{{  it | json }}</code></pre>
+                  } @else {
+                    <span>-</span>
+                  }
+                </li>
+              </ul>
             </div>
           </div>
+        </div>
 
-          <div class=" col-12 col-xl-4" style="margin-top: auto">
-            <div class="card px-2 pt-2" [class.transparent]="theme().id === 'dark'" [class.light-transparent]="theme().id === 'light'">
-              <div class="card-body">
-                <h5>Backend</h5>
-                <ul class="list-unstyled d-flex flex-column gap-2">
-                  <li class="d-flex justify-content-between">
-                    Status:
-                    <span
-                      [class.text-success]="serverInfoService.status() === 'Online'"
-                      [class.text-warning]="serverInfoService.status() === 'Pending'"
-                      [class.text-danger]="serverInfoService.status() === 'Offline'"
-                    >
-                      {{ serverInfoService.status() }}</span
-                    >
-                  </li>
-                  @if (serverInfoService.status() !== 'Offline') {
-                    @if (serverInfoService.publicInfo(); as publicInfo) {
-                      <li class="d-flex justify-content-between">
-                        Ping:
-                        <div class="d-flex">
-                          <div>
-                            {{ publicInfo.responseTime }}ms&nbsp;
-                            <span placement="bottom" ngbTooltip="Last ping">({{ publicInfo.lastPing | date: 'HH:mm:ss' }} )</span>
-                          </div>
-                          <div placement="bottom" ngbTooltip="Next refresh" aria-label="Next refresh in">
-                            &nbsp;&nbsp;/&nbsp;&nbsp;{{ serverInfoService.refreshIn() }} s
-                          </div>
+        <div
+          class="col-12 col-md-8 col-lg-6 col-xl-4 col-xxl-3"
+          cdkDrag
+          style="z-index: 1000000; bottom: 30px; left: 50%"
+          [cdkDragDisabled]="isMobile()"
+          [class.position-fixed]="!isMobile()"
+        >
+          <div class="card px-2 pt-2" [class.transparent]="theme().id === 'dark'" [class.light-transparent]="theme().id === 'light'">
+            <div class="card-body">
+              <h5 i18n>Backend</h5>
+              <ul class="list-unstyled d-flex flex-column gap-2">
+                <li class="d-flex justify-content-between">
+                  Status:
+                  <span
+                    [class.text-success]="serverInfoService.status() === 'Online'"
+                    [class.text-warning]="serverInfoService.status() === 'Pending'"
+                    [class.text-danger]="serverInfoService.status() === 'Offline'"
+                  >
+                    {{ serverInfoService.status() }}</span
+                  >
+                </li>
+                @if (serverInfoService.status() !== 'Offline') {
+                  @if (serverInfoService.publicInfo(); as publicInfo) {
+                    <li class="d-flex justify-content-between">
+                      Ping:
+                      <div class="d-flex">
+                        <div>
+                          {{ publicInfo.responseTime }}ms&nbsp;
+                          <span placement="bottom" i18n-placement ngbTooltip="Last ping" i18n-ngbTooltip
+                            >({{ publicInfo.lastPing | date: 'HH:mm:ss' }} )</span
+                          >
                         </div>
-                      </li>
-                      <li class="d-flex flex-row justify-content-between">
-                        Uptime: <span>{{ localTime() | d_timespan: publicInfo.serverStartTime }}</span>
-                      </li>
-                      <li class="d-flex flex-row justify-content-between">
-                        Version: <span>{{ publicInfo.version }}</span>
-                      </li>
-                      <li class="d-flex flex-row justify-content-between">
-                        Info: <span class="ms-md-5" style="white-space: nowrap">"{{ publicInfo.info }}"</span>
-                      </li>
-                      <li class="d-flex flex-column flex-sm-row justify-content-between">
-                        Time: <span>{{ publicInfo.serverTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' : 'UTC' }}</span>
-                      </li>
-                      <li class="d-flex flex-column flex-sm-row justify-content-between">
-                        Started: <span>{{ publicInfo.serverStartTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
-                      </li>
-                    }
+                        <div
+                          i18n
+                          placement="bottom"
+                          i18n-placement
+                          ngbTooltip="Next refresh"
+                          i18n-ngbTooltip
+                          aria-label="Next refresh in"
+                          i18n-aria-label
+                        >
+                          &nbsp;&nbsp;/&nbsp;&nbsp;{{ serverInfoService.refreshIn() }} s
+                        </div>
+                      </div>
+                    </li>
+                    <li class="d-flex flex-row justify-content-between">
+                      Uptime: <span>{{ localTime() | d_timespan: publicInfo.serverStartTime }}</span>
+                    </li>
+                    <li class="d-flex flex-row justify-content-between">
+                      Version: <span>{{ publicInfo.version }}</span>
+                    </li>
+                    <li class="d-flex flex-row justify-content-between">
+                      Info: <span class="ms-md-5" style="white-space: nowrap">"{{ publicInfo.info }}"</span>
+                    </li>
+                    <li class="d-flex flex-column flex-sm-row justify-content-between">
+                      Time: <span>{{ publicInfo.serverTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' : 'UTC' }}</span>
+                    </li>
+                    <li class="d-flex flex-column flex-sm-row justify-content-between">
+                      Started: <span>{{ publicInfo.serverStartTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
+                    </li>
+                  }
 
-                    @if (authService.status() === 'LOGGED_IN') {
-                      @if (serverInfoService.adminInfo(); as adminInfo) {
-                        <li>
-                          Environment Info:
-                          <pre><code>{{ adminInfo | json }}</code></pre>
-                        </li>
-                      }
+                  @if (authService.status() === 'LOGGED_IN') {
+                    @if (serverInfoService.adminInfo(); as adminInfo) {
+                      <li>
+                        Environment Info:
+                        <pre><code>{{ adminInfo | json }}</code></pre>
+                      </li>
                     }
                   }
-                </ul>
-              </div>
+                }
+              </ul>
             </div>
           </div>
         </div>
@@ -168,26 +192,24 @@ import {DfxTr} from 'dfx-translate';
     }
   `,
   styles: `
-  .transparent {
-  background-color: rgba(0, 0, 0, 0.85);
-  }
+    .transparent {
+      background-color: rgba(0, 0, 0, 0.85);
+    }
 
-  .light-transparent {
-  background-color: rgba(0, 0, 0, 0.35);
-  }
+    .light-transparent {
+      background-color: rgba(0, 0, 0, 0.35);
+    }
   `,
   selector: 'app-system-info',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DatePipe, DfxTimeSpanPipe, DfxTr, JsonPipe, NgbTooltip],
+  imports: [DatePipe, DfxTimeSpanPipe, JsonPipe, NgbTooltip, CdkDrag, TranslocoPipe],
   providers: [SystemInfoService],
 })
 export class SystemInfoComponent {
-  isProduction = EnvironmentHelper.getProduction();
+  environment = EnvironmentHelper.get();
   type = EnvironmentHelper.getType();
-  apiUrl = EnvironmentHelper.getAPIUrl();
   logoUrl = EnvironmentHelper.getLogoUrl();
-  frontendVersion = EnvironmentHelper.getWebVersion();
 
   isMobile = injectIsMobile();
   serverInfoService = inject(SystemInfoService);

@@ -1,14 +1,14 @@
 import {NgOptimizedImage} from '@angular/common';
 import {booleanAttribute, ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 
-import {EnvironmentHelper} from '../../_shared/EnvironmentHelper';
-import {ThemeService} from '../../_shared/services/theme.service';
+import {EnvironmentHelper} from '@shared/EnvironmentHelper';
+import {ThemeService} from '@shared/services/theme.service';
 
 @Component({
   template: `
-    <div id="brand" class="d-flex gap-4 align-items-center justify-content-center ps-2 ps-sm-0">
+    <div class="d-flex gap-4 align-items-center justify-content-center ps-2 ps-sm-0">
       @if (!hideLogo) {
-        <img alt="kellner.team logo" [ngSrc]="logoUrl" priority="true" height="110" width="110" />
+        <img alt="kellner.team logo" priority="true" height="110" width="110" [ngSrc]="logoUrl" />
       }
 
       <div class="d-flex flex-wrap align-items-center py-1 gap-1 mt-3">

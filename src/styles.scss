@@ -14,7 +14,7 @@ a:hover {
 }
 
 /* Fix vertical text alignment in buttons with icons */
-.btn > bi > svg {
+bi > bi > svg {
   vertical-align: -0.125em;
 }
 
@@ -25,6 +25,20 @@ a:hover {
 
 a.btn > img {
   vertical-align: -0.15em;
+}
+
+.unblur {
+  font-size: 2.8rem;
+
+  transition: 0.25s filter linear;
+  -webkit-transition: 0.25s filter linear;
+  -moz-transition: 0.25s filter linear;
+  -o-transition: 0.25s filter linear;
+  filter: blur(12px);
+}
+
+.unblur:hover {
+  filter: blur(0);
 }
 
 .color-picker-class > .popover-body {
@@ -69,30 +83,8 @@ a:hover.badge {
 }
 
 /* Loading animation for buttons */
-.btn.spinner {
+.btn.btnSpinner {
   position: relative !important;
-}
-
-@keyframes spinner {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.spinner:before {
-  content: '';
-  box-sizing: border-box;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 20px;
-  height: 20px;
-  margin-top: -10px;
-  margin-left: -10px;
-  border-radius: 50%;
-  border: 2px solid #ffffff;
-  border-top-color: #000000;
-  animation: spinner 0.8s linear infinite;
 }
 
 .navbar > .my-container {
@@ -118,8 +110,4 @@ a:hover.badge {
   .container {
     max-width: 1710px;
   }
-}
-
-.ws-nowrap {
-  white-space: nowrap;
 }

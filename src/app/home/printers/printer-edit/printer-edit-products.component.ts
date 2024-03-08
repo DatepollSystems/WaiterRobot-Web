@@ -2,29 +2,29 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewChild} fro
 import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
+
+import {GetProductMinResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
-import {DfxTr} from 'dfx-translate';
-
-import {GetProductMinResponse} from '../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
     <div class="table-responsive">
-      <table ngb-table [hover]="true" [dataSource]="_products" ngb-sort ngbSortActive="name" ngbSortDirection="asc">
+      <table ngb-table ngb-sort ngbSortActive="name" ngbSortDirection="asc" [hover]="true" [dataSource]="_products">
         <ng-container ngbColumnDef="name">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
           <td *ngbCellDef="let product" ngb-cell>{{ product.name }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="actions">
-          <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
-          <td *ngbCellDef="let products" ngb-cell>
+          <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
+          <td *ngbCellDef="let product" ngb-cell>
             <a
               class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"
-              routerLink="../../products/{{ products.id }}"
-              ngbTooltip="{{ 'OPEN' | tr }}"
+              [routerLink]="'../../products/' + product.id"
+              [ngbTooltip]="'OPEN' | transloco"
             >
               <bi name="arrow-up-right-square-fill" />
             </a>
@@ -32,19 +32,24 @@ import {GetProductMinResponse} from '../../../_shared/waiterrobot-backend';
         </ng-container>
 
         <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-        <tr *ngbRowDef="let product; columns: columnsToDisplay" ngb-row routerLink="../../products/{{ product.id }}" class="clickable"></tr>
+        <tr
+          *ngbRowDef="let product; columns: columnsToDisplay"
+          ngb-row
+          class="clickable"
+          [routerLink]="'../../products/' + product.id"
+        ></tr>
       </table>
     </div>
     @if (_products.data.length < 1) {
       <div class="w-100 text-center">
-        {{ 'HOME_STATISTICS_NO_DATA' | tr }}
+        {{ 'HOME_STATISTICS_NO_DATA' | transloco }}
       </div>
     }
   `,
   selector: 'app-printer-edit-products',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DfxTableModule, DfxTr, RouterLink, NgbTooltip, DfxSortModule, BiComponent],
+  imports: [DfxTableModule, TranslocoPipe, RouterLink, NgbTooltip, DfxSortModule, BiComponent],
 })
 export class PrinterEditProductsComponent implements AfterViewInit {
   columnsToDisplay = ['name', 'actions'];

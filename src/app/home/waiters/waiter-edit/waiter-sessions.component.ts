@@ -1,17 +1,17 @@
 import {AsyncPipe, DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
+import {AbstractModelsWithNameListByIdComponent} from '@home-shared/list/models-list-by-id/abstract-models-with-name-list-by-id.component';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
+
+import {SessionModel} from '@shared/model/session.model';
+import {AppSpinnerRowComponent} from '@shared/ui/loading/app-spinner-row.component';
+import {GetWaiterResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxTr} from 'dfx-translate';
-
-import {SessionModel} from '../../../_shared/model/session.model';
-import {AppSpinnerRowComponent} from '../../../_shared/ui/loading/app-spinner-row.component';
-import {GetWaiterResponse} from '../../../_shared/waiterrobot-backend';
-import {AbstractModelsWithNameListByIdComponent} from '../../_shared/list/models-list-by-id/abstract-models-with-name-list-by-id.component';
 import {WaiterSessionsService} from '../_services/waiter-sessions.service';
 import {WaitersService} from '../_services/waiters.service';
 
@@ -20,13 +20,13 @@ import {WaitersService} from '../_services/waiters.service';
     <form class="d-flex flex-column flex-sm-row gap-2">
       <div class="flex-grow-1">
         <div class="input-group">
-          <input class="form-control" type="text" [formControl]="filter" placeholder="{{ 'SEARCH' | tr }}" />
+          <input class="form-control" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
           @if ((filter.value?.length ?? 0) > 0) {
             <button
               class="btn btn-outline-secondary"
               type="button"
-              ngbTooltip="{{ 'CLEAR' | tr }}"
               placement="bottom"
+              [ngbTooltip]="'CLEAR' | transloco"
               (click)="filter.reset()"
             >
               <bi name="x-circle-fill" />
@@ -37,12 +37,12 @@ import {WaitersService} from '../_services/waiters.service';
 
       <button class="btn btn-sm btn-outline-danger" type="button" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
         <bi name="trash" />
-        {{ 'DELETE' | tr }}
+        {{ 'DELETE' | transloco }}
       </button>
     </form>
 
     <div class="table-responsive">
-      <table ngb-table [hover]="true" [dataSource]="(dataSource$ | async) ?? []" ngb-sort ngbSortActive="updatedAt" ngbSortDirection="desc">
+      <table ngb-table ngb-sort ngbSortActive="updatedAt" ngbSortDirection="desc" [hover]="true" [dataSource]="(dataSource$ | async) ?? []">
         <ng-container ngbColumnDef="select">
           <th *ngbHeaderCellDef ngb-header-cell>
             <div class="form-check">
@@ -50,8 +50,8 @@ import {WaitersService} from '../_services/waiters.service';
                 class="form-check-input"
                 type="checkbox"
                 name="checked"
-                (change)="$event ? toggleAllRows() : null"
                 [checked]="selection.hasValue() && isAllSelected()"
+                (change)="$event ? toggleAllRows() : null"
               />
             </div>
           </th>
@@ -61,36 +61,36 @@ import {WaitersService} from '../_services/waiters.service';
                 class="form-check-input"
                 type="checkbox"
                 name="checked"
-                (change)="$event ? selection.toggle(selectable) : null"
                 [checked]="selection.isSelected(selectable)"
+                (change)="$event ? selection.toggle(selectable) : null"
               />
             </div>
           </td>
         </ng-container>
 
         <ng-container ngbColumnDef="name">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
           <td *ngbCellDef="let session" ngb-cell>{{ session.name }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="registeredAt">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_REGISTERED_AT' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_REGISTERED_AT' | transloco }}</th>
           <td *ngbCellDef="let session" ngb-cell>{{ session.registeredAt | date: 'YYYY.MM.dd - HH:mm:ss' }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="updatedAt">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_UPDATED_AT' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_UPDATED_AT' | transloco }}</th>
           <td *ngbCellDef="let session" ngb-cell>{{ session.updatedAt | date: 'YYYY.MM.dd - HH:mm:ss' }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="actions">
-          <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
           <td *ngbCellDef="let session" ngb-cell>
             <button
               type="button"
               class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
-              ngbTooltip="{{ 'DELETE' | tr }}"
               placement="left"
+              [ngbTooltip]="'DELETE' | transloco"
               (click)="onDelete(session.id, $event)"
             >
               <bi name="trash" />
@@ -115,7 +115,7 @@ import {WaitersService} from '../_services/waiters.service';
     NgbTooltip,
     DfxTableModule,
     DfxSortModule,
-    DfxTr,
+    TranslocoPipe,
     BiComponent,
     AppSpinnerRowComponent,
   ],

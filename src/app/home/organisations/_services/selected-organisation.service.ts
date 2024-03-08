@@ -2,19 +2,19 @@ import {HttpClient} from '@angular/common/http';
 import {computed, inject, Injectable, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 
-import {BehaviorSubject, catchError, filter, map, merge, of, switchMap} from 'rxjs';
-
-import {connect} from 'ngxtension/connect';
+import {GetOrganisationResponse} from '@shared/waiterrobot-backend';
 
 import {n_fromStorage, notNullAndUndefined, st_set} from 'dfts-helper';
 
-import {GetOrganisationResponse} from '../../../_shared/waiterrobot-backend';
+import {connect} from 'ngxtension/connect';
 
-type SelectedOrganisationState = {
+import {BehaviorSubject, catchError, filter, map, merge, of, switchMap} from 'rxjs';
+
+interface SelectedOrganisationState {
   status: 'UNSET' | 'LOADING' | 'LOADED';
   selectedId?: number;
   selected?: GetOrganisationResponse;
-};
+}
 
 export const selectedOrganisationRouteParamKey = 'soId';
 

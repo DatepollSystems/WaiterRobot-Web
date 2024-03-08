@@ -1,26 +1,26 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {DfxTr} from 'dfx-translate';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 @Component({
   template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-question-title">{{ 'INFORMATION' | tr }}</h4>
+      <h4 class="modal-title" id="modal-question-title">{{ 'INFORMATION' | transloco }}</h4>
       <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.close()"></button>
     </div>
     <div class="modal-body">
-      <strong>{{ 'ABOUT_SIGNIN_FAILED_ACCOUNT_NOT_ACTIVATED' | tr }}</strong>
+      <strong>{{ 'ABOUT_SIGNIN_FAILED_ACCOUNT_NOT_ACTIVATED' | transloco }}</strong>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | transloco }}</button>
     </div>
   `,
   selector: 'app-account-not-activated-modal',
   standalone: true,
-  imports: [DfxTr],
+  imports: [TranslocoPipe],
 })
 export class AppAccountNotActivatedDialog {
-  constructor(public activeModal: NgbActiveModal) {}
+  activeModal = inject(NgbActiveModal);
 }

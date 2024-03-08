@@ -6,10 +6,10 @@ import {AppColorPicker} from '@home-shared/components/color/color-picker.compone
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 import {allowedCharacterSet} from '@home-shared/regex';
+
+import {TranslocoPipe} from '@ngneat/transloco';
 import {injectIsValid} from '@shared/form';
 import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '@shared/waiterrobot-backend';
-
-import {DfxTr} from 'dfx-translate';
 
 @Component({
   template: `
@@ -18,22 +18,22 @@ import {DfxTr} from 'dfx-translate';
     <form #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 mb-5">
         <div class="form-group col">
-          <label for="name">{{ 'NAME' | tr }}</label>
-          <input class="form-control" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
+          <label for="name">{{ 'NAME' | transloco }}</label>
+          <input class="form-control" type="text" id="name" formControlName="name" [placeholder]="'NAME' | transloco" />
 
           @if (form.controls.name.invalid) {
             <small class="text-danger">
-              {{ 'HOME_TABLE_GROUP_NAME_INCORRECT' | tr }}
+              {{ 'HOME_TABLE_GROUP_NAME_INCORRECT' | transloco }}
             </small>
           }
         </div>
 
         <div class="d-flex flex-column">
-          <label for="name">{{ 'COLOR' | tr }}</label>
+          <label for="name">{{ 'COLOR' | transloco }}</label>
           <app-color-picker
             [color]="form.controls.color.getRawValue()"
-            (colorChange)="form.controls.color.setValue($event)"
             [disabled]="form.disabled"
+            (colorChange)="form.controls.color.setValue($event)"
           />
         </div>
       </div>
@@ -42,7 +42,7 @@ import {DfxTr} from 'dfx-translate';
     </form>
   `,
   selector: 'app-table-group-edit-form',
-  imports: [ReactiveFormsModule, AsyncPipe, DfxTr, AppColorPicker, AppModelEditSaveBtn],
+  imports: [ReactiveFormsModule, AsyncPipe, TranslocoPipe, AppColorPicker, AppModelEditSaveBtn],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -1,21 +1,21 @@
 import {ChangeDetectionStrategy, Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
 import {Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet} from '@angular/router';
+import {AppLogoWithTextComponent} from '@outside-shared/app-logo-with-text.component';
+
+import {EnvironmentHelper} from '@shared/EnvironmentHelper';
+import {ToastsContainerComponent} from '@shared/notifications/toasts-container.component';
 
 import {Subject, takeUntil} from 'rxjs';
-
-import {EnvironmentHelper} from './_shared/EnvironmentHelper';
-import {ToastsContainerComponent} from './_shared/notifications/toasts-container.component';
-import {AppLogoWithTextComponent} from './outside/_shared/app-logo-with-text.component';
 import {SystemInfoComponent} from './system-info.component';
 
 @Component({
   template: `
-    <div class="flex-column" #spinnerElement>
+    <div #spinnerElement class="flex-column">
       <div class="d-flex justify-content-center" style="padding-top: 25%">
         <div class="loader"></div>
       </div>
 
-      <app-logo-with-text hideLogo />
+      <app-logo-with-text hideLogo class="mt-2" />
     </div>
 
     <app-system-info />
@@ -49,7 +49,9 @@ export class AppComponent {
     router: Router,
     private renderer: Renderer2,
   ) {
-    router.events.pipe(takeUntil(this.loaded$)).subscribe((event) => this._navigationInterceptor(event));
+    router.events.pipe(takeUntil(this.loaded$)).subscribe((event) => {
+      this._navigationInterceptor(event);
+    });
 
     if (EnvironmentHelper.getProduction()) {
       console.log(`

@@ -1,14 +1,15 @@
 import {DatePipe, NgClass} from '@angular/common';
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 
+import {GetSystemNotificationResponse} from '@shared/waiterrobot-backend';
+
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
-
-import {GetSystemNotificationResponse} from '../../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
     <div
+      class="alert pt-2 pb-0 mt-3 mb-2"
       [ngClass]="{
         'alert-light': notification.type === 'NEUTRAL',
         'alert-success': notification.type === 'SUCCESS',
@@ -16,7 +17,6 @@ import {GetSystemNotificationResponse} from '../../../../_shared/waiterrobot-bac
         'alert-warning': notification.type === 'WARNING',
         'alert-info': notification.type === 'INFO'
       }"
-      class="alert pt-2 pb-0 mt-3 mb-2"
     >
       <div class="d-flex justify-content-between">
         <div class="d-flex justify-content-start align-items-center gap-2">
@@ -86,5 +86,5 @@ export class AppSystemNotificationAlertComponent {
   }
 
   @Output()
-  ignore = new EventEmitter<number>();
+  readonly ignore = new EventEmitter<number>();
 }

@@ -1,11 +1,11 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 
-import {Observable, switchMap} from 'rxjs';
+import {GetMediatorResponse} from '@shared/waiterrobot-backend';
 
 import {HasGetAll} from 'dfx-helper';
 
-import {GetMediatorResponse} from '../../../_shared/waiterrobot-backend';
+import {Observable, switchMap} from 'rxjs';
 import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
 
 @Injectable({

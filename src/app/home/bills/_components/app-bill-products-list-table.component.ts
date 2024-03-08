@@ -1,52 +1,47 @@
-import {AsyncPipe, DatePipe} from '@angular/common';
-import {AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, Input, signal, ViewChild} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
-import {Subject} from 'rxjs';
-
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
+import {GetImplodedBillProductResponse} from '@shared/waiterrobot-backend';
 
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
-import {NgSub} from 'dfx-helper';
-import {DfxTr} from 'dfx-translate';
-
-import {GetImplodedBillProductResponse} from '../../../_shared/waiterrobot-backend';
-import {DfxCurrencyCentPipe} from '../../_shared/pipes/currency.pipe';
+import {DfxCurrencyCentPipe} from 'dfx-helper';
 
 @Component({
   template: `
-    <div class="table-responsive" *ngSub="dataSource$; let dataSource">
-      <table ngb-table [hover]="true" [dataSource]="dataSource" ngb-sort ngbSortActive="product" ngbSortDirection="asc">
+    <div class="table-responsive">
+      <table ngb-table ngb-sort ngbSortActive="product" ngbSortDirection="asc" [hover]="true" [dataSource]="dataSource()">
         <ng-container ngbColumnDef="product">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD' | transloco }}</th>
           <td *ngbCellDef="let order" ngb-cell>
             <div class="d-flex align-items-center gap-2">
-              <span class="badge rounded-pill text-bg-info" ngbTooltip="{{ 'AMOUNT' | tr }}">{{ order.amount }}x</span>
-              <a routerLink="../../products/{{ order.productId }}">
+              <span class="badge rounded-pill text-bg-info">{{ order.amount }} x</span>
+              <a [routerLink]="'../../products/' + order.productId">
                 {{ order.name }}
               </a>
             </div>
           </td>
-          <td ngb-footer-cell *ngbFooterCellDef>Gesamt</td>
+          <td *ngbFooterCellDef ngb-footer-cell>Gesamt</td>
         </ng-container>
 
         <ng-container ngbColumnDef="pricePerPiece">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'PRICE_PER_PIECE' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'PRICE_PER_PIECE' | transloco }}</th>
           <td *ngbCellDef="let order" ngb-cell>{{ order.pricePaidPerPiece | currency }}</td>
-          <td ngb-footer-cell *ngbFooterCellDef></td>
+          <td *ngbFooterCellDef>ngb-footer-cell</td>
         </ng-container>
 
         <ng-container ngbColumnDef="priceSum">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'PRICE' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'PRICE' | transloco }}</th>
           <td *ngbCellDef="let order" ngb-cell>
             {{ order.pricePaidSum | currency }}
           </td>
-          <td ngb-footer-cell *ngbFooterCellDef>{{ priceSum | currency }}</td>
+          <td *ngbFooterCellDef>ngb-footer-cell{{ priceSum | currency }}</td>
         </ng-container>
 
-        <tr ngb-header-row *ngbHeaderRowDef="columnsToDisplay"></tr>
-        <tr ngb-row *ngbRowDef="let order; columns: columnsToDisplay"></tr>
-        <tr ngb-footer-row *ngbFooterRowDef="columnsToDisplay"></tr>
+        <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+        <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row></tr>
+        <tr *ngbFooterRowDef="columnsToDisplay" ngb-footer-row></tr>
       </table>
     </div>
   `,
@@ -59,7 +54,7 @@ import {DfxCurrencyCentPipe} from '../../_shared/pipes/currency.pipe';
   ],
   standalone: true,
   selector: 'app-bill-products-list-table',
-  imports: [DfxSortModule, DfxTableModule, DfxTr, AsyncPipe, DatePipe, RouterLink, NgSub, NgbTooltip, DfxCurrencyCentPipe],
+  imports: [DfxSortModule, DfxTableModule, TranslocoPipe, RouterLink, NgbTooltip, DfxCurrencyCentPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrderProductsListTableComponent implements AfterViewInit {
@@ -69,7 +64,7 @@ export class AppOrderProductsListTableComponent implements AfterViewInit {
   @ViewChild(NgbSort) sort?: NgbSort;
   columnsToDisplay = ['product', 'pricePerPiece', 'priceSum'];
 
-  dataSource$ = new Subject<NgbTableDataSource<GetImplodedBillProductResponse>>();
+  dataSource = signal(new NgbTableDataSource<GetImplodedBillProductResponse>());
 
   ngAfterViewInit(): void {
     const dataSource = new NgbTableDataSource<GetImplodedBillProductResponse>(this.billProducts);
@@ -80,6 +75,6 @@ export class AppOrderProductsListTableComponent implements AfterViewInit {
       }
     };
     dataSource.sort = this.sort;
-    this.dataSource$.next(dataSource);
+    this.dataSource.set(dataSource);
   }
 }

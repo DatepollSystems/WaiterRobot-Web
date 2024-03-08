@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://lava.kellner.team",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

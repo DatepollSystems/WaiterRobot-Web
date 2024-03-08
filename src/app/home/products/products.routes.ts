@@ -14,20 +14,25 @@ export const ROUTES: Routes = [
         loadComponent: () => import('./product-edit/product-edit.component').then((c) => c.ProductEditComponent),
       },
       {
-        path: 'groups/all',
-        loadComponent: () => import('./product-groups.component').then((c) => c.ProductGroupsComponent),
-      },
-      {
-        path: 'groups/create',
-        loadComponent: () => import('./product-group-edit/product-group-edit.component').then((c) => c.ProductGroupEditComponent),
-      },
-      {
-        path: 'groups/products/:id',
-        loadComponent: () => import('./products-by-group.component').then((c) => c.ProductsByGroupComponent),
-      },
-      {
-        path: 'groups/:id',
-        loadComponent: () => import('./product-group-edit/product-group-edit.component').then((c) => c.ProductGroupEditComponent),
+        path: 'groups',
+        children: [
+          {
+            path: 'all',
+            loadComponent: () => import('./product-groups.component').then((c) => c.ProductGroupsComponent),
+          },
+          {
+            path: 'create',
+            loadComponent: () => import('./product-group-edit/product-group-edit.component').then((c) => c.ProductGroupEditComponent),
+          },
+          {
+            path: 'products/:id',
+            loadComponent: () => import('./products-by-group.component').then((c) => c.ProductsByGroupComponent),
+          },
+          {
+            path: ':id',
+            loadComponent: () => import('./product-group-edit/product-group-edit.component').then((c) => c.ProductGroupEditComponent),
+          },
+        ],
       },
       {path: '', pathMatch: 'full', redirectTo: 'all'},
     ],

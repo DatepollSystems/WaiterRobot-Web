@@ -2,35 +2,35 @@ import {DatePipe, NgClass} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
+
+import {GetImplodedOrderProductResponse, GetOrderResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
-
-import {GetImplodedOrderProductResponse, GetOrderResponse} from '../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
     <span
-      [ngClass]="{
-        'text-bg-light': orderState === 'QUEUED' || orderState === 'IN_PROGRESS',
-        'text-bg-success': orderState === 'FINISHED'
-      }"
-      [ngbPopover]="popContent"
       placement="right"
       triggers="mouseenter:mouseleave"
       popoverTitle="Bestelldetails"
       class="badge d-flex align-items-center gap-2 not-selectable"
       style="width: min-content"
+      [ngClass]="{
+        'text-bg-light': orderState === 'QUEUED' || orderState === 'IN_PROGRESS',
+        'text-bg-success': orderState === 'FINISHED'
+      }"
+      [ngbPopover]="popContent"
     >
       @switch (orderState) {
         @case ('QUEUED') {
-          <span>{{ 'HOME_ORDER_QUEUED' | tr }}</span>
+          <span>{{ 'HOME_ORDER_QUEUED' | transloco }}</span>
         }
         @case ('IN_PROGRESS') {
-          <span>{{ 'HOME_ORDER_IN_WORK' | tr }}</span>
+          <span>{{ 'HOME_ORDER_IN_WORK' | transloco }}</span>
         }
         @case ('FINISHED') {
-          <span>{{ 'HOME_ORDER_PROCESSED' | tr }}</span>
+          <span>{{ 'HOME_ORDER_PROCESSED' | transloco }}</span>
         }
       }
 
@@ -42,7 +42,7 @@ import {GetImplodedOrderProductResponse, GetOrderResponse} from '../../../_share
     </span>
     <ng-template #popContent class="d-flex flex-column">
       @if (createdAt) {
-        <div>{{ 'HOME_ORDER_CREATED_AT' | tr }}: {{ createdAt | date: 'dd.MM.yy HH:mm:ss' }}</div>
+        <div>{{ 'HOME_ORDER_CREATED_AT' | transloco }}: {{ createdAt | date: 'dd.MM.yy HH:mm:ss' }}</div>
       }
       @if (processedAt) {
         <div>Verarbeitet um: {{ processedAt | date: 'dd.MM.yy HH:mm:ss' }}</div>
@@ -80,7 +80,7 @@ import {GetImplodedOrderProductResponse, GetOrderResponse} from '../../../_share
   standalone: true,
   selector: 'app-order-state-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, BiComponent, DfxTr, NgbTooltip, DatePipe, NgbPopover],
+  imports: [NgClass, BiComponent, TranslocoPipe, NgbTooltip, DatePipe, NgbPopover],
 })
 export class AppOrderStateBadgeComponent {
   @Input({required: true}) orderState!: GetOrderResponse['state'];

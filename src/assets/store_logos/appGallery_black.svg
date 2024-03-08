@@ -22,11 +22,7 @@
       <cc:Work
         rdf:about=''>
         <dc:format>image/svg+xml</dc:format>
-        <dc:type
-          rdf:resource='http://purl.org/dc/dcmitype/StillImage' />
         <dc:title>Huawei AppGallery</dc:title>
-        <cc:license
-          rdf:resource='http://scripts.sil.org/OFL' />
         <dc:date>23 jul 2020</dc:date>
         <dc:creator>
           <cc:Agent>
@@ -40,27 +36,6 @@
         </dc:rights>
         <dc:language>es</dc:language>
       </cc:Work>
-      <cc:License
-        rdf:about='http://scripts.sil.org/OFL'>
-        <cc:permits
-          rdf:resource='http://scripts.sil.org/pub/OFL/Reproduction' />
-        <cc:permits
-          rdf:resource='http://scripts.sil.org/pub/OFL/Distribution' />
-        <cc:permits
-          rdf:resource='http://scripts.sil.org/pub/OFL/Embedding' />
-        <cc:permits
-          rdf:resource='http://scripts.sil.org/pub/OFL/DerivativeWorks' />
-        <cc:requires
-          rdf:resource='http://scripts.sil.org/pub/OFL/Notice' />
-        <cc:requires
-          rdf:resource='http://scripts.sil.org/pub/OFL/Attribution' />
-        <cc:requires
-          rdf:resource='http://scripts.sil.org/pub/OFL/ShareAlike' />
-        <cc:requires
-          rdf:resource='http://scripts.sil.org/pub/OFL/DerivativeRenaming' />
-        <cc:requires
-          rdf:resource='http://scripts.sil.org/pub/OFL/BundlingWhenSelling' />
-      </cc:License>
     </rdf:RDF>
   </metadata>
   <defs

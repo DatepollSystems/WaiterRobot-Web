@@ -2,57 +2,51 @@ import {ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output}
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 
+import {AppBackButtonComponent} from '@home-shared/components/button/app-back-button.component';
+import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
+
 import {NgSelectModule} from '@ng-select/ng-select';
 
-import {DfxTr} from 'dfx-translate';
-
-import {AppBackButtonComponent} from '../../../_shared/components/button/app-back-button.component';
-import {ScrollableToolbarComponent} from '../../../_shared/components/scrollable-toolbar.component';
-import {AbstractModelEditFormComponent} from '../../../_shared/form/abstract-model-edit-form.component';
-import {AppModelEditSaveBtn} from '../../../_shared/form/app-model-edit-save-btn.component';
-import {injectIsValid} from '../../../../_shared/form';
-import {
-  CreateUserDto,
-  GetOrganisationResponse,
-  GetUserResponse,
-  IdAndNameResponse,
-  UpdateUserDto,
-} from '../../../../_shared/waiterrobot-backend';
+import {TranslocoPipe} from '@ngneat/transloco';
+import {injectIsValid} from '@shared/form';
+import {CreateUserDto, GetOrganisationResponse, GetUserResponse, IdAndNameResponse, UpdateUserDto} from '@shared/waiterrobot-backend';
 
 @Component({
   template: `
     @if (isValid()) {}
 
-    <form #formRef [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column gap-3">
+    <form #formRef class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="submit()">
       <div class="row gy-2">
         <div class="form-group col-sm">
-          <label for="email">{{ 'EMAIL' | tr }}</label>
-          <input class="form-control" type="email" id="email" formControlName="emailAddress" placeholder="{{ 'EMAIL' | tr }}" />
+          <label for="email">{{ 'EMAIL' | transloco }}</label>
+          <input class="form-control" type="email" id="email" formControlName="emailAddress" [placeholder]="'EMAIL' | transloco" />
 
           @if (form.controls.emailAddress.invalid) {
             <small class="text-danger">
-              {{ 'HOME_USERS_EMAIL_INCORRECT' | tr }}
+              {{ 'HOME_USERS_EMAIL_INCORRECT' | transloco }}
             </small>
           }
         </div>
 
         <div class="form-group col-sm">
-          <label for="firstname">{{ 'FIRSTNAME' | tr }}</label>
-          <input class="form-control" type="text" id="firstname" formControlName="firstname" placeholder="{{ 'FIRSTNAME' | tr }}" />
+          <label for="firstname">{{ 'FIRSTNAME' | transloco }}</label>
+          <input class="form-control" type="text" id="firstname" formControlName="firstname" [placeholder]="'FIRSTNAME' | transloco" />
 
           @if (form.controls.firstname.invalid) {
             <small class="text-danger">
-              {{ 'HOME_USERS_NAME_INCORRECT' | tr }}
+              {{ 'HOME_USERS_NAME_INCORRECT' | transloco }}
             </small>
           }
         </div>
 
         <div class="form-group col-sm">
-          <label for="surname">{{ 'SURNAME' | tr }}</label>
-          <input class="form-control" type="text" id="surname" formControlName="surname" placeholder="{{ 'SURNAME' | tr }}" />
+          <label for="surname">{{ 'SURNAME' | transloco }}</label>
+          <input class="form-control" type="text" id="surname" formControlName="surname" [placeholder]="'SURNAME' | transloco" />
           @if (form.controls.surname.invalid) {
             <small class="text-danger">
-              {{ 'HOME_USERS_SUR_NAME_INCORRECT' | tr }}
+              {{ 'HOME_USERS_SUR_NAME_INCORRECT' | transloco }}
             </small>
           }
         </div>
@@ -61,12 +55,12 @@ import {
       <div class="row gy-2">
         <div class="col col-md-6">
           <div class="form-group mb-2">
-            <label for="password">{{ 'PASSWORD' | tr }}</label>
+            <label for="password">{{ 'PASSWORD' | transloco }}</label>
             <input class="form-control" type="password" id="password" formControlName="password" placeholder="*******" />
 
             @if (form.controls.password.invalid) {
               <small class="text-danger">
-                {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
+                {{ 'HOME_USERS_PASSWORD_INCORRECT' | transloco }}
               </small>
             }
           </div>
@@ -74,32 +68,31 @@ import {
           @if (!isCreating()) {
             <div class="form-check form-switch mt-2">
               <input class="form-check-input" type="checkbox" role="switch" id="updatePassword" formControlName="updatePassword" />
-              <label class="form-check-label" for="updatePassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD' | tr }}</label>
+              <label class="form-check-label" for="updatePassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD' | transloco }}</label>
             </div>
           }
         </div>
 
         <div class="form-group col">
-          <label for="orgSelect">{{ 'NAV_ORGANISATIONS' | tr }}</label>
+          <label for="orgSelect">{{ 'NAV_ORGANISATIONS' | transloco }}</label>
           <ng-select
-            [items]="organisations"
             bindLabel="name"
             bindValue="id"
             labelForId="orgSelect"
-            [multiple]="true"
-            placeholder="{{ 'HOME_USERS_ORGS_INPUT_PLACEHOLDER' | tr }}"
             clearAllText="Clear"
-            (change)="userOrganisations.emit($event)"
             formControlName="selectedOrganisations"
-          >
-          </ng-select>
+            [items]="organisations"
+            [multiple]="true"
+            [placeholder]="'HOME_USERS_ORGS_INPUT_PLACEHOLDER' | transloco"
+            (change)="userOrganisations.emit($event)"
+          />
         </div>
       </div>
 
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="sendInvitation" formControlName="sendInvitation" />
         <label class="form-check-label" for="sendInvitation">
-          {{ 'HOME_USERS_SEND_INVITE' | tr }}
+          {{ 'HOME_USERS_SEND_INVITE' | transloco }}
         </label>
       </div>
 
@@ -107,7 +100,7 @@ import {
         <div class="form-check form-switch">
           <input class="form-check-input" type="checkbox" id="isAdmin" formControlName="isAdmin" />
           <label class="form-check-label" for="isAdmin">
-            {{ 'HOME_USERS_ADMIN' | tr }}
+            {{ 'HOME_USERS_ADMIN' | transloco }}
           </label>
         </div>
 
@@ -115,7 +108,7 @@ import {
           <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" id="activated" formControlName="activated" />
             <label class="form-check-label" for="activated">
-              {{ 'HOME_USERS_ACTIVATED' | tr }}
+              {{ 'HOME_USERS_ACTIVATED' | transloco }}
             </label>
           </div>
         }
@@ -123,7 +116,7 @@ import {
         <div class="form-check form-switch">
           <input class="form-check-input" type="checkbox" id="forcePasswordChange" formControlName="forcePasswordChange" />
           <label class="form-check-label" for="forcePasswordChange">
-            {{ 'HOME_USERS_FORCE_PASSWORD_CHANGE' | tr }}
+            {{ 'HOME_USERS_FORCE_PASSWORD_CHANGE' | transloco }}
           </label>
         </div>
       </div>
@@ -134,7 +127,7 @@ import {
   selector: 'app-user-edit-form',
   imports: [
     ReactiveFormsModule,
-    DfxTr,
+    TranslocoPipe,
     AppBackButtonComponent,
     ScrollableToolbarComponent,
     AppModelEditSaveBtn,
@@ -145,7 +138,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserEditFormComponent extends AbstractModelEditFormComponent<CreateUserDto, UpdateUserDto> {
-  @Output() userOrganisations = new EventEmitter<[]>();
+  @Output() readonly userOrganisations = new EventEmitter<[]>();
 
   form = inject(FormBuilder).nonNullable.group({
     emailAddress: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(255), Validators.email]],
@@ -185,9 +178,13 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Create
   constructor() {
     super();
 
-    this.form.controls.updatePassword.valueChanges
-      .pipe(takeUntilDestroyed())
-      .subscribe((value) => (value ? this.form.controls.password.enable() : this.form.controls.password.disable()));
+    this.form.controls.updatePassword.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+      if (value) {
+        this.form.controls.password.enable();
+      } else {
+        this.form.controls.password.disable();
+      }
+    });
 
     this.form.controls.sendInvitation.valueChanges.pipe(takeUntilDestroyed()).subscribe((it) => {
       if (it) {

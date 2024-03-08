@@ -1,13 +1,13 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 
-import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
+import {CreateUserDto, GetUserResponse, IdResponse, UpdateUserDto} from '@shared/waiterrobot-backend';
 
 import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
 
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../../_shared/services/services.interface';
-import {CreateUserDto, GetUserResponse, IdResponse, UpdateUserDto} from '../../../../_shared/waiterrobot-backend';
+import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class UsersService
@@ -19,28 +19,39 @@ export class UsersService
     HasDelete<GetUserResponse>
 {
   url = '/config/user';
-
-  constructor(private httpClient: HttpClient) {}
+  #httpClient = inject(HttpClient);
 
   triggerGet$ = new BehaviorSubject(true);
 
   getAll$(): Observable<GetUserResponse[]> {
-    return this.triggerGet$.pipe(switchMap(() => this.httpClient.get<GetUserResponse[]>(this.url)));
+    return this.triggerGet$.pipe(switchMap(() => this.#httpClient.get<GetUserResponse[]>(this.url)));
   }
 
   getSingle$(id: number): Observable<GetUserResponse> {
-    return this.httpClient.get<GetUserResponse>(`${this.url}/${s_from(id)}`);
+    return this.#httpClient.get<GetUserResponse>(`${this.url}/${s_from(id)}`);
   }
 
   create$(dto: CreateUserDto): Observable<IdResponse> {
-    return this.httpClient.post<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
+    return this.#httpClient.post<IdResponse>(this.url, dto).pipe(
+      tap(() => {
+        this.triggerGet$.next(true);
+      }),
+    );
   }
 
   update$(dto: UpdateUserDto): Observable<IdResponse> {
-    return this.httpClient.put<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
+    return this.#httpClient.put<IdResponse>(this.url, dto).pipe(
+      tap(() => {
+        this.triggerGet$.next(true);
+      }),
+    );
   }
 
   delete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(tap(() => this.triggerGet$.next(true)));
+    return this.#httpClient.delete(`${this.url}/${s_from(id)}`).pipe(
+      tap(() => {
+        this.triggerGet$.next(true);
+      }),
+    );
   }
 }

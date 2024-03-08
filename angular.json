@@ -25,11 +25,15 @@
             "browser": "src/main.ts",
             "polyfills": ["zone.js", "@angular/localize/init"],
             "tsConfig": "tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets", "src/site.webmanifest"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              "src/site.webmanifest",
+              {"glob": "**/*", "input": "node_modules/ng2-pdfjs-viewer/pdfjs", "output": "/assets/pdfjs"}
+            ],
             "styles": [
               "src/styles.scss",
               "node_modules/dfx-helper/styles/helper.scss",
-              "node_modules/dfx-helper/styles/colors.scss",
               "node_modules/dfx-helper/styles/transform.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
@@ -117,7 +121,7 @@
           "configurations": {
             "lava": {
               "buildTarget": "WaiterRobot-Web:build:local-lava",
-              "proxyConfig": "src/proxy.lava.js",
+              "proxyConfig": "src/proxy.lava.json",
               "port": 4300
             },
             "production": {

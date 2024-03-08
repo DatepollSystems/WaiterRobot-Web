@@ -2,27 +2,27 @@ import {DatePipe, NgClass} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 @Component({
   template: `
     <div
-      [ngClass]="{'text-bg-light': printState === 'QUEUED', 'text-bg-success': printState === 'SENT_TO_PRINT'}"
-      [ngbTooltip]="sentToPrinterAt || printedAt ? tipContent : null"
       class="badge d-flex align-items-center gap-2 not-selectable"
       style="width: min-content"
+      [ngClass]="{'text-bg-light': printState === 'QUEUED', 'text-bg-success': printState === 'SENT_TO_PRINT'}"
+      [ngbTooltip]="sentToPrinterAt || printedAt ? tipContent : null"
     >
       @switch (printState) {
         @case ('QUEUED') {
-          <span>{{ 'HOME_ORDER_QUEUED' | tr }}</span>
+          <span>{{ 'HOME_ORDER_QUEUED' | transloco }}</span>
         }
         @case ('SENT_TO_PRINT') {
-          <span>{{ 'HOME_ORDER_SENT_TO_PRINT' | tr }}</span>
+          <span>{{ 'HOME_ORDER_SENT_TO_PRINT' | transloco }}</span>
         }
         @case ('PRINTED') {
-          <span>{{ 'HOME_ORDER_PROCESSED' | tr }}</span>
+          <span>{{ 'HOME_ORDER_PROCESSED' | transloco }}</span>
         }
       }
 
@@ -73,7 +73,7 @@ import {DfxTr} from 'dfx-translate';
   standalone: true,
   selector: 'app-order-product-state-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, BiComponent, DfxTr, DatePipe, NgbTooltip],
+  imports: [NgClass, BiComponent, TranslocoPipe, DatePipe, NgbTooltip],
 })
 export class AppOrderProductStateBadgeComponent {
   @Input({required: true}) printState!: 'PRINTED' | 'SENT_TO_PRINT' | 'QUEUED';

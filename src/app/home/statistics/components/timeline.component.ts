@@ -4,21 +4,21 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl} from '@angular/forms';
 
-import {BehaviorSubject, combineLatest, debounceTime, filter, map, merge, of, startWith, switchMap} from 'rxjs';
+import {dateToBackendDateTimeString} from '@shared/services/datepicker-adapter';
+import {StatisticsTimelineResponse} from '@shared/waiterrobot-backend';
 
 import * as shape from 'd3-shape';
 
 import {d_from, notNullAndUndefined} from 'dfts-helper';
 
-import {dateToBackendDateTimeString} from '../../../_shared/services/datepicker-adapter';
-import {StatisticsTimelineResponse} from '../../../_shared/waiterrobot-backend';
+import {BehaviorSubject, combineLatest, debounceTime, filter, map, merge, of, startWith, switchMap} from 'rxjs';
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 
 type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
 
 @Component({
   template: `
-    <h3>{{ 'HOME_STATISTICS_ORDER_HISTORY' | tr }}</h3>
+    <h3>{{ 'HOME_STATISTICS_ORDER_HISTORY' | transloco }}</h3>
     <div class="d-flex flex-wrap gap-2 justify-content-between align-items-end">
       @if (selectedTimelineType$ | async; as selected) {
         <div class="btn-group" role="group" aria-label="Basic example">
@@ -28,7 +28,7 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
             [class.active]="selected === 'PRODUCTS'"
             (click)="selectedTimelineType$.next('PRODUCTS')"
           >
-            {{ 'HOME_PROD_ALL' | tr }}
+            {{ 'HOME_PROD_ALL' | transloco }}
           </button>
           <button
             type="button"
@@ -36,7 +36,7 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
             [class.active]="selected === 'PRODUCT_GROUPS'"
             (click)="selectedTimelineType$.next('PRODUCT_GROUPS')"
           >
-            {{ 'HOME_PROD_GROUPS' | tr }}
+            {{ 'HOME_PROD_GROUPS' | transloco }}
           </button>
           <button
             type="button"
@@ -44,45 +44,45 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
             [class.active]="selected === 'WAITERS'"
             (click)="selectedTimelineType$.next('WAITERS')"
           >
-            {{ 'NAV_WAITERS' | tr }}
+            {{ 'NAV_WAITERS' | transloco }}
           </button>
         </div>
       }
 
       <div class="row align-items-end justify-content-end gy-2">
         <div class="form-group col-12 col-md-6 col-lg-4">
-          <label for="startDate">{{ 'HOME_EVENTS_START_DATE' | tr }}</label>
+          <label for="startDate">{{ 'HOME_EVENTS_START_DATE' | transloco }}</label>
           <app-datetime-input
             id="startDate"
-            [formControl]="startDateFormControl"
             minuteStep="30"
+            [formControl]="startDateFormControl"
             [seconds]="false"
-            placeholder="{{ 'DATETIME_PLACEHOLDER' | tr }}"
+            [placeholder]="'DATETIME_PLACEHOLDER' | transloco"
           />
         </div>
 
         <div class="form-group col-12 col-md-6 col-lg-4">
-          <label for="endDate">{{ 'HOME_EVENTS_END_DATE' | tr }}</label>
+          <label for="endDate">{{ 'HOME_EVENTS_END_DATE' | transloco }}</label>
           <app-datetime-input
             id="endDate"
-            [formControl]="endDateFormControl"
             minuteStep="30"
+            [formControl]="endDateFormControl"
             [seconds]="false"
-            placeholder="{{ 'DATETIME_PLACEHOLDER' | tr }}"
+            [placeholder]="'DATETIME_PLACEHOLDER' | transloco"
           />
         </div>
 
         <div class="col-12 col-md-4 col-lg-3">
-          <select [formControl]="selectedTimelinePrecision$" class="form-select" id="timeline-precision-select">
-            <option [value]="2">{{ 'HOME_STATISTICS_MINUTES_2' | tr }}</option>
-            <option [value]="5">{{ 'HOME_STATISTICS_MINUTES_5' | tr }}</option>
-            <option [value]="10">{{ 'HOME_STATISTICS_MINUTES_10' | tr }}</option>
-            <option [value]="20">{{ 'HOME_STATISTICS_MINUTES_20' | tr }}</option>
-            <option [value]="30">{{ 'HOME_STATISTICS_MINUTES_30' | tr }}</option>
-            <option [value]="60">{{ 'HOME_STATISTICS_HOURS_1' | tr }}</option>
-            <option [value]="180">{{ 'HOME_STATISTICS_HOURS_3' | tr }}</option>
-            <option [value]="360">{{ 'HOME_STATISTICS_HOURS_6' | tr }}</option>
-            <option [value]="720">{{ 'HOME_STATISTICS_HOURS_12' | tr }}</option>
+          <select class="form-select" id="timeline-precision-select" [formControl]="selectedTimelinePrecision$">
+            <option [value]="2">{{ 'HOME_STATISTICS_MINUTES_2' | transloco }}</option>
+            <option [value]="5">{{ 'HOME_STATISTICS_MINUTES_5' | transloco }}</option>
+            <option [value]="10">{{ 'HOME_STATISTICS_MINUTES_10' | transloco }}</option>
+            <option [value]="20">{{ 'HOME_STATISTICS_MINUTES_20' | transloco }}</option>
+            <option [value]="30">{{ 'HOME_STATISTICS_MINUTES_30' | transloco }}</option>
+            <option [value]="60">{{ 'HOME_STATISTICS_HOURS_1' | transloco }}</option>
+            <option [value]="180">{{ 'HOME_STATISTICS_HOURS_3' | transloco }}</option>
+            <option [value]="360">{{ 'HOME_STATISTICS_HOURS_6' | transloco }}</option>
+            <option [value]="720">{{ 'HOME_STATISTICS_HOURS_12' | transloco }}</option>
           </select>
         </div>
       </div>
@@ -101,15 +101,15 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
               [yAxis]="true"
               [xAxisTickFormatting]="xFormatting"
               [legend]="false"
-              xAxisLabel="{{ 'DATE' | tr }}"
-              yAxisLabel="{{ 'COUNT' | tr }}"
+              [xAxisLabel]="'DATE' | transloco"
+              [yAxisLabel]="'COUNT' | transloco"
               [timeline]="true"
               [curve]="curve"
               [results]="timelineResponse.data"
             />
           </div>
         } @else {
-          <h5 class="text-center my-4" style="height: 100px">{{ 'HOME_STATISTICS_NO_DATA_FOR_THIS_TIME' | tr }}</h5>
+          <h5 class="text-center my-4" style="height: 100px">{{ 'HOME_STATISTICS_NO_DATA_FOR_THIS_TIME' | transloco }}</h5>
         }
       } @else {
         <div class="d-flex justify-content-center">

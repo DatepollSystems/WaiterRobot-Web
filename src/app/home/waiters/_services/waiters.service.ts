@@ -1,19 +1,13 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 
-import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
+import {CreateWaiterDto, GetEventOrLocationResponse, GetWaiterResponse, IdResponse, UpdateWaiterDto} from '@shared/waiterrobot-backend';
 
 import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from 'dfx-helper';
 
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../_shared/services/services.interface';
-import {
-  CreateWaiterDto,
-  GetEventOrLocationResponse,
-  GetWaiterResponse,
-  IdResponse,
-  UpdateWaiterDto,
-} from '../../../_shared/waiterrobot-backend';
+import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class WaitersService
@@ -44,14 +38,26 @@ export class WaitersService
   }
 
   create$(dto: CreateWaiterDto): Observable<IdResponse> {
-    return this.httpClient.post<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
+    return this.httpClient.post<IdResponse>(this.url, dto).pipe(
+      tap(() => {
+        this.triggerGet$.next(true);
+      }),
+    );
   }
 
   update$(dto: UpdateWaiterDto): Observable<IdResponse> {
-    return this.httpClient.put<IdResponse>(this.url, dto).pipe(tap(() => this.triggerGet$.next(true)));
+    return this.httpClient.put<IdResponse>(this.url, dto).pipe(
+      tap(() => {
+        this.triggerGet$.next(true);
+      }),
+    );
   }
 
   delete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(tap(() => this.triggerGet$.next(true)));
+    return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(
+      tap(() => {
+        this.triggerGet$.next(true);
+      }),
+    );
   }
 }

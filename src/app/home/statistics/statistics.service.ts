@@ -2,9 +2,9 @@ import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 
-import {map, switchMap} from 'rxjs';
+import {StatisticsCountResponse, StatisticsSumResponse} from '@shared/waiterrobot-backend';
 
-import {StatisticsCountResponse, StatisticsSumResponse} from '../../_shared/waiterrobot-backend';
+import {map, switchMap} from 'rxjs';
 import {SelectedEventService} from '../events/_services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
@@ -16,7 +16,7 @@ export class StatisticsService {
   counts = toSignal(
     this.selectedEventId$.pipe(
       switchMap((eventId) => this.httpClient.get<StatisticsCountResponse>('/config/statistics/counts', {params: {eventId}})),
-      map((response) => ({...response, turnover: (response.turnover ?? 0) / 100})),
+      map((response) => ({...response, turnover: response.turnover / 100})),
     ),
   );
 

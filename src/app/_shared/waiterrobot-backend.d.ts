@@ -1,3 +1,4 @@
+/* eslint-disable */
 /* tslint:disable */
 /*
  * ---------------------------------------------------------------
@@ -156,6 +157,21 @@ export interface UpdateTableGroupDto {
   color?: string;
 }
 
+export interface UpdateStripeAccountDto {
+  id: string;
+  /**
+   * @minLength 4
+   * @maxLength 40
+   */
+  name: string;
+  /** @format int64 */
+  eventId?: number;
+}
+
+export interface AlphabeticIdResponse {
+  id: string;
+}
+
 export interface UpdateProductDto {
   /** @format int64 */
   id: number;
@@ -280,6 +296,14 @@ export interface OrganisationUserDto {
 
 export interface OrganisationSettingStringSetDto {
   value: string;
+}
+
+export interface OrganisationSettingsResponse {
+  activateWaiterOnLoginViaCreateToken: boolean;
+  timezone: string;
+  stripeEnabled: boolean;
+  /** @uniqueItems true */
+  availableTimezones: string[];
 }
 
 export interface OrganisationSettingBooleanSetDto {
@@ -689,6 +713,19 @@ export interface CreateTableGroupDto {
   eventId: number;
 }
 
+export interface CreateStripeAccountDto {
+  /**
+   * @minLength 4
+   * @maxLength 40
+   */
+  name: string;
+  /** @format int64 */
+  organisationId: number;
+  /** @format int64 */
+  eventId?: number;
+  businessType: 'COMPANY' | 'INDIVIDUAL' | 'NON_PROFIT';
+}
+
 export interface CreateProductDto {
   /**
    * @minLength 1
@@ -1080,6 +1117,7 @@ export interface TempNotification {
   subject: string;
   body: string;
   bodyHTML?: string;
+  id: string;
   /** @format date-time */
   createdAt: string;
 }
@@ -1129,6 +1167,30 @@ export interface GetUserResponse {
   activated: boolean;
   forcePasswordChange: boolean;
   role: 'ADMIN' | 'USER';
+}
+
+export interface GetStripeAccountResponse {
+  id: string;
+  name: string;
+  /** @format int64 */
+  organisationId: number;
+  event?: GetEventOrLocationMinResponse;
+  state: 'ONBOARDING' | 'ACTIVE';
+}
+
+export interface GetStripeAccountLinkResponse {
+  dashboardUrl?: string;
+  onboardingUrl?: string;
+}
+
+export interface GetStripeAccountMaxResponse {
+  id: string;
+  name: string;
+  /** @format int64 */
+  organisationId: number;
+  event?: GetEventOrLocationMinResponse;
+  state: 'ONBOARDING' | 'ACTIVE';
+  link: GetStripeAccountLinkResponse;
 }
 
 export interface StatisticsTimelineDataEntryResponse {
@@ -1275,13 +1337,6 @@ export interface PaginatedResponseGetOrganisationResponse {
   /** @format int32 */
   numberOfPages: number;
   data: GetOrganisationResponse[];
-}
-
-export interface OrganisationSettingResponse {
-  activateWaiterOnLoginViaCreateToken: boolean;
-  /** @uniqueItems true */
-  availableTimezones: string[];
-  timezone: string;
 }
 
 export interface GetOrderMinResponse {

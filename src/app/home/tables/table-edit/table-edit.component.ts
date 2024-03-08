@@ -3,8 +3,6 @@ import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/cor
 import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 
-import {filter, map} from 'rxjs';
-
 import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
 import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
@@ -16,6 +14,8 @@ import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
 import {n_from, n_isNumeric} from 'dfts-helper';
 
+import {filter, map, shareReplay} from 'rxjs';
+
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TablesService} from '../_services/tables.service';
@@ -25,55 +25,44 @@ import {TableEditFormComponent} from './table-edit-form.component';
   template: `
     @if (entity(); as entity) {
       <div class="d-flex flex-column gap-2">
-        <h1 *isCreating="entity">{{ 'HOME_TABLES_ADD' | tr }}</h1>
-        <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | tr }} {{ entity.group.name }} - {{ entity.number }}</h1>
-        <h1 *isEditingAndDeleted="entity">{{ entity.group.name }} - {{ entity.number }} {{ 'DELETED' | tr }}</h1>
+        <h1 *isCreating="entity">{{ 'HOME_TABLES_ADD' | transloco }}</h1>
+        <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | transloco }} {{ entity.group.name }} - {{ entity.number }}</h1>
+        <h1 *isEditingAndDeleted="entity">{{ entity.group.name }} - {{ entity.number }} {{ 'DELETED' | transloco }}</h1>
 
         <scrollable-toolbar>
           <back-button />
 
           <ng-container *isEditingAndNotDeleted="entity">
             <div>
-              <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+              <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
                 <bi name="trash" />
-                {{ 'DELETE' | tr }}
+                {{ 'DELETE' | transloco }}
               </button>
             </div>
             @if (publicIdLink(); as link) {
               <div>
                 <a class="btn btn-sm btn-info" [href]="link">
                   <bi name="box-arrow-up-right" />
-                  {{ 'HOME_TABLES_PUBLIC_ID' | tr }}
+                  {{ 'HOME_TABLES_PUBLIC_ID' | transloco }}
                 </a>
               </div>
             }
 
             <div>
-              <a class="btn btn-sm btn-primary" routerLink="../groups/tables/{{ entity.groupId }}">
-                <bi name="diagram-3" />
-                {{ 'HOME_TABLE_GO_TO_GROUP' | tr }}
-              </a>
-            </div>
-
-            <div>
-              <a
-                class="btn btn-sm btn-outline-secondary text-body-emphasis"
-                routerLink="../../orders"
-                [queryParams]="{tableIds: entity.id}"
-              >
+              <a class="btn btn-sm btn-secondary" routerLink="../../orders" [queryParams]="{tableIds: entity.id}">
                 <bi name="stack" />
-                {{ 'NAV_ORDERS' | tr }}
+                {{ 'NAV_ORDERS' | transloco }}
               </a>
             </div>
             <div>
-              <a class="btn btn-sm btn-outline-secondary text-body-emphasis" routerLink="../../bills" [queryParams]="{tableIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" routerLink="../../bills" [queryParams]="{tableIds: entity.id}">
                 <bi name="cash-coin" />
-                {{ 'NAV_BILLS' | tr }}
+                {{ 'NAV_BILLS' | transloco }}
               </a>
             </div>
           </ng-container>
 
-          <div class="d-flex align-items-center" *isCreating="entity">
+          <div *isCreating="entity" class="d-flex align-items-center">
             <app-continues-creation-switch (continuesCreationChange)="continuousCreation.set($event)" />
           </div>
         </scrollable-toolbar>
@@ -83,19 +72,20 @@ import {TableEditFormComponent} from './table-edit-form.component';
         @if ((tableGroups()?.length ?? 1) < 1) {
           <div class="alert alert-warning d-flex gap-2">
             <bi name="exclamation-triangle-fill" />
-            <a class="link-warning" routerLink="../groups/create">{{ 'HOME_TABLE_ADD_GROUP_FIRST' | tr }}</a>
+            <a class="link-warning" routerLink="../groups/create">{{ 'HOME_TABLE_ADD_GROUP_FIRST' | transloco }}</a>
           </div>
         }
 
         <app-table-edit-form
           #form
-          (submitUpdate)="onSubmit('UPDATE', $event)"
-          (submitCreate)="onSubmit('CREATE', $event)"
           [tableGroups]="tableGroups() ?? []"
           [selectedEventId]="selectedEventId()!"
           [selectedTableGroupId]="selectedTableGroupId()"
           [table]="entity"
+          [number]="selectedNumber()"
           [formDisabled]="(tableGroups()?.length ?? 1) < 1 || (entity !== 'CREATE' && !!entity.deleted)"
+          (submitUpdate)="onSubmit('UPDATE', $event)"
+          (submitCreate)="onSubmit('CREATE', $event)"
         />
       </div>
     } @else {
@@ -131,9 +121,20 @@ export class TableEditComponent extends AbstractModelEditComponent<GetTableWithG
   ml = inject(MobileLinkService);
   selectedEventId = inject(SelectedEventService).selectedId;
   tableGroups = toSignal(inject(TableGroupsService).getAll$());
+
+  queryParams = this.route.queryParams.pipe(shareReplay());
+
   selectedTableGroupId = toSignal(
-    this.route.queryParams.pipe(
+    this.queryParams.pipe(
       map((params) => params.group as string),
+      filter(n_isNumeric),
+      map((id) => n_from(id)),
+    ),
+  );
+
+  selectedNumber = toSignal(
+    this.queryParams.pipe(
+      map((params) => params.number as string),
       filter(n_isNumeric),
       map((id) => n_from(id)),
     ),

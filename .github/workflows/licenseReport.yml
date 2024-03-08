@@ -1,33 +1,32 @@
-  name: Generate license report
-  on:
-    workflow_dispatch:
-    schedule:
-      - cron: '0 4 */30 * *' # At 04:00 on every 30ts day-of-month.
+name: Generate license report
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 4 */30 * *' # At 04:00 on every 30ts day-of-month.
 
-  jobs:
-    generate-license-pr:
-      runs-on: ubuntu-latest
-      steps:
-        - name: checkout your repository using git
-          uses: actions/checkout@v4
+jobs:
+  generate-license-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout your repository using git
+        uses: actions/checkout@v4
 
+      - name: setup node and pnpm
+        uses: dafnik/setup-node-pnpm@v2
+        with:
+          install-ignore-scripts: true
 
-        - name: setup node and pnpm
-          uses: dafnik/setup-node-pnpm@v2
-          with:
-            install-ignore-scripts: true
+      - name: generate license report
+        id: license-report
+        uses: dafnik/generate-license-report@v2
+        with:
+          license-report-path: 'src/assets/licenses.json'
 
-        - name: generate license report
-          id: license-report
-          uses: dafnik/generate-license-report@v2
-          with:
-            license-report-path: 'src/assets/licenses.json'
-
-        - name: create new pull request if needed
-          if: steps.license-report.outputs.has-no-changes != 'true'
-          uses: peter-evans/create-pull-request@v6
-          with:
-            title: Generated new licenses report
-            branch-suffix: timestamp
-            commit-message: 'chore: generate new license report'
-            body: ${{ steps.license-report.outputs.diff }}
+      - name: create new pull request if needed
+        if: steps.license-report.outputs.has-no-changes != 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          title: Generated new licenses report
+          branch-suffix: timestamp
+          commit-message: 'chore: generate new license report'
+          body: ${{ steps.license-report.outputs.diff }}

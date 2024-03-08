@@ -1,7 +1,6 @@
-import {map, Observable, switchMap} from 'rxjs';
-
 import {IHasID} from 'dfts-helper';
 import {HasGetAll} from 'dfx-helper';
+import {map, Observable, switchMap} from 'rxjs';
 
 export function getOrderBySelected<T extends IHasID<string | number>>(
   selectedService: {selectedNotNull$: Observable<T>},
@@ -11,11 +10,8 @@ export function getOrderBySelected<T extends IHasID<string | number>>(
     switchMap((selected) =>
       service.getAll$().pipe(
         map((entities) => {
-          if (!selected) {
-            return entities;
-          }
-          const arr = entities.filter(({id}) => selected?.id !== id);
-          const found = entities.find(({id}) => selected?.id === id);
+          const arr = entities.filter(({id}) => selected.id !== id);
+          const found = entities.find(({id}) => selected.id === id);
           if (found) {
             return [found].concat(arr);
           }

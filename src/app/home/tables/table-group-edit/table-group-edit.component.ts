@@ -17,51 +17,43 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
   template: `
     @if (entity(); as entity) {
       <div class="d-flex flex-column gap-2">
-        <h1 *isCreating="entity">{{ 'HOME_TABLE_GROUPS_ADD' | tr }}</h1>
-        <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
-        <h1 *isEditingAndDeleted="entity">{{ entity.name }} {{ 'DELETED' | tr }}</h1>
+        <h1 *isCreating="entity">{{ 'HOME_TABLE_GROUPS_ADD' | transloco }}</h1>
+        <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | transloco }} {{ entity.name }}</h1>
+        <h1 *isEditingAndDeleted="entity">{{ entity.name }} {{ 'DELETED' | transloco }}</h1>
 
         <scrollable-toolbar>
           <back-button />
 
           <ng-container *isEditingAndNotDeleted="entity">
             <div>
-              <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+              <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
                 <bi name="trash" />
-                {{ 'DELETE' | tr }}
+                {{ 'DELETE' | transloco }}
               </button>
             </div>
 
             <div>
-              <a routerLink="../tables/{{ entity.id }}" class="btn btn-sm btn-primary">
+              <a class="btn btn-sm btn-primary" [routerLink]="'../tables/' + entity.id">
                 <bi name="columns-gap" />
-                {{ 'HOME_TABLE_GROUP_SHOW_TABLES' | tr }}</a
+                {{ 'HOME_TABLE_GROUP_SHOW_TABLES' | transloco }}</a
               >
             </div>
 
             <div>
-              <a
-                class="btn btn-sm btn-outline-secondary text-body-emphasis"
-                routerLink="../../../orders"
-                [queryParams]="{tableGroupIds: entity.id}"
-              >
+              <a class="btn btn-sm btn-secondary" routerLink="../../../orders" [queryParams]="{tableGroupIds: entity.id}">
                 <bi name="stack" />
-                {{ 'NAV_ORDERS' | tr }}
+                {{ 'NAV_ORDERS' | transloco }}
               </a>
             </div>
             <div>
-              <a
-                class="btn btn-sm btn-outline-secondary text-body-emphasis"
-                routerLink="../../../bills"
-                [queryParams]="{tableGroupIds: entity.id}"
-              >
+              <a class="btn btn-sm btn-secondary" routerLink="../../../bills" [queryParams]="{tableGroupIds: entity.id}">
                 <bi name="cash-coin" />
-                {{ 'NAV_BILLS' | tr }}
+                {{ 'NAV_BILLS' | transloco }}
               </a>
             </div>
           </ng-container>
 
-          <div class="d-flex align-items-center" *isCreating="entity">
+          <div *isCreating="entity" class="d-flex align-items-center">
             <app-continues-creation-switch (continuesCreationChange)="continuousCreation.set($event)" />
           </div>
         </scrollable-toolbar>
@@ -70,11 +62,11 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
 
         <app-table-group-edit-form
           #form
-          (submitUpdate)="onSubmit('UPDATE', $event)"
-          (submitCreate)="onSubmit('CREATE', $event)"
           [tableGroup]="entity"
           [selectedEventId]="selectedEventId()!"
           [formDisabled]="entity !== 'CREATE' && !!entity.deleted"
+          (submitUpdate)="onSubmit('UPDATE', $event)"
+          (submitCreate)="onSubmit('CREATE', $event)"
         />
       </div>
     } @else {

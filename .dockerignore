@@ -5,7 +5,6 @@ node_modules
 .gitignore
 *.md
 dist
-.husky
 .editorconfig
 .eslintrc.json
 .prettierignore

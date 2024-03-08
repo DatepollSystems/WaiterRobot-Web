@@ -2,21 +2,23 @@ import {NgClass} from '@angular/common';
 import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, Output, signal} from '@angular/core';
 
 import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 import {AppIsLightColorPipe} from './app-is-light-color.pipe';
 
 @Component({
   template: `
-    <div class="btn-group">
+    <div class="btn-group" role="group">
       <button
         id="color-picker-button"
-        class="btn btn-outline-info"
-        (click)="showColorPicker.set(!showColorPicker())"
-        [disabled]="disabled"
+        class="btn btn-outline-secondary"
         type="button"
+        placement="bottom"
+        container="body"
+        popoverClass="color-picker-class"
+        [disabled]="disabled"
         [style.background-color]="color"
         [style.border-color]="color"
         [ngClass]="{
@@ -25,29 +27,28 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
           'text-body-emphasis': !color
         }"
         [autoClose]="'outside'"
-        placement="bottom"
         [ngbPopover]="popContent"
-        container="body"
-        popoverClass="color-picker-class"
+        (click)="showColorPicker.set(!showColorPicker())"
       >
-        {{ 'COLOR_PICKER' | tr }}
+        {{ 'COLOR_PICKER' | transloco }}
       </button>
 
       <button
         class="btn btn-outline-secondary"
-        (click)="color = undefined; colorChange.emit(undefined)"
-        [disabled]="disabled"
         type="button"
-        ngbTooltip="{{ 'RESET' | tr }}"
+        [disabled]="disabled"
+        (click)="color = undefined; colorChange.emit(undefined)"
       >
-        <bi name="x-circle-fill" />
+        <bi name="x-circle-fill" [ngbTooltip]="'RESET' | transloco" />
       </button>
     </div>
 
     <ng-template #popContent>
       <div class="d-flex flex-row flex-wrap" style="width: 200px">
         @for (color of colors; track color) {
-          <button class="color-btn" type="button" (click)="changeColor(color)" [style.background-color]="color"></button>
+          <button class="color-btn" type="button" [style.background-color]="color" (click)="changeColor(color)">
+            <span class="visually-hidden">Pick {{ color }}</span>
+          </button>
         }
       </div>
     </ng-template>
@@ -64,7 +65,7 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
   standalone: true,
   selector: 'app-color-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DfxTr, BiComponent, NgbPopover, NgClass, AppIsLightColorPipe, NgbTooltip],
+  imports: [TranslocoPipe, BiComponent, NgbPopover, NgClass, AppIsLightColorPipe, NgbTooltip],
 })
 export class AppColorPicker {
   @Input() color?: string | null;
@@ -89,7 +90,7 @@ export class AppColorPicker {
   ];
 
   @Output()
-  colorChange: EventEmitter<string> = new EventEmitter<string>();
+  readonly colorChange: EventEmitter<string> = new EventEmitter<string>();
 
   changeColor(event: string): void {
     this.color = event;

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, numberAttribute} from '@angular/core';
 
-import {StatisticsSumResponse} from '../../../../_shared/waiterrobot-backend';
+import {StatisticsSumResponse} from '@shared/waiterrobot-backend';
 
 @Component({
   selector: 'app-sum-statistics',

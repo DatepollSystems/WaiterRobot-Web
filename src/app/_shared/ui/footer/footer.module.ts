@@ -5,14 +5,14 @@ import {RouterLink} from '@angular/router';
 
 import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
-import {DfxTr} from 'dfx-translate';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {AboutModalComponent} from './about-modal.component';
 import {FooterComponent} from './footer.component';
 
 @NgModule({
   declarations: [AboutModalComponent, FooterComponent],
-  imports: [AsyncPipe, DfxTr, FormsModule, LowerCasePipe, NgbNavModule, NgOptimizedImage, RouterLink],
+  imports: [AsyncPipe, FormsModule, LowerCasePipe, NgbNavModule, NgOptimizedImage, RouterLink, TranslocoPipe],
   exports: [FooterComponent],
 })
 export class FooterModule {}

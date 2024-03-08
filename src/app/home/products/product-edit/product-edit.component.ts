@@ -2,17 +2,18 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 
-import {filter, map} from 'rxjs';
+import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
+import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
+import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
+import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
+import {injectContinuousCreation, injectOnDelete} from '@home-shared/form/edit';
+import {injectOnSubmit} from '@shared/form';
+import {GetProductMaxResponse} from '@shared/waiterrobot-backend';
 
 import {n_from, n_isNumeric} from 'dfts-helper';
 
-import {injectOnSubmit} from '../../../_shared/form';
-import {GetProductMaxResponse} from '../../../_shared/waiterrobot-backend';
-import {AbstractModelEditComponent} from '../../_shared/form/abstract-model-edit.component';
-import {AppContinuesCreationSwitchComponent} from '../../_shared/form/app-continues-creation-switch.component';
-import {AppDeletedDirectives} from '../../_shared/form/app-entity-deleted.directives';
-import {AppEntityEditModule} from '../../_shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectOnDelete} from '../../_shared/form/edit';
+import {filter, map} from 'rxjs';
+
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {PrintersService} from '../../printers/_services/printers.service';
 import {AllergensService} from '../_services/allergens.service';
@@ -24,49 +25,34 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
   template: `
     @if (entity(); as entity) {
       <div class="d-flex flex-column gap-2">
-        <h1 *isCreating="entity">{{ 'HOME_PROD_ADD' | tr }}</h1>
-        <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
-        <h1 *isEditingAndDeleted="entity">{{ entity.name }} {{ 'DELETED' | tr }}</h1>
+        <h1 *isCreating="entity">{{ 'HOME_PROD_ADD' | transloco }}</h1>
+        <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | transloco }} {{ entity.name }}</h1>
+        <h1 *isEditingAndDeleted="entity">{{ entity.name }} {{ 'DELETED' | transloco }}</h1>
 
         <scrollable-toolbar>
           <back-button />
           <ng-container *isEditingAndNotDeleted="entity">
             <div>
-              <button class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+              <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
                 <bi name="trash" />
-                {{ 'DELETE' | tr }}
+                {{ 'DELETE' | transloco }}
               </button>
             </div>
 
             <div>
-              <button class="btn btn-sm btn-primary" routerLink="../groups/products/{{ entity.group.id }}">
-                <bi name="diagram-3" />
-                {{ 'HOME_PROD_GO_TO_GROUP' | tr }}
-              </button>
-            </div>
-
-            <div>
-              <a
-                class="btn btn-sm btn-outline-secondary text-body-emphasis"
-                routerLink="../../orders"
-                [queryParams]="{productIds: entity.id}"
-              >
+              <a class="btn btn-sm btn-secondary" routerLink="../../orders" [queryParams]="{productIds: entity.id}">
                 <bi name="stack" />
-                {{ 'NAV_ORDERS' | tr }}
+                {{ 'NAV_ORDERS' | transloco }}
               </a>
             </div>
             <div>
-              <a
-                class="btn btn-sm btn-outline-secondary text-body-emphasis"
-                routerLink="../../bills"
-                [queryParams]="{productIds: entity.id}"
-              >
+              <a class="btn btn-sm btn-secondary" routerLink="../../bills" [queryParams]="{productIds: entity.id}">
                 <bi name="cash-coin" />
-                {{ 'NAV_BILLS' | tr }}
+                {{ 'NAV_BILLS' | transloco }}
               </a>
             </div>
           </ng-container>
-          <div class="d-flex align-items-center" *isCreating="entity">
+          <div *isCreating="entity" class="d-flex align-items-center">
             <app-continues-creation-switch (continuesCreationChange)="continuousCreation.set($event)" />
           </div>
         </scrollable-toolbar>
@@ -77,14 +63,12 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
           @defer (on timer(200)) {
             <div class="alert alert-warning d-flex gap-2">
               <bi name="exclamation-triangle-fill" />
-              <a class="link-warning" routerLink="../groups/create">{{ 'HOME_PROD_ADD_GROUP_FIRST' | tr }}</a>
+              <a class="link-warning" routerLink="../groups/create">{{ 'HOME_PROD_ADD_GROUP_FIRST' | transloco }}</a>
             </div>
           }
         }
         <app-product-edit-form
           #form
-          (submitUpdate)="onSubmit('UPDATE', $event)"
-          (submitCreate)="onSubmit('CREATE', $event)"
           [allergens]="allergens()"
           [printers]="printers()"
           [productGroups]="productGroups() ?? []"
@@ -92,6 +76,8 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
           [selectedProductGroupId]="selectedProductGroupId()"
           [product]="entity"
           [formDisabled]="(productGroups()?.length ?? 1) < 1 || (entity !== 'CREATE' && !!entity.deleted)"
+          (submitUpdate)="onSubmit('UPDATE', $event)"
+          (submitCreate)="onSubmit('CREATE', $event)"
         />
       </div>
     } @else {

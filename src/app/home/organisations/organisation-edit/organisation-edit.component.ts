@@ -1,26 +1,30 @@
 import {Component, computed, inject} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
+import {AppSelectableBtnComponent} from '@home-shared/components/button/app-selectable-btn.component';
+import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
+import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
+import {injectOnDelete, injectTabControls} from '@home-shared/form/edit';
+import {injectIdParam$} from '@home-shared/services/injectActivatedRouteIdParam';
+import {MyUserService} from '@home-shared/services/user/my-user.service';
 import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
+import {injectOnSubmit} from '@shared/form';
+import {GetOrganisationResponse} from '@shared/waiterrobot-backend';
+import {OrganisationsSettingsService} from '../_services/organisations-settings.service';
 
-import {injectOnSubmit} from '../../../_shared/form';
-import {GetOrganisationResponse} from '../../../_shared/waiterrobot-backend';
-import {AppSelectableBtnComponent} from '../../_shared/components/button/app-selectable-btn.component';
-import {AbstractModelEditComponent} from '../../_shared/form/abstract-model-edit.component';
-import {AppEntityEditModule} from '../../_shared/form/app-entity-edit.module';
-import {injectOnDelete, injectTabControls} from '../../_shared/form/edit';
-import {MyUserService} from '../../_shared/services/user/my-user.service';
 import {OrganisationsService} from '../_services/organisations.service';
 import {SelectedOrganisationService} from '../_services/selected-organisation.service';
 import {AppOrganisationEditFormComponent} from './organisation-edit-form.component';
 import {OrganisationEditSettingsComponent} from './organisation-edit-settings.component';
-import {OrganisationEditUsersComponent} from './organisation-edit-users.component';
+import {OrganisationEditStripeComponent} from './organisation-edit-stripe/organisation-edit-stripe.component';
+import {OrganisationEditUsersComponent} from './organisation-edit-users/organisation-edit-users.component';
 
 @Component({
   template: `
     @if (entity(); as entity) {
       <div class="d-flex flex-column gap-2">
-        <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
-        <h1 *isCreating="entity">{{ 'ADD_2' | tr }}</h1>
+        <h1 *isEditing="entity">{{ 'EDIT_2' | transloco }} {{ entity.name }}</h1>
+        <h1 *isCreating="entity">{{ 'ADD_2' | transloco }}</h1>
 
         <scrollable-toolbar>
           <back-button />
@@ -28,9 +32,9 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
           <ng-container *isEditing="entity">
             @if (myUser()?.isAdmin) {
               <div>
-                <button class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
+                <button type="button" class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
                   <bi name="trash" />
-                  {{ 'DELETE' | tr }}
+                  {{ 'DELETE' | transloco }}
                 </button>
               </div>
             }
@@ -44,39 +48,46 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
           </ng-container>
         </scrollable-toolbar>
 
-        <hr />
+        <div class="mt-1"></div>
 
         <ul
-          ngbNav
           #nav="ngbNav"
-          [activeId]="tabControls.activeTab()"
+          ngbNav
           class="nav-tabs"
+          [activeId]="tabControls.activeTab()"
           (navChange)="tabControls.navigateToTab($event.nextId)"
         >
           <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">
-            <a ngbNavLink>{{ 'DATA' | tr }}</a>
+            <a ngbNavLink>{{ 'DATA' | transloco }}</a>
             <ng-template ngbNavContent>
               <app-organisation-edit-form
                 #form
-                (submitUpdate)="onSubmit('UPDATE', $event)"
-                (submitCreate)="onSubmit('CREATE', $event)"
                 [formDisabled]="!myUser()?.isAdmin"
                 [organisation]="entity"
+                (submitUpdate)="onSubmit('UPDATE', $event)"
+                (submitCreate)="onSubmit('CREATE', $event)"
               />
             </ng-template>
           </li>
 
-          @if (myUser()?.isAdmin) {
-            <li [ngbNavItem]="'USERS'" *isEditing="entity" [destroyOnHide]="true">
-              <a ngbNavLink>{{ 'USER' | tr }}</a>
+          <li *isEditing="entity" [ngbNavItem]="'USERS'" [destroyOnHide]="true">
+            <a ngbNavLink>{{ 'USER' | transloco }}</a>
+            <ng-template ngbNavContent>
+              <!--suppress TypeScriptValidateTypes -->
+              <app-organisation-edit-users [organisation]="entity" [myUserEmailAddress]="myUser()?.emailAddress" />
+            </ng-template>
+          </li>
+
+          @if (settingsState.settings()?.stripeEnabled) {
+            <li *isEditing="entity" [ngbNavItem]="'STRIPE'" [destroyOnHide]="true">
+              <a ngbNavLink>{{ 'STRIPE' | transloco }}</a>
               <ng-template ngbNavContent>
-                <!--suppress TypeScriptValidateTypes -->
-                <app-organisation-edit-users [organisation]="entity" [myUserEmailAddress]="myUser()?.emailAddress" />
+                <app-organisation-edit-stripe />
               </ng-template>
             </li>
           }
-          <li [ngbNavItem]="'SETTINGS'" *isEditing="entity" [destroyOnHide]="true">
-            <a ngbNavLink>{{ 'SETTINGS' | tr }}</a>
+          <li *isEditing="entity" [ngbNavItem]="'SETTINGS'" [destroyOnHide]="true">
+            <a ngbNavLink>{{ 'SETTINGS' | transloco }}</a>
             <ng-template ngbNavContent>
               <app-organisation-edit-settings />
             </ng-template>
@@ -98,12 +109,13 @@ import {OrganisationEditUsersComponent} from './organisation-edit-users.componen
     AppOrganisationEditFormComponent,
     OrganisationEditUsersComponent,
     OrganisationEditSettingsComponent,
+    OrganisationEditStripeComponent,
   ],
 })
 export class OrganisationEditComponent extends AbstractModelEditComponent<GetOrganisationResponse> {
   onSubmit = injectOnSubmit({entityService: this.organisationsService});
-  tabControls = injectTabControls<'DATA' | 'USERS' | 'SETTINGS'>({
-    onlyEditingTabs: ['USERS', 'SETTINGS'],
+  tabControls = injectTabControls<'DATA' | 'USERS' | 'SETTINGS' | 'STRIPE'>({
+    onlyEditingTabs: ['USERS', 'SETTINGS', 'STRIPE'],
     defaultTab: 'DATA',
     isCreating: computed(() => this.entity() === 'CREATE'),
   });
@@ -112,7 +124,13 @@ export class OrganisationEditComponent extends AbstractModelEditComponent<GetOrg
   myUser = inject(MyUserService).user;
   selectedOrganisationService = inject(SelectedOrganisationService);
 
+  settingsState = inject(OrganisationsSettingsService).state;
+
   constructor(private organisationsService: OrganisationsService) {
     super(organisationsService);
+
+    injectIdParam$()
+      .pipe(takeUntilDestroyed())
+      .subscribe((id) => void this.settingsState.load(id));
   }
 }

@@ -9,7 +9,7 @@ export class AppIsEditingAndDeletedDirective {
   private templateRef = inject(TemplateRef<unknown>);
 
   @Input() set isEditingAndDeleted(entity: unknown) {
-    if (!(entity as {deleted?: string})?.deleted) {
+    if (!(entity as {deleted?: string}).deleted) {
       this.viewContainerRef.clear();
       return;
     }
@@ -31,7 +31,7 @@ export class AppIsEditingAndNotDeletedDirective {
   private templateRef = inject(TemplateRef<unknown>);
 
   @Input() set isEditingAndNotDeleted(entity: unknown) {
-    if (entity === 'CREATE' || !!(entity as {deleted?: string})?.deleted) {
+    if (entity === 'CREATE' || !!(entity as {deleted?: string}).deleted) {
       this.viewContainerRef.clear();
       return;
     }
@@ -53,7 +53,7 @@ export class AppIsNotDeletedDirective {
   private templateRef = inject(TemplateRef<unknown>);
 
   @Input() set isNotDeleted(entity: unknown) {
-    if ((entity as {deleted?: string})?.deleted) {
+    if ((entity as {deleted?: string}).deleted) {
       this.viewContainerRef.clear();
       return;
     }

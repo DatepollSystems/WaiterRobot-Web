@@ -32,9 +32,13 @@ export class ThemeService {
       this._selectedTheme.set(themeSetting);
     }
 
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => this._selectedTheme.set(this.getPreferredTheme()));
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      this._selectedTheme.set(this.getPreferredTheme());
+    });
 
-    effect(() => document.documentElement.setAttribute('data-bs-theme', this.currentTheme().id));
+    effect(() => {
+      document.documentElement.setAttribute('data-bs-theme', this.currentTheme().id);
+    });
   }
 
   getPreferredTheme(): Theme {

@@ -1,14 +1,16 @@
 import {NgClass} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
+import {GetSystemNotificationResponse} from '@shared/waiterrobot-backend';
+
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
-
-import {GetSystemNotificationResponse} from '../../../../_shared/waiterrobot-backend';
 
 @Component({
   template: `
     <div
+      class="badge d-flex align-items-center gap-2 not-selectable"
+      style="width: min-content"
       [ngClass]="{
         'text-bg-light': type === 'NEUTRAL',
         'text-bg-success': type === 'SUCCESS',
@@ -16,8 +18,6 @@ import {GetSystemNotificationResponse} from '../../../../_shared/waiterrobot-bac
         'text-bg-warning': type === 'WARNING',
         'text-bg-info': type === 'INFO'
       }"
-      class="badge d-flex align-items-center gap-2 not-selectable"
-      style="width: min-content"
     >
       @switch (type) {
         @case ('INFO') {

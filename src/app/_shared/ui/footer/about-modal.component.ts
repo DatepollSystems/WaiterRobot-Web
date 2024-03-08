@@ -1,11 +1,11 @@
 import {HttpClient} from '@angular/common/http';
-import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
-
-import {map} from 'rxjs';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {WINDOW} from 'dfx-helper';
+import {injectWindow} from 'dfx-helper';
+
+import {map} from 'rxjs';
 
 import * as licensesJson from '../../../../assets/licenses.json';
 import {EnvironmentHelper} from '../../EnvironmentHelper';
@@ -13,44 +13,44 @@ import {EnvironmentHelper} from '../../EnvironmentHelper';
 @Component({
   template: `
     <!-- Button trigger modal -->
-    <a (click)="open(content)">{{ 'ABOUT' | tr }}</a>
+    <button type="button" class="btn" (click)="open(content)">{{ 'ABOUT' | transloco }}</button>
 
     <ng-template #content let-modal>
       <div class="modal-header">
-        <h3 class="modal-title" id="modal-basic-title">{{ 'ABOUT' | tr }} kellner.team</h3>
+        <h3 class="modal-title" id="modal-basic-title">{{ 'ABOUT' | transloco }} kellner.team</h3>
         <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="modal.dismiss()"></button>
       </div>
       <div class="modal-body">
-        <ul ngbNav #nav="ngbNav" class="nav-tabs">
+        <ul #nav="ngbNav" ngbNav class="nav-tabs">
           <li [ngbNavItem]="1">
-            <a ngbNavLink>{{ 'ABOUT_MODAL_GENERAL' | tr }}</a>
+            <a ngbNavLink>{{ 'ABOUT_MODAL_GENERAL' | transloco }}</a>
             <ng-template ngbNavContent>
               <p>
                 Egal ob sich um ein einmaliges Event oder dauerhafte Bewirtung handelt, kellner.team bietet unkomplizierte und zugängliche
                 Lösungen, damit du dich auf das Wesentliche konzentrieren kannst - großartigen Service anzubieten.
               </p>
 
-              <h5>{{ 'ABOUT_MODAL_TECHNICAL' | tr }}</h5>
+              <h5>{{ 'ABOUT_MODAL_TECHNICAL' | transloco }}</h5>
               <ul class="list-group">
                 <li
+                  class="list-group-item not-selectable"
                   (mousedown)="mousedown()"
                   (mouseup)="mouseup()"
                   (mouseleave)="mouseup()"
                   (click)="clicked()"
-                  class="list-group-item not-selectable"
                 >
-                  {{ 'ABOUT_MODAL_TECHNICAL_WEB_VERSION' | tr }}: {{ frontendVersion }}
+                  {{ 'ABOUT_MODAL_TECHNICAL_WEB_VERSION' | transloco }}: {{ frontendVersion }}
                 </li>
               </ul>
             </ng-template>
           </li>
           <li [ngbNavItem]="2">
-            <a ngbNavLink>{{ 'ABOUT_MODAL_TECHNICAL_USED_LIBRARIES' | tr }}</a>
+            <a ngbNavLink>{{ 'ABOUT_MODAL_TECHNICAL_USED_LIBRARIES' | transloco }}</a>
             <ng-template ngbNavContent>
               @if (licenses$ | async; as licenses) {
                 <div class="list-group">
                   @for (license of licenses; track license.name) {
-                    <a class="list-group-item list-group-item-action" [href]="license.link" rel="noopener" target="_blank">
+                    <a class="list-group-item list-group-item-action" rel="noreferrer" target="_blank" [href]="license.link">
                       <div class="d-flex w-100 justify-content-between">
                         <h6 class="mb-1">{{ license.name }}</h6>
                         <small>{{ license.licenseType }}</small>
@@ -68,10 +68,10 @@ import {EnvironmentHelper} from '../../EnvironmentHelper';
           </li>
         </ul>
 
-        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        <div class="mt-2" [ngbNavOutlet]="nav"></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" (click)="modal.close()">{{ 'CLOSE' | tr }}</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="modal.close()">{{ 'CLOSE' | transloco }}</button>
       </div>
     </ng-template>
   `,
@@ -79,9 +79,13 @@ import {EnvironmentHelper} from '../../EnvironmentHelper';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AboutModalComponent {
+  #httpClient = inject(HttpClient);
+  #modal = inject(NgbModal);
+  #window = injectWindow();
+
   frontendVersion = EnvironmentHelper.getWebVersion();
 
-  licenses$ = this.httpClient.get<typeof licensesJson>('/assets/licenses.json').pipe(
+  licenses$ = this.#httpClient.get<typeof licensesJson>('/assets/licenses.json').pipe(
     map((it) =>
       it.map((iit) => {
         iit.link = iit.link.replace('git+', '');
@@ -95,14 +99,8 @@ export class AboutModalComponent {
   clicker = 0;
   timeoutHandler: number | undefined;
 
-  constructor(
-    private httpClient: HttpClient,
-    private modal: NgbModal,
-    @Inject(WINDOW) private window: Window | undefined,
-  ) {}
-
   open(content: unknown): void {
-    this.modal.open(content, {ariaLabelledBy: 'About modal'});
+    this.#modal.open(content, {ariaLabelledBy: 'About modal'});
   }
 
   mouseup(): void {
@@ -113,7 +111,7 @@ export class AboutModalComponent {
   }
 
   mousedown(): void {
-    this.timeoutHandler = this.window?.setTimeout(() => {
+    this.timeoutHandler = this.#window?.setTimeout(() => {
       this.timeoutHandler = undefined;
       console.log(
         '                      /^--^\\     /^--^\\     /^--^\\\n' +

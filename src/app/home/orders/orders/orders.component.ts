@@ -5,8 +5,6 @@ import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
-import {debounceTime, forkJoin, map, merge, Observable, pipe, switchMap, tap} from 'rxjs';
-
 import {AppTestBadge} from '@home-shared/components/app-test-badge.component';
 import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
@@ -18,13 +16,15 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import {injectCustomFormBuilder} from '@shared/form';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetOrderMinResponse, GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
-import {computedFrom} from 'ngxtension/computed-from';
 
 import {loggerOf, s_imploder} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {injectIsMobile} from 'dfx-helper';
-import {DfxTr} from 'dfx-translate';
+import {TranslocoPipe} from '@ngneat/transloco';
+import {computedFrom} from 'ngxtension/computed-from';
+
+import {debounceTime, forkJoin, map, merge, Observable, pipe, switchMap, tap} from 'rxjs';
 
 import {ProductGroupsService} from '../../products/_services/product-groups.service';
 import {ProductsService} from '../../products/_services/products.service';
@@ -36,7 +36,7 @@ import {AppOrderStateBadgeComponent} from '../_components/app-order-state-badge.
 import {OrdersService} from '../orders.service';
 
 @Component({
-  templateUrl: 'orders.component.html',
+  templateUrl: './orders.component.html',
   selector: 'app-orders',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -50,7 +50,7 @@ import {OrdersService} from '../orders.service';
     DfxTableModule,
     DfxSortModule,
     DfxPaginationModule,
-    DfxTr,
+    TranslocoPipe,
     BiComponent,
     NgSelectModule,
     AppOrderStateBadgeComponent,
@@ -92,7 +92,9 @@ export class OrdersComponent implements AfterViewInit {
     [this.pagination.params, this.filter.valueChanges],
     pipe(
       debounceTime(350),
-      tap(() => this.pagination.loading.set(true)),
+      tap(() => {
+        this.pagination.loading.set(true);
+      }),
       switchMap(([options, filter]) =>
         this.ordersService.getAllPaginated(
           {
@@ -116,14 +118,16 @@ export class OrdersComponent implements AfterViewInit {
     {initialValue: []},
   );
 
-  tables = toSignal(inject(TablesService).getAll$(), {initialValue: []});
+  tables = toSignal(inject(TablesService).getAllWithoutExtra$(), {initialValue: []});
   tableGroups = toSignal(inject(TableGroupsService).getAll$(), {initialValue: []});
   products = toSignal(inject(ProductsService).getAll$(), {initialValue: []});
   productGroups = toSignal(inject(ProductGroupsService).getAll$(), {initialValue: []});
   waiters = toSignal(inject(OrganisationWaitersService).getAll$(), {initialValue: []});
 
   constructor() {
-    this.ordersService.triggerRefresh.pipe(takeUntilDestroyed()).subscribe(() => this.pagination.loading.set(true));
+    this.ordersService.triggerRefresh.pipe(takeUntilDestroyed()).subscribe(() => {
+      this.pagination.loading.set(true);
+    });
   }
 
   ngAfterViewInit(): void {
@@ -143,7 +147,7 @@ export class OrdersComponent implements AfterViewInit {
     term = term.toLowerCase().trim().replace(/\s/g, '');
     const groupName = item.group.name.toLowerCase().trim().replace(/\s/g, '');
     const tableNumber = item.number.toString();
-    return groupName.indexOf(term) > -1 || tableNumber.indexOf(term) > -1 || `${groupName}-${tableNumber}`.indexOf(term) > -1;
+    return groupName.includes(term) || tableNumber.includes(term) || `${groupName}-${tableNumber}`.includes(term);
   }
 
   exportCsv(): void {

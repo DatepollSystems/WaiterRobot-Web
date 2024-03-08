@@ -1,26 +1,30 @@
 import {Component, inject} from '@angular/core';
+import {injectBlurSetting} from '@home-shared/services/blur-setting.service';
 
 import {StatisticsService} from './statistics.service';
 
 @Component({
   template: `
-    <h1 class="fs-2">{{ 'WHOLE' | tr }} {{ 'NAV_STATISTICS' | tr }}</h1>
+    <div class="d-flex gap-3">
+      <h1 class="my-0">{{ 'WHOLE' | transloco }} {{ 'NAV_STATISTICS' | transloco }}</h1>
+      <app-blur-toggle />
+    </div>
 
     @if (countDto$(); as countDto) {
       <div class="row mt-2 mb-4 row-cols-1 row-cols-md-2 row-cols-xl-4 gy-3">
         <div class="col">
-          <app-statistics-count-card [count]="countDto.orderedProducts">{{
-            'HOME_STATISTICS_SELLED_PRODUCTS' | tr
-          }}</app-statistics-count-card>
+          <app-statistics-count-card [count]="countDto.orderedProducts"
+            >{{ 'HOME_STATISTICS_SELLED_PRODUCTS' | transloco }}
+          </app-statistics-count-card>
         </div>
 
         <div class="col">
-          <app-statistics-count-card [count]="countDto.orders">{{ 'NAV_ORDERS' | tr }}</app-statistics-count-card>
+          <app-statistics-count-card [count]="countDto.orders">{{ 'NAV_ORDERS' | transloco }}</app-statistics-count-card>
         </div>
 
         <div class="col">
           <app-statistics-count-card [count]="countDto.turnover">
-            <span>{{ 'HOME_STATISTICS_TURNOVER' | tr }}</span>
+            <span>{{ 'HOME_STATISTICS_TURNOVER' | transloco }}</span>
             <span valuePrefix>€</span>
           </app-statistics-count-card>
         </div>
@@ -28,12 +32,12 @@ import {StatisticsService} from './statistics.service';
         <div class="col">
           <div class="card h-100">
             <div class="card-body d-flex flex-column justify-content-between align-items-center gap-2">
-              <h4 class="mt-1">{{ 'HOME_STATISTICS_BEST_WAITER' | tr }}</h4>
-              <div style="font-size: 2rem" class="text-center">
+              <h4 class="mt-1">{{ 'HOME_STATISTICS_BEST_WAITER' | transloco }}</h4>
+              <div style="font-size: 2rem" class="text-center" [class.unblur]="isBlurred()">
                 @if (countDto.bestWaiter) {
                   {{ countDto.bestWaiter.name }} ({{ countDto.bestWaiter.value }})
                 } @else {
-                  <span>{{ 'UNKNOWN' | tr }}</span>
+                  <span>{{ 'UNKNOWN' | transloco }}</span>
                 }
               </div>
             </div>
@@ -43,12 +47,12 @@ import {StatisticsService} from './statistics.service';
         <div class="col">
           <div class="card h-100">
             <div class="card-body d-flex flex-column justify-content-between align-items-center gap-2">
-              <h4 class="mt-1">{{ 'HOME_STATISTICS_BEST_PRODUCT' | tr }}</h4>
-              <div style="font-size: 2rem" class="text-center">
+              <h4 class="mt-1">{{ 'HOME_STATISTICS_BEST_PRODUCT' | transloco }}</h4>
+              <div style="font-size: 2rem" class="text-center" [class.unblur]="isBlurred()">
                 @if (countDto.bestProduct) {
                   {{ countDto.bestProduct.name }} ({{ countDto.bestProduct.value }}x)
                 } @else {
-                  <span>{{ 'UNKNOWN' | tr }}</span>
+                  <span>{{ 'UNKNOWN' | transloco }}</span>
                 }
               </div>
             </div>
@@ -83,6 +87,8 @@ import {StatisticsService} from './statistics.service';
   `,
   selector: 'app-statistics-overview',
 })
-export class StatisticsOverviewComponent {
+export class StatisticsComponent {
   countDto$ = inject(StatisticsService).counts;
+
+  isBlurred = injectBlurSetting().isBlurred;
 }

@@ -1,6 +1,6 @@
 <div class="d-flex flex-column gap-3">
   <div class="d-flex align-items-center justify-content-between">
-    <h1 class="my-0">{{ 'NAV_ORDERS' | tr }}</h1>
+    <h1 class="my-0">{{ 'NAV_ORDERS' | transloco }}</h1>
 
     <div class="d-inline-flex gap-2 me-2">
       <app-order-refresh-btn [loading]="pagination.loading()" />
@@ -20,22 +20,22 @@
 
   <scrollable-toolbar>
     <div>
-      <button class="btn btn-sm btn-info" (click)="exportCsv()">
+      <button type="button" class="btn btn-sm btn-info" (click)="exportCsv()">
         <bi name="filetype-csv" />
-        {{ 'EXPORT' | tr }}
+        {{ 'EXPORT' | transloco }}
       </button>
     </div>
 
     <div>
-      <button class="btn btn-sm btn-warning" (click)="requeueOrders()" [class.disabled]="!selection.hasValue()">
+      <button type="button" class="btn btn-sm btn-warning" [class.disabled]="!selection.hasValue()" (click)="requeueOrders()">
         <bi name="printer" />
-        {{ 'HOME_ORDER_REQUEUE' | tr }}
+        {{ 'HOME_ORDER_REQUEUE' | transloco }}
       </button>
     </div>
     <div>
-      <button class="btn btn-sm btn-warning" (click)="printAllTest()" ngbTooltip="Beinhaltet alle Produkte">
+      <button type="button" class="btn btn-sm btn-warning" ngbTooltip="Beinhaltet alle Produkte" (click)="printAllTest()">
         <bi name="bug" />
-        {{ 'Testbestellung aufgeben' | tr }}
+        {{ 'Testbestellung aufgeben' | transloco }}
       </button>
     </div>
   </scrollable-toolbar>
@@ -47,33 +47,33 @@
   <div #collapse="ngbCollapse" [ngbCollapse]="isMobile()">
     @if (filter.valid()) {}
 
-    <form [formGroup]="filter.form" class="d-flex flex-column flex-sm-wrap flex-sm-row gap-2">
+    <form class="d-flex flex-column flex-sm-wrap flex-sm-row gap-2" [formGroup]="filter.form">
       <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
         <ng-select
-          [items]="tableGroups()"
           bindValue="id"
           bindLabel="name"
           formControlName="tableGroupIds"
-          [placeholder]="'HOME_TABLE_GROUP_SELECT' | tr"
-          [multiple]="true"
           clearAllText="Clear"
+          [items]="tableGroups()"
+          [placeholder]="'HOME_TABLE_GROUP_SELECT' | transloco"
+          [multiple]="true"
         />
       </div>
       <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
         <ng-select
-          [items]="tables()"
           bindValue="id"
           formControlName="tableIds"
-          [searchFn]="customTableSearch"
-          [placeholder]="'HOME_TABLE_SELECT' | tr"
-          [multiple]="true"
           clearAllText="Clear"
+          [items]="tables()"
+          [searchFn]="customTableSearch"
+          [placeholder]="'HOME_TABLE_SELECT' | transloco"
+          [multiple]="true"
         >
-          <ng-template ng-label-tmp let-item="item" let-clear="clear">
-            <span class="ng-value-icon left" (click)="clear(item)" aria-hidden="true">×</span>
+          <ng-template let-item="item" let-clear="clear" ng-label-tmp>
+            <span class="ng-value-icon left" aria-hidden="true" (click)="clear(item)">×</span>
             <span class="ng-value-label">{{ item?.group?.name ?? '' }} - {{ item?.number ?? '' }}</span>
           </ng-template>
-          <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+          <ng-template let-item="item" let-index="index" let-search="searchTerm" ng-option-tmp>
             <span class="ng-option-label">{{ item.group.name }} - {{ item.number }}</span>
           </ng-template>
         </ng-select>
@@ -81,37 +81,37 @@
 
       <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
         <ng-select
-          [items]="productGroups()"
           bindValue="id"
           bindLabel="name"
           formControlName="productGroupIds"
-          [placeholder]="'HOME_PROD_GROUPS_SELECT' | tr"
-          [multiple]="true"
           clearAllText="Clear"
+          [items]="productGroups()"
+          [placeholder]="'HOME_PROD_GROUPS_SELECT' | transloco"
+          [multiple]="true"
         />
       </div>
 
       <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
         <ng-select
-          [items]="products()"
           bindValue="id"
           bindLabel="name"
           formControlName="productIds"
-          [placeholder]="'HOME_PROD_SELECT' | tr"
-          [multiple]="true"
           clearAllText="Clear"
+          [items]="products()"
+          [placeholder]="'HOME_PROD_SELECT' | transloco"
+          [multiple]="true"
         />
       </div>
 
       <div class="form-group col-12 col-sm-5 col-md-3 col-lg-3 col-xl-2">
         <ng-select
-          [items]="waiters()"
           bindValue="id"
           bindLabel="name"
           formControlName="waiterIds"
-          [placeholder]="'HOME_WAITERS_SELECT' | tr"
-          [multiple]="true"
           clearAllText="Clear"
+          [items]="waiters()"
+          [placeholder]="'HOME_WAITERS_SELECT' | transloco"
+          [multiple]="true"
         />
       </div>
 
@@ -119,11 +119,11 @@
         <button
           type="button"
           class="btn btn-sm btn-secondary position-relative"
-          (click)="filter.form.reset()"
           [disabled]="filter.count() === 0"
+          (click)="filter.form.reset()"
         >
           <bi name="x-circle-fill" />
-          {{'DELETE_ALL' | tr}} @if (filter.count() !== 0) {
+          {{'DELETE_ALL' | transloco}} @if (filter.count() !== 0) {
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
             {{ filter.count() }}
             <span class="visually-hidden">selected filters</span>
@@ -139,9 +139,9 @@
   <div class="table-responsive">
     <table
       ngb-table
+      ngb-sort
       [hover]="true"
       [dataSource]="dataSource()"
-      ngb-sort
       [ngbSortDirection]="pagination.params().direction"
       [ngbSortActive]="pagination.params().sort"
     >
@@ -153,37 +153,37 @@
               class="form-check-input"
               type="checkbox"
               name="checked"
-              (change)="$event ? selection.toggle(selectable) : null"
               [checked]="selection.isSelected(selectable)"
+              (change)="$event ? selection.toggle(selectable) : null"
             />
           </div>
         </td>
       </ng-container>
 
       <ng-container ngbColumnDef="orderNumber">
-        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_NUMBER' | tr }}</th>
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_NUMBER' | transloco }}</th>
         <td *ngbCellDef="let order" ngb-cell>{{ order.orderNumber }}</td>
       </ng-container>
 
       <ng-container ngbColumnDef="table.tableGroup.name">
-        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_ORDER_TABLE' | tr }}</th>
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_ORDER_TABLE' | transloco }}</th>
         <td *ngbCellDef="let order" ngb-cell>
-          <a (click)="$event.stopPropagation()" routerLink="../../tables/groups/tables/{{ order.table.group.id }}"
+          <a [routerLink]="'../../tables/groups/tables/' + order.table.group.id" (click)="$event.stopPropagation()"
             >{{ order.table.group.name }}</a
           >
-          - <a (click)="$event.stopPropagation()" routerLink="../../tables/{{ order.table.id }}">{{ order.table.number }}</a>
+          - <a [routerLink]="'../../tables/' + order.table.id" (click)="$event.stopPropagation()">{{ order.table.number }}</a>
         </td>
       </ng-container>
 
       <ng-container ngbColumnDef="waiter.name">
-        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</th>
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_WAITERS_NAV_ORGANISATION' | transloco }}</th>
         <td *ngbCellDef="let order" ngb-cell>
-          <a (click)="$event.stopPropagation()" routerLink="../../waiters/{{ order.waiter.id }}">{{ order.waiter.name }}</a>
+          <a [routerLink]="'../../waiters/' + order.waiter.id" (click)="$event.stopPropagation()">{{ order.waiter.name }}</a>
         </td>
       </ng-container>
 
       <ng-container ngbColumnDef="state">
-        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | tr }}</th>
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | transloco }}</th>
         <td *ngbCellDef="let order" ngb-cell>
           <div class="d-flex align-items-center gap-2">
             <app-order-state-badge
@@ -201,26 +201,27 @@
       </ng-container>
 
       <ng-container ngbColumnDef="createdAt">
-        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_CREATED_AT' | tr }}</th>
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_CREATED_AT' | transloco }}</th>
         <td *ngbCellDef="let order" ngb-cell>{{ order.createdAt | date: 'dd.MM.yy HH:mm:ss' }}</td>
       </ng-container>
 
       <ng-container ngbColumnDef="actions">
-        <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+        <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
         <td *ngbCellDef="let order" ngb-cell>
           <a
             class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"
-            routerLink="../{{ order.id }}"
-            ngbTooltip="{{ 'OPEN' | tr }}"
             placement="left"
+            [routerLink]="'../' + order.id"
+            [ngbTooltip]="'OPEN' | transloco"
           >
             <bi name="arrow-up-right-square-fill" />
           </a>
           <button
+            type="button"
             class="btn btn-sm m-1 btn-warning"
-            (click)="$event.stopPropagation(); requeueOrder(order)"
-            ngbTooltip="{{ 'HOME_ORDER_REQUEUE' | tr }}"
             placement="bottom"
+            [ngbTooltip]="'HOME_ORDER_REQUEUE' | transloco"
+            (click)="$event.stopPropagation(); requeueOrder(order)"
           >
             <bi name="printer" />
           </button>
@@ -228,21 +229,21 @@
       </ng-container>
 
       <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-      <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row routerLink="../{{ order.id }}"></tr>
+      <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row [routerLink]="'../' + order.id"></tr>
     </table>
   </div>
 
-  <app-progress-bar [hidden]="!pagination.loading()" />
+  <app-progress-bar [show]="pagination.loading()" />
 
   @if (!pagination.loading() && dataSource().length < 1) {
-  <div class="w-100 text-center mt-2">{{ 'HOME_STATISTICS_NO_DATA' | tr }}</div>
+  <div class="w-100 text-center mt-2">{{ 'HOME_STATISTICS_NO_DATA' | transloco }}</div>
   }
 
   <ngb-paginator
+    showFirstLastButtons
     [length]="pagination.totalElements()"
     [pageSize]="pagination.params().size"
     [pageSizeOptions]="[10, 20, 50, 100, 200]"
     [pageIndex]="pagination.params().page"
-    showFirstLastButtons
   />
 </div>

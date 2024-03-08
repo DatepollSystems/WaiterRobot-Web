@@ -1,14 +1,13 @@
-import {Injectable, TemplateRef} from '@angular/core';
+import {inject, Injectable, TemplateRef} from '@angular/core';
+import {TranslocoService} from '@ngneat/transloco';
 
 import {BehaviorSubject, first} from 'rxjs';
 
-import {dfxTranslate$} from 'dfx-translate';
-
-export type Toast = {
+export interface Toast {
   textOrTpl: string | TemplateRef<unknown>;
   delay: number;
   classname: string;
-};
+}
 
 @Injectable({providedIn: 'root'})
 export class NotificationService {
@@ -16,18 +15,19 @@ export class NotificationService {
 
   toasts = new BehaviorSubject<Toast[]>([]);
 
-  private translate = dfxTranslate$();
-
-  constructor() {}
+  private translocoService = inject(TranslocoService);
 
   info(str: string): void {
     this.show(str, {delay: this.delay, classname: 'bg-info text-dark'});
   }
 
   tinfo(translationKey: string): void {
-    this.translate(translationKey)
+    this.translocoService
+      .selectTranslate<string>(translationKey)
       .pipe(first())
-      .subscribe((translation) => this.info(translation));
+      .subscribe((translation) => {
+        this.info(translation);
+      });
   }
 
   success(str: string): void {
@@ -35,9 +35,12 @@ export class NotificationService {
   }
 
   tsuccess(translationKey: string): void {
-    this.translate(translationKey)
+    this.translocoService
+      .selectTranslate<string>(translationKey)
       .pipe(first())
-      .subscribe((translation) => this.success(translation));
+      .subscribe((translation) => {
+        this.success(translation);
+      });
   }
 
   warning(str: string, delay?: number): void {
@@ -45,9 +48,12 @@ export class NotificationService {
   }
 
   twarning(translationKey: string): void {
-    this.translate(translationKey)
+    this.translocoService
+      .selectTranslate<string>(translationKey)
       .pipe(first())
-      .subscribe((translation) => this.warning(translation));
+      .subscribe((translation) => {
+        this.warning(translation);
+      });
   }
 
   error(str: string, delay?: number): void {
@@ -55,9 +61,12 @@ export class NotificationService {
   }
 
   terror(translationKey: string): void {
-    this.translate(translationKey)
+    this.translocoService
+      .selectTranslate<string>(translationKey)
       .pipe(first())
-      .subscribe((translation) => this.error(translation));
+      .subscribe((translation) => {
+        this.error(translation);
+      });
   }
 
   private show(textOrTpl: string | TemplateRef<unknown>, options: Omit<Toast, 'textOrTpl'>): void {

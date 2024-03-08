@@ -4,7 +4,7 @@ import {NgModule} from '@angular/core';
 import {AppEntityEditPlaceholder} from '@home-shared/form/app-entity-edit.placeholder';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {AppBackButtonComponent} from '../components/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '../components/scrollable-toolbar.component';
@@ -12,7 +12,7 @@ import {AppIsCreatingDirective, AppIsEditingDirective} from './app-entity-state.
 
 @NgModule({
   declarations: [AppIsCreatingDirective, AppIsEditingDirective],
-  imports: [AppBackButtonComponent, AppEntityEditPlaceholder, ScrollableToolbarComponent, BiComponent, DfxTr],
+  imports: [AppBackButtonComponent, AppEntityEditPlaceholder, ScrollableToolbarComponent, BiComponent, TranslocoPipe],
   exports: [
     AppIsCreatingDirective,
     AppIsEditingDirective,
@@ -20,7 +20,7 @@ import {AppIsCreatingDirective, AppIsEditingDirective} from './app-entity-state.
     AppEntityEditPlaceholder,
     ScrollableToolbarComponent,
     BiComponent,
-    DfxTr,
+    TranslocoPipe,
   ],
 })
 export class AppEntityEditModule {}

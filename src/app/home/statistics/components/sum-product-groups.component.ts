@@ -3,7 +3,7 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {StatisticsService} from '../statistics.service';
 
 @Component({
-  template: ' <app-sum-statistics [sumDtos]="sumDtos()" chartType="PIE">{{ \'HOME_PROD_GROUPS\' | tr }}</app-sum-statistics> ',
+  template: ' <app-sum-statistics chartType="PIE" [sumDtos]="sumDtos()">{{ \'HOME_PROD_GROUPS\' | transloco }}</app-sum-statistics> ',
   selector: 'app-statistics-sum-product-groups',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -11,7 +11,7 @@ import {FooterModule} from '@shared/ui/footer/footer.module';
 import {loggerOf, n_from, n_isNumeric, s_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingSucceeds, injectIsMobile, injectIsMobile$} from 'dfx-helper';
-import {DfxTr} from 'dfx-translate';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {AppSystemNotificationAlertComponent} from './_admin/system-notifications/_components/system-notification-alert.component';
 import {ActiveSystemNotificationsService} from './_admin/system-notifications/_services/active-system-notifications.service';
@@ -29,37 +29,37 @@ import {selectedOrganisationRouteParamKey, SelectedOrganisationService} from './
   selector: 'app-home',
   templateUrl: './home.layout.html',
   styles: `
-main {
-  min-height: 90vh;
-  padding-top: 10px;
-}
+    main {
+      min-height: 90vh;
+      padding-top: 10px;
+    }
 
-.badge {
-  font-size: 12px;
-}
+    .badge {
+      font-size: 12px;
+    }
 
-.mobile-background-0 {
-  background-color: var(--bs-secondary-bg);
-  border-top-right-radius: 15px;
-  border-top-left-radius: 15px;
-  padding-top: 5px;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-top: 15px;
-}
+    .mobile-background-0 {
+      background-color: var(--bs-secondary-bg);
+      border-top-right-radius: 15px;
+      border-top-left-radius: 15px;
+      padding-top: 5px;
+      padding-left: 20px;
+      padding-right: 20px;
+      margin-top: 15px;
+    }
 
-.mobile-background-1 {
-  background-color: var(--bs-secondary-bg);
-  border-bottom-right-radius: 15px;
-  border-bottom-left-radius: 15px;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: 5px;
-}
+    .mobile-background-1 {
+      background-color: var(--bs-secondary-bg);
+      border-bottom-right-radius: 15px;
+      border-bottom-left-radius: 15px;
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-bottom: 5px;
+    }
 
-small > a:hover {
-  text-decoration: underline;
-}
+    small > a:hover {
+      text-decoration: underline;
+    }
   `,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -68,7 +68,7 @@ small > a:hover {
     RouterLinkActive,
     RouterOutlet,
     NgbDropdownModule,
-    DfxTr,
+    TranslocoPipe,
     DfxHideIfOnline,
     DfxHideIfPingSucceeds,
     BiComponent,

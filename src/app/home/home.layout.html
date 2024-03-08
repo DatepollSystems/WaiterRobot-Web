@@ -1,11 +1,11 @@
 <nav class="navbar bg-body-tertiary navbar-expand-md">
   <div class="my-container px-1 px-md-2" [class.container-xxxl]="!isFullScreen()">
     <a class="navbar-brand align-items-center" routerLink="/">
-      <img id="brand" [ngSrc]="logoUrl" width="30" height="30" priority="true" class="align-self-center ms-2" alt="kellner.team logo" />
+      <img id="brand" width="30" height="30" priority="true" class="align-self-center ms-2" alt="kellner.team logo" [ngSrc]="logoUrl" />
 
       @if (isMobile()) { @if (showEnvironmentType && environmentType === 'dev') {
-      <div (click)="showEnvironmentType = !showEnvironmentType" class="badge bg-warning text-dark ms-3 me-1 not-selectable">
-        <span>DEV</span>
+      <div class="badge bg-warning text-dark ms-3 me-1 not-selectable" (click)="showEnvironmentType = !showEnvironmentType">
+        <span>LOCAL</span>
       </div>
       } @if (myUserService.user()?.isAdmin) {
       <div style="font-size: 12px" class="badge bg-danger text-dark ms-3 me-1 not-selectable">
@@ -18,11 +18,11 @@
       class="navbar-toggler me-2"
       type="button"
       data-toggle="collapse"
-      (click)="toggleNav()"
       data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent"
       aria-expanded="false"
       aria-label="Toggle navigation"
+      (click)="toggleNav()"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -34,8 +34,8 @@
             @if (!isMobile()) {
             <li class="nav-item d-flex align-items-center">
               @if (showEnvironmentType && environmentType === 'dev') {
-              <div (click)="showEnvironmentType = !showEnvironmentType" class="badge bg-warning text-dark ms-1 me-1 not-selectable">
-                <span>DEV</span>
+              <div class="badge bg-warning text-dark ms-1 me-1 not-selectable" (click)="showEnvironmentType = !showEnvironmentType">
+                <span>LOCAL</span>
               </div>
               } @if (myUserService.user()?.isAdmin) {
               <div style="font-size: 12px" class="badge bg-danger text-dark ms-1 me-1 not-selectable">
@@ -48,7 +48,7 @@
             <li class="nav-item">
               @if (myUserService.user()?.isAdmin) {
               <a class="nav-link" routerLink="/organisations/all">
-                <b>{{ 'NAV_ORGANISATIONS' | tr }}</b>
+                <b>{{ 'NAV_ORGANISATIONS' | transloco }}</b>
                 @if (selectedOrganisationService.selected(); as selected) {
                 <span> ({{ selected.name }})</span>
                 }
@@ -59,16 +59,16 @@
                   @if (selectedOrganisationService.selected(); as selected) {
                   <span><b>{{selected.name }}</b></span>
                   } @else {
-                  <span>{{ 'NAV_ORGANISATIONS' | tr }}</span>
+                  <span>{{ 'NAV_ORGANISATIONS' | transloco }}</span>
                   }
                 </a>
                 <div ngbDropdownMenu aria-labelledby="organisationSwitcherDropdown">
                   <h6 class="dropdown-header">
-                    <b>{{ 'NAV_ORGANISATIONS' | tr }}</b>
+                    <b>{{ 'NAV_ORGANISATIONS' | transloco }}</b>
                   </h6>
                   @if (selectedOrganisationService.selected(); as selected) {
-                  <a ngbDropdownItem routerLink="/organisations/{{ selected.id }}">
-                    <b>{{ selected.name }}</b><small> {{ 'NAV_EDIT' | tr }}</small>
+                  <a ngbDropdownItem [routerLink]="'/organisations/' + selected.id">
+                    <b>{{ selected.name }}</b><small> {{ 'NAV_EDIT' | transloco }}</small>
                   </a>
                   } @for (orgM of organisations(); track orgM.id) { @if (orgM.id !== selectedOrganisationService.selected()?.id) {
                   <span
@@ -78,15 +78,15 @@
                     {{ orgM.name }}
                   </span>
                   } } @empty {
-                  <span class="fake-dropdown-item unselectable"> {{ 'NAV_ORGANISATIONS_NO_ORGS' | tr }} </span>
+                  <span class="fake-dropdown-item unselectable"> {{ 'NAV_ORGANISATIONS_NO_ORGS' | transloco }} </span>
                   }
                   <div class="dropdown-divider"></div>
                   @if (myUserService.user()?.isAdmin) {
-                  <a ngbDropdownItem routerLinkActive="active" routerLink="organisations/create"> <b>+</b> {{ 'ADD_2' | tr }} </a>
+                  <a ngbDropdownItem routerLinkActive="active" routerLink="organisations/create"> <b>+</b> {{ 'ADD_2' | transloco }} </a>
                   }
                   <a ngbDropdownItem routerLinkActive="active" routerLink="organisations/all">
                     <bi name="building" />
-                    {{ 'SHOW_ALL' | tr }}
+                    {{ 'SHOW_ALL' | transloco }}
                   </a>
                 </div>
               </div>
@@ -98,39 +98,39 @@
                 <a
                   class="nav-link"
                   id="eventSwitcherDropdown"
-                  [class.disabled]="!selectedOrganisationService.selectedId()"
                   ngbDropdownToggle
+                  [class.disabled]="!selectedOrganisationService.selectedId()"
                 >
                   @if (selectedEventService.selected(); as selected) {
                   <span><b>{{ selected.name }}</b></span>
                   } @else {
-                  <span>{{ 'NAV_EVENTS' | tr }}</span>
+                  <span>{{ 'NAV_EVENTS' | transloco }}</span>
                   }
                 </a>
                 <div ngbDropdownMenu aria-labelledby="eventSwitcherDropdown">
                   <h6 class="dropdown-header">
-                    <b>{{ 'NAV_EVENTS' | tr }}</b>
+                    <b>{{ 'NAV_EVENTS' | transloco }}</b>
                   </h6>
                   @if (selectedEventService.selected(); as selected) {
-                  <a ngbDropdownItem routerLink="/o/{{selectedOrganisationService.selectedId()!}}/events/{{ selected.id }}">
-                    <b>{{ selected.name }}</b><small> {{ 'NAV_EDIT' | tr }}</small>
+                  <a ngbDropdownItem [routerLink]="'/o/' + selectedOrganisationService.selectedId()! + '/events/' + selected.id">
+                    <b>{{ selected.name }}</b><small> {{ 'NAV_EDIT' | transloco }}</small>
                   </a>
                   } @for (eventM of events(); track eventM.id) { @if (eventM.id !== selectedEventService.selected()?.id) {
                   <span class="fake-dropdown-item" (click)="selectedEventService.setSelected(eventM.id); $event.stopPropagation()"
                     >{{ eventM.name }}</span
                   >
                   } } @empty {
-                  <span class="fake-dropdown-item unselectable"> {{ 'NAV_EVENTS_NO_EVENTS' | tr }} </span>
+                  <span class="fake-dropdown-item unselectable"> {{ 'NAV_EVENTS_NO_EVENTS' | transloco }} </span>
                   }
                   <div class="dropdown-divider"></div>
                   @if (myUserService.user()?.isAdmin) {
-                  <a ngbDropdownItem routerLink="/o/{{selectedOrganisationService.selectedId()!}}/events/create"
-                    ><b>+</b> {{ 'ADD_2' | tr }}</a
+                  <a ngbDropdownItem [routerLink]="'/o/' + selectedOrganisationService.selectedId()! + '/events/create'"
+                    ><b>+</b> {{ 'ADD_2' | transloco }}</a
                   >
                   }
-                  <a ngbDropdownItem routerLink="/o/{{selectedOrganisationService.selectedId()!}}/events/all">
+                  <a ngbDropdownItem [routerLink]="'/o/' + selectedOrganisationService.selectedId()! + '/events/all'">
                     <bi name="calendar-event-fill" />
-                    {{ 'SHOW_ALL' | tr }}
+                    {{ 'SHOW_ALL' | transloco }}
                   </a>
                 </div>
               </div>
@@ -143,23 +143,23 @@
             @defer (when myUserService.user()?.isAdmin) { @if (myUserService.user()?.isAdmin) {
             <li class="nav-item">
               <div ngbDropdown display="dynamic">
-                <a class="nav-link" id="adminDropDown" ngbDropdownToggle> {{ 'NAV_INSTANCE_ADMINISTRATION' | tr }}</a>
+                <a class="nav-link" id="adminDropDown" ngbDropdownToggle> {{ 'NAV_INSTANCE_ADMINISTRATION' | transloco }}</a>
                 <div ngbDropdownMenu aria-labelledby="adminDropDown">
                   <a ngbDropdownItem routerLinkActive="active" routerLink="/users">
                     <bi name="person-badge" />
-                    {{ 'NAV_USERS' | tr }}
+                    {{ 'NAV_USERS' | transloco }}
                   </a>
                   <a ngbDropdownItem routerLinkActive="active" routerLink="/system-notifications">
                     <bi name="bell" />
-                    {{ 'NAV_SYSTEM_NOTIFICATIONS' | tr }}
+                    {{ 'NAV_SYSTEM_NOTIFICATIONS' | transloco }}
                   </a>
                   <a ngbDropdownItem routerLinkActive="active" routerLink="/dead-letters">
                     <bi name="braces" />
-                    {{ 'Dead Letters' | tr }}
+                    {{ 'Dead Letters' | transloco }}
                   </a>
                   <a ngbDropdownItem routerLinkActive="active" routerLink="/tmp-notifications">
                     <bi name="braces" />
-                    {{ 'NAV_TMP_NOTIFICATIONS' | tr }}
+                    {{ 'NAV_TMP_NOTIFICATIONS' | transloco }}
                   </a>
                 </div>
               </div>
@@ -168,11 +168,11 @@
 
             <li class="nav-item">
               <div ngbDropdown display="dynamic" autoClose="outside">
-                <a class="nav-link" id="settingsDropdown" ngbDropdownToggle>{{ 'SETTINGS' | tr }}</a>
+                <a class="nav-link" id="settingsDropdown" ngbDropdownToggle>{{ 'SETTINGS' | transloco }}</a>
                 <div ngbDropdownMenu aria-labelledby="settingsDropdown">
                   <div class="px-3 py-1">
                     @if (myUserService.user(); as user) {
-                    <h5>{{ 'NAV_USER_SETTINGS_WELCOME' | tr }} {{ user.firstname }},</h5>
+                    <h5>{{ 'NAV_USER_SETTINGS_WELCOME' | transloco }} {{ user.firstname }},</h5>
                     <a (click)="openUserEmailQRCode()">
                       <u>{{ user.emailAddress }}</u>
                       <bi name="qr-code" class="ms-1" />
@@ -182,9 +182,9 @@
                     <small>
                       <br />
                       @if (myUserService.user()?.isAdmin) {
-                      <b class="clickable" (click)="switchAdminMode()"> {{ 'NAV_USER_SETTINGS_ADMIN' | tr }} </b>
+                      <b class="clickable" (click)="switchAdminMode()"> {{ 'NAV_USER_SETTINGS_ADMIN' | transloco }} </b>
                       } @if (myUserService.manualOverwritten() && !myUserService.user()?.isAdmin) {
-                      <b class="clickable" (click)="switchAdminMode()"> {{ 'NAV_USER_SETTINGS_ADMIN_SWITCH' | tr }} </b>
+                      <b class="clickable" (click)="switchAdminMode()"> {{ 'NAV_USER_SETTINGS_ADMIN_SWITCH' | transloco }} </b>
                       }
                     </small>
                   </div>
@@ -193,6 +193,7 @@
                   <theme-picker />
 
                   <button
+                    type="button"
                     ngbDropdownItem
                     class="d-none d-xxl-inline-flex gap-2 align-items-center"
                     (click)="fullScreenService.setFullScreen(!isFullScreen()); $event.stopPropagation()"
@@ -201,21 +202,21 @@
                     <bi name="fullscreen-exit" />
                     } @else {
                     <bi name="arrows-fullscreen" />
-                    } {{'NAV_FULLSCREEN' | tr}}
+                    } {{'NAV_FULLSCREEN' | transloco}}
                   </button>
 
                   <div class="dropdown-divider"></div>
                   <a ngbDropdownItem routerLinkActive="active" routerLink="/usettings/settings">
                     <bi name="gear-wide-connected" />
-                    {{ 'NAV_USER_SETTINGS' | tr }}
+                    {{ 'NAV_USER_SETTINGS' | transloco }}
                   </a>
                   <a ngbDropdownItem routerLinkActive="active" routerLink="/usettings/sessions">
                     <bi name="file-lock" />
-                    {{ 'NAV_USER_SESSIONS' | tr }}
+                    {{ 'NAV_USER_SESSIONS' | transloco }}
                   </a>
-                  <button ngbDropdownItem (click)="this.authService.logout()">
+                  <button type="button" ngbDropdownItem (click)="this.authService.logout()">
                     <bi name="box-arrow-left" />
-                    {{ 'NAV_LOGOUT' | tr }}
+                    {{ 'NAV_LOGOUT' | transloco }}
                   </button>
                 </div>
               </div>
@@ -232,7 +233,7 @@
 <main class="pb-5 px-2 px-md-3 my-container" [class.container-xxxl]="!isFullScreen()" [class.px-md-2]="isFullScreen()">
   <div class="alert alert-warning" role="alert" hideIfOnline>
     <bi name="wifi-off" />
-    {{ 'OFFLINE' | tr }}
+    {{ 'OFFLINE' | transloco }}
   </div>
 
   <div hideIfOffline>
@@ -241,16 +242,16 @@
         <div class="d-flex gap-3 align-items-center">
           <bi name="exclamation-triangle-fill" />
           <div>
-            <b>{{ 'ABOUT_MAINTENANCE_1' | tr }}</b>
+            <b>{{ 'ABOUT_MAINTENANCE_1' | transloco }}</b>
             <br />
-            {{'ABOUT_MAINTENANCE_2' | tr}}
+            {{'ABOUT_MAINTENANCE_2' | transloco}}
             <br />
-            {{'ABOUT_MAINTENANCE_3' | tr}}
-            <a style="text-decoration: underline; color: #664d03" href="https://status.kellner.team" target="_blank" rel="noopener"
+            {{'ABOUT_MAINTENANCE_3' | transloco}}
+            <a style="text-decoration: underline; color: #664d03" href="https://status.kellner.team" target="_blank" rel="noreferrer"
               >status.kellner.team</a
             >.
             <br />
-            {{'ABOUT_MAINTENANCE_4' | tr}}
+            {{'ABOUT_MAINTENANCE_4' | transloco}}
           </div>
         </div>
       </div>

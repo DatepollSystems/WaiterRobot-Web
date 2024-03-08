@@ -2,52 +2,52 @@ import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
+import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
+import {allowedCharacterSet} from '@home-shared/regex';
+import {TranslocoPipe} from '@ngneat/transloco';
+import {injectIsValid} from '@shared/form';
+import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrinterDto} from '@shared/waiterrobot-backend';
+
 import {n_from, s_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
-
-import {AbstractModelEditFormComponent} from '../../_shared/form/abstract-model-edit-form.component';
-import {AppModelEditSaveBtn} from '../../_shared/form/app-model-edit-save-btn.component';
-import {injectIsValid} from '../../../_shared/form';
-import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrinterDto} from '../../../_shared/waiterrobot-backend';
-import {allowedCharacterSet} from '../../_shared/regex';
 
 @Component({
   template: `
     @if (isValid()) {}
 
-    <form #formRef [formGroup]="form" (ngSubmit)="submit()" class="d-flex flex-column gap-3">
+    <form #formRef class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-lg-row gap-4">
         <div class="flex-fill form-group">
-          <label for="name">{{ 'NAME' | tr }}</label>
-          <input class="form-control" type="text" id="name" formControlName="name" placeholder="{{ 'NAME' | tr }}" />
+          <label for="name">{{ 'NAME' | transloco }}</label>
+          <input class="form-control" type="text" id="name" formControlName="name" [placeholder]="'NAME' | transloco" />
 
           @if (form.controls.name.invalid) {
             <small class="text-danger">
-              {{ 'HOME_PRINTER_NAME_INCORRECT' | tr }}
+              {{ 'HOME_PRINTER_NAME_INCORRECT' | transloco }}
             </small>
           }
         </div>
         <div class="flex-fill form-group">
-          <label for="fontScale">{{ 'HOME_PRINTER_FONT_SCALE' | tr }}</label>
+          <label for="fontScale">{{ 'HOME_PRINTER_FONT_SCALE' | transloco }}</label>
           <input
             class="form-control"
             type="number"
             id="fontScale"
             step="0.1"
             formControlName="fontScale"
-            placeholder="{{ 'HOME_PRINTER_FONT_SCALE' | tr }}"
+            [placeholder]="'HOME_PRINTER_FONT_SCALE' | transloco"
           />
 
           @if (form.controls.fontScale.invalid) {
             <small class="text-danger">
-              {{ 'HOME_PRINTER_FONT_SCALE_INVALID' | tr }}
+              {{ 'HOME_PRINTER_FONT_SCALE_INVALID' | transloco }}
             </small>
           }
         </div>
 
         <div class="flex-fill form-group">
-          <label for="font">{{ 'HOME_PRINTER_FONT' | tr }}</label>
+          <label for="font">{{ 'HOME_PRINTER_FONT' | transloco }}</label>
 
           <select class="form-select" aria-label="Font select" id="font" formControlName="font">
             @for (font of availableFonts; track font.code) {
@@ -59,54 +59,54 @@ import {allowedCharacterSet} from '../../_shared/regex';
 
       <div class="d-flex flex-column flex-lg-row justify-content-between gap-4">
         <div class="flex-fill form-group">
-          <label for="bonWidth">{{ 'HOME_PRINTER_BON_WIDTH' | tr }}</label>
+          <label for="bonWidth">{{ 'HOME_PRINTER_BON_WIDTH' | transloco }}</label>
           <input
             class="form-control"
             type="number"
             id="bonWidth"
             formControlName="bonWidth"
-            placeholder="{{ 'HOME_PRINTER_BON_WIDTH' | tr }}"
+            [placeholder]="'HOME_PRINTER_BON_WIDTH' | transloco"
           />
 
           @if (form.controls.bonWidth.invalid) {
             <small class="text-danger">
-              {{ 'HOME_PRINTER_BON_WIDTH_INVALID' | tr }}
+              {{ 'HOME_PRINTER_BON_WIDTH_INVALID' | transloco }}
             </small>
           }
         </div>
 
         <div class="flex-fill form-group">
-          <label for="bonPadding">{{ 'HOME_PRINTER_BON_PADDING' | tr }}</label>
+          <label for="bonPadding">{{ 'HOME_PRINTER_BON_PADDING' | transloco }}</label>
           <input
             class="form-control"
             type="number"
             id="bonPadding"
             step="1"
             formControlName="bonPadding"
-            placeholder="{{ 'HOME_PRINTER_BON_PADDING' | tr }}"
+            [placeholder]="'HOME_PRINTER_BON_PADDING' | transloco"
           />
 
           @if (form.controls.bonPadding.invalid) {
             <small class="text-danger">
-              {{ 'HOME_PRINTER_BON_PADDING_INVALID' | tr }}
+              {{ 'HOME_PRINTER_BON_PADDING_INVALID' | transloco }}
             </small>
           }
         </div>
 
         <div class="flex-fill form-group">
-          <label for="bonPaddingTop">{{ 'HOME_PRINTER_BON_PADDING_TOP' | tr }}</label>
+          <label for="bonPaddingTop">{{ 'HOME_PRINTER_BON_PADDING_TOP' | transloco }}</label>
           <input
             class="form-control"
             type="number"
             step="1"
             id="bonPaddingTop"
             formControlName="bonPaddingTop"
-            placeholder="{{ 'HOME_PRINTER_BON_PADDING_TOP' | tr }}"
+            [placeholder]="'HOME_PRINTER_BON_PADDING_TOP' | transloco"
           />
 
           @if (form.controls.bonPaddingTop.invalid) {
             <small class="text-danger">
-              {{ 'HOME_PRINTER_BON_PADDING_TOP_INVALID' | tr }}
+              {{ 'HOME_PRINTER_BON_PADDING_TOP_INVALID' | transloco }}
             </small>
           }
         </div>
@@ -116,7 +116,7 @@ import {allowedCharacterSet} from '../../_shared/regex';
     </form>
   `,
   selector: 'app-printer-edit-form',
-  imports: [ReactiveFormsModule, AsyncPipe, DfxTr, BiComponent, AppModelEditSaveBtn],
+  imports: [ReactiveFormsModule, AsyncPipe, TranslocoPipe, BiComponent, AppModelEditSaveBtn],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -138,7 +138,7 @@ export class AppPrinterEditForm extends AbstractModelEditFormComponent<CreatePri
     this.lumber.info('overrideRawValue', 'Scale', value.fontScale);
     const match: string[] = s_from(value.fontScale).split(/[,.]/);
     const big = n_from(match[0] ?? 1);
-    const small = n_from(match[1] ? match[1][0] ?? 0 : 0);
+    const small = n_from(match[1] ? match[1][0] : 0);
 
     value.fontScale = big * 10 + small;
 

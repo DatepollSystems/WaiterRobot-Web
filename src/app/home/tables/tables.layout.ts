@@ -6,9 +6,9 @@ import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/
 import {AppListNavItemDirective, AppListNavItemsComponent} from '@home-shared/layouts/app-list-nav-items.component';
 import {EntitiesLayout} from '@home-shared/layouts/entities.layout';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 import {TableGroupsService} from './_services/table-groups.service';
 
@@ -21,11 +21,11 @@ import {TableGroupsService} from './_services/table-groups.service';
             <div class="d-flex justify-content-between">
               <div>
                 <bi name="columns-gap" />
-                {{ 'HOME_TABLES' | tr }}
+                {{ 'HOME_TABLES' | transloco }}
               </div>
 
               <div>
-                <span class="badge bg-secondary rounded-pill" [ngbTooltip]="'HOME_TABLES_COUNT' | tr" placement="left">
+                <span class="badge bg-secondary rounded-pill" placement="left" [ngbTooltip]="'HOME_TABLES_COUNT' | transloco">
                   {{ allTablesAmount() ?? '' }}
                 </span>
               </div>
@@ -36,10 +36,10 @@ import {TableGroupsService} from './_services/table-groups.service';
             <div class="d-flex justify-content-between">
               <div>
                 <bi name="diagram-3" />
-                {{ 'HOME_TABLE_GROUPS' | tr }}
+                {{ 'HOME_TABLE_GROUPS' | transloco }}
               </div>
               <div>
-                <span class="badge bg-secondary rounded-pill" [ngbTooltip]="'HOME_TABLE_GROUPS_COUNT' | tr" placement="left">
+                <span class="badge bg-secondary rounded-pill" placement="left" [ngbTooltip]="'HOME_TABLE_GROUPS_COUNT' | transloco">
                   {{ tableGroups()?.length ?? '-' }}
                 </span>
               </div>
@@ -48,9 +48,9 @@ import {TableGroupsService} from './_services/table-groups.service';
         </div>
         <app-list-nav-items
           path="groups/tables/"
-          [entities]="tableGroups() ?? []"
           titleTr="HOME_TABLE_GROUPS"
           selectTr="HOME_TABLES_GROUPS_SELECT"
+          [entities]="tableGroups() ?? []"
         >
           <ng-template let-entity appListNavItem>
             <div class="d-flex justify-content-between">
@@ -58,7 +58,7 @@ import {TableGroupsService} from './_services/table-groups.service';
                 {{ entity.name }}
               </app-text-with-color-indicator>
               <div>
-                <span class="badge bg-secondary rounded-pill" [ngbTooltip]="'HOME_TABLES_COUNT' | tr" placement="left">{{
+                <span class="badge bg-secondary rounded-pill" placement="left" [ngbTooltip]="'HOME_TABLES_COUNT' | transloco">{{
                   entity.tables.length
                 }}</span>
               </div>
@@ -74,7 +74,7 @@ import {TableGroupsService} from './_services/table-groups.service';
   imports: [
     RouterLink,
     RouterLinkActive,
-    DfxTr,
+    TranslocoPipe,
     BiComponent,
     EntitiesLayout,
     AppListNavItemsComponent,
@@ -86,10 +86,9 @@ import {TableGroupsService} from './_services/table-groups.service';
 export class TablesLayout {
   tableGroups = toSignal(inject(TableGroupsService).getAll$());
 
-  allTablesAmount = computed(
-    () =>
-      this.tableGroups()
-        ?.map((it) => it.tables.length)
-        ?.reduce((current, previous) => current + previous, 0),
+  allTablesAmount = computed(() =>
+    this.tableGroups()
+      ?.map((it) => it.tables.length)
+      .reduce((current, previous) => current + previous, 0),
   );
 }

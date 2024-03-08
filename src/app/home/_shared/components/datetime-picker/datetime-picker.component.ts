@@ -2,8 +2,6 @@ import {NgClass} from '@angular/common';
 import {booleanAttribute, ChangeDetectionStrategy, Component, Input, numberAttribute, Optional, Self} from '@angular/core';
 import {ControlValueAccessor, FormsModule, NgControl} from '@angular/forms';
 
-import {noop} from 'rxjs';
-
 import {
   NgbDateParserFormatter,
   NgbDatepicker,
@@ -16,6 +14,8 @@ import {
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 
+import {noop} from 'rxjs';
+
 import {NgbDateTimeAdapter} from './datetime-adapter';
 import {NgbDateTimeStruct} from './datetime.struct';
 
@@ -23,23 +23,23 @@ import {NgbDateTimeStruct} from './datetime.struct';
   template: `
     <div class="input-group">
       <input
-        [id]="id"
         class="form-control"
+        [id]="id"
         [placeholder]="placeholder"
         [disabled]="disabled"
         [ngClass]="ngControl.valid ? 'ng-valid' : 'ng-invalid'"
         [ngModel]="displayedDateTime ?? ''"
         (ngModelChange)="onInputChange($event)"
-        (blur)="inputBlur($event)"
+        (blur)="inputBlur()"
       />
 
       <button
         class="input-group-text"
+        type="button"
         [ngbPopover]="calendarContent"
         [autoClose]="'outside'"
         [placement]="'auto'"
         [disabled]="disabled"
-        type="button"
       >
         <bi name="calendar-date" />
       </button>
@@ -51,19 +51,19 @@ import {NgbDateTimeStruct} from './datetime.struct';
 
     <ng-template #calendarContent>
       <div>
-        <ngb-datepicker #dp name="datepicker" [(ngModel)]="dateStruct" (ngModelChange)="onDateChange($event)"></ngb-datepicker>
+        <ngb-datepicker #dp name="datepicker" [(ngModel)]="dateStruct" (ngModelChange)="onDateChange($event)" />
 
         <div class="d-flex justify-content-center mt-2">
           <ngb-timepicker
-            [meridian]="false"
             #tp
             name="timepicker"
+            [meridian]="false"
             [ngModel]="timeStruct"
-            (ngModelChange)="onTimeChange($event)"
             [seconds]="seconds"
             [hourStep]="hourStep"
             [minuteStep]="minuteStep"
-          ></ngb-timepicker>
+            (ngModelChange)="onTimeChange($event)"
+          />
         </div>
       </div>
     </ng-template>
@@ -75,7 +75,7 @@ import {NgbDateTimeStruct} from './datetime.struct';
 })
 export class AppDatetimeInputComponent implements ControlValueAccessor {
   @Input()
-  placeholder: string = '';
+  placeholder = '';
   @Input({transform: numberAttribute})
   hourStep = 1;
   @Input({transform: numberAttribute})
@@ -88,7 +88,7 @@ export class AppDatetimeInputComponent implements ControlValueAccessor {
   id!: string;
 
   error = false;
-  disabled: boolean = false;
+  disabled = false;
 
   private onTouched: () => void = noop;
   private onChange: (_: unknown) => void = noop;
@@ -113,6 +113,7 @@ export class AppDatetimeInputComponent implements ControlValueAccessor {
     const _dateStruct = this._ngbDateParser.parse(dateTimeValue[0]);
     const _timeStruct: string[] | undefined = dateTimeValue[1]?.split(':');
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!_dateStruct || !_timeStruct) {
       return null;
     }
@@ -222,8 +223,7 @@ export class AppDatetimeInputComponent implements ControlValueAccessor {
     this.propagateModelChange();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  inputBlur($event: unknown): void {
+  inputBlur(): void {
     this.onTouched();
   }
 

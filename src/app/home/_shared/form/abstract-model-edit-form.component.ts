@@ -15,24 +15,24 @@ import {
 import {AbstractControl, FormBuilder, FormGroup, ɵFormGroupValue} from '@angular/forms';
 
 import {loggerOf} from 'dfts-helper';
-import {AComponent} from 'dfx-helper';
 
 const focuses = ['input', 'select', 'textarea'];
 
 @Component({
+  standalone: true,
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOType> extends AComponent implements AfterViewInit {
+export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOType> implements AfterViewInit {
   lumber = loggerOf('AModelEditForm');
 
   fb = inject(FormBuilder);
 
   @Output()
-  submitCreate = new EventEmitter<CreateDTOType>();
+  readonly submitCreate = new EventEmitter<CreateDTOType>();
 
   @Output()
-  submitUpdate = new EventEmitter<UpdateDTOType>();
+  readonly submitUpdate = new EventEmitter<UpdateDTOType>();
 
   isCreating = signal(false);
 

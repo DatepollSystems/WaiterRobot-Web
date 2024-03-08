@@ -7,8 +7,8 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 
 @Component({
   template: `
-    <button ngbDropdownItem class="d-inline-flex gap-2 align-items-center" (click)="changeTheme()">
-      <bi [name]="themeService.selectedTheme().icon ?? 'circle-half'" class="text-body-emphasis" ariaLabel="Theme picker" />
+    <button type="button" name="Theme switcher" ngbDropdownItem class="d-inline-flex gap-2 align-items-center" (click)="changeTheme()">
+      <bi class="text-body-emphasis" ariaLabel="Theme picker" [name]="themeService.selectedTheme().icon" />
       Theme: {{ themeService.selectedTheme().name }}
     </button>
   `,

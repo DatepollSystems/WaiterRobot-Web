@@ -37,7 +37,9 @@ export class OrdersService implements HasGetSingle<GetOrderResponse> {
     return this.triggerRefresh.pipe(
       switchMap(() => timer(0, this.refreshIn * 1000)),
       switchMap(() => this.httpClient.get<GetOrderResponse>(`${this.url}/${id}`)),
-      tap(() => this.notificationService.tsuccess('HOME_ORDER_REFRESHED')),
+      tap(() => {
+        this.notificationService.tsuccess('HOME_ORDER_REFRESHED');
+      }),
     );
   }
 
@@ -56,15 +58,25 @@ export class OrdersService implements HasGetSingle<GetOrderResponse> {
         take(1),
         switchMap((eventId) => this.httpClient.post(`${this.url}/test/all`, {}, {params: {eventId}})),
       )
-      .subscribe(() => this.notificationService.tsuccess('SENT'));
+      .subscribe(() => {
+        this.notificationService.tsuccess('SENT');
+      });
   }
 
   requeueOrder$(id: GetOrderResponse['id']): Observable<unknown> {
-    return this.httpClient.get(`${this.url}/${id}/requeue`).pipe(tap(() => this.triggerRefresh.next(true)));
+    return this.httpClient.get(`${this.url}/${id}/requeue`).pipe(
+      tap(() => {
+        this.triggerRefresh.next(true);
+      }),
+    );
   }
 
   requeueOrderPrinter$(id: GetOrderResponse['id'], printerId: number): Observable<unknown> {
-    return this.httpClient.get(`${this.url}/${id}/requeue/${printerId}`).pipe(tap(() => this.triggerRefresh.next(true)));
+    return this.httpClient.get(`${this.url}/${id}/requeue/${printerId}`).pipe(
+      tap(() => {
+        this.triggerRefresh.next(true);
+      }),
+    );
   }
 
   getAllPaginated(
@@ -84,7 +96,7 @@ export class OrdersService implements HasGetSingle<GetOrderResponse> {
     return this.triggerRefresh.pipe(
       switchMap(() => this.selectedEventService.selectedIdNotNull$),
       switchMap((eventId) =>
-        this.httpClient.get<PaginatedResponseGetOrderMinResponse>(`${this.url}`, {
+        this.httpClient.get<PaginatedResponseGetOrderMinResponse>(this.url, {
           params: params.append('eventId', eventId),
         }),
       ),
