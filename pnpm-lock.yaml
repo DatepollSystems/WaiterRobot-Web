@@ -38,6 +38,9 @@ dependencies:
   '@angular/router':
     specifier: 17.1.3
     version: 17.1.3(@angular/common@17.1.3)(@angular/core@17.1.3)(@angular/platform-browser@17.1.3)(rxjs@7.8.1)
+  '@micro-sentry/angular':
+    specifier: ^7.0.2
+    version: 7.0.2(@angular/common@17.1.3)(@angular/core@17.1.3)
   '@ng-bootstrap/ng-bootstrap':
     specifier: 16.0.0
     version: 16.0.0(@angular/common@17.1.3)(@angular/core@17.1.3)(@angular/forms@17.1.3)(@angular/localize@17.1.3)(@popperjs/core@2.11.8)(rxjs@7.8.1)
@@ -2807,6 +2810,31 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
+
+  /@micro-sentry/angular@7.0.2(@angular/common@17.1.3)(@angular/core@17.1.3):
+    resolution: {integrity: sha512-LPd4UCWSYj5SVcUtevs5F5lDS7suo9pnD3JeT0SYl+hGGdyoE327ao9+H08VEdFYYOT6Ifv/W7kRHl7i6U0iDw==}
+    peerDependencies:
+      '@angular/common': '>=14.0.0'
+      '@angular/core': '>=14.0.0'
+    dependencies:
+      '@angular/common': 17.1.3(@angular/core@17.1.3)(rxjs@7.8.1)
+      '@angular/core': 17.1.3(rxjs@7.8.1)(zone.js@0.14.3)
+      '@micro-sentry/browser': 7.0.2
+      tslib: 2.6.2
+    dev: false
+
+  /@micro-sentry/browser@7.0.2:
+    resolution: {integrity: sha512-gy0Y7HHqC8FVFZkh4Flt0cXZsgNiOJ+kUrHOO52UYgLLhf77aAcBkpUSkqgu8v5v09GJxuMqsI/TBYXAa6cQzQ==}
+    dependencies:
+      '@micro-sentry/core': 7.0.2
+      tslib: 2.6.2
+    dev: false
+
+  /@micro-sentry/core@7.0.2:
+    resolution: {integrity: sha512-Ttarqr/DvWilaoCaz/jlqw89/Ud9UdvZKj8DVeo6HA2KVdRRasPSv1Co6qJXxd79cEn65w58PQeE+mOkNbBm1g==}
+    dependencies:
+      tslib: 2.6.2
+    dev: false
 
   /@ng-bootstrap/ng-bootstrap@16.0.0(@angular/common@17.1.3)(@angular/core@17.1.3)(@angular/forms@17.1.3)(@angular/localize@17.1.3)(@popperjs/core@2.11.8)(rxjs@7.8.1):
     resolution: {integrity: sha512-+FJ3e6cX9DW2t7021Ji3oz433rk3+4jLfqzU+Jyx6/vJz1dIOaML3EAY6lYuW4TLiXgMPOMvs6KzPFALGh4Lag==}

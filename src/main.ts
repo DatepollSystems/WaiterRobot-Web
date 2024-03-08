@@ -2,11 +2,12 @@ import {registerLocaleData} from '@angular/common';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import {DEFAULT_CURRENCY_CODE, isDevMode, LOCALE_ID} from '@angular/core';
+import {DEFAULT_CURRENCY_CODE, importProvidersFrom, isDevMode, LOCALE_ID} from '@angular/core';
 import {bootstrapApplication} from '@angular/platform-browser';
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {provideRouter, TitleStrategy, withPreloading} from '@angular/router';
 import {NgbDateTimeAdapter} from '@home-shared/components/datetime-picker/datetime-adapter';
+import {MicroSentryModule} from '@micro-sentry/angular';
 
 import {NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 import {provideTransloco} from '@ngneat/transloco';
@@ -88,6 +89,12 @@ bootstrapApplication(AppComponent, {
       },
       loader: TranslocoHttpLoader,
     }),
+    importProvidersFrom(
+      MicroSentryModule.forRoot({
+        dsn: 'https://e1122a6efe6b4e51b6af528d10704449@glitchtip.kellner.team/1',
+        environment: EnvironmentHelper.getType(),
+      }),
+    ),
   ],
 }).catch((err) => {
   console.error(err);
