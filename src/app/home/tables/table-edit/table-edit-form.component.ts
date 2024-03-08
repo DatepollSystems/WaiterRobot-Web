@@ -6,12 +6,12 @@ import {RouterLink} from '@angular/router';
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 import {injectIsValid} from '@shared/form';
 import {CreateTableDto, GetTableWithGroupResponse, UpdateTableDto} from '@shared/waiterrobot-backend';
 
 import {HasNumberIDAndName} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 import {debounceTime, filter, map, switchMap, tap} from 'rxjs';
 
@@ -24,34 +24,34 @@ import {TablesService} from '../_services/tables.service';
     <form #formRef class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-lg-row gap-4">
         <div class="form-group flex-fill">
-          <label for="number">{{ 'NUMBER' | tr }}</label>
-          <input formControlName="number" class="form-control" type="number" id="number" [placeholder]="'NUMBER' | tr" />
+          <label for="number">{{ 'NUMBER' | transloco }}</label>
+          <input formControlName="number" class="form-control" type="number" id="number" [placeholder]="'NUMBER' | transloco" />
 
           @if (form.controls.number.errors?.required) {
             <small class="text-danger">
-              {{ 'HOME_TABLES_NUMBER_INCORRECT' | tr }}
+              {{ 'HOME_TABLES_NUMBER_INCORRECT' | transloco }}
             </small>
           }
 
           @if ((existsAlready$ | async) && form.controls.number.errors?.existsAlready) {
             <small class="text-danger">
-              {{ 'HOME_TABLES_NUMBER_EXISTS_ALREADY' | tr }}
+              {{ 'HOME_TABLES_NUMBER_EXISTS_ALREADY' | transloco }}
             </small>
           }
         </div>
 
         <div class="form-group flex-fill">
-          <label for="seats">{{ 'SEATS' | tr }}</label>
-          <input formControlName="seats" class="form-control" type="number" id="seats" [placeholder]="'SEATS' | tr" />
+          <label for="seats">{{ 'SEATS' | transloco }}</label>
+          <input formControlName="seats" class="form-control" type="number" id="seats" [placeholder]="'SEATS' | transloco" />
           @if (form.controls.seats.invalid) {
             <small class="text-danger">
-              {{ 'HOME_TABLES_SEATS_INCORRECT' | tr }}
+              {{ 'HOME_TABLES_SEATS_INCORRECT' | transloco }}
             </small>
           }
         </div>
 
         <div class="form-group flex-fill">
-          <label for="selectGroup">{{ 'HOME_TABLE_GROUPS' | tr }}</label>
+          <label for="selectGroup">{{ 'HOME_TABLE_GROUPS' | transloco }}</label>
           <div class="input-group">
             @if (isCreating()) {
               <span class="input-group-text" id="selectGroup-addon">
@@ -63,14 +63,14 @@ import {TablesService} from '../_services/tables.service';
                 id="selectGroup-addon"
                 placement="bottom"
                 [routerLink]="'../groups/' + form.controls.groupId.value"
-                [ngbTooltip]="('HOME_TABLE_GROUP' | tr) + ('OPEN_2' | tr)"
+                [ngbTooltip]="('HOME_TABLE_GROUP' | transloco) + ('OPEN_2' | transloco)"
               >
                 <bi name="diagram-3" />
               </a>
             }
 
             <select class="form-select" id="selectGroup" formControlName="groupId">
-              <option disabled [value]="-1">{{ 'HOME_TABLES_GROUPS_DEFAULT' | tr }}</option>
+              <option disabled [value]="-1">{{ 'HOME_TABLES_GROUPS_DEFAULT' | transloco }}</option>
               @for (group of tableGroups; track group.id) {
                 <option [value]="group.id">
                   {{ group.name }}
@@ -81,7 +81,7 @@ import {TablesService} from '../_services/tables.service';
 
           @if (form.controls.groupId.invalid) {
             <small class="text-danger">
-              {{ 'HOME_TABLES_GROUPS_INCORRECT' | tr }}
+              {{ 'HOME_TABLES_GROUPS_INCORRECT' | transloco }}
             </small>
           }
         </div>
@@ -93,7 +93,7 @@ import {TablesService} from '../_services/tables.service';
   selector: 'app-table-edit-form',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, AsyncPipe, DfxTr, BiComponent, AppModelEditSaveBtn, RouterLink, NgbTooltip],
+  imports: [ReactiveFormsModule, AsyncPipe, TranslocoPipe, BiComponent, AppModelEditSaveBtn, RouterLink, NgbTooltip],
 })
 export class TableEditFormComponent extends AbstractModelEditFormComponent<CreateTableDto, UpdateTableDto> {
   tablesService = inject(TablesService);

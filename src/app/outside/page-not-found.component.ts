@@ -1,11 +1,11 @@
 import {Location, NgOptimizedImage} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {Router} from '@angular/router';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {FooterModule} from '@shared/ui/footer/footer.module';
 
 import {n_fromStorage, st_set} from 'dfts-helper';
-import {DfxTr} from 'dfx-translate';
 
 @Component({
   selector: 'app-page-not-found',
@@ -13,14 +13,14 @@ import {DfxTr} from 'dfx-translate';
     <div class="d-flex justify-content-center">
       <img ngSrc="/assets/404.webp" priority width="400" height="320" alt="Image of cat which hides in a box" />
     </div>
-    <h2 class="text-center mt-5">{{ '404_TITLE' | tr }}</h2>
+    <h2 class="text-center mt-5">{{ '404_TITLE' | transloco }}</h2>
     <button type="button" class="btn btn-primary btn-lg mt-5 mb-4 w-100" (click)="goBack()">
-      {{ 'GO_BACK' | tr }}
+      {{ 'GO_BACK' | transloco }}
     </button>
   `,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FooterModule, DfxTr, NgOptimizedImage],
+  imports: [FooterModule, TranslocoPipe, NgOptimizedImage],
 })
 export class PageNotFoundComponent {
   location = inject(Location);

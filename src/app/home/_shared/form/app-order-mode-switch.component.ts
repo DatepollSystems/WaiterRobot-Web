@@ -2,19 +2,19 @@ import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Inpu
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 
-import {DfxTr} from 'dfx-translate';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 @Component({
   template: `
     <div class="form-check form-switch mb-0">
       <input class="form-check-input" type="checkbox" role="switch" id="orderMode" [formControl]="formControl" />
-      <label class="form-check-label text-nowrap" for="orderMode">{{ 'ORDER_MODE_SWITCH' | tr }}</label>
+      <label class="form-check-label text-nowrap" for="orderMode">{{ 'ORDER_MODE_SWITCH' | transloco }}</label>
     </div>
   `,
   selector: 'app-order-mode-switch',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, DfxTr],
+  imports: [ReactiveFormsModule, TranslocoPipe],
 })
 export class AppOrderModeSwitchComponent {
   formControl = new FormControl(false);

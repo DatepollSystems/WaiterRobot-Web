@@ -5,10 +5,10 @@ import {FormsModule} from '@angular/forms';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 
 import {NgbModal, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {s_fromStorage, st_remove, st_set} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTranslateModule} from 'dfx-translate';
 
 import {FullScreenService} from '../../services/fullscreen.service';
 import {ScrollableToolbarComponent} from '../scrollable-toolbar.component';
@@ -20,12 +20,12 @@ import {ScrollableToolbarComponent} from '../scrollable-toolbar.component';
     RouterLink,
     RouterLinkActive,
     DragDropModule,
-    DfxTranslateModule,
     BiComponent,
     NgbTooltipModule,
     ScrollableToolbarComponent,
     FormsModule,
     AsyncPipe,
+    TranslocoPipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app-navbar-scrollable.component.html',

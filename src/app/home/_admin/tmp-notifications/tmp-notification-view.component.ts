@@ -10,7 +10,7 @@ import {cl_copy} from 'dfts-helper';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxCutPipe} from 'dfx-helper';
-import {DfxTr} from 'dfx-translate';
+import {TranslocoPipe} from '@ngneat/transloco';
 import {PdfJsViewerComponent, PdfJsViewerModule} from 'ng2-pdfjs-viewer';
 import {computedFrom} from 'ngxtension/computed-from';
 import {injectParams} from 'ngxtension/inject-params';
@@ -142,7 +142,7 @@ import {TmpNotificationsService} from './tmp-notifications.service';
   ],
   selector: 'app-tmp-notification-view',
   imports: [
-    DfxTr,
+    TranslocoPipe,
     BiComponent,
     ScrollableToolbarComponent,
     AppBackButtonComponent,

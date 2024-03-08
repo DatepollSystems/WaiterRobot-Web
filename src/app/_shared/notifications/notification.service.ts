@@ -1,6 +1,5 @@
-import {Injectable, TemplateRef} from '@angular/core';
-
-import {dfxTranslate$} from 'dfx-translate';
+import {inject, Injectable, TemplateRef} from '@angular/core';
+import {TranslocoService} from '@ngneat/transloco';
 
 import {BehaviorSubject, first} from 'rxjs';
 
@@ -16,14 +15,15 @@ export class NotificationService {
 
   toasts = new BehaviorSubject<Toast[]>([]);
 
-  private translate = dfxTranslate$();
+  private translocoService = inject(TranslocoService);
 
   info(str: string): void {
     this.show(str, {delay: this.delay, classname: 'bg-info text-dark'});
   }
 
   tinfo(translationKey: string): void {
-    this.translate(translationKey)
+    this.translocoService
+      .selectTranslate<string>(translationKey)
       .pipe(first())
       .subscribe((translation) => {
         this.info(translation);
@@ -35,7 +35,8 @@ export class NotificationService {
   }
 
   tsuccess(translationKey: string): void {
-    this.translate(translationKey)
+    this.translocoService
+      .selectTranslate<string>(translationKey)
       .pipe(first())
       .subscribe((translation) => {
         this.success(translation);
@@ -47,7 +48,8 @@ export class NotificationService {
   }
 
   twarning(translationKey: string): void {
-    this.translate(translationKey)
+    this.translocoService
+      .selectTranslate<string>(translationKey)
       .pipe(first())
       .subscribe((translation) => {
         this.warning(translation);
@@ -59,7 +61,8 @@ export class NotificationService {
   }
 
   terror(translationKey: string): void {
-    this.translate(translationKey)
+    this.translocoService
+      .selectTranslate<string>(translationKey)
       .pipe(first())
       .subscribe((translation) => {
         this.error(translation);

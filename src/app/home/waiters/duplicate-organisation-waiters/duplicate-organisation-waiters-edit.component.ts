@@ -4,12 +4,12 @@ import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {DuplicateWaiterResponse, IdAndNameResponse} from '@shared/waiterrobot-backend';
 
 import {notNullAndUndefined} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 import {combineLatest, filter, map, merge, share, shareReplay, Subject, switchMap, take, tap} from 'rxjs';
 import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
@@ -24,11 +24,11 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
 
         <scrollable-toolbar>
           <div>
-            <a routerLink="../../" class="btn btn-sm btn-outline-secondary">{{ 'GO_BACK' | tr }}</a>
+            <a routerLink="../../" class="btn btn-sm btn-outline-secondary">{{ 'GO_BACK' | transloco }}</a>
           </div>
           <div>
             <button type="button" class="btn btn-sm btn-success" [disabled]="!vm.minTwo" (click)="merge()">
-              {{ 'SAVE' | tr }}
+              {{ 'SAVE' | transloco }}
             </button>
           </div>
         </scrollable-toolbar>
@@ -58,7 +58,7 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
                 @if (ignoreFeature) {
                   <button type="button" class="btn btn-sm btn-warning" (click)="$event.stopPropagation()">
                     <bi name="person-x-fill" />
-                    {{ 'IGNORE' | tr }}
+                    {{ 'IGNORE' | transloco }}
                   </button>
                 }
               </button>
@@ -72,7 +72,15 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
       </div>
     }
   `,
-  imports: [BiComponent, DfxTr, ScrollableToolbarComponent, RouterLink, AsyncPipe, AppContinuesCreationSwitchComponent, FormsModule],
+  imports: [
+    BiComponent,
+    TranslocoPipe,
+    ScrollableToolbarComponent,
+    RouterLink,
+    AsyncPipe,
+    AppContinuesCreationSwitchComponent,
+    FormsModule,
+  ],
   selector: 'app-duplicate-organisation-waiters-edit',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,

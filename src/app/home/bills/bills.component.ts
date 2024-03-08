@@ -10,6 +10,7 @@ import {injectFilter} from '@home-shared/services/filter';
 import {getSortParam, injectPagination} from '@home-shared/services/pagination';
 import {NgbCollapse, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
+import {TranslocoPipe} from '@ngneat/transloco';
 import {injectCustomFormBuilder} from '@shared/form';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
@@ -18,7 +19,6 @@ import {loggerOf} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {DfxCurrencyCentPipe, injectIsMobile} from 'dfx-helper';
-import {DfxTr} from 'dfx-translate';
 import {computedFrom} from 'ngxtension/computed-from';
 
 import {debounceTime, map, merge, Observable, pipe, switchMap, tap} from 'rxjs';
@@ -37,7 +37,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
   template: `
     <div class="d-flex flex-column gap-3">
       <div class="d-flex align-items-center justify-content-between">
-        <h1 class="my-0">{{ 'NAV_BILLS' | tr }}</h1>
+        <h1 class="my-0">{{ 'NAV_BILLS' | transloco }}</h1>
         <div class="d-inline-flex gap-2 me-2">
           <app-bill-refresh-btn [loading]="pagination.loading()" />
           @if (isMobile()) {
@@ -58,7 +58,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
         <div>
           <button type="button" class="btn btn-sm btn-info" (click)="exportCsv()">
             <bi name="filetype-csv" />
-            {{ 'EXPORT' | tr }}
+            {{ 'EXPORT' | transloco }}
           </button>
         </div>
       </scrollable-toolbar>
@@ -79,7 +79,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
               bindLabel="reason"
               formControlName="unpaidReasonId"
               [items]="unpaidReasonsFilter()"
-              [placeholder]="'Zahlungsstatus' | tr"
+              [placeholder]="'Zahlungsstatus' | transloco"
             />
           </div>
 
@@ -90,7 +90,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
               formControlName="tableGroupIds"
               clearAllText="Clear"
               [items]="tableGroups()"
-              [placeholder]="'HOME_TABLE_GROUP_SELECT' | tr"
+              [placeholder]="'HOME_TABLE_GROUP_SELECT' | transloco"
               [multiple]="true"
             />
           </div>
@@ -101,7 +101,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
               clearAllText="Clear"
               [items]="tables()"
               [searchFn]="customTableSearch"
-              [placeholder]="'HOME_TABLE_SELECT' | tr"
+              [placeholder]="'HOME_TABLE_SELECT' | transloco"
               [multiple]="true"
             >
               <ng-template let-item="item" let-clear="clear" ng-label-tmp>
@@ -121,7 +121,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
               formControlName="productGroupIds"
               clearAllText="Clear"
               [items]="productGroups()"
-              [placeholder]="'HOME_PROD_GROUPS_SELECT' | tr"
+              [placeholder]="'HOME_PROD_GROUPS_SELECT' | transloco"
               [multiple]="true"
             />
           </div>
@@ -133,7 +133,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
               formControlName="productIds"
               clearAllText="Clear"
               [items]="products()"
-              [placeholder]="'HOME_PROD_SELECT' | tr"
+              [placeholder]="'HOME_PROD_SELECT' | transloco"
               [multiple]="true"
             />
           </div>
@@ -145,7 +145,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
               formControlName="waiterIds"
               clearAllText="Clear"
               [items]="waiters()"
-              [placeholder]="'HOME_WAITERS_SELECT' | tr"
+              [placeholder]="'HOME_WAITERS_SELECT' | transloco"
               [multiple]="true"
             />
           </div>
@@ -157,7 +157,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
             (click)="filter.form.reset()"
           >
             <bi name="x-circle-fill" />
-            {{ 'DELETE_ALL' | tr }}
+            {{ 'DELETE_ALL' | transloco }}
             @if (filter.count() !== 0) {
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                 {{ filter.count() }}
@@ -180,33 +180,33 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
           [ngbSortDirection]="pagination.params().direction"
         >
           <ng-container ngbColumnDef="createdAt">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_CREATED_AT' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_CREATED_AT' | transloco }}</th>
             <td *ngbCellDef="let bill" ngb-cell>{{ bill.createdAt | date: 'dd.MM.yy HH:mm:ss' }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="unpaidReason.name">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'STATE' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'STATE' | transloco }}</th>
             <td *ngbCellDef="let bill" ngb-cell>
               <app-bill-payment-state-badge [unpaidReason]="bill.unpaidReason?.reason" />
             </td>
           </ng-container>
 
           <ng-container ngbColumnDef="price">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'PRICE' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'PRICE' | transloco }}</th>
             <td *ngbCellDef="let bill" ngb-cell>
               {{ bill.pricePaidSum | currency }}
             </td>
           </ng-container>
 
           <ng-container ngbColumnDef="waiter.name">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_WAITERS_NAV_ORGANISATION' | transloco }}</th>
             <td *ngbCellDef="let bill" ngb-cell>
               <a [routerLink]="'../../waiters/' + bill.waiter.id" (click)="$event.stopPropagation()">{{ bill.waiter.name }}</a>
             </td>
           </ng-container>
 
           <ng-container ngbColumnDef="table.tableGroup.name">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_ORDER_TABLE' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_ORDER_TABLE' | transloco }}</th>
             <td *ngbCellDef="let bill" ngb-cell>
               <a [routerLink]="'../../tables/groups/tables/' + bill.table.group.id" (click)="$event.stopPropagation()">{{
                 bill.table.group.name
@@ -216,13 +216,13 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
           </ng-container>
 
           <ng-container ngbColumnDef="actions">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
             <td *ngbCellDef="let bill" ngb-cell>
               <a
                 class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"
                 placement="left"
                 [routerLink]="'../' + bill.id"
-                [ngbTooltip]="'OPEN' | tr"
+                [ngbTooltip]="'OPEN' | transloco"
               >
                 <bi name="arrow-up-right-square-fill" />
               </a>
@@ -238,7 +238,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
 
       @if (!pagination.loading() && dataSource().length < 1) {
         <div class="w-100 text-center mt-2">
-          {{ 'HOME_STATISTICS_NO_DATA' | tr }}
+          {{ 'HOME_STATISTICS_NO_DATA' | transloco }}
         </div>
       }
 
@@ -262,7 +262,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
     DfxTableModule,
     DfxSortModule,
     DfxPaginationModule,
-    DfxTr,
+    TranslocoPipe,
     BiComponent,
     DfxCurrencyCentPipe,
     AppBillPaymentStateBadgeComponent,

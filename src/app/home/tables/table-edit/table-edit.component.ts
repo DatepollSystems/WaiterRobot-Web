@@ -25,9 +25,9 @@ import {TableEditFormComponent} from './table-edit-form.component';
   template: `
     @if (entity(); as entity) {
       <div class="d-flex flex-column gap-2">
-        <h1 *isCreating="entity">{{ 'HOME_TABLES_ADD' | tr }}</h1>
-        <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | tr }} {{ entity.group.name }} - {{ entity.number }}</h1>
-        <h1 *isEditingAndDeleted="entity">{{ entity.group.name }} - {{ entity.number }} {{ 'DELETED' | tr }}</h1>
+        <h1 *isCreating="entity">{{ 'HOME_TABLES_ADD' | transloco }}</h1>
+        <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | transloco }} {{ entity.group.name }} - {{ entity.number }}</h1>
+        <h1 *isEditingAndDeleted="entity">{{ entity.group.name }} - {{ entity.number }} {{ 'DELETED' | transloco }}</h1>
 
         <scrollable-toolbar>
           <back-button />
@@ -36,14 +36,14 @@ import {TableEditFormComponent} from './table-edit-form.component';
             <div>
               <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
                 <bi name="trash" />
-                {{ 'DELETE' | tr }}
+                {{ 'DELETE' | transloco }}
               </button>
             </div>
             @if (publicIdLink(); as link) {
               <div>
                 <a class="btn btn-sm btn-info" [href]="link">
                   <bi name="box-arrow-up-right" />
-                  {{ 'HOME_TABLES_PUBLIC_ID' | tr }}
+                  {{ 'HOME_TABLES_PUBLIC_ID' | transloco }}
                 </a>
               </div>
             }
@@ -51,13 +51,13 @@ import {TableEditFormComponent} from './table-edit-form.component';
             <div>
               <a class="btn btn-sm btn-secondary" routerLink="../../orders" [queryParams]="{tableIds: entity.id}">
                 <bi name="stack" />
-                {{ 'NAV_ORDERS' | tr }}
+                {{ 'NAV_ORDERS' | transloco }}
               </a>
             </div>
             <div>
               <a class="btn btn-sm btn-secondary" routerLink="../../bills" [queryParams]="{tableIds: entity.id}">
                 <bi name="cash-coin" />
-                {{ 'NAV_BILLS' | tr }}
+                {{ 'NAV_BILLS' | transloco }}
               </a>
             </div>
           </ng-container>
@@ -72,7 +72,7 @@ import {TableEditFormComponent} from './table-edit-form.component';
         @if ((tableGroups()?.length ?? 1) < 1) {
           <div class="alert alert-warning d-flex gap-2">
             <bi name="exclamation-triangle-fill" />
-            <a class="link-warning" routerLink="../groups/create">{{ 'HOME_TABLE_ADD_GROUP_FIRST' | tr }}</a>
+            <a class="link-warning" routerLink="../groups/create">{{ 'HOME_TABLE_ADD_GROUP_FIRST' | transloco }}</a>
           </div>
         }
 

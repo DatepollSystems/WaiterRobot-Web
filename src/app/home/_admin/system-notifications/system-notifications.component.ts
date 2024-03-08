@@ -7,41 +7,47 @@ import {AbstractModelsListWithDeleteComponent} from '@home-shared/list/models-li
 import {AppActivatedPipe} from '@home-shared/pipes/app-activated.pipe';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetSystemNotificationResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxTr} from 'dfx-translate';
 import {AppSystemNotificationTypeBadgeComponent} from './_components/system-notification-type-badge.component';
 import {SystemNotificationsService} from './_services/system-notifications.service';
 
 @Component({
   template: `
     <div class="d-flex flex-column gap-3">
-      <h1 class="my-0">{{ 'NAV_SYSTEM_NOTIFICATIONS' | tr }}</h1>
+      <h1 class="my-0">{{ 'NAV_SYSTEM_NOTIFICATIONS' | transloco }}</h1>
 
       <scrollable-toolbar>
         <div>
           <a routerLink="../create" class="btn btn-sm btn-success">
             <bi name="plus-circle" />
-            {{ 'ADD_2' | tr }}</a
+            {{ 'ADD_2' | transloco }}</a
           >
         </div>
         <div>
           <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
             <bi name="trash" />
-            {{ 'DELETE' | tr }}
+            {{ 'DELETE' | transloco }}
           </button>
         </div>
       </scrollable-toolbar>
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
+          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
           @if ((filter.value?.length ?? 0) > 0) {
-            <button class="btn btn-outline-secondary" type="button" placement="bottom" [ngbTooltip]="'CLEAR' | tr" (click)="filter.reset()">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              placement="bottom"
+              [ngbTooltip]="'CLEAR' | transloco"
+              (click)="filter.reset()"
+            >
               <bi name="x-circle-fill" />
             </button>
           }
@@ -76,44 +82,48 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
           </ng-container>
 
           <ng-container ngbColumnDef="title">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'TITLE' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'TITLE' | transloco }}</th>
             <td *ngbCellDef="let it" ngb-cell>{{ it.title }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="type">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'TYPE' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'TYPE' | transloco }}</th>
             <td *ngbCellDef="let it" ngb-cell>
               <app-system-notification-type-badge [type]="it.type" />
             </td>
           </ng-container>
 
           <ng-container ngbColumnDef="starts">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STARTS' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STARTS' | transloco }}</th>
             <td *ngbCellDef="let it" ngb-cell>{{ it.starts | date: 'dd.MM.YYYY HH:mm' }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="ends">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ENDS' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ENDS' | transloco }}</th>
             <td *ngbCellDef="let it" ngb-cell>{{ it.ends | date: 'dd.MM.YYYY HH:mm' }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="active">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ACTIVE' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ACTIVE' | transloco }}</th>
             <td *ngbCellDef="let it" ngb-cell>
               {{ it.active | activated }}
             </td>
           </ng-container>
 
           <ng-container ngbColumnDef="actions">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
             <td *ngbCellDef="let it" ngb-cell>
-              <a class="btn btn-sm m-1 btn-outline-success text-body-emphasis" [routerLink]="'../' + it.id" [ngbTooltip]="'EDIT' | tr">
+              <a
+                class="btn btn-sm m-1 btn-outline-success text-body-emphasis"
+                [routerLink]="'../' + it.id"
+                [ngbTooltip]="'EDIT' | transloco"
+              >
                 <bi name="pencil-square" />
               </a>
               <button
                 type="button"
                 class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
-                [ngbTooltip]="'DELETE' | tr"
+                [ngbTooltip]="'DELETE' | transloco"
                 (click)="onDelete(it.id, $event)"
               >
                 <bi name="trash" />
@@ -140,7 +150,7 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
     NgbTooltipModule,
     DfxTableModule,
     DfxSortModule,
-    DfxTr,
+    TranslocoPipe,
     BiComponent,
     ScrollableToolbarComponent,
     AppSystemNotificationTypeBadgeComponent,

@@ -19,8 +19,8 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
   template: `
     @if (entity(); as entity) {
       <div class="d-flex flex-column gap-2">
-        <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
-        <h1 *isCreating="entity">{{ 'ADD_2' | tr }}</h1>
+        <h1 *isEditing="entity">{{ 'EDIT_2' | transloco }} {{ entity.name }}</h1>
+        <h1 *isCreating="entity">{{ 'ADD_2' | transloco }}</h1>
 
         <scrollable-toolbar>
           <back-button />
@@ -29,7 +29,7 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
             <div>
               <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
                 <bi name="trash" />
-                {{ 'DELETE' | tr }}
+                {{ 'DELETE' | transloco }}
               </button>
             </div>
           </ng-container>
@@ -49,7 +49,7 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
           (navChange)="tabControls.navigateToTab($event.nextId)"
         >
           <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">
-            <a ngbNavLink>{{ 'DATA' | tr }}</a>
+            <a ngbNavLink>{{ 'DATA' | transloco }}</a>
             <ng-template ngbNavContent>
               <app-printer-edit-form
                 #form
@@ -63,7 +63,7 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
           </li>
 
           <li *isEditing="entity" [ngbNavItem]="'PRODUCTS'" [destroyOnHide]="true">
-            <a ngbNavLink>{{ 'HOME_PROD_ALL' | tr }}</a>
+            <a ngbNavLink>{{ 'HOME_PROD_ALL' | transloco }}</a>
             <ng-template ngbNavContent>
               <app-printer-edit-products *isEditing="entity" [products]="entity.products" />
             </ng-template>

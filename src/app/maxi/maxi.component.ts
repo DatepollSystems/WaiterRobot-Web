@@ -6,11 +6,11 @@ import {AppActivatedPipe} from '@home-shared/pipes/app-activated.pipe';
 
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {injectIsValid} from '@shared/form';
 
 import {DfxTimeSpanPipe} from 'dfx-helper';
-import {DfxTr} from 'dfx-translate';
 
 import {interval, map} from 'rxjs';
 import {EventsService} from '../home/events/_services/events.service';
@@ -24,24 +24,24 @@ import {MaxiService} from './maxi.service';
 
       <form class="d-flex gap-3" [formGroup]="maxiService.form">
         <div class="form-group">
-          <label for="interval">{{ 'Interval (in ms)' | tr }}</label>
-          <input formControlName="intervalInMs" class="form-control" type="number" id="interval" [placeholder]="'10' | tr" />
+          <label for="interval">{{ 'Interval (in ms)' | transloco }}</label>
+          <input formControlName="intervalInMs" class="form-control" type="number" id="interval" [placeholder]="'10' | transloco" />
           @if (maxiService.form.controls.intervalInMs.invalid) {
             <small class="text-danger">
-              {{ 'Interval needs to be bigger than 0' | tr }}
+              {{ 'Interval needs to be bigger than 0' | transloco }}
             </small>
           }
         </div>
 
         <div class="form-group col-4">
-          <label for="event">{{ 'Event' | tr }}</label>
+          <label for="event">{{ 'Event' | transloco }}</label>
           <ng-select
             bindValue="id"
             bindLabel="name"
             formControlName="eventId"
             labelForId="event"
             [items]="events()"
-            [placeholder]="'Event select' | tr"
+            [placeholder]="'Event select' | transloco"
           />
         </div>
       </form>
@@ -153,7 +153,7 @@ import {MaxiService} from './maxi.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    DfxTr,
+    TranslocoPipe,
     NgSelectModule,
     JsonPipe,
     DatePipe,

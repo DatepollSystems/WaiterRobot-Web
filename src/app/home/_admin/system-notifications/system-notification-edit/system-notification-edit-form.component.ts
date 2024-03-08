@@ -5,12 +5,12 @@ import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AppDatetimeInputComponent} from '@home-shared/components/datetime-picker/datetime-picker.component';
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
+import {TranslocoPipe} from '@ngneat/transloco';
 import {injectIsValid} from '@shared/form';
 import {CreateSystemNotificationDto, GetSystemNotificationResponse, UpdateSystemNotificationDto} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
-import {DfxTr} from 'dfx-translate';
 import {systemNotificationTypes} from '../_services/system-notifications.service';
 
 @Component({
@@ -20,24 +20,24 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
     <form #formRef class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 gap-md-3">
         <div class="form-group flex-fill">
-          <label for="title">{{ 'TITLE' | tr }}</label>
-          <input class="form-control" type="text" id="title" formControlName="title" [placeholder]="'TITLE' | tr" />
+          <label for="title">{{ 'TITLE' | transloco }}</label>
+          <input class="form-control" type="text" id="title" formControlName="title" [placeholder]="'TITLE' | transloco" />
 
           @if (form.controls.title.invalid) {
             <small class="text-danger">
-              {{ 'HOME_SYSTEM_NOTIFICATIONS_TITLE_INCORRECT' | tr }}
+              {{ 'HOME_SYSTEM_NOTIFICATIONS_TITLE_INCORRECT' | transloco }}
             </small>
           }
         </div>
 
         <div class="form-group flex-fill">
-          <label for="type">{{ 'TYPE' | tr }}</label>
+          <label for="type">{{ 'TYPE' | transloco }}</label>
           <div class="input-group">
             <span class="input-group-text" id="type-addon">
               <bi name="diagram-3" />
             </span>
             <select class="form-select" id="type" formControlName="type">
-              <option disabled [value]="''">{{ 'HOME_SYSTEM_NOTIFICATIONS_TYPE_DEFAULT' | tr }}</option>
+              <option disabled [value]="''">{{ 'HOME_SYSTEM_NOTIFICATIONS_TYPE_DEFAULT' | transloco }}</option>
               @for (type of systemNotificationTypes; track type) {
                 <option [value]="type">
                   {{ type | s_lowerCaseAllExceptFirstLetter }}
@@ -47,50 +47,50 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
           </div>
           @if (form.controls.type.invalid) {
             <small class="text-danger">
-              {{ 'HOME_SYSTEM_NOTIFICATIONS_TYPE_INCORRECT' | tr }}
+              {{ 'HOME_SYSTEM_NOTIFICATIONS_TYPE_INCORRECT' | transloco }}
             </small>
           }
         </div>
 
         <div class="form-group flex-fill">
-          <label for="starts">{{ 'STARTS' | tr }}</label>
+          <label for="starts">{{ 'STARTS' | transloco }}</label>
 
           <app-datetime-input
             id="starts"
             formControlName="starts"
             minuteStep="15"
             [seconds]="false"
-            [placeholder]="'DATETIME_PLACEHOLDER' | tr"
+            [placeholder]="'DATETIME_PLACEHOLDER' | transloco"
           />
         </div>
 
         <div class="form-group flex-fill">
-          <label for="ends">{{ 'ENDS' | tr }}</label>
+          <label for="ends">{{ 'ENDS' | transloco }}</label>
           <app-datetime-input
             id="ends"
             formControlName="ends"
             minuteStep="15"
             [seconds]="false"
-            [placeholder]="'DATETIME_PLACEHOLDER' | tr"
+            [placeholder]="'DATETIME_PLACEHOLDER' | transloco"
           />
         </div>
       </div>
 
       <div class="form-group">
-        <label for="description">{{ 'DESCRIPTION' | tr }}</label>
+        <label for="description">{{ 'DESCRIPTION' | transloco }}</label>
         <textarea
           #autosize="cdkTextareaAutosize"
           class="form-control"
           id="description"
           formControlName="description"
-          [placeholder]="('DESCRIPTION' | tr) + '...'"
+          [placeholder]="('DESCRIPTION' | transloco) + '...'"
           [cdkTextareaAutosize]="true"
           [cdkAutosizeMinRows]="4"
         ></textarea>
 
         @if (form.controls.description.invalid) {
           <small class="text-danger">
-            {{ 'HOME_SYSTEM_NOTIFICATIONS_DESCRIPTION_INCORRECT' | tr }}
+            {{ 'HOME_SYSTEM_NOTIFICATIONS_DESCRIPTION_INCORRECT' | transloco }}
           </small>
         }
       </div>
@@ -99,7 +99,7 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
         <div class="form-check form-switch">
           <input class="form-check-input" type="checkbox" id="active" formControlName="active" />
           <label class="form-check-label" for="active">
-            {{ 'ACTIVE' | tr }}
+            {{ 'ACTIVE' | transloco }}
           </label>
         </div>
       </div>
@@ -110,7 +110,7 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
   selector: 'app-system-notification-edit-form',
   imports: [
     ReactiveFormsModule,
-    DfxTr,
+    TranslocoPipe,
     BiComponent,
     TextFieldModule,
     DfxLowerCaseExceptFirstLettersPipe,

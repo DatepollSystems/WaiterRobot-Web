@@ -3,10 +3,10 @@ import {ChangeDetectionStrategy, Component, ContentChild, Directive, Input, Temp
 import {RouterLink, RouterLinkActive} from '@angular/router';
 
 import {NgbCollapse} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {HasIDAndName, StringOrNumber} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 interface AppListNavItemContext {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -27,7 +27,7 @@ export class AppListNavItemDirective {
   template: `
     <div class="d-none d-md-block">
       @if (titleTr && (entities?.length ?? 0) > 0) {
-        <h6 class="fw-bold">{{ titleTr | tr }}</h6>
+        <h6 class="fw-bold">{{ titleTr | transloco }}</h6>
       }
       <div class="list-group">
         @if (entities) {
@@ -40,10 +40,10 @@ export class AppListNavItemDirective {
           }
         } @else {
           <div class="list-group-item d-flex justify-content-between align-items-center">
-            {{ 'LOADING' | tr }}
+            {{ 'LOADING' | transloco }}
 
             <div class="spinner-border spinner-border-sm">
-              <span class="visually-hidden">{{ 'LOADING' | tr }}</span>
+              <span class="visually-hidden">{{ 'LOADING' | transloco }}</span>
             </div>
           </div>
         }
@@ -58,7 +58,7 @@ export class AppListNavItemDirective {
       [attr.aria-expanded]="!isCollapsed"
       (click)="collapse.toggle()"
     >
-      {{ selectTr | tr }}
+      {{ selectTr | transloco }}
       <bi name="chevron-expand" />
     </button>
 
@@ -74,10 +74,10 @@ export class AppListNavItemDirective {
           }
         } @else {
           <div class="list-group-item d-flex justify-content-between align-items-center">
-            {{ 'LOADING' | tr }}
+            {{ 'LOADING' | transloco }}
 
             <div class="spinner-border spinner-border-sm">
-              <span class="visually-hidden">{{ 'LOADING' | tr }}</span>
+              <span class="visually-hidden">{{ 'LOADING' | transloco }}</span>
             </div>
           </div>
         }
@@ -104,7 +104,7 @@ export class AppListNavItemDirective {
   standalone: true,
   selector: 'app-list-nav-items',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterLinkActive, DfxTr, BiComponent, NgTemplateOutlet, NgbCollapse],
+  imports: [RouterLink, RouterLinkActive, TranslocoPipe, BiComponent, NgTemplateOutlet, NgbCollapse],
 })
 export class AppListNavItemsComponent {
   @Input() entities: HasIDAndName<StringOrNumber>[] | null = null;

@@ -21,7 +21,7 @@ import {loggerOf, s_imploder} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {injectIsMobile} from 'dfx-helper';
-import {DfxTr} from 'dfx-translate';
+import {TranslocoPipe} from '@ngneat/transloco';
 import {computedFrom} from 'ngxtension/computed-from';
 
 import {debounceTime, forkJoin, map, merge, Observable, pipe, switchMap, tap} from 'rxjs';
@@ -50,7 +50,7 @@ import {OrdersService} from '../orders.service';
     DfxTableModule,
     DfxSortModule,
     DfxPaginationModule,
-    DfxTr,
+    TranslocoPipe,
     BiComponent,
     NgSelectModule,
     AppOrderStateBadgeComponent,

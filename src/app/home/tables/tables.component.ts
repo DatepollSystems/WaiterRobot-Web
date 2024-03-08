@@ -7,13 +7,13 @@ import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {AbstractModelsWithNumberListWithDeleteComponent} from '@home-shared/list/models-list-with-delete/abstract-models-with-number-list-with-delete.component';
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayPluck} from 'dfx-helper';
-import {DfxTr} from 'dfx-translate';
 
 import {TablesService} from './_services/tables.service';
 import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
@@ -21,36 +21,42 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
 @Component({
   template: `
     <div class="d-flex flex-column gap-3">
-      <h1 class="my-0">{{ 'HOME_TABLES' | tr }}</h1>
+      <h1 class="my-0">{{ 'HOME_TABLES' | transloco }}</h1>
 
       <scrollable-toolbar>
         <div>
           <a routerLink="../create" class="btn btn-sm btn-success">
             <bi name="plus-circle" />
-            {{ 'ADD_2' | tr }}</a
+            {{ 'ADD_2' | transloco }}</a
           >
         </div>
 
-        <div [ngbTooltip]="!selection.hasValue() ? ('HOME_TABLE_SELECT_REQUIRED' | tr) : undefined">
+        <div [ngbTooltip]="!selection.hasValue() ? ('HOME_TABLE_SELECT_REQUIRED' | transloco) : undefined">
           <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
             <bi name="trash" />
-            {{ 'DELETE' | tr }}
+            {{ 'DELETE' | transloco }}
           </button>
         </div>
 
-        <div [ngbTooltip]="!selection.hasValue() ? ('HOME_TABLE_SELECT_REQUIRED' | tr) : undefined">
+        <div [ngbTooltip]="!selection.hasValue() ? ('HOME_TABLE_SELECT_REQUIRED' | transloco) : undefined">
           <button type="button" class="btn btn-sm btn-secondary" [class.disabled]="!selection.hasValue()" (click)="printSelectedTables()">
             <bi name="table" />
-            {{ 'PRINT' | tr }}
+            {{ 'PRINT' | transloco }}
           </button>
         </div>
       </scrollable-toolbar>
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
+          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
           @if ((filter.value?.length ?? 0) > 0) {
-            <button class="btn btn-outline-secondary" type="button" placement="bottom" [ngbTooltip]="'CLEAR' | tr" (click)="filter.reset()">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              placement="bottom"
+              [ngbTooltip]="'CLEAR' | transloco"
+              (click)="filter.reset()"
+            >
               <bi name="x-circle-fill" />
             </button>
           }
@@ -85,7 +91,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
           </ng-container>
 
           <ng-container ngbColumnDef="group">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_TABLE_GROUP_TABLES_VIEW' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_TABLE_GROUP_TABLES_VIEW' | transloco }}</th>
             <td *ngbCellDef="let table" ngb-cell>
               <app-text-with-color-indicator [color]="table.group.color">
                 {{ table.group.name }}
@@ -94,13 +100,13 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
           </ng-container>
 
           <ng-container ngbColumnDef="number">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NUMBER' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NUMBER' | transloco }}</th>
             <td *ngbCellDef="let table" ngb-cell>
               <div class="d-inline-flex align-items-center gap-2">
                 <span class="pt-1">{{ table.number }}</span>
                 <a
                   placement="right"
-                  [ngbTooltip]="'HOME_TABLES_PUBLIC_ID' | tr"
+                  [ngbTooltip]="'HOME_TABLES_PUBLIC_ID' | transloco"
                   [routerLink]="'/wl/t/' + table.publicId"
                   (click)="$event.stopPropagation()"
                 >
@@ -111,12 +117,12 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
           </ng-container>
 
           <ng-container ngbColumnDef="status">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | transloco }}</th>
             <td *ngbCellDef="let table" ngb-cell>
               @if (table.hasActiveOrders) {
                 <span class="badge text-bg-warning d-inline-flex align-items-center gap-2">
                   <bi name="exclamation-triangle-fill" />
-                  {{ 'HOME_TABLE_UNPAID_PRODUCTS' | tr }}
+                  {{ 'HOME_TABLE_UNPAID_PRODUCTS' | transloco }}
                 </span>
               } @else {
                 @if (table.missingNextTable && sort?.active === 'group') {
@@ -145,21 +151,25 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
           </ng-container>
 
           <ng-container ngbColumnDef="seats">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'SEATS' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'SEATS' | transloco }}</th>
             <td *ngbCellDef="let table" ngb-cell>{{ table.seats }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="actions">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
             <td *ngbCellDef="let table" ngb-cell>
-              <a class="btn btn-sm mx-1 btn-outline-success text-body-emphasis" [routerLink]="'../' + table.id" [ngbTooltip]="'EDIT' | tr">
+              <a
+                class="btn btn-sm mx-1 btn-outline-success text-body-emphasis"
+                [routerLink]="'../' + table.id"
+                [ngbTooltip]="'EDIT' | transloco"
+              >
                 <bi name="pencil-square" />
               </a>
               <a
                 class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
                 routerLink="../../orders"
                 [queryParams]="{tableIds: table.id}"
-                [ngbTooltip]="'NAV_ORDERS' | tr"
+                [ngbTooltip]="'NAV_ORDERS' | transloco"
                 (click)="$event.stopPropagation()"
               >
                 <bi name="stack" />
@@ -168,7 +178,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                 class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
                 routerLink="../../bills"
                 [queryParams]="{tableIds: table.id}"
-                [ngbTooltip]="'NAV_BILLS' | tr"
+                [ngbTooltip]="'NAV_BILLS' | transloco"
                 (click)="$event.stopPropagation()"
               >
                 <bi name="cash-coin" />
@@ -176,7 +186,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
               <button
                 type="button"
                 class="btn btn-sm mx-1 btn-outline-danger text-body-emphasis"
-                [ngbTooltip]="'DELETE' | tr"
+                [ngbTooltip]="'DELETE' | transloco"
                 (click)="onDelete(table.id, $event)"
               >
                 <bi name="trash" />
@@ -211,7 +221,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
     AsyncPipe,
     ReactiveFormsModule,
     RouterLink,
-    DfxTr,
+    TranslocoPipe,
     NgbTooltip,
     DfxTableModule,
     DfxSortModule,

@@ -8,6 +8,7 @@ import {QrCodeService} from '@home-shared/services/qr-code.service';
 import {RedirectService} from '@home-shared/services/redirect.service';
 import {MyUserService} from '@home-shared/services/user/my-user.service';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';
 import {AuthService} from '@shared/services/auth/auth.service';
 import {SystemInfoService, SystemInfoShowService} from '@shared/services/system-info.service';
@@ -15,7 +16,6 @@ import {ThemeService} from '@shared/services/theme.service';
 
 import {i_complete} from 'dfts-helper';
 import {DfxTimeSpanPipe, injectIsMobile} from 'dfx-helper';
-import {DfxTr} from 'dfx-translate';
 
 import {interval, map} from 'rxjs';
 
@@ -32,7 +32,7 @@ import {interval, map} from 'rxjs';
         >
           <div class="card px-2 pt-2" [class.transparent]="theme().id === 'dark'" [class.light-transparent]="theme().id === 'light'">
             <div class="card-body">
-              <h5 class="card-title">{{ 'HOME_START_STATISTICS' | tr }}</h5>
+              <h5 class="card-title">{{ 'HOME_START_STATISTICS' | transloco }}</h5>
               <ul class="list-unstyled px-2 d-flex flex-column gap-2">
                 <li class="d-flex flex-column flex-sm-row justify-content-between">
                   Local time: <span>{{ localTime() | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
@@ -203,7 +203,7 @@ import {interval, map} from 'rxjs';
   selector: 'app-system-info',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DatePipe, DfxTimeSpanPipe, DfxTr, JsonPipe, NgbTooltip, CdkDrag],
+  imports: [DatePipe, DfxTimeSpanPipe, JsonPipe, NgbTooltip, CdkDrag, TranslocoPipe],
   providers: [SystemInfoService],
 })
 export class SystemInfoComponent {

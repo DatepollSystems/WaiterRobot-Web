@@ -10,7 +10,7 @@
       <li class="nav-item me-3">
         <a class="nav-link" draggable="false" routerLinkActive="active" [routerLink]="item.routerLink">
           @if (!item.bookmark) {
-          <span> {{ item.text | tr }} </span>
+          <span> {{ item.text | transloco }} </span>
           } @else {
 
           <span>{{ item.text }}</span>
@@ -21,10 +21,10 @@
       </li>
       } } @for (item of _itemsToView; track item) { @if (item.show ?? true) {
       <li class="nav-item me-3">
-        <a class="nav-link" draggable="false" routerLinkActive="active" [routerLink]="item.routerLink">{{ item.text | tr }}</a>
+        <a class="nav-link" draggable="false" routerLinkActive="active" [routerLink]="item.routerLink">{{ item.text | transloco }}</a>
       </li>
       } } @if (edible && (showEditArrow || isMobile)) {
-      <li class="nav-item me-3" placement="bottom" [ngbTooltip]="'NAV_EDIT_CUSTOMIZE' | tr">
+      <li class="nav-item me-3" placement="bottom" [ngbTooltip]="'NAV_EDIT_CUSTOMIZE' | transloco">
         <a class="nav-link" draggable="false" routerLinkActive="active" (click)="onEdit()">
           <bi name="pencil-fill" />
         </a>
@@ -33,24 +33,24 @@
     </ul>
     } @if (editMode) {
     <div class="edit-container d-flex flex-column gap-3">
-      <h5 class="my-0">{{ 'NAV_EDIT_CUSTOMIZE' | tr }}</h5>
+      <h5 class="my-0">{{ 'NAV_EDIT_CUSTOMIZE' | transloco }}</h5>
       <scrollable-toolbar>
-        <button type="button" class="btn btn-sm btn-secondary" (click)="onClose()">{{ 'CLOSE' | tr }}</button>
+        <button type="button" class="btn btn-sm btn-secondary" (click)="onClose()">{{ 'CLOSE' | transloco }}</button>
 
         <button type="button" class="btn btn-sm btn-success" (click)="onSave()">
           <bi name="save" />
-          {{ 'SAVE' | tr }}
+          {{ 'SAVE' | transloco }}
         </button>
 
         <button type="button" class="btn btn-sm btn-danger" (click)="onReset()">
           <bi name="arrow-clockwise" />
-          {{ 'RESET' | tr }}
+          {{ 'RESET' | transloco }}
         </button>
 
         @if (allowBookmarks) {
         <button type="button" class="btn btn-sm btn-info" (click)="openModal(bookMarkModalContent)">
           <bi name="star-fill" />
-          {{ 'NAV_EDIT_BOOKMARK' | tr }}
+          {{ 'NAV_EDIT_BOOKMARK' | transloco }}
         </button>
         }
       </scrollable-toolbar>
@@ -66,7 +66,7 @@
         @for (item of _itemsCopy; track item) {
         <div class="box" cdkDrag [class.h-box]="!isMobile" [class.v-box]="isMobile">
           @if (!item.bookmark) {
-          <span>{{ item.text | tr }}</span>
+          <span>{{ item.text | transloco }}</span>
           } @else { #notBookmark| }
           <ng-template #notBookmark>
             <span>{{ item.text }}</span>
@@ -76,7 +76,7 @@
             type="button"
             class="btn btn-sm btn-secondary ms-2"
             placement="bottom"
-            [ngbTooltip]="'NAV_EDIT_BOOKMARK_DELETE' | tr"
+            [ngbTooltip]="'NAV_EDIT_BOOKMARK_DELETE' | transloco"
             (click)="removeBookmark(item)"
           >
             <bi name="trash" />
@@ -92,7 +92,7 @@
 
 <ng-template #bookMarkModalContent let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">{{ 'NAV_EDIT_BOOKMARK_ADD' | tr }}</h4>
+    <h4 class="modal-title" id="modal-basic-title">{{ 'NAV_EDIT_BOOKMARK_ADD' | transloco }}</h4>
     <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="modal.close(undefined)"></button>
   </div>
   <div class="modal-body">
@@ -100,7 +100,7 @@
       <div class="mb-3">
         <div>URL: {{ router.url }}</div>
         <div class="form-group">
-          <label for="name">{{ 'NAME' | tr }}</label>
+          <label for="name">{{ 'NAME' | transloco }}</label>
           <input
             #nameModel="ngModel"
             ngModel
@@ -111,19 +111,19 @@
             name="name"
             minlength="3"
             maxlength="35"
-            [placeholder]="'NAME' | tr"
+            [placeholder]="'NAME' | transloco"
           />
           @if (nameModel.invalid) {
-          <small class="text-danger"> {{ 'NAV_EDIT_BOOKMARK_ADD_INVALID' | tr }} </small>
+          <small class="text-danger"> {{ 'NAV_EDIT_BOOKMARK_ADD_INVALID' | transloco }} </small>
           }
         </div>
       </div>
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="modal.close(undefined)">{{ 'CLOSE' | tr }}</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.close(undefined)">{{ 'CLOSE' | transloco }}</button>
     <button type="button" class="btn btn-outline-success" [disabled]="nameModel.invalid" (click)="modal.close(nameModel.value)">
-      {{ 'SAVE' | tr }}
+      {{ 'SAVE' | transloco }}
     </button>
   </div>
 </ng-template>

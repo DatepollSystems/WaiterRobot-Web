@@ -3,12 +3,12 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {AppBackDirective} from '@home-shared/components/button/app-back-button.component';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {GetOpenBillResponse, GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxCurrencyCentPipe} from 'dfx-helper';
-import {DfxTr} from 'dfx-translate';
 
 import {filterNil} from 'ngxtension/filter-nil';
 
@@ -49,7 +49,7 @@ import {AppSpinnerRowComponent} from 'src/app/_shared/ui/loading/app-spinner-row
       }
 
       <div class="mt-3 d-flex flex-column flex-md-row justify-content-between gap-2">
-        <button type="button" back class="btn btn-secondary btn-sm">{{ 'GO_BACK' | tr }}</button>
+        <button type="button" back class="btn btn-secondary btn-sm">{{ 'GO_BACK' | transloco }}</button>
         <!--      <div class="d-flex gap-2">-->
         <!--        <a routerLink="./orders" class="btn btn-outline-primary btn-sm">-->
         <!--          <bi name="view-stacked" />-->
@@ -68,7 +68,7 @@ import {AppSpinnerRowComponent} from 'src/app/_shared/ui/loading/app-spinner-row
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-mobile-link-table',
-  imports: [DfxTr, DfxCurrencyCentPipe, RouterLink, BiComponent, AppBackDirective, AppSpinnerRowComponent],
+  imports: [TranslocoPipe, DfxCurrencyCentPipe, RouterLink, BiComponent, AppBackDirective, AppSpinnerRowComponent],
 })
 export class WebLinkTableComponent {
   httpClient = inject(HttpClient);

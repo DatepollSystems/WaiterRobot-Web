@@ -5,7 +5,7 @@ import {MyUserService} from '@home-shared/services/user/my-user.service';
 import {NotificationService} from '@shared/notifications/notification.service';
 
 import {s_isEmail} from 'dfts-helper';
-import {DfxTr} from 'dfx-translate';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {UserSettingsService} from '../_services/user-settings.service';
 
@@ -13,7 +13,7 @@ import {UserSettingsService} from '../_services/user-settings.service';
   selector: 'app-user-settings-sub',
   templateUrl: './user-settings-sub.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, DfxTr],
+  imports: [FormsModule, TranslocoPipe],
   standalone: true,
 })
 export class UserSettingsSubComponent {

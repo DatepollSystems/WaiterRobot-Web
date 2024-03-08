@@ -1,8 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {RouterStateSnapshot, TitleStrategy} from '@angular/router';
-
-import {dfxTranslate$} from 'dfx-translate';
+import {TranslocoService} from '@ngneat/transloco';
 
 import {first} from 'rxjs';
 
@@ -14,8 +13,7 @@ import {EnvironmentHelper} from './EnvironmentHelper';
 export class CustomTitleStrategy extends TitleStrategy {
   titlePrefix = EnvironmentHelper.getTitlePrefix();
 
-  translate = dfxTranslate$();
-
+  translocoService = inject(TranslocoService);
   title = inject(Title);
 
   override updateTitle(routerState: RouterStateSnapshot): void {
@@ -24,7 +22,8 @@ export class CustomTitleStrategy extends TitleStrategy {
       this.title.setTitle(this.titlePrefix);
       return;
     }
-    this.translate(title)
+    this.translocoService
+      .selectTranslate<string>(title)
       .pipe(first())
       .subscribe((translation) => {
         this.title.setTitle(`${this.titlePrefix} - ${translation}`);

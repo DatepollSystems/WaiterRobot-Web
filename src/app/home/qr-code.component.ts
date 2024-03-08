@@ -2,13 +2,13 @@ import {Location} from '@angular/common';
 import {ChangeDetectionStrategy, Component, effect, inject} from '@angular/core';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe, TranslocoService} from '@ngneat/transloco';
 import {CopyDirective} from '@shared/ui/copy.directive';
 
 import {d_format, s_chunks} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxCutPipe, injectIsMobile, injectWindow} from 'dfx-helper';
 import {QRCodeComponent} from 'dfx-qrcode';
-import {DfxTr, dfxTranslate} from 'dfx-translate';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
 
@@ -24,11 +24,11 @@ import {QrCodeService} from './_shared/services/qr-code.service';
         </div>
         <div class="card">
           <div class="card-header">
-            {{ data.text | tr }}
+            {{ data.text | transloco }}
           </div>
           <div class="card-body">
             @if (data.info.length > 0) {
-              <p id="info-text" class="card-text">{{ data.info | tr }}</p>
+              <p id="info-text" class="card-text">{{ data.info | transloco }}</p>
             }
 
             <a target="_blank" rel="noreferrer" [href]="data.data" [ngbTooltip]="data.data">{{ data.data | s_cut: 82 : '...' }}</a>
@@ -37,12 +37,12 @@ import {QrCodeService} from './_shared/services/qr-code.service';
             <scrollable-toolbar>
               <button type="button" class="btn btn-sm btn-secondary" (click)="back()">
                 <bi name="arrow-left" />
-                {{ 'GO_BACK' | tr }}
+                {{ 'GO_BACK' | transloco }}
               </button>
 
               <button type="button" class="btn btn-sm btn-info" (click)="print()">
                 <bi name="printer" aria-label="Copy content to clipboard" />
-                {{ 'PRINT' | tr }}
+                {{ 'PRINT' | transloco }}
               </button>
 
               <button
@@ -55,11 +55,11 @@ import {QrCodeService} from './_shared/services/qr-code.service';
                 aria-label="Copy link"
                 placement="right"
                 [copyable]="data.data"
-                [ngbTooltip]="'COPIED' | tr"
+                [ngbTooltip]="'COPIED' | transloco"
                 (click)="c.copy(t)"
               >
                 <bi name="clipboard" aria-label="Copy content to clipboard" />
-                {{ 'COPY' | tr }}
+                {{ 'COPY' | transloco }}
               </button>
             </scrollable-toolbar>
           </div>
@@ -85,7 +85,16 @@ import {QrCodeService} from './_shared/services/qr-code.service';
   selector: 'app-qr-code',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [QRCodeComponent, NgbTooltipModule, BiComponent, ScrollableToolbarComponent, CopyDirective, DfxCutPipe, DfxTr],
+  imports: [
+    QRCodeComponent,
+    NgbTooltipModule,
+    BiComponent,
+    ScrollableToolbarComponent,
+    CopyDirective,
+    DfxCutPipe,
+    TranslocoPipe,
+    TranslocoPipe,
+  ],
 })
 export class AppQrCodeViewComponent {
   qrCodeData = inject(QrCodeService).data;
@@ -93,7 +102,7 @@ export class AppQrCodeViewComponent {
   isMobile = injectIsMobile();
   location = inject(Location);
 
-  translate = dfxTranslate();
+  translocoService = inject(TranslocoService);
 
   constructor() {
     effect(() => {
@@ -111,7 +120,7 @@ export class AppQrCodeViewComponent {
 
     const info = this.qrCodeData()?.info;
     if (info && info.length > 0) {
-      const text = await this.translate(info);
+      const text = this.translocoService.translate(info);
 
       let height = 500;
       for (const chunk of s_chunks(text, 50)) {

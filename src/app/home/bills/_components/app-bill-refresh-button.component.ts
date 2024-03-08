@@ -1,9 +1,9 @@
 import {booleanAttribute, ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 import {BillsService} from '../_services/bills.service';
 
@@ -14,7 +14,7 @@ import {BillsService} from '../_services/bills.service';
       class="btn btn-outline-secondary d-flex align-items-center gap-2"
       placement="left"
       [class.btnSpinner]="loading"
-      [ngbTooltip]="'HOME_ORDER_REFRESH_NOW' | tr"
+      [ngbTooltip]="'HOME_ORDER_REFRESH_NOW' | transloco"
       (click)="billsService.triggerRefresh.next(true)"
     >
       <bi name="arrow-clockwise" />
@@ -25,7 +25,7 @@ import {BillsService} from '../_services/bills.service';
   `,
   standalone: true,
   selector: 'app-bill-refresh-btn',
-  imports: [DfxTr, NgbTooltip, BiComponent],
+  imports: [TranslocoPipe, NgbTooltip, BiComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppBillRefreshButtonComponent {

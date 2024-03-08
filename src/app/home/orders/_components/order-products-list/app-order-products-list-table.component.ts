@@ -3,9 +3,9 @@ import {AfterViewInit, booleanAttribute, ChangeDetectionStrategy, Component, Inp
 import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
-import {DfxTr} from 'dfx-translate';
 
 import {Subject} from 'rxjs';
 import {GetImplodedOrderProductResponse} from 'src/app/_shared/waiterrobot-backend';
@@ -17,10 +17,10 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
     <div class="table-responsive">
       <table ngb-table ngb-sort ngbSortActive="product" ngbSortDirection="asc" [hover]="true" [dataSource]="(dataSource$ | async) ?? []">
         <ng-container ngbColumnDef="product">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD' | transloco }}</th>
           <td *ngbCellDef="let order" ngb-cell>
             <div class="d-flex align-items-center gap-2">
-              <span class="badge rounded-pill text-bg-info" [ngbTooltip]="'AMOUNT' | tr">{{ order.amount }}x</span>
+              <span class="badge rounded-pill text-bg-info" [ngbTooltip]="'AMOUNT' | transloco">{{ order.amount }}x</span>
               <a [routerLink]="'../../products/' + order.product.id">
                 {{ order.product.name }}
               </a>
@@ -29,14 +29,14 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
         </ng-container>
 
         <ng-container ngbColumnDef="note">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_NOTE' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_NOTE' | transloco }}</th>
           <td *ngbCellDef="let order" ngb-cell>
             <code>{{ order.note }}</code>
           </td>
         </ng-container>
 
         <ng-container ngbColumnDef="printState">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | transloco }}</th>
           <td *ngbCellDef="let order" ngb-cell>
             <app-order-product-state-badge
               [printState]="order.printState"
@@ -47,7 +47,7 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
         </ng-container>
 
         <ng-container ngbColumnDef="printedBy">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_PRINTERS' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_PRINTERS' | transloco }}</th>
           <td *ngbCellDef="let order" ngb-cell>
             <a [routerLink]="'../../printers/' + order.printedBy.id">
               {{ order.printedBy.name }}
@@ -62,7 +62,7 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
   `,
   standalone: true,
   selector: 'app-order-products-list-table',
-  imports: [DfxSortModule, DfxTableModule, DfxTr, AppOrderProductStateBadgeComponent, AsyncPipe, DatePipe, RouterLink, NgbTooltip],
+  imports: [DfxSortModule, DfxTableModule, TranslocoPipe, AppOrderProductStateBadgeComponent, AsyncPipe, DatePipe, RouterLink, NgbTooltip],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrderProductsListTableComponent implements AfterViewInit {

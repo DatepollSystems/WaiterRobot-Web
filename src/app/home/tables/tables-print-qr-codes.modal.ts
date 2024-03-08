@@ -4,19 +4,19 @@ import {Component, inject, Input} from '@angular/core';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {MobileLinkService} from '@home-shared/services/mobile-link.service';
 import {NgbActiveModal, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
 import {d_formatWithHoursMinutesAndSeconds} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {QRCodeComponent} from 'dfx-qrcode';
-import {DfxTranslateModule} from 'dfx-translate';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
 
 @Component({
   template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="app-tables-qr-codes-title">{{ 'HOME_TABLE_PRINT_TITLE' | tr }}</h4>
+      <h4 class="modal-title" id="app-tables-qr-codes-title">{{ 'HOME_TABLE_PRINT_TITLE' | transloco }}</h4>
       <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.dismiss()"></button>
     </div>
     <div class="modal-body d-flex flex-column gap-3">
@@ -24,16 +24,16 @@ import {jsPDF} from 'jspdf';
         <div>
           <button type="button" class="btn btn-sm btn-primary" [class.btnSpinner]="generating" [disabled]="generating" (click)="pdf()">
             <bi name="printer" />
-            {{ 'HOME_TABLE_PRINT_GENERATE' | tr }}
+            {{ 'HOME_TABLE_PRINT_GENERATE' | transloco }}
           </button>
         </div>
 
         <div class="btn-group flex-wrap" role="group" aria-label="QRCode size">
           <button type="button" class="btn btn-sm btn-outline-secondary" [class.active]="qrCodeSize === 'SM'" (click)="qrCodeSize = 'SM'">
-            {{ 'HOME_TABLE_PRINT_SM' | tr }}
+            {{ 'HOME_TABLE_PRINT_SM' | transloco }}
           </button>
           <button type="button" class="btn btn-sm btn-outline-secondary" [class.active]="qrCodeSize === 'MD'" (click)="qrCodeSize = 'MD'">
-            {{ 'HOME_TABLE_PRINT_MD' | tr }}
+            {{ 'HOME_TABLE_PRINT_MD' | transloco }}
           </button>
         </div>
       </scrollable-toolbar>
@@ -45,7 +45,7 @@ import {jsPDF} from 'jspdf';
       <div class="alert alert-info mb-2" role="alert">Deaktiviere mögliche Seitenränder beim drucken.</div>
 
       @if (generating) {
-        <div class="alert alert-info" role="alert">{{ 'DO_NOT_CLOSE_WINDOW' | tr }}!</div>
+        <div class="alert alert-info" role="alert">{{ 'DO_NOT_CLOSE_WINDOW' | transloco }}!</div>
       }
 
       <div class="main">
@@ -73,7 +73,7 @@ import {jsPDF} from 'jspdf';
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | tr }}</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | transloco }}</button>
     </div>
   `,
   styles: [
@@ -96,15 +96,7 @@ import {jsPDF} from 'jspdf';
   ],
   selector: 'app-print-table-qr-codes-modal',
   standalone: true,
-  imports: [
-    NgbProgressbarModule,
-    DfxTranslateModule,
-    QRCodeComponent,
-    ScrollableToolbarComponent,
-    BiComponent,
-    NgbDropdownModule,
-    AsyncPipe,
-  ],
+  imports: [NgbProgressbarModule, QRCodeComponent, ScrollableToolbarComponent, BiComponent, NgbDropdownModule, AsyncPipe, TranslocoPipe],
 })
 export class TablesPrintQrCodesModal {
   activeModal = inject(NgbActiveModal);

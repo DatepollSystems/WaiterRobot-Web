@@ -6,12 +6,12 @@ import {passwordMatchValidator} from '@home-shared/regex';
 
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {DfxTr} from 'dfx-translate';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 @Component({
   template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-question-title">{{ 'ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_INFO' | tr }}</h4>
+      <h4 class="modal-title" id="modal-question-title">{{ 'ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_INFO' | transloco }}</h4>
       <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.close(undefined)"></button>
     </div>
     <div class="modal-body">
@@ -24,50 +24,62 @@ import {DfxTr} from 'dfx-translate';
           (ngSubmit)="activeModal.close(passwordForm.controls.newPassword.getRawValue())"
         >
           <div class="form-floating">
-            <input class="form-control" type="password" id="password" formControlName="newPassword" [placeholder]="'PASSWORD' | tr" />
-            <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | tr }}</label>
+            <input
+              class="form-control"
+              type="password"
+              id="password"
+              formControlName="newPassword"
+              [placeholder]="'PASSWORD' | transloco"
+            />
+            <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | transloco }}</label>
           </div>
 
           @if (passwordForm.controls.newPassword.invalid) {
             <small class="text-danger">
-              {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
+              {{ 'HOME_USERS_PASSWORD_INCORRECT' | transloco }}
             </small>
           }
 
           <div class="form-floating">
-            <input class="form-control" type="password" id="password" formControlName="confirmPassword" [placeholder]="'PASSWORD' | tr" />
-            <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_AGAIN' | tr }}</label>
+            <input
+              class="form-control"
+              type="password"
+              id="password"
+              formControlName="confirmPassword"
+              [placeholder]="'PASSWORD' | transloco"
+            />
+            <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_AGAIN' | transloco }}</label>
           </div>
 
           @if (passwordForm.controls.confirmPassword.invalid) {
             <small class="text-danger">
-              {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
+              {{ 'HOME_USERS_PASSWORD_INCORRECT' | transloco }}
             </small>
           }
 
           @if (passwordForm.hasError('mismatch')) {
             <small class="text-danger">
-              {{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_DONT_MATCH' | tr }}
+              {{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_DONT_MATCH' | transloco }}
             </small>
           }
         </form>
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close(undefined)">{{ 'CLOSE' | tr }}</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close(undefined)">{{ 'CLOSE' | transloco }}</button>
       <button
         type="button"
         class="btn btn-success"
         [disabled]="passwordForm.invalid"
         (click)="activeModal.close(passwordForm.controls.newPassword.getRawValue())"
       >
-        {{ 'ABOUT_SIGNIN' | tr }}
+        {{ 'ABOUT_SIGNIN' | transloco }}
       </button>
     </div>
   `,
   selector: 'app-account-not-activated-modal',
   standalone: true,
-  imports: [DfxTr, FormsModule, ReactiveFormsModule, AsyncPipe],
+  imports: [TranslocoPipe, FormsModule, ReactiveFormsModule, AsyncPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppPasswordChangeDialogComponent {

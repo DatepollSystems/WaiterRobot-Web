@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {injectBlurSetting} from '@home-shared/services/blur-setting.service';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 import {BiComponent, provideBi, withHeight, withWidth} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 @Component({
   selector: 'app-blur-toggle',
@@ -11,7 +11,7 @@ import {DfxTr} from 'dfx-translate';
     <button
       type="button"
       class="btn mt-1"
-      [ngbTooltip]="'Vertrauliche Daten anzeigen/verstecken' | tr"
+      [ngbTooltip]="'Vertrauliche Daten anzeigen/verstecken' | transloco"
       (click)="blurSetting.setBlur(!blurSetting.isBlurred())"
     >
       @if (blurSetting.isBlurred()) {
@@ -21,7 +21,7 @@ import {DfxTr} from 'dfx-translate';
       }
     </button>
   `,
-  imports: [BiComponent, NgbTooltip, DfxTr],
+  imports: [BiComponent, NgbTooltip, TranslocoPipe],
   providers: [provideBi(withHeight('24'), withWidth('24'))],
 })
 export class BlurToggleComponent {

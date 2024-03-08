@@ -2,13 +2,14 @@ import {registerLocaleData} from '@angular/common';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import {DEFAULT_CURRENCY_CODE, LOCALE_ID} from '@angular/core';
+import {DEFAULT_CURRENCY_CODE, isDevMode, LOCALE_ID} from '@angular/core';
 import {bootstrapApplication} from '@angular/platform-browser';
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {provideRouter, TitleStrategy, withPreloading} from '@angular/router';
 import {NgbDateTimeAdapter} from '@home-shared/components/datetime-picker/datetime-adapter';
 
 import {NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
+import {provideTransloco} from '@ngneat/transloco';
 
 import {CustomTitleStrategy} from '@shared/custom-title.strategy';
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';
@@ -31,9 +32,9 @@ import {
   withMobileBreakpoint,
   withWindow,
 } from 'dfx-helper';
-import {provideDfxTranslate, withAutoTranslatedLanguages, withDefaultLanguage} from 'dfx-translate';
 import {AppComponent} from './app/app.component';
 import {ROUTES} from './app/app.routes';
+import {TranslocoHttpLoader} from './transloco-loader';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -51,7 +52,6 @@ bootstrapApplication(AppComponent, {
       ]),
       withWindow(),
     ),
-    provideDfxTranslate(withDefaultLanguage('de'), withAutoTranslatedLanguages(['en', 'es', 'fr', 'it', 'pt'])),
     provideAnimations(),
     DfxPreloadStrategy,
     provideRouter(ROUTES, withPreloading(DfxPreloadStrategy)),
@@ -78,6 +78,16 @@ bootstrapApplication(AppComponent, {
       ]),
     ),
     provideBi(withCDN('https://share.dafnik.me/dfx-bootstrap-icons')),
+    provideTransloco({
+      config: {
+        availableLangs: ['de'],
+        defaultLang: 'de',
+        // Remove this option if your application doesn't support changing language in runtime.
+        reRenderOnLangChange: true,
+        prodMode: !isDevMode(),
+      },
+      loader: TranslocoHttpLoader,
+    }),
   ],
 }).catch((err) => {
   console.error(err);

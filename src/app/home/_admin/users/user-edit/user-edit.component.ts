@@ -19,15 +19,15 @@ import {UserEditFormComponent} from './user-edit-form.component';
   template: `
     @if (entity(); as entity) {
       <div class="d-flex flex-column gap-2">
-        <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} "{{ entity.firstname }} {{ entity.surname }}"</h1>
-        <h1 *isCreating="entity">{{ 'ADD_2' | tr }}</h1>
+        <h1 *isEditing="entity">{{ 'EDIT_2' | transloco }} "{{ entity.firstname }} {{ entity.surname }}"</h1>
+        <h1 *isCreating="entity">{{ 'ADD_2' | transloco }}</h1>
 
         <scrollable-toolbar>
           <back-button />
           <div *isEditing="entity">
             <button type="button" class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
               <bi name="trash" />
-              {{ 'DELETE' | tr }}
+              {{ 'DELETE' | transloco }}
             </button>
           </div>
         </scrollable-toolbar>

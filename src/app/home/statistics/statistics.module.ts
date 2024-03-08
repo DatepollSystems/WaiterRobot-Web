@@ -4,13 +4,13 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 
 import {NgbDropdownModule, NgbInputDatepicker, NgbNavModule, NgbTimepicker, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 import {AppSpinnerRowComponent} from '@shared/ui/loading/app-spinner-row.component';
 import {BarChartModule, LineChartModule, PieChartModule} from '@swimlane/ngx-charts';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxCountUp} from 'dfx-helper';
-import {DfxTranslateModule} from 'dfx-translate';
 import {NgxPrintDirective} from 'ngx-print';
 
 import {AppBackButtonComponent} from '../_shared/components/button/app-back-button.component';
@@ -55,10 +55,8 @@ const routes: Routes = [
     CommonModule,
     DfxCountUp,
     DfxPaginationModule,
-    NgxPrintDirective,
     DfxSortModule,
     DfxTableModule,
-    DfxTranslateModule,
     EntitiesLayout,
     LineChartModule,
     NgbDropdownModule,
@@ -66,9 +64,11 @@ const routes: Routes = [
     NgbNavModule,
     NgbTimepicker,
     NgbTooltipModule,
+    NgxPrintDirective,
     PieChartModule,
     ReactiveFormsModule,
     ScrollableToolbarComponent,
+    TranslocoPipe,
   ],
 })
 export class StatisticsModule {}

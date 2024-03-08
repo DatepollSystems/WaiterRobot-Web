@@ -1,22 +1,22 @@
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 
 import {NgbPopoverModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {CopyDirective} from '@shared/ui/copy.directive';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxCutPipe} from 'dfx-helper';
-import {DfxTranslateModule} from 'dfx-translate';
 import {QrCodeService} from '../../services/qr-code.service';
 
 @Component({
   template: `
     <ng-template #popContent>
-      <p>{{ info | tr }}</p>
+      <p>{{ info | transloco }}</p>
       <a target="_blank" rel="noreferrer" [href]="data">{{ data | s_cut: 82 : '...' }}</a>
     </ng-template>
     <ng-template #popTitle>
-      <b>{{ text | tr }}</b>
+      <b>{{ text | transloco }}</b>
     </ng-template>
     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
       <button
@@ -31,7 +31,7 @@ import {QrCodeService} from '../../services/qr-code.service';
         (click)="openQrCode()"
       >
         <bi name="qr-code" class="me-1" />
-        {{ text | tr }}
+        {{ text | transloco }}
       </button>
       <button
         #c="copy"
@@ -43,7 +43,7 @@ import {QrCodeService} from '../../services/qr-code.service';
         triggers="manual"
         placement="right"
         [copyable]="data"
-        [ngbTooltip]="'COPIED' | tr"
+        [ngbTooltip]="'COPIED' | transloco"
         (click)="c.copy(t)"
       >
         <bi name="clipboard" aria-label="Copy content to clipboard" />
@@ -51,7 +51,7 @@ import {QrCodeService} from '../../services/qr-code.service';
     </div>
   `,
   standalone: true,
-  imports: [CopyDirective, NgbTooltipModule, DfxTranslateModule, BiComponent, NgbPopoverModule, DfxCutPipe],
+  imports: [CopyDirective, NgbTooltipModule, BiComponent, NgbPopoverModule, DfxCutPipe, TranslocoPipe],
   selector: 'app-qrcode-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

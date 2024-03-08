@@ -25,9 +25,9 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
   template: `
     @if (entity(); as entity) {
       <div class="d-flex flex-column gap-2">
-        <h1 *isCreating="entity">{{ 'HOME_PROD_ADD' | tr }}</h1>
-        <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
-        <h1 *isEditingAndDeleted="entity">{{ entity.name }} {{ 'DELETED' | tr }}</h1>
+        <h1 *isCreating="entity">{{ 'HOME_PROD_ADD' | transloco }}</h1>
+        <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | transloco }} {{ entity.name }}</h1>
+        <h1 *isEditingAndDeleted="entity">{{ entity.name }} {{ 'DELETED' | transloco }}</h1>
 
         <scrollable-toolbar>
           <back-button />
@@ -35,20 +35,20 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
             <div>
               <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
                 <bi name="trash" />
-                {{ 'DELETE' | tr }}
+                {{ 'DELETE' | transloco }}
               </button>
             </div>
 
             <div>
               <a class="btn btn-sm btn-secondary" routerLink="../../orders" [queryParams]="{productIds: entity.id}">
                 <bi name="stack" />
-                {{ 'NAV_ORDERS' | tr }}
+                {{ 'NAV_ORDERS' | transloco }}
               </a>
             </div>
             <div>
               <a class="btn btn-sm btn-secondary" routerLink="../../bills" [queryParams]="{productIds: entity.id}">
                 <bi name="cash-coin" />
-                {{ 'NAV_BILLS' | tr }}
+                {{ 'NAV_BILLS' | transloco }}
               </a>
             </div>
           </ng-container>
@@ -63,7 +63,7 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
           @defer (on timer(200)) {
             <div class="alert alert-warning d-flex gap-2">
               <bi name="exclamation-triangle-fill" />
-              <a class="link-warning" routerLink="../groups/create">{{ 'HOME_PROD_ADD_GROUP_FIRST' | tr }}</a>
+              <a class="link-warning" routerLink="../groups/create">{{ 'HOME_PROD_ADD_GROUP_FIRST' | transloco }}</a>
             </div>
           }
         }

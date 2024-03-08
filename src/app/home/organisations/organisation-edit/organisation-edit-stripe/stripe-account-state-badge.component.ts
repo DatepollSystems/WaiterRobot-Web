@@ -3,7 +3,7 @@ import {Component, inject, input, signal} from '@angular/core';
 import {GetStripeAccountResponse} from '@shared/waiterrobot-backend';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {DfxTr} from 'dfx-translate';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {OrganisationsStripeService} from '../../_services/organisations-stripe.service';
 
@@ -30,7 +30,7 @@ import {OrganisationsStripeService} from '../../_services/organisations-stripe.s
     </button>
   `,
   selector: 'app-stripe-account-state-badge',
-  imports: [DfxTr, BiComponent],
+  imports: [TranslocoPipe, BiComponent],
   standalone: true,
 })
 export class StripeAccountStateBadge {

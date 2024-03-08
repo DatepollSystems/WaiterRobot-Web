@@ -1,8 +1,7 @@
-import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {a_shuffle} from 'dfts-helper';
 import {injectWindow} from 'dfx-helper';
-import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
 
 @Component({
   template: `
@@ -21,15 +20,15 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
                   <app-about-modal />
                 </li>
                 <!--                <li>-->
-                <!--                  <label for="changeLanguage">{{ 'LANGUAGE' | tr }}</label>-->
+                <!--                  <label for="changeLanguage">{{ 'LANGUAGE' | transloco }}</label>-->
                 <!--                  <div class="input-group">-->
                 <!--                    <select class="form-select" id="changeLanguage" [ngModel]="selected$ | async" (ngModelChange)="setLang($event)">-->
-                <!--                      <option value="de">{{ 'LANGUAGE_GERMAN' | tr }}</option>-->
-                <!--                      <option value="en">{{ 'LANGUAGE_ENGLISH' | tr }}</option>-->
-                <!--                      <option value="es">{{ 'LANGUAGE_SPANISH' | tr }}</option>-->
-                <!--                      <option value="fr">{{ 'LANGUAGE_FRANCE' | tr }}</option>-->
-                <!--                      <option value="it">{{ 'LANGUAGE_ITALIEN' | tr }}</option>-->
-                <!--                      <option value="pt">{{ 'LANGUAGE_PORTUGUES' | tr }}</option>-->
+                <!--                      <option value="de">{{ 'LANGUAGE_GERMAN' | transloco }}</option>-->
+                <!--                      <option value="en">{{ 'LANGUAGE_ENGLISH' | transloco }}</option>-->
+                <!--                      <option value="es">{{ 'LANGUAGE_SPANISH' | transloco }}</option>-->
+                <!--                      <option value="fr">{{ 'LANGUAGE_FRANCE' | transloco }}</option>-->
+                <!--                      <option value="it">{{ 'LANGUAGE_ITALIEN' | transloco }}</option>-->
+                <!--                      <option value="pt">{{ 'LANGUAGE_PORTUGUES' | transloco }}</option>-->
                 <!--                    </select>-->
                 <!--                  </div>-->
                 <!--                </li>-->
@@ -70,7 +69,9 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
                 }
               </div>
               <div class="d-flex align-items-center">
-                <a class="link-body-emphasis" routerLink="/info/imprint"> {{ 'ABOUT_IMPRINT' | tr }} & {{ 'ABOUT_PRIVACY_POLICY' | tr }}</a>
+                <a class="link-body-emphasis" routerLink="/info/imprint">
+                  {{ 'ABOUT_IMPRINT' | transloco }} & {{ 'ABOUT_PRIVACY_POLICY' | transloco }}</a
+                >
               </div>
             </div>
           </div>
@@ -148,9 +149,6 @@ import {dfxTranslateSetLanguage, TranslateStore} from 'dfx-translate';
 export class FooterComponent {
   names = a_shuffle(['Alex', 'Dominik', 'Fabian']);
 
-  selected$ = inject(TranslateStore).selectedLanguage$;
-  setLanguage = dfxTranslateSetLanguage();
-
   @Input()
   container = 'container-xxxl';
 
@@ -158,19 +156,5 @@ export class FooterComponent {
 
   heart(): void {
     document.getElementById('brand')?.classList.add('spin');
-  }
-
-  setLang(event: string): void {
-    // const oldLanguage = localStorage.getItem('language');
-    this.setLanguage(event);
-    this.window?.location.reload();
-
-    // const snackBarRef = this.snackBar.open(this.transslate.translate('LANGUAGE_CHANGED_TO') + this.selected, 'Undo');
-    // snackBarRef.onAction().subscribe(() => {
-    //   this.selected = oldLanguage;
-    //   this.translate.use(oldLanguage);
-    //   this.snackBar.open(this.translate.translate('LANGUAGE_RESET'));
-    //   console.log('Language was changed via undo to ' + this.selected);
-    // });
   }
 }

@@ -8,10 +8,10 @@ import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-e
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
 import {NgSelectModule} from '@ng-select/ng-select';
+
+import {TranslocoPipe} from '@ngneat/transloco';
 import {injectIsValid} from '@shared/form';
 import {CreateUserDto, GetOrganisationResponse, GetUserResponse, IdAndNameResponse, UpdateUserDto} from '@shared/waiterrobot-backend';
-
-import {DfxTr} from 'dfx-translate';
 
 @Component({
   template: `
@@ -20,33 +20,33 @@ import {DfxTr} from 'dfx-translate';
     <form #formRef class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="submit()">
       <div class="row gy-2">
         <div class="form-group col-sm">
-          <label for="email">{{ 'EMAIL' | tr }}</label>
-          <input class="form-control" type="email" id="email" formControlName="emailAddress" [placeholder]="'EMAIL' | tr" />
+          <label for="email">{{ 'EMAIL' | transloco }}</label>
+          <input class="form-control" type="email" id="email" formControlName="emailAddress" [placeholder]="'EMAIL' | transloco" />
 
           @if (form.controls.emailAddress.invalid) {
             <small class="text-danger">
-              {{ 'HOME_USERS_EMAIL_INCORRECT' | tr }}
+              {{ 'HOME_USERS_EMAIL_INCORRECT' | transloco }}
             </small>
           }
         </div>
 
         <div class="form-group col-sm">
-          <label for="firstname">{{ 'FIRSTNAME' | tr }}</label>
-          <input class="form-control" type="text" id="firstname" formControlName="firstname" [placeholder]="'FIRSTNAME' | tr" />
+          <label for="firstname">{{ 'FIRSTNAME' | transloco }}</label>
+          <input class="form-control" type="text" id="firstname" formControlName="firstname" [placeholder]="'FIRSTNAME' | transloco" />
 
           @if (form.controls.firstname.invalid) {
             <small class="text-danger">
-              {{ 'HOME_USERS_NAME_INCORRECT' | tr }}
+              {{ 'HOME_USERS_NAME_INCORRECT' | transloco }}
             </small>
           }
         </div>
 
         <div class="form-group col-sm">
-          <label for="surname">{{ 'SURNAME' | tr }}</label>
-          <input class="form-control" type="text" id="surname" formControlName="surname" [placeholder]="'SURNAME' | tr" />
+          <label for="surname">{{ 'SURNAME' | transloco }}</label>
+          <input class="form-control" type="text" id="surname" formControlName="surname" [placeholder]="'SURNAME' | transloco" />
           @if (form.controls.surname.invalid) {
             <small class="text-danger">
-              {{ 'HOME_USERS_SUR_NAME_INCORRECT' | tr }}
+              {{ 'HOME_USERS_SUR_NAME_INCORRECT' | transloco }}
             </small>
           }
         </div>
@@ -55,12 +55,12 @@ import {DfxTr} from 'dfx-translate';
       <div class="row gy-2">
         <div class="col col-md-6">
           <div class="form-group mb-2">
-            <label for="password">{{ 'PASSWORD' | tr }}</label>
+            <label for="password">{{ 'PASSWORD' | transloco }}</label>
             <input class="form-control" type="password" id="password" formControlName="password" placeholder="*******" />
 
             @if (form.controls.password.invalid) {
               <small class="text-danger">
-                {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
+                {{ 'HOME_USERS_PASSWORD_INCORRECT' | transloco }}
               </small>
             }
           </div>
@@ -68,13 +68,13 @@ import {DfxTr} from 'dfx-translate';
           @if (!isCreating()) {
             <div class="form-check form-switch mt-2">
               <input class="form-check-input" type="checkbox" role="switch" id="updatePassword" formControlName="updatePassword" />
-              <label class="form-check-label" for="updatePassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD' | tr }}</label>
+              <label class="form-check-label" for="updatePassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD' | transloco }}</label>
             </div>
           }
         </div>
 
         <div class="form-group col">
-          <label for="orgSelect">{{ 'NAV_ORGANISATIONS' | tr }}</label>
+          <label for="orgSelect">{{ 'NAV_ORGANISATIONS' | transloco }}</label>
           <ng-select
             bindLabel="name"
             bindValue="id"
@@ -83,7 +83,7 @@ import {DfxTr} from 'dfx-translate';
             formControlName="selectedOrganisations"
             [items]="organisations"
             [multiple]="true"
-            [placeholder]="'HOME_USERS_ORGS_INPUT_PLACEHOLDER' | tr"
+            [placeholder]="'HOME_USERS_ORGS_INPUT_PLACEHOLDER' | transloco"
             (change)="userOrganisations.emit($event)"
           />
         </div>
@@ -92,7 +92,7 @@ import {DfxTr} from 'dfx-translate';
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="sendInvitation" formControlName="sendInvitation" />
         <label class="form-check-label" for="sendInvitation">
-          {{ 'HOME_USERS_SEND_INVITE' | tr }}
+          {{ 'HOME_USERS_SEND_INVITE' | transloco }}
         </label>
       </div>
 
@@ -100,7 +100,7 @@ import {DfxTr} from 'dfx-translate';
         <div class="form-check form-switch">
           <input class="form-check-input" type="checkbox" id="isAdmin" formControlName="isAdmin" />
           <label class="form-check-label" for="isAdmin">
-            {{ 'HOME_USERS_ADMIN' | tr }}
+            {{ 'HOME_USERS_ADMIN' | transloco }}
           </label>
         </div>
 
@@ -108,7 +108,7 @@ import {DfxTr} from 'dfx-translate';
           <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" id="activated" formControlName="activated" />
             <label class="form-check-label" for="activated">
-              {{ 'HOME_USERS_ACTIVATED' | tr }}
+              {{ 'HOME_USERS_ACTIVATED' | transloco }}
             </label>
           </div>
         }
@@ -116,7 +116,7 @@ import {DfxTr} from 'dfx-translate';
         <div class="form-check form-switch">
           <input class="form-check-input" type="checkbox" id="forcePasswordChange" formControlName="forcePasswordChange" />
           <label class="form-check-label" for="forcePasswordChange">
-            {{ 'HOME_USERS_FORCE_PASSWORD_CHANGE' | tr }}
+            {{ 'HOME_USERS_FORCE_PASSWORD_CHANGE' | transloco }}
           </label>
         </div>
       </div>
@@ -127,7 +127,7 @@ import {DfxTr} from 'dfx-translate';
   selector: 'app-user-edit-form',
   imports: [
     ReactiveFormsModule,
-    DfxTr,
+    TranslocoPipe,
     AppBackButtonComponent,
     ScrollableToolbarComponent,
     AppModelEditSaveBtn,

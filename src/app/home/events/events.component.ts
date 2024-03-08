@@ -4,13 +4,13 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetEventOrLocationResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxTr} from 'dfx-translate';
 import {AppSelectableBtnComponent} from '../_shared/components/button/app-selectable-btn.component';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../_shared/list/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
@@ -21,21 +21,21 @@ import {SelectedEventService} from './_services/selected-event.service';
 @Component({
   template: `
     <div class="d-flex flex-column gap-3">
-      <h1 class="my-0">{{ 'NAV_EVENTS' | tr }}</h1>
+      <h1 class="my-0">{{ 'NAV_EVENTS' | transloco }}</h1>
 
       @if (myUser()?.isAdmin) {
         <scrollable-toolbar>
           <div>
             <a routerLink="../create" class="btn btn-sm btn-success">
               <bi name="plus-circle" />
-              {{ 'ADD_2' | tr }}</a
+              {{ 'ADD_2' | transloco }}</a
             >
           </div>
 
           <div>
             <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
               <bi name="trash" />
-              {{ 'DELETE' | tr }}
+              {{ 'DELETE' | transloco }}
             </button>
           </div>
         </scrollable-toolbar>
@@ -43,9 +43,15 @@ import {SelectedEventService} from './_services/selected-event.service';
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
+          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
           @if ((filter.value?.length ?? 0) > 0) {
-            <button class="btn btn-outline-secondary" type="button" placement="bottom" [ngbTooltip]="'CLEAR' | tr" (click)="filter.reset()">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              placement="bottom"
+              [ngbTooltip]="'CLEAR' | transloco"
+              (click)="filter.reset()"
+            >
               <bi name="x-circle-fill" />
             </button>
           }
@@ -81,32 +87,34 @@ import {SelectedEventService} from './_services/selected-event.service';
           </ng-container>
 
           <ng-container ngbColumnDef="name">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
             <td *ngbCellDef="let event" ngb-cell>{{ event.name }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="startDate">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_EVENTS_START_DATE' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_EVENTS_START_DATE' | transloco }}</th>
             <td *ngbCellDef="let event" ngb-cell>{{ event.startDate | date: 'dd.MM.yyyy HH:mm' : 'UTC' }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="endDate">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_EVENTS_END_DATE' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_EVENTS_END_DATE' | transloco }}</th>
             <td *ngbCellDef="let event" ngb-cell>{{ event.endDate | date: 'dd.MM.yyyy HH:mm' : 'UTC' }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="street">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_STREET' | tr }} {{ 'HOME_ORGS_STREETNUMBER' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+              {{ 'HOME_ORGS_STREET' | transloco }} {{ 'HOME_ORGS_STREETNUMBER' | transloco }}
+            </th>
             <td *ngbCellDef="let event" ngb-cell>{{ event.street }}, {{ event.streetNumber }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="city">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_CITY' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_CITY' | transloco }}</th>
             <td *ngbCellDef="let event" ngb-cell>{{ event.postalCode }}, {{ event.city }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="actions">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
             <td *ngbCellDef="let event" ngb-cell>
               <selectable-button
                 class="me-2"
@@ -115,14 +123,18 @@ import {SelectedEventService} from './_services/selected-event.service';
                 [selectedId]="selectedEventService.selectedId()"
                 (selectedChange)="selectedEventService.setSelected($event)"
               />
-              <a class="btn btn-sm me-2 btn-outline-success text-body-emphasis" [routerLink]="'../' + event.id" [ngbTooltip]="'EDIT' | tr">
+              <a
+                class="btn btn-sm me-2 btn-outline-success text-body-emphasis"
+                [routerLink]="'../' + event.id"
+                [ngbTooltip]="'EDIT' | transloco"
+              >
                 <bi name="pencil-square" />
               </a>
               @if (myUser()?.isAdmin) {
                 <button
                   type="button"
                   class="btn btn-sm btn-outline-secondary text-body-emphasis me-2"
-                  [ngbTooltip]="'COPY' | tr"
+                  [ngbTooltip]="'COPY' | transloco"
                   (click)="$event.stopPropagation(); clone(event.id)"
                 >
                   <bi name="clipboard" />
@@ -130,7 +142,7 @@ import {SelectedEventService} from './_services/selected-event.service';
                 <button
                   type="button"
                   class="btn btn-sm btn-outline-danger text-body-emphasis"
-                  [ngbTooltip]="'DELETE' | tr"
+                  [ngbTooltip]="'DELETE' | transloco"
                   (click)="onDelete(event.id, $event)"
                 >
                   <bi name="trash" />
@@ -153,7 +165,7 @@ import {SelectedEventService} from './_services/selected-event.service';
     ReactiveFormsModule,
     RouterLink,
     DatePipe,
-    DfxTr,
+    TranslocoPipe,
     DfxTableModule,
     DfxSortModule,
     NgbTooltip,

@@ -5,12 +5,12 @@ import {RouterLink} from '@angular/router';
 
 import {StopPropagationDirective} from '@home-shared/stop-propagation';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetOrganisationResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxTr} from 'dfx-translate';
 
 import {AppSelectableBtnComponent} from '../_shared/components/button/app-selectable-btn.component';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
@@ -22,21 +22,21 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
 @Component({
   template: `
     <div class="d-flex flex-column gap-3">
-      <h1 class="my-0">{{ 'HOME_ORGS_ALL' | tr }}</h1>
+      <h1 class="my-0">{{ 'HOME_ORGS_ALL' | transloco }}</h1>
 
       @if (myUser()?.isAdmin) {
         <scrollable-toolbar>
           <div>
             <a routerLink="../create" class="btn btn-sm btn-success">
               <bi name="plus-circle" />
-              {{ 'ADD_2' | tr }}</a
+              {{ 'ADD_2' | transloco }}</a
             >
           </div>
 
           <div>
             <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
               <bi name="trash" />
-              {{ 'DELETE' | tr }}
+              {{ 'DELETE' | transloco }}
             </button>
           </div>
         </scrollable-toolbar>
@@ -44,9 +44,15 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
+          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
           @if ((filter.value?.length ?? 0) > 0) {
-            <button class="btn btn-outline-secondary" type="button" placement="bottom" [ngbTooltip]="'CLEAR' | tr" (click)="filter.reset()">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              placement="bottom"
+              [ngbTooltip]="'CLEAR' | transloco"
+              (click)="filter.reset()"
+            >
               <bi name="x-circle-fill" />
             </button>
           }
@@ -88,24 +94,28 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
             </ng-container>
 
             <ng-container ngbColumnDef="name">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
               <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.name }}</td>
             </ng-container>
 
             <ng-container ngbColumnDef="street">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_STREET' | tr }} , {{ 'HOME_ORGS_STREETNUMBER' | tr }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'HOME_ORGS_STREET' | transloco }} , {{ 'HOME_ORGS_STREETNUMBER' | transloco }}
+              </th>
               <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.street }} {{ organisation.streetNumber }}</td>
             </ng-container>
 
             <ng-container ngbColumnDef="city">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_CITY' | tr }} , {{ 'HOME_ORGS_COUNTRY_CODE' | tr }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'HOME_ORGS_CITY' | transloco }} , {{ 'HOME_ORGS_COUNTRY_CODE' | transloco }}
+              </th>
               <td *ngbCellDef="let organisation" ngb-cell>
                 {{ organisation.postalCode }} {{ organisation.city }}, {{ organisation.countryCode | uppercase }}
               </td>
             </ng-container>
 
             <ng-container ngbColumnDef="actions">
-              <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
               <td *ngbCellDef="let organisation" ngb-cell>
                 <selectable-button
                   class="me-2"
@@ -119,7 +129,7 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
                   stopPropagation
                   [routerLink]="'../' + organisation.id"
                   [queryParams]="{tab: 'USERS'}"
-                  [ngbTooltip]="'USER' | tr"
+                  [ngbTooltip]="'USER' | transloco"
                 >
                   <bi name="people" />
                 </a>
@@ -128,7 +138,7 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
                   stopPropagation
                   [routerLink]="'../' + organisation.id"
                   [queryParams]="{tab: 'SETTINGS'}"
-                  [ngbTooltip]="'SETTINGS' | tr"
+                  [ngbTooltip]="'SETTINGS' | transloco"
                 >
                   <bi name="gear" />
                 </a>
@@ -136,7 +146,7 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
                   class="btn btn-sm me-2 btn-outline-success text-body-emphasis"
                   stopPropagation
                   [routerLink]="'../' + organisation.id"
-                  [ngbTooltip]="'EDIT' | tr"
+                  [ngbTooltip]="'EDIT' | transloco"
                 >
                   <bi name="pencil-square" />
                 </a>
@@ -145,7 +155,7 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
                     type="button"
                     class="btn btn-sm btn-outline-danger text-body-emphasis"
                     stopPropagation
-                    [ngbTooltip]="'DELETE' | tr"
+                    [ngbTooltip]="'DELETE' | transloco"
                     (click)="onDelete(organisation.id, $event)"
                   >
                     <bi name="trash" />
@@ -172,7 +182,7 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
     RouterLink,
     UpperCasePipe,
     NgbTooltip,
-    DfxTr,
+    TranslocoPipe,
     DfxTableModule,
     DfxSortModule,
     DfxPaginationModule,

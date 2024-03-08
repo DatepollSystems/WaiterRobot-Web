@@ -6,12 +6,12 @@ import {RouterLink} from '@angular/router';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '@home-shared/list/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetPrinterResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxTr} from 'dfx-translate';
 
 import {forkJoin} from 'rxjs';
 
@@ -21,36 +21,42 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
 @Component({
   template: `
     <div class="d-flex flex-column gap-3">
-      <h1 class="my-0">{{ 'NAV_PRINTERS' | tr }}</h1>
+      <h1 class="my-0">{{ 'NAV_PRINTERS' | transloco }}</h1>
 
       <scrollable-toolbar>
         <div>
           <a routerLink="../create" class="btn btn-sm btn-success">
             <bi name="plus-circle" />
-            {{ 'ADD_2' | tr }}</a
+            {{ 'ADD_2' | transloco }}</a
           >
         </div>
 
-        <div [ngbTooltip]="!selection.hasValue() ? ('HOME_PRINTER_SELECT' | tr) : undefined">
+        <div [ngbTooltip]="!selection.hasValue() ? ('HOME_PRINTER_SELECT' | transloco) : undefined">
           <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
             <bi name="trash" />
-            {{ 'DELETE' | tr }}
+            {{ 'DELETE' | transloco }}
           </button>
         </div>
 
-        <div [ngbTooltip]="!selection.hasValue() ? ('HOME_PRINTER_SELECT' | tr) : undefined">
+        <div [ngbTooltip]="!selection.hasValue() ? ('HOME_PRINTER_SELECT' | transloco) : undefined">
           <button type="button" class="btn btn-sm btn-secondary" [class.disabled]="!selection.hasValue()" (click)="onBatchUpdatePrinters()">
             <bi name="pencil-square" />
-            {{ 'HOME_PRINTER_BATCH_UPDATE' | tr }}
+            {{ 'HOME_PRINTER_BATCH_UPDATE' | transloco }}
           </button>
         </div>
       </scrollable-toolbar>
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
+          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
           @if ((filter.value?.length ?? 0) > 0) {
-            <button class="btn btn-outline-secondary" type="button" placement="bottom" [ngbTooltip]="'CLEAR' | tr" (click)="filter.reset()">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              placement="bottom"
+              [ngbTooltip]="'CLEAR' | transloco"
+              (click)="filter.reset()"
+            >
               <bi name="x-circle-fill" />
             </button>
           }
@@ -85,46 +91,50 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
           </ng-container>
 
           <ng-container ngbColumnDef="name">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
             <td *ngbCellDef="let printer" ngb-cell>{{ printer.name }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="fontScale">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_FONT_SCALE' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_FONT_SCALE' | transloco }}</th>
             <td *ngbCellDef="let printer" ngb-cell>{{ printer.fontScale }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="font">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_FONT' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_FONT' | transloco }}</th>
             <td *ngbCellDef="let printer" ngb-cell>{{ printer.font.description }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="bonWidth">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_WIDTH' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_WIDTH' | transloco }}</th>
             <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonWidth }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="bonPadding">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_PADDING' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_PADDING' | transloco }}</th>
             <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonPadding }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="bonPaddingTop">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_PADDING_TOP' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_PADDING_TOP' | transloco }}</th>
             <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonPaddingTop }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="actions">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
             <td *ngbCellDef="let printer" ngb-cell>
-              <a class="btn btn-sm m-1 btn-outline-success text-body-emphasis" [routerLink]="'../' + printer.id" [ngbTooltip]="'EDIT' | tr">
+              <a
+                class="btn btn-sm m-1 btn-outline-success text-body-emphasis"
+                [routerLink]="'../' + printer.id"
+                [ngbTooltip]="'EDIT' | transloco"
+              >
                 <bi name="pencil-square" />
               </a>
 
               <button
                 type="button"
                 class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
-                [ngbTooltip]="'DELETE' | tr"
+                [ngbTooltip]="'DELETE' | transloco"
                 (click)="onDelete(printer.id, $event)"
               >
                 <bi name="trash" />
@@ -148,7 +158,7 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
     AsyncPipe,
     RouterLink,
     NgbTooltip,
-    DfxTr,
+    TranslocoPipe,
     DfxTableModule,
     DfxSortModule,
     BiComponent,

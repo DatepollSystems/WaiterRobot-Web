@@ -4,11 +4,11 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {passwordMatchValidator} from '@home-shared/regex';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {AuthService} from '@shared/services/auth/auth.service';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 import {delay, tap} from 'rxjs';
 
@@ -30,14 +30,14 @@ import {delay, tap} from 'rxjs';
                   type="email"
                   id="email"
                   formControlName="email"
-                  [placeholder]="'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr"
+                  [placeholder]="'ABOUT_SIGNIN_EMAIL_ADDRESS' | transloco"
                 />
-                <label for="email">{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | tr }}</label>
+                <label for="email">{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | transloco }}</label>
               </div>
 
               <div class="d-flex">
                 <button type="submit" class="btn btn-primary w-100" [disabled]="!requestPasswordResetForm.valid">
-                  {{ 'SENT' | tr }}
+                  {{ 'SENT' | transloco }}
                 </button>
               </div>
             </form>
@@ -45,7 +45,7 @@ import {delay, tap} from 'rxjs';
             @if (requestPasswordResetForm.valid) {
               <div class="text-center mt-4">
                 <button type="button" class="btn btn-link" (click)="resetState.set('SET')">
-                  {{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_ALREADY_SENT' | tr }}
+                  {{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_ALREADY_SENT' | transloco }}
                 </button>
               </div>
             }
@@ -55,29 +55,35 @@ import {delay, tap} from 'rxjs';
             @if (resetPasswordForm.statusChanges | async) {}
 
             <form class="d-flex flex-column gap-3" [formGroup]="resetPasswordForm" (ngSubmit)="resetPassword()">
-              <h3>{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_RESET' | tr }}</h3>
+              <h3>{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_RESET' | transloco }}</h3>
 
-              <div class="alert alert-info d-flex" role="alert">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_EMAIL_SENT' | tr }}</div>
+              <div class="alert alert-info d-flex" role="alert">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_EMAIL_SENT' | transloco }}</div>
 
               <div class="form-floating">
                 <input class="form-control" type="text" id="resetToken" formControlName="resetToken" placeholder="XXXXXXXXXXXXX" />
-                <label for="resetToken">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_RESET_TOKEN' | tr }}</label>
+                <label for="resetToken">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_RESET_TOKEN' | transloco }}</label>
               </div>
 
               @if (resetPasswordForm.controls.resetToken.invalid) {
                 <small class="text-danger">
-                  {{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_RESET_TOKEN_INCORRECT' | tr }}
+                  {{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_RESET_TOKEN_INCORRECT' | transloco }}
                 </small>
               }
 
               <div class="form-floating">
-                <input class="form-control" type="password" id="password" formControlName="newPassword" [placeholder]="'PASSWORD' | tr" />
-                <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | tr }}</label>
+                <input
+                  class="form-control"
+                  type="password"
+                  id="password"
+                  formControlName="newPassword"
+                  [placeholder]="'PASSWORD' | transloco"
+                />
+                <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | transloco }}</label>
               </div>
 
               @if (resetPasswordForm.controls.newPassword.invalid) {
                 <small class="text-danger">
-                  {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
+                  {{ 'HOME_USERS_PASSWORD_INCORRECT' | transloco }}
                 </small>
               }
 
@@ -87,26 +93,26 @@ import {delay, tap} from 'rxjs';
                   type="password"
                   id="password"
                   formControlName="confirmPassword"
-                  [placeholder]="'PASSWORD' | tr"
+                  [placeholder]="'PASSWORD' | transloco"
                 />
-                <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_AGAIN' | tr }}</label>
+                <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_AGAIN' | transloco }}</label>
               </div>
 
               @if (resetPasswordForm.controls.confirmPassword.invalid) {
                 <small class="text-danger">
-                  {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }}
+                  {{ 'HOME_USERS_PASSWORD_INCORRECT' | transloco }}
                 </small>
               }
 
               @if (resetPasswordForm.hasError('mismatch')) {
                 <small class="text-danger">
-                  {{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_DONT_MATCH' | tr }}
+                  {{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_DONT_MATCH' | transloco }}
                 </small>
               }
 
               <div class="d-flex">
                 <button type="submit" class="btn btn-primary w-100" []="!resetPasswordForm.valid">
-                  {{ 'SENT' | tr }}
+                  {{ 'SENT' | transloco }}
                 </button>
               </div>
             </form>
@@ -114,10 +120,10 @@ import {delay, tap} from 'rxjs';
 
           @case ('SUCCESS') {
             <div class="alert alert-success d-flex" role="alert">
-              {{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_SUCCESS' | tr }}
+              {{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_SUCCESS' | transloco }}
             </div>
 
-            <a routerLink="/about" class="btn btn-secondary">{{ 'GO_BACK' | tr }}</a>
+            <a routerLink="/about" class="btn btn-secondary">{{ 'GO_BACK' | transloco }}</a>
           }
         }
       </div>
@@ -126,7 +132,7 @@ import {delay, tap} from 'rxjs';
   selector: 'app-password-reset',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, RouterLink, NgSwitch, NgSwitchCase, AsyncPipe, DfxTr, BiComponent],
+  imports: [ReactiveFormsModule, RouterLink, NgSwitch, NgSwitchCase, AsyncPipe, TranslocoPipe, BiComponent],
 })
 export class ForgotPasswordComponent {
   fb = inject(FormBuilder);

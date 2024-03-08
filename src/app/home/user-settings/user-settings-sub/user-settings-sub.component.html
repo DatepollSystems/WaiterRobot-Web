@@ -1,15 +1,15 @@
 <div class="d-flex flex-column">
-  <h1>{{ 'NAV_USER_SETTINGS' | tr }}</h1>
+  <h1>{{ 'NAV_USER_SETTINGS' | transloco }}</h1>
 
   <div class="card mb-3">
     <div class="card-body">
-      <h4 class="card-title">{{ 'HOME_USERSETTINGS_USER_SETTINGS_EMAIL' | tr }}</h4>
-      <h6 class="card-subtitle mb-2">{{ 'HOME_USERSETTINGS_USER_SETTINGS_EMAIL_SUBTITLE' | tr }}</h6>
+      <h4 class="card-title">{{ 'HOME_USERSETTINGS_USER_SETTINGS_EMAIL' | transloco }}</h4>
+      <h6 class="card-subtitle mb-2">{{ 'HOME_USERSETTINGS_USER_SETTINGS_EMAIL_SUBTITLE' | transloco }}</h6>
       <form #emailForm="ngForm" (ngSubmit)="changeEmail(emailForm)">
         <div class="d-flex flex-column card-text mb-3">
           <div>
             <div class="form-group col-12 col-md-3">
-              <label for="email">{{ 'EMAIL' | tr }}</label>
+              <label for="email">{{ 'EMAIL' | transloco }}</label>
               <input
                 #emailModel="ngModel"
                 class="form-control mb-1"
@@ -20,13 +20,13 @@
                 (ngModelChange)="emailChange($event)"
               />
               @if (emailModel.invalid || !emailAddressValid()) {
-              <small class="text-danger"> {{ 'HOME_USERS_EMAIL_INCORRECT' | tr }} </small>
+              <small class="text-danger"> {{ 'HOME_USERS_EMAIL_INCORRECT' | transloco }} </small>
               }
             </div>
           </div>
         </div>
         <button class="btn btn-outline-warning" type="submit" [disabled]="!emailForm || !emailForm.valid || !emailAddressValid">
-          {{ 'SAVE' | tr }}
+          {{ 'SAVE' | transloco }}
         </button>
       </form>
     </div>
@@ -34,12 +34,12 @@
 
   <div class="card">
     <div class="card-body">
-      <h4 class="card-title">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD' | tr }}</h4>
+      <h4 class="card-title">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD' | transloco }}</h4>
       <form #passwordForm="ngForm" (ngSubmit)="changePassword(passwordForm)">
         <div class="d-flex flex-column card-text mb-3">
           <div>
             <div class="form-group col-12 col-md-4">
-              <label for="oldPassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_OLD' | tr }}</label>
+              <label for="oldPassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_OLD' | transloco }}</label>
               <input
                 #passwordModel="ngModel"
                 ngModel
@@ -49,17 +49,17 @@
                 required
                 name="oldPassword"
                 [minlength]="6"
-                [placeholder]="'PASSWORD' | tr"
+                [placeholder]="'PASSWORD' | transloco"
               />
               @if (passwordModel.invalid) {
-              <small class="text-danger"> {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }} </small>
+              <small class="text-danger"> {{ 'HOME_USERS_PASSWORD_INCORRECT' | transloco }} </small>
               }
             </div>
           </div>
 
           <div>
             <div class="form-group col-12 col-md-4">
-              <label for="newPassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | tr }}</label>
+              <label for="newPassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | transloco }}</label>
               <input
                 #newPasswordModel="ngModel"
                 ngModel
@@ -69,18 +69,18 @@
                 required
                 name="newPassword"
                 [minlength]="6"
-                [placeholder]="'PASSWORD' | tr"
+                [placeholder]="'PASSWORD' | transloco"
                 (ngModelChange)="newPasswordsChange($event, undefined)"
               />
               @if (newPasswordModel.invalid) {
-              <small class="text-danger"> {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }} </small>
+              <small class="text-danger"> {{ 'HOME_USERS_PASSWORD_INCORRECT' | transloco }} </small>
               }
             </div>
           </div>
 
           <div>
             <div class="form-group col-12 col-md-4">
-              <label for="newPasswordAgain">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_AGAIN' | tr }}</label>
+              <label for="newPasswordAgain">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_AGAIN' | transloco }}</label>
               <input
                 #newPasswordAgainModel="ngModel"
                 ngModel
@@ -90,24 +90,24 @@
                 required
                 name="newPasswordAgain"
                 [minlength]="6"
-                [placeholder]="'PASSWORD' | tr"
+                [placeholder]="'PASSWORD' | transloco"
                 (ngModelChange)="newPasswordsChange(undefined, $event)"
               />
 
               @if (newPasswordAgainModel.invalid) {
               <div>
-                <small class="text-danger"> {{ 'HOME_USERS_PASSWORD_INCORRECT' | tr }} </small>
+                <small class="text-danger"> {{ 'HOME_USERS_PASSWORD_INCORRECT' | transloco }} </small>
               </div>
               } @if (!newPasswordsMatch) {
               <div>
-                <small class="text-danger"> {{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_DONT_MATCH' | tr }} </small>
+                <small class="text-danger"> {{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_DONT_MATCH' | transloco }} </small>
               </div>
               }
             </div>
           </div>
         </div>
         <button class="btn btn-outline-danger" type="submit" [disabled]="!passwordForm || !passwordForm.valid || !newPasswordsMatch">
-          {{ 'SAVE' | tr }}
+          {{ 'SAVE' | transloco }}
         </button>
       </form>
     </div>

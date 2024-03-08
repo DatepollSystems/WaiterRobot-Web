@@ -26,8 +26,8 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
   template: `
     @if (entity(); as entity) {
       <div class="d-flex flex-column gap-2">
-        <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
-        <h1 *isCreating="entity">{{ 'ADD_2' | tr }}</h1>
+        <h1 *isEditing="entity">{{ 'EDIT_2' | transloco }} {{ entity.name }}</h1>
+        <h1 *isCreating="entity">{{ 'ADD_2' | transloco }}</h1>
 
         <scrollable-toolbar>
           <back-button />
@@ -36,7 +36,7 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
             <div>
               <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
                 <bi name="trash" />
-                {{ 'DELETE' | tr }}
+                {{ 'DELETE' | transloco }}
               </button>
             </div>
 
@@ -45,13 +45,13 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
             <div>
               <a class="btn btn-sm btn-secondary" routerLink="../../orders" [queryParams]="{waiterIds: entity.id}">
                 <bi name="stack" />
-                {{ 'NAV_ORDERS' | tr }}
+                {{ 'NAV_ORDERS' | transloco }}
               </a>
             </div>
             <div>
               <a class="btn btn-sm btn-secondary" routerLink="../../bills" [queryParams]="{waiterIds: entity.id}">
                 <bi name="cash-coin" />
-                {{ 'NAV_BILLS' | tr }}
+                {{ 'NAV_BILLS' | transloco }}
               </a>
             </div>
           </ng-container>
@@ -71,7 +71,7 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
           (navChange)="tabControls.navigateToTab($event.nextId)"
         >
           <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">
-            <a ngbNavLink>{{ 'DATA' | tr }}</a>
+            <a ngbNavLink>{{ 'DATA' | transloco }}</a>
             <ng-template ngbNavContent>
               <app-waiter-edit-form
                 #form
@@ -85,7 +85,7 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
             </ng-template>
           </li>
           <li *isEditing="entity" [ngbNavItem]="'SESSIONS'" [destroyOnHide]="true">
-            <a ngbNavLink>{{ 'NAV_USER_SESSIONS' | tr }}</a>
+            <a ngbNavLink>{{ 'NAV_USER_SESSIONS' | transloco }}</a>
             <ng-template ngbNavContent>
               <app-waiter-sessions />
             </ng-template>

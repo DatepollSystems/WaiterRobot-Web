@@ -2,18 +2,18 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, Input, signal, ViewCh
 import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 import {GetImplodedBillProductResponse} from '@shared/waiterrobot-backend';
 
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {DfxCurrencyCentPipe} from 'dfx-helper';
-import {DfxTr} from 'dfx-translate';
 
 @Component({
   template: `
     <div class="table-responsive">
       <table ngb-table ngb-sort ngbSortActive="product" ngbSortDirection="asc" [hover]="true" [dataSource]="dataSource()">
         <ng-container ngbColumnDef="product">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD' | transloco }}</th>
           <td *ngbCellDef="let order" ngb-cell>
             <div class="d-flex align-items-center gap-2">
               <span class="badge rounded-pill text-bg-info">{{ order.amount }} x</span>
@@ -26,13 +26,13 @@ import {DfxTr} from 'dfx-translate';
         </ng-container>
 
         <ng-container ngbColumnDef="pricePerPiece">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'PRICE_PER_PIECE' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'PRICE_PER_PIECE' | transloco }}</th>
           <td *ngbCellDef="let order" ngb-cell>{{ order.pricePaidPerPiece | currency }}</td>
           <td *ngbFooterCellDef>ngb-footer-cell</td>
         </ng-container>
 
         <ng-container ngbColumnDef="priceSum">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'PRICE' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'PRICE' | transloco }}</th>
           <td *ngbCellDef="let order" ngb-cell>
             {{ order.pricePaidSum | currency }}
           </td>
@@ -54,7 +54,7 @@ import {DfxTr} from 'dfx-translate';
   ],
   standalone: true,
   selector: 'app-bill-products-list-table',
-  imports: [DfxSortModule, DfxTableModule, DfxTr, RouterLink, NgbTooltip, DfxCurrencyCentPipe],
+  imports: [DfxSortModule, DfxTableModule, TranslocoPipe, RouterLink, NgbTooltip, DfxCurrencyCentPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrderProductsListTableComponent implements AfterViewInit {

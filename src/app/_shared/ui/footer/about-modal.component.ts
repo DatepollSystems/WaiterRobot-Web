@@ -13,24 +13,24 @@ import {EnvironmentHelper} from '../../EnvironmentHelper';
 @Component({
   template: `
     <!-- Button trigger modal -->
-    <button type="button" class="btn" (click)="open(content)">{{ 'ABOUT' | tr }}</button>
+    <button type="button" class="btn" (click)="open(content)">{{ 'ABOUT' | transloco }}</button>
 
     <ng-template #content let-modal>
       <div class="modal-header">
-        <h3 class="modal-title" id="modal-basic-title">{{ 'ABOUT' | tr }} kellner.team</h3>
+        <h3 class="modal-title" id="modal-basic-title">{{ 'ABOUT' | transloco }} kellner.team</h3>
         <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="modal.dismiss()"></button>
       </div>
       <div class="modal-body">
         <ul #nav="ngbNav" ngbNav class="nav-tabs">
           <li [ngbNavItem]="1">
-            <a ngbNavLink>{{ 'ABOUT_MODAL_GENERAL' | tr }}</a>
+            <a ngbNavLink>{{ 'ABOUT_MODAL_GENERAL' | transloco }}</a>
             <ng-template ngbNavContent>
               <p>
                 Egal ob sich um ein einmaliges Event oder dauerhafte Bewirtung handelt, kellner.team bietet unkomplizierte und zugängliche
                 Lösungen, damit du dich auf das Wesentliche konzentrieren kannst - großartigen Service anzubieten.
               </p>
 
-              <h5>{{ 'ABOUT_MODAL_TECHNICAL' | tr }}</h5>
+              <h5>{{ 'ABOUT_MODAL_TECHNICAL' | transloco }}</h5>
               <ul class="list-group">
                 <li
                   class="list-group-item not-selectable"
@@ -39,13 +39,13 @@ import {EnvironmentHelper} from '../../EnvironmentHelper';
                   (mouseleave)="mouseup()"
                   (click)="clicked()"
                 >
-                  {{ 'ABOUT_MODAL_TECHNICAL_WEB_VERSION' | tr }}: {{ frontendVersion }}
+                  {{ 'ABOUT_MODAL_TECHNICAL_WEB_VERSION' | transloco }}: {{ frontendVersion }}
                 </li>
               </ul>
             </ng-template>
           </li>
           <li [ngbNavItem]="2">
-            <a ngbNavLink>{{ 'ABOUT_MODAL_TECHNICAL_USED_LIBRARIES' | tr }}</a>
+            <a ngbNavLink>{{ 'ABOUT_MODAL_TECHNICAL_USED_LIBRARIES' | transloco }}</a>
             <ng-template ngbNavContent>
               @if (licenses$ | async; as licenses) {
                 <div class="list-group">
@@ -71,7 +71,7 @@ import {EnvironmentHelper} from '../../EnvironmentHelper';
         <div class="mt-2" [ngbNavOutlet]="nav"></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" (click)="modal.close()">{{ 'CLOSE' | tr }}</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="modal.close()">{{ 'CLOSE' | transloco }}</button>
       </div>
     </ng-template>
   `,

@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 
-import {FooterModule} from '@shared/ui/footer/footer.module';
+import {TranslocoPipe} from '@ngneat/transloco';
 
-import {DfxTr} from 'dfx-translate';
+import {FooterModule} from '@shared/ui/footer/footer.module';
 
 @Component({
   template: `
@@ -11,14 +11,16 @@ import {DfxTr} from 'dfx-translate';
       <div class="container-xl d-flex flex-column flex-md-row gap-3">
         <div class="col-md-5 col-lg-3">
           <ul class="list-group text-nowrap">
-            <a class="list-group-item list-group-item-action" routerLink="imprint" routerLinkActive="active">{{ 'ABOUT_IMPRINT' | tr }}</a>
+            <a class="list-group-item list-group-item-action" routerLink="imprint" routerLinkActive="active">{{
+              'ABOUT_IMPRINT' | transloco
+            }}</a>
             <a class="list-group-item list-group-item-action" routerLink="privacypolicy" routerLinkActive="active">{{
-              'ABOUT_PRIVACY_POLICY_WEB' | tr
+              'ABOUT_PRIVACY_POLICY_WEB' | transloco
             }}</a>
             <a class="list-group-item list-group-item-action" routerLink="mobile-privacypolicy" routerLinkActive="active">{{
-              'ABOUT_MOBILE_PRIVACY_POLICY' | tr
+              'ABOUT_MOBILE_PRIVACY_POLICY' | transloco
             }}</a>
-            <a class="list-group-item list-group-item-action" routerLink="/login">{{ 'GO_BACK' | tr }}</a>
+            <a class="list-group-item list-group-item-action" routerLink="/login">{{ 'GO_BACK' | transloco }}</a>
           </ul>
         </div>
         <div class="col-md-7 col-lg-9">
@@ -37,6 +39,6 @@ import {DfxTr} from 'dfx-translate';
   selector: 'app-info',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterOutlet, RouterLinkActive, DfxTr, FooterModule],
+  imports: [RouterLink, RouterOutlet, RouterLinkActive, TranslocoPipe, FooterModule],
 })
 export class InfoComponent {}

@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 
-import {DfxTr} from 'dfx-translate';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 @Component({
   template: `
-    <h1>{{ 'ABOUT_IMPRINT' | tr }}</h1>
+    <h1>{{ 'ABOUT_IMPRINT' | transloco }}</h1>
 
     <h3 class="mt-4">Media owner / Medieninhaber<br /></h3>
     <ul>
@@ -23,7 +23,7 @@ import {DfxTr} from 'dfx-translate';
   `,
   selector: 'app-imprint',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DfxTr],
+  imports: [TranslocoPipe],
   standalone: true,
 })
 export class ImprintComponent {}

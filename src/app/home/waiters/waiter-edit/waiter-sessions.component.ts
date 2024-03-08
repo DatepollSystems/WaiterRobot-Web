@@ -4,6 +4,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {AbstractModelsWithNameListByIdComponent} from '@home-shared/list/models-list-by-id/abstract-models-with-name-list-by-id.component';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {SessionModel} from '@shared/model/session.model';
 import {AppSpinnerRowComponent} from '@shared/ui/loading/app-spinner-row.component';
@@ -11,7 +12,6 @@ import {GetWaiterResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxTr} from 'dfx-translate';
 import {WaiterSessionsService} from '../_services/waiter-sessions.service';
 import {WaitersService} from '../_services/waiters.service';
 
@@ -20,9 +20,15 @@ import {WaitersService} from '../_services/waiters.service';
     <form class="d-flex flex-column flex-sm-row gap-2">
       <div class="flex-grow-1">
         <div class="input-group">
-          <input class="form-control" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
+          <input class="form-control" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
           @if ((filter.value?.length ?? 0) > 0) {
-            <button class="btn btn-outline-secondary" type="button" placement="bottom" [ngbTooltip]="'CLEAR' | tr" (click)="filter.reset()">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              placement="bottom"
+              [ngbTooltip]="'CLEAR' | transloco"
+              (click)="filter.reset()"
+            >
               <bi name="x-circle-fill" />
             </button>
           }
@@ -31,7 +37,7 @@ import {WaitersService} from '../_services/waiters.service';
 
       <button class="btn btn-sm btn-outline-danger" type="button" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
         <bi name="trash" />
-        {{ 'DELETE' | tr }}
+        {{ 'DELETE' | transloco }}
       </button>
     </form>
 
@@ -63,28 +69,28 @@ import {WaitersService} from '../_services/waiters.service';
         </ng-container>
 
         <ng-container ngbColumnDef="name">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
           <td *ngbCellDef="let session" ngb-cell>{{ session.name }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="registeredAt">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_REGISTERED_AT' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_REGISTERED_AT' | transloco }}</th>
           <td *ngbCellDef="let session" ngb-cell>{{ session.registeredAt | date: 'YYYY.MM.dd - HH:mm:ss' }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="updatedAt">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_UPDATED_AT' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_UPDATED_AT' | transloco }}</th>
           <td *ngbCellDef="let session" ngb-cell>{{ session.updatedAt | date: 'YYYY.MM.dd - HH:mm:ss' }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="actions">
-          <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
           <td *ngbCellDef="let session" ngb-cell>
             <button
               type="button"
               class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
               placement="left"
-              [ngbTooltip]="'DELETE' | tr"
+              [ngbTooltip]="'DELETE' | transloco"
               (click)="onDelete(session.id, $event)"
             >
               <bi name="trash" />
@@ -109,7 +115,7 @@ import {WaitersService} from '../_services/waiters.service';
     NgbTooltip,
     DfxTableModule,
     DfxSortModule,
-    DfxTr,
+    TranslocoPipe,
     BiComponent,
     AppSpinnerRowComponent,
   ],

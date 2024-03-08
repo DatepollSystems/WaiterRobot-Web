@@ -3,35 +3,41 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {SessionModel} from '@shared/model/session.model';
 import {AppSpinnerRowComponent} from '@shared/ui/loading/app-spinner-row.component';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxTr} from 'dfx-translate';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../_shared/list/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {UserSessionsService} from './_services/user-sessions.service';
 
 @Component({
   template: `
-    <h1>{{ 'NAV_USER_SESSIONS' | tr }}</h1>
+    <h1>{{ 'NAV_USER_SESSIONS' | transloco }}</h1>
 
     <scrollable-toolbar>
       <div>
         <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
           <bi name="trash" />
-          {{ 'DELETE' | tr }}
+          {{ 'DELETE' | transloco }}
         </button>
       </div>
     </scrollable-toolbar>
 
     <form>
       <div class="input-group">
-        <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
+        <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
         @if ((filter.value?.length ?? 0) > 0) {
-          <button class="btn btn-outline-secondary" type="button" placement="bottom" [ngbTooltip]="'CLEAR' | tr" (click)="filter.reset()">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            placement="bottom"
+            [ngbTooltip]="'CLEAR' | transloco"
+            (click)="filter.reset()"
+          >
             <bi name="x-circle-fill" />
           </button>
         }
@@ -66,28 +72,28 @@ import {UserSessionsService} from './_services/user-sessions.service';
         </ng-container>
 
         <ng-container ngbColumnDef="name">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
           <td *ngbCellDef="let session" ngb-cell>{{ session.name }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="registeredAt">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_REGISTERED_AT' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_REGISTERED_AT' | transloco }}</th>
           <td *ngbCellDef="let session" ngb-cell>{{ session.registeredAt | date: 'YYYY.MM.dd - HH:mm:ss' }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="updatedAt">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_UPDATED_AT' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERSETTINGS_SESSIONS_UPDATED_AT' | transloco }}</th>
           <td *ngbCellDef="let session" ngb-cell>{{ session.updatedAt | date: 'YYYY.MM.dd - HH:mm:ss' }}</td>
         </ng-container>
 
         <ng-container ngbColumnDef="actions">
-          <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
           <td *ngbCellDef="let session" ngb-cell>
             <button
               type="button"
               class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
               placement="left"
-              [ngbTooltip]="'DELETE' | tr"
+              [ngbTooltip]="'DELETE' | transloco"
               (click)="onDelete(session.id)"
             >
               <bi name="trash" />
@@ -112,7 +118,7 @@ import {UserSessionsService} from './_services/user-sessions.service';
     NgbTooltipModule,
     DfxTableModule,
     DfxSortModule,
-    DfxTr,
+    TranslocoPipe,
     BiComponent,
     AppSpinnerRowComponent,
     ScrollableToolbarComponent,

@@ -2,9 +2,9 @@ import {NgClass} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {NgbPopover} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 @Component({
   template: `
@@ -18,14 +18,14 @@ import {DfxTr} from 'dfx-translate';
     >
       @if (!unpaidReason) {
         <div class="d-flex gap-2 align-items-center">
-          <span>{{ 'Bezahlt' | tr }}</span>
+          <span>{{ 'Bezahlt' | transloco }}</span>
           <bi name="check2-square" />
         </div>
       } @else {
         @switch (unpaidReason) {
           @case ('Test') {
             <div class="d-flex gap-2 align-items-center">
-              <span>{{ 'Test' | tr }}</span>
+              <span>{{ 'Test' | transloco }}</span>
               <bi name="terminal-fill" />
             </div>
           }
@@ -37,7 +37,7 @@ import {DfxTr} from 'dfx-translate';
               popoverTitle="Rechnungsdetails"
               [ngbPopover]="unpaidReason ? popContent : null"
             >
-              <span>{{ 'Unbezahlt' | tr }}</span>
+              <span>{{ 'Unbezahlt' | transloco }}</span>
               <bi name="cone-striped" />
             </div>
 
@@ -52,7 +52,7 @@ import {DfxTr} from 'dfx-translate';
   standalone: true,
   selector: 'app-bill-payment-state-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, BiComponent, DfxTr, NgbPopover],
+  imports: [NgClass, BiComponent, TranslocoPipe, NgbPopover],
 })
 export class AppBillPaymentStateBadgeComponent {
   @Input() unpaidReason?: string;

@@ -1,7 +1,7 @@
 import {booleanAttribute, ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 @Component({
   template: `
@@ -10,12 +10,12 @@ import {DfxTr} from 'dfx-translate';
         @if (creating) {
           <bi name="plus-circle" />
           <span>
-            {{ 'ADD' | tr }}
+            {{ 'ADD' | transloco }}
           </span>
         } @else {
           <bi name="save" />
           <span>
-            {{ 'SAVE' | tr }}
+            {{ 'SAVE' | transloco }}
           </span>
         }
         <ng-content />
@@ -25,7 +25,7 @@ import {DfxTr} from 'dfx-translate';
   selector: 'app-model-edit-save-btn',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BiComponent, DfxTr],
+  imports: [BiComponent, TranslocoPipe],
 })
 export class AppModelEditSaveBtn {
   @Input({transform: booleanAttribute, required: true}) creating!: boolean;

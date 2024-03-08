@@ -5,13 +5,13 @@ import {RouterLink} from '@angular/router';
 import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
 import {StopPropagationDirective} from '@home-shared/stop-propagation';
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {CreateStripeAccountDto, GetStripeAccountResponse, UpdateStripeAccountDto} from '@shared/waiterrobot-backend';
 
 import {notNullAndUndefined} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
-import {DfxTr} from 'dfx-translate';
 import {computedFrom} from 'ngxtension/computed-from';
 import {injectParams} from 'ngxtension/inject-params';
 
@@ -28,18 +28,18 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
         <div>
           <button class="btn btn-success" type="button" [disabled]="stripeState.loading()" (click)="onCreateStripeAccount()">
             <bi name="save" />
-            {{ 'ADD_3' | tr }}
+            {{ 'ADD_3' | transloco }}
           </button>
         </div>
         <div>
           <div class="input-group">
-            <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
+            <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
             @if ((filter.value?.length ?? 0) > 0) {
               <button
                 class="btn btn-outline-secondary"
                 type="button"
                 placement="bottom"
-                [ngbTooltip]="'CLEAR' | tr"
+                [ngbTooltip]="'CLEAR' | transloco"
                 (click)="filter.reset()"
               >
                 <bi name="x-circle-fill" />
@@ -52,7 +52,7 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
       <div class="table-responsive mt-3">
         <table ngb-table ngb-sort ngbSortActive="name" ngbSortDirection="asc" [hover]="true" [dataSource]="dataSource()">
           <ng-container ngbColumnDef="name">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
             <td *ngbCellDef="let stripeAccount" ngb-cell>
               {{ stripeAccount.name }}
               @if (!stripeAccount.event) {
@@ -62,14 +62,14 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
           </ng-container>
 
           <ng-container ngbColumnDef="state">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'STATE' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'STATE' | transloco }}</th>
             <td *ngbCellDef="let stripeAccount" ngb-cell>
               <app-stripe-account-state-badge [stripeAccountId]="stripeAccount.id" [state]="stripeAccount.state" />
             </td>
           </ng-container>
 
           <ng-container ngbColumnDef="event">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'NAV_EVENTS' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'NAV_EVENTS' | transloco }}</th>
             <td *ngbCellDef="let stripeAccount" ngb-cell>
               @if (stripeAccount.event; as event) {
                 <a stopPropagation [routerLink]="'../../o/' + stripeAccount.organisationId + '/events/' + event.id">
@@ -82,12 +82,12 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
           </ng-container>
 
           <ng-container ngbColumnDef="actions">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
             <td *ngbCellDef="let stripeAccount" ngb-cell>
               <button
                 type="button"
                 class="btn btn-sm m-1 btn-outline-success text-body-emphasis"
-                [ngbTooltip]="'EDIT' | tr"
+                [ngbTooltip]="'EDIT' | transloco"
                 (click)="$event.stopPropagation(); onUpdateStripeAccount(stripeAccount)"
               >
                 <bi name="pencil-square" />
@@ -95,7 +95,7 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
               <button
                 type="button"
                 class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
-                [ngbTooltip]="'DELETE' | tr"
+                [ngbTooltip]="'DELETE' | transloco"
                 (click)="$event.stopPropagation(); onDeleteStripeAccount(stripeAccount.id)"
               >
                 <bi name="trash" />
@@ -110,7 +110,7 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
 
       @if (stripeState.data()?.length === 0) {
         <div class="d-flex justify-content-center">
-          <span>{{ 'STRIPE_ACCOUNT_EMPTY' | tr }}</span>
+          <span>{{ 'STRIPE_ACCOUNT_EMPTY' | transloco }}</span>
         </div>
       }
 
@@ -122,7 +122,7 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     BiComponent,
-    DfxTr,
+    TranslocoPipe,
     NgbTooltip,
     DfxTableModule,
     DfxSortModule,

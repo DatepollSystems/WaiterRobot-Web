@@ -3,12 +3,12 @@ import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Inpu
 import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {GetImplodedOrderProductResponse} from '@shared/waiterrobot-backend';
 
 import {s_fromStorage, st_set} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 import {BehaviorSubject, combineLatest, map} from 'rxjs';
 import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
@@ -60,7 +60,7 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
                           type="button"
                           class="btn btn-sm btn-warning"
                           placement="left"
-                          [ngbTooltip]="'HOME_ORDER_REQUEUE' | tr"
+                          [ngbTooltip]="'HOME_ORDER_REQUEUE' | transloco"
                           (click)="requeueOrdersOfPrinter.next(groups.key)"
                         >
                           <bi name="printer" />
@@ -81,7 +81,7 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    DfxTr,
+    TranslocoPipe,
     AsyncPipe,
     AppOrderProductStateBadgeComponent,
     NgClass,

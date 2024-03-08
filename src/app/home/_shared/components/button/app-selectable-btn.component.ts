@@ -2,9 +2,9 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {PlacementArray} from '@ng-bootstrap/ng-bootstrap/util/positioning';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 @Component({
   template: `
@@ -13,8 +13,8 @@ import {DfxTr} from 'dfx-translate';
         type="button"
         class="btn btn-sm btn-outline-primary text-body-emphasis"
         container="body"
-        [attr.aria-label]="'SELECT' | tr"
-        [ngbTooltip]="'SELECT' | tr"
+        [attr.aria-label]="'SELECT' | transloco"
+        [ngbTooltip]="'SELECT' | transloco"
         [placement]="placement"
         (click)="selectedChange.next(entityId); $event.stopPropagation()"
       >
@@ -25,8 +25,8 @@ import {DfxTr} from 'dfx-translate';
         type="button"
         class="btn btn-sm btn-primary"
         container="body"
-        [attr.aria-label]="'CLEAR_SELECTION' | tr"
-        [ngbTooltip]="'CLEAR_SELECTION' | tr"
+        [attr.aria-label]="'CLEAR_SELECTION' | transloco"
+        [ngbTooltip]="'CLEAR_SELECTION' | transloco"
         [placement]="placement"
         (click)="selectedChange.next(undefined); $event.stopPropagation()"
       >
@@ -37,7 +37,7 @@ import {DfxTr} from 'dfx-translate';
   selector: 'selectable-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [DfxTr, BiComponent, NgbTooltipModule],
+  imports: [TranslocoPipe, BiComponent, NgbTooltipModule],
 })
 export class AppSelectableBtnComponent {
   @Input({required: true}) entityId!: number;

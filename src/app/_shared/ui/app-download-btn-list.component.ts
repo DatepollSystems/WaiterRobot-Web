@@ -4,10 +4,10 @@ import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 import {QrCodeService} from '@home-shared/services/qr-code.service';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {a_shuffle} from 'dfts-helper';
 import {BiComponent, BiName, BiNamesEnum} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 import {CopyDirective} from './copy.directive';
 
 export interface appDownload {
@@ -40,8 +40,8 @@ export interface appDownload {
             type="button"
             class="btn btn-outline-info"
             placement="top"
-            [attr.aria-label]="'ABOUT_APP_QR_CODE_TOOLTIP' | tr"
-            [ngbTooltip]="'ABOUT_APP_QR_CODE_TOOLTIP' | tr"
+            [attr.aria-label]="'ABOUT_APP_QR_CODE_TOOLTIP' | transloco"
+            [ngbTooltip]="'ABOUT_APP_QR_CODE_TOOLTIP' | transloco"
             (click)="showQRCode(appLink)"
           >
             <bi name="upc-scan" />
@@ -58,7 +58,7 @@ export interface appDownload {
           triggers="manual"
           placement="bottom"
           [copyable]="appLink.link"
-          [ngbTooltip]="'COPIED' | tr"
+          [ngbTooltip]="'COPIED' | transloco"
           (click)="c.copy(t)"
         >
           <bi name="clipboard" />
@@ -84,7 +84,7 @@ export interface appDownload {
   selector: 'app-download-btn-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgbTooltipModule, BiComponent, CopyDirective, NgOptimizedImage, DfxTr],
+  imports: [NgbTooltipModule, BiComponent, CopyDirective, NgOptimizedImage, TranslocoPipe],
 })
 export class AppDownloadBtnListComponent {
   appDownloadLinks: appDownload[] = a_shuffle([

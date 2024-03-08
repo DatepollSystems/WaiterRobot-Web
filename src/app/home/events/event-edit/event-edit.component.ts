@@ -18,8 +18,8 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
   template: `
     @if (entity(); as entity) {
       <div class="d-flex flex-column gap-2">
-        <h1 *isEditing="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
-        <h1 *isCreating="entity">{{ 'ADD_2' | tr }}</h1>
+        <h1 *isEditing="entity">{{ 'EDIT_2' | transloco }} {{ entity.name }}</h1>
+        <h1 *isCreating="entity">{{ 'ADD_2' | transloco }}</h1>
 
         <scrollable-toolbar>
           <back-button />
@@ -29,7 +29,7 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
               <div>
                 <button type="button" class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
                   <bi name="trash" />
-                  {{ 'DELETE' | tr }}
+                  {{ 'DELETE' | transloco }}
                 </button>
               </div>
             }

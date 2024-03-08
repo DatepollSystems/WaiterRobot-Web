@@ -1,20 +1,20 @@
 import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, effect, inject} from '@angular/core';
+import {takeUntilDestroyed, toObservable, toSignal} from '@angular/core/rxjs-interop';
 import {AbstractControl, FormControl, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 
 import {injectIdParam$} from '@home-shared/services/injectActivatedRouteIdParam';
+import {MyUserService} from '@home-shared/services/user/my-user.service';
 
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+import {AppSpinnerRowComponent} from '@shared/ui/loading/app-spinner-row.component';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 import {combineLatest, debounceTime, distinctUntilChanged, map, Observable, OperatorFunction} from 'rxjs';
 import {OrganisationsSettingsService} from '../_services/organisations-settings.service';
-import {takeUntilDestroyed, toObservable, toSignal} from '@angular/core/rxjs-interop';
-import {AppSpinnerRowComponent} from '@shared/ui/loading/app-spinner-row.component';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {MyUserService} from '@home-shared/services/user/my-user.service';
 
 @Component({
   template: `
@@ -35,12 +35,12 @@ import {MyUserService} from '@home-shared/services/user/my-user.service';
                 (change)="setActivateWaiterOnLoginViaCreateToken($event)"
               />
               <label class="form-check-label" for="activateWaiterOnSignInViaCreateToken">
-                {{ 'HOME_ORGS_SETTINGS_ACTIVATE_WAITER_ON_SIGN_IN_VIA_CREATE_TOKEN' | tr }}</label
+                {{ 'HOME_ORGS_SETTINGS_ACTIVATE_WAITER_ON_SIGN_IN_VIA_CREATE_TOKEN' | transloco }}</label
               >
             </div>
 
             <div class="form-group col-12 col-md-10 col-lg-8 col-xl-6">
-              <label for="timezone">{{ 'HOME_ORGS_SETTINGS_TIMEZONE' | tr }}</label>
+              <label for="timezone">{{ 'HOME_ORGS_SETTINGS_TIMEZONE' | transloco }}</label>
               <div class="input-group">
                 <span class="input-group-text" id="timezone-addon"><bi name="clock" /></span>
                 <input
@@ -62,7 +62,7 @@ import {MyUserService} from '@home-shared/services/user/my-user.service';
                   "
                   (click)="setTimeZone()"
                 >
-                  {{ 'SAVE' | tr }}
+                  {{ 'SAVE' | transloco }}
                 </button>
               </div>
               <div>
@@ -71,14 +71,14 @@ import {MyUserService} from '@home-shared/services/user/my-user.service';
                   !timeZoneFormControl.errors?.invalidTimeZone
                 ) {
                   <small class="text-warning">
-                    {{ 'UNSAVED_DATA' | tr }}
+                    {{ 'UNSAVED_DATA' | transloco }}
                   </small>
                 }
               </div>
               <div>
                 @if (timeZoneFormControl.errors?.invalidTimeZone) {
                   <small class="text-danger">
-                    {{ 'HOME_ORGS_SETTINGS_TIMEZONE_INVALID' | tr }}
+                    {{ 'HOME_ORGS_SETTINGS_TIMEZONE_INVALID' | transloco }}
                   </small>
                 }
               </div>
@@ -98,7 +98,7 @@ import {MyUserService} from '@home-shared/services/user/my-user.service';
                   [checked]="organisationSettingsState().settings!.stripeEnabled"
                   (change)="setStripeEnabled($event)"
                 />
-                <label class="form-check-label" for="stripeEnabled"> {{ 'Stripe Enabled' | tr }}</label>
+                <label class="form-check-label" for="stripeEnabled"> {{ 'Stripe Enabled' | transloco }}</label>
               </div>
             </div>
           }
@@ -112,7 +112,7 @@ import {MyUserService} from '@home-shared/services/user/my-user.service';
   selector: 'app-organisation-edit-settings',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, BiComponent, DfxTr, AsyncPipe, NgbTypeahead, AppSpinnerRowComponent, AppProgressBarComponent],
+  imports: [ReactiveFormsModule, BiComponent, TranslocoPipe, AsyncPipe, NgbTypeahead, AppSpinnerRowComponent, AppProgressBarComponent],
 })
 export class OrganisationEditSettingsComponent {
   organisationSettingsState = inject(OrganisationsSettingsService).state;

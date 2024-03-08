@@ -2,9 +2,9 @@ import {NgClass} from '@angular/common';
 import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, Output, signal} from '@angular/core';
 
 import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 import {AppIsLightColorPipe} from './app-is-light-color.pipe';
 
@@ -30,7 +30,7 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
         [ngbPopover]="popContent"
         (click)="showColorPicker.set(!showColorPicker())"
       >
-        {{ 'COLOR_PICKER' | tr }}
+        {{ 'COLOR_PICKER' | transloco }}
       </button>
 
       <button
@@ -39,7 +39,7 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
         [disabled]="disabled"
         (click)="color = undefined; colorChange.emit(undefined)"
       >
-        <bi name="x-circle-fill" [ngbTooltip]="'RESET' | tr" />
+        <bi name="x-circle-fill" [ngbTooltip]="'RESET' | transloco" />
       </button>
     </div>
 
@@ -65,7 +65,7 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
   standalone: true,
   selector: 'app-color-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DfxTr, BiComponent, NgbPopover, NgClass, AppIsLightColorPipe, NgbTooltip],
+  imports: [TranslocoPipe, BiComponent, NgbPopover, NgClass, AppIsLightColorPipe, NgbTooltip],
 })
 export class AppColorPicker {
   @Input() color?: string | null;

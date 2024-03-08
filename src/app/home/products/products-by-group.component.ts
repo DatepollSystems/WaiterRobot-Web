@@ -5,6 +5,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {AppSpinnerRowComponent} from '@shared/ui/loading/app-spinner-row.component';
@@ -13,7 +14,6 @@ import {GetProductGroupResponse, GetProductMaxResponse} from '@shared/waiterrobo
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
 import {DfxArrayPluck, DfxCurrencyCentPipe, DfxImplodePipe} from 'dfx-helper';
-import {DfxTr} from 'dfx-translate';
 import {AppTextWithColorIndicatorComponent} from '../_shared/components/color/app-text-with-color-indicator.component';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {AppOrderModeSwitchComponent} from '../_shared/form/app-order-mode-switch.component';
@@ -30,27 +30,27 @@ import {ProductsService} from './_services/products.service';
       @if (entity$ | async; as entity) {
         <entities-header-with-placeholder-layout [loading]="entityLoading()">
           <app-text-with-color-indicator placement="right" [color]="entity.color" [size]="30">
-            <h1 class="mb-0">{{ 'HOME_PROD_GROUP_PRODUCTS_VIEW' | tr }} {{ entity.name }}</h1>
+            <h1 class="mb-0">{{ 'HOME_PROD_GROUP_PRODUCTS_VIEW' | transloco }} {{ entity.name }}</h1>
           </app-text-with-color-indicator>
 
           <scrollable-toolbar>
             <div>
               <a routerLink="../../../create" class="btn btn-sm btn-success" [queryParams]="{group: entity.id}">
                 <bi name="plus-circle" />
-                {{ 'HOME_PROD' | tr }} {{ 'ADD_3' | tr | lowercase }}</a
+                {{ 'HOME_PROD' | transloco }} {{ 'ADD_3' | transloco | lowercase }}</a
               >
             </div>
             <div>
               <a class="btn btn-sm btn-primary" [routerLink]="'../../' + entity.id">
                 <bi name="pencil-square" />
-                {{ 'HOME_PROD_GROUP' | tr }} {{ 'EDIT' | tr | lowercase }}</a
+                {{ 'HOME_PROD_GROUP' | transloco }} {{ 'EDIT' | transloco | lowercase }}</a
               >
             </div>
 
-            <div [ngbTooltip]="!selection.hasValue() ? ('HOME_PROD_SELECT_INFO' | tr) : undefined">
+            <div [ngbTooltip]="!selection.hasValue() ? ('HOME_PROD_SELECT_INFO' | transloco) : undefined">
               <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
                 <bi name="trash" />
-                {{ 'DELETE' | tr }}
+                {{ 'DELETE' | transloco }}
               </button>
             </div>
 
@@ -62,13 +62,13 @@ import {ProductsService} from './_services/products.service';
 
         <form>
           <div class="input-group">
-            <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | tr" />
+            <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
             @if ((filter.value?.length ?? 0) > 0) {
               <button
                 class="btn btn-outline-secondary"
                 type="button"
                 placement="bottom"
-                [ngbTooltip]="'CLEAR' | tr"
+                [ngbTooltip]="'CLEAR' | transloco"
                 (click)="filter.reset()"
               >
                 <bi name="x-circle-fill" />
@@ -128,22 +128,22 @@ import {ProductsService} from './_services/products.service';
               </ng-container>
 
               <ng-container ngbColumnDef="name">
-                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | tr }}</th>
+                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
                 <td *ngbCellDef="let product" ngb-cell>{{ product.name }}</td>
               </ng-container>
 
               <ng-container ngbColumnDef="price">
-                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'PRICE' | tr }}</th>
+                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'PRICE' | transloco }}</th>
                 <td *ngbCellDef="let product" ngb-cell>{{ product.price | currency }}</td>
               </ng-container>
 
               <ng-container ngbColumnDef="soldOut">
-                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_AVAILABLE' | tr }}</th>
+                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_AVAILABLE' | transloco }}</th>
                 <td *ngbCellDef="let product" ngb-cell>{{ product.soldOut | soldOut }}</td>
               </ng-container>
 
               <ng-container ngbColumnDef="initialStock">
-                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_AMOUNT_LEFT' | tr }}</th>
+                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_AMOUNT_LEFT' | transloco }}</th>
                 <td *ngbCellDef="let product" ngb-cell>
                   @if (product.initialStock) {
                     <span>
@@ -154,22 +154,22 @@ import {ProductsService} from './_services/products.service';
               </ng-container>
 
               <ng-container ngbColumnDef="printer">
-                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_PRINTERS' | tr }}</th>
+                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_PRINTERS' | transloco }}</th>
                 <td *ngbCellDef="let product" ngb-cell>{{ product.printer.name }}</td>
               </ng-container>
 
               <ng-container ngbColumnDef="allergens">
-                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_ALLERGENS' | tr }}</th>
+                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_ALLERGENS' | transloco }}</th>
                 <td *ngbCellDef="let product" ngb-cell>{{ product.allergens | a_pluck: 'shortName' | s_implode: ', ' }}</td>
               </ng-container>
 
               <ng-container ngbColumnDef="actions">
-                <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+                <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
                 <td *ngbCellDef="let product" ngb-cell>
                   <a
                     class="btn btn-sm mx-1 btn-outline-success text-body-emphasis"
                     [routerLink]="'../../../' + product.id"
-                    [ngbTooltip]="'EDIT' | tr"
+                    [ngbTooltip]="'EDIT' | transloco"
                   >
                     <bi name="pencil-square" />
                   </a>
@@ -177,7 +177,7 @@ import {ProductsService} from './_services/products.service';
                     class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
                     routerLink="../../../../orders"
                     [queryParams]="{productIds: product.id}"
-                    [ngbTooltip]="'NAV_ORDERS' | tr"
+                    [ngbTooltip]="'NAV_ORDERS' | transloco"
                     (click)="$event.stopPropagation()"
                   >
                     <bi name="stack" />
@@ -186,7 +186,7 @@ import {ProductsService} from './_services/products.service';
                     class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
                     routerLink="../../../../bills"
                     [queryParams]="{productIds: product.id}"
-                    [ngbTooltip]="'NAV_BILLS' | tr"
+                    [ngbTooltip]="'NAV_BILLS' | transloco"
                     (click)="$event.stopPropagation()"
                   >
                     <bi name="cash-coin" />
@@ -194,7 +194,7 @@ import {ProductsService} from './_services/products.service';
                   <button
                     type="button"
                     class="btn btn-sm mx-1 btn-outline-danger text-body-emphasis"
-                    [ngbTooltip]="'DELETE' | tr"
+                    [ngbTooltip]="'DELETE' | transloco"
                     (click)="onDelete(product.id, $event)"
                   >
                     <bi name="trash" />
@@ -232,7 +232,7 @@ import {ProductsService} from './_services/products.service';
     CdkDrag,
     CdkDragHandle,
     NgbTooltip,
-    DfxTr,
+    TranslocoPipe,
     DfxTableModule,
     DfxSortModule,
     DfxImplodePipe,

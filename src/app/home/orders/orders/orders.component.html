@@ -1,6 +1,6 @@
 <div class="d-flex flex-column gap-3">
   <div class="d-flex align-items-center justify-content-between">
-    <h1 class="my-0">{{ 'NAV_ORDERS' | tr }}</h1>
+    <h1 class="my-0">{{ 'NAV_ORDERS' | transloco }}</h1>
 
     <div class="d-inline-flex gap-2 me-2">
       <app-order-refresh-btn [loading]="pagination.loading()" />
@@ -22,20 +22,20 @@
     <div>
       <button type="button" class="btn btn-sm btn-info" (click)="exportCsv()">
         <bi name="filetype-csv" />
-        {{ 'EXPORT' | tr }}
+        {{ 'EXPORT' | transloco }}
       </button>
     </div>
 
     <div>
       <button type="button" class="btn btn-sm btn-warning" [class.disabled]="!selection.hasValue()" (click)="requeueOrders()">
         <bi name="printer" />
-        {{ 'HOME_ORDER_REQUEUE' | tr }}
+        {{ 'HOME_ORDER_REQUEUE' | transloco }}
       </button>
     </div>
     <div>
       <button type="button" class="btn btn-sm btn-warning" ngbTooltip="Beinhaltet alle Produkte" (click)="printAllTest()">
         <bi name="bug" />
-        {{ 'Testbestellung aufgeben' | tr }}
+        {{ 'Testbestellung aufgeben' | transloco }}
       </button>
     </div>
   </scrollable-toolbar>
@@ -55,7 +55,7 @@
           formControlName="tableGroupIds"
           clearAllText="Clear"
           [items]="tableGroups()"
-          [placeholder]="'HOME_TABLE_GROUP_SELECT' | tr"
+          [placeholder]="'HOME_TABLE_GROUP_SELECT' | transloco"
           [multiple]="true"
         />
       </div>
@@ -66,7 +66,7 @@
           clearAllText="Clear"
           [items]="tables()"
           [searchFn]="customTableSearch"
-          [placeholder]="'HOME_TABLE_SELECT' | tr"
+          [placeholder]="'HOME_TABLE_SELECT' | transloco"
           [multiple]="true"
         >
           <ng-template let-item="item" let-clear="clear" ng-label-tmp>
@@ -86,7 +86,7 @@
           formControlName="productGroupIds"
           clearAllText="Clear"
           [items]="productGroups()"
-          [placeholder]="'HOME_PROD_GROUPS_SELECT' | tr"
+          [placeholder]="'HOME_PROD_GROUPS_SELECT' | transloco"
           [multiple]="true"
         />
       </div>
@@ -98,7 +98,7 @@
           formControlName="productIds"
           clearAllText="Clear"
           [items]="products()"
-          [placeholder]="'HOME_PROD_SELECT' | tr"
+          [placeholder]="'HOME_PROD_SELECT' | transloco"
           [multiple]="true"
         />
       </div>
@@ -110,7 +110,7 @@
           formControlName="waiterIds"
           clearAllText="Clear"
           [items]="waiters()"
-          [placeholder]="'HOME_WAITERS_SELECT' | tr"
+          [placeholder]="'HOME_WAITERS_SELECT' | transloco"
           [multiple]="true"
         />
       </div>
@@ -123,7 +123,7 @@
           (click)="filter.form.reset()"
         >
           <bi name="x-circle-fill" />
-          {{'DELETE_ALL' | tr}} @if (filter.count() !== 0) {
+          {{'DELETE_ALL' | transloco}} @if (filter.count() !== 0) {
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
             {{ filter.count() }}
             <span class="visually-hidden">selected filters</span>
@@ -161,12 +161,12 @@
       </ng-container>
 
       <ng-container ngbColumnDef="orderNumber">
-        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_NUMBER' | tr }}</th>
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_NUMBER' | transloco }}</th>
         <td *ngbCellDef="let order" ngb-cell>{{ order.orderNumber }}</td>
       </ng-container>
 
       <ng-container ngbColumnDef="table.tableGroup.name">
-        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_ORDER_TABLE' | tr }}</th>
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_ORDER_TABLE' | transloco }}</th>
         <td *ngbCellDef="let order" ngb-cell>
           <a [routerLink]="'../../tables/groups/tables/' + order.table.group.id" (click)="$event.stopPropagation()"
             >{{ order.table.group.name }}</a
@@ -176,14 +176,14 @@
       </ng-container>
 
       <ng-container ngbColumnDef="waiter.name">
-        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_WAITERS_NAV_ORGANISATION' | tr }}</th>
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_WAITERS_NAV_ORGANISATION' | transloco }}</th>
         <td *ngbCellDef="let order" ngb-cell>
           <a [routerLink]="'../../waiters/' + order.waiter.id" (click)="$event.stopPropagation()">{{ order.waiter.name }}</a>
         </td>
       </ng-container>
 
       <ng-container ngbColumnDef="state">
-        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | tr }}</th>
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | transloco }}</th>
         <td *ngbCellDef="let order" ngb-cell>
           <div class="d-flex align-items-center gap-2">
             <app-order-state-badge
@@ -201,18 +201,18 @@
       </ng-container>
 
       <ng-container ngbColumnDef="createdAt">
-        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_CREATED_AT' | tr }}</th>
+        <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_CREATED_AT' | transloco }}</th>
         <td *ngbCellDef="let order" ngb-cell>{{ order.createdAt | date: 'dd.MM.yy HH:mm:ss' }}</td>
       </ng-container>
 
       <ng-container ngbColumnDef="actions">
-        <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | tr }}</th>
+        <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
         <td *ngbCellDef="let order" ngb-cell>
           <a
             class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"
             placement="left"
             [routerLink]="'../' + order.id"
-            [ngbTooltip]="'OPEN' | tr"
+            [ngbTooltip]="'OPEN' | transloco"
           >
             <bi name="arrow-up-right-square-fill" />
           </a>
@@ -220,7 +220,7 @@
             type="button"
             class="btn btn-sm m-1 btn-warning"
             placement="bottom"
-            [ngbTooltip]="'HOME_ORDER_REQUEUE' | tr"
+            [ngbTooltip]="'HOME_ORDER_REQUEUE' | transloco"
             (click)="$event.stopPropagation(); requeueOrder(order)"
           >
             <bi name="printer" />
@@ -236,7 +236,7 @@
   <app-progress-bar [show]="pagination.loading()" />
 
   @if (!pagination.loading() && dataSource().length < 1) {
-  <div class="w-100 text-center mt-2">{{ 'HOME_STATISTICS_NO_DATA' | tr }}</div>
+  <div class="w-100 text-center mt-2">{{ 'HOME_STATISTICS_NO_DATA' | transloco }}</div>
   }
 
   <ngb-paginator

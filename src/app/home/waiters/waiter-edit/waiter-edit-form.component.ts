@@ -6,12 +6,12 @@ import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.com
 import {allowedCharacterSet} from '@home-shared/regex';
 
 import {NgSelectModule} from '@ng-select/ng-select';
+import {TranslocoPipe} from '@ngneat/transloco';
 import {injectIsValid} from '@shared/form';
 import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, UpdateWaiterDto} from '@shared/waiterrobot-backend';
 
 import {HasNumberIDAndName} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
 
 @Component({
   template: `
@@ -20,18 +20,18 @@ import {DfxTr} from 'dfx-translate';
     <form #formRef class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="submit()">
       <div class="row g-3">
         <div class="form-group col-sm-12 col-md-4 col-lg-5 col-xl-6">
-          <label for="name">{{ 'NAME' | tr }}</label>
-          <input class="form-control" type="text" id="name" formControlName="name" [placeholder]="'NAME' | tr" />
+          <label for="name">{{ 'NAME' | transloco }}</label>
+          <input class="form-control" type="text" id="name" formControlName="name" [placeholder]="'NAME' | transloco" />
 
           @if (form.controls.name.invalid) {
             <small class="text-danger">
-              {{ 'HOME_WAITERS_EDIT_NAME_INCORRECT' | tr }}
+              {{ 'HOME_WAITERS_EDIT_NAME_INCORRECT' | transloco }}
             </small>
           }
         </div>
 
         <div class="form-group col-sm-12 col-md-8 col-lg-7 col-xl-6">
-          <label for="eventSelect">{{ 'HOME_WAITERS_EDIT_EVENTS' | tr }}</label>
+          <label for="eventSelect">{{ 'HOME_WAITERS_EDIT_EVENTS' | transloco }}</label>
           <ng-select
             bindLabel="name"
             bindValue="id"
@@ -40,7 +40,7 @@ import {DfxTr} from 'dfx-translate';
             formControlName="eventIds"
             [items]="events"
             [multiple]="true"
-            [placeholder]="'HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER' | tr"
+            [placeholder]="'HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER' | transloco"
           />
         </div>
       </div>
@@ -49,7 +49,7 @@ import {DfxTr} from 'dfx-translate';
         <div class="form-check form-switch">
           <input class="form-check-input" type="checkbox" id="activated" formControlName="activated" />
           <label class="form-check-label" for="activated">
-            {{ 'HOME_USERS_ACTIVATED' | tr }}
+            {{ 'HOME_USERS_ACTIVATED' | transloco }}
           </label>
         </div>
       </div>
@@ -58,7 +58,7 @@ import {DfxTr} from 'dfx-translate';
     </form>
   `,
   selector: 'app-waiter-edit-form',
-  imports: [ReactiveFormsModule, DfxTr, BiComponent, NgSelectModule, AppModelEditSaveBtn],
+  imports: [ReactiveFormsModule, TranslocoPipe, BiComponent, NgSelectModule, AppModelEditSaveBtn],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

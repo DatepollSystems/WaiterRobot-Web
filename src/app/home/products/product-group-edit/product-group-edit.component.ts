@@ -19,9 +19,9 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
   template: `
     @if (entity(); as entity) {
       <div class="d-flex flex-column gap-2">
-        <h1 *isCreating="entity">{{ 'HOME_PROD_GROUPS_ADD' | tr }}</h1>
-        <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | tr }} {{ entity.name }}</h1>
-        <h1 *isEditingAndDeleted="entity">{{ entity.name }} {{ 'DELETED' | tr }}</h1>
+        <h1 *isCreating="entity">{{ 'HOME_PROD_GROUPS_ADD' | transloco }}</h1>
+        <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | transloco }} {{ entity.name }}</h1>
+        <h1 *isEditingAndDeleted="entity">{{ entity.name }} {{ 'DELETED' | transloco }}</h1>
 
         <scrollable-toolbar>
           <back-button />
@@ -30,27 +30,27 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
             <div>
               <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
                 <bi name="trash" />
-                {{ 'DELETE' | tr }}
+                {{ 'DELETE' | transloco }}
               </button>
             </div>
 
             <div>
               <a class="btn btn-sm btn-primary" [routerLink]="'../products/' + entity.id">
                 <bi name="columns-gap" />
-                {{ 'HOME_PROD_GROUP_SHOW_TABLES' | tr }}</a
+                {{ 'HOME_PROD_GROUP_SHOW_TABLES' | transloco }}</a
               >
             </div>
 
             <div>
               <a class="btn btn-sm btn-secondary" routerLink="../../../orders" [queryParams]="{productGroupIds: entity.id}">
                 <bi name="stack" />
-                {{ 'NAV_ORDERS' | tr }}
+                {{ 'NAV_ORDERS' | transloco }}
               </a>
             </div>
             <div>
               <a class="btn btn-sm btn-secondary" routerLink="../../../bills" [queryParams]="{productGroupIds: entity.id}">
                 <bi name="cash-coin" />
-                {{ 'NAV_BILLS' | tr }}
+                {{ 'NAV_BILLS' | transloco }}
               </a>
             </div>
           </ng-container>

@@ -9,7 +9,7 @@ import {SystemInfoShowService} from '@shared/services/system-info.service';
 import {AppDownloadBtnListComponent} from '@shared/ui/app-download-btn-list.component';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxTr} from 'dfx-translate';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {catchError, filter, of} from 'rxjs';
 import {MyUserService} from '../_shared/services/user/my-user.service';
@@ -19,7 +19,7 @@ import {MyUserService} from '../_shared/services/user/my-user.service';
   templateUrl: './start.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [RouterLink, DfxTr, AppDownloadBtnListComponent, BiComponent, AsyncPipe],
+  imports: [RouterLink, TranslocoPipe, AppDownloadBtnListComponent, BiComponent, AsyncPipe],
 })
 export class StartComponent {
   isProduction = EnvironmentHelper.getProduction();

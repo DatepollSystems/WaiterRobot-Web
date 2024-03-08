@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 
-import {DfxTr} from 'dfx-translate';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 @Component({
   template: `
-    <h2>{{ 'ABOUT_PRIVACY_POLICY' | tr }}</h2>
+    <h2>{{ 'ABOUT_PRIVACY_POLICY' | transloco }}</h2>
 
     <br />
 
@@ -79,7 +79,7 @@ import {DfxTr} from 'dfx-translate';
   `,
   selector: 'app-privacy-policy',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DfxTr],
+  imports: [TranslocoPipe],
   standalone: true,
 })
 export class PrivacyPolicyComponent {}
