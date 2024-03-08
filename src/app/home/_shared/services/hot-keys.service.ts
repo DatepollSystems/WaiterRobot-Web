@@ -5,7 +5,7 @@ import {EventManager} from '@angular/platform-browser';
 import {Observable} from 'rxjs';
 
 interface Options {
-  element: any;
+  element: unknown;
   keys: string;
 }
 
@@ -29,12 +29,7 @@ export class Hotkeys {
         observer.next(e);
       };
 
-      const dispose = this.#eventManager.addEventListener(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        merged.element,
-        event,
-        handler,
-      );
+      const dispose = this.#eventManager.addEventListener(merged.element as HTMLElement, event, handler);
 
       return () => {
         dispose();

@@ -22,7 +22,7 @@ import {jsPDF} from 'jspdf';
     <div class="modal-body d-flex flex-column gap-3">
       <scrollable-toolbar>
         <div>
-          <button type="button" class="btn btn-sm btn-primary" [class.spinner]="generating" [disabled]="generating" (click)="pdf()">
+          <button type="button" class="btn btn-sm btn-primary" [class.btnSpinner]="generating" [disabled]="generating" (click)="pdf()">
             <bi name="printer" />
             {{ 'HOME_TABLE_PRINT_GENERATE' | tr }}
           </button>

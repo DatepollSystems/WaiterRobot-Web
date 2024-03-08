@@ -10,13 +10,12 @@ import {GetProductMaxResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxArrayPluck, DfxImplodePipe} from 'dfx-helper';
+import {DfxArrayPluck, DfxCurrencyCentPipe, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {AppTextWithColorIndicatorComponent} from '../_shared/components/color/app-text-with-color-indicator.component';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '../_shared/list/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
 import {AppSoldOutPipe} from '../_shared/pipes/app-sold-out.pipe';
-import {DfxCurrencyCentPipe} from '../_shared/pipes/currency.pipe';
 import {ProductsService} from './_services/products.service';
 
 @Component({

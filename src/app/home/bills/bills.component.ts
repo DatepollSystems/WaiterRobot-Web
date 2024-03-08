@@ -17,12 +17,11 @@ import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 import {loggerOf} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
-import {injectIsMobile} from 'dfx-helper';
+import {DfxCurrencyCentPipe, injectIsMobile} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {computedFrom} from 'ngxtension/computed-from';
 
 import {debounceTime, map, merge, Observable, pipe, switchMap, tap} from 'rxjs';
-import {DfxCurrencyCentPipe} from 'src/app/home/_shared/pipes/currency.pipe';
 
 import {ProductGroupsService} from '../products/_services/product-groups.service';
 import {ProductsService} from '../products/_services/products.service';

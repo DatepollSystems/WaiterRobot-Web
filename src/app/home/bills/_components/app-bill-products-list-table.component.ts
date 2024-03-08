@@ -1,12 +1,11 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, Input, signal, ViewChild} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
-import {DfxCurrencyCentPipe} from '@home-shared/pipes/currency.pipe';
-
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {GetImplodedBillProductResponse} from '@shared/waiterrobot-backend';
 
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
+import {DfxCurrencyCentPipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 @Component({

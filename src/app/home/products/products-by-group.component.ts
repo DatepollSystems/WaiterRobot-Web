@@ -12,7 +12,7 @@ import {GetProductGroupResponse, GetProductMaxResponse} from '@shared/waiterrobo
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxArrayPluck, DfxImplodePipe} from 'dfx-helper';
+import {DfxArrayPluck, DfxCurrencyCentPipe, DfxImplodePipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 import {AppTextWithColorIndicatorComponent} from '../_shared/components/color/app-text-with-color-indicator.component';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
@@ -21,7 +21,6 @@ import {EntitiesHeaderWithPlaceholderLayout} from '../_shared/layouts/entities-h
 import {AbstractModelsWithNameListByIdComponent} from '../_shared/list/models-list-by-id/abstract-models-with-name-list-by-id.component';
 import {AbstractModelsWithNameListWithDeleteAndOrderStyle} from '../_shared/list/models-list-with-delete/abstract-models-with-name-list-with-delete-and-order.component';
 import {AppSoldOutPipe} from '../_shared/pipes/app-sold-out.pipe';
-import {DfxCurrencyCentPipe} from '../_shared/pipes/currency.pipe';
 import {ProductGroupsService} from './_services/product-groups.service';
 import {ProductsService} from './_services/products.service';
 

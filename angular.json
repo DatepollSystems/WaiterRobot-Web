@@ -34,7 +34,6 @@
             "styles": [
               "src/styles.scss",
               "node_modules/dfx-helper/styles/helper.scss",
-              "node_modules/dfx-helper/styles/colors.scss",
               "node_modules/dfx-helper/styles/transform.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],

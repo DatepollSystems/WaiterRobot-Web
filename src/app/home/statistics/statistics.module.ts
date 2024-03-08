@@ -9,8 +9,9 @@ import {BarChartModule, LineChartModule, PieChartModule} from '@swimlane/ngx-cha
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxCountUp, DfxPrint} from 'dfx-helper';
+import {DfxCountUp} from 'dfx-helper';
 import {DfxTranslateModule} from 'dfx-translate';
+import {NgxPrintDirective} from 'ngx-print';
 
 import {AppBackButtonComponent} from '../_shared/components/button/app-back-button.component';
 import {AppDatetimeInputComponent} from '../_shared/components/datetime-picker/datetime-picker.component';
@@ -54,7 +55,7 @@ const routes: Routes = [
     CommonModule,
     DfxCountUp,
     DfxPaginationModule,
-    DfxPrint,
+    NgxPrintDirective,
     DfxSortModule,
     DfxTableModule,
     DfxTranslateModule,

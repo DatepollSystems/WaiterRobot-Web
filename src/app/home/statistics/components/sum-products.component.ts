@@ -11,7 +11,7 @@ import {StatisticsService} from '../statistics.service';
           <scrollable-toolbar>
             <back-button />
             <div>
-              <button type="button" class="btn btn-primary btn-sm" print printSectionId="chart">
+              <button type="button" class="btn btn-primary btn-sm" ngxPrint printSectionId="chart">
                 <bi name="printer" />
                 {{ 'PRINT' | tr }}
               </button>

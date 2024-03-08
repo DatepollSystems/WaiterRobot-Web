@@ -12,7 +12,7 @@ import {OrganisationsStripeService} from '../../_services/organisations-stripe.s
     <button
       type="button"
       class="btn btn-sm d-inline-flex gap-2 align-items-center justify-content-between"
-      [class.spinner]="loading()"
+      [class.btnSpinner]="loading()"
       [disabled]="loading()"
       [class.btn-primary]="state() === 'ACTIVE'"
       [class.btn-warning]="state() === 'ONBOARDING'"

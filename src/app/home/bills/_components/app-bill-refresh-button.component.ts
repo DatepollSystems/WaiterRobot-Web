@@ -13,7 +13,7 @@ import {BillsService} from '../_services/bills.service';
       type="button"
       class="btn btn-outline-secondary d-flex align-items-center gap-2"
       placement="left"
-      [class.spinner]="loading"
+      [class.btnSpinner]="loading"
       [ngbTooltip]="'HOME_ORDER_REFRESH_NOW' | tr"
       (click)="billsService.triggerRefresh.next(true)"
     >

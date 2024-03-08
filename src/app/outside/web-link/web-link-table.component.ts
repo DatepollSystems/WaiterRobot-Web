@@ -3,11 +3,11 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {AppBackDirective} from '@home-shared/components/button/app-back-button.component';
-import {DfxCurrencyCentPipe} from '@home-shared/pipes/currency.pipe';
 
 import {GetOpenBillResponse, GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxCurrencyCentPipe} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {filterNil} from 'ngxtension/filter-nil';
