@@ -12,7 +12,7 @@ import {FooterComponent} from './footer.component';
 
 @NgModule({
   declarations: [AboutModalComponent, FooterComponent],
-  imports: [AsyncPipe, TranslocoPipe, FormsModule, LowerCasePipe, NgbNavModule, NgOptimizedImage, RouterLink],
+  imports: [AsyncPipe, FormsModule, LowerCasePipe, NgbNavModule, NgOptimizedImage, RouterLink, TranslocoPipe],
   exports: [FooterComponent],
 })
 export class FooterModule {}
