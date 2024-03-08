@@ -15,7 +15,6 @@ import {
 import {AbstractControl, FormBuilder, FormGroup, ɵFormGroupValue} from '@angular/forms';
 
 import {loggerOf} from 'dfts-helper';
-import {AComponent} from 'dfx-helper';
 
 const focuses = ['input', 'select', 'textarea'];
 
@@ -24,7 +23,7 @@ const focuses = ['input', 'select', 'textarea'];
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOType> extends AComponent implements AfterViewInit {
+export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOType> implements AfterViewInit {
   lumber = loggerOf('AModelEditForm');
 
   fb = inject(FormBuilder);

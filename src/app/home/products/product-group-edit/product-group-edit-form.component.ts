@@ -13,6 +13,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxTr} from 'dfx-translate';
 
 import {startWith} from 'rxjs';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   template: `
@@ -104,15 +105,13 @@ export class ProductGroupEditFormComponent extends AbstractModelEditFormComponen
 
   constructor() {
     super();
-    this.unsubscribe(
-      this.form.controls.updatePrinterId.valueChanges.pipe(startWith(false)).subscribe((value) => {
-        if (value) {
-          this.form.controls.printerId.enable();
-        } else {
-          this.form.controls.printerId.disable();
-        }
-      }),
-    );
+    this.form.controls.updatePrinterId.valueChanges.pipe(takeUntilDestroyed(), startWith(false)).subscribe((value) => {
+      if (value) {
+        this.form.controls.printerId.enable();
+      } else {
+        this.form.controls.printerId.disable();
+      }
+    });
   }
 
   @Input()

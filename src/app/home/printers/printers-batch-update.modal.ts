@@ -1,12 +1,11 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {toSignal} from '@angular/core/rxjs-interop';
+import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {injectIsValid} from '@shared/form';
 
 import {n_from, s_from} from 'dfts-helper';
-import {AComponent} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
 import {PrintersService} from './_services/printers.service';
@@ -177,7 +176,7 @@ import {PrintersService} from './_services/printers.service';
   imports: [DfxTr, ReactiveFormsModule],
   standalone: true,
 })
-export class PrintersBatchUpdateModal extends AComponent {
+export class PrintersBatchUpdateModal {
   fb = inject(FormBuilder);
   printersService = inject(PrintersService);
 
@@ -199,31 +198,27 @@ export class PrintersBatchUpdateModal extends AComponent {
   isValid = injectIsValid(this.form);
 
   constructor(public activeModal: NgbActiveModal) {
-    super();
-
     this.form.controls.fontScale.disable();
     this.form.controls.font.disable();
     this.form.controls.bonWidth.disable();
     this.form.controls.bonPadding.disable();
     this.form.controls.bonPaddingTop.disable();
 
-    this.unsubscribe(
-      this.form.controls.updateFontScale.valueChanges.subscribe((value) => {
-        this.updateFormControl(this.form.controls.fontScale, value);
-      }),
-      this.form.controls.updateFont.valueChanges.subscribe((value) => {
-        this.updateFormControl(this.form.controls.font, value);
-      }),
-      this.form.controls.updateBonWidth.valueChanges.subscribe((value) => {
-        this.updateFormControl(this.form.controls.bonWidth, value);
-      }),
-      this.form.controls.updateBonPadding.valueChanges.subscribe((value) => {
-        this.updateFormControl(this.form.controls.bonPadding, value);
-      }),
-      this.form.controls.updateBonPaddingTop.valueChanges.subscribe((value) => {
-        this.updateFormControl(this.form.controls.bonPaddingTop, value);
-      }),
-    );
+    this.form.controls.updateFontScale.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+      this.updateFormControl(this.form.controls.fontScale, value);
+    });
+    this.form.controls.updateFont.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+      this.updateFormControl(this.form.controls.font, value);
+    });
+    this.form.controls.updateBonWidth.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+      this.updateFormControl(this.form.controls.bonWidth, value);
+    });
+    this.form.controls.updateBonPadding.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+      this.updateFormControl(this.form.controls.bonPadding, value);
+    });
+    this.form.controls.updateBonPaddingTop.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+      this.updateFormControl(this.form.controls.bonPaddingTop, value);
+    });
   }
 
   updateFormControl(it: FormControl<unknown>, value: boolean): void {

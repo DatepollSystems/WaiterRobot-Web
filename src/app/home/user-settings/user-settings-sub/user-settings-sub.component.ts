@@ -1,22 +1,19 @@
-import {AsyncPipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
 import {FormsModule, NgForm} from '@angular/forms';
 import {MyUserService} from '@home-shared/services/user/my-user.service';
 
 import {NotificationService} from '@shared/notifications/notification.service';
 
 import {s_isEmail} from 'dfts-helper';
-import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
 
-import {BehaviorSubject, map} from 'rxjs';
 import {UserSettingsService} from '../_services/user-settings.service';
 
 @Component({
   selector: 'app-user-settings-sub',
   templateUrl: './user-settings-sub.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, DfxTr, AsyncPipe, NgSub],
+  imports: [FormsModule, DfxTr],
   standalone: true,
 })
 export class UserSettingsSubComponent {
@@ -28,11 +25,12 @@ export class UserSettingsSubComponent {
   newPassword = '';
   newPasswordAgain = '';
 
-  emailAddressValid$ = new BehaviorSubject(true);
-  emailAddress$ = this.#myUserService.getUser$().pipe(map((u) => u.emailAddress));
+  emailAddressValid = signal(true);
+
+  emailAddress = computed(() => this.#myUserService.user()?.emailAddress);
 
   emailChange(email: string): void {
-    this.emailAddressValid$.next(s_isEmail(email));
+    this.emailAddressValid.set(s_isEmail(email));
   }
 
   changeEmail(form: NgForm): void {

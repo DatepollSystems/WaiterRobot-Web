@@ -1,5 +1,4 @@
-import {AsyncPipe, DatePipe} from '@angular/common';
-import {AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, Input, signal, ViewChild} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
 import {DfxCurrencyCentPipe} from '@home-shared/pipes/currency.pipe';
@@ -8,15 +7,12 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {GetImplodedBillProductResponse} from '@shared/waiterrobot-backend';
 
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
-import {NgSub} from 'dfx-helper';
 import {DfxTr} from 'dfx-translate';
-
-import {Subject} from 'rxjs';
 
 @Component({
   template: `
-    <div *ngSub="dataSource$; let dataSource" class="table-responsive">
-      <table ngb-table ngb-sort ngbSortActive="product" ngbSortDirection="asc" [hover]="true" [dataSource]="dataSource">
+    <div class="table-responsive">
+      <table ngb-table ngb-sort ngbSortActive="product" ngbSortDirection="asc" [hover]="true" [dataSource]="dataSource()">
         <ng-container ngbColumnDef="product">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD' | tr }}</th>
           <td *ngbCellDef="let order" ngb-cell>
@@ -59,7 +55,7 @@ import {Subject} from 'rxjs';
   ],
   standalone: true,
   selector: 'app-bill-products-list-table',
-  imports: [DfxSortModule, DfxTableModule, DfxTr, AsyncPipe, DatePipe, RouterLink, NgSub, NgbTooltip, DfxCurrencyCentPipe],
+  imports: [DfxSortModule, DfxTableModule, DfxTr, RouterLink, NgbTooltip, DfxCurrencyCentPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrderProductsListTableComponent implements AfterViewInit {
@@ -69,7 +65,7 @@ export class AppOrderProductsListTableComponent implements AfterViewInit {
   @ViewChild(NgbSort) sort?: NgbSort;
   columnsToDisplay = ['product', 'pricePerPiece', 'priceSum'];
 
-  dataSource$ = new Subject<NgbTableDataSource<GetImplodedBillProductResponse>>();
+  dataSource = signal(new NgbTableDataSource<GetImplodedBillProductResponse>());
 
   ngAfterViewInit(): void {
     const dataSource = new NgbTableDataSource<GetImplodedBillProductResponse>(this.billProducts);
@@ -80,6 +76,6 @@ export class AppOrderProductsListTableComponent implements AfterViewInit {
       }
     };
     dataSource.sort = this.sort;
-    this.dataSource$.next(dataSource);
+    this.dataSource.set(dataSource);
   }
 }
