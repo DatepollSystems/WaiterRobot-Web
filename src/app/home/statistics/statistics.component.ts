@@ -5,8 +5,8 @@ import {StatisticsService} from './statistics.service';
 
 @Component({
   template: `
-    <div class="d-flex gap-3">
-      <h1 class="my-0">{{ 'WHOLE' | transloco }} {{ 'NAV_STATISTICS' | transloco }}</h1>
+    <div class="d-flex gap-3 justify-content-between justify-content-md-start">
+      <h1 class="my-0 d-inline-flex align-items-center">{{ 'WHOLE' | transloco }} {{ 'NAV_STATISTICS' | transloco }}</h1>
       <app-blur-toggle />
     </div>
 
