@@ -87,6 +87,10 @@ a:hover.badge {
   position: relative !important;
 }
 
+.btnSpinner:before {
+  animation: btnSpinner 0.8s linear infinite !important;
+}
+
 .navbar > .my-container {
   display: flex;
   flex-wrap: inherit;
