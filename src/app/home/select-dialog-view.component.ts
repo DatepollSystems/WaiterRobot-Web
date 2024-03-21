@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, effect, EventEmitter, inject, Input, Output} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 
 import {AppSpinnerRowComponent} from '@shared/ui/loading/app-spinner-row.component';
 import {GetEventOrLocationResponse, GetOrganisationResponse} from '@shared/waiterrobot-backend';
@@ -94,7 +94,7 @@ export class AppSelectDialogComponent {
   selector: 'app-select-dialog-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [AppSpinnerRowComponent, AppSelectDialogComponent],
+  imports: [AppSpinnerRowComponent, AppSelectDialogComponent, RouterLink],
 })
 export class SelectDialogViewComponent {
   router = inject(Router);
@@ -118,17 +118,27 @@ export class SelectDialogViewComponent {
           {toReplace: 'eventId', replaceWith: s_from(this.selectedEvent()!.id)},
         );
       }
-      if ((this.allOrganisations()?.length ?? 0) === 1) {
-        const organisationId = this.allOrganisations()![0].id;
-        console.log(`only one org found, selecting ${organisationId}`);
-        this.selectedOrganisationService.setSelected(organisationId);
-      }
-      if ((this.allEvents()?.length ?? 0) === 1) {
-        const eventId = this.allEvents()![0].id;
-        console.log(`only one event found, selecting ${eventId}`);
-        this.selectEvent(eventId);
-      }
     });
+    effect(
+      () => {
+        if ((this.allOrganisations()?.length ?? 0) === 1) {
+          const organisationId = this.allOrganisations()![0].id;
+          console.log(`only one org found, selecting ${organisationId}`);
+          this.selectedOrganisationService.setSelected(organisationId);
+        }
+      },
+      {allowSignalWrites: true},
+    );
+    effect(
+      () => {
+        if ((this.allEvents()?.length ?? 0) === 1) {
+          const eventId = this.allEvents()![0].id;
+          console.log(`only one event found, selecting ${eventId}`);
+          this.selectEvent(eventId);
+        }
+      },
+      {allowSignalWrites: true},
+    );
   }
 
   selectEvent(it: number): void {

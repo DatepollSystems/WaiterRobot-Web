@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
@@ -38,7 +38,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
             labelForId="eventSelect"
             clearAllText="Clear"
             formControlName="eventIds"
-            [items]="events"
+            [items]="events()"
             [multiple]="true"
             [placeholder]="'HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER' | transloco"
           />
@@ -124,6 +124,5 @@ export class AppWaiterEditFormComponent extends AbstractModelEditFormComponent<C
   }
   _selectedEvent?: GetEventOrLocationMinResponse;
 
-  @Input()
-  events!: HasNumberIDAndName[];
+  events = input.required<HasNumberIDAndName[]>();
 }

@@ -3,7 +3,7 @@ import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
-import {allowedCharacterSet} from '@home-shared/regex';
+import {allowedCharacterSet, s_toCurrencyNumber} from '@home-shared/regex';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
@@ -12,7 +12,7 @@ import {TranslocoPipe} from '@ngneat/transloco';
 import {injectIsValid} from '@shared/form';
 import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '@shared/waiterrobot-backend';
 
-import {a_pluck, HasNumberIDAndName, n_from, s_from} from 'dfts-helper';
+import {a_pluck, HasNumberIDAndName, s_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
 @Component({
@@ -198,13 +198,8 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
   isValid = injectIsValid(this.form);
 
   override overrideRawValue = (value: typeof this.form.value): unknown => {
-    const match: string[] = s_from(value.price).split(/[,.]/);
-    const euro = n_from(match[0] ?? 0);
-    const cent = n_from(match[1]?.padEnd(2, '0') ?? 0);
     // @ts-expect-error price is a string
-    value.price = euro * 100 + cent;
-
-    this.lumber.log('overrideRawValue', 'Euro to cent', match, value.price);
+    value.price = s_toCurrencyNumber(value.price);
 
     return super.overrideRawValue(value);
   };

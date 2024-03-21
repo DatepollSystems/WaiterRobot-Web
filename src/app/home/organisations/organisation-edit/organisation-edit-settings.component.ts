@@ -1,7 +1,8 @@
 import {AsyncPipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, effect, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, effect, inject} from '@angular/core';
 import {takeUntilDestroyed, toObservable, toSignal} from '@angular/core/rxjs-interop';
 import {AbstractControl, FormControl, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
+import {s_toCurrencyNumber} from '@home-shared/regex';
 
 import {injectIdParam$} from '@home-shared/services/injectActivatedRouteIdParam';
 import {MyUserService} from '@home-shared/services/user/my-user.service';
@@ -83,6 +84,23 @@ import {OrganisationsSettingsService} from '../_services/organisations-settings.
                 }
               </div>
             </div>
+
+            <div class="form-group col-12 col-md-10 col-lg-8 col-xl-6">
+              <label for="stripeMinAmount">{{ 'Stripe Min Amount' | transloco }}</label>
+              <div class="input-group">
+                <span class="input-group-text" id="stripeMinAmount-addon"><bi name="currency-euro" /></span>
+                <input
+                  type="text"
+                  id="stripeMinAmount"
+                  class="form-control"
+                  placeholder="10.00"
+                  [formControl]="stripeMinAmountFormControl"
+                />
+                <button class="btn btn-success" type="button" [disabled]="stripeMinAmountDisabled()" (click)="setStripeMinAmount()">
+                  {{ 'SAVE' | transloco }}
+                </button>
+              </div>
+            </div>
           </div>
 
           @if (myUser()?.isAdmin) {
@@ -132,6 +150,8 @@ export class OrganisationEditSettingsComponent {
           this.timeZoneFormControl.setValue(settings.timezone);
 
           this.timeZoneFormControl.addValidators([Validators.required, this.isValidTimeZoneValidator(settings.availableTimezones)]);
+
+          this.stripeMinAmountFormControl.setValue((settings.stripeMinAmount / 100).toString());
         }
       },
       {allowSignalWrites: true},
@@ -140,6 +160,14 @@ export class OrganisationEditSettingsComponent {
 
   timeZoneFormControl = new FormControl<string>('');
   timeZoneValidChanges = toSignal(this.timeZoneFormControl.statusChanges);
+
+  stripeMinAmountFormControl = new FormControl<string>('');
+  stripeMinAmountValueChanges = toSignal(this.stripeMinAmountFormControl.valueChanges);
+  stripeMinAmountDisabled = computed(() => {
+    const value = this.stripeMinAmountValueChanges();
+
+    return value ? s_toCurrencyNumber(value) === this.organisationSettingsState.settings()!.stripeMinAmount : false;
+  });
 
   setTimeZone(): void {
     void this.organisationSettingsState.setTimeZone(this.timeZoneFormControl.value!);
@@ -151,6 +179,10 @@ export class OrganisationEditSettingsComponent {
 
   setStripeEnabled(event: Event): void {
     void this.organisationSettingsState.setStripeEnabled((event.target as HTMLInputElement).checked);
+  }
+
+  setStripeMinAmount(): void {
+    void this.organisationSettingsState.setStripeMinAmount(s_toCurrencyNumber(this.stripeMinAmountFormControl.value));
   }
 
   search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>

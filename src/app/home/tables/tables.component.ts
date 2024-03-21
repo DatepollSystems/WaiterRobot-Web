@@ -129,12 +129,12 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                   <div class="position-relative">
                     <div class="position-absolute" style="bottom: -25px; left: 0px">
                       <a
-                        class="badge text-bg-danger d-inline-flex align-items-center gap-2"
+                        class="badge text-bg-warning d-inline-flex align-items-center gap-2"
                         [routerLink]="'../create'"
                         [queryParams]="{group: table.group.id, number: table.number + 1}"
                         (click)="$event.stopPropagation()"
                       >
-                        <bi name="exclamation-octagon-fill" />
+                        <bi name="sort-numeric-down" />
                         Unvollständige Reihenfolge
                       </a>
                     </div>
@@ -209,7 +209,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
   `,
   styles: `
     .thick-bottom-border {
-      border-bottom: #8a3d3d;
+      border-bottom: #ffc107;
       border-bottom-style: dashed;
       border-bottom-width: 2px;
     }

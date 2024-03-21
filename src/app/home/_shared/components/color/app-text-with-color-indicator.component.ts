@@ -5,13 +5,13 @@ import {AppColorIndicatorComponent} from './app-color-indicator.component';
 @Component({
   template: `
     <div class="d-flex align-items-center gap-3">
-      @if (placement === 'left' && color) {
+      @if (color && placement === 'left') {
         <app-color-indicator [color]="color" [size]="size" />
       }
 
       <ng-content />
 
-      @if (placement === 'right' && color) {
+      @if (color && placement === 'right') {
         <app-color-indicator [color]="color" [size]="size" />
       }
     </div>

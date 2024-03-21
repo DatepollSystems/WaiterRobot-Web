@@ -55,7 +55,7 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
             <td *ngbCellDef="let stripeAccount" ngb-cell>
               {{ stripeAccount.name }}
-              @if (!stripeAccount.event) {
+              @if (stripeAccount.events.length === 0) {
                 <bi name="exclamation-triangle-fill" class="text-warning" ngbTooltip="Stripe-Account noch keinem Event zugeordnet." />
               }
             </td>
@@ -71,11 +71,12 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
           <ng-container ngbColumnDef="event">
             <th *ngbHeaderCellDef ngb-header-cell>{{ 'NAV_EVENTS' | transloco }}</th>
             <td *ngbCellDef="let stripeAccount" ngb-cell>
-              @if (stripeAccount.event; as event) {
-                <a stopPropagation [routerLink]="'../../o/' + stripeAccount.organisationId + '/events/' + event.id">
-                  {{ event.name }}
-                </a>
-              } @else {
+              @for (event of stripeAccount.events; track event.id; let last = $last) {
+                <a stopPropagation [routerLink]="'../../o/' + stripeAccount.organisationId + '/events/' + event.id">{{ event.name }}</a>
+                @if (!last) {
+                  ,&nbsp;
+                }
+              } @empty {
                 -
               }
             </td>
@@ -182,7 +183,7 @@ export class OrganisationEditStripeComponent {
       organisationId: Number(this.idParam()),
       existingStripeAccountCount: this.stripeState.data()?.length ?? 0,
       name: undefined,
-      eventId: undefined,
+      eventIds: undefined,
     });
     modalRef.closed.subscribe((it?: CreateStripeAccountDto) => {
       if (it) {
@@ -201,7 +202,7 @@ export class OrganisationEditStripeComponent {
       organisationId: Number(this.idParam()),
       existingStripeAccountCount: this.stripeState.data()?.length ?? 0,
       name: stripeAccount.name,
-      eventId: stripeAccount.event?.id,
+      eventIds: stripeAccount.events.map((it) => it.id),
     });
     modalRef.closed.subscribe((it?: Omit<UpdateStripeAccountDto, 'id'>) => {
       if (it) {

@@ -5,12 +5,12 @@ import {Router} from '@angular/router';
 import {AppBackButtonComponent} from '@home-shared/components/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {NgbNavModule, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {cl_copy} from 'dfts-helper';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxCutPipe} from 'dfx-helper';
-import {TranslocoPipe} from '@ngneat/transloco';
 import {PdfJsViewerComponent, PdfJsViewerModule} from 'ng2-pdfjs-viewer';
 import {computedFrom} from 'ngxtension/computed-from';
 import {injectParams} from 'ngxtension/inject-params';
@@ -107,7 +107,7 @@ import {TmpNotificationsService} from './tmp-notifications.service';
       }
       .json-data {
         margin-bottom: 0;
-        white-space: normal; /* Ensures normal text wrapping */
+        white-space: pre-wrap;
         word-wrap: break-word; /* Allows words to break and wrap */
       }
 

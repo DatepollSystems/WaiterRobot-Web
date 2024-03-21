@@ -2,9 +2,9 @@ import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 
 import {OrganisationSettingsResponse} from '@shared/waiterrobot-backend';
+import {signalSlice} from 'ngxtension/signal-slice';
 
 import {combineLatest, map, Observable, of, startWith, switchMap} from 'rxjs';
-import {signalSlice} from 'ngxtension/signal-slice';
 
 type OrganisationsSettingsState = {
   organisationId: number | undefined;
@@ -57,6 +57,8 @@ export class OrganisationsSettingsService {
       setTimeZone: (_state, $: Observable<string>) => $.pipe(switchMap((value) => this.#set(_state().organisationId!, 'timezone', value))),
       setStripeEnabled: (_state, $: Observable<boolean>) =>
         $.pipe(switchMap((value) => this.#set(_state().organisationId!, 'stripeEnabled', value))),
+      setStripeMinAmount: (_state, $: Observable<number>) =>
+        $.pipe(switchMap((value) => this.#set(_state().organisationId!, 'stripeMinAmount', value))),
     },
   });
 }

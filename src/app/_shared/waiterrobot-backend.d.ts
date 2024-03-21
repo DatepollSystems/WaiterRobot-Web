@@ -164,8 +164,7 @@ export interface UpdateStripeAccountDto {
    * @maxLength 40
    */
   name: string;
-  /** @format int64 */
-  eventId?: number;
+  eventIds: number[];
 }
 
 export interface AlphabeticIdResponse {
@@ -304,6 +303,13 @@ export interface OrganisationSettingsResponse {
   stripeEnabled: boolean;
   /** @uniqueItems true */
   availableTimezones: string[];
+  /** @format int32 */
+  stripeMinAmount: number;
+}
+
+export interface OrganisationSettingIntSetDto {
+  /** @format int32 */
+  value: number;
 }
 
 export interface OrganisationSettingBooleanSetDto {
@@ -721,8 +727,7 @@ export interface CreateStripeAccountDto {
   name: string;
   /** @format int64 */
   organisationId: number;
-  /** @format int64 */
-  eventId?: number;
+  eventIds: number[];
   businessType: 'COMPANY' | 'INDIVIDUAL' | 'NON_PROFIT';
 }
 
@@ -1174,7 +1179,7 @@ export interface GetStripeAccountResponse {
   name: string;
   /** @format int64 */
   organisationId: number;
-  event?: GetEventOrLocationMinResponse;
+  events: GetEventOrLocationMinResponse[];
   state: 'ONBOARDING' | 'ACTIVE';
 }
 
@@ -1188,7 +1193,7 @@ export interface GetStripeAccountMaxResponse {
   name: string;
   /** @format int64 */
   organisationId: number;
-  event?: GetEventOrLocationMinResponse;
+  events: GetEventOrLocationMinResponse[];
   state: 'ONBOARDING' | 'ACTIVE';
   link: GetStripeAccountLinkResponse;
 }

@@ -19,7 +19,7 @@ import {EventsService} from '../../../events/_services/events.service';
 interface OrganisationStripeAccountModalState {
   name: string | undefined;
   organisationId: number | undefined;
-  eventId: number | undefined;
+  eventIds: number[] | undefined;
   existingStripeAccountCount: number | undefined;
   type: 'CREATE' | 'UPDATE' | undefined;
 }
@@ -55,11 +55,14 @@ interface OrganisationStripeAccountModalState {
         <div class="form-group col">
           <label for="event">{{ 'NAV_EVENTS' | transloco }}</label>
           <ng-select
-            formControlName="eventId"
+            formControlName="eventIds"
             bindValue="id"
-            id="event"
             bindLabel="name"
+            labelForId="event"
+            clearAllText="Clear"
+            id="event"
             [items]="events()"
+            [multiple]="true"
             [placeholder]="'NAV_EVENTS' | transloco"
           />
         </div>
@@ -82,7 +85,7 @@ export class OrganisationStripeAccountModal {
     initialState: {
       name: undefined,
       organisationId: undefined,
-      eventId: undefined,
+      eventIds: undefined,
       type: undefined,
       existingStripeAccountCount: undefined,
     } as OrganisationStripeAccountModalState,
@@ -91,11 +94,10 @@ export class OrganisationStripeAccountModal {
     },
     effects: (state) => ({
       eventIdChange: () => {
-        const eventId = state.eventId();
-        console.warn('set event id triggered', eventId);
-        if (eventId) {
-          console.warn('set event id triggered');
-          this.form.controls.eventId.setValue(eventId);
+        const eventIds = state.eventIds();
+        console.warn('set event ids triggered', eventIds);
+        if (eventIds) {
+          this.form.controls.eventIds.setValue(eventIds);
         }
       },
       nameChange: () => {
@@ -124,7 +126,7 @@ export class OrganisationStripeAccountModal {
   form = inject(FormBuilder).nonNullable.group({
     name: [undefined as unknown as string, [Validators.minLength(4), Validators.maxLength(40), Validators.pattern(allowedCharacterSet)]],
     businessType: ['NON_PROFIT' as CreateStripeAccountDto['businessType'], [Validators.required]],
-    eventId: [undefined as unknown as number],
+    eventIds: [undefined as unknown as number[]],
   });
 
   submit(): void {

@@ -39,7 +39,14 @@ import {TmpNotificationsService} from './tmp-notifications.service';
       </form>
 
       <div class="table-responsive">
-        <table ngb-table ngb-sort ngbSortActive="id" ngbSortDirection="desc" [hover]="true" [dataSource]="(dataSource$ | async) ?? []">
+        <table
+          ngb-table
+          ngb-sort
+          ngbSortActive="createdAt"
+          ngbSortDirection="asc"
+          [hover]="true"
+          [dataSource]="(dataSource$ | async) ?? []"
+        >
           <ng-container ngbColumnDef="id">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'Id' | transloco }}</th>
             <td *ngbCellDef="let it" ngb-cell>{{ it.id | s_cut: 20 : '...' }}</td>
