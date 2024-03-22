@@ -248,6 +248,7 @@
   "HOME_PROD_AMOUNT_ORDERED": "Bestellt",
   "HOME_PROD_AMOUNT_ORDERED_RESET": "Bestellungszähler zurücksetzen",
   "HOME_PROD_ADD_GROUP_FIRST": "Erstelle zuerst eine Produktgruppe",
+  "HOME_PROD_ADD_PRINTER_FIRST": "Erstelle zuerst einen Drucker",
 
   "HOME_WAITERS_NAV_ORGANISATION": "Personal",
   "HOME_WAITERS_SELECT": "Personal",

@@ -2,11 +2,12 @@ import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 
 import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {AbstractModelsWithNumberListWithDeleteComponent} from '@home-shared/list/models-list-with-delete/abstract-models-with-number-list-with-delete.component';
-import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownItem, NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@ngneat/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
@@ -156,41 +157,46 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
           </ng-container>
 
           <ng-container ngbColumnDef="actions">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>
+              <span class="visually-hidden">{{ 'ACTIONS' | transloco }}</span>
+            </th>
             <td *ngbCellDef="let table" ngb-cell>
-              <a
-                class="btn btn-sm mx-1 btn-outline-success text-body-emphasis"
-                [routerLink]="'../' + table.id"
-                [ngbTooltip]="'EDIT' | transloco"
-              >
-                <bi name="pencil-square" />
-              </a>
-              <a
-                class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
-                routerLink="../../orders"
-                [queryParams]="{tableIds: table.id}"
-                [ngbTooltip]="'NAV_ORDERS' | transloco"
-                (click)="$event.stopPropagation()"
-              >
-                <bi name="stack" />
-              </a>
-              <a
-                class="btn btn-sm mx-1 btn-outline-secondary text-body-emphasis"
-                routerLink="../../bills"
-                [queryParams]="{tableIds: table.id}"
-                [ngbTooltip]="'NAV_BILLS' | transloco"
-                (click)="$event.stopPropagation()"
-              >
-                <bi name="cash-coin" />
-              </a>
-              <button
-                type="button"
-                class="btn btn-sm mx-1 btn-outline-danger text-body-emphasis"
-                [ngbTooltip]="'DELETE' | transloco"
-                (click)="onDelete(table.id, $event)"
-              >
-                <bi name="trash" />
-              </button>
+              <app-action-dropdown>
+                <a
+                  type="button"
+                  class="d-flex gap-2 align-items-center"
+                  ngbDropdownItem
+                  routerLink="../../orders"
+                  [queryParams]="{tableIds: table.id}"
+                >
+                  <bi name="stack" />
+                  {{ 'NAV_ORDERS' | transloco }}
+                </a>
+                <a
+                  type="button"
+                  class="d-flex gap-2 align-items-center"
+                  ngbDropdownItem
+                  routerLink="../../bills"
+                  [queryParams]="{tableIds: table.id}"
+                >
+                  <bi name="cash-coin" />
+                  {{ 'NAV_BILLS' | transloco }}
+                </a>
+                <div class="dropdown-divider"></div>
+                <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../' + table.id">
+                  <bi name="pencil-square" />
+                  {{ 'EDIT' | transloco }}
+                </a>
+                <button
+                  type="button"
+                  class="d-flex gap-2 align-items-center text-danger-emphasis"
+                  ngbDropdownItem
+                  (click)="onDelete(table.id, $event)"
+                >
+                  <bi name="trash" />
+                  {{ 'DELETE' | transloco }}
+                </button>
+              </app-action-dropdown>
             </td>
           </ng-container>
 
@@ -230,6 +236,8 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
     AppTextWithColorIndicatorComponent,
     AppProgressBarComponent,
     DfxArrayPluck,
+    ActionDropdownComponent,
+    NgbDropdownItem,
   ],
 })
 export class TablesComponent extends AbstractModelsWithNumberListWithDeleteComponent<GetTableWithGroupResponse> {

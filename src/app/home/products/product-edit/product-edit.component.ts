@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 
@@ -59,23 +59,29 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
 
         <hr />
 
-        @if ((productGroups()?.length ?? 1) < 1) {
-          @defer (on timer(200)) {
+        @defer (on timer(200)) {
+          @if ((productGroups()?.length ?? 1) < 1) {
             <div class="alert alert-warning d-flex gap-2">
               <bi name="exclamation-triangle-fill" />
               <a class="link-warning" routerLink="../groups/create">{{ 'HOME_PROD_ADD_GROUP_FIRST' | transloco }}</a>
+            </div>
+          }
+          @if ((printers()?.length ?? 1) < 1) {
+            <div class="alert alert-warning d-flex gap-2">
+              <bi name="exclamation-triangle-fill" />
+              <a class="link-warning" routerLink="../../printers/create">{{ 'HOME_PROD_ADD_PRINTER_FIRST' | transloco }}</a>
             </div>
           }
         }
         <app-product-edit-form
           #form
           [allergens]="allergens()"
-          [printers]="printers()"
+          [printers]="printers() ?? []"
           [productGroups]="productGroups() ?? []"
           [selectedEventId]="selectedEventId()"
           [selectedProductGroupId]="selectedProductGroupId()"
           [product]="entity"
-          [formDisabled]="(productGroups()?.length ?? 1) < 1 || (entity !== 'CREATE' && !!entity.deleted)"
+          [formDisabled]="formDisabled()"
           (submitUpdate)="onSubmit('UPDATE', $event)"
           (submitCreate)="onSubmit('CREATE', $event)"
         />
@@ -112,9 +118,23 @@ export class ProductEditComponent extends AbstractModelEditComponent<GetProductM
   );
 
   productGroups = toSignal(inject(ProductGroupsService).getAll$());
-  printers = toSignal(inject(PrintersService).getAll$(), {initialValue: []});
+  printers = toSignal(inject(PrintersService).getAll$());
   selectedEventId = inject(SelectedEventService).selectedId;
   allergens = toSignal(inject(AllergensService).getAll$(), {initialValue: []});
+
+  formDisabled = computed(() => {
+    if ((this.productGroups()?.length ?? 1) < 1) {
+      return true;
+    }
+    if ((this.printers()?.length ?? 1) < 1) {
+      return true;
+    }
+    const entity = this.entity();
+    if (entity !== 'CREATE' && !!entity?.deleted) {
+      return true;
+    }
+    return false;
+  });
 
   constructor(private productsService: ProductsService) {
     super(productsService);

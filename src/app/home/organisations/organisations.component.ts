@@ -2,9 +2,9 @@ import {AsyncPipe, UpperCasePipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 
-import {StopPropagationDirective} from '@home-shared/stop-propagation';
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@ngneat/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetOrganisationResponse} from '@shared/waiterrobot-backend';
@@ -115,7 +115,9 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
             </ng-container>
 
             <ng-container ngbColumnDef="actions">
-              <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell>
+                <span class="visually-hidden">{{ 'ACTIONS' | transloco }}</span>
+              </th>
               <td *ngbCellDef="let organisation" ngb-cell>
                 <selectable-button
                   class="me-2"
@@ -124,43 +126,44 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
                   [selectedId]="selectedOrganisationService.selectedId()"
                   (selectedChange)="setSelected($event)"
                 />
-                <a
-                  class="btn btn-sm me-2 btn-outline-secondary text-body-emphasis"
-                  stopPropagation
-                  [routerLink]="'../' + organisation.id"
-                  [queryParams]="{tab: 'USERS'}"
-                  [ngbTooltip]="'USER' | transloco"
-                >
-                  <bi name="people" />
-                </a>
-                <a
-                  class="btn btn-sm me-2 btn-outline-secondary text-body-emphasis"
-                  stopPropagation
-                  [routerLink]="'../' + organisation.id"
-                  [queryParams]="{tab: 'SETTINGS'}"
-                  [ngbTooltip]="'SETTINGS' | transloco"
-                >
-                  <bi name="gear" />
-                </a>
-                <a
-                  class="btn btn-sm me-2 btn-outline-success text-body-emphasis"
-                  stopPropagation
-                  [routerLink]="'../' + organisation.id"
-                  [ngbTooltip]="'EDIT' | transloco"
-                >
-                  <bi name="pencil-square" />
-                </a>
-                @if (myUser()?.isAdmin) {
-                  <button
+                <app-action-dropdown>
+                  <a
                     type="button"
-                    class="btn btn-sm btn-outline-danger text-body-emphasis"
-                    stopPropagation
-                    [ngbTooltip]="'DELETE' | transloco"
-                    (click)="onDelete(organisation.id, $event)"
+                    class="d-flex gap-2 align-items-center"
+                    ngbDropdownItem
+                    [routerLink]="'../' + organisation.id"
+                    [queryParams]="{tab: 'USERS'}"
                   >
-                    <bi name="trash" />
-                  </button>
-                }
+                    <bi name="people" />
+                    {{ 'USER' | transloco }}
+                  </a>
+                  <a
+                    type="button"
+                    class="d-flex gap-2 align-items-center"
+                    ngbDropdownItem
+                    [routerLink]="'../' + organisation.id"
+                    [queryParams]="{tab: 'SETTINGS'}"
+                  >
+                    <bi name="gear" />
+                    {{ 'SETTINGS' | transloco }}
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../' + organisation.id">
+                    <bi name="pencil-square" />
+                    {{ 'EDIT' | transloco }}
+                  </a>
+                  @if (myUser()?.isAdmin) {
+                    <button
+                      type="button"
+                      class="d-flex gap-2 align-items-center text-danger-emphasis"
+                      ngbDropdownItem
+                      (click)="onDelete(organisation.id, $event)"
+                    >
+                      <bi name="trash" />
+                      {{ 'DELETE' | transloco }}
+                    </button>
+                  }
+                </app-action-dropdown>
               </td>
             </ng-container>
 
@@ -191,7 +194,8 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
     AppSelectableBtnComponent,
     AsyncPipe,
     AppProgressBarComponent,
-    StopPropagationDirective,
+    ActionDropdownComponent,
+    NgbDropdownItem,
   ],
 })
 export class OrganisationsComponent extends AbstractModelsWithNameListWithDeleteComponent<GetOrganisationResponse> {

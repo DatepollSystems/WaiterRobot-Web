@@ -2,10 +2,11 @@ import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {AbstractModelsWithNameListWithDeleteComponent} from '@home-shared/list/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
-import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownItem, NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@ngneat/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetPrinterResponse} from '@shared/waiterrobot-backend';
@@ -121,24 +122,25 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
           </ng-container>
 
           <ng-container ngbColumnDef="actions">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>
+              <span class="visually-hidden">{{ 'ACTIONS' | transloco }}</span>
+            </th>
             <td *ngbCellDef="let printer" ngb-cell>
-              <a
-                class="btn btn-sm m-1 btn-outline-success text-body-emphasis"
-                [routerLink]="'../' + printer.id"
-                [ngbTooltip]="'EDIT' | transloco"
-              >
-                <bi name="pencil-square" />
-              </a>
-
-              <button
-                type="button"
-                class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
-                [ngbTooltip]="'DELETE' | transloco"
-                (click)="onDelete(printer.id, $event)"
-              >
-                <bi name="trash" />
-              </button>
+              <app-action-dropdown>
+                <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../' + printer.id">
+                  <bi name="pencil-square" />
+                  {{ 'EDIT' | transloco }}
+                </a>
+                <button
+                  type="button"
+                  class="d-flex gap-2 align-items-center text-danger-emphasis"
+                  ngbDropdownItem
+                  (click)="onDelete(printer.id, $event)"
+                >
+                  <bi name="trash" />
+                  {{ 'DELETE' | transloco }}
+                </button>
+              </app-action-dropdown>
             </td>
           </ng-container>
 
@@ -164,6 +166,8 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
     BiComponent,
     ScrollableToolbarComponent,
     AppProgressBarComponent,
+    ActionDropdownComponent,
+    NgbDropdownItem,
   ],
 })
 export class PrintersComponent extends AbstractModelsWithNameListWithDeleteComponent<GetPrinterResponse> {

@@ -2,8 +2,9 @@ import {AsyncPipe, DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@ngneat/transloco';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
@@ -114,7 +115,9 @@ import {SelectedEventService} from './_services/selected-event.service';
           </ng-container>
 
           <ng-container ngbColumnDef="actions">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>
+              <span class="visually-hidden">{{ 'ACTIONS' | transloco }}</span>
+            </th>
             <td *ngbCellDef="let event" ngb-cell>
               <selectable-button
                 class="me-2"
@@ -123,30 +126,27 @@ import {SelectedEventService} from './_services/selected-event.service';
                 [selectedId]="selectedEventService.selectedId()"
                 (selectedChange)="selectedEventService.setSelected($event)"
               />
-              <a
-                class="btn btn-sm me-2 btn-outline-success text-body-emphasis"
-                [routerLink]="'../' + event.id"
-                [ngbTooltip]="'EDIT' | transloco"
-              >
-                <bi name="pencil-square" />
-              </a>
               @if (myUser()?.isAdmin) {
-                <button
-                  type="button"
-                  class="btn btn-sm btn-outline-secondary text-body-emphasis me-2"
-                  [ngbTooltip]="'COPY' | transloco"
-                  (click)="$event.stopPropagation(); clone(event.id)"
-                >
-                  <bi name="clipboard" />
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-sm btn-outline-danger text-body-emphasis"
-                  [ngbTooltip]="'DELETE' | transloco"
-                  (click)="onDelete(event.id, $event)"
-                >
-                  <bi name="trash" />
-                </button>
+                <app-action-dropdown>
+                  <button type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem (click)="clone(event.id)">
+                    <bi name="clipboard" />
+                    {{ 'COPY' | transloco }}
+                  </button>
+                  <div class="dropdown-divider"></div>
+                  <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../' + event.id">
+                    <bi name="pencil-square" />
+                    {{ 'EDIT' | transloco }}
+                  </a>
+                  <button
+                    type="button"
+                    class="d-flex gap-2 align-items-center text-danger-emphasis"
+                    ngbDropdownItem
+                    (click)="onDelete(event.id.id, $event)"
+                  >
+                    <bi name="trash" />
+                    {{ 'DELETE' | transloco }}
+                  </button>
+                </app-action-dropdown>
               }
             </td>
           </ng-container>
@@ -174,6 +174,8 @@ import {SelectedEventService} from './_services/selected-event.service';
     ScrollableToolbarComponent,
     AsyncPipe,
     AppProgressBarComponent,
+    ActionDropdownComponent,
+    NgbDropdownItem,
   ],
   standalone: true,
 })

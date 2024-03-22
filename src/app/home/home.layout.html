@@ -81,10 +81,7 @@
                   <span class="fake-dropdown-item unselectable"> {{ 'NAV_ORGANISATIONS_NO_ORGS' | transloco }} </span>
                   }
                   <div class="dropdown-divider"></div>
-                  @if (myUserService.user()?.isAdmin) {
-                  <a ngbDropdownItem routerLinkActive="active" routerLink="organisations/create"> <b>+</b> {{ 'ADD_2' | transloco }} </a>
-                  }
-                  <a ngbDropdownItem routerLinkActive="active" routerLink="organisations/all">
+                  <a ngbDropdownItem routerLinkActive="active" routerLink="/organisations/all" class="d-flex gap-2 align-items-center">
                     <bi name="building" />
                     {{ 'SHOW_ALL' | transloco }}
                   </a>
@@ -124,11 +121,15 @@
                   }
                   <div class="dropdown-divider"></div>
                   @if (myUserService.user()?.isAdmin) {
-                  <a ngbDropdownItem [routerLink]="'/o/' + selectedOrganisationService.selectedId()! + '/events/create'"
-                    ><b>+</b> {{ 'ADD_2' | transloco }}</a
+                  <a ngbDropdownItem class="d-flex gap-2 align-items-center"
+                     [routerLink]="'/o/' + selectedOrganisationService.selectedId()! + '/events/create'"
+                    >
+                    <bi name="plus-lg"/>
+                    {{ 'ADD_2' | transloco }}</a
                   >
                   }
-                  <a ngbDropdownItem [routerLink]="'/o/' + selectedOrganisationService.selectedId()! + '/events/all'">
+                  <a ngbDropdownItem class="d-flex gap-2 align-items-center"
+                     [routerLink]="'/o/' + selectedOrganisationService.selectedId()! + '/events/all'">
                     <bi name="calendar-event-fill" />
                     {{ 'SHOW_ALL' | transloco }}
                   </a>
@@ -145,19 +146,19 @@
               <div ngbDropdown display="dynamic">
                 <a class="nav-link" id="adminDropDown" ngbDropdownToggle> {{ 'NAV_INSTANCE_ADMINISTRATION' | transloco }}</a>
                 <div ngbDropdownMenu aria-labelledby="adminDropDown">
-                  <a ngbDropdownItem routerLinkActive="active" routerLink="/users">
+                  <a ngbDropdownItem routerLinkActive="active" class="d-flex gap-2 align-items-center" routerLink="/users">
                     <bi name="person-badge" />
                     {{ 'NAV_USERS' | transloco }}
                   </a>
-                  <a ngbDropdownItem routerLinkActive="active" routerLink="/system-notifications">
+                  <a ngbDropdownItem routerLinkActive="active" class="d-flex gap-2 align-items-center" routerLink="/system-notifications">
                     <bi name="bell" />
                     {{ 'NAV_SYSTEM_NOTIFICATIONS' | transloco }}
                   </a>
-                  <a ngbDropdownItem routerLinkActive="active" routerLink="/dead-letters">
+                  <a ngbDropdownItem routerLinkActive="active" class="d-flex gap-2 align-items-center" routerLink="/dead-letters">
                     <bi name="braces" />
                     {{ 'Dead Letters' | transloco }}
                   </a>
-                  <a ngbDropdownItem routerLinkActive="active" routerLink="/tmp-notifications">
+                  <a ngbDropdownItem routerLinkActive="active"  routerLink="/tmp-notifications">
                     <bi name="braces" />
                     {{ 'NAV_TMP_NOTIFICATIONS' | transloco }}
                   </a>
@@ -195,7 +196,7 @@
                   <button
                     type="button"
                     ngbDropdownItem
-                    class="d-none d-xxl-inline-flex gap-2 align-items-center"
+                    class="d-none d-xxl-flex gap-2 align-items-center"
                     (click)="fullScreenService.setFullScreen(!isFullScreen()); $event.stopPropagation()"
                   >
                     @if (isFullScreen()) {
@@ -206,15 +207,15 @@
                   </button>
 
                   <div class="dropdown-divider"></div>
-                  <a ngbDropdownItem routerLinkActive="active" routerLink="/usettings/settings">
+                  <a ngbDropdownItem routerLinkActive="active" class="d-flex gap-2 align-items-center" routerLink="/usettings/settings">
                     <bi name="gear-wide-connected" />
                     {{ 'NAV_USER_SETTINGS' | transloco }}
                   </a>
-                  <a ngbDropdownItem routerLinkActive="active" routerLink="/usettings/sessions">
+                  <a ngbDropdownItem routerLinkActive="active" class="d-flex gap-2 align-items-center"  routerLink="/usettings/sessions">
                     <bi name="file-lock" />
                     {{ 'NAV_USER_SESSIONS' | transloco }}
                   </a>
-                  <button type="button" ngbDropdownItem (click)="this.authService.logout()">
+                  <button type="button" ngbDropdownItem (click)="this.authService.logout()" class="d-flex gap-2 align-items-center" >
                     <bi name="box-arrow-left" />
                     {{ 'NAV_LOGOUT' | transloco }}
                   </button>

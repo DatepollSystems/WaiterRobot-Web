@@ -206,25 +206,26 @@
       </ng-container>
 
       <ng-container ngbColumnDef="actions">
-        <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
+        <th *ngbHeaderCellDef ngb-header-cell>
+              <span class="visually-hidden">{{ 'ACTIONS' | transloco }}</span>
+            </th>
         <td *ngbCellDef="let order" ngb-cell>
-          <a
-            class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"
-            placement="left"
-            [routerLink]="'../' + order.id"
-            [ngbTooltip]="'OPEN' | transloco"
-          >
-            <bi name="arrow-up-right-square-fill" />
-          </a>
-          <button
-            type="button"
-            class="btn btn-sm m-1 btn-warning"
-            placement="bottom"
-            [ngbTooltip]="'HOME_ORDER_REQUEUE' | transloco"
-            (click)="$event.stopPropagation(); requeueOrder(order)"
-          >
-            <bi name="printer" />
-          </button>
+          <app-action-dropdown>
+            <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../' + order.id">
+              <bi name="arrow-up-right-square-fill" />
+              {{ 'OPEN' | transloco }}
+            </a>
+            <div class="dropdown-divider"></div>
+            <button
+              type="button"
+              class="d-flex gap-2 align-items-center text-warning-emphasis"
+              ngbDropdownItem
+              (click)="requeueOrder(order)"
+            >
+              <bi name="printer" />
+              {{ 'HOME_ORDER_REQUEUE' | transloco }}
+            </button>
+          </app-action-dropdown>
         </td>
       </ng-container>
 

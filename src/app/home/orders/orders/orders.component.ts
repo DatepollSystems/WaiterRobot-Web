@@ -4,6 +4,7 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, inject, ViewChild} fr
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 
 import {AppTestBadge} from '@home-shared/components/app-test-badge.component';
 import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
@@ -11,8 +12,9 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
 import {Download} from '@home-shared/services/download.service';
 import {injectFilter} from '@home-shared/services/filter';
 import {getSortParam, injectPagination} from '@home-shared/services/pagination';
-import {NgbCollapse, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbCollapse, NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
+import {TranslocoPipe} from '@ngneat/transloco';
 import {injectCustomFormBuilder} from '@shared/form';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetOrderMinResponse, GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
@@ -21,7 +23,6 @@ import {loggerOf, s_imploder} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {injectIsMobile} from 'dfx-helper';
-import {TranslocoPipe} from '@ngneat/transloco';
 import {computedFrom} from 'ngxtension/computed-from';
 
 import {debounceTime, forkJoin, map, merge, Observable, pipe, switchMap, tap} from 'rxjs';
@@ -58,6 +59,8 @@ import {OrdersService} from '../orders.service';
     ScrollableToolbarComponent,
     AppTestBadge,
     AppProgressBarComponent,
+    ActionDropdownComponent,
+    NgbDropdownItem,
   ],
 })
 export class OrdersComponent implements AfterViewInit {

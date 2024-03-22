@@ -14,7 +14,7 @@ a:hover {
 }
 
 /* Fix vertical text alignment in buttons with icons */
-bi > bi > svg {
+bi > svg {
   vertical-align: -0.125em;
 }
 
@@ -71,6 +71,10 @@ a.btn > img {
 
 .fake-dropdown-item:hover {
   background-color: var(--bs-tertiary-bg);
+}
+
+.btn.btn-sm.dropdown-toggle::after  {
+    display: none !important;
 }
 
 .dropdown-toggle,

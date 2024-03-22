@@ -216,7 +216,9 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
           </ng-container>
 
           <ng-container ngbColumnDef="actions">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>
+              <span class="visually-hidden">{{ 'ACTIONS' | transloco }}</span>
+            </th>
             <td *ngbCellDef="let bill" ngb-cell>
               <a
                 class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"

@@ -2,6 +2,8 @@ import {Location} from '@angular/common';
 import {inject, Signal} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {FormBuilder, FormGroup, NonNullableFormBuilder} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AlphabeticIdResponse, IdResponse} from '@shared/waiterrobot-backend';
 
 import {IHasID, s_from} from 'dfts-helper';
 
@@ -34,16 +36,19 @@ export function injectOnSubmit<CreateDTOType, UpdateDTOType extends IHasID<Updat
     enabled: Signal<boolean>;
     patch: (dto: unknown) => void;
   };
+  openOnCreate?: boolean;
 }): (method: 'CREATE' | 'UPDATE', dto: CreateDTOType | UpdateDTOType) => void {
-  const {entityService, continuousCreation} = options;
+  const {entityService, continuousCreation, openOnCreate} = options;
 
   const notificationService = inject(NotificationService);
   const location = inject(Location);
+  const router = inject(Router);
+  const relativeTo = inject(ActivatedRoute);
 
   return (method: 'CREATE' | 'UPDATE', dto: CreateDTOType | UpdateDTOType) => {
     console.info(`submit - method: "${method}"; Continuous creation check enabled: "${s_from(!!continuousCreation)}"`, dto);
 
-    let obs$: Observable<unknown>;
+    let obs$: Observable<IdResponse | AlphabeticIdResponse>;
 
     switch (method) {
       case 'CREATE':
@@ -56,15 +61,19 @@ export function injectOnSubmit<CreateDTOType, UpdateDTOType extends IHasID<Updat
         throw Error('Not implemented');
     }
 
-    obs$.subscribe(() => {
+    obs$.subscribe((response) => {
       if (continuousCreation && continuousCreation.enabled()) {
         continuousCreation.patch(dto);
+      } else {
+        if (method === 'CREATE' && openOnCreate) {
+          void router.navigate(['../', response.id], {relativeTo});
+        }
       }
       notificationService.tsuccess('SAVED');
     });
 
     // If checkContinuousCreation is provided let it handle the redirect
-    if (!continuousCreation || !continuousCreation.enabled()) {
+    if (!continuousCreation || !continuousCreation.enabled() || method === 'UPDATE' || !openOnCreate) {
       location.back();
     }
   };
