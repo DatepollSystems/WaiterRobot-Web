@@ -4,14 +4,14 @@ import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
+import {TranslocoPipe} from '@ngneat/transloco';
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';
 import {AuthService} from '@shared/services/auth/auth.service';
-import {FooterModule} from '@shared/ui/footer/footer.module';
+import {FooterComponent} from '@shared/ui/footer/footer.component';
 
 import {loggerOf, n_from, n_isNumeric, s_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingSucceeds, injectIsMobile, injectIsMobile$} from 'dfx-helper';
-import {TranslocoPipe} from '@ngneat/transloco';
 
 import {AppSystemNotificationAlertComponent} from './_admin/system-notifications/_components/system-notification-alert.component';
 import {ActiveSystemNotificationsService} from './_admin/system-notifications/_services/active-system-notifications.service';
@@ -72,12 +72,12 @@ import {selectedOrganisationRouteParamKey, SelectedOrganisationService} from './
     DfxHideIfOnline,
     DfxHideIfPingSucceeds,
     BiComponent,
-    FooterModule,
     AppNavbarScrollableComponent,
     NgOptimizedImage,
     DfxHideIfOffline,
     AppSystemNotificationAlertComponent,
     ThemePickerComponent,
+    FooterComponent,
   ],
 })
 export class HomeLayout {

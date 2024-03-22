@@ -3,8 +3,6 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {Router} from '@angular/router';
 import {TranslocoPipe} from '@ngneat/transloco';
 
-import {FooterModule} from '@shared/ui/footer/footer.module';
-
 import {n_fromStorage, st_set} from 'dfts-helper';
 
 @Component({
@@ -20,7 +18,7 @@ import {n_fromStorage, st_set} from 'dfts-helper';
   `,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FooterModule, TranslocoPipe, NgOptimizedImage],
+  imports: [TranslocoPipe, NgOptimizedImage],
 })
 export class PageNotFoundComponent {
   location = inject(Location);

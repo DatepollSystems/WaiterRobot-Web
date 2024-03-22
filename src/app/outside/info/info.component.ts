@@ -2,12 +2,11 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 
 import {TranslocoPipe} from '@ngneat/transloco';
-
-import {FooterModule} from '@shared/ui/footer/footer.module';
+import {FooterComponent} from '@shared/ui/footer/footer.component';
 
 @Component({
   template: `
-    <div style="min-height: 90vh" class="py-4">
+    <div style="min-height: 95vh" class="py-4">
       <div class="container-xl d-flex flex-column flex-md-row gap-3">
         <div class="col-md-5 col-lg-3">
           <ul class="list-group text-nowrap">
@@ -39,6 +38,6 @@ import {FooterModule} from '@shared/ui/footer/footer.module';
   selector: 'app-info',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterOutlet, RouterLinkActive, TranslocoPipe, FooterModule],
+  imports: [RouterLink, RouterOutlet, RouterLinkActive, TranslocoPipe, FooterComponent],
 })
 export class InfoComponent {}

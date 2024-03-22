@@ -4,7 +4,7 @@ import {RouterOutlet} from '@angular/router';
 import {NgbDropdown, NgbDropdownButtonItem, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 
 import {ThemeService} from '@shared/services/theme.service';
-import {FooterModule} from '@shared/ui/footer/footer.module';
+import {FooterComponent} from '@shared/ui/footer/footer.component';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {AppLogoWithTextComponent} from './_shared/app-logo-with-text.component';
@@ -65,7 +65,6 @@ import {AppLogoWithTextComponent} from './_shared/app-logo-with-text.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AppLogoWithTextComponent,
-    FooterModule,
     NgbDropdown,
     NgbDropdownMenu,
     NgbDropdownItem,
@@ -73,6 +72,7 @@ import {AppLogoWithTextComponent} from './_shared/app-logo-with-text.component';
     BiComponent,
     NgbDropdownButtonItem,
     RouterOutlet,
+    FooterComponent,
   ],
   standalone: true,
 })

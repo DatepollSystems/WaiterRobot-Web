@@ -193,7 +193,7 @@
   "HOME_ORGS_COUNTRY_CODE_INCORRECT": "Der Landkürzel muss aus mindestens 2 und maximal 4 Zeichen bestehen",
   "HOME_ORGS_USERS_EMAIL_PLACEHOLDER": "Gib die E-Mail-Adresse des Benutzers ein",
   "HOME_ORGS_USERS_USER_NOT_FOUND": " nicht gefunden",
-  "HOME_ORGS_SETTINGS_ACTIVATE_WAITER_ON_SIGN_IN_VIA_CREATE_TOKEN": "Aktiviere standardmäßig Personal welches sich selbst \"registrieren\"",
+  "HOME_ORGS_SETTINGS_ACTIVATE_WAITER_ON_SIGN_IN_VIA_CREATE_TOKEN": "Personal bei Registrierung automatisch aktiveren",
   "HOME_ORGS_SETTINGS_TIMEZONE": "Zeitzone",
   "HOME_ORGS_SETTINGS_TIMEZONE_INVALID": "Ungültige Zeitzone",
 
