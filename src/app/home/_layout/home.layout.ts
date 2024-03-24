@@ -2,6 +2,10 @@ import {NgOptimizedImage} from '@angular/common';
 import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {AppNavbarScrollableComponent} from '@home-shared/components/navbar-scrollable/app-navbar-scrollable.component';
+import {FullScreenService} from '@home-shared/services/fullscreen.service';
+import {QrCodeService} from '@home-shared/services/qr-code.service';
+import {MyUserService} from '@home-shared/services/user/my-user.service';
 
 import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@ngneat/transloco';
@@ -13,17 +17,13 @@ import {loggerOf, n_from, n_isNumeric, s_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingSucceeds, injectIsMobile, injectIsMobile$} from 'dfx-helper';
 
-import {AppSystemNotificationAlertComponent} from './_admin/system-notifications/_components/system-notification-alert.component';
-import {ActiveSystemNotificationsService} from './_admin/system-notifications/_services/active-system-notifications.service';
-import {AppNavbarScrollableComponent} from './_shared/components/navbar-scrollable/app-navbar-scrollable.component';
-import {FullScreenService} from './_shared/services/fullscreen.service';
-import {QrCodeService} from './_shared/services/qr-code.service';
-import {MyUserService} from './_shared/services/user/my-user.service';
-import {EventsService} from './events/_services/events.service';
-import {selectedEventRouteParamKey, SelectedEventService} from './events/_services/selected-event.service';
-import {ThemePickerComponent} from './home-theme.component';
-import {OrganisationsService} from './organisations/_services/organisations.service';
-import {selectedOrganisationRouteParamKey, SelectedOrganisationService} from './organisations/_services/selected-organisation.service';
+import {AppSystemNotificationAlertComponent} from '../_admin/system-notifications/_components/system-notification-alert.component';
+import {ActiveSystemNotificationsService} from '../_admin/system-notifications/_services/active-system-notifications.service';
+import {EventsService} from '../events/_services/events.service';
+import {selectedEventRouteParamKey, SelectedEventService} from '../events/_services/selected-event.service';
+import {ThemePickerComponent} from '../home-theme.component';
+import {OrganisationsService} from '../organisations/_services/organisations.service';
+import {selectedOrganisationRouteParamKey, SelectedOrganisationService} from '../organisations/_services/selected-organisation.service';
 
 @Component({
   selector: 'app-home',
