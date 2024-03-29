@@ -8,5 +8,5 @@ export const environment: Environment = {
   production: false,
   type: 'dev',
   apiUrl: 'http://localhost/api/v1',
-  titlePrefix: 'local.kellner.team',
+  titleSuffix: 'local.kellner.team',
 };

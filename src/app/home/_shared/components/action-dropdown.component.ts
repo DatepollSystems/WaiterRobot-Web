@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
-import {StopPropagationDirective} from '@home-shared/stop-propagation';
-import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdown, NgbDropdownAnchor, NgbDropdownMenu} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
+import {StopPropagationDirective} from 'dfx-helper';
 
 @Component({
   template: `
-    <div ngbDropdown class="d-inline-block" stopPropagation placement="left-top" container="body">
-      <button type="button" class="btn btn-sm btn-outline-secondary" id="actionDropdown" ngbDropdownToggle>
+    <div #dropdown="ngbDropdown" ngbDropdown class="d-inline-block" stopPropagation placement="left-top" container="body">
+      <button type="button" class="btn btn-sm btn-outline-secondary" id="actionDropdown" ngbDropdownAnchor (mousedown)="dropdown.toggle()">
         <bi name="three-dots" />
       </button>
       <div ngbDropdownMenu aria-labelledby="actionDropdown">
@@ -15,7 +15,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
     </div>
   `,
   standalone: true,
-  imports: [NgbDropdown, StopPropagationDirective, NgbDropdownToggle, BiComponent, NgbDropdownMenu],
+  imports: [NgbDropdown, StopPropagationDirective, BiComponent, NgbDropdownMenu, NgbDropdownAnchor],
   selector: 'app-action-dropdown',
 })
 export class ActionDropdownComponent {}

@@ -4,26 +4,31 @@ import {injectBlurSetting} from '@home-shared/services/blur-setting.service';
 
 @Component({
   template: `
-    <div class="card">
-      <div class="card-body d-flex flex-column justify-content-between align-items-center gap-2">
-        <h4 class="mt-1">
-          <ng-content />
-        </h4>
-        <div class="heading text-center" [class.unblur]="isBlurred()">
-          @if (count === 0) {
-            <span>0</span>
-          } @else {
-            <span animationDuration="2000" clickable="false" [countUp]="count"></span>
-          }
-          <ng-content select="[valuePrefix]" />
+    <div class="card bg-body-tertiary">
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-2">
+          <div
+            class="rounded-5 bg-info-subtle d-inline-flex align-items-center justify-content-center"
+            style="width: 60px; height: 60px; padding-top: 5px"
+          >
+            <ng-content select="[icon]" />
+          </div>
+          <div class="d-flex flex-column">
+            <div class="blur fs-4" [class.unblur]="!isBlurred()">
+              @if (count === 0) {
+                <strong>0</strong>
+              } @else {
+                <strong animationDuration="2000" clickable="false" [countUp]="count"></strong>
+              }
+              <ng-content select="[valuePrefix]" />
+            </div>
+            <span class="fs-6">
+              <ng-content />
+            </span>
+          </div>
         </div>
       </div>
     </div>
-  `,
-  styles: `
-    .heading {
-      font-size: 2.8rem;
-    }
   `,
   selector: 'app-statistics-count-card',
   changeDetection: ChangeDetectionStrategy.OnPush,

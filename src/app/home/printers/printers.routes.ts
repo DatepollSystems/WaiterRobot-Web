@@ -3,7 +3,6 @@ import {Routes} from '@angular/router';
 export const ROUTES: Routes = [
   {
     path: '',
-    loadComponent: () => import('./printers.layout').then((c) => c.PrintersLayout),
     children: [
       {
         path: 'mediators',

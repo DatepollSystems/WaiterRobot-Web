@@ -8,13 +8,13 @@ import {TranslocoPipe} from '@ngneat/transloco';
   template: `
     <div class="modal-header">
       <h4 class="modal-title" id="modal-question-title">{{ 'INFORMATION' | transloco }}</h4>
-      <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.close()"></button>
+      <button type="button" class="btn-close btn-close-white" aria-label="Close" (mousedown)="activeModal.close()"></button>
     </div>
     <div class="modal-body">
       <strong>{{ 'ABOUT_SIGNIN_FAILED_ACCOUNT_NOT_ACTIVATED' | transloco }}</strong>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | transloco }}</button>
+      <button type="button" class="btn btn-outline-secondary" (mousedown)="activeModal.close()">{{ 'CLOSE' | transloco }}</button>
     </div>
   `,
   selector: 'app-account-not-activated-modal',

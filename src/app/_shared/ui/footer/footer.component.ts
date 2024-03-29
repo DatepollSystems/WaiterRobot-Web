@@ -14,11 +14,11 @@ import {injectWindow} from 'dfx-helper';
   template: `
     <footer class="container-fluid border-top py-3">
       <div [class]="'my-container ' + container">
-        <div class="d-flex flex-column flex-md-row justify-content-between gap-2">
+        <div class="d-flex flex-column flex-xxl-row justify-content-between gap-2">
           <div
             class="d-flex flex-column flex-sm-row gap-2 text-body-secondary align-items-center justify-content-center justify-content-sm-between"
           >
-            <a href="https://kellner.team" rel="noreferrer" target="_blank">
+            <a href="https://kellner.team" rel="noreferrer" target="_blank" style="padding-bottom: 2px;">
               <div class="d-flex align-items-center py-1 gap-1 ms-1">
                 <svg width="80pt" height="23pt" viewBox="0 0 118 23" xmlns="http://www.w3.org/2000/svg">
                   <g
@@ -61,11 +61,11 @@ import {injectWindow} from 'dfx-helper';
               }
             </div>
           </div>
-          <div class="d-flex flex-wrap align-items-center gap-2 text-body-emphasis justify-content-center justify-content-md-end">
+          <div class="d-flex flex-wrap align-items-center gap-2 text-body-emphasis justify-content-center justify-content-lg-end">
             <div>
-              <button type="button" class="btn btn-link px-0" (click)="openAbout()">
-                {{ 'ABOUT' | transloco }}
-              </button>
+              <a routerLink="/info/privacypolicy">
+                {{ 'ABOUT_PRIVACY_POLICY' | transloco }}
+              </a>
             </div>
             <div>
               <a routerLink="/info/imprint">
@@ -73,9 +73,9 @@ import {injectWindow} from 'dfx-helper';
               </a>
             </div>
             <div>
-              <a routerLink="/info/privacypolicy">
-                {{ 'ABOUT_PRIVACY_POLICY' | transloco }}
-              </a>
+              <button type="button" class="btn btn-link px-0" (mousedown)="openAbout()">
+                {{ 'ABOUT' | transloco }}
+              </button>
             </div>
           </div>
         </div>

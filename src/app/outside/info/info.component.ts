@@ -3,6 +3,7 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 
 import {TranslocoPipe} from '@ngneat/transloco';
 import {FooterComponent} from '@shared/ui/footer/footer.component';
+import {ThemeSwitcherComponent} from '@shared/ui/theme-switcher.component';
 
 @Component({
   template: `
@@ -33,11 +34,12 @@ import {FooterComponent} from '@shared/ui/footer/footer.component';
         </div>
       </div>
     </div>
+    <app-theme-switcher />
     <app-footer container="container-md" />
   `,
   selector: 'app-info',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterOutlet, RouterLinkActive, TranslocoPipe, FooterComponent],
+  imports: [RouterLink, RouterOutlet, RouterLinkActive, TranslocoPipe, FooterComponent, ThemeSwitcherComponent],
 })
 export class InfoComponent {}

@@ -10,7 +10,7 @@ import {BiComponent, BiName} from 'dfx-bootstrap-icons';
   template: `
     <div class="modal-header border-bottom-0">
       <h1 class="modal-title fs-5">{{ (title ? title : question) | transloco }}</h1>
-      <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.close()"></button>
+      <button type="button" class="btn-close btn-close-white" aria-label="Close" (mousedown)="activeModal.close()"></button>
     </div>
     <div class="modal-body py-0">
       @if (question || info) {
@@ -22,7 +22,7 @@ import {BiComponent, BiName} from 'dfx-bootstrap-icons';
       }
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | transloco }}</button>
+      <button type="button" class="btn btn-outline-secondary" (mousedown)="activeModal.close()">{{ 'CLOSE' | transloco }}</button>
       @for (answer of answers; track answer.value) {
         <button class="btn btn-outline-secondary" type="button" (click)="answerQuestion(answer.value)">
           @if (answer.icon) {

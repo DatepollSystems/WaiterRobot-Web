@@ -8,5 +8,5 @@ export const environment: Environment = {
   production: true,
   type: 'testing',
   apiUrl: 'https://lava.kellner.team/api/v1',
-  titlePrefix: 'lava.kellner.team',
+  titleSuffix: 'lava.kellner.team',
 };

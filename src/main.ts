@@ -40,7 +40,7 @@ import {TranslocoHttpLoader} from './transloco-loader';
 bootstrapApplication(AppComponent, {
   providers: [
     provideDfxHelper(
-      withMobileBreakpoint(767),
+      withMobileBreakpoint(992),
       withBaseUrlInterceptor(EnvironmentHelper.getAPIUrl(), ['assets/i18n', 'assets/licenses.json', 'share.dafnik.me']),
       withLoggingInterceptor([
         'json',

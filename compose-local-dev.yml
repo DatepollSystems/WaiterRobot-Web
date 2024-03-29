@@ -79,6 +79,12 @@ services:
       - RATE_LIMIT_ENABLED=true
       - RATE_LIMIT_DURATION_IN_SECONDS=120
       - RATE_LIMIT_TRIES=40
+      - STRIPE_ENABLED=false
+      - STRIPE_KEYS_SECRET=sk_test
+      - STRIPE_KEYS_PUBLISHABLE=pk_test
+      - STRIPE_WEBHOOK_SEED_ENABLED=false
+      - STRIPE_WEBHOOK_URL=https://not-existing.kellner.team/api/v1/public/webhooks/stripe
+      - STRIPE_WEBHOOK_SECRET=testabc
     networks:
       - kellner-backend
     # No healthcheck possible as the container is distroless and therefor has no bash nor other tools to make requests

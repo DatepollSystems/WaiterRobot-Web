@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {AppSelectableBtnComponent} from '@home-shared/components/button/app-selectable-btn.component';
 import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
 import {injectOnDelete} from '@home-shared/form/edit';
@@ -11,7 +10,6 @@ import {GetEventOrLocationResponse} from '@shared/waiterrobot-backend';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
 import {EventsService} from '../_services/events.service';
-import {SelectedEventService} from '../_services/selected-event.service';
 import {AppEventEditFormComponent} from './event-edit-form.component';
 
 @Component({
@@ -27,20 +25,12 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
           <ng-container *isEditing="entity">
             @if (myUser()?.isAdmin) {
               <div>
-                <button type="button" class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
+                <button type="button" class="btn btn-sm btn-outline-danger" (mousedown)="onDelete(entity.id)">
                   <bi name="trash" />
                   {{ 'DELETE' | transloco }}
                 </button>
               </div>
             }
-            <div>
-              <selectable-button
-                class="my-2"
-                [entityId]="entity.id"
-                [selectedId]="selectedEventService.selectedId()"
-                (selectedChange)="selectedEventService.setSelected($event)"
-              />
-            </div>
           </ng-container>
         </scrollable-toolbar>
 
@@ -62,14 +52,13 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
   selector: 'app-event-edit',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AppEntityEditModule, BiComponent, AppSelectableBtnComponent, AppEventEditFormComponent],
+  imports: [AppEntityEditModule, BiComponent, AppEventEditFormComponent],
 })
 export class EventEditComponent extends AbstractModelEditComponent<GetEventOrLocationResponse> {
   onDelete = injectOnDelete((it: number) => this.eventsService.delete$(it).subscribe());
   onSubmit = injectOnSubmit({entityService: this.eventsService});
 
   myUser = inject(MyUserService).user;
-  selectedEventService = inject(SelectedEventService);
   selectedOrganisationId = inject(SelectedOrganisationService).selectedId;
 
   constructor(private eventsService: EventsService) {

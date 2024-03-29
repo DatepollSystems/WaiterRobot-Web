@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, Input, signal} from '@angular/core';
 
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {MobileLinkService} from '@home-shared/services/mobile-link.service';
@@ -12,12 +12,13 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {QRCodeComponent} from 'dfx-qrcode';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
+import {delay, of} from 'rxjs';
 
 @Component({
   template: `
     <div class="modal-header">
       <h4 class="modal-title" id="app-tables-qr-codes-title">{{ 'HOME_TABLE_PRINT_TITLE' | transloco }}</h4>
-      <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.dismiss()"></button>
+      <button type="button" class="btn-close btn-close-white" aria-label="Close" (mousedown)="activeModal.dismiss()"></button>
     </div>
     <div class="modal-body d-flex flex-column gap-3">
       <scrollable-toolbar>
@@ -38,8 +39,8 @@ import {jsPDF} from 'jspdf';
         </div>
       </scrollable-toolbar>
 
-      @if (progress) {
-        <ngb-progressbar type="primary" class="my-2" textType="white" [value]="progress" [showValue]="true" />
+      @if (progress(); as progress) {
+        <ngb-progressbar type="primary" class="my-2" textType="white" [value]="progress" [max]="100" [showValue]="true" />
       }
 
       <div class="alert alert-info mb-2" role="alert">Deaktiviere mögliche Seitenränder beim drucken.</div>
@@ -73,7 +74,7 @@ import {jsPDF} from 'jspdf';
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | transloco }}</button>
+      <button type="button" class="btn btn-outline-secondary" (mousedown)="activeModal.close()">{{ 'CLOSE' | transloco }}</button>
     </div>
   `,
   styles: `
@@ -92,6 +93,7 @@ import {jsPDF} from 'jspdf';
       font-size: 4rem;
     }
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-print-table-qr-codes-modal',
   standalone: true,
   imports: [NgbProgressbarModule, QRCodeComponent, ScrollableToolbarComponent, BiComponent, NgbDropdownModule, AsyncPipe, TranslocoPipe],
@@ -104,7 +106,7 @@ export class TablesPrintQrCodesModal {
 
   qrCodeSize: 'SM' | 'MD' = 'MD';
   generating = false;
-  progress?: number;
+  progress = signal<number | undefined>(undefined);
 
   parser = (table: GetTableWithGroupResponse): string => {
     return this.#mobileLink.createTableLink(table.publicId);
@@ -112,7 +114,7 @@ export class TablesPrintQrCodesModal {
 
   async pdf(): Promise<void> {
     this.generating = true;
-    this.progress = 1;
+    this.progress.set(1);
 
     const qrCodeDivs = document.getElementsByClassName('qr-code-item');
     const pdf = new jsPDF('p', 'pt', 'a4', true);
@@ -144,11 +146,16 @@ export class TablesPrintQrCodesModal {
         x = 0;
         y = 0;
       }
-      this.progress += steps;
+      this.progress.update((it) => (it ?? 1) + steps);
     }
     pdf.save(`tables-${d_formatWithHoursMinutesAndSeconds(new Date())}.pdf`);
     this.generating = false;
-    this.progress = undefined;
+
+    of(true)
+      .pipe(delay(1000))
+      .subscribe(() => {
+        this.progress.set(undefined);
+      });
   }
 
   getQrCodeSize = (): number => {

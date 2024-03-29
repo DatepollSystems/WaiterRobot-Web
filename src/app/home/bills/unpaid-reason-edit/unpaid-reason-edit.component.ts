@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {AppSelectableBtnComponent} from '@home-shared/components/button/app-selectable-btn.component';
 import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
 import {injectOnDelete} from '@home-shared/form/edit';
@@ -25,7 +24,7 @@ import {AppUnpaidReasonEditFormComponent} from './unpaid-reason-edit-form.compon
           @if (entity !== 'CREATE' && !entity.isGlobal) {
             <ng-container *isEditing="entity">
               <div>
-                <button type="button" class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
+                <button type="button" class="btn btn-sm btn-outline-danger" (mousedown)="onDelete(entity.id)">
                   <bi name="trash" />
                   {{ 'DELETE' | transloco }}
                 </button>
@@ -52,7 +51,7 @@ import {AppUnpaidReasonEditFormComponent} from './unpaid-reason-edit-form.compon
   selector: 'app-event-edit',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AppEntityEditModule, BiComponent, AppSelectableBtnComponent, AppUnpaidReasonEditFormComponent],
+  imports: [AppEntityEditModule, BiComponent, AppUnpaidReasonEditFormComponent],
 })
 export class UnpaidReasonEditComponent extends AbstractModelEditComponent<GetBillUnpaidReasonResponse> {
   onDelete = injectOnDelete((it: number) => this.unpaidReasonsService.delete$(it).subscribe());

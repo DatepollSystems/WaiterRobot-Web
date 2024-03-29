@@ -10,6 +10,7 @@ import {DuplicateWaiterResponse, IdAndNameResponse} from '@shared/waiterrobot-ba
 
 import {notNullAndUndefined} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
+import {StopPropagationDirective} from 'dfx-helper';
 
 import {combineLatest, filter, map, merge, share, shareReplay, Subject, switchMap, take, tap} from 'rxjs';
 import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
@@ -27,7 +28,7 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
             <a routerLink="../../" class="btn btn-sm btn-outline-secondary">{{ 'GO_BACK' | transloco }}</a>
           </div>
           <div>
-            <button type="button" class="btn btn-sm btn-success" [disabled]="!vm.minTwo" (click)="merge()">
+            <button type="button" class="btn btn-sm btn-success" [disabled]="!vm.minTwo" (mousedown)="merge()">
               {{ 'SAVE' | transloco }}
             </button>
           </div>
@@ -42,21 +43,22 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
                 type="button"
                 class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
                 [class.active]="duplicateWaiter.selectedAsMain"
-                (click)="selectMainDuplicateWaiter(duplicateWaiter)"
+                (mousedown)="selectMainDuplicateWaiter(duplicateWaiter)"
               >
                 <div>
                   @if (!duplicateWaiter.selectedAsMain) {
                     <input
                       class="form-check-input me-1"
                       type="checkbox"
+                      stopPropagation
                       [checked]="duplicateWaiter.selectedToMerge"
-                      (click)="selectDuplicateWaiterToMerge(duplicateWaiter); $event.stopPropagation()"
+                      (mousedown)="selectDuplicateWaiterToMerge(duplicateWaiter)"
                     />
                   }
                   {{ duplicateWaiter.name }}
                 </div>
                 @if (ignoreFeature) {
-                  <button type="button" class="btn btn-sm btn-warning" (click)="$event.stopPropagation()">
+                  <button type="button" class="btn btn-sm btn-warning" stopPropagation>
                     <bi name="person-x-fill" />
                     {{ 'IGNORE' | transloco }}
                   </button>
@@ -80,6 +82,7 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
     AsyncPipe,
     AppContinuesCreationSwitchComponent,
     FormsModule,
+    StopPropagationDirective,
   ],
   selector: 'app-duplicate-organisation-waiters-edit',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -204,13 +207,13 @@ export class DuplicateOrganisationWaitersEditComponent {
             if (i > 98) {
               console.warn('duplicateWaiter merge - Could not find another duplicate waiter', allDuplicateWaiters);
             } else {
-              void this.#router.navigateByUrl(`/o/organisationId/e/eventId/waiters/duplicates/merge/"${next!.name}"`);
+              void this.#router.navigateByUrl(`/o/organisationId/e/eventId/waiter-duplicates/merge/"${next!.name}"`);
               return;
             }
-            void this.#router.navigateByUrl('/o/organisationId/e/eventId/waiters/duplicates');
+            void this.#router.navigateByUrl('/o/organisationId/e/eventId/waiter-duplicates');
           });
       } else {
-        void this.#router.navigateByUrl('/o/organisationId/e/eventId/waiters/duplicates');
+        void this.#router.navigateByUrl('/o/organisationId/e/eventId/waiter-duplicates');
       }
     });
   }

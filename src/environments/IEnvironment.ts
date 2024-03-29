@@ -4,5 +4,5 @@ export interface Environment {
   type: 'dev' | 'testing' | 'prod';
   apiUrl: string;
   logoUrl?: string;
-  titlePrefix?: string;
+  titleSuffix: string;
 }

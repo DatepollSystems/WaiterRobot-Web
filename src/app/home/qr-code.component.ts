@@ -35,7 +35,7 @@ import {QrCodeService} from './_shared/services/qr-code.service';
           </div>
           <div class="card-footer text-muted">
             <scrollable-toolbar>
-              <button type="button" class="btn btn-sm btn-secondary" (click)="back()">
+              <button type="button" class="btn btn-sm btn-secondary" (mousedown)="back()">
                 <bi name="arrow-left" />
                 {{ 'GO_BACK' | transloco }}
               </button>

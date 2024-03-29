@@ -42,7 +42,7 @@ export interface appDownload {
             placement="top"
             [attr.aria-label]="'ABOUT_APP_QR_CODE_TOOLTIP' | transloco"
             [ngbTooltip]="'ABOUT_APP_QR_CODE_TOOLTIP' | transloco"
-            (click)="showQRCode(appLink)"
+            (mousedown)="showQRCode(appLink)"
           >
             <bi name="upc-scan" />
           </button>
@@ -59,7 +59,7 @@ export interface appDownload {
           placement="bottom"
           [copyable]="appLink.link"
           [ngbTooltip]="'COPIED' | transloco"
-          (click)="c.copy(t)"
+          (mousedown)="c.copy(t)"
         >
           <bi name="clipboard" />
         </button>

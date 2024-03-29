@@ -8,7 +8,7 @@ export const environment: Environment = {
   production: false,
   type: 'dev',
   apiUrl: 'http://localhost:4300/api/v1',
-  titlePrefix: 'local-lava',
+  titleSuffix: 'lava.kellner.team',
 };
 
 function getTime(): string {

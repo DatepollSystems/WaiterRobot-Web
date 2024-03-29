@@ -1,18 +1,20 @@
 import {AsyncPipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-import {AbstractModelsWithNameListWithDeleteComponent} from '@home-shared/list/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
+import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
+import {mapName} from '@home-shared/name-map';
 import {NgbDropdownItem, NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@ngneat/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {GetPrinterResponse} from '@shared/waiterrobot-backend';
+import {loggerOf} from 'dfts-helper';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
+import {StopPropagationDirective} from 'dfx-helper';
 
 import {forkJoin} from 'rxjs';
 
@@ -33,14 +35,19 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
         </div>
 
         <div [ngbTooltip]="!selection.hasValue() ? ('HOME_PRINTER_SELECT' | transloco) : undefined">
-          <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+          <button type="button" class="btn btn-sm btn-danger" [disabled]="!selection.hasValue()" (mousedown)="delete.onDeleteSelected()">
             <bi name="trash" />
             {{ 'DELETE' | transloco }}
           </button>
         </div>
 
         <div [ngbTooltip]="!selection.hasValue() ? ('HOME_PRINTER_SELECT' | transloco) : undefined">
-          <button type="button" class="btn btn-sm btn-secondary" [class.disabled]="!selection.hasValue()" (click)="onBatchUpdatePrinters()">
+          <button
+            type="button"
+            class="btn btn-sm btn-secondary"
+            [class.disabled]="!selection.hasValue()"
+            (mousedown)="onBatchUpdatePrinters()"
+          >
             <bi name="pencil-square" />
             {{ 'HOME_PRINTER_BATCH_UPDATE' | transloco }}
           </button>
@@ -49,8 +56,8 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
-          @if ((filter.value?.length ?? 0) > 0) {
+          <input class="form-control ml-2" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
+          @if (filter.isActive()) {
             <button
               class="btn btn-outline-secondary"
               type="button"
@@ -64,92 +71,94 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
         </div>
       </form>
 
-      <div class="table-responsive">
-        <table ngb-table ngb-sort [hover]="true" [dataSource]="(dataSource$ | async) ?? []">
-          <ng-container ngbColumnDef="select">
-            <th *ngbHeaderCellDef ngb-header-cell>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  name="checked"
-                  [checked]="selection.hasValue() && isAllSelected()"
-                  (change)="$event ? toggleAllRows() : null"
-                />
-              </div>
-            </th>
-            <td *ngbCellDef="let selectable" ngb-cell (click)="$event.stopPropagation()">
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  name="checked"
-                  [checked]="selection.isSelected(selectable)"
-                  (change)="$event ? selection.toggle(selectable) : null"
-                />
-              </div>
-            </td>
-          </ng-container>
+      @if (table.dataSource(); as dataSource) {
+        <div class="table-responsive">
+          <table ngb-table ngb-sort [hover]="true" [dataSource]="dataSource">
+            <ng-container ngbColumnDef="select">
+              <th *ngbHeaderCellDef ngb-header-cell>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="selectAll"
+                    [checked]="selection.isAllSelected()"
+                    (change)="selection.toggleAll()"
+                  />
+                </div>
+              </th>
+              <td *ngbCellDef="let selectable" ngb-cell stopPropagation>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="select"
+                    [checked]="selection.isSelected(selectable)"
+                    (change)="selection.toggle(selectable, $event)"
+                  />
+                </div>
+              </td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="name">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
-            <td *ngbCellDef="let printer" ngb-cell>{{ printer.name }}</td>
-          </ng-container>
+            <ng-container ngbColumnDef="name">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
+              <td *ngbCellDef="let printer" ngb-cell>{{ printer.name }}</td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="fontScale">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_FONT_SCALE' | transloco }}</th>
-            <td *ngbCellDef="let printer" ngb-cell>{{ printer.fontScale }}</td>
-          </ng-container>
+            <ng-container ngbColumnDef="fontScale">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_FONT_SCALE' | transloco }}</th>
+              <td *ngbCellDef="let printer" ngb-cell>{{ printer.fontScale }}</td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="font">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_FONT' | transloco }}</th>
-            <td *ngbCellDef="let printer" ngb-cell>{{ printer.font.description }}</td>
-          </ng-container>
+            <ng-container ngbColumnDef="font">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_FONT' | transloco }}</th>
+              <td *ngbCellDef="let printer" ngb-cell>{{ printer.font.description }}</td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="bonWidth">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_WIDTH' | transloco }}</th>
-            <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonWidth }}</td>
-          </ng-container>
+            <ng-container ngbColumnDef="bonWidth">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_WIDTH' | transloco }}</th>
+              <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonWidth }}</td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="bonPadding">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_PADDING' | transloco }}</th>
-            <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonPadding }}</td>
-          </ng-container>
+            <ng-container ngbColumnDef="bonPadding">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_PADDING' | transloco }}</th>
+              <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonPadding }}</td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="bonPaddingTop">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_PADDING_TOP' | transloco }}</th>
-            <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonPaddingTop }}</td>
-          </ng-container>
+            <ng-container ngbColumnDef="bonPaddingTop">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_PADDING_TOP' | transloco }}</th>
+              <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonPaddingTop }}</td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="actions">
-            <th *ngbHeaderCellDef ngb-header-cell>
-              <span class="visually-hidden">{{ 'ACTIONS' | transloco }}</span>
-            </th>
-            <td *ngbCellDef="let printer" ngb-cell>
-              <app-action-dropdown>
-                <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../' + printer.id">
-                  <bi name="pencil-square" />
-                  {{ 'EDIT' | transloco }}
-                </a>
-                <button
-                  type="button"
-                  class="d-flex gap-2 align-items-center text-danger-emphasis"
-                  ngbDropdownItem
-                  (click)="onDelete(printer.id, $event)"
-                >
-                  <bi name="trash" />
-                  {{ 'DELETE' | transloco }}
-                </button>
-              </app-action-dropdown>
-            </td>
-          </ng-container>
+            <ng-container ngbColumnDef="actions">
+              <th *ngbHeaderCellDef ngb-header-cell>
+                <span class="visually-hidden">{{ 'ACTIONS' | transloco }}</span>
+              </th>
+              <td *ngbCellDef="let printer" ngb-cell>
+                <app-action-dropdown>
+                  <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../' + printer.id">
+                    <bi name="pencil-square" />
+                    {{ 'EDIT' | transloco }}
+                  </a>
+                  <button
+                    type="button"
+                    class="d-flex gap-2 align-items-center text-danger-emphasis"
+                    ngbDropdownItem
+                    (click)="delete.onDelete(printer.id)"
+                  >
+                    <bi name="trash" />
+                    {{ 'DELETE' | transloco }}
+                  </button>
+                </app-action-dropdown>
+              </td>
+            </ng-container>
 
-          <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-          <tr *ngbRowDef="let printer; columns: columnsToDisplay" ngb-row [routerLink]="'../' + printer.id"></tr>
-        </table>
-      </div>
+            <tr *ngbHeaderRowDef="selection.columnsToDisplay()" ngb-header-row></tr>
+            <tr *ngbRowDef="let printer; columns: selection.columnsToDisplay()" ngb-row [routerLink]="'../' + printer.id"></tr>
+          </table>
+        </div>
+      }
 
-      <app-progress-bar [show]="isLoading()" />
+      <app-progress-bar [show]="table.isLoading()" />
     </div>
   `,
   selector: 'app-event-by-id-printers',
@@ -168,29 +177,46 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
     AppProgressBarComponent,
     ActionDropdownComponent,
     NgbDropdownItem,
+    StopPropagationDirective,
   ],
 })
-export class PrintersComponent extends AbstractModelsWithNameListWithDeleteComponent<GetPrinterResponse> {
-  private modal = inject(NgbModal);
+export class PrintersComponent {
+  #modal = inject(NgbModal);
+  #printersService = inject(PrintersService);
+  #lumber = loggerOf('PrintersComponent');
 
-  constructor(private printersService: PrintersService) {
-    super(printersService);
+  sort = viewChild(NgbSort);
+  filter = injectTableFilter();
+  table = injectTable({
+    columnsToDisplay: ['name', 'font', 'fontScale', 'bonWidth', 'bonPadding', 'bonPaddingTop', 'actions'],
+    fetchData: () => this.#printersService.getAll$(),
+    sort: this.sort,
+    filterValue$: this.filter.value$,
+  });
 
-    this.columnsToDisplay = ['name', 'font', 'fontScale', 'bonWidth', 'bonPadding', 'bonPaddingTop', 'actions'];
-  }
+  selection = injectTableSelect({
+    dataSource: this.table.dataSource,
+    columnsToDisplay: this.table.columnsToDisplay,
+  });
+
+  delete = injectTableDelete({
+    delete$: (id) => this.#printersService.delete$(id),
+    selection: this.selection.selection,
+    nameMap: mapName(),
+  });
 
   onBatchUpdatePrinters(): void {
-    this.lumber.info('onBatchUpdatePrinters', 'Opening settings question dialog');
-    this.lumber.info('onBatchUpdatePrinters', 'Selected entities:', this.selection.selected);
-    const modalRef = this.modal.open(PrintersBatchUpdateModal, {ariaLabelledBy: 'modal-printer-batch-update-title', size: 'lg'});
+    this.#lumber.info('onBatchUpdatePrinters', 'Opening settings question dialog');
+    this.#lumber.info('onBatchUpdatePrinters', 'Selected entities:', this.selection.selection().selected);
+    const modalRef = this.#modal.open(PrintersBatchUpdateModal, {ariaLabelledBy: 'modal-printer-batch-update-title', size: 'lg'});
 
     void modalRef.result
       .then((result?: PrinterBatchUpdateDto) => {
-        this.lumber.info('onBatchUpdatePrinters', 'Question dialog result:', result);
+        this.#lumber.info('onBatchUpdatePrinters', 'Question dialog result:', result);
         if (result) {
           forkJoin(
-            this.selection.selected.map((it) =>
-              this.printersService.update$({
+            this.selection.selection().selected.map((it) =>
+              this.#printersService.update$({
                 id: it.id,
                 name: it.name,
                 fontScale: result.fontScale,
@@ -201,7 +227,7 @@ export class PrintersComponent extends AbstractModelsWithNameListWithDeleteCompo
               }),
             ),
           ).subscribe(() => {
-            this.printersService.triggerGet$.next(true);
+            this.#printersService.triggerGet$.next(true);
           });
         }
       })

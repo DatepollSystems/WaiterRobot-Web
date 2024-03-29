@@ -15,7 +15,7 @@ import {OrdersService} from '../orders.service';
       placement="left"
       [class.btnSpinner]="loading"
       [ngbTooltip]="'HOME_ORDER_REFRESH_NOW' | transloco"
-      (click)="ordersService.triggerRefresh.next(true)"
+      (mousedown)="ordersService.triggerRefresh.next(true)"
     >
       <bi name="arrow-clockwise" />
       @if (countdown) {

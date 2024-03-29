@@ -1,8 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 
-import {BehaviorSubject, map, Observable, switchMap, take, tap, timer} from 'rxjs';
-
 import {Download, DownloadService} from '@home-shared/services/download.service';
 import {getPaginationParams, PageableDto} from '@home-shared/services/pagination';
 import {NotificationService} from '@shared/notifications/notification.service';
@@ -11,6 +9,8 @@ import {GetOrderResponse, PaginatedResponseGetOrderMinResponse} from '@shared/wa
 
 import {n_generate_int} from 'dfts-helper';
 import {HasGetSingle} from 'dfx-helper';
+
+import {BehaviorSubject, map, Observable, switchMap, take, tap, timer} from 'rxjs';
 
 import {SelectedEventService} from '../events/_services/selected-event.service';
 
@@ -57,6 +57,9 @@ export class OrdersService implements HasGetSingle<GetOrderResponse> {
       .pipe(
         take(1),
         switchMap((eventId) => this.httpClient.post(`${this.url}/test/all`, {}, {params: {eventId}})),
+        tap(() => {
+          this.triggerRefresh.next(true);
+        }),
       )
       .subscribe(() => {
         this.notificationService.tsuccess('SENT');

@@ -62,7 +62,7 @@ import {TablesService} from '../_services/tables.service';
                 class="input-group-text"
                 id="selectGroup-addon"
                 placement="bottom"
-                [routerLink]="'../groups/' + form.controls.groupId.value"
+                [routerLink]="'../../' + form.controls.groupId.value"
                 [ngbTooltip]="('HOME_TABLE_GROUP' | transloco) + ('OPEN_2' | transloco)"
               >
                 <bi name="diagram-3" />

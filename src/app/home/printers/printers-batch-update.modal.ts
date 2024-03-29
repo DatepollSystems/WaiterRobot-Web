@@ -14,7 +14,7 @@ import {PrintersService} from './_services/printers.service';
   template: `
     <div class="modal-header">
       <h4 class="modal-title" id="modal-printer-batch-update-title">{{ 'HOME_PRINTER_BATCH_UPDATE_TITLE' | transloco }}</h4>
-      <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.close()"></button>
+      <button type="button" class="btn-close btn-close-white" aria-label="Close" (mousedown)="activeModal.close()"></button>
     </div>
     <div class="modal-body">
       @if (isValid()) {}
@@ -153,7 +153,7 @@ import {PrintersService} from './_services/printers.service';
       }
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | transloco }}</button>
+      <button type="button" class="btn btn-outline-secondary" (mousedown)="activeModal.close()">{{ 'CLOSE' | transloco }}</button>
       <button
         type="submit"
         class="btn btn-warning"
@@ -165,7 +165,7 @@ import {PrintersService} from './_services/printers.service';
             !form.controls.updateBonPaddingTop.value) ||
           !form.valid
         "
-        (click)="submit()"
+        (mousedown)="submit()"
       >
         {{ 'SAVE' | transloco }}
       </button>

@@ -19,7 +19,7 @@ import {SystemNotificationEditFormComponent} from './system-notification-edit-fo
           <back-button />
 
           <div *isEditing="entity">
-            <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+            <button type="button" class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)">
               <bi name="trash" />
               {{ 'DELETE' | transloco }}
             </button>

@@ -1,0 +1,62 @@
+name: preview
+
+on: [pull_request]
+
+# This allows a subsequently queued workflow run to interrupt previous runs
+concurrency:
+  group: 'preview-${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  build-lava:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: dafnik/setup-node-pnpm@v3
+        with:
+          install-ignore-scripts: true
+
+      - name: Build
+        run: pnpm build:lava
+
+      - name: Upload lava build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lava
+          path: dist
+
+  # Deploy job
+  deploy-lava-preview:
+    name: Deploy lava preview
+    needs: build-lava
+
+    permissions:
+      pull-requests: write
+      actions: read
+
+    # Deploy to the preview environment
+    environment:
+      name: preview-${{ github.event.number }}
+      url: ${{ steps.deploy-preview.outputs.url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: lava
+          path: dist
+
+      - name: deploy preview
+        id: deploy-preview
+        uses: dafnik/ssp@v1
+        with:
+          host: preview.dafnik.me
+          username: ${{ secrets.PREVIEW_SSH_USER }}
+          key: ${{ secrets.PREVIEW_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.PREVIEW_SSH_PORT }}
+          source: dist/*
+          target: /var/www/share/preview
+          strip_components: 3

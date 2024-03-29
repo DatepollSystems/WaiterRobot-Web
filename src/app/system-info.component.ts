@@ -30,7 +30,7 @@ import {interval, map} from 'rxjs';
           [cdkDragDisabled]="isMobile()"
           [class.position-fixed]="!isMobile()"
         >
-          <div class="card px-2 pt-2" [class.transparent]="theme().id === 'dark'" [class.light-transparent]="theme().id === 'light'">
+          <div class="card px-2 pt-2 transparent" [class.text-white]="theme().id === 'light'">
             <div class="card-body">
               <h5 class="card-title">{{ 'HOME_START_STATISTICS' | transloco }}</h5>
               <ul class="list-unstyled px-2 d-flex flex-column gap-2">
@@ -120,7 +120,7 @@ import {interval, map} from 'rxjs';
           [cdkDragDisabled]="isMobile()"
           [class.position-fixed]="!isMobile()"
         >
-          <div class="card px-2 pt-2" [class.transparent]="theme().id === 'dark'" [class.light-transparent]="theme().id === 'light'">
+          <div class="card px-2 pt-2 transparent" [class.text-white]="theme().id === 'light'">
             <div class="card-body">
               <h5 i18n>Backend</h5>
               <ul class="list-unstyled d-flex flex-column gap-2">
@@ -179,7 +179,7 @@ import {interval, map} from 'rxjs';
                     @if (serverInfoService.adminInfo(); as adminInfo) {
                       <li>
                         Environment Info:
-                        <pre><code>{{ adminInfo | json }}</code></pre>
+                        <pre><code>{{ adminInfo.infos | json }}</code></pre>
                       </li>
                     }
                   }
@@ -194,10 +194,6 @@ import {interval, map} from 'rxjs';
   styles: `
     .transparent {
       background-color: rgba(0, 0, 0, 0.85);
-    }
-
-    .light-transparent {
-      background-color: rgba(0, 0, 0, 0.35);
     }
   `,
   selector: 'app-system-info',

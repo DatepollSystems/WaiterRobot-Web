@@ -11,7 +11,7 @@ import {EnvironmentHelper} from './EnvironmentHelper';
   providedIn: 'root',
 })
 export class CustomTitleStrategy extends TitleStrategy {
-  titlePrefix = EnvironmentHelper.getTitlePrefix();
+  titlePrefix = EnvironmentHelper.getTitleSuffix();
 
   translocoService = inject(TranslocoService);
   title = inject(Title);
@@ -26,7 +26,7 @@ export class CustomTitleStrategy extends TitleStrategy {
       .selectTranslate<string>(title)
       .pipe(first())
       .subscribe((translation) => {
-        this.title.setTitle(`${this.titlePrefix} - ${translation}`);
+        this.title.setTitle(`${translation} • ${this.titlePrefix}`);
       });
   }
 }

@@ -12,7 +12,7 @@ import {TranslocoPipe} from '@ngneat/transloco';
   template: `
     <div class="modal-header">
       <h4 class="modal-title" id="modal-question-title">{{ 'ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_INFO' | transloco }}</h4>
-      <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.close(undefined)"></button>
+      <button type="button" class="btn-close btn-close-white" aria-label="Close" (mousedown)="activeModal.close(undefined)"></button>
     </div>
     <div class="modal-body">
       <div class="mb-3">
@@ -66,12 +66,12 @@ import {TranslocoPipe} from '@ngneat/transloco';
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close(undefined)">{{ 'CLOSE' | transloco }}</button>
+      <button type="button" class="btn btn-outline-secondary" (mousedown)="activeModal.close(undefined)">{{ 'CLOSE' | transloco }}</button>
       <button
         type="button"
         class="btn btn-success"
         [disabled]="passwordForm.invalid"
-        (click)="activeModal.close(passwordForm.controls.newPassword.getRawValue())"
+        (mousedown)="activeModal.close(passwordForm.controls.newPassword.getRawValue())"
       >
         {{ 'ABOUT_SIGNIN' | transloco }}
       </button>

@@ -16,7 +16,6 @@ import {NgxPrintDirective} from 'ngx-print';
 import {AppBackButtonComponent} from '../_shared/components/button/app-back-button.component';
 import {AppDatetimeInputComponent} from '../_shared/components/datetime-picker/datetime-picker.component';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
-import {EntitiesLayout} from '../_shared/layouts/entities.layout';
 import {BlurToggleComponent} from './blur-toggle.component';
 import {CountCardComponent} from './components/count-card.component';
 import {SumProductGroupsComponent} from './components/sum-product-groups.component';
@@ -57,7 +56,6 @@ const routes: Routes = [
     DfxPaginationModule,
     DfxSortModule,
     DfxTableModule,
-    EntitiesLayout,
     LineChartModule,
     NgbDropdownModule,
     NgbInputDatepicker,

@@ -70,7 +70,7 @@ import {OrdersService} from './orders.service';
           <back-button />
           <div>
             @if (vm.showRequeueButton) {
-              <button type="button" class="btn btn-sm btn-warning" (click)="requeueOrder(vm.order.id)">
+              <button type="button" class="btn btn-sm btn-warning" (mousedown)="requeueOrder(vm.order.id)">
                 <bi name="printer" />
                 {{ 'HOME_ORDER_REQUEUE' | transloco }}
               </button>

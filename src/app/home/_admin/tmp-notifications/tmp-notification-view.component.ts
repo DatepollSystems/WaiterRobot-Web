@@ -49,7 +49,7 @@ import {TmpNotificationsService} from './tmp-notifications.service';
               <ng-template ngbNavContent>
                 <div class="json-box">
                   <div class="d-flex justify-content-end">
-                    <button type="button" class="ms-auto btn btn-dark btn-sm" ngbTooltip="Copy" (click)="copy(it.bodyHTML)">
+                    <button type="button" class="ms-auto btn btn-dark btn-sm" ngbTooltip="Copy" (mousedown)="copy(it.bodyHTML)">
                       <bi name="copy" />
                     </button>
                   </div>
@@ -62,7 +62,7 @@ import {TmpNotificationsService} from './tmp-notifications.service';
               <ng-template ngbNavContent>
                 <div class="json-box">
                   <div class="d-flex justify-content-end mb-2">
-                    <button type="button" class="ms-auto btn btn-dark btn-sm" ngbTooltip="Copy" (click)="copy(it.bodyHTML)">
+                    <button type="button" class="ms-auto btn btn-dark btn-sm" ngbTooltip="Copy" (mousedown)="copy(it.bodyHTML)">
                       <bi name="copy" />
                     </button>
                   </div>
@@ -82,7 +82,7 @@ import {TmpNotificationsService} from './tmp-notifications.service';
         <div class="d-flex gap-2">
           <div class="json-box" style="width: 50%">
             <div class="d-flex justify-content-end mb-2">
-              <button type="button" class="ms-auto btn btn-dark btn-sm" ngbTooltip="Copy" (click)="copy(it.body)">
+              <button type="button" class="ms-auto btn btn-dark btn-sm" ngbTooltip="Copy" (mousedown)="copy(it.body)">
                 <bi name="copy" />
               </button>
             </div>

@@ -28,7 +28,7 @@ import {QrCodeService} from '../../services/qr-code.service';
         [ngbPopover]="popContent"
         [popoverTitle]="popTitle"
         [autoClose]="'outside'"
-        (click)="openQrCode()"
+        (mousedown)="openQrCode()"
       >
         <bi name="qr-code" class="me-1" />
         {{ text | transloco }}
@@ -44,7 +44,7 @@ import {QrCodeService} from '../../services/qr-code.service';
         placement="right"
         [copyable]="data"
         [ngbTooltip]="'COPIED' | transloco"
-        (click)="c.copy(t)"
+        (mousedown)="c.copy(t)"
       >
         <bi name="clipboard" aria-label="Copy content to clipboard" />
       </button>

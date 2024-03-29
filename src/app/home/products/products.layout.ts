@@ -1,72 +1,44 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
-import {RouterLink, RouterLinkActive} from '@angular/router';
-
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {RouterLink, RouterOutlet} from '@angular/router';
+import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
+import {NgbNav, NgbNavItem, NgbNavLink} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@ngneat/transloco';
-
-import {BiComponent} from 'dfx-bootstrap-icons';
-
-import {AppTextWithColorIndicatorComponent} from '../_shared/components/color/app-text-with-color-indicator.component';
-import {AppListNavItemDirective, AppListNavItemsComponent} from '../_shared/layouts/app-list-nav-items.component';
-import {EntitiesLayout} from '../_shared/layouts/entities.layout';
+import {injectParams} from 'ngxtension/inject-params';
 import {ProductGroupsService} from './_services/product-groups.service';
 
 @Component({
   template: `
-    <entities-layout>
-      <div class="d-flex flex-column gap-3" nav>
-        <div class="list-group">
-          <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
-            <bi name="columns-gap" />
-            {{ 'HOME_PROD_ALL' | transloco }}</a
-          >
+    <h1 class="mb-3">{{ 'HOME_PROD_ALL' | transloco }}</h1>
 
-          <a class="list-group-item list-group-item-action" routerLink="groups/all" routerLinkActive="active">
-            <div class="d-flex justify-content-between">
-              <div>
-                <bi name="diagram-3" />
-                {{ 'HOME_PROD_GROUPS' | transloco }}
-              </div>
-              <div>
-                <span class="badge bg-secondary rounded-pill" ngbTooltip="Gruppenanzahl" placement="left">
-                  {{ productGroups()?.length ?? '-' }}
-                </span>
-              </div>
-            </div>
-          </a>
-        </div>
+    <div class="nav-x-scroll">
+      <ul ngbNav class="nav-tabs mb-3" [activeId]="activeId()">
+        <li ngbNavItem="all">
+          <a ngbNavLink routerLink="../all">{{ 'ALL' | transloco }}</a>
+        </li>
+        @for (productGroup of productGroups(); track productGroup.id) {
+          <li [ngbNavItem]="productGroup.id.toString()">
+            <a ngbNavLink [routerLink]="'../' + productGroup.id">
+              <app-text-with-color-indicator [color]="productGroup.color">
+                {{ productGroup.name }}
+              </app-text-with-color-indicator>
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
 
-        <app-list-nav-items
-          path="groups/products/"
-          titleTr="HOME_PROD_GROUPS"
-          selectTr="HOME_PROD_GROUP_SELECT"
-          [entities]="productGroups() ?? []"
-        >
-          <ng-template let-entity appListNavItem>
-            <app-text-with-color-indicator [color]="entity.color">
-              {{ entity.name }}
-            </app-text-with-color-indicator>
-          </ng-template>
-        </app-list-nav-items>
-      </div>
-    </entities-layout>
+    <router-outlet />
   `,
-  selector: 'app-products',
+  styles: '',
+  selector: 'app-products-layout',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    RouterLink,
-    RouterLinkActive,
-    TranslocoPipe,
-    BiComponent,
-    EntitiesLayout,
-    AppListNavItemsComponent,
-    AppListNavItemDirective,
-    AppTextWithColorIndicatorComponent,
-    NgbTooltip,
-  ],
+  imports: [RouterLink, TranslocoPipe, NgbNav, NgbNavItem, NgbNavLink, RouterOutlet, AppTextWithColorIndicatorComponent],
 })
 export class ProductsLayout {
-  productGroups = toSignal(inject(ProductGroupsService).getAll$());
+  activeId = injectParams('id');
+  productGroups = toSignal(inject(ProductGroupsService).getAll$(), {
+    initialValue: [],
+  });
 }

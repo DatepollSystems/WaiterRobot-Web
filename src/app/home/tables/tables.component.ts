@@ -1,43 +1,48 @@
-import {AsyncPipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {LowerCasePipe} from '@angular/common';
+import {ChangeDetectionStrategy, Component, inject, signal, viewChild} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 
+import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-import {AbstractModelsWithNumberListWithDeleteComponent} from '@home-shared/list/models-list-with-delete/abstract-models-with-number-list-with-delete.component';
+import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
 import {NgbDropdownItem, NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@ngneat/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
+import {n_from, s_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxArrayPluck} from 'dfx-helper';
-
+import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
+import {injectParams} from 'ngxtension/inject-params';
+import {switchMap} from 'rxjs';
 import {TablesService} from './_services/tables.service';
 import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
 
 @Component({
   template: `
     <div class="d-flex flex-column gap-3">
-      <h1 class="my-0">{{ 'HOME_TABLES' | transloco }}</h1>
-
       <scrollable-toolbar>
-        <div>
-          <a routerLink="../create" class="btn btn-sm btn-success">
-            <bi name="plus-circle" />
-            {{ 'ADD_2' | transloco }}</a
-          >
-        </div>
+        <a routerLink="../t/create" class="btn btn-sm btn-success" [queryParams]="{group: activeId()}">
+          <bi name="plus-circle" />
+          {{ 'HOME_TABLE' | transloco }} {{ 'ADD_3' | transloco | lowercase }}</a
+        >
 
         <div [ngbTooltip]="!selection.hasValue() ? ('HOME_TABLE_SELECT_REQUIRED' | transloco) : undefined">
-          <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+          <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="delete.onDeleteSelected()">
             <bi name="trash" />
             {{ 'DELETE' | transloco }}
           </button>
         </div>
+
+        @if (activeId() !== 'all') {
+          <a class="btn btn-sm btn-primary" [routerLink]="'../../table-groups/' + activeId()">
+            <bi name="pencil-square" />
+            {{ 'HOME_TABLE_GROUP' | transloco }} {{ 'EDIT' | transloco | lowercase }}</a
+          >
+        }
 
         <div [ngbTooltip]="!selection.hasValue() ? ('HOME_TABLE_SELECT_REQUIRED' | transloco) : undefined">
           <button type="button" class="btn btn-sm btn-secondary" [class.disabled]="!selection.hasValue()" (click)="printSelectedTables()">
@@ -49,8 +54,8 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
-          @if ((filter.value?.length ?? 0) > 0) {
+          <input class="form-control ml-2" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
+          @if (filter.isActive()) {
             <button
               class="btn btn-outline-secondary"
               type="button"
@@ -65,7 +70,14 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
       </form>
 
       <div class="table-responsive">
-        <table ngb-table ngb-sort ngbSortActive="group" ngbSortDirection="asc" [hover]="true" [dataSource]="(dataSource$ | async) ?? []">
+        <table
+          ngb-table
+          ngb-sort
+          ngbSortDirection="asc"
+          [ngbSortActive]="activeId() === 'all' ? 'group' : 'number'"
+          [hover]="true"
+          [dataSource]="table.dataSource()"
+        >
           <ng-container ngbColumnDef="select">
             <th *ngbHeaderCellDef ngb-header-cell>
               <div class="form-check">
@@ -73,8 +85,8 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                   class="form-check-input"
                   type="checkbox"
                   name="checked"
-                  [checked]="selection.hasValue() && isAllSelected()"
-                  (change)="$event ? toggleAllRows() : null"
+                  [checked]="selection.isAllSelected()"
+                  (change)="selection.toggleAll()"
                 />
               </div>
             </th>
@@ -85,7 +97,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                   type="checkbox"
                   name="checked"
                   [checked]="selection.isSelected(selectable)"
-                  (change)="$event ? selection.toggle(selectable) : null"
+                  (change)="selection.toggle(selectable, $event)"
                 />
               </div>
             </td>
@@ -110,9 +122,8 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                   [ngbTooltip]="'HOME_TABLES_PUBLIC_ID' | transloco"
                   [routerLink]="'/wl/t/' + table.publicId"
                   (click)="$event.stopPropagation()"
-                >
-                  <bi name="box-arrow-up-right" />
-                </a>
+                  ><bi name="box-arrow-up-right"
+                /></a>
               </div>
             </td>
           </ng-container>
@@ -126,22 +137,22 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                   {{ 'HOME_TABLE_UNPAID_PRODUCTS' | transloco }}
                 </span>
               } @else {
-                @if (table.missingNextTable && sort?.active === 'group') {
+                @if (table.missingNextTable) {
                   <div class="position-relative">
                     <div class="position-absolute" style="bottom: -25px; left: 0px">
                       <a
                         class="badge text-bg-warning d-inline-flex align-items-center gap-2"
-                        [routerLink]="'../create'"
+                        [routerLink]="'../../../create'"
                         [queryParams]="{group: table.group.id, number: table.number + 1}"
                         (click)="$event.stopPropagation()"
                       >
-                        <bi name="sort-numeric-down" />
+                        <bi name="exclamation-octagon-fill" />
                         Unvollständige Reihenfolge
                       </a>
                     </div>
                     <div class="d-flex align-items-center gap-2">
                       <div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       </div>
                     </div>
@@ -166,7 +177,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                   type="button"
                   class="d-flex gap-2 align-items-center"
                   ngbDropdownItem
-                  routerLink="../../orders"
+                  routerLink="../../../../orders"
                   [queryParams]="{tableIds: table.id}"
                 >
                   <bi name="stack" />
@@ -176,14 +187,14 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                   type="button"
                   class="d-flex gap-2 align-items-center"
                   ngbDropdownItem
-                  routerLink="../../bills"
+                  routerLink="../../../../bills"
                   [queryParams]="{tableIds: table.id}"
                 >
                   <bi name="cash-coin" />
                   {{ 'NAV_BILLS' | transloco }}
                 </a>
                 <div class="dropdown-divider"></div>
-                <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../' + table.id">
+                <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../t/' + table.id">
                   <bi name="pencil-square" />
                   {{ 'EDIT' | transloco }}
                 </a>
@@ -191,7 +202,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                   type="button"
                   class="d-flex gap-2 align-items-center text-danger-emphasis"
                   ngbDropdownItem
-                  (click)="onDelete(table.id, $event)"
+                  (click)="delete.onDelete(table.id)"
                 >
                   <bi name="trash" />
                   {{ 'DELETE' | transloco }}
@@ -200,17 +211,17 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
             </td>
           </ng-container>
 
-          <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+          <tr *ngbHeaderRowDef="selection.columnsToDisplay()" ngb-header-row></tr>
           <tr
-            *ngbRowDef="let table; columns: columnsToDisplay"
+            *ngbRowDef="let table; columns: selection.columnsToDisplay()"
             ngb-row
-            [routerLink]="'../' + table.id"
-            [class.thick-bottom-border]="table.missingNextTable && sort?.active === 'group'"
+            [routerLink]="'../t/' + table.id"
+            [class.thick-bottom-border]="table.missingNextTable"
           ></tr>
         </table>
       </div>
 
-      <app-progress-bar [show]="isLoading()" />
+      <app-progress-bar [show]="table.isLoading()" />
     </div>
   `,
   styles: `
@@ -220,45 +231,80 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
       border-bottom-width: 2px;
     }
   `,
-  selector: 'app-all-tables',
+  selector: 'app-tables',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    AsyncPipe,
     ReactiveFormsModule,
     RouterLink,
-    TranslocoPipe,
+    LowerCasePipe,
     NgbTooltip,
+    TranslocoPipe,
     DfxTableModule,
     DfxSortModule,
     BiComponent,
     ScrollableToolbarComponent,
     AppTextWithColorIndicatorComponent,
     AppProgressBarComponent,
-    DfxArrayPluck,
     ActionDropdownComponent,
     NgbDropdownItem,
   ],
 })
-export class TablesComponent extends AbstractModelsWithNumberListWithDeleteComponent<GetTableWithGroupResponse> {
+export class TablesComponent {
   private modal = inject(NgbModal);
+  #tablesService = inject(TablesService);
 
-  constructor(protected entitiesService: TablesService) {
-    super(entitiesService);
+  activeId = injectParams('id');
+  #activeId$ = toObservable(this.activeId);
 
-    this.columnsToDisplay = ['group', 'number', 'status', 'seats', 'actions'];
+  columnsToDisplay = signal(['group', 'number', 'status', 'seats', 'actions']);
 
-    this.sortingDataAccessors = new Map();
-    this.sortingDataAccessors.set('group', (it) => it.group.name);
-  }
+  sort = viewChild(NgbSort);
+  filter = injectTableFilter();
+  table = injectTable({
+    columnsToDisplay: this.columnsToDisplay,
+    fetchData: (setLoading) =>
+      this.#activeId$.pipe(
+        switchMap((activeId) => {
+          setLoading();
+          this.selection.clear();
+
+          if (activeId === 'all') {
+            this.columnsToDisplay.update((it) => {
+              const columns = it.filter((iit) => iit !== 'group');
+              return ['group', ...columns];
+            });
+            return this.#tablesService.getAll$();
+          }
+          this.columnsToDisplay.update((it) => [...it.filter((iit) => iit !== 'group')]);
+          return this.#tablesService.getByParent$(n_from(activeId));
+        }),
+      ),
+    sort: this.sort,
+    filterValue$: this.filter.value$,
+    sortingDataAccessors: {
+      group: (it) => it.group.name,
+    },
+  });
+
+  selection = injectTableSelect({
+    dataSource: this.table.dataSource,
+    columnsToDisplay: this.table.columnsToDisplay,
+  });
+
+  delete = injectTableDelete({
+    delete$: (id) => this.#tablesService.delete$(id),
+    selection: this.selection.selection,
+    nameMap: (it: GetTableWithGroupResponse): string => s_from(it.number),
+  });
 
   printSelectedTables(): void {
     const modalRef = this.modal.open(TablesPrintQrCodesModal, {
       ariaLabelledBy: 'app-tables-qr-codes-title',
       size: 'lg',
     });
-    modalRef.componentInstance.tables = this.selection.selected.sort(
-      (a, b) => a.group.name.localeCompare(b.group.name) || a.number - b.number,
-    );
+    modalRef.componentInstance.tables = this.selection
+      .selection()
+      .selected.sort((a, b) => a.group.name.localeCompare(b.group.name) || a.number - b.number);
   }
 }

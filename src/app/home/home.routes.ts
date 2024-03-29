@@ -6,7 +6,7 @@ import {organisationSelectedGuard} from './_shared/guards/organisation-selected-
 export const ROUTES: Routes = [
   {
     path: '',
-    loadComponent: () => import('./_layout/home.layout').then((c) => c.HomeLayout),
+    loadComponent: () => import('./_layout/home.layout2').then((c) => c.HomeLayout),
     children: [
       {
         path: '',
@@ -41,7 +41,7 @@ export const ROUTES: Routes = [
       {
         path: 'select',
         title: 'Select',
-        loadComponent: () => import('./select-dialog-view.component').then((m) => m.SelectDialogViewComponent),
+        loadComponent: () => import('./_layout/_components/switcher.component').then((m) => m.SwitcherComponent),
       },
       {
         path: 'qrcode/view',
@@ -53,18 +53,6 @@ export const ROUTES: Routes = [
         title: 'NAV_ORGANISATIONS',
         loadChildren: () => import('./organisations/organisations.routes').then((m) => m.ROUTES),
       },
-    ],
-  },
-  {
-    path: 'o/:soId',
-    loadComponent: () => import('./_layout/home.layout').then((c) => c.HomeLayout),
-    canActivate: [organisationSelectedGuard],
-    children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: '/not-found',
-      },
       {
         path: 'events',
         title: 'NAV_EVENTS',
@@ -73,8 +61,20 @@ export const ROUTES: Routes = [
     ],
   },
   {
+    path: 'o/:soId',
+    loadComponent: () => import('./_layout/home.layout2').then((c) => c.HomeLayout),
+    canActivate: [organisationSelectedGuard],
+    children: [
+      {
+        path: 'settings',
+        title: 'SETTINGS',
+        loadChildren: () => import('./settings/settings.routes').then((m) => m.ROUTES),
+      },
+    ],
+  },
+  {
     path: 'o/:soId/e/:seId',
-    loadComponent: () => import('./_layout/home.layout').then((c) => c.HomeLayout),
+    loadComponent: () => import('./_layout/home.layout2').then((c) => c.HomeLayout),
     canActivate: [organisationSelectedGuard, eventSelectedGuard],
     children: [
       {
@@ -85,7 +85,12 @@ export const ROUTES: Routes = [
       {
         path: 'waiters',
         title: 'NAV_WAITERS',
-        loadChildren: () => import('./waiters/waiters.routes').then((m) => m.ROUTES),
+        loadChildren: () => import('./waiters/waiters.routes').then((m) => m.WAITER_ROUTES),
+      },
+      {
+        path: 'waiter-duplicates',
+        title: 'NAV_WAITERS',
+        loadChildren: () => import('./waiters/waiters.routes').then((m) => m.WAITER_DUPLICATE_ROUTES),
       },
       {
         path: 'printers',
@@ -95,12 +100,22 @@ export const ROUTES: Routes = [
       {
         path: 'tables',
         title: 'HOME_TABLES',
-        loadChildren: () => import('./tables/tables.routes').then((m) => m.ROUTES),
+        loadChildren: () => import('./tables/tables.routes').then((m) => m.TABLE_ROUTES),
+      },
+      {
+        path: 'table-groups',
+        title: 'HOME_TABLE_GROUPS',
+        loadChildren: () => import('./tables/tables.routes').then((m) => m.TABLE_GROUP_ROUTES),
       },
       {
         path: 'products',
         title: 'HOME_PROD_ALL',
-        loadChildren: () => import('./products/products.routes').then((m) => m.ROUTES),
+        loadChildren: () => import('./products/products.routes').then((m) => m.PRODUCT_ROUTES),
+      },
+      {
+        path: 'product-groups',
+        title: 'HOME_PROD_GROUPS',
+        loadChildren: () => import('./products/products.routes').then((m) => m.PRODUCT_GROUP_ROUTES),
       },
       {
         path: 'orders',

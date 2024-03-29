@@ -13,6 +13,20 @@ a:hover {
   text-decoration: none;
 }
 
+td:has(> div.form-check) {
+  width: 50px !important;
+}
+
+:root,
+[data-bs-theme='light'] {
+  --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+  --bd-sidebar-link-bg: rgba(var(--bd-violet-rgb), 0.1);
+}
+
+[data-bs-theme='dark'] {
+  --bd-sidebar-link-bg: rgba(84, 33, 187, 0.5);
+}
+
 /* Fix vertical text alignment in buttons with icons */
 bi > svg {
   vertical-align: -0.125em;
@@ -27,18 +41,29 @@ a.btn > img {
   vertical-align: -0.15em;
 }
 
-.unblur {
-  font-size: 2.8rem;
-
-  transition: 0.25s filter linear;
-  -webkit-transition: 0.25s filter linear;
-  -moz-transition: 0.25s filter linear;
-  -o-transition: 0.25s filter linear;
-  filter: blur(12px);
+/* Horizontal scroll for tabs */
+.nav-x-scroll .nav-tabs {
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex-wrap: nowrap;
+}
+.nav-x-scroll .nav-tabs .nav-link {
+  white-space: nowrap;
 }
 
-.unblur:hover {
-  filter: blur(0);
+/* Blur */
+.unblur,
+.card:hover .blur,
+.blur:hover {
+  filter: blur(0) !important;
+}
+
+.blur {
+  transition: 0.22s filter linear;
+  -webkit-transition: 0.22s filter linear;
+  -moz-transition: 0.22s filter linear;
+  -o-transition: 0.22s filter linear;
+  filter: blur(12px);
 }
 
 .color-picker-class > .popover-body {

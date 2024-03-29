@@ -17,7 +17,7 @@ export class AppBackDirective {
   @Input() fallbackUrl = '/';
   @Input() closeOnNoHistory = true;
 
-  @HostListener('click')
+  @HostListener('mousedown')
   goBack(): void {
     if (this.window) {
       if (this.closeOnNoHistory && this.window.history.length < 2) {
