@@ -77,6 +77,13 @@
     "author": "angular"
   },
   {
+    "name": "@micro-sentry/angular",
+    "licenseType": "Apache-2.0",
+    "link": "git+https://github.com/taiga-family/micro-sentry.git",
+    "installedVersion": "7.0.2",
+    "author": "n/a"
+  },
+  {
     "name": "@ng-bootstrap/ng-bootstrap",
     "licenseType": "MIT",
     "link": "git+https://github.com/ng-bootstrap/ng-bootstrap.git",
@@ -89,6 +96,13 @@
     "link": "git+https://github.com/ng-select/ng-select.git",
     "installedVersion": "12.0.4",
     "author": "@ng-select/ng-select"
+  },
+  {
+    "name": "@ngneat/transloco",
+    "licenseType": "MIT",
+    "link": "git+https://github.com/ngneat/transloco.git",
+    "installedVersion": "6.0.4",
+    "author": "Netanel Basal netanel7799@gmail.com https://netbasal.com"
   },
   {
     "name": "@popperjs/core",
@@ -143,7 +157,7 @@
     "name": "dfx-helper",
     "licenseType": "MIT",
     "link": "git+ssh://git@github.com/Dafnik/dfts-common.git",
-    "installedVersion": "7.0.0-beta.0",
+    "installedVersion": "7.0.0",
     "author": "Dafnik contact@dafnik.me https://dafnik.me"
   },
   {
@@ -154,13 +168,6 @@
     "author": "Dafnik contact@dafnik.me https://dafnik.me"
   },
   {
-    "name": "dfx-translate",
-    "licenseType": "MIT",
-    "link": "git+ssh://git@github.com/Dafnik/dfts-common.git",
-    "installedVersion": "4.0.0-beta.0",
-    "author": "Dafnik"
-  },
-  {
     "name": "html-to-image",
     "licenseType": "MIT",
     "link": "git+https://github.com/bubkoo/html-to-image.git",
@@ -169,10 +176,24 @@
   },
   {"name": "jspdf", "licenseType": "MIT", "link": "git+https://github.com/MrRio/jsPDF.git", "installedVersion": "2.5.1", "author": "n/a"},
   {
+    "name": "ng2-pdfjs-viewer",
+    "licenseType": "Apache",
+    "link": "git+https://github.com/intbot/ng2-pdfjs-viewer.git",
+    "installedVersion": "17.0.3",
+    "author": "Code1 codehippie1@gmail.com"
+  },
+  {
+    "name": "ngx-print",
+    "licenseType": "MIT",
+    "link": "git+https://github.com/selemxmn/ngx-print.git",
+    "installedVersion": "1.5.1",
+    "author": "https://github.com/selemxmn/ngx-print/graphs/contributors"
+  },
+  {
     "name": "ngxtension",
     "licenseType": "MIT",
     "link": "git+https://github.com/nartc/ngxtension-platform.git",
-    "installedVersion": "2.0.0",
+    "installedVersion": "2.1.0",
     "author": "n/a"
   },
   {
@@ -193,7 +214,7 @@
     "name": "zone.js",
     "licenseType": "MIT",
     "link": "git://github.com/angular/angular.git",
-    "installedVersion": "0.14.3",
+    "installedVersion": "0.14.4",
     "author": "Brian Ford"
   }
 ]
