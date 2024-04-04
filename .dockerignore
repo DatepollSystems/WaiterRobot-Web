@@ -9,7 +9,6 @@ dist
 .eslintrc.json
 .prettierignore
 .prettierrc
-renovate.json
 Dockerfile
 compose-local.yml
 compose-local-dev.yml

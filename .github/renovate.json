@@ -14,6 +14,13 @@
   "timezone": "Europe/Vienna",
   "labels": ["dependencies"],
   "assignees": ["Dafnik"],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true,
+    "automergeType": "branch",
+    "commitMessageAction": "lock file maintenance",
+    "semanticCommitType": "build"
+  },
   "ignoreDeps": ["bootstrap"],
   "packageRules": [
     {
