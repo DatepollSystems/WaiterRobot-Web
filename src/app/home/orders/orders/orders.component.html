@@ -207,8 +207,8 @@
 
       <ng-container ngbColumnDef="actions">
         <th *ngbHeaderCellDef ngb-header-cell>
-              <span class="visually-hidden">{{ 'ACTIONS' | transloco }}</span>
-            </th>
+          <span class="visually-hidden">{{ 'ACTIONS' | transloco }}</span>
+        </th>
         <td *ngbCellDef="let order" ngb-cell>
           <app-action-dropdown>
             <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../' + order.id">

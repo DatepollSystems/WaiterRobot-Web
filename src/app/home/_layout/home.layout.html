@@ -121,15 +121,20 @@
                   }
                   <div class="dropdown-divider"></div>
                   @if (myUserService.user()?.isAdmin) {
-                  <a ngbDropdownItem class="d-flex gap-2 align-items-center"
-                     [routerLink]="'/o/' + selectedOrganisationService.selectedId()! + '/events/create'"
-                    >
-                    <bi name="plus-lg"/>
+                  <a
+                    ngbDropdownItem
+                    class="d-flex gap-2 align-items-center"
+                    [routerLink]="'/o/' + selectedOrganisationService.selectedId()! + '/events/create'"
+                  >
+                    <bi name="plus-lg" />
                     {{ 'ADD_2' | transloco }}</a
                   >
                   }
-                  <a ngbDropdownItem class="d-flex gap-2 align-items-center"
-                     [routerLink]="'/o/' + selectedOrganisationService.selectedId()! + '/events/all'">
+                  <a
+                    ngbDropdownItem
+                    class="d-flex gap-2 align-items-center"
+                    [routerLink]="'/o/' + selectedOrganisationService.selectedId()! + '/events/all'"
+                  >
                     <bi name="calendar-event-fill" />
                     {{ 'SHOW_ALL' | transloco }}
                   </a>
@@ -158,7 +163,7 @@
                     <bi name="braces" />
                     {{ 'Dead Letters' | transloco }}
                   </a>
-                  <a ngbDropdownItem routerLinkActive="active"  routerLink="/tmp-notifications">
+                  <a ngbDropdownItem routerLinkActive="active" routerLink="/tmp-notifications">
                     <bi name="braces" />
                     {{ 'NAV_TMP_NOTIFICATIONS' | transloco }}
                   </a>
@@ -211,11 +216,11 @@
                     <bi name="gear-wide-connected" />
                     {{ 'NAV_USER_SETTINGS' | transloco }}
                   </a>
-                  <a ngbDropdownItem routerLinkActive="active" class="d-flex gap-2 align-items-center"  routerLink="/usettings/sessions">
+                  <a ngbDropdownItem routerLinkActive="active" class="d-flex gap-2 align-items-center" routerLink="/usettings/sessions">
                     <bi name="file-lock" />
                     {{ 'NAV_USER_SESSIONS' | transloco }}
                   </a>
-                  <button type="button" ngbDropdownItem (click)="this.authService.logout()" class="d-flex gap-2 align-items-center" >
+                  <button type="button" ngbDropdownItem (click)="this.authService.logout()" class="d-flex gap-2 align-items-center">
                     <bi name="box-arrow-left" />
                     {{ 'NAV_LOGOUT' | transloco }}
                   </button>

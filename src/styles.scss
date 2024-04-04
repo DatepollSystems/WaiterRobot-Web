@@ -73,8 +73,8 @@ a.btn > img {
   background-color: var(--bs-tertiary-bg);
 }
 
-.btn.btn-sm.dropdown-toggle::after  {
-    display: none !important;
+.btn.btn-sm.dropdown-toggle::after {
+  display: none !important;
 }
 
 .dropdown-toggle,
