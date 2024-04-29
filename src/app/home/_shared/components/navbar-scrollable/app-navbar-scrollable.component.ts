@@ -29,7 +29,7 @@ import {ScrollableToolbarComponent} from '../scrollable-toolbar.component';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app-navbar-scrollable.component.html',
-  styleUrls: ['./app-navbar-scrollable.component.css'],
+  styleUrl: './app-navbar-scrollable.component.css',
 })
 export class AppNavbarScrollableComponent implements AfterViewInit {
   @Input({transform: booleanAttribute}) isMobile = false;

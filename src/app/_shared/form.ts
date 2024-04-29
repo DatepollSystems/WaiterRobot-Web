@@ -62,7 +62,7 @@ export function injectOnSubmit<CreateDTOType, UpdateDTOType extends IHasID<Updat
     }
 
     obs$.subscribe((response) => {
-      if (continuousCreation && continuousCreation.enabled()) {
+      if (continuousCreation?.enabled()) {
         continuousCreation.patch(dto);
       } else {
         if (method === 'CREATE' && openOnCreate) {

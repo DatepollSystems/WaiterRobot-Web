@@ -8,17 +8,15 @@ import {booleanAttribute, ChangeDetectionStrategy, Component, Input} from '@angu
       </div>
     }
   `,
-  styles: [
-    `
-      .b-spinner-row {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 30px;
-        margin-bottom: 30px;
-      }
-    `,
-  ],
+  styles: `
+    .b-spinner-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+  `,
   selector: 'app-spinner-row',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,

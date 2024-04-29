@@ -44,23 +44,21 @@ import {AppLogoWithTextComponent} from './_shared/app-logo-with-text.component';
     </div>
     <app-footer container="container-md " />
   `,
-  styles: [
-    `
-      .d-container {
-        min-height: 95%;
-        background-color: var(--bs-body-bg);
-        padding-top: 6%;
-        padding-bottom: 6%;
-      }
+  styles: `
+    .d-container {
+      min-height: 95%;
+      background-color: var(--bs-body-bg);
+      padding-top: 6%;
+      padding-bottom: 6%;
+    }
 
-      .theme-switcher {
-        z-index: 1000;
-        right: 20px;
-        bottom: 40px;
-        position: fixed;
-      }
-    `,
-  ],
+    .theme-switcher {
+      z-index: 1000;
+      right: 20px;
+      bottom: 40px;
+      position: fixed;
+    }
+  `,
   selector: 'app-outside-layout',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [

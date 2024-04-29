@@ -10,29 +10,27 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild
       <ng-content />
     </div>
   `,
-  styles: [
-    `
-      #overflow-container {
-        scroll-snap-type: y mandatory;
-        scroll-behavior: smooth;
-      }
+  styles: `
+    #overflow-container {
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
 
-      .overflow-auto::-webkit-scrollbar {
-        display: none;
-      }
+    .overflow-auto::-webkit-scrollbar {
+      display: none;
+    }
 
-      /* Hide scrollbar for IE, Edge and Firefox */
-      .overflow-auto {
-        -ms-overflow-style: none; /* IE and Edge */
-        scrollbar-width: none; /* Firefox */
-      }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .overflow-auto {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
 
-      :host(scrollable-toolbar)::ng-deep.btn {
-        word-break: keep-all;
-        white-space: nowrap;
-      }
-    `,
-  ],
+    :host(scrollable-toolbar)::ng-deep.btn {
+      word-break: keep-all;
+      white-space: nowrap;
+    }
+  `,
   selector: 'scrollable-toolbar',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,

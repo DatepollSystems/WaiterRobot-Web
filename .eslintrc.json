@@ -32,6 +32,7 @@
             "allowArgumentsExplicitlyTypedAsAny": true
           }
         ],
+        "@typescript-eslint/restrict-template-expressions": "off",
         "@typescript-eslint/consistent-type-definitions": "off",
         "@typescript-eslint/no-explicit-any": "warn",
         "@typescript-eslint/ban-ts-comment": "warn",
@@ -44,6 +45,7 @@
         "@typescript-eslint/unbound-method": "off",
         "@typescript-eslint/no-extraneous-class": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
+        "@angular-eslint/prefer-standalone": "off",
         "@angular-eslint/sort-ngmodule-metadata-arrays": "error",
         "@angular-eslint/component-class-suffix": "off",
         "@angular-eslint/use-component-selector": "off",

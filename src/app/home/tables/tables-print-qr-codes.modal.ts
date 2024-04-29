@@ -76,8 +76,7 @@ import {jsPDF} from 'jspdf';
       <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | transloco }}</button>
     </div>
   `,
-  styles: [
-    `
+  styles: `
       .main {
         background-color: #ffffff;
       }
@@ -93,7 +92,6 @@ import {jsPDF} from 'jspdf';
         font-size: 40px;
       }
     `,
-  ],
   selector: 'app-print-table-qr-codes-modal',
   standalone: true,
   imports: [NgbProgressbarModule, QRCodeComponent, ScrollableToolbarComponent, BiComponent, NgbDropdownModule, AsyncPipe, TranslocoPipe],

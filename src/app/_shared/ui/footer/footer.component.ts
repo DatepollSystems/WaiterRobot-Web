@@ -82,45 +82,43 @@ import {injectWindow} from 'dfx-helper';
       </div>
     </footer>
   `,
-  styles: [
-    `
-      .heart {
-        color: red;
-        margin-top: -5px;
-      }
+  styles: `
+    .heart {
+      color: red;
+      margin-top: -5px;
+    }
 
-      .heart:hover {
-        transform: scale(1.4);
-      }
+    .heart:hover {
+      transform: scale(1.4);
+    }
 
-      .name:hover {
-        cursor: pointer;
-        position: relative;
-        font-weight: 500;
-      }
-      .name:hover:after {
-        transform: scale(0.3);
-        width: 128px;
-        height: 128px;
-        display: block;
-        position: absolute;
-        left: -90px;
-        top: -196px; /* change this value to one that suits you */
-      }
+    .name:hover {
+      cursor: pointer;
+      position: relative;
+      font-weight: 500;
+    }
+    .name:hover:after {
+      transform: scale(0.3);
+      width: 128px;
+      height: 128px;
+      display: block;
+      position: absolute;
+      left: -90px;
+      top: -196px; /* change this value to one that suits you */
+    }
 
-      .dominik:hover:after {
-        content: url('/assets/people/dominik.png');
-      }
+    .dominik:hover:after {
+      content: url('/assets/people/dominik.png');
+    }
 
-      .alex:hover:after {
-        content: url('/assets/people/alex.png');
-      }
+    .alex:hover:after {
+      content: url('/assets/people/alex.png');
+    }
 
-      .fabian:hover:after {
-        content: url('/assets/people/fabian.png');
-      }
-    `,
-  ],
+    .fabian:hover:after {
+      content: url('/assets/people/fabian.png');
+    }
+  `,
   selector: 'app-footer',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,

@@ -220,7 +220,7 @@
                     <bi name="file-lock" />
                     {{ 'NAV_USER_SESSIONS' | transloco }}
                   </a>
-                  <button type="button" ngbDropdownItem (click)="this.authService.logout()" class="d-flex gap-2 align-items-center">
+                  <button type="button" ngbDropdownItem class="d-flex gap-2 align-items-center" (click)="this.authService.logout()">
                     <bi name="box-arrow-left" />
                     {{ 'NAV_LOGOUT' | transloco }}
                   </button>

@@ -43,33 +43,31 @@ import {BiComponent} from 'dfx-bootstrap-icons';
       }
     </ng-template>
   `,
-  styles: [
-    `
-      .circle {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        box-shadow: 0px 0px 1px 1px #0000001a;
-      }
+  styles: `
+    .circle {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      box-shadow: 0px 0px 1px 1px #0000001a;
+    }
 
-      .pulse {
-        animation: pulse-animation 2s infinite;
-      }
+    .pulse {
+      animation: pulse-animation 2s infinite;
+    }
 
-      .green {
-        background: #66ff99;
-      }
+    .green {
+      background: #66ff99;
+    }
 
-      @keyframes pulse-animation {
-        0% {
-          box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.3);
-        }
-        100% {
-          box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
-        }
+    @keyframes pulse-animation {
+      0% {
+        box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.3);
       }
-    `,
-  ],
+      100% {
+        box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+      }
+    }
+  `,
   standalone: true,
   selector: 'app-order-product-state-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,

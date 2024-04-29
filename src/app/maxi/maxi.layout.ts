@@ -34,16 +34,14 @@ import {BiComponent} from 'dfx-bootstrap-icons';
       </div>
     </div>
   `,
-  styles: [
-    `
-      .theme-switcher {
-        z-index: 1000;
-        right: 20px;
-        bottom: 40px;
-        position: fixed;
-      }
-    `,
-  ],
+  styles: `
+    .theme-switcher {
+      z-index: 1000;
+      right: 20px;
+      bottom: 40px;
+      position: fixed;
+    }
+  `,
   selector: 'app-outside-layout',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgbDropdown, NgbDropdownMenu, NgbDropdownItem, NgbDropdownToggle, NgbDropdownButtonItem, RouterOutlet, BiComponent],

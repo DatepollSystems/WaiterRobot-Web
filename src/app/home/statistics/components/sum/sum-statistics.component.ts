@@ -5,7 +5,7 @@ import {StatisticsSumResponse} from '@shared/waiterrobot-backend';
 @Component({
   selector: 'app-sum-statistics',
   templateUrl: './sum-statistics.component.html',
-  styleUrls: ['./sum-statistics.component.scss'],
+  styleUrl: './sum-statistics.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SumStatisticsComponent {

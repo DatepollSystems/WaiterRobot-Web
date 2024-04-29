@@ -20,13 +20,11 @@ import {injectBlurSetting} from '@home-shared/services/blur-setting.service';
       </div>
     </div>
   `,
-  styles: [
-    `
-      .heading {
-        font-size: 2.8rem;
-      }
-    `,
-  ],
+  styles: `
+    .heading {
+      font-size: 2.8rem;
+    }
+  `,
   selector: 'app-statistics-count-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -13,7 +13,7 @@ export function p_add(
         }
       }
     } else {
-      params = params.append(name, `${newParams}`);
+      params = params.append(name, newParams);
     }
   }
   return params;

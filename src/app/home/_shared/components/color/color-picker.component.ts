@@ -53,15 +53,13 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
       </div>
     </ng-template>
   `,
-  styles: [
-    `
-      .color-btn {
-        border: none;
-        width: 33px;
-        height: 33px;
-      }
-    `,
-  ],
+  styles: `
+    .color-btn {
+      border: none;
+      width: 33px;
+      height: 33px;
+    }
+  `,
   standalone: true,
   selector: 'app-color-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,

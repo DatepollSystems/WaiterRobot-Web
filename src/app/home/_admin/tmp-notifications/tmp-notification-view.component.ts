@@ -98,48 +98,46 @@ import {TmpNotificationsService} from './tmp-notifications.service';
       </div>
     }
   `,
-  styles: [
-    `
-      .json-box {
-        padding: 15px;
-        background-color: black;
-        border-radius: 5px;
-      }
-      .json-data {
-        margin-bottom: 0;
-        white-space: pre-wrap;
-        word-wrap: break-word; /* Allows words to break and wrap */
-      }
+  styles: `
+    .json-box {
+      padding: 15px;
+      background-color: black;
+      border-radius: 5px;
+    }
+    .json-data {
+      margin-bottom: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word; /* Allows words to break and wrap */
+    }
 
-      /** Style email **/
-      .container {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-        margin-top: -100px;
-        max-width: unset;
-        line-height: unset;
-      }
+    /** Style email **/
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: -100px;
+      max-width: unset;
+      line-height: unset;
+    }
 
-      .container > ul {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-      }
+    .container > ul {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
 
-      .logo-row {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 1rem;
-      }
+    .logo-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+    }
 
-      .logo {
-        max-width: 96px;
-        height: auto;
-      }
-    `,
-  ],
+    .logo {
+      max-width: 96px;
+      height: auto;
+    }
+  `,
   selector: 'app-tmp-notification-view',
   imports: [
     TranslocoPipe,

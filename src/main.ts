@@ -96,7 +96,7 @@ bootstrapApplication(AppComponent, {
       }),
     ),
   ],
-}).catch((err) => {
+}).catch((err: unknown) => {
   console.error(err);
 });
 

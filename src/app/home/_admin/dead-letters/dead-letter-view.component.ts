@@ -47,18 +47,16 @@ import {DeadLettersService} from './dead-letters.service';
       <app-spinner-row />
     }
   `,
-  styles: [
-    `
-      .json-box {
-        padding: 15px;
-        background-color: black;
-        border-radius: 5px;
-      }
-      #json-data {
-        margin-bottom: 0;
-      }
-    `,
-  ],
+  styles: `
+    .json-box {
+      padding: 15px;
+      background-color: black;
+      border-radius: 5px;
+    }
+    #json-data {
+      margin-bottom: 0;
+    }
+  `,
   selector: 'app-dead-letter-view',
   imports: [TranslocoPipe, BiComponent, ScrollableToolbarComponent, AppBackButtonComponent, AppSpinnerRowComponent, DatePipe],
   standalone: true,

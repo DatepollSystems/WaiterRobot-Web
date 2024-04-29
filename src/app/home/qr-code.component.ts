@@ -67,21 +67,19 @@ import {QrCodeService} from './_shared/services/qr-code.service';
       </div>
     }
   `,
-  styles: [
-    `
-      .my-container {
-        padding-top: 5rem;
-      }
+  styles: `
+    .my-container {
+      padding-top: 5rem;
+    }
 
-      .qrcode-rounded {
-        border-radius: 15px;
-        border-width: 5px;
-        background-color: #f6f6f6;
-        padding: 15px;
-        filter: brightness(125%);
-      }
-    `,
-  ],
+    .qrcode-rounded {
+      border-radius: 15px;
+      border-width: 5px;
+      background-color: #f6f6f6;
+      padding: 15px;
+      filter: brightness(125%);
+    }
+  `,
   selector: 'app-qr-code',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,

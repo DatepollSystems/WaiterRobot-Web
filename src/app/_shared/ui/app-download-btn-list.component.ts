@@ -66,21 +66,19 @@ export interface appDownload {
       </div>
     }
   `,
-  styles: [
-    `
-      .customLogo img:last-child {
-        display: none;
-      }
+  styles: `
+    .customLogo img:last-child {
+      display: none;
+    }
 
-      .customLogo:hover img:last-child {
-        display: inline-block;
-      }
+    .customLogo:hover img:last-child {
+      display: inline-block;
+    }
 
-      .customLogo:hover img:first-child {
-        display: none;
-      }
-    `,
-  ],
+    .customLogo:hover img:first-child {
+      display: none;
+    }
+  `,
   selector: 'app-download-btn-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
