@@ -46,10 +46,10 @@ import {DfxCurrencyCentPipe} from 'dfx-helper';
     </div>
   `,
   styles: `
-      tr.cdk-footer-row td {
-        font-weight: bold;
-      }
-    `,
+    tr.cdk-footer-row td {
+      font-weight: bold;
+    }
+  `,
   standalone: true,
   selector: 'app-bill-products-list-table',
   imports: [DfxSortModule, DfxTableModule, TranslocoPipe, RouterLink, NgbTooltip, DfxCurrencyCentPipe],

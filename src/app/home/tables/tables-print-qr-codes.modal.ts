@@ -77,21 +77,21 @@ import {jsPDF} from 'jspdf';
     </div>
   `,
   styles: `
-      .main {
-        background-color: #ffffff;
-      }
+    .main {
+      background-color: #ffffff;
+    }
 
-      .qr-code-item {
-        border-style: dashed;
-        border-color: #ccc;
-        border-width: 1px;
-        padding: 25px 31px 15px 31px;
-      }
+    .qr-code-item {
+      border-style: dashed;
+      border-color: #ccc;
+      border-width: 1px;
+      padding: 25px 31px 15px 31px;
+    }
 
-      .qr-code-label {
-        font-size: 40px;
-      }
-    `,
+    .qr-code-label {
+      font-size: 40px;
+    }
+  `,
   selector: 'app-print-table-qr-codes-modal',
   standalone: true,
   imports: [NgbProgressbarModule, QRCodeComponent, ScrollableToolbarComponent, BiComponent, NgbDropdownModule, AsyncPipe, TranslocoPipe],
