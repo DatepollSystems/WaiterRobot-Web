@@ -3,7 +3,7 @@
     "name": "@angular-devkit/build-angular",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular-cli.git",
-    "installedVersion": "17.0.10",
+    "installedVersion": "17.3.6",
     "author": "Angular Authors"
   },
   {
@@ -80,7 +80,7 @@
     "name": "@micro-sentry/angular",
     "licenseType": "Apache-2.0",
     "link": "git+https://github.com/taiga-family/micro-sentry.git",
-    "installedVersion": "7.0.2",
+    "installedVersion": "7.0.4",
     "author": "n/a"
   },
   {
@@ -94,7 +94,7 @@
     "name": "@ng-select/ng-select",
     "licenseType": "MIT",
     "link": "git+https://github.com/ng-select/ng-select.git",
-    "installedVersion": "12.0.4",
+    "installedVersion": "12.0.7",
     "author": "@ng-select/ng-select"
   },
   {
@@ -150,14 +150,14 @@
     "name": "dfx-bootstrap-table",
     "licenseType": "MIT",
     "link": "git+ssh://git@github.com/Dafnik/dfts-common.git",
-    "installedVersion": "3.1.0",
+    "installedVersion": "3.2.0",
     "author": "Dafnik contact@dafnik.me https://dafnik.me"
   },
   {
     "name": "dfx-helper",
     "licenseType": "MIT",
     "link": "git+ssh://git@github.com/Dafnik/dfts-common.git",
-    "installedVersion": "7.0.0",
+    "installedVersion": "7.1.0",
     "author": "Dafnik contact@dafnik.me https://dafnik.me"
   },
   {
@@ -193,7 +193,7 @@
     "name": "ngxtension",
     "licenseType": "MIT",
     "link": "git+https://github.com/nartc/ngxtension-platform.git",
-    "installedVersion": "2.1.0",
+    "installedVersion": "2.2.1",
     "author": "n/a"
   },
   {
