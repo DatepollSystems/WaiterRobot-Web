@@ -28,7 +28,7 @@ import {DfxCurrencyCentPipe} from 'dfx-helper';
         <ng-container ngbColumnDef="pricePerPiece">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'PRICE_PER_PIECE' | transloco }}</th>
           <td *ngbCellDef="let order" ngb-cell>{{ order.pricePaidPerPiece | currency }}</td>
-          <td *ngbFooterCellDef>ngb-footer-cell</td>
+          <td *ngbFooterCellDef></td>
         </ng-container>
 
         <ng-container ngbColumnDef="priceSum">
@@ -36,7 +36,7 @@ import {DfxCurrencyCentPipe} from 'dfx-helper';
           <td *ngbCellDef="let order" ngb-cell>
             {{ order.pricePaidSum | currency }}
           </td>
-          <td *ngbFooterCellDef>ngb-footer-cell{{ priceSum | currency }}</td>
+          <td *ngbFooterCellDef>{{ priceSum | currency }}</td>
         </ng-container>
 
         <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>

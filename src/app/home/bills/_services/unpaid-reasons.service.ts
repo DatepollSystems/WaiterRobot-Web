@@ -1,16 +1,23 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
 
-import {GetBillUnpaidReasonResponse} from '@shared/waiterrobot-backend';
+import {CreateBillUnpaidReasonDto, GetBillUnpaidReasonResponse, IdResponse, UpdateBillUnpaidReasonDto} from '@shared/waiterrobot-backend';
+import {s_from} from 'dfts-helper';
 
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
 
-import {BehaviorSubject, Observable, switchMap} from 'rxjs';
+import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
 export class UnpaidReasonsService
-  implements HasGetSingle<GetBillUnpaidReasonResponse>, HasGetAll<GetBillUnpaidReasonResponse>, HasDelete<GetBillUnpaidReasonResponse>
+  implements
+    HasGetSingle<GetBillUnpaidReasonResponse>,
+    HasGetAll<GetBillUnpaidReasonResponse>,
+    HasDelete<GetBillUnpaidReasonResponse>,
+    HasCreateWithIdResponse<CreateBillUnpaidReasonDto>,
+    HasUpdateWithIdResponse<UpdateBillUnpaidReasonDto>
 {
   url = '/config/billing/unpaid';
 
@@ -30,8 +37,27 @@ export class UnpaidReasonsService
     );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  delete$(_: GetBillUnpaidReasonResponse['id']): Observable<unknown> {
-    throw new Error('Method not implemented.');
+  create$(dto: CreateBillUnpaidReasonDto): Observable<IdResponse> {
+    return this.httpClient.post<IdResponse>(this.url, dto).pipe(
+      tap(() => {
+        this.triggerRefresh.next(true);
+      }),
+    );
+  }
+
+  update$(dto: UpdateBillUnpaidReasonDto): Observable<IdResponse> {
+    return this.httpClient.put<IdResponse>(this.url, dto).pipe(
+      tap(() => {
+        this.triggerRefresh.next(true);
+      }),
+    );
+  }
+
+  delete$(id: number): Observable<unknown> {
+    return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(
+      tap(() => {
+        this.triggerRefresh.next(true);
+      }),
+    );
   }
 }

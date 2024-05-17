@@ -2,8 +2,10 @@ import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
+import {AppSoldOutPipe} from '@home-shared/pipes/app-sold-out.pipe';
 
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@ngneat/transloco';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
@@ -67,32 +69,34 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
               </div>
             </th>
             <td *ngbCellDef="let selectable" ngb-cell (click)="$event.stopPropagation()">
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  name="checked"
-                  [checked]="selection.isSelected(selectable)"
-                  (change)="$event ? selection.toggle(selectable) : null"
-                />
-              </div>
+              @if (!selectable.isGlobal) {
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="checked"
+                    [checked]="selection.isSelected(selectable)"
+                    (change)="$event ? selection.toggle(selectable) : null"
+                  />
+                </div>
+              }
             </td>
           </ng-container>
 
           <ng-container ngbColumnDef="reason">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'Reason' | transloco }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_BILL_UNPAID_REASON_REASON' | transloco }}</th>
             <td *ngbCellDef="let reason" ngb-cell>{{ reason.reason }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="description">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'Description' | transloco }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_BILL_UNPAID_REASON_DESCRIPTION' | transloco }}</th>
             <td *ngbCellDef="let reason" ngb-cell>{{ reason.description }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="isGlobal">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'is Global' | transloco }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell>{{ 'Editierbar' | transloco }}</th>
             <td *ngbCellDef="let reason" ngb-cell>
-              {{ reason.isGlobal }}
+              {{ reason.isGlobal | soldOut }}
             </td>
           </ng-container>
 
@@ -100,21 +104,21 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
             <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
             <td *ngbCellDef="let reason" ngb-cell>
               @if (!reason.isGlobal) {
-                <a
-                  class="btn btn-sm me-2 btn-outline-success text-body-emphasis"
-                  [routerLink]="'../' + reason.id"
-                  [ngbTooltip]="'EDIT' | transloco"
-                >
-                  <bi name="pencil-square" />
-                </a>
-                <button
-                  type="button"
-                  class="btn btn-sm me-2 btn-outline-danger text-body-emphasis"
-                  [ngbTooltip]="'DELETE' | transloco"
-                  (click)="onDelete(reason.id, $event)"
-                >
-                  <bi name="trash" />
-                </button>
+                <app-action-dropdown>
+                  <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../' + reason.id">
+                    <bi name="pencil-square" />
+                    {{ 'EDIT' | transloco }}
+                  </a>
+                  <button
+                    type="button"
+                    class="d-flex gap-2 align-items-center text-danger-emphasis"
+                    ngbDropdownItem
+                    (click)="onDelete(reason.id, $event)"
+                  >
+                    <bi name="trash" />
+                    {{ 'DELETE' | transloco }}
+                  </button>
+                </app-action-dropdown>
               }
             </td>
           </ng-container>
@@ -141,6 +145,9 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
     BiComponent,
     ScrollableToolbarComponent,
     AppProgressBarComponent,
+    AppSoldOutPipe,
+    ActionDropdownComponent,
+    NgbDropdownItem,
   ],
 })
 export class AllUnpaidReasonsComponent extends AbstractModelsListWithDeleteComponent<GetBillUnpaidReasonResponse> {
@@ -150,5 +157,22 @@ export class AllUnpaidReasonsComponent extends AbstractModelsListWithDeleteCompo
     super(entitiesService);
 
     this.columnsToDisplay = ['reason', 'description', 'isGlobal', 'actions'];
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  public override isAllSelected(): boolean {
+    const numSelected = this.selection.selected.length;
+    const numRows = this._dataSource.data.filter((it) => !it.isGlobal).length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  public override toggleAllRows(): void {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this._dataSource.data.filter((it) => !it.isGlobal));
   }
 }

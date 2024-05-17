@@ -8,7 +8,13 @@ export const ROUTES: Routes = [
       {path: 'all', loadComponent: () => import('./bills.component').then((c) => c.BillsComponent)},
       {
         path: 'reasons',
-        children: [{path: 'all', loadComponent: () => import('./all-unpaid-reasons.component').then((c) => c.AllUnpaidReasonsComponent)}],
+        children: [
+          {path: 'all', loadComponent: () => import('./all-unpaid-reasons.component').then((c) => c.AllUnpaidReasonsComponent)},
+          {
+            path: ':id',
+            loadComponent: () => import('./unpaid-reason-edit/unpaid-reason-edit.component').then((c) => c.UnpaidReasonEditComponent),
+          },
+        ],
       },
       {path: ':id', loadComponent: () => import('./bill-info.component').then((c) => c.BillInfoComponent)},
       {path: '', pathMatch: 'full', redirectTo: 'all'},

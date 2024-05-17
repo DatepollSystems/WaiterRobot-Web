@@ -329,6 +329,10 @@
 
   "HOME_BILL": "Rechnung",
   "HOME_BILL_UNPAID_REASON": "Nicht-Bezahlungs Gründe",
+  "HOME_BILL_UNPAID_REASON_REASON": "Begründung",
+  "HOME_BILL_UNPAID_REASON_REASON_INVALID": "Die Begründung muss aus mindestens 1 und maximal 120 Zeichen bestehen",
+  "HOME_BILL_UNPAID_REASON_DESCRIPTION": "Beschreibung",
+  "HOME_BILL_UNPAID_REASON_DESCRIPTION_INVALID": "Die Beschreibung muss aus mindestens 1 und maximal 120 Zeichen bestehen",
 
   "HOME_STATISTICS_SELLED_PRODUCTS": "Verkaufte Produkte",
   "HOME_STATISTICS_TURNOVER": "Geschätzter Umsatz",

@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {AppSelectableBtnComponent} from '@home-shared/components/button/app-selectable-btn.component';
 import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectOnDelete} from '@home-shared/form/edit';
+import {injectOnDelete} from '@home-shared/form/edit';
 import {MyUserService} from '@home-shared/services/user/my-user.service';
 
 import {injectOnSubmit} from '@shared/form';
@@ -66,17 +66,7 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
 })
 export class EventEditComponent extends AbstractModelEditComponent<GetEventOrLocationResponse> {
   onDelete = injectOnDelete((it: number) => this.eventsService.delete$(it).subscribe());
-  continuousCreation = injectContinuousCreation({
-    formComponent: this.form,
-    continuousUsePropertyNames: ['organisationId'],
-  });
-  onSubmit = injectOnSubmit({
-    entityService: this.eventsService,
-    continuousCreation: {
-      enabled: this.continuousCreation.enabled,
-      patch: this.continuousCreation.patch,
-    },
-  });
+  onSubmit = injectOnSubmit({entityService: this.eventsService});
 
   myUser = inject(MyUserService).user;
   selectedEventService = inject(SelectedEventService);
