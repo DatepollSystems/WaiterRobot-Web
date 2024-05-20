@@ -17,6 +17,10 @@ services:
           path: package.json
         - action: rebuild
           path: angular.json
+        - action: rebuild
+          path: nginx.conf
+        - action: rebuild
+          path: ./public
 
     ports:
       - '4200:80'
