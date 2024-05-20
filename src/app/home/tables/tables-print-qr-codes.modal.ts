@@ -89,7 +89,7 @@ import {jsPDF} from 'jspdf';
     }
 
     .qr-code-label {
-      font-size: 40px;
+      font-size: 4rem;
     }
   `,
   selector: 'app-print-table-qr-codes-modal',
