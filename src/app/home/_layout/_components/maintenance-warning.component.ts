@@ -6,7 +6,7 @@ import {DfxHideIfOffline, DfxHideIfPingSucceeds} from 'dfx-helper';
 @Component({
   template: `
     <div hideIfOffline>
-      <div hideIfPingSucceeds url="/json" refreshTime="10">
+      <div hideIfPingSucceeds url="/json" refreshTime="20">
         <div class="alert alert-warning" role="alert">
           <div class="d-flex gap-3 align-items-center">
             <bi name="exclamation-triangle-fill" />
