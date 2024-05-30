@@ -439,6 +439,8 @@ export interface GetImplodedOpenBillProductResponse {
   pricePerPiece: number;
   /** @format int32 */
   amount: number;
+  /** @format int64 */
+  baseProductId: number;
   orderProductIds: number[];
 }
 
@@ -475,6 +477,11 @@ export interface GetWaiterMinResponse {
 export interface PayBillResponse {
   bill: GetBillResponse;
   openBill: GetOpenBillResponse;
+}
+
+export interface PaymentIntent {
+  id: string;
+  clientSecret: string;
 }
 
 export interface CreateOrderDto {
@@ -1091,6 +1098,10 @@ export interface GetEventOrLocationResponse {
   startDate?: string;
   /** @format date-time */
   endDate?: string;
+  stripeEnabled: boolean;
+  /** @format int32 */
+  stripeMinAmount?: number;
+  stripeLocationId?: string;
   /**
    * Please use 'startDate' or 'endDate' property
    * @deprecated

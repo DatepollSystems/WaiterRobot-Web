@@ -28,27 +28,27 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
 
           <ng-container *isEditingAndNotDeleted="entity">
             <div>
-              <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+              <button type="button" class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)">
                 <bi name="trash" />
                 {{ 'DELETE' | transloco }}
               </button>
             </div>
 
             <div>
-              <a class="btn btn-sm btn-primary" [routerLink]="'../products/' + entity.id">
+              <a class="btn btn-sm btn-primary" [routerLink]="'../../products/' + entity.id">
                 <bi name="columns-gap" />
-                {{ 'HOME_PROD_GROUP_SHOW_TABLES' | transloco }}</a
+                {{ 'HOME_PROD_GROUP_SHOW_PRODUCTS' | transloco }}</a
               >
             </div>
 
             <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../../orders" [queryParams]="{productGroupIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" routerLink="../../orders" [queryParams]="{productGroupIds: entity.id}">
                 <bi name="stack" />
                 {{ 'NAV_ORDERS' | transloco }}
               </a>
             </div>
             <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../../bills" [queryParams]="{productGroupIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" routerLink="../../bills" [queryParams]="{productGroupIds: entity.id}">
                 <bi name="cash-coin" />
                 {{ 'NAV_BILLS' | transloco }}
               </a>

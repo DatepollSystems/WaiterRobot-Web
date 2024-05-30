@@ -56,7 +56,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
             [placeholder]="'HOME_PROD_ALLERGENS_PLACEHOLDER' | transloco"
           >
             <ng-template let-item="item" let-clear="clear" ng-label-tmp>
-              <span class="ng-value-icon left" aria-hidden="true" (click)="clear(item)">×</span>
+              <span class="ng-value-icon left" aria-hidden="true" (mousedown)="clear(item)">×</span>
               <span class="ng-value-label">({{ item.shortName }}) {{ item.name }}</span>
             </ng-template>
           </ng-select>
@@ -76,7 +76,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
                 class="input-group-text"
                 id="selectGroup-addon"
                 placement="bottom"
-                [routerLink]="'../groups/' + form.controls.groupId.value"
+                [routerLink]="'../../' + form.controls.groupId.value"
                 [ngbTooltip]="('HOME_PROD_GROUP' | transloco) + ('OPEN_2' | transloco)"
               >
                 <bi name="diagram-3" />
@@ -110,7 +110,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
                 class="input-group-text"
                 id="selectPrinter-addon"
                 placement="bottom"
-                [routerLink]="'../../printers/' + form.controls.printerId.value"
+                [routerLink]="'../../../printers/' + form.controls.printerId.value"
                 [ngbTooltip]="('NAV_PRINTERS' | transloco) + ('OPEN_2' | transloco)"
               >
                 <bi name="printer" />

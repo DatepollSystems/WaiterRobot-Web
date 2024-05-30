@@ -62,6 +62,7 @@ export class TablesService
         tables.sort(this.#sortByGroupIdAndNumber).map((table, index) => ({
           ...table,
           hasActiveOrders: tableIdsWithActiveOrders.tableIds.includes(table.id),
+          hasNextTableActiveOrders: tableIdsWithActiveOrders.tableIds.includes(tables[index + 1]?.id ?? false),
           missingNextTable: this.#isNextTableMissing(table, index, tables),
         })),
       ),

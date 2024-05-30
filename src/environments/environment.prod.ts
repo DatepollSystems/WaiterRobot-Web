@@ -7,6 +7,7 @@ export const environment: Environment = {
   version: require('../../package.json').version as string,
   production: true,
   type: 'prod',
+  titleSuffix: 'my.kellner.team',
   apiUrl: 'https://my.kellner.team/api/v1',
   logoUrl: '/assets/logo-prod.svg',
 };

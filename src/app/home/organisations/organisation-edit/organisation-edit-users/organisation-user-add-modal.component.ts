@@ -1,24 +1,22 @@
-import {AsyncPipe, LowerCasePipe} from '@angular/common';
+import {LowerCasePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {AbstractControl, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
-import {TranslocoPipe, TranslocoService} from '@ngneat/transloco';
+import {TranslocoPipe} from '@ngneat/transloco';
+import {injectIsValid} from '@shared/form';
 
-import {NotificationService} from '@shared/notifications/notification.service';
-
-import {HasIDAndName, s_isEmail} from 'dfts-helper';
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {OrganisationsUsersService} from '../../_services/organisations-users.service';
+import {s_isEmail} from 'dfts-helper';
+import {OrganisationUsersService} from '../../_services/organisations-users.service';
 
 @Component({
   template: `
     <div class="modal-header">
       <h3 class="modal-title" id="modal-title-org-user-add">{{ 'USER' | transloco }} {{ 'ADD_3' | transloco | lowercase }}</h3>
-      <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.dismiss()"></button>
+      <button type="button" class="btn-close btn-close-white" aria-label="Close" (mousedown)="activeModal.dismiss()"></button>
     </div>
-    @if (form.valueChanges | async) {}
+    @if (formValid()) {}
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="modal-body">
         <div class="form-group col">
@@ -43,23 +41,20 @@ import {OrganisationsUsersService} from '../../_services/organisations-users.ser
         <button class="btn btn-success" type="submit" [disabled]="form.invalid">
           {{ 'ADD_3' | transloco }}
         </button>
-        <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | transloco }}</button>
+        <button type="button" class="btn btn-outline-secondary" (mousedown)="activeModal.close()">{{ 'CLOSE' | transloco }}</button>
       </div>
     </form>
   `,
   selector: 'app-organisation-user-add-modal',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoPipe, LowerCasePipe, BiComponent, NgSelectModule, ReactiveFormsModule, AsyncPipe, TranslocoPipe],
+  imports: [TranslocoPipe, LowerCasePipe, NgSelectModule, ReactiveFormsModule, TranslocoPipe],
 })
 export class OrganisationUserAddModalComponent {
   activeModal = inject(NgbActiveModal);
-  #notificationService = inject(NotificationService);
-  #organisationsUsersService = inject(OrganisationsUsersService);
+  #organisationUsersState = inject(OrganisationUsersService);
 
-  entity!: HasIDAndName<number>;
-
-  translocoService = inject(TranslocoService);
+  entityId!: number;
 
   form = inject(FormBuilder).nonNullable.group(
     {
@@ -67,6 +62,8 @@ export class OrganisationUserAddModalComponent {
     },
     {validators: this.emailArrayValidator},
   );
+
+  formValid = injectIsValid(this.form);
 
   emailArrayValidator(control: AbstractControl): Record<string, boolean> | null {
     const emails = (control.get('emailAddresses')?.value as {label: string}[] | undefined) ?? [];
@@ -90,13 +87,7 @@ export class OrganisationUserAddModalComponent {
     const emails = this.form.controls.emailAddresses.getRawValue();
     console.log('emails', emails);
     for (const email of emails) {
-      this.#organisationsUsersService.create$(this.entity.id, email.label, {role: 'ADMIN'}).subscribe({
-        error: () => {
-          this.translocoService.selectTranslate<string>('HOME_ORGS_USERS_USER_NOT_FOUND').subscribe((translation) => {
-            this.#notificationService.warning(email.label + translation);
-          });
-        },
-      });
+      void this.#organisationUsersState.create({email: email.label, role: 'ADMIN'});
     }
 
     this.activeModal.close();

@@ -33,20 +33,20 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
           <back-button />
           <ng-container *isEditingAndNotDeleted="entity">
             <div>
-              <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+              <button type="button" class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)">
                 <bi name="trash" />
                 {{ 'DELETE' | transloco }}
               </button>
             </div>
 
             <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../orders" [queryParams]="{productIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" routerLink="../../../orders" [queryParams]="{productIds: entity.id}">
                 <bi name="stack" />
                 {{ 'NAV_ORDERS' | transloco }}
               </a>
             </div>
             <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../bills" [queryParams]="{productIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" routerLink="../../../bills" [queryParams]="{productIds: entity.id}">
                 <bi name="cash-coin" />
                 {{ 'NAV_BILLS' | transloco }}
               </a>
@@ -63,13 +63,13 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
           @if ((productGroups()?.length ?? 1) < 1) {
             <div class="alert alert-warning d-flex gap-2">
               <bi name="exclamation-triangle-fill" />
-              <a class="link-warning" routerLink="../groups/create">{{ 'HOME_PROD_ADD_GROUP_FIRST' | transloco }}</a>
+              <a class="link-warning" routerLink="../../../product-groups/create">{{ 'HOME_PROD_ADD_GROUP_FIRST' | transloco }}</a>
             </div>
           }
           @if ((printers()?.length ?? 1) < 1) {
             <div class="alert alert-warning d-flex gap-2">
               <bi name="exclamation-triangle-fill" />
-              <a class="link-warning" routerLink="../../printers/create">{{ 'HOME_PROD_ADD_PRINTER_FIRST' | transloco }}</a>
+              <a class="link-warning" routerLink="../../../printers/create">{{ 'HOME_PROD_ADD_PRINTER_FIRST' | transloco }}</a>
             </div>
           }
         }

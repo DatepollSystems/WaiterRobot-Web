@@ -34,7 +34,7 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
 
           <ng-container *isEditing="entity">
             <div>
-              <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+              <button type="button" class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)">
                 <bi name="trash" />
                 {{ 'DELETE' | transloco }}
               </button>

@@ -11,6 +11,6 @@ export function injectIdParam$(): Observable<number> {
   return inject(ActivatedRoute).paramMap.pipe(
     map((params) => params.get('id')),
     filterNil(),
-    map((it) => n_from(it)),
+    map(n_from),
   );
 }

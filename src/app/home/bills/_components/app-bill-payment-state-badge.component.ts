@@ -25,7 +25,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
         @switch (unpaidReason) {
           @case ('Test') {
             <div class="d-flex gap-2 align-items-center">
-              <span>{{ 'Test' | transloco }}</span>
+              <span>{{ 'HOME_ORDER_TEST' | transloco }}</span>
               <bi name="terminal-fill" />
             </div>
           }

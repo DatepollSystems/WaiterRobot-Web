@@ -28,7 +28,7 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
         }"
         [autoClose]="'outside'"
         [ngbPopover]="popContent"
-        (click)="showColorPicker.set(!showColorPicker())"
+        (mousedown)="showColorPicker.set(!showColorPicker())"
       >
         {{ 'COLOR_PICKER' | transloco }}
       </button>
@@ -37,7 +37,7 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
         class="btn btn-outline-secondary"
         type="button"
         [disabled]="disabled"
-        (click)="color = undefined; colorChange.emit(undefined)"
+        (mousedown)="color = undefined; colorChange.emit(undefined)"
       >
         <bi name="x-circle-fill" [ngbTooltip]="'RESET' | transloco" />
       </button>
@@ -46,7 +46,7 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
     <ng-template #popContent>
       <div class="d-flex flex-row flex-wrap" style="width: 200px">
         @for (color of colors; track color) {
-          <button class="color-btn" type="button" [style.background-color]="color" (click)="changeColor(color)">
+          <button class="color-btn" type="button" [style.background-color]="color" (mousedown)="changeColor(color)">
             <span class="visually-hidden">Pick {{ color }}</span>
           </button>
         }
@@ -72,21 +72,6 @@ export class AppColorPicker {
 
   showColorPicker = signal(false);
 
-  colors = [
-    '#EBEFFF',
-    '#1B2347',
-    '#C9D1FB',
-    '#6750A4',
-    '#D4DBFA',
-    '#607DFF',
-    '#F8FFA8',
-    '#EFFF32',
-    '#E0FFC0',
-    '#ACFF56',
-    '#FFDBF7',
-    '#FF60DC',
-  ];
-
   @Output()
   readonly colorChange: EventEmitter<string> = new EventEmitter<string>();
 
@@ -94,4 +79,21 @@ export class AppColorPicker {
     this.color = event;
     this.colorChange.emit(this.color);
   }
+
+  protected readonly colors = colors;
 }
+
+export const colors = [
+  '#EBEFFF',
+  '#1B2347',
+  '#C9D1FB',
+  '#6750A4',
+  '#D4DBFA',
+  '#607DFF',
+  '#F8FFA8',
+  '#EFFF32',
+  '#E0FFC0',
+  '#ACFF56',
+  '#FFDBF7',
+  '#FF60DC',
+];

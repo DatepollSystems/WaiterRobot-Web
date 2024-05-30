@@ -1,33 +1,35 @@
-import {AsyncPipe, DatePipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {DatePipe} from '@angular/common';
+import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
-import {AbstractModelsWithNameListByIdComponent} from '@home-shared/list/models-list-by-id/abstract-models-with-name-list-by-id.component';
+import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
+import {mapName} from '@home-shared/name-map';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@ngneat/transloco';
-
-import {SessionModel} from '@shared/model/session.model';
-import {AppSpinnerRowComponent} from '@shared/ui/loading/app-spinner-row.component';
-import {GetWaiterResponse} from '@shared/waiterrobot-backend';
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+import {n_from} from 'dfts-helper';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
+import {StopPropagationDirective} from 'dfx-helper';
+import {injectParams} from 'ngxtension/inject-params';
+import {switchMap, tap} from 'rxjs';
 import {WaiterSessionsService} from '../_services/waiter-sessions.service';
-import {WaitersService} from '../_services/waiters.service';
 
 @Component({
   template: `
     <form class="d-flex flex-column flex-sm-row gap-2">
       <div class="flex-grow-1">
         <div class="input-group">
-          <input class="form-control" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
-          @if ((filter.value?.length ?? 0) > 0) {
+          <input class="form-control" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
+          @if (filter.isActive()) {
             <button
               class="btn btn-outline-secondary"
               type="button"
               placement="bottom"
               [ngbTooltip]="'CLEAR' | transloco"
-              (click)="filter.reset()"
+              (mousedown)="filter.reset()"
             >
               <bi name="x-circle-fill" />
             </button>
@@ -35,14 +37,19 @@ import {WaitersService} from '../_services/waiters.service';
         </div>
       </div>
 
-      <button class="btn btn-sm btn-outline-danger" type="button" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+      <button
+        class="btn btn-sm btn-outline-danger"
+        type="button"
+        [class.disabled]="!selection.hasValue()"
+        (mousedown)="delete.onDeleteSelected()"
+      >
         <bi name="trash" />
         {{ 'DELETE' | transloco }}
       </button>
     </form>
 
     <div class="table-responsive">
-      <table ngb-table ngb-sort ngbSortActive="updatedAt" ngbSortDirection="desc" [hover]="true" [dataSource]="(dataSource$ | async) ?? []">
+      <table ngb-table ngb-sort ngbSortActive="updatedAt" ngbSortDirection="desc" [hover]="true" [dataSource]="table.dataSource()">
         <ng-container ngbColumnDef="select">
           <th *ngbHeaderCellDef ngb-header-cell>
             <div class="form-check">
@@ -50,19 +57,19 @@ import {WaitersService} from '../_services/waiters.service';
                 class="form-check-input"
                 type="checkbox"
                 name="checked"
-                [checked]="selection.hasValue() && isAllSelected()"
-                (change)="$event ? toggleAllRows() : null"
+                [checked]="selection.isAllSelected()"
+                (change)="selection.toggleAll()"
               />
             </div>
           </th>
-          <td *ngbCellDef="let selectable" ngb-cell (click)="$event.stopPropagation()">
+          <td *ngbCellDef="let selectable" ngb-cell stopPropagation>
             <div class="form-check">
               <input
                 class="form-check-input"
                 type="checkbox"
                 name="checked"
                 [checked]="selection.isSelected(selectable)"
-                (change)="$event ? selection.toggle(selectable) : null"
+                (change)="selection.toggle(selectable, $event)"
               />
             </div>
           </td>
@@ -91,19 +98,19 @@ import {WaitersService} from '../_services/waiters.service';
               class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
               placement="left"
               [ngbTooltip]="'DELETE' | transloco"
-              (click)="onDelete(session.id, $event)"
+              (mousedown)="delete.onDelete(session.id)"
             >
               <bi name="trash" />
             </button>
           </td>
         </ng-container>
 
-        <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-        <tr *ngbRowDef="let session; columns: columnsToDisplay" ngb-row></tr>
+        <tr *ngbHeaderRowDef="selection.columnsToDisplay()" ngb-header-row></tr>
+        <tr *ngbRowDef="let session; columns: selection.columnsToDisplay()" ngb-row></tr>
       </table>
     </div>
 
-    <app-spinner-row [show]="isLoading()" />
+    <app-progress-bar [show]="table.isLoading()" />
   `,
   selector: 'app-waiter-sessions',
   standalone: true,
@@ -111,19 +118,50 @@ import {WaitersService} from '../_services/waiters.service';
   imports: [
     ReactiveFormsModule,
     DatePipe,
-    AsyncPipe,
     NgbTooltip,
     DfxTableModule,
     DfxSortModule,
     TranslocoPipe,
     BiComponent,
-    AppSpinnerRowComponent,
+    StopPropagationDirective,
+    AppProgressBarComponent,
   ],
 })
-export class WaiterSessionsComponent extends AbstractModelsWithNameListByIdComponent<SessionModel, GetWaiterResponse> {
-  constructor(sessionsService: WaiterSessionsService, waitersService: WaitersService) {
-    super(sessionsService, waitersService);
+export class WaiterSessionsComponent {
+  #waiterSessionsService = inject(WaiterSessionsService);
 
-    this.columnsToDisplay = ['name', 'registeredAt', 'updatedAt', 'actions'];
-  }
+  activeId = injectParams('id');
+  #activeId$ = toObservable(this.activeId);
+
+  sort = viewChild(NgbSort);
+  filter = injectTableFilter();
+  table = injectTable({
+    columnsToDisplay: ['name', 'registeredAt', 'updatedAt', 'actions'],
+    fetchData: (setLoading) =>
+      this.#activeId$.pipe(
+        tap(() => {
+          setLoading();
+          this.selection.clear();
+        }),
+        switchMap((activeId) => {
+          if (activeId === 'all') {
+            return this.#waiterSessionsService.getAll$();
+          }
+          return this.#waiterSessionsService.getByParent$(n_from(activeId));
+        }),
+      ),
+    sort: this.sort,
+    filterValue$: this.filter.value$,
+  });
+
+  selection = injectTableSelect({
+    dataSource: this.table.dataSource,
+    columnsToDisplay: this.table.columnsToDisplay,
+  });
+
+  delete = injectTableDelete({
+    delete$: (id) => this.#waiterSessionsService.delete$(id),
+    selection: this.selection.selection,
+    nameMap: mapName(),
+  });
 }

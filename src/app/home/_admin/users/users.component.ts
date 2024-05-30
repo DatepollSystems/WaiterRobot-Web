@@ -1,10 +1,9 @@
-import {AsyncPipe, DatePipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-import {AbstractModelsListWithDeleteComponent} from '@home-shared/list/models-list-with-delete/abstract-models-list-with-delete.component';
+import {injectTable, injectTableDelete, injectTableFilter} from '@home-shared/list';
 import {AppActivatedPipe} from '@home-shared/pipes/app-activated.pipe';
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@ngneat/transloco';
@@ -12,7 +11,7 @@ import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.compo
 import {GetUserResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 
 import {UsersService} from './services/users.service';
 
@@ -32,14 +31,14 @@ import {UsersService} from './services/users.service';
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
-          @if ((filter.value?.length ?? 0) > 0) {
+          <input class="form-control ml-2" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
+          @if (filter.isActive()) {
             <button
               class="btn btn-outline-secondary"
               type="button"
               placement="bottom"
               [ngbTooltip]="'CLEAR' | transloco"
-              (click)="filter.reset()"
+              (mousedown)="filter.reset()"
             >
               <bi name="x-circle-fill" />
             </button>
@@ -47,64 +46,66 @@ import {UsersService} from './services/users.service';
         </div>
       </form>
 
-      <div class="table-responsive">
-        <table ngb-table ngb-sort ngbSortActive="id" ngbSortDirection="asc" [hover]="true" [dataSource]="(dataSource$ | async) ?? []">
-          <ng-container ngbColumnDef="id">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
-            <td *ngbCellDef="let user" ngb-cell>{{ user.id }}</td>
-          </ng-container>
+      @if (table.dataSource(); as dataSource) {
+        <div class="table-responsive">
+          <table ngb-table ngb-sort ngbSortActive="id" ngbSortDirection="asc" [hover]="true" [dataSource]="dataSource">
+            <ng-container ngbColumnDef="id">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
+              <td *ngbCellDef="let user" ngb-cell>{{ user.id }}</td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="name">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
-            <td *ngbCellDef="let user" ngb-cell>{{ user.firstname }} {{ user.surname }}</td>
-          </ng-container>
+            <ng-container ngbColumnDef="name">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
+              <td *ngbCellDef="let user" ngb-cell>{{ user.firstname }} {{ user.surname }}</td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="email_address">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'EMAIL' | transloco }}</th>
-            <td *ngbCellDef="let user" ngb-cell>{{ user.emailAddress }}</td>
-          </ng-container>
+            <ng-container ngbColumnDef="email_address">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'EMAIL' | transloco }}</th>
+              <td *ngbCellDef="let user" ngb-cell>{{ user.emailAddress }}</td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="is_admin">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ADMIN' | transloco }}</th>
-            <td *ngbCellDef="let user" ngb-cell>
-              {{ user.role === 'ADMIN' | activated }}
-            </td>
-          </ng-container>
+            <ng-container ngbColumnDef="is_admin">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ADMIN' | transloco }}</th>
+              <td *ngbCellDef="let user" ngb-cell>
+                {{ user.role === 'ADMIN' | activated }}
+              </td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="activated">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ACTIVATED' | transloco }}</th>
-            <td *ngbCellDef="let user" ngb-cell>
-              {{ user.activated | activated }}
-            </td>
-          </ng-container>
+            <ng-container ngbColumnDef="activated">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_USERS_ACTIVATED' | transloco }}</th>
+              <td *ngbCellDef="let user" ngb-cell>
+                {{ user.activated | activated }}
+              </td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="actions">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
-            <td *ngbCellDef="let user" ngb-cell>
-              <a
-                class="btn btn-sm m-1 btn-outline-success text-body-emphasis"
-                [routerLink]="'../' + user.id"
-                [ngbTooltip]="'EDIT' | transloco"
-              >
-                <bi name="pencil-square" />
-              </a>
-              <button
-                type="button"
-                class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
-                [ngbTooltip]="'DELETE' | transloco"
-                (click)="onDelete(user.id, $event)"
-              >
-                <bi name="trash" />
-              </button>
-            </td>
-          </ng-container>
+            <ng-container ngbColumnDef="actions">
+              <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
+              <td *ngbCellDef="let user" ngb-cell>
+                <a
+                  class="btn btn-sm m-1 btn-outline-success text-body-emphasis"
+                  [routerLink]="'../' + user.id"
+                  [ngbTooltip]="'EDIT' | transloco"
+                >
+                  <bi name="pencil-square" />
+                </a>
+                <button
+                  type="button"
+                  class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
+                  [ngbTooltip]="'DELETE' | transloco"
+                  (mousedown)="delete.onDelete(user.id)"
+                >
+                  <bi name="trash" />
+                </button>
+              </td>
+            </ng-container>
 
-          <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-          <tr *ngbRowDef="let user; columns: columnsToDisplay" ngb-row [routerLink]="'../' + user.id"></tr>
-        </table>
-      </div>
+            <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
+            <tr *ngbRowDef="let user; columns: table.columnsToDisplay()" ngb-row [routerLink]="'../' + user.id"></tr>
+          </table>
+        </div>
+      }
 
-      <app-progress-bar [show]="isLoading()" />
+      <app-progress-bar [show]="table.isLoading()" />
     </div>
   `,
   selector: 'app-all-users',
@@ -112,9 +113,7 @@ import {UsersService} from './services/users.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    AsyncPipe,
     RouterLink,
-    DatePipe,
     NgbTooltipModule,
     DfxTableModule,
     DfxSortModule,
@@ -125,12 +124,19 @@ import {UsersService} from './services/users.service';
     AppProgressBarComponent,
   ],
 })
-export class UsersComponent extends AbstractModelsListWithDeleteComponent<GetUserResponse> {
-  constructor(private usersService: UsersService) {
-    super(usersService);
-    this.columnsToDisplay = ['id', 'name', 'email_address', 'is_admin', 'activated', 'actions'];
-  }
+export class UsersComponent {
+  #usersService = inject(UsersService);
 
-  override selectionEnabled = false;
-  override nameMap = (it: GetUserResponse): string => `${it.firstname} ${it.surname}`;
+  sort = viewChild(NgbSort);
+  filter = injectTableFilter();
+  table = injectTable({
+    columnsToDisplay: ['id', 'name', 'email_address', 'is_admin', 'activated', 'actions'],
+    fetchData: () => this.#usersService.getAll$(),
+    sort: this.sort,
+    filterValue$: this.filter.value$,
+  });
+
+  delete = injectTableDelete<GetUserResponse>({
+    delete$: (id) => this.#usersService.delete$(id),
+  });
 }

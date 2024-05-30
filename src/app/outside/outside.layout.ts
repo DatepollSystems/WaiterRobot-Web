@@ -1,10 +1,8 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 
-import {NgbDropdown, NgbDropdownButtonItem, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
-
-import {ThemeService} from '@shared/services/theme.service';
 import {FooterComponent} from '@shared/ui/footer/footer.component';
+import {ThemeSwitcherComponent} from '@shared/ui/theme-switcher.component';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {AppLogoWithTextComponent} from './_shared/app-logo-with-text.component';
@@ -21,27 +19,7 @@ import {AppLogoWithTextComponent} from './_shared/app-logo-with-text.component';
         </div>
       </div>
     </div>
-    <div class="theme-switcher">
-      <div ngbDropdown display="dynamic">
-        <button type="button" class="btn btn-primary" ngbDropdownToggle>
-          <bi [name]="themeService.selectedTheme().icon" />
-        </button>
-        <div ngbDropdownMenu aria-labelledby="themeDropdown" class="p-1">
-          @for (theme of themeService.themes; track theme.id) {
-            <button
-              type="button"
-              ngbDropdownItem
-              class="rounded-1 mt-1"
-              [class.active]="theme.id === themeService.selectedTheme().id"
-              (click)="themeService.setTheme(theme.id)"
-            >
-              <bi [name]="theme.icon" />
-              {{ theme.name }}
-            </button>
-          }
-        </div>
-      </div>
-    </div>
+    <app-theme-switcher />
     <app-footer container="container-md " />
   `,
   styles: `
@@ -51,29 +29,10 @@ import {AppLogoWithTextComponent} from './_shared/app-logo-with-text.component';
       padding-top: 6%;
       padding-bottom: 6%;
     }
-
-    .theme-switcher {
-      z-index: 1000;
-      right: 20px;
-      bottom: 40px;
-      position: fixed;
-    }
   `,
   selector: 'app-outside-layout',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    AppLogoWithTextComponent,
-    NgbDropdown,
-    NgbDropdownMenu,
-    NgbDropdownItem,
-    NgbDropdownToggle,
-    BiComponent,
-    NgbDropdownButtonItem,
-    RouterOutlet,
-    FooterComponent,
-  ],
+  imports: [AppLogoWithTextComponent, BiComponent, RouterOutlet, FooterComponent, ThemeSwitcherComponent],
   standalone: true,
 })
-export class OutsideLayout {
-  themeService = inject(ThemeService);
-}
+export class OutsideLayout {}

@@ -34,7 +34,7 @@ import {TableEditFormComponent} from './table-edit-form.component';
 
           <ng-container *isEditingAndNotDeleted="entity">
             <div>
-              <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+              <button type="button" class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)">
                 <bi name="trash" />
                 {{ 'DELETE' | transloco }}
               </button>
@@ -49,13 +49,13 @@ import {TableEditFormComponent} from './table-edit-form.component';
             }
 
             <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../orders" [queryParams]="{tableIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" routerLink="../../../orders" [queryParams]="{tableIds: entity.id}">
                 <bi name="stack" />
                 {{ 'NAV_ORDERS' | transloco }}
               </a>
             </div>
             <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../bills" [queryParams]="{tableIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" routerLink="../../../bills" [queryParams]="{tableIds: entity.id}">
                 <bi name="cash-coin" />
                 {{ 'NAV_BILLS' | transloco }}
               </a>
@@ -72,7 +72,7 @@ import {TableEditFormComponent} from './table-edit-form.component';
         @if ((tableGroups()?.length ?? 1) < 1) {
           <div class="alert alert-warning d-flex gap-2">
             <bi name="exclamation-triangle-fill" />
-            <a class="link-warning" routerLink="../groups/create">{{ 'HOME_TABLE_ADD_GROUP_FIRST' | transloco }}</a>
+            <a class="link-warning" routerLink="../../../table-groups/create">{{ 'HOME_TABLE_ADD_GROUP_FIRST' | transloco }}</a>
           </div>
         }
 

@@ -8,7 +8,7 @@ export const environment: Environment = {
   production: false,
   type: 'dev',
   apiUrl: 'http://localhost:8080/api/v1',
-  titlePrefix: 'dev.kellner.team',
+  titleSuffix: 'dev.kellner.team',
 };
 
 function getTime(): string {

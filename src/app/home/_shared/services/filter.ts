@@ -9,7 +9,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {injectIsValid} from '@shared/form';
 
 import {loggerOf, n_from} from 'dfts-helper';
-import {computedFrom} from 'ngxtension/computed-from';
+import {derivedFrom} from 'ngxtension/derived-from';
 
 import {distinctUntilChanged, map, merge, Observable, shareReplay} from 'rxjs';
 
@@ -43,7 +43,7 @@ export function injectFilter<
   const valid = injectIsValid(form);
 
   // Calculate count of active filters
-  const count = computedFrom(
+  const count = derivedFrom(
     [valueChanges],
     map(([form]) =>
       !form

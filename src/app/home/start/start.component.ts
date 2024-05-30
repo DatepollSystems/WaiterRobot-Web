@@ -1,7 +1,8 @@
-import {AsyncPipe} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
+import {TranslocoPipe} from '@ngneat/transloco';
 
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';
 import {AuthService} from '@shared/services/auth/auth.service';
@@ -9,9 +10,8 @@ import {SystemInfoShowService} from '@shared/services/system-info.service';
 import {AppDownloadBtnListComponent} from '@shared/ui/app-download-btn-list.component';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {TranslocoPipe} from '@ngneat/transloco';
 
-import {catchError, filter, of} from 'rxjs';
+import {catchError, filter, of, startWith} from 'rxjs';
 import {MyUserService} from '../_shared/services/user/my-user.service';
 
 @Component({
@@ -19,7 +19,7 @@ import {MyUserService} from '../_shared/services/user/my-user.service';
   templateUrl: './start.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [RouterLink, TranslocoPipe, AppDownloadBtnListComponent, BiComponent, AsyncPipe],
+  imports: [RouterLink, TranslocoPipe, AppDownloadBtnListComponent, BiComponent],
 })
 export class StartComponent {
   isProduction = EnvironmentHelper.getProduction();
@@ -30,9 +30,12 @@ export class StartComponent {
   myUser = inject(MyUserService).user;
   showSystemInfoService = inject(SystemInfoShowService);
 
-  errors$ = this.httpClient.get('/user/myself').pipe(
-    catchError(() => of(true)),
-    filter((it) => it === true),
+  hasError = toSignal(
+    this.httpClient.get('/user/myself').pipe(
+      startWith(false),
+      catchError(() => of(true)),
+      filter((it) => it === true),
+    ),
   );
 
   logout(): void {

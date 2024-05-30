@@ -12,6 +12,7 @@
     "build:stats": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --stats-json",
     "analyze": "npm run build:stats && source-map-explorer dist/WaiterRobot-Web/**/*.js",
     "tsc:check": "tsc",
+    "ci": "pnpm lint && pnpm format",
     "lint": "eslint '**/*.{js,ts,html,json,md}' --fix",
     "lint:check": "eslint '**/*.{js,ts,html,json,md}'",
     "format:check": "prettier --check .",
@@ -50,7 +51,7 @@
     "jspdf": "2.5.1",
     "ng2-pdfjs-viewer": "^17.0.3",
     "ngx-print": "^1.5.1",
-    "ngxtension": "3.0.1",
+    "ngxtension": "3.2.0",
     "rxjs": "7.8.1",
     "tslib": "2.6.2",
     "zone.js": "0.14.4"

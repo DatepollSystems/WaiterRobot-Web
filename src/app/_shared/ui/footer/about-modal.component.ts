@@ -17,7 +17,7 @@ import {EnvironmentHelper} from '../../EnvironmentHelper';
   template: `
     <div class="modal-header">
       <h3 class="modal-title" id="modal-title-about">{{ 'ABOUT' | transloco }} kellner.team</h3>
-      <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="modal.dismiss()"></button>
+      <button type="button" class="btn-close btn-close-white" aria-label="Close" (mousedown)="modal.dismiss()"></button>
     </div>
     <div class="modal-body">
       <ul #nav="ngbNav" ngbNav class="nav-tabs">
@@ -70,7 +70,7 @@ import {EnvironmentHelper} from '../../EnvironmentHelper';
       <div class="mt-2" [ngbNavOutlet]="nav"></div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="modal.close()">{{ 'CLOSE' | transloco }}</button>
+      <button type="button" class="btn btn-outline-secondary" (mousedown)="modal.close()">{{ 'CLOSE' | transloco }}</button>
     </div>
   `,
   standalone: true,

@@ -15,7 +15,7 @@ import {BillsService} from '../_services/bills.service';
       placement="left"
       [class.btnSpinner]="loading"
       [ngbTooltip]="'HOME_ORDER_REFRESH_NOW' | transloco"
-      (click)="billsService.triggerRefresh.next(true)"
+      (mousedown)="billsService.triggerRefresh.next(true)"
     >
       <bi name="arrow-clockwise" />
       @if (countdown) {

@@ -26,7 +26,7 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
             type="button"
             class="btn btn-outline-primary"
             [class.active]="selected === 'PRODUCTS'"
-            (click)="selectedTimelineType$.next('PRODUCTS')"
+            (mousedown)="selectedTimelineType$.next('PRODUCTS')"
           >
             {{ 'HOME_PROD_ALL' | transloco }}
           </button>
@@ -34,7 +34,7 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
             type="button"
             class="btn btn-outline-primary"
             [class.active]="selected === 'PRODUCT_GROUPS'"
-            (click)="selectedTimelineType$.next('PRODUCT_GROUPS')"
+            (mousedown)="selectedTimelineType$.next('PRODUCT_GROUPS')"
           >
             {{ 'HOME_PROD_GROUPS' | transloco }}
           </button>
@@ -42,7 +42,7 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
             type="button"
             class="btn btn-outline-primary"
             [class.active]="selected === 'WAITERS'"
-            (click)="selectedTimelineType$.next('WAITERS')"
+            (mousedown)="selectedTimelineType$.next('WAITERS')"
           >
             {{ 'NAV_WAITERS' | transloco }}
           </button>

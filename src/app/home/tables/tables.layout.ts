@@ -1,94 +1,47 @@
-import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
-import {RouterLink, RouterLinkActive} from '@angular/router';
-
+import {RouterLink, RouterOutlet} from '@angular/router';
 import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
-import {AppListNavItemDirective, AppListNavItemsComponent} from '@home-shared/layouts/app-list-nav-items.component';
-import {EntitiesLayout} from '@home-shared/layouts/entities.layout';
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbNav, NgbNavItem, NgbNavLink} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@ngneat/transloco';
-
-import {BiComponent} from 'dfx-bootstrap-icons';
-
+import {injectParams} from 'ngxtension/inject-params';
 import {TableGroupsService} from './_services/table-groups.service';
 
 @Component({
   template: `
-    <entities-layout>
-      <div class="d-flex flex-column gap-3" nav>
-        <div class="list-group">
-          <a class="list-group-item list-group-item-action" routerLink="all" routerLinkActive="active">
-            <div class="d-flex justify-content-between">
-              <div>
-                <bi name="columns-gap" />
-                {{ 'HOME_TABLES' | transloco }}
-              </div>
+    <h1 class="mb-3">{{ 'HOME_TABLES' | transloco }}</h1>
 
-              <div>
-                <span class="badge bg-secondary rounded-pill" placement="left" [ngbTooltip]="'HOME_TABLES_COUNT' | transloco">
-                  {{ allTablesAmount() ?? '' }}
-                </span>
-              </div>
-            </div>
-          </a>
-
-          <a class="list-group-item list-group-item-action" routerLink="groups/all" routerLinkActive="active">
-            <div class="d-flex justify-content-between">
-              <div>
-                <bi name="diagram-3" />
-                {{ 'HOME_TABLE_GROUPS' | transloco }}
-              </div>
-              <div>
-                <span class="badge bg-secondary rounded-pill" placement="left" [ngbTooltip]="'HOME_TABLE_GROUPS_COUNT' | transloco">
-                  {{ tableGroups()?.length ?? '-' }}
-                </span>
-              </div>
-            </div>
-          </a>
-        </div>
-        <app-list-nav-items
-          path="groups/tables/"
-          titleTr="HOME_TABLE_GROUPS"
-          selectTr="HOME_TABLES_GROUPS_SELECT"
-          [entities]="tableGroups() ?? []"
-        >
-          <ng-template let-entity appListNavItem>
-            <div class="d-flex justify-content-between">
-              <app-text-with-color-indicator [color]="entity.color">
-                {{ entity.name }}
+    <div class="nav-x-scroll">
+      <ul ngbNav class="nav-tabs mb-3" [activeId]="activeId()">
+        <li ngbNavItem="all">
+          <a ngbNavLink routerLink="../all">{{ 'ALL' | transloco }}</a>
+        </li>
+        @for (tableGroup of tableGroups(); track tableGroup.id) {
+          <li [ngbNavItem]="tableGroup.id.toString()">
+            <a ngbNavLink class="d-flex gap-3 align-items-center" [routerLink]="'../' + tableGroup.id">
+              <app-text-with-color-indicator [color]="tableGroup.color">
+                {{ tableGroup.name }}
               </app-text-with-color-indicator>
-              <div>
-                <span class="badge bg-secondary rounded-pill" placement="left" [ngbTooltip]="'HOME_TABLES_COUNT' | transloco">{{
-                  entity.tables.length
-                }}</span>
+
+              <div class="d-flex align-items-center">
+                <span class="badge bg-secondary rounded-pill">{{ tableGroup.tables.length }}</span>
               </div>
-            </div>
-          </ng-template>
-        </app-list-nav-items>
-      </div>
-    </entities-layout>
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <router-outlet />
   `,
-  selector: 'app-tables',
+  selector: 'app-tables-layout',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    RouterLink,
-    RouterLinkActive,
-    TranslocoPipe,
-    BiComponent,
-    EntitiesLayout,
-    AppListNavItemsComponent,
-    AppListNavItemDirective,
-    AppTextWithColorIndicatorComponent,
-    NgbTooltip,
-  ],
+  imports: [RouterLink, TranslocoPipe, NgbNav, NgbNavItem, NgbNavLink, RouterOutlet, AppTextWithColorIndicatorComponent],
 })
 export class TablesLayout {
-  tableGroups = toSignal(inject(TableGroupsService).getAll$());
-
-  allTablesAmount = computed(() =>
-    this.tableGroups()
-      ?.map((it) => it.tables.length)
-      .reduce((current, previous) => current + previous, 0),
-  );
+  activeId = injectParams('id');
+  tableGroups = toSignal(inject(TableGroupsService).getAll$(), {
+    initialValue: [],
+  });
 }

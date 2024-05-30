@@ -25,7 +25,7 @@ import {UserEditFormComponent} from './user-edit-form.component';
         <scrollable-toolbar>
           <back-button />
           <div *isEditing="entity">
-            <button type="button" class="btn btn-sm btn-outline-danger" (click)="onDelete(entity.id)">
+            <button type="button" class="btn btn-sm btn-outline-danger" (mousedown)="onDelete(entity.id)">
               <bi name="trash" />
               {{ 'DELETE' | transloco }}
             </button>

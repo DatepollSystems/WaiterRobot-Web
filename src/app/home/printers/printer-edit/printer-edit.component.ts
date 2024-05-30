@@ -10,7 +10,7 @@ import {injectOnSubmit} from '@shared/form';
 import {GetPrinterResponse} from '@shared/waiterrobot-backend';
 
 import {SelectedEventService} from '../../events/_services/selected-event.service';
-import {OrganisationEditUsersComponent} from '../../organisations/organisation-edit/organisation-edit-users/organisation-edit-users.component';
+import {OrganisationUsersSettingsComponent} from '../../organisations/organisation-edit/organisation-edit-users/organisation-users-settings.component';
 import {PrintersService} from '../_services/printers.service';
 import {AppPrinterEditForm} from './printer-edit-form.component';
 import {PrinterEditProductsComponent} from './printer-edit-products.component';
@@ -19,7 +19,7 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
   template: `
     @if (entity(); as entity) {
       <div class="d-flex flex-column gap-2">
-        <h1 *isEditing="entity">{{ 'EDIT_2' | transloco }} {{ entity.name }}</h1>
+        <h1 *isEditing="entity">{{ 'EDIT_2' | transloco }} {{ entity.name }} {{ 'NAV_PRINTERS' | transloco }}</h1>
         <h1 *isCreating="entity">{{ 'ADD_2' | transloco }}</h1>
 
         <scrollable-toolbar>
@@ -27,7 +27,7 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
 
           <ng-container *isEditing="entity">
             <div>
-              <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+              <button type="button" class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)">
                 <bi name="trash" />
                 {{ 'DELETE' | transloco }}
               </button>
@@ -85,7 +85,7 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
     AppContinuesCreationSwitchComponent,
     PrinterEditProductsComponent,
     NgbNavModule,
-    OrganisationEditUsersComponent,
+    OrganisationUsersSettingsComponent,
   ],
 })
 export class PrinterEditComponent extends AbstractModelEditComponent<GetPrinterResponse> {

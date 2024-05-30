@@ -22,8 +22,8 @@ import {GetOrderMinResponse, GetTableWithGroupResponse} from '@shared/waiterrobo
 import {loggerOf, s_imploder} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
-import {injectIsMobile} from 'dfx-helper';
-import {computedFrom} from 'ngxtension/computed-from';
+import {injectIsMobile, StopPropagationDirective} from 'dfx-helper';
+import {derivedFrom} from 'ngxtension/derived-from';
 
 import {debounceTime, forkJoin, map, merge, Observable, pipe, switchMap, tap} from 'rxjs';
 
@@ -61,6 +61,7 @@ import {OrdersService} from '../orders.service';
     AppProgressBarComponent,
     ActionDropdownComponent,
     NgbDropdownItem,
+    StopPropagationDirective,
   ],
 })
 export class OrdersComponent implements AfterViewInit {
@@ -91,7 +92,7 @@ export class OrdersComponent implements AfterViewInit {
     }),
   );
 
-  dataSource = computedFrom(
+  dataSource = derivedFrom(
     [this.pagination.params, this.filter.valueChanges],
     pipe(
       debounceTime(350),

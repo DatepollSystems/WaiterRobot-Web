@@ -3,6 +3,7 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 
 import {TranslocoPipe} from '@ngneat/transloco';
+import {skip} from 'rxjs';
 
 @Component({
   template: `
@@ -28,7 +29,7 @@ export class AppOrderModeSwitchComponent {
   }
 
   constructor() {
-    this.formControl.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+    this.formControl.valueChanges.pipe(takeUntilDestroyed(), skip(1)).subscribe((value) => {
       this.orderModeChange.next(value ?? false);
     });
   }

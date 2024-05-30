@@ -18,7 +18,7 @@ import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 import {loggerOf} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
-import {DfxCurrencyCentPipe, injectIsMobile} from 'dfx-helper';
+import {DfxCurrencyCentPipe, injectIsMobile, StopPropagationDirective} from 'dfx-helper';
 import {computedFrom} from 'ngxtension/computed-from';
 
 import {debounceTime, map, merge, Observable, pipe, switchMap, tap} from 'rxjs';
@@ -41,7 +41,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
         <div class="d-inline-flex gap-2 me-2">
           <app-bill-refresh-btn [loading]="pagination.loading()" />
           @if (isMobile()) {
-            <button type="button" class="btn btn-outline-info position-relative" (click)="collapse.toggle()">
+            <button type="button" class="btn btn-outline-info position-relative" (mousedown)="collapse.toggle()">
               <bi name="filter-circle" />
               @if (filter.count() !== 0) {
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -105,7 +105,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
               [multiple]="true"
             >
               <ng-template let-item="item" let-clear="clear" ng-label-tmp>
-                <span class="ng-value-icon left" aria-hidden="true" (click)="clear(item)">×</span>
+                <span class="ng-value-icon left" aria-hidden="true" (mousedown)="clear(item)">×</span>
                 <span class="ng-value-label">{{ item?.group?.name ?? '' }} - {{ item?.number ?? '' }}</span>
               </ng-template>
               <ng-template let-item="item" let-index="index" let-search="searchTerm" ng-option-tmp>
@@ -154,7 +154,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
             type="button"
             class="btn btn-sm btn-secondary position-relative"
             [disabled]="filter.count() === 0"
-            (click)="filter.form.reset()"
+            (mousedown)="filter.form.reset()"
           >
             <bi name="x-circle-fill" />
             {{ 'DELETE_ALL' | transloco }}
@@ -201,17 +201,15 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
           <ng-container ngbColumnDef="waiter.name">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_WAITERS_NAV_ORGANISATION' | transloco }}</th>
             <td *ngbCellDef="let bill" ngb-cell>
-              <a [routerLink]="'../../waiters/' + bill.waiter.id" (click)="$event.stopPropagation()">{{ bill.waiter.name }}</a>
+              <a stopPropagation [routerLink]="'../../waiters/' + bill.waiter.id">{{ bill.waiter.name }}</a>
             </td>
           </ng-container>
 
           <ng-container ngbColumnDef="table.tableGroup.name">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_ORDER_TABLE' | transloco }}</th>
             <td *ngbCellDef="let bill" ngb-cell>
-              <a [routerLink]="'../../tables/groups/tables/' + bill.table.group.id" (click)="$event.stopPropagation()">{{
-                bill.table.group.name
-              }}</a>
-              - <a [routerLink]="'../../tables/' + bill.table.id" (click)="$event.stopPropagation()">{{ bill.table.number }}</a>
+              <a stopPropagation [routerLink]="'../../tables/groups/tables/' + bill.table.group.id">{{ bill.table.group.name }}</a>
+              - <a stopPropagation [routerLink]="'../../tables/' + bill.table.id">{{ bill.table.number }}</a>
             </td>
           </ng-container>
 
@@ -219,7 +217,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
             <th *ngbHeaderCellDef ngb-header-cell>
               <span class="visually-hidden">{{ 'ACTIONS' | transloco }}</span>
             </th>
-            <td *ngbCellDef="let bill" ngb-cell>
+            <td *ngbCellDef="let bill" ngb-cell stopPropagation>
               <a
                 class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"
                 placement="left"
@@ -274,6 +272,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
     ReactiveFormsModule,
     NgbCollapse,
     ScrollableToolbarComponent,
+    StopPropagationDirective,
   ],
 })
 export class BillsComponent implements AfterViewInit {

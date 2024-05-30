@@ -24,7 +24,7 @@ import {DeadLettersService} from './dead-letters.service';
           <back-button />
 
           <div>
-            <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(deadLetter.id)">
+            <button type="button" class="btn btn-sm btn-danger" (mousedown)="onDelete(deadLetter.id)">
               <bi name="trash" />
               {{ 'DELETE' | transloco }}
             </button>

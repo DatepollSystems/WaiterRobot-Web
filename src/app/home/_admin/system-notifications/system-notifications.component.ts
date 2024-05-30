@@ -1,19 +1,19 @@
-import {AsyncPipe, DatePipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {DatePipe} from '@angular/common';
+import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-import {AbstractModelsListWithDeleteComponent} from '@home-shared/list/models-list-with-delete/abstract-models-list-with-delete.component';
+import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
 import {AppActivatedPipe} from '@home-shared/pipes/app-activated.pipe';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@ngneat/transloco';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {GetSystemNotificationResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
+import {StopPropagationDirective} from 'dfx-helper';
 import {AppSystemNotificationTypeBadgeComponent} from './_components/system-notification-type-badge.component';
 import {SystemNotificationsService} from './_services/system-notifications.service';
 
@@ -30,7 +30,12 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
           >
         </div>
         <div>
-          <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
+          <button
+            type="button"
+            class="btn btn-sm btn-danger"
+            [class.disabled]="!selection.hasValue()"
+            (mousedown)="delete.onDeleteSelected()"
+          >
             <bi name="trash" />
             {{ 'DELETE' | transloco }}
           </button>
@@ -39,14 +44,14 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
-          @if ((filter.value?.length ?? 0) > 0) {
+          <input class="form-control ml-2" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
+          @if (filter.isActive()) {
             <button
               class="btn btn-outline-secondary"
               type="button"
               placement="bottom"
               [ngbTooltip]="'CLEAR' | transloco"
-              (click)="filter.reset()"
+              (mousedown)="filter.reset()"
             >
               <bi name="x-circle-fill" />
             </button>
@@ -54,89 +59,91 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
         </div>
       </form>
 
-      <div class="table-responsive">
-        <table ngb-table ngb-sort ngbSortActive="id" ngbSortDirection="asc" [hover]="true" [dataSource]="(dataSource$ | async) ?? []">
-          <ng-container ngbColumnDef="select">
-            <th *ngbHeaderCellDef ngb-header-cell>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  name="checked"
-                  [checked]="selection.hasValue() && isAllSelected()"
-                  (change)="$event ? toggleAllRows() : null"
-                />
-              </div>
-            </th>
-            <td *ngbCellDef="let selectable" ngb-cell (click)="$event.stopPropagation()">
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  name="checked"
-                  [checked]="selection.isSelected(selectable)"
-                  (change)="$event ? selection.toggle(selectable) : null"
-                />
-              </div>
-            </td>
-          </ng-container>
+      @if (table.dataSource(); as dataSource) {
+        <div class="table-responsive">
+          <table ngb-table ngb-sort ngbSortActive="id" ngbSortDirection="asc" [hover]="true" [dataSource]="dataSource">
+            <ng-container ngbColumnDef="select">
+              <th *ngbHeaderCellDef ngb-header-cell>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="checked"
+                    [checked]="selection.isAllSelected()"
+                    (change)="selection.toggleAll()"
+                  />
+                </div>
+              </th>
+              <td *ngbCellDef="let selectable" ngb-cell stopPropagation>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="checked"
+                    [checked]="selection.isSelected(selectable)"
+                    (change)="selection.toggle(selectable, $event)"
+                  />
+                </div>
+              </td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="title">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'TITLE' | transloco }}</th>
-            <td *ngbCellDef="let it" ngb-cell>{{ it.title }}</td>
-          </ng-container>
+            <ng-container ngbColumnDef="title">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'TITLE' | transloco }}</th>
+              <td *ngbCellDef="let it" ngb-cell>{{ it.title }}</td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="type">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'TYPE' | transloco }}</th>
-            <td *ngbCellDef="let it" ngb-cell>
-              <app-system-notification-type-badge [type]="it.type" />
-            </td>
-          </ng-container>
+            <ng-container ngbColumnDef="type">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'TYPE' | transloco }}</th>
+              <td *ngbCellDef="let it" ngb-cell>
+                <app-system-notification-type-badge [type]="it.type" />
+              </td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="starts">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STARTS' | transloco }}</th>
-            <td *ngbCellDef="let it" ngb-cell>{{ it.starts | date: 'dd.MM.YYYY HH:mm' }}</td>
-          </ng-container>
+            <ng-container ngbColumnDef="starts">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STARTS' | transloco }}</th>
+              <td *ngbCellDef="let it" ngb-cell>{{ it.starts | date: 'dd.MM.YYYY HH:mm' }}</td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="ends">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ENDS' | transloco }}</th>
-            <td *ngbCellDef="let it" ngb-cell>{{ it.ends | date: 'dd.MM.YYYY HH:mm' }}</td>
-          </ng-container>
+            <ng-container ngbColumnDef="ends">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ENDS' | transloco }}</th>
+              <td *ngbCellDef="let it" ngb-cell>{{ it.ends | date: 'dd.MM.YYYY HH:mm' }}</td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="active">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ACTIVE' | transloco }}</th>
-            <td *ngbCellDef="let it" ngb-cell>
-              {{ it.active | activated }}
-            </td>
-          </ng-container>
+            <ng-container ngbColumnDef="active">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ACTIVE' | transloco }}</th>
+              <td *ngbCellDef="let it" ngb-cell>
+                {{ it.active | activated }}
+              </td>
+            </ng-container>
 
-          <ng-container ngbColumnDef="actions">
-            <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
-            <td *ngbCellDef="let it" ngb-cell>
-              <a
-                class="btn btn-sm m-1 btn-outline-success text-body-emphasis"
-                [routerLink]="'../' + it.id"
-                [ngbTooltip]="'EDIT' | transloco"
-              >
-                <bi name="pencil-square" />
-              </a>
-              <button
-                type="button"
-                class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
-                [ngbTooltip]="'DELETE' | transloco"
-                (click)="onDelete(it.id, $event)"
-              >
-                <bi name="trash" />
-              </button>
-            </td>
-          </ng-container>
+            <ng-container ngbColumnDef="actions">
+              <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
+              <td *ngbCellDef="let it" ngb-cell>
+                <a
+                  class="btn btn-sm m-1 btn-outline-success text-body-emphasis"
+                  [routerLink]="'../' + it.id"
+                  [ngbTooltip]="'EDIT' | transloco"
+                >
+                  <bi name="pencil-square" />
+                </a>
+                <button
+                  type="button"
+                  class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
+                  [ngbTooltip]="'DELETE' | transloco"
+                  (mousedown)="delete.onDelete(it.id)"
+                >
+                  <bi name="trash" />
+                </button>
+              </td>
+            </ng-container>
 
-          <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-          <tr *ngbRowDef="let it; columns: columnsToDisplay" ngb-row [routerLink]="'../' + it.id"></tr>
-        </table>
-      </div>
+            <tr *ngbHeaderRowDef="selection.columnsToDisplay()" ngb-header-row></tr>
+            <tr *ngbRowDef="let it; columns: selection.columnsToDisplay()" ngb-row [routerLink]="'../' + it.id"></tr>
+          </table>
+        </div>
+      }
 
-      <app-progress-bar [show]="isLoading()" />
+      <app-progress-bar [show]="table.isLoading()" />
     </div>
   `,
   selector: 'app-all-system-notifications',
@@ -144,7 +151,6 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    AsyncPipe,
     RouterLink,
     DatePipe,
     NgbTooltipModule,
@@ -156,13 +162,29 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
     AppSystemNotificationTypeBadgeComponent,
     AppActivatedPipe,
     AppProgressBarComponent,
+    StopPropagationDirective,
   ],
 })
-export class SystemNotificationsComponent extends AbstractModelsListWithDeleteComponent<GetSystemNotificationResponse> {
-  constructor(private systemNotificationsService: SystemNotificationsService) {
-    super(systemNotificationsService);
-    this.columnsToDisplay = ['title', 'type', 'starts', 'ends', 'active', 'actions'];
-  }
+export class SystemNotificationsComponent {
+  #systemNotificationService = inject(SystemNotificationsService);
 
-  override nameMap = (it: GetSystemNotificationResponse): string => it.title ?? it.type;
+  sort = viewChild(NgbSort);
+  filter = injectTableFilter();
+  table = injectTable({
+    columnsToDisplay: ['title', 'type', 'starts', 'ends', 'active', 'actions'],
+    fetchData: () => this.#systemNotificationService.getAll$(),
+    sort: this.sort,
+    filterValue$: this.filter.value$,
+  });
+
+  selection = injectTableSelect({
+    dataSource: this.table.dataSource,
+    columnsToDisplay: this.table.columnsToDisplay,
+  });
+
+  delete = injectTableDelete({
+    selection: this.selection.selection,
+    delete$: (id) => this.#systemNotificationService.delete$(id),
+    nameMap: (it): string => it.title ?? it.type,
+  });
 }

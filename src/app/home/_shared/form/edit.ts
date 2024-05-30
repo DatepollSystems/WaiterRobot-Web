@@ -1,10 +1,9 @@
 import {Location} from '@angular/common';
 import {inject, signal, Signal} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {derivedFrom} from 'ngxtension/derived-from';
 
 import {map, startWith, tap} from 'rxjs';
-
-import {computedFrom} from 'ngxtension/computed-from';
 
 import {injectConfirmDialog} from '../components/question-dialog.component';
 import {AbstractModelEditFormComponent} from './abstract-model-edit-form.component';
@@ -81,7 +80,7 @@ export function injectTabControls<Tab>(options: {isCreating?: Signal<boolean>; d
 
   const {isCreating, defaultTab, onlyEditingTabs} = options;
 
-  const activeTab = computedFrom(
+  const activeTab = derivedFrom(
     [
       isCreating ?? signal(false),
       route.queryParamMap.pipe(

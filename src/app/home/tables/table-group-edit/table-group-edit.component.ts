@@ -26,27 +26,27 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
 
           <ng-container *isEditingAndNotDeleted="entity">
             <div>
-              <button type="button" class="btn btn-sm btn-danger" (click)="onDelete(entity.id)">
+              <button type="button" class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)">
                 <bi name="trash" />
                 {{ 'DELETE' | transloco }}
               </button>
             </div>
 
             <div>
-              <a class="btn btn-sm btn-primary" [routerLink]="'../tables/' + entity.id">
+              <a class="btn btn-sm btn-primary" [routerLink]="'../../tables/' + entity.id">
                 <bi name="columns-gap" />
                 {{ 'HOME_TABLE_GROUP_SHOW_TABLES' | transloco }}</a
               >
             </div>
 
             <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../../orders" [queryParams]="{tableGroupIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" routerLink="../../orders" [queryParams]="{tableGroupIds: entity.id}">
                 <bi name="stack" />
                 {{ 'NAV_ORDERS' | transloco }}
               </a>
             </div>
             <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../../bills" [queryParams]="{tableGroupIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" routerLink="../../bills" [queryParams]="{tableGroupIds: entity.id}">
                 <bi name="cash-coin" />
                 {{ 'NAV_BILLS' | transloco }}
               </a>

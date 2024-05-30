@@ -11,7 +11,8 @@ import {BiComponent, provideBi, withHeight, withWidth} from 'dfx-bootstrap-icons
     <button
       type="button"
       class="btn mt-1"
-      [ngbTooltip]="'Vertrauliche Daten anzeigen/verstecken' | transloco"
+      triggers="hover"
+      [ngbTooltip]="'HOME_BILL_BLUR_TOGGLE_DESCRIPTION' | transloco"
       (click)="blurSetting.setBlur(!blurSetting.isBlurred())"
     >
       @if (blurSetting.isBlurred()) {

@@ -65,7 +65,9 @@ export function injectOnSubmit<CreateDTOType, UpdateDTOType extends IHasID<Updat
       if (continuousCreation?.enabled()) {
         continuousCreation.patch(dto);
       } else {
+        console.log('injectOnSubmit - continuesCreation disabled');
         if (method === 'CREATE' && openOnCreate) {
+          console.log('injectOnSubmit - continuesCreation disabled, method is create and openOnCreate true, redirecting to entity page');
           void router.navigate(['../', response.id], {relativeTo});
         }
       }
@@ -73,8 +75,11 @@ export function injectOnSubmit<CreateDTOType, UpdateDTOType extends IHasID<Updat
     });
 
     // If checkContinuousCreation is provided let it handle the redirect
-    if (!continuousCreation || !continuousCreation.enabled() || method === 'UPDATE' || !openOnCreate) {
-      location.back();
+    if (!openOnCreate) {
+      if (!continuousCreation || !continuousCreation.enabled() || method === 'UPDATE') {
+        console.log('injectOnSubmit - going back', continuousCreation?.enabled(), method, openOnCreate);
+        location.back();
+      }
     }
   };
 }

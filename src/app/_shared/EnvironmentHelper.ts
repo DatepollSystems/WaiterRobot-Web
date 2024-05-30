@@ -25,7 +25,7 @@ export class EnvironmentHelper {
     return environment.logoUrl ?? '/assets/logo.svg';
   }
 
-  public static getTitlePrefix(): string {
-    return environment.titlePrefix ?? 'my.kellner.team';
+  public static getTitleSuffix(): string {
+    return environment.titleSuffix;
   }
 }

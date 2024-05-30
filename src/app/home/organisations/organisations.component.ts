@@ -1,51 +1,52 @@
-import {AsyncPipe, UpperCasePipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {UpperCasePipe} from '@angular/common';
+import {Component, inject, viewChild} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
+import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
+import {mapName} from '@home-shared/name-map';
 
 import {NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@ngneat/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {GetOrganisationResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
+import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
+import {StopPropagationDirective} from 'dfx-helper';
 
-import {AppSelectableBtnComponent} from '../_shared/components/button/app-selectable-btn.component';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
-import {AbstractModelsWithNameListWithDeleteComponent} from '../_shared/list/models-list-with-delete/abstract-models-with-name-list-with-delete.component';
-import {MyUserService} from '../_shared/services/user/my-user.service';
 import {OrganisationsService} from './_services/organisations.service';
-import {SelectedOrganisationService} from './_services/selected-organisation.service';
 
 @Component({
   template: `
     <div class="d-flex flex-column gap-3">
       <h1 class="my-0">{{ 'HOME_ORGS_ALL' | transloco }}</h1>
 
-      @if (myUser()?.isAdmin) {
-        <scrollable-toolbar>
-          <div>
-            <a routerLink="../create" class="btn btn-sm btn-success">
-              <bi name="plus-circle" />
-              {{ 'ADD_2' | transloco }}</a
-            >
-          </div>
+      <scrollable-toolbar>
+        <div>
+          <a routerLink="../create" class="btn btn-sm btn-success">
+            <bi name="plus-circle" />
+            {{ 'ADD_2' | transloco }}</a
+          >
+        </div>
 
-          <div>
-            <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="onDeleteSelected()">
-              <bi name="trash" />
-              {{ 'DELETE' | transloco }}
-            </button>
-          </div>
-        </scrollable-toolbar>
-      }
+        <div>
+          <button
+            type="button"
+            class="btn btn-sm btn-danger"
+            [class.disabled]="!selection.hasValue()"
+            (mousedown)="delete.onDeleteSelected()"
+          >
+            <bi name="trash" />
+            {{ 'DELETE' | transloco }}
+          </button>
+        </div>
+      </scrollable-toolbar>
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
-          @if ((filter.value?.length ?? 0) > 0) {
+          <input class="form-control ml-2" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
+          @if (filter.isActive()) {
             <button
               class="btn btn-outline-secondary"
               type="button"
@@ -59,30 +60,29 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
         </div>
       </form>
 
-      @if (dataSource$ | async; as dataSource) {
+      @if (table.dataSource(); as dataSource) {
         <div class="table-responsive">
           <table ngb-table ngb-sort ngbSortActive="name" ngbSortDirection="asc" [hover]="true" [dataSource]="dataSource">
             <ng-container ngbColumnDef="select">
-              <th *ngbHeaderCellDef ngb-header-cell [class.d-none]="!myUser()?.isAdmin">
+              <th *ngbHeaderCellDef ngb-header-cell>
                 <div class="form-check">
                   <input
                     class="form-check-input"
                     type="checkbox"
-                    name="checked"
-                    [checked]="selection.hasValue() && isAllSelected()"
-                    (change)="$event ? toggleAllRows() : null"
+                    name="selectAll"
+                    [checked]="selection.isAllSelected()"
+                    (change)="selection.toggleAll()"
                   />
                 </div>
               </th>
-              <td *ngbCellDef="let selectable" ngb-cell [class.d-none]="!myUser()?.isAdmin" (click)="$event.stopPropagation()">
+              <td *ngbCellDef="let selectable" ngb-cell stopPropagation>
                 <div class="form-check">
                   <input
                     class="form-check-input"
                     type="checkbox"
-                    name="checked"
+                    name="select"
                     [checked]="selection.isSelected(selectable)"
-                    (click)="$event.stopPropagation()"
-                    (change)="$event ? selection.toggle(selectable) : null"
+                    (change)="selection.toggle(selectable, $event)"
                   />
                 </div>
               </td>
@@ -119,62 +119,32 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
                 <span class="visually-hidden">{{ 'ACTIONS' | transloco }}</span>
               </th>
               <td *ngbCellDef="let organisation" ngb-cell>
-                <selectable-button
-                  class="me-2"
-                  placement="top"
-                  [entityId]="organisation.id"
-                  [selectedId]="selectedOrganisationService.selectedId()"
-                  (selectedChange)="setSelected($event)"
-                />
                 <app-action-dropdown>
-                  <a
-                    type="button"
-                    class="d-flex gap-2 align-items-center"
-                    ngbDropdownItem
-                    [routerLink]="'../' + organisation.id"
-                    [queryParams]="{tab: 'USERS'}"
-                  >
-                    <bi name="people" />
-                    {{ 'USER' | transloco }}
-                  </a>
-                  <a
-                    type="button"
-                    class="d-flex gap-2 align-items-center"
-                    ngbDropdownItem
-                    [routerLink]="'../' + organisation.id"
-                    [queryParams]="{tab: 'SETTINGS'}"
-                  >
-                    <bi name="gear" />
-                    {{ 'SETTINGS' | transloco }}
-                  </a>
-                  <div class="dropdown-divider"></div>
                   <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../' + organisation.id">
                     <bi name="pencil-square" />
                     {{ 'EDIT' | transloco }}
                   </a>
-                  @if (myUser()?.isAdmin) {
-                    <button
-                      type="button"
-                      class="d-flex gap-2 align-items-center text-danger-emphasis"
-                      ngbDropdownItem
-                      (click)="onDelete(organisation.id, $event)"
-                    >
-                      <bi name="trash" />
-                      {{ 'DELETE' | transloco }}
-                    </button>
-                  }
+                  <button
+                    type="button"
+                    class="d-flex gap-2 align-items-center text-danger-emphasis"
+                    ngbDropdownItem
+                    (mousedown)="delete.onDelete(organisation.id)"
+                  >
+                    <bi name="trash" />
+                    {{ 'DELETE' | transloco }}
+                  </button>
                 </app-action-dropdown>
               </td>
             </ng-container>
 
-            <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-            <tr *ngbRowDef="let organisation; columns: columnsToDisplay" ngb-row [routerLink]="'../' + organisation.id"></tr>
+            <tr *ngbHeaderRowDef="selection.columnsToDisplay()" ngb-header-row></tr>
+            <tr *ngbRowDef="let organisation; columns: selection.columnsToDisplay()" ngb-row [routerLink]="'../' + organisation.id"></tr>
           </table>
         </div>
 
-        <app-progress-bar [show]="isLoading()" />
+        <app-progress-bar [show]="table.isLoading()" />
 
-        <ngb-paginator [length]="dataSource.data.length" />
+        <ngb-paginator [length]="dataSource.data.length" [pageSizeOptions]="[10, 20, 50]" />
       }
     </div>
   `,
@@ -191,23 +161,34 @@ import {SelectedOrganisationService} from './_services/selected-organisation.ser
     DfxPaginationModule,
     BiComponent,
     ScrollableToolbarComponent,
-    AppSelectableBtnComponent,
-    AsyncPipe,
     AppProgressBarComponent,
     ActionDropdownComponent,
     NgbDropdownItem,
+    StopPropagationDirective,
   ],
 })
-export class OrganisationsComponent extends AbstractModelsWithNameListWithDeleteComponent<GetOrganisationResponse> {
-  myUser = inject(MyUserService).user;
-  selectedOrganisationService = inject(SelectedOrganisationService);
+export class OrganisationsComponent {
+  #organisationsService = inject(OrganisationsService);
 
-  constructor(public organisationsService: OrganisationsService) {
-    super(organisationsService);
-    this.columnsToDisplay = ['id', 'name', 'street', 'city', 'actions'];
-  }
+  sort = viewChild(NgbSort);
+  paginator = viewChild(NgbPaginator);
+  filter = injectTableFilter();
+  table = injectTable({
+    columnsToDisplay: ['id', 'name', 'street', 'city', 'actions'],
+    fetchData: () => this.#organisationsService.getAll$(),
+    sort: this.sort,
+    paginator: this.paginator,
+    filterValue$: this.filter.value$,
+  });
 
-  setSelected(it: number | undefined): void {
-    this.selectedOrganisationService.setSelected(it);
-  }
+  selection = injectTableSelect({
+    dataSource: this.table.dataSource,
+    columnsToDisplay: this.table.columnsToDisplay,
+  });
+
+  delete = injectTableDelete({
+    delete$: (id) => this.#organisationsService.delete$(id),
+    selection: this.selection.selection,
+    nameMap: mapName(),
+  });
 }

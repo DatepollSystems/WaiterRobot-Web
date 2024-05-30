@@ -21,14 +21,14 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
         <div class="d-flex align-items-center gap-2">
           <span>Gruppierung:</span>
           <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-primary" [class.active]="vm.groupedBy === 'OFF'" (click)="setGroupedBy('OFF')">
+            <button type="button" class="btn btn-sm btn-primary" [class.active]="vm.groupedBy === 'OFF'" (mousedown)="setGroupedBy('OFF')">
               Aus
             </button>
             <button
               type="button"
               class="btn btn-sm btn-primary"
               [class.active]="vm.groupedBy === 'PRINTER'"
-              (click)="setGroupedBy('PRINTER')"
+              (mousedown)="setGroupedBy('PRINTER')"
             >
               Drucker
             </button>
@@ -61,7 +61,7 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
                           class="btn btn-sm btn-warning"
                           placement="left"
                           [ngbTooltip]="'HOME_ORDER_REQUEUE' | transloco"
-                          (click)="requeueOrdersOfPrinter.next(groups.key)"
+                          (mousedown)="requeueOrdersOfPrinter.next(groups.key)"
                         >
                           <bi name="printer" />
                         </button>
