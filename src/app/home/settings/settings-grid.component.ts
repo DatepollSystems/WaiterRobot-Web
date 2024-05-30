@@ -1,4 +1,3 @@
-import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, computed, effect, inject} from '@angular/core';
 import {toObservable, toSignal} from '@angular/core/rxjs-interop';
 import {AbstractControl, FormControl, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
@@ -9,7 +8,6 @@ import {MyUserService} from '@home-shared/services/user/my-user.service';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@ngneat/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {AppSpinnerRowComponent} from '@shared/ui/loading/app-spinner-row.component';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 
@@ -137,14 +135,14 @@ import {SelectedOrganisationService} from '../organisations/_services/selected-o
         </div>
       }
       @case ('LOADING') {
-        <app-spinner-row />
+        <app-progress-bar show />
       }
     }
   `,
   selector: 'app-settings-grid',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, BiComponent, TranslocoPipe, AsyncPipe, NgbTypeahead, AppSpinnerRowComponent, AppProgressBarComponent],
+  imports: [ReactiveFormsModule, BiComponent, TranslocoPipe, NgbTypeahead, AppProgressBarComponent],
 })
 export class SettingsGridComponent {
   organisationId = inject(SelectedOrganisationService).selectedId;

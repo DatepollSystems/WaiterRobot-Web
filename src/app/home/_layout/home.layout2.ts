@@ -7,7 +7,11 @@ import {FooterComponent} from '@shared/ui/footer/footer.component';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {injectWindow} from 'dfx-helper';
 import {filter, pairwise} from 'rxjs';
-import {ActiveSystemNotificationsComponent} from './_components/active-system-notifications.component';
+import {
+  ActiveSystemNotificationsComponent,
+  ActiveSystemNotificationsDesktopComponent,
+  ActiveSystemNotificationsMobileToggleComponent,
+} from './_components/active-system-notifications.component';
 import {MaintenanceWarningComponent} from './_components/maintenance-warning.component';
 import {MobileNavComponent} from './_components/mobile-nav.component';
 import {NavComponent} from './_components/nav.component';
@@ -21,17 +25,23 @@ import {NetworkOfflineWarningComponent} from './_components/network-offline-warn
           <app-nav id="sidenav" class="d-flex flex-column flex-shrink-0 h-100 overflow-y-scroll overflow-x-hidden" />
         </div>
         <div class="col main-container pt-3">
-          <header class="d-flex d-xl-none mb-3">
+          <header class="d-flex d-xl-none mb-3 justify-content-between">
             <button type="button" class="btn border-0 btn-lg" (click)="openMobileNav()">
               <bi name="list" width="24" height="24" />
             </button>
+            <app-active-system-mobile-toggle-notifications />
           </header>
-          <main class="px-2 px-md-3 px-xl-0 pb-4 col-12" [class.container-xxxl]="!isFullScreen()" [class.px-md-2]="isFullScreen()">
+
+          <app-active-system-notifications class="d-block d-xl-none" disableIgnore />
+
+          <main class="px-1 px-md-2 pb-4 col-12" [class.container-xxxl]="!isFullScreen()" [class.px-md-2]="isFullScreen()">
             <app-network-offline-warning />
 
             <app-maintenance-warning />
 
-            <app-active-system-notifications />
+            <div class="d-none d-xl-block">
+              <app-active-system-desktop-notifications />
+            </div>
 
             <router-outlet />
           </main>
@@ -81,6 +91,8 @@ import {NetworkOfflineWarningComponent} from './_components/network-offline-warn
     FooterComponent,
     NavComponent,
     BiComponent,
+    ActiveSystemNotificationsDesktopComponent,
+    ActiveSystemNotificationsMobileToggleComponent,
   ],
 })
 export class HomeLayout {

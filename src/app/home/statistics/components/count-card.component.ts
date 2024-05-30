@@ -15,11 +15,7 @@ import {injectBlurSetting} from '@home-shared/services/blur-setting.service';
           </div>
           <div class="d-flex flex-column">
             <div class="blur fs-4" [class.unblur]="!isBlurred()">
-              @if (count === 0) {
-                <strong>0</strong>
-              } @else {
-                <strong animationDuration="2000" clickable="false" [countUp]="count"></strong>
-              }
+              <strong>{{ count }}</strong>
               <ng-content select="[valuePrefix]" />
             </div>
             <span class="fs-6">

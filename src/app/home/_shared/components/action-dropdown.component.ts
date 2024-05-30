@@ -6,7 +6,13 @@ import {StopPropagationDirective} from 'dfx-helper';
 @Component({
   template: `
     <div #dropdown="ngbDropdown" ngbDropdown class="d-inline-block" stopPropagation placement="left-top" container="body">
-      <button type="button" class="btn btn-sm btn-outline-secondary" id="actionDropdown" ngbDropdownAnchor (mousedown)="dropdown.toggle()">
+      <button
+        type="button"
+        class="btn btn-sm btn-outline-secondary no-dots"
+        id="actionDropdown"
+        ngbDropdownAnchor
+        (mousedown)="dropdown.toggle()"
+      >
         <bi name="three-dots" />
       </button>
       <div ngbDropdownMenu aria-labelledby="actionDropdown">

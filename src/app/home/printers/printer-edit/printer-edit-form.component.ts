@@ -1,4 +1,3 @@
-import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -116,7 +115,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
     </form>
   `,
   selector: 'app-printer-edit-form',
-  imports: [ReactiveFormsModule, AsyncPipe, TranslocoPipe, BiComponent, AppModelEditSaveBtn],
+  imports: [ReactiveFormsModule, TranslocoPipe, BiComponent, AppModelEditSaveBtn],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

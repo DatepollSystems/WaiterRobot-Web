@@ -1,5 +1,5 @@
 import {DatePipe, NgClass} from '@angular/common';
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, computed, input, output} from '@angular/core';
 
 import {GetSystemNotificationResponse} from '@shared/waiterrobot-backend';
 
@@ -8,58 +8,62 @@ import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
 
 @Component({
   template: `
-    <div
-      class="alert pt-2 pb-0 mb-0"
-      [ngClass]="{
-        'alert-light': notification.type === 'NEUTRAL',
-        'alert-success': notification.type === 'SUCCESS',
-        'alert-danger': notification.type === 'DANGER',
-        'alert-warning': notification.type === 'WARNING',
-        'alert-info': notification.type === 'INFO'
-      }"
-    >
-      <div class="d-flex justify-content-between">
-        <div class="d-flex justify-content-start align-items-center gap-2">
-          @switch (notification.type) {
-            @case ('INFO') {
-              <bi name="info-circle-fill" />
+    @if (notification(); as notification) {
+      <div
+        class="alert pt-2 pb-0 mb-0"
+        [ngClass]="{
+          'alert-light': notification.type === 'NEUTRAL',
+          'alert-success': notification.type === 'SUCCESS',
+          'alert-danger': notification.type === 'DANGER',
+          'alert-warning': notification.type === 'WARNING',
+          'alert-info': notification.type === 'INFO'
+        }"
+      >
+        <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-start align-items-center gap-2">
+            @switch (notification.type) {
+              @case ('INFO') {
+                <bi name="info-circle-fill" />
+              }
+              @case ('SUCCESS') {
+                <bi name="check-circle-fill" />
+              }
+              @case ('DANGER') {
+                <bi name="exclamation-triangle-fill" />
+              }
+              @case ('WARNING') {
+                <bi name="exclamation-triangle-fill" />
+              }
             }
-            @case ('SUCCESS') {
-              <bi name="check-circle-fill" />
-            }
-            @case ('DANGER') {
-              <bi name="exclamation-triangle-fill" />
-            }
-            @case ('WARNING') {
-              <bi name="exclamation-triangle-fill" />
-            }
-          }
 
-          <h5 class="mt-2">
-            {{ notification.title ?? (notification.type | s_lowerCaseAllExceptFirstLetter) }}
-            @if (notification.starts || notification.ends) {
-              <span>(</span>
-            }
-            @if (notification.starts) {
-              <span
-                >{{ notification.starts | date: 'dd.MM.YYYY HH:mm' }}
-                @if (notification.starts && notification.ends) {
-                  <span> - </span>
-                }
-                {{ notification.ends | date: getEndsFormatting() }}</span
-              >
-            }
-            @if (notification.starts || notification.ends) {
-              <span>)</span>
-            }
-          </h5>
+            <h5 class="mt-2">
+              {{ notification.title ?? (notification.type | s_lowerCaseAllExceptFirstLetter) }}
+              @if (notification.starts || notification.ends) {
+                <span>(</span>
+              }
+              @if (notification.starts) {
+                <span
+                  >{{ notification.starts | date: 'dd.MM.YYYY HH:mm' }}
+                  @if (notification.starts && notification.ends) {
+                    <span> - </span>
+                  }
+                  {{ notification.ends | date: endsFormatting() }}</span
+                >
+              }
+              @if (notification.starts || notification.ends) {
+                <span>)</span>
+              }
+            </h5>
+          </div>
+          @if (!disableIgnore()) {
+            <button type="button" class="btn-close" aria-label="Close the alert" (mousedown)="ignore.emit(notification.id)"></button>
+          }
         </div>
-        <button type="button" class="btn-close" aria-label="Close the alert" (mousedown)="ignore.emit(notification.id)"></button>
+        <div>
+          <p>{{ notification.description }}</p>
+        </div>
       </div>
-      <div>
-        <p>{{ notification.description }}</p>
-      </div>
-    </div>
+    }
   `,
   standalone: true,
   selector: 'app-system-notification-alert',
@@ -67,11 +71,14 @@ import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
   imports: [NgClass, BiComponent, DfxLowerCaseExceptFirstLettersPipe, DatePipe],
 })
 export class AppSystemNotificationAlertComponent {
-  @Input({required: true}) notification!: GetSystemNotificationResponse;
+  notification = input.required<GetSystemNotificationResponse>();
 
-  getEndsFormatting(): string {
-    const startDate = this.notification.starts ? new Date(this.notification.starts) : undefined;
-    const endDate = this.notification.ends ? new Date(this.notification.ends) : undefined;
+  disableIgnore = input(false, {transform: booleanAttribute});
+
+  endsFormatting = computed(() => {
+    const notification = this.notification();
+    const startDate = notification.starts ? new Date(notification.starts) : undefined;
+    const endDate = notification.ends ? new Date(notification.ends) : undefined;
 
     if (
       startDate &&
@@ -83,8 +90,7 @@ export class AppSystemNotificationAlertComponent {
       return 'HH:mm';
     }
     return 'dd.MM.YYYY HH:mm';
-  }
+  });
 
-  @Output()
-  readonly ignore = new EventEmitter<number>();
+  ignore = output<number>();
 }

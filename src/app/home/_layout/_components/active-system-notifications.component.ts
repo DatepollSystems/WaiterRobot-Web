@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {booleanAttribute, Component, inject, input} from '@angular/core';
 import {TranslocoPipe} from '@ngneat/transloco';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {ActiveSystemNotificationsService} from '../_services/active-system-notifications.service';
@@ -6,18 +6,45 @@ import {AppSystemNotificationAlertComponent} from './system-notification-alert.c
 
 @Component({
   template: `
+    <div class="d-flex flex-column gap-3 my-2">
+      @for (systemNotification of activeSystemNotificationsService.getFilteredSystemNotifications(); track systemNotification.id) {
+        <app-system-notification-alert
+          [notification]="systemNotification"
+          [disableIgnore]="disableIgnore()"
+          (ignore)="activeSystemNotificationsService.ignore($event)"
+        />
+      }
+    </div>
+  `,
+  standalone: true,
+  selector: 'app-active-system-notifications',
+
+  imports: [AppSystemNotificationAlertComponent],
+})
+export class ActiveSystemNotificationsComponent {
+  disableIgnore = input(false, {transform: booleanAttribute});
+
+  activeSystemNotificationsService = inject(ActiveSystemNotificationsService);
+}
+
+@Component({
+  template: `
     @if (activeSystemNotificationsService.allSystemNotifications().length > 0) {
       <div class="d-flex flex-column gap-3 my-2">
-        @for (systemNotification of activeSystemNotificationsService.getFilteredSystemNotifications(); track systemNotification.id) {
-          <app-system-notification-alert [notification]="systemNotification" (ignore)="activeSystemNotificationsService.ignore($event)" />
+        @if (activeSystemNotificationsService.getFilteredSystemNotifications().length > 0) {
+          <app-active-system-notifications />
         }
         <div class="d-flex justify-content-end">
-          @if (activeSystemNotificationsService.ignoredSystemNotifications().length === 0) {
+          @if (
+            activeSystemNotificationsService.ignoredSystemNotifications().length === 0 &&
+            activeSystemNotificationsService.getFilteredSystemNotifications().length > 1
+          ) {
             <small>
               <bi name="arrows-collapse" class="me-2" />
               <a (mousedown)="activeSystemNotificationsService.ignoreAll()">{{ 'HIDE_ALL' | transloco }}</a>
             </small>
-          } @else {
+          }
+          @if (activeSystemNotificationsService.ignoredSystemNotifications().length > 0) {
             <small>
               <bi name="arrows-expand" class="me-2" />
               <a (mousedown)="activeSystemNotificationsService.resetIgnore()">
@@ -30,10 +57,41 @@ import {AppSystemNotificationAlertComponent} from './system-notification-alert.c
     }
   `,
   standalone: true,
-  selector: 'app-active-system-notifications',
+  selector: 'app-active-system-desktop-notifications',
 
-  imports: [BiComponent, AppSystemNotificationAlertComponent, TranslocoPipe],
+  imports: [BiComponent, TranslocoPipe, ActiveSystemNotificationsComponent],
 })
-export class ActiveSystemNotificationsComponent {
+export class ActiveSystemNotificationsDesktopComponent {
+  activeSystemNotificationsService = inject(ActiveSystemNotificationsService);
+}
+
+@Component({
+  template: `
+    @if (activeSystemNotificationsService.allSystemNotifications().length > 0) {
+      @if (
+        activeSystemNotificationsService.ignoredSystemNotifications().length === 0 &&
+        activeSystemNotificationsService.getFilteredSystemNotifications().length > 1
+      ) {
+        <button type="button" class="btn" (click)="activeSystemNotificationsService.ignoreAll()">
+          <bi name="bell-fill" />
+          <span class="visually-hidden">{{ 'HIDE_ALL' | transloco }}</span>
+        </button>
+      }
+      @if (activeSystemNotificationsService.ignoredSystemNotifications().length > 0) {
+        <button type="button" class="btn" (click)="activeSystemNotificationsService.resetIgnore()">
+          <bi name="bell-slash-fill" />
+          <span class="visually-hidden"
+            >{{ activeSystemNotificationsService.ignoredSystemNotifications().length }}x Nachricht(en) anzeigen</span
+          >
+        </button>
+      }
+    }
+  `,
+  standalone: true,
+  selector: 'app-active-system-mobile-toggle-notifications',
+
+  imports: [BiComponent, TranslocoPipe, ActiveSystemNotificationsComponent],
+})
+export class ActiveSystemNotificationsMobileToggleComponent {
   activeSystemNotificationsService = inject(ActiveSystemNotificationsService);
 }

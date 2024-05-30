@@ -72,6 +72,23 @@ export class ProductsService
     );
   }
 
+  toggleSoldOut$(dto: GetProductMaxResponse, soldOut?: boolean) {
+    return this.httpClient
+      .put<IdResponse>(this.url, {
+        ...dto,
+        soldOut: soldOut ?? !dto.soldOut,
+        allergenIds: dto.allergens.map((it) => it.id),
+        groupId: dto.group.id,
+        printerId: dto.printer.id,
+        resetOrderedProducts: false,
+      } satisfies UpdateProductDto)
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
+  }
+
   delete$(id: number): Observable<unknown> {
     return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(
       tap(() => {

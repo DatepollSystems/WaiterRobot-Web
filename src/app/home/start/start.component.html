@@ -46,7 +46,7 @@
         <kbd style="padding-top: 5px" class="px-2"><kbd>Super</kbd> + <kbd>K</kbd></kbd>
       </div>
     </div>
-    } @if (((errors$ | async) && !isProduction)) {
+    } @if (hasError() && !isProduction) {
     <div class="card p-2">
       <div class="card-body">
         <button type="button" class="btn btn-sm btn-warning" (click)="logout()">Logout</button>

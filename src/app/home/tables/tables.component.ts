@@ -115,16 +115,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
           <ng-container ngbColumnDef="number">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NUMBER' | transloco }}</th>
             <td *ngbCellDef="let table" ngb-cell>
-              <div class="d-inline-flex align-items-center gap-2">
-                <span class="pt-1">{{ table.number }}</span>
-                <a
-                  placement="right"
-                  [ngbTooltip]="'HOME_TABLES_PUBLIC_ID' | transloco"
-                  [routerLink]="'/wl/t/' + table.publicId"
-                  (click)="$event.stopPropagation()"
-                  ><bi name="box-arrow-up-right"
-                /></a>
-              </div>
+              {{ table.number }}
             </td>
           </ng-container>
 
@@ -142,7 +133,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                     <div class="position-absolute" style="bottom: -25px; left: 0px">
                       <a
                         class="badge text-bg-warning d-inline-flex align-items-center gap-2"
-                        [routerLink]="'../../../create'"
+                        [routerLink]="'../t/create'"
                         [queryParams]="{group: table.group.id, number: table.number + 1}"
                         (click)="$event.stopPropagation()"
                       >
@@ -173,6 +164,11 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
             </th>
             <td *ngbCellDef="let table" ngb-cell>
               <app-action-dropdown>
+                <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'/wl/t/' + table.publicId">
+                  <bi name="box-arrow-up-right" />
+                  {{ 'HOME_TABLES_PUBLIC_ID' | transloco }}
+                </a>
+                <div class="dropdown-divider"></div>
                 <a
                   type="button"
                   class="d-flex gap-2 align-items-center"

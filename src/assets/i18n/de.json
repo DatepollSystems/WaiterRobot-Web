@@ -65,6 +65,8 @@
   "DELETED": "(gelöscht)",
   "PRICE": "Preis",
   "PRICE_PER_PIECE": "Preis / Stk.",
+  "ACTIVATE": "Aktivieren",
+  "DEACTIVATE": "Deaktivieren",
 
   "ORDER_MODE_SWITCH": "Anordnen",
   "COLOR_PICKER": "Farbe auswählen",

@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink, RouterOutlet} from '@angular/router';
 import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
-import {NgbNav, NgbNavItem, NgbNavLink, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbNav, NgbNavItem, NgbNavLink} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@ngneat/transloco';
 import {injectParams} from 'ngxtension/inject-params';
 import {TableGroupsService} from './_services/table-groups.service';
@@ -24,9 +24,7 @@ import {TableGroupsService} from './_services/table-groups.service';
               </app-text-with-color-indicator>
 
               <div class="d-flex align-items-center">
-                <span class="badge bg-secondary rounded-pill" placement="top" [ngbTooltip]="'HOME_TABLES_COUNT' | transloco">{{
-                  tableGroup.tables.length
-                }}</span>
+                <span class="badge bg-secondary rounded-pill">{{ tableGroup.tables.length }}</span>
               </div>
             </a>
           </li>
@@ -39,7 +37,7 @@ import {TableGroupsService} from './_services/table-groups.service';
   selector: 'app-tables-layout',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, TranslocoPipe, NgbNav, NgbNavItem, NgbNavLink, RouterOutlet, AppTextWithColorIndicatorComponent, NgbTooltip],
+  imports: [RouterLink, TranslocoPipe, NgbNav, NgbNavItem, NgbNavLink, RouterOutlet, AppTextWithColorIndicatorComponent],
 })
 export class TablesLayout {
   activeId = injectParams('id');

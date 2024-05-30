@@ -79,26 +79,7 @@ a.btn > img {
   vertical-align: middle;
 }
 
-.fake-dropdown-item {
-  cursor: pointer;
-  display: block;
-  width: 100%;
-  padding: 0.25rem 1rem;
-  clear: both;
-  font-weight: 400;
-  color: var(--bs-emphasis-color);
-  text-align: inherit;
-  text-decoration: none;
-  white-space: nowrap;
-  background-color: transparent;
-  border: 0;
-}
-
-.fake-dropdown-item:hover {
-  background-color: var(--bs-tertiary-bg);
-}
-
-.btn.btn-sm.dropdown-toggle::after {
+.no-dots.btn.btn-sm.dropdown-toggle::after {
   display: none !important;
 }
 

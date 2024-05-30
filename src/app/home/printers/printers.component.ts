@@ -1,4 +1,3 @@
-import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -166,7 +165,6 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    AsyncPipe,
     RouterLink,
     NgbTooltip,
     TranslocoPipe,

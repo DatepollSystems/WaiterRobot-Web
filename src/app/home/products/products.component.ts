@@ -1,4 +1,4 @@
-import {CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
+import {CdkDrag, CdkDragHandle, CdkDropList} from '@angular/cdk/drag-drop';
 import {LowerCasePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, signal, viewChild} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
@@ -10,17 +10,18 @@ import {injectTable, injectTableDelete, injectTableFilter, injectTableOrder, inj
 import {listOrderStyles} from '@home-shared/list/list-order-styles';
 import {mapName} from '@home-shared/name-map';
 
-import {NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownItem, NgbDropdownModule, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@ngneat/transloco';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+import {GetProductMaxResponse} from '@shared/waiterrobot-backend';
 import {n_from} from 'dfts-helper';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {DfxArrayPluck, DfxCurrencyCentPipe, DfxImplodePipe, StopPropagationDirective} from 'dfx-helper';
 import {injectParams} from 'ngxtension/inject-params';
-import {switchMap} from 'rxjs';
+import {forkJoin, switchMap} from 'rxjs';
 import {AppTextWithColorIndicatorComponent} from '../_shared/components/color/app-text-with-color-indicator.component';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {AppSoldOutPipe} from '../_shared/pipes/app-sold-out.pipe';
@@ -42,6 +43,17 @@ import {ProductsService} from './_services/products.service';
             <bi name="trash" />
             {{ 'DELETE' | transloco }}
           </button>
+        </div>
+
+        <div ngbDropdown container="body">
+          <button type="button" class="btn btn-sm btn-info" id="toggleSoldOutDropdown" ngbDropdownToggle [disabled]="!selection.hasValue()">
+            <bi name="cart" />
+            {{ 'HOME_PROD_SOLD_OUT' | transloco }}
+          </button>
+          <div ngbDropdownMenu aria-labelledby="toggleSoldOutDropdown">
+            <button type="button" ngbDropdownItem (click)="toggleProductsSoldOut(false)">{{ 'ACTIVATE' | transloco }}</button>
+            <button type="button" ngbDropdownItem (click)="toggleProductsSoldOut(true)">{{ 'DEACTIVATE' | transloco }}</button>
+          </div>
         </div>
 
         @if (activeId() !== 'all') {
@@ -78,12 +90,10 @@ import {ProductsService} from './_services/products.service';
           <table
             ngb-table
             ngb-sort
-            ngbSortDirection="asc"
             cdkDropList
             cdkDropListLockAxis="y"
             [hover]="true"
             [dataSource]="dataSource"
-            [ngbSortActive]="activeId() === 'all' ? 'group' : 'name'"
             [ngbSortDisabled]="order.isOrdering()"
             [cdkDropListData]="dataSource.data"
             [cdkDropListDisabled]="!order.isOrdering()"
@@ -195,6 +205,15 @@ import {ProductsService} from './_services/products.service';
                     {{ 'NAV_BILLS' | transloco }}
                   </a>
                   <div class="dropdown-divider"></div>
+                  <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem (click)="toggleProductSoldOut(product)">
+                    @if (product.soldOut) {
+                      <bi name="ban" />
+                      {{ 'ACTIVATE' | transloco }}
+                    } @else {
+                      <bi name="ban" />
+                      {{ 'DEACTIVATE' | transloco }}
+                    }
+                  </a>
                   <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../p/' + product.id">
                     <bi name="pencil-square" />
                     {{ 'EDIT' | transloco }}
@@ -253,6 +272,8 @@ import {ProductsService} from './_services/products.service';
     AppOrderModeSwitchComponent,
     CdkDropList,
     CdkDrag,
+    NgbDropdownModule,
+    CdkDragHandle,
   ],
 })
 export class ProductsComponent {
@@ -275,11 +296,15 @@ export class ProductsComponent {
           this.order.setIsOrdering(false);
 
           if (activeId === 'all') {
+            this.sort()?.sort({id: 'group', start: 'desc', disableClear: false});
             this.columnsToDisplay.update((it) => {
               const columns = it.filter((iit) => iit !== 'group');
               return ['group', ...columns];
             });
             return this.#productsService.getAll$();
+          }
+          if (this.sort()?.active !== 'name') {
+            this.sort()?.sort({id: 'name', start: 'desc', disableClear: false});
           }
           this.columnsToDisplay.update((it) => [...it.filter((iit) => iit !== 'group')]);
           return this.#productsService.getByParent$(n_from(activeId));
@@ -310,10 +335,18 @@ export class ProductsComponent {
     onOrderingChange: (isOrdering) => {
       if (isOrdering) {
         this.selection.clear();
-        this.sort()?.sort({id: '', start: 'asc', disableClear: false});
-      } else {
-        this.sort()?.sort({id: 'name', start: '', disableClear: false});
+        this.sort()?.sort({id: '', start: '', disableClear: false});
+      } else if (this.sort()?.active !== 'name') {
+        this.sort()?.sort({id: 'name', start: 'desc', disableClear: false});
       }
     },
   });
+
+  toggleProductSoldOut(dto: GetProductMaxResponse): void {
+    this.#productsService.toggleSoldOut$(dto).subscribe();
+  }
+
+  toggleProductsSoldOut(soldOut: boolean) {
+    forkJoin(this.selection.selection().selected.map((it) => this.#productsService.toggleSoldOut$(it, soldOut))).subscribe();
+  }
 }
