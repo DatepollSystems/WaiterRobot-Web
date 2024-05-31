@@ -10,7 +10,7 @@ import {filter, pairwise} from 'rxjs';
 import {
   ActiveSystemNotificationsComponent,
   ActiveSystemNotificationsDesktopComponent,
-  ActiveSystemNotificationsMobileToggleComponent,
+  ActiveSystemNotificationsMobileToggleComponent
 } from './_components/active-system-notifications.component';
 import {MaintenanceWarningComponent} from './_components/maintenance-warning.component';
 import {MobileNavComponent} from './_components/mobile-nav.component';
@@ -25,10 +25,11 @@ import {NetworkOfflineWarningComponent} from './_components/network-offline-warn
           <app-nav id="sidenav" class="d-flex flex-column flex-shrink-0 h-100 overflow-y-scroll overflow-x-hidden" />
         </div>
         <div class="col main-container pt-3">
-          <header class="d-flex d-xl-none mb-3 justify-content-between">
-            <button type="button" class="btn border-0 btn-lg" (click)="openMobileNav()">
-              <bi name="list" width="24" height="24" />
-            </button>
+          <header class="d-flex d-xl-none justify-content-between">
+                <button type="button" class="btn border-0 d-block" (click)="openMobileNav()">
+                  <bi name="list" width="24" height="24" />
+                </button>
+
             <app-active-system-mobile-toggle-notifications />
           </header>
 
@@ -80,7 +81,7 @@ import {NetworkOfflineWarningComponent} from './_components/network-offline-warn
       scrollbar-width: none; /* Firefox */
     }
   `,
-  selector: 'app-home2',
+  selector: 'app-home',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [

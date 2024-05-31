@@ -32,7 +32,7 @@ import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.c
           </button>
         </app-blankslate>
       } @else {
-        <div class="d-flex flex-column gap-3 p-5">
+        <div class="d-flex flex-column gap-3 p-4 p-lg-5">
           <h2 class="my-0 mb-1">{{ 'USER' | transloco }}</h2>
           <div class="d-flex flex-column flex-md-row gap-3 justify-content-between">
             <button class="btn btn-success" type="button" (click)="onCreateOrganisationUser()">

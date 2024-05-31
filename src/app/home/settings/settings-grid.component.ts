@@ -24,7 +24,7 @@ import {SelectedOrganisationService} from '../organisations/_services/selected-o
 
         <div class="row row-cols-1 row-cols-md-2 g-4">
           <div class="col">
-            <div class="h-100 p-5 bg-body-tertiary border rounded-3">
+            <div class="h-100 p-4 p-lg-5 bg-body-tertiary border rounded-3">
               <h2 class="mb-3">Sicherheit</h2>
               <p>Halte deine Organisation und Veranstaltungen sicher.</p>
               <div class="form-check form-switch">
@@ -45,7 +45,7 @@ import {SelectedOrganisationService} from '../organisations/_services/selected-o
 
           @if (myUser()?.isAdmin || organisationSettingsState().settings!.stripeEnabled) {
             <div class="col">
-              <div class="h-100 p-5 bg-body-tertiary border rounded-3">
+              <div class="h-100 p-4 p-lg-5 bg-body-tertiary border rounded-3">
                 <div class="d-flex justify-content-between">
                   <h2 class="mb-3">Stripe</h2>
                   @if (myUser()?.isAdmin) {
@@ -82,7 +82,7 @@ import {SelectedOrganisationService} from '../organisations/_services/selected-o
             </div>
           }
           <div class="col">
-            <div class="h-100 p-5 bg-body-tertiary border rounded-3">
+            <div class="h-100 p-4 p-lg-5 bg-body-tertiary border rounded-3">
               <label for="timezone" class="mb-3"
                 ><h2>{{ 'HOME_ORGS_SETTINGS_TIMEZONE' | transloco }}</h2></label
               >

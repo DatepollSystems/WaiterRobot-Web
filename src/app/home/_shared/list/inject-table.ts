@@ -106,7 +106,7 @@ export function injectTable<EntityType>({
 
   return {
     columnsToDisplay: _columnsToDisplay.asReadonly(),
-    isLoading: isLoading.asReadonly(),
+    isLoading: isLoading,
     error: error.asReadonly(),
     isEmpty,
     dataSource,

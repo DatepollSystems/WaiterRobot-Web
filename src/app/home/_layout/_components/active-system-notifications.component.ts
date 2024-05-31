@@ -6,15 +6,17 @@ import {AppSystemNotificationAlertComponent} from './system-notification-alert.c
 
 @Component({
   template: `
-    <div class="d-flex flex-column gap-3 my-2">
-      @for (systemNotification of activeSystemNotificationsService.getFilteredSystemNotifications(); track systemNotification.id) {
-        <app-system-notification-alert
-          [notification]="systemNotification"
-          [disableIgnore]="disableIgnore()"
-          (ignore)="activeSystemNotificationsService.ignore($event)"
-        />
-      }
-    </div>
+    @if (activeSystemNotificationsService.getFilteredSystemNotifications().length > 0) {
+      <div class="d-flex flex-column gap-3 my-2">
+        @for (systemNotification of activeSystemNotificationsService.getFilteredSystemNotifications(); track systemNotification.id) {
+          <app-system-notification-alert
+            [notification]="systemNotification"
+            [disableIgnore]="disableIgnore()"
+            (ignore)="activeSystemNotificationsService.ignore($event)"
+          />
+        }
+      </div>
+    }
   `,
   standalone: true,
   selector: 'app-active-system-notifications',

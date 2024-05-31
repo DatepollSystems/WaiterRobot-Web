@@ -6,7 +6,7 @@ import {organisationSelectedGuard} from './_shared/guards/organisation-selected-
 export const ROUTES: Routes = [
   {
     path: '',
-    loadComponent: () => import('./_layout/home.layout2').then((c) => c.HomeLayout),
+    loadComponent: () => import('./_layout/home.layout').then((c) => c.HomeLayout),
     children: [
       {
         path: '',
@@ -62,7 +62,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'o/:soId',
-    loadComponent: () => import('./_layout/home.layout2').then((c) => c.HomeLayout),
+    loadComponent: () => import('./_layout/home.layout').then((c) => c.HomeLayout),
     canActivate: [organisationSelectedGuard],
     children: [
       {
@@ -74,7 +74,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'o/:soId/e/:seId',
-    loadComponent: () => import('./_layout/home.layout2').then((c) => c.HomeLayout),
+    loadComponent: () => import('./_layout/home.layout').then((c) => c.HomeLayout),
     canActivate: [organisationSelectedGuard, eventSelectedGuard],
     children: [
       {

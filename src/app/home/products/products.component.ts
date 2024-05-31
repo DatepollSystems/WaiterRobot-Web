@@ -46,13 +46,26 @@ import {ProductsService} from './_services/products.service';
         </div>
 
         <div ngbDropdown container="body">
-          <button type="button" class="btn btn-sm btn-info" id="toggleSoldOutDropdown" ngbDropdownToggle [disabled]="!selection.hasValue()">
+          <button
+            type="button"
+            class="btn btn-sm btn-info"
+            id="toggleSoldOutDropdown"
+            ngbDropdownToggle
+            [disabled]="!selection.hasValue()"
+            [class.btnSpinner]="table.dataSource().data.length > 0 && table.isLoading()"
+          >
             <bi name="cart" />
-            {{ 'HOME_PROD_SOLD_OUT' | transloco }}
+            {{ 'HOME_PROD_AVAILABLE' | transloco }}
           </button>
           <div ngbDropdownMenu aria-labelledby="toggleSoldOutDropdown">
-            <button type="button" ngbDropdownItem (click)="toggleProductsSoldOut(false)">{{ 'ACTIVATE' | transloco }}</button>
-            <button type="button" ngbDropdownItem (click)="toggleProductsSoldOut(true)">{{ 'DEACTIVATE' | transloco }}</button>
+            <button type="button" ngbDropdownItem (click)="toggleProductsSoldOut(false)">
+              {{ false | soldOut }}
+              {{ 'ACTIVATE' | transloco }}
+            </button>
+            <button type="button" ngbDropdownItem (click)="toggleProductsSoldOut(true)">
+              {{ true | soldOut }}
+              {{ 'HOME_PROD_SOLD_OUT' | transloco }}
+            </button>
           </div>
         </div>
 
@@ -343,10 +356,12 @@ export class ProductsComponent {
   });
 
   toggleProductSoldOut(dto: GetProductMaxResponse): void {
+    this.table.isLoading.set(true);
     this.#productsService.toggleSoldOut$(dto).subscribe();
   }
 
   toggleProductsSoldOut(soldOut: boolean) {
+    this.table.isLoading.set(true);
     forkJoin(this.selection.selection().selected.map((it) => this.#productsService.toggleSoldOut$(it, soldOut))).subscribe();
   }
 }
