@@ -15,7 +15,7 @@ export class StatisticsService {
 
   counts = toSignal(
     this.selectedEventId$.pipe(
-      switchMap((eventId) => this.httpClient.get<StatisticsCountResponse>('/config/statistics/counts', {params: {eventId}}))
+      switchMap((eventId) => this.httpClient.get<StatisticsCountResponse>('/config/statistics/counts', {params: {eventId}})),
     ),
   );
 

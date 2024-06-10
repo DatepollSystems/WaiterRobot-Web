@@ -67,6 +67,6 @@ const routes: Routes = [
     ScrollableToolbarComponent,
     TranslocoPipe,
     AsyncPipe,
-  ]
+  ],
 })
 export class StatisticsModule {}
