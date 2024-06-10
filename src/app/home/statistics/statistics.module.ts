@@ -1,23 +1,23 @@
-import {CommonModule} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {NgbDropdownModule, NgbInputDatepicker, NgbNavModule, NgbTimepicker, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
 import {AppSpinnerRowComponent} from '@shared/ui/loading/app-spinner-row.component';
 import {BarChartModule, LineChartModule, PieChartModule} from '@swimlane/ngx-charts';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-table';
-import {DfxCountUp} from 'dfx-helper';
+import {DfxCurrencyCentPipe} from 'dfx-helper';
 import {NgxPrintDirective} from 'ngx-print';
 
 import {AppBackButtonComponent} from '../_shared/components/button/app-back-button.component';
 import {AppDatetimeInputComponent} from '../_shared/components/datetime-picker/datetime-picker.component';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {BlurToggleComponent} from './blur-toggle.component';
-import {CountCardComponent} from './components/count-card.component';
+import {StatisticsCardComponent} from './components/statistics-card.component';
 import {SumProductGroupsComponent} from './components/sum-product-groups.component';
 import {SumProductsPerWaiterComponent} from './components/sum-products-per-waiter.component';
 import {SumProductsComponent} from './components/sum-products.component';
@@ -35,7 +35,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    CountCardComponent,
+    StatisticsCardComponent,
     StatisticsComponent,
     SumProductGroupsComponent,
     SumProductsComponent,
@@ -51,8 +51,6 @@ const routes: Routes = [
     BarChartModule,
     BiComponent,
     BlurToggleComponent,
-    CommonModule,
-    DfxCountUp,
     DfxPaginationModule,
     DfxSortModule,
     DfxTableModule,
@@ -64,9 +62,11 @@ const routes: Routes = [
     NgbTooltipModule,
     NgxPrintDirective,
     PieChartModule,
+    DfxCurrencyCentPipe,
     ReactiveFormsModule,
     ScrollableToolbarComponent,
     TranslocoPipe,
-  ],
+    AsyncPipe,
+  ]
 })
 export class StatisticsModule {}

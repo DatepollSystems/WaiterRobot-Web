@@ -47,7 +47,7 @@
 
       } @if (chartType === 'BAR' && sumDtos && sumDtos.length > 0) {
 
-      <div [ngStyle]="{height: _height}">
+      <div [style.height]="_height">
         <ngx-charts-bar-horizontal
           scheme="cool"
           [barPadding]="16"

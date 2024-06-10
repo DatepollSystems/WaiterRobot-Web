@@ -13,25 +13,24 @@ import {StatisticsService} from './statistics.service';
     @if (statisticsCount(); as countDto) {
       <div class="row mt-2 mb-4 row-cols-1 row-cols-md-2 row-cols-xxl-4 gy-3">
         <div class="col">
-          <app-statistics-count-card [count]="countDto.orderedProducts"
+          <app-statistics-card [count]="countDto.orderedProducts"
             >{{ 'HOME_STATISTICS_SELLED_PRODUCTS' | transloco }}
             <bi icon width="32" height="32" name="cup-straw" />
-          </app-statistics-count-card>
+          </app-statistics-card>
         </div>
 
         <div class="col">
-          <app-statistics-count-card [count]="countDto.orders">
+          <app-statistics-card [count]="countDto.orders">
             {{ 'NAV_ORDERS' | transloco }}
             <bi icon name="list-check" width="32" height="32" />
-          </app-statistics-count-card>
+          </app-statistics-card>
         </div>
 
         <div class="col">
-          <app-statistics-count-card [count]="countDto.turnover">
+          <app-statistics-card [count]="countDto.turnover | currency">
             <span>{{ 'HOME_STATISTICS_TURNOVER' | transloco }}</span>
-            <span valuePrefix>€</span>
             <bi icon width="32" height="32" name="cash-coin" />
-          </app-statistics-count-card>
+          </app-statistics-card>
         </div>
 
         <div class="col">

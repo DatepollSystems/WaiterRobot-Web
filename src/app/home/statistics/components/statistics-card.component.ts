@@ -16,7 +16,6 @@ import {injectBlurSetting} from '@home-shared/services/blur-setting.service';
           <div class="d-flex flex-column">
             <div class="blur fs-4" [class.unblur]="!isBlurred()">
               <strong>{{ count }}</strong>
-              <ng-content select="[valuePrefix]" />
             </div>
             <span class="fs-6">
               <ng-content />
@@ -26,10 +25,10 @@ import {injectBlurSetting} from '@home-shared/services/blur-setting.service';
       </div>
     </div>
   `,
-  selector: 'app-statistics-count-card',
+  selector: 'app-statistics-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CountCardComponent {
+export class StatisticsCardComponent {
   @Input() count: NumberInput;
 
   isBlurred = injectBlurSetting().isBlurred;

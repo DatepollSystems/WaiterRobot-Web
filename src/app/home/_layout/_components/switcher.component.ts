@@ -24,7 +24,7 @@ import {SelectedOrganisationService} from '../../organisations/_services/selecte
 
       <div class="d-flex gap-4 flex-column flex-lg-row">
         @if (allOrganisations(); as organisations) {
-          <div class="w-100">
+          <div class="w-100" style="min-width: 400px">
             <h2>Organisation</h2>
             <div class="list-group list-group-checkable d-grid gap-2 border-0 w-100 mt-2">
               @for (organisation of organisations; track organisation.id) {
@@ -50,7 +50,7 @@ import {SelectedOrganisationService} from '../../organisations/_services/selecte
         } @else {
           <app-progress-bar />
         }
-        <div class="w-100">
+        <div class="w-100" style="min-width: 400px">
           <h2>Event / Location</h2>
           @if (form.controls.organisationId.value) {
             @if (allEvents(); as events) {
