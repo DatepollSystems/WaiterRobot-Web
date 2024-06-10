@@ -15,7 +15,7 @@ import {SelectedOrganisationService} from '../../organisations/_services/selecte
 
 @Component({
   template: `
-    <form class="modal-body p-5 " [formGroup]="form" (ngSubmit)="select()">
+    <form [formGroup]="form" (ngSubmit)="select()">
       @if (formValueChanges()) {}
 
       @if (!modal()) {
@@ -235,7 +235,9 @@ export class SwitcherComponent {
       <h1 class="fw-bold mb-0 fs-2" id="modal-switcher-title">Wähle Organisation und Event aus</h1>
       <button type="button" class="btn-close" aria-label="Close" (mousedown)="activeModal.dismiss()"></button>
     </div>
-    <app-switcher [modal]="activeModal" />
+    <div class="modal-body p-5">
+      <app-switcher [modal]="activeModal" />
+    </div>
   `,
   standalone: true,
   selector: 'app-switcher-modal',

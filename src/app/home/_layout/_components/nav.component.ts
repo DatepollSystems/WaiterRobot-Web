@@ -326,6 +326,6 @@ export class NavComponent {
   selectedEventIdRoute = computed(() => this.#selectedEventService.selectedId() ?? 'eventId');
 
   openSwitcher(): void {
-    this.modal.open(SwitcherModalComponent, {ariaLabelledBy: 'modal-switcher-title', size: 'lg'});
+    this.modal.open(SwitcherModalComponent, {ariaLabelledBy: 'modal-switcher-title', size: 'xl'});
   }
 }

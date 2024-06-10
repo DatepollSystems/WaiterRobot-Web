@@ -14,7 +14,7 @@
     "tsc:check": "tsc",
     "ci": "pnpm lint && pnpm format",
     "lint": "eslint '**/*.{js,ts,html,json,md}' --fix",
-    "lint:check": "eslint '**/*.{js,ts,html,json,md}'",
+    "lint:check": "TIMING=1 eslint '**/*.{js,ts,html,json,md}'",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
     "e2e": "ng e2e",
