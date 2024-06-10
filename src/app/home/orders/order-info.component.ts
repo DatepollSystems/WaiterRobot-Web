@@ -104,7 +104,6 @@ import {OrdersService} from './orders.service';
     TranslocoPipe,
     NgbTooltip,
     AppTestBadge,
-    BiComponent,
   ],
 })
 export class OrderInfoComponent {

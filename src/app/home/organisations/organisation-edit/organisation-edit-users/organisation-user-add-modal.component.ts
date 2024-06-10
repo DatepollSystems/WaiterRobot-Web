@@ -48,7 +48,7 @@ import {OrganisationUsersService} from '../../_services/organisations-users.serv
   selector: 'app-organisation-user-add-modal',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoPipe, LowerCasePipe, NgSelectModule, ReactiveFormsModule, TranslocoPipe],
+  imports: [TranslocoPipe, LowerCasePipe, NgSelectModule, ReactiveFormsModule],
 })
 export class OrganisationUserAddModalComponent {
   activeModal = inject(NgbActiveModal);
