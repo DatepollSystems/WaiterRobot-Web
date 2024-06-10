@@ -83,16 +83,7 @@ import {QrCodeService} from './_shared/services/qr-code.service';
   selector: 'app-qr-code',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    QRCodeComponent,
-    NgbTooltipModule,
-    BiComponent,
-    ScrollableToolbarComponent,
-    CopyDirective,
-    DfxCutPipe,
-    TranslocoPipe,
-    TranslocoPipe,
-  ],
+  imports: [QRCodeComponent, NgbTooltipModule, BiComponent, ScrollableToolbarComponent, CopyDirective, DfxCutPipe, TranslocoPipe],
 })
 export class AppQrCodeViewComponent {
   qrCodeData = inject(QrCodeService).data;
