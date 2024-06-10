@@ -16,7 +16,7 @@ import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
         'text-bg-success': type === 'SUCCESS',
         'text-bg-danger': type === 'DANGER',
         'text-bg-warning': type === 'WARNING',
-        'text-bg-info': type === 'INFO'
+        'text-bg-info': type === 'INFO',
       }"
     >
       @switch (type) {

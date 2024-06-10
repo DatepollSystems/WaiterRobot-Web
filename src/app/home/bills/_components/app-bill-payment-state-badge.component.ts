@@ -13,7 +13,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
       style="width: min-content"
       [ngClass]="{
         'text-bg-warning': !!unpaidReason,
-        'text-bg-success': !unpaidReason
+        'text-bg-success': !unpaidReason,
       }"
     >
       @if (!unpaidReason) {

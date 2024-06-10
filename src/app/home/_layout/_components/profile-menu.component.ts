@@ -25,7 +25,7 @@ import {ThemePickerComponent} from './theme-picker.component';
             [style.background-color]="user.color"
             [ngClass]="{
               'text-white': !(user.color | isLightColor),
-              'text-dark': user.color | isLightColor
+              'text-dark': user.color | isLightColor,
             }"
           >
             {{ user.firstname | s_cut: 1 : '' | uppercase }}{{ user.surname | s_cut: 1 : '' | uppercase }}

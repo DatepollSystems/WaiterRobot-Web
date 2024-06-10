@@ -18,7 +18,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
       style="width: min-content"
       [ngClass]="{
         'text-bg-light': orderState === 'QUEUED' || orderState === 'IN_PROGRESS',
-        'text-bg-success': orderState === 'FINISHED'
+        'text-bg-success': orderState === 'FINISHED',
       }"
       [ngbPopover]="popContent"
     >

@@ -16,7 +16,7 @@ import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
           'alert-success': notification.type === 'SUCCESS',
           'alert-danger': notification.type === 'DANGER',
           'alert-warning': notification.type === 'WARNING',
-          'alert-info': notification.type === 'INFO'
+          'alert-info': notification.type === 'INFO',
         }"
       >
         <div class="d-flex justify-content-between">

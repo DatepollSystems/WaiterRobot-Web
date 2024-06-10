@@ -24,7 +24,7 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
         [ngClass]="{
           'text-white': !(color | isLightColor) && color,
           'text-dark': (color | isLightColor) && color,
-          'text-body-emphasis': !color
+          'text-body-emphasis': !color,
         }"
         [autoClose]="'outside'"
         [ngbPopover]="popContent"
