@@ -10,7 +10,7 @@ import {filter, pairwise} from 'rxjs';
 import {
   ActiveSystemNotificationsComponent,
   ActiveSystemNotificationsDesktopComponent,
-  ActiveSystemNotificationsMobileToggleComponent
+  ActiveSystemNotificationsMobileToggleComponent,
 } from './_components/active-system-notifications.component';
 import {MaintenanceWarningComponent} from './_components/maintenance-warning.component';
 import {MobileNavComponent} from './_components/mobile-nav.component';
@@ -26,9 +26,9 @@ import {NetworkOfflineWarningComponent} from './_components/network-offline-warn
         </div>
         <div class="col main-container pt-3">
           <header class="d-flex d-xl-none justify-content-between">
-                <button type="button" class="btn border-0 d-block" (click)="openMobileNav()">
-                  <bi name="list" width="24" height="24" />
-                </button>
+            <button type="button" class="btn border-0 d-block" (click)="openMobileNav()">
+              <bi name="list" width="24" height="24" />
+            </button>
 
             <app-active-system-mobile-toggle-notifications />
           </header>
