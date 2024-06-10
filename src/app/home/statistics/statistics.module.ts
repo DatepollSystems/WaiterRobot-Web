@@ -48,9 +48,11 @@ const routes: Routes = [
     AppBackButtonComponent,
     AppDatetimeInputComponent,
     AppSpinnerRowComponent,
+    AsyncPipe,
     BarChartModule,
     BiComponent,
     BlurToggleComponent,
+    DfxCurrencyCentPipe,
     DfxPaginationModule,
     DfxSortModule,
     DfxTableModule,
@@ -62,11 +64,9 @@ const routes: Routes = [
     NgbTooltipModule,
     NgxPrintDirective,
     PieChartModule,
-    DfxCurrencyCentPipe,
     ReactiveFormsModule,
     ScrollableToolbarComponent,
     TranslocoPipe,
-    AsyncPipe,
   ],
 })
 export class StatisticsModule {}

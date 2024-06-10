@@ -28,7 +28,7 @@ td:has(> div.form-check) {
 }
 
 /* Fix vertical text alignment in buttons with icons */
-.btn > bi > {
+.btn > bi {
   vertical-align: -0.125em;
 }
 
