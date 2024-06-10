@@ -1,7 +1,7 @@
 import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {Subscription} from 'rxjs';
 

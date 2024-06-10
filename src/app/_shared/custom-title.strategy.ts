@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {RouterStateSnapshot, TitleStrategy} from '@angular/router';
-import {TranslocoService} from '@ngneat/transloco';
+import {TranslocoService} from '@jsverse/transloco';
 
 import {first} from 'rxjs';
 

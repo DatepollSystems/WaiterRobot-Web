@@ -7,7 +7,7 @@ import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} fr
 import {AppActivatedPipe} from '@home-shared/pipes/app-activated.pipe';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 

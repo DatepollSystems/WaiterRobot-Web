@@ -6,7 +6,7 @@ import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.com
 import {allowedCharacterSet} from '@home-shared/regex';
 
 import {NgSelectModule} from '@ng-select/ng-select';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {injectIsValid} from '@shared/form';
 import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, UpdateWaiterDto} from '@shared/waiterrobot-backend';
 

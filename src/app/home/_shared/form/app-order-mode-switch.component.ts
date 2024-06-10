@@ -2,7 +2,7 @@ import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Inpu
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {skip} from 'rxjs';
 
 @Component({

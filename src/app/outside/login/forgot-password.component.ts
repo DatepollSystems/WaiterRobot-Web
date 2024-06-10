@@ -4,7 +4,7 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {passwordMatchValidator} from '@home-shared/regex';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {AuthService} from '@shared/services/auth/auth.service';
 

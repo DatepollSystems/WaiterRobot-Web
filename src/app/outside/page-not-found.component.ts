@@ -1,7 +1,7 @@
 import {Location, NgOptimizedImage} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {Router} from '@angular/router';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {n_fromStorage, st_set} from 'dfts-helper';
 

@@ -7,7 +7,7 @@ import {allowedCharacterSet, s_toCurrencyNumber} from '@home-shared/regex';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {injectIsValid} from '@shared/form';
 import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '@shared/waiterrobot-backend';

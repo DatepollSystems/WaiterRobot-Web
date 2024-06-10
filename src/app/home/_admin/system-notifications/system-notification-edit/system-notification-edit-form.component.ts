@@ -5,7 +5,7 @@ import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AppDatetimeInputComponent} from '@home-shared/components/datetime-picker/datetime-picker.component';
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {injectIsValid} from '@shared/form';
 import {CreateSystemNotificationDto, GetSystemNotificationResponse, UpdateSystemNotificationDto} from '@shared/waiterrobot-backend';
 

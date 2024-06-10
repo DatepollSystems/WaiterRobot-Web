@@ -7,7 +7,7 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
 import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
 import {mapName} from '@home-shared/name-map';
 import {NgbDropdownItem, NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {loggerOf} from 'dfts-helper';
 

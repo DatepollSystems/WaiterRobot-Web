@@ -9,7 +9,7 @@ import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.com
 
 import {NgSelectModule} from '@ng-select/ng-select';
 
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {injectIsValid} from '@shared/form';
 import {CreateUserDto, GetOrganisationResponse, GetUserResponse, IdAndNameResponse, UpdateUserDto} from '@shared/waiterrobot-backend';
 

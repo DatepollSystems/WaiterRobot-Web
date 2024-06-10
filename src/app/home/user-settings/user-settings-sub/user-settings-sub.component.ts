@@ -5,7 +5,7 @@ import {MyUserService} from '@home-shared/services/user/my-user.service';
 import {NotificationService} from '@shared/notifications/notification.service';
 
 import {s_isEmail} from 'dfts-helper';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {UserSettingsService} from '../_services/user-settings.service';
 

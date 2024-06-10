@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 
 import {NgbPopoverModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {CopyDirective} from '@shared/ui/copy.directive';
 

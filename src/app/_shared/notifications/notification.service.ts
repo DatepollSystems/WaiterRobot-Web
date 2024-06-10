@@ -1,5 +1,5 @@
 import {inject, Injectable, TemplateRef} from '@angular/core';
-import {TranslocoService} from '@ngneat/transloco';
+import {TranslocoService} from '@jsverse/transloco';
 
 import {BehaviorSubject, first} from 'rxjs';
 

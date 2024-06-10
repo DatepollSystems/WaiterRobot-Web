@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 import {AppBackButtonComponent} from '@home-shared/components/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {NgbNavModule, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {cl_copy} from 'dfts-helper';
 

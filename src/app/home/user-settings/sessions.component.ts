@@ -5,7 +5,7 @@ import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} fr
 import {mapName} from '@home-shared/name-map';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {AppSpinnerRowComponent} from '@shared/ui/loading/app-spinner-row.component';
 
 import {BiComponent} from 'dfx-bootstrap-icons';

@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
-import {TranslocoService} from '@ngneat/transloco';
+import {TranslocoService} from '@jsverse/transloco';
 import {NotificationService} from '@shared/notifications/notification.service';
 
 import {IdResponse, OrganisationUserDto, OrganisationUserResponse} from '@shared/waiterrobot-backend';

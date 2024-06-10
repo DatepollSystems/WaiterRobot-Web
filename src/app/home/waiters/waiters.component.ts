@@ -10,7 +10,7 @@ import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} fr
 import {mapName} from '@home-shared/name-map';
 
 import {NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {n_from} from 'dfts-helper';

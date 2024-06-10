@@ -5,7 +5,7 @@ import {toSignal} from '@angular/core/rxjs-interop';
 import {AppBackButtonComponent} from '@home-shared/components/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {injectIdParam$} from '@home-shared/services/injectActivatedRouteIdParam';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {AppSpinnerRowComponent} from '@shared/ui/loading/app-spinner-row.component';
 
 import {BiComponent} from 'dfx-bootstrap-icons';

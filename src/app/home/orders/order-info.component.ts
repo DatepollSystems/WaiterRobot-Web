@@ -8,7 +8,7 @@ import {injectConfirmDialog} from '@home-shared/components/question-dialog.compo
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {injectIdParam$} from '@home-shared/services/injectActivatedRouteIdParam';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 

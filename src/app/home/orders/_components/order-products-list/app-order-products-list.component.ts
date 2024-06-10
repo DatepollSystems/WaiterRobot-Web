@@ -3,7 +3,7 @@ import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Inpu
 import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {GetImplodedOrderProductResponse} from '@shared/waiterrobot-backend';
 

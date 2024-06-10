@@ -4,7 +4,7 @@ import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {injectIsValid} from '@shared/form';
 import {AppDownloadBtnListComponent} from '@shared/ui/app-download-btn-list.component';

@@ -2,7 +2,7 @@ import {DatePipe, NgClass} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {GetImplodedOrderProductResponse, GetOrderResponse} from '@shared/waiterrobot-backend';
 

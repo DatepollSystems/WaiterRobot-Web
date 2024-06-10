@@ -6,7 +6,7 @@ import {FullScreenService} from '@home-shared/services/fullscreen.service';
 import {QrCodeService} from '@home-shared/services/qr-code.service';
 import {MyUserService} from '@home-shared/services/user/my-user.service';
 import {NgbDropdown, NgbDropdownButtonItem, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {AuthService} from '@shared/services/auth/auth.service';
 import {loggerOf, s_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';

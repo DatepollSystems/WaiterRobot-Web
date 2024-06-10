@@ -6,7 +6,7 @@ import {AppActivatedPipe} from '@home-shared/pipes/app-activated.pipe';
 
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {injectIsValid} from '@shared/form';
 

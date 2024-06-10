@@ -2,7 +2,7 @@ import {LowerCasePipe, NgOptimizedImage} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';
 import {ThemeService} from '@shared/services/theme.service';
 import {AboutModalComponent} from '@shared/ui/footer/about-modal.component';

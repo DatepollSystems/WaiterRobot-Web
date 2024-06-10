@@ -6,7 +6,7 @@ import {BlankslateComponent} from '@home-shared/components/blankslate.component'
 import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
 import {MyUserService} from '@home-shared/services/user/my-user.service';
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {OrganisationUserResponse} from '@shared/waiterrobot-backend';
 

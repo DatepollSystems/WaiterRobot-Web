@@ -8,7 +8,7 @@ import {listOrderStyles} from '@home-shared/list/list-order-styles';
 import {mapName} from '@home-shared/name-map';
 
 import {NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 

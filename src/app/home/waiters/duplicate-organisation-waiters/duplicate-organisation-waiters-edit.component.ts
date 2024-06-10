@@ -4,7 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {DuplicateWaiterResponse, IdAndNameResponse} from '@shared/waiterrobot-backend';
 

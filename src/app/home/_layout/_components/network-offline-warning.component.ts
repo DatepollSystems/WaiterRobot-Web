@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxHideIfOnline} from 'dfx-helper';
 

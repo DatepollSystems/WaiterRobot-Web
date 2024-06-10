@@ -98,7 +98,7 @@
     "author": "@ng-select/ng-select"
   },
   {
-    "name": "@ngneat/transloco",
+    "name": "@jsverse/transloco",
     "licenseType": "MIT",
     "link": "git+https://github.com/ngneat/transloco.git",
     "installedVersion": "6.0.4",

@@ -6,7 +6,7 @@ import {passwordMatchValidator} from '@home-shared/regex';
 
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 @Component({
   template: `

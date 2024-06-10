@@ -1,8 +1,9 @@
 import {Location} from '@angular/common';
 import {ChangeDetectionStrategy, Component, effect, inject} from '@angular/core';
+import {TranslocoPipe, TranslocoService} from '@jsverse/transloco';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe, TranslocoService} from '@ngneat/transloco';
+import {ThemeService} from '@shared/services/theme.service';
 import {CopyDirective} from '@shared/ui/copy.directive';
 
 import {d_format, s_chunks} from 'dfts-helper';
@@ -19,7 +20,7 @@ import {QrCodeService} from './_shared/services/qr-code.service';
   template: `
     @if (qrCodeData(); as data) {
       <div class="my-container d-flex flex-row flex-wrap gap-5 align-items-center justify-content-center h-100">
-        <div id="qrcode" class="qrcode-rounded">
+        <div id="qrcode" class="qrcode-rounded" [style.background-color]="theme().id === 'light' ? '#000000' : '#f6f6f6'">
           <qrcode errorCorrectionLevel="M" colorLight="#f6f6f6" [size]="isMobile() ? 8 : 14" [margin]="0" [data]="data.data" />
         </div>
         <div class="card">
@@ -75,7 +76,6 @@ import {QrCodeService} from './_shared/services/qr-code.service';
     .qrcode-rounded {
       border-radius: 15px;
       border-width: 5px;
-      background-color: #f6f6f6;
       padding: 15px;
       filter: brightness(125%);
     }
@@ -90,6 +90,7 @@ export class AppQrCodeViewComponent {
   window = injectWindow();
   isMobile = injectIsMobile();
   location = inject(Location);
+  theme = inject(ThemeService).currentTheme;
 
   translocoService = inject(TranslocoService);
 

@@ -4,7 +4,7 @@ import {AbstractControl, FormBuilder, ReactiveFormsModule} from '@angular/forms'
 
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {injectIsValid} from '@shared/form';
 
 import {s_isEmail} from 'dfts-helper';

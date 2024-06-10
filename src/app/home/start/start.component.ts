@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';
 import {AuthService} from '@shared/services/auth/auth.service';

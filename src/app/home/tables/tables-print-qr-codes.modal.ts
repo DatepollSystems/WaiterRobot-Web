@@ -4,7 +4,7 @@ import {ChangeDetectionStrategy, Component, inject, Input, signal} from '@angula
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {MobileLinkService} from '@home-shared/services/mobile-link.service';
 import {NgbActiveModal, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
 import {d_formatWithHoursMinutesAndSeconds} from 'dfts-helper';

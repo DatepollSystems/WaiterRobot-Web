@@ -5,7 +5,7 @@ import {AppColorPicker} from '@home-shared/components/color/color-picker.compone
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 import {allowedCharacterSet} from '@home-shared/regex';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {injectIsValid} from '@shared/form';
 import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} from '@shared/waiterrobot-backend';

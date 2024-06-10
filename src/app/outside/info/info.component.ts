@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {FooterComponent} from '@shared/ui/footer/footer.component';
 import {ThemeSwitcherComponent} from '@shared/ui/theme-switcher.component';
 

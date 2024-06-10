@@ -6,7 +6,7 @@ import {s_toCurrencyNumber} from '@home-shared/regex';
 import {MyUserService} from '@home-shared/services/user/my-user.service';
 
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
 import {BiComponent} from 'dfx-bootstrap-icons';

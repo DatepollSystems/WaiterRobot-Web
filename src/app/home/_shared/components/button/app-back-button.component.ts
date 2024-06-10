@@ -1,7 +1,7 @@
 import {Location} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Directive, HostListener, inject, Input} from '@angular/core';
 import {Router} from '@angular/router';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {WINDOW} from 'dfx-helper';
 

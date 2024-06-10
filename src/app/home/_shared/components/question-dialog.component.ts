@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {loggerOf} from 'dfts-helper';
 import {BiComponent, BiName} from 'dfx-bootstrap-icons';

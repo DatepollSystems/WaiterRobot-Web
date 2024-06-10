@@ -4,7 +4,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {injectTable, injectTableFilter} from '@home-shared/list';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
 import {BiComponent} from 'dfx-bootstrap-icons';

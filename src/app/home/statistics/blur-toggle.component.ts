@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {injectBlurSetting} from '@home-shared/services/blur-setting.service';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
-import {BiComponent, provideBi, withHeight, withWidth} from 'dfx-bootstrap-icons';
+import {TranslocoPipe} from '@jsverse/transloco';
+import {BiComponent, provideBi, withSize} from 'dfx-bootstrap-icons';
 
 @Component({
   selector: 'app-blur-toggle',
@@ -23,7 +23,7 @@ import {BiComponent, provideBi, withHeight, withWidth} from 'dfx-bootstrap-icons
     </button>
   `,
   imports: [BiComponent, NgbTooltip, TranslocoPipe],
-  providers: [provideBi(withHeight('24'), withWidth('24'))],
+  providers: [provideBi(withSize('24'))],
 })
 export class BlurToggleComponent {
   blurSetting = injectBlurSetting();

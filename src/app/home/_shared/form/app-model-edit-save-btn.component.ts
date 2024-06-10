@@ -1,5 +1,5 @@
 import {booleanAttribute, ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 

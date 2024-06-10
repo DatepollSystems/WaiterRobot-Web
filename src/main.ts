@@ -10,7 +10,7 @@ import {NgbDateTimeAdapter} from '@home-shared/components/datetime-picker/dateti
 import {MicroSentryModule} from '@micro-sentry/angular';
 
 import {NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
-import {provideTransloco} from '@ngneat/transloco';
+import {provideTransloco} from '@jsverse/transloco';
 
 import {CustomTitleStrategy} from '@shared/custom-title.strategy';
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';

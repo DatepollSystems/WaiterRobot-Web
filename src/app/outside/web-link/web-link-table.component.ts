@@ -3,7 +3,7 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {AppBackDirective} from '@home-shared/components/button/app-back-button.component';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {GetOpenBillResponse, GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 

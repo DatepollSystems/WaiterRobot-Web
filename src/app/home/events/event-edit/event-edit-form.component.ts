@@ -6,7 +6,7 @@ import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-e
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
 import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {injectIsValid} from '@shared/form';
 import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocationDto} from '@shared/waiterrobot-backend';
 

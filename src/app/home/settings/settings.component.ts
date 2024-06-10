@@ -1,5 +1,5 @@
 import {Component, effect, inject} from '@angular/core';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {OrganisationsSettingsService} from '../organisations/_services/organisations-settings.service';
 import {SelectedOrganisationService} from '../organisations/_services/selected-organisation.service';
 import {OrganisationUsersSettingsComponent} from '../organisations/organisation-edit/organisation-edit-users/organisation-users-settings.component';

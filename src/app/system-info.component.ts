@@ -7,8 +7,8 @@ import {Hotkeys} from '@home-shared/services/hot-keys.service';
 import {QrCodeService} from '@home-shared/services/qr-code.service';
 import {RedirectService} from '@home-shared/services/redirect.service';
 import {MyUserService} from '@home-shared/services/user/my-user.service';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';
 import {AuthService} from '@shared/services/auth/auth.service';
 import {SystemInfoService, SystemInfoShowService} from '@shared/services/system-info.service';
@@ -24,6 +24,7 @@ import {interval, map} from 'rxjs';
     @defer (when showService.show()) {
       @if (showService.show()) {
         <div
+          #frontendInfo
           class="col-12 col-md-8 col-lg-6 col-xl-4 col-xxl-3"
           cdkDrag
           style="z-index: 1000000; bottom: 30px; left: 20px"
@@ -31,8 +32,13 @@ import {interval, map} from 'rxjs';
           [class.position-fixed]="!isMobile()"
         >
           <div class="card px-2 pt-2 transparent" [class.text-white]="theme().id === 'light'">
-            <div class="card-body">
-              <h5 class="card-title">{{ 'HOME_START_STATISTICS' | transloco }}</h5>
+            <div class="card-body d-flex flex-column gap-3">
+              <div class="d-flex justify-content-between">
+                <h5 class="card-title">{{ 'HOME_START_STATISTICS' | transloco }}</h5>
+                <button type="button" class="btn-close btn-close-white" (click)="frontendInfo.remove()">
+                  <span class="visually-hidden">Close frontend window</span>
+                </button>
+              </div>
               <ul class="list-unstyled px-2 d-flex flex-column gap-2">
                 <li class="d-flex flex-column flex-sm-row justify-content-between">
                   Local time: <span>{{ localTime() | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
@@ -84,7 +90,7 @@ import {interval, map} from 'rxjs';
                   Auth redirect:
 
                   @if (authService.redirectUrl(); as it) {
-                    <pre><code>{{  it }}</code></pre>
+                    <pre><code>{{ it }}</code></pre>
                   } @else {
                     <span>-</span>
                   }
@@ -93,7 +99,7 @@ import {interval, map} from 'rxjs';
                   Selected redirect:
 
                   @if (redirectUrl(); as it) {
-                    <pre><code>{{  it }}</code></pre>
+                    <pre><code>{{ it }}</code></pre>
                   } @else {
                     <span>-</span>
                   }
@@ -103,7 +109,7 @@ import {interval, map} from 'rxjs';
                   QrCode Data:
 
                   @if (qrCodeData(); as it) {
-                    <pre><code>{{  it | json }}</code></pre>
+                    <pre><code>{{ it | json }}</code></pre>
                   } @else {
                     <span>-</span>
                   }
@@ -114,6 +120,7 @@ import {interval, map} from 'rxjs';
         </div>
 
         <div
+          #backendInfo
           class="col-12 col-md-8 col-lg-6 col-xl-4 col-xxl-3"
           cdkDrag
           style="z-index: 1000000; bottom: 30px; left: 50%"
@@ -121,8 +128,13 @@ import {interval, map} from 'rxjs';
           [class.position-fixed]="!isMobile()"
         >
           <div class="card px-2 pt-2 transparent" [class.text-white]="theme().id === 'light'">
-            <div class="card-body">
-              <h5 i18n>Backend</h5>
+            <div class="card-body d-flex flex-column gap-3">
+              <div class="d-flex justify-content-between">
+                <h5 i18n>Backend</h5>
+                <button type="button" class="btn-close btn-close-white" (click)="backendInfo.remove()">
+                  <span class="visually-hidden">Close backend window</span>
+                </button>
+              </div>
               <ul class="list-unstyled d-flex flex-column gap-2">
                 <li class="d-flex justify-content-between">
                   Status:

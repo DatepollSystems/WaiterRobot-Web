@@ -1,6 +1,6 @@
 import {Component, inject, input, signal} from '@angular/core';
 
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {GetStripeAccountResponse} from '@shared/waiterrobot-backend';
 import {BiComponent} from 'dfx-bootstrap-icons';

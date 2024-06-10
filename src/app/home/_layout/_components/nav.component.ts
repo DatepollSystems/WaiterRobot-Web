@@ -3,7 +3,7 @@ import {Component, computed, inject} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {MyUserService} from '@home-shared/services/user/my-user.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxCutPipe} from 'dfx-helper';

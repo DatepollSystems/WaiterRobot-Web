@@ -4,7 +4,7 @@ import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 import {QrCodeService} from '@home-shared/services/qr-code.service';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {a_shuffle} from 'dfts-helper';
 import {BiComponent, BiName, BiNamesEnum} from 'dfx-bootstrap-icons';

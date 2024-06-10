@@ -5,7 +5,7 @@ import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {allowedCharacterSet} from '@home-shared/regex';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
-import {TranslocoPipe} from '@ngneat/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {CreateStripeAccountDto} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
