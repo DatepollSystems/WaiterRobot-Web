@@ -1,3 +1,4 @@
+export * from './group-utils';
 export * from './inject-table';
 export * from './inject-table-delete';
 export * from './inject-table-filter';

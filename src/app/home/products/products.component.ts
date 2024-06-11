@@ -6,12 +6,20 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 import {AppOrderModeSwitchComponent} from '@home-shared/form/app-order-mode-switch.component';
-import {injectTable, injectTableDelete, injectTableFilter, injectTableOrder, injectTableSelect} from '@home-shared/list';
-import {listOrderStyles} from '@home-shared/list/list-order-styles';
+import {
+  addGroupIfMissing,
+  injectTable,
+  injectTableDelete,
+  injectTableFilter,
+  injectTableOrder,
+  injectTableSelect,
+  listOrderStyles,
+  removeGroup
+} from '@home-shared/list';
 import {mapName} from '@home-shared/name-map';
-
-import {NgbDropdownItem, NgbDropdownModule, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
+
+import {NgbDropdownModule, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetProductMaxResponse} from '@shared/waiterrobot-backend';
@@ -51,8 +59,8 @@ import {ProductsService} from './_services/products.service';
             class="btn btn-sm btn-info"
             id="toggleSoldOutDropdown"
             ngbDropdownToggle
-            [disabled]="!selection.hasValue()"
-            [class.btnSpinner]="table.dataSource().data.length > 0 && table.isLoading()"
+            [disabled]="!selection.hasValue() || (table.dataSource().data.length > 0 && table.isLoading()) || setSoldOutLoading()"
+            [class.btnSpinner]="(table.dataSource().data.length > 0 && table.isLoading()) || setSoldOutLoading()"
           >
             <bi name="cart" />
             {{ 'HOME_PROD_AVAILABLE' | transloco }}
@@ -220,10 +228,10 @@ import {ProductsService} from './_services/products.service';
                   <div class="dropdown-divider"></div>
                   <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem (click)="toggleProductSoldOut(product)">
                     @if (product.soldOut) {
-                      <bi name="ban" />
+                      {{false | soldOut}}
                       {{ 'ACTIVATE' | transloco }}
                     } @else {
-                      <bi name="ban" />
+                      {{true | soldOut}}
                       {{ 'DEACTIVATE' | transloco }}
                     }
                   </a>
@@ -279,18 +287,19 @@ import {ProductsService} from './_services/products.service';
     AppTextWithColorIndicatorComponent,
     AppProgressBarComponent,
     ActionDropdownComponent,
-    NgbDropdownItem,
     StopPropagationDirective,
     LowerCasePipe,
     AppOrderModeSwitchComponent,
     CdkDropList,
     CdkDrag,
-    NgbDropdownModule,
     CdkDragHandle,
+    NgbDropdownModule,
   ],
 })
 export class ProductsComponent {
   #productsService = inject(ProductsService);
+
+  setSoldOutLoading = signal(false);
 
   activeId = injectParams('id');
   #activeId$ = toObservable(this.activeId);
@@ -310,16 +319,13 @@ export class ProductsComponent {
 
           if (activeId === 'all') {
             this.sort()?.sort({id: 'group', start: 'desc', disableClear: false});
-            this.columnsToDisplay.update((it) => {
-              const columns = it.filter((iit) => iit !== 'group');
-              return ['group', ...columns];
-            });
+            this.columnsToDisplay.update((it) => addGroupIfMissing(it));
             return this.#productsService.getAll$();
           }
           if (this.sort()?.active !== 'name') {
             this.sort()?.sort({id: 'name', start: 'desc', disableClear: false});
           }
-          this.columnsToDisplay.update((it) => [...it.filter((iit) => iit !== 'group')]);
+          this.columnsToDisplay.update((it) => removeGroup(it));
           return this.#productsService.getByParent$(n_from(activeId));
         }),
       ),
@@ -357,11 +363,13 @@ export class ProductsComponent {
 
   toggleProductSoldOut(dto: GetProductMaxResponse): void {
     this.table.isLoading.set(true);
-    this.#productsService.toggleSoldOut$(dto).subscribe();
+    this.setSoldOutLoading.set(true);
+    this.#productsService.toggleSoldOut$(dto).subscribe(() => { this.setSoldOutLoading.set(false); });
   }
 
   toggleProductsSoldOut(soldOut: boolean) {
     this.table.isLoading.set(true);
-    forkJoin(this.selection.selection().selected.map((it) => this.#productsService.toggleSoldOut$(it, soldOut))).subscribe();
+    this.setSoldOutLoading.set(true);
+    forkJoin(this.selection.selection().selected.map((it) => this.#productsService.toggleSoldOut$(it, soldOut))).subscribe(() => { this.setSoldOutLoading.set(false); });
   }
 }

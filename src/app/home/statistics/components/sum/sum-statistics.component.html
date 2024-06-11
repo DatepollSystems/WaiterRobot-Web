@@ -52,9 +52,9 @@
           scheme="cool"
           [barPadding]="16"
           [maxYAxisTickLength]="26"
-          [showDataLabel]="true"
+          [showDataLabel]="!isBlurred()"
           [showGridLines]="true"
-          [xAxis]="true"
+          [xAxis]="!isBlurred()"
           [yAxis]="true"
           [trimXAxisTicks]="false"
           [results]="sumDtos"
@@ -68,7 +68,7 @@
         @for (dto of sumDtos; track dto) {
         <li class="d-flex justify-content-between list-group-item">
           <span>{{ dto.name }}</span>
-          <span>{{ dto.value }}</span>
+          <span class="blur" [class.unblur]="!isBlurred()">{{ dto.value }}</span>
         </li>
         }
       </ul>

@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, numberAttribute} from '@angular/core';
+import {injectBlurSetting} from '@home-shared/services/blur-setting.service';
 
 import {StatisticsSumResponse} from '@shared/waiterrobot-backend';
 
@@ -24,4 +25,6 @@ export class SumStatisticsComponent {
   setChartType(it: typeof this.chartType): void {
     this.chartType = it;
   }
+
+  isBlurred = injectBlurSetting().isBlurred
 }

@@ -7,9 +7,9 @@ import {RouterLink} from '@angular/router';
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
-import {NgbDropdownItem, NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {addGroupIfMissing, injectTable, injectTableDelete, injectTableFilter, injectTableSelect, removeGroup} from '@home-shared/list';
 import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbDropdownItem, NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
@@ -266,13 +266,10 @@ export class TablesComponent {
           this.selection.clear();
 
           if (activeId === 'all') {
-            this.columnsToDisplay.update((it) => {
-              const columns = it.filter((iit) => iit !== 'group');
-              return ['group', ...columns];
-            });
+            this.columnsToDisplay.update((it) => addGroupIfMissing(it));
             return this.#tablesService.getAll$();
           }
-          this.columnsToDisplay.update((it) => [...it.filter((iit) => iit !== 'group')]);
+          this.columnsToDisplay.update((it) => removeGroup(it));
           return this.#tablesService.getByParent$(n_from(activeId));
         }),
       ),

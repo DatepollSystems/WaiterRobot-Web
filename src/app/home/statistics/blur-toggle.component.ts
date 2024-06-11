@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {injectBlurSetting} from '@home-shared/services/blur-setting.service';
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent, provideBi, withSize} from 'dfx-bootstrap-icons';
 
 @Component({
@@ -10,7 +10,7 @@ import {BiComponent, provideBi, withSize} from 'dfx-bootstrap-icons';
   template: `
     <button
       type="button"
-      class="btn mt-1"
+      class="btn mt-1 d-inline-flex align-items-center justify-content-between"
       triggers="hover"
       [ngbTooltip]="'HOME_BILL_BLUR_TOGGLE_DESCRIPTION' | transloco"
       (click)="blurSetting.setBlur(!blurSetting.isBlurred())"
