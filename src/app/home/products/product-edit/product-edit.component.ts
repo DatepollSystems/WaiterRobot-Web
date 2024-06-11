@@ -7,6 +7,7 @@ import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continu
 import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
 import {injectContinuousCreation, injectOnDelete} from '@home-shared/form/edit';
+import {AppSoldOutPipe} from '@home-shared/pipes/app-sold-out.pipe';
 import {injectOnSubmit} from '@shared/form';
 import {GetProductMaxResponse} from '@shared/waiterrobot-backend';
 
@@ -26,7 +27,10 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
     @if (entity(); as entity) {
       <div class="d-flex flex-column gap-2">
         <h1 *isCreating="entity">{{ 'HOME_PROD_ADD' | transloco }}</h1>
-        <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | transloco }} {{ entity.name }}</h1>
+        <div *isEditingAndNotDeleted="entity" class="d-flex gap-3 align-items-center">
+          <h1>{{ 'EDIT_2' | transloco }} {{ entity.name }}</h1>
+          <span class="fs-4 mb-1">{{entity.soldOut | soldOut}}</span>
+        </div>
         <h1 *isEditingAndDeleted="entity">{{ entity.name }} {{ 'DELETED' | transloco }}</h1>
 
         <scrollable-toolbar>
@@ -93,7 +97,7 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
   selector: 'app-product-edit',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [RouterLink, AppEntityEditModule, AppProductEditFormComponent, AppContinuesCreationSwitchComponent, AppDeletedDirectives],
+  imports: [RouterLink, AppEntityEditModule, AppProductEditFormComponent, AppContinuesCreationSwitchComponent, AppDeletedDirectives, AppSoldOutPipe]
 })
 export class ProductEditComponent extends AbstractModelEditComponent<GetProductMaxResponse> {
   onDelete = injectOnDelete((it: number) => this.productsService.delete$(it).subscribe());
