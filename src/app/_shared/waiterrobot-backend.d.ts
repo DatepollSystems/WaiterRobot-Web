@@ -964,7 +964,7 @@ export interface EntityOrderDto {
    * @format int32
    * @min 0
    */
-  order: number;
+  order?: number;
 }
 
 export interface GetTableWithGroupResponse {

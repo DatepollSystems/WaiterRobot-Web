@@ -7,7 +7,7 @@ import {Observable} from 'rxjs';
 
 interface EntityOrderDto<ID> {
   entityId: ID;
-  order: number;
+  order?: number;
 }
 
 export function injectTableOrder<EntityType extends IHasID<EntityType['id']>>({
@@ -49,10 +49,15 @@ export function injectTableOrder<EntityType extends IHasID<EntityType['id']>>({
     });
   };
 
+  const resetOrder = () => {
+    order$(dataSource().data.map((it) => ({entityId: it.id, order: undefined}))).subscribe();
+  };
+
   return {
     isOrdering: isOrdering.asReadonly(),
     setIsOrdering,
     drop,
+    resetOrder,
     orderDataSource: orderDataSource.asReadonly(),
   };
 }
