@@ -9,7 +9,7 @@ import {BtnWaiterCreateQrCodeComponent} from '@home-shared/components/button/app
 import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
 import {mapName} from '@home-shared/name-map';
 
-import {NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownAnchor, NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
@@ -18,9 +18,8 @@ import {n_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe, StopPropagationDirective} from 'dfx-helper';
-import {filterNil} from 'ngxtension/filter-nil';
 import {injectParams} from 'ngxtension/inject-params';
-import {filter, switchMap, tap} from 'rxjs';
+import {of, switchMap, tap} from 'rxjs';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {AppActivatedPipe} from '../_shared/pipes/app-activated.pipe';
 import {MobileLinkService} from '../_shared/services/mobile-link.service';
@@ -29,12 +28,13 @@ import {EventsService} from '../events/_services/events.service';
 import {OrganisationWaitersService} from './_services/organisation-waiters.service';
 import {WaitersService} from './_services/waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
+import {SelectedEventService} from '../events/_services/selected-event.service';
 
 @Component({
   template: `
     <div class="d-flex flex-column gap-3">
       <scrollable-toolbar>
-        <a routerLink="../waiter/create" class="btn btn-sm btn-success" [queryParams]="{event: activeId()}">
+        <a routerLink="../waiter/create" class="btn btn-sm btn-success" [queryParams]="{event: event()?.id ?? selectedEvent()?.id ?? ''}">
           <bi name="plus-circle" />
           {{ 'HOME_WAITERS_NAV_ORGANISATION' | transloco }} {{ 'ADD_3' | transloco | lowercase }}</a
         >
@@ -51,7 +51,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
           </button>
         </div>
 
-        @if (activeId() !== 'all' && event(); as event) {
+        @if (event() ?? selectedEvent(); as event) {
           <app-waiter-create-qrcode-btn [token]="event.waiterCreateToken" />
         }
       </scrollable-toolbar>
@@ -123,16 +123,17 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
                 <span class="visually-hidden">{{ 'ACTIONS' | transloco }}</span>
               </th>
               <td *ngbCellDef="let waiter" ngb-cell>
+                <button
+                  stopPropagation
+                  type="button"
+                  class="btn btn-sm btn-outline-primary me-2 text-body"
+                  placement="left"
+                  [ngbTooltip]="'HOME_WAITERS_EDIT_QR_CODE' | transloco"
+                  (mousedown)="openLoginQRCode(waiter.signInToken)"
+                >
+                  <bi name="qr-code" />
+                </button>
                 <app-action-dropdown>
-                  <button
-                    type="button"
-                    class="d-flex gap-2 align-items-center"
-                    ngbDropdownItem
-                    (mousedown)="openLoginQRCode(waiter.signInToken)"
-                  >
-                    <bi name="qr-code" />
-                    {{ 'HOME_WAITERS_EDIT_QR_CODE' | transloco }}
-                  </button>
                   <a
                     type="button"
                     class="d-flex gap-2 align-items-center"
@@ -212,6 +213,7 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
     LowerCasePipe,
     BtnWaiterCreateQrCodeComponent,
     BlankslateComponent,
+    NgbDropdownAnchor,
   ],
 })
 export class WaitersComponent {
@@ -224,13 +226,9 @@ export class WaitersComponent {
   activeId = injectParams('id');
   #activeId$ = toObservable(this.activeId);
 
-  event = toSignal(
-    this.#activeId$.pipe(
-      filterNil(),
-      filter((it) => it !== 'all'),
-      switchMap((id) => this.#eventsService.getSingle$(n_from(id))),
-    ),
-  );
+  selectedEvent = inject(SelectedEventService).selected;
+
+  event = toSignal(this.#activeId$.pipe(switchMap((id) => (id !== 'all' ? this.#eventsService.getSingle$(n_from(id)) : of(undefined)))));
 
   sort = viewChild(NgbSort);
   filter = injectTableFilter();

@@ -8,7 +8,7 @@ import {injectIdParam$} from '@home-shared/services/injectActivatedRouteIdParam'
 import {injectOnSubmit} from '@shared/form';
 import {GetUserResponse, IdAndNameResponse} from '@shared/waiterrobot-backend';
 
-import {Observable, switchMap} from 'rxjs';
+import {filter, Observable, switchMap} from 'rxjs';
 import {OrganisationsUsersService} from '../../../organisations/_services/organisations-users.service';
 import {OrganisationsService} from '../../../organisations/_services/organisations.service';
 import {UsersOrganisationsService} from '../services/users-organisations.service';
@@ -63,9 +63,15 @@ export class UserEditComponent extends AbstractModelEditComponent<GetUserRespons
   usersOrganisationsService = inject(UsersOrganisationsService);
   organisationsUsersService = inject(OrganisationsUsersService);
 
-  selectedOrganisations = toSignal(injectIdParam$().pipe(switchMap((id) => this.usersOrganisationsService.getByUserId$(id))), {
-    initialValue: [],
-  });
+  selectedOrganisations = toSignal(
+    injectIdParam$().pipe(
+      filter((id) => !Number.isNaN(id)),
+      switchMap((id) => this.usersOrganisationsService.getByUserId$(id)),
+    ),
+    {
+      initialValue: [],
+    },
+  );
 
   organisations = toSignal(inject(OrganisationsService).getAll$(), {initialValue: []});
 
@@ -77,7 +83,6 @@ export class UserEditComponent extends AbstractModelEditComponent<GetUserRespons
     }
 
     const selectedOrganisations = this.selectedOrganisations().slice();
-    console.log(organisations);
     const todos: Observable<unknown>[] = [];
     for (const organisation of organisations) {
       let contains = false;

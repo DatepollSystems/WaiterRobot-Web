@@ -73,20 +73,22 @@ import {CreateUserDto, GetOrganisationResponse, GetUserResponse, IdAndNameRespon
           }
         </div>
 
-        <div class="form-group col">
-          <label for="orgSelect">{{ 'NAV_ORGANISATIONS' | transloco }}</label>
-          <ng-select
-            bindLabel="name"
-            bindValue="id"
-            labelForId="orgSelect"
-            clearAllText="Clear"
-            formControlName="selectedOrganisations"
-            [items]="organisations"
-            [multiple]="true"
-            [placeholder]="'HOME_USERS_ORGS_INPUT_PLACEHOLDER' | transloco"
-            (change)="userOrganisations.emit($event)"
-          />
-        </div>
+        @if (!isCreating()) {
+          <div class="form-group col">
+            <label for="orgSelect">{{ 'NAV_ORGANISATIONS' | transloco }}</label>
+            <ng-select
+              bindLabel="name"
+              bindValue="id"
+              labelForId="orgSelect"
+              clearAllText="Clear"
+              formControlName="selectedOrganisations"
+              [items]="organisations"
+              [multiple]="true"
+              [placeholder]="'HOME_USERS_ORGS_INPUT_PLACEHOLDER' | transloco"
+              (change)="userOrganisations.emit($event)"
+            />
+          </div>
+        }
       </div>
 
       <div class="form-check">
