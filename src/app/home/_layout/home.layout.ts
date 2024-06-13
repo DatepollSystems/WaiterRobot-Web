@@ -35,7 +35,7 @@ import {NetworkOfflineWarningComponent} from './_components/network-offline-warn
 
           <app-active-system-notifications class="d-block d-xl-none" disableIgnore />
 
-          <main class="px-1 px-md-2 pb-4 col-12" [class.container-xxxl]="!isFullScreen()" [class.px-md-2]="isFullScreen()">
+          <main class="px-md-2 col-12 px-1 pb-4" [class.container-xxxl]="!isFullScreen()">
             <app-network-offline-warning />
 
             <app-maintenance-warning />
@@ -53,9 +53,9 @@ import {NetworkOfflineWarningComponent} from './_components/network-offline-warn
     </div>
   `,
   styles: `
-    @media screen and (min-width: 1201px) {
+    @media screen and (min-width: 1200px) {
       .main-container {
-        margin-left: 300px;
+        padding-left: 300px;
         display: flex;
         flex-direction: column;
         align-items: center;

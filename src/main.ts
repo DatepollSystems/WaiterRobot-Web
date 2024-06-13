@@ -7,10 +7,10 @@ import {bootstrapApplication} from '@angular/platform-browser';
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {provideRouter, TitleStrategy, withPreloading} from '@angular/router';
 import {NgbDateTimeAdapter} from '@home-shared/components/datetime-picker/datetime-adapter';
+import {provideTransloco} from '@jsverse/transloco';
 import {MicroSentryModule} from '@micro-sentry/angular';
 
 import {NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
-import {provideTransloco} from '@jsverse/transloco';
 
 import {CustomTitleStrategy} from '@shared/custom-title.strategy';
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';
@@ -40,7 +40,7 @@ import {TranslocoHttpLoader} from './transloco-loader';
 bootstrapApplication(AppComponent, {
   providers: [
     provideDfxHelper(
-      withMobileBreakpoint(992),
+      withMobileBreakpoint(1200),
       withBaseUrlInterceptor(EnvironmentHelper.getAPIUrl(), ['assets/i18n', 'assets/licenses.json', 'share.dafnik.me']),
       withLoggingInterceptor([
         'json',

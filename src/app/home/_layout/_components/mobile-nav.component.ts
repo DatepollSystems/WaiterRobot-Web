@@ -20,6 +20,7 @@ import {NavComponent} from './nav.component';
     /* Opening offcanvas as a component requires this style in order to scroll */
     :host {
       height: 100vh;
+      min-height: 100%;
       display: flex;
       flex-direction: column;
     }

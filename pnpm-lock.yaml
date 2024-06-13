@@ -192,9 +192,6 @@ importers:
       prettier:
         specifier: 3.3.1
         version: 3.3.1
-      purgecss:
-        specifier: 6.0.0
-        version: 6.0.0
       source-map-explorer:
         specifier: 2.5.3
         version: 2.5.3
@@ -5056,10 +5053,6 @@ packages:
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
-
-  purgecss@6.0.0:
-    resolution: {integrity: sha512-s3EBxg5RSWmpqd0KGzNqPiaBbWDz1/As+2MzoYVGMqgDqRTLBhJW6sywfTBek7OwNfoS/6pS0xdtvChNhFj2cw==}
-    hasBin: true
 
   qjobs@1.2.0:
     resolution: {integrity: sha512-8YOJEHtxpySA3fFDyCRxA+UUV+fA+rTWnuWvylOK/NCjhY+b4ocCtmu8TtsWb+mYeU+GCHf/S66KZF/AsteKHg==}
@@ -11622,13 +11615,6 @@ snapshots:
     optional: true
 
   punycode@2.3.1: {}
-
-  purgecss@6.0.0:
-    dependencies:
-      commander: 12.1.0
-      glob: 10.4.1
-      postcss: 8.4.38
-      postcss-selector-parser: 6.1.0
 
   qjobs@1.2.0: {}
 

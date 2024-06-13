@@ -38,10 +38,22 @@ td:has(> div.form-check) {
 }
 
 /* Horizontal scroll for tabs */
+.nav-x-scroll {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
 .nav-x-scroll .nav-tabs {
   overflow-x: auto;
   overflow-y: hidden;
   flex-wrap: nowrap;
+
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.nav-x-scroll .nav-tabs::-webkit-scrollbar {
+  display: none;
 }
 .nav-x-scroll .nav-tabs .nav-link {
   white-space: nowrap;
@@ -95,19 +107,6 @@ a:hover.badge {
 
 .btnSpinner:before {
   animation: btnSpinner 0.8s linear infinite !important;
-}
-
-.navbar > .my-container {
-  display: flex;
-  flex-wrap: inherit;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.my-container {
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
 }
 
 @media (min-width: 1800px) {
