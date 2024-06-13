@@ -2,8 +2,8 @@ import {NgOptimizedImage} from '@angular/common';
 import {Component, computed, inject} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {MyUserService} from '@home-shared/services/user/my-user.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxCutPipe} from 'dfx-helper';
@@ -136,7 +136,7 @@ import {SwitcherModalComponent} from './switcher.component';
           [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/orders/all'"
         >
           <div class="d-inline-flex align-items-center gap-2 ">
-            <bi name="list-check" />
+            <bi name="stack" />
             {{ 'NAV_ORDERS' | transloco }}
           </div>
         </a>
