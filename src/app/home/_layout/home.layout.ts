@@ -10,7 +10,7 @@ import {filter, pairwise} from 'rxjs';
 import {
   ActiveSystemNotificationsComponent,
   ActiveSystemNotificationsDesktopComponent,
-  ActiveSystemNotificationsMobileToggleComponent,
+  ActiveSystemNotificationsMobileToggleComponent
 } from './_components/active-system-notifications.component';
 import {MaintenanceWarningComponent} from './_components/maintenance-warning.component';
 import {MobileNavComponent} from './_components/mobile-nav.component';
@@ -35,7 +35,7 @@ import {NetworkOfflineWarningComponent} from './_components/network-offline-warn
 
           <app-active-system-notifications class="d-block d-xl-none" disableIgnore />
 
-          <main class="px-md-2 col-12 px-1 pb-4" [class.container-xxxl]="!isFullScreen()">
+          <main class="px-lg-3 col-12 px-1 pb-4" [class.container-xxxl]="!isFullScreen()">
             <app-network-offline-warning />
 
             <app-maintenance-warning />
