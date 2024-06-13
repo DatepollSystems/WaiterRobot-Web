@@ -4,9 +4,9 @@ import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AppDatetimeInputComponent} from '@home-shared/components/datetime-picker/datetime-picker.component';
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
 import {injectIsValid} from '@shared/form';
 import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocationDto} from '@shared/waiterrobot-backend';
 
@@ -153,7 +153,7 @@ export class AppEventEditFormComponent extends AbstractModelEditFormComponent<Cr
   _event?: GetEventOrLocationResponse;
 
   @Input()
-  set selectedOrganisationId(id: number | undefined) {
+  set selectedOrganisationId(id: number | null) {
     if (id) {
       this.lumber.log('selectedOrganisation', 'set selected org', id);
       this.form.controls.organisationId.setValue(id);

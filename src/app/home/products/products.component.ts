@@ -5,6 +5,7 @@ import {toObservable} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
+import {AppResetOrderButtonComponent} from '@home-shared/components/button/app-reset-order-button.component';
 import {AppOrderModeSwitchComponent} from '@home-shared/form/app-order-mode-switch.component';
 import {
   addGroupIfMissing,
@@ -14,7 +15,7 @@ import {
   injectTableOrder,
   injectTableSelect,
   listOrderStyles,
-  removeGroup
+  removeGroup,
 } from '@home-shared/list';
 import {mapName} from '@home-shared/name-map';
 import {TranslocoPipe} from '@jsverse/transloco';
@@ -40,7 +41,7 @@ import {ProductsService} from './_services/products.service';
     <div class="d-flex flex-column gap-3">
       <scrollable-toolbar>
         <div>
-          <a routerLink="../p/create" class="btn btn-sm btn-success">
+          <a routerLink="../p/create" class="btn btn-sm btn-success" [queryParams]="{group: activeId() !== 'all' ? activeId() : null}">
             <bi name="plus-circle" />
             {{ 'ADD_2' | transloco }}</a
           >
@@ -83,9 +84,13 @@ import {ProductsService} from './_services/products.service';
             {{ 'HOME_PROD_GROUP' | transloco }} {{ 'EDIT' | transloco | lowercase }}</a
           >
 
-          <div class="d-flex align-items-center">
-            <app-order-mode-switch [orderMode]="order.isOrdering()" (orderModeChange)="order.setIsOrdering($event)" />
-          </div>
+          <app-order-mode-switch [orderMode]="order.isOrdering()" (orderModeChange)="order.setIsOrdering($event)" />
+
+          <app-reset-order-button
+            [isOrdering]="order.isOrdering()"
+            [disabled]="!order.hasCustomPositionSet()"
+            (resetOrder)="order.resetOrder()"
+          />
         }
       </scrollable-toolbar>
 
@@ -139,8 +144,7 @@ import {ProductsService} from './_services/products.service';
                   <button type="button" class="btn btn-sm btn-outline-primary text-body-emphasis" cdkDragHandle>
                     <bi name="grip-vertical" />
                   </button>
-                }
-                @if (!order.isOrdering()) {
+                } @else {
                   <div class="form-check">
                     <input
                       class="form-check-input"
@@ -161,6 +165,11 @@ import {ProductsService} from './_services/products.service';
                   {{ product.group.name }}
                 </app-text-with-color-indicator>
               </td>
+            </ng-container>
+
+            <ng-container ngbColumnDef="position">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header style="width: 20px">{{ 'POSITION' | transloco }}</th>
+              <td *ngbCellDef="let product" ngb-cell>{{ product.position ?? '' }}</td>
             </ng-container>
 
             <ng-container ngbColumnDef="name">
@@ -228,10 +237,10 @@ import {ProductsService} from './_services/products.service';
                   <div class="dropdown-divider"></div>
                   <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem (click)="toggleProductSoldOut(product)">
                     @if (product.soldOut) {
-                      {{false | soldOut}}
+                      {{ false | soldOut }}
                       {{ 'ACTIVATE' | transloco }}
                     } @else {
-                      {{true | soldOut}}
+                      {{ true | soldOut }}
                       {{ 'DEACTIVATE' | transloco }}
                     }
                   </a>
@@ -252,9 +261,9 @@ import {ProductsService} from './_services/products.service';
               </td>
             </ng-container>
 
-            <tr *ngbHeaderRowDef="selection.columnsToDisplay()" ngb-header-row></tr>
+            <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
             <tr
-              *ngbRowDef="let product; columns: selection.columnsToDisplay()"
+              *ngbRowDef="let product; columns: table.columnsToDisplay()"
               ngb-row
               cdkDrag
               [routerLink]="'../p/' + product.id"
@@ -274,26 +283,27 @@ import {ProductsService} from './_services/products.service';
   imports: [
     ReactiveFormsModule,
     RouterLink,
+    LowerCasePipe,
+    CdkDropList,
+    CdkDrag,
+    CdkDragHandle,
     DfxTableModule,
     DfxSortModule,
     DfxCurrencyCentPipe,
     DfxArrayPluck,
     DfxImplodePipe,
-    ScrollableToolbarComponent,
     TranslocoPipe,
     BiComponent,
     NgbTooltip,
+    NgbDropdownModule,
+    ScrollableToolbarComponent,
     AppSoldOutPipe,
     AppTextWithColorIndicatorComponent,
     AppProgressBarComponent,
     ActionDropdownComponent,
     StopPropagationDirective,
-    LowerCasePipe,
     AppOrderModeSwitchComponent,
-    CdkDropList,
-    CdkDrag,
-    CdkDragHandle,
-    NgbDropdownModule,
+    AppResetOrderButtonComponent,
   ],
 })
 export class ProductsComponent {
@@ -304,12 +314,10 @@ export class ProductsComponent {
   activeId = injectParams('id');
   #activeId$ = toObservable(this.activeId);
 
-  columnsToDisplay = signal(['group', 'name', 'price', 'soldOut', 'initialStock', 'printer', 'allergens', 'actions']);
-
   sort = viewChild(NgbSort);
   filter = injectTableFilter();
   table = injectTable({
-    columnsToDisplay: this.columnsToDisplay,
+    columnsToDisplay: ['group', 'position', 'name', 'price', 'soldOut', 'initialStock', 'printer', 'allergens', 'actions'],
     fetchData: (setLoading) =>
       this.#activeId$.pipe(
         switchMap((activeId) => {
@@ -318,21 +326,18 @@ export class ProductsComponent {
           this.order.setIsOrdering(false);
 
           if (activeId === 'all') {
-            this.sort()?.sort({id: 'group', start: 'desc', disableClear: false});
-            this.columnsToDisplay.update((it) => addGroupIfMissing(it));
+            this.table.columnsToDisplay.update((it) => addGroupIfMissing(it));
             return this.#productsService.getAll$();
           }
-          if (this.sort()?.active !== 'name') {
-            this.sort()?.sort({id: 'name', start: 'desc', disableClear: false});
-          }
-          this.columnsToDisplay.update((it) => removeGroup(it));
+          this.table.columnsToDisplay.update((it) => removeGroup(it));
           return this.#productsService.getByParent$(n_from(activeId));
         }),
       ),
     sort: this.sort,
     filterValue$: this.filter.value$,
     sortingDataAccessors: {
-      group: (it) => it.group.name,
+      name: (it) => it.name.toLocaleLowerCase(),
+      group: (it) => it.group.name.toLocaleLowerCase(),
       printer: (it) => it.printer.name,
     },
   });
@@ -351,12 +356,10 @@ export class ProductsComponent {
   order = injectTableOrder({
     dataSource: this.table.dataSource,
     order$: (it) => this.#productsService.order$(n_from(this.activeId()), it),
+    getPosition: (it) => it.position,
     onOrderingChange: (isOrdering) => {
       if (isOrdering) {
         this.selection.clear();
-        this.sort()?.sort({id: '', start: '', disableClear: false});
-      } else if (this.sort()?.active !== 'name') {
-        this.sort()?.sort({id: 'name', start: 'desc', disableClear: false});
       }
     },
   });
@@ -364,12 +367,16 @@ export class ProductsComponent {
   toggleProductSoldOut(dto: GetProductMaxResponse): void {
     this.table.isLoading.set(true);
     this.setSoldOutLoading.set(true);
-    this.#productsService.toggleSoldOut$(dto).subscribe(() => { this.setSoldOutLoading.set(false); });
+    this.#productsService.toggleSoldOut$(dto).subscribe(() => {
+      this.setSoldOutLoading.set(false);
+    });
   }
 
   toggleProductsSoldOut(soldOut: boolean) {
     this.table.isLoading.set(true);
     this.setSoldOutLoading.set(true);
-    forkJoin(this.selection.selection().selected.map((it) => this.#productsService.toggleSoldOut$(it, soldOut))).subscribe(() => { this.setSoldOutLoading.set(false); });
+    forkJoin(this.selection.selection().selected.map((it) => this.#productsService.toggleSoldOut$(it, soldOut))).subscribe(() => {
+      this.setSoldOutLoading.set(false);
+    });
   }
 }

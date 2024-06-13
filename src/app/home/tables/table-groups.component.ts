@@ -3,6 +3,7 @@ import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/co
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
+import {AppResetOrderButtonComponent} from '@home-shared/components/button/app-reset-order-button.component';
 
 import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
@@ -10,8 +11,8 @@ import {AppOrderModeSwitchComponent} from '@home-shared/form/app-order-mode-swit
 import {injectTable, injectTableDelete, injectTableFilter, injectTableOrder, injectTableSelect} from '@home-shared/list';
 import {listOrderStyles} from '@home-shared/list/list-order-styles';
 import {mapName} from '@home-shared/name-map';
-import {NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
@@ -43,9 +44,14 @@ import {TableGroupsService} from './_services/table-groups.service';
             {{ 'DELETE' | transloco }}
           </button>
         </div>
-        <div class="d-flex align-items-center">
-          <app-order-mode-switch [orderMode]="order.isOrdering()" (orderModeChange)="order.setIsOrdering($event)" />
-        </div>
+
+        <app-order-mode-switch [orderMode]="order.isOrdering()" (orderModeChange)="order.setIsOrdering($event)" />
+
+        <app-reset-order-button
+          [isOrdering]="order.isOrdering()"
+          [disabled]="!order.hasCustomPositionSet()"
+          (resetOrder)="order.resetOrder()"
+        />
       </scrollable-toolbar>
 
       <form>
@@ -70,8 +76,6 @@ import {TableGroupsService} from './_services/table-groups.service';
           <table
             ngb-table
             ngb-sort
-            ngbSortActive="name"
-            ngbSortDirection="asc"
             cdkDropList
             cdkDropListLockAxis="y"
             [hover]="true"
@@ -82,7 +86,7 @@ import {TableGroupsService} from './_services/table-groups.service';
             (cdkDropListDropped)="order.drop($event)"
           >
             <ng-container ngbColumnDef="select">
-              <th *ngbHeaderCellDef ngb-header-cell>
+              <th *ngbHeaderCellDef ngb-header-cell style="width: 25px">
                 @if (!order.isOrdering()) {
                   <div class="form-check">
                     <input
@@ -100,8 +104,7 @@ import {TableGroupsService} from './_services/table-groups.service';
                   <button type="button" class="btn btn-sm btn-outline-primary text-body-emphasis" cdkDragHandle>
                     <bi name="grip-vertical" />
                   </button>
-                }
-                @if (!order.isOrdering()) {
+                } @else {
                   <div class="form-check">
                     <input
                       class="form-check-input"
@@ -112,6 +115,13 @@ import {TableGroupsService} from './_services/table-groups.service';
                     />
                   </div>
                 }
+              </td>
+            </ng-container>
+
+            <ng-container ngbColumnDef="position">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header style="width: 20px">{{ 'POSITION' | transloco }}</th>
+              <td *ngbCellDef="let tableGroup" ngb-cell>
+                {{ tableGroup.position ?? '' }}
               </td>
             </ng-container>
 
@@ -134,7 +144,7 @@ import {TableGroupsService} from './_services/table-groups.service';
                     type="button"
                     class="d-flex gap-2 align-items-center"
                     ngbDropdownItem
-                    routerLink="../../../orders"
+                    routerLink="../../orders"
                     [queryParams]="{tableGroupIds: tableGroup.id}"
                   >
                     <bi name="stack" />
@@ -144,7 +154,7 @@ import {TableGroupsService} from './_services/table-groups.service';
                     type="button"
                     class="d-flex gap-2 align-items-center"
                     ngbDropdownItem
-                    routerLink="../../../bills"
+                    routerLink="../../bills"
                     [queryParams]="{tableGroupIds: tableGroup.id}"
                   >
                     <bi name="cash-coin" />
@@ -168,9 +178,9 @@ import {TableGroupsService} from './_services/table-groups.service';
               </td>
             </ng-container>
 
-            <tr *ngbHeaderRowDef="selection.columnsToDisplay()" ngb-header-row></tr>
+            <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
             <tr
-              *ngbRowDef="let tableGroup; columns: selection.columnsToDisplay()"
+              *ngbRowDef="let tableGroup; columns: table.columnsToDisplay()"
               ngb-row
               cdkDrag
               [cdkDragData]="tableGroup"
@@ -194,17 +204,18 @@ import {TableGroupsService} from './_services/table-groups.service';
     CdkDrag,
     CdkDropList,
     CdkDragHandle,
+    NgbDropdownItem,
     TranslocoPipe,
     DfxTableModule,
     DfxSortModule,
-    ScrollableToolbarComponent,
     BiComponent,
+    ScrollableToolbarComponent,
     AppTextWithColorIndicatorComponent,
     AppOrderModeSwitchComponent,
     AppProgressBarComponent,
     ActionDropdownComponent,
-    NgbDropdownItem,
     StopPropagationDirective,
+    AppResetOrderButtonComponent,
   ],
 })
 export class TableGroupsComponent {
@@ -214,9 +225,12 @@ export class TableGroupsComponent {
   filter = injectTableFilter();
   table = injectTable({
     sort: this.sort,
-    columnsToDisplay: ['name', 'actions'],
-    filterValue$: this.filter.value$,
+    columnsToDisplay: ['position', 'name', 'actions'],
     fetchData: () => this.#tableGroupsService.getAll$(),
+    filterValue$: this.filter.value$,
+    sortingDataAccessors: {
+      name: (it) => it.name.toLocaleLowerCase(),
+    },
   });
 
   selection = injectTableSelect({
@@ -233,12 +247,10 @@ export class TableGroupsComponent {
   order = injectTableOrder({
     dataSource: this.table.dataSource,
     order$: (it) => this.#tableGroupsService.order$(it),
+    getPosition: (it) => it.position,
     onOrderingChange: (isOrdering) => {
       if (isOrdering) {
         this.selection.clear();
-        this.sort()?.sort({id: '', start: 'asc', disableClear: true});
-      } else {
-        this.sort()?.sort({id: 'name', start: 'desc', disableClear: false});
       }
     },
   });

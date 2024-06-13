@@ -1,5 +1,5 @@
 import {SelectionModel} from '@angular/cdk/collections';
-import {computed, signal, Signal} from '@angular/core';
+import {computed, signal, Signal, WritableSignal} from '@angular/core';
 import {IHasID} from 'dfts-helper';
 import {NgbTableDataSource} from 'dfx-bootstrap-table';
 
@@ -13,7 +13,7 @@ export function injectTableSelect<EntityType extends IHasID<EntityType['id']>>({
   selectableFilter,
 }: {
   dataSource: Signal<NgbTableDataSource<EntityType>>;
-  columnsToDisplay: Signal<string[]>;
+  columnsToDisplay: WritableSignal<string[]>;
   selectableFilter?: (it: EntityType) => boolean;
 }) {
   const selection = signal(getSelectionModel<EntityType>());
@@ -37,7 +37,7 @@ export function injectTableSelect<EntityType extends IHasID<EntityType['id']>>({
     return numSelected === numRows;
   });
 
-  const _columnsToDisplay = computed(() => ['select'].concat(columnsToDisplay()));
+  columnsToDisplay.update((it) => ['select', ...it]);
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   const toggleAll = (): void => {
@@ -64,7 +64,6 @@ export function injectTableSelect<EntityType extends IHasID<EntityType['id']>>({
   };
 
   return {
-    columnsToDisplay: _columnsToDisplay,
     toggleAll,
     toggle,
     isSelected: (it: EntityType) => selection().isSelected(it),

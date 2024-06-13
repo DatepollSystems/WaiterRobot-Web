@@ -7,9 +7,9 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
-import {NgSelectModule} from '@ng-select/ng-select';
-
 import {TranslocoPipe} from '@jsverse/transloco';
+
+import {NgSelectModule} from '@ng-select/ng-select';
 import {injectIsValid} from '@shared/form';
 import {CreateUserDto, GetOrganisationResponse, GetUserResponse, IdAndNameResponse, UpdateUserDto} from '@shared/waiterrobot-backend';
 
@@ -165,6 +165,10 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Create
       value.password = undefined;
     }
 
+    if (value.password === '') {
+      value.password = undefined;
+    }
+
     return super.overrideRawValue(value);
   };
 
@@ -210,7 +214,7 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Create
   set user(it: GetUserResponse | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
-      this.form.controls.password.setValidators([Validators.required, Validators.minLength(6)]);
+      this.form.controls.password.setValidators([Validators.minLength(6)]);
       return;
     }
 

@@ -1,13 +1,13 @@
-import {AsyncPipe, DatePipe} from '@angular/common';
-import {AfterViewInit, booleanAttribute, ChangeDetectionStrategy, Component, Input, ViewChild} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, input, Input, viewChild} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
-
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {injectTable} from '@home-shared/list';
 import {TranslocoPipe} from '@jsverse/transloco';
 
-import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
-import {Subject} from 'rxjs';
+import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
+
 import {GetImplodedOrderProductResponse} from 'src/app/_shared/waiterrobot-backend';
 
 import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
@@ -15,13 +15,13 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
 @Component({
   template: `
     <div class="table-responsive">
-      <table ngb-table ngb-sort ngbSortActive="product" ngbSortDirection="asc" [hover]="true" [dataSource]="(dataSource$ | async) ?? []">
+      <table ngb-table ngb-sort ngbSortActive="product" ngbSortDirection="asc" [hover]="true" [dataSource]="table.dataSource()">
         <ng-container ngbColumnDef="product">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD' | transloco }}</th>
           <td *ngbCellDef="let order" ngb-cell>
             <div class="d-flex align-items-center gap-2">
               <span class="badge rounded-pill text-bg-info" [ngbTooltip]="'AMOUNT' | transloco">{{ order.amount }}x</span>
-              <a [routerLink]="'../../products/' + order.product.id">
+              <a [routerLink]="'../../products/p/' + order.product.id">
                 {{ order.product.name }}
               </a>
             </div>
@@ -55,44 +55,38 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
           </td>
         </ng-container>
 
-        <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-        <tr *ngbRowDef="let order; columns: columnsToDisplay" ngb-row></tr>
+        <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
+        <tr *ngbRowDef="let order; columns: table.columnsToDisplay()" ngb-row></tr>
       </table>
     </div>
   `,
   standalone: true,
   selector: 'app-order-products-list-table',
-  imports: [DfxSortModule, DfxTableModule, TranslocoPipe, AppOrderProductStateBadgeComponent, AsyncPipe, DatePipe, RouterLink, NgbTooltip],
+  imports: [DfxSortModule, DfxTableModule, TranslocoPipe, AppOrderProductStateBadgeComponent, RouterLink, NgbTooltip],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppOrderProductsListTableComponent implements AfterViewInit {
-  @Input({required: true}) orderProducts!: GetImplodedOrderProductResponse[];
+export class AppOrderProductsListTableComponent {
+  orderProducts = input.required<GetImplodedOrderProductResponse[]>();
+  orderProducts$ = toObservable(this.orderProducts);
 
-  @ViewChild(NgbSort) sort?: NgbSort;
-  columnsToDisplay = ['product', 'note', 'printState', 'printedBy'];
+  sort = viewChild(NgbSort);
+  table = injectTable({
+    columnsToDisplay: ['product', 'note', 'printState', 'printedBy'],
+    fetchData: () => this.orderProducts$,
+    sort: this.sort,
+    sortingDataAccessors: {
+      product: (it) => it.product.name,
+      printedBy: (it) => it.printedBy.name,
+    },
+  });
 
   @Input({transform: booleanAttribute})
   set hidePrintedBy(it: boolean) {
     if (it) {
-      this.columnsToDisplay.pop();
+      this.table.columnsToDisplay.update((columns) => {
+        columns.pop();
+        return [...columns];
+      });
     }
-  }
-
-  dataSource$ = new Subject<NgbTableDataSource<GetImplodedOrderProductResponse>>();
-
-  ngAfterViewInit(): void {
-    const dataSource = new NgbTableDataSource<GetImplodedOrderProductResponse>(this.orderProducts);
-    dataSource.sortingDataAccessor = (item, property: string) => {
-      switch (property) {
-        case 'product':
-          return item.product.name;
-        case 'printedBy':
-          return item.printedBy.name;
-        default:
-          return item[property as keyof GetImplodedOrderProductResponse] as string | number;
-      }
-    };
-    dataSource.sort = this.sort;
-    this.dataSource$.next(dataSource);
   }
 }

@@ -8,9 +8,9 @@ import {BlankslateComponent} from '@home-shared/components/blankslate.component'
 import {BtnWaiterCreateQrCodeComponent} from '@home-shared/components/button/app-waiter-create-qr-code-btn.component';
 import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
 import {mapName} from '@home-shared/name-map';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {NgbDropdownAnchor, NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {n_from} from 'dfts-helper';
@@ -25,10 +25,10 @@ import {AppActivatedPipe} from '../_shared/pipes/app-activated.pipe';
 import {MobileLinkService} from '../_shared/services/mobile-link.service';
 import {QrCodeService} from '../_shared/services/qr-code.service';
 import {EventsService} from '../events/_services/events.service';
+import {SelectedEventService} from '../events/_services/selected-event.service';
 import {OrganisationWaitersService} from './_services/organisation-waiters.service';
 import {WaitersService} from './_services/waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
-import {SelectedEventService} from '../events/_services/selected-event.service';
 
 @Component({
   template: `
@@ -172,8 +172,8 @@ import {SelectedEventService} from '../events/_services/selected-event.service';
               </td>
             </ng-container>
 
-            <tr *ngbHeaderRowDef="selection.columnsToDisplay()" ngb-header-row></tr>
-            <tr *ngbRowDef="let waiter; columns: selection.columnsToDisplay()" ngb-row [routerLink]="'../waiter/' + waiter.id"></tr>
+            <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
+            <tr *ngbRowDef="let waiter; columns: table.columnsToDisplay()" ngb-row [routerLink]="'../waiter/' + waiter.id"></tr>
           </table>
         </div>
       }

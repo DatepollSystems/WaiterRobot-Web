@@ -8,8 +8,8 @@ export function removeGroup(columnsToDisplay: string[]): string[] {
 
 export function addGroupIfMissing(columnsToDisplay: string[]): string[] {
   const index = columnsToDisplay.indexOf('group');
-  if (index !== -1) {
-    columnsToDisplay.unshift('group');
+  if (index === -1) {
+    columnsToDisplay.splice(1, 0, 'group');
   }
   return columnsToDisplay;
 }

@@ -8,7 +8,9 @@ import {BiComponent, BiName} from 'dfx-bootstrap-icons';
         @if (icon(); as icon) {
           <bi width="36px" height="36px" [name]="icon" />
         }
-        <h2 class="my-0">{{ header() }}</h2>
+        @if (header(); as header) {
+          <h2 class="my-0">{{ header }}</h2>
+        }
         @if (description(); as description) {
           <span class="text-muted">{{ description }}</span>
         }
@@ -24,6 +26,6 @@ import {BiComponent, BiName} from 'dfx-bootstrap-icons';
 export class BlankslateComponent {
   show = input(true);
   icon = input<BiName>();
-  header = input.required<string>();
+  header = input<string>();
   description = input<string>();
 }

@@ -43,11 +43,11 @@ import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
               }
               @if (notification.starts) {
                 <span
-                  >{{ notification.starts | date: 'dd.MM.YYYY HH:mm' }}
+                  >{{ notification.starts | date: 'dd.MM.YYYY HH:mm' : 'UTC' }}
                   @if (notification.starts && notification.ends) {
                     <span> - </span>
                   }
-                  {{ notification.ends | date: endsFormatting() }}</span
+                  {{ notification.ends | date: endsFormatting() : 'UTC' }}</span
                 >
               }
               @if (notification.starts || notification.ends) {

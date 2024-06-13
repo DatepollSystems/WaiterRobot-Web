@@ -5,9 +5,9 @@ import {RouterLink} from '@angular/router';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
 import {AppActivatedPipe} from '@home-shared/pipes/app-activated.pipe';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
@@ -101,12 +101,12 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
 
             <ng-container ngbColumnDef="starts">
               <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STARTS' | transloco }}</th>
-              <td *ngbCellDef="let it" ngb-cell>{{ it.starts | date: 'dd.MM.YYYY HH:mm' }}</td>
+              <td *ngbCellDef="let it" ngb-cell>{{ it.starts | date: 'dd.MM.YYYY HH:mm' : 'UTC' }}</td>
             </ng-container>
 
             <ng-container ngbColumnDef="ends">
               <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ENDS' | transloco }}</th>
-              <td *ngbCellDef="let it" ngb-cell>{{ it.ends | date: 'dd.MM.YYYY HH:mm' }}</td>
+              <td *ngbCellDef="let it" ngb-cell>{{ it.ends | date: 'dd.MM.YYYY HH:mm' : 'UTC' }}</td>
             </ng-container>
 
             <ng-container ngbColumnDef="active">
@@ -137,8 +137,8 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
               </td>
             </ng-container>
 
-            <tr *ngbHeaderRowDef="selection.columnsToDisplay()" ngb-header-row></tr>
-            <tr *ngbRowDef="let it; columns: selection.columnsToDisplay()" ngb-row [routerLink]="'../' + it.id"></tr>
+            <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
+            <tr *ngbRowDef="let it; columns: table.columnsToDisplay()" ngb-row [routerLink]="'../' + it.id"></tr>
           </table>
         </div>
       }

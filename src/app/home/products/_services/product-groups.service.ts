@@ -33,11 +33,26 @@ export class ProductGroupsService
 
   triggerGet$ = new BehaviorSubject(true);
 
+  #sortByPositionAndName(a: GetProductGroupResponse, b: GetProductGroupResponse) {
+    // Default to a high value if position is undefined
+    const groupPositionA = a.position ?? 100000;
+    const groupPositionB = b.position ?? 100000;
+
+    // First compare by position
+    if (groupPositionA !== groupPositionB) {
+      return groupPositionA - groupPositionB;
+    }
+
+    // If positions are the same or undefined, compare by name
+    const groupNameCompare = a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase());
+    return groupNameCompare;
+  }
+
   getAll$(): Observable<GetProductGroupResponse[]> {
     return this.triggerGet$.pipe(
       switchMap(() => this.selectedEventService.selectedIdNotNull$),
       switchMap((eventId) => this.httpClient.get<GetProductGroupResponse[]>(this.url, {params: {eventId}})),
-      map((it) => it.sort((a, b) => (a.position ?? 100000) - (b.position ?? 100000))),
+      map((it) => it.sort(this.#sortByPositionAndName)),
     );
   }
 

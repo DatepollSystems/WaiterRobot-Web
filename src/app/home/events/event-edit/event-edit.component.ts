@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, numberAttribute} from '@angular/core';
 import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
 import {injectOnDelete} from '@home-shared/form/edit';
@@ -8,7 +8,7 @@ import {injectOnSubmit} from '@shared/form';
 import {GetEventOrLocationResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
+import {injectQueryParams} from 'ngxtension/inject-query-params';
 import {EventsService} from '../_services/events.service';
 import {AppEventEditFormComponent} from './event-edit-form.component';
 
@@ -38,7 +38,7 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
 
         <app-event-edit-form
           #form
-          [selectedOrganisationId]="selectedOrganisationId()!"
+          [selectedOrganisationId]="entity !== 'CREATE' ? entity.organisationId : selectedOrganisationId()"
           [formDisabled]="!myUser()?.isAdmin"
           [event]="entity"
           (submitUpdate)="onSubmit('UPDATE', $event)"
@@ -59,7 +59,7 @@ export class EventEditComponent extends AbstractModelEditComponent<GetEventOrLoc
   onSubmit = injectOnSubmit({entityService: this.eventsService});
 
   myUser = inject(MyUserService).user;
-  selectedOrganisationId = inject(SelectedOrganisationService).selectedId;
+  selectedOrganisationId = injectQueryParams('orgId', {transform: numberAttribute});
 
   constructor(private eventsService: EventsService) {
     super(eventsService);

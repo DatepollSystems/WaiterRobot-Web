@@ -16,7 +16,7 @@ import {StatisticsService} from '../statistics.service';
                 {{ 'PRINT' | transloco }}
               </button>
             </div>
-            <app-blur-toggle/>
+            <app-blur-toggle />
           </scrollable-toolbar>
         </div>
       } @else {

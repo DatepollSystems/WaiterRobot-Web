@@ -29,7 +29,7 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
         <h1 *isCreating="entity">{{ 'HOME_PROD_ADD' | transloco }}</h1>
         <div *isEditingAndNotDeleted="entity" class="d-flex gap-3 align-items-center">
           <h1>{{ 'EDIT_2' | transloco }} {{ entity.name }}</h1>
-          <span class="fs-4 mb-1">{{entity.soldOut | soldOut}}</span>
+          <span class="fs-4 mb-1">{{ entity.soldOut | soldOut }}</span>
         </div>
         <h1 *isEditingAndDeleted="entity">{{ entity.name }} {{ 'DELETED' | transloco }}</h1>
 
@@ -97,7 +97,14 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
   selector: 'app-product-edit',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [RouterLink, AppEntityEditModule, AppProductEditFormComponent, AppContinuesCreationSwitchComponent, AppDeletedDirectives, AppSoldOutPipe]
+  imports: [
+    RouterLink,
+    AppEntityEditModule,
+    AppProductEditFormComponent,
+    AppContinuesCreationSwitchComponent,
+    AppDeletedDirectives,
+    AppSoldOutPipe,
+  ],
 })
 export class ProductEditComponent extends AbstractModelEditComponent<GetProductMaxResponse> {
   onDelete = injectOnDelete((it: number) => this.productsService.delete$(it).subscribe());

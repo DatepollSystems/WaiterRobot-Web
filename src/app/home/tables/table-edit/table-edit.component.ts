@@ -109,6 +109,9 @@ export class TableEditComponent extends AbstractModelEditComponent<GetTableWithG
   continuousCreation = injectContinuousCreation({
     formComponent: this.form,
     continuousUsePropertyNames: ['number', 'groupId', 'seats', 'eventId'],
+    dataTransformers: {
+      number: (it) => Number(it) + 1,
+    },
   });
   onSubmit = injectOnSubmit({
     entityService: this.tablesService,

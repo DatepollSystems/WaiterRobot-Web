@@ -6,8 +6,8 @@ import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.c
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
 import {mapName} from '@home-shared/name-map';
-import {NgbDropdownItem, NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbDropdownItem, NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {loggerOf} from 'dfts-helper';
 
@@ -151,8 +151,8 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
               </td>
             </ng-container>
 
-            <tr *ngbHeaderRowDef="selection.columnsToDisplay()" ngb-header-row></tr>
-            <tr *ngbRowDef="let printer; columns: selection.columnsToDisplay()" ngb-row [routerLink]="'../' + printer.id"></tr>
+            <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
+            <tr *ngbRowDef="let printer; columns: table.columnsToDisplay()" ngb-row [routerLink]="'../' + printer.id"></tr>
           </table>
         </div>
       }

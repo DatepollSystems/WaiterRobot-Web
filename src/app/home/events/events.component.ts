@@ -6,9 +6,9 @@ import {RouterLink} from '@angular/router';
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
 import {mapName} from '@home-shared/name-map';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {n_from} from 'dfts-helper';
@@ -26,7 +26,7 @@ import {EventsService} from './_services/events.service';
     <div class="d-flex flex-column gap-3">
       <scrollable-toolbar>
         <div>
-          <a routerLink="../create" class="btn btn-sm btn-success">
+          <a routerLink="../e/create" class="btn btn-sm btn-success" [queryParams]="{orgId: activeId()}">
             <bi name="plus-circle" />
             {{ 'ADD_2' | transloco }}</a
           >
@@ -128,7 +128,7 @@ import {EventsService} from './_services/events.service';
                     {{ 'COPY' | transloco }}
                   </button>
                   <div class="dropdown-divider"></div>
-                  <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../' + event.id">
+                  <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../e/' + event.id">
                     <bi name="pencil-square" />
                     {{ 'EDIT' | transloco }}
                   </a>
@@ -136,7 +136,7 @@ import {EventsService} from './_services/events.service';
                     type="button"
                     class="d-flex gap-2 align-items-center text-danger-emphasis"
                     ngbDropdownItem
-                    (mousedown)="delete.onDelete(event.id.id)"
+                    (mousedown)="delete.onDelete(event.id)"
                   >
                     <bi name="trash" />
                     {{ 'DELETE' | transloco }}
@@ -145,8 +145,8 @@ import {EventsService} from './_services/events.service';
               </td>
             </ng-container>
 
-            <tr *ngbHeaderRowDef="selection.columnsToDisplay()" ngb-header-row></tr>
-            <tr *ngbRowDef="let event; columns: selection.columnsToDisplay()" ngb-row [routerLink]="'../' + event.id"></tr>
+            <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
+            <tr *ngbRowDef="let event; columns: table.columnsToDisplay()" ngb-row [routerLink]="'../e/' + event.id"></tr>
           </table>
         </div>
       }

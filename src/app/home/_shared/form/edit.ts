@@ -24,16 +24,20 @@ export function injectOnDelete<ID>(successFn: (it: ID) => void): (it: ID, event?
   };
 }
 
-export function injectContinuousCreation(options: {
-  formComponent: Signal<AbstractModelEditFormComponent<unknown, unknown> | undefined>;
-  continuousUsePropertyNames?: string[];
+type ContinuousCreationDataTransformersMap = (it: unknown) => unknown;
+type ContinuousCreationDataTransformers = Record<string, ContinuousCreationDataTransformersMap>;
+
+export function injectContinuousCreation<CreateDTOType, UpdateDTOType>(options: {
+  formComponent: Signal<AbstractModelEditFormComponent<CreateDTOType, UpdateDTOType> | undefined>;
+  continuousUsePropertyNames?: (keyof CreateDTOType | keyof UpdateDTOType | string)[];
   enable?: boolean;
+  dataTransformers?: ContinuousCreationDataTransformers;
 }): {
   set: (it: boolean) => void;
   enabled: Signal<boolean>;
   patch: (dto?: unknown) => void;
 } {
-  const {formComponent, continuousUsePropertyNames, enable} = options;
+  const {formComponent, continuousUsePropertyNames, enable, dataTransformers} = options;
 
   const enabled = signal(enable ?? false);
 
@@ -47,12 +51,13 @@ export function injectContinuousCreation(options: {
       // @ts-expect-error
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       for (const modelKeyValuePairs of Object.keys(dto as Record<string, never>).map((key) => [String(key), dto[key]])) {
-        if (continuousUsePropertyNames?.includes(modelKeyValuePairs[0] as string)) {
+        if (continuousUsePropertyNames?.includes(modelKeyValuePairs[0] as keyof CreateDTOType | keyof UpdateDTOType | string)) {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const control = modelKeyValuePairs[0];
+          const fun = dataTransformers ? (dataTransformers[control] as ContinuousCreationDataTransformersMap | undefined) : undefined;
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          const value = modelKeyValuePairs[1];
-          console.log(`checkContinuousCreation - patching control: "${control}" with value: "${value}"`);
+          const value = fun ? fun(modelKeyValuePairs[1]) : modelKeyValuePairs[1];
+          console.log(`checkContinuousCreation - patching control: "${control}" with value: "${value}"; transform fun: ${!!fun}`);
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           formComponent()?.patchValue({[control]: value});
         }

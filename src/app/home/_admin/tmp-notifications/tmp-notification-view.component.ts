@@ -4,15 +4,15 @@ import {Router} from '@angular/router';
 
 import {AppBackButtonComponent} from '@home-shared/components/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-import {NgbNavModule, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbNavModule, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {cl_copy} from 'dfts-helper';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxCutPipe} from 'dfx-helper';
 import {PdfJsViewerComponent, PdfJsViewerModule} from 'ng2-pdfjs-viewer';
-import {computedFrom} from 'ngxtension/computed-from';
+import {derivedFrom} from 'ngxtension/derived-from';
 import {injectParams} from 'ngxtension/inject-params';
 
 import {filter, map, pipe, startWith, switchMap} from 'rxjs';
@@ -159,7 +159,7 @@ export class TmpNotificationViewComponent {
   router = inject(Router);
   tmpNotificationService = inject(TmpNotificationsService);
 
-  tmpNotification = computedFrom(
+  tmpNotification = derivedFrom(
     [injectParams('id')],
     pipe(
       map(([id]) => id),

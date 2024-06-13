@@ -7,8 +7,8 @@ import {AppBackButtonComponent} from '@home-shared/components/button/app-back-bu
 import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {injectIdParam$} from '@home-shared/services/injectActivatedRouteIdParam';
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 
@@ -49,7 +49,7 @@ import {OrdersService} from './orders.service';
 
           <a
             class="badge bg-secondary d-flex align-items-center gap-2"
-            [routerLink]="'../../tables/' + vm.order.table.id"
+            [routerLink]="'../../tables/t/' + vm.order.table.id"
             [ngbTooltip]="'HOME_ORDER_OPEN_TABLE' | transloco"
           >
             <bi name="columns-gap" />
@@ -58,7 +58,7 @@ import {OrdersService} from './orders.service';
 
           <a
             class="badge bg-primary d-flex align-items-center gap-2"
-            [routerLink]="'../../waiters/' + vm.order.waiter.id"
+            [routerLink]="'../../waiters/waiter/' + vm.order.waiter.id"
             [ngbTooltip]="'HOME_ORDER_OPEN_WAITER' | transloco"
           >
             <bi name="people" />

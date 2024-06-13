@@ -1,10 +1,11 @@
 import {DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
+import {BlankslateComponent} from '@home-shared/components/blankslate.component';
 import {injectTable, injectTableFilter} from '@home-shared/list';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
@@ -67,12 +68,12 @@ import {MediatorsService} from './_services/mediators.service';
           </table>
         </div>
       }
-
       @if (table.isEmpty()) {
-        <span class="alert alert-info">
-          <bi name="wifi-off" />
-          Keine Mediators verbunden.
-        </span>
+        <app-blankslate icon="wifi-off" [description]="'Keine Mediators verbunden'">
+          <a class="btn btn-success" type="button" href="https://help.kellner.team/mediator.html" rel="noopener" target="_blank">
+            {{ 'LEARN_MORE' | transloco }}
+          </a>
+        </app-blankslate>
       }
 
       <app-progress-bar [show]="table.isLoading()" />
@@ -92,6 +93,7 @@ import {MediatorsService} from './_services/mediators.service';
     DfxImplodePipe,
     BiComponent,
     AppProgressBarComponent,
+    BlankslateComponent,
   ],
 })
 export class MediatorsComponent {

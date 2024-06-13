@@ -41,11 +41,26 @@ export class TablesService
     return !!nextTable && table.group.id === nextTable.group.id && table.number + 1 !== nextTable.number;
   }
 
-  #sortByGroupIdAndNumber(a: GetTableWithGroupResponse, b: GetTableWithGroupMinResponse) {
-    if (a.group.id !== b.group.id) {
-      return a.group.id - b.group.id;
+  #sortByGroupPositionAndNumber(a: GetTableWithGroupResponse, b: GetTableWithGroupMinResponse) {
+    // Default to a high value if position is undefined
+    const positionA = a.group.position ?? 100000;
+    const positionB = b.group.position ?? 100000;
+
+    // First compare by group position
+    if (positionA !== positionB) {
+      return positionA - positionB;
     }
 
+    // If positions are the same or undefined, compare by group name
+    const nameA = a.group.name;
+    const nameB = b.group.name;
+
+    const nameCompare = nameA.localeCompare(nameB);
+    if (nameCompare !== 0) {
+      return nameCompare;
+    }
+
+    // If group names are the same, compare by number
     return a.number - b.number;
   }
 
@@ -59,7 +74,7 @@ export class TablesService
         ]),
       ),
       map(([tables, tableIdsWithActiveOrders]) =>
-        tables.sort(this.#sortByGroupIdAndNumber).map((table, index) => ({
+        tables.sort(this.#sortByGroupPositionAndNumber).map((table, index) => ({
           ...table,
           hasActiveOrders: tableIdsWithActiveOrders.tableIds.includes(table.id),
           hasNextTableActiveOrders: tableIdsWithActiveOrders.tableIds.includes(tables[index + 1]?.id ?? false),
@@ -86,11 +101,13 @@ export class TablesService
         ]),
       ),
       map(([tables, tableIdsWithActiveOrders]) =>
-        tables.map((table, index) => ({
-          ...table,
-          hasActiveOrders: tableIdsWithActiveOrders.tableIds.includes(table.id),
-          missingNextTable: this.#isNextTableMissing(table, index, tables),
-        })),
+        tables
+          .sort((a, b) => a.number - b.number)
+          .map((table, index) => ({
+            ...table,
+            hasActiveOrders: tableIdsWithActiveOrders.tableIds.includes(table.id),
+            missingNextTable: this.#isNextTableMissing(table, index, tables),
+          })),
       ),
     );
   }

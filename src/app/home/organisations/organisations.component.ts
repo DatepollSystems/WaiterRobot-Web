@@ -5,9 +5,9 @@ import {RouterLink} from '@angular/router';
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
 import {mapName} from '@home-shared/name-map';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
@@ -137,8 +137,8 @@ import {OrganisationsService} from './_services/organisations.service';
               </td>
             </ng-container>
 
-            <tr *ngbHeaderRowDef="selection.columnsToDisplay()" ngb-header-row></tr>
-            <tr *ngbRowDef="let organisation; columns: selection.columnsToDisplay()" ngb-row [routerLink]="'../' + organisation.id"></tr>
+            <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
+            <tr *ngbRowDef="let organisation; columns: table.columnsToDisplay()" ngb-row [routerLink]="'../' + organisation.id"></tr>
           </table>
         </div>
 

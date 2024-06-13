@@ -964,7 +964,7 @@ export interface EntityOrderDto {
    * @format int32
    * @min 0
    */
-  order?: number;
+  order: number | null;
 }
 
 export interface GetTableWithGroupResponse {
@@ -1251,6 +1251,7 @@ export interface GetProductGroupMinResponse {
   id: number;
   name: string;
   color?: string;
+  position?: number;
 }
 
 export interface GetProductMaxResponse {

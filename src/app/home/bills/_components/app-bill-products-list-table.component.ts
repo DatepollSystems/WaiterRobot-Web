@@ -1,8 +1,8 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, Input, signal, ViewChild} from '@angular/core';
 import {RouterLink} from '@angular/router';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
 import {GetImplodedBillProductResponse} from '@shared/waiterrobot-backend';
 
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
@@ -17,7 +17,7 @@ import {DfxCurrencyCentPipe} from 'dfx-helper';
           <td *ngbCellDef="let order" ngb-cell>
             <div class="d-flex align-items-center gap-2">
               <span class="badge rounded-pill text-bg-info">{{ order.amount }} x</span>
-              <a [routerLink]="'../../products/' + order.productId">
+              <a [routerLink]="'../../products/p/' + order.productId">
                 {{ order.name }}
               </a>
             </div>

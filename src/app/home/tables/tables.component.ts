@@ -1,5 +1,5 @@
 import {LowerCasePipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject, signal, viewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -25,7 +25,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
   template: `
     <div class="d-flex flex-column gap-3">
       <scrollable-toolbar>
-        <a routerLink="../t/create" class="btn btn-sm btn-success" [queryParams]="{group: activeId()}">
+        <a routerLink="../t/create" class="btn btn-sm btn-success" [queryParams]="{group: activeId() !== 'all' ? activeId() : null}">
           <bi name="plus-circle" />
           {{ 'HOME_TABLE' | transloco }} {{ 'ADD_3' | transloco | lowercase }}</a
         >
@@ -70,14 +70,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
       </form>
 
       <div class="table-responsive">
-        <table
-          ngb-table
-          ngb-sort
-          ngbSortDirection="asc"
-          [ngbSortActive]="activeId() === 'all' ? 'group' : 'number'"
-          [hover]="true"
-          [dataSource]="table.dataSource()"
-        >
+        <table ngb-table ngb-sort [hover]="true" [dataSource]="table.dataSource()">
           <ng-container ngbColumnDef="select">
             <th *ngbHeaderCellDef ngb-header-cell>
               <div class="form-check">
@@ -173,7 +166,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                   type="button"
                   class="d-flex gap-2 align-items-center"
                   ngbDropdownItem
-                  routerLink="../../../../orders"
+                  routerLink="../../orders"
                   [queryParams]="{tableIds: table.id}"
                 >
                   <bi name="stack" />
@@ -183,7 +176,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                   type="button"
                   class="d-flex gap-2 align-items-center"
                   ngbDropdownItem
-                  routerLink="../../../../bills"
+                  routerLink="../../bills"
                   [queryParams]="{tableIds: table.id}"
                 >
                   <bi name="cash-coin" />
@@ -207,9 +200,9 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
             </td>
           </ng-container>
 
-          <tr *ngbHeaderRowDef="selection.columnsToDisplay()" ngb-header-row></tr>
+          <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
           <tr
-            *ngbRowDef="let table; columns: selection.columnsToDisplay()"
+            *ngbRowDef="let table; columns: table.columnsToDisplay()"
             ngb-row
             [routerLink]="'../t/' + table.id"
             [class.thick-bottom-border]="table.missingNextTable"
@@ -253,12 +246,10 @@ export class TablesComponent {
   activeId = injectParams('id');
   #activeId$ = toObservable(this.activeId);
 
-  columnsToDisplay = signal(['group', 'number', 'status', 'seats', 'actions']);
-
   sort = viewChild(NgbSort);
   filter = injectTableFilter();
   table = injectTable({
-    columnsToDisplay: this.columnsToDisplay,
+    columnsToDisplay: ['group', 'number', 'status', 'seats', 'actions'],
     fetchData: (setLoading) =>
       this.#activeId$.pipe(
         switchMap((activeId) => {
@@ -266,17 +257,17 @@ export class TablesComponent {
           this.selection.clear();
 
           if (activeId === 'all') {
-            this.columnsToDisplay.update((it) => addGroupIfMissing(it));
+            this.table.columnsToDisplay.update((it) => addGroupIfMissing(it));
             return this.#tablesService.getAll$();
           }
-          this.columnsToDisplay.update((it) => removeGroup(it));
+          this.table.columnsToDisplay.update((it) => removeGroup(it));
           return this.#tablesService.getByParent$(n_from(activeId));
         }),
       ),
     sort: this.sort,
     filterValue$: this.filter.value$,
     sortingDataAccessors: {
-      group: (it) => it.group.name,
+      group: (it) => it.group.name.toLocaleLowerCase(),
     },
   });
 

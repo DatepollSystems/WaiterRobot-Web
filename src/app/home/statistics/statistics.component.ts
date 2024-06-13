@@ -41,11 +41,11 @@ import {StatisticsService} from './statistics.service';
             <bi icon size="32" name="star" />
             <span description>{{ 'HOME_STATISTICS_BEST_PRODUCT' | transloco }}</span>
             <span value>
-                    @if (countDto.bestProduct; as bestProduct) {
-                      {{ bestProduct.name }}
-                    } @else {
-                      {{ 'UNKNOWN' | transloco }}
-                    }
+              @if (countDto.bestProduct; as bestProduct) {
+                {{ bestProduct.name }}
+              } @else {
+                {{ 'UNKNOWN' | transloco }}
+              }
             </span>
           </app-statistics-card>
         </div>

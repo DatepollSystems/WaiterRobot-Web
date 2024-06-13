@@ -1,9 +1,9 @@
 import {AsyncPipe, DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 
@@ -40,7 +40,7 @@ import {BillsService} from './_services/bills.service';
           <div>
             <a
               class="badge bg-secondary d-flex align-items-center gap-2"
-              [routerLink]="'../../tables/' + vm.bill.table.id"
+              [routerLink]="'../../tables/t/' + vm.bill.table.id"
               [ngbTooltip]="'HOME_ORDER_OPEN_TABLE' | transloco"
             >
               <bi name="columns-gap" />
@@ -51,7 +51,7 @@ import {BillsService} from './_services/bills.service';
           <div>
             <a
               class="badge bg-primary d-flex align-items-center gap-2"
-              [routerLink]="'../../waiters/' + vm.bill.waiter.id"
+              [routerLink]="'../../waiters/waiter/' + vm.bill.waiter.id"
               [ngbTooltip]="'HOME_ORDER_OPEN_WAITER' | transloco"
             >
               <bi name="people" />

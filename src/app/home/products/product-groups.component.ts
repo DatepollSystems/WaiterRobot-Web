@@ -3,12 +3,13 @@ import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/co
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
+import {AppResetOrderButtonComponent} from '@home-shared/components/button/app-reset-order-button.component';
 import {injectTable, injectTableDelete, injectTableFilter, injectTableOrder, injectTableSelect} from '@home-shared/list';
 import {listOrderStyles} from '@home-shared/list/list-order-styles';
 import {mapName} from '@home-shared/name-map';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
@@ -43,9 +44,13 @@ import {ProductGroupsService} from './_services/product-groups.service';
             {{ 'DELETE' | transloco }}
           </button>
         </div>
-        <div class="d-flex align-items-center">
-          <app-order-mode-switch [orderMode]="order.isOrdering()" (orderModeChange)="order.setIsOrdering($event)" />
-        </div>
+        <app-order-mode-switch [orderMode]="order.isOrdering()" (orderModeChange)="order.setIsOrdering($event)" />
+
+        <app-reset-order-button
+          [isOrdering]="order.isOrdering()"
+          [disabled]="!order.hasCustomPositionSet()"
+          (resetOrder)="order.resetOrder()"
+        />
       </scrollable-toolbar>
 
       <form>
@@ -70,8 +75,6 @@ import {ProductGroupsService} from './_services/product-groups.service';
           <table
             ngb-table
             ngb-sort
-            ngbSortActive="name"
-            ngbSortDirection="asc"
             cdkDropList
             cdkDropListLockAxis="y"
             [hover]="true"
@@ -82,7 +85,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
             (cdkDropListDropped)="order.drop($event)"
           >
             <ng-container ngbColumnDef="select">
-              <th *ngbHeaderCellDef ngb-header-cell>
+              <th *ngbHeaderCellDef ngb-header-cell style="width: 20px">
                 @if (!order.isOrdering()) {
                   <div class="form-check">
                     <input
@@ -100,8 +103,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
                   <button type="button" class="btn btn-sm btn-outline-primary text-body-emphasis" cdkDragHandle>
                     <bi name="grip-vertical" />
                   </button>
-                }
-                @if (!order.isOrdering()) {
+                } @else {
                   <div class="form-check">
                     <input
                       class="form-check-input"
@@ -112,6 +114,13 @@ import {ProductGroupsService} from './_services/product-groups.service';
                     />
                   </div>
                 }
+              </td>
+            </ng-container>
+
+            <ng-container ngbColumnDef="position">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header style="width: 20px">{{ 'POSITION' | transloco }}</th>
+              <td *ngbCellDef="let productGroup" ngb-cell>
+                {{ productGroup.position ?? '' }}
               </td>
             </ng-container>
 
@@ -134,7 +143,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
                     type="button"
                     class="d-flex gap-2 align-items-center"
                     ngbDropdownItem
-                    routerLink="../../../orders"
+                    routerLink="../../orders"
                     [queryParams]="{productGroupIds: productGroup.id}"
                   >
                     <bi name="stack" />
@@ -144,7 +153,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
                     type="button"
                     class="d-flex gap-2 align-items-center"
                     ngbDropdownItem
-                    routerLink="../../../bills"
+                    routerLink="../../bills"
                     [queryParams]="{productGroupIds: productGroup.id}"
                   >
                     <bi name="cash-coin" />
@@ -168,9 +177,9 @@ import {ProductGroupsService} from './_services/product-groups.service';
               </td>
             </ng-container>
 
-            <tr *ngbHeaderRowDef="selection.columnsToDisplay()" ngb-header-row></tr>
+            <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
             <tr
-              *ngbRowDef="let productGroup; columns: selection.columnsToDisplay()"
+              *ngbRowDef="let productGroup; columns: table.columnsToDisplay()"
               ngb-row
               cdkDrag
               [cdkDragData]="productGroup"
@@ -205,6 +214,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
     ActionDropdownComponent,
     NgbDropdownItem,
     StopPropagationDirective,
+    AppResetOrderButtonComponent,
   ],
 })
 export class ProductGroupsComponent {
@@ -214,9 +224,12 @@ export class ProductGroupsComponent {
   filter = injectTableFilter();
   table = injectTable({
     sort: this.sort,
-    columnsToDisplay: ['name', 'actions'],
-    filterValue$: this.filter.value$,
+    columnsToDisplay: ['position', 'name', 'actions'],
     fetchData: () => this.#productGroupsService.getAll$(),
+    filterValue$: this.filter.value$,
+    sortingDataAccessors: {
+      name: (it) => it.name.toLocaleLowerCase(),
+    },
   });
 
   selection = injectTableSelect({
@@ -233,12 +246,10 @@ export class ProductGroupsComponent {
   order = injectTableOrder({
     dataSource: this.table.dataSource,
     order$: (it) => this.#productGroupsService.order$(it),
+    getPosition: (it) => it.position,
     onOrderingChange: (isOrdering) => {
       if (isOrdering) {
         this.selection.clear();
-        this.sort()?.sort({id: '', start: 'asc', disableClear: true});
-      } else {
-        this.sort()?.sort({id: 'name', start: 'desc', disableClear: false});
       }
     },
   });

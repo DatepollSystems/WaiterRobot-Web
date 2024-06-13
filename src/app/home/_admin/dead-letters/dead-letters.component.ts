@@ -4,9 +4,9 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
@@ -126,8 +126,8 @@ import {DeadLettersService} from './dead-letters.service';
               </td>
             </ng-container>
 
-            <tr *ngbHeaderRowDef="selection.columnsToDisplay()" ngb-header-row></tr>
-            <tr *ngbRowDef="let it; columns: selection.columnsToDisplay()" ngb-row [routerLink]="'../' + it.id"></tr>
+            <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
+            <tr *ngbRowDef="let it; columns: table.columnsToDisplay()" ngb-row [routerLink]="'../' + it.id"></tr>
           </table>
         </div>
       }

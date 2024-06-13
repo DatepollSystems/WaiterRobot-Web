@@ -4,9 +4,9 @@ import {toObservable} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
 import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
 import {mapName} from '@home-shared/name-map';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {n_from} from 'dfts-helper';
 
@@ -105,8 +105,8 @@ import {WaiterSessionsService} from '../_services/waiter-sessions.service';
           </td>
         </ng-container>
 
-        <tr *ngbHeaderRowDef="selection.columnsToDisplay()" ngb-header-row></tr>
-        <tr *ngbRowDef="let session; columns: selection.columnsToDisplay()" ngb-row></tr>
+        <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
+        <tr *ngbRowDef="let session; columns: table.columnsToDisplay()" ngb-row></tr>
       </table>
     </div>
 

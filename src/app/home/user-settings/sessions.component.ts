@@ -3,9 +3,9 @@ import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/co
 import {ReactiveFormsModule} from '@angular/forms';
 import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
 import {mapName} from '@home-shared/name-map';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
 import {AppSpinnerRowComponent} from '@shared/ui/loading/app-spinner-row.component';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
@@ -108,8 +108,8 @@ import {UserSessionsService} from './_services/user-sessions.service';
               </td>
             </ng-container>
 
-            <tr *ngbHeaderRowDef="selection.columnsToDisplay()" ngb-header-row></tr>
-            <tr *ngbRowDef="let session; columns: selection.columnsToDisplay()" ngb-row></tr>
+            <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
+            <tr *ngbRowDef="let session; columns: table.columnsToDisplay()" ngb-row></tr>
           </table>
         </div>
       }

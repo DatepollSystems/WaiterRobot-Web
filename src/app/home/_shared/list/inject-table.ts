@@ -105,7 +105,7 @@ export function injectTable<EntityType>({
   const _columnsToDisplay = Array.isArray(columnsToDisplay) ? signal(columnsToDisplay) : columnsToDisplay;
 
   return {
-    columnsToDisplay: _columnsToDisplay.asReadonly(),
+    columnsToDisplay: _columnsToDisplay,
     isLoading: isLoading,
     error: error.asReadonly(),
     isEmpty,

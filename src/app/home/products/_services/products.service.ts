@@ -37,18 +37,48 @@ export class ProductsService
 
   triggerGet$ = new BehaviorSubject(true);
 
+  #sortByPositionAndName(a: GetProductMaxResponse, b: GetProductMaxResponse) {
+    // Default to a high value if position is undefined
+    const groupPositionA = a.group.position ?? 100000;
+    const groupPositionB = b.group.position ?? 100000;
+
+    // First compare by group position
+    if (groupPositionA !== groupPositionB) {
+      return groupPositionA - groupPositionB;
+    }
+
+    // If positions are the same or undefined, compare by group name
+    const groupNameCompare = a.group.name.toLocaleLowerCase().localeCompare(b.group.name.toLocaleLowerCase());
+    if (groupNameCompare !== 0) {
+      return groupNameCompare;
+    }
+
+    // If group names are the same, compare by product position
+    // Default to a high value if position is undefined
+    const positionA = a.position ?? 100000;
+    const positionB = b.position ?? 100000;
+
+    // First compare by product position
+    if (positionA !== positionB) {
+      return positionA - positionB;
+    }
+
+    // If positions are the same or undefined, compare by product name
+    return a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase());
+  }
+
   getAll$(): Observable<GetProductMaxResponse[]> {
     return this.triggerGet$.pipe(
       switchMap(() => this.selectedEventService.selectedIdNotNull$),
       switchMap((eventId) => this.httpClient.get<GetProductMaxResponse[]>(this.url, {params: {eventId}})),
-      map((products) => products.sort((a, b) => (a.position ?? 100000) - (b.position ?? 100000))),
+      map((products) => products.sort(this.#sortByPositionAndName)),
     );
   }
 
   getByParent$(groupId: number): Observable<GetProductMaxResponse[]> {
     return this.triggerGet$.pipe(
       switchMap(() => this.httpClient.get<GetProductMaxResponse[]>(this.url, {params: {groupId}})),
-      map((products) => products.sort((a, b) => (a.position ?? 100000) - (b.position ?? 100000))),
+      map((products) => products.sort(this.#sortByPositionAndName)),
     );
   }
 

@@ -67,6 +67,9 @@
   "PRICE_PER_PIECE": "Preis / Stk.",
   "ACTIVATE": "Aktivieren",
   "DEACTIVATE": "Deaktivieren",
+  "ORDER": "Anordnung",
+  "POSITION": "#",
+  "LEARN_MORE": "Erfahre mehr",
 
   "ORDER_MODE_SWITCH": "Anordnen",
   "COLOR_PICKER": "Farbe auswählen",

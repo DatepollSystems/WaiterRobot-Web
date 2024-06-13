@@ -8,9 +8,9 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
 import {Download} from '@home-shared/services/download.service';
 import {injectFilter} from '@home-shared/services/filter';
 import {getSortParam, injectPagination} from '@home-shared/services/pagination';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbCollapse, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
-import {TranslocoPipe} from '@jsverse/transloco';
 import {injectCustomFormBuilder} from '@shared/form';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
@@ -19,7 +19,7 @@ import {loggerOf} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {DfxCurrencyCentPipe, injectIsMobile, StopPropagationDirective} from 'dfx-helper';
-import {computedFrom} from 'ngxtension/computed-from';
+import {derivedFrom} from 'ngxtension/derived-from';
 
 import {debounceTime, map, merge, Observable, pipe, switchMap, tap} from 'rxjs';
 
@@ -201,15 +201,15 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
           <ng-container ngbColumnDef="waiter.name">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_WAITERS_NAV_ORGANISATION' | transloco }}</th>
             <td *ngbCellDef="let bill" ngb-cell>
-              <a stopPropagation [routerLink]="'../../waiters/' + bill.waiter.id">{{ bill.waiter.name }}</a>
+              <a stopPropagation [routerLink]="'../../waiters/waiter/' + bill.waiter.id">{{ bill.waiter.name }}</a>
             </td>
           </ng-container>
 
           <ng-container ngbColumnDef="table.tableGroup.name">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_ORDER_TABLE' | transloco }}</th>
             <td *ngbCellDef="let bill" ngb-cell>
-              <a stopPropagation [routerLink]="'../../tables/groups/tables/' + bill.table.group.id">{{ bill.table.group.name }}</a>
-              - <a stopPropagation [routerLink]="'../../tables/' + bill.table.id">{{ bill.table.number }}</a>
+              <a stopPropagation [routerLink]="'../../tables/' + bill.table.group.id">{{ bill.table.group.name }}</a>
+              - <a stopPropagation [routerLink]="'../../tables/t/' + bill.table.id">{{ bill.table.number }}</a>
             </td>
           </ng-container>
 
@@ -301,7 +301,7 @@ export class BillsComponent implements AfterViewInit {
     }),
   );
 
-  dataSource = computedFrom(
+  dataSource = derivedFrom(
     [this.pagination.params, this.filter.valueChanges],
     pipe(
       debounceTime(350),

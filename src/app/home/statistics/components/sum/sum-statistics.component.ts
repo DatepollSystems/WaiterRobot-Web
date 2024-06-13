@@ -26,5 +26,5 @@ export class SumStatisticsComponent {
     this.chartType = it;
   }
 
-  isBlurred = injectBlurSetting().isBlurred
+  isBlurred = injectBlurSetting().isBlurred;
 }

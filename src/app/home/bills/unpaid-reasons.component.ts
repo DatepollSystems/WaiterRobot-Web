@@ -4,9 +4,9 @@ import {RouterLink} from '@angular/router';
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
 import {AppSoldOutPipe} from '@home-shared/pipes/app-sold-out.pipe';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetBillUnpaidReasonResponse} from '@shared/waiterrobot-backend';
@@ -129,8 +129,8 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
               </td>
             </ng-container>
 
-            <tr *ngbHeaderRowDef="selection.columnsToDisplay()" ngb-header-row></tr>
-            <tr *ngbRowDef="let reason; columns: selection.columnsToDisplay()" ngb-row [routerLink]="'../' + reason.id"></tr>
+            <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
+            <tr *ngbRowDef="let reason; columns: table.columnsToDisplay()" ngb-row [routerLink]="'../' + reason.id"></tr>
           </table>
         </div>
       }
