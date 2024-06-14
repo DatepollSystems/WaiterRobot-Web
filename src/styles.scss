@@ -71,7 +71,13 @@ td:has(> div.form-check) {
   -webkit-transition: 0.22s filter linear;
   -moz-transition: 0.22s filter linear;
   -o-transition: 0.22s filter linear;
+  -webkit-backface-visibility: hidden;
   filter: blur(12px);
+
+  /* Weird safari fix */
+  -moz-backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
 }
 
 .color-picker-class > .popover-body {
