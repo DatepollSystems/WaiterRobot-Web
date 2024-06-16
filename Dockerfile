@@ -5,19 +5,18 @@ RUN corepack enable
 COPY . /app
 WORKDIR /app
 
-FROM buildbase AS buildprod
 RUN pnpm install --frozen-lockfile
+
+FROM buildbase AS buildprod
 RUN pnpm build:prod
 
 FROM buildbase AS buildlava
 ARG version=dev
-RUN pnpm install --frozen-lockfile --ignore-scripts
 RUN sed -ri 's/"version": "[0-9]+\.[0-9]+\.[0-9]+"/"version": "'"$version"'"/g' package.json
 RUN pnpm build:lava
 
 FROM buildbase AS buildlocal
 ARG version=dev
-RUN pnpm install --frozen-lockfile --ignore-scripts
 RUN sed -ri 's/"version": "[0-9]+\.[0-9]+\.[0-9]+"/"version": "'"$version"'"/g' package.json
 RUN pnpm build:local
 
