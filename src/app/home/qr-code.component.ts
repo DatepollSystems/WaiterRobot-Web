@@ -20,7 +20,7 @@ import {QrCodeService} from './_shared/services/qr-code.service';
   template: `
     @if (qrCodeData(); as data) {
       <div class="my-container d-flex flex-row flex-wrap gap-5 align-items-center justify-content-center h-100">
-        <div id="qrcode" class="qrcode-rounded" [style.background-color]="theme().id === 'light' ? '#000000' : '#f6f6f6'">
+        <div id="qrcode" class="qrcode-rounded" style="background-color: #f6f6f6">
           <qrcode errorCorrectionLevel="M" colorLight="#f6f6f6" [size]="isMobile() ? 8 : 14" [margin]="0" [data]="data.data" />
         </div>
         <div class="card">
