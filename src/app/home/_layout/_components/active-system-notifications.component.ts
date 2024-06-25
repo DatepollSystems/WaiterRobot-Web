@@ -72,7 +72,7 @@ export class ActiveSystemNotificationsDesktopComponent {
     @if (activeSystemNotificationsService.allSystemNotifications().length > 0) {
       @if (
         activeSystemNotificationsService.ignoredSystemNotifications().length === 0 &&
-        activeSystemNotificationsService.getFilteredSystemNotifications().length > 1
+        activeSystemNotificationsService.getFilteredSystemNotifications().length > 0
       ) {
         <button type="button" class="btn" (click)="activeSystemNotificationsService.ignoreAll()">
           <bi name="bell-fill" />

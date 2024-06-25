@@ -22,16 +22,16 @@ import {SwitcherModalComponent} from './switcher.component';
       <div class="fs-3 ms-3">/</div>
       <button
         type="button"
-        class="btn switcher d-flex flex-lg-grow-1 gap-4 justify-content-between align-items-center"
+        class="btn switcher d-flex flex-md-grow-1 gap-4 justify-content-between align-items-center"
         style="border-width: 1px"
         [style.border-color]="selectedColor() ?? ''"
         (mousedown)="openSwitcher()"
       >
         <div class="d-flex flex-column align-items-start" style="font-size: 0.875rem">
           @if (selectedOrganisation(); as organisation) {
-            <span class="ws-nowrap">{{ organisation.name | s_cut: 14 : '..' }}</span>
+            <span class="ws-nowrap">{{ organisation.name | s_cut: 20 : '..' }}</span>
             @if (selectedEvent(); as event) {
-              <span class="ws-nowrap">{{ event.name | s_cut: 14 : '..' }}</span>
+              <span class="ws-nowrap">{{ event.name | s_cut: 20 : '..' }}</span>
             }
           } @else {
             <span>Organisation auswählen</span>

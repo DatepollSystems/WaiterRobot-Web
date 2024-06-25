@@ -30,17 +30,17 @@ import {NetworkOfflineWarningComponent} from './_components/network-offline-warn
               <bi name="list" width="24" height="24" />
             </button>
 
-            <app-active-system-mobile-toggle-notifications />
+            <app-active-system-mobile-toggle-notifications class="d-block d-md-none" />
           </header>
 
-          <app-active-system-notifications class="d-block d-xl-none" disableIgnore />
+          <app-active-system-notifications class="d-block d-md-none" disableIgnore />
 
           <main class="px-lg-3 col-12 px-1 pb-4" [class.container-xxxl]="!isFullScreen()">
             <app-network-offline-warning />
 
             <app-maintenance-warning />
 
-            <div class="d-none d-xl-block">
+            <div class="d-none d-md-block">
               <app-active-system-desktop-notifications />
             </div>
 
