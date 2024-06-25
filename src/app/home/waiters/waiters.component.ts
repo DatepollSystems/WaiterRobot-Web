@@ -1,5 +1,5 @@
 import {LowerCasePipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, effect, inject, signal, viewChild} from '@angular/core';
 import {toObservable, toSignal} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -10,7 +10,7 @@ import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} fr
 import {mapName} from '@home-shared/name-map';
 import {TranslocoPipe} from '@jsverse/transloco';
 
-import {NgbDropdownAnchor, NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownAnchor, NgbDropdownItem, NgbDropdownModule, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {n_from} from 'dfts-helper';
@@ -19,7 +19,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe, StopPropagationDirective} from 'dfx-helper';
 import {injectParams} from 'ngxtension/inject-params';
-import {of, switchMap, tap} from 'rxjs';
+import {forkJoin, of, switchMap, tap} from 'rxjs';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {AppActivatedPipe} from '../_shared/pipes/app-activated.pipe';
 import {MobileLinkService} from '../_shared/services/mobile-link.service';
@@ -29,6 +29,8 @@ import {SelectedEventService} from '../events/_services/selected-event.service';
 import {OrganisationWaitersService} from './_services/organisation-waiters.service';
 import {WaitersService} from './_services/waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
+import {AppSoldOutPipe} from '@home-shared/pipes/app-sold-out.pipe';
+import {GetWaiterResponse} from '@shared/waiterrobot-backend';
 
 @Component({
   template: `
@@ -49,6 +51,30 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
             <bi name="trash" />
             {{ 'DELETE' | transloco }}
           </button>
+        </div>
+
+        <div ngbDropdown container="body">
+          <button
+            type="button"
+            class="btn btn-sm btn-secondary"
+            id="toggleSoldOutDropdown"
+            ngbDropdownToggle
+            [disabled]="setSoldOutLoading() || !selection.hasValue()"
+            [class.btnSpinner]="setSoldOutLoading()"
+          >
+            <bi name="power" />
+            {{ 'HOME_USERS_ACTIVATED' | transloco }}
+          </button>
+          <div ngbDropdownMenu aria-labelledby="toggleSoldOutDropdown">
+            <button type="button" ngbDropdownItem (click)="toggleWaitersActivated(true)">
+              {{ true | activated }}
+              {{ 'ACTIVATE' | transloco }}
+            </button>
+            <button type="button" ngbDropdownItem (click)="toggleWaitersActivated(false)">
+              {{ false | activated }}
+              {{ 'DEACTIVATE' | transloco }}
+            </button>
+          </div>
         </div>
 
         @if (event() ?? selectedEvent(); as event) {
@@ -155,6 +181,15 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
                     {{ 'NAV_BILLS' | transloco }}
                   </a>
                   <div class="dropdown-divider"></div>
+                  <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem (click)="toggleWaiterActivated(waiter)">
+                    @if (!waiter.activated) {
+                      {{ true | activated }}
+                      {{ 'ACTIVATE' | transloco }}
+                    } @else {
+                      {{ false | activated }}
+                      {{ 'DEACTIVATE' | transloco }}
+                    }
+                  </a>
                   <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../waiter/' + waiter.id">
                     <bi name="pencil-square" />
                     {{ 'EDIT' | transloco }}
@@ -214,6 +249,8 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
     BtnWaiterCreateQrCodeComponent,
     BlankslateComponent,
     NgbDropdownAnchor,
+    NgbDropdownModule,
+    AppSoldOutPipe,
   ],
 })
 export class WaitersComponent {
@@ -222,6 +259,8 @@ export class WaitersComponent {
   #organisationWaitersService = inject(OrganisationWaitersService);
   #waitersService = inject(WaitersService);
   #eventsService = inject(EventsService);
+
+  setSoldOutLoading = signal(false);
 
   activeId = injectParams('id');
   #activeId$ = toObservable(this.activeId);
@@ -262,11 +301,34 @@ export class WaitersComponent {
     nameMap: mapName(),
   });
 
+  constructor() {
+    effect(
+      () => {
+        if (!this.table.isLoading()) {
+          this.setSoldOutLoading.set(false);
+        }
+      },
+      {allowSignalWrites: true},
+    );
+  }
+
   openLoginQRCode(token: string): void {
     this.#qrCodeService.openQRCodePage({
       data: this.#mobileLink.createWaiterSignInLink(token),
       text: 'HOME_WAITERS_EDIT_QR_CODE',
       info: 'HOME_WAITERS_EDIT_QR_CODE_DESCRIPTION',
     });
+  }
+
+  toggleWaiterActivated(dto: GetWaiterResponse): void {
+    this.table.isLoading.set(true);
+    this.setSoldOutLoading.set(true);
+    this.#waitersService.toggleActivated$(dto).subscribe();
+  }
+
+  toggleWaitersActivated(activated: boolean) {
+    this.table.isLoading.set(true);
+    this.setSoldOutLoading.set(true);
+    forkJoin(this.selection.selection().selected.map((it) => this.#waitersService.toggleActivated$(it, activated))).subscribe();
   }
 }

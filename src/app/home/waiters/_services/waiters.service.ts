@@ -53,6 +53,20 @@ export class WaitersService
     );
   }
 
+  toggleActivated$(dto: GetWaiterResponse, activated?: boolean) {
+    return this.httpClient
+      .put<IdResponse>(this.url, {
+        ...dto,
+        activated: activated ?? !dto.activated,
+        eventIds: dto.events.map((it) => it.id),
+      } satisfies UpdateWaiterDto)
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
+  }
+
   delete$(id: number): Observable<unknown> {
     return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(
       tap(() => {

@@ -196,7 +196,6 @@ export interface UpdateProductDto {
    * @min 1
    */
   initialStock?: number;
-  resetOrderedProducts: boolean;
 }
 
 export interface UpdateProductGroupDto {

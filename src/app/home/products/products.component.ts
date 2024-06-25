@@ -1,6 +1,6 @@
 import {CdkDrag, CdkDragHandle, CdkDropList} from '@angular/cdk/drag-drop';
 import {LowerCasePipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject, signal, viewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, effect, inject, signal, viewChild} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -57,11 +57,11 @@ import {ProductsService} from './_services/products.service';
         <div ngbDropdown container="body">
           <button
             type="button"
-            class="btn btn-sm btn-info"
+            class="btn btn-sm btn-secondary"
             id="toggleSoldOutDropdown"
             ngbDropdownToggle
-            [disabled]="!selection.hasValue() || (table.dataSource().data.length > 0 && table.isLoading()) || setSoldOutLoading()"
-            [class.btnSpinner]="(table.dataSource().data.length > 0 && table.isLoading()) || setSoldOutLoading()"
+            [disabled]="setSoldOutLoading() || !selection.hasValue()"
+            [class.btnSpinner]="setSoldOutLoading()"
           >
             <bi name="cart" />
             {{ 'HOME_PROD_AVAILABLE' | transloco }}
@@ -241,7 +241,7 @@ import {ProductsService} from './_services/products.service';
                       {{ 'ACTIVATE' | transloco }}
                     } @else {
                       {{ true | soldOut }}
-                      {{ 'DEACTIVATE' | transloco }}
+                      {{ 'HOME_PROD_SOLD_OUT' | transloco }}
                     }
                   </a>
                   <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../p/' + product.id">
@@ -364,19 +364,26 @@ export class ProductsComponent {
     },
   });
 
+  constructor() {
+    effect(
+      () => {
+        if (!this.table.isLoading()) {
+          this.setSoldOutLoading.set(false);
+        }
+      },
+      {allowSignalWrites: true},
+    );
+  }
+
   toggleProductSoldOut(dto: GetProductMaxResponse): void {
     this.table.isLoading.set(true);
     this.setSoldOutLoading.set(true);
-    this.#productsService.toggleSoldOut$(dto).subscribe(() => {
-      this.setSoldOutLoading.set(false);
-    });
+    this.#productsService.toggleSoldOut$(dto).subscribe();
   }
 
   toggleProductsSoldOut(soldOut: boolean) {
     this.table.isLoading.set(true);
     this.setSoldOutLoading.set(true);
-    forkJoin(this.selection.selection().selected.map((it) => this.#productsService.toggleSoldOut$(it, soldOut))).subscribe(() => {
-      this.setSoldOutLoading.set(false);
-    });
+    forkJoin(this.selection.selection().selected.map((it) => this.#productsService.toggleSoldOut$(it, soldOut))).subscribe();
   }
 }

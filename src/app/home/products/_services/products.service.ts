@@ -110,7 +110,6 @@ export class ProductsService
         allergenIds: dto.allergens.map((it) => it.id),
         groupId: dto.group.id,
         printerId: dto.printer.id,
-        resetOrderedProducts: false,
       } satisfies UpdateProductDto)
       .pipe(
         tap(() => {
