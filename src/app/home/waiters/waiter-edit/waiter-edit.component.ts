@@ -43,13 +43,13 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
             <app-btn-waiter-signin-qrcode [token]="entity.signInToken" />
 
             <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../orders" [queryParams]="{waiterIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" routerLink="../../../orders" [queryParams]="{waiterIds: entity.id}">
                 <bi name="stack" />
                 {{ 'NAV_ORDERS' | transloco }}
               </a>
             </div>
             <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../bills" [queryParams]="{waiterIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" routerLink="../../../bills" [queryParams]="{waiterIds: entity.id}">
                 <bi name="cash-coin" />
                 {{ 'NAV_BILLS' | transloco }}
               </a>

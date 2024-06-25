@@ -263,7 +263,7 @@
   "HOME_TABLE_GROUPS": "Tischgruppen",
   "HOME_TABLE_GROUPS_ADD": "Neue Tischgruppe anlegen",
   "HOME_TABLE_GROUP_NAME_INCORRECT": "Der Name muss aus mindestens 1 und maximal 60 Zeichen bestehen.",
-  "HOME_TABLE_GROUP_TABLES_VIEW": "Tische in ",
+  "HOME_TABLE_GROUP_TABLES_VIEW": "Gruppe",
   "HOME_TABLE_GROUP_SHOW_TABLES": "Tische von Gruppe anzeigen",
   "HOME_TABLE_PRINT_TITLE": "QR-Codes drucken",
   "HOME_TABLE_PRINT_GENERATE": "Download",
