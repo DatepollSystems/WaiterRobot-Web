@@ -23,7 +23,7 @@ import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bo
           <td *ngbCellDef="let product" ngb-cell>
             <a
               class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"
-              [routerLink]="'../../products/' + product.id"
+              [routerLink]="'../../products/p/' + product.id"
               [ngbTooltip]="'OPEN' | transloco"
             >
               <bi name="arrow-up-right-square-fill" />
@@ -36,7 +36,7 @@ import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bo
           *ngbRowDef="let product; columns: columnsToDisplay"
           ngb-row
           class="clickable"
-          [routerLink]="'../../products/' + product.id"
+          [routerLink]="'../../products/p/' + product.id"
         ></tr>
       </table>
     </div>
