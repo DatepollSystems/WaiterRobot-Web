@@ -10,7 +10,7 @@ import {filter, pairwise} from 'rxjs';
 import {
   ActiveSystemNotificationsComponent,
   ActiveSystemNotificationsDesktopComponent,
-  ActiveSystemNotificationsMobileToggleComponent
+  ActiveSystemNotificationsMobileToggleComponent,
 } from './_components/active-system-notifications.component';
 import {MaintenanceWarningComponent} from './_components/maintenance-warning.component';
 import {MobileNavComponent} from './_components/mobile-nav.component';
@@ -18,15 +18,11 @@ import {NavComponent} from './_components/nav.component';
 import {NetworkOfflineWarningComponent} from './_components/network-offline-warning.component';
 
 @Component({
-  template: `
-    <router-outlet name="title" />
-  `,
+  template: ` <router-outlet name="title" /> `,
   selector: 'home-title',
   standalone: true,
-  imports: [
-    RouterOutlet
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  imports: [RouterOutlet],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeTitle {}
 
@@ -39,9 +35,9 @@ export class HomeTitle {}
         </div>
         <div class="col main-container pt-3">
           <header class="d-flex d-xl-none justify-content-between align-items-center border-bottom pb-2">
-              <button type="button" class="btn border-0 d-inline-flex" (click)="openMobileNav()">
-                <bi name="list" size="24" />
-              </button>
+            <button type="button" class="btn border-0 d-inline-flex" (click)="openMobileNav()">
+              <bi name="list" size="24" />
+            </button>
 
             <app-active-system-mobile-toggle-notifications class="d-block d-md-none" />
           </header>
@@ -107,8 +103,8 @@ export class HomeTitle {}
     BiComponent,
     ActiveSystemNotificationsDesktopComponent,
     ActiveSystemNotificationsMobileToggleComponent,
-    HomeTitle
-  ]
+    HomeTitle,
+  ],
 })
 export class HomeLayout {
   isFullScreen = inject(FullScreenService).isFullScreen;
@@ -139,5 +135,3 @@ export class HomeLayout {
     return url.split('?')[0];
   }
 }
-
-
