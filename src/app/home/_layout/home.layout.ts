@@ -10,12 +10,25 @@ import {filter, pairwise} from 'rxjs';
 import {
   ActiveSystemNotificationsComponent,
   ActiveSystemNotificationsDesktopComponent,
-  ActiveSystemNotificationsMobileToggleComponent,
+  ActiveSystemNotificationsMobileToggleComponent
 } from './_components/active-system-notifications.component';
 import {MaintenanceWarningComponent} from './_components/maintenance-warning.component';
 import {MobileNavComponent} from './_components/mobile-nav.component';
 import {NavComponent} from './_components/nav.component';
 import {NetworkOfflineWarningComponent} from './_components/network-offline-warning.component';
+
+@Component({
+  template: `
+    <router-outlet name="title" />
+  `,
+  selector: 'home-title',
+  standalone: true,
+  imports: [
+    RouterOutlet
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class HomeTitle {}
 
 @Component({
   template: `
@@ -25,17 +38,17 @@ import {NetworkOfflineWarningComponent} from './_components/network-offline-warn
           <app-nav id="sidenav" class="d-flex flex-column flex-shrink-0 h-100 overflow-y-scroll overflow-x-hidden" />
         </div>
         <div class="col main-container pt-3">
-          <header class="d-flex d-xl-none justify-content-between">
-            <button type="button" class="btn border-0 d-block" (click)="openMobileNav()">
-              <bi name="list" width="24" height="24" />
-            </button>
+          <header class="d-flex d-xl-none justify-content-between align-items-center border-bottom pb-2">
+              <button type="button" class="btn border-0 d-inline-flex" (click)="openMobileNav()">
+                <bi name="list" size="24" />
+              </button>
 
             <app-active-system-mobile-toggle-notifications class="d-block d-md-none" />
           </header>
 
           <app-active-system-notifications class="d-block d-md-none" disableIgnore />
 
-          <main class="px-lg-3 col-12 px-1 pb-4" [class.container-xxxl]="!isFullScreen()">
+          <main class="px-lg-3 col-12 px-1 pb-4 pt-2" [class.container-xxxl]="!isFullScreen()">
             <app-network-offline-warning />
 
             <app-maintenance-warning />
@@ -94,7 +107,8 @@ import {NetworkOfflineWarningComponent} from './_components/network-offline-warn
     BiComponent,
     ActiveSystemNotificationsDesktopComponent,
     ActiveSystemNotificationsMobileToggleComponent,
-  ],
+    HomeTitle
+  ]
 })
 export class HomeLayout {
   isFullScreen = inject(FullScreenService).isFullScreen;
@@ -125,3 +139,5 @@ export class HomeLayout {
     return url.split('?')[0];
   }
 }
+
+

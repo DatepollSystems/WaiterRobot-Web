@@ -74,13 +74,13 @@ export class ActiveSystemNotificationsDesktopComponent {
         activeSystemNotificationsService.ignoredSystemNotifications().length === 0 &&
         activeSystemNotificationsService.getFilteredSystemNotifications().length > 0
       ) {
-        <button type="button" class="btn" (click)="activeSystemNotificationsService.ignoreAll()">
+        <button type="button" class="btn d-inline-flex" (click)="activeSystemNotificationsService.ignoreAll()">
           <bi name="bell-fill" />
           <span class="visually-hidden">{{ 'HIDE_ALL' | transloco }}</span>
         </button>
       }
       @if (activeSystemNotificationsService.ignoredSystemNotifications().length > 0) {
-        <button type="button" class="btn" (click)="activeSystemNotificationsService.resetIgnore()">
+        <button type="button" class="btn d-inline-flex" (click)="activeSystemNotificationsService.resetIgnore()">
           <bi name="bell-slash-fill" />
           <span class="visually-hidden"
             >{{ activeSystemNotificationsService.ignoredSystemNotifications().length }}x Nachricht(en) anzeigen</span
