@@ -18,7 +18,7 @@ import {NavComponent} from './_components/nav.component';
 import {NetworkOfflineWarningComponent} from './_components/network-offline-warning.component';
 
 @Component({
-  template: ` <router-outlet name="title" /> `,
+  template: '<router-outlet name="title" />',
   selector: 'home-title',
   standalone: true,
   imports: [RouterOutlet],
