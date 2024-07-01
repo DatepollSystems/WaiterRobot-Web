@@ -24,7 +24,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker local image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: true
           platforms: linux/amd64,linux/arm64
@@ -37,7 +37,7 @@ jobs:
             ghcr.io/datepollsystems/waiterrobot-web:latest_local
 
       - name: Build and push Docker lava image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: true
           platforms: linux/amd64,linux/arm64
@@ -50,7 +50,7 @@ jobs:
             ghcr.io/datepollsystems/waiterrobot-web:latest_lava
 
       - name: Build and push Docker prod image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: true
           platforms: linux/amd64,linux/arm64
