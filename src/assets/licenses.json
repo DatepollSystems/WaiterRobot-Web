@@ -10,71 +10,78 @@
     "name": "@angular/animations",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "17.3.6",
+    "installedVersion": "17.3.11",
     "author": "angular"
   },
   {
     "name": "@angular/cdk",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/components.git",
-    "installedVersion": "17.3.6",
+    "installedVersion": "17.3.10",
     "author": "n/a"
   },
   {
     "name": "@angular/common",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "17.3.6",
+    "installedVersion": "17.3.11",
     "author": "angular"
   },
   {
     "name": "@angular/compiler",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "17.3.6",
+    "installedVersion": "17.3.11",
     "author": "angular"
   },
   {
     "name": "@angular/core",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "17.3.6",
+    "installedVersion": "17.3.11",
     "author": "angular"
   },
   {
     "name": "@angular/forms",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "17.3.6",
+    "installedVersion": "17.3.11",
     "author": "angular"
   },
   {
     "name": "@angular/localize",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "17.3.6",
+    "installedVersion": "17.3.11",
     "author": "angular"
   },
   {
     "name": "@angular/platform-browser",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "17.3.6",
+    "installedVersion": "17.3.11",
     "author": "angular"
   },
   {
     "name": "@angular/platform-browser-dynamic",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "17.3.6",
+    "installedVersion": "17.3.11",
     "author": "angular"
   },
   {
     "name": "@angular/router",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "17.3.6",
+    "installedVersion": "17.3.11",
     "author": "angular"
+  },
+  {
+    "name": "@jsverse/transloco",
+    "licenseType": "MIT",
+    "link": "git+https://github.com/jsverse/transloco.git",
+    "installedVersion": "7.4.2",
+    "author": "n/a"
   },
   {
     "name": "@micro-sentry/angular",
@@ -96,13 +103,6 @@
     "link": "git+https://github.com/ng-select/ng-select.git",
     "installedVersion": "12.0.7",
     "author": "@ng-select/ng-select"
-  },
-  {
-    "name": "@jsverse/transloco",
-    "licenseType": "MIT",
-    "link": "git+https://github.com/ngneat/transloco.git",
-    "installedVersion": "6.0.4",
-    "author": "Netanel Basal netanel7799@gmail.com https://netbasal.com"
   },
   {
     "name": "@popperjs/core",
@@ -143,7 +143,7 @@
     "name": "dfx-bootstrap-icons",
     "licenseType": "MIT",
     "link": "git+ssh://git@github.com/Dafnik/dfts-common.git",
-    "installedVersion": "1.1.0",
+    "installedVersion": "1.2.1",
     "author": "Dafnik contact@dafnik.me https://dafnik.me"
   },
   {
@@ -193,7 +193,7 @@
     "name": "ngxtension",
     "licenseType": "MIT",
     "link": "git+https://github.com/nartc/ngxtension-platform.git",
-    "installedVersion": "3.2.0",
+    "installedVersion": "3.4.0",
     "author": "n/a"
   },
   {
@@ -207,14 +207,14 @@
     "name": "tslib",
     "licenseType": "0BSD",
     "link": "git+https://github.com/Microsoft/tslib.git",
-    "installedVersion": "2.6.2",
+    "installedVersion": "2.6.3",
     "author": "Microsoft Corp."
   },
   {
     "name": "zone.js",
     "licenseType": "MIT",
     "link": "git://github.com/angular/angular.git",
-    "installedVersion": "0.14.4",
+    "installedVersion": "0.14.7",
     "author": "Brian Ford"
   }
 ]
