@@ -1,27 +1,27 @@
-<div class="d-flex flex-column flex-md-row justify-content-start gap-4">
+<div class="d-flex flex-column flex-md-row justify-content-start gap-2">
   <div class="col-12 col-xl-7 d-flex flex-column gap-2">
     <div class="card p-2">
       <div class="card-body">
         <h5 class="card-title">{{ 'HOME_START_SETUP' | transloco }}</h5>
 
         <div class="d-flex gap-2 flex-wrap">
-          <a class="btn btn-outline-info btn-sm" routerLink="o/organisationId/e/eventId/tables/create">
+          <a class="btn btn-outline-info btn-sm" routerLink="o/organisationId/e/eventId/tables/t/create">
             <bi name="plus-circle" />
             {{ 'HOME_START_SETUP_CREATE_TABLE' | transloco }}</a
           >
-          <a class="btn btn-outline-info btn-sm" routerLink="o/organisationId/e/eventId/products/create">
+          <a class="btn btn-outline-info btn-sm" routerLink="o/organisationId/e/eventId/products/p/create">
             <bi name="plus-circle" />
             {{ 'HOME_START_SETUP_CREATE_PRODUCT' | transloco }}</a
           >
-          <a class="btn btn-outline-info btn-sm" routerLink="o/organisationId/e/eventId/waiters/create">
+          <a class="btn btn-outline-info btn-sm" routerLink="o/organisationId/e/eventId/waiters/waiter/create">
             <bi name="plus-circle" />
             {{ 'HOME_START_SETUP_CREATE_WAITER' | transloco }}</a
           >
-          <a class="btn btn-outline-info btn-sm" routerLink="o/organisationId/e/eventId/tables/groups/create">
+          <a class="btn btn-outline-info btn-sm" routerLink="o/organisationId/e/eventId/table-groups/create">
             <bi name="plus-circle" />
             {{ 'HOME_START_SETUP_CREATE_TABLE_GROUP' | transloco }}</a
           >
-          <a class="btn btn-outline-info btn-sm" routerLink="o/organisationId/e/eventId/products/groups/create">
+          <a class="btn btn-outline-info btn-sm" routerLink="o/organisationId/e/eventId/product-groups/create">
             <bi name="plus-circle" />
             {{ 'HOME_START_SETUP_CREATE_PRODUCT_GROUP' | transloco }}</a
           >
@@ -53,6 +53,54 @@
       </div>
     </div>
     }
+  </div>
+
+  <div class="col-12 col-xl-5 d-flex flex-column gap-2">
+    <div class="card p-2">
+      <div class="card-body">
+        <h5 class="card-title">{{ 'Neue Bestellungen' | transloco }}</h5>
+
+        <div class="list-group list-group-flush">
+          @for (order of orders(); track order.id) {
+          <a
+            class="list-group-item list-group-item-action d-flex justify-content-between align-items-start"
+            [routerLink]="'o/organisationId/e/eventId/orders/' + order.id"
+          >
+            <div class="d-flex flex-column gap-2">
+              <div class="d-inline-flex gap-2">
+                <div class="fw-bold">#{{order.orderNumber}}</div>
+                <span>
+                  (<a stopPropagation [routerLink]="'o/organisationId/e/eventId/tables/' + order.table.group.id"
+                    >{{order.table.group.name}}</a
+                  >
+                  - <a stopPropagation [routerLink]="'o/organisationId/e/eventId/tables/t/' + order.table.id">{{order.table.number}}</a>)
+                </span>
+              </div>
+              <div>
+                <a stopPropagation [routerLink]="'o/organisationId/e/eventId/waiters/waiter/' + order.waiter.id"> {{order.waiter.name}} </a>
+              </div>
+            </div>
+
+            <div class="d-flex flex-column align-items-end gap-2">
+              <app-order-state-badge
+                placement="left"
+                [orderState]="order.state"
+                [orderProductPrintStates]="order.orderProductPrintStates"
+                [createdAt]="order.createdAt"
+                [processedAt]="order.processedAt"
+              />
+
+              @if (order.test) {
+              <app-test-badge />
+              }
+            </div>
+          </a>
+          } @empty {
+          <app-progress-bar show />
+          }
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

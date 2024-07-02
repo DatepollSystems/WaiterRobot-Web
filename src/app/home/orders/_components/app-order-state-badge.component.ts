@@ -1,5 +1,5 @@
 import {DatePipe, NgClass} from '@angular/common';
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input, Input} from '@angular/core';
 
 import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
@@ -11,7 +11,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 @Component({
   template: `
     <span
-      placement="right"
+      [placement]="placement()"
       triggers="mouseenter:mouseleave"
       popoverTitle="Bestelldetails"
       class="badge d-flex align-items-center gap-2 not-selectable"
@@ -91,4 +91,6 @@ export class AppOrderStateBadgeComponent {
 
   @Input() processedAt?: string;
   @Input() createdAt?: string;
+
+  placement = input<string>('right');
 }
