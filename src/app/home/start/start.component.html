@@ -1,5 +1,5 @@
-<div class="d-flex flex-column flex-md-row justify-content-start gap-2">
-  <div class="col-12 col-xl-7 d-flex flex-column gap-2">
+<div class="d-flex flex-column flex-lg-row justify-content-start gap-2">
+  <div class="col-12 col-lg-7 d-flex flex-column gap-2">
     <div class="card p-2">
       <div class="card-body">
         <h5 class="card-title">{{ 'HOME_START_SETUP' | transloco }}</h5>
@@ -55,7 +55,8 @@
     }
   </div>
 
-  <div class="col-12 col-xl-5 d-flex flex-column gap-2">
+  @if (event()) {
+  <div class="col-12 col-lg-5 d-flex flex-column gap-2">
     <div class="card p-2">
       <div class="card-body">
         <h5 class="card-title">{{ 'Neue Bestellungen' | transloco }}</h5>
@@ -67,7 +68,7 @@
             [routerLink]="'o/organisationId/e/eventId/orders/' + order.id"
           >
             <div class="d-flex flex-column gap-2">
-              <div class="d-inline-flex gap-2">
+              <div class="d-inline-flex gap-0 gap-sm-2 flex-column flex-sm-row">
                 <div class="fw-bold">#{{order.orderNumber}}</div>
                 <span>
                   (<a stopPropagation [routerLink]="'o/organisationId/e/eventId/tables/' + order.table.group.id"
@@ -102,6 +103,7 @@
       </div>
     </div>
   </div>
+  }
 </div>
 
 @if (type === 'dev') {

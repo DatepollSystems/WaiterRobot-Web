@@ -19,6 +19,7 @@ import {AppTestBadge} from '@home-shared/components/app-test-badge.component';
 import {DatePipe} from '@angular/common';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {StopPropagationDirective} from 'dfx-helper';
+import {SelectedEventService} from '../events/_services/selected-event.service';
 
 @Component({
   selector: 'app-start',
@@ -46,6 +47,7 @@ export class StartComponent {
   type = EnvironmentHelper.getType();
 
   myUser = inject(MyUserService).user;
+  event = inject(SelectedEventService).selected;
   showSystemInfoService = inject(SystemInfoShowService);
 
   hasError = toSignal(
