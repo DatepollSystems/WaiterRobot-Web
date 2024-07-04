@@ -68,7 +68,7 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
   standalone: true,
   selector: 'app-color-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoPipe, BiComponent, NgbPopover, NgClass, AppIsLightColorPipe, NgbTooltip, AppAdjustDarkModeColor]
+  imports: [TranslocoPipe, BiComponent, NgbPopover, NgClass, AppIsLightColorPipe, NgbTooltip, AppAdjustDarkModeColor],
 })
 export class AppColorPicker {
   @Input() color?: string | null;
@@ -85,18 +85,18 @@ export class AppColorPicker {
     this.colorChange.emit(this.color);
   }
 
-  protected readonly colors =  [
-  '#EBEFFF',
-  '#1B2347',
-  '#C9D1FB',
-  '#6750A4',
-  '#D4DBFA',
-  '#607DFF',
-  '#F8FFA8',
-  '#EFFF32',
-  '#E0FFC0',
-  '#ACFF56',
-  '#FFDBF7',
-  '#FF60DC',
-];
+  protected readonly colors = [
+    '#EBEFFF',
+    '#1B2347',
+    '#C9D1FB',
+    '#6750A4',
+    '#D4DBFA',
+    '#607DFF',
+    '#F8FFA8',
+    '#EFFF32',
+    '#E0FFC0',
+    '#ACFF56',
+    '#FFDBF7',
+    '#FF60DC',
+  ];
 }

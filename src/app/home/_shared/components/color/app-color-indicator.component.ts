@@ -9,7 +9,7 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
   standalone: true,
   selector: 'app-color-indicator',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgStyle]
+  imports: [NgStyle],
 })
 export class AppColorIndicatorComponent {
   @Input({required: true}) color!: string;

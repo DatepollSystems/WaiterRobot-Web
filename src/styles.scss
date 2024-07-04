@@ -21,10 +21,10 @@ td:has(> div.form-check) {
 /* Set nav colors */
 
 /* Set nav colors */
-:root, [data-bs-theme='light'] {
+:root,
+[data-bs-theme='light'] {
   --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
   --bd-sidebar-link-bg: rgba(var(--bd-violet-rgb), 0.1);
-
 }
 
 [data-bs-theme='dark'] {
