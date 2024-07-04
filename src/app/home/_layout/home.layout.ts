@@ -10,7 +10,7 @@ import {filter, pairwise} from 'rxjs';
 import {
   ActiveSystemNotificationsComponent,
   ActiveSystemNotificationsDesktopComponent,
-  ActiveSystemNotificationsMobileToggleComponent,
+  ActiveSystemNotificationsMobileToggleComponent
 } from './_components/active-system-notifications.component';
 import {MaintenanceWarningComponent} from './_components/maintenance-warning.component';
 import {MobileNavComponent} from './_components/mobile-nav.component';
@@ -56,7 +56,7 @@ export class HomeTitle {}
             <router-outlet />
           </main>
 
-          <app-footer class="col-12" />
+          <app-footer class="col-12" [class.container-xxxl]="!isFullScreen()" />
         </div>
       </div>
     </div>
