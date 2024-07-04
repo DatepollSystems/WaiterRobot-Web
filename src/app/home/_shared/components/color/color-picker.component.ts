@@ -1,8 +1,9 @@
 import {NgClass} from '@angular/common';
 import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, Output, signal} from '@angular/core';
+import {AppAdjustDarkModeColor} from '@home-shared/components/color/app-adjust-dark-mode-color.pipe';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 
@@ -13,7 +14,7 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
     <div class="btn-group" role="group">
       <button
         id="color-picker-button"
-        class="btn btn-outline-secondary"
+        class="btn btn-outline-secondary color"
         type="button"
         placement="bottom"
         container="body"
@@ -22,8 +23,8 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
         [style.background-color]="color"
         [style.border-color]="color"
         [ngClass]="{
-          'text-white': !(color | isLightColor) && color,
-          'text-dark': (color | isLightColor) && color,
+          'text-white': !(color | adjustDarkModeColor | isLightColor) && color,
+          'text-dark': (color | adjustDarkModeColor | isLightColor) && color,
           'text-body-emphasis': !color,
         }"
         [autoClose]="'outside'"
@@ -46,7 +47,7 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
     <ng-template #popContent>
       <div class="d-flex flex-row flex-wrap" style="width: 200px">
         @for (color of colors; track color) {
-          <button class="color-btn" type="button" [style.background-color]="color" (mousedown)="changeColor(color)">
+          <button class="color-btn color" type="button" [style.background-color]="color" (mousedown)="changeColor(color)">
             <span class="visually-hidden">Pick {{ color }}</span>
           </button>
         }
@@ -59,11 +60,15 @@ import {AppIsLightColorPipe} from './app-is-light-color.pipe';
       width: 33px;
       height: 33px;
     }
+
+    ::ng-deep.color-picker-class > .popover-body {
+      padding: 10px !important;
+    }
   `,
   standalone: true,
   selector: 'app-color-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoPipe, BiComponent, NgbPopover, NgClass, AppIsLightColorPipe, NgbTooltip],
+  imports: [TranslocoPipe, BiComponent, NgbPopover, NgClass, AppIsLightColorPipe, NgbTooltip, AppAdjustDarkModeColor]
 })
 export class AppColorPicker {
   @Input() color?: string | null;
@@ -80,10 +85,7 @@ export class AppColorPicker {
     this.colorChange.emit(this.color);
   }
 
-  protected readonly colors = colors;
-}
-
-export const colors = [
+  protected readonly colors =  [
   '#EBEFFF',
   '#1B2347',
   '#C9D1FB',
@@ -97,3 +99,4 @@ export const colors = [
   '#FFDBF7',
   '#FF60DC',
 ];
+}

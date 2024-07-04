@@ -13,18 +13,26 @@ a:hover {
   text-decoration: none;
 }
 
+/* Set table row with check to fixed smaller width */
 td:has(> div.form-check) {
   width: 50px !important;
 }
 
-:root,
-[data-bs-theme='light'] {
+/* Set nav colors */
+
+/* Set nav colors */
+:root, [data-bs-theme='light'] {
   --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
   --bd-sidebar-link-bg: rgba(var(--bd-violet-rgb), 0.1);
+
 }
 
 [data-bs-theme='dark'] {
   --bd-sidebar-link-bg: rgba(84, 33, 187, 0.5);
+
+  .color {
+    filter: saturate(0.6);
+  }
 }
 
 /* Fix vertical text alignment in buttons with icons */
@@ -80,10 +88,6 @@ td:has(> div.form-check) {
   -moz-transform: translate3d(0, 0, 0);
 }
 
-.color-picker-class > .popover-body {
-  padding: 10px !important;
-}
-
 /* Fix white row below footer */
 .cdk-describedby-message-container {
   display: none;
@@ -93,10 +97,12 @@ td:has(> div.form-check) {
   vertical-align: middle;
 }
 
+/* Allow dropdown to have no dots */
 .no-dots.btn.btn-sm.dropdown-toggle::after {
   display: none !important;
 }
 
+/* Disable text select in nav */
 .dropdown-toggle,
 .nav-link {
   user-select: none;
