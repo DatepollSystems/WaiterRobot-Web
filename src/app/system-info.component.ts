@@ -8,7 +8,7 @@ import {QrCodeService} from '@home-shared/services/qr-code.service';
 import {RedirectService} from '@home-shared/services/redirect.service';
 import {MyUserService} from '@home-shared/services/user/my-user.service';
 import {TranslocoPipe} from '@jsverse/transloco';
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';
 import {AuthService} from '@shared/services/auth/auth.service';
 import {SystemInfoService, SystemInfoShowService} from '@shared/services/system-info.service';
@@ -18,6 +18,7 @@ import {i_complete} from 'dfts-helper';
 import {DfxTimeSpanPipe, injectIsMobile} from 'dfx-helper';
 
 import {interval, map} from 'rxjs';
+import {AppSystemColorsModal} from './system-colors.modal';
 
 @Component({
   template: `
@@ -25,16 +26,19 @@ import {interval, map} from 'rxjs';
       @if (showService.show()) {
         <div
           #frontendInfo
-          class="col-12 col-md-8 col-lg-6 col-xl-4 col-xxl-3"
+          class="col-12 col-md-8 col-lg-6 col-xl-4 col-xxl-3 overflow-y-auto"
           cdkDrag
-          style="z-index: 1000000; bottom: 30px; left: 20px"
+          style="z-index: 1000000; bottom: 30px; left: 20px; max-height: 96%"
           [cdkDragDisabled]="isMobile()"
           [class.position-fixed]="!isMobile()"
         >
           <div class="card px-2 pt-2 transparent" [class.text-white]="theme().id === 'light'">
             <div class="card-body d-flex flex-column gap-3">
-              <div class="d-flex justify-content-between">
-                <h5 class="card-title">{{ 'HOME_START_STATISTICS' | transloco }}</h5>
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">{{ 'HOME_START_STATISTICS' | transloco }}</h5>
+
+                <button type="button" class="btn btn-dark" (click)="openSystemColors()">System Colors</button>
+
                 <button type="button" class="btn-close btn-close-white" (click)="frontendInfo.remove()">
                   <span class="visually-hidden">Close frontend window</span>
                 </button>
@@ -219,6 +223,7 @@ export class SystemInfoComponent {
   type = EnvironmentHelper.getType();
   logoUrl = EnvironmentHelper.getLogoUrl();
 
+  #modal = inject(NgbModal);
   isMobile = injectIsMobile();
   serverInfoService = inject(SystemInfoService);
   myUser = inject(MyUserService).user;
@@ -240,5 +245,13 @@ export class SystemInfoComponent {
       .subscribe(() => {
         this.showService.set(!this.showService.show());
       });
+  }
+
+  openSystemColors() {
+    const modal = this.#modal.open(AppSystemColorsModal, {ariaLabelledBy: 'modal-system-colors'});
+    modal.closed.subscribe(() => {
+      this.showService.set(true);
+    });
+    this.showService.set(false);
   }
 }

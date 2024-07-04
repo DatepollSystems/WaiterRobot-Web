@@ -38,6 +38,7 @@
     "@ng-select/ng-select": "^13.0.0",
     "@popperjs/core": "2.11.8",
     "@swimlane/ngx-charts": "20.5.0",
+    "@types/tinycolor2": "^1.4.6",
     "bootstrap": "5.3.2",
     "d3-shape": "3.2.0",
     "dfts-helper": "1.1.1",
@@ -51,6 +52,7 @@
     "ngx-print": "^1.5.1",
     "ngxtension": "3.5.5",
     "rxjs": "7.8.1",
+    "tinycolor2": "^1.6.0",
     "tslib": "2.6.3",
     "zone.js": "0.14.7"
   },

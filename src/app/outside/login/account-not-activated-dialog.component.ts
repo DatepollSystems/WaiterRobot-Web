@@ -7,7 +7,7 @@ import {TranslocoPipe} from '@jsverse/transloco';
 @Component({
   template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-question-title">{{ 'INFORMATION' | transloco }}</h4>
+      <h4 class="modal-title" id="modal-account-deactivated">{{ 'INFORMATION' | transloco }}</h4>
       <button type="button" class="btn-close btn-close-white" aria-label="Close" (mousedown)="activeModal.close()"></button>
     </div>
     <div class="modal-body">

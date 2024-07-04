@@ -2,7 +2,7 @@ import {computed, effect, Injectable, signal} from '@angular/core';
 
 import {BiName} from 'dfx-bootstrap-icons';
 
-interface Theme {
+export interface Theme {
   id: 'auto' | 'dark' | 'light';
   name: string;
   icon: BiName;

@@ -11,7 +11,7 @@ import {TranslocoPipe} from '@jsverse/transloco';
 @Component({
   template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-question-title">{{ 'ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_INFO' | transloco }}</h4>
+      <h4 class="modal-title" id="modal-password-change">{{ 'ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_INFO' | transloco }}</h4>
       <button type="button" class="btn-close btn-close-white" aria-label="Close" (mousedown)="activeModal.close(undefined)"></button>
     </div>
     <div class="modal-body">

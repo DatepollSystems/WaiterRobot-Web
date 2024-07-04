@@ -154,11 +154,11 @@ export class LoginComponent {
 
     effect(() => {
       if (this.authService.loginError() === 'ACCOUNT_NOT_ACTIVATED') {
-        this.modal.open(AppAccountNotActivatedDialog);
+        this.modal.open(AppAccountNotActivatedDialog, {ariaLabelledBy: 'modal-account-deactivated'});
       }
 
       if (this.authService.loginError() === 'PASSWORD_CHANGE_REQUIRED') {
-        void this.modal.open(AppPasswordChangeDialogComponent).result.then((result) => {
+        void this.modal.open(AppPasswordChangeDialogComponent, {ariaLabelledBy: 'modal-password-change'}).result.then((result) => {
           if (result) {
             if (result === this.form.controls.password.getRawValue()) {
               this.notificationService.terror('ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_FAILED');

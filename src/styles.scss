@@ -29,10 +29,6 @@ td:has(> div.form-check) {
 
 [data-bs-theme='dark'] {
   --bd-sidebar-link-bg: rgba(84, 33, 187, 0.5);
-
-  .color {
-    filter: saturate(0.6);
-  }
 }
 
 /* Fix vertical text alignment in buttons with icons */
