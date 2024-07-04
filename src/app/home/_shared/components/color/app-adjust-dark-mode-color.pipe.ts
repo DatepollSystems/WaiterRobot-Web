@@ -7,8 +7,8 @@ import {ThemeService} from '@shared/services/theme.service';
 })
 export class AppAdjustDarkModeColor implements PipeTransform {
   theme = inject(ThemeService).currentTheme;
-  transform(color?: string | null): string | null {
-    return color ? adjustColorForDarkMode(color, this.theme().id === 'dark') : null;
+  transform(color?: string | null): string | null | undefined {
+    return color && this.theme().id === 'dark' ? adjustColorForDarkMode(color) : color;
   }
 }
 
@@ -89,12 +89,8 @@ function hsvToHex(h: number, s: number, v: number): string {
   return `#${((1 << 24) + (Math.round(r * 255) << 16) + (Math.round(g * 255) << 8) + Math.round(b * 255)).toString(16).slice(1)}`;
 }
 
-function adjustColorForDarkMode(hexColor: string, darkMode: boolean): string {
-  if (!darkMode) {
-    return hexColor;
-  }
-
-  let hsv = hexToHsv(hexColor);
+function adjustColorForDarkMode(hexColor: string): string {
+  const hsv = hexToHsv(hexColor);
   let newSaturation = hsv.s * 0.6;
   return hsvToHex(hsv.h, newSaturation, hsv.v);
 }
