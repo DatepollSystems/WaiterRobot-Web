@@ -57,8 +57,8 @@ import {delay, of} from 'rxjs';
                 cssClass="text-center"
                 elementType="canvas"
                 [imageSrc]="qrCodeSize === 'MD' ? '/assets/mono.png' : undefined"
-                [imageWidth]="60"
-                [imageHeight]="60"
+                [imageWidth]="70"
+                [imageHeight]="70"
                 [size]="8"
                 [errorCorrectionLevel]="qrCodeSize === 'MD' ? 'H' : 'M'"
                 [margin]="0"
@@ -90,7 +90,9 @@ import {delay, of} from 'rxjs';
     }
 
     .qr-code-label {
-      font-size: 4rem;
+      margin-top: -22px;
+      margin-bottom: -22px;
+      font-size: 5.8rem;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -122,7 +124,7 @@ export class TablesPrintQrCodesModal {
     const width = this.getQrCodeSize() + 31;
 
     let x = 0;
-    let y = 0;
+    let y = 10;
 
     const steps = 100 / qrCodeDivs.length;
 
@@ -131,20 +133,20 @@ export class TablesPrintQrCodesModal {
       if (qrcode) {
         const canvas = await toJpeg(qrcode as HTMLElement, {quality: 0.7, backgroundColor: '#FFFFFF'});
 
-        pdf.addImage(canvas, 'JPEG', x, y, width, width + this.getQrCodePadding());
+        pdf.addImage(canvas, 'JPEG', x, y, width, width);
         x += width;
       }
       if (x > 500) {
         x = 0;
-        y += width + this.getQrCodePadding();
+        y += width;
       }
-      if (y > 760) {
+      if (y > 720) {
         // Do not add page if it is the last round of the loop and the last qr code line on a page
         if (i + 1 < qrCodeDivs.length) {
           pdf.addPage();
         }
         x = 0;
-        y = 0;
+        y = 10;
       }
       this.progress.update((it) => (it ?? 1) + steps);
     }
