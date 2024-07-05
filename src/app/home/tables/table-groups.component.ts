@@ -45,18 +45,8 @@ import {TableGroupsService} from './_services/table-groups.service';
           </button>
         </div>
 
-        <app-order-mode-switch [orderMode]="order.isOrdering()" (orderModeChange)="order.setIsOrdering($event)" />
-
-        <app-reset-order-button
-          [isOrdering]="order.isOrdering()"
-          [disabled]="!order.hasCustomPositionSet()"
-          (resetOrder)="order.resetOrder()"
-        />
-      </scrollable-toolbar>
-
-      <form>
-        <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
+        <div class="input-group action-search">
+          <input class="form-control form-control-sm" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
           @if (filter.isActive()) {
             <button
               class="btn btn-outline-secondary"
@@ -69,7 +59,15 @@ import {TableGroupsService} from './_services/table-groups.service';
             </button>
           }
         </div>
-      </form>
+
+        <app-order-mode-switch [orderMode]="order.isOrdering()" (orderModeChange)="order.setIsOrdering($event)" />
+
+        <app-reset-order-button
+          [isOrdering]="order.isOrdering()"
+          [disabled]="!order.hasCustomPositionSet()"
+          (resetOrder)="order.resetOrder()"
+        />
+      </scrollable-toolbar>
 
       @if (table.dataSource(); as dataSource) {
         <div class="table-responsive">

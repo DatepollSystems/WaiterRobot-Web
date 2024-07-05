@@ -1,6 +1,6 @@
 import {Component, effect, inject, input, signal} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
-import {NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormControl, NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {RedirectService} from '@home-shared/services/redirect.service';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
@@ -23,9 +23,12 @@ import {SelectedOrganisationService} from '../../organisations/_services/selecte
       }
 
       <div class="d-flex gap-4 flex-column flex-lg-row">
-        @if (allOrganisations(); as organisations) {
+        @if (filteredOrganisations(); as organisations) {
           <div class="w-100">
             <h2>Organisation</h2>
+
+            <input class="form-control" placeholder="Suche..." type="text" [formControl]="organisationFilter" />
+
             <div class="list-group list-group-checkable d-grid gap-2 border-0 w-100 mt-2">
               @for (organisation of organisations; track organisation.id) {
                 <input
@@ -52,8 +55,11 @@ import {SelectedOrganisationService} from '../../organisations/_services/selecte
         }
         <div class="w-100">
           <h2>Event / Location</h2>
+
+          <input class="form-control" placeholder="Suche..." type="text" [formControl]="eventFilter" />
+
           @if (form.controls.organisationId.value) {
-            @if (allEvents(); as events) {
+            @if (filteredEvents(); as events) {
               <div class="list-group list-group-checkable d-grid gap-2 border-0 w-100 mt-2">
                 @for (event of events; track event.id) {
                   <input
@@ -125,6 +131,18 @@ export class SwitcherComponent {
 
   allOrganisations = toSignal(inject(OrganisationsService).getAll$());
 
+  organisationFilter = new FormControl('');
+  filteredOrganisations = derivedFrom(
+    [
+      this.allOrganisations,
+      this.organisationFilter.valueChanges.pipe(
+        map((it) => it?.toLowerCase() ?? ''),
+        startWith(''),
+      ),
+    ],
+    map(([allOrganisations, filter]) => allOrganisations?.filter((it) => it.name.toLowerCase().includes(filter)) ?? []),
+  );
+
   form = inject(NonNullableFormBuilder).group({
     organisationId: [undefined as unknown as number, [Validators.required]],
     eventId: [undefined as unknown as number, [Validators.required]],
@@ -151,6 +169,18 @@ export class SwitcherComponent {
       switchMap((it) => this.eventsService.getAllById$(it)),
       startWith(undefined),
     ),
+  );
+
+  eventFilter = new FormControl('');
+  filteredEvents = derivedFrom(
+    [
+      this.allEvents,
+      this.eventFilter.valueChanges.pipe(
+        map((it) => it?.toLowerCase() ?? ''),
+        startWith(''),
+      ),
+    ],
+    map(([allEvents, filter]) => allEvents?.filter((it) => it.name.toLowerCase().includes(filter)) ?? []),
   );
 
   constructor() {

@@ -51,11 +51,9 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
             {{ 'HOME_PRINTER_BATCH_UPDATE' | transloco }}
           </button>
         </div>
-      </scrollable-toolbar>
 
-      <form>
-        <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
+        <div class="input-group action-search">
+          <input class="form-control form-control-sm" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
           @if (filter.isActive()) {
             <button
               class="btn btn-outline-secondary"
@@ -68,7 +66,7 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
             </button>
           }
         </div>
-      </form>
+      </scrollable-toolbar>
 
       @if (table.dataSource(); as dataSource) {
         <div class="table-responsive">

@@ -50,11 +50,9 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
             {{ 'PRINT' | transloco }}
           </button>
         </div>
-      </scrollable-toolbar>
 
-      <form>
-        <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
+        <div class="input-group action-search">
+          <input class="form-control form-control-sm" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
           @if (filter.isActive()) {
             <button
               class="btn btn-outline-secondary"
@@ -67,7 +65,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
             </button>
           }
         </div>
-      </form>
+      </scrollable-toolbar>
 
       <div class="table-responsive">
         <table ngb-table ngb-sort [hover]="true" [dataSource]="table.dataSource()">

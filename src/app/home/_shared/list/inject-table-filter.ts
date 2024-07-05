@@ -11,7 +11,7 @@ export function injectTableFilter() {
     startWith(''),
   );
   const value = toSignal(value$, {requireSync: true});
-  const isActive = computed(() => value.length > 0);
+  const isActive = computed(() => value().length > 0);
 
   return {
     control,

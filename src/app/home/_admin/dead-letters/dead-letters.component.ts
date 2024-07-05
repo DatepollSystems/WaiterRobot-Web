@@ -33,24 +33,22 @@ import {DeadLettersService} from './dead-letters.service';
             {{ 'DELETE' | transloco }}
           </button>
         </div>
-      </scrollable-toolbar>
 
-      <form>
-        <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
+        <div class="input-group action-search">
+          <input class="form-control form-control-sm" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
           @if (filter.isActive()) {
             <button
               class="btn btn-outline-secondary"
               type="button"
               placement="bottom"
               [ngbTooltip]="'CLEAR' | transloco"
-              (mousedown)="filter.reset()"
+              (click)="filter.reset()"
             >
               <bi name="x-circle-fill" />
             </button>
           }
         </div>
-      </form>
+      </scrollable-toolbar>
 
       @if (table.dataSource(); as dataSource) {
         <div class="table-responsive">

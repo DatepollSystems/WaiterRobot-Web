@@ -44,6 +44,22 @@ import {ProductGroupsService} from './_services/product-groups.service';
             {{ 'DELETE' | transloco }}
           </button>
         </div>
+
+        <div class="input-group action-search">
+          <input class="form-control form-control-sm" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
+          @if (filter.isActive()) {
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              placement="bottom"
+              [ngbTooltip]="'CLEAR' | transloco"
+              (click)="filter.reset()"
+            >
+              <bi name="x-circle-fill" />
+            </button>
+          }
+        </div>
+
         <app-order-mode-switch [orderMode]="order.isOrdering()" (orderModeChange)="order.setIsOrdering($event)" />
 
         <app-reset-order-button
@@ -52,23 +68,6 @@ import {ProductGroupsService} from './_services/product-groups.service';
           (resetOrder)="order.resetOrder()"
         />
       </scrollable-toolbar>
-
-      <form>
-        <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
-          @if (filter.isActive()) {
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              placement="bottom"
-              [ngbTooltip]="'CLEAR' | transloco"
-              (mousedown)="filter.reset()"
-            >
-              <bi name="x-circle-fill" />
-            </button>
-          }
-        </div>
-      </form>
 
       @if (table.dataSource(); as dataSource) {
         <div class="table-responsive">
