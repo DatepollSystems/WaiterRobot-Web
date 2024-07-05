@@ -4,7 +4,7 @@ import {RouterLink} from '@angular/router';
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
+import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect, ListFilterComponent} from '@home-shared/list';
 import {mapName} from '@home-shared/name-map';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbDropdownItem, NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -52,20 +52,7 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
           </button>
         </div>
 
-        <div class="input-group action-search">
-          <input class="form-control form-control-sm" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
-          @if (filter.isActive()) {
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              placement="bottom"
-              [ngbTooltip]="'CLEAR' | transloco"
-              (click)="filter.reset()"
-            >
-              <bi name="x-circle-fill" />
-            </button>
-          }
-        </div>
+        <app-list-filter [filter]="filter" />
       </scrollable-toolbar>
 
       @if (table.dataSource(); as dataSource) {
@@ -174,6 +161,7 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
     ActionDropdownComponent,
     NgbDropdownItem,
     StopPropagationDirective,
+    ListFilterComponent,
   ],
 })
 export class PrintersComponent {

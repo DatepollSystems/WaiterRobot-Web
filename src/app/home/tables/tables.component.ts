@@ -7,7 +7,15 @@ import {RouterLink} from '@angular/router';
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-import {addGroupIfMissing, injectTable, injectTableDelete, injectTableFilter, injectTableSelect, removeGroup} from '@home-shared/list';
+import {
+  addGroupIfMissing,
+  injectTable,
+  injectTableDelete,
+  injectTableFilter,
+  injectTableSelect,
+  ListFilterComponent,
+  removeGroup,
+} from '@home-shared/list';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbDropdownItem, NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
@@ -51,20 +59,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
           </button>
         </div>
 
-        <div class="input-group action-search">
-          <input class="form-control form-control-sm" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
-          @if (filter.isActive()) {
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              placement="bottom"
-              [ngbTooltip]="'CLEAR' | transloco"
-              (click)="filter.reset()"
-            >
-              <bi name="x-circle-fill" />
-            </button>
-          }
-        </div>
+        <app-list-filter [filter]="filter" />
       </scrollable-toolbar>
 
       <div class="table-responsive">
@@ -235,6 +230,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
     AppProgressBarComponent,
     ActionDropdownComponent,
     NgbDropdownItem,
+    ListFilterComponent,
   ],
 })
 export class TablesComponent {

@@ -1,7 +1,7 @@
 import {AsyncPipe, DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
-import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
+import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect, ListFilterComponent} from '@home-shared/list';
 import {mapName} from '@home-shared/name-map';
 import {TranslocoPipe} from '@jsverse/transloco';
 
@@ -32,20 +32,7 @@ import {UserSessionsService} from './_services/user-sessions.service';
           </button>
         </div>
 
-        <div class="input-group action-search">
-          <input class="form-control form-control-sm" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
-          @if (filter.isActive()) {
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              placement="bottom"
-              [ngbTooltip]="'CLEAR' | transloco"
-              (click)="filter.reset()"
-            >
-              <bi name="x-circle-fill" />
-            </button>
-          }
-        </div>
+        <app-list-filter [filter]="filter" />
       </scrollable-toolbar>
 
       @if (table.dataSource(); as dataSource) {
@@ -130,6 +117,7 @@ import {UserSessionsService} from './_services/user-sessions.service';
     AppSpinnerRowComponent,
     ScrollableToolbarComponent,
     StopPropagationDirective,
+    ListFilterComponent,
   ],
 })
 export class SessionsComponent {

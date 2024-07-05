@@ -3,7 +3,7 @@ import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/co
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
+import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect, ListFilterComponent} from '@home-shared/list';
 import {AppActivatedPipe} from '@home-shared/pipes/app-activated.pipe';
 import {TranslocoPipe} from '@jsverse/transloco';
 
@@ -41,20 +41,7 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
           </button>
         </div>
 
-        <div class="input-group action-search">
-          <input class="form-control form-control-sm" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
-          @if (filter.isActive()) {
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              placement="bottom"
-              [ngbTooltip]="'CLEAR' | transloco"
-              (click)="filter.reset()"
-            >
-              <bi name="x-circle-fill" />
-            </button>
-          }
-        </div>
+        <app-list-filter [filter]="filter" />
       </scrollable-toolbar>
 
       @if (table.dataSource(); as dataSource) {
@@ -161,6 +148,7 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
     AppActivatedPipe,
     AppProgressBarComponent,
     StopPropagationDirective,
+    ListFilterComponent,
   ],
 })
 export class SystemNotificationsComponent {

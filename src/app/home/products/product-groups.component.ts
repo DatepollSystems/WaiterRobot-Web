@@ -4,7 +4,14 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 import {AppResetOrderButtonComponent} from '@home-shared/components/button/app-reset-order-button.component';
-import {injectTable, injectTableDelete, injectTableFilter, injectTableOrder, injectTableSelect} from '@home-shared/list';
+import {
+  injectTable,
+  injectTableDelete,
+  injectTableFilter,
+  injectTableOrder,
+  injectTableSelect,
+  ListFilterComponent,
+} from '@home-shared/list';
 import {listOrderStyles} from '@home-shared/list/list-order-styles';
 import {mapName} from '@home-shared/name-map';
 import {TranslocoPipe} from '@jsverse/transloco';
@@ -45,20 +52,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
           </button>
         </div>
 
-        <div class="input-group action-search">
-          <input class="form-control form-control-sm" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
-          @if (filter.isActive()) {
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              placement="bottom"
-              [ngbTooltip]="'CLEAR' | transloco"
-              (click)="filter.reset()"
-            >
-              <bi name="x-circle-fill" />
-            </button>
-          }
-        </div>
+        <app-list-filter [filter]="filter" />
 
         <app-order-mode-switch [orderMode]="order.isOrdering()" (orderModeChange)="order.setIsOrdering($event)" />
 
@@ -214,6 +208,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
     NgbDropdownItem,
     StopPropagationDirective,
     AppResetOrderButtonComponent,
+    ListFilterComponent,
   ],
 })
 export class ProductGroupsComponent {

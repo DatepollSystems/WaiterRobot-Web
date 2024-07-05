@@ -14,6 +14,7 @@ import {
   injectTableFilter,
   injectTableOrder,
   injectTableSelect,
+  ListFilterComponent,
   listOrderStyles,
   removeGroup,
 } from '@home-shared/list';
@@ -85,20 +86,7 @@ import {ProductsService} from './_services/products.service';
           >
         }
 
-        <div class="input-group action-search">
-          <input class="form-control form-control-sm" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
-          @if (filter.isActive()) {
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              placement="bottom"
-              [ngbTooltip]="'CLEAR' | transloco"
-              (click)="filter.reset()"
-            >
-              <bi name="x-circle-fill" />
-            </button>
-          }
-        </div>
+        <app-list-filter [filter]="filter" />
 
         @if (activeId() !== 'all') {
           <app-order-mode-switch [orderMode]="order.isOrdering()" (orderModeChange)="order.setIsOrdering($event)" />
@@ -304,6 +292,7 @@ import {ProductsService} from './_services/products.service';
     StopPropagationDirective,
     AppOrderModeSwitchComponent,
     AppResetOrderButtonComponent,
+    ListFilterComponent,
   ],
 })
 export class ProductsComponent {

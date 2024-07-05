@@ -8,7 +8,14 @@ import {AppResetOrderButtonComponent} from '@home-shared/components/button/app-r
 import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {AppOrderModeSwitchComponent} from '@home-shared/form/app-order-mode-switch.component';
-import {injectTable, injectTableDelete, injectTableFilter, injectTableOrder, injectTableSelect} from '@home-shared/list';
+import {
+  injectTable,
+  injectTableDelete,
+  injectTableFilter,
+  injectTableOrder,
+  injectTableSelect,
+  ListFilterComponent,
+} from '@home-shared/list';
 import {listOrderStyles} from '@home-shared/list/list-order-styles';
 import {mapName} from '@home-shared/name-map';
 import {TranslocoPipe} from '@jsverse/transloco';
@@ -45,20 +52,7 @@ import {TableGroupsService} from './_services/table-groups.service';
           </button>
         </div>
 
-        <div class="input-group action-search">
-          <input class="form-control form-control-sm" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
-          @if (filter.isActive()) {
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              placement="bottom"
-              [ngbTooltip]="'CLEAR' | transloco"
-              (click)="filter.reset()"
-            >
-              <bi name="x-circle-fill" />
-            </button>
-          }
-        </div>
+        <app-list-filter [filter]="filter" />
 
         <app-order-mode-switch [orderMode]="order.isOrdering()" (orderModeChange)="order.setIsOrdering($event)" />
 
@@ -214,6 +208,7 @@ import {TableGroupsService} from './_services/table-groups.service';
     ActionDropdownComponent,
     StopPropagationDirective,
     AppResetOrderButtonComponent,
+    ListFilterComponent,
   ],
 })
 export class TableGroupsComponent {

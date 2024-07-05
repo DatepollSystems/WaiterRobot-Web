@@ -3,7 +3,7 @@ import {Component, inject, viewChild} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
-import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
+import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect, ListFilterComponent} from '@home-shared/list';
 import {mapName} from '@home-shared/name-map';
 import {TranslocoPipe} from '@jsverse/transloco';
 
@@ -42,20 +42,7 @@ import {OrganisationsService} from './_services/organisations.service';
           </button>
         </div>
 
-        <div class="input-group action-search">
-          <input class="form-control form-control-sm" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
-          @if (filter.isActive()) {
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              placement="bottom"
-              [ngbTooltip]="'CLEAR' | transloco"
-              (click)="filter.reset()"
-            >
-              <bi name="x-circle-fill" />
-            </button>
-          }
-        </div>
+        <app-list-filter [filter]="filter" />
       </scrollable-toolbar>
 
       @if (table.dataSource(); as dataSource) {
@@ -163,6 +150,7 @@ import {OrganisationsService} from './_services/organisations.service';
     ActionDropdownComponent,
     NgbDropdownItem,
     StopPropagationDirective,
+    ListFilterComponent,
   ],
 })
 export class OrganisationsComponent {
