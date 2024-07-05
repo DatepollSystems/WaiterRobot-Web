@@ -111,23 +111,6 @@ import {ProductsService} from './_services/products.service';
         }
       </scrollable-toolbar>
 
-      <form>
-        <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
-          @if (filter.isActive()) {
-            <button
-              class="btn btn-outline-secondary"
-              type="button"
-              placement="bottom"
-              [ngbTooltip]="'CLEAR' | transloco"
-              (mousedown)="filter.reset()"
-            >
-              <bi name="x-circle-fill" />
-            </button>
-          }
-        </div>
-      </form>
-
       @if (table.dataSource(); as dataSource) {
         <div class="table-responsive">
           <table
