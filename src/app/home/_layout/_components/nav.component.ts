@@ -16,7 +16,7 @@ import {SwitcherModalComponent} from './switcher.component';
   template: `
     <div class="d-flex flex-column gap-3 pb-3 mb-3 border-bottom">
       <a routerLink="/" class="link-body-emphasis text-decoration-none">
-        <app-logo-with-text logoSize="30" textHeight="12" textWidthScale="0.5"  />
+        <app-logo-with-text logoSize="30" textHeight="12" textWidthScale="0.5" />
       </a>
       <button
         type="button"
@@ -253,7 +253,13 @@ import {SwitcherModalComponent} from './switcher.component';
     <div class="d-flex align-items-center justify-content-between mb-3 mt-1">
       <app-profile-menu />
 
-      <a href="https://help.kellner.team" target="_blank" rel="noopener" class="btn d-inline-flex align-items-center" ngbTooltip="Hilfe-Seite">
+      <a
+        href="https://help.kellner.team"
+        target="_blank"
+        rel="noopener"
+        class="btn d-inline-flex align-items-center"
+        ngbTooltip="Hilfe-Seite"
+      >
         <bi name="question-square-fill" size="24" />
       </a>
     </div>
@@ -300,7 +306,17 @@ import {SwitcherModalComponent} from './switcher.component';
   `,
   standalone: true,
   selector: 'app-nav',
-  imports: [RouterLink, NgOptimizedImage, BiComponent, RouterLinkActive, TranslocoPipe, ProfileMenuComponent, DfxCutPipe, NgbTooltip, AppLogoWithTextComponent]
+  imports: [
+    RouterLink,
+    NgOptimizedImage,
+    BiComponent,
+    RouterLinkActive,
+    TranslocoPipe,
+    ProfileMenuComponent,
+    DfxCutPipe,
+    NgbTooltip,
+    AppLogoWithTextComponent,
+  ],
 })
 export class NavComponent {
   modal = inject(NgbModal);

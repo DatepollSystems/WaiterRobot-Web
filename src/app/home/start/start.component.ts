@@ -58,16 +58,18 @@ export class StartComponent {
     ),
   );
 
-  orders = toSignal(timer(0, 5000).pipe(
-    switchMap(() =>
-      this.#ordersService.getAllPaginated({
-        page: 0,
-        size: 8,
-        sort: 'createdAt,desc',
-      }),
+  orders = toSignal(
+    timer(0, 5000).pipe(
+      switchMap(() =>
+        this.#ordersService.getAllPaginated({
+          page: 0,
+          size: 8,
+          sort: 'createdAt,desc',
+        }),
+      ),
+      map((it) => it.data),
     ),
-    map((it) => it.data),
-  ));
+  );
 
   logout(): void {
     this.#authService.logout();

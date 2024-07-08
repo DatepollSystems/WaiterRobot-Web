@@ -99,7 +99,7 @@ import {a_shuffle} from 'dfts-helper';
   selector: 'app-footer',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [LowerCasePipe, RouterLink, TranslocoPipe, AppLogoWithTextComponent]
+  imports: [LowerCasePipe, RouterLink, TranslocoPipe, AppLogoWithTextComponent],
 })
 export class FooterComponent {
   modal = inject(NgbModal);

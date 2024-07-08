@@ -9,7 +9,7 @@ import {
   NgbInputDatepicker,
   NgbPopover,
   NgbTimepicker,
-  NgbTimeStruct
+  NgbTimeStruct,
 } from '@ng-bootstrap/ng-bootstrap';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
