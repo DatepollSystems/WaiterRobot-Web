@@ -9,7 +9,7 @@ import {
   NgbInputDatepicker,
   NgbPopover,
   NgbTimepicker,
-  NgbTimeStruct,
+  NgbTimeStruct
 } from '@ng-bootstrap/ng-bootstrap';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
@@ -28,7 +28,7 @@ import {NgbDateTimeStruct} from './datetime.struct';
         [placeholder]="placeholder"
         [disabled]="disabled"
         [ngClass]="ngControl.valid ? 'ng-valid' : 'ng-invalid'"
-        [ngModel]="displayedDateTime() ?? ''"
+        [ngModel]="displayedDateTime()"
         (ngModelChange)="onInputChange($event)"
         (blur)="inputBlur()"
       />

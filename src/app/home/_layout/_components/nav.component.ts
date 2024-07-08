@@ -3,38 +3,35 @@ import {Component, computed, inject} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {MyUserService} from '@home-shared/services/user/my-user.service';
 import {TranslocoPipe} from '@jsverse/transloco';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {EnvironmentHelper} from '@shared/EnvironmentHelper';
+import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {AppLogoWithTextComponent} from '@outside-shared/app-logo-with-text.component';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxCutPipe} from 'dfx-helper';
 import {SelectedEventService} from '../../events/_services/selected-event.service';
 import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
-import {s_toColor} from './colors';
 import {ProfileMenuComponent} from './profile-menu.component';
 import {SwitcherModalComponent} from './switcher.component';
 
 @Component({
   template: `
-    <div class="d-flex align-items-center gap-2 pb-3 mb-3 border-bottom">
+    <div class="d-flex flex-column gap-3 pb-3 mb-3 border-bottom">
       <a routerLink="/" class="link-body-emphasis text-decoration-none">
-        <img id="brand" width="30" height="30" priority="true" class="align-self-center ms-2" alt="kellner.team logo" [ngSrc]="logoUrl" />
+        <app-logo-with-text logoSize="30" textHeight="12" textWidthScale="0.5"  />
       </a>
-      <div class="fs-3 ms-3">/</div>
       <button
         type="button"
-        class="btn switcher d-flex flex-md-grow-1 gap-4 justify-content-between align-items-center"
-        style="border-width: 1px"
-        [style.border-color]="selectedColor() ?? ''"
+        class="btn switcher d-flex justify-content-between align-items-center"
+        style="border-color: #cccccc; border-width: 1px;"
         (mousedown)="openSwitcher()"
       >
-        <div class="d-flex flex-column align-items-start" style="font-size: 0.875rem">
+        <div class="d-flex flex-column align-items-start" style="font-size: 0.875rem; width: 85%">
           @if (selectedOrganisation(); as organisation) {
-            <span class="ws-nowrap">{{ organisation.name | s_cut: 20 : '..' }}</span>
+            <span class="ws-nowrap overflow-x-hidden text-start w-100" style="text-overflow: ellipsis;">{{ organisation.name }}</span>
             @if (selectedEvent(); as event) {
-              <span class="ws-nowrap">{{ event.name | s_cut: 20 : '..' }}</span>
+              <span class="ws-nowrap text-start w-100" style="text-overflow: ellipsis;">{{ event.name }}</span>
             }
           } @else {
-            <span>Organisation auswählen</span>
+            <span class="my-2">Organisation auswählen</span>
           }
         </div>
         <bi name="chevron-expand" />
@@ -253,7 +250,13 @@ import {SwitcherModalComponent} from './switcher.component';
 
     <hr />
 
-    <app-profile-menu class="mb-3 mt-1" />
+    <div class="d-flex align-items-center justify-content-between mb-3 mt-1">
+      <app-profile-menu />
+
+      <a href="https://help.kellner.team" target="_blank" rel="noopener" class="btn d-inline-flex align-items-center" ngbTooltip="Hilfe-Seite">
+        <bi name="question-square-fill" size="24" />
+      </a>
+    </div>
   `,
   styles: `
     .nav-heading {
@@ -297,11 +300,10 @@ import {SwitcherModalComponent} from './switcher.component';
   `,
   standalone: true,
   selector: 'app-nav',
-  imports: [RouterLink, NgOptimizedImage, BiComponent, RouterLinkActive, TranslocoPipe, ProfileMenuComponent, DfxCutPipe],
+  imports: [RouterLink, NgOptimizedImage, BiComponent, RouterLinkActive, TranslocoPipe, ProfileMenuComponent, DfxCutPipe, NgbTooltip, AppLogoWithTextComponent]
 })
 export class NavComponent {
   modal = inject(NgbModal);
-  logoUrl = EnvironmentHelper.getLogoUrl();
 
   myUser = inject(MyUserService).user;
 
@@ -310,17 +312,6 @@ export class NavComponent {
 
   selectedOrganisation = this.#selectedOrganisationService.selected;
   selectedEvent = this.#selectedEventService.selected;
-
-  selectedColor = computed(() => {
-    const organisation = this.selectedOrganisation();
-    const event = this.selectedEvent();
-
-    if (!organisation && !event) {
-      return undefined;
-    }
-
-    return s_toColor(`${organisation?.name ?? ''}${event?.name ?? ''}`);
-  });
 
   selectedOrganisationIdRoute = computed(() => this.#selectedOrganisationService.selectedId() ?? 'organisationId');
   selectedEventIdRoute = computed(() => this.#selectedEventService.selectedId() ?? 'eventId');
