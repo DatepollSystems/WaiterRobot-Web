@@ -1,5 +1,5 @@
 import {NgClass} from '@angular/common';
-import {booleanAttribute, ChangeDetectionStrategy, Component, Input, numberAttribute, Optional, Self} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, Input, numberAttribute, Optional, Self, signal} from '@angular/core';
 import {ControlValueAccessor, FormsModule, NgControl} from '@angular/forms';
 
 import {
@@ -28,7 +28,7 @@ import {NgbDateTimeStruct} from './datetime.struct';
         [placeholder]="placeholder"
         [disabled]="disabled"
         [ngClass]="ngControl.valid ? 'ng-valid' : 'ng-invalid'"
-        [ngModel]="displayedDateTime ?? ''"
+        [ngModel]="displayedDateTime() ?? ''"
         (ngModelChange)="onInputChange($event)"
         (blur)="inputBlur()"
       />
@@ -96,7 +96,7 @@ export class AppDatetimeInputComponent implements ControlValueAccessor {
   dateStruct?: NgbDateStruct;
   timeStruct?: NgbTimeStruct;
   dateTimeStruct?: NgbDateTimeStruct;
-  displayedDateTime: string | null = '';
+  displayedDateTime = signal<string>('');
 
   constructor(
     private _ngbDateParser: NgbDateParserFormatter,
@@ -136,7 +136,7 @@ export class AppDatetimeInputComponent implements ControlValueAccessor {
     };
   };
 
-  format = (_dateTimeStruct?: NgbDateTimeStruct): string | null =>
+  format = (_dateTimeStruct?: NgbDateTimeStruct): string =>
     _dateTimeStruct
       ? `${this._ngbDateParser.format(_dateTimeStruct)} ${_dateTimeStruct.hour.toString().padStart(2, '0')}:${_dateTimeStruct.minute
           .toString()
@@ -144,7 +144,7 @@ export class AppDatetimeInputComponent implements ControlValueAccessor {
       : '';
 
   formatDisplayedDateTime(): void {
-    this.displayedDateTime = this.format(this.dateTimeStruct);
+    this.displayedDateTime.set(this.format(this.dateTimeStruct));
   }
 
   writeValue(value: unknown): void {
