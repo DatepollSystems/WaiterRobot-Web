@@ -1,15 +1,14 @@
-import {NgClass} from '@angular/common';
 import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output, signal} from '@angular/core';
 import {AppAdjustDarkModeColor} from '@home-shared/components/color/app-adjust-dark-mode-color.pipe';
+import {AppTextColorByBackgroundDirective} from '@home-shared/components/color/app-text-color-by-background.directive';
 import {TranslocoPipe} from '@jsverse/transloco';
 
 import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {ThemeService} from '@shared/services/theme.service';
+
+import {systemColors} from '@shared/system-colors';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-
-import {AppIsLightColorPipe} from './app-is-light-color.pipe';
-import {systemColors} from '@shared/system-colors';
-import {ThemeService} from '@shared/services/theme.service';
 
 @Component({
   template: `
@@ -25,11 +24,8 @@ import {ThemeService} from '@shared/services/theme.service';
           [disabled]="disabled"
           [style.background-color]="color | adjustDarkModeColor: theme.id"
           [style.border-color]="color | adjustDarkModeColor: theme.id"
-          [ngClass]="{
-            'text-white': !(color | adjustDarkModeColor: theme.id | isLightColor) && color,
-            'text-dark': (color | adjustDarkModeColor: theme.id | isLightColor) && color,
-            'text-body-emphasis': !color,
-          }"
+          app-text-color-by-background
+          [color]="color"
           [autoClose]="'outside'"
           [ngbPopover]="popContent"
           (mousedown)="showColorPicker.set(!showColorPicker())"
@@ -77,7 +73,7 @@ import {ThemeService} from '@shared/services/theme.service';
   standalone: true,
   selector: 'app-color-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoPipe, BiComponent, NgbPopover, NgClass, AppIsLightColorPipe, NgbTooltip, AppAdjustDarkModeColor],
+  imports: [TranslocoPipe, BiComponent, NgbPopover, NgbTooltip, AppAdjustDarkModeColor, AppTextColorByBackgroundDirective],
 })
 export class AppColorPicker {
   @Input() color?: string | null;

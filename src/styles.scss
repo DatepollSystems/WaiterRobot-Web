@@ -61,6 +61,14 @@ td:has(> div.form-check) {
   white-space: nowrap;
 }
 
+.tab-active {
+  box-shadow:
+    0 0 inset,
+    0 -4px dodgerblue inset,
+    0 0 inset,
+    0 0 inset;
+}
+
 /* Blur */
 .unblur,
 .card:hover .blur,
