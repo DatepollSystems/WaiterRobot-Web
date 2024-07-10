@@ -9,6 +9,6 @@ import {Theme} from '@shared/services/theme.service';
 })
 export class AppAdjustDarkModeColor implements PipeTransform {
   transform(color: string | null | undefined, theme: Theme['id']): string | null | undefined {
-    return color && theme === 'dark' ? tinycolor(color).desaturate(60).toHexString() : color;
+    return color && theme === 'dark' ? tinycolor(color).desaturate(40).toHexString() : color;
   }
 }

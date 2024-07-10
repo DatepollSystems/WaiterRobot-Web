@@ -1,9 +1,9 @@
-import {computed, inject, Injectable, signal} from '@angular/core';
+import {inject, Injectable, signal} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {st_set} from 'dfts-helper';
 
-export interface qrCodeData {
+interface qrCodeData {
   data: string;
   text: string;
   info: string;
@@ -17,7 +17,7 @@ export class QrCodeService {
 
   private _data = signal<qrCodeData | undefined>(undefined);
 
-  data = computed(() => this._data());
+  data = this._data.asReadonly();
 
   openQRCodePage(props: qrCodeData): void {
     st_set('qr-code-data', props);
