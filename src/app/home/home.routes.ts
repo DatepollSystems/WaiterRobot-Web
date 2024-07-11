@@ -41,7 +41,7 @@ export const ROUTES: Routes = [
       {
         path: 'select',
         title: 'Select',
-        loadComponent: () => import('./_layout/_components/switcher.component').then((m) => m.SwitcherComponent),
+        loadComponent: () => import('./_layout/components/switcher.component').then((m) => m.SwitcherComponent),
       },
       {
         path: 'qrcode/view',

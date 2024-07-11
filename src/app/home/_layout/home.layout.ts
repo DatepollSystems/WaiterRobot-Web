@@ -11,11 +11,11 @@ import {
   ActiveSystemNotificationsComponent,
   ActiveSystemNotificationsDesktopComponent,
   ActiveSystemNotificationsMobileToggleComponent,
-} from './_components/active-system-notifications.component';
-import {MaintenanceWarningComponent} from './_components/maintenance-warning.component';
-import {MobileNavComponent} from './_components/mobile-nav.component';
-import {NavComponent} from './_components/nav.component';
-import {NetworkOfflineWarningComponent} from './_components/network-offline-warning.component';
+} from './components/active-system-notifications.component';
+import {MaintenanceWarningComponent} from './components/maintenance-warning.component';
+import {MobileNavComponent} from './components/mobile-nav.component';
+import {NavComponent} from './components/nav.component';
+import {NetworkOfflineWarningComponent} from './components/network-offline-warning.component';
 
 @Component({
   template: '<router-outlet name="title" />',

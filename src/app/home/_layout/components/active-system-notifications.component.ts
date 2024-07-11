@@ -1,7 +1,7 @@
 import {booleanAttribute, Component, inject, input} from '@angular/core';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {ActiveSystemNotificationsService} from '../_services/active-system-notifications.service';
+import {ActiveSystemNotificationsService} from '../services/active-system-notifications.service';
 import {AppSystemNotificationAlertComponent} from './system-notification-alert.component';
 
 @Component({
