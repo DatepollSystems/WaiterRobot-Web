@@ -177,6 +177,7 @@ import {PrintersService} from './_services/printers.service';
   standalone: true,
 })
 export class PrintersBatchUpdateModal {
+  activeModal = inject(NgbActiveModal);
   fb = inject(FormBuilder);
   printersService = inject(PrintersService);
 
@@ -197,7 +198,7 @@ export class PrintersBatchUpdateModal {
 
   isValid = injectIsValid(this.form);
 
-  constructor(public activeModal: NgbActiveModal) {
+  constructor() {
     this.form.controls.fontScale.disable();
     this.form.controls.font.disable();
     this.form.controls.bonWidth.disable();
