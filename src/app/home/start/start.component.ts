@@ -64,7 +64,10 @@ export class StartComponent {
         this.#ordersService.getAllPaginated({
           page: 0,
           size: 8,
-          sort: 'createdAt,desc',
+          sort: {
+            name: 'createdAt',
+            direction: 'desc',
+          },
         }),
       ),
       map((it) => it.data),

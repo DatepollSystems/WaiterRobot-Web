@@ -1,5 +1,5 @@
 import {AsyncPipe, DatePipe} from '@angular/common';
-import {AfterViewInit, ChangeDetectionStrategy, Component, computed, inject, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, viewChild} from '@angular/core';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -7,7 +7,7 @@ import {RouterLink} from '@angular/router';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {Download} from '@home-shared/services/download.service';
 import {injectFilter} from '@home-shared/services/filter';
-import {getSortParam, injectPagination} from '@home-shared/services/pagination';
+import {injectPagination} from '@home-shared/services/pagination';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbCollapse, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
@@ -21,7 +21,7 @@ import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSor
 import {DfxCurrencyCentPipe, injectIsMobile, StopPropagationDirective} from 'dfx-helper';
 import {derivedFrom} from 'ngxtension/derived-from';
 
-import {debounceTime, map, merge, Observable, pipe, switchMap, tap} from 'rxjs';
+import {debounceTime, map, Observable, pipe, switchMap, tap} from 'rxjs';
 
 import {ProductGroupsService} from '../products/_services/product-groups.service';
 import {ProductsService} from '../products/_services/products.service';
@@ -176,8 +176,8 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
           ngb-sort
           [hover]="true"
           [dataSource]="dataSource()"
-          [ngbSortActive]="pagination.params().sort"
-          [ngbSortDirection]="pagination.params().direction"
+          [ngbSortActive]="pagination.params().sort.name"
+          [ngbSortDirection]="pagination.params().sort.direction"
         >
           <ng-container ngbColumnDef="createdAt">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_CREATED_AT' | transloco }}</th>
@@ -258,7 +258,10 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
     RouterLink,
     DatePipe,
     AsyncPipe,
+    ReactiveFormsModule,
     NgbTooltip,
+    NgSelectModule,
+    NgbCollapse,
     DfxTableModule,
     DfxSortModule,
     DfxPaginationModule,
@@ -268,26 +271,26 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
     AppBillPaymentStateBadgeComponent,
     AppBillRefreshButtonComponent,
     AppProgressBarComponent,
-    NgSelectModule,
-    ReactiveFormsModule,
-    NgbCollapse,
     ScrollableToolbarComponent,
     StopPropagationDirective,
   ],
 })
-export class BillsComponent implements AfterViewInit {
-  lumber = loggerOf('AllBills');
+export class BillsComponent {
+  #lumber = loggerOf('AllBills');
 
-  private billsService = inject(BillsService);
+  #billsService = inject(BillsService);
 
   isMobile = injectIsMobile();
 
-  pagination = injectPagination('createdAt', 'desc');
+  private paginator = viewChild.required(NgbPaginator);
+  private sort = viewChild.required(NgbSort);
 
-  download$?: Observable<Download>;
+  pagination = injectPagination({
+    defaultSortBy: 'createdAt',
+    paginator: this.paginator,
+    sort: this.sort,
+  });
 
-  @ViewChild(NgbSort, {static: true}) sort!: NgbSort;
-  @ViewChild(NgbPaginator, {static: true}) paginator!: NgbPaginator;
   columnsToDisplay = ['createdAt', 'price', 'unpaidReason.name', 'waiter.name', 'table.tableGroup.name', 'actions'];
 
   filter = injectFilter(
@@ -309,12 +312,8 @@ export class BillsComponent implements AfterViewInit {
         this.pagination.loading.set(true);
       }),
       switchMap(([options, filter]) =>
-        this.billsService.getAllPaginated(
-          {
-            page: options.page,
-            size: options.size,
-            sort: getSortParam(options.sort, options.direction),
-          },
+        this.#billsService.getAllPaginated(
+          options,
           filter?.tableIds,
           filter?.tableGroupIds,
           filter?.productIds,
@@ -323,16 +322,16 @@ export class BillsComponent implements AfterViewInit {
           filter?.unpaidReasonId,
         ),
       ),
-      tap(() => {
+      map((it) => {
         this.pagination.loading.set(false);
-      }),
-      tap((it) => {
         this.pagination.totalElements.set(it.numberOfItems);
+        return it.data;
       }),
-      map((it) => it.data),
     ),
     {initialValue: []},
   );
+
+  download$?: Observable<Download>;
 
   tables = toSignal(inject(TablesService).getAllWithoutExtra$(), {initialValue: []});
   tableGroups = toSignal(inject(TableGroupsService).getAll$(), {initialValue: []});
@@ -343,21 +342,8 @@ export class BillsComponent implements AfterViewInit {
   unpaidReasonsFilter = computed(() => [{id: -1, reason: 'Bezahlt'}, ...this.unpaidReasons()]);
 
   constructor() {
-    this.billsService.triggerRefresh.pipe(takeUntilDestroyed()).subscribe(() => {
+    this.#billsService.triggerRefresh.pipe(takeUntilDestroyed()).subscribe(() => {
       this.pagination.loading.set(true);
-    });
-  }
-
-  ngAfterViewInit(): void {
-    merge(this.paginator.page, this.sort.sortChange).subscribe(() => {
-      const params = {
-        size: this.paginator.pageSize,
-        page: this.paginator.pageIndex,
-        sort: this.sort.active,
-        direction: this.sort.direction,
-      };
-      this.lumber.log('updatePaginationParams', 'new params', params);
-      this.pagination.updateParams(params);
     });
   }
 
@@ -371,6 +357,6 @@ export class BillsComponent implements AfterViewInit {
   }
 
   exportCsv(): void {
-    this.download$ = this.billsService.download$();
+    this.download$ = this.#billsService.download$();
   }
 }

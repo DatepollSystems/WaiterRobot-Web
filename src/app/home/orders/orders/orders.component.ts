@@ -1,6 +1,6 @@
 import {SelectionModel} from '@angular/cdk/collections';
 import {AsyncPipe, DatePipe} from '@angular/common';
-import {AfterViewInit, ChangeDetectionStrategy, Component, inject, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -11,7 +11,7 @@ import {injectConfirmDialog} from '@home-shared/components/question-dialog.compo
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {Download} from '@home-shared/services/download.service';
 import {injectFilter} from '@home-shared/services/filter';
-import {getSortParam, injectPagination} from '@home-shared/services/pagination';
+import {injectPagination} from '@home-shared/services/pagination';
 import {NgbCollapse, NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {TranslocoPipe} from '@jsverse/transloco';
@@ -25,7 +25,7 @@ import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSor
 import {injectIsMobile, StopPropagationDirective} from 'dfx-helper';
 import {derivedFrom} from 'ngxtension/derived-from';
 
-import {debounceTime, forkJoin, map, merge, Observable, pipe, switchMap, tap} from 'rxjs';
+import {debounceTime, forkJoin, map, Observable, pipe, switchMap, tap} from 'rxjs';
 
 import {ProductGroupsService} from '../../products/_services/product-groups.service';
 import {ProductsService} from '../../products/_services/products.service';
@@ -48,12 +48,12 @@ import {OrdersService} from '../orders.service';
     ReactiveFormsModule,
     NgbTooltip,
     NgbCollapse,
+    NgSelectModule,
     DfxTableModule,
     DfxSortModule,
     DfxPaginationModule,
     TranslocoPipe,
     BiComponent,
-    NgSelectModule,
     AppOrderStateBadgeComponent,
     AppOrderRefreshButtonComponent,
     ScrollableToolbarComponent,
@@ -64,23 +64,25 @@ import {OrdersService} from '../orders.service';
     StopPropagationDirective,
   ],
 })
-export class OrdersComponent implements AfterViewInit {
-  private confirmDialog = injectConfirmDialog();
-  private ordersService = inject(OrdersService);
-
-  pagination = injectPagination('createdAt', 'desc');
+export class OrdersComponent {
+  #confirmDialog = injectConfirmDialog();
+  #ordersService = inject(OrdersService);
 
   isMobile = injectIsMobile();
 
   lumber = loggerOf('AllOrders');
 
-  @ViewChild(NgbSort) sort!: NgbSort;
-  @ViewChild(NgbPaginator) paginator!: NgbPaginator;
+  private paginator = viewChild.required(NgbPaginator);
+  private sort = viewChild.required(NgbSort);
+
+  pagination = injectPagination({
+    defaultSortBy: 'createdAt',
+    paginator: this.paginator,
+    sort: this.sort,
+  });
 
   columnsToDisplay = ['select', 'orderNumber', 'state', 'table.tableGroup.name', 'waiter.name', 'createdAt', 'actions'];
   selection = new SelectionModel<GetOrderMinResponse>(true, [], false, (a, b) => a.id === b.id);
-
-  download$?: Observable<Download>;
 
   filter = injectFilter(
     injectCustomFormBuilder().group({
@@ -100,12 +102,8 @@ export class OrdersComponent implements AfterViewInit {
         this.pagination.loading.set(true);
       }),
       switchMap(([options, filter]) =>
-        this.ordersService.getAllPaginated(
-          {
-            page: options.page,
-            size: options.size,
-            sort: getSortParam(options.sort, options.direction),
-          },
+        this.#ordersService.getAllPaginated(
+          options,
           filter?.tableIds,
           filter?.tableGroupIds,
           filter?.productIds,
@@ -122,6 +120,8 @@ export class OrdersComponent implements AfterViewInit {
     {initialValue: []},
   );
 
+  download$?: Observable<Download>;
+
   tables = toSignal(inject(TablesService).getAllWithoutExtra$(), {initialValue: []});
   tableGroups = toSignal(inject(TableGroupsService).getAll$(), {initialValue: []});
   products = toSignal(inject(ProductsService).getAll$(), {initialValue: []});
@@ -129,21 +129,8 @@ export class OrdersComponent implements AfterViewInit {
   waiters = toSignal(inject(OrganisationWaitersService).getAll$(), {initialValue: []});
 
   constructor() {
-    this.ordersService.triggerRefresh.pipe(takeUntilDestroyed()).subscribe(() => {
+    this.#ordersService.triggerRefresh.pipe(takeUntilDestroyed()).subscribe(() => {
       this.pagination.loading.set(true);
-    });
-  }
-
-  ngAfterViewInit(): void {
-    merge(this.paginator.page, this.sort.sortChange).subscribe(() => {
-      const params = {
-        size: this.paginator.pageSize,
-        page: this.paginator.pageIndex,
-        sort: this.sort.active,
-        direction: this.sort.direction,
-      };
-      this.lumber.log('updatePaginationParams', 'new params', params);
-      this.pagination.updateParams(params);
     });
   }
 
@@ -155,13 +142,13 @@ export class OrdersComponent implements AfterViewInit {
   }
 
   exportCsv(): void {
-    this.download$ = this.ordersService.download$();
+    this.download$ = this.#ordersService.download$();
   }
 
   printAllTest(): void {
-    void this.confirmDialog('Testbestellung aufgeben?').then((result) => {
+    void this.#confirmDialog('Testbestellung aufgeben?').then((result) => {
       if (result) {
-        this.ordersService.printAllTest();
+        this.#ordersService.printAllTest();
       }
     });
   }
@@ -176,7 +163,7 @@ export class OrdersComponent implements AfterViewInit {
     this.lumber.info('requeueOrders', 'Opening requeue question dialog');
     this.lumber.info('requeueOrders', 'Selected entities:', this.selection.selected);
     const selected = this.selection.selected.slice();
-    void this.confirmDialog(
+    void this.#confirmDialog(
       'HOME_ORDER_REQUEUE',
       `<ol><li>${s_imploder()
         .mappedSource(selected, (it) => it.orderNumber)
@@ -186,7 +173,7 @@ export class OrdersComponent implements AfterViewInit {
       if (result) {
         const observables: Observable<unknown>[] = [];
         for (const it of selected) {
-          observables.push(this.ordersService.requeueOrder$(it.id));
+          observables.push(this.#ordersService.requeueOrder$(it.id));
         }
         forkJoin(observables).subscribe();
       }

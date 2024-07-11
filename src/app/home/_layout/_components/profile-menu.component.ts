@@ -1,12 +1,12 @@
-import {NgClass, UpperCasePipe} from '@angular/common';
+import {UpperCasePipe} from '@angular/common';
 import {Component, computed, inject} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
-import {AppIsLightColorPipe} from '@home-shared/components/color/app-is-light-color.pipe';
+import {AppTextColorByBackgroundDirective} from '@home-shared/components/color/app-text-color-by-background.directive';
 import {FullScreenService} from '@home-shared/services/fullscreen.service';
 import {QrCodeService} from '@home-shared/services/qr-code.service';
 import {MyUserService} from '@home-shared/services/user/my-user.service';
-import {NgbDropdown, NgbDropdownButtonItem, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbDropdown, NgbDropdownButtonItem, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
 import {AuthService} from '@shared/services/auth/auth.service';
 import {loggerOf, s_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
@@ -23,10 +23,8 @@ import {ThemePickerComponent} from './theme-picker.component';
             style="width: 32px; height: 32px"
             class="rounded-circle me-2 d-inline-flex align-items-center justify-content-center"
             [style.background-color]="user.color"
-            [ngClass]="{
-              'text-white': !(user.color | isLightColor),
-              'text-dark': user.color | isLightColor,
-            }"
+            app-text-color-by-background
+            [color]="user.color"
           >
             {{ user.firstname | s_cut: 1 : '' | uppercase }}{{ user.surname | s_cut: 1 : '' | uppercase }}
           </strong>
@@ -102,8 +100,7 @@ import {ThemePickerComponent} from './theme-picker.component';
     TranslocoPipe,
     DfxCutPipe,
     UpperCasePipe,
-    AppIsLightColorPipe,
-    NgClass,
+    AppTextColorByBackgroundDirective,
   ],
   selector: 'app-profile-menu',
 })

@@ -140,8 +140,8 @@
       ngb-sort
       [hover]="true"
       [dataSource]="dataSource()"
-      [ngbSortDirection]="pagination.params().direction"
-      [ngbSortActive]="pagination.params().sort"
+      [ngbSortActive]="pagination.params().sort.name"
+      [ngbSortDirection]="pagination.params().sort.direction"
     >
       <ng-container ngbColumnDef="select">
         <th *ngbHeaderCellDef ngb-header-cell></th>
