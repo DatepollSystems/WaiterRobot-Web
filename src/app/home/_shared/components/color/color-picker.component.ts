@@ -1,4 +1,4 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output, signal} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, inject, Input, output, signal} from '@angular/core';
 import {AppAdjustDarkModeColor} from '@home-shared/components/color/app-adjust-dark-mode-color.pipe';
 import {AppTextColorByBackgroundDirective} from '@home-shared/components/color/app-text-color-by-background.directive';
 import {TranslocoPipe} from '@jsverse/transloco';
@@ -84,8 +84,7 @@ export class AppColorPicker {
 
   showColorPicker = signal(false);
 
-  @Output()
-  readonly colorChange: EventEmitter<string> = new EventEmitter<string>();
+  readonly colorChange = output<string | undefined>();
 
   changeColor(event: string): void {
     this.color = event;

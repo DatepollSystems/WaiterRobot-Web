@@ -1,9 +1,8 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, input, OnDestroy, Output} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, Input, input, output} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 
 import {TranslocoPipe} from '@jsverse/transloco';
-
-import {Subscription} from 'rxjs';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   template: `
@@ -17,11 +16,10 @@ import {Subscription} from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, TranslocoPipe],
 })
-export class AppContinuesCreationSwitchComponent implements OnDestroy {
+export class AppContinuesCreationSwitchComponent {
   formControl = new FormControl(false);
 
-  @Output()
-  readonly continuesCreationChange = new EventEmitter<boolean>();
+  readonly continuesCreationChange = output<boolean>();
 
   @Input({transform: booleanAttribute})
   set continuesCreation(it: boolean) {
@@ -30,16 +28,9 @@ export class AppContinuesCreationSwitchComponent implements OnDestroy {
 
   text = input('CONTINUOUS_CREATION');
 
-  subscription?: Subscription;
-
   constructor() {
-    this.subscription = this.formControl.valueChanges.subscribe((value) => {
-      this.continuesCreationChange.next(value ?? false);
+    this.formControl.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+      this.continuesCreationChange.emit(value ?? false);
     });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-    this.subscription = undefined;
   }
 }

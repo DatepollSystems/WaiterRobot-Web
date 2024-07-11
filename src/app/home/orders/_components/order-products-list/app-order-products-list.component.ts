@@ -1,5 +1,5 @@
 import {AsyncPipe, DatePipe, KeyValuePipe, NgClass} from '@angular/common';
-import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, input, Output} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, Input, input, output} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -61,7 +61,7 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
                           class="btn btn-sm btn-warning"
                           placement="left"
                           [ngbTooltip]="'HOME_ORDER_REQUEUE' | transloco"
-                          (mousedown)="requeueOrdersOfPrinter.next(groups.key)"
+                          (mousedown)="requeueOrdersOfPrinter.emit(groups.key)"
                         >
                           <bi name="printer" />
                         </button>
@@ -104,7 +104,7 @@ export class AppOrderProductsListComponent {
 
   showRequeueButton = input(booleanAttribute(false), {transform: booleanAttribute});
 
-  @Output() readonly requeueOrdersOfPrinter = new EventEmitter<number>();
+  readonly requeueOrdersOfPrinter = output<number>();
 
   orderProducts$ = new BehaviorSubject<GetImplodedOrderProductResponse[]>([]);
 

@@ -1,17 +1,6 @@
 // noinspection JSNonASCIINames NonAsciiCharacters
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  inject,
-  Input,
-  Output,
-  signal,
-  viewChild,
-} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, Input, output, signal, viewChild} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, ɵFormGroupValue} from '@angular/forms';
 
 import {loggerOf} from 'dfts-helper';
@@ -28,11 +17,9 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
 
   fb = inject(FormBuilder);
 
-  @Output()
-  readonly submitCreate = new EventEmitter<CreateDTOType>();
+  readonly submitCreate = output<CreateDTOType>();
 
-  @Output()
-  readonly submitUpdate = new EventEmitter<UpdateDTOType>();
+  readonly submitUpdate = output<UpdateDTOType>();
 
   isCreating = signal(false);
 

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, inject, Input, input, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, Input, input, output} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -140,7 +140,7 @@ import {CreateUserDto, GetOrganisationResponse, GetUserResponse, IdAndNameRespon
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserEditFormComponent extends AbstractModelEditFormComponent<CreateUserDto, UpdateUserDto> {
-  @Output() readonly userOrganisations = new EventEmitter<[]>();
+  readonly userOrganisations = output<[]>();
 
   form = inject(FormBuilder).nonNullable.group({
     emailAddress: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(255), Validators.email]],
