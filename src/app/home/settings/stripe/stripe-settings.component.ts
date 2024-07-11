@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, effect, inject, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, effect, inject, viewChild} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {BlankslateComponent} from '@home-shared/components/blankslate.component';
@@ -152,7 +152,7 @@ export class StripeSettingsComponent {
   filter = new FormControl('');
   columnsToDisplay = ['name', 'state', 'event', 'actions'];
 
-  @ViewChild(NgbSort, {static: true}) sort: NgbSort | undefined;
+  sort = viewChild<NgbSort | undefined>(NgbSort);
 
   dataSource = derivedFrom(
     [this.filter.valueChanges.pipe(startWith(''), filter(notNullAndUndefined)), this.stripeState.data],
@@ -160,8 +160,8 @@ export class StripeSettingsComponent {
       switchMap(([filterTerm, all]) => {
         const dataSource = new NgbTableDataSource(all);
 
-        if (this.sort) {
-          dataSource.sort = this.sort;
+        if (this.sort()) {
+          dataSource.sort = this.sort()!;
         }
         dataSource.filter = filterTerm;
 

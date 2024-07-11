@@ -10,7 +10,7 @@ import {
   Input,
   Output,
   signal,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, ɵFormGroupValue} from '@angular/forms';
 
@@ -37,7 +37,7 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
   isCreating = signal(false);
 
   abstract form: FormGroup;
-  @ViewChild('formRef') formRef?: ElementRef;
+  formRef = viewChild<ElementRef>('formRef');
 
   @Input()
   set formDisabled(it: boolean) {
@@ -58,7 +58,7 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
 
   private setInputFocus(): void {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const input = this.formRef?.nativeElement.querySelector(focuses.join(','));
+    const input = this.formRef()?.nativeElement.querySelector(focuses.join(','));
     if (input) {
       input.focus();
       this.lumber.log('setInputFocus', 'Input to focus', input);

@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, viewChild} from '@angular/core';
 
 @Component({
   template: `
@@ -36,10 +36,10 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScrollableToolbarComponent implements AfterViewInit {
-  @ViewChild('contentWrapper') content!: ElementRef;
+  content = viewChild.required<ElementRef>('contentWrapper');
 
   ngAfterViewInit(): void {
-    for (const child of this.content.nativeElement.children) {
+    for (const child of this.content().nativeElement.children) {
       child.draggable = false;
       child.style.wordBreak = 'keep-all';
       child.style.whitespace = 'no-wrap';

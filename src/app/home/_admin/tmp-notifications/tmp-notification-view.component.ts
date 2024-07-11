@@ -1,5 +1,5 @@
 import {DatePipe} from '@angular/common';
-import {Component, computed, inject, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, computed, inject, viewChild, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {AppBackButtonComponent} from '@home-shared/components/button/app-back-button.component';
@@ -171,7 +171,7 @@ export class TmpNotificationViewComponent {
 
   tmpNotificationPdf = computed(() => base64ToArrayBuffer(this.tmpNotification()!.body));
 
-  @ViewChild('pdfViewerAutoLoad') pdfViewerAutoLoad!: PdfJsViewerComponent;
+  pdfViewerAutoLoad = viewChild<PdfJsViewerComponent>('pdfViewerAutoLoad');
 
   copy(it: string) {
     cl_copy(it);

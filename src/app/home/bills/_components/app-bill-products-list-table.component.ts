@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, input, signal, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, input, signal, viewChild} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {TranslocoPipe} from '@jsverse/transloco';
 
@@ -59,7 +59,7 @@ export class AppOrderProductsListTableComponent implements AfterViewInit {
   billProducts = input.required<GetImplodedBillProductResponse[]>();
   priceSum = input.required<number>();
 
-  @ViewChild(NgbSort) sort?: NgbSort;
+  sort = viewChild(NgbSort);
   columnsToDisplay = ['product', 'pricePerPiece', 'priceSum'];
 
   dataSource = signal(new NgbTableDataSource<GetImplodedBillProductResponse>());
@@ -72,7 +72,7 @@ export class AppOrderProductsListTableComponent implements AfterViewInit {
           return item[property as keyof GetImplodedBillProductResponse] as string | number;
       }
     };
-    dataSource.sort = this.sort;
+    dataSource.sort = this.sort();
     this.dataSource.set(dataSource);
   }
 }
