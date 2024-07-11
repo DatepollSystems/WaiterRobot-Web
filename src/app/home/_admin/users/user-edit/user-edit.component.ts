@@ -9,8 +9,8 @@ import {injectOnSubmit} from '@shared/form';
 import {GetUserResponse, IdAndNameResponse} from '@shared/waiterrobot-backend';
 
 import {filter, forkJoin, Observable, switchMap} from 'rxjs';
-import {OrganisationsUsersService} from '../../../organisations/_services/organisations-users.service';
-import {OrganisationsService} from '../../../organisations/_services/organisations.service';
+import {OrganisationsUsersService} from '../../../_admin/organisations/_services/organisations-users.service';
+import {OrganisationsService} from '../../../_admin/organisations/_services/organisations.service';
 import {UsersOrganisationsService} from '../services/users-organisations.service';
 import {UsersService} from '../services/users.service';
 import {UserEditFormComponent} from './user-edit-form.component';

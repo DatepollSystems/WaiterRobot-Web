@@ -1,4 +1,4 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, input, OnDestroy, Output} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 
 import {TranslocoPipe} from '@jsverse/transloco';
@@ -9,7 +9,7 @@ import {Subscription} from 'rxjs';
   template: `
     <div class="form-check form-switch mb-0">
       <input class="form-check-input" type="checkbox" role="switch" id="continuousCreation" [formControl]="formControl" />
-      <label class="form-check-label text-nowrap" for="continuousCreation">{{ text | transloco }}</label>
+      <label class="form-check-label text-nowrap" for="continuousCreation">{{ text() | transloco }}</label>
     </div>
   `,
   selector: 'app-continues-creation-switch',
@@ -28,7 +28,7 @@ export class AppContinuesCreationSwitchComponent implements OnDestroy {
     this.formControl.setValue(it);
   }
 
-  @Input() text = 'CONTINUOUS_CREATION';
+  text = input('CONTINUOUS_CREATION');
 
   subscription?: Subscription;
 

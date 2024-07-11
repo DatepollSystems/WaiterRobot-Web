@@ -8,7 +8,7 @@ import {s_from} from 'dfts-helper';
 import {HasGetAll, HasGetSingle} from 'dfx-helper';
 
 import {BehaviorSubject, forkJoin, map, Observable, switchMap, tap} from 'rxjs';
-import {SelectedEventService} from '../../events/_services/selected-event.service';
+import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 
 @Injectable({
   providedIn: 'root',

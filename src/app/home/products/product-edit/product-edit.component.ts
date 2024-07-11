@@ -15,7 +15,7 @@ import {n_from, n_isNumeric} from 'dfts-helper';
 
 import {filter, map} from 'rxjs';
 
-import {SelectedEventService} from '../../events/_services/selected-event.service';
+import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 import {PrintersService} from '../../printers/_services/printers.service';
 import {AllergensService} from '../_services/allergens.service';
 import {ProductGroupsService} from '../_services/product-groups.service';

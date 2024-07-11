@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, inject, Input, input, Output} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -82,7 +82,7 @@ import {CreateUserDto, GetOrganisationResponse, GetUserResponse, IdAndNameRespon
               labelForId="orgSelect"
               clearAllText="Clear"
               formControlName="selectedOrganisations"
-              [items]="organisations"
+              [items]="organisations()"
               [multiple]="true"
               [placeholder]="'HOME_USERS_ORGS_INPUT_PLACEHOLDER' | transloco"
               (change)="userOrganisations.emit($event)"
@@ -230,7 +230,7 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Create
     });
   }
 
-  @Input() organisations: GetOrganisationResponse[] = [];
+  organisations = input<GetOrganisationResponse[]>([]);
   @Input() set selectedOrganisations(selectedOrganisations: IdAndNameResponse[]) {
     this.form.controls.selectedOrganisations.setValue(selectedOrganisations.map((it) => it.id));
   }

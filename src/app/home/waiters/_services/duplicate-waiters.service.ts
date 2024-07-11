@@ -6,7 +6,7 @@ import {DuplicateWaiterResponse, MergeWaiterDto} from '@shared/waiterrobot-backe
 import {HasGetAll} from 'dfx-helper';
 
 import {BehaviorSubject, combineLatest, Observable, switchMap, tap} from 'rxjs';
-import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
+import {SelectedOrganisationService} from '../../_admin/organisations/_services/selected-organisation.service';
 
 @Injectable({providedIn: 'root'})
 export class DuplicateWaitersService implements HasGetAll<DuplicateWaiterResponse> {

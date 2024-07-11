@@ -51,12 +51,12 @@ export const ROUTES: Routes = [
       {
         path: 'organisations',
         title: 'NAV_ORGANISATIONS',
-        loadChildren: () => import('./organisations/organisations.routes').then((m) => m.ROUTES),
+        loadChildren: () => import('./_admin/organisations/organisations.routes').then((m) => m.ROUTES),
       },
       {
         path: 'events',
         title: 'NAV_EVENTS',
-        loadChildren: () => import('./events/events.routes').then((m) => m.ROUTES),
+        loadChildren: () => import('./_admin/events/events.routes').then((m) => m.ROUTES),
       },
     ],
   },

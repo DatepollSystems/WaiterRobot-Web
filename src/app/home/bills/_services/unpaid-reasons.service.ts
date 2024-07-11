@@ -8,7 +8,7 @@ import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
 
 import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
-import {SelectedEventService} from '../../events/_services/selected-event.service';
+import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
 export class UnpaidReasonsService

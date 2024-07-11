@@ -7,7 +7,7 @@ import {injectOnSubmit} from '@shared/form';
 import {GetBillUnpaidReasonResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {SelectedEventService} from '../../events/_services/selected-event.service';
+import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 import {UnpaidReasonsService} from '../_services/unpaid-reasons.service';
 import {AppUnpaidReasonEditFormComponent} from './unpaid-reason-edit-form.component';
 

@@ -17,8 +17,8 @@ import {derivedFrom} from 'ngxtension/derived-from';
 
 import {filter, of, pipe, startWith, switchMap} from 'rxjs';
 
-import {OrganisationsStripeService} from '../../organisations/_services/organisations-stripe.service';
-import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
+import {OrganisationsStripeService} from '../../_admin/organisations/_services/organisations-stripe.service';
+import {SelectedOrganisationService} from '../../_admin/organisations/_services/selected-organisation.service';
 import {StripeAccountModal} from './stripe-account-modal.component';
 import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
 

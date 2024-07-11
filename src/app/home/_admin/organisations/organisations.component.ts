@@ -14,8 +14,8 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {StopPropagationDirective} from 'dfx-helper';
 
-import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {OrganisationsService} from './_services/organisations.service';
+import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 
 @Component({
   template: `
@@ -151,6 +151,7 @@ import {OrganisationsService} from './_services/organisations.service';
     NgbDropdownItem,
     StopPropagationDirective,
     ListFilterComponent,
+    ScrollableToolbarComponent,
   ],
 })
 export class OrganisationsComponent {

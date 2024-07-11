@@ -10,7 +10,7 @@ import {injectContinuousCreation, injectOnDelete} from '@home-shared/form/edit';
 import {injectOnSubmit} from '@shared/form';
 import {GetProductGroupResponse} from '@shared/waiterrobot-backend';
 
-import {SelectedEventService} from '../../events/_services/selected-event.service';
+import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 import {PrintersService} from '../../printers/_services/printers.service';
 import {ProductGroupsService} from '../_services/product-groups.service';
 import {ProductGroupEditFormComponent} from './product-group-edit-form.component';

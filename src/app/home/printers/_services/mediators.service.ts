@@ -6,7 +6,7 @@ import {GetMediatorResponse} from '@shared/waiterrobot-backend';
 import {HasGetAll} from 'dfx-helper';
 
 import {Observable, switchMap} from 'rxjs';
-import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
+import {SelectedOrganisationService} from '../../_admin/organisations/_services/selected-organisation.service';
 
 @Injectable({
   providedIn: 'root',

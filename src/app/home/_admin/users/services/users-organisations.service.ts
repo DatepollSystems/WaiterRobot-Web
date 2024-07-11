@@ -4,7 +4,7 @@ import {inject, Injectable} from '@angular/core';
 import {IdAndNameResponse} from '@shared/waiterrobot-backend';
 
 import {Observable, switchMap} from 'rxjs';
-import {OrganisationsUsersService} from '../../../organisations/_services/organisations-users.service';
+import {OrganisationsUsersService} from '../../../_admin/organisations/_services/organisations-users.service';
 
 @Injectable({
   providedIn: 'root',

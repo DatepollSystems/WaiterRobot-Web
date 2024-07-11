@@ -1,5 +1,5 @@
 import {NgClass} from '@angular/common';
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 
 import {NgbPopover} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
@@ -12,17 +12,17 @@ import {BiComponent} from 'dfx-bootstrap-icons';
       class="badge not-selectable"
       style="width: min-content"
       [ngClass]="{
-        'text-bg-warning': !!unpaidReason,
-        'text-bg-success': !unpaidReason,
+        'text-bg-warning': !!unpaidReason(),
+        'text-bg-success': !unpaidReason(),
       }"
     >
-      @if (!unpaidReason) {
+      @if (!unpaidReason()) {
         <div class="d-flex gap-2 align-items-center">
           <span>{{ 'Bezahlt' | transloco }}</span>
           <bi name="check2-square" />
         </div>
       } @else {
-        @switch (unpaidReason) {
+        @switch (unpaidReason()) {
           @case ('Test') {
             <div class="d-flex gap-2 align-items-center">
               <span>{{ 'HOME_ORDER_TEST' | transloco }}</span>
@@ -35,14 +35,14 @@ import {BiComponent} from 'dfx-bootstrap-icons';
               placement="right"
               triggers="mouseenter:mouseleave"
               popoverTitle="Rechnungsdetails"
-              [ngbPopover]="unpaidReason ? popContent : null"
+              [ngbPopover]="unpaidReason() ? popContent : null"
             >
               <span>{{ 'Unbezahlt' | transloco }}</span>
               <bi name="cone-striped" />
             </div>
 
             <ng-template #popContent class="d-flex flex-column">
-              <div>Grund: {{ unpaidReason }}</div>
+              <div>Grund: {{ unpaidReason() }}</div>
             </ng-template>
           }
         }
@@ -55,5 +55,5 @@ import {BiComponent} from 'dfx-bootstrap-icons';
   imports: [NgClass, BiComponent, TranslocoPipe, NgbPopover],
 })
 export class AppBillPaymentStateBadgeComponent {
-  @Input() unpaidReason?: string;
+  unpaidReason = input<string>();
 }

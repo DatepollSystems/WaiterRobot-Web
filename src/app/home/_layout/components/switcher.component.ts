@@ -8,10 +8,10 @@ import {s_from} from 'dfts-helper';
 import {derivedFrom} from 'ngxtension/derived-from';
 import {filterNil} from 'ngxtension/filter-nil';
 import {distinctUntilChanged, map, pipe, startWith, switchMap, tap} from 'rxjs';
-import {EventsService} from '../../events/_services/events.service';
-import {SelectedEventService} from '../../events/_services/selected-event.service';
-import {OrganisationsService} from '../../organisations/_services/organisations.service';
-import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
+import {EventsService} from '../../_admin/events/_services/events.service';
+import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
+import {OrganisationsService} from '../../_admin/organisations/_services/organisations.service';
+import {SelectedOrganisationService} from '../../_admin/organisations/_services/selected-organisation.service';
 
 @Component({
   template: `

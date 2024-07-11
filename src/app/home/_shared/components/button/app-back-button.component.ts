@@ -1,5 +1,5 @@
 import {Location} from '@angular/common';
-import {ChangeDetectionStrategy, Component, Directive, HostListener, inject, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Directive, HostListener, inject, input} from '@angular/core';
 import {Router} from '@angular/router';
 import {TranslocoPipe} from '@jsverse/transloco';
 
@@ -14,20 +14,20 @@ export class AppBackDirective {
   router = inject(Router);
   window = inject(WINDOW);
 
-  @Input() fallbackUrl = '/';
-  @Input() closeOnNoHistory = true;
+  fallbackUrl = input('/');
+  closeOnNoHistory = input(true);
 
   @HostListener('mousedown')
   goBack(): void {
     if (this.window) {
-      if (this.closeOnNoHistory && this.window.history.length < 2) {
+      if (this.closeOnNoHistory() && this.window.history.length < 2) {
         this.window.close();
       } else {
         this.location.back();
       }
       return;
     }
-    void this.router.navigateByUrl(this.fallbackUrl);
+    void this.router.navigateByUrl(this.fallbackUrl());
   }
 }
 

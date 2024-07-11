@@ -1,5 +1,5 @@
 import {NgOptimizedImage} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 
 import {QrCodeService} from '@home-shared/services/qr-code.service';
 
@@ -35,7 +35,7 @@ export interface appDownload {
           {{ appLink.text }}
         </a>
 
-        @if (showQRCodeButton) {
+        @if (showQRCodeButton()) {
           <button
             type="button"
             class="btn btn-outline-info"
@@ -110,7 +110,7 @@ export class AppDownloadBtnListComponent {
     },
   ]);
 
-  @Input() showQRCodeButton = true;
+  showQRCodeButton = input(true);
 
   #qrCodeService = inject(QrCodeService);
 

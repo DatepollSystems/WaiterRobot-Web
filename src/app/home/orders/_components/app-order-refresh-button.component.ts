@@ -1,4 +1,4 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
@@ -13,13 +13,13 @@ import {OrdersService} from '../orders.service';
       type="button"
       class="btn btn-outline-secondary d-flex align-items-center gap-2"
       placement="left"
-      [class.btnSpinner]="loading"
+      [class.btnSpinner]="loading()"
       [ngbTooltip]="'HOME_ORDER_REFRESH_NOW' | transloco"
       (mousedown)="ordersService.triggerRefresh.next(true)"
     >
       <bi name="arrow-clockwise" />
-      @if (countdown) {
-        <span class="badge text-bg-secondary">{{ countdown }}</span>
+      @if (countdown()) {
+        <span class="badge text-bg-secondary">{{ countdown() }}</span>
       }
     </button>
   `,
@@ -31,7 +31,7 @@ import {OrdersService} from '../orders.service';
 export class AppOrderRefreshButtonComponent {
   ordersService = inject(OrdersService);
 
-  @Input() countdown?: number;
+  countdown = input<number>();
 
-  @Input({transform: booleanAttribute}) loading = false;
+  loading = input(booleanAttribute(false), {transform: booleanAttribute});
 }

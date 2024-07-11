@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, input} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AppColorPicker} from '@home-shared/components/color/color-picker.component';
@@ -53,7 +53,7 @@ import {startWith} from 'rxjs';
                 <span class="input-group-text" id="selectPrinter-addon"><bi name="printer" /></span>
                 <select class="form-select" id="selectPrinter" formControlName="printerId">
                   <option [ngValue]="-1">{{ 'HOME_PROD_PRINTER_SELECT_DEFAULT' | transloco }}</option>
-                  @for (printer of this.printers; track printer.id) {
+                  @for (printer of printers() ?? []; track printer.id) {
                     <option [ngValue]="printer.id">
                       {{ printer.name }}
                     </option>
@@ -137,6 +137,5 @@ export class ProductGroupEditFormComponent extends AbstractModelEditFormComponen
   }
   _selectedEventId = -1;
 
-  @Input()
-  printers!: HasNumberIDAndName[];
+  printers = input<HasNumberIDAndName[]>();
 }

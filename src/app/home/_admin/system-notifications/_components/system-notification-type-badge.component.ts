@@ -1,5 +1,5 @@
 import {NgClass} from '@angular/common';
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 
 import {GetSystemNotificationResponse} from '@shared/waiterrobot-backend';
 
@@ -12,14 +12,14 @@ import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
       class="badge d-flex align-items-center gap-2 not-selectable"
       style="width: min-content"
       [ngClass]="{
-        'text-bg-light': type === 'NEUTRAL',
-        'text-bg-success': type === 'SUCCESS',
-        'text-bg-danger': type === 'DANGER',
-        'text-bg-warning': type === 'WARNING',
-        'text-bg-info': type === 'INFO',
+        'text-bg-light': type() === 'NEUTRAL',
+        'text-bg-success': type() === 'SUCCESS',
+        'text-bg-danger': type() === 'DANGER',
+        'text-bg-warning': type() === 'WARNING',
+        'text-bg-info': type() === 'INFO',
       }"
     >
-      @switch (type) {
+      @switch (type()) {
         @case ('INFO') {
           <bi name="info-circle-fill" />
         }
@@ -34,7 +34,7 @@ import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
         }
       }
 
-      <span>{{ type | s_lowerCaseAllExceptFirstLetter }}</span>
+      <span>{{ type() | s_lowerCaseAllExceptFirstLetter }}</span>
     </div>
   `,
   standalone: true,
@@ -43,5 +43,5 @@ import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
   imports: [NgClass, BiComponent, DfxLowerCaseExceptFirstLettersPipe],
 })
 export class AppSystemNotificationTypeBadgeComponent {
-  @Input({required: true}) type!: GetSystemNotificationResponse['type'];
+  type = input.required<GetSystemNotificationResponse['type']>();
 }

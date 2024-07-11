@@ -9,7 +9,7 @@ import {injectContinuousCreation, injectOnDelete} from '@home-shared/form/edit';
 import {injectOnSubmit} from '@shared/form';
 import {GetTableGroupResponse} from '@shared/waiterrobot-backend';
 
-import {SelectedEventService} from '../../events/_services/selected-event.service';
+import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TableGroupEditFormComponent} from './table-group-edit-form.component';
 

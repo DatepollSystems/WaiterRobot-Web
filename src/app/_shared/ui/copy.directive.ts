@@ -1,4 +1,4 @@
-import {Directive, Input} from '@angular/core';
+import {Directive, input} from '@angular/core';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
@@ -10,12 +10,12 @@ import {cl_copy} from 'dfts-helper';
   standalone: true,
 })
 export class CopyDirective {
-  @Input() copyable?: string;
+  copyable = input<string>();
 
   copy(t: NgbTooltip): void {
-    if (this.copyable) {
+    if (this.copyable()) {
       t.open();
-      cl_copy(this.copyable);
+      cl_copy(this.copyable()!);
       setTimeout(() => {
         t.close();
       }, 1000);

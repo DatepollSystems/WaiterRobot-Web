@@ -18,8 +18,8 @@ import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {StopPropagationDirective} from 'dfx-helper';
 import {injectParams} from 'ngxtension/inject-params';
 import {filter, map, switchMap, tap} from 'rxjs';
-import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {EventsService} from './_services/events.service';
+import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 
 @Component({
   template: `
@@ -156,6 +156,7 @@ import {EventsService} from './_services/events.service';
     NgbDropdownItem,
     StopPropagationDirective,
     ListFilterComponent,
+    ScrollableToolbarComponent,
   ],
   standalone: true,
 })

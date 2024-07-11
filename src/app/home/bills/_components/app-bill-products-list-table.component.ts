@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, Input, signal, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, input, signal, ViewChild} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {TranslocoPipe} from '@jsverse/transloco';
 
@@ -36,7 +36,7 @@ import {DfxCurrencyCentPipe} from 'dfx-helper';
           <td *ngbCellDef="let order" ngb-cell>
             {{ order.pricePaidSum | currency }}
           </td>
-          <td *ngbFooterCellDef>{{ priceSum | currency }}</td>
+          <td *ngbFooterCellDef>{{ priceSum() | currency }}</td>
         </ng-container>
 
         <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
@@ -56,8 +56,8 @@ import {DfxCurrencyCentPipe} from 'dfx-helper';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrderProductsListTableComponent implements AfterViewInit {
-  @Input({required: true}) billProducts!: GetImplodedBillProductResponse[];
-  @Input({required: true}) priceSum!: number;
+  billProducts = input.required<GetImplodedBillProductResponse[]>();
+  priceSum = input.required<number>();
 
   @ViewChild(NgbSort) sort?: NgbSort;
   columnsToDisplay = ['product', 'pricePerPiece', 'priceSum'];
@@ -65,7 +65,7 @@ export class AppOrderProductsListTableComponent implements AfterViewInit {
   dataSource = signal(new NgbTableDataSource<GetImplodedBillProductResponse>());
 
   ngAfterViewInit(): void {
-    const dataSource = new NgbTableDataSource<GetImplodedBillProductResponse>(this.billProducts);
+    const dataSource = new NgbTableDataSource<GetImplodedBillProductResponse>(this.billProducts());
     dataSource.sortingDataAccessor = (item, property: string) => {
       switch (property) {
         default:

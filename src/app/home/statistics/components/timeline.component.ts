@@ -14,7 +14,7 @@ import {derivedFrom} from 'ngxtension/derived-from';
 import {filterNil} from 'ngxtension/filter-nil';
 
 import {debounceTime, filter, map, of, pipe, startWith, switchMap} from 'rxjs';
-import {SelectedEventService} from '../../events/_services/selected-event.service';
+import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 
 type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
 
