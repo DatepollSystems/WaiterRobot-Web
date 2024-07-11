@@ -34,7 +34,10 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 
         <div class="form-group col-12 col-md-3 col-lg-2">
           <label for="price">{{ 'PRICE' | transloco }}</label>
-          <input class="form-control" type="string" id="price" formControlName="price" [placeholder]="'PRICE' | transloco" />
+          <div class="input-group">
+            <input class="form-control" type="string" id="price" formControlName="price" [placeholder]="'PRICE' | transloco" />
+            <span class="input-group-text">€</span>
+          </div>
 
           @if (form.controls.price.invalid) {
             <small class="text-danger">
