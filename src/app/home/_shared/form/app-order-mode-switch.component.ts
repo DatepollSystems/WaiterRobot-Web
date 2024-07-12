@@ -1,4 +1,4 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, Input, output} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 
@@ -20,8 +20,7 @@ import {skip} from 'rxjs';
 export class AppOrderModeSwitchComponent {
   formControl = new FormControl(false);
 
-  @Output()
-  readonly orderModeChange = new EventEmitter<boolean>();
+  readonly orderModeChange = output<boolean>();
 
   @Input({transform: booleanAttribute})
   set orderMode(it: boolean) {
@@ -30,7 +29,7 @@ export class AppOrderModeSwitchComponent {
 
   constructor() {
     this.formControl.valueChanges.pipe(takeUntilDestroyed(), skip(1)).subscribe((value) => {
-      this.orderModeChange.next(value ?? false);
+      this.orderModeChange.emit(value ?? false);
     });
   }
 }

@@ -1,18 +1,18 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 
 import {AppColorIndicatorComponent} from './app-color-indicator.component';
 
 @Component({
   template: `
     <div class="d-flex align-items-center gap-2">
-      @if (color && placement === 'left') {
-        <app-color-indicator [color]="color" [size]="size" />
+      @if (color() && placement() === 'left') {
+        <app-color-indicator [color]="color()!" [size]="size()" />
       }
 
       <ng-content />
 
-      @if (color && placement === 'right') {
-        <app-color-indicator [color]="color" [size]="size" />
+      @if (color() && placement() === 'right') {
+        <app-color-indicator [color]="color()!" [size]="size()" />
       }
     </div>
   `,
@@ -22,8 +22,8 @@ import {AppColorIndicatorComponent} from './app-color-indicator.component';
   imports: [AppColorIndicatorComponent],
 })
 export class AppTextWithColorIndicatorComponent {
-  @Input() color?: string | null;
-  @Input() placement: 'left' | 'right' = 'left';
+  color = input<string | null>();
+  placement = input<'left' | 'right'>('left');
 
-  @Input() size = 20;
+  size = input(20);
 }

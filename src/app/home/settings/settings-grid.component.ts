@@ -12,8 +12,8 @@ import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.compo
 import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {combineLatest, debounceTime, distinctUntilChanged, map, Observable, OperatorFunction} from 'rxjs';
-import {OrganisationsSettingsService} from '../organisations/_services/organisations-settings.service';
-import {SelectedOrganisationService} from '../organisations/_services/selected-organisation.service';
+import {OrganisationsSettingsService} from '../_admin/organisations/_services/organisations-settings.service';
+import {SelectedOrganisationService} from '../_admin/organisations/_services/selected-organisation.service';
 
 @Component({
   template: `

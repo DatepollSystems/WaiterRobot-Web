@@ -11,7 +11,7 @@ import {GetBillResponse, PaginatedResponseGetBillMinResponse} from '@shared/wait
 import {n_generate_int} from 'dfts-helper';
 import {HasGetSingle} from 'dfx-helper';
 
-import {SelectedEventService} from '../../events/_services/selected-event.service';
+import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
 export class BillsService implements HasGetSingle<GetBillResponse> {

@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, Input, input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
@@ -71,7 +71,7 @@ import {TablesService} from '../_services/tables.service';
 
             <select class="form-select" id="selectGroup" formControlName="groupId">
               <option disabled [value]="-1">{{ 'HOME_TABLES_GROUPS_DEFAULT' | transloco }}</option>
-              @for (group of tableGroups; track group.id) {
+              @for (group of tableGroups(); track group.id) {
                 <option [value]="group.id">
                   {{ group.name }}
                 </option>
@@ -176,6 +176,5 @@ export class TableEditFormComponent extends AbstractModelEditFormComponent<Creat
 
   _selectedEventId = -1;
 
-  @Input()
-  tableGroups!: HasNumberIDAndName[];
+  tableGroups = input<HasNumberIDAndName[]>();
 }

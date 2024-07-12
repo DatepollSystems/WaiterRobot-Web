@@ -9,8 +9,8 @@ import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 import {injectOnSubmit} from '@shared/form';
 import {GetPrinterResponse} from '@shared/waiterrobot-backend';
 
-import {SelectedEventService} from '../../events/_services/selected-event.service';
-import {OrganisationUsersSettingsComponent} from '../../organisations/organisation-edit/organisation-edit-users/organisation-users-settings.component';
+import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
+import {OrganisationUsersSettingsComponent} from '../../_admin/organisations/organisation-edit/organisation-edit-users/organisation-users-settings.component';
 import {PrintersService} from '../_services/printers.service';
 import {AppPrinterEditForm} from './printer-edit-form.component';
 import {PrinterEditProductsComponent} from './printer-edit-products.component';

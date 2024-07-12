@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 
 import {NgbPopoverModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
@@ -12,11 +12,11 @@ import {QrCodeService} from '../../services/qr-code.service';
 @Component({
   template: `
     <ng-template #popContent>
-      <p>{{ info | transloco }}</p>
-      <a target="_blank" rel="noreferrer" [href]="data">{{ data | s_cut: 82 : '...' }}</a>
+      <p>{{ info() | transloco }}</p>
+      <a target="_blank" rel="noreferrer" [href]="data()">{{ data() | s_cut: 82 : '...' }}</a>
     </ng-template>
     <ng-template #popTitle>
-      <b>{{ text | transloco }}</b>
+      <b>{{ text() | transloco }}</b>
     </ng-template>
     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
       <button
@@ -31,7 +31,7 @@ import {QrCodeService} from '../../services/qr-code.service';
         (mousedown)="openQrCode()"
       >
         <bi name="qr-code" class="me-1" />
-        {{ text | transloco }}
+        {{ text() | transloco }}
       </button>
       <button
         #c="copy"
@@ -42,7 +42,7 @@ import {QrCodeService} from '../../services/qr-code.service';
         autoClose="false"
         triggers="manual"
         placement="right"
-        [copyable]="data"
+        [copyable]="data()"
         [ngbTooltip]="'COPIED' | transloco"
         (mousedown)="c.copy(t)"
       >
@@ -58,12 +58,12 @@ import {QrCodeService} from '../../services/qr-code.service';
 export class AppQrCodeButtonComponent {
   #qrCodeService = inject(QrCodeService);
 
-  @Input() data?: string;
+  data = input<string>();
 
-  @Input() text = '';
-  @Input() info = '';
+  text = input('');
+  info = input('');
 
   openQrCode(): void {
-    this.#qrCodeService.openQRCodePage({data: this.data ?? 'ERROR', text: this.text, info: this.info});
+    this.#qrCodeService.openQRCodePage({data: this.data() ?? 'ERROR', text: this.text(), info: this.info()});
   }
 }

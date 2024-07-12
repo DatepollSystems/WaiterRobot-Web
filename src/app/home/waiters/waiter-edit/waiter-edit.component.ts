@@ -14,9 +14,9 @@ import {GetWaiterResponse} from '@shared/waiterrobot-backend';
 import {loggerOf, n_from, n_isNumeric} from 'dfts-helper';
 
 import {combineLatest, filter, map, shareReplay, startWith, tap} from 'rxjs';
-import {EventsService} from '../../events/_services/events.service';
-import {SelectedEventService} from '../../events/_services/selected-event.service';
-import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
+import {EventsService} from '../../_admin/events/_services/events.service';
+import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
+import {SelectedOrganisationService} from '../../_admin/organisations/_services/selected-organisation.service';
 import {WaitersService} from '../_services/waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from '../btn-waiter-sign-in-qr-code.component';
 import {AppWaiterEditFormComponent} from './waiter-edit-form.component';

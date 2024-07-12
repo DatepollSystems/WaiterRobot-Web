@@ -1,8 +1,8 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, input} from '@angular/core';
 
 @Component({
   template: `
-    @if (show) {
+    @if (show()) {
       <div class="b-spinner-row">
         <div class="loader" aria-label=""></div>
       </div>
@@ -22,6 +22,5 @@ import {booleanAttribute, ChangeDetectionStrategy, Component, Input} from '@angu
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppSpinnerRowComponent {
-  @Input({transform: booleanAttribute})
-  show = true;
+  show = input(booleanAttribute(true), {transform: booleanAttribute});
 }

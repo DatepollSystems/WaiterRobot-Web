@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
@@ -49,7 +49,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
           <label for="font">{{ 'HOME_PRINTER_FONT' | transloco }}</label>
 
           <select class="form-select" aria-label="Font select" id="font" formControlName="font">
-            @for (font of availableFonts; track font.code) {
+            @for (font of availableFonts(); track font.code) {
               <option [value]="font.code">{{ font.description }}</option>
             }
           </select>
@@ -174,6 +174,5 @@ export class AppPrinterEditForm extends AbstractModelEditFormComponent<CreatePri
   }
   _selectedEventId = -1;
 
-  @Input({required: true})
-  availableFonts!: GetPrinterFontResponse[];
+  availableFonts = input.required<GetPrinterFontResponse[]>();
 }

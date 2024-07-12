@@ -13,8 +13,8 @@ import {injectIsValid} from '@shared/form';
 import {DfxTimeSpanPipe} from 'dfx-helper';
 
 import {interval, map} from 'rxjs';
-import {EventsService} from '../home/events/_services/events.service';
 import {MaxiService} from './maxi.service';
+import {EventsService} from '../home/_admin/events/_services/events.service';
 
 @Component({
   selector: 'app-maxi',

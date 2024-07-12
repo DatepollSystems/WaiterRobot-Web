@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, Input, viewChild} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
@@ -53,7 +53,7 @@ import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bo
 })
 export class PrinterEditProductsComponent implements AfterViewInit {
   columnsToDisplay = ['name', 'actions'];
-  @ViewChild(NgbSort) sort!: NgbSort;
+  sort = viewChild(NgbSort);
 
   @Input({required: true}) set products(it: GetProductMinResponse[]) {
     this._products = new NgbTableDataSource(it);
@@ -62,6 +62,6 @@ export class PrinterEditProductsComponent implements AfterViewInit {
   _products!: NgbTableDataSource<GetProductMinResponse>;
 
   ngAfterViewInit(): void {
-    this._products.sort = this.sort;
+    this._products.sort = this.sort();
   }
 }

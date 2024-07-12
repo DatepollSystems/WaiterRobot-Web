@@ -41,7 +41,7 @@ export const ROUTES: Routes = [
       {
         path: 'select',
         title: 'Select',
-        loadComponent: () => import('./_layout/_components/switcher.component').then((m) => m.SwitcherComponent),
+        loadComponent: () => import('./_layout/components/switcher.component').then((m) => m.SwitcherComponent),
       },
       {
         path: 'qrcode/view',
@@ -51,12 +51,12 @@ export const ROUTES: Routes = [
       {
         path: 'organisations',
         title: 'NAV_ORGANISATIONS',
-        loadChildren: () => import('./organisations/organisations.routes').then((m) => m.ROUTES),
+        loadChildren: () => import('./_admin/organisations/organisations.routes').then((m) => m.ROUTES),
       },
       {
         path: 'events',
         title: 'NAV_EVENTS',
-        loadChildren: () => import('./events/events.routes').then((m) => m.ROUTES),
+        loadChildren: () => import('./_admin/events/events.routes').then((m) => m.ROUTES),
       },
     ],
   },

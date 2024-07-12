@@ -1,5 +1,5 @@
 import {NgClass} from '@angular/common';
-import {booleanAttribute, ChangeDetectionStrategy, Component, Input, numberAttribute, Optional, Self, signal} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, inject, input, numberAttribute, signal} from '@angular/core';
 import {ControlValueAccessor, FormsModule, NgControl} from '@angular/forms';
 
 import {
@@ -24,10 +24,10 @@ import {NgbDateTimeStruct} from './datetime.struct';
     <div class="input-group">
       <input
         class="form-control"
-        [id]="id"
-        [placeholder]="placeholder"
+        [id]="id()"
+        [placeholder]="placeholder()"
         [disabled]="disabled"
-        [ngClass]="ngControl.valid ? 'ng-valid' : 'ng-invalid'"
+        [ngClass]="ngControl?.valid ? 'ng-valid' : 'ng-invalid'"
         [ngModel]="displayedDateTime()"
         (ngModelChange)="onInputChange($event)"
         (blur)="inputBlur()"
@@ -59,9 +59,9 @@ import {NgbDateTimeStruct} from './datetime.struct';
             name="timepicker"
             [meridian]="false"
             [ngModel]="timeStruct"
-            [seconds]="seconds"
-            [hourStep]="hourStep"
-            [minuteStep]="minuteStep"
+            [seconds]="seconds()"
+            [hourStep]="hourStep()"
+            [minuteStep]="minuteStep()"
             (ngModelChange)="onTimeChange($event)"
           />
         </div>
@@ -74,18 +74,16 @@ import {NgbDateTimeStruct} from './datetime.struct';
   imports: [BiComponent, NgbInputDatepicker, NgbTimepicker, NgClass, NgbPopover, NgbDatepicker, FormsModule],
 })
 export class AppDatetimeInputComponent implements ControlValueAccessor {
-  @Input()
-  placeholder = '';
-  @Input({transform: numberAttribute})
-  hourStep = 1;
-  @Input({transform: numberAttribute})
-  minuteStep = 1;
-  @Input({transform: numberAttribute})
-  secondStep = 30;
-  @Input({transform: booleanAttribute})
-  seconds = true;
-  @Input({required: true})
-  id!: string;
+  #ngbDateParser = inject(NgbDateParserFormatter);
+  #ngbDateTimeAdapter = inject<NgbDateTimeAdapter<unknown>>(NgbDateTimeAdapter<unknown>);
+  ngControl = inject(NgControl, {optional: true, self: true});
+
+  placeholder = input('');
+  hourStep = input(numberAttribute(1), {transform: numberAttribute});
+  minuteStep = input(numberAttribute(1), {transform: numberAttribute});
+  secondStep = input(numberAttribute(30), {transform: numberAttribute});
+  seconds = input(booleanAttribute(true), {transform: booleanAttribute});
+  id = input.required<string>();
 
   error = false;
   disabled = false;
@@ -98,19 +96,17 @@ export class AppDatetimeInputComponent implements ControlValueAccessor {
   dateTimeStruct?: NgbDateTimeStruct;
   displayedDateTime = signal<string>('');
 
-  constructor(
-    private _ngbDateParser: NgbDateParserFormatter,
-    private _ngbDateTimeAdapter: NgbDateTimeAdapter<unknown>,
-    @Optional() @Self() public ngControl: NgControl,
-  ) {
+  constructor() {
     // Setting the value accessor directly (instead of using
     // the providers) to avoid running into a circular import.
-    this.ngControl.valueAccessor = this;
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
+    }
   }
 
   parse = (value: string): NgbDateTimeStruct | null => {
     const dateTimeValue = value.split(' ');
-    const _dateStruct = this._ngbDateParser.parse(dateTimeValue[0]);
+    const _dateStruct = this.#ngbDateParser.parse(dateTimeValue[0]);
     const _timeStruct: string[] | undefined = dateTimeValue[1]?.split(':');
 
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -120,9 +116,9 @@ export class AppDatetimeInputComponent implements ControlValueAccessor {
 
     const hour = parseInt(_timeStruct[0], 10);
     const minute = parseInt(_timeStruct[1], 10);
-    const second = this.seconds ? parseInt(_timeStruct[2], 10) : undefined;
+    const second = this.seconds() ? parseInt(_timeStruct[2], 10) : undefined;
 
-    if (isNaN(hour) || isNaN(minute) || (this.seconds && isNaN(second ?? NaN))) {
+    if (isNaN(hour) || isNaN(minute) || (this.seconds()! && isNaN(second ?? NaN))) {
       return null;
     }
 
@@ -138,9 +134,9 @@ export class AppDatetimeInputComponent implements ControlValueAccessor {
 
   format = (_dateTimeStruct?: NgbDateTimeStruct): string =>
     _dateTimeStruct
-      ? `${this._ngbDateParser.format(_dateTimeStruct)} ${_dateTimeStruct.hour.toString().padStart(2, '0')}:${_dateTimeStruct.minute
+      ? `${this.#ngbDateParser.format(_dateTimeStruct)} ${_dateTimeStruct.hour.toString().padStart(2, '0')}:${_dateTimeStruct.minute
           .toString()
-          .padStart(2, '0')}${this.seconds ? `:${_dateTimeStruct.second.toString().padStart(2, '0')}` : ''}`
+          .padStart(2, '0')}${this.seconds() ? `:${_dateTimeStruct.second.toString().padStart(2, '0')}` : ''}`
       : '';
 
   formatDisplayedDateTime(): void {
@@ -148,7 +144,7 @@ export class AppDatetimeInputComponent implements ControlValueAccessor {
   }
 
   writeValue(value: unknown): void {
-    const struct = this._ngbDateTimeAdapter.fromModel(value);
+    const struct = this.#ngbDateTimeAdapter.fromModel(value);
     if (struct) {
       this.dateTimeStruct = struct;
       this.dateStruct = struct;
@@ -231,7 +227,7 @@ export class AppDatetimeInputComponent implements ControlValueAccessor {
     if (touched) {
       this.onTouched();
     }
-    this.onChange(this._ngbDateTimeAdapter.toModel(this.dateTimeStruct ?? null));
+    this.onChange(this.#ngbDateTimeAdapter.toModel(this.dateTimeStruct ?? null));
   }
 
   setDisabledState(isDisabled: boolean): void {

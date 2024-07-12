@@ -1,15 +1,14 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, Input, input, output} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 
 import {TranslocoPipe} from '@jsverse/transloco';
-
-import {Subscription} from 'rxjs';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   template: `
     <div class="form-check form-switch mb-0">
       <input class="form-check-input" type="checkbox" role="switch" id="continuousCreation" [formControl]="formControl" />
-      <label class="form-check-label text-nowrap" for="continuousCreation">{{ text | transloco }}</label>
+      <label class="form-check-label text-nowrap" for="continuousCreation">{{ text() | transloco }}</label>
     </div>
   `,
   selector: 'app-continues-creation-switch',
@@ -17,29 +16,21 @@ import {Subscription} from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, TranslocoPipe],
 })
-export class AppContinuesCreationSwitchComponent implements OnDestroy {
+export class AppContinuesCreationSwitchComponent {
   formControl = new FormControl(false);
 
-  @Output()
-  readonly continuesCreationChange = new EventEmitter<boolean>();
+  readonly continuesCreationChange = output<boolean>();
 
   @Input({transform: booleanAttribute})
   set continuesCreation(it: boolean) {
     this.formControl.setValue(it);
   }
 
-  @Input() text = 'CONTINUOUS_CREATION';
-
-  subscription?: Subscription;
+  text = input('CONTINUOUS_CREATION');
 
   constructor() {
-    this.subscription = this.formControl.valueChanges.subscribe((value) => {
-      this.continuesCreationChange.next(value ?? false);
+    this.formControl.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+      this.continuesCreationChange.emit(value ?? false);
     });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-    this.subscription = undefined;
   }
 }

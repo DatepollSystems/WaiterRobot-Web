@@ -17,7 +17,7 @@ import {StopPropagationDirective} from 'dfx-helper';
 
 import {catchError, filter, map, of, startWith, switchMap, timer} from 'rxjs';
 import {MyUserService} from '../_shared/services/user/my-user.service';
-import {SelectedEventService} from '../events/_services/selected-event.service';
+import {SelectedEventService} from '../_admin/events/_services/selected-event.service';
 import {AppOrderStateBadgeComponent} from '../orders/_components/app-order-state-badge.component';
 import {OrdersService} from '../orders/orders.service';
 

@@ -7,8 +7,8 @@ import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {AppLogoWithTextComponent} from '@outside-shared/app-logo-with-text.component';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxCutPipe} from 'dfx-helper';
-import {SelectedEventService} from '../../events/_services/selected-event.service';
-import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
+import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
+import {SelectedOrganisationService} from '../../_admin/organisations/_services/selected-organisation.service';
 import {ProfileMenuComponent} from './profile-menu.component';
 import {SwitcherModalComponent} from './switcher.component';
 

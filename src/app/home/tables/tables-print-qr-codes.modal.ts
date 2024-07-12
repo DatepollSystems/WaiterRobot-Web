@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject, Input, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input, signal} from '@angular/core';
 
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {MobileLinkService} from '@home-shared/services/mobile-link.service';
@@ -51,7 +51,7 @@ import {delay, of} from 'rxjs';
 
       <div class="main">
         <div class="d-flex flex-wrap justify-content-center">
-          @for (mytable of tables; track mytable.id) {
+          @for (mytable of tables(); track mytable.id) {
             <div class="qr-code-item">
               <qrcode
                 cssClass="text-center"
@@ -104,7 +104,7 @@ export class TablesPrintQrCodesModal {
   activeModal = inject(NgbActiveModal);
   #mobileLink = inject(MobileLinkService);
 
-  @Input() tables?: GetTableWithGroupResponse[];
+  tables = input<GetTableWithGroupResponse[]>();
 
   qrCodeSize: 'SM' | 'MD' = 'MD';
   generating = false;

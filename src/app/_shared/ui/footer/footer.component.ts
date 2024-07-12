@@ -1,5 +1,5 @@
 import {LowerCasePipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -12,7 +12,7 @@ import {a_shuffle} from 'dfts-helper';
 @Component({
   template: `
     <footer class="container-fluid border-top py-3">
-      <div [class]="'my-container ' + container">
+      <div [class]="'my-container() ' + container()">
         <div class="d-flex flex-column flex-xxl-row justify-content-between gap-2">
           <div
             class="d-flex flex-column flex-sm-row gap-2 text-body-secondary align-items-center justify-content-center justify-content-sm-between"
@@ -108,8 +108,7 @@ export class FooterComponent {
 
   names = a_shuffle(['Alex', 'Dominik', 'Fabian']);
 
-  @Input()
-  container = 'container-xxxl';
+  container = input('container-xxxl');
 
   openAbout(): void {
     this.modal.open(AboutModalComponent, {ariaLabelledBy: 'modal-title-about', size: 'lg'});

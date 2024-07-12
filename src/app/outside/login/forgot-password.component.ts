@@ -135,13 +135,15 @@ import {delay, tap} from 'rxjs';
   imports: [ReactiveFormsModule, RouterLink, NgSwitch, NgSwitchCase, AsyncPipe, TranslocoPipe, BiComponent],
 })
 export class ForgotPasswordComponent {
-  fb = inject(FormBuilder);
+  #router = inject(Router);
+  #authService = inject(AuthService);
+  #fb = inject(FormBuilder);
 
-  requestPasswordResetForm = this.fb.nonNullable.group({
+  requestPasswordResetForm = this.#fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
   });
 
-  resetPasswordForm = this.fb.nonNullable.group(
+  resetPasswordForm = this.#fb.nonNullable.group(
     {
       resetToken: ['', [Validators.required, Validators.minLength(20)]],
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
@@ -152,12 +154,9 @@ export class ForgotPasswordComponent {
 
   resetState = signal<'REQUEST' | 'SET' | 'SUCCESS'>('REQUEST');
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private authService: AuthService,
-  ) {
-    this.route.queryParamMap.pipe(takeUntilDestroyed()).subscribe((params) => {
+  constructor() {
+    const route = inject(ActivatedRoute);
+    route.queryParamMap.pipe(takeUntilDestroyed()).subscribe((params) => {
       const email = params.get('email');
       const resetToken = params.get('resetToken');
       if (email && resetToken) {
@@ -175,7 +174,7 @@ export class ForgotPasswordComponent {
 
   requestPasswordReset(): void {
     const email = this.requestPasswordResetForm.controls.email.getRawValue();
-    this.authService.sendPasswordResetRequest(email).subscribe(() => {
+    this.#authService.sendPasswordResetRequest(email).subscribe(() => {
       this.resetState.set('SET');
     });
   }
@@ -184,7 +183,7 @@ export class ForgotPasswordComponent {
     const email = this.requestPasswordResetForm.controls.email.getRawValue();
     const resetToken = this.resetPasswordForm.controls.resetToken.getRawValue();
     const newPassword = this.resetPasswordForm.controls.newPassword.getRawValue();
-    this.authService
+    this.#authService
       .sendPasswordReset(email, resetToken, newPassword)
       .pipe(
         tap(() => {
@@ -193,7 +192,7 @@ export class ForgotPasswordComponent {
         delay(5000),
       )
       .subscribe(() => {
-        void this.router.navigateByUrl('/about');
+        void this.#router.navigateByUrl('/about');
       });
   }
 }

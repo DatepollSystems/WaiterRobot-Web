@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, inject, Renderer2, viewChild} from '@angular/core';
 import {Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet} from '@angular/router';
 import {AppLogoWithTextComponent} from '@outside-shared/app-logo-with-text.component';
 
@@ -30,25 +30,24 @@ import {SystemInfoComponent} from './system-info.component';
   imports: [ToastsContainerComponent, SystemInfoComponent, RouterOutlet, AppLogoWithTextComponent],
 })
 export class AppComponent {
-  @ViewChild('spinnerElement')
-  spinnerElement!: ElementRef;
+  #renderer = inject(Renderer2);
 
+  spinnerElement = viewChild.required<ElementRef>('spinnerElement');
   loaded$ = new Subject<boolean>();
 
   private _navigationInterceptor(event: Event): void {
     if (event instanceof NavigationStart) {
-      this.renderer.setStyle(this.spinnerElement.nativeElement, 'display', 'flex');
+      this.#renderer.setStyle(this.spinnerElement().nativeElement, 'display', 'flex');
     }
     if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
-      this.renderer.setStyle(this.spinnerElement.nativeElement, 'display', 'none');
+      this.#renderer.setStyle(this.spinnerElement().nativeElement, 'display', 'none');
       this.loaded$.next(true);
     }
   }
 
-  constructor(
-    router: Router,
-    private renderer: Renderer2,
-  ) {
+  constructor() {
+    const router = inject(Router);
+
     router.events.pipe(takeUntil(this.loaded$)).subscribe((event) => {
       this._navigationInterceptor(event);
     });

@@ -1,5 +1,5 @@
 import {DatePipe, NgClass} from '@angular/common';
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
@@ -11,10 +11,10 @@ import {BiComponent} from 'dfx-bootstrap-icons';
     <div
       class="badge d-flex align-items-center gap-2 not-selectable"
       style="width: min-content"
-      [ngClass]="{'text-bg-light': printState === 'QUEUED', 'text-bg-success': printState === 'SENT_TO_PRINT'}"
-      [ngbTooltip]="sentToPrinterAt || printedAt ? tipContent : null"
+      [ngClass]="{'text-bg-light': printState() === 'QUEUED', 'text-bg-success': printState() === 'SENT_TO_PRINT'}"
+      [ngbTooltip]="sentToPrinterAt() || printedAt() ? tipContent : null"
     >
-      @switch (printState) {
+      @switch (printState()) {
         @case ('QUEUED') {
           <span>{{ 'HOME_ORDER_QUEUED' | transloco }}</span>
         }
@@ -26,19 +26,19 @@ import {BiComponent} from 'dfx-bootstrap-icons';
         }
       }
 
-      @if (printState === 'QUEUED') {
+      @if (printState() === 'QUEUED') {
         <div class="circle pulse green"></div>
       } @else {
         <bi name="check2-square" />
       }
     </div>
     <ng-template #tipContent>
-      @switch (printState) {
+      @switch (printState()) {
         @case ('SENT_TO_PRINT') {
-          <span>{{ sentToPrinterAt | date: 'dd.MM.yy HH:mm:ss' }}</span>
+          <span>{{ sentToPrinterAt() | date: 'dd.MM.yy HH:mm:ss' }}</span>
         }
         @case ('PRINTED') {
-          <span>{{ printedAt | date: 'dd.MM.yy HH:mm:ss' }}</span>
+          <span>{{ printedAt() | date: 'dd.MM.yy HH:mm:ss' }}</span>
         }
       }
     </ng-template>
@@ -74,8 +74,8 @@ import {BiComponent} from 'dfx-bootstrap-icons';
   imports: [NgClass, BiComponent, TranslocoPipe, DatePipe, NgbTooltip],
 })
 export class AppOrderProductStateBadgeComponent {
-  @Input({required: true}) printState!: 'PRINTED' | 'SENT_TO_PRINT' | 'QUEUED';
+  printState = input.required<'PRINTED' | 'SENT_TO_PRINT' | 'QUEUED'>();
 
-  @Input() sentToPrinterAt?: string;
-  @Input() printedAt?: string;
+  sentToPrinterAt = input<string>();
+  printedAt = input<string>();
 }

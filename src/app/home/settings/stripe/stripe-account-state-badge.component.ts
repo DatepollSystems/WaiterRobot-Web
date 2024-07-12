@@ -5,7 +5,7 @@ import {TranslocoPipe} from '@jsverse/transloco';
 import {GetStripeAccountResponse} from '@shared/waiterrobot-backend';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {OrganisationsStripeService} from '../../organisations/_services/organisations-stripe.service';
+import {OrganisationsStripeService} from '../../_admin/organisations/_services/organisations-stripe.service';
 
 @Component({
   template: `

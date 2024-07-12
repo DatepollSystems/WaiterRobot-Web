@@ -7,7 +7,7 @@ import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll} from 'dfx-helper';
 
 import {combineLatest, Observable, switchMap, tap} from 'rxjs';
-import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
+import {SelectedOrganisationService} from '../../_admin/organisations/_services/selected-organisation.service';
 import {WaitersService} from './waiters.service';
 
 @Injectable({providedIn: 'root'})

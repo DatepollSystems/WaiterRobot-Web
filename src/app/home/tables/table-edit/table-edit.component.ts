@@ -16,7 +16,7 @@ import {n_from, n_isNumeric} from 'dfts-helper';
 
 import {filter, map, shareReplay} from 'rxjs';
 
-import {SelectedEventService} from '../../events/_services/selected-event.service';
+import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TablesService} from '../_services/tables.service';
 import {TableEditFormComponent} from './table-edit-form.component';

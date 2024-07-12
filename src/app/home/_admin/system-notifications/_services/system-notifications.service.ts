@@ -13,7 +13,7 @@ import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
 
 import {BehaviorSubject, map, Observable, switchMap, tap} from 'rxjs';
-import {ActiveSystemNotificationsService} from '../../../_layout/_services/active-system-notifications.service';
+import {ActiveSystemNotificationsService} from '../../../_layout/services/active-system-notifications.service';
 
 @Injectable({providedIn: 'root'})
 export class SystemNotificationsService

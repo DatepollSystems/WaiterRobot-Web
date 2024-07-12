@@ -1,4 +1,4 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, computed, inject, Input} from '@angular/core';
+import {booleanAttribute, ChangeDetectionStrategy, Component, computed, inject, input} from '@angular/core';
 
 import {StatisticsService} from '../statistics.service';
 
@@ -6,7 +6,7 @@ import {StatisticsService} from '../statistics.service';
   template: `
     <app-sum-statistics [sumDtos]="sumDtos()" [height]="sumDtos().length * 2.3">
       <span>{{ 'HOME_PROD_ALL' | transloco }}</span>
-      @if (standalone) {
+      @if (standalone()) {
         <div top>
           <scrollable-toolbar>
             <back-button />
@@ -30,9 +30,9 @@ import {StatisticsService} from '../statistics.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SumProductsComponent {
-  @Input({transform: booleanAttribute}) standalone = true;
+  standalone = input(booleanAttribute(true), {transform: booleanAttribute});
 
   sumProducts = inject(StatisticsService).sumProducts;
 
-  sumDtos = computed(() => (this.standalone ? this.sumProducts() : this.sumProducts().slice(0, 20)));
+  sumDtos = computed(() => (this.standalone() ? this.sumProducts() : this.sumProducts().slice(0, 20)));
 }

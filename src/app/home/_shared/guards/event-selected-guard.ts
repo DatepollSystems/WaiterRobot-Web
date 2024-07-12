@@ -4,7 +4,7 @@ import {ActivatedRouteSnapshot, Router, RouterStateSnapshot} from '@angular/rout
 import {getLogMessage, n_from, n_isNumeric} from 'dfts-helper';
 
 import {RedirectService} from '../services/redirect.service';
-import {selectedEventRouteParamKey, SelectedEventService} from '../../events/_services/selected-event.service';
+import {selectedEventRouteParamKey, SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 
 export function eventSelectedGuard(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
   const router = inject(Router);

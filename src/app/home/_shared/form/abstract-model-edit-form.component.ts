@@ -1,17 +1,6 @@
 // noinspection JSNonASCIINames NonAsciiCharacters
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  inject,
-  Input,
-  Output,
-  signal,
-  ViewChild,
-} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, Input, output, signal, viewChild} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, ɵFormGroupValue} from '@angular/forms';
 
 import {loggerOf} from 'dfts-helper';
@@ -28,16 +17,14 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
 
   fb = inject(FormBuilder);
 
-  @Output()
-  readonly submitCreate = new EventEmitter<CreateDTOType>();
+  readonly submitCreate = output<CreateDTOType>();
 
-  @Output()
-  readonly submitUpdate = new EventEmitter<UpdateDTOType>();
+  readonly submitUpdate = output<UpdateDTOType>();
 
   isCreating = signal(false);
 
   abstract form: FormGroup;
-  @ViewChild('formRef') formRef?: ElementRef;
+  formRef = viewChild<ElementRef>('formRef');
 
   @Input()
   set formDisabled(it: boolean) {
@@ -58,7 +45,7 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
 
   private setInputFocus(): void {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const input = this.formRef?.nativeElement.querySelector(focuses.join(','));
+    const input = this.formRef()?.nativeElement.querySelector(focuses.join(','));
     if (input) {
       input.focus();
       this.lumber.log('setInputFocus', 'Input to focus', input);

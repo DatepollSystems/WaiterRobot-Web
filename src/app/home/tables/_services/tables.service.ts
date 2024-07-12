@@ -17,7 +17,7 @@ import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from 'dfx-helper';
 
 import {BehaviorSubject, combineLatest, map, Observable, switchMap, tap} from 'rxjs';
 
-import {SelectedEventService} from '../../events/_services/selected-event.service';
+import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
 export class TablesService

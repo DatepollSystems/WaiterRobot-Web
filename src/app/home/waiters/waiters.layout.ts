@@ -5,7 +5,7 @@ import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/
 import {NgbNav, NgbNavItem, NgbNavLink} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {injectParams} from 'ngxtension/inject-params';
-import {EventsService} from '../events/_services/events.service';
+import {EventsService} from '../_admin/events/_services/events.service';
 
 @Component({
   template: `

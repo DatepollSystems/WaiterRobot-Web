@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
@@ -54,7 +54,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
             labelForId="allergenSelect"
             clearAllText="Clear"
             formControlName="allergenIds"
-            [items]="allergens"
+            [items]="allergens()"
             [multiple]="true"
             [placeholder]="'HOME_PROD_ALLERGENS_PLACEHOLDER' | transloco"
           >
@@ -87,7 +87,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
             }
             <select class="form-select" id="selectGroup" formControlName="groupId">
               <option disabled [value]="-1">{{ 'HOME_PROD_GROUPS_DEFAULT' | transloco }}</option>
-              @for (productGroup of productGroups; track productGroup.id) {
+              @for (productGroup of productGroups(); track productGroup.id) {
                 <option [value]="productGroup.id">
                   {{ productGroup.name }}
                 </option>
@@ -113,7 +113,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
                 class="input-group-text"
                 id="selectPrinter-addon"
                 placement="bottom"
-                [routerLink]="'../../../printers/' + form.controls.printerId.value"
+                [routerLink]="'../../../printers()/' + form.controls.printerId.value"
                 [ngbTooltip]="('NAV_PRINTERS' | transloco) + ('OPEN_2' | transloco)"
               >
                 <bi name="printer" />
@@ -121,7 +121,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
             }
             <select class="form-select" id="selectPrinter" formControlName="printerId">
               <option disabled [value]="-1">{{ 'HOME_PROD_PRINTER_SELECT_DEFAULT' | transloco }}</option>
-              @for (printer of this.printers; track printer.id) {
+              @for (printer of printers(); track printer.id) {
                 <option [value]="printer.id">
                   {{ printer.name }}
                 </option>
@@ -252,12 +252,9 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
 
   _selectedEventId = -1;
 
-  @Input()
-  productGroups!: HasNumberIDAndName[];
+  productGroups = input<HasNumberIDAndName[]>();
 
-  @Input()
-  printers!: HasNumberIDAndName[];
+  printers = input<HasNumberIDAndName[]>();
 
-  @Input()
-  allergens!: HasNumberIDAndName[];
+  allergens = input<HasNumberIDAndName[]>();
 }

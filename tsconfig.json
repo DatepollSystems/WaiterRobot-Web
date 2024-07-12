@@ -3,9 +3,9 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@shared/*": ["src/app/_shared/*"],
       "@home-shared/*": ["src/app/home/_shared/*"],
-      "@outside-shared/*": ["src/app/outside/_shared/*"]
+      "@outside-shared/*": ["src/app/outside/_shared/*"],
+      "@shared/*": ["src/app/_shared/*"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

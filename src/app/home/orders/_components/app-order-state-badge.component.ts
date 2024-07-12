@@ -17,12 +17,12 @@ import {BiComponent} from 'dfx-bootstrap-icons';
       class="badge d-flex align-items-center gap-2 not-selectable"
       style="width: min-content"
       [ngClass]="{
-        'text-bg-light': orderState === 'QUEUED' || orderState === 'IN_PROGRESS',
-        'text-bg-success': orderState === 'FINISHED',
+        'text-bg-light': orderState() === 'QUEUED' || orderState() === 'IN_PROGRESS',
+        'text-bg-success': orderState() === 'FINISHED',
       }"
       [ngbPopover]="popContent"
     >
-      @switch (orderState) {
+      @switch (orderState()) {
         @case ('QUEUED') {
           <span>{{ 'HOME_ORDER_QUEUED' | transloco }}</span>
         }
@@ -34,18 +34,18 @@ import {BiComponent} from 'dfx-bootstrap-icons';
         }
       }
 
-      @if (orderState === 'QUEUED' || orderState === 'IN_PROGRESS') {
+      @if (orderState() === 'QUEUED' || orderState() === 'IN_PROGRESS') {
         <div class="circle pulse green"></div>
       } @else {
         <bi name="check2-square" />
       }
     </span>
     <ng-template #popContent class="d-flex flex-column">
-      @if (createdAt) {
-        <div>{{ 'HOME_ORDER_CREATED_AT' | transloco }}: {{ createdAt | date: 'dd.MM.yy HH:mm:ss' }}</div>
+      @if (createdAt()) {
+        <div>{{ 'HOME_ORDER_CREATED_AT' | transloco }}: {{ createdAt() | date: 'dd.MM.yy HH:mm:ss' }}</div>
       }
-      @if (processedAt) {
-        <div>Verarbeitet um: {{ processedAt | date: 'dd.MM.yy HH:mm:ss' }}</div>
+      @if (processedAt()) {
+        <div>Verarbeitet um: {{ processedAt() | date: 'dd.MM.yy HH:mm:ss' }}</div>
       }
       <div>Gedruckte Produkte: {{ printedProducts }} von {{ allProducts }}</div>
     </ng-template>
@@ -81,7 +81,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
   imports: [NgClass, BiComponent, TranslocoPipe, NgbTooltip, DatePipe, NgbPopover],
 })
 export class AppOrderStateBadgeComponent {
-  @Input({required: true}) orderState!: GetOrderResponse['state'];
+  orderState = input.required<GetOrderResponse['state']>();
   @Input({required: true}) set orderProductPrintStates(it: GetImplodedOrderProductResponse['printState'][]) {
     this.allProducts = it.length;
     this.printedProducts = it.length - it.filter((iit) => iit === 'QUEUED').length;
@@ -89,8 +89,8 @@ export class AppOrderStateBadgeComponent {
   allProducts = 0;
   printedProducts = 0;
 
-  @Input() processedAt?: string;
-  @Input() createdAt?: string;
+  processedAt = input<string>();
+  createdAt = input<string>();
 
   placement = input<string>('right');
 }

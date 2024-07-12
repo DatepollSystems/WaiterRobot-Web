@@ -24,8 +24,8 @@ import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolb
 import {AppActivatedPipe} from '../_shared/pipes/app-activated.pipe';
 import {MobileLinkService} from '../_shared/services/mobile-link.service';
 import {QrCodeService} from '../_shared/services/qr-code.service';
-import {EventsService} from '../events/_services/events.service';
-import {SelectedEventService} from '../events/_services/selected-event.service';
+import {EventsService} from '../_admin/events/_services/events.service';
+import {SelectedEventService} from '../_admin/events/_services/selected-event.service';
 import {OrganisationWaitersService} from './_services/organisation-waiters.service';
 import {WaitersService} from './_services/waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
