@@ -18,7 +18,7 @@
     "api:types": "swagger-typescript-api -p http://localhost:8080/api/swagger/api-docs -o ./src/app/_shared/ -n waiterrobot-backend.d.ts --no-client && prettier --write ./src/app/_shared/waiterrobot-backend.d.ts",
     "api:types:lava": "swagger-typescript-api -p https://lava.kellner.team/api/swagger/api-docs -o ./src/app/_shared/ -n waiterrobot-backend.d.ts --no-client && prettier --write ./src/app/_shared/waiterrobot-backend.d.ts"
   },
-  "packageManager": "pnpm@9.4.0",
+  "packageManager": "pnpm@9.5.0",
   "private": true,
   "dependencies": {
     "@angular-devkit/build-angular": "^18.0.0",
