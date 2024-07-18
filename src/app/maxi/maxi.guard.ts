@@ -3,9 +3,9 @@ import {Router} from '@angular/router';
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';
 
 export function maxiGuard(): boolean {
-  const isProd = EnvironmentHelper.getProduction();
+  const type = EnvironmentHelper.getType();
 
-  if (isProd) {
+  if (type === 'prod') {
     void inject(Router).navigateByUrl('/');
 
     return false;
