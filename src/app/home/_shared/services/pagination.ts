@@ -91,7 +91,7 @@ export function injectPagination({
     activatedRoute.queryParamMap.pipe(
       map((it) => ({
         page: it.get('page') ? n_from(it.get('page')) : 0,
-        size: it.get('size') ? n_from(it.get('size')) : defaultPageSize ?? DEFAULT_PAGE_SIZE,
+        size: it.get('size') ? n_from(it.get('size')) : (defaultPageSize ?? DEFAULT_PAGE_SIZE),
         sort: {
           name: it.get('sort') ?? defaultSortBy,
           direction: (it.get('direction') as SortDirection | undefined) ?? defaultSortDirection ?? DEFAULT_SORT_DIRECTION,
