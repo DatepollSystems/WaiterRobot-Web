@@ -61,6 +61,8 @@
       <div class="card-body">
         <h5 class="card-title">{{ 'Neue Bestellungen' | transloco }}</h5>
 
+        @let showLoading = showOrdersLoading();
+
         <div class="list-group list-group-flush">
           @for (order of orders(); track order.id) {
           <a
@@ -96,7 +98,7 @@
               }
             </div>
           </a>
-          } @empty { @if (!showOrdersLoading()) { Keine Bestellungen vorhanden. } } @if(showOrdersLoading()) {
+          } @empty { @if (!showLoading) { Keine Bestellungen vorhanden. } } @if(showLoading) {
           <app-progress-bar show />
           }
         </div>
