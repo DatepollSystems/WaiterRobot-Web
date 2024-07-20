@@ -207,7 +207,7 @@ export class PrintersComponent {
                 font: result.font,
                 bonWidth: result.bonWidth,
                 bonPadding: result.bonPadding,
-                bonPaddingTop: result.bonPaddingTop === undefined ? it.bonPaddingTop : result.bonPaddingTop ?? undefined,
+                bonPaddingTop: result.bonPaddingTop === undefined ? it.bonPaddingTop : (result.bonPaddingTop ?? undefined),
               }),
             ),
           ).subscribe(() => {
