@@ -210,7 +210,7 @@ export class SettingsGridComponent {
       debounceTime(200),
       distinctUntilChanged(),
       map(([availableTimezones, term]) =>
-        term.length < 2 ? [] : availableTimezones?.filter((v) => v.toLowerCase().includes(term.toLowerCase())).slice(0, 10) ?? [],
+        term.length < 2 ? [] : (availableTimezones?.filter((v) => v.toLowerCase().includes(term.toLowerCase())).slice(0, 10) ?? []),
       ),
     );
 
