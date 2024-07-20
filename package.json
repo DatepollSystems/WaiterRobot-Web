@@ -75,6 +75,6 @@
     "prettier": "3.3.2",
     "source-map-explorer": "2.5.3",
     "swagger-typescript-api": "^13.0.0",
-    "typescript": "5.4.5"
+    "typescript": "5.5.3"
   }
 }
