@@ -96,8 +96,8 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
       ngxtension:
-        specifier: 3.5.5
-        version: 3.5.5(@angular/common@18.0.5(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
+        specifier: 4.0.0
+        version: 4.0.0(@angular/common@18.0.5(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
       rxjs:
         specifier: 7.8.1
         version: 7.8.1
@@ -3962,8 +3962,8 @@ packages:
   ngx-print@1.5.1:
     resolution: {integrity: sha512-hrFMZCIAIyxXHnSWEgztJ1CQnelO306A23EVhRcbLgeZPdU8CBE6ixILTna/qf5ZbLv07vxWMm+UxbPcxNvOrA==}
 
-  ngxtension@3.5.5:
-    resolution: {integrity: sha512-LU0YtjLllTZ+GLs81HB+afBerLF7dJ/sgz5R4sh32lP9NHAuTJzRsJbkfwZUd/UErJlUPNPZn8WXxTnWTqefQw==}
+  ngxtension@4.0.0:
+    resolution: {integrity: sha512-67hzWhQHqUWui9bOwmXast08zDGMlWR38TUhP7FAooFPETGHUCm/134dIo8BdKFTgHpy9Eux8EOkZH31NX6qnw==}
     engines: {node: '>=18'}
     peerDependencies:
       '@angular/common': '>=16.0.0'
@@ -9500,7 +9500,7 @@ snapshots:
     dependencies:
       tslib: 2.6.3
 
-  ngxtension@3.5.5(@angular/common@18.0.5(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1):
+  ngxtension@4.0.0(@angular/common@18.0.5(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1):
     dependencies:
       '@angular-eslint/bundled-angular-compiler': 18.1.0
       '@angular/common': 18.0.5(@angular/core@18.0.5(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
@@ -9773,7 +9773,7 @@ snapshots:
       bl: 4.1.0
       chalk: 4.1.2
       cli-cursor: 3.1.0
-      cli-spinners: 2.6.1
+      cli-spinners: 2.9.2
       is-interactive: 1.0.0
       log-symbols: 4.1.0
       strip-ansi: 6.0.1

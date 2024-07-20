@@ -14,10 +14,11 @@ import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.compo
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {StopPropagationDirective} from 'dfx-helper';
+import {deriveLoading} from 'ngxtension/derive-loading';
 
 import {catchError, filter, map, of, startWith, switchMap, timer} from 'rxjs';
-import {MyUserService} from '../_shared/services/user/my-user.service';
 import {SelectedEventService} from '../_admin/events/_services/selected-event.service';
+import {MyUserService} from '../_shared/services/user/my-user.service';
 import {AppOrderStateBadgeComponent} from '../orders/_components/app-order-state-badge.component';
 import {OrdersService} from '../orders/orders.service';
 
@@ -58,21 +59,23 @@ export class StartComponent {
     ),
   );
 
-  orders = toSignal(
-    timer(0, 5000).pipe(
-      switchMap(() =>
-        this.#ordersService.getAllPaginated({
-          page: 0,
-          size: 8,
-          sort: {
-            name: 'createdAt',
-            direction: 'desc',
-          },
-        }),
-      ),
-      map((it) => it.data),
+  #orders$ = timer(0, 5000).pipe(
+    switchMap(() =>
+      this.#ordersService.getAllPaginated({
+        page: 0,
+        size: 8,
+        sort: {
+          name: 'createdAt',
+          direction: 'desc',
+        },
+      }),
     ),
+    map((it) => it.data),
   );
+
+  orders = toSignal(this.#orders$);
+
+  showOrdersLoading = toSignal(this.#orders$.pipe(deriveLoading({threshold: 0, loadingTime: 0})), {requireSync: true});
 
   logout(): void {
     this.#authService.logout();

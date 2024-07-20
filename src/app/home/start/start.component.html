@@ -96,7 +96,7 @@
               }
             </div>
           </a>
-          } @empty {
+          } @empty { @if (!showOrdersLoading()) { Keine Bestellungen vorhanden. } } @if(showOrdersLoading()) {
           <app-progress-bar show />
           }
         </div>

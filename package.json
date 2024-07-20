@@ -50,7 +50,7 @@
     "jspdf": "2.5.1",
     "ng2-pdfjs-viewer": "^18.0.0",
     "ngx-print": "^1.5.1",
-    "ngxtension": "3.5.5",
+    "ngxtension": "4.0.0",
     "rxjs": "7.8.1",
     "tinycolor2": "^1.6.0",
     "tslib": "2.6.3",
