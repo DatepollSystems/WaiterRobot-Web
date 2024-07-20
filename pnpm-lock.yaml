@@ -72,17 +72,17 @@ importers:
         specifier: 1.1.1
         version: 1.1.1(tslib@2.6.3)
       dfx-bootstrap-icons:
-        specifier: 2.0.0
-        version: 2.0.0(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))
+        specifier: 2.0.1
+        version: 2.0.1(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))
       dfx-bootstrap-table:
-        specifier: 4.0.0
-        version: 4.0.0(@angular/animations@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/cdk@18.1.1(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/forms@18.1.0(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.1.0(@angular/animations@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(rxjs@7.8.1))(bootstrap@5.3.2(@popperjs/core@2.11.8))(rxjs@7.8.1)
+        specifier: 4.0.1
+        version: 4.0.1(@angular/animations@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/cdk@18.1.1(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/forms@18.1.0(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.1.0(@angular/animations@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(rxjs@7.8.1))(bootstrap@5.3.2(@popperjs/core@2.11.8))(rxjs@7.8.1)
       dfx-helper:
-        specifier: 8.0.0
-        version: 8.0.0(v2jezi3cpz5mi26kqgoj5f2yli)
+        specifier: 8.0.1
+        version: 8.0.1(v2jezi3cpz5mi26kqgoj5f2yli)
       dfx-qrcode:
-        specifier: 3.0.0
-        version: 3.0.0(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.1.0(@angular/animations@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))
+        specifier: 3.0.1
+        version: 3.0.1(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.1.0(@angular/animations@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))
       html-to-image:
         specifier: 1.11.11
         version: 1.11.11
@@ -157,8 +157,8 @@ importers:
         specifier: ^6.4.0
         version: 6.5.0
       prettier:
-        specifier: 3.3.2
-        version: 3.3.2
+        specifier: 3.3.3
+        version: 3.3.3
       source-map-explorer:
         specifier: 2.5.3
         version: 2.5.3
@@ -2774,40 +2774,40 @@ packages:
   dfts-qrcode@1.1.0:
     resolution: {integrity: sha512-c7xF090SLAgzTfD+gXsyCdx+RK7VNUW5/+ZohO0PfY/VmKs9Osq73ETBC04slw9NfU/Ww4VzpvILwno2hWQjtw==}
 
-  dfx-bootstrap-icons@2.0.0:
-    resolution: {integrity: sha512-cv42pwlYGTHXe8rMd/O1j8MkBBReQfv/RLE1EgfmfkXN2zUpuMgtUMXVloLF6vtfust0UGMvYWLCQET7FueRmw==}
+  dfx-bootstrap-icons@2.0.1:
+    resolution: {integrity: sha512-sbbIwDzUtlNynhrt2bQSLix+pQzydpE7ikSa17k9NiuQYZ4Q5Ys95GhMzA1OBSoYNtA1MkdxfvRggiDg64N4bw==}
     peerDependencies:
-      '@angular/common': '17'
+      '@angular/common': '18'
       '@angular/core': '17'
 
-  dfx-bootstrap-table@4.0.0:
-    resolution: {integrity: sha512-rkcTvkzTFwCWgIIRRu77XBlFL4TlIEQV5KmWlyx6FBbbC/BnTEjwZD61OmgmtayXV2g6/PHn0G0fZPNY8e+h2g==}
+  dfx-bootstrap-table@4.0.1:
+    resolution: {integrity: sha512-myl1v4u3TAPxElZY/O/3e7U21MONgqLApIK/qzPrjSUNmfgeLiRz/B8q3aXyBp1Q7bgapUHueND8BKfr0afzSg==}
     peerDependencies:
-      '@angular/animations': '17'
-      '@angular/cdk': '17'
-      '@angular/common': '17'
-      '@angular/core': '17'
-      '@angular/forms': '17'
+      '@angular/animations': '18'
+      '@angular/cdk': '18'
+      '@angular/common': '18'
+      '@angular/core': '18'
+      '@angular/forms': '18'
       bootstrap: '5'
       rxjs: '7'
 
-  dfx-helper@8.0.0:
-    resolution: {integrity: sha512-YPXx+5IQf9XGfFKhWTSWO491wS9kfEyVfYD6qlzGSmppLEZOKnItCdpzZ/uEC3kcb/rcdEODcmlM/Rv/nC3qaA==}
+  dfx-helper@8.0.1:
+    resolution: {integrity: sha512-JU9eh/BwkElDA1EBbCx51X/sLWraOAfEcNTzynu3T0yS6lqM2gkj7hdrWGUAvuSTLJKaMD8Q/Ut4iOWEArJ5MQ==}
     peerDependencies:
-      '@angular/cdk': '17'
-      '@angular/common': '17'
-      '@angular/core': '17'
-      '@angular/platform-browser': '17'
-      '@angular/router': '17'
+      '@angular/cdk': '18'
+      '@angular/common': '18'
+      '@angular/core': '18'
+      '@angular/platform-browser': '18'
+      '@angular/router': '18'
       dfts-helper: '1'
       rxjs: '7'
 
-  dfx-qrcode@3.0.0:
-    resolution: {integrity: sha512-v5m0k7bsHQsNhwMwTwSSM+i7rtBc+IxrXwCRCLdK7w1ae04lLQcUOJ+WjSyi0m4pRTFoJxzM4qfocTzIAI+e6g==}
+  dfx-qrcode@3.0.1:
+    resolution: {integrity: sha512-WXVDSI8i3v6Si4CMojrrI3xYQthsVWMpu3vGWbe5dE8hPA7RQj6q0Gtw7BVuH8Rs36FRkB2115jxVaCorLtzYA==}
     peerDependencies:
-      '@angular/common': '17'
-      '@angular/core': '17'
-      '@angular/platform-browser': '17'
+      '@angular/common': '18'
+      '@angular/core': '18'
+      '@angular/platform-browser': '18'
 
   di@0.0.1:
     resolution: {integrity: sha512-uJaamHkagcZtHPqCIHZxnFrXlunQXgBOsZSUOWwFw31QJCAbyTBoHMW75YOTur5ZNx8pIeAKgf6GWIgaqqiLhA==}
@@ -4426,8 +4426,8 @@ packages:
     resolution: {integrity: sha512-0vzE+lAiG7hZl1/9I8yzKLx3aR9Xbof3fBHKunvMfOCYAtMhrsnccJY2iTURb9EZd5+pLuiNV9/c/GZJOHsgIw==}
     engines: {node: ^10 || ^12 || >=14}
 
-  prettier@3.3.2:
-    resolution: {integrity: sha512-rAVeHYMcv8ATV5d508CFdn+8/pHPpXeIid1DdrPwXnaAdH7cqjVbpJaT5eq4yRAFU/lsbwYwSF/n5iNrdJHPQA==}
+  prettier@3.3.3:
+    resolution: {integrity: sha512-i2tDNA0O5IrMO757lfrdQZCc2jPNDVntV0m/+4whiDfWaTKfMNgR7Qz0NAeGz/nRqF4m5/6CLzbP4/liHt12Ew==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -8278,13 +8278,13 @@ snapshots:
       dfts-helper: 1.1.1(tslib@2.6.2)
       tslib: 2.6.2
 
-  dfx-bootstrap-icons@2.0.0(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)):
+  dfx-bootstrap-icons@2.0.1(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)):
     dependencies:
       '@angular/common': 18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
       '@angular/core': 18.1.0(rxjs@7.8.1)(zone.js@0.14.7)
       tslib: 2.6.3
 
-  dfx-bootstrap-table@4.0.0(@angular/animations@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/cdk@18.1.1(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/forms@18.1.0(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.1.0(@angular/animations@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(rxjs@7.8.1))(bootstrap@5.3.2(@popperjs/core@2.11.8))(rxjs@7.8.1):
+  dfx-bootstrap-table@4.0.1(@angular/animations@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/cdk@18.1.1(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/forms@18.1.0(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.1.0(@angular/animations@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(rxjs@7.8.1))(bootstrap@5.3.2(@popperjs/core@2.11.8))(rxjs@7.8.1):
     dependencies:
       '@angular/animations': 18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))
       '@angular/cdk': 18.1.1(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
@@ -8295,7 +8295,7 @@ snapshots:
       rxjs: 7.8.1
       tslib: 2.6.3
 
-  dfx-helper@8.0.0(v2jezi3cpz5mi26kqgoj5f2yli):
+  dfx-helper@8.0.1(v2jezi3cpz5mi26kqgoj5f2yli):
     dependencies:
       '@angular/cdk': 18.1.1(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
       '@angular/common': 18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
@@ -8306,7 +8306,7 @@ snapshots:
       rxjs: 7.8.1
       tslib: 2.6.3
 
-  dfx-qrcode@3.0.0(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.1.0(@angular/animations@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))):
+  dfx-qrcode@3.0.1(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.1.0(@angular/animations@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))):
     dependencies:
       '@angular/common': 18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
       '@angular/core': 18.1.0(rxjs@7.8.1)(zone.js@0.14.7)
@@ -10142,7 +10142,7 @@ snapshots:
       picocolors: 1.0.1
       source-map-js: 1.2.0
 
-  prettier@3.3.2: {}
+  prettier@3.3.3: {}
 
   pretty-format@29.7.0:
     dependencies:
@@ -10801,7 +10801,7 @@ snapshots:
       lodash: 4.17.21
       nanoid: 3.3.7
       node-emoji: 2.1.3
-      prettier: 3.3.2
+      prettier: 3.3.3
       swagger-schema-official: 2.0.0-bab6bed
       swagger2openapi: 7.0.8(encoding@0.1.13)
       typescript: 5.5.3
