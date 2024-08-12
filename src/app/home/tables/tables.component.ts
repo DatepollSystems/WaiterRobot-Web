@@ -118,12 +118,12 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                   <div class="position-relative">
                     <div class="position-absolute" style="bottom: -25px; left: 0px">
                       <a
-                        class="badge text-bg-warning d-inline-flex align-items-center gap-2"
+                        class="badge text-bg-info d-inline-flex align-items-center gap-2"
                         [routerLink]="'../t/create'"
                         [queryParams]="{group: table.group.id, number: table.number + 1}"
                         (click)="$event.stopPropagation()"
                       >
-                        <bi name="exclamation-octagon-fill" />
+                        <bi name="sort-numeric-down" />
                         Unvollständige Reihenfolge
                       </a>
                     </div>
@@ -208,7 +208,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
   `,
   styles: `
     .thick-bottom-border {
-      border-bottom: #ffc107;
+      border-bottom: #5dc7eb;
       border-bottom-style: dashed;
       border-bottom-width: 2px;
     }
@@ -281,8 +281,8 @@ export class TablesComponent {
       ariaLabelledBy: 'app-tables-qr-codes-title',
       size: 'lg',
     });
-    modalRef.componentInstance.tables = this.selection
-      .selection()
-      .selected.sort((a, b) => a.group.name.localeCompare(b.group.name) || a.number - b.number);
+    (modalRef.componentInstance as TablesPrintQrCodesModal).tables.set(
+      this.selection.selection().selected.sort((a, b) => a.group.name.localeCompare(b.group.name) || a.number - b.number),
+    );
   }
 }
