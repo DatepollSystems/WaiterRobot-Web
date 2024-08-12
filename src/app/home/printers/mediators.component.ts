@@ -70,7 +70,7 @@ import {MediatorsService} from './_services/mediators.service';
       }
       @if (table.isEmpty()) {
         <app-blankslate icon="wifi-off" [description]="'Keine Mediators verbunden'">
-          <a class="btn btn-success" type="button" href="https://help.kellner.team/mediator.html" rel="noopener" target="_blank">
+          <a class="btn btn-success" type="button" href="https://help.kellner.team/desktop.html" rel="noopener" target="_blank">
             {{ 'LEARN_MORE' | transloco }}
           </a>
         </app-blankslate>
