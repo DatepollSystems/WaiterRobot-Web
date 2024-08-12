@@ -16,9 +16,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {StopPropagationDirective} from 'dfx-helper';
 import {deriveLoading} from 'ngxtension/derive-loading';
 
-import {catchError, filter, map, of, startWith, switchMap, timer} from 'rxjs';
 import {catchError, combineLatest, filter, map, of, startWith, switchMap, timer} from 'rxjs';
-import {MyUserService} from '../_shared/services/user/my-user.service';
 import {SelectedEventService} from '../_admin/events/_services/selected-event.service';
 import {MyUserService} from '../_shared/services/user/my-user.service';
 import {AppOrderStateBadgeComponent} from '../orders/_components/app-order-state-badge.component';
@@ -79,7 +77,7 @@ export class StartComponent {
     map((it) => it.data),
   );
 
-  orders = toSignal(this.#orders$);
+  orders = toSignal(this.#orders$, {initialValue: []});
 
   showOrdersLoading = toSignal(this.#orders$.pipe(deriveLoading({threshold: 0, loadingTime: 0})), {requireSync: true});
 
