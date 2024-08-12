@@ -39,7 +39,7 @@ import {DeadLettersService} from './dead-letters.service';
 
         <hr />
 
-        <div class="json-box">
+        <div class="json-box text-white">
           <pre id="json-data">{{ deadLetter.body }}</pre>
         </div>
       </div>
