@@ -160,8 +160,7 @@ export class OrganisationUsersSettingsComponent {
   }
 
   onCreateOrganisationUser(): void {
-    const modalRef = this.modal.open(OrganisationUserAddModalComponent, {ariaLabelledBy: 'modal-title-org-user-add', size: 'lg'});
-    modalRef.componentInstance.entityId = this.selectedOrganisationId();
+    this.modal.open(OrganisationUserAddModalComponent, {ariaLabelledBy: 'modal-title-org-user-add', size: 'lg'});
   }
 
   onDeleteOrganisationUser(model: OrganisationUserResponse): void {

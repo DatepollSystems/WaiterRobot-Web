@@ -54,8 +54,6 @@ export class OrganisationUserAddModalComponent {
   activeModal = inject(NgbActiveModal);
   #organisationUsersState = inject(OrganisationUsersService);
 
-  entityId!: number;
-
   form = inject(FormBuilder).nonNullable.group(
     {
       emailAddresses: [new Array<{label: string}>()],

@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject, input, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {MobileLinkService} from '@home-shared/services/mobile-link.service';
@@ -104,7 +104,7 @@ export class TablesPrintQrCodesModal {
   activeModal = inject(NgbActiveModal);
   #mobileLink = inject(MobileLinkService);
 
-  tables = input<GetTableWithGroupResponse[]>();
+  tables = signal<GetTableWithGroupResponse[]>([]);
 
   qrCodeSize: 'SM' | 'MD' = 'MD';
   generating = false;

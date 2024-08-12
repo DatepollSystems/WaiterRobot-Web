@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
@@ -9,16 +9,20 @@ import {BiComponent, BiName} from 'dfx-bootstrap-icons';
 @Component({
   template: `
     <div class="modal-header border-bottom-0">
-      <h1 class="modal-title fs-5">{{ (title() ? title() : question()) | transloco }}</h1>
+      <h1 class="modal-title fs-5" id="modal-question-title">
+        @if (title(); as title) {
+          {{ title | transloco }}
+        } @else if (question()) {
+          {{ question() | transloco }}
+        }
+      </h1>
       <button type="button" class="btn-close btn-close-white" aria-label="Close" (mousedown)="activeModal.close()"></button>
     </div>
     <div class="modal-body py-0">
-      @if (question() || info()) {
-        @if (info()) {
-          <div [innerHTML]="info()"></div>
-        } @else {
-          <strong>{{ question() | transloco }}</strong>
-        }
+      @if (info(); as info) {
+        <div [innerHTML]="info"></div>
+      } @else if (question()) {
+        <strong>{{ question() | transloco }}</strong>
       }
     </div>
     <div class="modal-footer">
@@ -56,12 +60,12 @@ export class QuestionDialogComponent {
     },
   ];
 
-  question = input<string>();
-  info = input<string>();
+  question = signal<string | undefined>(undefined);
+  info = signal<string | undefined>(undefined);
 
-  answers = input<answerType[]>(QuestionDialogComponent.YES_NO_ANSWERS);
+  answers = signal<answerType[]>(QuestionDialogComponent.YES_NO_ANSWERS);
 
-  title = input<string>();
+  title = signal<string | undefined>(undefined);
 
   lumber = loggerOf('QuestionDialogComponent');
 
@@ -82,11 +86,8 @@ export function injectConfirmDialog(): (title: string, info?: string) => Promise
 
   return (title: string, info?: string): Promise<boolean> => {
     const modalRef = modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'md'});
-    modalRef.componentInstance.title = title;
-
-    if (info) {
-      modalRef.componentInstance.info = info;
-    }
+    modalRef.componentInstance.title.set(title);
+    modalRef.componentInstance.info.set(info);
 
     return new Promise((resolve) => {
       modalRef.result
