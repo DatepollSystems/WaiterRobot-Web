@@ -3,84 +3,84 @@
     "name": "@angular-devkit/build-angular",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular-cli.git",
-    "installedVersion": "18.1.2",
+    "installedVersion": "18.2.1",
     "author": "Angular Authors"
   },
   {
     "name": "@angular/animations",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "18.1.0",
+    "installedVersion": "18.1.4",
     "author": "angular"
   },
   {
     "name": "@angular/cdk",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/components.git",
-    "installedVersion": "18.1.1",
+    "installedVersion": "18.1.4",
     "author": "n/a"
   },
   {
     "name": "@angular/common",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "18.1.0",
+    "installedVersion": "18.1.4",
     "author": "angular"
   },
   {
     "name": "@angular/compiler",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "18.1.0",
+    "installedVersion": "18.1.4",
     "author": "angular"
   },
   {
     "name": "@angular/core",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "18.1.0",
+    "installedVersion": "18.1.4",
     "author": "angular"
   },
   {
     "name": "@angular/forms",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "18.1.0",
+    "installedVersion": "18.1.4",
     "author": "angular"
   },
   {
     "name": "@angular/localize",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "18.1.0",
+    "installedVersion": "18.1.4",
     "author": "angular"
   },
   {
     "name": "@angular/platform-browser",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "18.1.0",
+    "installedVersion": "18.1.4",
     "author": "angular"
   },
   {
     "name": "@angular/platform-browser-dynamic",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "18.1.0",
+    "installedVersion": "18.1.4",
     "author": "angular"
   },
   {
     "name": "@angular/router",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "18.1.0",
+    "installedVersion": "18.1.4",
     "author": "angular"
   },
   {
     "name": "@jsverse/transloco",
     "licenseType": "MIT",
     "link": "git+https://github.com/jsverse/transloco.git",
-    "installedVersion": "7.4.2",
+    "installedVersion": "7.4.3",
     "author": "n/a"
   },
   {
@@ -101,7 +101,7 @@
     "name": "@ng-select/ng-select",
     "licenseType": "MIT",
     "link": "git+https://github.com/ng-select/ng-select.git",
-    "installedVersion": "13.5.0",
+    "installedVersion": "13.7.0",
     "author": "@ng-select/ng-select"
   },
   {
@@ -228,7 +228,7 @@
     "name": "zone.js",
     "licenseType": "MIT",
     "link": "git://github.com/angular/angular.git",
-    "installedVersion": "0.14.7",
+    "installedVersion": "0.14.10",
     "author": "Brian Ford"
   }
 ]
