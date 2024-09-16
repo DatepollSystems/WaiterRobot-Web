@@ -18,7 +18,7 @@
     "api:types": "swagger-typescript-api -p http://localhost:8080/api/swagger/api-docs -o ./src/app/_shared/ -n waiterrobot-backend.d.ts --no-client && prettier --write ./src/app/_shared/waiterrobot-backend.d.ts",
     "api:types:lava": "swagger-typescript-api -p https://lava.kellner.team/api/swagger/api-docs -o ./src/app/_shared/ -n waiterrobot-backend.d.ts --no-client && prettier --write ./src/app/_shared/waiterrobot-backend.d.ts"
   },
-  "packageManager": "pnpm@9.9.0",
+  "packageManager": "pnpm@9.10.0",
   "private": true,
   "dependencies": {
     "@angular-devkit/build-angular": "^18.0.0",
@@ -64,7 +64,7 @@
     "@types/d3-shape": "^3.1.1",
     "@types/jasmine": "5.1.4",
     "@types/node": "^20.2.5",
-    "jasmine-core": "5.2.0",
+    "jasmine-core": "5.3.0",
     "jasmine-spec-reporter": "7.0.0",
     "karma": "6.4.4",
     "karma-chrome-launcher": "3.2.0",
