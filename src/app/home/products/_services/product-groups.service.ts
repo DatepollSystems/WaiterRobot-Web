@@ -1,5 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
+import {getPaginationParams, PageableDto} from '@home-shared/services/pagination';
 
 import {HasCreateWithIdResponse, HasOrdered, HasUpdateWithIdResponse} from '@shared/services/services.interface';
 import {
@@ -7,6 +8,7 @@ import {
   EntityOrderDto,
   GetProductGroupResponse,
   IdResponse,
+  PaginatedResponseGetProductGroupMaxResponse,
   UpdateProductGroupDto,
 } from '@shared/waiterrobot-backend';
 
@@ -56,6 +58,18 @@ export class ProductGroupsService
     );
   }
 
+  getAllDeleted$(options: PageableDto): Observable<PaginatedResponseGetProductGroupMaxResponse> {
+    let params = getPaginationParams(options);
+    return this.triggerGet$.pipe(
+      switchMap(() => this.selectedEventService.selectedIdNotNull$),
+      switchMap((eventId) =>
+        this.httpClient.get<PaginatedResponseGetProductGroupMaxResponse>(`${this.url}/deleted`, {
+          params: params.append('eventId', eventId),
+        }),
+      ),
+    );
+  }
+
   getSingle$(id: number): Observable<GetProductGroupResponse> {
     return this.httpClient.get<GetProductGroupResponse>(`${this.url}/${s_from(id)}`);
   }
@@ -77,11 +91,11 @@ export class ProductGroupsService
   }
 
   delete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
-    );
+    return this.httpClient.delete(`${this.url}/${s_from(id)}`);
+  }
+
+  unDelete$(id: number): Observable<unknown> {
+    return this.httpClient.delete(`${this.url}/${s_from(id)}/undo`);
   }
 
   order$(dto: EntityOrderDto[]): Observable<IdResponse[]> {

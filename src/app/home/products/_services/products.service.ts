@@ -119,11 +119,11 @@ export class ProductsService
   }
 
   delete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
-    );
+    return this.httpClient.delete(`${this.url}/${s_from(id)}`);
+  }
+
+  unDelete$(id: number): Observable<unknown> {
+    return this.httpClient.delete(`${this.url}/${s_from(id)}/undo`);
   }
 
   order$(groupId: number, dto: EntityOrderDto[]): Observable<IdResponse[]> {

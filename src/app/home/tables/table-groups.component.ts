@@ -103,7 +103,7 @@ import {TableGroupsService} from './_services/table-groups.service';
                       type="checkbox"
                       name="checked"
                       [checked]="selection.isSelected(selectable)"
-                      (change)="selection.toggle(selectable, $event)"
+                      (change)="selection.toggle(selectable, !selection.isSelected(selectable))"
                     />
                   </div>
                 }

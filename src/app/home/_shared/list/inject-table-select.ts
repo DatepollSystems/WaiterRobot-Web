@@ -3,7 +3,7 @@ import {computed, signal, Signal, WritableSignal} from '@angular/core';
 import {IHasID} from 'dfts-helper';
 import {NgbTableDataSource} from 'dfx-bootstrap-table';
 
-function getSelectionModel<EntityType extends IHasID<EntityType['id']>>(selectedValues: EntityType[] = []): SelectionModel<EntityType> {
+function _getSelectionModel<EntityType extends IHasID<EntityType['id']>>(selectedValues: EntityType[]): SelectionModel<EntityType> {
   return new SelectionModel<EntityType>(true, selectedValues, false, (o1, o2) => o1.id === o2.id);
 }
 
@@ -11,16 +11,19 @@ export function injectTableSelect<EntityType extends IHasID<EntityType['id']>>({
   dataSource,
   columnsToDisplay,
   selectableFilter,
+  getSelectionModel = _getSelectionModel,
 }: {
-  dataSource: Signal<NgbTableDataSource<EntityType>>;
+  dataSource: Signal<NgbTableDataSource<EntityType> | EntityType[]>;
   columnsToDisplay: WritableSignal<string[]>;
   selectableFilter?: (it: EntityType) => boolean;
+  getSelectionModel?: (selectedValues: EntityType[]) => SelectionModel<EntityType>;
 }) {
-  const selection = signal(getSelectionModel<EntityType>());
+  const selection = signal(getSelectionModel([]));
 
   const hasValue = computed(() => selection().hasValue());
   const data = computed(() => {
-    const _data = dataSource().data;
+    const _dataSource = dataSource();
+    const _data = Array.isArray(_dataSource) ? _dataSource : _dataSource.data;
     if (selectableFilter) {
       return _data.filter(selectableFilter);
     }
@@ -50,17 +53,20 @@ export function injectTableSelect<EntityType extends IHasID<EntityType['id']>>({
     selection.set(getSelectionModel(_selection.selected));
   };
 
-  const toggle = (it: EntityType, event: Event | undefined): void => {
-    if (!event) {
-      return;
-    }
+  const toggle = (it: EntityType, isSelected: boolean): void => {
     const _selection = selection();
-    _selection.toggle(it);
+
+    if (isSelected) {
+      _selection.select(it);
+    } else {
+      _selection.deselect(it);
+    }
+
     selection.set(getSelectionModel(_selection.selected));
   };
 
   const clear = (): void => {
-    selection.set(getSelectionModel());
+    selection.set(getSelectionModel([]));
   };
 
   return {

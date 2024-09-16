@@ -106,7 +106,7 @@ import {GetWaiterResponse} from '@shared/waiterrobot-backend';
                     type="checkbox"
                     name="select"
                     [checked]="selection.isSelected(selectable)"
-                    (change)="selection.toggle(selectable, $event)"
+                    (change)="selection.toggle(selectable, !selection.isSelected(selectable))"
                   />
                 </div>
               </td>

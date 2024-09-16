@@ -8,10 +8,12 @@ export function injectTableDelete<EntityType extends IHasID<EntityType['id']>>({
   delete$,
   selection,
   nameMap,
+  deleted,
 }: {
   delete$: (entityId: EntityType['id']) => Observable<unknown>;
   selection?: undefined;
   nameMap?: undefined;
+  deleted?: () => void;
 }): {
   onDelete: (id: EntityType['id']) => void;
   onDeleteSelected: undefined;
@@ -21,10 +23,12 @@ export function injectTableDelete<EntityType extends IHasID<EntityType['id']>>({
   delete$,
   selection,
   nameMap,
+  deleted,
 }: {
   delete$: (entityId: EntityType['id']) => Observable<unknown>;
   selection: Signal<SelectionModel<EntityType>>;
   nameMap: (it: EntityType) => string;
+  deleted?: () => void;
 }): {
   onDelete: (id: EntityType['id']) => void;
   onDeleteSelected: () => void;
@@ -34,10 +38,12 @@ export function injectTableDelete<EntityType extends IHasID<EntityType['id']>>({
   delete$,
   selection,
   nameMap,
+  deleted,
 }: {
   delete$: (entityId: EntityType['id']) => Observable<unknown>;
   selection?: Signal<SelectionModel<EntityType>> | undefined;
   nameMap?: ((it: EntityType) => string) | undefined;
+  deleted?: () => void;
 }): {
   onDelete: (id: EntityType['id']) => void;
   onDeleteSelected: (() => void) | undefined;
@@ -49,7 +55,9 @@ export function injectTableDelete<EntityType extends IHasID<EntityType['id']>>({
     lumber.info('onDelete', 'Opening delete question dialog');
     void confirmDialog('DELETE_CONFIRMATION').then((result) => {
       if (result) {
-        delete$(id).subscribe();
+        delete$(id).subscribe({
+          complete: deleted,
+        });
       }
     });
   };
@@ -69,7 +77,9 @@ export function injectTableDelete<EntityType extends IHasID<EntityType['id']>>({
       `<ol><li>${s_imploder().mappedSource(selected, nameMap).separator('</li><li>').build()}</li></ol>`,
     ).then((result) => {
       if (result) {
-        forkJoin(selected.map((it) => delete$(it.id))).subscribe();
+        forkJoin(selected.map((it) => delete$(it.id))).subscribe({
+          complete: deleted,
+        });
       }
     });
   };

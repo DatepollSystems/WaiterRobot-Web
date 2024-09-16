@@ -107,7 +107,7 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
   ],
 })
 export class ProductEditComponent extends AbstractModelEditComponent<GetProductMaxResponse> {
-  onDelete = injectOnDelete((it: number) => this.productsService.delete$(it).subscribe());
+  onDelete = injectOnDelete((it: number) => this.productsService.delete$(it).subscribe(() => this.productsService.triggerGet$.next(true)));
   continuousCreation = injectContinuousCreation({
     formComponent: this.form,
     continuousUsePropertyNames: ['groupId', 'printerId', 'eventId', 'allergenIds'],
