@@ -67,7 +67,7 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
                     type="checkbox"
                     name="select"
                     [checked]="selection.isSelected(selectable)"
-                    (change)="selection.toggle(selectable, $event)"
+                    (change)="selection.toggle(selectable, !selection.isSelected(selectable))"
                   />
                 </div>
               </td>

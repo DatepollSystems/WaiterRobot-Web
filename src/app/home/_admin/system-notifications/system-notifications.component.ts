@@ -66,7 +66,7 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
                     type="checkbox"
                     name="checked"
                     [checked]="selection.isSelected(selectable)"
-                    (change)="selection.toggle(selectable, $event)"
+                    (change)="selection.toggle(selectable, !selection.isSelected(selectable))"
                   />
                 </div>
               </td>

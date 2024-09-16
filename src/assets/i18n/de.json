@@ -71,6 +71,11 @@
   "POSITION": "#",
   "LEARN_MORE": "Erfahre mehr",
 
+  "RECYCLE_BIN": "Mistkübel",
+  "RECYCLE_BIN_EMPTY": "Keine gelöschten Daten.",
+  "RECOVER": "Wiederherstellen",
+  "RECOVER_ALL": "Alle wiederherstellen",
+
   "ORDER_MODE_SWITCH": "Anordnen",
   "COLOR_PICKER": "Farbe auswählen",
 

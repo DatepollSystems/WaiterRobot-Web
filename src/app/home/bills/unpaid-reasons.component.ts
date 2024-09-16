@@ -82,7 +82,7 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
                       type="checkbox"
                       name="checked"
                       [checked]="selection.isSelected(selectable)"
-                      (change)="selection.toggle(selectable, $event)"
+                      (change)="selection.toggle(selectable, !selection.isSelected(selectable))"
                     />
                   </div>
                 }

@@ -80,6 +80,14 @@ import {SwitcherModalComponent} from './switcher.component';
               >{{ 'HOME_PROD_GROUPS' | transloco }}</a
             >
           </li>
+          <li>
+            <a
+              routerLinkActive="active"
+              class="d-inline-block rounded"
+              [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/products/recycle-bin'"
+              >{{ 'RECYCLE_BIN' | transloco }}</a
+            >
+          </li>
         </ul>
       </li>
       <li class="mb-1">

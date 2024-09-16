@@ -139,7 +139,7 @@ import {ProductsService} from './_services/products.service';
                       type="checkbox"
                       name="checked"
                       [checked]="selection.isSelected(selectable)"
-                      (change)="selection.toggle(selectable, $event)"
+                      (change)="selection.toggle(selectable, !selection.isSelected(selectable))"
                     />
                   </div>
                 }
@@ -340,6 +340,7 @@ export class ProductsComponent {
     delete$: (id) => this.#productsService.delete$(id),
     selection: this.selection.selection,
     nameMap: mapName(),
+    deleted: () => this.#productsService.triggerGet$.next(true),
   });
 
   order = injectTableOrder({

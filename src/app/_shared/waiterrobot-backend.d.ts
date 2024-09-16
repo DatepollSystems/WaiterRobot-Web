@@ -1370,6 +1370,14 @@ export interface GetOrderMinResponse {
   test: boolean;
 }
 
+export interface PaginatedResponseGetProductGroupMaxResponse {
+  /** @format int64 */
+  numberOfItems: number;
+  /** @format int32 */
+  numberOfPages: number;
+  data: GetProductGroupMaxResponse[];
+}
+
 export interface PaginatedResponseGetOrderMinResponse {
   /** @format int64 */
   numberOfItems: number;

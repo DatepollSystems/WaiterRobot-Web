@@ -3,10 +3,10 @@ import {DestroyRef, effect, inject, signal, Signal, WritableSignal} from '@angul
 import {toSignal} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {map, merge, Subscription} from 'rxjs';
-
 import {loggerOf, n_from} from 'dfts-helper';
 import {NgbPaginator, NgbSort, SortDirection} from 'dfx-bootstrap-table';
+
+import {map, merge, of, Subscription} from 'rxjs';
 
 export interface PageableDto {
   page: number;
@@ -48,7 +48,7 @@ export function injectPagination({
   defaultSortDirection?: SortDirection;
   defaultPageSize?: number;
   paginator: Signal<NgbPaginator>;
-  sort: Signal<NgbSort>;
+  sort?: Signal<NgbSort>;
 }): {
   params: Signal<PageableDto>;
   totalElements: WritableSignal<number>;
@@ -64,16 +64,16 @@ export function injectPagination({
 
   effect(() => {
     const _paginator = paginator();
-    const _sort = sort();
+    const _sort = sort ? sort() : undefined;
 
     subscription?.unsubscribe();
 
-    subscription = merge(_paginator.page, _sort.sortChange).subscribe(() => {
+    subscription = merge([_paginator.page, _sort?.sortChange ?? of()]).subscribe(() => {
       const queryParams = {
         size: _paginator.pageSize,
         page: _paginator.pageIndex,
-        sort: _sort.active,
-        direction: _sort.direction,
+        sort: _sort?.active,
+        direction: _sort?.direction,
       };
       lumber.log('updatePaginationParams', 'new params', queryParams);
       void router.navigate([], {

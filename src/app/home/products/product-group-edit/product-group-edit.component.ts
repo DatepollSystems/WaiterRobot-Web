@@ -81,7 +81,9 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
   imports: [RouterLink, AppEntityEditModule, AppContinuesCreationSwitchComponent, ProductGroupEditFormComponent, AppDeletedDirectives],
 })
 export class ProductGroupEditComponent extends AbstractModelEditComponent<GetProductGroupResponse> {
-  onDelete = injectOnDelete((it: number) => this.productGroupsService.delete$(it).subscribe());
+  onDelete = injectOnDelete((it: number) =>
+    this.productGroupsService.delete$(it).subscribe(() => this.productGroupsService.triggerGet$.next(true)),
+  );
   continuousCreation = injectContinuousCreation({
     formComponent: this.form,
     continuousUsePropertyNames: ['eventId'],

@@ -77,7 +77,7 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
                     type="checkbox"
                     name="select"
                     [checked]="selection.isSelected(selectable)"
-                    (change)="selection.toggle(selectable, $event)"
+                    (change)="selection.toggle(selectable, !selection.isSelected(selectable))"
                   />
                 </div>
               </td>

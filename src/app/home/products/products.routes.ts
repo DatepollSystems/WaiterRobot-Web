@@ -2,6 +2,10 @@ import {Routes} from '@angular/router';
 
 export const PRODUCT_ROUTES: Routes = [
   {
+    path: 'recycle-bin',
+    loadComponent: () => import('./product-groups-recycle-bin.component').then((c) => c.ProductGroupsRecycleBinComponent),
+  },
+  {
     path: ':id',
     loadComponent: () => import('./products.layout').then((c) => c.ProductsLayout),
     children: [

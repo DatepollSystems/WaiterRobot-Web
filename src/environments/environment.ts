@@ -7,7 +7,7 @@ export const environment: Environment = {
   version: `${require('../../package.json').version}-DEV-${getTime()}`,
   production: false,
   type: 'dev',
-  apiUrl: 'http://localhost:80/api/v1',
+  apiUrl: 'http://localhost:8080/api/v1',
   titleSuffix: 'dev.kellner.team',
 };
 

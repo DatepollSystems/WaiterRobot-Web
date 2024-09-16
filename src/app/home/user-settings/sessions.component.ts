@@ -57,7 +57,7 @@ import {UserSessionsService} from './_services/user-sessions.service';
                     type="checkbox"
                     name="checked"
                     [checked]="selection.isSelected(selectable)"
-                    (change)="selection.toggle(selectable, $event)"
+                    (change)="selection.toggle(selectable, !selection.isSelected(selectable))"
                   />
                 </div>
               </td>
