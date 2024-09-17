@@ -196,6 +196,9 @@ export interface UpdateProductDto {
    * @min 1
    */
   initialStock?: number;
+  /** @pattern #([0-9A-Fa-f]{6})$ */
+  color?: string;
+  resetOrderedProducts: boolean;
 }
 
 export interface UpdateProductGroupDto {
@@ -555,6 +558,7 @@ export interface GetProductMinResponse {
   /** @format int64 */
   id: number;
   name: string;
+  color?: string;
 }
 
 export interface WaiterFcmTokenDto {
@@ -656,6 +660,30 @@ export interface CreateSystemNotificationDto {
   starts?: string;
   /** @format date-time */
   ends?: string;
+}
+
+export interface ContactFormDto {
+  email: string;
+  /**
+   * @minLength 5
+   * @maxLength 100
+   */
+  phoneNumber: string;
+  /**
+   * @minLength 2
+   * @maxLength 50
+   */
+  name: string;
+  /**
+   * @minLength 2
+   * @maxLength 100
+   */
+  topic: string;
+  /**
+   * @minLength 2
+   * @maxLength 400
+   */
+  message: string;
 }
 
 export interface CreateWaiterDto {
@@ -760,6 +788,8 @@ export interface CreateProductDto {
    * @min 1
    */
   initialStock?: number;
+  /** @pattern #([0-9A-Fa-f]{6})$ */
+  color?: string;
 }
 
 export interface CreateProductGroupDto {
@@ -963,7 +993,7 @@ export interface EntityOrderDto {
    * @format int32
    * @min 0
    */
-  order: number | null;
+  order?: number;
 }
 
 export interface GetTableWithGroupResponse {
@@ -1012,6 +1042,8 @@ export interface GetTableMinResponse {
   publicId: string;
   /** @format int32 */
   number: number;
+  /** @format date-time */
+  deleted?: string;
 }
 
 export interface GetTableIdsWithActiveOrdersResponse {
@@ -1066,7 +1098,10 @@ export interface GetProductResponse {
   price: number;
   soldOut: boolean;
   /** @format int32 */
+  amountLeft?: number;
+  /** @format int32 */
   position?: number;
+  color?: string;
   allergens: GetAllergenResponse[];
   /** @format date-time */
   deleted?: string;
@@ -1173,6 +1208,28 @@ export interface IdAndNameResponse {
   name: string;
 }
 
+export interface Pageable {
+  /**
+   * @format int32
+   * @min 0
+   */
+  page?: number;
+  /**
+   * @format int32
+   * @min 1
+   */
+  size?: number;
+  sort?: string[];
+}
+
+export interface PaginatedResponseGetWaiterResponse {
+  /** @format int64 */
+  numberOfItems: number;
+  /** @format int32 */
+  numberOfPages: number;
+  data: GetWaiterResponse[];
+}
+
 export interface GetUserResponse {
   /** @format int64 */
   id: number;
@@ -1182,6 +1239,14 @@ export interface GetUserResponse {
   activated: boolean;
   forcePasswordChange: boolean;
   role: 'ADMIN' | 'USER';
+}
+
+export interface PaginatedResponseGetTableGroupResponse {
+  /** @format int64 */
+  numberOfItems: number;
+  /** @format int32 */
+  numberOfPages: number;
+  data: GetTableGroupResponse[];
 }
 
 export interface GetStripeAccountResponse {
@@ -1250,6 +1315,7 @@ export interface GetProductGroupMinResponse {
   id: number;
   name: string;
   color?: string;
+  /** @format int32 */
   position?: number;
 }
 
@@ -1266,6 +1332,7 @@ export interface GetProductMaxResponse {
   amountOrdered: number;
   /** @format int32 */
   position?: number;
+  color?: string;
   group: GetProductGroupMinResponse;
   printer: GetPrinterMinResponse;
   allergens: GetAllergenResponse[];
@@ -1284,6 +1351,14 @@ export interface GetProductGroupResponse {
   /** @format date-time */
   deleted?: string;
   color?: string;
+}
+
+export interface PaginatedResponseGetProductGroupMaxResponse {
+  /** @format int64 */
+  numberOfItems: number;
+  /** @format int32 */
+  numberOfPages: number;
+  data: GetProductGroupMaxResponse[];
 }
 
 export interface GetPrinterFontResponse {
@@ -1311,6 +1386,14 @@ export interface GetPrinterResponse {
   deleted?: string;
 }
 
+export interface PaginatedResponseGetPrinterResponse {
+  /** @format int64 */
+  numberOfItems: number;
+  /** @format int32 */
+  numberOfPages: number;
+  data: GetPrinterResponse[];
+}
+
 export interface GetOrganisationResponse {
   /** @format int64 */
   id: number;
@@ -1331,20 +1414,6 @@ export interface OrganisationUserResponse {
   role: 'ADMIN' | 'MEMBER';
   /** @format int64 */
   organisationId: number;
-}
-
-export interface Pageable {
-  /**
-   * @format int32
-   * @min 0
-   */
-  page?: number;
-  /**
-   * @format int32
-   * @min 1
-   */
-  size?: number;
-  sort?: string[];
 }
 
 export interface PaginatedResponseGetOrganisationResponse {
@@ -1368,14 +1437,6 @@ export interface GetOrderMinResponse {
   createdAt: string;
   orderProductPrintStates: ('PRINTED' | 'SENT_TO_PRINT' | 'QUEUED')[];
   test: boolean;
-}
-
-export interface PaginatedResponseGetProductGroupMaxResponse {
-  /** @format int64 */
-  numberOfItems: number;
-  /** @format int32 */
-  numberOfPages: number;
-  data: GetProductGroupMaxResponse[];
 }
 
 export interface PaginatedResponseGetOrderMinResponse {

@@ -1,39 +1,33 @@
 import {SelectionModel} from '@angular/cdk/collections';
 import {ChangeDetectionStrategy, Component, inject, signal, viewChild} from '@angular/core';
-import {RouterLink} from '@angular/router';
-import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
+import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
 import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
+import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {injectTableSelect} from '@home-shared/list';
-import {listOrderStyles} from '@home-shared/list/list-order-styles';
-import {AppSoldOutPipe} from '@home-shared/pipes/app-sold-out.pipe';
 import {injectPagination} from '@home-shared/services/pagination';
 import {TranslocoPipe} from '@jsverse/transloco';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NotificationService} from '@shared/notifications/notification.service';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {GetProductGroupMaxResponse, GetProductResponse} from '@shared/waiterrobot-backend';
+import {GetTableGroupResponse, GetTableMinResponse} from '@shared/waiterrobot-backend';
 import {s_imploder} from 'dfts-helper';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator} from 'dfx-bootstrap-table';
-import {DfxCurrencyCentPipe} from 'dfx-helper';
+import {DfxPaginationModule, DfxTableModule, NgbPaginator} from 'dfx-bootstrap-table';
 import {derivedFrom} from 'ngxtension/derived-from';
-import {concat, debounceTime, map, pipe, switchMap, tap} from 'rxjs';
-import {AppTextWithColorIndicatorComponent} from '../_shared/components/color/app-text-with-color-indicator.component';
-import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
-import {ProductGroupsService} from './_services/product-groups.service';
-import {ProductsService} from './_services/products.service';
+import {catchError, concat, debounceTime, EMPTY, map, of, pipe, switchMap, tap} from 'rxjs';
+import {TableGroupsService} from '../tables/_services/table-groups.service';
+import {TablesService} from '../tables/_services/tables.service';
 
-type BinType = (GetProductResponse | GetProductGroupMaxResponse) & {type: 'ITEM' | 'GROUP'; groupId?: number};
+type BinType = (GetTableMinResponse | GetTableGroupResponse) & {type: 'ITEM' | 'GROUP'; groupId?: number; groupName?: string; name: string};
 
 @Component({
   template: `
     <div class="d-flex flex-column gap-3">
-      <h1 class="my-0">{{ 'RECYCLE_BIN' | transloco }}</h1>
-
       <scrollable-toolbar>
-        <div [ngbTooltip]="!selection.hasValue() ? ('HOME_PROD_SELECT_INFO' | transloco) : undefined">
+        <div [ngbTooltip]="!selection.hasValue() ? ('HOME_TABLE_SELECT_REQUIRED' | transloco) : undefined">
           <button type="button" class="btn btn-sm btn-primary" [class.disabled]="!selection.hasValue()" (mousedown)="undelete()">
             <bi name="arrow-counterclockwise" />
             {{ 'RECOVER' | transloco }}
@@ -82,35 +76,6 @@ type BinType = (GetProductResponse | GetProductGroupMaxResponse) & {type: 'ITEM'
               </td>
             </ng-container>
 
-            <ng-container ngbColumnDef="price">
-              <th *ngbHeaderCellDef ngb-header-cell>{{ 'PRICE' | transloco }}</th>
-              <td *ngbCellDef="let binItem" ngb-cell>
-                @if (binItem.price) {
-                  {{ binItem.price | currency }}
-                }
-              </td>
-            </ng-container>
-
-            <ng-container ngbColumnDef="soldOut">
-              <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_PROD_AVAILABLE' | transloco }}</th>
-              <td *ngbCellDef="let binItem" ngb-cell>
-                @if (binItem.soldOut !== undefined) {
-                  {{ binItem.soldOut | soldOut }}
-                }
-              </td>
-            </ng-container>
-
-            <ng-container ngbColumnDef="initialStock">
-              <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_PROD_AMOUNT_LEFT' | transloco }}</th>
-              <td *ngbCellDef="let binItem" ngb-cell>
-                @if (binItem.initialStock) {
-                  <span>
-                    {{ binItem.initialStock - binItem.amountOrdered }}
-                  </span>
-                }
-              </td>
-            </ng-container>
-
             <tr *ngbHeaderRowDef="columnsToDisplay()" ngb-header-row></tr>
             <tr *ngbRowDef="let binItem; columns: columnsToDisplay()" ngb-row></tr>
           </table>
@@ -132,32 +97,27 @@ type BinType = (GetProductResponse | GetProductGroupMaxResponse) & {type: 'ITEM'
       />
     </div>
   `,
-  styles: [listOrderStyles],
-  selector: 'app-product-groups',
+  selector: 'app-table-groups-recycle-bin',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    RouterLink,
     TranslocoPipe,
     DfxTableModule,
     NgbTooltip,
     DfxPaginationModule,
-    DfxCurrencyCentPipe,
-    DfxSortModule,
     BiComponent,
     ScrollableToolbarComponent,
     AppTextWithColorIndicatorComponent,
     AppProgressBarComponent,
-    ActionDropdownComponent,
-    AppSoldOutPipe,
   ],
 })
-export class ProductGroupsRecycleBinComponent {
+export class TableGroupsRecycleBinComponent {
   #confirmDialog = injectConfirmDialog();
-  #productGroupsService = inject(ProductGroupsService);
-  #productService = inject(ProductsService);
+  #notificationService = inject(NotificationService);
+  #tableGroupsService = inject(TableGroupsService);
+  #tableService = inject(TablesService);
 
-  columnsToDisplay = signal(['name', 'price', 'soldOut', 'initialStock']);
+  columnsToDisplay = signal(['name']);
   private paginator = viewChild.required(NgbPaginator);
 
   pagination = injectPagination({
@@ -173,15 +133,22 @@ export class ProductGroupsRecycleBinComponent {
       tap(() => {
         this.pagination.loading.set(true);
       }),
-      switchMap(([options]) => this.#productGroupsService.getAllDeleted$(options)),
+      switchMap(([options]) => this.#tableGroupsService.getAllDeleted$(options)),
       map((it) => {
         this.pagination.loading.set(false);
         this.pagination.totalElements.set(it.numberOfItems);
         return it.data
-          .map((productGroup) => ({
-            ...productGroup,
-            products: productGroup.products.map((product) => ({...product, groupId: productGroup.id, type: 'ITEM' as const})),
+          .map((tableGroup) => ({
+            ...tableGroup,
+            products: tableGroup.tables.map((table) => ({
+              ...table,
+              name: `${table.number}`,
+              groupId: tableGroup.id,
+              groupName: tableGroup.name,
+              type: 'ITEM' as const,
+            })),
             groupId: undefined,
+            groupName: undefined,
             type: 'GROUP' as const,
           }))
           .reduce<BinType[]>((previous, current) => {
@@ -206,7 +173,7 @@ export class ProductGroupsRecycleBinComponent {
     void this.#confirmDialog(
       'RECOVER_ALL',
       `<ol><li>${s_imploder()
-        .mappedSource(selected, (it) => `${it.name}`)
+        .mappedSource(selected, (it) => `${it.type === 'ITEM' ? `(${it.groupName}) ` : ''}${it.name}`)
         .separator('</li><li>')
         .build()}</li></ol>`,
     ).then((result) => {
@@ -214,17 +181,25 @@ export class ProductGroupsRecycleBinComponent {
         concat(
           ...selected.map((it) => {
             if (it.type === 'ITEM') {
-              return this.#productService.unDelete$(it.id);
+              return this.#tableService.unDelete$(it.id).pipe(
+                catchError((error) => {
+                  if (error?.status === 409) {
+                    this.#notificationService.twarning('HOME_TABLES_NUMBER_EXISTS_ALREADY');
+                  }
+
+                  return of(EMPTY);
+                }),
+              );
             } else if (it.type === 'GROUP') {
-              return this.#productGroupsService.unDelete$(it.id);
+              return this.#tableGroupsService.unDelete$(it.id);
             } else {
               throw 'Unknown bin type';
             }
           }),
         ).subscribe({
           complete: () => {
-            this.#productService.triggerGet$.next(true);
-            this.#productGroupsService.triggerGet$.next(true);
+            this.#tableService.triggerGet$.next(true);
+            this.#tableGroupsService.triggerGet$.next(true);
             this.selection.clear();
           },
         });
@@ -232,7 +207,7 @@ export class ProductGroupsRecycleBinComponent {
     });
   }
 
-  toggle(it: BinType, isSelected: boolean) {
+  toggle(it: BinType, isSelected: boolean): void {
     if (it.type === 'GROUP') {
       // Toggle the parent group
       this.selection.toggle(it, isSelected);

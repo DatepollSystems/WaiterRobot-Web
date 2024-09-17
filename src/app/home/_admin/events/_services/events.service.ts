@@ -1,8 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 
-import {BehaviorSubject, catchError, combineLatest, EMPTY, map, Observable, shareReplay, switchMap, tap} from 'rxjs';
-
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
 import {
   CreateEventOrLocationDto,
@@ -14,6 +12,8 @@ import {
 
 import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
+
+import {BehaviorSubject, catchError, combineLatest, EMPTY, map, Observable, shareReplay, switchMap, tap} from 'rxjs';
 
 import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
 
@@ -60,8 +60,8 @@ export class EventsService
   triggerGet$ = new BehaviorSubject(true);
 
   getAll$(): Observable<GetEventOrLocationResponse[]> {
-    return combineLatest([this.triggerGet$, this.selectedOrganisationService.selectedIdNotNull$]).pipe(
-      switchMap(([, organisationId]) => this.httpClient.get<GetEventOrLocationResponse[]>(this.url, {params: {organisationId}})),
+    return combineLatest([this.selectedOrganisationService.selectedIdNotNull$, this.triggerGet$]).pipe(
+      switchMap(([organisationId]) => this.httpClient.get<GetEventOrLocationResponse[]>(this.url, {params: {organisationId}})),
       map((it) => it.sort((a, b) => a.name.trim().toLowerCase().localeCompare(b.name.trim().toLowerCase()))),
       shareReplay(1),
       catchError(() => EMPTY),

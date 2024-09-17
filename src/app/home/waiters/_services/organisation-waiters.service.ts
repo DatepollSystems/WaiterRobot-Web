@@ -1,7 +1,8 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
+import {getPaginationParams, PageableDto} from '@home-shared/services/pagination';
 
-import {GetWaiterResponse} from '@shared/waiterrobot-backend';
+import {GetWaiterResponse, PaginatedResponseGetWaiterResponse} from '@shared/waiterrobot-backend';
 
 import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll} from 'dfx-helper';
@@ -29,6 +30,20 @@ export class OrganisationWaitersService implements HasGetAll<GetWaiterResponse>,
       tap(() => {
         this.waitersService.triggerGet$.next(true);
       }),
+    );
+  }
+
+  unDelete$(id: number): Observable<unknown> {
+    return this.httpClient.delete(`${this.url}/${s_from(id)}/undo`);
+  }
+
+  getAllDeleted$(options: PageableDto): Observable<PaginatedResponseGetWaiterResponse> {
+    return combineLatest([this.waitersService.triggerGet$, this.selectedOrganisationService.selectedIdNotNull$]).pipe(
+      switchMap(([, organisationId]) =>
+        this.httpClient.get<PaginatedResponseGetWaiterResponse>(`${this.url}/deleted`, {
+          params: getPaginationParams(options).append('organisationId', organisationId),
+        }),
+      ),
     );
   }
 }

@@ -1,13 +1,21 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
+import {getPaginationParams, PageableDto} from '@home-shared/services/pagination';
 
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
-import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, IdResponse, UpdatePrinterDto} from '@shared/waiterrobot-backend';
+import {
+  CreatePrinterDto,
+  GetPrinterFontResponse,
+  GetPrinterResponse,
+  IdResponse,
+  PaginatedResponseGetPrinterResponse,
+  UpdatePrinterDto,
+} from '@shared/waiterrobot-backend';
 
 import {s_from} from 'dfts-helper';
 import {HasGetAll, HasGetSingle} from 'dfx-helper';
 
-import {BehaviorSubject, forkJoin, map, Observable, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, combineLatest, map, Observable, switchMap, tap} from 'rxjs';
 import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 
 @Injectable({
@@ -28,9 +36,8 @@ export class PrintersService
   triggerGet$ = new BehaviorSubject(true);
 
   getAll$(): Observable<GetPrinterResponse[]> {
-    return this.triggerGet$.pipe(
-      switchMap(() => this.selectedEventService.selectedIdNotNull$),
-      switchMap((eventId) => this.httpClient.get<GetPrinterResponse[]>(this.url, {params: {eventId}})),
+    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
+      switchMap(([eventId]) => this.httpClient.get<GetPrinterResponse[]>(this.url, {params: {eventId}})),
       map((it) => {
         it = it.map((ps) => {
           ps.fontScale = ps.fontScale / 10;
@@ -78,11 +85,17 @@ export class PrintersService
     );
   }
 
-  deleteAll$(ids: number[]): Observable<unknown> {
-    return forkJoin(ids.map((it) => this.httpClient.delete(`${this.url}/${s_from(it)}`))).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
+  unDelete$(id: number): Observable<unknown> {
+    return this.httpClient.delete(`${this.url}/${s_from(id)}/undo`);
+  }
+
+  getAllDeleted$(options: PageableDto): Observable<PaginatedResponseGetPrinterResponse> {
+    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
+      switchMap(([eventId]) =>
+        this.httpClient.get<PaginatedResponseGetPrinterResponse>(`${this.url}/deleted`, {
+          params: getPaginationParams(options).append('eventId', eventId),
+        }),
+      ),
     );
   }
 }

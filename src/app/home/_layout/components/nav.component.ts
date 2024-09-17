@@ -80,14 +80,6 @@ import {SwitcherModalComponent} from './switcher.component';
               >{{ 'HOME_PROD_GROUPS' | transloco }}</a
             >
           </li>
-          <li>
-            <a
-              routerLinkActive="active"
-              class="d-inline-block rounded"
-              [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/products/recycle-bin'"
-              >{{ 'RECYCLE_BIN' | transloco }}</a
-            >
-          </li>
         </ul>
       </li>
       <li class="mb-1">
@@ -177,6 +169,19 @@ import {SwitcherModalComponent} from './switcher.component';
           <div class="d-inline-flex align-items-center gap-2 ">
             <bi name="graph-up" />
             {{ 'NAV_STATISTICS' | transloco }}
+          </div>
+        </a>
+      </li>
+      <hr />
+      <li class="mb-1">
+        <a
+          class="nav-heading d-inline-block rounded"
+          routerLinkActive="active"
+          [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/recycle-bin'"
+        >
+          <div class="d-inline-flex align-items-center gap-2 ">
+            <bi name="trash3" />
+            {{ 'RECYCLE_BIN' | transloco }}
           </div>
         </a>
       </li>

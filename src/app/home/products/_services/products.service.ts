@@ -15,7 +15,7 @@ import {
 import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from 'dfx-helper';
 
-import {BehaviorSubject, map, Observable, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, combineLatest, map, Observable, switchMap, tap} from 'rxjs';
 import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 
 @Injectable({
@@ -68,9 +68,8 @@ export class ProductsService
   }
 
   getAll$(): Observable<GetProductMaxResponse[]> {
-    return this.triggerGet$.pipe(
-      switchMap(() => this.selectedEventService.selectedIdNotNull$),
-      switchMap((eventId) => this.httpClient.get<GetProductMaxResponse[]>(this.url, {params: {eventId}})),
+    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
+      switchMap(([eventId]) => this.httpClient.get<GetProductMaxResponse[]>(this.url, {params: {eventId}})),
       map((products) => products.sort(this.#sortByPositionAndName)),
     );
   }
@@ -110,6 +109,7 @@ export class ProductsService
         allergenIds: dto.allergens.map((it) => it.id),
         groupId: dto.group.id,
         printerId: dto.printer.id,
+        resetOrderedProducts: false,
       } satisfies UpdateProductDto)
       .pipe(
         tap(() => {
