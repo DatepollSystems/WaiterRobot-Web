@@ -180,7 +180,7 @@ import {SwitcherModalComponent} from './switcher.component';
           [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/recycle-bin'"
         >
           <div class="d-inline-flex align-items-center gap-2 ">
-            <bi name="trash3" />
+            <bi name="trash" />
             {{ 'RECYCLE_BIN' | transloco }}
           </div>
         </a>
