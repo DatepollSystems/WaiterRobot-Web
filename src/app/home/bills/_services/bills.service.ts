@@ -1,8 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 
-import {BehaviorSubject, Observable, switchMap, take} from 'rxjs';
-
 import {Download, DownloadService} from '@home-shared/services/download.service';
 import {getPaginationParams, PageableDto} from '@home-shared/services/pagination';
 import {p_add} from '@shared/params';
@@ -10,6 +8,8 @@ import {GetBillResponse, PaginatedResponseGetBillMinResponse} from '@shared/wait
 
 import {n_generate_int} from 'dfts-helper';
 import {HasGetSingle} from 'dfx-helper';
+
+import {BehaviorSubject, combineLatest, Observable, switchMap, take} from 'rxjs';
 
 import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 
@@ -45,9 +45,8 @@ export class BillsService implements HasGetSingle<GetBillResponse> {
     params = p_add(params, 'waiterIds', waiterIds);
     params = p_add(params, 'unpaidReasonId', unpaidReasonId);
 
-    return this.triggerRefresh.pipe(
-      switchMap(() => this.selectedEventService.selectedIdNotNull$),
-      switchMap((eventId) =>
+    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerRefresh]).pipe(
+      switchMap(([eventId]) =>
         this.httpClient.get<PaginatedResponseGetBillMinResponse>(this.url, {
           params: params.append('eventId', eventId),
         }),

@@ -83,6 +83,11 @@ export const ROUTES: Routes = [
         redirectTo: '/not-found',
       },
       {
+        path: 'recycle-bin',
+        title: 'RECYCLE_BIN',
+        loadChildren: () => import('./recycle-bin/recycle-bin.routes').then((m) => m.RECYCLE_BIN_ROUTES),
+      },
+      {
         path: 'waiters',
         title: 'NAV_WAITERS',
         loadChildren: () => import('./waiters/waiters.routes').then((m) => m.WAITER_ROUTES),

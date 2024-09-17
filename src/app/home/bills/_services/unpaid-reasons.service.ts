@@ -7,7 +7,7 @@ import {s_from} from 'dfts-helper';
 
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
 
-import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, switchMap, tap} from 'rxjs';
 import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
@@ -31,9 +31,8 @@ export class UnpaidReasonsService
   }
 
   getAll$(): Observable<GetBillUnpaidReasonResponse[]> {
-    return this.triggerRefresh.pipe(
-      switchMap(() => this.selectedEventService.selectedIdNotNull$),
-      switchMap((eventId) => this.httpClient.get<GetBillUnpaidReasonResponse[]>(this.url, {params: {eventId}})),
+    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerRefresh]).pipe(
+      switchMap(([eventId]) => this.httpClient.get<GetBillUnpaidReasonResponse[]>(this.url, {params: {eventId}})),
     );
   }
 

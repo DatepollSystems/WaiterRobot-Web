@@ -65,9 +65,8 @@ export class TablesService
   }
 
   getAll$(): Observable<GetTableWithGroupResponse[]> {
-    return this.triggerGet$.pipe(
-      switchMap(() => this.selectedEventService.selectedIdNotNull$),
-      switchMap((eventId) =>
+    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
+      switchMap(([eventId]) =>
         combineLatest([
           this.httpClient.get<GetTableWithGroupResponse[]>(this.url, {params: {eventId}}),
           this.getTableIdsWithActiveOrders$(eventId),
@@ -77,7 +76,6 @@ export class TablesService
         tables.sort(this.#sortByGroupPositionAndNumber).map((table, index) => ({
           ...table,
           hasActiveOrders: tableIdsWithActiveOrders.tableIds.includes(table.id),
-          hasNextTableActiveOrders: tableIdsWithActiveOrders.tableIds.includes(tables[index + 1]?.id ?? false),
           missingNextTable: this.#isNextTableMissing(table, index, tables),
         })),
       ),
@@ -85,16 +83,14 @@ export class TablesService
   }
 
   getAllWithoutExtra$(): Observable<GetTableWithGroupResponse[]> {
-    return this.triggerGet$.pipe(
-      switchMap(() => this.selectedEventService.selectedIdNotNull$),
-      switchMap((eventId) => this.httpClient.get<GetTableWithGroupResponse[]>(this.url, {params: {eventId}})),
+    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
+      switchMap(([eventId]) => this.httpClient.get<GetTableWithGroupResponse[]>(this.url, {params: {eventId}})),
     );
   }
 
   getByParent$(groupId: number): Observable<GetTableWithGroupResponse[]> {
-    return this.triggerGet$.pipe(
-      switchMap(() => this.selectedEventService.selectedIdNotNull$),
-      switchMap((eventId) =>
+    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
+      switchMap(([eventId]) =>
         combineLatest([
           this.httpClient.get<GetTableWithGroupResponse[]>(this.url, {params: {groupId}}),
           this.getTableIdsWithActiveOrders$(eventId),
@@ -142,6 +138,10 @@ export class TablesService
         this.triggerGet$.next(true);
       }),
     );
+  }
+
+  unDelete$(id: number): Observable<unknown> {
+    return this.httpClient.delete(`${this.url}/${s_from(id)}/undo`);
   }
 
   checkIfExists(groupId: number, tableNumber: number): Observable<boolean> {

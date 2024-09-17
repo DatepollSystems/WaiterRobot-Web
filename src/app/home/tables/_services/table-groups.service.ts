@@ -1,14 +1,22 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
+import {getPaginationParams, PageableDto} from '@home-shared/services/pagination';
 
 import {HasCreateWithIdResponse, HasOrdered, HasUpdateWithIdResponse} from '@shared/services/services.interface';
 
-import {CreateTableGroupDto, EntityOrderDto, GetTableGroupResponse, IdResponse, UpdateTableGroupDto} from '@shared/waiterrobot-backend';
+import {
+  CreateTableGroupDto,
+  EntityOrderDto,
+  GetTableGroupResponse,
+  IdResponse,
+  PaginatedResponseGetTableGroupResponse,
+  UpdateTableGroupDto,
+} from '@shared/waiterrobot-backend';
 
 import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
 
-import {BehaviorSubject, map, Observable, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, combineLatest, map, Observable, switchMap, tap} from 'rxjs';
 import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
@@ -44,9 +52,8 @@ export class TableGroupsService
   }
 
   getAll$(): Observable<GetTableGroupResponse[]> {
-    return this.triggerGet$.pipe(
-      switchMap(() => this.selectedEventService.selectedIdNotNull$),
-      switchMap((eventId) => this.httpClient.get<GetTableGroupResponse[]>(this.url, {params: {eventId}})),
+    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
+      switchMap(([eventId]) => this.httpClient.get<GetTableGroupResponse[]>(this.url, {params: {eventId}})),
       map((it) => it.sort(this.#sortByPositionAndName)),
     );
   }
@@ -76,6 +83,20 @@ export class TableGroupsService
       tap(() => {
         this.triggerGet$.next(true);
       }),
+    );
+  }
+
+  unDelete$(id: number): Observable<unknown> {
+    return this.httpClient.delete(`${this.url}/${s_from(id)}/undo`);
+  }
+
+  getAllDeleted$(options: PageableDto): Observable<PaginatedResponseGetTableGroupResponse> {
+    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
+      switchMap(([eventId]) =>
+        this.httpClient.get<PaginatedResponseGetTableGroupResponse>(`${this.url}/deleted`, {
+          params: getPaginationParams(options).append('eventId', eventId),
+        }),
+      ),
     );
   }
 

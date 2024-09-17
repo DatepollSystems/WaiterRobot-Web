@@ -15,7 +15,7 @@ import {
 import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
 
-import {BehaviorSubject, map, Observable, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, combineLatest, map, Observable, switchMap, tap} from 'rxjs';
 import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
@@ -51,22 +51,9 @@ export class ProductGroupsService
   }
 
   getAll$(): Observable<GetProductGroupResponse[]> {
-    return this.triggerGet$.pipe(
-      switchMap(() => this.selectedEventService.selectedIdNotNull$),
-      switchMap((eventId) => this.httpClient.get<GetProductGroupResponse[]>(this.url, {params: {eventId}})),
+    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
+      switchMap(([eventId]) => this.httpClient.get<GetProductGroupResponse[]>(this.url, {params: {eventId}})),
       map((it) => it.sort(this.#sortByPositionAndName)),
-    );
-  }
-
-  getAllDeleted$(options: PageableDto): Observable<PaginatedResponseGetProductGroupMaxResponse> {
-    let params = getPaginationParams(options);
-    return this.triggerGet$.pipe(
-      switchMap(() => this.selectedEventService.selectedIdNotNull$),
-      switchMap((eventId) =>
-        this.httpClient.get<PaginatedResponseGetProductGroupMaxResponse>(`${this.url}/deleted`, {
-          params: params.append('eventId', eventId),
-        }),
-      ),
     );
   }
 
@@ -96,6 +83,16 @@ export class ProductGroupsService
 
   unDelete$(id: number): Observable<unknown> {
     return this.httpClient.delete(`${this.url}/${s_from(id)}/undo`);
+  }
+
+  getAllDeleted$(options: PageableDto): Observable<PaginatedResponseGetProductGroupMaxResponse> {
+    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
+      switchMap(([eventId]) =>
+        this.httpClient.get<PaginatedResponseGetProductGroupMaxResponse>(`${this.url}/deleted`, {
+          params: getPaginationParams(options).append('eventId', eventId),
+        }),
+      ),
+    );
   }
 
   order$(dto: EntityOrderDto[]): Observable<IdResponse[]> {

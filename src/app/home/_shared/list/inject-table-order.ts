@@ -1,16 +1,11 @@
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {computed, signal, Signal} from '@angular/core';
-import {IdResponse} from '@shared/waiterrobot-backend';
-import {IHasID} from 'dfts-helper';
+import {EntityOrderDto, IdResponse} from '@shared/waiterrobot-backend';
+import {IHasNumberID} from 'dfts-helper';
 import {NgbTableDataSource} from 'dfx-bootstrap-table';
 import {Observable} from 'rxjs';
 
-interface EntityOrderDto<ID> {
-  entityId: ID;
-  order: number | null;
-}
-
-export function injectTableOrder<EntityType extends IHasID<EntityType['id']>>({
+export function injectTableOrder<EntityType extends IHasNumberID>({
   onOrderingChange,
   dataSource,
   order$,
@@ -18,7 +13,7 @@ export function injectTableOrder<EntityType extends IHasID<EntityType['id']>>({
 }: {
   onOrderingChange: (isOrdering: boolean) => void;
   dataSource: Signal<NgbTableDataSource<EntityType>>;
-  order$: (dto: EntityOrderDto<EntityType['id']>[]) => Observable<IdResponse[]>;
+  order$: (dto: EntityOrderDto[]) => Observable<IdResponse[]>;
   getPosition?: (it: EntityType) => number | undefined;
 }) {
   const isOrdering = signal(false);
@@ -62,7 +57,7 @@ export function injectTableOrder<EntityType extends IHasID<EntityType['id']>>({
   });
 
   const resetOrder = () => {
-    order$(dataSource().data.map((it) => ({entityId: it.id, order: null}))).subscribe();
+    order$(dataSource().data.map((it) => ({entityId: it.id, order: undefined}))).subscribe();
   };
 
   return {
