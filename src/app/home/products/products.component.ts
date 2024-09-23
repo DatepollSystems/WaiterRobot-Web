@@ -162,7 +162,11 @@ import {ProductsService} from './_services/products.service';
 
             <ng-container ngbColumnDef="name">
               <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
-              <td *ngbCellDef="let product" ngb-cell>{{ product.name }}</td>
+              <td *ngbCellDef="let product" ngb-cell>
+                <app-text-with-color-indicator [color]="product.color">
+                  {{ product.name }}
+                </app-text-with-color-indicator>
+              </td>
             </ng-container>
 
             <ng-container ngbColumnDef="price">

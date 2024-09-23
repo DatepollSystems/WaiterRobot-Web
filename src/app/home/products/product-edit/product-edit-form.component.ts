@@ -1,13 +1,14 @@
 import {ChangeDetectionStrategy, Component, Input, input} from '@angular/core';
-import {ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+import {AppColorPicker} from '@home-shared/components/color/color-picker.component';
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 import {allowedCharacterSet, s_toCurrencyNumber} from '@home-shared/regex';
+import {TranslocoPipe} from '@jsverse/transloco';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
-import {TranslocoPipe} from '@jsverse/transloco';
 
 import {injectIsValid} from '@shared/form';
 import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '@shared/waiterrobot-backend';
@@ -35,7 +36,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
         <div class="form-group col-12 col-md-3 col-lg-2">
           <label for="price">{{ 'PRICE' | transloco }}</label>
           <div class="input-group">
-            <input class="form-control" type="string" id="price" formControlName="price" [placeholder]="'PRICE' | transloco" />
+            <input class="form-control" type="text" id="price" formControlName="price" [placeholder]="'PRICE' | transloco" />
             <span class="input-group-text">€</span>
           </div>
 
@@ -67,6 +68,17 @@ import {BiComponent} from 'dfx-bootstrap-icons';
       </div>
 
       <div class="d-flex flex-column flex-md-row gap-4 mb-3">
+        <div class="col">
+          <div class="d-flex flex-column">
+            <label for="name">{{ 'COLOR' | transloco }}</label>
+            <app-color-picker
+              [color]="form.controls.color.getRawValue()"
+              [disabled]="form.disabled"
+              (colorChange)="form.controls.color.setValue($event)"
+            />
+          </div>
+        </div>
+
         <div class="form-group col">
           <label for="selectGroup">{{ 'HOME_PROD_GROUPS' | transloco }}</label>
           <div class="input-group">
@@ -180,7 +192,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
     </form>
   `,
   selector: 'app-product-edit-form',
-  imports: [ReactiveFormsModule, TranslocoPipe, BiComponent, NgSelectModule, AppModelEditSaveBtn, RouterLink, NgbTooltip],
+  imports: [ReactiveFormsModule, TranslocoPipe, BiComponent, NgSelectModule, AppModelEditSaveBtn, RouterLink, NgbTooltip, AppColorPicker],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -193,6 +205,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     groupId: [-1, [Validators.required, Validators.min(0)]],
     printerId: [-1, [Validators.required, Validators.min(0)]],
     soldOut: [false, [Validators.required]],
+    color: new FormControl<string | undefined>(undefined),
     resetOrderedProducts: [false],
     initialStock: [null as number | null, [Validators.min(0)]],
     id: [-1],
@@ -224,6 +237,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
       printerId: it.printer.id,
       soldOut: it.soldOut,
       initialStock: it.initialStock,
+      color: it.color,
       id: it.id,
     });
   }
