@@ -61,7 +61,6 @@
   "DESCRIPTION": "Beschreibung",
   "DATETIME_PLACEHOLDER": "14.6.2000 14:30",
   "COLOR": "Highlight Farbe",
-  "COLOR_INDICATOR": "Farbindikator",
   "DELETED": "(gelöscht)",
   "PRICE": "Preis",
   "PRICE_PER_PIECE": "Preis / Stk.",
@@ -146,7 +145,6 @@
   "HOME_START_SETUP_CREATE_PRODUCT_GROUP": "Produktgruppe anlegen",
   "HOME_START_SETUP_CREATE_WAITER": "Personal anlegen",
 
-  "HOME_USERSETTINGS_USER_SETTINGS": "Benutzereinstellugen",
   "HOME_USERSETTINGS_USER_SETTINGS_EMAIL": "E-Mail-Adresse ändern",
   "HOME_USERSETTINGS_USER_SETTINGS_EMAIL_SUBTITLE": "Deine E-Mail-Adresse wird für das Anmelden und das 'Password zurücksetzen' verwendet.",
   "HOME_USERSETTINGS_USER_SETTINGS_EMAIL_SUCCESS": "E-Mail Adresse erfolgreich geändert",
@@ -219,7 +217,6 @@
   "HOME_PROD_SOLD_OUT": "Ausverkauft",
   "HOME_PROD_ALLERGENS": "Allergene",
   "HOME_PROD_ALLERGENS_PLACEHOLDER": "Gluten, Milch, Fisch...",
-  "HOME_PROD_GROUP_ID": "Gruppe",
   "HOME_PROD_GROUP_ID_INCORRECT": "Das Produkt muss einer Gruppe zugeordnet sein",
   "HOME_PROD_GROUP_PRINTER_UPDATE": "Überschreibe alle Drucker in der gesamten Produktgruppe",
   "HOME_PROD_PRINTER_ID_INCORRECT": "Das Produkt muss einem Drucker zugeordnet sein",
@@ -246,7 +243,6 @@
   "HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER": "Event-/Locationname",
 
   "HOME_TABLES": "Tische",
-  "HOME_TABLES_COUNT": "Tisch Anzahl",
   "HOME_TABLE": "Tisch",
   "HOME_TABLE_SELECT_REQUIRED": "Wähle zuerst mindestens einen Tisch aus",
   "HOME_TABLE_GROUP_SELECT_INFO": "Wähle zuerst mindestens eine Tischgruppe aus",

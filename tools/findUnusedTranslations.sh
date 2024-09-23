@@ -41,7 +41,7 @@ missing_keys=()
 # Iterate over each key
 for key in "${json_keys[@]}"; do
     # Search for the key in the directory and its contents
-    grep_result=$(grep -r "$key" "$search_directory" 2>/dev/null)
+    grep_result=$(grep -r "'$key'" "$search_directory" 2>/dev/null)
     if [[ -n "$grep_result" ]]; then
         echo "== Key '$key' found in:"
         echo "$grep_result"
