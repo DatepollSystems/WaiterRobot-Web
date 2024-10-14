@@ -2,11 +2,14 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
 import {FullScreenService} from '@home-shared/services/fullscreen.service';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 import {FooterComponent} from '@shared/ui/footer/footer.component';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {injectWindow} from 'dfx-helper';
+import {injectNetwork} from 'ngxtension/inject-network';
 import {filter, pairwise} from 'rxjs';
+import {SelectedEventService} from '../_admin/events/_services/selected-event.service';
 import {
   ActiveSystemNotificationsComponent,
   ActiveSystemNotificationsDesktopComponent,
@@ -45,13 +48,28 @@ export class HomeTitle {}
           <app-active-system-notifications class="d-block d-md-none" disableIgnore />
 
           <main class="px-lg-3 col-12 px-1 pb-4 pt-2" [class.container-xxxl]="!isFullScreen()">
-            <app-network-offline-warning />
+            @defer (when !networkOnline()) {
+              @if (!networkOnline()) {
+                <app-network-offline-warning />
+              }
+            }
 
             <app-maintenance-warning />
 
             <div class="d-none d-md-block">
               <app-active-system-desktop-notifications />
             </div>
+
+            @defer (when selectedEvent()?.isDemo) {
+              @if (selectedEvent()?.isDemo) {
+                <div class="alert alert-danger d-flex align-items-center gap-2 fs-4" role="alert">
+                  <div class="d-none d-md-block" style="margin-top: 6px">
+                    <bi name="cart-x-fill" size="24px" />
+                  </div>
+                  {{ 'HOME_START_DEMO_EVENT_WARNING' | transloco }}
+                </div>
+              }
+            }
 
             <router-outlet />
           </main>
@@ -104,11 +122,16 @@ export class HomeTitle {}
     ActiveSystemNotificationsDesktopComponent,
     ActiveSystemNotificationsMobileToggleComponent,
     HomeTitle,
+    TranslocoPipe,
   ],
 })
 export class HomeLayout {
   isFullScreen = inject(FullScreenService).isFullScreen;
   offcanvasService = inject(NgbOffcanvas);
+
+  selectedEvent = inject(SelectedEventService).selected;
+
+  networkOnline = injectNetwork().online;
 
   openMobileNav() {
     this.offcanvasService.open(MobileNavComponent, {ariaLabelledBy: 'offcanvas-mobile-nav'});
