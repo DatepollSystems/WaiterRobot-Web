@@ -69,8 +69,8 @@ importers:
         specifier: 3.2.0
         version: 3.2.0
       dfts-helper:
-        specifier: 1.1.1
-        version: 1.1.1(tslib@2.6.3)
+        specifier: 1.1.2
+        version: 1.1.2
       dfx-bootstrap-icons:
         specifier: 2.0.1
         version: 2.0.1(@angular/common@18.2.6(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0))
@@ -79,7 +79,7 @@ importers:
         version: 4.0.1(@angular/animations@18.2.6(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0)))(@angular/cdk@18.2.6(@angular/common@18.2.6(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/common@18.2.6(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0))(@angular/forms@18.2.6(@angular/common@18.2.6(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0))(@angular/platform-browser@18.2.6(@angular/animations@18.2.6(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0)))(@angular/common@18.2.6(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0)))(rxjs@7.8.1))(bootstrap@5.3.2(@popperjs/core@2.11.8))(rxjs@7.8.1)
       dfx-helper:
         specifier: 8.0.1
-        version: 8.0.1(rbvnztzkscpb2ov4s2jyt4ejke)
+        version: 8.0.1(l3jkyzbeitkz7h6uynsg7bkvfm)
       dfx-qrcode:
         specifier: 3.0.1
         version: 3.0.1(@angular/common@18.2.6(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0))(@angular/platform-browser@18.2.6(@angular/animations@18.2.6(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0)))(@angular/common@18.2.6(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0)))
@@ -121,8 +121,8 @@ importers:
         specifier: 4.0.8
         version: 4.0.8
       '@types/d3-selection':
-        specifier: 3.0.10
-        version: 3.0.10
+        specifier: 3.0.11
+        version: 3.0.11
       '@types/d3-shape':
         specifier: ^3.1.1
         version: 3.1.6
@@ -133,8 +133,8 @@ importers:
         specifier: ^20.2.5
         version: 20.16.11
       jasmine-core:
-        specifier: 5.3.0
-        version: 5.3.0
+        specifier: 5.4.0
+        version: 5.4.0
       jasmine-spec-reporter:
         specifier: 7.0.0
         version: 7.0.0
@@ -152,7 +152,7 @@ importers:
         version: 5.1.0(karma@6.4.4)
       karma-jasmine-html-reporter:
         specifier: 2.1.0
-        version: 2.1.0(jasmine-core@5.3.0)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4)
+        version: 2.1.0(jasmine-core@5.4.0)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4)
       license-report:
         specifier: ^6.4.0
         version: 6.7.0
@@ -2268,8 +2268,8 @@ packages:
   '@types/d3-scale@4.0.8':
     resolution: {integrity: sha512-gkK1VVTr5iNiYJ7vWDI+yUFFlszhNMtVeneJ6lUTKPjprsvLLI9/tgEGiXJOnlINJA8FyA88gfnQsHbybVZrYQ==}
 
-  '@types/d3-selection@3.0.10':
-    resolution: {integrity: sha512-cuHoUgS/V3hLdjJOLTT691+G2QoqAjCVLmr4kJXR4ha56w1Zdu8UUQ5TxLRqudgNjwXeQxKMq4j+lyf9sWuslg==}
+  '@types/d3-selection@3.0.11':
+    resolution: {integrity: sha512-bhAXu23DJWsrI45xafYpkQ4NtcKMwWnAC/vKrd2l+nxMFuvOT3XMYTIj2opv8vq8AO5Yh7Qac/nSeP/3zjTK0w==}
 
   '@types/d3-shape@3.1.6':
     resolution: {integrity: sha512-5KKk5aKGu2I+O6SONMYSNflgiP0WfZIQvVUMan50wHsLG1G94JlxEVnCpQARfTtzytuY0p/9PXXZb3I7giofIA==}
@@ -3118,6 +3118,9 @@ packages:
     peerDependencies:
       tslib: 1.14.1
 
+  dfts-helper@1.1.2:
+    resolution: {integrity: sha512-eYqS9LxxvSSR3K+aH2NXGqxipXJh4UR8+A+VcaGTBb2TdbGZ4VIRAzzcDyUn++dlupa84hcBigfdS90G4XxciA==}
+
   dfts-qrcode@1.1.0:
     resolution: {integrity: sha512-c7xF090SLAgzTfD+gXsyCdx+RK7VNUW5/+ZohO0PfY/VmKs9Osq73ETBC04slw9NfU/Ww4VzpvILwno2hWQjtw==}
 
@@ -3945,8 +3948,8 @@ packages:
   jasmine-core@4.6.1:
     resolution: {integrity: sha512-VYz/BjjmC3klLJlLwA4Kw8ytk0zDSmbbDLNs794VnWmkcCB7I9aAL/D48VNQtmITyPvea2C3jdUMfc3kAoy0PQ==}
 
-  jasmine-core@5.3.0:
-    resolution: {integrity: sha512-zsOmeBKESky4toybvWEikRiZ0jHoBEu79wNArLfMdSnlLMZx3Xcp6CSm2sUcYyoJC+Uyj8LBJap/MUbVSfJ27g==}
+  jasmine-core@5.4.0:
+    resolution: {integrity: sha512-T4fio3W++llLd7LGSGsioriDHgWyhoL6YTu4k37uwJLF7DzOzspz7mNxRoM3cQdLWtL/ebazQpIf/yZGJx/gzg==}
 
   jasmine-spec-reporter@7.0.0:
     resolution: {integrity: sha512-OtC7JRasiTcjsaCBPtMO0Tl8glCejM4J4/dNuOJdA8lBjz4PmWjYQ6pzb0uzpBNAWJMDudYuj9OdXJWqM2QTJg==}
@@ -7958,7 +7961,7 @@ snapshots:
     dependencies:
       '@types/d3-time': 3.0.3
 
-  '@types/d3-selection@3.0.10': {}
+  '@types/d3-selection@3.0.11': {}
 
   '@types/d3-shape@3.1.6':
     dependencies:
@@ -8846,7 +8849,7 @@ snapshots:
     dependencies:
       tslib: 2.6.2
 
-  dfts-helper@1.1.1(tslib@2.6.3):
+  dfts-helper@1.1.2:
     dependencies:
       tslib: 2.6.3
 
@@ -8872,14 +8875,14 @@ snapshots:
       rxjs: 7.8.1
       tslib: 2.6.3
 
-  dfx-helper@8.0.1(rbvnztzkscpb2ov4s2jyt4ejke):
+  dfx-helper@8.0.1(l3jkyzbeitkz7h6uynsg7bkvfm):
     dependencies:
       '@angular/cdk': 18.2.6(@angular/common@18.2.6(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)
       '@angular/common': 18.2.6(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)
       '@angular/core': 18.2.6(rxjs@7.8.1)(zone.js@0.15.0)
       '@angular/platform-browser': 18.2.6(@angular/animations@18.2.6(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0)))(@angular/common@18.2.6(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0))
       '@angular/router': 18.2.6(@angular/common@18.2.6(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0))(@angular/platform-browser@18.2.6(@angular/animations@18.2.6(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0)))(@angular/common@18.2.6(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.15.0)))(rxjs@7.8.1)
-      dfts-helper: 1.1.1(tslib@2.6.3)
+      dfts-helper: 1.1.2
       rxjs: 7.8.1
       tslib: 2.6.3
 
@@ -9762,7 +9765,7 @@ snapshots:
 
   jasmine-core@4.6.1: {}
 
-  jasmine-core@5.3.0: {}
+  jasmine-core@5.4.0: {}
 
   jasmine-spec-reporter@7.0.0:
     dependencies:
@@ -9857,9 +9860,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  karma-jasmine-html-reporter@2.1.0(jasmine-core@5.3.0)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4):
+  karma-jasmine-html-reporter@2.1.0(jasmine-core@5.4.0)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4):
     dependencies:
-      jasmine-core: 5.3.0
+      jasmine-core: 5.4.0
       karma: 6.4.4
       karma-jasmine: 5.1.0(karma@6.4.4)
 
