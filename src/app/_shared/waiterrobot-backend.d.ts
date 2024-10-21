@@ -497,6 +497,11 @@ export interface CreateOrderDto {
    * @minItems 1
    */
   products: CreateOrderProductDto[];
+  /**
+   * @minLength 0
+   * @maxLength 36
+   */
+  clientOrderId?: string;
 }
 
 export interface CreateOrderProductDto {
@@ -1143,6 +1148,7 @@ export interface GetEventOrLocationResponse {
   date?: string;
   /** @format date-time */
   deleted?: string;
+  isDemo: boolean;
 }
 
 export interface GetBillForTableResponseV1 {
