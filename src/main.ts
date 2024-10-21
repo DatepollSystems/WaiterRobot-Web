@@ -31,7 +31,7 @@ import {
   withBaseUrlInterceptor,
   withLoggingInterceptor,
   withMobileBreakpoint,
-  withWindow,
+  withWindow
 } from 'dfx-helper';
 import {AppComponent} from './app/app.component';
 import {ROUTES} from './app/app.routes';
@@ -78,7 +78,7 @@ bootstrapApplication(AppComponent, {
         biCacheInterceptor,
       ]),
     ),
-    provideBi(withCDN('https://share.dafnik.me/dfx-bootstrap-icons')),
+    provideBi(withCDN('https://playground.dafnik.me/bootstrap-icons/icons')),
     provideTransloco({
       config: {
         availableLangs: ['de'],
