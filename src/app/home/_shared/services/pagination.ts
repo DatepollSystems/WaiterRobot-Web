@@ -68,7 +68,7 @@ export function injectPagination({
 
     subscription?.unsubscribe();
 
-    subscription = merge(_paginator.page as any, _sort?.sortChange ?? of() as any).subscribe(() => {
+    subscription = merge(_paginator.page as any, _sort?.sortChange ?? (of() as any)).subscribe(() => {
       const queryParams = {
         size: _paginator.pageSize,
         page: _paginator.pageIndex,
