@@ -14,7 +14,7 @@ import {AuthService, loginPwChangeUrl, loginUrl, refreshUrl} from './auth.servic
 /**
  * Don't intercept this requests
  */
-const paths = [loginUrl, loginPwChangeUrl, refreshUrl, 'assets/i18n', 'releases.dafnik.me'];
+const paths = [loginUrl, loginPwChangeUrl, refreshUrl, 'assets'];
 
 let isRefreshing = false;
 const nextAccessTokenSubject: BehaviorSubject<string | undefined> = new BehaviorSubject<string | undefined>(undefined);

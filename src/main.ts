@@ -23,7 +23,6 @@ import {errorInterceptor} from '@shared/services/error-interceptor';
 import {biCacheInterceptor, provideBi, withCDN} from 'dfx-bootstrap-icons';
 import {NgbPaginatorIntl} from 'dfx-bootstrap-table';
 import {
-  baseUrlInterceptor,
   DfxPreloadStrategy,
   loggingInterceptor,
   postPutJsonContentTypeInterceptor,
@@ -41,16 +40,8 @@ bootstrapApplication(AppComponent, {
   providers: [
     provideDfxHelper(
       withMobileBreakpoint(1200),
-      withBaseUrlInterceptor(EnvironmentHelper.getAPIUrl(), ['assets/i18n', 'assets/licenses.json', 'releases.datepollsystems.org']),
-      withLoggingInterceptor([
-        'json',
-        loginUrl,
-        loginPwChangeUrl,
-        requestPasswordChangeUrl,
-        sendPasswordChangeUrl,
-        refreshUrl,
-        'releases.datepollsystems.org',
-      ]),
+      withBaseUrlInterceptor(EnvironmentHelper.getAPIUrl(), ['assets']),
+      withLoggingInterceptor(['json', loginUrl, loginPwChangeUrl, requestPasswordChangeUrl, sendPasswordChangeUrl, refreshUrl]),
       withWindow(),
     ),
     provideAnimations(),
@@ -69,16 +60,9 @@ bootstrapApplication(AppComponent, {
     {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter},
     {provide: NgbPaginatorIntl, useClass: CustomPaginatorIntl},
     provideHttpClient(
-      withInterceptors([
-        baseUrlInterceptor,
-        postPutJsonContentTypeInterceptor,
-        loggingInterceptor,
-        authInterceptor,
-        errorInterceptor,
-        biCacheInterceptor,
-      ]),
+      withInterceptors([postPutJsonContentTypeInterceptor, loggingInterceptor, authInterceptor, errorInterceptor, biCacheInterceptor]),
     ),
-    provideBi(withCDN('https://releases.datepollsystems.org/kellner.team/bootstrap-icons/1.11.3')),
+    provideBi(withCDN('/assets/bootstrap-icons')),
     provideTransloco({
       config: {
         availableLangs: ['de'],

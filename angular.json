@@ -29,7 +29,8 @@
               "src/favicon.ico",
               "src/assets",
               "src/site.webmanifest",
-              {"glob": "**/*", "input": "node_modules/ng2-pdfjs-viewer/pdfjs", "output": "/assets/pdfjs"}
+              {"glob": "**/*", "input": "node_modules/ng2-pdfjs-viewer/pdfjs", "output": "/assets/pdfjs"},
+              {"glob": "*", "input": "node_modules/bootstrap-icons/icons", "output": "/assets/bootstrap-icons"}
             ],
             "styles": [
               "src/styles.scss",
