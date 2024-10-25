@@ -23,6 +23,7 @@ import {errorInterceptor} from '@shared/services/error-interceptor';
 import {biCacheInterceptor, provideBi, withCDN} from 'dfx-bootstrap-icons';
 import {NgbPaginatorIntl} from 'dfx-bootstrap-table';
 import {
+  baseUrlInterceptor,
   DfxPreloadStrategy,
   loggingInterceptor,
   postPutJsonContentTypeInterceptor,
@@ -30,7 +31,7 @@ import {
   withBaseUrlInterceptor,
   withLoggingInterceptor,
   withMobileBreakpoint,
-  withWindow,
+  withWindow
 } from 'dfx-helper';
 import {AppComponent} from './app/app.component';
 import {ROUTES} from './app/app.routes';
@@ -60,7 +61,9 @@ bootstrapApplication(AppComponent, {
     {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter},
     {provide: NgbPaginatorIntl, useClass: CustomPaginatorIntl},
     provideHttpClient(
-      withInterceptors([postPutJsonContentTypeInterceptor, loggingInterceptor, authInterceptor, errorInterceptor, biCacheInterceptor]),
+      withInterceptors([
+        baseUrlInterceptor,
+        postPutJsonContentTypeInterceptor, loggingInterceptor, authInterceptor, errorInterceptor, biCacheInterceptor]),
     ),
     provideBi(withCDN('/assets/bootstrap-icons')),
     provideTransloco({
