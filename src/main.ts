@@ -41,7 +41,7 @@ bootstrapApplication(AppComponent, {
   providers: [
     provideDfxHelper(
       withMobileBreakpoint(1200),
-      withBaseUrlInterceptor(EnvironmentHelper.getAPIUrl(), ['assets/i18n', 'assets/licenses.json', 'playground.dafnik.me']),
+      withBaseUrlInterceptor(EnvironmentHelper.getAPIUrl(), ['assets/i18n', 'assets/licenses.json', 'releases.datepollsystems.org']),
       withLoggingInterceptor([
         'json',
         loginUrl,
@@ -49,7 +49,7 @@ bootstrapApplication(AppComponent, {
         requestPasswordChangeUrl,
         sendPasswordChangeUrl,
         refreshUrl,
-        'share.dafnik.me',
+        'releases.datepollsystems.org',
       ]),
       withWindow(),
     ),
@@ -78,7 +78,7 @@ bootstrapApplication(AppComponent, {
         biCacheInterceptor,
       ]),
     ),
-    provideBi(withCDN('https://playground.dafnik.me/bootstrap-icons/icons')),
+    provideBi(withCDN('https://releases.datepollsystems.org/kellner.team/bootstrap-icons/1.11.3')),
     provideTransloco({
       config: {
         availableLangs: ['de'],
