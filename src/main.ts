@@ -42,7 +42,7 @@ bootstrapApplication(AppComponent, {
     provideDfxHelper(
       withMobileBreakpoint(1200),
       withBaseUrlInterceptor(EnvironmentHelper.getAPIUrl(), ['assets']),
-      withLoggingInterceptor(['json', loginUrl, loginPwChangeUrl, requestPasswordChangeUrl, sendPasswordChangeUrl, refreshUrl]),
+      withLoggingInterceptor(['json', 'assets', loginUrl, loginPwChangeUrl, requestPasswordChangeUrl, sendPasswordChangeUrl, refreshUrl]),
       withWindow(),
     ),
     provideAnimations(),
