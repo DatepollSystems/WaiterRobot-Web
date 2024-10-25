@@ -1,10 +1,10 @@
 import {HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest} from '@angular/common/http';
 import {inject} from '@angular/core';
 
-import {BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError} from 'rxjs';
-
 import {loggerOf} from 'dfts-helper';
 import {injectWindow} from 'dfx-helper';
+
+import {BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError} from 'rxjs';
 
 import {EnvironmentHelper} from '../../EnvironmentHelper';
 import {NotificationService} from '../../notifications/notification.service';
@@ -14,7 +14,7 @@ import {AuthService, loginPwChangeUrl, loginUrl, refreshUrl} from './auth.servic
 /**
  * Don't intercept this requests
  */
-const paths = [loginUrl, loginPwChangeUrl, refreshUrl, 'assets/i18n', 'share.dafnik.me'];
+const paths = [loginUrl, loginPwChangeUrl, refreshUrl, 'assets/i18n', 'playground.dafnik.me'];
 
 let isRefreshing = false;
 const nextAccessTokenSubject: BehaviorSubject<string | undefined> = new BehaviorSubject<string | undefined>(undefined);
