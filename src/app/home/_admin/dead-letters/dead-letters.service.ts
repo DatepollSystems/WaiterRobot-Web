@@ -1,12 +1,12 @@
 import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 
-import {DeadLetterResponse} from '@shared/waiterrobot-backend';
+import {BehaviorSubject, Observable, map, switchMap, tap} from 'rxjs';
 
 import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
 
-import {BehaviorSubject, map, Observable, switchMap, tap} from 'rxjs';
+import {DeadLetterResponse} from '@shared/waiterrobot-backend';
 
 @Injectable({providedIn: 'root'})
 export class DeadLettersService implements HasGetAll<DeadLetterResponse>, HasGetSingle<DeadLetterResponse>, HasDelete<DeadLetterResponse> {

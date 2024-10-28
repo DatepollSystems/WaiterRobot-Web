@@ -2,19 +2,20 @@ import {LowerCasePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {AbstractControl, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 
+import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
-import {TranslocoPipe} from '@jsverse/transloco';
+import {s_isEmail} from 'dfts-helper';
+
 import {injectIsValid} from '@shared/form';
 
-import {s_isEmail} from 'dfts-helper';
 import {OrganisationUsersService} from '../../_services/organisations-users.service';
 
 @Component({
   template: `
     <div class="modal-header">
       <h3 class="modal-title" id="modal-title-org-user-add">{{ 'USER' | transloco }} {{ 'ADD_3' | transloco | lowercase }}</h3>
-      <button type="button" class="btn-close btn-close-white" aria-label="Close" (mousedown)="activeModal.dismiss()"></button>
+      <button class="btn-close btn-close-white" (mousedown)="activeModal.dismiss()" type="button" aria-label="Close"></button>
     </div>
     @if (formValid()) {}
     <form [formGroup]="form" (ngSubmit)="submit()">
@@ -22,13 +23,13 @@ import {OrganisationUsersService} from '../../_services/organisations-users.serv
         <div class="form-group col">
           <label for="emailSelect">{{ 'EMAIL' | transloco }}</label>
           <ng-select
-            labelForId="emailSelect"
-            clearAllText="Clear"
-            formControlName="emailAddresses"
             [addTag]="true"
             [multiple]="true"
             [placeholder]="'HOME_ORGS_USERS_EMAIL_PLACEHOLDER' | transloco"
             [notFoundText]="'HOME_ORGS_USERS_EMAIL_PLACEHOLDER' | transloco"
+            labelForId="emailSelect"
+            clearAllText="Clear"
+            formControlName="emailAddresses"
           />
           @if (form.hasError('emailIsInvalid')) {
             <small class="text-danger">
@@ -38,10 +39,12 @@ import {OrganisationUsersService} from '../../_services/organisations-users.serv
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-success" type="submit" [disabled]="form.invalid">
+        <button class="btn btn-success" [disabled]="form.invalid" type="submit">
           {{ 'ADD_3' | transloco }}
         </button>
-        <button type="button" class="btn btn-outline-secondary" (mousedown)="activeModal.close()">{{ 'CLOSE' | transloco }}</button>
+        <button class="btn btn-outline-secondary" (mousedown)="activeModal.close()" type="button">
+          {{ 'CLOSE' | transloco }}
+        </button>
       </div>
     </form>
   `,
@@ -85,7 +88,10 @@ export class OrganisationUserAddModalComponent {
     const emails = this.form.controls.emailAddresses.getRawValue();
     console.log('emails', emails);
     for (const email of emails) {
-      void this.#organisationUsersState.create({email: email.label, role: 'ADMIN'});
+      void this.#organisationUsersState.create({
+        email: email.label,
+        role: 'ADMIN',
+      });
     }
 
     this.activeModal.close();

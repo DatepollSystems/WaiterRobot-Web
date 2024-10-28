@@ -1,23 +1,24 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, input, Input, viewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, booleanAttribute, input, viewChild} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
-import {injectTable} from '@home-shared/list';
+
 import {TranslocoPipe} from '@jsverse/transloco';
-
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
-
 import {GetImplodedOrderProductResponse} from 'src/app/_shared/waiterrobot-backend';
+
+import {injectTable} from '@home-shared/list';
 
 import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
 
 @Component({
   template: `
     <div class="table-responsive">
-      <table ngb-table ngb-sort ngbSortActive="product" ngbSortDirection="asc" [hover]="true" [dataSource]="table.dataSource()">
+      <table [hover]="true" [dataSource]="table.dataSource()" ngb-table ngb-sort ngbSortActive="product" ngbSortDirection="asc">
         <ng-container ngbColumnDef="product">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD' | transloco }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+            {{ 'HOME_PROD' | transloco }}
+          </th>
           <td *ngbCellDef="let order" ngb-cell>
             <div class="d-flex align-items-center gap-2">
               <span class="badge rounded-pill text-bg-info" [ngbTooltip]="'AMOUNT' | transloco">{{ order.amount }}x</span>
@@ -29,14 +30,18 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
         </ng-container>
 
         <ng-container ngbColumnDef="note">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORDER_NOTE' | transloco }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+            {{ 'HOME_ORDER_NOTE' | transloco }}
+          </th>
           <td *ngbCellDef="let order" ngb-cell>
             <code>{{ order.note }}</code>
           </td>
         </ng-container>
 
         <ng-container ngbColumnDef="printState">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | transloco }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+            {{ 'STATE' | transloco }}
+          </th>
           <td *ngbCellDef="let order" ngb-cell>
             <app-order-product-state-badge
               [printState]="order.printState"
@@ -47,7 +52,9 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
         </ng-container>
 
         <ng-container ngbColumnDef="printedBy">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_PRINTERS' | transloco }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+            {{ 'NAV_PRINTERS' | transloco }}
+          </th>
           <td *ngbCellDef="let order" ngb-cell>
             <a [routerLink]="'../../printers/' + order.printedBy.id">
               {{ order.printedBy.name }}

@@ -1,18 +1,20 @@
 import {DatePipe, NgClass} from '@angular/common';
 import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
-
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
 @Component({
   template: `
     <div
       class="badge d-flex align-items-center gap-2 not-selectable"
-      style="width: min-content"
-      [ngClass]="{'text-bg-light': printState() === 'QUEUED', 'text-bg-success': printState() === 'SENT_TO_PRINT'}"
+      [ngClass]="{
+        'text-bg-light': printState() === 'QUEUED',
+        'text-bg-success': printState() === 'SENT_TO_PRINT',
+      }"
       [ngbTooltip]="sentToPrinterAt() || printedAt() ? tipContent : null"
+      style="width: min-content"
     >
       @switch (printState()) {
         @case ('QUEUED') {

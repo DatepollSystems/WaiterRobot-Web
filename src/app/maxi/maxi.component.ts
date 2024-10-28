@@ -2,19 +2,20 @@ import {DatePipe, JsonPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
-import {AppActivatedPipe} from '@home-shared/pipes/app-activated.pipe';
 
+import {interval, map} from 'rxjs';
+
+import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
-import {TranslocoPipe} from '@jsverse/transloco';
+import {DfxTimeSpanPipe} from 'dfx-helper';
+
+import {AppActivatedPipe} from '@home-shared/pipes/app-activated.pipe';
 
 import {injectIsValid} from '@shared/form';
 
-import {DfxTimeSpanPipe} from 'dfx-helper';
-
-import {interval, map} from 'rxjs';
-import {MaxiService} from './maxi.service';
 import {EventsService} from '../home/_admin/events/_services/events.service';
+import {MaxiService} from './maxi.service';
 
 @Component({
   selector: 'app-maxi',
@@ -25,7 +26,7 @@ import {EventsService} from '../home/_admin/events/_services/events.service';
       <form class="d-flex gap-3" [formGroup]="maxiService.form">
         <div class="form-group">
           <label for="interval">{{ 'Interval (in ms)' | transloco }}</label>
-          <input formControlName="intervalInMs" class="form-control" type="number" id="interval" [placeholder]="'10' | transloco" />
+          <input class="form-control" id="interval" [placeholder]="'10' | transloco" formControlName="intervalInMs" type="number" />
           @if (maxiService.form.controls.intervalInMs.invalid) {
             <small class="text-danger">
               {{ 'Interval needs to be bigger than 0' | transloco }}
@@ -36,27 +37,27 @@ import {EventsService} from '../home/_admin/events/_services/events.service';
         <div class="form-group col-4">
           <label for="event">{{ 'Event' | transloco }}</label>
           <ng-select
+            [items]="events()"
+            [placeholder]="'Event select' | transloco"
             bindValue="id"
             bindLabel="name"
             formControlName="eventId"
             labelForId="event"
-            [items]="events()"
-            [placeholder]="'Event select' | transloco"
           />
         </div>
       </form>
 
       <div class="d-inline-flex gap-2">
-        <button type="button" class="btn btn-primary" [disabled]="!isValid()" (click)="maxiService.state.start()">Start Test</button>
-        <button type="button" class="btn btn-danger" [disabled]="!maxiService.state.currentSession()" (click)="maxiService.state.end()">
+        <button class="btn btn-primary" [disabled]="!isValid()" (click)="maxiService.state.start()" type="button">Start Test</button>
+        <button class="btn btn-danger" [disabled]="!maxiService.state.currentSession()" (click)="maxiService.state.end()" type="button">
           End Test
         </button>
-        <button type="button" class="btn btn-info d-inline-flex gap-2">
+        <button class="btn btn-info d-inline-flex gap-2" type="button">
           <span>Status: {{ maxiService.state.currentSession() ? 'Running' : 'Stopped' }}</span>
         </button>
       </div>
 
-      <ul #nav="ngbNav" ngbNav class="nav-tabs" [activeId]="maxiService.state.activeTab()">
+      <ul class="nav-tabs" #nav="ngbNav" [activeId]="maxiService.state.activeTab()" ngbNav>
         <li [ngbNavItem]="'CREATE'">
           <button type="button" ngbNavLink>Neuer Test</button>
           <ng-template ngbNavContent>
@@ -64,10 +65,10 @@ import {EventsService} from '../home/_admin/events/_services/events.service';
               @if (maxiService.state.currentSession(); as session) {
                 <div class="d-flex align-items-center gap-2">
                   <button
-                    type="button"
                     class="btn btn-sm"
                     [class.btn-success]="session.successRate === 100"
                     [class.btn-danger]="session.successRate !== 100"
+                    type="button"
                   >
                     Success rate: {{ session.successRate }}%
                   </button>
@@ -82,7 +83,10 @@ import {EventsService} from '../home/_admin/events/_services/events.service';
               <span>Versuche: {{ maxiService.state.currentSessionOrders().length }}</span>
               <ul>
                 @for (order of maxiService.state.currentSessionOrders(); track order.id) {
-                  <li>{{ order.success | activated }} {{ order.id }} {{ order.sent | date: 'dd.MM. HH:mm:ss:SSS' }}</li>
+                  <li>
+                    {{ order.success | activated }} {{ order.id }}
+                    {{ order.sent | date: 'dd.MM. HH:mm:ss:SSS' }}
+                  </li>
                 }
               </ul>
             </div>
@@ -92,7 +96,7 @@ import {EventsService} from '../home/_admin/events/_services/events.service';
           <li [ngbNavItem]="session.id">
             <button ngbNavLink type="button">
               Test - {{ session.id }}
-              <button type="button" class="btn-close ms-3 fw-light" (click)="close($event, session.id)">
+              <button class="btn-close ms-3 fw-light" (click)="close($event, session.id)" type="button">
                 <span class="visually-hidden">Remove test</span>
               </button>
             </button>
@@ -100,10 +104,10 @@ import {EventsService} from '../home/_admin/events/_services/events.service';
               <div class="d-flex flex-column gap-3">
                 <div class="d-flex align-items-center gap-2">
                   <button
-                    type="button"
                     class="btn btn-sm"
                     [class.btn-success]="session.successRate === 100"
                     [class.btn-danger]="session.successRate !== 100"
+                    type="button"
                   >
                     Success rate: {{ session.successRate }}%
                   </button>
@@ -127,7 +131,10 @@ import {EventsService} from '../home/_admin/events/_services/events.service';
 
                 <ul>
                   @for (order of session.orders; track order.id) {
-                    <li>{{ order.success | activated }} {{ order.id }} {{ order.sent | date: 'dd.MM. HH:mm:ss:SSS' }}</li>
+                    <li>
+                      {{ order.success | activated }} {{ order.id }}
+                      {{ order.sent | date: 'dd.MM. HH:mm:ss:SSS' }}
+                    </li>
                   }
                 </ul>
               </div>
@@ -173,7 +180,9 @@ export class MaxiComponent {
 
   events = toSignal(inject(EventsService).getAll$(), {initialValue: []});
 
-  localDate = toSignal(interval(1000).pipe(map(() => new Date())), {initialValue: new Date()});
+  localDate = toSignal(interval(1000).pipe(map(() => new Date())), {
+    initialValue: new Date(),
+  });
 
   close(event: MouseEvent, toRemove: number): void {
     event.preventDefault();

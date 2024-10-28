@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {Router, RouterLink, RouterOutlet} from '@angular/router';
+
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbNav, NgbNavItem, NgbNavLink} from '@ng-bootstrap/ng-bootstrap';
 
@@ -8,7 +9,7 @@ import {NgbNav, NgbNavItem, NgbNavLink} from '@ng-bootstrap/ng-bootstrap';
     <h1 class="mb-3">{{ 'RECYCLE_BIN' | transloco }}</h1>
 
     <div class="nav-x-scroll">
-      <ul ngbNav class="nav-tabs mb-3" [activeId]="activeId">
+      <ul class="nav-tabs mb-3" [activeId]="activeId" ngbNav>
         <li ngbNavItem="products">
           <a ngbNavLink routerLink="products">{{ 'HOME_PROD_ALL' | transloco }}</a>
         </li>

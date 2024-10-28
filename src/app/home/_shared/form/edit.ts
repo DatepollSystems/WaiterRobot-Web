@@ -1,9 +1,10 @@
 import {Location} from '@angular/common';
-import {inject, signal, Signal} from '@angular/core';
+import {Signal, inject, signal} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {derivedFrom} from 'ngxtension/derived-from';
 
 import {map, startWith, tap} from 'rxjs';
+
+import {derivedFrom} from 'ngxtension/derived-from';
 
 import {injectConfirmDialog} from '../components/question-dialog.component';
 import {AbstractModelEditFormComponent} from './abstract-model-edit-form.component';
@@ -47,10 +48,10 @@ export function injectContinuousCreation<CreateDTOType, UpdateDTOType>(options: 
 
     if ((continuousUsePropertyNames?.length ?? 0) > 0) {
       console.info('checkContinuousCreation - continuous use properties found trying to reseed them');
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      for (const modelKeyValuePairs of Object.keys(dto as Record<string, never>).map((key) => [String(key), dto[key]])) {
+      for (const modelKeyValuePairs of Object.keys(
+        dto as Record<string, never>,
+        // @ts-expect-error
+      ).map((key) => [String(key), dto[key]])) {
         if (continuousUsePropertyNames?.includes(modelKeyValuePairs[0] as keyof CreateDTOType | keyof UpdateDTOType | string)) {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const control = modelKeyValuePairs[0];

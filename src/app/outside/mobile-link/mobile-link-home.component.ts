@@ -11,7 +11,7 @@ import {AppDownloadBtnListComponent} from '@shared/ui/app-download-btn-list.comp
     <p>{{ 'MOBILE_LINK' | transloco }}</p>
     <app-download-btn-list [showQRCodeButton]="false" />
     <div class="mt-3">
-      <a routerLink="/" class="btn btn-light btn-sm w-100">{{ 'GO_BACK' | transloco }}</a>
+      <a class="btn btn-light btn-sm w-100" routerLink="/">{{ 'GO_BACK' | transloco }}</a>
     </div>
   `,
   standalone: true,

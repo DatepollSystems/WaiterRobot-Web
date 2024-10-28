@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 
-import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
-
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {loggerOf} from 'dfts-helper';
 import {BiComponent, BiName} from 'dfx-bootstrap-icons';
 
@@ -16,7 +15,7 @@ import {BiComponent, BiName} from 'dfx-bootstrap-icons';
           {{ question() | transloco }}
         }
       </h1>
-      <button type="button" class="btn-close btn-close-white" aria-label="Close" (mousedown)="activeModal.close()"></button>
+      <button class="btn-close btn-close-white" (mousedown)="activeModal.close()" type="button" aria-label="Close"></button>
     </div>
     <div class="modal-body py-0">
       @if (info(); as info) {
@@ -26,9 +25,11 @@ import {BiComponent, BiName} from 'dfx-bootstrap-icons';
       }
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (mousedown)="activeModal.close()">{{ 'CLOSE' | transloco }}</button>
+      <button class="btn btn-outline-secondary" (mousedown)="activeModal.close()" type="button">
+        {{ 'CLOSE' | transloco }}
+      </button>
       @for (answer of answers(); track answer.value) {
-        <button class="btn btn-outline-secondary" type="button" (click)="answerQuestion(answer.value)">
+        <button class="btn btn-outline-secondary" (click)="answerQuestion(answer.value)" type="button">
           @if (answer.icon) {
             <bi [name]="answer.icon" />
           }
@@ -85,7 +86,10 @@ export function injectConfirmDialog(): (title: string, info?: string) => Promise
   const modal = inject(NgbModal);
 
   return (title: string, info?: string): Promise<boolean> => {
-    const modalRef = modal.open(QuestionDialogComponent, {ariaLabelledBy: 'modal-question-title', size: 'md'});
+    const modalRef = modal.open(QuestionDialogComponent, {
+      ariaLabelledBy: 'modal-question-title',
+      size: 'md',
+    });
     modalRef.componentInstance.title.set(title);
     modalRef.componentInstance.info.set(info);
 

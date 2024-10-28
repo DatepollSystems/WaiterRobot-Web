@@ -1,9 +1,12 @@
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-import {computed, signal, Signal} from '@angular/core';
-import {EntityOrderDto, IdResponse} from '@shared/waiterrobot-backend';
+import {Signal, computed, signal} from '@angular/core';
+
+import {Observable} from 'rxjs';
+
 import {IHasNumberID} from 'dfts-helper';
 import {NgbTableDataSource} from 'dfx-bootstrap-table';
-import {Observable} from 'rxjs';
+
+import {EntityOrderDto, IdResponse} from '@shared/waiterrobot-backend';
 
 export function injectTableOrder<EntityType extends IHasNumberID>({
   onOrderingChange,

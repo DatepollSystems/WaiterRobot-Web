@@ -7,10 +7,11 @@ import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continu
 import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
 import {injectContinuousCreation, injectOnDelete} from '@home-shared/form/edit';
+
 import {injectOnSubmit} from '@shared/form';
+import {SelectedEventService} from '@shared/services/selected-event.service';
 import {GetProductGroupResponse} from '@shared/waiterrobot-backend';
 
-import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 import {PrintersService} from '../../printers/_services/printers.service';
 import {ProductGroupsService} from '../_services/product-groups.service';
 import {ProductGroupEditFormComponent} from './product-group-edit-form.component';
@@ -28,7 +29,7 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
 
           <ng-container *isEditingAndNotDeleted="entity">
             <div>
-              <button type="button" class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)">
+              <button class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)" type="button">
                 <bi name="trash" />
                 {{ 'DELETE' | transloco }}
               </button>
@@ -42,20 +43,20 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
             </div>
 
             <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../orders" [queryParams]="{productGroupIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" [queryParams]="{productGroupIds: entity.id}" routerLink="../../orders">
                 <bi name="stack" />
                 {{ 'NAV_ORDERS' | transloco }}
               </a>
             </div>
             <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../bills" [queryParams]="{productGroupIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" [queryParams]="{productGroupIds: entity.id}" routerLink="../../bills">
                 <bi name="cash-coin" />
                 {{ 'NAV_BILLS' | transloco }}
               </a>
             </div>
           </ng-container>
 
-          <div *isCreating="entity" class="d-flex align-items-center">
+          <div class="d-flex align-items-center" *isCreating="entity">
             <app-continues-creation-switch (continuesCreationChange)="continuousCreation.set($event)" />
           </div>
         </scrollable-toolbar>
@@ -81,15 +82,17 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
   imports: [RouterLink, AppEntityEditModule, AppContinuesCreationSwitchComponent, ProductGroupEditFormComponent, AppDeletedDirectives],
 })
 export class ProductGroupEditComponent extends AbstractModelEditComponent<GetProductGroupResponse> {
+  #productGroupsService = inject(ProductGroupsService);
+
   onDelete = injectOnDelete((it: number) =>
-    this.productGroupsService.delete$(it).subscribe(() => this.productGroupsService.triggerGet$.next(true)),
+    this.#productGroupsService.delete$(it).subscribe(() => this.#productGroupsService.triggerGet$.next(true)),
   );
   continuousCreation = injectContinuousCreation({
     formComponent: this.form,
     continuousUsePropertyNames: ['eventId'],
   });
   onSubmit = injectOnSubmit({
-    entityService: this.productGroupsService,
+    entityService: this.#productGroupsService,
     continuousCreation: {
       enabled: this.continuousCreation.enabled,
       patch: this.continuousCreation.patch,
@@ -99,7 +102,7 @@ export class ProductGroupEditComponent extends AbstractModelEditComponent<GetPro
   printers = toSignal(inject(PrintersService).getAll$(), {initialValue: []});
   selectedEventId = inject(SelectedEventService).selectedId;
 
-  constructor(private productGroupsService: ProductGroupsService) {
+  constructor(productGroupsService: ProductGroupsService) {
     super(productGroupsService);
   }
 }

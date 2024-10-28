@@ -1,9 +1,9 @@
 import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
-
-import {UpdateEmailDto, UpdatePasswordDto} from '@shared/waiterrobot-backend';
+import {Injectable, inject} from '@angular/core';
 
 import {Observable} from 'rxjs';
+
+import {UpdateEmailDto, UpdatePasswordDto} from '@shared/waiterrobot-backend';
 
 @Injectable({providedIn: 'root'})
 export class UserSettingsService {

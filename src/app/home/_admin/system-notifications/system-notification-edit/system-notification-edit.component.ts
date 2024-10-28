@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 
 import {injectOnSubmit} from '../../../../_shared/form';
 import {GetSystemNotificationResponse} from '../../../../_shared/waiterrobot-backend';
@@ -19,7 +19,7 @@ import {SystemNotificationEditFormComponent} from './system-notification-edit-fo
           <back-button />
 
           <div *isEditing="entity">
-            <button type="button" class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)">
+            <button class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)" type="button">
               <bi name="trash" />
               {{ 'DELETE' | transloco }}
             </button>
@@ -44,10 +44,12 @@ import {SystemNotificationEditFormComponent} from './system-notification-edit-fo
   standalone: true,
 })
 export class SystemNotificationEditComponent extends AbstractModelEditComponent<GetSystemNotificationResponse> {
-  onDelete = injectOnDelete((it: number) => this.systemNotificationsService.delete$(it).subscribe());
-  onSubmit = injectOnSubmit({entityService: this.systemNotificationsService});
+  #systemNotificationsService = inject(SystemNotificationsService);
 
-  constructor(private systemNotificationsService: SystemNotificationsService) {
+  onDelete = injectOnDelete((it: number) => this.#systemNotificationsService.delete$(it).subscribe());
+  onSubmit = injectOnSubmit({entityService: this.#systemNotificationsService});
+
+  constructor(systemNotificationsService: SystemNotificationsService) {
     super(systemNotificationsService);
   }
 }

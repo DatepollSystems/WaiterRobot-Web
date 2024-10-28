@@ -1,13 +1,13 @@
 import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
-import {CreateUserDto, GetUserResponse, IdResponse, UpdateUserDto} from '@shared/waiterrobot-backend';
+import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
 
 import {s_from} from 'dfts-helper';
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
 
-import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
+import {CreateUserDto, GetUserResponse, IdResponse, UpdateUserDto} from '@shared/waiterrobot-backend';
 
 @Injectable({providedIn: 'root'})
 export class UsersService

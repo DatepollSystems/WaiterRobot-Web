@@ -1,9 +1,11 @@
 import {HttpErrorResponse} from '@angular/common/http';
-import {computed, effect, inject, Signal, signal, WritableSignal} from '@angular/core';
+import {Signal, WritableSignal, computed, effect, inject, signal} from '@angular/core';
 import {Router} from '@angular/router';
+
+import {Observable, catchError, debounceTime, of, pipe, switchMap} from 'rxjs';
+
 import {NgbPaginator, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {derivedFrom} from 'ngxtension/derived-from';
-import {catchError, debounceTime, Observable, of, pipe, switchMap} from 'rxjs';
 
 type SortingDataAccessorsMap<EntityType> = (it: EntityType) => string | number;
 type SortingDataAccessors<EntityType> = Record<string, SortingDataAccessorsMap<EntityType>>;

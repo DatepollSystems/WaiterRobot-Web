@@ -1,12 +1,15 @@
 import {Component} from '@angular/core';
+
 import {TranslocoPipe} from '@jsverse/transloco';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxHideIfOffline, DfxHideIfPingSucceeds} from 'dfx-helper';
 
+import {EnvironmentHelper} from '@shared/EnvironmentHelper';
+
 @Component({
   template: `
     <div hideIfOffline>
-      <div hideIfPingSucceeds url="/json" refreshTime="20">
+      <div hideIfPingSucceeds url="{{ apiUrl }}/v1/json" refreshTime="20">
         <div class="alert alert-warning" role="alert">
           <div class="d-flex gap-3 align-items-center">
             <bi name="exclamation-triangle-fill" />
@@ -31,4 +34,6 @@ import {DfxHideIfOffline, DfxHideIfPingSucceeds} from 'dfx-helper';
   selector: 'app-maintenance-warning',
   imports: [DfxHideIfOffline, DfxHideIfPingSucceeds, BiComponent, TranslocoPipe],
 })
-export class MaintenanceWarningComponent {}
+export class MaintenanceWarningComponent {
+  apiUrl = EnvironmentHelper.getAPIUrl();
+}

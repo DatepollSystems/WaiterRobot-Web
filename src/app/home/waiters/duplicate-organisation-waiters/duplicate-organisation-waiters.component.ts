@@ -1,15 +1,17 @@
 import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
+
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {injectTable, injectTableFilter} from '@home-shared/list';
 
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
 
 @Component({
@@ -19,20 +21,20 @@ import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
 
       <scrollable-toolbar>
         <div>
-          <a routerLink="../" class="btn btn-sm btn-outline-secondary">{{ 'GO_BACK' | transloco }}</a>
+          <a class="btn btn-sm btn-outline-secondary" routerLink="../">{{ 'GO_BACK' | transloco }}</a>
         </div>
       </scrollable-toolbar>
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
+          <input class="form-control ml-2" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" type="text" />
           @if (filter.isActive()) {
             <button
               class="btn btn-outline-secondary"
-              type="button"
-              placement="bottom"
               [ngbTooltip]="'CLEAR' | transloco"
               (mousedown)="filter.reset()"
+              type="button"
+              placement="bottom"
             >
               <bi name="x-circle-fill" />
             </button>
@@ -42,21 +44,29 @@ import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
 
       @if (table.dataSource(); as dataSource) {
         <div class="table-responsive">
-          <table ngb-table ngb-sort [hover]="true" [dataSource]="dataSource">
+          <table [hover]="true" [dataSource]="dataSource" ngb-table ngb-sort>
             <ng-container ngbColumnDef="name">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
-              <td *ngbCellDef="let duplicateWaiter" ngb-cell>{{ duplicateWaiter.name }}</td>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'NAME' | transloco }}
+              </th>
+              <td *ngbCellDef="let duplicateWaiter" ngb-cell>
+                {{ duplicateWaiter.name }}
+              </td>
             </ng-container>
 
             <ng-container ngbColumnDef="count">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'COUNT' | transloco }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'COUNT' | transloco }}
+              </th>
               <td *ngbCellDef="let duplicateWaiter" ngb-cell>
                 {{ duplicateWaiter.waiters.length }}
               </td>
             </ng-container>
 
             <ng-container ngbColumnDef="actions">
-              <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell>
+                {{ 'ACTIONS' | transloco }}
+              </th>
               <td *ngbCellDef="let duplicateWaiter" ngb-cell>
                 <a
                   class="btn btn-sm m-1 btn-outline-danger"
@@ -70,10 +80,10 @@ import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
 
             <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
             <tr
-              *ngbRowDef="let duplicateWaiter; columns: table.columnsToDisplay()"
-              ngb-row
               class="clickable"
+              *ngbRowDef="let duplicateWaiter; columns: table.columnsToDisplay()"
               [routerLink]="'./merge/&quot;' + duplicateWaiter.name + '&quot;'"
+              ngb-row
             ></tr>
           </table>
         </div>

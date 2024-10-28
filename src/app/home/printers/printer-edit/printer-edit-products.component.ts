@@ -1,20 +1,21 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, Input, viewChild} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
-
-import {GetProductMinResponse} from '@shared/waiterrobot-backend';
-
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
+
+import {GetProductMinResponse} from '@shared/waiterrobot-backend';
 
 @Component({
   template: `
     <div class="table-responsive">
-      <table ngb-table ngb-sort ngbSortActive="name" ngbSortDirection="asc" [hover]="true" [dataSource]="_products">
+      <table [hover]="true" [dataSource]="_products" ngb-table ngb-sort ngbSortActive="name" ngbSortDirection="asc">
         <ng-container ngbColumnDef="name">
-          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+            {{ 'NAME' | transloco }}
+          </th>
           <td *ngbCellDef="let product" ngb-cell>{{ product.name }}</td>
         </ng-container>
 
@@ -33,10 +34,10 @@ import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bo
 
         <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
         <tr
-          *ngbRowDef="let product; columns: columnsToDisplay"
-          ngb-row
           class="clickable"
+          *ngbRowDef="let product; columns: columnsToDisplay"
           [routerLink]="'../../products/p/' + product.id"
+          ngb-row
         ></tr>
       </table>
     </div>

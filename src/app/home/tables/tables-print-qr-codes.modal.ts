@@ -1,46 +1,50 @@
 import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 
-import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-import {MobileLinkService} from '@home-shared/services/mobile-link.service';
-import {NgbActiveModal, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
-import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
+import {delay, of} from 'rxjs';
 
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbActiveModal, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
 import {d_formatWithHoursMinutesAndSeconds} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {QRCodeComponent} from 'dfx-qrcode';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
-import {delay, of} from 'rxjs';
+
+import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+import {MobileLinkService} from '@home-shared/services/mobile-link.service';
+
+import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
 @Component({
   template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="app-tables-qr-codes-title">{{ 'HOME_TABLE_PRINT_TITLE' | transloco }}</h4>
-      <button type="button" class="btn-close btn-close-white" aria-label="Close" (mousedown)="activeModal.dismiss()"></button>
+      <h4 class="modal-title" id="app-tables-qr-codes-title">
+        {{ 'HOME_TABLE_PRINT_TITLE' | transloco }}
+      </h4>
+      <button class="btn-close btn-close-white" (mousedown)="activeModal.dismiss()" type="button" aria-label="Close"></button>
     </div>
     <div class="modal-body d-flex flex-column gap-3">
       <scrollable-toolbar>
         <div>
-          <button type="button" class="btn btn-sm btn-primary" [class.btnSpinner]="generating" [disabled]="generating" (click)="pdf()">
+          <button class="btn btn-sm btn-primary" [class.btnSpinner]="generating" [disabled]="generating" (click)="pdf()" type="button">
             <bi name="printer" />
             {{ 'HOME_TABLE_PRINT_GENERATE' | transloco }}
           </button>
         </div>
 
         <div class="btn-group flex-wrap" role="group" aria-label="QRCode size">
-          <button type="button" class="btn btn-sm btn-outline-secondary" [class.active]="qrCodeSize === 'SM'" (click)="qrCodeSize = 'SM'">
+          <button class="btn btn-sm btn-outline-secondary" [class.active]="qrCodeSize === 'SM'" (click)="qrCodeSize = 'SM'" type="button">
             {{ 'HOME_TABLE_PRINT_SM' | transloco }}
           </button>
-          <button type="button" class="btn btn-sm btn-outline-secondary" [class.active]="qrCodeSize === 'MD'" (click)="qrCodeSize = 'MD'">
+          <button class="btn btn-sm btn-outline-secondary" [class.active]="qrCodeSize === 'MD'" (click)="qrCodeSize = 'MD'" type="button">
             {{ 'HOME_TABLE_PRINT_MD' | transloco }}
           </button>
         </div>
       </scrollable-toolbar>
 
       @if (progress(); as progress) {
-        <ngb-progressbar type="primary" class="my-2" textType="white" [value]="progress" [max]="100" [showValue]="true" />
+        <ngb-progressbar class="my-2" [value]="progress" [max]="100" [showValue]="true" type="primary" textType="white" />
       }
 
       <div class="alert alert-info mb-2" role="alert">Deaktiviere mögliche Seitenränder beim drucken.</div>
@@ -54,8 +58,6 @@ import {delay, of} from 'rxjs';
           @for (mytable of tables(); track mytable.id) {
             <div class="qr-code-item">
               <qrcode
-                cssClass="text-center"
-                elementType="canvas"
                 [imageSrc]="qrCodeSize === 'MD' ? '/assets/mono.png' : undefined"
                 [imageWidth]="70"
                 [imageHeight]="70"
@@ -63,6 +65,8 @@ import {delay, of} from 'rxjs';
                 [errorCorrectionLevel]="qrCodeSize === 'MD' ? 'H' : 'M'"
                 [margin]="0"
                 [data]="parser(mytable)"
+                cssClass="text-center"
+                elementType="canvas"
               />
 
               <div class="text-center text-black qr-code-label">
@@ -74,7 +78,9 @@ import {delay, of} from 'rxjs';
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (mousedown)="activeModal.close()">{{ 'CLOSE' | transloco }}</button>
+      <button class="btn btn-outline-secondary" (mousedown)="activeModal.close()" type="button">
+        {{ 'CLOSE' | transloco }}
+      </button>
     </div>
   `,
   styles: `
@@ -131,7 +137,10 @@ export class TablesPrintQrCodesModal {
     for (let i = 0; i < qrCodeDivs.length; i++) {
       const qrcode = qrCodeDivs.item(i);
       if (qrcode) {
-        const canvas = await toJpeg(qrcode as HTMLElement, {quality: 0.7, backgroundColor: '#FFFFFF'});
+        const canvas = await toJpeg(qrcode as HTMLElement, {
+          quality: 0.7,
+          backgroundColor: '#FFFFFF',
+        });
 
         pdf.addImage(canvas, 'JPEG', x, y, width, width);
         x += width;

@@ -1,35 +1,37 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
+import {BiComponent} from 'dfx-bootstrap-icons';
+
 import {AppDatetimeInputComponent} from '@home-shared/components/datetime-picker/datetime-picker.component';
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
-import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
 import {injectIsValid} from '@shared/form';
 import {CreateBillUnpaidReasonDto, GetBillUnpaidReasonResponse, UpdateBillUnpaidReasonDto} from '@shared/waiterrobot-backend';
-
-import {BiComponent} from 'dfx-bootstrap-icons';
 
 @Component({
   template: `
     @if (isValid()) {}
 
-    <form #formRef class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="submit()">
+    <form class="d-flex flex-column gap-3" #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-sm-row gap-4 gap-md-3 flex-wrap">
         <div class="form-group flex-fill">
           <label for="reason">{{ 'HOME_BILL_UNPAID_REASON_REASON' | transloco }}</label>
           <input
             class="form-control"
+            [placeholder]="'HOME_BILL_UNPAID_REASON_REASON' | transloco"
             formControlName="reason"
             name="reason"
             type="text"
-            [placeholder]="'HOME_BILL_UNPAID_REASON_REASON' | transloco"
           />
 
           @if (form.controls.reason.invalid) {
-            <small class="text-danger"> {{ 'HOME_BILL_UNPAID_REASON_REASON_INVALID' | transloco }} </small>
+            <small class="text-danger">
+              {{ 'HOME_BILL_UNPAID_REASON_REASON_INVALID' | transloco }}
+            </small>
           }
         </div>
 
@@ -37,14 +39,16 @@ import {BiComponent} from 'dfx-bootstrap-icons';
           <label for="description">{{ 'HOME_BILL_UNPAID_REASON_DESCRIPTION' | transloco }}</label>
           <input
             class="form-control"
+            [placeholder]="'HOME_BILL_UNPAID_REASON_DESCRIPTION' | transloco"
             formControlName="description"
             name="description"
             type="text"
-            [placeholder]="'HOME_BILL_UNPAID_REASON_DESCRIPTION' | transloco"
           />
 
           @if (form.controls.description.invalid) {
-            <small class="text-danger"> {{ 'HOME_BILL_UNPAID_REASON_DESCRIPTION_INVALID' | transloco }} </small>
+            <small class="text-danger">
+              {{ 'HOME_BILL_UNPAID_REASON_DESCRIPTION_INVALID' | transloco }}
+            </small>
           }
         </div>
       </div>

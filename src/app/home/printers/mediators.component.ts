@@ -1,16 +1,18 @@
 import {DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
-import {BlankslateComponent} from '@home-shared/components/blankslate.component';
-import {injectTable, injectTableFilter} from '@home-shared/list';
+
 import {TranslocoPipe} from '@jsverse/transloco';
-
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
+
+import {BlankslateComponent} from '@home-shared/components/blankslate.component';
+import {injectTable, injectTableFilter} from '@home-shared/list';
+
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+
 import {MediatorsService} from './_services/mediators.service';
 
 @Component({
@@ -20,14 +22,14 @@ import {MediatorsService} from './_services/mediators.service';
 
       <form>
         <div class="input-group">
-          <input class="form-control ml-2" type="text" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" />
+          <input class="form-control ml-2" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" type="text" />
           @if (filter.isActive()) {
             <button
               class="btn btn-outline-secondary"
-              type="button"
-              placement="bottom"
               [ngbTooltip]="'CLEAR' | transloco"
               (click)="filter.reset()"
+              type="button"
+              placement="bottom"
             >
               <bi name="x-circle-fill" />
             </button>
@@ -37,30 +39,42 @@ import {MediatorsService} from './_services/mediators.service';
 
       @if (table.dataSource(); as dataSource) {
         <div class="table-responsive">
-          <table ngb-table ngb-sort [hover]="true" [dataSource]="dataSource">
+          <table [hover]="true" [dataSource]="dataSource" ngb-table ngb-sort>
             <ng-container ngbColumnDef="id">
               <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
               <td *ngbCellDef="let mediator" ngb-cell>{{ mediator.id }}</td>
             </ng-container>
 
             <ng-container ngbColumnDef="name">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'NAME' | transloco }}
+              </th>
               <td *ngbCellDef="let mediator" ngb-cell>{{ mediator.name }}</td>
             </ng-container>
 
             <ng-container ngbColumnDef="active">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ACTIVE' | transloco }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'ACTIVE' | transloco }}
+              </th>
               <td *ngbCellDef="let mediator" ngb-cell>{{ mediator.active }}</td>
             </ng-container>
 
             <ng-container ngbColumnDef="lastContact">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'LAST_CONTACT' | transloco }}</th>
-              <td *ngbCellDef="let mediator" ngb-cell>{{ mediator.lastContact | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'LAST_CONTACT' | transloco }}
+              </th>
+              <td *ngbCellDef="let mediator" ngb-cell>
+                {{ mediator.lastContact | date: 'dd.MM.YYYY HH:mm:ss' }}
+              </td>
             </ng-container>
 
             <ng-container ngbColumnDef="printers">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_PRINTERS' | transloco }}</th>
-              <td *ngbCellDef="let mediator" ngb-cell>{{ mediator.printers | a_mapName | s_implode: ', ' : 20 : '...' }}</td>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'NAV_PRINTERS' | transloco }}
+              </th>
+              <td *ngbCellDef="let mediator" ngb-cell>
+                {{ mediator.printers | a_mapName | s_implode: ', ' : 20 : '...' }}
+              </td>
             </ng-container>
 
             <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
@@ -69,7 +83,7 @@ import {MediatorsService} from './_services/mediators.service';
         </div>
       }
       @if (table.isEmpty()) {
-        <app-blankslate icon="wifi-off" [description]="'Keine Mediators verbunden'">
+        <app-blankslate [description]="'Keine Mediators verbunden'" icon="wifi-off">
           <a class="btn btn-success" type="button" href="https://help.kellner.team/desktop.html" rel="noopener" target="_blank">
             {{ 'LEARN_MORE' | transloco }}
           </a>

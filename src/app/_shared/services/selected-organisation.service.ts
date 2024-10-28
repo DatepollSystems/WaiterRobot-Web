@@ -1,32 +1,38 @@
-import {HttpClient} from '@angular/common/http';
-import {computed, inject, Injectable, signal} from '@angular/core';
+import {Injectable, computed, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 
-import {GetOrganisationResponse} from '@shared/waiterrobot-backend';
+import {BehaviorSubject, catchError, filter, map, merge, of, switchMap} from 'rxjs';
 
 import {n_fromStorage, notNullAndUndefined, st_set} from 'dfts-helper';
-
 import {connect} from 'ngxtension/connect';
 
-import {BehaviorSubject, catchError, filter, map, merge, of, switchMap} from 'rxjs';
+import {BackendType, injectAPI} from '@shared/api';
 
 interface SelectedOrganisationState {
   status: 'UNSET' | 'LOADING' | 'LOADED';
   selectedId?: number;
-  selected?: GetOrganisationResponse;
+  selected?: BackendType['GetOrganisationResponse'];
 }
 
 export const selectedOrganisationRouteParamKey = 'soId';
 
 @Injectable({providedIn: 'root'})
 export class SelectedOrganisationService {
-  private httpClient = inject(HttpClient);
+  #api = injectAPI();
 
   private selectedIdChange$ = new BehaviorSubject<number | undefined>(n_fromStorage(selectedOrganisationRouteParamKey));
 
   private selectedLoaded$ = this.selectedIdChange$.pipe(
     filter(notNullAndUndefined),
-    switchMap((organisationId) => this.httpClient.get<GetOrganisationResponse>(`/config/organisation/${organisationId}`)),
+    switchMap((id) =>
+      this.#api.get('/v1/config/organisation/{id}', {
+        params: {
+          path: {
+            id,
+          },
+        },
+      }),
+    ),
     catchError(() => of(undefined)),
   );
 
@@ -59,6 +65,4 @@ export class SelectedOrganisationService {
 
   selectedId$ = toObservable(this.selectedId);
   selectedIdNotNull$ = this.selectedId$.pipe(filter(notNullAndUndefined));
-  selected$ = toObservable(this.selected);
-  selectedNotNull$ = this.selected$.pipe(filter(notNullAndUndefined));
 }

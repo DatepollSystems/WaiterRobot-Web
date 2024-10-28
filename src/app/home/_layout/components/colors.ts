@@ -8,7 +8,13 @@ export function s_toColor(str: string): string {
   // Take the remainder of hash divided by the length of colorList
   const index = Math.abs(hash) % colors.length;
 
-  return colors[index];
+  const color = colors[index];
+
+  if (!color) {
+    throw 'Unknown color';
+  }
+
+  return color;
 }
 
 const colors = [

@@ -1,4 +1,4 @@
-import {computed, effect, Injectable, signal} from '@angular/core';
+import {Injectable, computed, effect, signal} from '@angular/core';
 
 import {BiName} from 'dfx-bootstrap-icons';
 
@@ -18,7 +18,7 @@ export class ThemeService {
     {id: 'dark', name: 'Dark', icon: 'moon-stars-fill'},
   ];
 
-  private _selectedTheme = signal<Theme>(this.themes[0]);
+  private _selectedTheme = signal<Theme>(this.themes[0]!);
   public selectedTheme = computed(() => this._selectedTheme());
 
   currentTheme = computed(() => {
@@ -43,9 +43,9 @@ export class ThemeService {
 
   getPreferredTheme(): Theme {
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return this.themes[2];
+      return this.themes[2]!;
     } else {
-      return this.themes[1];
+      return this.themes[1]!;
     }
   }
 

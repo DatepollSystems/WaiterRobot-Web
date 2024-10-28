@@ -1,16 +1,19 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {systemColors} from '@shared/system-colors';
 import {NgClass, UpperCasePipe} from '@angular/common';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+
 import {AppAdjustDarkModeColor} from '@home-shared/components/color/app-adjust-dark-mode-color.pipe';
 import {AppIsLightColorPipe} from '@home-shared/components/color/app-is-light-color.pipe';
+
 import {ThemeService} from '@shared/services/theme.service';
+import {systemColors} from '@shared/system-colors';
 
 @Component({
   template: `
     <div class="modal-header">
       <h4 class="modal-title" id="modal-system-colors">System Colors</h4>
-      <button type="button" class="btn-close btn-close-white" aria-label="Close" (mousedown)="activeModal.close(undefined)"></button>
+      <button class="btn-close btn-close-white" (mousedown)="activeModal.close(undefined)" type="button" aria-label="Close"></button>
     </div>
     <div class="modal-body">
       <table style="border-width: 0">

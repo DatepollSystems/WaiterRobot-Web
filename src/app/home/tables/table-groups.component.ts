@@ -2,29 +2,30 @@ import {CdkDrag, CdkDragHandle, CdkDropList} from '@angular/cdk/drag-drop';
 import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
+import {StopPropagationDirective} from 'dfx-helper';
+
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 import {AppResetOrderButtonComponent} from '@home-shared/components/button/app-reset-order-button.component';
-
 import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {AppOrderModeSwitchComponent} from '@home-shared/form/app-order-mode-switch.component';
 import {
+  ListFilterComponent,
   injectTable,
   injectTableDelete,
   injectTableFilter,
   injectTableOrder,
   injectTableSelect,
-  ListFilterComponent,
 } from '@home-shared/list';
 import {listOrderStyles} from '@home-shared/list/list-order-styles';
 import {mapName} from '@home-shared/name-map';
-import {TranslocoPipe} from '@jsverse/transloco';
-import {NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
-import {StopPropagationDirective} from 'dfx-helper';
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
 import {TableGroupsService} from './_services/table-groups.service';
 
@@ -35,17 +36,17 @@ import {TableGroupsService} from './_services/table-groups.service';
 
       <scrollable-toolbar>
         <div>
-          <a routerLink="../create" class="btn btn-sm btn-success">
+          <a class="btn btn-sm btn-success" routerLink="../create">
             <bi name="plus-circle" />
             {{ 'ADD_2' | transloco }}</a
           >
         </div>
         <div [ngbTooltip]="!selection.hasValue() ? ('HOME_TABLE_GROUP_SELECT_INFO' | transloco) : undefined">
           <button
-            type="button"
             class="btn btn-sm btn-danger"
             [class.disabled]="!selection.hasValue()"
             (mousedown)="delete.onDeleteSelected()"
+            type="button"
           >
             <bi name="trash" />
             {{ 'DELETE' | transloco }}
@@ -66,16 +67,16 @@ import {TableGroupsService} from './_services/table-groups.service';
       @if (table.dataSource(); as dataSource) {
         <div class="table-responsive">
           <table
-            ngb-table
-            ngb-sort
-            cdkDropList
-            cdkDropListLockAxis="y"
             [hover]="true"
             [dataSource]="dataSource"
             [ngbSortDisabled]="order.isOrdering()"
             [cdkDropListData]="dataSource.data"
             [cdkDropListDisabled]="!order.isOrdering()"
             (cdkDropListDropped)="order.drop($event)"
+            ngb-table
+            ngb-sort
+            cdkDropList
+            cdkDropListLockAxis="y"
           >
             <ng-container ngbColumnDef="select">
               <th *ngbHeaderCellDef ngb-header-cell style="width: 25px">
@@ -83,27 +84,27 @@ import {TableGroupsService} from './_services/table-groups.service';
                   <div class="form-check">
                     <input
                       class="form-check-input"
-                      type="checkbox"
-                      name="checked"
                       [checked]="selection.isAllSelected()"
                       (change)="selection.toggleAll()"
+                      type="checkbox"
+                      name="checked"
                     />
                   </div>
                 }
               </th>
               <td *ngbCellDef="let selectable" ngb-cell stopPropagation>
                 @if (order.isOrdering()) {
-                  <button type="button" class="btn btn-sm btn-outline-primary text-body-emphasis" cdkDragHandle>
+                  <button class="btn btn-sm btn-outline-primary text-body-emphasis" type="button" cdkDragHandle>
                     <bi name="grip-vertical" />
                   </button>
                 } @else {
                   <div class="form-check">
                     <input
                       class="form-check-input"
-                      type="checkbox"
-                      name="checked"
                       [checked]="selection.isSelected(selectable)"
                       (change)="selection.toggle(selectable, !selection.isSelected(selectable))"
+                      type="checkbox"
+                      name="checked"
                     />
                   </div>
                 }
@@ -111,14 +112,18 @@ import {TableGroupsService} from './_services/table-groups.service';
             </ng-container>
 
             <ng-container ngbColumnDef="position">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header style="width: 20px">{{ 'POSITION' | transloco }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header style="width: 20px">
+                {{ 'POSITION' | transloco }}
+              </th>
               <td *ngbCellDef="let tableGroup" ngb-cell>
                 {{ tableGroup.position ?? '' }}
               </td>
             </ng-container>
 
             <ng-container ngbColumnDef="name">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'NAME' | transloco }}
+              </th>
               <td *ngbCellDef="let tableGroup" ngb-cell>
                 <app-text-with-color-indicator [color]="tableGroup.color">
                   {{ tableGroup.name }}
@@ -133,35 +138,35 @@ import {TableGroupsService} from './_services/table-groups.service';
               <td *ngbCellDef="let tableGroup" ngb-cell>
                 <app-action-dropdown>
                   <a
-                    type="button"
                     class="d-flex gap-2 align-items-center"
+                    [queryParams]="{tableGroupIds: tableGroup.id}"
+                    type="button"
                     ngbDropdownItem
                     routerLink="../../orders"
-                    [queryParams]="{tableGroupIds: tableGroup.id}"
                   >
                     <bi name="stack" />
                     {{ 'NAV_ORDERS' | transloco }}
                   </a>
                   <a
-                    type="button"
                     class="d-flex gap-2 align-items-center"
+                    [queryParams]="{tableGroupIds: tableGroup.id}"
+                    type="button"
                     ngbDropdownItem
                     routerLink="../../bills"
-                    [queryParams]="{tableGroupIds: tableGroup.id}"
                   >
                     <bi name="cash-coin" />
                     {{ 'NAV_BILLS' | transloco }}
                   </a>
                   <div class="dropdown-divider"></div>
-                  <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../' + tableGroup.id">
+                  <a class="d-flex gap-2 align-items-center" [routerLink]="'../' + tableGroup.id" type="button" ngbDropdownItem>
                     <bi name="pencil-square" />
                     {{ 'EDIT' | transloco }}
                   </a>
                   <button
-                    type="button"
                     class="d-flex gap-2 align-items-center text-danger-emphasis"
-                    ngbDropdownItem
                     (mousedown)="delete.onDelete(tableGroup.id)"
+                    type="button"
+                    ngbDropdownItem
                   >
                     <bi name="trash" />
                     {{ 'DELETE' | transloco }}
@@ -173,10 +178,10 @@ import {TableGroupsService} from './_services/table-groups.service';
             <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
             <tr
               *ngbRowDef="let tableGroup; columns: table.columnsToDisplay()"
-              ngb-row
-              cdkDrag
               [cdkDragData]="tableGroup"
               [routerLink]="'../' + tableGroup.id"
+              ngb-row
+              cdkDrag
             ></tr>
           </table>
         </div>

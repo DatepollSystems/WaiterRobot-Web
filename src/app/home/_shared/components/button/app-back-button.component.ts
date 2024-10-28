@@ -1,8 +1,8 @@
 import {Location} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Directive, HostListener, inject, input} from '@angular/core';
 import {Router} from '@angular/router';
-import {TranslocoPipe} from '@jsverse/transloco';
 
+import {TranslocoPipe} from '@jsverse/transloco';
 import {WINDOW} from 'dfx-helper';
 
 @Directive({
@@ -34,7 +34,9 @@ export class AppBackDirective {
 @Component({
   template: `
     <div>
-      <button type="button" class="btn btn-sm btn-dark text-white" back>{{ 'GO_BACK' | transloco }}</button>
+      <button class="btn btn-sm btn-dark text-white" type="button" back>
+        {{ 'GO_BACK' | transloco }}
+      </button>
     </div>
   `,
   selector: 'back-button',

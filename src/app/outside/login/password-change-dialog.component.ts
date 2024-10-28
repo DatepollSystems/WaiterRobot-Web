@@ -2,17 +2,18 @@ import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 
-import {passwordMatchValidator} from '@home-shared/regex';
-
+import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {TranslocoPipe} from '@jsverse/transloco';
+import {passwordMatchValidator} from '@home-shared/regex';
 
 @Component({
   template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-password-change">{{ 'ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_INFO' | transloco }}</h4>
-      <button type="button" class="btn-close btn-close-white" aria-label="Close" (mousedown)="activeModal.close(undefined)"></button>
+      <h4 class="modal-title" id="modal-password-change">
+        {{ 'ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_INFO' | transloco }}
+      </h4>
+      <button class="btn-close btn-close-white" (mousedown)="activeModal.close(undefined)" type="button" aria-label="Close"></button>
     </div>
     <div class="modal-body">
       <div class="mb-3">
@@ -26,10 +27,10 @@ import {TranslocoPipe} from '@jsverse/transloco';
           <div class="form-floating">
             <input
               class="form-control"
-              type="password"
               id="password"
-              formControlName="newPassword"
               [placeholder]="'PASSWORD' | transloco"
+              type="password"
+              formControlName="newPassword"
             />
             <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | transloco }}</label>
           </div>
@@ -43,10 +44,10 @@ import {TranslocoPipe} from '@jsverse/transloco';
           <div class="form-floating">
             <input
               class="form-control"
-              type="password"
               id="password"
-              formControlName="confirmPassword"
               [placeholder]="'PASSWORD' | transloco"
+              type="password"
+              formControlName="confirmPassword"
             />
             <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_AGAIN' | transloco }}</label>
           </div>
@@ -66,12 +67,14 @@ import {TranslocoPipe} from '@jsverse/transloco';
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (mousedown)="activeModal.close(undefined)">{{ 'CLOSE' | transloco }}</button>
+      <button class="btn btn-outline-secondary" (mousedown)="activeModal.close(undefined)" type="button">
+        {{ 'CLOSE' | transloco }}
+      </button>
       <button
-        type="button"
         class="btn btn-success"
         [disabled]="passwordForm.invalid"
         (mousedown)="activeModal.close(passwordForm.controls.newPassword.getRawValue())"
+        type="button"
       >
         {{ 'ABOUT_SIGNIN' | transloco }}
       </button>

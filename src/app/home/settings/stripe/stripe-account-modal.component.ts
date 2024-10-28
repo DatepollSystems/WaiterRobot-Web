@@ -2,17 +2,19 @@ import {AsyncPipe, LowerCasePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 
-import {allowedCharacterSet} from '@home-shared/regex';
+import {Observable, filter, map, pipe, startWith, switchMap} from 'rxjs';
+
+import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
-import {TranslocoPipe} from '@jsverse/transloco';
-import {CreateStripeAccountDto} from '@shared/waiterrobot-backend';
-
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {derivedFrom} from 'ngxtension/derived-from';
 import {signalSlice} from 'ngxtension/signal-slice';
 
-import {filter, map, Observable, pipe, startWith, switchMap} from 'rxjs';
+import {allowedCharacterSet} from '@home-shared/regex';
+
+import {CreateStripeAccountDto} from '@shared/waiterrobot-backend';
+
 import {EventsService} from '../../_admin/events/_services/events.service';
 
 interface OrganisationStripeAccountModalState {
@@ -27,9 +29,10 @@ interface OrganisationStripeAccountModalState {
   template: `
     <div class="modal-header">
       <h3 class="modal-title" id="modal-title-org-stripe-create">
-        {{ 'STRIPE_ACCOUNT' | transloco }} {{ (state.type() === 'CREATE' ? 'ADD_3' : 'EDIT') | transloco | lowercase }}
+        {{ 'STRIPE_ACCOUNT' | transloco }}
+        {{ (state.type() === 'CREATE' ? 'ADD_3' : 'EDIT') | transloco | lowercase }}
       </h3>
-      <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.dismiss()"></button>
+      <button class="btn-close btn-close-white" (click)="activeModal.dismiss()" type="button" aria-label="Close"></button>
     </div>
     @if (form.valueChanges | async) {}
     <form [formGroup]="form" (ngSubmit)="submit()">
@@ -37,11 +40,11 @@ interface OrganisationStripeAccountModalState {
         <div class="form-group col">
           <label for="stripeName">{{ 'NAME' | transloco }}</label>
           <input
-            formControlName="name"
             class="form-control"
-            type="text"
             id="stripeName"
             [placeholder]="'Stripe Account #' + (state.existingStripeAccountCount() ?? 0) + 1"
+            formControlName="name"
+            type="text"
           />
 
           @if (form.controls.name.invalid) {
@@ -54,23 +57,25 @@ interface OrganisationStripeAccountModalState {
         <div class="form-group col">
           <label for="event">{{ 'NAV_EVENTS' | transloco }}</label>
           <ng-select
+            id="event"
+            [items]="events()"
+            [multiple]="true"
+            [placeholder]="'NAV_EVENTS' | transloco"
             formControlName="eventIds"
             bindValue="id"
             bindLabel="name"
             labelForId="event"
             clearAllText="Clear"
-            id="event"
-            [items]="events()"
-            [multiple]="true"
-            [placeholder]="'NAV_EVENTS' | transloco"
           />
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-success" type="submit" [disabled]="form.invalid">
+        <button class="btn btn-success" [disabled]="form.invalid" type="submit">
           {{ (state.type() === 'CREATE' ? 'ADD_3' : 'SAVE') | transloco }}
         </button>
-        <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close()">{{ 'CLOSE' | transloco }}</button>
+        <button class="btn btn-outline-secondary" (click)="activeModal.close()" type="button">
+          {{ 'CLOSE' | transloco }}
+        </button>
       </div>
     </form>
   `,

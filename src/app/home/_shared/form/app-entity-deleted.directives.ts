@@ -1,4 +1,4 @@
-import {Directive, inject, Input, NgModule, TemplateRef, ViewContainerRef} from '@angular/core';
+import {Directive, Input, NgModule, TemplateRef, ViewContainerRef, inject} from '@angular/core';
 
 @Directive({
   selector: '[isEditingAndDeleted]',

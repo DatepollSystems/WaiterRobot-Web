@@ -1,16 +1,20 @@
 import {UpperCasePipe} from '@angular/common';
 import {Component, computed, inject} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbDropdown, NgbDropdownButtonItem, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
+import {loggerOf, s_from} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxCutPipe} from 'dfx-helper';
+
 import {AppTextColorByBackgroundDirective} from '@home-shared/components/color/app-text-color-by-background.directive';
 import {FullScreenService} from '@home-shared/services/fullscreen.service';
 import {QrCodeService} from '@home-shared/services/qr-code.service';
 import {MyUserService} from '@home-shared/services/user/my-user.service';
-import {TranslocoPipe} from '@jsverse/transloco';
-import {NgbDropdown, NgbDropdownButtonItem, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from '@ng-bootstrap/ng-bootstrap';
+
 import {AuthService} from '@shared/services/auth/auth.service';
-import {loggerOf, s_from} from 'dfts-helper';
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxCutPipe} from 'dfx-helper';
+
 import {s_toColor} from './colors';
 import {ThemePickerComponent} from './theme-picker.component';
 
@@ -20,11 +24,11 @@ import {ThemePickerComponent} from './theme-picker.component';
       <a class="nav-link d-inline-flex align-items-center" id="settingsDropdown" ngbDropdownToggle>
         @if (myUser(); as user) {
           <strong
-            style="width: 32px; height: 32px"
             class="rounded-circle me-2 d-inline-flex align-items-center justify-content-center"
             [style.background-color]="user.color"
-            app-text-color-by-background
             [color]="user.color"
+            style="width: 32px; height: 32px"
+            app-text-color-by-background
           >
             {{ user.firstname | s_cut: 1 : '' | uppercase }}{{ user.surname | s_cut: 1 : '' | uppercase }}
           </strong>
@@ -38,17 +42,21 @@ import {ThemePickerComponent} from './theme-picker.component';
           @if (myUserService.user(); as user) {
             <a (mousedown)="openUserEmailQRCode()">
               <u>{{ user.emailAddress }}</u>
-              <bi name="qr-code" class="ms-1" />
+              <bi class="ms-1" name="qr-code" />
             </a>
           }
 
           <small>
             <br />
             @if (myUserService.user()?.isAdmin) {
-              <b class="clickable" (mousedown)="switchAdminMode()"> {{ 'NAV_USER_SETTINGS_ADMIN' | transloco }} </b>
+              <b class="clickable" (mousedown)="switchAdminMode()">
+                {{ 'NAV_USER_SETTINGS_ADMIN' | transloco }}
+              </b>
             }
             @if (myUserService.manualOverwritten() && !myUserService.user()?.isAdmin) {
-              <b class="clickable" (mousedown)="switchAdminMode()"> {{ 'NAV_USER_SETTINGS_ADMIN_SWITCH' | transloco }} </b>
+              <b class="clickable" (mousedown)="switchAdminMode()">
+                {{ 'NAV_USER_SETTINGS_ADMIN_SWITCH' | transloco }}
+              </b>
             }
           </small>
         </div>
@@ -57,10 +65,10 @@ import {ThemePickerComponent} from './theme-picker.component';
         <theme-picker />
 
         <button
-          type="button"
-          ngbDropdownItem
           class="d-none d-xxl-flex gap-2 align-items-center"
           (mousedown)="fullScreenService.setFullScreen(!fullScreenService.isFullScreen()); $event.stopPropagation()"
+          type="button"
+          ngbDropdownItem
         >
           @if (fullScreenService.isFullScreen()) {
             <bi name="fullscreen-exit" />
@@ -71,15 +79,15 @@ import {ThemePickerComponent} from './theme-picker.component';
         </button>
 
         <div class="dropdown-divider"></div>
-        <a ngbDropdownItem routerLinkActive="active" class="d-flex gap-2 align-items-center" routerLink="/usettings/settings">
+        <a class="d-flex gap-2 align-items-center" ngbDropdownItem routerLinkActive="active" routerLink="/usettings/settings">
           <bi name="gear-wide-connected" />
           {{ 'NAV_USER_SETTINGS' | transloco }}
         </a>
-        <a ngbDropdownItem routerLinkActive="active" class="d-flex gap-2 align-items-center" routerLink="/usettings/sessions">
+        <a class="d-flex gap-2 align-items-center" ngbDropdownItem routerLinkActive="active" routerLink="/usettings/sessions">
           <bi name="file-lock" />
           {{ 'NAV_USER_SESSIONS' | transloco }}
         </a>
-        <button type="button" ngbDropdownItem class="d-flex gap-2 align-items-center" (click)="this.authService.logout()">
+        <button class="d-flex gap-2 align-items-center" (click)="this.authService.logout()" type="button" ngbDropdownItem>
           <bi name="box-arrow-left" />
           {{ 'NAV_LOGOUT' | transloco }}
         </button>

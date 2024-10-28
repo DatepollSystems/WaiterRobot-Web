@@ -1,25 +1,26 @@
 import {ChangeDetectionStrategy, Component, Input, input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
+import {TranslocoPipe} from '@jsverse/transloco';
+import {n_from, s_from} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
+
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 import {allowedCharacterSet} from '@home-shared/regex';
-import {TranslocoPipe} from '@jsverse/transloco';
+
 import {injectIsValid} from '@shared/form';
 import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrinterDto} from '@shared/waiterrobot-backend';
-
-import {n_from, s_from} from 'dfts-helper';
-import {BiComponent} from 'dfx-bootstrap-icons';
 
 @Component({
   template: `
     @if (isValid()) {}
 
-    <form #formRef class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="submit()">
+    <form class="d-flex flex-column gap-3" #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-lg-row gap-4">
         <div class="flex-fill form-group">
           <label for="name">{{ 'NAME' | transloco }}</label>
-          <input class="form-control" type="text" id="name" formControlName="name" [placeholder]="'NAME' | transloco" />
+          <input class="form-control" id="name" [placeholder]="'NAME' | transloco" type="text" formControlName="name" />
 
           @if (form.controls.name.invalid) {
             <small class="text-danger">
@@ -31,11 +32,11 @@ import {BiComponent} from 'dfx-bootstrap-icons';
           <label for="fontScale">{{ 'HOME_PRINTER_FONT_SCALE' | transloco }}</label>
           <input
             class="form-control"
-            type="number"
             id="fontScale"
+            [placeholder]="'HOME_PRINTER_FONT_SCALE' | transloco"
+            type="number"
             step="0.1"
             formControlName="fontScale"
-            [placeholder]="'HOME_PRINTER_FONT_SCALE' | transloco"
           />
 
           @if (form.controls.fontScale.invalid) {
@@ -48,7 +49,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
         <div class="flex-fill form-group">
           <label for="font">{{ 'HOME_PRINTER_FONT' | transloco }}</label>
 
-          <select class="form-select" aria-label="Font select" id="font" formControlName="font">
+          <select class="form-select" id="font" aria-label="Font select" formControlName="font">
             @for (font of availableFonts(); track font.code) {
               <option [value]="font.code">{{ font.description }}</option>
             }
@@ -61,10 +62,10 @@ import {BiComponent} from 'dfx-bootstrap-icons';
           <label for="bonWidth">{{ 'HOME_PRINTER_BON_WIDTH' | transloco }}</label>
           <input
             class="form-control"
-            type="number"
             id="bonWidth"
-            formControlName="bonWidth"
             [placeholder]="'HOME_PRINTER_BON_WIDTH' | transloco"
+            type="number"
+            formControlName="bonWidth"
           />
 
           @if (form.controls.bonWidth.invalid) {
@@ -78,11 +79,11 @@ import {BiComponent} from 'dfx-bootstrap-icons';
           <label for="bonPadding">{{ 'HOME_PRINTER_BON_PADDING' | transloco }}</label>
           <input
             class="form-control"
-            type="number"
             id="bonPadding"
+            [placeholder]="'HOME_PRINTER_BON_PADDING' | transloco"
+            type="number"
             step="1"
             formControlName="bonPadding"
-            [placeholder]="'HOME_PRINTER_BON_PADDING' | transloco"
           />
 
           @if (form.controls.bonPadding.invalid) {
@@ -96,11 +97,11 @@ import {BiComponent} from 'dfx-bootstrap-icons';
           <label for="bonPaddingTop">{{ 'HOME_PRINTER_BON_PADDING_TOP' | transloco }}</label>
           <input
             class="form-control"
+            id="bonPaddingTop"
+            [placeholder]="'HOME_PRINTER_BON_PADDING_TOP' | transloco"
             type="number"
             step="1"
-            id="bonPaddingTop"
             formControlName="bonPaddingTop"
-            [placeholder]="'HOME_PRINTER_BON_PADDING_TOP' | transloco"
           />
 
           @if (form.controls.bonPaddingTop.invalid) {

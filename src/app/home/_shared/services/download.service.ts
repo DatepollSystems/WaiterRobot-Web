@@ -1,15 +1,18 @@
 import {HttpClient, HttpEvent, HttpEventType, HttpProgressEvent, HttpResponse} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 
 import {Observable, scan} from 'rxjs';
 
+import {EnvironmentHelper} from '@shared/EnvironmentHelper';
+
 @Injectable({providedIn: 'root'})
 export class DownloadService {
-  httpClient = inject(HttpClient);
+  #apiUrl = EnvironmentHelper.getAPIUrl();
+  #httpClient = inject(HttpClient);
 
   download$(url: string, name: string): Observable<Download> {
-    return this.httpClient
-      .get(url, {
+    return this.#httpClient
+      .get(`${this.#apiUrl}${url}`, {
         reportProgress: true,
         observe: 'events',
         responseType: 'blob',

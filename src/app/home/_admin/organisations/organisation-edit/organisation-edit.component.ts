@@ -1,8 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 
 import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
 import {injectOnDelete} from '@home-shared/form/edit';
+
 import {injectOnSubmit} from '@shared/form';
 import {GetOrganisationResponse} from '@shared/waiterrobot-backend';
 
@@ -22,7 +23,7 @@ import {OrganisationUsersSettingsComponent} from './organisation-edit-users/orga
 
           <ng-container *isEditing="entity">
             <div>
-              <button type="button" class="btn btn-sm btn-outline-danger" (mousedown)="onDelete(entity.id)">
+              <button class="btn btn-sm btn-outline-danger" (mousedown)="onDelete(entity.id)" type="button">
                 <bi name="trash" />
                 {{ 'DELETE' | transloco }}
               </button>
@@ -48,10 +49,12 @@ import {OrganisationUsersSettingsComponent} from './organisation-edit-users/orga
   imports: [AppEntityEditModule, AppOrganisationEditFormComponent, OrganisationUsersSettingsComponent],
 })
 export class OrganisationEditComponent extends AbstractModelEditComponent<GetOrganisationResponse> {
-  onSubmit = injectOnSubmit({entityService: this.organisationsService});
-  onDelete = injectOnDelete((it: number) => this.organisationsService.delete$(it).subscribe());
+  #organisationsService = inject(OrganisationsService);
 
-  constructor(private organisationsService: OrganisationsService) {
+  onSubmit = injectOnSubmit({entityService: this.#organisationsService});
+  onDelete = injectOnDelete((it: number) => this.#organisationsService.delete$(it).subscribe());
+
+  constructor(organisationsService: OrganisationsService) {
     super(organisationsService);
   }
 }

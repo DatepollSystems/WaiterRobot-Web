@@ -1,12 +1,12 @@
 import {HttpClient} from '@angular/common/http';
-import {computed, inject, Injectable, signal} from '@angular/core';
+import {Injectable, computed, inject, signal} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 
-import {GetSystemNotificationResponse} from '@shared/waiterrobot-backend';
+import {BehaviorSubject, EMPTY, catchError, switchMap} from 'rxjs';
 
 import {s_fromStorage, st_remove, st_set} from 'dfts-helper';
 
-import {BehaviorSubject, catchError, EMPTY, switchMap} from 'rxjs';
+import {GetSystemNotificationResponse} from '@shared/waiterrobot-backend';
 
 @Injectable({providedIn: 'root'})
 export class ActiveSystemNotificationsService {

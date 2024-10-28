@@ -16,7 +16,9 @@
     "format": "prettier --write .",
     "e2e": "ng e2e",
     "api:types": "swagger-typescript-api -p http://localhost:8080/api/swagger/api-docs -o ./src/app/_shared/ -n waiterrobot-backend.d.ts --no-client && prettier --write ./src/app/_shared/waiterrobot-backend.d.ts",
-    "api:types:lava": "swagger-typescript-api -p https://lava.kellner.team/api/swagger/api-docs -o ./src/app/_shared/ -n waiterrobot-backend.d.ts --no-client && prettier --write ./src/app/_shared/waiterrobot-backend.d.ts"
+    "api:types:lava": "swagger-typescript-api -p https://lava.kellner.team/api/swagger/api-docs -o ./src/app/_shared/ -n waiterrobot-backend.d.ts --no-client && prettier --write ./src/app/_shared/waiterrobot-backend.d.ts",
+    "api2:types": "openapi-typescript http://localhost:8080/api/swagger/docs-json -o  ./src/app/_shared/api/api-types.ts && prettier --write ./src/app/_shared/api/api-types.ts",
+    "api2:types:lava": "openapi-typescript https://lava.kellner.team/api/swagger/docs-json -o  ./src/app/_shared/api/api-types.ts && prettier --write ./src/app/_shared/api/api-types.ts"
   },
   "packageManager": "pnpm@9.11.0",
   "private": true,
@@ -45,6 +47,7 @@
     "dfx-bootstrap-icons": "2.0.1",
     "dfx-bootstrap-table": "4.0.1",
     "dfx-helper": "8.0.1",
+    "dfx-openapi": "^0.0.2",
     "dfx-qrcode": "3.0.1",
     "html-to-image": "1.11.11",
     "jspdf": "2.5.2",
@@ -59,6 +62,7 @@
   "devDependencies": {
     "@angular/cli": "18.2.6",
     "@angular/compiler-cli": "18.2.6",
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/d3-scale": "4.0.8",
     "@types/d3-selection": "3.0.10",
     "@types/d3-shape": "^3.1.1",
@@ -73,7 +77,9 @@
     "karma-jasmine": "5.1.0",
     "karma-jasmine-html-reporter": "2.1.0",
     "license-report": "^6.4.0",
+    "openapi-typescript": "^7.4.2",
     "prettier": "3.3.3",
+    "prettier-plugin-organize-attributes": "^1.0.0",
     "source-map-explorer": "2.5.3",
     "swagger-typescript-api": "^13.0.0",
     "typescript": "5.5.4"

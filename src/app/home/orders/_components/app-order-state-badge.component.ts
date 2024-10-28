@@ -1,26 +1,25 @@
 import {DatePipe, NgClass} from '@angular/common';
-import {ChangeDetectionStrategy, Component, input, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, input} from '@angular/core';
 
-import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {GetImplodedOrderProductResponse, GetOrderResponse} from '@shared/waiterrobot-backend';
-
-import {BiComponent} from 'dfx-bootstrap-icons';
 
 @Component({
   template: `
     <span
-      [placement]="placement()"
-      triggers="mouseenter:mouseleave"
-      popoverTitle="Bestelldetails"
       class="badge d-flex align-items-center gap-2 not-selectable"
-      style="width: min-content"
+      [placement]="placement()"
       [ngClass]="{
         'text-bg-light': orderState() === 'QUEUED' || orderState() === 'IN_PROGRESS',
         'text-bg-success': orderState() === 'FINISHED',
       }"
       [ngbPopover]="popContent"
+      triggers="mouseenter:mouseleave"
+      popoverTitle="Bestelldetails"
+      style="width: min-content"
     >
       @switch (orderState()) {
         @case ('QUEUED') {
@@ -40,9 +39,12 @@ import {BiComponent} from 'dfx-bootstrap-icons';
         <bi name="check2-square" />
       }
     </span>
-    <ng-template #popContent class="d-flex flex-column">
+    <ng-template class="d-flex flex-column" #popContent>
       @if (createdAt()) {
-        <div>{{ 'HOME_ORDER_CREATED_AT' | transloco }}: {{ createdAt() | date: 'dd.MM.yy HH:mm:ss' }}</div>
+        <div>
+          {{ 'HOME_ORDER_CREATED_AT' | transloco }}:
+          {{ createdAt() | date: 'dd.MM.yy HH:mm:ss' }}
+        </div>
       }
       @if (processedAt()) {
         <div>Verarbeitet um: {{ processedAt() | date: 'dd.MM.yy HH:mm:ss' }}</div>

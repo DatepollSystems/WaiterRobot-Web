@@ -1,12 +1,16 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import {AppAdjustDarkModeColor} from '@home-shared/components/color/app-adjust-dark-mode-color.pipe';
-import {AppTextColorByBackgroundDirective} from '@home-shared/components/color/app-text-color-by-background.directive';
+
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbNav, NgbNavItem, NgbNavLink} from '@ng-bootstrap/ng-bootstrap';
-import {ThemeService} from '@shared/services/theme.service';
 import {injectParams} from 'ngxtension/inject-params';
+
+import {AppAdjustDarkModeColor} from '@home-shared/components/color/app-adjust-dark-mode-color.pipe';
+import {AppTextColorByBackgroundDirective} from '@home-shared/components/color/app-text-color-by-background.directive';
+
+import {ThemeService} from '@shared/services/theme.service';
+
 import {TableGroupsService} from './_services/table-groups.service';
 
 @Component({
@@ -14,19 +18,19 @@ import {TableGroupsService} from './_services/table-groups.service';
     <h1 class="mb-3">{{ 'HOME_TABLES' | transloco }}</h1>
 
     <div class="nav-x-scroll">
-      <ul ngbNav class="nav-tabs mb-3" [activeId]="activeId()">
+      <ul class="nav-tabs mb-3" [activeId]="activeId()" ngbNav>
         <li ngbNavItem="all">
           <a ngbNavLink routerLinkActive="tab-active" routerLink="../all">{{ 'ALL' | transloco }}</a>
         </li>
         @for (tableGroup of tableGroups(); track tableGroup.id) {
           <li [ngbNavItem]="tableGroup.id.toString()">
             <a
-              ngbNavLink
-              routerLinkActive="tab-active"
               [routerLink]="'../' + tableGroup.id"
               [style.background-color]="tableGroup.color | adjustDarkModeColor: currentTheme().id"
+              ngbNavLink
+              routerLinkActive="tab-active"
             >
-              <span class="d-flex gap-3 align-items-center" app-text-color-by-background [color]="tableGroup.color">
+              <span class="d-flex gap-3 align-items-center" [color]="tableGroup.color" app-text-color-by-background>
                 {{ tableGroup.name }}
 
                 <span class="badge bg-secondary rounded-pill">{{ tableGroup.tables.length }}</span>

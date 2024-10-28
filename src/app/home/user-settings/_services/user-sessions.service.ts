@@ -1,12 +1,12 @@
 import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 
-import {SessionModel} from '@shared/model/session.model';
-import {SessionResponse} from '@shared/waiterrobot-backend';
+import {BehaviorSubject, Observable, map, switchMap} from 'rxjs';
 
 import {HasDelete, HasGetAll} from 'dfx-helper';
 
-import {BehaviorSubject, map, Observable, switchMap} from 'rxjs';
+import {SessionModel} from '@shared/model/session.model';
+import {SessionResponse} from '@shared/waiterrobot-backend';
 
 @Injectable({providedIn: 'root'})
 export class UserSessionsService implements HasGetAll<SessionModel>, HasDelete<SessionModel> {

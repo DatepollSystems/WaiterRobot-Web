@@ -1,11 +1,11 @@
 import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 
-import {StatisticsCountResponse, StatisticsSumResponse} from '@shared/waiterrobot-backend';
-
 import {switchMap} from 'rxjs';
-import {SelectedEventService} from '../_admin/events/_services/selected-event.service';
+
+import {SelectedEventService} from '@shared/services/selected-event.service';
+import {StatisticsCountResponse, StatisticsSumResponse} from '@shared/waiterrobot-backend';
 
 @Injectable({providedIn: 'root'})
 export class StatisticsService {

@@ -50,29 +50,33 @@
           @for (printer of unusedPrinters; track printer.id) {
           <a
             class="list-group-item list-group-item-action list-group-item-warning d-flex align-items-center gap-2"
-            [routerLink]="'o/organisationId/e/eventId/printers/' + printer.id"
+            [routerLink]="
+                    'o/organisationId/e/eventId/printers/' + printer.id
+                  "
           >
-            {{printer.name}}
+            {{ printer.name }}
           </a>
           }
         </div>
-        <a href="#" class="card-link" routerLink="o/organisationId/e/eventId/printers/mediators/all">Zu den Mediators</a>
+        <a class="card-link" href="#" routerLink="o/organisationId/e/eventId/printers/mediators/all">Zu den Mediators</a>
       </div>
     </div>
     } } @defer (when myUser()?.isAdmin) { @if (myUser()?.isAdmin) {
     <div class="card p-2">
       <div
         class="card-body d-inline-flex align-items-center gap-2 clickable"
-        (mousedown)="showSystemInfoService.set(!showSystemInfoService.show())"
+        (mousedown)="
+              showSystemInfoService.set(!showSystemInfoService.show())
+            "
       >
         <span>Toggle Developer Menu:</span>
-        <kbd style="padding-top: 5px" class="px-2"><kbd>Super</kbd> + <kbd>K</kbd></kbd>
+        <kbd class="px-2" style="padding-top: 5px"><kbd>Super</kbd> + <kbd>K</kbd></kbd>
       </div>
     </div>
     } @if (hasError() && !isProduction) {
     <div class="card p-2">
       <div class="card-body">
-        <button type="button" class="btn btn-sm btn-warning" (click)="logout()">Logout</button>
+        <button class="btn btn-sm btn-warning" (click)="logout()" type="button">Logout</button>
       </div>
     </div>
     } }
@@ -94,26 +98,47 @@
           >
             <div class="d-flex flex-column gap-2">
               <div class="d-inline-flex gap-0 gap-sm-2 flex-column flex-sm-row">
-                <div class="fw-bold">#{{order.orderNumber}}</div>
+                <div class="fw-bold">#{{ order.orderNumber }}</div>
                 <span>
-                  (<a stopPropagation [routerLink]="'o/organisationId/e/eventId/tables/' + order.table.group.id"
-                    >{{order.table.group.name}}</a
+                  (<a
+                    [routerLink]="
+                            'o/organisationId/e/eventId/tables/' +
+                            order.table.group.id
+                          "
+                    stopPropagation
+                    >{{ order.table.group.name }}</a
                   >
-                  - <a stopPropagation [routerLink]="'o/organisationId/e/eventId/tables/t/' + order.table.id">{{order.table.number}}</a>)
+                  -
+                  <a
+                    [routerLink]="
+                            'o/organisationId/e/eventId/tables/t/' +
+                            order.table.id
+                          "
+                    stopPropagation
+                    >{{ order.table.number }}</a
+                  >)
                 </span>
               </div>
               <div>
-                <a stopPropagation [routerLink]="'o/organisationId/e/eventId/waiters/waiter/' + order.waiter.id"> {{order.waiter.name}} </a>
+                <a
+                  [routerLink]="
+                          'o/organisationId/e/eventId/waiters/waiter/' +
+                          order.waiter.id
+                        "
+                  stopPropagation
+                >
+                  {{ order.waiter.name }}
+                </a>
               </div>
             </div>
 
             <div class="d-flex flex-column align-items-end gap-2">
               <app-order-state-badge
-                placement="left"
                 [orderState]="order.state"
                 [orderProductPrintStates]="order.orderProductPrintStates"
                 [createdAt]="order.createdAt"
                 [processedAt]="order.processedAt"
+                placement="left"
               />
 
               @if (order.test) {
@@ -121,7 +146,7 @@
               }
             </div>
           </a>
-          } @empty { @if (!showLoading) { Keine Bestellungen vorhanden. } } @if(showLoading) {
+          } @empty { @if (!showLoading) { Keine Bestellungen vorhanden. } } @if (showLoading) {
           <app-progress-bar show />
           }
         </div>

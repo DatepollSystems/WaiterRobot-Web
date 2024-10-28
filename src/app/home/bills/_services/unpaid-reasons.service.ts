@@ -1,14 +1,14 @@
 import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
+import {Injectable, inject} from '@angular/core';
 
-import {CreateBillUnpaidReasonDto, GetBillUnpaidReasonResponse, IdResponse, UpdateBillUnpaidReasonDto} from '@shared/waiterrobot-backend';
+import {BehaviorSubject, Observable, combineLatest, switchMap, tap} from 'rxjs';
+
 import {s_from} from 'dfts-helper';
-
 import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
 
-import {BehaviorSubject, combineLatest, Observable, switchMap, tap} from 'rxjs';
-import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
+import {SelectedEventService} from '@shared/services/selected-event.service';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
+import {CreateBillUnpaidReasonDto, GetBillUnpaidReasonResponse, IdResponse, UpdateBillUnpaidReasonDto} from '@shared/waiterrobot-backend';
 
 @Injectable({providedIn: 'root'})
 export class UnpaidReasonsService
@@ -32,7 +32,11 @@ export class UnpaidReasonsService
 
   getAll$(): Observable<GetBillUnpaidReasonResponse[]> {
     return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerRefresh]).pipe(
-      switchMap(([eventId]) => this.httpClient.get<GetBillUnpaidReasonResponse[]>(this.url, {params: {eventId}})),
+      switchMap(([eventId]) =>
+        this.httpClient.get<GetBillUnpaidReasonResponse[]>(this.url, {
+          params: {eventId},
+        }),
+      ),
     );
   }
 

@@ -3,19 +3,20 @@ import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {map, shareReplay} from 'rxjs';
+
 import {TranslocoPipe} from '@jsverse/transloco';
-
-import {injectIsValid} from '@shared/form';
-import {AppDownloadBtnListComponent} from '@shared/ui/app-download-btn-list.component';
-
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {loggerOf} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingFails, DfxHideIfPingSucceeds} from 'dfx-helper';
-
-import {map, shareReplay} from 'rxjs';
 import {NotificationService} from 'src/app/_shared/notifications/notification.service';
 import {AuthService} from 'src/app/_shared/services/auth/auth.service';
+
+import {EnvironmentHelper} from '@shared/EnvironmentHelper';
+import {injectIsValid} from '@shared/form';
+import {AppDownloadBtnListComponent} from '@shared/ui/app-download-btn-list.component';
+
 import {AppAccountNotActivatedDialog} from './account-not-activated-dialog.component';
 import {AppPasswordChangeDialogComponent} from './password-change-dialog.component';
 
@@ -32,11 +33,12 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
         </div>
 
         <div hideIfOffline>
-          <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="/json">
+          <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="{{ apiUrl }}/v1/json">
             <div class="d-flex gap-3 align-items-center">
               <bi name="exclamation-triangle-fill" />
               <div>
-                <b>{{ 'ABOUT_MAINTENANCE_1' | transloco }}</b> {{ 'ABOUT_MAINTENANCE_2' | transloco }}
+                <b>{{ 'ABOUT_MAINTENANCE_1' | transloco }}</b>
+                {{ 'ABOUT_MAINTENANCE_2' | transloco }}
                 <br />
                 Besuche
                 <a style="text-decoration: underline; color: #664d03" href="https://status.kellner.team" target="_blank" rel="noreferrer"
@@ -46,16 +48,16 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
               </div>
             </div>
           </div>
-          <div class="d-flex flex-column gap-3" hideIfPingFails url="/json">
+          <div class="d-flex flex-column gap-3" hideIfPingFails url="{{ apiUrl }}/v1/json">
             <div class="d-flex flex-column">
               <div class="form-floating">
                 <input
                   class="form-control"
+                  id="email"
+                  [placeholder]="'ABOUT_SIGNIN_EMAIL_ADDRESS' | transloco"
                   autocomplete="on"
                   type="email"
-                  id="email"
                   formControlName="email"
-                  [placeholder]="'ABOUT_SIGNIN_EMAIL_ADDRESS' | transloco"
                 />
                 <label for="email">{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | transloco }}</label>
               </div>
@@ -63,18 +65,20 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
               <div class="form-floating">
                 <input
                   class="form-control"
+                  id="password"
+                  [placeholder]="'ABOUT_SIGNIN_PASSWORD' | transloco"
                   autocomplete="on"
                   type="password"
-                  id="password"
                   formControlName="password"
-                  [placeholder]="'ABOUT_SIGNIN_PASSWORD' | transloco"
                 />
                 <label for="password">{{ 'ABOUT_SIGNIN_PASSWORD' | transloco }}</label>
               </div>
             </div>
 
             <div class="d-flex">
-              <button type="submit" class="btn btn-primary w-100" [disabled]="!form.valid">{{ 'ABOUT_SIGNIN' | transloco }}</button>
+              <button class="btn btn-primary w-100" [disabled]="!form.valid" type="submit">
+                {{ 'ABOUT_SIGNIN' | transloco }}
+              </button>
             </div>
 
             <div class="text-center">
@@ -129,6 +133,8 @@ export class LoginComponent {
   notificationService = inject(NotificationService);
   queryParams = inject(ActivatedRoute).queryParamMap.pipe(takeUntilDestroyed(), shareReplay(1));
 
+  apiUrl = EnvironmentHelper.getAPIUrl();
+
   isPreview = toSignal(this.queryParams.pipe(map((params) => !!params.get('preview'))), {initialValue: true});
 
   logger = loggerOf('LoginComponent');
@@ -154,23 +160,29 @@ export class LoginComponent {
 
     effect(() => {
       if (this.authService.loginError() === 'ACCOUNT_NOT_ACTIVATED') {
-        this.modal.open(AppAccountNotActivatedDialog, {ariaLabelledBy: 'modal-account-deactivated'});
+        this.modal.open(AppAccountNotActivatedDialog, {
+          ariaLabelledBy: 'modal-account-deactivated',
+        });
       }
 
       if (this.authService.loginError() === 'PASSWORD_CHANGE_REQUIRED') {
-        void this.modal.open(AppPasswordChangeDialogComponent, {ariaLabelledBy: 'modal-password-change'}).result.then((result) => {
-          if (result) {
-            if (result === this.form.controls.password.getRawValue()) {
-              this.notificationService.terror('ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_FAILED');
-              return;
+        void this.modal
+          .open(AppPasswordChangeDialogComponent, {
+            ariaLabelledBy: 'modal-password-change',
+          })
+          .result.then((result) => {
+            if (result) {
+              if (result === this.form.controls.password.getRawValue()) {
+                this.notificationService.terror('ABOUT_SIGNIN_FAILED_PASSWORD_CHANGE_FAILED');
+                return;
+              }
+              this.authService.triggerLoginWithPwChange.next({
+                email: this.form.controls.email.getRawValue(),
+                newPassword: result as string,
+                oldPassword: this.form.controls.password.getRawValue(),
+              });
             }
-            this.authService.triggerLoginWithPwChange.next({
-              email: this.form.controls.email.getRawValue(),
-              newPassword: result as string,
-              oldPassword: this.form.controls.password.getRawValue(),
-            });
-          }
-        });
+          });
       }
     });
 

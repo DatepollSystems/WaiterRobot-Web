@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Inject, inject, signal, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, ViewChild, inject, signal} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {ActivatedRoute} from '@angular/router';
 

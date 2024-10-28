@@ -1,17 +1,22 @@
 import {Component, effect, inject, input, signal} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {FormControl, NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
-import {RedirectService} from '@home-shared/services/redirect.service';
+
+import {distinctUntilChanged, map, pipe, startWith, switchMap, tap} from 'rxjs';
+
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {s_from} from 'dfts-helper';
 import {derivedFrom} from 'ngxtension/derived-from';
 import {filterNil} from 'ngxtension/filter-nil';
-import {distinctUntilChanged, map, pipe, startWith, switchMap, tap} from 'rxjs';
+
+import {RedirectService} from '@home-shared/services/redirect.service';
+
+import {SelectedEventService} from '@shared/services/selected-event.service';
+import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+
 import {EventsService} from '../../_admin/events/_services/events.service';
-import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 import {OrganisationsService} from '../../_admin/organisations/_services/organisations.service';
-import {SelectedOrganisationService} from '../../_admin/organisations/_services/selected-organisation.service';
 
 @Component({
   template: `
@@ -27,18 +32,18 @@ import {SelectedOrganisationService} from '../../_admin/organisations/_services/
           <div class="w-100">
             <h2>Organisation</h2>
 
-            <input class="form-control" placeholder="Suche..." type="text" [formControl]="organisationFilter" />
+            <input class="form-control" [formControl]="organisationFilter" placeholder="Suche..." type="text" />
 
             <div class="list-group list-group-checkable d-grid gap-2 border-0 w-100 mt-2">
               @for (organisation of organisations; track organisation.id) {
                 <input
                   class="list-group-item-check pe-none"
+                  [value]="organisation.id"
+                  [id]="(modal() ? 'm_' : '') + 'organisationIdRadio' + organisation.id"
                   type="radio"
                   name="organisationId"
                   formControlName="organisationId"
                   checked=""
-                  [value]="organisation.id"
-                  [id]="(modal() ? 'm_' : '') + 'organisationIdRadio' + organisation.id"
                 />
                 <!-- Weird m_ syntax because else modal and switcher view conflict -->
                 <label class="list-group-item rounded-3 py-3" [for]="(modal() ? 'm_' : '') + 'organisationIdRadio' + organisation.id">
@@ -56,7 +61,7 @@ import {SelectedOrganisationService} from '../../_admin/organisations/_services/
         <div class="w-100">
           <h2>Event / Location</h2>
 
-          <input class="form-control" placeholder="Suche..." type="text" [formControl]="eventFilter" />
+          <input class="form-control" [formControl]="eventFilter" placeholder="Suche..." type="text" />
 
           @if (form.controls.organisationId.value) {
             @if (filteredEvents(); as events) {
@@ -64,12 +69,12 @@ import {SelectedOrganisationService} from '../../_admin/organisations/_services/
                 @for (event of events; track event.id) {
                   <input
                     class="list-group-item-check pe-none"
+                    [value]="event.id"
+                    [id]="'eventIdRadio' + event.id"
                     type="radio"
                     name="eventId"
                     formControlName="eventId"
                     checked=""
-                    [value]="event.id"
-                    [id]="'eventIdRadio' + event.id"
                   />
                   <label class="list-group-item rounded-3 py-3" [for]="'eventIdRadio' + event.id">
                     {{ event.name }}
@@ -92,7 +97,7 @@ import {SelectedOrganisationService} from '../../_admin/organisations/_services/
       @if (form.valid) {
         <div class="d-flex justify-content-end gap-4 mt-5">
           <div>
-            <button type="submit" class="btn btn-lg btn-primary">Auswählen</button>
+            <button class="btn btn-lg btn-primary" type="submit">Auswählen</button>
           </div>
         </div>
       }
@@ -205,8 +210,14 @@ export class SwitcherComponent {
         if (this.selectedOrganisation() && this.selectedEvent()) {
           console.log('org and event defined, redirecting...');
           this.redirectService.redirect(
-            {toReplace: 'organisationId', replaceWith: s_from(this.selectedOrganisation()!.id)},
-            {toReplace: 'eventId', replaceWith: s_from(this.selectedEvent()!.id)},
+            {
+              toReplace: 'organisationId',
+              replaceWith: s_from(this.selectedOrganisation()!.id),
+            },
+            {
+              toReplace: 'eventId',
+              replaceWith: s_from(this.selectedEvent()!.id),
+            },
           );
         }
       }
@@ -215,7 +226,7 @@ export class SwitcherComponent {
       () => {
         if (!this.modal()) {
           if ((this.allOrganisations()?.length ?? 0) === 1) {
-            const organisationId = this.allOrganisations()![0].id;
+            const organisationId = this.allOrganisations()![0]!.id;
             console.log(`only one org found, selecting ${organisationId}`);
             this.selectedOrganisationService.setSelected(organisationId);
           }
@@ -227,7 +238,7 @@ export class SwitcherComponent {
       () => {
         if (!this.modal()) {
           if ((this.allEvents()?.length ?? 0) === 1) {
-            const eventId = this.allEvents()![0].id;
+            const eventId = this.allEvents()![0]!.id;
             console.log(`only one event found, selecting ${eventId}`);
             //this.selectEvent(eventId);
           }
@@ -263,7 +274,7 @@ export class SwitcherComponent {
   template: `
     <div class="modal-header p-5 pb-0 border-bottom-0">
       <h1 class="fw-bold mb-0 fs-2" id="modal-switcher-title">Wähle Organisation und Event aus</h1>
-      <button type="button" class="btn-close" aria-label="Close" (mousedown)="activeModal.dismiss()"></button>
+      <button class="btn-close" (mousedown)="activeModal.dismiss()" type="button" aria-label="Close"></button>
     </div>
     <div class="modal-body p-5">
       <app-switcher [modal]="activeModal" />

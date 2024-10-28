@@ -4,28 +4,31 @@ import {toObservable} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
+import {switchMap} from 'rxjs';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbDropdownItem, NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {n_from, s_from} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
+import {injectParams} from 'ngxtension/inject-params';
+
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {
+  ListFilterComponent,
   addGroupIfMissing,
   injectTable,
   injectTableDelete,
   injectTableFilter,
   injectTableSelect,
-  ListFilterComponent,
   removeGroup,
 } from '@home-shared/list';
-import {TranslocoPipe} from '@jsverse/transloco';
-import {NgbDropdownItem, NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
-import {n_from, s_from} from 'dfts-helper';
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
-import {injectParams} from 'ngxtension/inject-params';
-import {switchMap} from 'rxjs';
 import {TablesService} from './_services/tables.service';
 import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
 
@@ -33,13 +36,14 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
   template: `
     <div class="d-flex flex-column gap-3">
       <scrollable-toolbar>
-        <a routerLink="../t/create" class="btn btn-sm btn-success" [queryParams]="{group: activeId() !== 'all' ? activeId() : null}">
+        <a class="btn btn-sm btn-success" [queryParams]="{group: activeId() !== 'all' ? activeId() : null}" routerLink="../t/create">
           <bi name="plus-circle" />
-          {{ 'HOME_TABLE' | transloco }} {{ 'ADD_3' | transloco | lowercase }}</a
+          {{ 'HOME_TABLE' | transloco }}
+          {{ 'ADD_3' | transloco | lowercase }}</a
         >
 
         <div [ngbTooltip]="!selection.hasValue() ? ('HOME_TABLE_SELECT_REQUIRED' | transloco) : undefined">
-          <button type="button" class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="delete.onDeleteSelected()">
+          <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="delete.onDeleteSelected()" type="button">
             <bi name="trash" />
             {{ 'DELETE' | transloco }}
           </button>
@@ -48,12 +52,13 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
         @if (activeId() !== 'all') {
           <a class="btn btn-sm btn-primary" [routerLink]="'../../table-groups/' + activeId()">
             <bi name="pencil-square" />
-            {{ 'HOME_TABLE_GROUP' | transloco }} {{ 'EDIT' | transloco | lowercase }}</a
+            {{ 'HOME_TABLE_GROUP' | transloco }}
+            {{ 'EDIT' | transloco | lowercase }}</a
           >
         }
 
         <div [ngbTooltip]="!selection.hasValue() ? ('HOME_TABLE_SELECT_REQUIRED' | transloco) : undefined">
-          <button type="button" class="btn btn-sm btn-secondary" [class.disabled]="!selection.hasValue()" (click)="printSelectedTables()">
+          <button class="btn btn-sm btn-secondary" [class.disabled]="!selection.hasValue()" (click)="printSelectedTables()" type="button">
             <bi name="table" />
             {{ 'PRINT' | transloco }}
           </button>
@@ -63,34 +68,36 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
       </scrollable-toolbar>
 
       <div class="table-responsive">
-        <table ngb-table ngb-sort [hover]="true" [dataSource]="table.dataSource()">
+        <table [hover]="true" [dataSource]="table.dataSource()" ngb-table ngb-sort>
           <ng-container ngbColumnDef="select">
             <th *ngbHeaderCellDef ngb-header-cell>
               <div class="form-check">
                 <input
                   class="form-check-input"
-                  type="checkbox"
-                  name="checked"
                   [checked]="selection.isAllSelected()"
                   (change)="selection.toggleAll()"
+                  type="checkbox"
+                  name="checked"
                 />
               </div>
             </th>
-            <td *ngbCellDef="let selectable" ngb-cell (click)="$event.stopPropagation()">
+            <td *ngbCellDef="let selectable" (click)="$event.stopPropagation()" ngb-cell>
               <div class="form-check">
                 <input
                   class="form-check-input"
-                  type="checkbox"
-                  name="checked"
                   [checked]="selection.isSelected(selectable)"
                   (change)="selection.toggle(selectable, !selection.isSelected(selectable))"
+                  type="checkbox"
+                  name="checked"
                 />
               </div>
             </td>
           </ng-container>
 
           <ng-container ngbColumnDef="group">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_TABLE_GROUP_TABLES_VIEW' | transloco }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+              {{ 'HOME_TABLE_GROUP_TABLES_VIEW' | transloco }}
+            </th>
             <td *ngbCellDef="let table" ngb-cell>
               <app-text-with-color-indicator [color]="table.group.color">
                 {{ table.group.name }}
@@ -99,14 +106,18 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
           </ng-container>
 
           <ng-container ngbColumnDef="number">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NUMBER' | transloco }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+              {{ 'NUMBER' | transloco }}
+            </th>
             <td *ngbCellDef="let table" ngb-cell>
               {{ table.number }}
             </td>
           </ng-container>
 
           <ng-container ngbColumnDef="status">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'STATE' | transloco }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+              {{ 'STATE' | transloco }}
+            </th>
             <td *ngbCellDef="let table" ngb-cell>
               @if (table.hasActiveOrders) {
                 <span class="badge text-bg-warning d-inline-flex align-items-center gap-2">
@@ -120,7 +131,10 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
                       <a
                         class="badge text-bg-info d-inline-flex align-items-center gap-2"
                         [routerLink]="'../t/create'"
-                        [queryParams]="{group: table.group.id, number: table.number + 1}"
+                        [queryParams]="{
+                          group: table.group.id,
+                          number: table.number + 1,
+                        }"
                         (click)="$event.stopPropagation()"
                       >
                         <bi name="sort-numeric-down" />
@@ -140,7 +154,9 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
           </ng-container>
 
           <ng-container ngbColumnDef="seats">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'SEATS' | transloco }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+              {{ 'SEATS' | transloco }}
+            </th>
             <td *ngbCellDef="let table" ngb-cell>{{ table.seats }}</td>
           </ng-container>
 
@@ -150,41 +166,41 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
             </th>
             <td *ngbCellDef="let table" ngb-cell>
               <app-action-dropdown>
-                <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'/wl/t/' + table.publicId">
+                <a class="d-flex gap-2 align-items-center" [routerLink]="'/wl/t/' + table.publicId" type="button" ngbDropdownItem>
                   <bi name="box-arrow-up-right" />
                   {{ 'HOME_TABLES_PUBLIC_ID' | transloco }}
                 </a>
                 <div class="dropdown-divider"></div>
                 <a
-                  type="button"
                   class="d-flex gap-2 align-items-center"
+                  [queryParams]="{tableIds: table.id}"
+                  type="button"
                   ngbDropdownItem
                   routerLink="../../orders"
-                  [queryParams]="{tableIds: table.id}"
                 >
                   <bi name="stack" />
                   {{ 'NAV_ORDERS' | transloco }}
                 </a>
                 <a
-                  type="button"
                   class="d-flex gap-2 align-items-center"
+                  [queryParams]="{tableIds: table.id}"
+                  type="button"
                   ngbDropdownItem
                   routerLink="../../bills"
-                  [queryParams]="{tableIds: table.id}"
                 >
                   <bi name="cash-coin" />
                   {{ 'NAV_BILLS' | transloco }}
                 </a>
                 <div class="dropdown-divider"></div>
-                <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../t/' + table.id">
+                <a class="d-flex gap-2 align-items-center" [routerLink]="'../t/' + table.id" type="button" ngbDropdownItem>
                   <bi name="pencil-square" />
                   {{ 'EDIT' | transloco }}
                 </a>
                 <button
-                  type="button"
                   class="d-flex gap-2 align-items-center text-danger-emphasis"
-                  ngbDropdownItem
                   (click)="delete.onDelete(table.id)"
+                  type="button"
+                  ngbDropdownItem
                 >
                   <bi name="trash" />
                   {{ 'DELETE' | transloco }}
@@ -196,9 +212,9 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
           <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
           <tr
             *ngbRowDef="let table; columns: table.columnsToDisplay()"
-            ngb-row
             [routerLink]="'../t/' + table.id"
             [class.thick-bottom-border]="table.missingNextTable"
+            ngb-row
           ></tr>
         </table>
       </div>

@@ -1,35 +1,41 @@
 import {SelectionModel} from '@angular/cdk/collections';
 import {ChangeDetectionStrategy, Component, inject, signal, viewChild} from '@angular/core';
+
+import {concat, debounceTime, map, pipe, switchMap, tap} from 'rxjs';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {s_imploder} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxPaginationModule, DfxTableModule, NgbPaginator} from 'dfx-bootstrap-table';
+import {DfxCurrencyCentPipe} from 'dfx-helper';
+import {derivedFrom} from 'ngxtension/derived-from';
+
 import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
 import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {injectTableSelect} from '@home-shared/list';
 import {AppSoldOutPipe} from '@home-shared/pipes/app-sold-out.pipe';
-import {injectPagination} from '@home-shared/services/pagination';
-import {TranslocoPipe} from '@jsverse/transloco';
 
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-
+import {injectPagination} from '@shared/api/pagination';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {GetProductGroupMaxResponse, GetProductResponse} from '@shared/waiterrobot-backend';
-import {s_imploder} from 'dfts-helper';
 
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxPaginationModule, DfxTableModule, NgbPaginator} from 'dfx-bootstrap-table';
-import {DfxCurrencyCentPipe} from 'dfx-helper';
-import {derivedFrom} from 'ngxtension/derived-from';
-import {concat, debounceTime, map, pipe, switchMap, tap} from 'rxjs';
 import {ProductGroupsService} from '../products/_services/product-groups.service';
 import {ProductsService} from '../products/_services/products.service';
 
-type BinType = (GetProductResponse | GetProductGroupMaxResponse) & {type: 'ITEM' | 'GROUP'; groupId?: number; groupName?: string};
+type BinType = (GetProductResponse | GetProductGroupMaxResponse) & {
+  type: 'ITEM' | 'GROUP';
+  groupId?: number;
+  groupName?: string;
+};
 
 @Component({
   template: `
     <div class="d-flex flex-column gap-3">
       <scrollable-toolbar>
         <div [ngbTooltip]="!selection.hasValue() ? ('HOME_PROD_SELECT_INFO' | transloco) : undefined">
-          <button type="button" class="btn btn-sm btn-primary" [class.disabled]="!selection.hasValue()" (mousedown)="undelete()">
+          <button class="btn btn-sm btn-primary" [class.disabled]="!selection.hasValue()" (mousedown)="undelete()" type="button">
             <bi name="arrow-counterclockwise" />
             {{ 'RECOVER' | transloco }}
           </button>
@@ -38,16 +44,16 @@ type BinType = (GetProductResponse | GetProductGroupMaxResponse) & {type: 'ITEM'
 
       @if (dataSource(); as dataSource) {
         <div class="table-responsive">
-          <table ngb-table [hover]="true" [dataSource]="dataSource">
+          <table [hover]="true" [dataSource]="dataSource" ngb-table>
             <ng-container ngbColumnDef="select">
               <th *ngbHeaderCellDef ngb-header-cell style="width: 20px">
                 <div class="form-check">
                   <input
                     class="form-check-input"
-                    type="checkbox"
-                    name="checked"
                     [checked]="selection.isAllSelected()"
                     (change)="selection.toggleAll()"
+                    type="checkbox"
+                    name="checked"
                   />
                 </div>
               </th>
@@ -56,10 +62,10 @@ type BinType = (GetProductResponse | GetProductGroupMaxResponse) & {type: 'ITEM'
                   <div class="form-check">
                     <input
                       class="form-check-input"
-                      type="checkbox"
-                      name="checked"
                       [checked]="selection.isSelected(selectable)"
                       (change)="toggle(selectable, !selection.isSelected(selectable))"
+                      type="checkbox"
+                      name="checked"
                     />
                   </div>
                 </div>
@@ -67,7 +73,9 @@ type BinType = (GetProductResponse | GetProductGroupMaxResponse) & {type: 'ITEM'
             </ng-container>
 
             <ng-container ngbColumnDef="name">
-              <th *ngbHeaderCellDef ngb-header-cell>{{ 'NAME' | transloco }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell>
+                {{ 'NAME' | transloco }}
+              </th>
               <td *ngbCellDef="let binItem" ngb-cell>
                 <div [class.ps-3]="binItem.type === 'ITEM'">
                   <app-text-with-color-indicator [color]="binItem.color">
@@ -78,7 +86,9 @@ type BinType = (GetProductResponse | GetProductGroupMaxResponse) & {type: 'ITEM'
             </ng-container>
 
             <ng-container ngbColumnDef="price">
-              <th *ngbHeaderCellDef ngb-header-cell>{{ 'PRICE' | transloco }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell>
+                {{ 'PRICE' | transloco }}
+              </th>
               <td *ngbCellDef="let binItem" ngb-cell>
                 @if (binItem.price) {
                   {{ binItem.price | currency }}
@@ -87,7 +97,9 @@ type BinType = (GetProductResponse | GetProductGroupMaxResponse) & {type: 'ITEM'
             </ng-container>
 
             <ng-container ngbColumnDef="soldOut">
-              <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_PROD_AVAILABLE' | transloco }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell>
+                {{ 'HOME_PROD_AVAILABLE' | transloco }}
+              </th>
               <td *ngbCellDef="let binItem" ngb-cell>
                 @if (binItem.soldOut !== undefined) {
                   {{ binItem.soldOut | soldOut }}
@@ -96,7 +108,9 @@ type BinType = (GetProductResponse | GetProductGroupMaxResponse) & {type: 'ITEM'
             </ng-container>
 
             <ng-container ngbColumnDef="initialStock">
-              <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_PROD_AMOUNT_LEFT' | transloco }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell>
+                {{ 'HOME_PROD_AMOUNT_LEFT' | transloco }}
+              </th>
               <td *ngbCellDef="let binItem" ngb-cell>
                 @if (binItem.initialStock) {
                   <span>
@@ -115,15 +129,17 @@ type BinType = (GetProductResponse | GetProductGroupMaxResponse) & {type: 'ITEM'
       <app-progress-bar [show]="pagination.loading()" />
 
       @if (!pagination.loading() && dataSource().length < 1) {
-        <div class="w-100 text-center mt-2">{{ 'RECYCLE_BIN_EMPTY' | transloco }}</div>
+        <div class="w-100 text-center mt-2">
+          {{ 'RECYCLE_BIN_EMPTY' | transloco }}
+        </div>
       }
 
       <ngb-paginator
-        showFirstLastButtons
         [length]="pagination.totalElements()"
         [pageSize]="pagination.params().size"
         [pageSizeOptions]="[5, 10, 20]"
         [pageIndex]="pagination.params().page"
+        showFirstLastButtons
       />
     </div>
   `,

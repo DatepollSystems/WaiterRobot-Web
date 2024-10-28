@@ -1,5 +1,8 @@
 import {Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
+
+import {Observable, filter, forkJoin, switchMap} from 'rxjs';
+
 import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
 import {injectOnDelete} from '@home-shared/form/edit';
@@ -8,7 +11,6 @@ import {injectIdParam$} from '@home-shared/services/injectActivatedRouteIdParam'
 import {injectOnSubmit} from '@shared/form';
 import {GetUserResponse, IdAndNameResponse} from '@shared/waiterrobot-backend';
 
-import {filter, forkJoin, Observable, switchMap} from 'rxjs';
 import {OrganisationsUsersService} from '../../../_admin/organisations/_services/organisations-users.service';
 import {OrganisationsService} from '../../../_admin/organisations/_services/organisations.service';
 import {UsersOrganisationsService} from '../services/users-organisations.service';
@@ -25,7 +27,7 @@ import {UserEditFormComponent} from './user-edit-form.component';
         <scrollable-toolbar>
           <back-button />
           <div *isEditing="entity">
-            <button type="button" class="btn btn-sm btn-outline-danger" (mousedown)="onDelete(entity.id)">
+            <button class="btn btn-sm btn-outline-danger" (mousedown)="onDelete(entity.id)" type="button">
               <bi name="trash" />
               {{ 'DELETE' | transloco }}
             </button>
@@ -53,12 +55,10 @@ import {UserEditFormComponent} from './user-edit-form.component';
   standalone: true,
 })
 export class UserEditComponent extends AbstractModelEditComponent<GetUserResponse> {
-  onDelete = injectOnDelete((it: number) => this.usersService.delete$(it).subscribe());
-  onSubmit = injectOnSubmit({entityService: this.usersService});
+  #usersService = inject(UsersService);
 
-  constructor(private usersService: UsersService) {
-    super(usersService);
-  }
+  onDelete = injectOnDelete((it: number) => this.#usersService.delete$(it).subscribe());
+  onSubmit = injectOnSubmit({entityService: this.#usersService});
 
   usersOrganisationsService = inject(UsersOrganisationsService);
   organisationsUsersService = inject(OrganisationsUsersService);
@@ -73,7 +73,9 @@ export class UserEditComponent extends AbstractModelEditComponent<GetUserRespons
     },
   );
 
-  organisations = toSignal(inject(OrganisationsService).getAll$(), {initialValue: []});
+  organisations = toSignal(inject(OrganisationsService).getAll$(), {
+    initialValue: [],
+  });
 
   orgUserChange(organisations: IdAndNameResponse[]): void {
     const user = this.entity();
@@ -111,5 +113,9 @@ export class UserEditComponent extends AbstractModelEditComponent<GetUserRespons
     }
 
     forkJoin(todos).subscribe();
+  }
+
+  constructor(usersService: UsersService) {
+    super(usersService);
   }
 }

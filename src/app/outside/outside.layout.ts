@@ -1,10 +1,11 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 
+import {BiComponent} from 'dfx-bootstrap-icons';
+
 import {FooterComponent} from '@shared/ui/footer/footer.component';
 import {ThemeSwitcherComponent} from '@shared/ui/theme-switcher.component';
 
-import {BiComponent} from 'dfx-bootstrap-icons';
 import {AppLogoWithTextComponent} from './_shared/app-logo-with-text.component';
 
 @Component({

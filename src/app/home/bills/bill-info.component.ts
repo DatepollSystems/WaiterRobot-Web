@@ -1,13 +1,12 @@
 import {AsyncPipe, DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {TranslocoPipe} from '@jsverse/transloco';
-
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-
-import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {combineLatest, map, switchMap} from 'rxjs';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {AppBackButtonComponent} from '../_shared/components/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';

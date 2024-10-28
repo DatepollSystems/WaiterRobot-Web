@@ -1,9 +1,10 @@
 import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
+
+import {Observable, switchMap} from 'rxjs';
 
 import {IdAndNameResponse} from '@shared/waiterrobot-backend';
 
-import {Observable, switchMap} from 'rxjs';
 import {OrganisationsUsersService} from '../../../_admin/organisations/_services/organisations-users.service';
 
 @Injectable({

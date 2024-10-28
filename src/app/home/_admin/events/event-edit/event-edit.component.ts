@@ -1,4 +1,8 @@
 import {ChangeDetectionStrategy, Component, inject, numberAttribute} from '@angular/core';
+
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {injectQueryParams} from 'ngxtension/inject-query-params';
+
 import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
 import {injectOnDelete} from '@home-shared/form/edit';
@@ -7,8 +11,6 @@ import {MyUserService} from '@home-shared/services/user/my-user.service';
 import {injectOnSubmit} from '@shared/form';
 import {GetEventOrLocationResponse} from '@shared/waiterrobot-backend';
 
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {injectQueryParams} from 'ngxtension/inject-query-params';
 import {EventsService} from '../_services/events.service';
 import {AppEventEditFormComponent} from './event-edit-form.component';
 
@@ -25,7 +27,7 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
           <ng-container *isEditing="entity">
             @if (myUser()?.isAdmin) {
               <div>
-                <button type="button" class="btn btn-sm btn-outline-danger" (mousedown)="onDelete(entity.id)">
+                <button class="btn btn-sm btn-outline-danger" (mousedown)="onDelete(entity.id)" type="button">
                   <bi name="trash" />
                   {{ 'DELETE' | transloco }}
                 </button>
@@ -55,13 +57,17 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
   imports: [AppEntityEditModule, BiComponent, AppEventEditFormComponent],
 })
 export class EventEditComponent extends AbstractModelEditComponent<GetEventOrLocationResponse> {
-  onDelete = injectOnDelete((it: number) => this.eventsService.delete$(it).subscribe());
-  onSubmit = injectOnSubmit({entityService: this.eventsService});
+  #eventsService = inject(EventsService);
+
+  onDelete = injectOnDelete((it: number) => this.#eventsService.delete$(it).subscribe());
+  onSubmit = injectOnSubmit({entityService: this.#eventsService});
 
   myUser = inject(MyUserService).user;
-  selectedOrganisationId = injectQueryParams('orgId', {transform: numberAttribute});
+  selectedOrganisationId = injectQueryParams('orgId', {
+    transform: numberAttribute,
+  });
 
-  constructor(private eventsService: EventsService) {
+  constructor(eventsService: EventsService) {
     super(eventsService);
   }
 }

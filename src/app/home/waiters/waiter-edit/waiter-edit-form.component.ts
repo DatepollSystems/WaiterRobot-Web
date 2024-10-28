@@ -1,27 +1,27 @@
-import {ChangeDetectionStrategy, Component, input, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgSelectModule} from '@ng-select/ng-select';
+import {HasNumberIDAndName} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 import {allowedCharacterSet} from '@home-shared/regex';
 
-import {NgSelectModule} from '@ng-select/ng-select';
-import {TranslocoPipe} from '@jsverse/transloco';
 import {injectIsValid} from '@shared/form';
 import {CreateWaiterDto, GetEventOrLocationMinResponse, GetWaiterResponse, UpdateWaiterDto} from '@shared/waiterrobot-backend';
-
-import {HasNumberIDAndName} from 'dfts-helper';
-import {BiComponent} from 'dfx-bootstrap-icons';
 
 @Component({
   template: `
     @if (isValid()) {}
 
-    <form #formRef class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="submit()">
+    <form class="d-flex flex-column gap-3" #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="row g-3">
         <div class="form-group col-sm-12 col-md-4 col-lg-5 col-xl-6">
           <label for="name">{{ 'NAME' | transloco }}</label>
-          <input class="form-control" type="text" id="name" formControlName="name" [placeholder]="'NAME' | transloco" />
+          <input class="form-control" id="name" [placeholder]="'NAME' | transloco" type="text" formControlName="name" />
 
           @if (form.controls.name.invalid) {
             <small class="text-danger">
@@ -33,21 +33,21 @@ import {BiComponent} from 'dfx-bootstrap-icons';
         <div class="form-group col-sm-12 col-md-8 col-lg-7 col-xl-6">
           <label for="eventSelect">{{ 'HOME_WAITERS_EDIT_EVENTS' | transloco }}</label>
           <ng-select
+            [items]="events()"
+            [multiple]="true"
+            [placeholder]="'HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER' | transloco"
             bindLabel="name"
             bindValue="id"
             labelForId="eventSelect"
             clearAllText="Clear"
             formControlName="eventIds"
-            [items]="events()"
-            [multiple]="true"
-            [placeholder]="'HOME_WAITERS_EDIT_EVENTS_PLACEHOLDER' | transloco"
           />
         </div>
       </div>
 
       <div class="d-flex flex-column flex-md-row gap-2 gap-md-4">
         <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="activated" formControlName="activated" />
+          <input class="form-check-input" id="activated" type="checkbox" formControlName="activated" />
           <label class="form-check-label" for="activated">
             {{ 'HOME_USERS_ACTIVATED' | transloco }}
           </label>

@@ -1,8 +1,7 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, booleanAttribute, inject, input} from '@angular/core';
 
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
-
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {OrdersService} from '../orders.service';
@@ -10,12 +9,12 @@ import {OrdersService} from '../orders.service';
 @Component({
   template: `
     <button
-      type="button"
       class="btn btn-outline-secondary d-flex align-items-center gap-2"
-      placement="left"
       [class.btnSpinner]="loading()"
       [ngbTooltip]="'HOME_ORDER_REFRESH_NOW' | transloco"
       (mousedown)="ordersService.triggerRefresh.next(true)"
+      type="button"
+      placement="left"
     >
       <bi name="arrow-clockwise" />
       @if (countdown()) {

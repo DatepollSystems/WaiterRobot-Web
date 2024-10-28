@@ -1,10 +1,10 @@
 import {DatePipe, NgClass} from '@angular/common';
-import {booleanAttribute, ChangeDetectionStrategy, Component, computed, input, output} from '@angular/core';
-
-import {GetSystemNotificationResponse} from '@shared/waiterrobot-backend';
+import {ChangeDetectionStrategy, Component, booleanAttribute, computed, input, output} from '@angular/core';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
+
+import {GetSystemNotificationResponse} from '@shared/waiterrobot-backend';
 
 @Component({
   template: `
@@ -56,7 +56,7 @@ import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
             </h5>
           </div>
           @if (!disableIgnore()) {
-            <button type="button" class="btn-close" aria-label="Close the alert" (mousedown)="ignore.emit(notification.id)"></button>
+            <button class="btn-close" (mousedown)="ignore.emit(notification.id)" type="button" aria-label="Close the alert"></button>
           }
         </div>
         <div>

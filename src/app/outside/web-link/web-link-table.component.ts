@@ -2,18 +2,18 @@ import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {AppBackDirective} from '@home-shared/components/button/app-back-button.component';
-import {TranslocoPipe} from '@jsverse/transloco';
-
-import {GetOpenBillResponse, GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
-
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxCurrencyCentPipe} from 'dfx-helper';
-
-import {filterNil} from 'ngxtension/filter-nil';
 
 import {combineLatest, map, shareReplay, switchMap} from 'rxjs';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxCurrencyCentPipe} from 'dfx-helper';
+import {filterNil} from 'ngxtension/filter-nil';
 import {AppSpinnerRowComponent} from 'src/app/_shared/ui/loading/app-spinner-row.component';
+
+import {AppBackDirective} from '@home-shared/components/button/app-back-button.component';
+
+import {GetOpenBillResponse, GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
 @Component({
   template: `
@@ -49,7 +49,9 @@ import {AppSpinnerRowComponent} from 'src/app/_shared/ui/loading/app-spinner-row
       }
 
       <div class="mt-3 d-flex flex-column flex-md-row justify-content-between gap-2">
-        <button type="button" back class="btn btn-secondary btn-sm">{{ 'GO_BACK' | transloco }}</button>
+        <button class="btn btn-secondary btn-sm" type="button" back>
+          {{ 'GO_BACK' | transloco }}
+        </button>
         <!--      <div class="d-flex gap-2">-->
         <!--        <a routerLink="./orders" class="btn btn-outline-primary btn-sm">-->
         <!--          <bi name="view-stacked" />-->

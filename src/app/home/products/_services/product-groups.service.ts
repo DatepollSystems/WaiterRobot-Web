@@ -1,41 +1,28 @@
-import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
-import {getPaginationParams, PageableDto} from '@home-shared/services/pagination';
+import {Injectable, inject} from '@angular/core';
 
+import {BehaviorSubject, combineLatest, map, switchMap, tap} from 'rxjs';
+
+import {HasDelete, HasGetSingle} from 'dfx-helper';
+
+import {BackendType, PageableDto, injectAPI} from '@shared/api';
+import {SelectedEventService} from '@shared/services/selected-event.service';
 import {HasCreateWithIdResponse, HasOrdered, HasUpdateWithIdResponse} from '@shared/services/services.interface';
-import {
-  CreateProductGroupDto,
-  EntityOrderDto,
-  GetProductGroupResponse,
-  IdResponse,
-  PaginatedResponseGetProductGroupMaxResponse,
-  UpdateProductGroupDto,
-} from '@shared/waiterrobot-backend';
-
-import {s_from} from 'dfts-helper';
-import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
-
-import {BehaviorSubject, combineLatest, map, Observable, switchMap, tap} from 'rxjs';
-import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
 export class ProductGroupsService
   implements
-    HasGetAll<GetProductGroupResponse>,
-    HasGetSingle<GetProductGroupResponse>,
-    HasCreateWithIdResponse<CreateProductGroupDto>,
-    HasUpdateWithIdResponse<UpdateProductGroupDto>,
-    HasDelete<GetProductGroupResponse>,
-    HasOrdered<GetProductGroupResponse>
+    HasGetSingle<BackendType['GetProductGroupResponse']>,
+    HasCreateWithIdResponse<BackendType['CreateProductGroupDto']>,
+    HasUpdateWithIdResponse<BackendType['UpdateProductGroupDto']>,
+    HasDelete<BackendType['GetProductGroupResponse']>,
+    HasOrdered<BackendType['GetProductGroupResponse']>
 {
-  url = '/config/product/group';
-
-  private httpClient = inject(HttpClient);
-  private selectedEventService = inject(SelectedEventService);
+  #api = injectAPI();
+  #selectedEventService = inject(SelectedEventService);
 
   triggerGet$ = new BehaviorSubject(true);
 
-  #sortByPositionAndName(a: GetProductGroupResponse, b: GetProductGroupResponse) {
+  #sortByPositionAndName(a: BackendType['GetProductGroupResponse'], b: BackendType['GetProductGroupResponse']) {
     // Default to a high value if position is undefined
     const groupPositionA = a.position ?? 100000;
     const groupPositionB = b.position ?? 100000;
@@ -50,54 +37,96 @@ export class ProductGroupsService
     return groupNameCompare;
   }
 
-  getAll$(): Observable<GetProductGroupResponse[]> {
-    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
-      switchMap(([eventId]) => this.httpClient.get<GetProductGroupResponse[]>(this.url, {params: {eventId}})),
+  getAll$() {
+    return combineLatest([this.#selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
+      switchMap(([eventId]) =>
+        this.#api.get('/v1/config/product/group', {
+          params: {
+            query: {
+              eventId,
+            },
+          },
+        }),
+      ),
       map((it) => it.sort(this.#sortByPositionAndName)),
     );
   }
 
-  getSingle$(id: number): Observable<GetProductGroupResponse> {
-    return this.httpClient.get<GetProductGroupResponse>(`${this.url}/${s_from(id)}`);
+  getSingle$(id: number) {
+    return this.#api.get('/v1/config/product/group/{id}', {
+      params: {
+        path: {
+          id,
+        },
+      },
+    });
   }
 
-  create$(dto: CreateProductGroupDto): Observable<IdResponse> {
-    return this.httpClient.post<IdResponse>(this.url, dto).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
-    );
+  create$(body: BackendType['CreateProductGroupDto']) {
+    return this.#api
+      .post('/v1/config/product/group', {
+        body,
+      })
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
   }
 
-  update$(dto: UpdateProductGroupDto): Observable<IdResponse> {
-    return this.httpClient.put<IdResponse>(this.url, dto).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
-    );
+  update$(body: BackendType['UpdateProductGroupDto']) {
+    return this.#api
+      .put('/v1/config/product/group', {
+        body,
+      })
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
   }
 
-  delete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${s_from(id)}`);
+  delete$(id: number) {
+    return this.#api.delete('/v1/config/product/group/{id}', {
+      params: {
+        path: {id},
+      },
+    });
   }
 
-  unDelete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${s_from(id)}/undo`);
+  unDelete$(id: number) {
+    return this.#api.delete('/v1/config/product/group/{id}/undo', {
+      params: {
+        path: {id},
+      },
+    });
   }
 
-  getAllDeleted$(options: PageableDto): Observable<PaginatedResponseGetProductGroupMaxResponse> {
-    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
+  getAllDeleted$(options: PageableDto) {
+    return combineLatest([this.#selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
       switchMap(([eventId]) =>
-        this.httpClient.get<PaginatedResponseGetProductGroupMaxResponse>(`${this.url}/deleted`, {
-          params: getPaginationParams(options).append('eventId', eventId),
+        this.#api.get('/v1/config/product/group/deleted', {
+          params: {
+            query: {
+              eventId,
+              ...options,
+            },
+          },
         }),
       ),
     );
   }
 
-  order$(dto: EntityOrderDto[]): Observable<IdResponse[]> {
-    return this.httpClient
-      .patch<IdResponse[]>(`${this.url}/order`, dto, {params: {eventId: this.selectedEventService.selectedId() ?? 'UNKNOWN'}})
+  order$(body: BackendType['EntityOrderDto'][]) {
+    return this.#api
+      .patch('/v1/config/product/group/order', {
+        body,
+        params: {
+          query: {
+            eventId: this.#selectedEventService.selectedId() ?? -1,
+          },
+        },
+      })
       .pipe(
         tap(() => {
           this.triggerGet$.next(true);

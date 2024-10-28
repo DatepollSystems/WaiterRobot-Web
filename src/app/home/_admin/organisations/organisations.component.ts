@@ -2,20 +2,21 @@ import {UpperCasePipe} from '@angular/common';
 import {Component, inject, viewChild} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
-import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect, ListFilterComponent} from '@home-shared/list';
-import {mapName} from '@home-shared/name-map';
+
 import {TranslocoPipe} from '@jsverse/transloco';
-
 import {NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {StopPropagationDirective} from 'dfx-helper';
 
-import {OrganisationsService} from './_services/organisations.service';
+import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+import {ListFilterComponent, injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
+import {mapName} from '@home-shared/name-map';
+
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+
+import {OrganisationsService} from './_services/organisations.service';
 
 @Component({
   template: `
@@ -24,7 +25,7 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
 
       <scrollable-toolbar>
         <div>
-          <a routerLink="../create" class="btn btn-sm btn-success">
+          <a class="btn btn-sm btn-success" routerLink="../create">
             <bi name="plus-circle" />
             {{ 'ADD_2' | transloco }}</a
           >
@@ -32,10 +33,10 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
 
         <div>
           <button
-            type="button"
             class="btn btn-sm btn-danger"
             [class.disabled]="!selection.hasValue()"
             (mousedown)="delete.onDeleteSelected()"
+            type="button"
           >
             <bi name="trash" />
             {{ 'DELETE' | transloco }}
@@ -47,16 +48,16 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
 
       @if (table.dataSource(); as dataSource) {
         <div class="table-responsive">
-          <table ngb-table ngb-sort ngbSortActive="name" ngbSortDirection="asc" [hover]="true" [dataSource]="dataSource">
+          <table [hover]="true" [dataSource]="dataSource" ngb-table ngb-sort ngbSortActive="name" ngbSortDirection="asc">
             <ng-container ngbColumnDef="select">
               <th *ngbHeaderCellDef ngb-header-cell>
                 <div class="form-check">
                   <input
                     class="form-check-input"
-                    type="checkbox"
-                    name="selectAll"
                     [checked]="selection.isAllSelected()"
                     (change)="selection.toggleAll()"
+                    type="checkbox"
+                    name="selectAll"
                   />
                 </div>
               </th>
@@ -64,10 +65,10 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
                 <div class="form-check">
                   <input
                     class="form-check-input"
-                    type="checkbox"
-                    name="select"
                     [checked]="selection.isSelected(selectable)"
                     (change)="selection.toggle(selectable, !selection.isSelected(selectable))"
+                    type="checkbox"
+                    name="select"
                   />
                 </div>
               </td>
@@ -75,27 +76,36 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
 
             <ng-container ngbColumnDef="id">
               <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
-              <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.id }}</td>
+              <td *ngbCellDef="let organisation" ngb-cell>
+                {{ organisation.id }}
+              </td>
             </ng-container>
 
             <ng-container ngbColumnDef="name">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
-              <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.name }}</td>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'NAME' | transloco }}
+              </th>
+              <td *ngbCellDef="let organisation" ngb-cell>
+                {{ organisation.name }}
+              </td>
             </ng-container>
 
             <ng-container ngbColumnDef="street">
               <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
-                {{ 'HOME_ORGS_STREET' | transloco }} , {{ 'HOME_ORGS_STREETNUMBER' | transloco }}
+                {{ 'HOME_ORGS_STREET' | transloco }} ,
+                {{ 'HOME_ORGS_STREETNUMBER' | transloco }}
               </th>
               <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.street }} {{ organisation.streetNumber }}</td>
             </ng-container>
 
             <ng-container ngbColumnDef="city">
               <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
-                {{ 'HOME_ORGS_CITY' | transloco }} , {{ 'HOME_ORGS_COUNTRY_CODE' | transloco }}
+                {{ 'HOME_ORGS_CITY' | transloco }} ,
+                {{ 'HOME_ORGS_COUNTRY_CODE' | transloco }}
               </th>
               <td *ngbCellDef="let organisation" ngb-cell>
-                {{ organisation.postalCode }} {{ organisation.city }}, {{ organisation.countryCode | uppercase }}
+                {{ organisation.postalCode }} {{ organisation.city }},
+                {{ organisation.countryCode | uppercase }}
               </td>
             </ng-container>
 
@@ -105,15 +115,15 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
               </th>
               <td *ngbCellDef="let organisation" ngb-cell>
                 <app-action-dropdown>
-                  <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../' + organisation.id">
+                  <a class="d-flex gap-2 align-items-center" [routerLink]="'../' + organisation.id" type="button" ngbDropdownItem>
                     <bi name="pencil-square" />
                     {{ 'EDIT' | transloco }}
                   </a>
                   <button
-                    type="button"
                     class="d-flex gap-2 align-items-center text-danger-emphasis"
-                    ngbDropdownItem
                     (mousedown)="delete.onDelete(organisation.id)"
+                    type="button"
+                    ngbDropdownItem
                   >
                     <bi name="trash" />
                     {{ 'DELETE' | transloco }}
@@ -123,7 +133,7 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
             </ng-container>
 
             <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
-            <tr *ngbRowDef="let organisation; columns: table.columnsToDisplay()" ngb-row [routerLink]="'../' + organisation.id"></tr>
+            <tr *ngbRowDef="let organisation; columns: table.columnsToDisplay()" [routerLink]="'../' + organisation.id" ngb-row></tr>
           </table>
         </div>
 

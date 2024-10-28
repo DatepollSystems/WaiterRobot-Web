@@ -1,15 +1,15 @@
-import {ChangeDetectionStrategy, Component, inject, Input, input, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, inject, input, output} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgSelectModule} from '@ng-select/ng-select';
 
 import {AppBackButtonComponent} from '@home-shared/components/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
-import {TranslocoPipe} from '@jsverse/transloco';
-
-import {NgSelectModule} from '@ng-select/ng-select';
 import {injectIsValid} from '@shared/form';
 import {CreateUserDto, GetOrganisationResponse, GetUserResponse, IdAndNameResponse, UpdateUserDto} from '@shared/waiterrobot-backend';
 
@@ -17,11 +17,11 @@ import {CreateUserDto, GetOrganisationResponse, GetUserResponse, IdAndNameRespon
   template: `
     @if (isValid()) {}
 
-    <form #formRef class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="submit()">
+    <form class="d-flex flex-column gap-3" #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="row gy-2">
         <div class="form-group col-sm">
           <label for="email">{{ 'EMAIL' | transloco }}</label>
-          <input class="form-control" type="email" id="email" formControlName="emailAddress" [placeholder]="'EMAIL' | transloco" />
+          <input class="form-control" id="email" [placeholder]="'EMAIL' | transloco" type="email" formControlName="emailAddress" />
 
           @if (form.controls.emailAddress.invalid) {
             <small class="text-danger">
@@ -32,7 +32,7 @@ import {CreateUserDto, GetOrganisationResponse, GetUserResponse, IdAndNameRespon
 
         <div class="form-group col-sm">
           <label for="firstname">{{ 'FIRSTNAME' | transloco }}</label>
-          <input class="form-control" type="text" id="firstname" formControlName="firstname" [placeholder]="'FIRSTNAME' | transloco" />
+          <input class="form-control" id="firstname" [placeholder]="'FIRSTNAME' | transloco" type="text" formControlName="firstname" />
 
           @if (form.controls.firstname.invalid) {
             <small class="text-danger">
@@ -43,7 +43,7 @@ import {CreateUserDto, GetOrganisationResponse, GetUserResponse, IdAndNameRespon
 
         <div class="form-group col-sm">
           <label for="surname">{{ 'SURNAME' | transloco }}</label>
-          <input class="form-control" type="text" id="surname" formControlName="surname" [placeholder]="'SURNAME' | transloco" />
+          <input class="form-control" id="surname" [placeholder]="'SURNAME' | transloco" type="text" formControlName="surname" />
           @if (form.controls.surname.invalid) {
             <small class="text-danger">
               {{ 'HOME_USERS_SUR_NAME_INCORRECT' | transloco }}
@@ -56,7 +56,7 @@ import {CreateUserDto, GetOrganisationResponse, GetUserResponse, IdAndNameRespon
         <div class="col col-md-6">
           <div class="form-group mb-2">
             <label for="password">{{ 'PASSWORD' | transloco }}</label>
-            <input class="form-control" type="password" id="password" formControlName="password" placeholder="*******" />
+            <input class="form-control" id="password" type="password" formControlName="password" placeholder="*******" />
 
             @if (form.controls.password.invalid) {
               <small class="text-danger">
@@ -67,7 +67,7 @@ import {CreateUserDto, GetOrganisationResponse, GetUserResponse, IdAndNameRespon
 
           @if (!isCreating()) {
             <div class="form-check form-switch mt-2">
-              <input class="form-check-input" type="checkbox" role="switch" id="updatePassword" formControlName="updatePassword" />
+              <input class="form-check-input" id="updatePassword" type="checkbox" role="switch" formControlName="updatePassword" />
               <label class="form-check-label" for="updatePassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD' | transloco }}</label>
             </div>
           }
@@ -77,22 +77,22 @@ import {CreateUserDto, GetOrganisationResponse, GetUserResponse, IdAndNameRespon
           <div class="form-group col">
             <label for="orgSelect">{{ 'NAV_ORGANISATIONS' | transloco }}</label>
             <ng-select
+              [items]="organisations()"
+              [multiple]="true"
+              [placeholder]="'HOME_USERS_ORGS_INPUT_PLACEHOLDER' | transloco"
+              (change)="userOrganisations.emit($event)"
               bindLabel="name"
               bindValue="id"
               labelForId="orgSelect"
               clearAllText="Clear"
               formControlName="selectedOrganisations"
-              [items]="organisations()"
-              [multiple]="true"
-              [placeholder]="'HOME_USERS_ORGS_INPUT_PLACEHOLDER' | transloco"
-              (change)="userOrganisations.emit($event)"
             />
           </div>
         }
       </div>
 
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="sendInvitation" formControlName="sendInvitation" />
+        <input class="form-check-input" id="sendInvitation" type="checkbox" formControlName="sendInvitation" />
         <label class="form-check-label" for="sendInvitation">
           {{ 'HOME_USERS_SEND_INVITE' | transloco }}
         </label>
@@ -100,7 +100,7 @@ import {CreateUserDto, GetOrganisationResponse, GetUserResponse, IdAndNameRespon
 
       <div class="d-flex flex-column flex-md-row gap-2 gap-md-4">
         <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="isAdmin" formControlName="isAdmin" />
+          <input class="form-check-input" id="isAdmin" type="checkbox" formControlName="isAdmin" />
           <label class="form-check-label" for="isAdmin">
             {{ 'HOME_USERS_ADMIN' | transloco }}
           </label>
@@ -108,7 +108,7 @@ import {CreateUserDto, GetOrganisationResponse, GetUserResponse, IdAndNameRespon
 
         @if (!isCreating()) {
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="activated" formControlName="activated" />
+            <input class="form-check-input" id="activated" type="checkbox" formControlName="activated" />
             <label class="form-check-label" for="activated">
               {{ 'HOME_USERS_ACTIVATED' | transloco }}
             </label>
@@ -116,7 +116,7 @@ import {CreateUserDto, GetOrganisationResponse, GetUserResponse, IdAndNameRespon
         }
 
         <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="forcePasswordChange" formControlName="forcePasswordChange" />
+          <input class="form-check-input" id="forcePasswordChange" type="checkbox" formControlName="forcePasswordChange" />
           <label class="form-check-label" for="forcePasswordChange">
             {{ 'HOME_USERS_FORCE_PASSWORD_CHANGE' | transloco }}
           </label>

@@ -1,5 +1,5 @@
 import {AsyncPipe, NgTemplateOutlet} from '@angular/common';
-import {ChangeDetectionStrategy, Component, HostBinding, inject, TemplateRef} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostBinding, TemplateRef, inject} from '@angular/core';
 
 import {NgbToast} from '@ng-bootstrap/ng-bootstrap';
 

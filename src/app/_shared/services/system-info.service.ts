@@ -1,14 +1,13 @@
-import {HttpClient} from '@angular/common/http';
-import {computed, inject, Injectable, signal} from '@angular/core';
+import {Injectable, computed, inject, signal} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
-import {b_fromStorage, st_set} from 'dfts-helper';
+import {catchError, interval, map, merge, of, switchMap, timer} from 'rxjs';
 
+import {b_fromStorage, st_set} from 'dfts-helper';
 import {connect} from 'ngxtension/connect';
 
-import {catchError, interval, map, merge, Observable, of, switchMap, timer} from 'rxjs';
+import {BackendType, injectAPI} from '@shared/api';
 
-import {AdminInfoResponse, JsonInfoResponse} from '../waiterrobot-backend';
 import {AuthService} from './auth/auth.service';
 
 interface ServerInfoState {
@@ -17,8 +16,8 @@ interface ServerInfoState {
   publicInfo?: {
     lastPing: Date;
     responseTime: number;
-  } & JsonInfoResponse;
-  adminInfo?: AdminInfoResponse;
+  } & BackendType['JsonInfoResponse'];
+  adminInfo?: BackendType['AdminInfoResponse'];
 }
 
 const refreshIn = 20;
@@ -27,10 +26,10 @@ const refreshIn = 20;
   providedIn: 'any',
 })
 export class SystemInfoService {
-  private httpClient = inject(HttpClient);
-  private authService = inject(AuthService);
+  #api = injectAPI();
+  #authService = inject(AuthService);
 
-  private serverInfoState = signal<ServerInfoState>({
+  #serverInfoState = signal<ServerInfoState>({
     status: 'Pending',
     refreshIn,
   });
@@ -39,7 +38,7 @@ export class SystemInfoService {
     takeUntilDestroyed(),
     map(() => new Date().getTime()),
     switchMap((startMs) =>
-      this.httpClient.get<JsonInfoResponse>('/json').pipe(
+      this.#api.get('/v1/json').pipe(
         map((response) => ({
           status: 'Online' as const,
           refreshIn,
@@ -54,8 +53,8 @@ export class SystemInfoService {
     ),
   );
 
-  private getAdminInfo$: Observable<AdminInfoResponse | undefined> = this.authService.status$.pipe(
-    switchMap((status) => (status === 'LOGGED_IN' ? this.httpClient.get<AdminInfoResponse>('/config/info/environment') : of(undefined))),
+  private getAdminInfo$ = this.#authService.status$.pipe(
+    switchMap((status) => (status === 'LOGGED_IN' ? this.#api.get('/v1/config/info/environment') : of(undefined))),
     catchError(() => of(undefined)),
   );
 
@@ -63,16 +62,19 @@ export class SystemInfoService {
     interval(1000)
       .pipe(takeUntilDestroyed())
       .subscribe(() => {
-        this.serverInfoState.update((it) => ({...it, refreshIn: it.refreshIn - 1}));
+        this.#serverInfoState.update((it) => ({
+          ...it,
+          refreshIn: it.refreshIn - 1,
+        }));
       });
 
-    connect(this.serverInfoState, merge(this.getJsonInfo$, this.getAdminInfo$.pipe(map((adminInfo) => ({adminInfo})))));
+    connect(this.#serverInfoState, merge(this.getJsonInfo$, this.getAdminInfo$.pipe(map((adminInfo) => ({adminInfo})))));
   }
 
-  public status = computed(() => this.serverInfoState().status);
-  public refreshIn = computed(() => this.serverInfoState().refreshIn);
-  public publicInfo = computed(() => this.serverInfoState().publicInfo);
-  public adminInfo = computed(() => this.serverInfoState().adminInfo);
+  public status = computed(() => this.#serverInfoState().status);
+  public refreshIn = computed(() => this.#serverInfoState().refreshIn);
+  public publicInfo = computed(() => this.#serverInfoState().publicInfo);
+  public adminInfo = computed(() => this.#serverInfoState().adminInfo);
 }
 
 @Injectable({

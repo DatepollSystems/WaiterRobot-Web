@@ -1,15 +1,20 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
-import {FullScreenService} from '@home-shared/services/fullscreen.service';
+
+import {filter, pairwise} from 'rxjs';
+
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
-import {FooterComponent} from '@shared/ui/footer/footer.component';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {injectWindow} from 'dfx-helper';
 import {injectNetwork} from 'ngxtension/inject-network';
-import {filter, pairwise} from 'rxjs';
-import {SelectedEventService} from '../_admin/events/_services/selected-event.service';
+
+import {FullScreenService} from '@home-shared/services/fullscreen.service';
+
+import {SelectedEventService} from '@shared/services/selected-event.service';
+import {FooterComponent} from '@shared/ui/footer/footer.component';
+
 import {
   ActiveSystemNotificationsComponent,
   ActiveSystemNotificationsDesktopComponent,
@@ -34,11 +39,11 @@ export class HomeTitle {}
     <div class="container-fluid">
       <div class="row">
         <div class="col pt-3 px-3 bg-body-tertiary position-fixed h-100 nav-container d-none d-xl-block">
-          <app-nav id="sidenav" class="d-flex flex-column flex-shrink-0 h-100 overflow-y-scroll overflow-x-hidden" />
+          <app-nav class="d-flex flex-column flex-shrink-0 h-100 overflow-y-scroll overflow-x-hidden" id="sidenav" />
         </div>
         <div class="col main-container pt-3">
           <header class="d-flex d-xl-none justify-content-between align-items-center border-bottom pb-2">
-            <button type="button" class="btn border-0 d-inline-flex" (click)="openMobileNav()">
+            <button class="btn border-0 d-inline-flex" (click)="openMobileNav()" type="button">
               <bi name="list" size="24" />
             </button>
 
@@ -134,7 +139,9 @@ export class HomeLayout {
   networkOnline = injectNetwork().online;
 
   openMobileNav() {
-    this.offcanvasService.open(MobileNavComponent, {ariaLabelledBy: 'offcanvas-mobile-nav'});
+    this.offcanvasService.open(MobileNavComponent, {
+      ariaLabelledBy: 'offcanvas-mobile-nav',
+    });
   }
 
   constructor() {
@@ -155,6 +162,6 @@ export class HomeLayout {
   }
 
   private extractUrlWithoutQueryParams(url: string): string {
-    return url.split('?')[0];
+    return url.split('?')[0] ?? '';
   }
 }

@@ -1,7 +1,9 @@
 import {NgStyle} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
-import {ThemeService} from '@shared/services/theme.service';
+
 import {AppAdjustDarkModeColor} from '@home-shared/components/color/app-adjust-dark-mode-color.pipe';
+
+import {ThemeService} from '@shared/services/theme.service';
 
 @Component({
   template: `

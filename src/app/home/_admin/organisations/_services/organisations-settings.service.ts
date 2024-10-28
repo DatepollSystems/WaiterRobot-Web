@@ -1,27 +1,31 @@
-import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import {OrganisationSettingsResponse} from '@shared/waiterrobot-backend';
+import {Observable, combineLatest, map, of, startWith, switchMap} from 'rxjs';
+
 import {signalSlice} from 'ngxtension/signal-slice';
 
-import {combineLatest, map, Observable, of, startWith, switchMap} from 'rxjs';
+import {BackendType, injectAPI} from '@shared/api';
 
 type OrganisationsSettingsState = {
   organisationId: number | undefined;
   state: 'LOADING' | 'SETTING' | 'DONE';
-  settings: OrganisationSettingsResponse | undefined;
+  settings: BackendType['OrganisationSettingsResponse'] | undefined;
 };
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrganisationsSettingsService {
-  #httpService = inject(HttpClient);
+  #api = injectAPI();
 
-  #getSettings$(organisationId: number): Observable<OrganisationSettingsResponse> {
-    return this.#httpService
-      .get<OrganisationSettingsResponse>('/config/organisation/settings', {
-        params: {organisationId},
+  #getSettings$(organisationId: number) {
+    return this.#api
+      .get('/v1/config/organisation/settings', {
+        params: {
+          query: {
+            organisationId,
+          },
+        },
       })
       .pipe(
         map((it) => {
@@ -32,10 +36,20 @@ export class OrganisationsSettingsService {
   }
 
   #set(organisationId: number, key: string, value: boolean | number | string): Observable<Partial<OrganisationsSettingsState>> {
-    return this.#httpService.put<OrganisationSettingsResponse>(`/config/organisation/${organisationId}/setting/${key}`, {value}).pipe(
-      map((settings) => ({state: 'DONE' as const, settings})),
-      startWith({state: 'SETTING' as const}),
-    );
+    return this.#api
+      .put(
+        // @ts-ignore
+        `/config/organisation/${organisationId}/setting/${key}`,
+        {
+          body: {
+            value,
+          },
+        },
+      )
+      .pipe(
+        map((settings) => ({state: 'DONE' as const, settings})),
+        startWith({state: 'SETTING' as const}),
+      );
   }
 
   #initialState: OrganisationsSettingsState = {
@@ -50,7 +64,11 @@ export class OrganisationsSettingsService {
       load: (_state, $: Observable<number>) =>
         $.pipe(
           switchMap((organisationId) => combineLatest([this.#getSettings$(organisationId), of(organisationId)])),
-          map(([settings, organisationId]) => ({state: 'DONE', settings, organisationId})),
+          map(([settings, organisationId]) => ({
+            state: 'DONE',
+            settings,
+            organisationId,
+          })),
         ),
       setActivateWaiterOnLoginViaCreateToken: (_state, $: Observable<boolean>) =>
         $.pipe(switchMap((value) => this.#set(_state().organisationId!, 'activateWaiterOnLoginViaCreateToken', value))),

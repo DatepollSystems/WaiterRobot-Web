@@ -1,20 +1,20 @@
 import {ChangeDetectionStrategy, Component, Input, input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgSelectModule} from '@ng-select/ng-select';
+import {HasNumberIDAndName, a_pluck, s_from} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
+
 import {AppColorPicker} from '@home-shared/components/color/color-picker.component';
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 import {allowedCharacterSet, s_toCurrencyNumber} from '@home-shared/regex';
-import {TranslocoPipe} from '@jsverse/transloco';
-
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {NgSelectModule} from '@ng-select/ng-select';
 
 import {injectIsValid} from '@shared/form';
 import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '@shared/waiterrobot-backend';
-
-import {a_pluck, HasNumberIDAndName, s_from} from 'dfts-helper';
-import {BiComponent} from 'dfx-bootstrap-icons';
 
 @Component({
   template: `
@@ -24,7 +24,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
       <div class="d-flex flex-column flex-md-row gap-4 mb-3">
         <div class="form-group col">
           <label for="name">{{ 'NAME' | transloco }}</label>
-          <input formControlName="name" class="form-control" type="text" id="name" [placeholder]="'NAME' | transloco" />
+          <input class="form-control" id="name" [placeholder]="'NAME' | transloco" formControlName="name" type="text" />
 
           @if (form.controls.name.invalid) {
             <small class="text-danger">
@@ -36,7 +36,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
         <div class="form-group col-12 col-md-3 col-lg-2">
           <label for="price">{{ 'PRICE' | transloco }}</label>
           <div class="input-group">
-            <input class="form-control" type="text" id="price" formControlName="price" [placeholder]="'PRICE' | transloco" />
+            <input class="form-control" id="price" [placeholder]="'PRICE' | transloco" type="text" formControlName="price" />
             <span class="input-group-text">€</span>
           </div>
 
@@ -50,17 +50,17 @@ import {BiComponent} from 'dfx-bootstrap-icons';
         <div class="form-group col">
           <label for="allergenSelect">{{ 'HOME_PROD_ALLERGENS' | transloco }}</label>
           <ng-select
+            [items]="allergens()"
+            [multiple]="true"
+            [placeholder]="'HOME_PROD_ALLERGENS_PLACEHOLDER' | transloco"
             bindLabel="name"
             bindValue="id"
             labelForId="allergenSelect"
             clearAllText="Clear"
             formControlName="allergenIds"
-            [items]="allergens()"
-            [multiple]="true"
-            [placeholder]="'HOME_PROD_ALLERGENS_PLACEHOLDER' | transloco"
           >
             <ng-template let-item="item" let-clear="clear" ng-label-tmp>
-              <span class="ng-value-icon left" aria-hidden="true" (mousedown)="clear(item)">×</span>
+              <span class="ng-value-icon left" (mousedown)="clear(item)" aria-hidden="true">×</span>
               <span class="ng-value-label">({{ item.shortName }}) {{ item.name }}</span>
             </ng-template>
           </ng-select>
@@ -90,15 +90,17 @@ import {BiComponent} from 'dfx-bootstrap-icons';
               <a
                 class="input-group-text"
                 id="selectGroup-addon"
-                placement="bottom"
                 [routerLink]="'../../' + form.controls.groupId.value"
                 [ngbTooltip]="('HOME_PROD_GROUP' | transloco) + ('OPEN_2' | transloco)"
+                placement="bottom"
               >
                 <bi name="diagram-3" />
               </a>
             }
             <select class="form-select" id="selectGroup" formControlName="groupId">
-              <option disabled [value]="-1">{{ 'HOME_PROD_GROUPS_DEFAULT' | transloco }}</option>
+              <option [value]="-1" disabled>
+                {{ 'HOME_PROD_GROUPS_DEFAULT' | transloco }}
+              </option>
               @for (productGroup of productGroups(); track productGroup.id) {
                 <option [value]="productGroup.id">
                   {{ productGroup.name }}
@@ -124,15 +126,17 @@ import {BiComponent} from 'dfx-bootstrap-icons';
               <a
                 class="input-group-text"
                 id="selectPrinter-addon"
-                placement="bottom"
                 [routerLink]="'../../../printers()/' + form.controls.printerId.value"
                 [ngbTooltip]="('NAV_PRINTERS' | transloco) + ('OPEN_2' | transloco)"
+                placement="bottom"
               >
                 <bi name="printer" />
               </a>
             }
             <select class="form-select" id="selectPrinter" formControlName="printerId">
-              <option disabled [value]="-1">{{ 'HOME_PROD_PRINTER_SELECT_DEFAULT' | transloco }}</option>
+              <option [value]="-1" disabled>
+                {{ 'HOME_PROD_PRINTER_SELECT_DEFAULT' | transloco }}
+              </option>
               @for (printer of printers(); track printer.id) {
                 <option [value]="printer.id">
                   {{ printer.name }}
@@ -151,10 +155,10 @@ import {BiComponent} from 'dfx-bootstrap-icons';
           <label for="initialStock">{{ 'HOME_PROD_AMOUNT_LEFT_SET' | transloco }}</label>
           <input
             class="form-control"
-            type="number"
             id="initialStock"
-            formControlName="initialStock"
             [placeholder]="'HOME_PROD_AMOUNT_LEFT_SET' | transloco"
+            type="number"
+            formControlName="initialStock"
           />
           @if (form.controls.initialStock.invalid) {
             <small class="text-danger">
@@ -172,7 +176,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 
       <div class="d-flex flex-column flex-md-row gap-2 gap-md-5 mb-3">
         <div class="form-check form-switch">
-          <input formControlName="soldOut" class="form-check-input" type="checkbox" id="soldOut" />
+          <input class="form-check-input" id="soldOut" formControlName="soldOut" type="checkbox" />
           <label class="form-check-label" for="soldOut">
             {{ 'HOME_PROD_SOLD_OUT' | transloco }}
           </label>
@@ -180,7 +184,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 
         @if (!isCreating()) {
           <div class="form-check">
-            <input formControlName="resetOrderedProducts" class="form-check-input" type="checkbox" id="resetOrderedProducts" />
+            <input class="form-check-input" id="resetOrderedProducts" formControlName="resetOrderedProducts" type="checkbox" />
             <label class="form-check-label" for="resetOrderedProducts">
               {{ 'HOME_PROD_AMOUNT_ORDERED_RESET' | transloco }}
             </label>

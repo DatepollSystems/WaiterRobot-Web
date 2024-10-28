@@ -1,22 +1,23 @@
 import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
+
+import {combineLatest, filter, map, shareReplay, startWith, tap} from 'rxjs';
+
+import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
+import {loggerOf, n_from, n_isNumeric} from 'dfts-helper';
+
 import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
 import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
 import {injectContinuousCreation, injectOnDelete, injectTabControls} from '@home-shared/form/edit';
 
-import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
-
 import {injectOnSubmit} from '@shared/form';
+import {SelectedEventService} from '@shared/services/selected-event.service';
+import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
 import {GetWaiterResponse} from '@shared/waiterrobot-backend';
 
-import {loggerOf, n_from, n_isNumeric} from 'dfts-helper';
-
-import {combineLatest, filter, map, shareReplay, startWith, tap} from 'rxjs';
 import {EventsService} from '../../_admin/events/_services/events.service';
-import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
-import {SelectedOrganisationService} from '../../_admin/organisations/_services/selected-organisation.service';
 import {WaitersService} from '../_services/waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from '../btn-waiter-sign-in-qr-code.component';
 import {AppWaiterEditFormComponent} from './waiter-edit-form.component';
@@ -34,7 +35,7 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
 
           <ng-container *isEditing="entity">
             <div>
-              <button type="button" class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)">
+              <button class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)" type="button">
                 <bi name="trash" />
                 {{ 'DELETE' | transloco }}
               </button>
@@ -43,20 +44,20 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
             <app-btn-waiter-signin-qrcode [token]="entity.signInToken" />
 
             <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../../orders" [queryParams]="{waiterIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" [queryParams]="{waiterIds: entity.id}" routerLink="../../../orders">
                 <bi name="stack" />
                 {{ 'NAV_ORDERS' | transloco }}
               </a>
             </div>
             <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../../bills" [queryParams]="{waiterIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" [queryParams]="{waiterIds: entity.id}" routerLink="../../../bills">
                 <bi name="cash-coin" />
                 {{ 'NAV_BILLS' | transloco }}
               </a>
             </div>
           </ng-container>
 
-          <div *isCreating="entity" class="d-flex align-items-center">
+          <div class="d-flex align-items-center" *isCreating="entity">
             <app-continues-creation-switch (continuesCreationChange)="continuousCreation.set($event)" />
           </div>
         </scrollable-toolbar>
@@ -64,11 +65,11 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
         <hr />
 
         <ul
-          #nav="ngbNav"
-          ngbNav
           class="nav-tabs"
+          #nav="ngbNav"
           [activeId]="tabControls.activeTab()"
           (navChange)="tabControls.navigateToTab($event.nextId)"
+          ngbNav
         >
           <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">
             <a ngbNavLink>{{ 'DATA' | transloco }}</a>
@@ -112,13 +113,15 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
   ],
 })
 export class WaiterEditComponent extends AbstractModelEditComponent<GetWaiterResponse> {
-  onDelete = injectOnDelete((it: number) => this.waitersService.delete$(it).subscribe());
+  #waitersService = inject(WaitersService);
+
+  onDelete = injectOnDelete((it: number) => this.#waitersService.delete$(it).subscribe());
   continuousCreation = injectContinuousCreation({
     formComponent: this.form,
     continuousUsePropertyNames: ['activated', 'eventIds', 'organisationId'],
   });
   onSubmit = injectOnSubmit({
-    entityService: this.waitersService,
+    entityService: this.#waitersService,
     continuousCreation: {
       enabled: this.continuousCreation.enabled,
       patch: this.continuousCreation.patch,
@@ -157,7 +160,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<GetWaiterRes
 
   events = toSignal(this.allEvents$, {initialValue: []});
 
-  constructor(private waitersService: WaitersService) {
+  constructor(waitersService: WaitersService) {
     super(waitersService);
   }
 }

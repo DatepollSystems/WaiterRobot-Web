@@ -1,7 +1,8 @@
-import {inject, Injectable, TemplateRef} from '@angular/core';
-import {TranslocoService} from '@jsverse/transloco';
+import {Injectable, TemplateRef, inject} from '@angular/core';
 
 import {BehaviorSubject, first} from 'rxjs';
+
+import {TranslocoService} from '@jsverse/transloco';
 
 export interface Toast {
   textOrTpl: string | TemplateRef<unknown>;
@@ -44,7 +45,10 @@ export class NotificationService {
   }
 
   warning(str: string, delay?: number): void {
-    this.show(str, {classname: 'bg-warning text-dark', delay: delay ?? this.delay});
+    this.show(str, {
+      classname: 'bg-warning text-dark',
+      delay: delay ?? this.delay,
+    });
   }
 
   twarning(translationKey: string): void {
@@ -57,7 +61,10 @@ export class NotificationService {
   }
 
   error(str: string, delay?: number): void {
-    this.show(str, {classname: 'bg-danger text-light', delay: delay ?? this.delay});
+    this.show(str, {
+      classname: 'bg-danger text-light',
+      delay: delay ?? this.delay,
+    });
   }
 
   terror(translationKey: string): void {
