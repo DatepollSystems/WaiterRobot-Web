@@ -16,7 +16,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {StopPropagationDirective} from 'dfx-helper';
 import {deriveLoading} from 'ngxtension/derive-loading';
 
-import {catchError, combineLatest, filter, map, of, startWith, switchMap, timer} from 'rxjs';
+import {catchError, combineLatest, filter, map, of, shareReplay, startWith, switchMap, timer} from 'rxjs';
 import {SelectedEventService} from '../_admin/events/_services/selected-event.service';
 import {MyUserService} from '../_shared/services/user/my-user.service';
 import {AppOrderStateBadgeComponent} from '../orders/_components/app-order-state-badge.component';
@@ -63,7 +63,7 @@ export class StartComponent {
     ),
   );
 
-  #orders$ = timer(0, 5000).pipe(
+  #orders$ = timer(0, 10000).pipe(
     switchMap(() =>
       this.#ordersService.getAllPaginated({
         page: 0,
@@ -75,6 +75,7 @@ export class StartComponent {
       }),
     ),
     map((it) => it.data),
+    shareReplay()
   );
 
   orders = toSignal(this.#orders$, {initialValue: []});
