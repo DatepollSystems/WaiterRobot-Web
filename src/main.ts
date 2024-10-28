@@ -2,7 +2,7 @@ import {registerLocaleData} from '@angular/common';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import {DEFAULT_CURRENCY_CODE, importProvidersFrom, isDevMode, LOCALE_ID} from '@angular/core';
+import {DEFAULT_CURRENCY_CODE, importProvidersFrom, isDevMode, LOCALE_ID, provideExperimentalZonelessChangeDetection} from '@angular/core';
 import {bootstrapApplication} from '@angular/platform-browser';
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {provideRouter, TitleStrategy, withPreloading} from '@angular/router';
@@ -39,6 +39,7 @@ import {TranslocoHttpLoader} from './transloco-loader';
 
 bootstrapApplication(AppComponent, {
   providers: [
+    provideExperimentalZonelessChangeDetection(),
     provideDfxHelper(
       withMobileBreakpoint(1200),
       withBaseUrlInterceptor(EnvironmentHelper.getAPIUrl(), ['assets']),

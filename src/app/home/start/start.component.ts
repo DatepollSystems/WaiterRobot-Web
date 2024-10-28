@@ -75,7 +75,7 @@ export class StartComponent {
       }),
     ),
     map((it) => it.data),
-    shareReplay()
+    shareReplay(),
   );
 
   orders = toSignal(this.#orders$, {initialValue: []});
