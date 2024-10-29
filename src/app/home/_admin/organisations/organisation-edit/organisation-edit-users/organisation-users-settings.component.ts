@@ -17,7 +17,6 @@ import {MyUserService} from '@home-shared/services/user/my-user.service';
 
 import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {OrganisationUserResponse} from '@shared/waiterrobot-backend';
 
 import {OrganisationUsersService} from '../../_services/organisations-users.service';
 import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.component';
@@ -101,7 +100,7 @@ import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.c
                     <button
                       class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
                       [ngbTooltip]="'DELETE' | transloco"
-                      (click)="onDeleteOrganisationUser(organisationUser)"
+                      (click)="onDeleteOrganisationUser(organisationUser.email)"
                       type="button"
                     >
                       <bi name="trash" />
@@ -160,7 +159,7 @@ export class OrganisationUsersSettingsComponent {
 
         return of(dataSource);
       }),
-      startWith(new NgbTableDataSource<OrganisationUserResponse>()),
+      startWith(new NgbTableDataSource()),
     ),
   );
 
@@ -180,10 +179,10 @@ export class OrganisationUsersSettingsComponent {
     });
   }
 
-  onDeleteOrganisationUser(model: OrganisationUserResponse): void {
+  onDeleteOrganisationUser(email: string): void {
     void this.confirmDialog('DELETE_CONFIRMATION').then((result) => {
       if (result) {
-        void this.organisationUsersState.delete(model.emailAddress);
+        void this.organisationUsersState.delete(email);
       }
     });
   }

@@ -18,11 +18,11 @@ import {derivedFrom} from 'ngxtension/derived-from';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {Download} from '@home-shared/services/download.service';
 
+import {BackendType} from '@shared/api';
 import {injectFilter} from '@shared/api/filter';
 import {injectPagination} from '@shared/api/pagination';
 import {injectCustomFormBuilder} from '@shared/form';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
 import {ProductGroupsService} from '../products/_services/product-groups.service';
 import {ProductsService} from '../products/_services/products.service';
@@ -367,7 +367,7 @@ export class BillsComponent {
     });
   }
 
-  customTableSearch(term: string, item: GetTableWithGroupResponse): boolean {
+  customTableSearch(term: string, item: BackendType['GetTableWithGroupResponse']): boolean {
     term = term.toLowerCase().trim();
     return (
       item.group.name.toLowerCase().trim().includes(term) ||

@@ -6,7 +6,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {DfxCurrencyCentPipe} from 'dfx-helper';
 
-import {GetImplodedBillProductResponse} from '@shared/waiterrobot-backend';
+import {BackendType} from '@shared/api';
 
 @Component({
   template: `
@@ -64,20 +64,20 @@ import {GetImplodedBillProductResponse} from '@shared/waiterrobot-backend';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrderProductsListTableComponent implements AfterViewInit {
-  billProducts = input.required<GetImplodedBillProductResponse[]>();
+  billProducts = input.required<BackendType['GetImplodedBillProductResponse'][]>();
   priceSum = input.required<number>();
 
   sort = viewChild(NgbSort);
   columnsToDisplay = ['product', 'pricePerPiece', 'priceSum'];
 
-  dataSource = signal(new NgbTableDataSource<GetImplodedBillProductResponse>());
+  dataSource = signal(new NgbTableDataSource<BackendType['GetImplodedBillProductResponse']>());
 
   ngAfterViewInit(): void {
-    const dataSource = new NgbTableDataSource<GetImplodedBillProductResponse>(this.billProducts());
+    const dataSource = new NgbTableDataSource(this.billProducts());
     dataSource.sortingDataAccessor = (item, property: string) => {
       switch (property) {
         default:
-          return item[property as keyof GetImplodedBillProductResponse] as string | number;
+          return item[property as keyof BackendType['GetImplodedBillProductResponse']] as string | number;
       }
     };
     dataSource.sort = this.sort();

@@ -13,7 +13,7 @@ import {signalSlice} from 'ngxtension/signal-slice';
 
 import {allowedCharacterSet} from '@home-shared/regex';
 
-import {CreateStripeAccountDto} from '@shared/waiterrobot-backend';
+import {BackendType} from '@shared/api';
 
 import {EventsService} from '../../_admin/events/_services/events.service';
 
@@ -129,7 +129,7 @@ export class StripeAccountModal {
 
   form = inject(FormBuilder).nonNullable.group({
     name: [undefined as unknown as string, [Validators.minLength(4), Validators.maxLength(40), Validators.pattern(allowedCharacterSet)]],
-    businessType: ['NON_PROFIT' as CreateStripeAccountDto['businessType'], [Validators.required]],
+    businessType: ['NON_PROFIT' as BackendType['CreateStripeAccountDto']['businessType'], [Validators.required]],
     eventIds: [undefined as unknown as number[]],
   });
 

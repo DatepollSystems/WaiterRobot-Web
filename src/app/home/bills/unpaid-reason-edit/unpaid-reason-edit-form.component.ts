@@ -9,8 +9,8 @@ import {AppDatetimeInputComponent} from '@home-shared/components/datetime-picker
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
+import {BackendType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
-import {CreateBillUnpaidReasonDto, GetBillUnpaidReasonResponse, UpdateBillUnpaidReasonDto} from '@shared/waiterrobot-backend';
 
 @Component({
   template: `
@@ -61,7 +61,10 @@ import {CreateBillUnpaidReasonDto, GetBillUnpaidReasonResponse, UpdateBillUnpaid
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppUnpaidReasonEditFormComponent extends AbstractModelEditFormComponent<CreateBillUnpaidReasonDto, UpdateBillUnpaidReasonDto> {
+export class AppUnpaidReasonEditFormComponent extends AbstractModelEditFormComponent<
+  BackendType['CreateBillUnpaidReasonDto'],
+  BackendType['UpdateBillUnpaidReasonDto']
+> {
   override form = this.fb.nonNullable.group({
     reason: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(120)]],
     description: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(120)]],
@@ -72,7 +75,7 @@ export class AppUnpaidReasonEditFormComponent extends AbstractModelEditFormCompo
   isValid = injectIsValid(this.form);
 
   @Input()
-  set unpaidReason(it: GetBillUnpaidReasonResponse | 'CREATE') {
+  set unpaidReason(it: BackendType['GetBillUnpaidReasonResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;
@@ -86,7 +89,7 @@ export class AppUnpaidReasonEditFormComponent extends AbstractModelEditFormCompo
       id: it.id,
     });
   }
-  _unpaidReason?: GetBillUnpaidReasonResponse;
+  _unpaidReason?: BackendType['GetBillUnpaidReasonResponse'];
 
   @Input()
   set selectedEventId(id: number | undefined) {

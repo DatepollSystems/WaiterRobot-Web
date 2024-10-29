@@ -9,10 +9,12 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {s_fromStorage, st_set} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {GetImplodedOrderProductResponse} from '@shared/waiterrobot-backend';
+import {BackendType} from '@shared/api';
 
 import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
 import {AppOrderProductsListTableComponent} from './app-order-products-list-table.component';
+
+type GetImplodedOrderProductResponse = BackendType['GetImplodedOrderProductResponse'];
 
 @Component({
   template: `

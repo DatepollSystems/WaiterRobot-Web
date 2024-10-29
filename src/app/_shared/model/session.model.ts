@@ -1,6 +1,6 @@
 import {HasIDAndName} from 'dfts-helper';
 
-import {SessionResponse} from '../waiterrobot-backend';
+import {BackendType} from '@shared/api';
 
 export class SessionModel implements HasIDAndName<number> {
   public readonly id: number;
@@ -8,7 +8,7 @@ export class SessionModel implements HasIDAndName<number> {
   public readonly registeredAt: string;
   public readonly updatedAt: string;
 
-  constructor(data: SessionResponse) {
+  constructor(data: BackendType['SessionResponse']) {
     this.id = data.id;
     this.name = data.description;
     this.registeredAt = data.createdAt;

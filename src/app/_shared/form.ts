@@ -8,7 +8,7 @@ import {Observable, distinctUntilChanged, map} from 'rxjs';
 
 import {IHasID, s_from} from 'dfts-helper';
 
-import {AlphabeticIdResponse, IdResponse} from '@shared/waiterrobot-backend';
+import {BackendType} from '@shared/api';
 
 import {NotificationService} from './notifications/notification.service';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from './services/services.interface';
@@ -49,7 +49,7 @@ export function injectOnSubmit<CreateDTOType, UpdateDTOType extends IHasID<Updat
   return (method: 'CREATE' | 'UPDATE', dto: CreateDTOType | UpdateDTOType) => {
     console.info(`submit - method: "${method}"; Continuous creation check enabled: "${s_from(!!continuousCreation)}"`, dto);
 
-    let obs$: Observable<IdResponse | AlphabeticIdResponse>;
+    let obs$: Observable<BackendType['IdResponse'] | BackendType['AlphabeticIdResponse']>;
 
     switch (method) {
       case 'CREATE':
