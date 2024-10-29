@@ -1,4 +1,3 @@
-import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, RouterLink} from '@angular/router';
@@ -13,11 +12,11 @@ import {AppSpinnerRowComponent} from 'src/app/_shared/ui/loading/app-spinner-row
 
 import {AppBackDirective} from '@home-shared/components/button/app-back-button.component';
 
-import {GetOpenBillResponse, GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
+import {injectAPI} from '@shared/api';
 
 @Component({
   template: `
-    @if (vm$(); as vm) {
+    @if (vm(); as vm) {
       <h1 class="text-center">
         Tisch <b>{{ vm.table.group.name }} - {{ vm.table.number }}</b>
       </h1>
@@ -73,18 +72,18 @@ import {GetOpenBillResponse, GetTableWithGroupResponse} from '@shared/waiterrobo
   imports: [TranslocoPipe, DfxCurrencyCentPipe, RouterLink, BiComponent, AppBackDirective, AppSpinnerRowComponent],
 })
 export class WebLinkTableComponent {
-  httpClient = inject(HttpClient);
+  #api = injectAPI();
 
-  publicId$ = inject(ActivatedRoute).paramMap.pipe(
+  #publicId$ = inject(ActivatedRoute).paramMap.pipe(
     map((params) => params.get('publicId')),
     filterNil(),
     shareReplay(1),
   );
 
-  vm$ = toSignal(
+  vm = toSignal(
     combineLatest([
-      this.publicId$.pipe(switchMap((publicId) => this.httpClient.get<GetTableWithGroupResponse>(`/public/table/${publicId}`))),
-      this.publicId$.pipe(switchMap((publicId) => this.httpClient.get<GetOpenBillResponse>(`/public/table/${publicId}/bill`))),
+      this.#publicId$.pipe(switchMap((publicId) => this.#api.get('/v1/public/table/{publicId}', {params: {path: {publicId}}}))),
+      this.#publicId$.pipe(switchMap((publicId) => this.#api.get('/v1/public/table/{publicId}/bill', {params: {path: {publicId}}}))),
     ]).pipe(
       map(([table, bill]) => ({
         table,

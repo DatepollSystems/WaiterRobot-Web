@@ -2,7 +2,7 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, Observable, combineLatest, map, switchMap, tap} from 'rxjs';
 
-import {HasDelete, HasGetSingle} from 'dfx-helper';
+import {HasGetSingle} from 'dfx-helper';
 
 import {BackendType, injectAPI} from '@shared/api';
 import {SelectedEventService} from '@shared/services/selected-event.service';
@@ -13,8 +13,7 @@ export class TablesService
   implements
     HasGetSingle<BackendType['GetTableWithGroupResponse']>,
     HasCreateWithIdResponse<BackendType['CreateTableDto']>,
-    HasUpdateWithIdResponse<BackendType['UpdateTableDto']>,
-    HasDelete<BackendType['GetTableWithGroupResponse']>
+    HasUpdateWithIdResponse<BackendType['UpdateTableDto']>
 {
   #api = injectAPI();
   #selectedEventService = inject(SelectedEventService);

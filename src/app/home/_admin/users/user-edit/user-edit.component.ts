@@ -3,16 +3,15 @@ import {toSignal} from '@angular/core/rxjs-interop';
 
 import {Observable, filter, forkJoin, switchMap} from 'rxjs';
 
-import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectOnDelete} from '@home-shared/form/edit';
+import {injectEditEntity, injectOnDelete} from '@home-shared/form/edit';
 import {injectIdParam$} from '@home-shared/services/injectActivatedRouteIdParam';
 
 import {injectOnSubmit} from '@shared/form';
-import {GetUserResponse, IdAndNameResponse} from '@shared/waiterrobot-backend';
+import {IdAndNameResponse} from '@shared/waiterrobot-backend';
 
-import {OrganisationsUsersService} from '../../../_admin/organisations/_services/organisations-users.service';
-import {OrganisationsService} from '../../../_admin/organisations/_services/organisations.service';
+import {OrganisationsUsersService} from '../../organisations/_services/organisations-users.service';
+import {OrganisationsService} from '../../organisations/_services/organisations.service';
 import {UsersOrganisationsService} from '../services/users-organisations.service';
 import {UsersService} from '../services/users.service';
 import {UserEditFormComponent} from './user-edit-form.component';
@@ -54,8 +53,12 @@ import {UserEditFormComponent} from './user-edit-form.component';
   imports: [AppEntityEditModule, UserEditFormComponent],
   standalone: true,
 })
-export class UserEditComponent extends AbstractModelEditComponent<GetUserResponse> {
+export class UserEditComponent {
   #usersService = inject(UsersService);
+
+  entity = injectEditEntity({
+    get$: (id) => this.#usersService.getSingle$(id),
+  });
 
   onDelete = injectOnDelete((it: number) => this.#usersService.delete$(it).subscribe());
   onSubmit = injectOnSubmit({entityService: this.#usersService});
@@ -113,9 +116,5 @@ export class UserEditComponent extends AbstractModelEditComponent<GetUserRespons
     }
 
     forkJoin(todos).subscribe();
-  }
-
-  constructor(usersService: UsersService) {
-    super(usersService);
   }
 }

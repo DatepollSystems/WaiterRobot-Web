@@ -1,4 +1,3 @@
-import {HttpClient} from '@angular/common/http';
 import {Injectable, inject} from '@angular/core';
 import {NonNullableFormBuilder, Validators} from '@angular/forms';
 
@@ -7,7 +6,7 @@ import {BehaviorSubject, Observable, Subject, catchError, combineLatest, filter,
 import {n_generate_int} from 'dfts-helper';
 import {signalSlice} from 'ngxtension/signal-slice';
 
-import {IdResponse} from '@shared/waiterrobot-backend';
+import {injectAPI} from '@shared/api';
 
 interface MaxiOrderTry {
   id: number;
@@ -36,7 +35,7 @@ interface MaxiState {
 
 @Injectable({providedIn: 'root'})
 export class MaxiService {
-  private httpClient = inject(HttpClient);
+  #api = injectAPI();
 
   private initialState: MaxiState = {
     activeTab: 'CREATE',
@@ -66,7 +65,7 @@ export class MaxiService {
           withLatestFrom(this.running),
           filter(([, running]) => running),
           switchMap(([[eventId]]) =>
-            this.httpClient.post<IdResponse>('/config/order/test/all', {}, {params: {eventId}}).pipe(
+            this.#api.post('/v1/config/order/test/all', {params: {query: {eventId}}}).pipe(
               map((response) => [...state().currentSessionOrders, {id: response.id, sent: new Date(), success: true}]),
               catchError(() =>
                 of([

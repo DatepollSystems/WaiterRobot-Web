@@ -1,22 +1,21 @@
 import {LowerCasePipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, viewChild} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
-import {RouterLink} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 
 import {filter, map, shareReplay} from 'rxjs';
 
 import {n_from, n_isNumeric} from 'dfts-helper';
 
-import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
+import {UnknownModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
 import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectOnDelete} from '@home-shared/form/edit';
+import {injectContinuousCreation, injectEditEntity, injectOnDelete} from '@home-shared/form/edit';
 import {MobileLinkService} from '@home-shared/services/mobile-link.service';
 
 import {injectOnSubmit} from '@shared/form';
 import {SelectedEventService} from '@shared/services/selected-event.service';
-import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TablesService} from '../_services/tables.service';
@@ -111,8 +110,14 @@ import {TableEditFormComponent} from './table-edit-form.component';
     LowerCasePipe,
   ],
 })
-export class TableEditComponent extends AbstractModelEditComponent<GetTableWithGroupResponse> {
+export class TableEditComponent {
   #tablesService = inject(TablesService);
+
+  form = viewChild<UnknownModelEditFormComponent>('form');
+
+  entity = injectEditEntity({
+    get$: (id) => this.#tablesService.getSingle$(id),
+  });
 
   onDelete = injectOnDelete((it: number) => this.#tablesService.delete$(it).subscribe());
   continuousCreation = injectContinuousCreation({
@@ -134,7 +139,7 @@ export class TableEditComponent extends AbstractModelEditComponent<GetTableWithG
   selectedEventId = inject(SelectedEventService).selectedId;
   tableGroups = toSignal(inject(TableGroupsService).getAll$());
 
-  queryParams = this.route.queryParams.pipe(shareReplay());
+  queryParams = inject(ActivatedRoute).queryParams.pipe(shareReplay());
 
   selectedTableGroupId = toSignal(
     this.queryParams.pipe(
@@ -159,8 +164,4 @@ export class TableEditComponent extends AbstractModelEditComponent<GetTableWithG
     }
     return undefined;
   });
-
-  constructor(tablesService: TablesService) {
-    super(tablesService);
-  }
 }

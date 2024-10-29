@@ -1,13 +1,27 @@
 import {Location} from '@angular/common';
 import {Signal, inject, signal} from '@angular/core';
+import {toSignal} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {map, startWith, tap} from 'rxjs';
+import {Observable, map, of, startWith, switchMap, tap} from 'rxjs';
 
+import {n_from, n_isNumeric} from 'dfts-helper';
 import {derivedFrom} from 'ngxtension/derived-from';
+import {injectParams} from 'ngxtension/inject-params';
 
 import {injectConfirmDialog} from '../components/question-dialog.component';
 import {AbstractModelEditFormComponent} from './abstract-model-edit-form.component';
+
+export function injectEditEntity<EntityType>({get$}: {get$: (id: number) => Observable<EntityType>}) {
+  const idParam = injectParams('id');
+  return toSignal(
+    inject(ActivatedRoute).paramMap.pipe(
+      map((params) => params.get('id')),
+      map((id) => (n_isNumeric(id) ? n_from(id) : undefined)),
+      switchMap((it) => (it ? get$(it) : of('CREATE' as const))),
+    ),
+  );
+}
 
 export function injectOnDelete<ID>(successFn: (it: ID) => void): (it: ID, event?: MouseEvent) => void {
   const confirmDialog = injectConfirmDialog();

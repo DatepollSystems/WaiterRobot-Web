@@ -2,7 +2,7 @@ import {Injectable, inject} from '@angular/core';
 
 import {combineLatest, switchMap, tap} from 'rxjs';
 
-import {HasDelete, HasGetAll} from 'dfx-helper';
+import {HasGetAll} from 'dfx-helper';
 
 import {PageableDto, injectAPI} from '@shared/api';
 import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
@@ -11,7 +11,7 @@ import {GetWaiterResponse} from '@shared/waiterrobot-backend';
 import {WaitersService} from './waiters.service';
 
 @Injectable({providedIn: 'root'})
-export class OrganisationWaitersService implements HasGetAll<GetWaiterResponse>, HasDelete<GetWaiterResponse> {
+export class OrganisationWaitersService implements HasGetAll<GetWaiterResponse> {
   #api = injectAPI();
   #waitersService = inject(WaitersService);
   #selectedOrganisationService = inject(SelectedOrganisationService);

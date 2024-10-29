@@ -1,16 +1,15 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 
-import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
+import {UnknownModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
 import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectOnDelete} from '@home-shared/form/edit';
+import {injectContinuousCreation, injectEditEntity, injectOnDelete} from '@home-shared/form/edit';
 
 import {injectOnSubmit} from '@shared/form';
 import {SelectedEventService} from '@shared/services/selected-event.service';
-import {GetProductGroupResponse} from '@shared/waiterrobot-backend';
 
 import {PrintersService} from '../../printers/_services/printers.service';
 import {ProductGroupsService} from '../_services/product-groups.service';
@@ -81,8 +80,14 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, AppEntityEditModule, AppContinuesCreationSwitchComponent, ProductGroupEditFormComponent, AppDeletedDirectives],
 })
-export class ProductGroupEditComponent extends AbstractModelEditComponent<GetProductGroupResponse> {
+export class ProductGroupEditComponent {
   #productGroupsService = inject(ProductGroupsService);
+
+  form = viewChild<UnknownModelEditFormComponent>('form');
+
+  entity = injectEditEntity({
+    get$: (id) => this.#productGroupsService.getSingle$(id),
+  });
 
   onDelete = injectOnDelete((it: number) =>
     this.#productGroupsService.delete$(it).subscribe(() => this.#productGroupsService.triggerGet$.next(true)),
@@ -101,8 +106,4 @@ export class ProductGroupEditComponent extends AbstractModelEditComponent<GetPro
 
   printers = toSignal(inject(PrintersService).getAll$(), {initialValue: []});
   selectedEventId = inject(SelectedEventService).selectedId;
-
-  constructor(productGroupsService: ProductGroupsService) {
-    super(productGroupsService);
-  }
 }

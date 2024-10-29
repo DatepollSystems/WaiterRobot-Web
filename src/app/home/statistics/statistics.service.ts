@@ -1,41 +1,36 @@
-import {HttpClient} from '@angular/common/http';
 import {Injectable, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 
 import {switchMap} from 'rxjs';
 
+import {injectAPI} from '@shared/api';
 import {SelectedEventService} from '@shared/services/selected-event.service';
-import {StatisticsCountResponse, StatisticsSumResponse} from '@shared/waiterrobot-backend';
 
 @Injectable({providedIn: 'root'})
 export class StatisticsService {
-  private httpClient = inject(HttpClient);
+  #api = injectAPI();
 
-  private selectedEventId$ = inject(SelectedEventService).selectedIdNotNull$;
+  #selectedEventId$ = inject(SelectedEventService).selectedIdNotNull$;
 
   counts = toSignal(
-    this.selectedEventId$.pipe(
-      switchMap((eventId) => this.httpClient.get<StatisticsCountResponse>('/config/statistics/counts', {params: {eventId}})),
-    ),
+    this.#selectedEventId$.pipe(switchMap((eventId) => this.#api.get('/v1/config/statistics/counts', {params: {query: {eventId}}}))),
   );
 
   sumProductGroups = toSignal(
-    this.selectedEventId$.pipe(
-      switchMap((eventId) => this.httpClient.get<StatisticsSumResponse[]>('/config/statistics/sumProductGroups', {params: {eventId}})),
+    this.#selectedEventId$.pipe(
+      switchMap((eventId) => this.#api.get('/v1/config/statistics/sumProductGroups', {params: {query: {eventId}}})),
     ),
     {initialValue: []},
   );
 
   sumProducts = toSignal(
-    this.selectedEventId$.pipe(
-      switchMap((eventId) => this.httpClient.get<StatisticsSumResponse[]>('/config/statistics/sumProducts', {params: {eventId}})),
-    ),
+    this.#selectedEventId$.pipe(switchMap((eventId) => this.#api.get('/v1/config/statistics/sumProducts', {params: {query: {eventId}}}))),
     {initialValue: []},
   );
 
   sumProductsPerWaiter = toSignal(
-    this.selectedEventId$.pipe(
-      switchMap((eventId) => this.httpClient.get<StatisticsSumResponse[]>('/config/statistics/sumProductsPerWaiter', {params: {eventId}})),
+    this.#selectedEventId$.pipe(
+      switchMap((eventId) => this.#api.get('/v1/config/statistics/sumProductsPerWaiter', {params: {query: {eventId}}})),
     ),
     {initialValue: []},
   );

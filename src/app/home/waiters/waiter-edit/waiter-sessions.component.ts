@@ -156,12 +156,7 @@ export class WaiterSessionsComponent {
           setLoading();
           this.selection.clear();
         }),
-        switchMap((activeId) => {
-          if (activeId === 'all') {
-            return this.#waiterSessionsService.getAll$();
-          }
-          return this.#waiterSessionsService.getByParent$(n_from(activeId));
-        }),
+        switchMap((activeId) => this.#waiterSessionsService.getByParent$(n_from(activeId))),
       ),
     sort: this.sort,
     filterValue$: this.filter.value$,

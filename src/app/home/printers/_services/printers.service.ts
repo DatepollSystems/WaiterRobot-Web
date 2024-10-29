@@ -2,7 +2,7 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, combineLatest, map, switchMap, tap} from 'rxjs';
 
-import {HasDelete, HasGetSingle} from 'dfx-helper';
+import {HasGetSingle} from 'dfx-helper';
 
 import {BackendType, PageableDto, injectAPI} from '@shared/api';
 import {SelectedEventService} from '@shared/services/selected-event.service';
@@ -15,8 +15,7 @@ export class PrintersService
   implements
     HasGetSingle<BackendType['GetPrinterResponse']>,
     HasCreateWithIdResponse<BackendType['CreatePrinterDto']>,
-    HasUpdateWithIdResponse<BackendType['UpdatePrinterDto']>,
-    HasDelete<BackendType['GetPrinterResponse']>
+    HasUpdateWithIdResponse<BackendType['UpdatePrinterDto']>
 {
   #api = injectAPI();
   #selectedEventService = inject(SelectedEventService);

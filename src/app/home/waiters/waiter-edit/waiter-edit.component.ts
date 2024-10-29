@@ -1,21 +1,20 @@
-import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, viewChild} from '@angular/core';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
-import {RouterLink} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 
 import {combineLatest, filter, map, shareReplay, startWith, tap} from 'rxjs';
 
 import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 import {loggerOf, n_from, n_isNumeric} from 'dfts-helper';
 
-import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
+import {UnknownModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectOnDelete, injectTabControls} from '@home-shared/form/edit';
+import {injectContinuousCreation, injectEditEntity, injectOnDelete, injectTabControls} from '@home-shared/form/edit';
 
 import {injectOnSubmit} from '@shared/form';
 import {SelectedEventService} from '@shared/services/selected-event.service';
 import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
-import {GetWaiterResponse} from '@shared/waiterrobot-backend';
 
 import {EventsService} from '../../_admin/events/_services/events.service';
 import {WaitersService} from '../_services/waiters.service';
@@ -112,8 +111,15 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
     RouterLink,
   ],
 })
-export class WaiterEditComponent extends AbstractModelEditComponent<GetWaiterResponse> {
+export class WaiterEditComponent {
+  #route = inject(ActivatedRoute);
   #waitersService = inject(WaitersService);
+
+  form = viewChild<UnknownModelEditFormComponent>('form');
+
+  entity = injectEditEntity({
+    get$: (id) => this.#waitersService.getSingle$(id),
+  });
 
   onDelete = injectOnDelete((it: number) => this.#waitersService.delete$(it).subscribe());
   continuousCreation = injectContinuousCreation({
@@ -142,7 +148,7 @@ export class WaiterEditComponent extends AbstractModelEditComponent<GetWaiterRes
     combineLatest([
       combineLatest([
         this.allEvents$,
-        this.route.queryParams.pipe(
+        this.#route.queryParams.pipe(
           takeUntilDestroyed(),
           map((params) => params.event as string),
           filter(n_isNumeric),
@@ -159,8 +165,4 @@ export class WaiterEditComponent extends AbstractModelEditComponent<GetWaiterRes
   );
 
   events = toSignal(this.allEvents$, {initialValue: []});
-
-  constructor(waitersService: WaitersService) {
-    super(waitersService);
-  }
 }

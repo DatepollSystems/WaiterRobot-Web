@@ -1,15 +1,14 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
-import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
+import {UnknownModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
 import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectOnDelete} from '@home-shared/form/edit';
+import {injectContinuousCreation, injectEditEntity, injectOnDelete} from '@home-shared/form/edit';
 
 import {injectOnSubmit} from '@shared/form';
 import {SelectedEventService} from '@shared/services/selected-event.service';
-import {GetTableGroupResponse} from '@shared/waiterrobot-backend';
 
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TableGroupEditFormComponent} from './table-group-edit-form.component';
@@ -79,10 +78,16 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, AppEntityEditModule, TableGroupEditFormComponent, AppContinuesCreationSwitchComponent, AppDeletedDirectives],
 })
-export class TableGroupEditComponent extends AbstractModelEditComponent<GetTableGroupResponse> {
+export class TableGroupEditComponent {
   #tableGroupsService = inject(TableGroupsService);
 
-  onDelete = injectOnDelete((it: number) => this.tableGroupsService.delete$(it).subscribe());
+  form = viewChild<UnknownModelEditFormComponent>('form');
+
+  entity = injectEditEntity({
+    get$: (id) => this.#tableGroupsService.getSingle$(id),
+  });
+
+  onDelete = injectOnDelete((it: number) => this.#tableGroupsService.delete$(it).subscribe());
   continuousCreation = injectContinuousCreation({
     formComponent: this.form,
     continuousUsePropertyNames: ['eventId'],
@@ -96,8 +101,4 @@ export class TableGroupEditComponent extends AbstractModelEditComponent<GetTable
   });
 
   selectedEventId = inject(SelectedEventService).selectedId;
-
-  constructor(private tableGroupsService: TableGroupsService) {
-    super(tableGroupsService);
-  }
 }

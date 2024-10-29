@@ -1,42 +1,32 @@
-import {HttpClient} from '@angular/common/http';
-import {Injectable, inject} from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import {BehaviorSubject, Observable, map, of, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, map, switchMap, tap} from 'rxjs';
 
-import {HasDelete, HasGetAll, HasGetByParent} from 'dfx-helper';
-
+import {injectAPI} from '@shared/api';
 import {SessionModel} from '@shared/model/session.model';
-import {GetWaiterResponse, SessionResponse} from '@shared/waiterrobot-backend';
+import {SessionResponse} from '@shared/waiterrobot-backend';
 
 @Injectable({providedIn: 'root'})
-export class WaiterSessionsService
-  implements HasGetAll<SessionModel>, HasGetByParent<SessionModel, GetWaiterResponse>, HasDelete<SessionModel>
-{
-  url = '/config/waiter/session';
-
+export class WaiterSessionsService {
   triggerGet$ = new BehaviorSubject(true);
 
-  httpClient = inject(HttpClient);
+  #api = injectAPI();
 
   convert = (it: SessionResponse): SessionModel => new SessionModel(it);
 
-  getByParent$(waiterId: number): Observable<SessionModel[]> {
+  getByParent$(waiterId: number) {
     return this.triggerGet$.pipe(
       switchMap(() =>
-        this.httpClient.get<SessionResponse[]>(this.url, {params: {waiterId}}).pipe(map((it) => it.map((iit) => this.convert(iit)))),
+        this.#api.get('/v1/config/waiter/session', {params: {query: {waiterId}}}).pipe(map((it) => it.map((iit) => this.convert(iit)))),
       ),
     );
   }
 
-  delete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${id}`).pipe(
+  delete$(id: number) {
+    return this.#api.delete('/v1/config/waiter/session/{id}', {params: {path: {id}}}).pipe(
       tap(() => {
         this.triggerGet$.next(true);
       }),
     );
-  }
-
-  getAll$(): Observable<SessionModel[]> {
-    return of([]);
   }
 }

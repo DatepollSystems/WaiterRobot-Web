@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 
-import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, switchMap, tap} from 'rxjs';
 
-import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from 'dfx-helper';
+import {HasGetSingle} from 'dfx-helper';
 
 import {BackendType, injectAPI} from '@shared/api';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
@@ -10,20 +10,13 @@ import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services
 @Injectable({providedIn: 'root'})
 export class WaitersService
   implements
-    HasGetAll<BackendType['GetWaiterResponse']>,
-    HasGetByParent<BackendType['GetWaiterResponse'], BackendType['GetEventOrLocationResponse']>,
     HasGetSingle<BackendType['GetWaiterResponse']>,
     HasCreateWithIdResponse<BackendType['CreateWaiterDto']>,
-    HasUpdateWithIdResponse<BackendType['UpdateWaiterDto']>,
-    HasDelete<BackendType['GetWaiterResponse']>
+    HasUpdateWithIdResponse<BackendType['UpdateWaiterDto']>
 {
   #api = injectAPI();
 
   triggerGet$ = new BehaviorSubject(true);
-
-  getAll$(): Observable<BackendType['GetWaiterResponse'][]> {
-    throw Error('Not implemented');
-  }
 
   getSingle$(id: number) {
     return this.#api.get('/v1/config/waiter/{id}', {

@@ -1,21 +1,18 @@
-import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, numberAttribute, viewChild} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 
-import {filter, map} from 'rxjs';
+import {injectQueryParams} from 'ngxtension/inject-query-params';
 
-import {n_from, n_isNumeric} from 'dfts-helper';
-
-import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
+import {UnknownModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
 import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectOnDelete} from '@home-shared/form/edit';
+import {injectContinuousCreation, injectEditEntity, injectOnDelete} from '@home-shared/form/edit';
 import {AppSoldOutPipe} from '@home-shared/pipes/app-sold-out.pipe';
 
 import {injectOnSubmit} from '@shared/form';
 import {SelectedEventService} from '@shared/services/selected-event.service';
-import {GetProductMaxResponse} from '@shared/waiterrobot-backend';
 
 import {PrintersService} from '../../printers/_services/printers.service';
 import {AllergensService} from '../_services/allergens.service';
@@ -107,8 +104,14 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
     AppSoldOutPipe,
   ],
 })
-export class ProductEditComponent extends AbstractModelEditComponent<GetProductMaxResponse> {
+export class ProductEditComponent {
   #productsService = inject(ProductsService);
+
+  form = viewChild<UnknownModelEditFormComponent>('form');
+
+  entity = injectEditEntity({
+    get$: (id) => this.#productsService.getSingle$(id),
+  });
 
   onDelete = injectOnDelete((it: number) =>
     this.#productsService.delete$(it).subscribe(() => this.#productsService.triggerGet$.next(true)),
@@ -125,13 +128,7 @@ export class ProductEditComponent extends AbstractModelEditComponent<GetProductM
     },
   });
 
-  selectedProductGroupId = toSignal(
-    this.route.queryParams.pipe(
-      map((params) => params.group as string),
-      filter(n_isNumeric),
-      map((id) => n_from(id)),
-    ),
-  );
+  selectedProductGroupId = injectQueryParams('group', {transform: numberAttribute});
 
   productGroups = toSignal(inject(ProductGroupsService).getAll$());
   printers = toSignal(inject(PrintersService).getAll$());
@@ -151,8 +148,4 @@ export class ProductEditComponent extends AbstractModelEditComponent<GetProductM
     }
     return false;
   });
-
-  constructor(productsService: ProductsService) {
-    super(productsService);
-  }
 }

@@ -1,16 +1,13 @@
 import {Location} from '@angular/common';
 import {ChangeDetectionStrategy, Component, effect, inject} from '@angular/core';
 
-import {TranslocoPipe, TranslocoService} from '@jsverse/transloco';
+import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {d_format, s_chunks} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxCutPipe, injectIsMobile, injectWindow} from 'dfx-helper';
 import {QRCodeComponent} from 'dfx-qrcode';
-import {toJpeg} from 'html-to-image';
-import {jsPDF} from 'jspdf';
+import {NgxPrintDirective} from 'ngx-print';
 
-import {ThemeService} from '@shared/services/theme.service';
 import {CopyDirective} from '@shared/ui/copy.directive';
 
 import {ScrollableToolbarComponent} from './_shared/components/scrollable-toolbar.component';
@@ -19,12 +16,12 @@ import {QrCodeService} from './_shared/services/qr-code.service';
 @Component({
   template: `
     @if (qrCodeData(); as data) {
-      <div class="my-container d-flex flex-row flex-wrap gap-5 align-items-center justify-content-center h-100">
+      <div class="my-container d-flex flex-row flex-wrap gap-5 align-items-center justify-content-center h-100" id="printContainer">
         <div class="qrcode-rounded" id="qrcode" style="background-color: #f6f6f6">
           <qrcode [size]="isMobile() ? 8 : 14" [margin]="0" [data]="data.data" errorCorrectionLevel="M" colorLight="#f6f6f6" />
         </div>
         <div class="card">
-          <div class="card-header">
+          <div class="card-header no-print">
             {{ data.text | transloco }}
           </div>
           <div class="card-body">
@@ -34,16 +31,25 @@ import {QrCodeService} from './_shared/services/qr-code.service';
               </p>
             }
 
-            <a [href]="data.data" [ngbTooltip]="data.data" target="_blank" rel="noreferrer">{{ data.data | s_cut: 82 : '...' }}</a>
+            <a class="no-print" [href]="data.data" [ngbTooltip]="data.data" target="_blank" rel="noreferrer">{{
+              data.data | s_cut: 82 : '...'
+            }}</a>
           </div>
-          <div class="card-footer text-muted">
+          <div class="card-footer text-muted no-print">
             <scrollable-toolbar>
               <button class="btn btn-sm btn-secondary" (mousedown)="back()" type="button">
                 <bi name="arrow-left" />
                 {{ 'GO_BACK' | transloco }}
               </button>
 
-              <button class="btn btn-sm btn-info" (click)="print()" type="button">
+              <button
+                class="btn btn-sm btn-info"
+                [useExistingCss]="true"
+                [printStyle]="{'.no-print': {display: 'none'}, '.qrcode-rounded': {display: 'flex', 'justify-content': 'center'}}"
+                ngxPrint
+                printSectionId="printContainer"
+                type="button"
+              >
                 <bi name="printer" aria-label="Copy content to clipboard" />
                 {{ 'PRINT' | transloco }}
               </button>
@@ -85,16 +91,23 @@ import {QrCodeService} from './_shared/services/qr-code.service';
   selector: 'app-qr-code',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [QRCodeComponent, NgbTooltipModule, BiComponent, ScrollableToolbarComponent, CopyDirective, DfxCutPipe, TranslocoPipe],
+  imports: [
+    QRCodeComponent,
+    NgbTooltipModule,
+    BiComponent,
+    ScrollableToolbarComponent,
+    CopyDirective,
+    DfxCutPipe,
+    TranslocoPipe,
+    NgxPrintDirective,
+  ],
 })
 export class AppQrCodeViewComponent {
-  qrCodeData = inject(QrCodeService).data;
   window = injectWindow();
-  isMobile = injectIsMobile();
   location = inject(Location);
-  theme = inject(ThemeService).currentTheme;
 
-  translocoService = inject(TranslocoService);
+  qrCodeData = inject(QrCodeService).data;
+  isMobile = injectIsMobile();
 
   constructor() {
     effect(() => {
@@ -102,30 +115,6 @@ export class AppQrCodeViewComponent {
         this.back();
       }
     });
-  }
-
-  async print(): Promise<void> {
-    const qrCode = document.getElementById('qrcode')!;
-    const pdf = new jsPDF('p', 'pt', 'a4', true);
-    const canvas = await toJpeg(qrCode, {
-      quality: 0.7,
-      backgroundColor: '#FFFFFF',
-    });
-    pdf.addImage(canvas, 'JPEG', 70, 20, 450, 450);
-
-    const info = this.qrCodeData()?.info;
-    if (info && info.length > 0) {
-      const text = this.translocoService.translate(info);
-
-      let height = 500;
-      for (const chunk of s_chunks(text, 50)) {
-        const xOffset = pdf.internal.pageSize.width / 2 - (pdf.getStringUnitWidth(chunk) * pdf.getFontSize()) / 2;
-        pdf.text(chunk, xOffset, height);
-        height += 20;
-      }
-    }
-
-    pdf.save(`qrcode-${d_format(new Date())}.pdf`);
   }
 
   back = (): void => {

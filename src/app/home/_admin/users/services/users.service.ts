@@ -1,54 +1,50 @@
-import {HttpClient} from '@angular/common/http';
-import {Injectable, inject} from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, switchMap, tap} from 'rxjs';
 
-import {s_from} from 'dfts-helper';
-import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
+import {HasGetSingle} from 'dfx-helper';
 
+import {BackendType, injectAPI} from '@shared/api';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
-import {CreateUserDto, GetUserResponse, IdResponse, UpdateUserDto} from '@shared/waiterrobot-backend';
 
 @Injectable({providedIn: 'root'})
 export class UsersService
   implements
-    HasGetAll<GetUserResponse>,
-    HasGetSingle<GetUserResponse>,
-    HasCreateWithIdResponse<CreateUserDto>,
-    HasUpdateWithIdResponse<UpdateUserDto>,
-    HasDelete<GetUserResponse>
+    HasGetSingle<BackendType['GetUserResponse']>,
+    HasCreateWithIdResponse<BackendType['CreateUserDto']>,
+    HasUpdateWithIdResponse<BackendType['UpdateUserDto']>
 {
   url = '/config/user';
-  #httpClient = inject(HttpClient);
+  #api = injectAPI();
 
   triggerGet$ = new BehaviorSubject(true);
 
-  getAll$(): Observable<GetUserResponse[]> {
-    return this.triggerGet$.pipe(switchMap(() => this.#httpClient.get<GetUserResponse[]>(this.url)));
+  getAll$() {
+    return this.triggerGet$.pipe(switchMap(() => this.#api.get('/v1/config/user')));
   }
 
-  getSingle$(id: number): Observable<GetUserResponse> {
-    return this.#httpClient.get<GetUserResponse>(`${this.url}/${s_from(id)}`);
+  getSingle$(id: number) {
+    return this.#api.get('/v1/config/user/{id}', {params: {path: {id}}});
   }
 
-  create$(dto: CreateUserDto): Observable<IdResponse> {
-    return this.#httpClient.post<IdResponse>(this.url, dto).pipe(
+  create$(body: BackendType['CreateUserDto']) {
+    return this.#api.post('/v1/config/user', {body}).pipe(
       tap(() => {
         this.triggerGet$.next(true);
       }),
     );
   }
 
-  update$(dto: UpdateUserDto): Observable<IdResponse> {
-    return this.#httpClient.put<IdResponse>(this.url, dto).pipe(
+  update$(body: BackendType['UpdateUserDto']) {
+    return this.#api.put('/v1/config/user', {body}).pipe(
       tap(() => {
         this.triggerGet$.next(true);
       }),
     );
   }
 
-  delete$(id: number): Observable<unknown> {
-    return this.#httpClient.delete(`${this.url}/${s_from(id)}`).pipe(
+  delete$(id: number) {
+    return this.#api.delete('/v1/config/user/{id}', {params: {path: {id}}}).pipe(
       tap(() => {
         this.triggerGet$.next(true);
       }),

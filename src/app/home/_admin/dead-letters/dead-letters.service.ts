@@ -1,33 +1,37 @@
-import {HttpClient} from '@angular/common/http';
-import {Injectable, inject} from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import {BehaviorSubject, Observable, map, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, Observable, map, shareReplay, switchMap, tap} from 'rxjs';
 
-import {s_from} from 'dfts-helper';
-import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
-
-import {DeadLetterResponse} from '@shared/waiterrobot-backend';
+import {injectAPI} from '@shared/api';
 
 @Injectable({providedIn: 'root'})
-export class DeadLettersService implements HasGetAll<DeadLetterResponse>, HasGetSingle<DeadLetterResponse>, HasDelete<DeadLetterResponse> {
-  url = '/config/dead-letter';
-  #httpClient = inject(HttpClient);
+export class DeadLettersService {
+  #api = injectAPI();
 
   triggerGet$ = new BehaviorSubject(true);
 
-  getAll$(): Observable<DeadLetterResponse[]> {
-    return this.triggerGet$.pipe(switchMap(() => this.#httpClient.get<DeadLetterResponse[]>(this.url)));
+  getAll$() {
+    return this.triggerGet$.pipe(
+      switchMap(() => this.#api.get('/v1/config/dead-letter')),
+      shareReplay(1),
+    );
   }
 
-  getSingle$(id: number): Observable<DeadLetterResponse> {
+  getSingle$(id: number) {
     return this.getAll$().pipe(map((letters) => letters.find((it) => it.id === id)!));
   }
 
   delete$(id: number): Observable<unknown> {
-    return this.#httpClient.delete(`${this.url}/${s_from(id)}`).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
-    );
+    return this.#api
+      .delete('/v1/config/dead-letter/{id}', {
+        params: {
+          path: {id},
+        },
+      })
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
   }
 }

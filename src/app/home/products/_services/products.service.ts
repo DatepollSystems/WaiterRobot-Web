@@ -2,7 +2,7 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, Observable, combineLatest, map, switchMap, tap} from 'rxjs';
 
-import {HasDelete, HasGetByParent, HasGetSingle} from 'dfx-helper';
+import {HasGetSingle} from 'dfx-helper';
 
 import {BackendType, injectAPI} from '@shared/api';
 import {SelectedEventService} from '@shared/services/selected-event.service';
@@ -15,9 +15,7 @@ export class ProductsService
   implements
     HasGetSingle<BackendType['GetProductMaxResponse']>,
     HasCreateWithIdResponse<BackendType['CreateProductDto']>,
-    HasUpdateWithIdResponse<BackendType['UpdateProductDto']>,
-    HasGetByParent<BackendType['GetProductMaxResponse'], BackendType['GetProductGroupResponse']>,
-    HasDelete<BackendType['GetProductResponse']>
+    HasUpdateWithIdResponse<BackendType['UpdateProductDto']>
 {
   #api = injectAPI();
   #selectedEventService = inject(SelectedEventService);

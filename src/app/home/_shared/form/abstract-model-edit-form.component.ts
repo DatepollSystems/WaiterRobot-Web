@@ -1,10 +1,15 @@
 // noinspection JSNonASCIINames NonAsciiCharacters
-import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, inject, output, signal, viewChild} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, ɵFormGroupValue} from '@angular/forms';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, inject, output, signal, viewChild } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, ɵFormGroupValue } from '@angular/forms';
 
-import {loggerOf} from 'dfts-helper';
+
+
+import { loggerOf } from 'dfts-helper';
+
 
 const focuses = ['input', 'select', 'textarea'];
+
+export type UnknownModelEditFormComponent = AbstractModelEditFormComponent<unknown, unknown>;
 
 @Component({
   standalone: true,
@@ -30,6 +35,8 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
     if (it) {
       this.form.disable();
     }
+
+    this.lumber.log('setFormDisabled', 'Disabled', it);
   }
 
   ngAfterViewInit(): void {
@@ -63,6 +70,7 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
   }
 
   reset(): void {
+    this.lumber.log('reset', 'Reset form');
     this.form.reset();
     this.setInputFocus();
   }

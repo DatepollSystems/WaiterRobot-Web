@@ -1,66 +1,66 @@
-import {HttpClient} from '@angular/common/http';
 import {Injectable, inject} from '@angular/core';
 
-import {BehaviorSubject, Observable, combineLatest, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, combineLatest, switchMap, tap} from 'rxjs';
 
-import {s_from} from 'dfts-helper';
-import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
+import {HasGetSingle} from 'dfx-helper';
 
+import {BackendType, injectAPI} from '@shared/api';
 import {SelectedEventService} from '@shared/services/selected-event.service';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
-import {CreateBillUnpaidReasonDto, GetBillUnpaidReasonResponse, IdResponse, UpdateBillUnpaidReasonDto} from '@shared/waiterrobot-backend';
 
 @Injectable({providedIn: 'root'})
 export class UnpaidReasonsService
   implements
-    HasGetSingle<GetBillUnpaidReasonResponse>,
-    HasGetAll<GetBillUnpaidReasonResponse>,
-    HasDelete<GetBillUnpaidReasonResponse>,
-    HasCreateWithIdResponse<CreateBillUnpaidReasonDto>,
-    HasUpdateWithIdResponse<UpdateBillUnpaidReasonDto>
+    HasGetSingle<BackendType['GetBillUnpaidReasonResponse']>,
+    HasCreateWithIdResponse<BackendType['CreateBillUnpaidReasonDto']>,
+    HasUpdateWithIdResponse<BackendType['UpdateBillUnpaidReasonDto']>
 {
-  url = '/config/billing/unpaid';
+  #api = injectAPI();
+  #selectedEventService = inject(SelectedEventService);
 
-  private httpClient = inject(HttpClient);
-  private selectedEventService = inject(SelectedEventService);
+  triggerRefresh = new BehaviorSubject<boolean>(true);
 
-  public triggerRefresh = new BehaviorSubject<boolean>(true);
-
-  getSingle$(id: GetBillUnpaidReasonResponse['id']): Observable<GetBillUnpaidReasonResponse> {
-    return this.triggerRefresh.pipe(switchMap(() => this.httpClient.get<GetBillUnpaidReasonResponse>(`${this.url}/${id}`)));
+  getSingle$(id: number) {
+    return this.triggerRefresh.pipe(switchMap(() => this.#api.get('/v1/config/billing/unpaid/{id}', {params: {path: {id}}})));
   }
 
-  getAll$(): Observable<GetBillUnpaidReasonResponse[]> {
-    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerRefresh]).pipe(
+  getAll$() {
+    return combineLatest([this.#selectedEventService.selectedIdNotNull$, this.triggerRefresh]).pipe(
       switchMap(([eventId]) =>
-        this.httpClient.get<GetBillUnpaidReasonResponse[]>(this.url, {
-          params: {eventId},
+        this.#api.get('/v1/config/billing/unpaid', {
+          params: {query: {eventId}},
         }),
       ),
     );
   }
 
-  create$(dto: CreateBillUnpaidReasonDto): Observable<IdResponse> {
-    return this.httpClient.post<IdResponse>(this.url, dto).pipe(
+  create$(body: BackendType['CreateBillUnpaidReasonDto']) {
+    return this.#api.post('/v1/config/billing/unpaid', {body}).pipe(
       tap(() => {
         this.triggerRefresh.next(true);
       }),
     );
   }
 
-  update$(dto: UpdateBillUnpaidReasonDto): Observable<IdResponse> {
-    return this.httpClient.put<IdResponse>(this.url, dto).pipe(
+  update$(body: BackendType['UpdateBillUnpaidReasonDto']) {
+    return this.#api.put('/v1/config/billing/unpaid', {body}).pipe(
       tap(() => {
         this.triggerRefresh.next(true);
       }),
     );
   }
 
-  delete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(
-      tap(() => {
-        this.triggerRefresh.next(true);
-      }),
-    );
+  delete$(id: number) {
+    return this.#api
+      .delete('/v1/config/billing/unpaid/{id}', {
+        params: {
+          path: {id},
+        },
+      })
+      .pipe(
+        tap(() => {
+          this.triggerRefresh.next(true);
+        }),
+      );
   }
 }

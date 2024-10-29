@@ -1,5 +1,4 @@
 import {formatDate} from '@angular/common';
-import {HttpClient, HttpParams} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, effect, inject, signal} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 
@@ -10,10 +9,10 @@ import {d_from} from 'dfts-helper';
 import {derivedFrom} from 'ngxtension/derived-from';
 import {filterNil} from 'ngxtension/filter-nil';
 
+import {injectAPI} from '@shared/api';
 import {injectCustomFormBuilder} from '@shared/form';
 import {dateToBackendDateTimeString} from '@shared/services/datepicker-adapter';
 import {SelectedEventService} from '@shared/services/selected-event.service';
-import {StatisticsTimelineResponse} from '@shared/waiterrobot-backend';
 
 type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
 
@@ -147,7 +146,7 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
 export class TimelineComponent {
   curve = shape.curveNatural;
 
-  #httpClient = inject(HttpClient);
+  #api = injectAPI();
 
   selectedEvent = inject(SelectedEventService).selected;
   form = injectCustomFormBuilder().group({
@@ -182,8 +181,6 @@ export class TimelineComponent {
           return of({highestValue: 0, data: []});
         }
 
-        let params = new HttpParams().set('eventId', event.id);
-
         // remove UTC timezone to make it a local time, so we can read the correct UTC time
         const startDateD = d_from(startDate.split('.')[0]);
         const endDateD = d_from(endDate.split('.')[0]);
@@ -203,11 +200,17 @@ export class TimelineComponent {
           return of({highestValue: 0, data: []});
         }
 
-        params = params.append('startDate', dateToBackendDateTimeString(startDateD));
-        params = params.append('endDate', dateToBackendDateTimeString(endDateD));
-        params = params.append('precision', precision);
-        params = params.append('type', type);
-        return this.#httpClient.get<StatisticsTimelineResponse>('/config/statistics/timeline', {params});
+        return this.#api.get('/v1/config/statistics/timeline', {
+          params: {
+            query: {
+              eventId: event.id,
+              startDate: dateToBackendDateTimeString(startDateD),
+              endDate: dateToBackendDateTimeString(endDateD),
+              type,
+              precision,
+            },
+          },
+        });
       }),
       map((it) => {
         it.highestValue += 5;

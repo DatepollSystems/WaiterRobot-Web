@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 
 import {BehaviorSubject, EMPTY, catchError, shareReplay, switchMap, tap} from 'rxjs';
 
-import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
+import {HasGetSingle} from 'dfx-helper';
 
 import {BackendType, injectAPI} from '@shared/api';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
@@ -12,11 +12,9 @@ import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services
 })
 export class OrganisationsService
   implements
-    HasGetAll<BackendType['GetOrganisationResponse']>,
     HasGetSingle<BackendType['GetOrganisationResponse']>,
     HasCreateWithIdResponse<BackendType['CreateOrganisationDto']>,
-    HasUpdateWithIdResponse<BackendType['UpdateOrganisationDto']>,
-    HasDelete<BackendType['GetOrganisationResponse']>
+    HasUpdateWithIdResponse<BackendType['UpdateOrganisationDto']>
 {
   #api = injectAPI();
 

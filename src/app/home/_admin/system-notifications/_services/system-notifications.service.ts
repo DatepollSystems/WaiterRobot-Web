@@ -1,46 +1,39 @@
-import {HttpClient} from '@angular/common/http';
 import {Injectable, inject} from '@angular/core';
 
-import {BehaviorSubject, Observable, map, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, map, shareReplay, switchMap, tap} from 'rxjs';
 
-import {s_from} from 'dfts-helper';
-import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
+import {HasGetSingle} from 'dfx-helper';
 
+import {BackendType, injectAPI} from '@shared/api';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
-import {
-  CreateSystemNotificationDto,
-  GetSystemNotificationResponse,
-  IdResponse,
-  UpdateSystemNotificationDto,
-} from '@shared/waiterrobot-backend';
 
 import {ActiveSystemNotificationsService} from '../../../_layout/services/active-system-notifications.service';
 
 @Injectable({providedIn: 'root'})
 export class SystemNotificationsService
   implements
-    HasGetAll<GetSystemNotificationResponse>,
-    HasGetSingle<GetSystemNotificationResponse>,
-    HasCreateWithIdResponse<CreateSystemNotificationDto>,
-    HasUpdateWithIdResponse<UpdateSystemNotificationDto>,
-    HasDelete<GetSystemNotificationResponse>
+    HasGetSingle<BackendType['GetSystemNotificationResponse']>,
+    HasCreateWithIdResponse<BackendType['CreateSystemNotificationDto']>,
+    HasUpdateWithIdResponse<BackendType['UpdateSystemNotificationDto']>
 {
-  url = '/system-notification';
-  #httpClient = inject(HttpClient);
+  #api = injectAPI();
   #activeSystemNotificationsService = inject(ActiveSystemNotificationsService);
 
   triggerGet$ = new BehaviorSubject(true);
 
-  getAll$(): Observable<GetSystemNotificationResponse[]> {
-    return this.triggerGet$.pipe(switchMap(() => this.#httpClient.get<GetSystemNotificationResponse[]>(`${this.url}/all`)));
+  getAll$() {
+    return this.triggerGet$.pipe(
+      switchMap(() => this.#api.get('/v1/system-notification/all')),
+      shareReplay(1),
+    );
   }
 
-  getSingle$(id: number): Observable<GetSystemNotificationResponse> {
+  getSingle$(id: number) {
     return this.getAll$().pipe(map((notifications) => notifications.find((it) => it.id === id)!));
   }
 
-  create$(dto: CreateSystemNotificationDto): Observable<IdResponse> {
-    return this.#httpClient.post<IdResponse>(this.url, dto).pipe(
+  create$(body: BackendType['CreateSystemNotificationDto']) {
+    return this.#api.post('/v1/system-notification', {body}).pipe(
       tap(() => {
         this.triggerGet$.next(true);
         this.#activeSystemNotificationsService.triggerGet$.next(true);
@@ -48,8 +41,8 @@ export class SystemNotificationsService
     );
   }
 
-  update$(dto: UpdateSystemNotificationDto): Observable<IdResponse> {
-    return this.#httpClient.put<IdResponse>(this.url, dto).pipe(
+  update$(body: BackendType['UpdateSystemNotificationDto']) {
+    return this.#api.put('/v1/system-notification', {body}).pipe(
       tap(() => {
         this.triggerGet$.next(true);
         this.#activeSystemNotificationsService.triggerGet$.next(true);
@@ -57,13 +50,19 @@ export class SystemNotificationsService
     );
   }
 
-  delete$(id: number): Observable<unknown> {
-    return this.#httpClient.delete(`${this.url}/${s_from(id)}`).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-        this.#activeSystemNotificationsService.triggerGet$.next(true);
-      }),
-    );
+  delete$(id: number) {
+    return this.#api
+      .delete('/v1/system-notification/{id}', {
+        params: {
+          path: {id},
+        },
+      })
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+          this.#activeSystemNotificationsService.triggerGet$.next(true);
+        }),
+      );
   }
 }
 

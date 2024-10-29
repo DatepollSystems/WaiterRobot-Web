@@ -2,13 +2,11 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectOnDelete} from '@home-shared/form/edit';
+import {injectEditEntity, injectOnDelete} from '@home-shared/form/edit';
 
 import {injectOnSubmit} from '@shared/form';
 import {SelectedEventService} from '@shared/services/selected-event.service';
-import {GetBillUnpaidReasonResponse} from '@shared/waiterrobot-backend';
 
 import {UnpaidReasonsService} from '../_services/unpaid-reasons.service';
 import {AppUnpaidReasonEditFormComponent} from './unpaid-reason-edit-form.component';
@@ -55,14 +53,14 @@ import {AppUnpaidReasonEditFormComponent} from './unpaid-reason-edit-form.compon
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AppEntityEditModule, BiComponent, AppUnpaidReasonEditFormComponent],
 })
-export class UnpaidReasonEditComponent extends AbstractModelEditComponent<GetBillUnpaidReasonResponse> {
+export class UnpaidReasonEditComponent {
   #unpaidReasonsService = inject(UnpaidReasonsService);
+
+  entity = injectEditEntity({
+    get$: (id) => this.#unpaidReasonsService.getSingle$(id),
+  });
   onDelete = injectOnDelete((it: number) => this.#unpaidReasonsService.delete$(it).subscribe());
   onSubmit = injectOnSubmit({entityService: this.#unpaidReasonsService});
 
   selectedEventId = inject(SelectedEventService).selectedId;
-
-  constructor(unpaidReasonsService: UnpaidReasonsService) {
-    super(unpaidReasonsService);
-  }
 }

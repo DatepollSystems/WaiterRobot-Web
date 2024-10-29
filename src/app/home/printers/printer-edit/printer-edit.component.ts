@@ -1,16 +1,15 @@
-import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, viewChild} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 
 import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
-import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
+import {UnknownModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectOnDelete, injectTabControls} from '@home-shared/form/edit';
+import {injectContinuousCreation, injectEditEntity, injectOnDelete, injectTabControls} from '@home-shared/form/edit';
 
 import {injectOnSubmit} from '@shared/form';
 import {SelectedEventService} from '@shared/services/selected-event.service';
-import {GetPrinterResponse} from '@shared/waiterrobot-backend';
 
 import {OrganisationUsersSettingsComponent} from '../../_admin/organisations/organisation-edit/organisation-edit-users/organisation-users-settings.component';
 import {PrintersService} from '../_services/printers.service';
@@ -93,8 +92,14 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
     OrganisationUsersSettingsComponent,
   ],
 })
-export class PrinterEditComponent extends AbstractModelEditComponent<GetPrinterResponse> {
+export class PrinterEditComponent {
   #printersService = inject(PrintersService);
+
+  form = viewChild<UnknownModelEditFormComponent>('form');
+
+  entity = injectEditEntity({
+    get$: (id) => this.#printersService.getSingle$(id),
+  });
 
   onDelete = injectOnDelete((it: number) => this.#printersService.delete$(it).subscribe());
   continuousCreation = injectContinuousCreation({
@@ -118,8 +123,4 @@ export class PrinterEditComponent extends AbstractModelEditComponent<GetPrinterR
   selectedEvent = inject(SelectedEventService).selectedId;
 
   fonts = toSignal(this.#printersService.getAllFonts$(), {initialValue: []});
-
-  constructor(printersService: PrintersService) {
-    super(printersService);
-  }
 }
