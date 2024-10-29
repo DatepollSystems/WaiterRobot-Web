@@ -107,7 +107,7 @@
   "ABOUT_SIGNIN_FORGOT_PASSWORD_SUCCESS": "Passwort Zurücksetzung erfolgreich! Du kannst dich jetzt mit deinen neuem Passwort anmelden. Automatische Weiterleitung in 5 Sekunden...",
   "ABOUT_MAINTENANCE_1": "kellner.team hat derzeit technische Schwierigkeiten.",
   "ABOUT_MAINTENANCE_2": "Unser Team ist bereits informiert und wird sich schnellst möglich um die Behebung des Problems kümmern.",
-  "ABOUT_MAINTENANCE_3": "Probiere es in ein paar Minuten erneut. Für weiter Informationen besuche",
+  "ABOUT_MAINTENANCE_3": "Probiere es in ein paar Minuten erneut. Für weitere Informationen besuche",
   "ABOUT_MAINTENANCE_4": "Wir entschuldigen uns für etwaige Unannehmlichkeiten und bitten um Verständnis.",
   "ABOUT_APP_DISCOVER": "Mobile Apps für's Personal",
   "ABOUT_APP_QR_CODE_MODAL_TITLE": "Store-Link",
@@ -153,7 +153,7 @@
 
   "HOME_USERSETTINGS_USER_SETTINGS_EMAIL": "E-Mail-Adresse ändern",
   "HOME_USERSETTINGS_USER_SETTINGS_EMAIL_SUBTITLE": "Deine E-Mail-Adresse wird für das Anmelden und das 'Password zurücksetzen' verwendet.",
-  "HOME_USERSETTINGS_USER_SETTINGS_EMAIL_SUCCESS": "E-Mail Adresse erfolgreich geändert",
+  "HOME_USERSETTINGS_USER_SETTINGS_EMAIL_SUCCESS": "E-Mail Adresse erfolgreich geändert. Du wirst in 5 Sekunden ausgeloggt.",
   "HOME_USERSETTINGS_SESSIONS_REGISTERED_AT": "Registriert",
   "HOME_USERSETTINGS_SESSIONS_UPDATED_AT": "Zuletzt verwendet",
   "HOME_USERSETTINGS_USER_SETTINGS_PASSWORD": "Passwort ändern",
@@ -161,7 +161,7 @@
   "HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW": "Neues Passwort",
   "HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_AGAIN": "Neues Password wiederholen",
   "HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_DONT_MATCH": "Die neuen Passwörter stimmen nicht überein",
-  "HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_SUCCESS": "Passwort erfolgreich geändert",
+  "HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_SUCCESS": "Passwort erfolgreich geändert.",
   "HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_ERROR": "Dein altes Passwort ist inkorrekt",
 
   "HOME_ORGS_ALL": "Organisationen",

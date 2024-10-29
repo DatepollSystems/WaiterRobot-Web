@@ -3,7 +3,7 @@ import {Injectable, inject} from '@angular/core';
 import {BehaviorSubject, map, shareReplay, switchMap, tap} from 'rxjs';
 
 import {BackendType, injectAPI} from '@shared/api';
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/custom-types';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services';
 
 import {ActiveSystemNotificationsService} from '../../../_layout/services/active-system-notifications.service';
 
