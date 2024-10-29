@@ -9,8 +9,8 @@ import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-e
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 import {allowedCharacterSet} from '@home-shared/regex';
 
+import {BackendType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
-import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrinterDto} from '@shared/waiterrobot-backend';
 
 @Component({
   template: `
@@ -120,7 +120,7 @@ import {CreatePrinterDto, GetPrinterFontResponse, GetPrinterResponse, UpdatePrin
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppPrinterEditForm extends AbstractModelEditFormComponent<CreatePrinterDto, UpdatePrinterDto> {
+export class AppPrinterEditForm extends AbstractModelEditFormComponent<BackendType['CreatePrinterDto'], BackendType['UpdatePrinterDto']> {
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(120), Validators.pattern(allowedCharacterSet)]],
     fontScale: [1, [Validators.required, Validators.min(0.5), Validators.max(2.5)]],
@@ -148,7 +148,7 @@ export class AppPrinterEditForm extends AbstractModelEditFormComponent<CreatePri
   };
 
   @Input()
-  set printer(it: GetPrinterResponse | 'CREATE') {
+  set printer(it: BackendType['GetPrinterResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;
@@ -175,5 +175,5 @@ export class AppPrinterEditForm extends AbstractModelEditFormComponent<CreatePri
   }
   _selectedEventId = -1;
 
-  availableFonts = input.required<GetPrinterFontResponse[]>();
+  availableFonts = input.required<BackendType['GetPrinterFontResponse'][]>();
 }

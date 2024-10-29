@@ -9,8 +9,8 @@ import {AppDatetimeInputComponent} from '@home-shared/components/datetime-picker
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
+import {BackendType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
-import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocationDto} from '@shared/waiterrobot-backend';
 
 @Component({
   template: `
@@ -124,7 +124,10 @@ import {CreateEventOrLocationDto, GetEventOrLocationResponse, UpdateEventOrLocat
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppEventEditFormComponent extends AbstractModelEditFormComponent<CreateEventOrLocationDto, UpdateEventOrLocationDto> {
+export class AppEventEditFormComponent extends AbstractModelEditFormComponent<
+  BackendType['CreateEventOrLocationDto'],
+  BackendType['UpdateEventOrLocationDto']
+> {
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(40)]],
     startDate: new FormControl<string | null>(null),
@@ -141,13 +144,11 @@ export class AppEventEditFormComponent extends AbstractModelEditFormComponent<Cr
   isValid = injectIsValid(this.form);
 
   @Input()
-  set event(it: GetEventOrLocationResponse | 'CREATE') {
+  set event(it: BackendType['GetEventOrLocationResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;
     }
-
-    this._event = it;
 
     this.form.patchValue({
       name: it.name,
@@ -160,7 +161,6 @@ export class AppEventEditFormComponent extends AbstractModelEditFormComponent<Cr
       id: it.id,
     });
   }
-  _event?: GetEventOrLocationResponse;
 
   @Input()
   set selectedOrganisationId(id: number | null) {

@@ -2,16 +2,13 @@ import {Injectable, inject} from '@angular/core';
 
 import {combineLatest, switchMap, tap} from 'rxjs';
 
-import {HasGetAll} from 'dfx-helper';
-
 import {PageableDto, injectAPI} from '@shared/api';
 import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
-import {GetWaiterResponse} from '@shared/waiterrobot-backend';
 
 import {WaitersService} from './waiters.service';
 
 @Injectable({providedIn: 'root'})
-export class OrganisationWaitersService implements HasGetAll<GetWaiterResponse> {
+export class OrganisationWaitersService {
   #api = injectAPI();
   #waitersService = inject(WaitersService);
   #selectedOrganisationService = inject(SelectedOrganisationService);

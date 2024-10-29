@@ -15,10 +15,8 @@ import {QrCodeService} from '@home-shared/services/qr-code.service';
 import {RedirectService} from '@home-shared/services/redirect.service';
 import {MyUserService} from '@home-shared/services/user/my-user.service';
 
-import {EnvironmentHelper} from '@shared/EnvironmentHelper';
-import {AuthService} from '@shared/services/auth/auth.service';
-import {SystemInfoService, SystemInfoShowService} from '@shared/services/system-info.service';
-import {ThemeService} from '@shared/services/theme.service';
+import {EnvironmentHelper} from '@shared';
+import {AuthService, SystemInfoService, SystemInfoShowService, ThemeService} from '@shared/services';
 
 import {AppSystemColorsModal} from './system-colors.modal';
 

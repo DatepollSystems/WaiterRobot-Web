@@ -10,8 +10,8 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
+import {BackendType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
-import {CreateUserDto, GetOrganisationResponse, GetUserResponse, IdAndNameResponse, UpdateUserDto} from '@shared/waiterrobot-backend';
 
 @Component({
   template: `
@@ -139,7 +139,7 @@ import {CreateUserDto, GetOrganisationResponse, GetUserResponse, IdAndNameRespon
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserEditFormComponent extends AbstractModelEditFormComponent<CreateUserDto, UpdateUserDto> {
+export class UserEditFormComponent extends AbstractModelEditFormComponent<BackendType['CreateUserDto'], BackendType['UpdateUserDto']> {
   readonly userOrganisations = output<[]>();
 
   form = inject(FormBuilder).nonNullable.group({
@@ -211,7 +211,7 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Create
   }
 
   @Input()
-  set user(it: GetUserResponse | 'CREATE') {
+  set user(it: BackendType['GetUserResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       this.form.controls.password.setValidators([Validators.minLength(6)]);
@@ -230,8 +230,8 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Create
     });
   }
 
-  organisations = input<GetOrganisationResponse[]>([]);
-  @Input() set selectedOrganisations(selectedOrganisations: IdAndNameResponse[]) {
+  organisations = input<BackendType['GetOrganisationResponse'][]>([]);
+  @Input() set selectedOrganisations(selectedOrganisations: BackendType['IdAndNameResponse'][]) {
     this.form.controls.selectedOrganisations.setValue(selectedOrganisations.map((it) => it.id));
   }
 }

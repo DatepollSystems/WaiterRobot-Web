@@ -1,10 +1,8 @@
 import {Injectable} from '@angular/core';
 
-import {BehaviorSubject, map, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, switchMap, tap} from 'rxjs';
 
 import {injectAPI} from '@shared/api';
-import {SessionModel} from '@shared/model/session.model';
-import {SessionResponse} from '@shared/waiterrobot-backend';
 
 @Injectable({providedIn: 'root'})
 export class WaiterSessionsService {
@@ -12,14 +10,8 @@ export class WaiterSessionsService {
 
   #api = injectAPI();
 
-  convert = (it: SessionResponse): SessionModel => new SessionModel(it);
-
   getByParent$(waiterId: number) {
-    return this.triggerGet$.pipe(
-      switchMap(() =>
-        this.#api.get('/v1/config/waiter/session', {params: {query: {waiterId}}}).pipe(map((it) => it.map((iit) => this.convert(iit)))),
-      ),
-    );
+    return this.triggerGet$.pipe(switchMap(() => this.#api.get('/v1/config/waiter/session', {params: {query: {waiterId}}})));
   }
 
   delete$(id: number) {

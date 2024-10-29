@@ -2,17 +2,12 @@ import {Injectable} from '@angular/core';
 
 import {BehaviorSubject, switchMap, tap} from 'rxjs';
 
-import {HasGetSingle} from 'dfx-helper';
-
 import {BackendType, injectAPI} from '@shared/api';
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/custom-types';
 
 @Injectable({providedIn: 'root'})
 export class WaitersService
-  implements
-    HasGetSingle<BackendType['GetWaiterResponse']>,
-    HasCreateWithIdResponse<BackendType['CreateWaiterDto']>,
-    HasUpdateWithIdResponse<BackendType['UpdateWaiterDto']>
+  implements HasCreateWithIdResponse<BackendType['CreateWaiterDto']>, HasUpdateWithIdResponse<BackendType['UpdateWaiterDto']>
 {
   #api = injectAPI();
 

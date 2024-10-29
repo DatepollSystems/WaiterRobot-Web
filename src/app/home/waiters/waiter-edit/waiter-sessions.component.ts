@@ -14,7 +14,6 @@ import {StopPropagationDirective} from 'dfx-helper';
 import {injectParams} from 'ngxtension/inject-params';
 
 import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
-import {mapName} from '@home-shared/name-map';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
@@ -78,19 +77,19 @@ import {WaiterSessionsService} from '../_services/waiter-sessions.service';
           </td>
         </ng-container>
 
-        <ng-container ngbColumnDef="name">
+        <ng-container ngbColumnDef="description">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
             {{ 'NAME' | transloco }}
           </th>
-          <td *ngbCellDef="let session" ngb-cell>{{ session.name }}</td>
+          <td *ngbCellDef="let session" ngb-cell>{{ session.description }}</td>
         </ng-container>
 
-        <ng-container ngbColumnDef="registeredAt">
+        <ng-container ngbColumnDef="createdAt">
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
             {{ 'HOME_USERSETTINGS_SESSIONS_REGISTERED_AT' | transloco }}
           </th>
           <td *ngbCellDef="let session" ngb-cell>
-            {{ session.registeredAt | date: 'YYYY.MM.dd - HH:mm:ss' }}
+            {{ session.createdAt | date: 'YYYY.MM.dd - HH:mm:ss' }}
           </td>
         </ng-container>
 
@@ -149,7 +148,7 @@ export class WaiterSessionsComponent {
   sort = viewChild(NgbSort);
   filter = injectTableFilter();
   table = injectTable({
-    columnsToDisplay: ['name', 'registeredAt', 'updatedAt', 'actions'],
+    columnsToDisplay: ['description', 'createdAt', 'updatedAt', 'actions'],
     fetchData: (setLoading) =>
       this.#activeId$.pipe(
         tap(() => {
@@ -170,6 +169,6 @@ export class WaiterSessionsComponent {
   delete = injectTableDelete({
     delete$: (id) => this.#waiterSessionsService.delete$(id),
     selection: this.selection.selection,
-    nameMap: mapName(),
+    nameMap: (it) => it.description,
   });
 }

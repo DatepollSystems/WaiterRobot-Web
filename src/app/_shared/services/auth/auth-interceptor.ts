@@ -6,9 +6,9 @@ import {BehaviorSubject, Observable, catchError, filter, switchMap, take, throwE
 import {loggerOf} from 'dfts-helper';
 import {injectWindow} from 'dfx-helper';
 
-import {EnvironmentHelper} from '../../EnvironmentHelper';
+import {EnvironmentHelper} from '@shared';
+
 import {NotificationService} from '../../notifications/notification.service';
-import {JwtResponse} from '../../waiterrobot-backend';
 import {AuthService} from './auth.service';
 
 /**
@@ -58,7 +58,7 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
                 nextAccessTokenSubject.next(undefined);
 
                 return authService.refreshAccessToken().pipe(
-                  switchMap((data: JwtResponse) => {
+                  switchMap((data) => {
                     lumber.info('handle401Error', 'JWT token refreshed');
                     isRefreshing = false;
                     nextAccessTokenSubject.next(data.accessToken);

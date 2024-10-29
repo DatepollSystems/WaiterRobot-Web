@@ -24,16 +24,11 @@ import {
 
 import {NgbDateTimeAdapter} from '@home-shared/components/datetime-picker/datetime-adapter';
 
-import {EnvironmentHelper} from '@shared/EnvironmentHelper';
-import {CustomTitleStrategy} from '@shared/custom-title.strategy';
-import {authInterceptor} from '@shared/services/auth/auth-interceptor';
-import {CustomPaginatorIntl} from '@shared/services/custom-paginator-intl';
-import {CustomDateParserFormatter, CustomDateTimeAdapter} from '@shared/services/datepicker-adapter';
-import {errorInterceptor} from '@shared/services/error-interceptor';
+import {CustomTitleStrategy, EnvironmentHelper, TranslocoHttpLoader} from '@shared';
+import {CustomDateParserFormatter, CustomDateTimeAdapter, CustomPaginatorIntl, authInterceptor, errorInterceptor} from '@shared/services';
 
 import {AppComponent} from './app/app.component';
 import {ROUTES} from './app/app.routes';
-import {TranslocoHttpLoader} from './transloco-loader';
 
 bootstrapApplication(AppComponent, {
   providers: [

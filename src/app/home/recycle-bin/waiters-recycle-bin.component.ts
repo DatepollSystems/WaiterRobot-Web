@@ -119,14 +119,14 @@ import {WaitersService} from '../waiters/_services/waiters.service';
   imports: [
     TranslocoPipe,
     DfxTableModule,
-    NgbTooltip,
     DfxPaginationModule,
+    DfxArrayMapNamePipe,
+    DfxImplodePipe,
+    NgbTooltip,
     BiComponent,
     ScrollableToolbarComponent,
     AppProgressBarComponent,
     AppActivatedPipe,
-    DfxArrayMapNamePipe,
-    DfxImplodePipe,
   ],
 })
 export class WaitersRecycleBinComponent {

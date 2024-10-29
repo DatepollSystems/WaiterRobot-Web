@@ -6,7 +6,7 @@ import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {s_imploder} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator} from 'dfx-bootstrap-table';
+import {DfxPaginationModule, DfxTableModule, NgbPaginator} from 'dfx-bootstrap-table';
 import {derivedFrom} from 'ngxtension/derived-from';
 
 import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
@@ -141,12 +141,11 @@ import {PrintersService} from '../printers/_services/printers.service';
   imports: [
     TranslocoPipe,
     DfxTableModule,
-    NgbTooltip,
     DfxPaginationModule,
+    NgbTooltip,
     BiComponent,
     ScrollableToolbarComponent,
     AppProgressBarComponent,
-    DfxSortModule,
   ],
 })
 export class PrintersRecycleBinComponent {

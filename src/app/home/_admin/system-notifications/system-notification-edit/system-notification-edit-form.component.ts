@@ -10,8 +10,8 @@ import {AppDatetimeInputComponent} from '@home-shared/components/datetime-picker
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
+import {BackendType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
-import {CreateSystemNotificationDto, GetSystemNotificationResponse, UpdateSystemNotificationDto} from '@shared/waiterrobot-backend';
 
 import {systemNotificationTypes} from '../_services/system-notifications.service';
 
@@ -125,8 +125,8 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SystemNotificationEditFormComponent extends AbstractModelEditFormComponent<
-  CreateSystemNotificationDto,
-  UpdateSystemNotificationDto
+  BackendType['CreateSystemNotificationDto'],
+  BackendType['UpdateSystemNotificationDto']
 > {
   systemNotificationTypes = systemNotificationTypes;
 
@@ -143,7 +143,7 @@ export class SystemNotificationEditFormComponent extends AbstractModelEditFormCo
   isValid = injectIsValid(this.form);
 
   @Input()
-  set systemNotification(it: GetSystemNotificationResponse | 'CREATE') {
+  set systemNotification(it: BackendType['GetSystemNotificationResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;

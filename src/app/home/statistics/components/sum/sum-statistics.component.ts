@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, Input, numberAttribute} from '@angul
 
 import {injectBlurSetting} from '@home-shared/services/blur-setting.service';
 
-import {StatisticsSumResponse} from '@shared/waiterrobot-backend';
+import {BackendType} from '@shared/api';
 
 @Component({
   selector: 'app-sum-statistics',
@@ -15,7 +15,7 @@ export class SumStatisticsComponent {
   chartType: 'PIE' | 'BAR' | 'TEXT' = 'BAR';
 
   @Input()
-  sumDtos?: StatisticsSumResponse[];
+  sumDtos?: BackendType['StatisticsSumResponse'][];
 
   @Input({transform: numberAttribute})
   set height(it: number) {

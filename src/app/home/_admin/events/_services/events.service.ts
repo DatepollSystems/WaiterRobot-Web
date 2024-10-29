@@ -2,18 +2,15 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, EMPTY, catchError, combineLatest, map, shareReplay, switchMap, tap} from 'rxjs';
 
-import {HasGetSingle} from 'dfx-helper';
-
 import {BackendType, injectAPI} from '@shared/api';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/custom-types';
 import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventsService
   implements
-    HasGetSingle<BackendType['GetEventOrLocationResponse']>,
     HasCreateWithIdResponse<BackendType['CreateEventOrLocationDto']>,
     HasUpdateWithIdResponse<BackendType['UpdateEventOrLocationDto']>
 {

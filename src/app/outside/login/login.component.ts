@@ -10,11 +10,11 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {loggerOf} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingFails, DfxHideIfPingSucceeds} from 'dfx-helper';
-import {NotificationService} from 'src/app/_shared/notifications/notification.service';
-import {AuthService} from 'src/app/_shared/services/auth/auth.service';
 
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';
 import {injectIsValid} from '@shared/form';
+import {NotificationService} from '@shared/notifications/notification.service';
+import {AuthService} from '@shared/services';
 import {AppDownloadBtnListComponent} from '@shared/ui/app-download-btn-list.component';
 
 import {AppAccountNotActivatedDialog} from './account-not-activated-dialog.component';

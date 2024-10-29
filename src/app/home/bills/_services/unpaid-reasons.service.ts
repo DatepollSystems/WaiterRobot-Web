@@ -2,16 +2,13 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, combineLatest, switchMap, tap} from 'rxjs';
 
-import {HasGetSingle} from 'dfx-helper';
-
 import {BackendType, injectAPI} from '@shared/api';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/custom-types';
 import {SelectedEventService} from '@shared/services/selected-event.service';
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
 
 @Injectable({providedIn: 'root'})
 export class UnpaidReasonsService
   implements
-    HasGetSingle<BackendType['GetBillUnpaidReasonResponse']>,
     HasCreateWithIdResponse<BackendType['CreateBillUnpaidReasonDto']>,
     HasUpdateWithIdResponse<BackendType['UpdateBillUnpaidReasonDto']>
 {

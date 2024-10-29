@@ -11,7 +11,7 @@ import {IHasID, s_from} from 'dfts-helper';
 import {BackendType} from '@shared/api';
 
 import {NotificationService} from './notifications/notification.service';
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from './services/services.interface';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from './services/custom-types';
 
 export function injectIsValid(form: FormGroup): Signal<boolean> {
   return toSignal(

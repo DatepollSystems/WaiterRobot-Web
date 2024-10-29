@@ -7,8 +7,8 @@ import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
 import {injectEditEntity, injectOnDelete} from '@home-shared/form/edit';
 import {injectIdParam$} from '@home-shared/services/injectActivatedRouteIdParam';
 
+import {BackendType} from '@shared/api';
 import {injectOnSubmit} from '@shared/form';
-import {IdAndNameResponse} from '@shared/waiterrobot-backend';
 
 import {OrganisationsUsersService} from '../../organisations/_services/organisations-users.service';
 import {OrganisationsService} from '../../organisations/_services/organisations.service';
@@ -80,7 +80,7 @@ export class UserEditComponent {
     initialValue: [],
   });
 
-  orgUserChange(organisations: IdAndNameResponse[]): void {
+  orgUserChange(organisations: BackendType['IdAndNameResponse'][]): void {
     const user = this.entity();
 
     if (!user || user === 'CREATE') {

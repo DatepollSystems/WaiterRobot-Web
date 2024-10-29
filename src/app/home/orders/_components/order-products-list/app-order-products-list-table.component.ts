@@ -5,9 +5,10 @@ import {RouterLink} from '@angular/router';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
-import {GetImplodedOrderProductResponse} from 'src/app/_shared/waiterrobot-backend';
 
 import {injectTable} from '@home-shared/list';
+
+import {BackendType} from '@shared/api';
 
 import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
 
@@ -73,7 +74,7 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrderProductsListTableComponent {
-  orderProducts = input.required<GetImplodedOrderProductResponse[]>();
+  orderProducts = input.required<BackendType['GetImplodedOrderProductResponse'][]>();
   orderProducts$ = toObservable(this.orderProducts);
 
   sort = viewChild(NgbSort);

@@ -2,17 +2,14 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, map, shareReplay, switchMap, tap} from 'rxjs';
 
-import {HasGetSingle} from 'dfx-helper';
-
 import {BackendType, injectAPI} from '@shared/api';
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/custom-types';
 
 import {ActiveSystemNotificationsService} from '../../../_layout/services/active-system-notifications.service';
 
 @Injectable({providedIn: 'root'})
 export class SystemNotificationsService
   implements
-    HasGetSingle<BackendType['GetSystemNotificationResponse']>,
     HasCreateWithIdResponse<BackendType['CreateSystemNotificationDto']>,
     HasUpdateWithIdResponse<BackendType['UpdateSystemNotificationDto']>
 {

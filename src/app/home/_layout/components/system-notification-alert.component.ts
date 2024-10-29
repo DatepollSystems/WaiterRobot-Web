@@ -4,7 +4,7 @@ import {ChangeDetectionStrategy, Component, booleanAttribute, computed, input, o
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
 
-import {GetSystemNotificationResponse} from '@shared/waiterrobot-backend';
+import {BackendType} from '@shared/api';
 
 @Component({
   template: `
@@ -71,7 +71,7 @@ import {GetSystemNotificationResponse} from '@shared/waiterrobot-backend';
   imports: [NgClass, BiComponent, DfxLowerCaseExceptFirstLettersPipe, DatePipe],
 })
 export class AppSystemNotificationAlertComponent {
-  notification = input.required<GetSystemNotificationResponse>();
+  notification = input.required<BackendType['GetSystemNotificationResponse']>();
 
   disableIgnore = input(false, {transform: booleanAttribute});
 

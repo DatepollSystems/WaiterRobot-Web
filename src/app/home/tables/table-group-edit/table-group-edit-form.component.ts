@@ -9,8 +9,8 @@ import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-e
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 import {allowedCharacterSet} from '@home-shared/regex';
 
+import {BackendType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
-import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '@shared/waiterrobot-backend';
 
 @Component({
   template: `
@@ -47,7 +47,10 @@ import {CreateTableGroupDto, GetTableGroupResponse, UpdateTableGroupDto} from '@
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableGroupEditFormComponent extends AbstractModelEditFormComponent<CreateTableGroupDto, UpdateTableGroupDto> {
+export class TableGroupEditFormComponent extends AbstractModelEditFormComponent<
+  BackendType['CreateTableGroupDto'],
+  BackendType['UpdateTableGroupDto']
+> {
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(60), Validators.pattern(allowedCharacterSet)]],
     eventId: [-1, [Validators.required, Validators.min(0)]],
@@ -58,7 +61,7 @@ export class TableGroupEditFormComponent extends AbstractModelEditFormComponent<
   isValid = injectIsValid(this.form);
 
   @Input()
-  set tableGroup(it: GetTableGroupResponse | 'CREATE') {
+  set tableGroup(it: BackendType['GetTableGroupResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;

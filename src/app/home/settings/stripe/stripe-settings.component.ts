@@ -15,9 +15,9 @@ import {derivedFrom} from 'ngxtension/derived-from';
 import {BlankslateComponent} from '@home-shared/components/blankslate.component';
 import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
 
+import {BackendType} from '@shared/api';
 import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {CreateStripeAccountDto, GetStripeAccountResponse, UpdateStripeAccountDto} from '@shared/waiterrobot-backend';
 
 import {OrganisationsStripeService} from '../../_admin/organisations/_services/organisations-stripe.service';
 import {StripeAccountModal} from './stripe-account-modal.component';
@@ -176,7 +176,7 @@ export class StripeSettingsComponent {
 
         return of(dataSource);
       }),
-      startWith(new NgbTableDataSource<GetStripeAccountResponse>()),
+      startWith(new NgbTableDataSource<BackendType['GetStripeAccountResponse']>()),
     ),
   );
 
@@ -201,14 +201,14 @@ export class StripeSettingsComponent {
       name: undefined,
       eventIds: undefined,
     });
-    modalRef.closed.subscribe((it?: CreateStripeAccountDto) => {
+    modalRef.closed.subscribe((it?: BackendType['CreateStripeAccountDto']) => {
       if (it) {
         void this.stripeState.create(it);
       }
     });
   }
 
-  onUpdateStripeAccount(stripeAccount: GetStripeAccountResponse): void {
+  onUpdateStripeAccount(stripeAccount: BackendType['GetStripeAccountResponse']): void {
     const modalRef = this.modal.open(StripeAccountModal, {
       ariaLabelledBy: 'modal-title-org-stripe-update',
       size: 'lg',
@@ -220,7 +220,7 @@ export class StripeSettingsComponent {
       name: stripeAccount.name,
       eventIds: stripeAccount.events.map((it) => it.id),
     });
-    modalRef.closed.subscribe((it?: Omit<UpdateStripeAccountDto, 'id'>) => {
+    modalRef.closed.subscribe((it?: Omit<BackendType['UpdateStripeAccountDto'], 'id'>) => {
       if (it) {
         void this.stripeState.update({
           ...it,

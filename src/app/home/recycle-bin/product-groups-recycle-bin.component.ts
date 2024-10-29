@@ -17,18 +17,15 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
 import {injectTableSelect} from '@home-shared/list';
 import {AppSoldOutPipe} from '@home-shared/pipes/app-sold-out.pipe';
 
+import {BackendType} from '@shared/api';
 import {injectPagination} from '@shared/api/pagination';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {GetProductGroupMaxResponse, GetProductResponse} from '@shared/waiterrobot-backend';
 
 import {ProductGroupsService} from '../products/_services/product-groups.service';
 import {ProductsService} from '../products/_services/products.service';
+import {GenericGroupBinType, sortBinTypes} from './utils';
 
-type BinType = (GetProductResponse | GetProductGroupMaxResponse) & {
-  type: 'ITEM' | 'GROUP';
-  groupId?: number;
-  groupName?: string;
-};
+type BinType = (BackendType['GetProductResponse'] | BackendType['GetProductGroupMaxResponse']) & GenericGroupBinType;
 
 @Component({
   template: `
@@ -149,9 +146,9 @@ type BinType = (GetProductResponse | GetProductGroupMaxResponse) & {
   imports: [
     TranslocoPipe,
     DfxTableModule,
-    NgbTooltip,
     DfxPaginationModule,
     DfxCurrencyCentPipe,
+    NgbTooltip,
     BiComponent,
     ScrollableToolbarComponent,
     AppTextWithColorIndicatorComponent,
@@ -268,24 +265,4 @@ export class ProductGroupsRecycleBinComponent {
       throw 'Unknown bin type';
     }
   }
-}
-
-function sortBinTypes(a: BinType, b: BinType): number {
-  // Compare groups and items by type first
-  if (a.type !== b.type) {
-    return a.type === 'GROUP' ? -1 : 1; // Groups come before items
-  }
-
-  // If both are groups or both are items, sort by name
-  const nameComparison = a.name.localeCompare(b.name);
-  if (nameComparison !== 0) {
-    return nameComparison;
-  }
-
-  // If names are the same and both are items, sort by groupId
-  if (a.type === 'ITEM' && b.type === 'ITEM') {
-    return (a.groupId ?? 0) - (b.groupId ?? 0);
-  }
-
-  return 0;
 }

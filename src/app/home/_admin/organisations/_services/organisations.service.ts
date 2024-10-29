@@ -2,19 +2,14 @@ import {Injectable} from '@angular/core';
 
 import {BehaviorSubject, EMPTY, catchError, shareReplay, switchMap, tap} from 'rxjs';
 
-import {HasGetSingle} from 'dfx-helper';
-
 import {BackendType, injectAPI} from '@shared/api';
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/custom-types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrganisationsService
-  implements
-    HasGetSingle<BackendType['GetOrganisationResponse']>,
-    HasCreateWithIdResponse<BackendType['CreateOrganisationDto']>,
-    HasUpdateWithIdResponse<BackendType['UpdateOrganisationDto']>
+  implements HasCreateWithIdResponse<BackendType['CreateOrganisationDto']>, HasUpdateWithIdResponse<BackendType['UpdateOrganisationDto']>
 {
   #api = injectAPI();
 

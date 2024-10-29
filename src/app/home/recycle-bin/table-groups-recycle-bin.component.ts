@@ -15,20 +15,16 @@ import {injectConfirmDialog} from '@home-shared/components/question-dialog.compo
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {injectTableSelect} from '@home-shared/list';
 
+import {BackendType} from '@shared/api';
 import {injectPagination} from '@shared/api/pagination';
 import {NotificationService} from '@shared/notifications/notification.service';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {GetTableGroupResponse, GetTableMinResponse} from '@shared/waiterrobot-backend';
 
 import {TableGroupsService} from '../tables/_services/table-groups.service';
 import {TablesService} from '../tables/_services/tables.service';
+import {GenericGroupBinType, sortBinTypes} from './utils';
 
-type BinType = (GetTableMinResponse | GetTableGroupResponse) & {
-  type: 'ITEM' | 'GROUP';
-  groupId?: number;
-  groupName?: string;
-  name: string;
-};
+type BinType = (BackendType['GetTableMinResponse'] | BackendType['GetTableGroupResponse']) & GenericGroupBinType;
 
 @Component({
   template: `
@@ -114,8 +110,8 @@ type BinType = (GetTableMinResponse | GetTableGroupResponse) & {
   imports: [
     TranslocoPipe,
     DfxTableModule,
-    NgbTooltip,
     DfxPaginationModule,
+    NgbTooltip,
     BiComponent,
     ScrollableToolbarComponent,
     AppTextWithColorIndicatorComponent,
@@ -241,24 +237,4 @@ export class TableGroupsRecycleBinComponent {
       throw 'Unknown bin type';
     }
   }
-}
-
-function sortBinTypes(a: BinType, b: BinType): number {
-  // Compare groups and items by type first
-  if (a.type !== b.type) {
-    return a.type === 'GROUP' ? -1 : 1; // Groups come before items
-  }
-
-  // If both are groups or both are items, sort by name
-  const nameComparison = a.name.localeCompare(b.name);
-  if (nameComparison !== 0) {
-    return nameComparison;
-  }
-
-  // If names are the same and both are items, sort by groupId
-  if (a.type === 'ITEM' && b.type === 'ITEM') {
-    return (a.groupId ?? 0) - (b.groupId ?? 0);
-  }
-
-  return 0;
 }

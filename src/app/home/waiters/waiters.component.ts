@@ -21,9 +21,9 @@ import {ListFilterComponent, injectTable, injectTableDelete, injectTableFilter, 
 import {mapName} from '@home-shared/name-map';
 import {AppSoldOutPipe} from '@home-shared/pipes/app-sold-out.pipe';
 
+import {BackendType} from '@shared/api';
 import {SelectedEventService} from '@shared/services/selected-event.service';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {GetWaiterResponse} from '@shared/waiterrobot-backend';
 
 import {EventsService} from '../_admin/events/_services/events.service';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
@@ -317,7 +317,7 @@ export class WaitersComponent {
     });
   }
 
-  toggleWaiterActivated(dto: GetWaiterResponse): void {
+  toggleWaiterActivated(dto: BackendType['GetWaiterResponse']): void {
     this.table.isLoading.set(true);
     this.setSoldOutLoading.set(true);
     this.#waitersService.toggleActivated$(dto).subscribe();

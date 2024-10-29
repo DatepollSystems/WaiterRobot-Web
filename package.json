@@ -11,14 +11,12 @@
     "build:stats": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --stats-json",
     "analyze": "npm run build:stats && source-map-explorer dist/WaiterRobot-Web/**/*.js",
     "tsc:check": "tsc",
-    "ci": "pnpm lint && pnpm format",
+    "ci": "pnpm format",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
     "e2e": "ng e2e",
-    "api:types": "swagger-typescript-api -p http://localhost:8080/api/swagger/api-docs -o ./src/app/_shared/ -n waiterrobot-backend.d.ts --no-client && prettier --write ./src/app/_shared/waiterrobot-backend.d.ts",
-    "api:types:lava": "swagger-typescript-api -p https://lava.kellner.team/api/swagger/api-docs -o ./src/app/_shared/ -n waiterrobot-backend.d.ts --no-client && prettier --write ./src/app/_shared/waiterrobot-backend.d.ts",
-    "api2:types": "openapi-typescript http://localhost:8080/api/swagger/docs-json -o  ./src/app/_shared/api/api-types.ts && prettier --write ./src/app/_shared/api/api-types.ts",
-    "api2:types:lava": "openapi-typescript https://lava.kellner.team/api/swagger/docs-json -o  ./src/app/_shared/api/api-types.ts && prettier --write ./src/app/_shared/api/api-types.ts"
+    "api:types": "openapi-typescript http://localhost:8080/api/swagger/docs-json -o  ./src/app/_shared/api/api-types.ts && prettier --write ./src/app/_shared/api/api-types.ts",
+    "api:types:lava": "openapi-typescript https://lava.kellner.team/api/swagger/docs-json -o  ./src/app/_shared/api/api-types.ts && prettier --write ./src/app/_shared/api/api-types.ts"
   },
   "packageManager": "pnpm@9.11.0",
   "private": true,
@@ -40,7 +38,6 @@
     "@ng-select/ng-select": "^13.0.0",
     "@popperjs/core": "2.11.8",
     "@swimlane/ngx-charts": "20.5.0",
-    "@types/tinycolor2": "^1.4.6",
     "bootstrap": "5.3.2",
     "d3-shape": "3.2.0",
     "dfts-helper": "1.1.1",
@@ -68,6 +65,7 @@
     "@types/d3-shape": "^3.1.1",
     "@types/jasmine": "5.1.4",
     "@types/node": "^20.2.5",
+    "@types/tinycolor2": "^1.4.6",
     "bootstrap-icons": "^1.11.3",
     "jasmine-core": "5.3.0",
     "jasmine-spec-reporter": "7.0.0",
@@ -81,7 +79,6 @@
     "prettier": "3.3.3",
     "prettier-plugin-organize-attributes": "^1.0.0",
     "source-map-explorer": "2.5.3",
-    "swagger-typescript-api": "^13.0.0",
     "typescript": "5.5.4"
   }
 }

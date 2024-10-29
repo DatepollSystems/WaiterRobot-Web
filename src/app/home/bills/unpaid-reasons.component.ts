@@ -13,7 +13,6 @@ import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} fr
 import {AppSoldOutPipe} from '@home-shared/pipes/app-sold-out.pipe';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {GetBillUnpaidReasonResponse} from '@shared/waiterrobot-backend';
 
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
@@ -189,6 +188,6 @@ export class UnpaidReasonsComponent {
   delete = injectTableDelete({
     selection: this.selection.selection,
     delete$: (id) => this.#unpaidReasonsService.delete$(id),
-    nameMap: (it: GetBillUnpaidReasonResponse): string => it.reason,
+    nameMap: (it): string => it.reason,
   });
 }

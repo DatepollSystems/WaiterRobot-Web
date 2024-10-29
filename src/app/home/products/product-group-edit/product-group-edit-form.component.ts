@@ -13,8 +13,8 @@ import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-e
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 import {allowedCharacterSet} from '@home-shared/regex';
 
+import {BackendType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
-import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} from '@shared/waiterrobot-backend';
 
 @Component({
   template: `
@@ -86,7 +86,10 @@ import {CreateProductGroupDto, GetProductGroupResponse, UpdateProductGroupDto} f
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductGroupEditFormComponent extends AbstractModelEditFormComponent<CreateProductGroupDto, UpdateProductGroupDto> {
+export class ProductGroupEditFormComponent extends AbstractModelEditFormComponent<
+  BackendType['CreateProductGroupDto'],
+  BackendType['UpdateProductGroupDto']
+> {
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(60), Validators.pattern(allowedCharacterSet)]],
     color: new FormControl<string | undefined>(undefined),
@@ -118,7 +121,7 @@ export class ProductGroupEditFormComponent extends AbstractModelEditFormComponen
   }
 
   @Input()
-  set productGroup(it: GetProductGroupResponse | 'CREATE') {
+  set productGroup(it: BackendType['GetProductGroupResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;

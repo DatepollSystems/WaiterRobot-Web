@@ -14,7 +14,7 @@ import {jsPDF} from 'jspdf';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {MobileLinkService} from '@home-shared/services/mobile-link.service';
 
-import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
+import {BackendType} from '@shared/api';
 
 @Component({
   template: `
@@ -110,13 +110,13 @@ export class TablesPrintQrCodesModal {
   activeModal = inject(NgbActiveModal);
   #mobileLink = inject(MobileLinkService);
 
-  tables = signal<GetTableWithGroupResponse[]>([]);
+  tables = signal<BackendType['GetTableWithGroupResponse'][]>([]);
 
   qrCodeSize: 'SM' | 'MD' = 'MD';
   generating = false;
   progress = signal<number | undefined>(undefined);
 
-  parser = (table: GetTableWithGroupResponse): string => {
+  parser = (table: BackendType['GetTableWithGroupResponse']): string => {
     return this.#mobileLink.createTableLink(table.publicId);
   };
 

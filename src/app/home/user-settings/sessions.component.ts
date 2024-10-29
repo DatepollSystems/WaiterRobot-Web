@@ -9,7 +9,6 @@ import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {StopPropagationDirective} from 'dfx-helper';
 
 import {ListFilterComponent, injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
-import {mapName} from '@home-shared/name-map';
 
 import {AppSpinnerRowComponent} from '@shared/ui/loading/app-spinner-row.component';
 
@@ -65,19 +64,19 @@ import {UserSessionsService} from './_services/user-sessions.service';
               </td>
             </ng-container>
 
-            <ng-container ngbColumnDef="name">
+            <ng-container ngbColumnDef="description">
               <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
                 {{ 'NAME' | transloco }}
               </th>
-              <td *ngbCellDef="let session" ngb-cell>{{ session.name }}</td>
+              <td *ngbCellDef="let session" ngb-cell>{{ session.description }}</td>
             </ng-container>
 
-            <ng-container ngbColumnDef="registeredAt">
+            <ng-container ngbColumnDef="createdAt">
               <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
                 {{ 'HOME_USERSETTINGS_SESSIONS_REGISTERED_AT' | transloco }}
               </th>
               <td *ngbCellDef="let session" ngb-cell>
-                {{ session.registeredAt | date: 'YYYY.MM.dd - HH:mm:ss' }}
+                {{ session.createdAt | date: 'YYYY.MM.dd - HH:mm:ss' }}
               </td>
             </ng-container>
 
@@ -140,7 +139,7 @@ export class SessionsComponent {
   sort = viewChild(NgbSort);
   filter = injectTableFilter();
   table = injectTable({
-    columnsToDisplay: ['name', 'registeredAt', 'updatedAt', 'actions'],
+    columnsToDisplay: ['description', 'createdAt', 'updatedAt', 'actions'],
     fetchData: () => this.#sessionsService.getAll$(),
     sort: this.sort,
     filterValue$: this.filter.value$,
@@ -154,6 +153,6 @@ export class SessionsComponent {
   delete = injectTableDelete({
     delete$: (id) => this.#sessionsService.delete$(id),
     selection: this.selection.selection,
-    nameMap: mapName(),
+    nameMap: (it) => it.description,
   });
 }

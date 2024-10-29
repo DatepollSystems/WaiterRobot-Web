@@ -22,11 +22,11 @@ import {injectConfirmDialog} from '@home-shared/components/question-dialog.compo
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {Download} from '@home-shared/services/download.service';
 
+import {BackendType} from '@shared/api';
 import {injectFilter} from '@shared/api/filter';
 import {injectPagination} from '@shared/api/pagination';
 import {injectCustomFormBuilder} from '@shared/form';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {GetOrderMinResponse, GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
 import {ProductGroupsService} from '../../products/_services/product-groups.service';
 import {ProductsService} from '../../products/_services/products.service';
@@ -83,7 +83,7 @@ export class OrdersComponent {
   });
 
   columnsToDisplay = ['select', 'orderNumber', 'state', 'table.tableGroup.name', 'waiter.name', 'createdAt', 'actions'];
-  selection = new SelectionModel<GetOrderMinResponse>(true, [], false, (a, b) => a.id === b.id);
+  selection = new SelectionModel<BackendType['GetOrderMinResponse']>(true, [], false, (a, b) => a.id === b.id);
 
   filter = injectFilter(
     injectCustomFormBuilder().group({
@@ -143,7 +143,7 @@ export class OrdersComponent {
     });
   }
 
-  customTableSearch(term: string, item: GetTableWithGroupResponse): boolean {
+  customTableSearch(term: string, item: BackendType['GetTableWithGroupResponse']): boolean {
     term = term.toLowerCase().trim().replace(/\s/g, '');
     const groupName = item.group.name.toLowerCase().trim().replace(/\s/g, '');
     const tableNumber = item.number.toString();
@@ -162,7 +162,7 @@ export class OrdersComponent {
     });
   }
 
-  requeueOrder(it: GetOrderMinResponse): void {
+  requeueOrder(it: BackendType['GetOrderMinResponse']): void {
     this.selection.clear();
     this.selection.toggle(it);
     this.requeueOrders();

@@ -14,11 +14,9 @@ import {AppTestBadge} from '@home-shared/components/app-test-badge.component';
 
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';
 import {injectAPI} from '@shared/api';
-import {AuthService} from '@shared/services/auth/auth.service';
-import {SelectedEventService} from '@shared/services/selected-event.service';
-import {SystemInfoShowService} from '@shared/services/system-info.service';
-import {AppDownloadBtnListComponent} from '@shared/ui/app-download-btn-list.component';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+import {AuthService, SelectedEventService, SystemInfoShowService} from '@shared/services';
+import {AppDownloadBtnListComponent} from '@shared/ui';
+import {AppProgressBarComponent} from '@shared/ui/loading';
 
 import {MyUserService} from '../_shared/services/user/my-user.service';
 import {AppOrderStateBadgeComponent} from '../orders/_components/app-order-state-badge.component';

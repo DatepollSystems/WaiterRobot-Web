@@ -9,6 +9,7 @@ module.exports = {
     '<THIRD_PARTY_MODULES>',
     '^@home-shared/(.*)',
     '^@outside-shared/(.*)',
+    '^@shared',
     '^@shared/(.*)',
     '^[./]',
   ],

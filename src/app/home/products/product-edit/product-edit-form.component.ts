@@ -13,8 +13,8 @@ import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-e
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 import {allowedCharacterSet, s_toCurrencyNumber} from '@home-shared/regex';
 
+import {BackendType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
-import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '@shared/waiterrobot-backend';
 
 @Component({
   template: `
@@ -200,7 +200,10 @@ import {CreateProductDto, GetProductMaxResponse, UpdateProductDto} from '@shared
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppProductEditFormComponent extends AbstractModelEditFormComponent<CreateProductDto, UpdateProductDto> {
+export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
+  BackendType['CreateProductDto'],
+  BackendType['UpdateProductDto']
+> {
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(70), Validators.pattern(allowedCharacterSet)]],
     price: ['', [Validators.required, Validators.pattern(/^\d+([.,](\d{1,2}|[0-8]\d?))?$/)]],
@@ -225,7 +228,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
   };
 
   @Input()
-  set product(it: GetProductMaxResponse | 'CREATE') {
+  set product(it: BackendType['GetProductMaxResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;
@@ -246,7 +249,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     });
   }
 
-  _product?: GetProductMaxResponse;
+  _product?: BackendType['GetProductMaxResponse'];
 
   @Input()
   set selectedProductGroupId(id: number | undefined | null) {

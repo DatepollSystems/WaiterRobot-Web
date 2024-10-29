@@ -1,7 +1,7 @@
 import {inject} from '@angular/core';
 import {ActivatedRouteSnapshot, Router} from '@angular/router';
 
-import {AuthService} from '@shared/services/auth/auth.service';
+import {AuthService} from '@shared/services';
 
 export const isNotAuthenticated = (route: ActivatedRouteSnapshot): boolean => {
   if (inject(AuthService).isAuthenticated()) {

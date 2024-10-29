@@ -2,17 +2,12 @@ import {Injectable} from '@angular/core';
 
 import {BehaviorSubject, switchMap, tap} from 'rxjs';
 
-import {HasGetSingle} from 'dfx-helper';
-
 import {BackendType, injectAPI} from '@shared/api';
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/custom-types';
 
 @Injectable({providedIn: 'root'})
 export class UsersService
-  implements
-    HasGetSingle<BackendType['GetUserResponse']>,
-    HasCreateWithIdResponse<BackendType['CreateUserDto']>,
-    HasUpdateWithIdResponse<BackendType['UpdateUserDto']>
+  implements HasCreateWithIdResponse<BackendType['CreateUserDto']>, HasUpdateWithIdResponse<BackendType['UpdateUserDto']>
 {
   url = '/config/user';
   #api = injectAPI();

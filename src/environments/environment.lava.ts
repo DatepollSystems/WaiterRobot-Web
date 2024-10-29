@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Environment } from './IEnvironment';
-
+import {Environment} from './IEnvironment';
 
 declare const require: any;
 

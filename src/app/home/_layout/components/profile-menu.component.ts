@@ -13,7 +13,7 @@ import {FullScreenService} from '@home-shared/services/fullscreen.service';
 import {QrCodeService} from '@home-shared/services/qr-code.service';
 import {MyUserService} from '@home-shared/services/user/my-user.service';
 
-import {AuthService} from '@shared/services/auth/auth.service';
+import {AuthService} from '@shared/services';
 
 import {s_toColor} from './colors';
 import {ThemePickerComponent} from './theme-picker.component';

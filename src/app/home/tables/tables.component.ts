@@ -27,7 +27,6 @@ import {
 } from '@home-shared/list';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
 
 import {TablesService} from './_services/tables.service';
 import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
@@ -289,7 +288,7 @@ export class TablesComponent {
   delete = injectTableDelete({
     delete$: (id) => this.#tablesService.delete$(id),
     selection: this.selection.selection,
-    nameMap: (it: GetTableWithGroupResponse): string => s_from(it.number),
+    nameMap: (it): string => s_from(it.number),
   });
 
   printSelectedTables(): void {

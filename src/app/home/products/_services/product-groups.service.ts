@@ -2,16 +2,13 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, combineLatest, map, switchMap, tap} from 'rxjs';
 
-import {HasGetSingle} from 'dfx-helper';
-
 import {BackendType, PageableDto, injectAPI} from '@shared/api';
+import {HasCreateWithIdResponse, HasOrdered, HasUpdateWithIdResponse} from '@shared/services/custom-types';
 import {SelectedEventService} from '@shared/services/selected-event.service';
-import {HasCreateWithIdResponse, HasOrdered, HasUpdateWithIdResponse} from '@shared/services/services.interface';
 
 @Injectable({providedIn: 'root'})
 export class ProductGroupsService
   implements
-    HasGetSingle<BackendType['GetProductGroupResponse']>,
     HasCreateWithIdResponse<BackendType['CreateProductGroupDto']>,
     HasUpdateWithIdResponse<BackendType['UpdateProductGroupDto']>,
     HasOrdered<BackendType['GetProductGroupResponse']>

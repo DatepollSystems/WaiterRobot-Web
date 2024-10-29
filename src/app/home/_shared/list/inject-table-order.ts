@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
 import {IHasNumberID} from 'dfts-helper';
 import {NgbTableDataSource} from 'dfx-bootstrap-table';
 
-import {EntityOrderDto, IdResponse} from '@shared/waiterrobot-backend';
+import {BackendType} from '@shared/api';
 
 export function injectTableOrder<EntityType extends IHasNumberID>({
   onOrderingChange,
@@ -16,7 +16,7 @@ export function injectTableOrder<EntityType extends IHasNumberID>({
 }: {
   onOrderingChange: (isOrdering: boolean) => void;
   dataSource: Signal<NgbTableDataSource<EntityType>>;
-  order$: (dto: EntityOrderDto[]) => Observable<IdResponse[]>;
+  order$: (dto: BackendType['EntityOrderDto'][]) => Observable<BackendType['IdResponse'][]>;
   getPosition?: (it: EntityType) => number | undefined;
 }) {
   const isOrdering = signal(false);

@@ -4,7 +4,7 @@ import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
 
-import {GetSystemNotificationResponse} from '@shared/waiterrobot-backend';
+import {BackendType} from '@shared/api';
 
 @Component({
   template: `
@@ -43,5 +43,5 @@ import {GetSystemNotificationResponse} from '@shared/waiterrobot-backend';
   imports: [NgClass, BiComponent, DfxLowerCaseExceptFirstLettersPipe],
 })
 export class AppSystemNotificationTypeBadgeComponent {
-  type = input.required<GetSystemNotificationResponse['type']>();
+  type = input.required<BackendType['GetSystemNotificationResponse']['type']>();
 }

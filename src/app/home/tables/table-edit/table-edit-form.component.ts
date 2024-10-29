@@ -13,8 +13,8 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
+import {BackendType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
-import {CreateTableDto, GetTableWithGroupResponse, UpdateTableDto} from '@shared/waiterrobot-backend';
 
 import {TablesService} from '../_services/tables.service';
 
@@ -98,7 +98,7 @@ import {TablesService} from '../_services/tables.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, AsyncPipe, TranslocoPipe, BiComponent, AppModelEditSaveBtn, RouterLink, NgbTooltip],
 })
-export class TableEditFormComponent extends AbstractModelEditFormComponent<CreateTableDto, UpdateTableDto> {
+export class TableEditFormComponent extends AbstractModelEditFormComponent<BackendType['CreateTableDto'], BackendType['UpdateTableDto']> {
   tablesService = inject(TablesService);
 
   override form = this.fb.nonNullable.group({
@@ -132,9 +132,9 @@ export class TableEditFormComponent extends AbstractModelEditFormComponent<Creat
     }),
   );
 
-  _table?: GetTableWithGroupResponse;
+  _table?: BackendType['GetTableWithGroupResponse'];
   @Input()
-  set table(it: GetTableWithGroupResponse | 'CREATE') {
+  set table(it: BackendType['GetTableWithGroupResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;

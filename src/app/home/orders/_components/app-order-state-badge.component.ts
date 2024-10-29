@@ -5,7 +5,7 @@ import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {GetImplodedOrderProductResponse, GetOrderResponse} from '@shared/waiterrobot-backend';
+import {BackendType} from '@shared/api';
 
 @Component({
   template: `
@@ -83,8 +83,8 @@ import {GetImplodedOrderProductResponse, GetOrderResponse} from '@shared/waiterr
   imports: [NgClass, BiComponent, TranslocoPipe, NgbTooltip, DatePipe, NgbPopover],
 })
 export class AppOrderStateBadgeComponent {
-  orderState = input.required<GetOrderResponse['state']>();
-  @Input({required: true}) set orderProductPrintStates(it: GetImplodedOrderProductResponse['printState'][]) {
+  orderState = input.required<BackendType['GetOrderResponse']['state']>();
+  @Input({required: true}) set orderProductPrintStates(it: BackendType['GetImplodedOrderProductResponse']['printState'][]) {
     this.allProducts = it.length;
     this.printedProducts = it.length - it.filter((iit) => iit === 'QUEUED').length;
   }

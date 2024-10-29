@@ -6,7 +6,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 
-import {GetProductMinResponse} from '@shared/waiterrobot-backend';
+import {BackendType} from '@shared/api';
 
 @Component({
   template: `
@@ -56,11 +56,11 @@ export class PrinterEditProductsComponent implements AfterViewInit {
   columnsToDisplay = ['name', 'actions'];
   sort = viewChild(NgbSort);
 
-  @Input({required: true}) set products(it: GetProductMinResponse[]) {
+  @Input({required: true}) set products(it: BackendType['GetProductMinResponse'][]) {
     this._products = new NgbTableDataSource(it);
   }
 
-  _products!: NgbTableDataSource<GetProductMinResponse>;
+  _products!: NgbTableDataSource<BackendType['GetProductMinResponse']>;
 
   ngAfterViewInit(): void {
     this._products.sort = this.sort();

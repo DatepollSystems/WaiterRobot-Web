@@ -8,8 +8,8 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
+import {BackendType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
-import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} from '@shared/waiterrobot-backend';
 
 @Component({
   template: `
@@ -105,7 +105,10 @@ import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} f
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppOrganisationEditFormComponent extends AbstractModelEditFormComponent<CreateOrganisationDto, UpdateOrganisationDto> {
+export class AppOrganisationEditFormComponent extends AbstractModelEditFormComponent<
+  BackendType['CreateOrganisationDto'],
+  BackendType['UpdateOrganisationDto']
+> {
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(40)]],
     street: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(80)]],
@@ -119,7 +122,7 @@ export class AppOrganisationEditFormComponent extends AbstractModelEditFormCompo
   isValid = injectIsValid(this.form);
 
   @Input()
-  set organisation(it: GetOrganisationResponse | 'CREATE') {
+  set organisation(it: BackendType['GetOrganisationResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;
@@ -138,5 +141,5 @@ export class AppOrganisationEditFormComponent extends AbstractModelEditFormCompo
     });
   }
 
-  _organisation?: GetOrganisationResponse;
+  _organisation?: BackendType['GetOrganisationResponse'];
 }

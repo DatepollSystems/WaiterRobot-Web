@@ -3,7 +3,7 @@ import {Component, inject, input, signal} from '@angular/core';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {GetStripeAccountResponse} from '@shared/waiterrobot-backend';
+import {BackendType} from '@shared/api';
 
 import {OrganisationsStripeService} from '../../_admin/organisations/_services/organisations-stripe.service';
 
@@ -35,7 +35,7 @@ import {OrganisationsStripeService} from '../../_admin/organisations/_services/o
 })
 export class StripeAccountStateBadge {
   stripeAccountId = input.required<string>();
-  state = input.required<GetStripeAccountResponse['state']>();
+  state = input.required<BackendType['GetStripeAccountResponse']['state']>();
 
   loading = signal(false);
 
