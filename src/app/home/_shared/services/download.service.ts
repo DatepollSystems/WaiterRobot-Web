@@ -3,6 +3,8 @@ import {Injectable, inject} from '@angular/core';
 
 import {Observable, scan} from 'rxjs';
 
+import {triggerDownload} from '@home-shared/services/file.utils';
+
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';
 
 @Injectable({providedIn: 'root'})
@@ -17,16 +19,7 @@ export class DownloadService {
         observe: 'events',
         responseType: 'blob',
       })
-      .pipe(
-        download((blob) => {
-          const a = document.createElement('a');
-          const objectUrl = URL.createObjectURL(blob);
-          a.href = objectUrl;
-          a.download = name;
-          a.click();
-          URL.revokeObjectURL(objectUrl);
-        }),
-      );
+      .pipe(download((blob) => triggerDownload(blob, name)));
   }
 }
 

@@ -19,7 +19,7 @@ import {BackendType} from '@shared/api';
 import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
-import {OrganisationsStripeService} from '../../_admin/organisations/_services/organisations-stripe.service';
+import {StripeService} from '../_services/stripe.service';
 import {StripeAccountModal} from './stripe-account-modal.component';
 import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
 
@@ -155,7 +155,7 @@ export class StripeSettingsComponent {
   modal = inject(NgbModal);
   confirmDialog = injectConfirmDialog();
 
-  stripeState = inject(OrganisationsStripeService).state;
+  stripeState = inject(StripeService).state;
   selectedOrganisationId = inject(SelectedOrganisationService).selectedId;
 
   filter = new FormControl('');

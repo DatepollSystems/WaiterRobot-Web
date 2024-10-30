@@ -194,6 +194,7 @@ import {SwitcherModalComponent} from './switcher.component';
         <a
           class="nav-heading d-inline-block rounded"
           [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/settings'"
+          [routerLinkActiveOptions]="{exact: true}"
           routerLinkActive="active"
         >
           <div class="d-inline-flex align-items-center gap-2 ">
@@ -201,6 +202,16 @@ import {SwitcherModalComponent} from './switcher.component';
             {{ 'SETTINGS' | transloco }}
           </div>
         </a>
+        <ul class="nav-sub list-unstyled fw-normal pb-1 small">
+          <li>
+            <a
+              class="d-inline-block rounded"
+              [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/settings/gdpr'"
+              routerLinkActive="active"
+              >{{ 'NAV_SETTINGS_GDPR' | transloco }}</a
+            >
+          </li>
+        </ul>
       </li>
     </ul>
 

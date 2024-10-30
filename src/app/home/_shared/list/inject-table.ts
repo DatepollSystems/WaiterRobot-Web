@@ -12,6 +12,7 @@ type SortingDataAccessors<EntityType> = Record<string, SortingDataAccessorsMap<E
 
 export function injectTable<EntityType>({
   fetchData,
+  data,
   columnsToDisplay,
   filterValue$,
   sortingDataAccessors,
@@ -19,7 +20,8 @@ export function injectTable<EntityType>({
   sort,
   paginator,
 }: {
-  fetchData: (setLoading: () => void) => Observable<EntityType[]>;
+  fetchData?: (setLoading: () => void) => Observable<EntityType[]>;
+  data?: Signal<EntityType[]>;
   columnsToDisplay: string[] | WritableSignal<string[]>;
   filterValue$?: Observable<string>;
   sortingDataAccessors?: SortingDataAccessors<EntityType>;
@@ -27,6 +29,10 @@ export function injectTable<EntityType>({
   sort?: Signal<NgbSort | undefined>;
   paginator?: Signal<NgbPaginator | undefined>;
 }) {
+  if (!data && !fetchData) {
+    throw 'Data or fetchData must be set';
+  }
+
   const router = inject(Router);
 
   const signalSort = sort ?? signal(undefined);
@@ -46,15 +52,17 @@ export function injectTable<EntityType>({
       signalSort,
       signalPaginator,
       (filterValue$ ?? of('')).pipe(debounceTime(250)),
-      fetchData(setLoading).pipe(
-        catchError((_error: unknown) => {
-          if ((redirectOnError ?? true) && _error instanceof HttpErrorResponse && _error.status === 404) {
-            void router.navigateByUrl('/not-found');
-          }
-          error.set(_error);
-          return of([]);
-        }),
-      ),
+      data
+        ? data
+        : fetchData!(setLoading).pipe(
+            catchError((_error: unknown) => {
+              if ((redirectOnError ?? true) && _error instanceof HttpErrorResponse && _error.status === 404) {
+                void router.navigateByUrl('/not-found');
+              }
+              error.set(_error);
+              return of([]);
+            }),
+          ),
     ],
     pipe(
       switchMap(([_sort, _paginator, _filter, data]) => {

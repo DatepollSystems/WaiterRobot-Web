@@ -5,7 +5,7 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {BackendType} from '@shared/api';
 
-import {OrganisationsStripeService} from '../../_admin/organisations/_services/organisations-stripe.service';
+import {StripeService} from '../_services/stripe.service';
 
 @Component({
   template: `
@@ -39,7 +39,7 @@ export class StripeAccountStateBadge {
 
   loading = signal(false);
 
-  organisationStripeService = inject(OrganisationsStripeService);
+  organisationStripeService = inject(StripeService);
 
   openLink() {
     this.loading.set(true);

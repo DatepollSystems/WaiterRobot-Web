@@ -17,7 +17,7 @@ interface OrganisationStripeState {
 @Injectable({
   providedIn: 'root',
 })
-export class OrganisationsStripeService {
+export class StripeService {
   #api = injectAPI();
   #window = injectWindow();
   #notificationService = inject(NotificationService);

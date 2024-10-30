@@ -1,4 +1,4 @@
-import {NgClass, UpperCasePipe} from '@angular/common';
+import {UpperCasePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
@@ -30,10 +30,8 @@ import {systemColors} from '@shared/system-colors';
                 <div
                   class="p-1"
                   [style.background-color]="color"
-                  [ngClass]="{
-                    'text-white': !(color | isLightColor) && color,
-                    'text-dark': (color | isLightColor) && color,
-                  }"
+                  [class.text-white]="!(color | isLightColor) && color"
+                  [class.text-dark]="(color | isLightColor) && color"
                 >
                   {{ color }}
                 </div>
@@ -42,10 +40,8 @@ import {systemColors} from '@shared/system-colors';
                 <div
                   class="p-1"
                   [style.background-color]="color | adjustDarkModeColor: 'dark'"
-                  [ngClass]="{
-                    'text-white': !(color | adjustDarkModeColor: 'dark' | isLightColor),
-                    'text-dark': (color | adjustDarkModeColor: 'dark' | isLightColor),
-                  }"
+                  [class.text-white]="!(color | adjustDarkModeColor: 'dark' | isLightColor)"
+                  [class.text-dark]="color | adjustDarkModeColor: 'dark' | isLightColor"
                 >
                   {{ color | adjustDarkModeColor: 'dark' | uppercase }}
                 </div>
@@ -58,7 +54,7 @@ import {systemColors} from '@shared/system-colors';
   `,
   selector: 'app-system-colors',
   standalone: true,
-  imports: [NgClass, AppAdjustDarkModeColor, AppIsLightColorPipe, UpperCasePipe],
+  imports: [AppAdjustDarkModeColor, AppIsLightColorPipe, UpperCasePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppSystemColorsModal {

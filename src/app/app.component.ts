@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, ElementRef, Renderer2, inject, viewChild} from '@angular/core';
-import {Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet} from '@angular/router';
+import {Event, NavigationCancel, NavigationEnd, NavigationError, Router, RouterOutlet} from '@angular/router';
 
 import {Subject, takeUntil} from 'rxjs';
 
@@ -12,7 +12,7 @@ import {SystemInfoComponent} from './system-info.component';
 
 @Component({
   template: `
-    <div class="flex-column" #spinnerElement>
+    <div class="flex flex-column" #spinnerElement>
       <div class="d-flex justify-content-center" style="padding-top: 25%">
         <div class="loader"></div>
       </div>
@@ -38,9 +38,6 @@ export class AppComponent {
   loaded$ = new Subject<boolean>();
 
   private _navigationInterceptor(event: Event): void {
-    if (event instanceof NavigationStart) {
-      this.#renderer.setStyle(this.spinnerElement().nativeElement, 'display', 'flex');
-    }
     if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
       this.#renderer.setStyle(this.spinnerElement().nativeElement, 'display', 'none');
       this.loaded$.next(true);

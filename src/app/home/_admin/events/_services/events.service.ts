@@ -3,8 +3,7 @@ import {Injectable, inject} from '@angular/core';
 import {BehaviorSubject, EMPTY, catchError, combineLatest, map, shareReplay, switchMap, tap} from 'rxjs';
 
 import {BackendType, injectAPI} from '@shared/api';
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/custom-types';
-import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse, SelectedOrganisationService} from '@shared/services';
 
 @Injectable({
   providedIn: 'root',
