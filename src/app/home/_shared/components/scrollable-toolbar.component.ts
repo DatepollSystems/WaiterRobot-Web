@@ -3,9 +3,9 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, viewChild
 @Component({
   template: `
     <div
-      #contentWrapper
-      id="overflow-container"
       class="d-flex flex-row flex-fill justify-content-sm-start align-items-center overflow-auto user-select-none gap-3 gap-md-3"
+      id="overflow-container"
+      #contentWrapper
     >
       <ng-content />
     </div>

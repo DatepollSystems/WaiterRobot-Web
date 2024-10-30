@@ -1,15 +1,15 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
-import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
+import {UnknownModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
 import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectOnDelete} from '@home-shared/form/edit';
-import {injectOnSubmit} from '@shared/form';
-import {GetTableGroupResponse} from '@shared/waiterrobot-backend';
+import {injectContinuousCreation, injectEditEntity, injectOnDelete} from '@home-shared/form/edit';
 
-import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
+import {injectOnSubmit} from '@shared/form';
+import {SelectedEventService} from '@shared/services/selected-event.service';
+
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TableGroupEditFormComponent} from './table-group-edit-form.component';
 
@@ -26,7 +26,7 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
 
           <ng-container *isEditingAndNotDeleted="entity">
             <div>
-              <button type="button" class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)">
+              <button class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)" type="button">
                 <bi name="trash" />
                 {{ 'DELETE' | transloco }}
               </button>
@@ -40,20 +40,20 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
             </div>
 
             <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../orders" [queryParams]="{tableGroupIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" [queryParams]="{tableGroupIds: entity.id}" routerLink="../../orders">
                 <bi name="stack" />
                 {{ 'NAV_ORDERS' | transloco }}
               </a>
             </div>
             <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../bills" [queryParams]="{tableGroupIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" [queryParams]="{tableGroupIds: entity.id}" routerLink="../../bills">
                 <bi name="cash-coin" />
                 {{ 'NAV_BILLS' | transloco }}
               </a>
             </div>
           </ng-container>
 
-          <div *isCreating="entity" class="d-flex align-items-center">
+          <div class="d-flex align-items-center" *isCreating="entity">
             <app-continues-creation-switch (continuesCreationChange)="continuousCreation.set($event)" />
           </div>
         </scrollable-toolbar>
@@ -78,14 +78,22 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, AppEntityEditModule, TableGroupEditFormComponent, AppContinuesCreationSwitchComponent, AppDeletedDirectives],
 })
-export class TableGroupEditComponent extends AbstractModelEditComponent<GetTableGroupResponse> {
-  onDelete = injectOnDelete((it: number) => this.tableGroupsService.delete$(it).subscribe());
+export class TableGroupEditComponent {
+  #tableGroupsService = inject(TableGroupsService);
+
+  form = viewChild<UnknownModelEditFormComponent>('form');
+
+  entity = injectEditEntity({
+    get$: (id) => this.#tableGroupsService.getSingle$(id),
+  });
+
+  onDelete = injectOnDelete((it: number) => this.#tableGroupsService.delete$(it).subscribe());
   continuousCreation = injectContinuousCreation({
     formComponent: this.form,
     continuousUsePropertyNames: ['eventId'],
   });
   onSubmit = injectOnSubmit({
-    entityService: this.tableGroupsService,
+    entityService: this.#tableGroupsService,
     continuousCreation: {
       enabled: this.continuousCreation.enabled,
       patch: this.continuousCreation.patch,
@@ -93,8 +101,4 @@ export class TableGroupEditComponent extends AbstractModelEditComponent<GetTable
   });
 
   selectedEventId = inject(SelectedEventService).selectedId;
-
-  constructor(private tableGroupsService: TableGroupsService) {
-    super(tableGroupsService);
-  }
 }

@@ -1,20 +1,18 @@
 import {formatDate} from '@angular/common';
-import {HttpClient, HttpParams} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, effect, inject, signal} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
-import {injectCustomFormBuilder} from '@shared/form';
 
-import {dateToBackendDateTimeString} from '@shared/services/datepicker-adapter';
-import {StatisticsTimelineResponse} from '@shared/waiterrobot-backend';
+import {debounceTime, filter, map, of, pipe, startWith, switchMap} from 'rxjs';
 
 import * as shape from 'd3-shape';
-
 import {d_from} from 'dfts-helper';
 import {derivedFrom} from 'ngxtension/derived-from';
 import {filterNil} from 'ngxtension/filter-nil';
 
-import {debounceTime, filter, map, of, pipe, startWith, switchMap} from 'rxjs';
-import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
+import {injectAPI} from '@shared/api';
+import {injectCustomFormBuilder} from '@shared/form';
+import {dateToBackendDateTimeString} from '@shared/services/datepicker-adapter';
+import {SelectedEventService} from '@shared/services/selected-event.service';
 
 type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
 
@@ -25,43 +23,43 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
       @if (selectedTimelineType(); as selected) {
         <div class="btn-group" role="group" aria-label="Basic example">
           <button
-            type="button"
             class="btn btn-outline-primary"
             [class.active]="selected === 'PRODUCTS'"
             (mousedown)="selectedTimelineType.set('PRODUCTS')"
+            type="button"
           >
             {{ 'HOME_PROD_ALL' | transloco }}
           </button>
           <button
-            type="button"
             class="btn btn-outline-primary"
             [class.active]="selected === 'PRODUCT_GROUPS'"
             (mousedown)="selectedTimelineType.set('PRODUCT_GROUPS')"
+            type="button"
           >
             {{ 'HOME_PROD_GROUPS' | transloco }}
           </button>
           <button
-            type="button"
             class="btn btn-outline-primary"
             [class.active]="selected === 'WAITERS'"
             (mousedown)="selectedTimelineType.set('WAITERS')"
+            type="button"
           >
             {{ 'NAV_WAITERS' | transloco }}
           </button>
         </div>
       }
 
-      <form [formGroup]="form" class="row align-items-end justify-content-end gy-2">
+      <form class="row align-items-end justify-content-end gy-2" [formGroup]="form">
         @if (formChange()) {}
 
         <div class="form-group col-12 col-md-6 col-lg-4">
           <label for="startDate">{{ 'HOME_EVENTS_START_DATE' | transloco }}</label>
           <app-datetime-input
             id="startDate"
-            minuteStep="30"
-            formControlName="startDate"
             [seconds]="false"
             [placeholder]="'DATETIME_PLACEHOLDER' | transloco"
+            minuteStep="30"
+            formControlName="startDate"
           />
         </div>
 
@@ -69,24 +67,42 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
           <label for="endDate">{{ 'HOME_EVENTS_END_DATE' | transloco }}</label>
           <app-datetime-input
             id="endDate"
-            minuteStep="30"
-            formControlName="endDate"
             [seconds]="false"
             [placeholder]="'DATETIME_PLACEHOLDER' | transloco"
+            minuteStep="30"
+            formControlName="endDate"
           />
         </div>
 
         <div class="col-12 col-md-4 col-lg-3">
           <select class="form-select" id="timeline-precision-select" formControlName="timelinePrecision">
-            <option [value]="2">{{ 'HOME_STATISTICS_MINUTES_2' | transloco }}</option>
-            <option [value]="5">{{ 'HOME_STATISTICS_MINUTES_5' | transloco }}</option>
-            <option [value]="10">{{ 'HOME_STATISTICS_MINUTES_10' | transloco }}</option>
-            <option [value]="20">{{ 'HOME_STATISTICS_MINUTES_20' | transloco }}</option>
-            <option [value]="30">{{ 'HOME_STATISTICS_MINUTES_30' | transloco }}</option>
-            <option [value]="60">{{ 'HOME_STATISTICS_HOURS_1' | transloco }}</option>
-            <option [value]="180">{{ 'HOME_STATISTICS_HOURS_3' | transloco }}</option>
-            <option [value]="360">{{ 'HOME_STATISTICS_HOURS_6' | transloco }}</option>
-            <option [value]="720">{{ 'HOME_STATISTICS_HOURS_12' | transloco }}</option>
+            <option [value]="2">
+              {{ 'HOME_STATISTICS_MINUTES_2' | transloco }}
+            </option>
+            <option [value]="5">
+              {{ 'HOME_STATISTICS_MINUTES_5' | transloco }}
+            </option>
+            <option [value]="10">
+              {{ 'HOME_STATISTICS_MINUTES_10' | transloco }}
+            </option>
+            <option [value]="20">
+              {{ 'HOME_STATISTICS_MINUTES_20' | transloco }}
+            </option>
+            <option [value]="30">
+              {{ 'HOME_STATISTICS_MINUTES_30' | transloco }}
+            </option>
+            <option [value]="60">
+              {{ 'HOME_STATISTICS_HOURS_1' | transloco }}
+            </option>
+            <option [value]="180">
+              {{ 'HOME_STATISTICS_HOURS_3' | transloco }}
+            </option>
+            <option [value]="360">
+              {{ 'HOME_STATISTICS_HOURS_6' | transloco }}
+            </option>
+            <option [value]="720">
+              {{ 'HOME_STATISTICS_HOURS_12' | transloco }}
+            </option>
           </select>
         </div>
       </form>
@@ -113,7 +129,9 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
             />
           </div>
         } @else {
-          <h5 class="text-center my-4" style="height: 100px">{{ 'HOME_STATISTICS_NO_DATA_FOR_THIS_TIME' | transloco }}</h5>
+          <h5 class="text-center my-4" style="height: 100px">
+            {{ 'HOME_STATISTICS_NO_DATA_FOR_THIS_TIME' | transloco }}
+          </h5>
         }
       } @else {
         <div class="d-flex justify-content-center">
@@ -128,7 +146,7 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
 export class TimelineComponent {
   curve = shape.curveNatural;
 
-  #httpClient = inject(HttpClient);
+  #api = injectAPI();
 
   selectedEvent = inject(SelectedEventService).selected;
   form = injectCustomFormBuilder().group({
@@ -163,8 +181,6 @@ export class TimelineComponent {
           return of({highestValue: 0, data: []});
         }
 
-        let params = new HttpParams().set('eventId', event.id);
-
         // remove UTC timezone to make it a local time, so we can read the correct UTC time
         const startDateD = d_from(startDate.split('.')[0]);
         const endDateD = d_from(endDate.split('.')[0]);
@@ -184,11 +200,17 @@ export class TimelineComponent {
           return of({highestValue: 0, data: []});
         }
 
-        params = params.append('startDate', dateToBackendDateTimeString(startDateD));
-        params = params.append('endDate', dateToBackendDateTimeString(endDateD));
-        params = params.append('precision', precision);
-        params = params.append('type', type);
-        return this.#httpClient.get<StatisticsTimelineResponse>('/config/statistics/timeline', {params});
+        return this.#api.get('/v1/config/statistics/timeline', {
+          params: {
+            query: {
+              eventId: event.id,
+              startDate: dateToBackendDateTimeString(startDateD),
+              endDate: dateToBackendDateTimeString(endDateD),
+              type,
+              precision,
+            },
+          },
+        });
       }),
       map((it) => {
         it.highestValue += 5;

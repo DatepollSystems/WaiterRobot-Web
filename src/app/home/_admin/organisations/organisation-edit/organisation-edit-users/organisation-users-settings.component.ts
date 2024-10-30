@@ -1,32 +1,32 @@
 import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, computed, effect, inject, viewChild} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {BlankslateComponent} from '@home-shared/components/blankslate.component';
 
-import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
-import {MyUserService} from '@home-shared/services/user/my-user.service';
-import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {filter, of, pipe, startWith, switchMap} from 'rxjs';
+
 import {TranslocoPipe} from '@jsverse/transloco';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {OrganisationUserResponse} from '@shared/waiterrobot-backend';
-
+import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {notNullAndUndefined} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {derivedFrom} from 'ngxtension/derived-from';
 
-import {filter, of, pipe, startWith, switchMap} from 'rxjs';
+import {BlankslateComponent} from '@home-shared/components/blankslate.component';
+import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
+import {MyUserService} from '@home-shared/services/user/my-user.service';
+
+import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
 import {OrganisationUsersService} from '../../_services/organisations-users.service';
-import {SelectedOrganisationService} from '../../_services/selected-organisation.service';
 import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.component';
 
 @Component({
   template: `
     <div class="bg-body-tertiary border rounded-3 d-flex flex-column gap-2">
       @if ((organisationUsersState.data()?.length ?? 0) === 0) {
-        <app-blankslate icon="people-fill" [header]="'NAV_USERS' | transloco" [description]="'HOME_ORGS_USERS_EMPTY' | transloco">
-          <button class="btn btn-success" type="button" (click)="onCreateOrganisationUser()">
+        <app-blankslate [header]="'NAV_USERS' | transloco" [description]="'HOME_ORGS_USERS_EMPTY' | transloco" icon="people-fill">
+          <button class="btn btn-success" (click)="onCreateOrganisationUser()" type="button">
             <bi name="plus-circle" />
             {{ 'HOME_ORGS_USERS_CREATE' | transloco }}
           </button>
@@ -35,21 +35,21 @@ import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.c
         <div class="d-flex flex-column gap-3 p-4 p-lg-5">
           <h2 class="my-0 mb-1">{{ 'USER' | transloco }}</h2>
           <div class="d-flex flex-column flex-md-row gap-3 justify-content-between">
-            <button class="btn btn-success" type="button" (click)="onCreateOrganisationUser()">
+            <button class="btn btn-success" (click)="onCreateOrganisationUser()" type="button">
               <bi name="save" />
               {{ 'ADD_3' | transloco }}
             </button>
 
             <div>
               <div class="input-group">
-                <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
+                <input class="form-control ml-2" [formControl]="filter" [placeholder]="'SEARCH' | transloco" type="text" />
                 @if ((filter.value?.length ?? 0) > 0) {
                   <button
                     class="btn btn-outline-secondary"
-                    type="button"
-                    placement="bottom"
                     [ngbTooltip]="'CLEAR' | transloco"
                     (click)="filter.reset()"
+                    type="button"
+                    placement="bottom"
                   >
                     <bi name="x-circle-fill" />
                   </button>
@@ -59,19 +59,30 @@ import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.c
           </div>
 
           <div class="table-responsive mt-3">
-            <table #sort ngb-table ngb-sort [hover]="true" [dataSource]="dataSource()">
+            <table #sort [hover]="true" [dataSource]="dataSource()" ngb-table ngb-sort>
               <ng-container ngbColumnDef="name">
-                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
-                <td *ngbCellDef="let organisationUser" ngb-cell>{{ organisationUser.firstname }} {{ organisationUser.surname }}</td>
+                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                  {{ 'NAME' | transloco }}
+                </th>
+                <td *ngbCellDef="let organisationUser" ngb-cell>
+                  {{ organisationUser.firstname }}
+                  {{ organisationUser.surname }}
+                </td>
               </ng-container>
 
               <ng-container ngbColumnDef="email">
-                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'EMAIL' | transloco }}</th>
-                <td *ngbCellDef="let organisationUser" ngb-cell>{{ organisationUser.emailAddress }}</td>
+                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                  {{ 'EMAIL' | transloco }}
+                </th>
+                <td *ngbCellDef="let organisationUser" ngb-cell>
+                  {{ organisationUser.emailAddress }}
+                </td>
               </ng-container>
 
               <ng-container ngbColumnDef="role">
-                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'ROLE' | transloco }}</th>
+                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                  {{ 'ROLE' | transloco }}
+                </th>
                 <td *ngbCellDef="let organisationUser" ngb-cell>
                   {{ organisationUser.role }}
                   <a class="btn btn-sm m-1 btn-outline-success" [ngbTooltip]="'EDIT' | transloco">
@@ -81,14 +92,16 @@ import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.c
               </ng-container>
 
               <ng-container ngbColumnDef="actions">
-                <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
+                <th *ngbHeaderCellDef ngb-header-cell>
+                  {{ 'ACTIONS' | transloco }}
+                </th>
                 <td *ngbCellDef="let organisationUser" ngb-cell>
                   @if (myUserEmailAddress() !== organisationUser.email_address) {
                     <button
-                      type="button"
                       class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
                       [ngbTooltip]="'DELETE' | transloco"
-                      (click)="onDeleteOrganisationUser(organisationUser)"
+                      (click)="onDeleteOrganisationUser(organisationUser.email)"
+                      type="button"
                     >
                       <bi name="trash" />
                     </button>
@@ -146,7 +159,7 @@ export class OrganisationUsersSettingsComponent {
 
         return of(dataSource);
       }),
-      startWith(new NgbTableDataSource<OrganisationUserResponse>()),
+      startWith(new NgbTableDataSource()),
     ),
   );
 
@@ -160,13 +173,16 @@ export class OrganisationUsersSettingsComponent {
   }
 
   onCreateOrganisationUser(): void {
-    this.modal.open(OrganisationUserAddModalComponent, {ariaLabelledBy: 'modal-title-org-user-add', size: 'lg'});
+    this.modal.open(OrganisationUserAddModalComponent, {
+      ariaLabelledBy: 'modal-title-org-user-add',
+      size: 'lg',
+    });
   }
 
-  onDeleteOrganisationUser(model: OrganisationUserResponse): void {
+  onDeleteOrganisationUser(email: string): void {
     void this.confirmDialog('DELETE_CONFIRMATION').then((result) => {
       if (result) {
-        void this.organisationUsersState.delete(model.emailAddress);
+        void this.organisationUsersState.delete(email);
       }
     });
   }

@@ -8,6 +8,6 @@ export const environment: Environment = {
   production: true,
   type: 'prod',
   titleSuffix: 'my.kellner.team',
-  apiUrl: 'https://my.kellner.team/api/v1',
+  apiUrl: 'https://my.kellner.team/api',
   logoUrl: '/assets/logo-prod.svg',
 };

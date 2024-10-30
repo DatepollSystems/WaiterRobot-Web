@@ -3,30 +3,32 @@ import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/co
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
-import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect, ListFilterComponent} from '@home-shared/list';
-import {mapName} from '@home-shared/name-map';
+
+import {filter, map, switchMap, tap} from 'rxjs';
+
 import {TranslocoPipe} from '@jsverse/transloco';
-
 import {NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {n_from} from 'dfts-helper';
-
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {StopPropagationDirective} from 'dfx-helper';
 import {injectParams} from 'ngxtension/inject-params';
-import {filter, map, switchMap, tap} from 'rxjs';
-import {EventsService} from './_services/events.service';
+
+import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+import {ListFilterComponent, injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
+import {mapName} from '@home-shared/name-map';
+
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+
+import {EventsService} from './_services/events.service';
 
 @Component({
   template: `
     <div class="d-flex flex-column gap-3">
       <scrollable-toolbar>
         <div>
-          <a routerLink="../e/create" class="btn btn-sm btn-success" [queryParams]="{orgId: activeId()}">
+          <a class="btn btn-sm btn-success" [queryParams]="{orgId: activeId()}" routerLink="../e/create">
             <bi name="plus-circle" />
             {{ 'ADD_2' | transloco }}</a
           >
@@ -34,10 +36,10 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
 
         <div>
           <button
-            type="button"
             class="btn btn-sm btn-danger"
             [class.disabled]="!selection.hasValue()"
             (mousedown)="delete.onDeleteSelected()"
+            type="button"
           >
             <bi name="trash" />
             {{ 'DELETE' | transloco }}
@@ -49,16 +51,16 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
 
       @if (table.dataSource(); as dataSource) {
         <div class="table-responsive">
-          <table ngb-table ngb-sort ngbSortActive="date" ngbSortDirection="desc" [hover]="true" [dataSource]="dataSource">
+          <table [hover]="true" [dataSource]="dataSource" ngb-table ngb-sort ngbSortActive="date" ngbSortDirection="desc">
             <ng-container ngbColumnDef="select">
               <th *ngbHeaderCellDef ngb-header-cell>
                 <div class="form-check">
                   <input
                     class="form-check-input"
-                    type="checkbox"
-                    name="selectAll"
                     [checked]="selection.isAllSelected()"
                     (change)="selection.toggleAll()"
+                    type="checkbox"
+                    name="selectAll"
                   />
                 </div>
               </th>
@@ -66,39 +68,52 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
                 <div class="form-check">
                   <input
                     class="form-check-input"
-                    type="checkbox"
-                    name="select"
                     [checked]="selection.isSelected(selectable)"
                     (change)="selection.toggle(selectable, !selection.isSelected(selectable))"
+                    type="checkbox"
+                    name="select"
                   />
                 </div>
               </td>
             </ng-container>
 
             <ng-container ngbColumnDef="name">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'NAME' | transloco }}
+              </th>
               <td *ngbCellDef="let event" ngb-cell>{{ event.name }}</td>
             </ng-container>
 
             <ng-container ngbColumnDef="startDate">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_EVENTS_START_DATE' | transloco }}</th>
-              <td *ngbCellDef="let event" ngb-cell>{{ event.startDate | date: 'dd.MM.yyyy HH:mm' : 'UTC' }}</td>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'HOME_EVENTS_START_DATE' | transloco }}
+              </th>
+              <td *ngbCellDef="let event" ngb-cell>
+                {{ event.startDate | date: 'dd.MM.yyyy HH:mm' : 'UTC' }}
+              </td>
             </ng-container>
 
             <ng-container ngbColumnDef="endDate">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_EVENTS_END_DATE' | transloco }}</th>
-              <td *ngbCellDef="let event" ngb-cell>{{ event.endDate | date: 'dd.MM.yyyy HH:mm' : 'UTC' }}</td>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'HOME_EVENTS_END_DATE' | transloco }}
+              </th>
+              <td *ngbCellDef="let event" ngb-cell>
+                {{ event.endDate | date: 'dd.MM.yyyy HH:mm' : 'UTC' }}
+              </td>
             </ng-container>
 
             <ng-container ngbColumnDef="street">
               <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
-                {{ 'HOME_ORGS_STREET' | transloco }} {{ 'HOME_ORGS_STREETNUMBER' | transloco }}
+                {{ 'HOME_ORGS_STREET' | transloco }}
+                {{ 'HOME_ORGS_STREETNUMBER' | transloco }}
               </th>
               <td *ngbCellDef="let event" ngb-cell>{{ event.street }}, {{ event.streetNumber }}</td>
             </ng-container>
 
             <ng-container ngbColumnDef="city">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_CITY' | transloco }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'HOME_ORGS_CITY' | transloco }}
+              </th>
               <td *ngbCellDef="let event" ngb-cell>{{ event.postalCode }}, {{ event.city }}</td>
             </ng-container>
 
@@ -108,20 +123,20 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
               </th>
               <td *ngbCellDef="let event" ngb-cell>
                 <app-action-dropdown>
-                  <button type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem (click)="clone(event.id)">
+                  <button class="d-flex gap-2 align-items-center" (click)="clone(event.id)" type="button" ngbDropdownItem>
                     <bi name="clipboard" />
                     {{ 'COPY' | transloco }}
                   </button>
                   <div class="dropdown-divider"></div>
-                  <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../e/' + event.id">
+                  <a class="d-flex gap-2 align-items-center" [routerLink]="'../e/' + event.id" type="button" ngbDropdownItem>
                     <bi name="pencil-square" />
                     {{ 'EDIT' | transloco }}
                   </a>
                   <button
-                    type="button"
                     class="d-flex gap-2 align-items-center text-danger-emphasis"
-                    ngbDropdownItem
                     (mousedown)="delete.onDelete(event.id)"
+                    type="button"
+                    ngbDropdownItem
                   >
                     <bi name="trash" />
                     {{ 'DELETE' | transloco }}
@@ -131,7 +146,7 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
             </ng-container>
 
             <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
-            <tr *ngbRowDef="let event; columns: table.columnsToDisplay()" ngb-row [routerLink]="'../e/' + event.id"></tr>
+            <tr *ngbRowDef="let event; columns: table.columnsToDisplay()" [routerLink]="'../e/' + event.id" ngb-row></tr>
           </table>
         </div>
       }

@@ -1,21 +1,23 @@
-import {ChangeDetectionStrategy, Component, ElementRef, inject, Renderer2, viewChild} from '@angular/core';
-import {Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet} from '@angular/router';
+import {ChangeDetectionStrategy, Component, ElementRef, Renderer2, inject, viewChild} from '@angular/core';
+import {Event, NavigationCancel, NavigationEnd, NavigationError, Router, RouterOutlet} from '@angular/router';
+
+import {Subject, takeUntil} from 'rxjs';
+
 import {AppLogoWithTextComponent} from '@outside-shared/app-logo-with-text.component';
 
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';
 import {ToastsContainerComponent} from '@shared/notifications/toasts-container.component';
 
-import {Subject, takeUntil} from 'rxjs';
 import {SystemInfoComponent} from './system-info.component';
 
 @Component({
   template: `
-    <div #spinnerElement class="flex-column">
+    <div class="flex flex-column" #spinnerElement>
       <div class="d-flex justify-content-center" style="padding-top: 25%">
         <div class="loader"></div>
       </div>
 
-      <app-logo-with-text hideLogo class="mt-2" />
+      <app-logo-with-text class="mt-2" hideLogo />
     </div>
 
     <app-system-info />
@@ -36,9 +38,6 @@ export class AppComponent {
   loaded$ = new Subject<boolean>();
 
   private _navigationInterceptor(event: Event): void {
-    if (event instanceof NavigationStart) {
-      this.#renderer.setStyle(this.spinnerElement().nativeElement, 'display', 'flex');
-    }
     if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
       this.#renderer.setStyle(this.spinnerElement().nativeElement, 'display', 'none');
       this.loaded$.next(true);

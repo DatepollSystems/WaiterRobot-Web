@@ -2,50 +2,38 @@ import {registerLocaleData} from '@angular/common';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import {DEFAULT_CURRENCY_CODE, importProvidersFrom, isDevMode, LOCALE_ID, provideExperimentalZonelessChangeDetection} from '@angular/core';
+import {DEFAULT_CURRENCY_CODE, LOCALE_ID, importProvidersFrom, isDevMode, provideExperimentalZonelessChangeDetection} from '@angular/core';
 import {bootstrapApplication} from '@angular/platform-browser';
 import {provideAnimations} from '@angular/platform-browser/animations';
-import {provideRouter, TitleStrategy, withPreloading} from '@angular/router';
-import {NgbDateTimeAdapter} from '@home-shared/components/datetime-picker/datetime-adapter';
+import {TitleStrategy, provideRouter, withPreloading} from '@angular/router';
+
 import {provideTransloco} from '@jsverse/transloco';
 import {MicroSentryModule} from '@micro-sentry/angular';
-
 import {NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
-
-import {CustomTitleStrategy} from '@shared/custom-title.strategy';
-import {EnvironmentHelper} from '@shared/EnvironmentHelper';
-import {authInterceptor} from '@shared/services/auth/auth-interceptor';
-import {loginPwChangeUrl, loginUrl, refreshUrl, requestPasswordChangeUrl, sendPasswordChangeUrl} from '@shared/services/auth/auth.service';
-import {CustomPaginatorIntl} from '@shared/services/custom-paginator-intl';
-import {CustomDateParserFormatter, CustomDateTimeAdapter} from '@shared/services/datepicker-adapter';
-import {errorInterceptor} from '@shared/services/error-interceptor';
-
 import {biCacheInterceptor, provideBi, withCDN} from 'dfx-bootstrap-icons';
 import {NgbPaginatorIntl} from 'dfx-bootstrap-table';
 import {
-  baseUrlInterceptor,
   DfxPreloadStrategy,
   loggingInterceptor,
   postPutJsonContentTypeInterceptor,
   provideDfxHelper,
-  withBaseUrlInterceptor,
   withLoggingInterceptor,
   withMobileBreakpoint,
   withWindow,
 } from 'dfx-helper';
+
+import {NgbDateTimeAdapter} from '@home-shared/components/datetime-picker/datetime-adapter';
+
+import {CustomTitleStrategy, EnvironmentHelper, TranslocoHttpLoader} from '@shared';
+import {CustomDateParserFormatter, CustomDateTimeAdapter, CustomPaginatorIntl, authInterceptor, errorInterceptor} from '@shared/services';
+
 import {AppComponent} from './app/app.component';
 import {ROUTES} from './app/app.routes';
-import {TranslocoHttpLoader} from './transloco-loader';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideExperimentalZonelessChangeDetection(),
-    provideDfxHelper(
-      withMobileBreakpoint(1200),
-      withBaseUrlInterceptor(EnvironmentHelper.getAPIUrl(), ['assets']),
-      withLoggingInterceptor(['json', 'assets', loginUrl, loginPwChangeUrl, requestPasswordChangeUrl, sendPasswordChangeUrl, refreshUrl]),
-      withWindow(),
-    ),
+    provideDfxHelper(withMobileBreakpoint(1200), withLoggingInterceptor(['json', 'assets', 'auth']), withWindow()),
     provideAnimations(),
     DfxPreloadStrategy,
     provideRouter(ROUTES, withPreloading(DfxPreloadStrategy)),
@@ -62,14 +50,7 @@ bootstrapApplication(AppComponent, {
     {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter},
     {provide: NgbPaginatorIntl, useClass: CustomPaginatorIntl},
     provideHttpClient(
-      withInterceptors([
-        baseUrlInterceptor,
-        postPutJsonContentTypeInterceptor,
-        loggingInterceptor,
-        authInterceptor,
-        errorInterceptor,
-        biCacheInterceptor,
-      ]),
+      withInterceptors([postPutJsonContentTypeInterceptor, loggingInterceptor, authInterceptor, errorInterceptor, biCacheInterceptor]),
     ),
     provideBi(withCDN('/assets/bootstrap-icons')),
     provideTransloco({

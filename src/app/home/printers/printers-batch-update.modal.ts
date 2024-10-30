@@ -2,19 +2,21 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
-import {injectIsValid} from '@shared/form';
-
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {n_from, s_from} from 'dfts-helper';
+
+import {injectIsValid} from '@shared/form';
 
 import {PrintersService} from './_services/printers.service';
 
 @Component({
   template: `
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-printer-batch-update-title">{{ 'HOME_PRINTER_BATCH_UPDATE_TITLE' | transloco }}</h4>
-      <button type="button" class="btn-close btn-close-white" aria-label="Close" (mousedown)="activeModal.close()"></button>
+      <h4 class="modal-title" id="modal-printer-batch-update-title">
+        {{ 'HOME_PRINTER_BATCH_UPDATE_TITLE' | transloco }}
+      </h4>
+      <button class="btn-close btn-close-white" (mousedown)="activeModal.close()" type="button" aria-label="Close"></button>
     </div>
     <div class="modal-body">
       @if (isValid()) {}
@@ -25,10 +27,10 @@ import {PrintersService} from './_services/printers.service';
             <label for="fontScale">{{ 'HOME_PRINTER_FONT_SCALE' | transloco }}</label>
             <input
               class="form-control"
-              type="number"
               id="fontScale"
-              formControlName="fontScale"
               [placeholder]="'HOME_PRINTER_FONT_SCALE' | transloco"
+              type="number"
+              formControlName="fontScale"
             />
 
             @if (form.controls.fontScale.invalid) {
@@ -39,7 +41,7 @@ import {PrintersService} from './_services/printers.service';
           </div>
 
           <div class="form-check form-switch mt-1">
-            <input formControlName="updateFontScale" class="form-check-input" type="checkbox" role="switch" id="updateFontScale" />
+            <input class="form-check-input" id="updateFontScale" formControlName="updateFontScale" type="checkbox" role="switch" />
             <label class="form-check-label" for="updateFontScale"
               >{{ 'HOME_PRINTER_FONT_SCALE' | transloco }} {{ 'HOME_PRINTER_BATCH_UPDATE_CHANGE' | transloco }}</label
             >
@@ -50,14 +52,14 @@ import {PrintersService} from './_services/printers.service';
           <div class="form-group">
             <label for="font">{{ 'HOME_PRINTER_FONT' | transloco }}</label>
 
-            <select class="form-select" aria-label="Font select" id="font" formControlName="font">
+            <select class="form-select" id="font" aria-label="Font select" formControlName="font">
               @for (font of availableFonts(); track font.code) {
                 <option [value]="font.code">{{ font.description }}</option>
               }
             </select>
           </div>
           <div class="form-check form-switch mt-1">
-            <input formControlName="updateFont" class="form-check-input" type="checkbox" role="switch" id="updateFont" />
+            <input class="form-check-input" id="updateFont" formControlName="updateFont" type="checkbox" role="switch" />
             <label class="form-check-label" for="updateFont"
               >{{ 'HOME_PRINTER_FONT' | transloco }} {{ 'HOME_PRINTER_BATCH_UPDATE_CHANGE' | transloco }}</label
             >
@@ -69,10 +71,10 @@ import {PrintersService} from './_services/printers.service';
             <label for="bonWidth">{{ 'HOME_PRINTER_BON_WIDTH' | transloco }}</label>
             <input
               class="form-control"
-              type="number"
               id="bonWidth"
-              formControlName="bonWidth"
               [placeholder]="'HOME_PRINTER_BON_WIDTH' | transloco"
+              type="number"
+              formControlName="bonWidth"
             />
 
             @if (form.controls.bonWidth.invalid) {
@@ -82,7 +84,7 @@ import {PrintersService} from './_services/printers.service';
             }
           </div>
           <div class="form-check form-switch mt-1">
-            <input formControlName="updateBonWidth" class="form-check-input" type="checkbox" role="switch" id="updateBonWidth" />
+            <input class="form-check-input" id="updateBonWidth" formControlName="updateBonWidth" type="checkbox" role="switch" />
             <label class="form-check-label" for="updateBonWidth"
               >{{ 'HOME_PRINTER_BON_WIDTH' | transloco }} {{ 'HOME_PRINTER_BATCH_UPDATE_CHANGE' | transloco }}</label
             >
@@ -94,10 +96,10 @@ import {PrintersService} from './_services/printers.service';
             <label for="bonPadding">{{ 'HOME_PRINTER_BON_PADDING' | transloco }}</label>
             <input
               class="form-control"
-              type="number"
               id="bonPadding"
-              formControlName="bonPadding"
               [placeholder]="'HOME_PRINTER_BON_PADDING' | transloco"
+              type="number"
+              formControlName="bonPadding"
             />
 
             @if (form.controls.bonPadding.invalid) {
@@ -107,7 +109,7 @@ import {PrintersService} from './_services/printers.service';
             }
           </div>
           <div class="form-check form-switch mt-1">
-            <input formControlName="updateBonPadding" class="form-check-input" type="checkbox" role="switch" id="updateBonPadding" />
+            <input class="form-check-input" id="updateBonPadding" formControlName="updateBonPadding" type="checkbox" role="switch" />
             <label class="form-check-label" for="updateBonPadding"
               >{{ 'HOME_PRINTER_BON_PADDING' | transloco }} {{ 'HOME_PRINTER_BATCH_UPDATE_CHANGE' | transloco }}</label
             >
@@ -119,10 +121,10 @@ import {PrintersService} from './_services/printers.service';
             <label for="bonPaddingTop">{{ 'HOME_PRINTER_BON_PADDING_TOP' | transloco }}</label>
             <input
               class="form-control"
-              type="number"
               id="bonPaddingTop"
-              formControlName="bonPaddingTop"
               [placeholder]="'HOME_PRINTER_BON_PADDING_TOP' | transloco"
+              type="number"
+              formControlName="bonPaddingTop"
             />
 
             @if (form.controls.bonPaddingTop.invalid) {
@@ -132,7 +134,7 @@ import {PrintersService} from './_services/printers.service';
             }
           </div>
           <div class="form-check form-switch mt-1">
-            <input formControlName="updateBonPaddingTop" class="form-check-input" type="checkbox" role="switch" id="updateBonPaddingTop" />
+            <input class="form-check-input" id="updateBonPaddingTop" formControlName="updateBonPaddingTop" type="checkbox" role="switch" />
             <label class="form-check-label" for="updateBonPaddingTop"
               >{{ 'HOME_PRINTER_BON_PADDING_TOP' | transloco }} {{ 'HOME_PRINTER_BATCH_UPDATE_CHANGE' | transloco }}</label
             >
@@ -153,9 +155,10 @@ import {PrintersService} from './_services/printers.service';
       }
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (mousedown)="activeModal.close()">{{ 'CLOSE' | transloco }}</button>
+      <button class="btn btn-outline-secondary" (mousedown)="activeModal.close()" type="button">
+        {{ 'CLOSE' | transloco }}
+      </button>
       <button
-        type="submit"
         class="btn btn-warning"
         [disabled]="
           (!form.controls.updateFont.value &&
@@ -166,6 +169,7 @@ import {PrintersService} from './_services/printers.service';
           !form.valid
         "
         (mousedown)="submit()"
+        type="submit"
       >
         {{ 'SAVE' | transloco }}
       </button>
@@ -181,7 +185,9 @@ export class PrintersBatchUpdateModal {
   fb = inject(FormBuilder);
   printersService = inject(PrintersService);
 
-  availableFonts = toSignal(this.printersService.getAllFonts$(), {initialValue: []});
+  availableFonts = toSignal(this.printersService.getAllFonts$(), {
+    initialValue: [],
+  });
 
   form = this.fb.nonNullable.group({
     updateFontScale: [false],

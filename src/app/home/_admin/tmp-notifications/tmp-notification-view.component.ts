@@ -1,23 +1,22 @@
 import {DatePipe} from '@angular/common';
-import {Component, computed, inject, viewChild, ViewEncapsulation} from '@angular/core';
-import {Router} from '@angular/router';
-
-import {AppBackButtonComponent} from '@home-shared/components/button/app-back-button.component';
-import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-import {TranslocoPipe} from '@jsverse/transloco';
-import {NgbNavModule, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {cl_copy} from 'dfts-helper';
-
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxCutPipe} from 'dfx-helper';
-import {PdfJsViewerComponent, PdfJsViewerModule} from 'ng2-pdfjs-viewer';
-import {derivedFrom} from 'ngxtension/derived-from';
-import {injectParams} from 'ngxtension/inject-params';
+import {Component, ViewEncapsulation, computed} from '@angular/core';
 
 import {filter, map, pipe, startWith, switchMap} from 'rxjs';
 
-import {TmpNotificationsService} from './tmp-notifications.service';
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbNavModule, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {cl_copy} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxCutPipe} from 'dfx-helper';
+import {PdfJsViewerModule} from 'ng2-pdfjs-viewer';
+import {derivedFrom} from 'ngxtension/derived-from';
+import {injectParams} from 'ngxtension/inject-params';
+
+import {AppBackButtonComponent} from '@home-shared/components/button/app-back-button.component';
+import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+
+import {injectAPI} from '@shared/api';
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
 @Component({
   template: `
@@ -43,13 +42,13 @@ import {TmpNotificationsService} from './tmp-notifications.service';
         @if (it.bodyHTML) {
           <h3 class="my-0">HTML</h3>
 
-          <ul #nav="ngbNav" ngbNav class="nav-tabs" [activeId]="1">
+          <ul class="nav-tabs" #nav="ngbNav" [activeId]="1" ngbNav>
             <li [ngbNavItem]="1">
               <button type="button" ngbNavLink>Preview</button>
               <ng-template ngbNavContent>
                 <div class="json-box">
                   <div class="d-flex justify-content-end">
-                    <button type="button" class="ms-auto btn btn-dark btn-sm" ngbTooltip="Copy" (mousedown)="copy(it.bodyHTML)">
+                    <button class="ms-auto btn btn-dark btn-sm" (mousedown)="copy(it.bodyHTML)" type="button" ngbTooltip="Copy">
                       <bi name="copy" />
                     </button>
                   </div>
@@ -62,7 +61,7 @@ import {TmpNotificationsService} from './tmp-notifications.service';
               <ng-template ngbNavContent>
                 <div class="json-box">
                   <div class="d-flex justify-content-end mb-2">
-                    <button type="button" class="ms-auto btn btn-dark btn-sm" ngbTooltip="Copy" (mousedown)="copy(it.bodyHTML)">
+                    <button class="ms-auto btn btn-dark btn-sm" (mousedown)="copy(it.bodyHTML)" type="button" ngbTooltip="Copy">
                       <bi name="copy" />
                     </button>
                   </div>
@@ -82,7 +81,7 @@ import {TmpNotificationsService} from './tmp-notifications.service';
         <div class="d-flex gap-2">
           <div class="json-box" style="width: 50%">
             <div class="d-flex justify-content-end mb-2">
-              <button type="button" class="ms-auto btn btn-dark btn-sm" ngbTooltip="Copy" (mousedown)="copy(it.body)">
+              <button class="ms-auto btn btn-dark btn-sm" (mousedown)="copy(it.body)" type="button" ngbTooltip="Copy">
                 <bi name="copy" />
               </button>
             </div>
@@ -156,22 +155,21 @@ import {TmpNotificationsService} from './tmp-notifications.service';
   standalone: true,
 })
 export class TmpNotificationViewComponent {
-  router = inject(Router);
-  tmpNotificationService = inject(TmpNotificationsService);
+  #api = injectAPI();
 
   tmpNotification = derivedFrom(
     [injectParams('id')],
     pipe(
       map(([id]) => id),
       filter((id): id is string => !!id),
-      switchMap((id) => this.tmpNotificationService.getSingle$(id)),
+      switchMap((id) =>
+        this.#api.get('/v1/public/temp-notifications').pipe(map((notifications) => notifications.find((it) => it.id === id))),
+      ),
       startWith(undefined),
     ),
   );
 
   tmpNotificationPdf = computed(() => base64ToArrayBuffer(this.tmpNotification()!.body));
-
-  pdfViewerAutoLoad = viewChild<PdfJsViewerComponent>('pdfViewerAutoLoad');
 
   copy(it: string) {
     cl_copy(it);

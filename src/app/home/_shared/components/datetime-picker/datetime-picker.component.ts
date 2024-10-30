@@ -1,20 +1,19 @@
 import {NgClass} from '@angular/common';
-import {booleanAttribute, ChangeDetectionStrategy, Component, inject, input, numberAttribute, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, booleanAttribute, inject, input, numberAttribute, signal} from '@angular/core';
 import {ControlValueAccessor, FormsModule, NgControl} from '@angular/forms';
+
+import {noop} from 'rxjs';
 
 import {
   NgbDateParserFormatter,
-  NgbDatepicker,
   NgbDateStruct,
+  NgbDatepicker,
   NgbInputDatepicker,
   NgbPopover,
-  NgbTimepicker,
   NgbTimeStruct,
+  NgbTimepicker,
 } from '@ng-bootstrap/ng-bootstrap';
-
 import {BiComponent} from 'dfx-bootstrap-icons';
-
-import {noop} from 'rxjs';
 
 import {NgbDateTimeAdapter} from './datetime-adapter';
 import {NgbDateTimeStruct} from './datetime.struct';
@@ -35,11 +34,11 @@ import {NgbDateTimeStruct} from './datetime.struct';
 
       <button
         class="input-group-text"
-        type="button"
         [ngbPopover]="calendarContent"
         [autoClose]="'outside'"
         [placement]="'auto'"
         [disabled]="disabled"
+        type="button"
       >
         <bi name="calendar-date" />
       </button>
@@ -51,18 +50,18 @@ import {NgbDateTimeStruct} from './datetime.struct';
 
     <ng-template #calendarContent>
       <div>
-        <ngb-datepicker #dp name="datepicker" [(ngModel)]="dateStruct" (ngModelChange)="onDateChange($event)" />
+        <ngb-datepicker #dp [(ngModel)]="dateStruct" (ngModelChange)="onDateChange($event)" name="datepicker" />
 
         <div class="d-flex justify-content-center mt-2">
           <ngb-timepicker
             #tp
-            name="timepicker"
             [meridian]="false"
             [ngModel]="timeStruct"
             [seconds]="seconds()"
             [hourStep]="hourStep()"
             [minuteStep]="minuteStep()"
             (ngModelChange)="onTimeChange($event)"
+            name="timepicker"
           />
         </div>
       </div>
@@ -106,7 +105,7 @@ export class AppDatetimeInputComponent implements ControlValueAccessor {
 
   parse = (value: string): NgbDateTimeStruct | null => {
     const dateTimeValue = value.split(' ');
-    const _dateStruct = this.#ngbDateParser.parse(dateTimeValue[0]);
+    const _dateStruct = this.#ngbDateParser.parse(dateTimeValue[0]!);
     const _timeStruct: string[] | undefined = dateTimeValue[1]?.split(':');
 
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -114,9 +113,9 @@ export class AppDatetimeInputComponent implements ControlValueAccessor {
       return null;
     }
 
-    const hour = parseInt(_timeStruct[0], 10);
-    const minute = parseInt(_timeStruct[1], 10);
-    const second = this.seconds() ? parseInt(_timeStruct[2], 10) : undefined;
+    const hour = parseInt(_timeStruct[0]!, 10);
+    const minute = parseInt(_timeStruct[1]!, 10);
+    const second = this.seconds() ? parseInt(_timeStruct[2]!, 10) : undefined;
 
     if (isNaN(hour) || isNaN(minute) || (this.seconds()! && isNaN(second ?? NaN))) {
       return null;

@@ -1,55 +1,78 @@
-import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
-import {TranslocoService} from '@jsverse/transloco';
-import {NotificationService} from '@shared/notifications/notification.service';
+import {Injectable, inject} from '@angular/core';
 
-import {IdResponse, OrganisationUserDto, OrganisationUserResponse} from '@shared/waiterrobot-backend';
+import {BehaviorSubject, Observable, catchError, concat, map, of, switchMap, tap} from 'rxjs';
+
+import {TranslocoService} from '@jsverse/transloco';
 import {createInjectable} from 'ngxtension/create-injectable';
 import {signalSlice} from 'ngxtension/signal-slice';
 
-import {BehaviorSubject, catchError, concat, map, Observable, of, switchMap, tap} from 'rxjs';
+import {BackendType, injectAPI} from '@shared/api';
+import {NotificationService} from '@shared/notifications/notification.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrganisationsUsersService {
-  #url = '/config/organisation/users';
-
-  #httpClient = inject(HttpClient);
+  #api = injectAPI();
 
   triggerGet$ = new BehaviorSubject(true);
 
-  getByOrganisationId$(organisationId: number): Observable<OrganisationUserResponse[]> {
-    return this.triggerGet$.pipe(switchMap(() => this.#httpClient.get<OrganisationUserResponse[]>(this.#url, {params: {organisationId}})));
-  }
-
-  delete$(organisationId: number, uEmail: string): Observable<unknown> {
-    return this.#httpClient.delete(`/config/organisation/${organisationId}/user/${uEmail}`).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
+  getByOrganisationId$(organisationId: number) {
+    return this.triggerGet$.pipe(
+      switchMap(() =>
+        this.#api.get('/v1/config/organisation/users', {
+          params: {
+            query: {organisationId},
+          },
+        }),
+      ),
     );
   }
 
-  create$(organisationId: number, uEmail: string, dto: OrganisationUserDto): Observable<unknown> {
-    return this.#httpClient.put(`/config/organisation/${organisationId}/user/${uEmail}`, dto).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
-    );
+  delete$(id: number, uEmail: string) {
+    return this.#api
+      .delete('/v1/config/organisation/{id}/user/{uEmail}', {
+        params: {
+          path: {
+            id,
+            uEmail,
+          },
+        },
+      })
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
+  }
+
+  create$(id: number, uEmail: string, body: BackendType['OrganisationUserDto']) {
+    return this.#api
+      .put('/v1/config/organisation/{id}/user/{uEmail}', {
+        body,
+        params: {
+          path: {
+            id,
+            uEmail,
+          },
+        },
+      })
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
   }
 }
 
 interface OrganisationUsersState {
   loading: boolean;
   organisationId: number | undefined;
-  data: OrganisationUserResponse[] | undefined;
+  data: BackendType['OrganisationUserResponse'][] | undefined;
 }
 
-const url = '/config/organisation/users';
-
 export const OrganisationUsersService = createInjectable(() => {
-  const httpClient = inject(HttpClient);
+  const api = injectAPI();
   const translocoService = inject(TranslocoService);
   const notificationService = inject(NotificationService);
 
@@ -60,8 +83,12 @@ export const OrganisationUsersService = createInjectable(() => {
   };
 
   const load = (organisationId: number) =>
-    httpClient
-      .get<OrganisationUserResponse[]>(url, {params: {organisationId}})
+    api
+      .get('/v1/config/organisation/users', {
+        params: {
+          query: {organisationId},
+        },
+      })
       .pipe(map((data) => ({organisationId, data, loading: false})));
 
   return signalSlice({
@@ -69,31 +96,50 @@ export const OrganisationUsersService = createInjectable(() => {
     actionSources: {
       load: (state, $: Observable<number | undefined>) =>
         $.pipe(switchMap((organisationId) => concat(of({loading: true}), load(organisationId ?? state().organisationId!)))),
-      create: (state, $: Observable<OrganisationUserDto & {email: string}>) =>
+      create: (state, $: Observable<BackendType['OrganisationUserDto'] & {email: string}>) =>
         $.pipe(
-          switchMap((dto) =>
+          switchMap((body) =>
             concat(
               of({loading: true}),
-              httpClient.put<IdResponse>(`/config/organisation/${state().organisationId}/user/${dto.email}`, dto).pipe(
-                catchError(() => {
-                  translocoService.selectTranslate<string>('HOME_ORGS_USERS_USER_NOT_FOUND').subscribe((translation) => {
-                    notificationService.warning(dto.email + translation);
-                  });
+              api
+                .put('/v1/config/organisation/{id}/user/{uEmail}', {
+                  body,
+                  params: {
+                    path: {
+                      id: state().organisationId!!,
+                      uEmail: body.email,
+                    },
+                  },
+                })
+                .pipe(
+                  catchError(() => {
+                    translocoService.selectTranslate<string>('HOME_ORGS_USERS_USER_NOT_FOUND').subscribe((translation) => {
+                      notificationService.warning(body.email + translation);
+                    });
 
-                  return of({});
-                }),
-                map(() => ({})),
-              ),
+                    return of({});
+                  }),
+                  map(() => ({})),
+                ),
               load(state().organisationId!),
             ),
           ),
         ),
       delete: (state, $: Observable<string>) =>
         $.pipe(
-          switchMap((email) =>
+          switchMap((uEmail) =>
             concat(
               of({loading: true}),
-              httpClient.delete(`/config/organisation/${state().organisationId}/user/${email}`).pipe(map(() => ({}))),
+              api
+                .delete('/v1/config/organisation/{id}/user/{uEmail}', {
+                  params: {
+                    path: {
+                      id: state().organisationId!!,
+                      uEmail,
+                    },
+                  },
+                })
+                .pipe(map(() => ({}))),
               load(state().organisationId!),
             ),
           ),

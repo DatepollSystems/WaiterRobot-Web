@@ -1,50 +1,50 @@
 import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 
-import {NgbPopoverModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbPopoverModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxCutPipe} from 'dfx-helper';
 
 import {CopyDirective} from '@shared/ui/copy.directive';
 
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxCutPipe} from 'dfx-helper';
 import {QrCodeService} from '../../services/qr-code.service';
 
 @Component({
   template: `
     <ng-template #popContent>
       <p>{{ info() | transloco }}</p>
-      <a target="_blank" rel="noreferrer" [href]="data()">{{ data() | s_cut: 82 : '...' }}</a>
+      <a [href]="data()" target="_blank" rel="noreferrer">{{ data() | s_cut: 82 : '...' }}</a>
     </ng-template>
     <ng-template #popTitle>
       <b>{{ text() | transloco }}</b>
     </ng-template>
     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
       <button
-        type="button"
         class="btn btn-sm btn-primary pe-2"
-        placement="bottom"
-        container="body"
-        triggers="mouseenter"
         [ngbPopover]="popContent"
         [popoverTitle]="popTitle"
         [autoClose]="'outside'"
         (mousedown)="openQrCode()"
+        type="button"
+        placement="bottom"
+        container="body"
+        triggers="mouseenter"
       >
-        <bi name="qr-code" class="me-1" />
+        <bi class="me-1" name="qr-code" />
         {{ text() | transloco }}
       </button>
       <button
+        class="btn btn-primary btn-sm"
         #c="copy"
         #t="ngbTooltip"
+        [copyable]="data()"
+        [ngbTooltip]="'COPIED' | transloco"
+        (mousedown)="c.copy(t)"
         type="button"
-        class="btn btn-primary btn-sm"
         aria-label="Copy link"
         autoClose="false"
         triggers="manual"
         placement="right"
-        [copyable]="data()"
-        [ngbTooltip]="'COPIED' | transloco"
-        (mousedown)="c.copy(t)"
       >
         <bi name="clipboard" aria-label="Copy content to clipboard" />
       </button>
@@ -64,6 +64,10 @@ export class AppQrCodeButtonComponent {
   info = input('');
 
   openQrCode(): void {
-    this.#qrCodeService.openQRCodePage({data: this.data() ?? 'ERROR', text: this.text(), info: this.info()});
+    this.#qrCodeService.openQRCodePage({
+      data: this.data() ?? 'ERROR',
+      text: this.text(),
+      info: this.info(),
+    });
   }
 }

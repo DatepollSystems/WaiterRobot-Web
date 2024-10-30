@@ -1,10 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 
-import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectOnDelete} from '@home-shared/form/edit';
+import {injectEditEntity, injectOnDelete} from '@home-shared/form/edit';
+
 import {injectOnSubmit} from '@shared/form';
-import {GetOrganisationResponse} from '@shared/waiterrobot-backend';
 
 import {OrganisationsService} from '../_services/organisations.service';
 import {AppOrganisationEditFormComponent} from './organisation-edit-form.component';
@@ -22,7 +21,7 @@ import {OrganisationUsersSettingsComponent} from './organisation-edit-users/orga
 
           <ng-container *isEditing="entity">
             <div>
-              <button type="button" class="btn btn-sm btn-outline-danger" (mousedown)="onDelete(entity.id)">
+              <button class="btn btn-sm btn-outline-danger" (mousedown)="onDelete(entity.id)" type="button">
                 <bi name="trash" />
                 {{ 'DELETE' | transloco }}
               </button>
@@ -47,11 +46,13 @@ import {OrganisationUsersSettingsComponent} from './organisation-edit-users/orga
   standalone: true,
   imports: [AppEntityEditModule, AppOrganisationEditFormComponent, OrganisationUsersSettingsComponent],
 })
-export class OrganisationEditComponent extends AbstractModelEditComponent<GetOrganisationResponse> {
-  onSubmit = injectOnSubmit({entityService: this.organisationsService});
-  onDelete = injectOnDelete((it: number) => this.organisationsService.delete$(it).subscribe());
+export class OrganisationEditComponent {
+  #organisationsService = inject(OrganisationsService);
 
-  constructor(private organisationsService: OrganisationsService) {
-    super(organisationsService);
-  }
+  entity = injectEditEntity({
+    get$: (id) => this.#organisationsService.getSingle$(id),
+  });
+
+  onSubmit = injectOnSubmit({entityService: this.#organisationsService});
+  onDelete = injectOnDelete((it: number) => this.#organisationsService.delete$(it).subscribe());
 }

@@ -1,30 +1,20 @@
-import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import {SessionModel} from '@shared/model/session.model';
-import {SessionResponse} from '@shared/waiterrobot-backend';
+import {BehaviorSubject, switchMap} from 'rxjs';
 
-import {HasDelete, HasGetAll} from 'dfx-helper';
-
-import {BehaviorSubject, map, Observable, switchMap} from 'rxjs';
+import {injectAPI} from '@shared/api';
 
 @Injectable({providedIn: 'root'})
-export class UserSessionsService implements HasGetAll<SessionModel>, HasDelete<SessionModel> {
-  url = '/user/sessions';
+export class UserSessionsService {
+  #api = injectAPI();
 
-  trigger$ = new BehaviorSubject(true);
+  triggerGet$ = new BehaviorSubject(true);
 
-  httpClient = inject(HttpClient);
-
-  convert = (it: SessionResponse): SessionModel => new SessionModel(it);
-
-  delete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${id}`);
+  delete$(id: number) {
+    return this.#api.delete('/v1/user/sessions/{id}', {params: {path: {id}}});
   }
 
-  getAll$(): Observable<SessionModel[]> {
-    return this.trigger$.pipe(
-      switchMap(() => this.httpClient.get<SessionResponse[]>(this.url).pipe(map((it) => it.map((iit) => this.convert(iit))))),
-    );
+  getAll$() {
+    return this.triggerGet$.pipe(switchMap(() => this.#api.get('/v1/user/sessions')));
   }
 }

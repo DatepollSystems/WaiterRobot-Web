@@ -1,45 +1,45 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, inject, Input, output, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, booleanAttribute, inject, output, signal} from '@angular/core';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {BiComponent} from 'dfx-bootstrap-icons';
+
 import {AppAdjustDarkModeColor} from '@home-shared/components/color/app-adjust-dark-mode-color.pipe';
 import {AppTextColorByBackgroundDirective} from '@home-shared/components/color/app-text-color-by-background.directive';
-import {TranslocoPipe} from '@jsverse/transloco';
 
-import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {ThemeService} from '@shared/services/theme.service';
-
 import {systemColors} from '@shared/system-colors';
-
-import {BiComponent} from 'dfx-bootstrap-icons';
 
 @Component({
   template: `
     @if (theme(); as theme) {
       <div class="btn-group" role="group">
         <button
-          id="color-picker-button"
           class="btn btn-outline-secondary"
-          type="button"
-          placement="bottom"
-          container="body"
-          popoverClass="color-picker-class"
+          id="color-picker-button"
           [disabled]="disabled"
           [style.background-color]="color | adjustDarkModeColor: theme.id"
           [style.border-color]="color | adjustDarkModeColor: theme.id"
-          app-text-color-by-background
           [color]="color"
           [autoClose]="'outside'"
           [ngbPopover]="popContent"
           (mousedown)="showColorPicker.set(!showColorPicker())"
+          type="button"
+          placement="bottom"
+          container="body"
+          popoverClass="color-picker-class"
+          app-text-color-by-background
         >
           {{ 'COLOR_PICKER' | transloco }}
         </button>
 
         <button
           class="btn btn-outline-secondary"
-          type="button"
           [disabled]="disabled"
           (mousedown)="color = undefined; colorChange.emit(undefined)"
+          type="button"
         >
-          <bi name="x-circle-fill" [ngbTooltip]="'RESET' | transloco" />
+          <bi [ngbTooltip]="'RESET' | transloco" name="x-circle-fill" />
         </button>
       </div>
 
@@ -48,9 +48,9 @@ import {BiComponent} from 'dfx-bootstrap-icons';
           @for (color of colors; track color) {
             <button
               class="color-btn"
-              type="button"
               [style.background-color]="color | adjustDarkModeColor: theme.id"
               (mousedown)="changeColor(color)"
+              type="button"
             >
               <span class="visually-hidden">Pick {{ color }}</span>
             </button>

@@ -1,5 +1,6 @@
 import {SelectionModel} from '@angular/cdk/collections';
-import {computed, signal, Signal, WritableSignal} from '@angular/core';
+import {Signal, WritableSignal, computed, signal} from '@angular/core';
+
 import {IHasID} from 'dfts-helper';
 import {NgbTableDataSource} from 'dfx-bootstrap-table';
 

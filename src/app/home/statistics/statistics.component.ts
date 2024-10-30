@@ -1,4 +1,5 @@
 import {Component, inject} from '@angular/core';
+
 import {injectBlurSetting} from '@home-shared/services/blur-setting.service';
 
 import {StatisticsService} from './statistics.service';
@@ -6,7 +7,9 @@ import {StatisticsService} from './statistics.service';
 @Component({
   template: `
     <div class="d-flex gap-3 justify-content-between justify-content-md-start">
-      <h1 class="my-0 d-inline-flex align-items-center">{{ 'NAV_STATISTICS' | transloco }}</h1>
+      <h1 class="my-0 d-inline-flex align-items-center">
+        {{ 'NAV_STATISTICS' | transloco }}
+      </h1>
       <app-blur-toggle />
     </div>
 

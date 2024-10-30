@@ -7,6 +7,6 @@ export const environment: Environment = {
   version: `${require('../../package.json').version}_local`,
   production: false,
   type: 'dev',
-  apiUrl: 'http://localhost/api/v1',
+  apiUrl: 'http://localhost/api',
   titleSuffix: 'local.kellner.team',
 };

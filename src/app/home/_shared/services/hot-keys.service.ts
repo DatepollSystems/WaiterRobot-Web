@@ -1,5 +1,5 @@
 import {DOCUMENT} from '@angular/common';
-import {inject, Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {EventManager} from '@angular/platform-browser';
 
 import {Observable} from 'rxjs';

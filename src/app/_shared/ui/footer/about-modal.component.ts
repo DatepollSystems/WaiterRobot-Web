@@ -2,13 +2,13 @@ import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 
-import {NgbActiveModal, NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+import {map} from 'rxjs';
 
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbActiveModal, NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {injectWindow} from 'dfx-helper';
 
-import {map} from 'rxjs';
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
 import * as licensesJson from '../../../../assets/licenses.json';
 import {EnvironmentHelper} from '../../EnvironmentHelper';
@@ -17,10 +17,10 @@ import {EnvironmentHelper} from '../../EnvironmentHelper';
   template: `
     <div class="modal-header">
       <h3 class="modal-title" id="modal-title-about">{{ 'ABOUT' | transloco }} kellner.team</h3>
-      <button type="button" class="btn-close btn-close-white" aria-label="Close" (mousedown)="modal.dismiss()"></button>
+      <button class="btn-close btn-close-white" (mousedown)="modal.dismiss()" type="button" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-      <ul #nav="ngbNav" ngbNav class="nav-tabs">
+      <ul class="nav-tabs" #nav="ngbNav" ngbNav>
         <li [ngbNavItem]="1">
           <a ngbNavLink>{{ 'ABOUT_MODAL_GENERAL' | transloco }}</a>
           <ng-template ngbNavContent>
@@ -38,7 +38,8 @@ import {EnvironmentHelper} from '../../EnvironmentHelper';
                 (mouseleave)="mouseup()"
                 (click)="clicked()"
               >
-                {{ 'ABOUT_MODAL_TECHNICAL_WEB_VERSION' | transloco }}: {{ frontendVersion }}
+                {{ 'ABOUT_MODAL_TECHNICAL_WEB_VERSION' | transloco }}:
+                {{ frontendVersion }}
               </li>
             </ul>
           </ng-template>
@@ -48,7 +49,7 @@ import {EnvironmentHelper} from '../../EnvironmentHelper';
           <ng-template ngbNavContent>
             <div class="list-group">
               @for (license of licenses(); track license.name) {
-                <a class="list-group-item list-group-item-action" rel="noreferrer" target="_blank" [href]="license.link">
+                <a class="list-group-item list-group-item-action" [href]="license.link" rel="noreferrer" target="_blank">
                   <div class="d-flex w-100 justify-content-between">
                     <h6 class="mb-1">{{ license.name }}</h6>
                     <small>{{ license.licenseType }}</small>
@@ -70,7 +71,9 @@ import {EnvironmentHelper} from '../../EnvironmentHelper';
       <div class="mt-2" [ngbNavOutlet]="nav"></div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (mousedown)="modal.close()">{{ 'CLOSE' | transloco }}</button>
+      <button class="btn btn-outline-secondary" (mousedown)="modal.close()" type="button">
+        {{ 'CLOSE' | transloco }}
+      </button>
     </div>
   `,
   standalone: true,

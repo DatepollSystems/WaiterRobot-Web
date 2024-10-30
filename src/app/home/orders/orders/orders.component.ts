@@ -4,28 +4,29 @@ import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/co
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 
+import {Observable, debounceTime, forkJoin, map, pipe, switchMap, tap} from 'rxjs';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbCollapse, NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgSelectModule} from '@ng-select/ng-select';
+import {loggerOf, s_imploder} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
+import {StopPropagationDirective, injectIsMobile} from 'dfx-helper';
+import {derivedFrom} from 'ngxtension/derived-from';
+
+import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 import {AppTestBadge} from '@home-shared/components/app-test-badge.component';
 import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {Download} from '@home-shared/services/download.service';
-import {injectFilter} from '@home-shared/services/filter';
-import {injectPagination} from '@home-shared/services/pagination';
-import {NgbCollapse, NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {NgSelectModule} from '@ng-select/ng-select';
-import {TranslocoPipe} from '@jsverse/transloco';
+
+import {BackendType} from '@shared/api';
+import {injectFilter} from '@shared/api/filter';
+import {injectPagination} from '@shared/api/pagination';
 import {injectCustomFormBuilder} from '@shared/form';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {GetOrderMinResponse, GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
-
-import {loggerOf, s_imploder} from 'dfts-helper';
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
-import {injectIsMobile, StopPropagationDirective} from 'dfx-helper';
-import {derivedFrom} from 'ngxtension/derived-from';
-
-import {debounceTime, forkJoin, map, Observable, pipe, switchMap, tap} from 'rxjs';
 
 import {ProductGroupsService} from '../../products/_services/product-groups.service';
 import {ProductsService} from '../../products/_services/products.service';
@@ -82,7 +83,7 @@ export class OrdersComponent {
   });
 
   columnsToDisplay = ['select', 'orderNumber', 'state', 'table.tableGroup.name', 'waiter.name', 'createdAt', 'actions'];
-  selection = new SelectionModel<GetOrderMinResponse>(true, [], false, (a, b) => a.id === b.id);
+  selection = new SelectionModel<BackendType['GetOrderMinResponse']>(true, [], false, (a, b) => a.id === b.id);
 
   filter = injectFilter(
     injectCustomFormBuilder().group({
@@ -122,11 +123,19 @@ export class OrdersComponent {
 
   download$?: Observable<Download>;
 
-  tables = toSignal(inject(TablesService).getAllWithoutExtra$(), {initialValue: []});
-  tableGroups = toSignal(inject(TableGroupsService).getAll$(), {initialValue: []});
+  tables = toSignal(inject(TablesService).getAllWithoutExtra$(), {
+    initialValue: [],
+  });
+  tableGroups = toSignal(inject(TableGroupsService).getAll$(), {
+    initialValue: [],
+  });
   products = toSignal(inject(ProductsService).getAll$(), {initialValue: []});
-  productGroups = toSignal(inject(ProductGroupsService).getAll$(), {initialValue: []});
-  waiters = toSignal(inject(OrganisationWaitersService).getAll$(), {initialValue: []});
+  productGroups = toSignal(inject(ProductGroupsService).getAll$(), {
+    initialValue: [],
+  });
+  waiters = toSignal(inject(OrganisationWaitersService).getAll$(), {
+    initialValue: [],
+  });
 
   constructor() {
     this.#ordersService.triggerRefresh.pipe(takeUntilDestroyed()).subscribe(() => {
@@ -134,7 +143,7 @@ export class OrdersComponent {
     });
   }
 
-  customTableSearch(term: string, item: GetTableWithGroupResponse): boolean {
+  customTableSearch(term: string, item: BackendType['GetTableWithGroupResponse']): boolean {
     term = term.toLowerCase().trim().replace(/\s/g, '');
     const groupName = item.group.name.toLowerCase().trim().replace(/\s/g, '');
     const tableNumber = item.number.toString();
@@ -153,7 +162,7 @@ export class OrdersComponent {
     });
   }
 
-  requeueOrder(it: GetOrderMinResponse): void {
+  requeueOrder(it: BackendType['GetOrderMinResponse']): void {
     this.selection.clear();
     this.selection.toggle(it);
     this.requeueOrders();

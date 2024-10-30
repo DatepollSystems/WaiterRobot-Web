@@ -1,13 +1,15 @@
 import {LowerCasePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {RouterLink} from '@angular/router';
+
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {a_shuffle} from 'dfts-helper';
+
 import {AppLogoWithTextComponent} from '@outside-shared/app-logo-with-text.component';
+
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';
 import {AboutModalComponent} from '@shared/ui/footer/about-modal.component';
-
-import {a_shuffle} from 'dfts-helper';
 
 @Component({
   template: `
@@ -50,7 +52,7 @@ import {a_shuffle} from 'dfts-helper';
               </a>
             </div>
             <div>
-              <button type="button" class="btn btn-link px-0" (mousedown)="openAbout()">
+              <button class="btn btn-link px-0" (mousedown)="openAbout()" type="button">
                 {{ 'ABOUT' | transloco }}
               </button>
             </div>
@@ -111,7 +113,10 @@ export class FooterComponent {
   container = input('container-xxxl');
 
   openAbout(): void {
-    this.modal.open(AboutModalComponent, {ariaLabelledBy: 'modal-title-about', size: 'lg'});
+    this.modal.open(AboutModalComponent, {
+      ariaLabelledBy: 'modal-title-about',
+      size: 'lg',
+    });
   }
 
   heart(): void {

@@ -1,21 +1,22 @@
 import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 
-import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect, ListFilterComponent} from '@home-shared/list';
-import {mapName} from '@home-shared/name-map';
+import {forkJoin} from 'rxjs';
+
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbDropdownItem, NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 import {loggerOf} from 'dfts-helper';
-
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {StopPropagationDirective} from 'dfx-helper';
 
-import {forkJoin} from 'rxjs';
+import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
+import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+import {ListFilterComponent, injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
+import {mapName} from '@home-shared/name-map';
+
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
 import {PrintersService} from './_services/printers.service';
 import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-update.modal';
@@ -27,14 +28,14 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
 
       <scrollable-toolbar>
         <div>
-          <a routerLink="../create" class="btn btn-sm btn-success">
+          <a class="btn btn-sm btn-success" routerLink="../create">
             <bi name="plus-circle" />
             {{ 'ADD_2' | transloco }}</a
           >
         </div>
 
         <div [ngbTooltip]="!selection.hasValue() ? ('HOME_PRINTER_SELECT' | transloco) : undefined">
-          <button type="button" class="btn btn-sm btn-danger" [disabled]="!selection.hasValue()" (mousedown)="delete.onDeleteSelected()">
+          <button class="btn btn-sm btn-danger" [disabled]="!selection.hasValue()" (mousedown)="delete.onDeleteSelected()" type="button">
             <bi name="trash" />
             {{ 'DELETE' | transloco }}
           </button>
@@ -42,10 +43,10 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
 
         <div [ngbTooltip]="!selection.hasValue() ? ('HOME_PRINTER_SELECT' | transloco) : undefined">
           <button
-            type="button"
             class="btn btn-sm btn-secondary"
             [class.disabled]="!selection.hasValue()"
             (mousedown)="onBatchUpdatePrinters()"
+            type="button"
           >
             <bi name="pencil-square" />
             {{ 'HOME_PRINTER_BATCH_UPDATE' | transloco }}
@@ -57,16 +58,16 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
 
       @if (table.dataSource(); as dataSource) {
         <div class="table-responsive">
-          <table ngb-table ngb-sort [hover]="true" [dataSource]="dataSource">
+          <table [hover]="true" [dataSource]="dataSource" ngb-table ngb-sort>
             <ng-container ngbColumnDef="select">
               <th *ngbHeaderCellDef ngb-header-cell>
                 <div class="form-check">
                   <input
                     class="form-check-input"
-                    type="checkbox"
-                    name="selectAll"
                     [checked]="selection.isAllSelected()"
                     (change)="selection.toggleAll()"
+                    type="checkbox"
+                    name="selectAll"
                   />
                 </div>
               </th>
@@ -74,43 +75,63 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
                 <div class="form-check">
                   <input
                     class="form-check-input"
-                    type="checkbox"
-                    name="select"
                     [checked]="selection.isSelected(selectable)"
                     (change)="selection.toggle(selectable, !selection.isSelected(selectable))"
+                    type="checkbox"
+                    name="select"
                   />
                 </div>
               </td>
             </ng-container>
 
             <ng-container ngbColumnDef="name">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'NAME' | transloco }}
+              </th>
               <td *ngbCellDef="let printer" ngb-cell>{{ printer.name }}</td>
             </ng-container>
 
             <ng-container ngbColumnDef="fontScale">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_FONT_SCALE' | transloco }}</th>
-              <td *ngbCellDef="let printer" ngb-cell>{{ printer.fontScale }}</td>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'HOME_PRINTER_FONT_SCALE' | transloco }}
+              </th>
+              <td *ngbCellDef="let printer" ngb-cell>
+                {{ printer.fontScale }}
+              </td>
             </ng-container>
 
             <ng-container ngbColumnDef="font">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PRINTER_FONT' | transloco }}</th>
-              <td *ngbCellDef="let printer" ngb-cell>{{ printer.font.description }}</td>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'HOME_PRINTER_FONT' | transloco }}
+              </th>
+              <td *ngbCellDef="let printer" ngb-cell>
+                {{ printer.font.description }}
+              </td>
             </ng-container>
 
             <ng-container ngbColumnDef="bonWidth">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_WIDTH' | transloco }}</th>
+              <th class="ws-nowrap" *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'HOME_PRINTER_BON_WIDTH' | transloco }}
+              </th>
               <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonWidth }}</td>
             </ng-container>
 
             <ng-container ngbColumnDef="bonPadding">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_PADDING' | transloco }}</th>
-              <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonPadding }}</td>
+              <th class="ws-nowrap" *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'HOME_PRINTER_BON_PADDING' | transloco }}
+              </th>
+              <td *ngbCellDef="let printer" ngb-cell>
+                {{ printer.bonPadding }}
+              </td>
             </ng-container>
 
             <ng-container ngbColumnDef="bonPaddingTop">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header class="ws-nowrap">{{ 'HOME_PRINTER_BON_PADDING_TOP' | transloco }}</th>
-              <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonPaddingTop }}</td>
+              <th class="ws-nowrap" *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'HOME_PRINTER_BON_PADDING_TOP' | transloco }}
+              </th>
+              <td *ngbCellDef="let printer" ngb-cell>
+                {{ printer.bonPaddingTop }}
+              </td>
             </ng-container>
 
             <ng-container ngbColumnDef="actions">
@@ -119,15 +140,15 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
               </th>
               <td *ngbCellDef="let printer" ngb-cell>
                 <app-action-dropdown>
-                  <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../' + printer.id">
+                  <a class="d-flex gap-2 align-items-center" [routerLink]="'../' + printer.id" type="button" ngbDropdownItem>
                     <bi name="pencil-square" />
                     {{ 'EDIT' | transloco }}
                   </a>
                   <button
-                    type="button"
                     class="d-flex gap-2 align-items-center text-danger-emphasis"
-                    ngbDropdownItem
                     (click)="delete.onDelete(printer.id)"
+                    type="button"
+                    ngbDropdownItem
                   >
                     <bi name="trash" />
                     {{ 'DELETE' | transloco }}
@@ -137,7 +158,7 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
             </ng-container>
 
             <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
-            <tr *ngbRowDef="let printer; columns: table.columnsToDisplay()" ngb-row [routerLink]="'../' + printer.id"></tr>
+            <tr *ngbRowDef="let printer; columns: table.columnsToDisplay()" [routerLink]="'../' + printer.id" ngb-row></tr>
           </table>
         </div>
       }
@@ -192,7 +213,10 @@ export class PrintersComponent {
   onBatchUpdatePrinters(): void {
     this.#lumber.info('onBatchUpdatePrinters', 'Opening settings question dialog');
     this.#lumber.info('onBatchUpdatePrinters', 'Selected entities:', this.selection.selection().selected);
-    const modalRef = this.#modal.open(PrintersBatchUpdateModal, {ariaLabelledBy: 'modal-printer-batch-update-title', size: 'lg'});
+    const modalRef = this.#modal.open(PrintersBatchUpdateModal, {
+      ariaLabelledBy: 'modal-printer-batch-update-title',
+      size: 'lg',
+    });
 
     void modalRef.result
       .then((result?: PrinterBatchUpdateDto) => {

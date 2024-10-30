@@ -2,19 +2,24 @@ import {AsyncPipe, Location} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+
+import {Subject, combineLatest, filter, map, merge, share, shareReplay, switchMap, take} from 'rxjs';
+
 import {TranslocoPipe} from '@jsverse/transloco';
-
-import {DuplicateWaiterResponse, IdAndNameResponse} from '@shared/waiterrobot-backend';
-
 import {notNullAndUndefined} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {StopPropagationDirective} from 'dfx-helper';
 
-import {combineLatest, filter, map, merge, share, shareReplay, Subject, switchMap, take} from 'rxjs';
+import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+
+import {BackendType} from '@shared/api';
+
 import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
 
-type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean; selectedAsMain: boolean};
+type DuplicateWaiterWithSelected = BackendType['IdAndNameResponse'] & {
+  selectedToMerge: boolean;
+  selectedAsMain: boolean;
+};
 
 @Component({
   template: `
@@ -24,10 +29,10 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
 
         <scrollable-toolbar>
           <div>
-            <a routerLink="../../" class="btn btn-sm btn-outline-secondary">{{ 'GO_BACK' | transloco }}</a>
+            <a class="btn btn-sm btn-outline-secondary" routerLink="../../">{{ 'GO_BACK' | transloco }}</a>
           </div>
           <div>
-            <button type="button" class="btn btn-sm btn-success" [disabled]="!vm.minTwo" (mousedown)="merge()">
+            <button class="btn btn-sm btn-success" [disabled]="!vm.minTwo" (mousedown)="merge()" type="button">
               {{ 'SAVE' | transloco }}
             </button>
           </div>
@@ -39,25 +44,25 @@ type DuplicateWaiterWithSelected = IdAndNameResponse & {selectedToMerge: boolean
           <div class="list-group">
             @for (duplicateWaiter of vm.duplicateWaitersToMerge; track duplicateWaiter.id) {
               <button
-                type="button"
                 class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
                 [class.active]="duplicateWaiter.selectedAsMain"
                 (mousedown)="selectMainDuplicateWaiter(duplicateWaiter)"
+                type="button"
               >
                 <div>
                   @if (!duplicateWaiter.selectedAsMain) {
                     <input
                       class="form-check-input me-1"
-                      type="checkbox"
-                      stopPropagation
                       [checked]="duplicateWaiter.selectedToMerge"
                       (mousedown)="selectDuplicateWaiterToMerge(duplicateWaiter)"
+                      type="checkbox"
+                      stopPropagation
                     />
                   }
                   {{ duplicateWaiter.name }}
                 </div>
                 @if (ignoreFeature) {
-                  <button type="button" class="btn btn-sm btn-warning" stopPropagation>
+                  <button class="btn btn-sm btn-warning" type="button" stopPropagation>
                     <bi name="person-x-fill" />
                     {{ 'IGNORE' | transloco }}
                   </button>
@@ -91,7 +96,7 @@ export class DuplicateOrganisationWaitersEditComponent {
     filter(notNullAndUndefined),
     map((name) => name.replace('"', '').replace('"', '')),
     switchMap((name) => this.allDuplicateWaiters$.pipe(map((waiters) => waiters.find((it) => it.name === name)))),
-    filter((waiter): waiter is DuplicateWaiterResponse => {
+    filter((waiter): waiter is BackendType['DuplicateWaiterResponse'] => {
       if (!waiter) {
         this.#location.back();
         return false;

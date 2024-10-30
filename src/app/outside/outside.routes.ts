@@ -5,7 +5,10 @@ export const ROUTES: Routes = [
     path: '',
     loadComponent: () => import('./outside.layout').then((c) => c.OutsideLayout),
     children: [
-      {path: 'login', loadChildren: () => import('./login/login.routes').then((m) => m.ROUTES)},
+      {
+        path: 'login',
+        loadChildren: () => import('./login/login.routes').then((m) => m.ROUTES),
+      },
       {
         path: 'ml',
         loadChildren: () => import('./mobile-link/mobile-link.routes').then((m) => m.ROUTES),

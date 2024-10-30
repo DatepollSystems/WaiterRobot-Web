@@ -1,37 +1,42 @@
-import {HttpClient} from '@angular/common/http';
-import {computed, inject, Injectable, signal} from '@angular/core';
+import {Injectable, computed, inject, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 
 import {BehaviorSubject, catchError, combineLatest, filter, map, merge, of, switchMap} from 'rxjs';
 
-import {connect} from 'ngxtension/connect';
-import {GetEventOrLocationResponse} from '@shared/waiterrobot-backend';
-
 import {n_fromStorage, notNullAndUndefined, st_set} from 'dfts-helper';
+import {connect} from 'ngxtension/connect';
 
-import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
+import {BackendType, injectAPI} from '@shared/api';
+
+import {SelectedOrganisationService} from './selected-organisation.service';
 
 interface SelectedEventState {
   status: 'UNSET' | 'LOADING' | 'LOADED';
   selectedId?: number;
-  selected?: GetEventOrLocationResponse;
+  selected?: BackendType['GetEventOrLocationResponse'];
 }
 
 export const selectedEventRouteParamKey = 'seId';
 
 @Injectable({providedIn: 'root'})
 export class SelectedEventService {
-  private httpClient = inject(HttpClient);
+  #api = injectAPI();
   private selectedOrganisationService = inject(SelectedOrganisationService);
 
   private selectedIdChange = new BehaviorSubject<number | undefined>(n_fromStorage(selectedEventRouteParamKey));
 
   private selectedLoaded$ = this.selectedIdChange.pipe(
     filter(notNullAndUndefined),
-    switchMap((eventId) =>
+    switchMap((id) =>
       combineLatest([
         this.selectedOrganisationService.selectedId$,
-        this.httpClient.get<GetEventOrLocationResponse>(`/config/event/${eventId}`),
+        this.#api.get('/v1/config/event/{id}', {
+          params: {
+            path: {
+              id,
+            },
+          },
+        }),
       ]),
     ),
     map(([selectedOrganisationId, selectedEvent]) => {
@@ -58,7 +63,12 @@ export class SelectedEventService {
             status: selectedId ? ('LOADING' as const) : ('UNSET' as const),
           })),
         ),
-        this.selectedLoaded$.pipe(map((selected) => ({selected, status: selected ? ('LOADED' as const) : ('UNSET' as const)}))),
+        this.selectedLoaded$.pipe(
+          map((selected) => ({
+            selected,
+            status: selected ? ('LOADED' as const) : ('UNSET' as const),
+          })),
+        ),
       ),
     );
   }
@@ -75,5 +85,4 @@ export class SelectedEventService {
   selectedId$ = toObservable(this.selectedId);
   selectedIdNotNull$ = this.selectedId$.pipe(filter(notNullAndUndefined));
   selected$ = toObservable(this.selected);
-  selectedNotNull$ = this.selected$.pipe(filter(notNullAndUndefined));
 }

@@ -1,70 +1,79 @@
-import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
-import {
-  CreateOrganisationDto,
-  GetOrganisationResponse,
-  IdResponse,
-  UpdateEventOrLocationDto,
-  UpdateOrganisationDto,
-} from '@shared/waiterrobot-backend';
+import {BehaviorSubject, EMPTY, catchError, shareReplay, switchMap, tap} from 'rxjs';
 
-import {s_from} from 'dfts-helper';
-import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
-
-import {BehaviorSubject, catchError, EMPTY, Observable, shareReplay, switchMap, tap} from 'rxjs';
+import {BackendType, injectAPI} from '@shared/api';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/custom-types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrganisationsService
-  implements
-    HasGetAll<GetOrganisationResponse>,
-    HasGetSingle<GetOrganisationResponse>,
-    HasCreateWithIdResponse<CreateOrganisationDto>,
-    HasUpdateWithIdResponse<UpdateOrganisationDto>,
-    HasDelete<GetOrganisationResponse>
+  implements HasCreateWithIdResponse<BackendType['CreateOrganisationDto']>, HasUpdateWithIdResponse<BackendType['UpdateOrganisationDto']>
 {
-  private url = '/config/organisation';
+  #api = injectAPI();
 
-  private httpClient = inject(HttpClient);
-
-  create$(dto: CreateOrganisationDto): Observable<IdResponse> {
-    return this.httpClient.post<IdResponse>(this.url, dto).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
-    );
+  create$(body: BackendType['CreateOrganisationDto']) {
+    return this.#api
+      .post('/v1/config/organisation', {
+        body,
+      })
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
   }
 
-  update$(dto: UpdateEventOrLocationDto): Observable<IdResponse> {
-    return this.httpClient.put<IdResponse>(this.url, dto).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
-    );
+  update$(body: BackendType['UpdateOrganisationDto']) {
+    return this.#api
+      .put('/v1/config/organisation', {
+        body,
+      })
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
   }
 
-  delete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
-    );
+  delete$(id: number) {
+    return this.#api
+      .delete('/v1/config/organisation/{id}', {
+        params: {
+          path: {
+            id,
+          },
+        },
+      })
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
   }
 
   triggerGet$ = new BehaviorSubject(true);
 
-  getAll$(): Observable<GetOrganisationResponse[]> {
+  getAll$() {
     return this.triggerGet$.pipe(
-      switchMap(() => this.httpClient.get<GetOrganisationResponse[]>(this.url)),
+      switchMap(() => this.#api.get('/v1/config/organisation')),
       shareReplay(1),
       catchError(() => EMPTY),
     );
   }
 
-  getSingle$(id: number): Observable<GetOrganisationResponse> {
-    return this.triggerGet$.pipe(switchMap(() => this.httpClient.get<GetOrganisationResponse>(`${this.url}/${id}`)));
+  getSingle$(id: number) {
+    return this.triggerGet$.pipe(
+      switchMap(() =>
+        this.#api.get('/v1/config/organisation/{id}', {
+          params: {
+            path: {
+              id,
+            },
+          },
+        }),
+      ),
+    );
   }
 }

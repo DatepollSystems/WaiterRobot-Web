@@ -1,16 +1,17 @@
 import {Location} from '@angular/common';
-import {inject, Signal} from '@angular/core';
+import {Signal, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {FormBuilder, FormGroup, NonNullableFormBuilder} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AlphabeticIdResponse, IdResponse} from '@shared/waiterrobot-backend';
+
+import {Observable, distinctUntilChanged, map} from 'rxjs';
 
 import {IHasID, s_from} from 'dfts-helper';
 
-import {distinctUntilChanged, map, Observable} from 'rxjs';
+import {BackendType} from '@shared/api';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services';
 
 import {NotificationService} from './notifications/notification.service';
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from './services/services.interface';
 
 export function injectIsValid(form: FormGroup): Signal<boolean> {
   return toSignal(
@@ -48,7 +49,7 @@ export function injectOnSubmit<CreateDTOType, UpdateDTOType extends IHasID<Updat
   return (method: 'CREATE' | 'UPDATE', dto: CreateDTOType | UpdateDTOType) => {
     console.info(`submit - method: "${method}"; Continuous creation check enabled: "${s_from(!!continuousCreation)}"`, dto);
 
-    let obs$: Observable<IdResponse | AlphabeticIdResponse>;
+    let obs$: Observable<BackendType['IdResponse'] | BackendType['AlphabeticIdResponse']>;
 
     switch (method) {
       case 'CREATE':

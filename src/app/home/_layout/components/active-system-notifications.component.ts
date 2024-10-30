@@ -1,6 +1,8 @@
-import {booleanAttribute, Component, inject, input} from '@angular/core';
+import {Component, booleanAttribute, inject, input} from '@angular/core';
+
 import {TranslocoPipe} from '@jsverse/transloco';
 import {BiComponent} from 'dfx-bootstrap-icons';
+
 import {ActiveSystemNotificationsService} from '../services/active-system-notifications.service';
 import {AppSystemNotificationAlertComponent} from './system-notification-alert.component';
 
@@ -45,13 +47,13 @@ export class ActiveSystemNotificationsComponent {
               activeSystemNotificationsService.getFilteredSystemNotifications().length > 1
             ) {
               <small>
-                <bi name="arrows-collapse" class="me-2" />
+                <bi class="me-2" name="arrows-collapse" />
                 <a (mousedown)="activeSystemNotificationsService.ignoreAll()">{{ 'HIDE_ALL' | transloco }}</a>
               </small>
             }
             @if (activeSystemNotificationsService.ignoredSystemNotifications().length > 0) {
               <small>
-                <bi name="arrows-expand" class="me-2" />
+                <bi class="me-2" name="arrows-expand" />
                 <a (mousedown)="activeSystemNotificationsService.resetIgnore()">
                   {{ activeSystemNotificationsService.ignoredSystemNotifications().length }}x Nachricht(en) anzeigen
                 </a>
@@ -78,13 +80,13 @@ export class ActiveSystemNotificationsDesktopComponent {
         activeSystemNotificationsService.ignoredSystemNotifications().length === 0 &&
         activeSystemNotificationsService.getFilteredSystemNotifications().length > 0
       ) {
-        <button type="button" class="btn d-inline-flex" (click)="activeSystemNotificationsService.ignoreAll()">
+        <button class="btn d-inline-flex" (click)="activeSystemNotificationsService.ignoreAll()" type="button">
           <bi name="bell-fill" />
           <span class="visually-hidden">{{ 'HIDE_ALL' | transloco }}</span>
         </button>
       }
       @if (activeSystemNotificationsService.ignoredSystemNotifications().length > 0) {
-        <button type="button" class="btn d-inline-flex" (click)="activeSystemNotificationsService.resetIgnore()">
+        <button class="btn d-inline-flex" (click)="activeSystemNotificationsService.resetIgnore()" type="button">
           <bi name="bell-slash-fill" />
           <span class="visually-hidden"
             >{{ activeSystemNotificationsService.ignoredSystemNotifications().length }}x Nachricht(en) anzeigen</span

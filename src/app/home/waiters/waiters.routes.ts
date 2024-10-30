@@ -11,7 +11,10 @@ export const WAITER_ROUTES: Routes = [
       },
     ],
   },
-  {path: 'waiter/:id', loadComponent: () => import('./waiter-edit/waiter-edit.component').then((c) => c.WaiterEditComponent)},
+  {
+    path: 'waiter/:id',
+    loadComponent: () => import('./waiter-edit/waiter-edit.component').then((c) => c.WaiterEditComponent),
+  },
   {path: '', pathMatch: 'full', redirectTo: 'all'},
 ];
 

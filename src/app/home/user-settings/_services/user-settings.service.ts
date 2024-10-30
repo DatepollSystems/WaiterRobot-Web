@@ -1,19 +1,18 @@
-import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
-
-import {UpdateEmailDto, UpdatePasswordDto} from '@shared/waiterrobot-backend';
+import {Injectable} from '@angular/core';
 
 import {Observable} from 'rxjs';
 
+import {BackendType, injectAPI} from '@shared/api';
+
 @Injectable({providedIn: 'root'})
 export class UserSettingsService {
-  #httpService = inject(HttpClient);
+  #api = injectAPI();
 
-  public changeEmail(dto: UpdateEmailDto): Observable<unknown> {
-    return this.#httpService.put('/user/email', dto);
+  public changeEmail(body: BackendType['UpdateEmailDto']): Observable<unknown> {
+    return this.#api.put('/v1/user/email', {body});
   }
 
-  public changePassword(dto: UpdatePasswordDto): Observable<unknown> {
-    return this.#httpService.put('/user/password', dto);
+  public changePassword(body: BackendType['UpdatePasswordDto']): Observable<unknown> {
+    return this.#api.put('/v1/user/password', {body});
   }
 }

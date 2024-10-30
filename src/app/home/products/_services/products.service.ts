@@ -1,43 +1,23 @@
-import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
-import {
-  CreateProductDto,
-  EntityOrderDto,
-  GetProductGroupResponse,
-  GetProductMaxResponse,
-  GetProductResponse,
-  IdResponse,
-  UpdateProductDto,
-} from '@shared/waiterrobot-backend';
+import {BehaviorSubject, Observable, combineLatest, map, switchMap, tap} from 'rxjs';
 
-import {s_from} from 'dfts-helper';
-import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from 'dfx-helper';
-
-import {BehaviorSubject, combineLatest, map, Observable, switchMap, tap} from 'rxjs';
-import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
+import {BackendType, injectAPI} from '@shared/api';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/custom-types';
+import {SelectedEventService} from '@shared/services/selected-event.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService
-  implements
-    HasGetAll<GetProductMaxResponse>,
-    HasGetSingle<GetProductMaxResponse>,
-    HasCreateWithIdResponse<CreateProductDto>,
-    HasUpdateWithIdResponse<UpdateProductDto>,
-    HasGetByParent<GetProductMaxResponse, GetProductGroupResponse>,
-    HasDelete<GetProductResponse>
+  implements HasCreateWithIdResponse<BackendType['CreateProductDto']>, HasUpdateWithIdResponse<BackendType['UpdateProductDto']>
 {
-  url = '/config/product';
-
-  private httpClient = inject(HttpClient);
-  private selectedEventService = inject(SelectedEventService);
+  #api = injectAPI();
+  #selectedEventService = inject(SelectedEventService);
 
   triggerGet$ = new BehaviorSubject(true);
 
-  #sortByPositionAndName(a: GetProductMaxResponse, b: GetProductMaxResponse) {
+  #sortByPositionAndName(a: BackendType['GetProductMaxResponse'], b: BackendType['GetProductMaxResponse']) {
     // Default to a high value if position is undefined
     const groupPositionA = a.group.position ?? 100000;
     const groupPositionB = b.group.position ?? 100000;
@@ -67,50 +47,59 @@ export class ProductsService
     return a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase());
   }
 
-  getAll$(): Observable<GetProductMaxResponse[]> {
-    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
-      switchMap(([eventId]) => this.httpClient.get<GetProductMaxResponse[]>(this.url, {params: {eventId}})),
+  getAll$() {
+    return combineLatest([this.#selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
+      switchMap(([eventId]) =>
+        this.#api.get('/v1/config/product', {
+          params: {
+            query: {
+              eventId,
+            },
+          },
+        }),
+      ),
       map((products) => products.sort(this.#sortByPositionAndName)),
     );
   }
 
-  getByParent$(groupId: number): Observable<GetProductMaxResponse[]> {
+  getByParent$(groupId: number) {
     return this.triggerGet$.pipe(
-      switchMap(() => this.httpClient.get<GetProductMaxResponse[]>(this.url, {params: {groupId}})),
+      switchMap(() =>
+        this.#api.get('/v1/config/product', {
+          params: {
+            query: {
+              groupId,
+            },
+          },
+        }),
+      ),
       map((products) => products.sort(this.#sortByPositionAndName)),
     );
   }
 
-  getSingle$(id: number): Observable<GetProductMaxResponse> {
-    return this.httpClient.get<GetProductMaxResponse>(`${this.url}/${s_from(id)}`);
+  getSingle$(id: number) {
+    return this.#api.get('/v1/config/product/{id}', {
+      params: {
+        path: {
+          id,
+        },
+      },
+    });
   }
 
-  create$(dto: CreateProductDto): Observable<IdResponse> {
-    return this.httpClient.post<IdResponse>(this.url, dto).pipe(
+  create$(body: BackendType['CreateProductDto']) {
+    return this.#api.post('/v1/config/product', {body}).pipe(
       tap(() => {
         this.triggerGet$.next(true);
       }),
     );
   }
 
-  update$(dto: UpdateProductDto): Observable<IdResponse> {
-    return this.httpClient.put<IdResponse>(this.url, dto).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
-    );
-  }
-
-  toggleSoldOut$(dto: GetProductMaxResponse, soldOut?: boolean) {
-    return this.httpClient
-      .put<IdResponse>(this.url, {
-        ...dto,
-        soldOut: soldOut ?? !dto.soldOut,
-        allergenIds: dto.allergens.map((it) => it.id),
-        groupId: dto.group.id,
-        printerId: dto.printer.id,
-        resetOrderedProducts: false,
-      } satisfies UpdateProductDto)
+  update$(body: BackendType['UpdateProductDto']) {
+    return this.#api
+      .put('/v1/config/product', {
+        body,
+      })
       .pipe(
         tap(() => {
           this.triggerGet$.next(true);
@@ -118,18 +107,50 @@ export class ProductsService
       );
   }
 
-  delete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${s_from(id)}`);
+  toggleSoldOut$(dto: BackendType['GetProductMaxResponse'], soldOut?: boolean) {
+    return this.#api
+      .put('/v1/config/product', {
+        body: {
+          ...dto,
+          soldOut: soldOut ?? !dto.soldOut,
+          allergenIds: dto.allergens.map((it) => it.id),
+          groupId: dto.group.id,
+          printerId: dto.printer.id,
+          resetOrderedProducts: false,
+        },
+      })
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
+  }
+
+  delete$(id: number) {
+    return this.#api.delete('/v1/config/product/{id}', {
+      params: {
+        path: {id},
+      },
+    });
   }
 
   unDelete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${s_from(id)}/undo`);
+    return this.#api.delete('/v1/config/product/{id}/undo', {
+      params: {
+        path: {id},
+      },
+    });
   }
 
-  order$(groupId: number, dto: EntityOrderDto[]): Observable<IdResponse[]> {
-    return this.httpClient
-      .patch<IdResponse[]>(`${this.url}/order`, dto, {
-        params: {groupId},
+  order$(groupId: number, body: BackendType['EntityOrderDto'][]) {
+    return this.#api
+      .patch('/v1/config/product/order', {
+        body,
+        params: {
+          query: {
+            groupId,
+          },
+        },
       })
       .pipe(
         tap(() => {

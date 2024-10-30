@@ -1,5 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
+
 import tinycolor from 'tinycolor2';
+
 import {Theme} from '@shared/services/theme.service';
 
 @Pipe({

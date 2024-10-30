@@ -1,34 +1,37 @@
 import {SelectionModel} from '@angular/cdk/collections';
 import {ChangeDetectionStrategy, Component, inject, signal, viewChild} from '@angular/core';
+
+import {EMPTY, catchError, concat, debounceTime, map, of, pipe, switchMap, tap} from 'rxjs';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {s_imploder} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxPaginationModule, DfxTableModule, NgbPaginator} from 'dfx-bootstrap-table';
+import {derivedFrom} from 'ngxtension/derived-from';
+
 import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
 import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {injectTableSelect} from '@home-shared/list';
-import {injectPagination} from '@home-shared/services/pagination';
-import {TranslocoPipe} from '@jsverse/transloco';
 
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {BackendType} from '@shared/api';
+import {injectPagination} from '@shared/api/pagination';
 import {NotificationService} from '@shared/notifications/notification.service';
-
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {GetTableGroupResponse, GetTableMinResponse} from '@shared/waiterrobot-backend';
-import {s_imploder} from 'dfts-helper';
 
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxPaginationModule, DfxTableModule, NgbPaginator} from 'dfx-bootstrap-table';
-import {derivedFrom} from 'ngxtension/derived-from';
-import {catchError, concat, debounceTime, EMPTY, map, of, pipe, switchMap, tap} from 'rxjs';
 import {TableGroupsService} from '../tables/_services/table-groups.service';
 import {TablesService} from '../tables/_services/tables.service';
+import {GenericGroupBinType, sortBinTypes} from './utils';
 
-type BinType = (GetTableMinResponse | GetTableGroupResponse) & {type: 'ITEM' | 'GROUP'; groupId?: number; groupName?: string; name: string};
+type BinType = (BackendType['GetTableMinResponse'] | BackendType['GetTableGroupResponse']) & GenericGroupBinType;
 
 @Component({
   template: `
     <div class="d-flex flex-column gap-3">
       <scrollable-toolbar>
         <div [ngbTooltip]="!selection.hasValue() ? ('HOME_TABLE_SELECT_REQUIRED' | transloco) : undefined">
-          <button type="button" class="btn btn-sm btn-primary" [class.disabled]="!selection.hasValue()" (mousedown)="undelete()">
+          <button class="btn btn-sm btn-primary" [class.disabled]="!selection.hasValue()" (mousedown)="undelete()" type="button">
             <bi name="arrow-counterclockwise" />
             {{ 'RECOVER' | transloco }}
           </button>
@@ -37,16 +40,16 @@ type BinType = (GetTableMinResponse | GetTableGroupResponse) & {type: 'ITEM' | '
 
       @if (dataSource(); as dataSource) {
         <div class="table-responsive">
-          <table ngb-table [hover]="true" [dataSource]="dataSource">
+          <table [hover]="true" [dataSource]="dataSource" ngb-table>
             <ng-container ngbColumnDef="select">
               <th *ngbHeaderCellDef ngb-header-cell style="width: 20px">
                 <div class="form-check">
                   <input
                     class="form-check-input"
-                    type="checkbox"
-                    name="checked"
                     [checked]="selection.isAllSelected()"
                     (change)="selection.toggleAll()"
+                    type="checkbox"
+                    name="checked"
                   />
                 </div>
               </th>
@@ -55,10 +58,10 @@ type BinType = (GetTableMinResponse | GetTableGroupResponse) & {type: 'ITEM' | '
                   <div class="form-check">
                     <input
                       class="form-check-input"
-                      type="checkbox"
-                      name="checked"
                       [checked]="selection.isSelected(selectable)"
                       (change)="toggle(selectable, !selection.isSelected(selectable))"
+                      type="checkbox"
+                      name="checked"
                     />
                   </div>
                 </div>
@@ -66,7 +69,9 @@ type BinType = (GetTableMinResponse | GetTableGroupResponse) & {type: 'ITEM' | '
             </ng-container>
 
             <ng-container ngbColumnDef="name">
-              <th *ngbHeaderCellDef ngb-header-cell>{{ 'NAME' | transloco }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell>
+                {{ 'NAME' | transloco }}
+              </th>
               <td *ngbCellDef="let binItem" ngb-cell>
                 <div [class.ps-3]="binItem.type === 'ITEM'">
                   <app-text-with-color-indicator [color]="binItem.color">
@@ -85,15 +90,17 @@ type BinType = (GetTableMinResponse | GetTableGroupResponse) & {type: 'ITEM' | '
       <app-progress-bar [show]="pagination.loading()" />
 
       @if (!pagination.loading() && dataSource().length < 1) {
-        <div class="w-100 text-center mt-2">{{ 'RECYCLE_BIN_EMPTY' | transloco }}</div>
+        <div class="w-100 text-center mt-2">
+          {{ 'RECYCLE_BIN_EMPTY' | transloco }}
+        </div>
       }
 
       <ngb-paginator
-        showFirstLastButtons
         [length]="pagination.totalElements()"
         [pageSize]="pagination.params().size"
         [pageSizeOptions]="[5, 10, 20]"
         [pageIndex]="pagination.params().page"
+        showFirstLastButtons
       />
     </div>
   `,
@@ -103,8 +110,8 @@ type BinType = (GetTableMinResponse | GetTableGroupResponse) & {type: 'ITEM' | '
   imports: [
     TranslocoPipe,
     DfxTableModule,
-    NgbTooltip,
     DfxPaginationModule,
+    NgbTooltip,
     BiComponent,
     ScrollableToolbarComponent,
     AppTextWithColorIndicatorComponent,
@@ -230,24 +237,4 @@ export class TableGroupsRecycleBinComponent {
       throw 'Unknown bin type';
     }
   }
-}
-
-function sortBinTypes(a: BinType, b: BinType): number {
-  // Compare groups and items by type first
-  if (a.type !== b.type) {
-    return a.type === 'GROUP' ? -1 : 1; // Groups come before items
-  }
-
-  // If both are groups or both are items, sort by name
-  const nameComparison = a.name.localeCompare(b.name);
-  if (nameComparison !== 0) {
-    return nameComparison;
-  }
-
-  // If names are the same and both are items, sort by groupId
-  if (a.type === 'ITEM' && b.type === 'ITEM') {
-    return (a.groupId ?? 0) - (b.groupId ?? 0);
-  }
-
-  return 0;
 }

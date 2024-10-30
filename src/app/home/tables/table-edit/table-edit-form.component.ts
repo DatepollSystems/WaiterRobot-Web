@@ -1,19 +1,20 @@
 import {AsyncPipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, inject, Input, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, inject, input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
-import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
-import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
-import {injectIsValid} from '@shared/form';
-import {CreateTableDto, GetTableWithGroupResponse, UpdateTableDto} from '@shared/waiterrobot-backend';
+import {debounceTime, filter, map, switchMap, tap} from 'rxjs';
 
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {HasNumberIDAndName} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {debounceTime, filter, map, switchMap, tap} from 'rxjs';
+import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
+
+import {BackendType} from '@shared/api';
+import {injectIsValid} from '@shared/form';
 
 import {TablesService} from '../_services/tables.service';
 
@@ -21,11 +22,11 @@ import {TablesService} from '../_services/tables.service';
   template: `
     @if (isValid()) {}
 
-    <form #formRef class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="submit()">
+    <form class="d-flex flex-column gap-3" #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-lg-row gap-4">
         <div class="form-group flex-fill">
           <label for="number">{{ 'NUMBER' | transloco }}</label>
-          <input formControlName="number" class="form-control" type="number" id="number" [placeholder]="'NUMBER' | transloco" />
+          <input class="form-control" id="number" [placeholder]="'NUMBER' | transloco" formControlName="number" type="number" />
 
           @if (form.controls.number.errors?.required) {
             <small class="text-danger">
@@ -42,7 +43,7 @@ import {TablesService} from '../_services/tables.service';
 
         <div class="form-group flex-fill">
           <label for="seats">{{ 'SEATS' | transloco }}</label>
-          <input formControlName="seats" class="form-control" type="number" id="seats" [placeholder]="'SEATS' | transloco" />
+          <input class="form-control" id="seats" [placeholder]="'SEATS' | transloco" formControlName="seats" type="number" />
           @if (form.controls.seats.invalid) {
             <small class="text-danger">
               {{ 'HOME_TABLES_SEATS_INCORRECT' | transloco }}
@@ -61,16 +62,18 @@ import {TablesService} from '../_services/tables.service';
               <a
                 class="input-group-text"
                 id="selectGroup-addon"
-                placement="bottom"
                 [routerLink]="'../../' + form.controls.groupId.value"
                 [ngbTooltip]="('HOME_TABLE_GROUP' | transloco) + ('OPEN_2' | transloco)"
+                placement="bottom"
               >
                 <bi name="diagram-3" />
               </a>
             }
 
             <select class="form-select" id="selectGroup" formControlName="groupId">
-              <option disabled [value]="-1">{{ 'HOME_TABLES_GROUPS_DEFAULT' | transloco }}</option>
+              <option [value]="-1" disabled>
+                {{ 'HOME_TABLES_GROUPS_DEFAULT' | transloco }}
+              </option>
               @for (group of tableGroups(); track group.id) {
                 <option [value]="group.id">
                   {{ group.name }}
@@ -95,7 +98,7 @@ import {TablesService} from '../_services/tables.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, AsyncPipe, TranslocoPipe, BiComponent, AppModelEditSaveBtn, RouterLink, NgbTooltip],
 })
-export class TableEditFormComponent extends AbstractModelEditFormComponent<CreateTableDto, UpdateTableDto> {
+export class TableEditFormComponent extends AbstractModelEditFormComponent<BackendType['CreateTableDto'], BackendType['UpdateTableDto']> {
   tablesService = inject(TablesService);
 
   override form = this.fb.nonNullable.group({
@@ -129,9 +132,9 @@ export class TableEditFormComponent extends AbstractModelEditFormComponent<Creat
     }),
   );
 
-  _table?: GetTableWithGroupResponse;
+  _table?: BackendType['GetTableWithGroupResponse'];
   @Input()
-  set table(it: GetTableWithGroupResponse | 'CREATE') {
+  set table(it: BackendType['GetTableWithGroupResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;

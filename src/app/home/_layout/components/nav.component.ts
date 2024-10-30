@@ -1,28 +1,33 @@
 import {NgOptimizedImage} from '@angular/common';
 import {Component, computed, inject} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
-import {MyUserService} from '@home-shared/services/user/my-user.service';
+
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {AppLogoWithTextComponent} from '@outside-shared/app-logo-with-text.component';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxCutPipe} from 'dfx-helper';
-import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
-import {SelectedOrganisationService} from '../../_admin/organisations/_services/selected-organisation.service';
+
+import {MyUserService} from '@home-shared/services/user/my-user.service';
+
+import {AppLogoWithTextComponent} from '@outside-shared/app-logo-with-text.component';
+
+import {SelectedEventService} from '@shared/services/selected-event.service';
+import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
+
 import {ProfileMenuComponent} from './profile-menu.component';
 import {SwitcherModalComponent} from './switcher.component';
 
 @Component({
   template: `
     <div class="d-flex flex-column gap-3 pb-3 mb-3 border-bottom">
-      <a routerLink="/" class="link-body-emphasis text-decoration-none">
+      <a class="link-body-emphasis text-decoration-none" routerLink="/">
         <app-logo-with-text logoSize="30" textHeight="12" textWidthScale="0.5" />
       </a>
       <button
-        type="button"
         class="btn switcher d-flex justify-content-between align-items-center"
-        style="border-color: #cccccc; border-width: 1px;"
         (mousedown)="openSwitcher()"
+        type="button"
+        style="border-color: #cccccc; border-width: 1px;"
       >
         <div class="d-flex flex-column align-items-start" style="font-size: 0.875rem; width: 85%">
           @if (selectedOrganisation(); as organisation) {
@@ -41,8 +46,8 @@ import {SwitcherModalComponent} from './switcher.component';
       <li class="mb-1">
         <a
           class="nav-heading d-inline-block rounded"
-          routerLinkActive="active"
           [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/tables'"
+          routerLinkActive="active"
         >
           <div class="d-inline-flex align-items-center gap-2 ">
             <bi name="columns-gap" />
@@ -52,9 +57,9 @@ import {SwitcherModalComponent} from './switcher.component';
         <ul class="nav-sub list-unstyled fw-normal pb-1 small">
           <li>
             <a
-              routerLinkActive="active"
               class="d-inline-block rounded"
               [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/table-groups'"
+              routerLinkActive="active"
               >{{ 'HOME_TABLE_GROUPS' | transloco }}</a
             >
           </li>
@@ -63,8 +68,8 @@ import {SwitcherModalComponent} from './switcher.component';
       <li class="mb-1">
         <a
           class="nav-heading d-inline-block rounded"
-          routerLinkActive="active"
           [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/products'"
+          routerLinkActive="active"
         >
           <div class="d-inline-flex align-items-center gap-2 ">
             <bi name="cup-straw" />
@@ -74,9 +79,9 @@ import {SwitcherModalComponent} from './switcher.component';
         <ul class="nav-sub list-unstyled fw-normal pb-1 small">
           <li>
             <a
-              routerLinkActive="active"
               class="d-inline-block rounded"
               [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/product-groups'"
+              routerLinkActive="active"
               >{{ 'HOME_PROD_GROUPS' | transloco }}</a
             >
           </li>
@@ -85,8 +90,8 @@ import {SwitcherModalComponent} from './switcher.component';
       <li class="mb-1">
         <a
           class="nav-heading d-inline-block rounded"
-          routerLinkActive="active"
           [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/waiters'"
+          routerLinkActive="active"
         >
           <div class="d-inline-flex align-items-center gap-2 ">
             <bi name="people" />
@@ -96,9 +101,9 @@ import {SwitcherModalComponent} from './switcher.component';
         <ul class="nav-sub list-unstyled fw-normal pb-1 small">
           <li>
             <a
-              routerLinkActive="active"
               class="d-inline-block rounded"
               [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/waiter-duplicates'"
+              routerLinkActive="active"
               >Duplikate</a
             >
           </li>
@@ -107,8 +112,8 @@ import {SwitcherModalComponent} from './switcher.component';
       <li class="mb-1">
         <a
           class="nav-heading d-inline-block rounded"
-          routerLinkActive="active"
           [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/printers/all'"
+          routerLinkActive="active"
         >
           <div class="d-inline-flex align-items-center gap-2 ">
             <bi name="printer" />
@@ -118,9 +123,9 @@ import {SwitcherModalComponent} from './switcher.component';
         <ul class="nav-sub list-unstyled fw-normal pb-1 small">
           <li>
             <a
-              routerLinkActive="active"
               class="d-inline-block rounded"
               [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/printers/mediators/all'"
+              routerLinkActive="active"
               >Mediators</a
             >
           </li>
@@ -129,8 +134,8 @@ import {SwitcherModalComponent} from './switcher.component';
       <li class="mb-1">
         <a
           class="nav-heading d-inline-block rounded"
-          routerLinkActive="active"
           [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/orders/all'"
+          routerLinkActive="active"
         >
           <div class="d-inline-flex align-items-center gap-2 ">
             <bi name="stack" />
@@ -141,8 +146,8 @@ import {SwitcherModalComponent} from './switcher.component';
       <li class="mb-1">
         <a
           class="nav-heading d-inline-block rounded"
-          routerLinkActive="active"
           [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/bills/all'"
+          routerLinkActive="active"
         >
           <div class="d-inline-flex align-items-center gap-2 ">
             <bi name="cash-coin" />
@@ -152,9 +157,9 @@ import {SwitcherModalComponent} from './switcher.component';
         <ul class="nav-sub list-unstyled fw-normal pb-1 small">
           <li>
             <a
-              routerLinkActive="active"
               class="d-inline-block rounded"
               [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/bills/reasons/all'"
+              routerLinkActive="active"
               >{{ 'HOME_BILL_UNPAID_REASON' | transloco }}</a
             >
           </li>
@@ -163,8 +168,8 @@ import {SwitcherModalComponent} from './switcher.component';
       <li class="mb-1">
         <a
           class="nav-heading d-inline-block rounded"
-          routerLinkActive="active"
           [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/statistics'"
+          routerLinkActive="active"
         >
           <div class="d-inline-flex align-items-center gap-2 ">
             <bi name="graph-up" />
@@ -176,8 +181,8 @@ import {SwitcherModalComponent} from './switcher.component';
       <li class="mb-1">
         <a
           class="nav-heading d-inline-block rounded"
-          routerLinkActive="active"
           [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/recycle-bin'"
+          routerLinkActive="active"
         >
           <div class="d-inline-flex align-items-center gap-2 ">
             <bi name="trash" />
@@ -188,14 +193,25 @@ import {SwitcherModalComponent} from './switcher.component';
       <li class="mb-1">
         <a
           class="nav-heading d-inline-block rounded"
-          routerLinkActive="active"
           [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/settings'"
+          [routerLinkActiveOptions]="{exact: true}"
+          routerLinkActive="active"
         >
           <div class="d-inline-flex align-items-center gap-2 ">
             <bi name="gear" />
             {{ 'SETTINGS' | transloco }}
           </div>
         </a>
+        <ul class="nav-sub list-unstyled fw-normal pb-1 small">
+          <li>
+            <a
+              class="d-inline-block rounded"
+              [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/settings/gdpr'"
+              routerLinkActive="active"
+              >{{ 'NAV_SETTINGS_GDPR' | transloco }}</a
+            >
+          </li>
+        </ul>
       </li>
     </ul>
 
@@ -214,8 +230,8 @@ import {SwitcherModalComponent} from './switcher.component';
           <li class="mb-1">
             <a
               class="nav-heading d-inline-block rounded"
-              routerLinkActive="active"
               [routerLink]="'/events/' + selectedOrganisationIdRoute()"
+              routerLinkActive="active"
             >
               <div class="d-inline-flex align-items-center gap-2 ">
                 <bi name="building" />
@@ -267,10 +283,10 @@ import {SwitcherModalComponent} from './switcher.component';
       <app-profile-menu />
 
       <a
+        class="btn d-inline-flex align-items-center"
         href="https://help.kellner.team"
         target="_blank"
         rel="noopener"
-        class="btn d-inline-flex align-items-center"
         ngbTooltip="Hilfe-Seite"
       >
         <bi name="question-square-fill" size="24" />
@@ -346,6 +362,9 @@ export class NavComponent {
   selectedEventIdRoute = computed(() => this.#selectedEventService.selectedId() ?? 'eventId');
 
   openSwitcher(): void {
-    this.modal.open(SwitcherModalComponent, {ariaLabelledBy: 'modal-switcher-title', size: 'lg'});
+    this.modal.open(SwitcherModalComponent, {
+      ariaLabelledBy: 'modal-switcher-title',
+      size: 'lg',
+    });
   }
 }

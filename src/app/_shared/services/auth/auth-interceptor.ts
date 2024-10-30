@@ -1,20 +1,20 @@
 import {HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest} from '@angular/common/http';
 import {inject} from '@angular/core';
 
+import {BehaviorSubject, Observable, catchError, filter, switchMap, take, throwError} from 'rxjs';
+
 import {loggerOf} from 'dfts-helper';
 import {injectWindow} from 'dfx-helper';
 
-import {BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError} from 'rxjs';
+import {EnvironmentHelper} from '@shared';
 
-import {EnvironmentHelper} from '../../EnvironmentHelper';
 import {NotificationService} from '../../notifications/notification.service';
-import {JwtResponse} from '../../waiterrobot-backend';
-import {AuthService, loginPwChangeUrl, loginUrl, refreshUrl} from './auth.service';
+import {AuthService} from './auth.service';
 
 /**
  * Don't intercept this requests
  */
-const paths = [loginUrl, loginPwChangeUrl, refreshUrl, 'assets'];
+const paths = ['auth', 'assets', 'public'];
 
 let isRefreshing = false;
 const nextAccessTokenSubject: BehaviorSubject<string | undefined> = new BehaviorSubject<string | undefined>(undefined);
@@ -58,7 +58,7 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
                 nextAccessTokenSubject.next(undefined);
 
                 return authService.refreshAccessToken().pipe(
-                  switchMap((data: JwtResponse) => {
+                  switchMap((data) => {
                     lumber.info('handle401Error', 'JWT token refreshed');
                     isRefreshing = false;
                     nextAccessTokenSubject.next(data.accessToken);

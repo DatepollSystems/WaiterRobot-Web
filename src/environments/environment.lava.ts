@@ -7,6 +7,6 @@ export const environment: Environment = {
   version: `${require('../../package.json').version}_lava`,
   production: true,
   type: 'testing',
-  apiUrl: 'https://lava.kellner.team/api/v1',
+  apiUrl: 'https://lava.kellner.team/api',
   titleSuffix: 'lava.kellner.team',
 };

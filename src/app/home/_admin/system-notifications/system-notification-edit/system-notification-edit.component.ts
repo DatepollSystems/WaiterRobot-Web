@@ -1,10 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 
-import {injectOnSubmit} from '../../../../_shared/form';
-import {GetSystemNotificationResponse} from '../../../../_shared/waiterrobot-backend';
-import {AbstractModelEditComponent} from '../../../_shared/form/abstract-model-edit.component';
-import {AppEntityEditModule} from '../../../_shared/form/app-entity-edit.module';
-import {injectOnDelete} from '../../../_shared/form/edit';
+import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
+import {injectEditEntity, injectOnDelete} from '@home-shared/form/edit';
+
+import {injectOnSubmit} from '@shared/form';
+
 import {SystemNotificationsService} from '../_services/system-notifications.service';
 import {SystemNotificationEditFormComponent} from './system-notification-edit-form.component';
 
@@ -19,7 +19,7 @@ import {SystemNotificationEditFormComponent} from './system-notification-edit-fo
           <back-button />
 
           <div *isEditing="entity">
-            <button type="button" class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)">
+            <button class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)" type="button">
               <bi name="trash" />
               {{ 'DELETE' | transloco }}
             </button>
@@ -43,11 +43,13 @@ import {SystemNotificationEditFormComponent} from './system-notification-edit-fo
   imports: [AppEntityEditModule, SystemNotificationEditFormComponent],
   standalone: true,
 })
-export class SystemNotificationEditComponent extends AbstractModelEditComponent<GetSystemNotificationResponse> {
-  onDelete = injectOnDelete((it: number) => this.systemNotificationsService.delete$(it).subscribe());
-  onSubmit = injectOnSubmit({entityService: this.systemNotificationsService});
+export class SystemNotificationEditComponent {
+  #systemNotificationsService = inject(SystemNotificationsService);
 
-  constructor(private systemNotificationsService: SystemNotificationsService) {
-    super(systemNotificationsService);
-  }
+  entity = injectEditEntity({
+    get$: (id) => this.#systemNotificationsService.getSingle$(id),
+  });
+
+  onDelete = injectOnDelete((it: number) => this.#systemNotificationsService.delete$(it).subscribe());
+  onSubmit = injectOnSubmit({entityService: this.#systemNotificationsService});
 }

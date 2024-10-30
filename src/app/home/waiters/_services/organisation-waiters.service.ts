@@ -1,47 +1,68 @@
-import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
-import {getPaginationParams, PageableDto} from '@home-shared/services/pagination';
+import {Injectable, inject} from '@angular/core';
 
-import {GetWaiterResponse, PaginatedResponseGetWaiterResponse} from '@shared/waiterrobot-backend';
+import {combineLatest, switchMap, tap} from 'rxjs';
 
-import {s_from} from 'dfts-helper';
-import {HasDelete, HasGetAll} from 'dfx-helper';
+import {PageableDto, injectAPI} from '@shared/api';
+import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
 
-import {combineLatest, Observable, switchMap, tap} from 'rxjs';
-import {SelectedOrganisationService} from '../../_admin/organisations/_services/selected-organisation.service';
 import {WaitersService} from './waiters.service';
 
 @Injectable({providedIn: 'root'})
-export class OrganisationWaitersService implements HasGetAll<GetWaiterResponse>, HasDelete<GetWaiterResponse> {
-  url = '/config/waiter';
+export class OrganisationWaitersService {
+  #api = injectAPI();
+  #waitersService = inject(WaitersService);
+  #selectedOrganisationService = inject(SelectedOrganisationService);
 
-  private httpClient = inject(HttpClient);
-  private waitersService = inject(WaitersService);
-  private selectedOrganisationService = inject(SelectedOrganisationService);
-
-  getAll$(): Observable<GetWaiterResponse[]> {
-    return combineLatest([this.waitersService.triggerGet$, this.selectedOrganisationService.selectedIdNotNull$]).pipe(
-      switchMap(([, organisationId]) => this.httpClient.get<GetWaiterResponse[]>(this.url, {params: {organisationId}})),
-    );
-  }
-
-  delete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(
-      tap(() => {
-        this.waitersService.triggerGet$.next(true);
-      }),
-    );
-  }
-
-  unDelete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${s_from(id)}/undo`);
-  }
-
-  getAllDeleted$(options: PageableDto): Observable<PaginatedResponseGetWaiterResponse> {
-    return combineLatest([this.waitersService.triggerGet$, this.selectedOrganisationService.selectedIdNotNull$]).pipe(
+  getAll$() {
+    return combineLatest([this.#waitersService.triggerGet$, this.#selectedOrganisationService.selectedIdNotNull$]).pipe(
       switchMap(([, organisationId]) =>
-        this.httpClient.get<PaginatedResponseGetWaiterResponse>(`${this.url}/deleted`, {
-          params: getPaginationParams(options).append('organisationId', organisationId),
+        this.#api.get('/v1/config/waiter', {
+          params: {
+            query: {
+              organisationId,
+            },
+          },
+        }),
+      ),
+    );
+  }
+
+  delete$(id: number) {
+    return this.#api
+      .delete('/v1/config/organisation/{id}', {
+        params: {
+          path: {
+            id,
+          },
+        },
+      })
+      .pipe(
+        tap(() => {
+          this.#waitersService.triggerGet$.next(true);
+        }),
+      );
+  }
+
+  unDelete$(id: number) {
+    return this.#api.delete('/v1/config/waiter/{id}/undo', {
+      params: {
+        path: {
+          id,
+        },
+      },
+    });
+  }
+
+  getAllDeleted$(options: PageableDto) {
+    return combineLatest([this.#waitersService.triggerGet$, this.#selectedOrganisationService.selectedIdNotNull$]).pipe(
+      switchMap(([, organisationId]) =>
+        this.#api.get('/v1/config/waiter/deleted', {
+          params: {
+            query: {
+              organisationId,
+              ...options,
+            },
+          },
         }),
       ),
     );

@@ -1,7 +1,10 @@
 import {Component, effect, inject} from '@angular/core';
+
 import {TranslocoPipe} from '@jsverse/transloco';
+
+import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
+
 import {OrganisationsSettingsService} from '../_admin/organisations/_services/organisations-settings.service';
-import {SelectedOrganisationService} from '../_admin/organisations/_services/selected-organisation.service';
 import {OrganisationUsersSettingsComponent} from '../_admin/organisations/organisation-edit/organisation-edit-users/organisation-users-settings.component';
 import {SettingsGridComponent} from './settings-grid.component';
 import {StripeSettingsComponent} from './stripe/stripe-settings.component';

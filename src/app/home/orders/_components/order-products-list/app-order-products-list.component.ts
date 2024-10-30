@@ -1,18 +1,20 @@
 import {AsyncPipe, DatePipe, KeyValuePipe, NgClass} from '@angular/common';
-import {booleanAttribute, ChangeDetectionStrategy, Component, Input, input, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, booleanAttribute, input, output} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {BehaviorSubject, combineLatest, map} from 'rxjs';
+
 import {TranslocoPipe} from '@jsverse/transloco';
-
-import {GetImplodedOrderProductResponse} from '@shared/waiterrobot-backend';
-
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {s_fromStorage, st_set} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {BehaviorSubject, combineLatest, map} from 'rxjs';
+import {BackendType} from '@shared/api';
+
 import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
 import {AppOrderProductsListTableComponent} from './app-order-products-list-table.component';
+
+type GetImplodedOrderProductResponse = BackendType['GetImplodedOrderProductResponse'];
 
 @Component({
   template: `
@@ -21,14 +23,14 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
         <div class="d-flex align-items-center gap-2">
           <span>Gruppierung:</span>
           <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-primary" [class.active]="vm.groupedBy === 'OFF'" (mousedown)="setGroupedBy('OFF')">
+            <button class="btn btn-sm btn-primary" [class.active]="vm.groupedBy === 'OFF'" (mousedown)="setGroupedBy('OFF')" type="button">
               Aus
             </button>
             <button
-              type="button"
               class="btn btn-sm btn-primary"
               [class.active]="vm.groupedBy === 'PRINTER'"
               (mousedown)="setGroupedBy('PRINTER')"
+              type="button"
             >
               Drucker
             </button>
@@ -57,11 +59,11 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
                     <div>
                       @if (showRequeueButton()) {
                         <button
-                          type="button"
                           class="btn btn-sm btn-warning"
-                          placement="left"
                           [ngbTooltip]="'HOME_ORDER_REQUEUE' | transloco"
                           (mousedown)="requeueOrdersOfPrinter.emit(groups.key)"
+                          type="button"
+                          placement="left"
                         >
                           <bi name="printer" />
                         </button>
@@ -69,7 +71,7 @@ import {AppOrderProductsListTableComponent} from './app-order-products-list-tabl
                     </div>
                   </div>
                   <div class="card-body">
-                    <app-order-products-list-table hidePrintedBy [orderProducts]="groups.value.orderProducts" />
+                    <app-order-products-list-table [orderProducts]="groups.value.orderProducts" hidePrintedBy />
                   </div>
                 </div>
               }
@@ -102,7 +104,9 @@ export class AppOrderProductsListComponent {
   }
   _orderProducts!: GetImplodedOrderProductResponse[];
 
-  showRequeueButton = input(booleanAttribute(false), {transform: booleanAttribute});
+  showRequeueButton = input(booleanAttribute(false), {
+    transform: booleanAttribute,
+  });
 
   readonly requeueOrdersOfPrinter = output<number>();
 

@@ -1,4 +1,4 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, computed, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, booleanAttribute, computed, inject, input} from '@angular/core';
 
 import {StatisticsService} from '../statistics.service';
 
@@ -11,7 +11,7 @@ import {StatisticsService} from '../statistics.service';
           <scrollable-toolbar>
             <back-button />
             <div>
-              <button type="button" class="btn btn-primary btn-sm" ngxPrint printSectionId="chart">
+              <button class="btn btn-primary btn-sm" type="button" ngxPrint printSectionId="chart">
                 <bi name="printer" />
                 {{ 'PRINT' | transloco }}
               </button>

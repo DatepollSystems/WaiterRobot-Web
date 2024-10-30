@@ -2,26 +2,28 @@ import {TextFieldModule} from '@angular/cdk/text-field';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
+import {TranslocoPipe} from '@jsverse/transloco';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
+
 import {AppDatetimeInputComponent} from '@home-shared/components/datetime-picker/datetime-picker.component';
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
-import {TranslocoPipe} from '@jsverse/transloco';
-import {injectIsValid} from '@shared/form';
-import {CreateSystemNotificationDto, GetSystemNotificationResponse, UpdateSystemNotificationDto} from '@shared/waiterrobot-backend';
 
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
+import {BackendType} from '@shared/api';
+import {injectIsValid} from '@shared/form';
+
 import {systemNotificationTypes} from '../_services/system-notifications.service';
 
 @Component({
   template: `
     @if (isValid()) {}
 
-    <form #formRef class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="submit()">
+    <form class="d-flex flex-column gap-3" #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-md-row gap-4 gap-md-3">
         <div class="form-group flex-fill">
           <label for="title">{{ 'TITLE' | transloco }}</label>
-          <input class="form-control" type="text" id="title" formControlName="title" [placeholder]="'TITLE' | transloco" />
+          <input class="form-control" id="title" [placeholder]="'TITLE' | transloco" type="text" formControlName="title" />
 
           @if (form.controls.title.invalid) {
             <small class="text-danger">
@@ -37,7 +39,9 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
               <bi name="diagram-3" />
             </span>
             <select class="form-select" id="type" formControlName="type">
-              <option disabled [value]="''">{{ 'HOME_SYSTEM_NOTIFICATIONS_TYPE_DEFAULT' | transloco }}</option>
+              <option [value]="''" disabled>
+                {{ 'HOME_SYSTEM_NOTIFICATIONS_TYPE_DEFAULT' | transloco }}
+              </option>
               @for (type of systemNotificationTypes; track type) {
                 <option [value]="type">
                   {{ type | s_lowerCaseAllExceptFirstLetter }}
@@ -57,10 +61,10 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
 
           <app-datetime-input
             id="starts"
-            formControlName="starts"
-            minuteStep="15"
             [seconds]="false"
             [placeholder]="'DATETIME_PLACEHOLDER' | transloco"
+            formControlName="starts"
+            minuteStep="15"
           />
         </div>
 
@@ -68,10 +72,10 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
           <label for="ends">{{ 'ENDS' | transloco }}</label>
           <app-datetime-input
             id="ends"
-            formControlName="ends"
-            minuteStep="15"
             [seconds]="false"
             [placeholder]="'DATETIME_PLACEHOLDER' | transloco"
+            formControlName="ends"
+            minuteStep="15"
           />
         </div>
       </div>
@@ -79,13 +83,13 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
       <div class="form-group">
         <label for="description">{{ 'DESCRIPTION' | transloco }}</label>
         <textarea
-          #autosize="cdkTextareaAutosize"
           class="form-control"
           id="description"
-          formControlName="description"
+          #autosize="cdkTextareaAutosize"
           [placeholder]="('DESCRIPTION' | transloco) + '...'"
           [cdkTextareaAutosize]="true"
           [cdkAutosizeMinRows]="4"
+          formControlName="description"
         ></textarea>
 
         @if (form.controls.description.invalid) {
@@ -97,7 +101,7 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
 
       <div class="d-flex flex-column flex-md-row gap-2 gap-md-4 mt-2">
         <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="active" formControlName="active" />
+          <input class="form-check-input" id="active" type="checkbox" formControlName="active" />
           <label class="form-check-label" for="active">
             {{ 'ACTIVE' | transloco }}
           </label>
@@ -121,8 +125,8 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SystemNotificationEditFormComponent extends AbstractModelEditFormComponent<
-  CreateSystemNotificationDto,
-  UpdateSystemNotificationDto
+  BackendType['CreateSystemNotificationDto'],
+  BackendType['UpdateSystemNotificationDto']
 > {
   systemNotificationTypes = systemNotificationTypes;
 
@@ -139,7 +143,7 @@ export class SystemNotificationEditFormComponent extends AbstractModelEditFormCo
   isValid = injectIsValid(this.form);
 
   @Input()
-  set systemNotification(it: GetSystemNotificationResponse | 'CREATE') {
+  set systemNotification(it: BackendType['GetSystemNotificationResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;

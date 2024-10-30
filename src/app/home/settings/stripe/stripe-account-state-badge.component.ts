@@ -1,22 +1,22 @@
 import {Component, inject, input, signal} from '@angular/core';
 
 import {TranslocoPipe} from '@jsverse/transloco';
-
-import {GetStripeAccountResponse} from '@shared/waiterrobot-backend';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {OrganisationsStripeService} from '../../_admin/organisations/_services/organisations-stripe.service';
+import {BackendType} from '@shared/api';
+
+import {StripeService} from '../_services/stripe.service';
 
 @Component({
   template: `
     <button
-      type="button"
       class="btn btn-sm d-inline-flex gap-2 align-items-center justify-content-between"
       [class.btnSpinner]="loading()"
       [disabled]="loading()"
       [class.btn-primary]="state() === 'ACTIVE'"
       [class.btn-warning]="state() === 'ONBOARDING'"
       (click)="$event.stopPropagation(); openLink()"
+      type="button"
     >
       @switch (state()) {
         @case ('ONBOARDING') {
@@ -35,11 +35,11 @@ import {OrganisationsStripeService} from '../../_admin/organisations/_services/o
 })
 export class StripeAccountStateBadge {
   stripeAccountId = input.required<string>();
-  state = input.required<GetStripeAccountResponse['state']>();
+  state = input.required<BackendType['GetStripeAccountResponse']['state']>();
 
   loading = signal(false);
 
-  organisationStripeService = inject(OrganisationsStripeService);
+  organisationStripeService = inject(StripeService);
 
   openLink() {
     this.loading.set(true);

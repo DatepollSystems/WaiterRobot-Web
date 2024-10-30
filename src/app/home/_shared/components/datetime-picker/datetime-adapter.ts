@@ -19,7 +19,10 @@ export function NGB_DATETIME_PICKER_ADAPTER_FACTORY(): NgbDateTimeStructAdapter 
  *
  * @since 2.2.0
  */
-@Injectable({providedIn: 'root', useFactory: NGB_DATETIME_PICKER_ADAPTER_FACTORY})
+@Injectable({
+  providedIn: 'root',
+  useFactory: NGB_DATETIME_PICKER_ADAPTER_FACTORY,
+})
 export abstract class NgbDateTimeAdapter<T> {
   /**
    * Converts a user-model time of type `T` to an `NgbDateTimeStruct` for internal use.

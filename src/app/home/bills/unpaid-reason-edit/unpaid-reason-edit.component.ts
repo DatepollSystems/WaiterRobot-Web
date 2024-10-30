@@ -1,13 +1,13 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
-import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectOnDelete} from '@home-shared/form/edit';
-
-import {injectOnSubmit} from '@shared/form';
-import {GetBillUnpaidReasonResponse} from '@shared/waiterrobot-backend';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
+
+import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
+import {injectEditEntity, injectOnDelete} from '@home-shared/form/edit';
+
+import {injectOnSubmit} from '@shared/form';
+import {SelectedEventService} from '@shared/services/selected-event.service';
+
 import {UnpaidReasonsService} from '../_services/unpaid-reasons.service';
 import {AppUnpaidReasonEditFormComponent} from './unpaid-reason-edit-form.component';
 
@@ -24,7 +24,7 @@ import {AppUnpaidReasonEditFormComponent} from './unpaid-reason-edit-form.compon
           @if (entity !== 'CREATE' && !entity.isGlobal) {
             <ng-container *isEditing="entity">
               <div>
-                <button type="button" class="btn btn-sm btn-outline-danger" (mousedown)="onDelete(entity.id)">
+                <button class="btn btn-sm btn-outline-danger" (mousedown)="onDelete(entity.id)" type="button">
                   <bi name="trash" />
                   {{ 'DELETE' | transloco }}
                 </button>
@@ -53,13 +53,14 @@ import {AppUnpaidReasonEditFormComponent} from './unpaid-reason-edit-form.compon
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AppEntityEditModule, BiComponent, AppUnpaidReasonEditFormComponent],
 })
-export class UnpaidReasonEditComponent extends AbstractModelEditComponent<GetBillUnpaidReasonResponse> {
-  onDelete = injectOnDelete((it: number) => this.unpaidReasonsService.delete$(it).subscribe());
-  onSubmit = injectOnSubmit({entityService: this.unpaidReasonsService});
+export class UnpaidReasonEditComponent {
+  #unpaidReasonsService = inject(UnpaidReasonsService);
+
+  entity = injectEditEntity({
+    get$: (id) => this.#unpaidReasonsService.getSingle$(id),
+  });
+  onDelete = injectOnDelete((it: number) => this.#unpaidReasonsService.delete$(it).subscribe());
+  onSubmit = injectOnSubmit({entityService: this.#unpaidReasonsService});
 
   selectedEventId = inject(SelectedEventService).selectedId;
-
-  constructor(private unpaidReasonsService: UnpaidReasonsService) {
-    super(unpaidReasonsService);
-  }
 }

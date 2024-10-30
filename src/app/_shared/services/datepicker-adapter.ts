@@ -3,10 +3,10 @@
  */
 import {Injectable} from '@angular/core';
 
+import {NgbDateParserFormatter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+
 import {NgbDateTimeAdapter} from '@home-shared/components/datetime-picker/datetime-adapter';
 import {NgbDateTimeStruct} from '@home-shared/components/datetime-picker/datetime.struct';
-
-import {NgbDateParserFormatter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 
 const DATE_DELIMITER = '-';
 const TIME_DELIMITER = ':';
@@ -21,15 +21,15 @@ export class CustomDateTimeAdapter extends NgbDateTimeAdapter<string> {
   fromModel(value: string | null): NgbDateTimeStruct | null {
     if (value) {
       const dateTime = value.split('T');
-      const date = dateTime[0].split(DATE_DELIMITER);
-      const time = dateTime[1].split(TIME_DELIMITER);
+      const date = dateTime[0]!.split(DATE_DELIMITER);
+      const time = dateTime[1]!.split(TIME_DELIMITER);
       return {
-        year: parseInt(date[0], 10),
-        month: parseInt(date[1], 10),
-        day: parseInt(date[2], 10),
-        hour: parseInt(time[0], 10),
-        minute: parseInt(time[1], 10),
-        second: parseInt(time[2], 10),
+        year: parseInt(date[0]!, 10),
+        month: parseInt(date[1]!, 10),
+        day: parseInt(date[2]!, 10),
+        hour: parseInt(time[0]!, 10),
+        minute: parseInt(time[1]!, 10),
+        second: parseInt(time[2]!, 10),
       };
     }
     return null;
@@ -75,9 +75,9 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
       if (value.includes(this.SPLIT_DELIMITER)) {
         date = value.split(this.SPLIT_DELIMITER);
 
-        const year = parseInt(date[0], 10);
-        const month = parseInt(date[1], 10);
-        const day = parseInt(date[2], 10);
+        const year = parseInt(date[0]!, 10);
+        const month = parseInt(date[1]!, 10);
+        const day = parseInt(date[2]!, 10);
 
         if (isNaN(year) || isNaN(month) || isNaN(day)) {
           return null;
@@ -91,9 +91,9 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
       } else {
         date = value.split(this.DELIMITER);
 
-        const year = parseInt(date[2], 10);
-        const month = parseInt(date[1], 10);
-        const day = parseInt(date[0], 10);
+        const year = parseInt(date[2]!, 10);
+        const month = parseInt(date[1]!, 10);
+        const day = parseInt(date[0]!, 10);
 
         if (isNaN(year) || isNaN(month) || isNaN(day)) {
           return null;

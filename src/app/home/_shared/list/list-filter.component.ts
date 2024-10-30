@@ -1,21 +1,23 @@
 import {Component, input} from '@angular/core';
-import {BiComponent} from 'dfx-bootstrap-icons';
 import {ReactiveFormsModule} from '@angular/forms';
+
 import {TranslocoPipe} from '@jsverse/transloco';
-import {injectTableFilter} from '@home-shared/list/inject-table-filter';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {BiComponent} from 'dfx-bootstrap-icons';
+
+import {injectTableFilter} from '@home-shared/list/inject-table-filter';
 
 @Component({
   template: `
     <div class="input-group action-search">
-      <input class="form-control form-control-sm" type="text" [formControl]="filter().control" [placeholder]="'SEARCH' | transloco" />
+      <input class="form-control form-control-sm" [formControl]="filter().control" [placeholder]="'SEARCH' | transloco" type="text" />
       @if (filter().isActive()) {
         <button
           class="btn btn-sm btn-outline-secondary"
-          type="button"
-          placement="bottom"
           [ngbTooltip]="'CLEAR' | transloco"
           (click)="filter().reset()"
+          type="button"
+          placement="bottom"
         >
           <bi name="x-circle-fill" />
         </button>

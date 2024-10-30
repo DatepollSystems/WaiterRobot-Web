@@ -1,10 +1,10 @@
 /* eslint-disable @angular-eslint/sort-ngmodule-metadata-arrays */
 import {NgModule} from '@angular/core';
 
-import {AppEntityEditPlaceholder} from '@home-shared/form/app-entity-edit.placeholder';
-
-import {BiComponent} from 'dfx-bootstrap-icons';
 import {TranslocoPipe} from '@jsverse/transloco';
+import {BiComponent} from 'dfx-bootstrap-icons';
+
+import {AppEntityEditPlaceholder} from '@home-shared/form/app-entity-edit.placeholder';
 
 import {AppBackButtonComponent} from '../components/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '../components/scrollable-toolbar.component';

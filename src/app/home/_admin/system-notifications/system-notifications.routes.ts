@@ -4,7 +4,10 @@ export const ROUTES: Routes = [
   {
     path: '',
     children: [
-      {path: 'all', loadComponent: () => import('./system-notifications.component').then((c) => c.SystemNotificationsComponent)},
+      {
+        path: 'all',
+        loadComponent: () => import('./system-notifications.component').then((c) => c.SystemNotificationsComponent),
+      },
       {
         path: ':id',
         loadComponent: () =>

@@ -1,22 +1,22 @@
 import {LowerCasePipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, viewChild} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
-import {RouterLink} from '@angular/router';
-
-import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
-import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
-import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
-import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectOnDelete} from '@home-shared/form/edit';
-import {MobileLinkService} from '@home-shared/services/mobile-link.service';
-import {injectOnSubmit} from '@shared/form';
-import {GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
-
-import {n_from, n_isNumeric} from 'dfts-helper';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 
 import {filter, map, shareReplay} from 'rxjs';
 
-import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
+import {n_from, n_isNumeric} from 'dfts-helper';
+
+import {UnknownModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
+import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
+import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
+import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
+import {injectContinuousCreation, injectEditEntity, injectOnDelete} from '@home-shared/form/edit';
+import {MobileLinkService} from '@home-shared/services/mobile-link.service';
+
+import {injectOnSubmit} from '@shared/form';
+import {SelectedEventService} from '@shared/services/selected-event.service';
+
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TablesService} from '../_services/tables.service';
 import {TableEditFormComponent} from './table-edit-form.component';
@@ -26,15 +26,21 @@ import {TableEditFormComponent} from './table-edit-form.component';
     @if (entity(); as entity) {
       <div class="d-flex flex-column gap-2">
         <h1 *isCreating="entity">{{ 'HOME_TABLES_ADD' | transloco }}</h1>
-        <h1 *isEditingAndNotDeleted="entity">{{ 'EDIT_2' | transloco }} {{ entity.group.name }} - {{ entity.number }}</h1>
-        <h1 *isEditingAndDeleted="entity">{{ entity.group.name }} - {{ entity.number }} {{ 'DELETED' | transloco }}</h1>
+        <h1 *isEditingAndNotDeleted="entity">
+          {{ 'EDIT_2' | transloco }} {{ entity.group.name }} -
+          {{ entity.number }}
+        </h1>
+        <h1 *isEditingAndDeleted="entity">
+          {{ entity.group.name }} - {{ entity.number }}
+          {{ 'DELETED' | transloco }}
+        </h1>
 
         <scrollable-toolbar>
           <back-button />
 
           <ng-container *isEditingAndNotDeleted="entity">
             <div>
-              <button type="button" class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)">
+              <button class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)" type="button">
                 <bi name="trash" />
                 {{ 'DELETE' | transloco }}
               </button>
@@ -49,20 +55,20 @@ import {TableEditFormComponent} from './table-edit-form.component';
             }
 
             <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../../orders" [queryParams]="{tableIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" [queryParams]="{tableIds: entity.id}" routerLink="../../../orders">
                 <bi name="stack" />
                 {{ 'NAV_ORDERS' | transloco }}
               </a>
             </div>
             <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../../bills" [queryParams]="{tableIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" [queryParams]="{tableIds: entity.id}" routerLink="../../../bills">
                 <bi name="cash-coin" />
                 {{ 'NAV_BILLS' | transloco }}
               </a>
             </div>
           </ng-container>
 
-          <div *isCreating="entity" class="d-flex align-items-center">
+          <div class="d-flex align-items-center" *isCreating="entity">
             <app-continues-creation-switch (continuesCreationChange)="continuousCreation.set($event)" />
           </div>
         </scrollable-toolbar>
@@ -104,8 +110,16 @@ import {TableEditFormComponent} from './table-edit-form.component';
     LowerCasePipe,
   ],
 })
-export class TableEditComponent extends AbstractModelEditComponent<GetTableWithGroupResponse> {
-  onDelete = injectOnDelete((it: number) => this.tablesService.delete$(it).subscribe());
+export class TableEditComponent {
+  #tablesService = inject(TablesService);
+
+  form = viewChild<UnknownModelEditFormComponent>('form');
+
+  entity = injectEditEntity({
+    get$: (id) => this.#tablesService.getSingle$(id),
+  });
+
+  onDelete = injectOnDelete((it: number) => this.#tablesService.delete$(it).subscribe());
   continuousCreation = injectContinuousCreation({
     formComponent: this.form,
     continuousUsePropertyNames: ['number', 'groupId', 'seats', 'eventId'],
@@ -114,7 +128,7 @@ export class TableEditComponent extends AbstractModelEditComponent<GetTableWithG
     },
   });
   onSubmit = injectOnSubmit({
-    entityService: this.tablesService,
+    entityService: this.#tablesService,
     continuousCreation: {
       enabled: this.continuousCreation.enabled,
       patch: this.continuousCreation.patch,
@@ -125,7 +139,7 @@ export class TableEditComponent extends AbstractModelEditComponent<GetTableWithG
   selectedEventId = inject(SelectedEventService).selectedId;
   tableGroups = toSignal(inject(TableGroupsService).getAll$());
 
-  queryParams = this.route.queryParams.pipe(shareReplay());
+  queryParams = inject(ActivatedRoute).queryParams.pipe(shareReplay());
 
   selectedTableGroupId = toSignal(
     this.queryParams.pipe(
@@ -150,8 +164,4 @@ export class TableEditComponent extends AbstractModelEditComponent<GetTableWithG
     }
     return undefined;
   });
-
-  constructor(private tablesService: TablesService) {
-    super(tablesService);
-  }
 }

@@ -1,19 +1,20 @@
 import {ChangeDetectionStrategy, Component, computed, effect, inject} from '@angular/core';
 import {toObservable, toSignal} from '@angular/core/rxjs-interop';
 import {AbstractControl, FormControl, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
-import {s_toCurrencyNumber} from '@home-shared/regex';
 
-import {MyUserService} from '@home-shared/services/user/my-user.service';
+import {Observable, OperatorFunction, combineLatest, debounceTime, distinctUntilChanged, map} from 'rxjs';
 
-import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-
+import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {combineLatest, debounceTime, distinctUntilChanged, map, Observable, OperatorFunction} from 'rxjs';
+import {s_toCurrencyNumber} from '@home-shared/regex';
+import {MyUserService} from '@home-shared/services/user/my-user.service';
+
+import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+
 import {OrganisationsSettingsService} from '../_admin/organisations/_services/organisations-settings.service';
-import {SelectedOrganisationService} from '../_admin/organisations/_services/selected-organisation.service';
 
 @Component({
   template: `
@@ -30,11 +31,11 @@ import {SelectedOrganisationService} from '../_admin/organisations/_services/sel
               <div class="form-check form-switch">
                 <input
                   class="form-check-input"
-                  type="checkbox"
-                  role="switch"
                   id="activateWaiterOnSignInViaCreateToken"
                   [checked]="organisationSettingsState().settings!.activateWaiterOnLoginViaCreateToken"
                   (change)="setActivateWaiterOnLoginViaCreateToken($event)"
+                  type="checkbox"
+                  role="switch"
                 />
                 <label class="form-check-label" for="activateWaiterOnSignInViaCreateToken">
                   {{ 'HOME_ORGS_SETTINGS_ACTIVATE_WAITER_ON_SIGN_IN_VIA_CREATE_TOKEN' | transloco }}</label
@@ -52,11 +53,11 @@ import {SelectedOrganisationService} from '../_admin/organisations/_services/sel
                     <div class="form-check form-switch">
                       <input
                         class="form-check-input"
-                        type="checkbox"
-                        role="switch"
                         id="stripeEnabled"
                         [checked]="organisationSettingsState().settings!.stripeEnabled"
                         (change)="setStripeEnabled($event)"
+                        type="checkbox"
+                        role="switch"
                       />
                       <label class="form-check-label text-danger" for="stripeEnabled"> {{ 'Stripe aktivieren (admin)' | transloco }}</label>
                     </div>
@@ -67,13 +68,13 @@ import {SelectedOrganisationService} from '../_admin/organisations/_services/sel
                   <div class="input-group">
                     <span class="input-group-text" id="stripeMinAmount-addon"><bi name="currency-euro" /></span>
                     <input
-                      type="text"
-                      id="stripeMinAmount"
                       class="form-control"
-                      placeholder="10.00"
+                      id="stripeMinAmount"
                       [formControl]="stripeMinAmountFormControl"
+                      type="text"
+                      placeholder="10.00"
                     />
-                    <button class="btn btn-success" type="button" [disabled]="stripeMinAmountDisabled()" (click)="setStripeMinAmount()">
+                    <button class="btn btn-success" [disabled]="stripeMinAmountDisabled()" (click)="setStripeMinAmount()" type="button">
                       {{ 'SAVE' | transloco }}
                     </button>
                   </div>
@@ -83,7 +84,7 @@ import {SelectedOrganisationService} from '../_admin/organisations/_services/sel
           }
           <div class="col">
             <div class="h-100 p-4 p-lg-5 bg-body-tertiary border rounded-3">
-              <label for="timezone" class="mb-3"
+              <label class="mb-3" for="timezone"
                 ><h2>{{ 'HOME_ORGS_SETTINGS_TIMEZONE' | transloco }}</h2></label
               >
 
@@ -91,23 +92,23 @@ import {SelectedOrganisationService} from '../_admin/organisations/_services/sel
                 <div class="input-group">
                   <span class="input-group-text" id="timezone-addon"><bi name="clock" /></span>
                   <input
-                    type="text"
-                    id="timezone"
                     class="form-control"
+                    id="timezone"
+                    [formControl]="timeZoneFormControl"
+                    [ngbTypeahead]="search"
+                    type="text"
                     placeholder="Europe/Vienna"
                     aria-label="TimeZone"
                     aria-describedby="timezone-addon"
-                    [formControl]="timeZoneFormControl"
-                    [ngbTypeahead]="search"
                   />
                   <button
                     class="btn btn-success"
-                    type="button"
                     [disabled]="
                       timeZoneFormControl.errors?.invalidTimeZone ||
                       timeZoneFormControl.getRawValue() === organisationSettingsState().settings!.timezone
                     "
                     (click)="setTimeZone()"
+                    type="button"
                   >
                     {{ 'SAVE' | transloco }}
                   </button>

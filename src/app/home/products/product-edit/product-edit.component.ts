@@ -1,21 +1,19 @@
-import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, numberAttribute, viewChild} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 
-import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
+import {injectQueryParams} from 'ngxtension/inject-query-params';
+
+import {UnknownModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
 import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectOnDelete} from '@home-shared/form/edit';
+import {injectContinuousCreation, injectEditEntity, injectOnDelete} from '@home-shared/form/edit';
 import {AppSoldOutPipe} from '@home-shared/pipes/app-sold-out.pipe';
+
 import {injectOnSubmit} from '@shared/form';
-import {GetProductMaxResponse} from '@shared/waiterrobot-backend';
+import {SelectedEventService} from '@shared/services/selected-event.service';
 
-import {n_from, n_isNumeric} from 'dfts-helper';
-
-import {filter, map} from 'rxjs';
-
-import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
 import {PrintersService} from '../../printers/_services/printers.service';
 import {AllergensService} from '../_services/allergens.service';
 import {ProductGroupsService} from '../_services/product-groups.service';
@@ -27,7 +25,7 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
     @if (entity(); as entity) {
       <div class="d-flex flex-column gap-2">
         <h1 *isCreating="entity">{{ 'HOME_PROD_ADD' | transloco }}</h1>
-        <div *isEditingAndNotDeleted="entity" class="d-flex gap-3 align-items-center">
+        <div class="d-flex gap-3 align-items-center" *isEditingAndNotDeleted="entity">
           <h1>{{ 'EDIT_2' | transloco }} {{ entity.name }}</h1>
           <span class="fs-4 mb-1">{{ entity.soldOut | soldOut }}</span>
         </div>
@@ -37,26 +35,26 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
           <back-button />
           <ng-container *isEditingAndNotDeleted="entity">
             <div>
-              <button type="button" class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)">
+              <button class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)" type="button">
                 <bi name="trash" />
                 {{ 'DELETE' | transloco }}
               </button>
             </div>
 
             <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../../orders" [queryParams]="{productIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" [queryParams]="{productIds: entity.id}" routerLink="../../../orders">
                 <bi name="stack" />
                 {{ 'NAV_ORDERS' | transloco }}
               </a>
             </div>
             <div>
-              <a class="btn btn-sm btn-secondary" routerLink="../../../bills" [queryParams]="{productIds: entity.id}">
+              <a class="btn btn-sm btn-secondary" [queryParams]="{productIds: entity.id}" routerLink="../../../bills">
                 <bi name="cash-coin" />
                 {{ 'NAV_BILLS' | transloco }}
               </a>
             </div>
           </ng-container>
-          <div *isCreating="entity" class="d-flex align-items-center">
+          <div class="d-flex align-items-center" *isCreating="entity">
             <app-continues-creation-switch (continuesCreationChange)="continuousCreation.set($event)" />
           </div>
         </scrollable-toolbar>
@@ -106,27 +104,31 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
     AppSoldOutPipe,
   ],
 })
-export class ProductEditComponent extends AbstractModelEditComponent<GetProductMaxResponse> {
-  onDelete = injectOnDelete((it: number) => this.productsService.delete$(it).subscribe(() => this.productsService.triggerGet$.next(true)));
+export class ProductEditComponent {
+  #productsService = inject(ProductsService);
+
+  form = viewChild<UnknownModelEditFormComponent>('form');
+
+  entity = injectEditEntity({
+    get$: (id) => this.#productsService.getSingle$(id),
+  });
+
+  onDelete = injectOnDelete((it: number) =>
+    this.#productsService.delete$(it).subscribe(() => this.#productsService.triggerGet$.next(true)),
+  );
   continuousCreation = injectContinuousCreation({
     formComponent: this.form,
     continuousUsePropertyNames: ['groupId', 'printerId', 'eventId', 'allergenIds'],
   });
   onSubmit = injectOnSubmit({
-    entityService: this.productsService,
+    entityService: this.#productsService,
     continuousCreation: {
       enabled: this.continuousCreation.enabled,
       patch: this.continuousCreation.patch,
     },
   });
 
-  selectedProductGroupId = toSignal(
-    this.route.queryParams.pipe(
-      map((params) => params.group as string),
-      filter(n_isNumeric),
-      map((id) => n_from(id)),
-    ),
-  );
+  selectedProductGroupId = injectQueryParams('group', {transform: numberAttribute});
 
   productGroups = toSignal(inject(ProductGroupsService).getAll$());
   printers = toSignal(inject(PrintersService).getAll$());
@@ -146,8 +148,4 @@ export class ProductEditComponent extends AbstractModelEditComponent<GetProductM
     }
     return false;
   });
-
-  constructor(private productsService: ProductsService) {
-    super(productsService);
-  }
 }

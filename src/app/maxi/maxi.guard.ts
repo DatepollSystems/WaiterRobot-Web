@@ -1,5 +1,6 @@
 import {inject} from '@angular/core';
 import {Router} from '@angular/router';
+
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';
 
 export function maxiGuard(): boolean {

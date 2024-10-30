@@ -1,23 +1,23 @@
 import {DatePipe} from '@angular/common';
-import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
-import {AppTestBadge} from '@home-shared/components/app-test-badge.component';
+
+import {catchError, combineLatest, filter, map, of, shareReplay, startWith, switchMap, timer} from 'rxjs';
+
 import {TranslocoPipe} from '@jsverse/transloco';
-
-import {EnvironmentHelper} from '@shared/EnvironmentHelper';
-import {AuthService} from '@shared/services/auth/auth.service';
-import {SystemInfoShowService} from '@shared/services/system-info.service';
-import {AppDownloadBtnListComponent} from '@shared/ui/app-download-btn-list.component';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {StopPropagationDirective} from 'dfx-helper';
 import {deriveLoading} from 'ngxtension/derive-loading';
 
-import {catchError, combineLatest, filter, map, of, shareReplay, startWith, switchMap, timer} from 'rxjs';
-import {SelectedEventService} from '../_admin/events/_services/selected-event.service';
+import {AppTestBadge} from '@home-shared/components/app-test-badge.component';
+
+import {EnvironmentHelper} from '@shared/EnvironmentHelper';
+import {injectAPI} from '@shared/api';
+import {AuthService, SelectedEventService, SystemInfoShowService} from '@shared/services';
+import {AppDownloadBtnListComponent} from '@shared/ui';
+import {AppProgressBarComponent} from '@shared/ui/loading';
+
 import {MyUserService} from '../_shared/services/user/my-user.service';
 import {AppOrderStateBadgeComponent} from '../orders/_components/app-order-state-badge.component';
 import {OrdersService} from '../orders/orders.service';
@@ -42,7 +42,7 @@ import {PrintersService} from '../printers/_services/printers.service';
   ],
 })
 export class StartComponent {
-  #httpClient = inject(HttpClient);
+  #api = injectAPI();
   #authService = inject(AuthService);
   #ordersService = inject(OrdersService);
   #mediatorsService = inject(MediatorsService);
@@ -56,7 +56,7 @@ export class StartComponent {
   showSystemInfoService = inject(SystemInfoShowService);
 
   hasError = toSignal(
-    this.#httpClient.get('/user/myself').pipe(
+    this.#api.get('/v1/user/myself').pipe(
       startWith(false),
       catchError(() => of(true)),
       filter((it) => it === true),
@@ -68,10 +68,7 @@ export class StartComponent {
       this.#ordersService.getAllPaginated({
         page: 0,
         size: 8,
-        sort: {
-          name: 'createdAt',
-          direction: 'desc',
-        },
+        sort: ['createdAt,desc'],
       }),
     ),
     map((it) => it.data),

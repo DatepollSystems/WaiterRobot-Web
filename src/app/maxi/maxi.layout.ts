@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 
-import {ThemeSwitcherComponent} from '@shared/ui/theme-switcher.component';
-
 import {BiComponent} from 'dfx-bootstrap-icons';
+
+import {ThemeSwitcherComponent} from '@shared/ui/theme-switcher.component';
 
 @Component({
   template: `

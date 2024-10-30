@@ -1,13 +1,13 @@
 import {NgOptimizedImage} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 
-import {QrCodeService} from '@home-shared/services/qr-code.service';
-
-import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
-
+import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {a_shuffle} from 'dfts-helper';
 import {BiComponent, BiName, BiNamesEnum} from 'dfx-bootstrap-icons';
+
+import {QrCodeService} from '@home-shared/services/qr-code.service';
+
 import {CopyDirective} from './copy.directive';
 
 export interface appDownload {
@@ -22,44 +22,44 @@ export interface appDownload {
   template: `
     @for (appLink of appDownloadLinks; track appLink.link) {
       <div class="btn-group m-1" role="group" aria-label="App download infos">
-        <a class="btn btn-outline-info" target="_blank" rel="noreferrer" [class.customLogo]="appLink.img" [href]="appLink.link">
+        <a class="btn btn-outline-info" [class.customLogo]="appLink.img" [href]="appLink.link" target="_blank" rel="noreferrer">
           @if (appLink.icon) {
             <bi [name]="appLink.icon" />
           }
           @if (appLink.img) {
-            <img alt="" height="16em;" width="16em;" [ngSrc]="appLink.img" />
+            <img [ngSrc]="appLink.img" alt="" height="16em;" width="16em;" />
           }
           @if (appLink.img2) {
-            <img alt="" height="16em;" width="16em;" [ngSrc]="appLink.img2" />
+            <img [ngSrc]="appLink.img2" alt="" height="16em;" width="16em;" />
           }
           {{ appLink.text }}
         </a>
 
         @if (showQRCodeButton()) {
           <button
-            type="button"
             class="btn btn-outline-info"
-            placement="top"
             [attr.aria-label]="'ABOUT_APP_QR_CODE_TOOLTIP' | transloco"
             [ngbTooltip]="'ABOUT_APP_QR_CODE_TOOLTIP' | transloco"
             (mousedown)="showQRCode(appLink)"
+            type="button"
+            placement="top"
           >
             <bi name="upc-scan" />
           </button>
         }
 
         <button
+          class="btn btn-outline-info"
           #c="copy"
           #t="ngbTooltip"
+          [copyable]="appLink.link"
+          [ngbTooltip]="'COPIED' | transloco"
+          (mousedown)="c.copy(t)"
           type="button"
-          class="btn btn-outline-info"
           aria-label="Copy app link"
           autoClose="false"
           triggers="manual"
           placement="bottom"
-          [copyable]="appLink.link"
-          [ngbTooltip]="'COPIED' | transloco"
-          (mousedown)="c.copy(t)"
         >
           <bi name="clipboard" />
         </button>
@@ -115,6 +115,10 @@ export class AppDownloadBtnListComponent {
   #qrCodeService = inject(QrCodeService);
 
   showQRCode(appLink: appDownload): void {
-    this.#qrCodeService.openQRCodePage({data: appLink.link, text: 'ABOUT_APP_QR_CODE_MODAL_TITLE', info: ''});
+    this.#qrCodeService.openQRCodePage({
+      data: appLink.link,
+      text: 'ABOUT_APP_QR_CODE_MODAL_TITLE',
+      info: '',
+    });
   }
 }

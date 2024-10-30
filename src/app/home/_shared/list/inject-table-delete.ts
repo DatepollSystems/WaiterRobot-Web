@@ -1,8 +1,11 @@
 import {SelectionModel} from '@angular/cdk/collections';
 import {Signal} from '@angular/core';
-import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
+
+import {Observable, forkJoin} from 'rxjs';
+
 import {IHasID, loggerOf, s_imploder} from 'dfts-helper';
-import {forkJoin, Observable} from 'rxjs';
+
+import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
 
 export function injectTableDelete<EntityType extends IHasID<EntityType['id']>>({
   delete$,

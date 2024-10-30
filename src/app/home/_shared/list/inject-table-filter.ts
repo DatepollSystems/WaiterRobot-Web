@@ -1,7 +1,8 @@
 import {computed} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {map, startWith} from 'rxjs';
 import {toSignal} from '@angular/core/rxjs-interop';
+import {FormControl} from '@angular/forms';
+
+import {map, startWith} from 'rxjs';
 
 export function injectTableFilter() {
   const control = new FormControl('');

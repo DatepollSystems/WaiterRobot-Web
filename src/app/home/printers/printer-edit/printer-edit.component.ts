@@ -1,15 +1,16 @@
-import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, viewChild} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 
-import {AbstractModelEditComponent} from '@home-shared/form/abstract-model-edit.component';
+import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
+
+import {UnknownModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectOnDelete, injectTabControls} from '@home-shared/form/edit';
-import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
-import {injectOnSubmit} from '@shared/form';
-import {GetPrinterResponse} from '@shared/waiterrobot-backend';
+import {injectContinuousCreation, injectEditEntity, injectOnDelete, injectTabControls} from '@home-shared/form/edit';
 
-import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
+import {injectOnSubmit} from '@shared/form';
+import {SelectedEventService} from '@shared/services/selected-event.service';
+
 import {OrganisationUsersSettingsComponent} from '../../_admin/organisations/organisation-edit/organisation-edit-users/organisation-users-settings.component';
 import {PrintersService} from '../_services/printers.service';
 import {AppPrinterEditForm} from './printer-edit-form.component';
@@ -19,7 +20,10 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
   template: `
     @if (entity(); as entity) {
       <div class="d-flex flex-column gap-2">
-        <h1 *isEditing="entity">{{ 'EDIT_2' | transloco }} {{ entity.name }} {{ 'NAV_PRINTERS' | transloco }}</h1>
+        <h1 *isEditing="entity">
+          {{ 'EDIT_2' | transloco }} {{ entity.name }}
+          {{ 'NAV_PRINTERS' | transloco }}
+        </h1>
         <h1 *isCreating="entity">{{ 'ADD_2' | transloco }}</h1>
 
         <scrollable-toolbar>
@@ -27,14 +31,14 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
 
           <ng-container *isEditing="entity">
             <div>
-              <button type="button" class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)">
+              <button class="btn btn-sm btn-danger" (mousedown)="onDelete(entity.id)" type="button">
                 <bi name="trash" />
                 {{ 'DELETE' | transloco }}
               </button>
             </div>
           </ng-container>
 
-          <div *isCreating="entity" class="d-flex align-items-center">
+          <div class="d-flex align-items-center" *isCreating="entity">
             <app-continues-creation-switch (continuesCreationChange)="continuousCreation.set($event)" />
           </div>
         </scrollable-toolbar>
@@ -42,11 +46,11 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
         <hr />
 
         <ul
-          #nav="ngbNav"
-          ngbNav
           class="nav-tabs"
+          #nav="ngbNav"
           [activeId]="tabControls.activeTab()"
           (navChange)="tabControls.navigateToTab($event.nextId)"
+          ngbNav
         >
           <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">
             <a ngbNavLink>{{ 'DATA' | transloco }}</a>
@@ -88,14 +92,22 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
     OrganisationUsersSettingsComponent,
   ],
 })
-export class PrinterEditComponent extends AbstractModelEditComponent<GetPrinterResponse> {
-  onDelete = injectOnDelete((it: number) => this.printersService.delete$(it).subscribe());
+export class PrinterEditComponent {
+  #printersService = inject(PrintersService);
+
+  form = viewChild<UnknownModelEditFormComponent>('form');
+
+  entity = injectEditEntity({
+    get$: (id) => this.#printersService.getSingle$(id),
+  });
+
+  onDelete = injectOnDelete((it: number) => this.#printersService.delete$(it).subscribe());
   continuousCreation = injectContinuousCreation({
     formComponent: this.form,
     continuousUsePropertyNames: ['eventId', 'font', 'bonWidth', 'bonPadding', 'bonPaddingTop'],
   });
   onSubmit = injectOnSubmit({
-    entityService: this.printersService,
+    entityService: this.#printersService,
     continuousCreation: {
       enabled: this.continuousCreation.enabled,
       patch: this.continuousCreation.patch,
@@ -110,9 +122,5 @@ export class PrinterEditComponent extends AbstractModelEditComponent<GetPrinterR
 
   selectedEvent = inject(SelectedEventService).selectedId;
 
-  fonts = toSignal(this.printersService.getAllFonts$(), {initialValue: []});
-
-  constructor(private printersService: PrintersService) {
-    super(printersService);
-  }
+  fonts = toSignal(this.#printersService.getAllFonts$(), {initialValue: []});
 }

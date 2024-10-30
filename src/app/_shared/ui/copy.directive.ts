@@ -1,7 +1,6 @@
 import {Directive, input} from '@angular/core';
 
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-
 import {cl_copy} from 'dfts-helper';
 
 @Directive({

@@ -3,21 +3,21 @@ import {DatePipe, JsonPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 
+import {interval, map} from 'rxjs';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {i_complete} from 'dfts-helper';
+import {DfxTimeSpanPipe, injectIsMobile} from 'dfx-helper';
+
 import {Hotkeys} from '@home-shared/services/hot-keys.service';
 import {QrCodeService} from '@home-shared/services/qr-code.service';
 import {RedirectService} from '@home-shared/services/redirect.service';
 import {MyUserService} from '@home-shared/services/user/my-user.service';
-import {TranslocoPipe} from '@jsverse/transloco';
-import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {EnvironmentHelper} from '@shared/EnvironmentHelper';
-import {AuthService} from '@shared/services/auth/auth.service';
-import {SystemInfoService, SystemInfoShowService} from '@shared/services/system-info.service';
-import {ThemeService} from '@shared/services/theme.service';
 
-import {i_complete} from 'dfts-helper';
-import {DfxTimeSpanPipe, injectIsMobile} from 'dfx-helper';
+import {EnvironmentHelper} from '@shared';
+import {AuthService, SystemInfoService, SystemInfoShowService, ThemeService} from '@shared/services';
 
-import {interval, map} from 'rxjs';
 import {AppSystemColorsModal} from './system-colors.modal';
 
 @Component({
@@ -25,27 +25,30 @@ import {AppSystemColorsModal} from './system-colors.modal';
     @defer (when showService.show()) {
       @if (showService.show()) {
         <div
-          #frontendInfo
           class="col-12 col-md-8 col-lg-6 col-xl-4 col-xxl-3 overflow-y-auto"
-          cdkDrag
-          style="z-index: 1000000; bottom: 30px; left: 20px; max-height: 96%"
+          #frontendInfo
           [cdkDragDisabled]="isMobile()"
           [class.position-fixed]="!isMobile()"
+          cdkDrag
+          style="z-index: 1000000; bottom: 30px; left: 20px; max-height: 96%"
         >
           <div class="card px-2 pt-2 transparent" [class.text-white]="theme().id === 'light'">
             <div class="card-body d-flex flex-column gap-3">
               <div class="d-flex justify-content-between align-items-center">
-                <h5 class="card-title mb-0">{{ 'HOME_START_STATISTICS' | transloco }}</h5>
+                <h5 class="card-title mb-0">
+                  {{ 'HOME_START_STATISTICS' | transloco }}
+                </h5>
 
-                <button type="button" class="btn btn-dark" (click)="openSystemColors()">System Colors</button>
+                <button class="btn btn-dark" (click)="openSystemColors()" type="button">System Colors</button>
 
-                <button type="button" class="btn-close btn-close-white" (click)="frontendInfo.remove()">
+                <button class="btn-close btn-close-white" (click)="frontendInfo.remove()" type="button">
                   <span class="visually-hidden">Close frontend window</span>
                 </button>
               </div>
               <ul class="list-unstyled px-2 d-flex flex-column gap-2">
                 <li class="d-flex flex-column flex-sm-row justify-content-between">
-                  Local time: <span>{{ localTime() | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
+                  Local time:
+                  <span>{{ localTime() | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
                 </li>
                 <li class="d-flex justify-content-between">
                   OS: <span>{{ browserInfos.os }}</span>
@@ -90,7 +93,7 @@ import {AppSystemColorsModal} from './system-colors.modal';
                 <li class="d-flex justify-content-between">
                   Selected Theme: <span>{{ theme().name }}</span>
                 </li>
-                <li i18n class="d-flex justify-content-between flex-wrap">
+                <li class="d-flex justify-content-between flex-wrap" i18n>
                   Auth redirect:
 
                   @if (authService.redirectUrl(); as it) {
@@ -99,7 +102,7 @@ import {AppSystemColorsModal} from './system-colors.modal';
                     <span>-</span>
                   }
                 </li>
-                <li i18n class="d-flex justify-content-between flex-wrap">
+                <li class="d-flex justify-content-between flex-wrap" i18n>
                   Selected redirect:
 
                   @if (redirectUrl(); as it) {
@@ -109,7 +112,7 @@ import {AppSystemColorsModal} from './system-colors.modal';
                   }
                 </li>
 
-                <li i18n class="d-flex justify-content-between flex-wrap">
+                <li class="d-flex justify-content-between flex-wrap" i18n>
                   QrCode Data:
 
                   @if (qrCodeData(); as it) {
@@ -124,18 +127,18 @@ import {AppSystemColorsModal} from './system-colors.modal';
         </div>
 
         <div
-          #backendInfo
           class="col-12 col-md-8 col-lg-6 col-xl-4 col-xxl-3"
-          cdkDrag
-          style="z-index: 1000000; bottom: 30px; left: 50%"
+          #backendInfo
           [cdkDragDisabled]="isMobile()"
           [class.position-fixed]="!isMobile()"
+          cdkDrag
+          style="z-index: 1000000; bottom: 30px; left: 50%"
         >
           <div class="card px-2 pt-2 transparent" [class.text-white]="theme().id === 'light'">
             <div class="card-body d-flex flex-column gap-3">
               <div class="d-flex justify-content-between">
                 <h5 i18n>Backend</h5>
-                <button type="button" class="btn-close btn-close-white" (click)="backendInfo.remove()">
+                <button class="btn-close btn-close-white" (click)="backendInfo.remove()" type="button">
                   <span class="visually-hidden">Close backend window</span>
                 </button>
               </div>
@@ -170,24 +173,29 @@ import {AppSystemColorsModal} from './system-colors.modal';
                           aria-label="Next refresh in"
                           i18n-aria-label
                         >
-                          &nbsp;&nbsp;/&nbsp;&nbsp;{{ serverInfoService.refreshIn() }} s
+                          &nbsp;&nbsp;/&nbsp;&nbsp;{{ serverInfoService.refreshIn() }}
+                          s
                         </div>
                       </div>
                     </li>
                     <li class="d-flex flex-row justify-content-between">
-                      Uptime: <span>{{ localTime() | d_timespan: publicInfo.serverStartTime }}</span>
+                      Uptime:
+                      <span>{{ localTime() | d_timespan: publicInfo.serverStartTime }}</span>
                     </li>
                     <li class="d-flex flex-row justify-content-between">
                       Version: <span>{{ publicInfo.version }}</span>
                     </li>
                     <li class="d-flex flex-row justify-content-between">
-                      Info: <span class="ms-md-5" style="white-space: nowrap">"{{ publicInfo.info }}"</span>
+                      Info:
+                      <span class="ms-md-5" style="white-space: nowrap">"{{ publicInfo.info }}"</span>
                     </li>
                     <li class="d-flex flex-column flex-sm-row justify-content-between">
-                      Time: <span>{{ publicInfo.serverTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' : 'UTC' }}</span>
+                      Time:
+                      <span>{{ publicInfo.serverTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' : 'UTC' }}</span>
                     </li>
                     <li class="d-flex flex-column flex-sm-row justify-content-between">
-                      Started: <span>{{ publicInfo.serverStartTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
+                      Started:
+                      <span>{{ publicInfo.serverStartTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
                     </li>
                   }
 
@@ -232,7 +240,9 @@ export class SystemInfoComponent {
   authService = inject(AuthService);
   qrCodeData = inject(QrCodeService).data;
 
-  localTime = toSignal(interval(1000).pipe(map(() => new Date())), {initialValue: new Date()});
+  localTime = toSignal(interval(1000).pipe(map(() => new Date())), {
+    initialValue: new Date(),
+  });
 
   browserInfos = i_complete();
 
@@ -248,7 +258,9 @@ export class SystemInfoComponent {
   }
 
   openSystemColors() {
-    const modal = this.#modal.open(AppSystemColorsModal, {ariaLabelledBy: 'modal-system-colors'});
+    const modal = this.#modal.open(AppSystemColorsModal, {
+      ariaLabelledBy: 'modal-system-colors',
+    });
     modal.closed.subscribe(() => {
       this.showService.set(true);
     });

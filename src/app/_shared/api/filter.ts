@@ -1,17 +1,16 @@
 /* eslint-disable */
 // noinspection NonAsciiCharacters,JSNonASCIINames
-
-import {inject, Signal} from '@angular/core';
+import {Signal, inject} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {AbstractControl, FormGroup, ɵValue} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {injectIsValid} from '@shared/form';
+import {Observable, distinctUntilChanged, map, merge, shareReplay} from 'rxjs';
 
 import {loggerOf, n_from} from 'dfts-helper';
 import {derivedFrom} from 'ngxtension/derived-from';
 
-import {distinctUntilChanged, map, merge, Observable, shareReplay} from 'rxjs';
+import {injectIsValid} from '@shared/form';
 
 export function injectFilter<
   TControl extends {
@@ -68,7 +67,7 @@ export function injectFilter<
   // Subscribe to route to set the form filter on change
   queryParamChanges.subscribe((controls: {[key: string]: string[]}) => {
     for (const key in controls) {
-      const params = controls[key];
+      const params = controls[key] ?? [];
       if (Array.isArray(form.controls[key as keyof typeof form.controls].value)) {
         if (params.length > 0) {
           form.controls[key as keyof typeof form.controls].patchValue(

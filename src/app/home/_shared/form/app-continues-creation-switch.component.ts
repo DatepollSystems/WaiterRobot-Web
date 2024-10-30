@@ -1,13 +1,13 @@
-import {booleanAttribute, ChangeDetectionStrategy, Component, Input, input, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, booleanAttribute, input, output} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 
 import {TranslocoPipe} from '@jsverse/transloco';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   template: `
     <div class="form-check form-switch mb-0">
-      <input class="form-check-input" type="checkbox" role="switch" id="continuousCreation" [formControl]="formControl" />
+      <input class="form-check-input" id="continuousCreation" [formControl]="formControl" type="checkbox" role="switch" />
       <label class="form-check-label text-nowrap" for="continuousCreation">{{ text() | transloco }}</label>
     </div>
   `,

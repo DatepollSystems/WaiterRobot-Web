@@ -1,11 +1,13 @@
 import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
 import {FormsModule, NgForm} from '@angular/forms';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {s_isEmail} from 'dfts-helper';
+
 import {MyUserService} from '@home-shared/services/user/my-user.service';
 
 import {NotificationService} from '@shared/notifications/notification.service';
-
-import {s_isEmail} from 'dfts-helper';
-import {TranslocoPipe} from '@jsverse/transloco';
+import {AuthService} from '@shared/services';
 
 import {UserSettingsService} from '../_services/user-settings.service';
 
@@ -17,6 +19,7 @@ import {UserSettingsService} from '../_services/user-settings.service';
   standalone: true,
 })
 export class UserSettingsSubComponent {
+  #authService = inject(AuthService);
   #myUserService = inject(MyUserService);
   #notificationService = inject(NotificationService);
   #userSettingsService = inject(UserSettingsService);
@@ -36,6 +39,10 @@ export class UserSettingsSubComponent {
   changeEmail(form: NgForm): void {
     this.#userSettingsService.changeEmail({emailAddress: form.form.value.email as string}).subscribe(() => {
       this.#notificationService.tsuccess('HOME_USERSETTINGS_USER_SETTINGS_EMAIL_SUCCESS');
+
+      setTimeout(() => {
+        this.#authService.logout();
+      }, 5000);
     });
   }
 
@@ -61,7 +68,10 @@ export class UserSettingsSubComponent {
 
   changePassword(form: NgForm): void {
     this.#userSettingsService
-      .changePassword({oldPassword: form.form.value.oldPassword as string, newPassword: form.form.value.newPassword as string})
+      .changePassword({
+        oldPassword: form.form.value.oldPassword as string,
+        newPassword: form.form.value.newPassword as string,
+      })
       .subscribe({
         next: () => {
           this.#notificationService.tsuccess('HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_SUCCESS');

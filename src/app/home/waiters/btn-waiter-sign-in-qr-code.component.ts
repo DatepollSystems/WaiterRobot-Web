@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, inject} from '@angular/core';
 
 import {AppQrCodeButtonComponent} from '../_shared/components/button/app-qr-code-button.component';
 import {MobileLinkService} from '../_shared/services/mobile-link.service';

@@ -3,11 +3,9 @@ import {ActivatedRouteSnapshot, Router, RouterStateSnapshot} from '@angular/rout
 
 import {getLogMessage, n_from, n_isNumeric} from 'dfts-helper';
 
+import {SelectedOrganisationService, selectedOrganisationRouteParamKey} from '@shared/services/selected-organisation.service';
+
 import {RedirectService} from '../services/redirect.service';
-import {
-  selectedOrganisationRouteParamKey,
-  SelectedOrganisationService,
-} from '../../_admin/organisations/_services/selected-organisation.service';
 
 export function organisationSelectedGuard(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
   const router = inject(Router);

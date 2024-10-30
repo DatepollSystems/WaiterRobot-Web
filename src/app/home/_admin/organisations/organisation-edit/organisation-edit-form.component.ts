@@ -1,41 +1,45 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
+import {BiComponent} from 'dfx-bootstrap-icons';
+
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
-import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
-import {TranslocoPipe} from '@jsverse/transloco';
+import {BackendType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
-import {CreateOrganisationDto, GetOrganisationResponse, UpdateOrganisationDto} from '@shared/waiterrobot-backend';
-
-import {BiComponent} from 'dfx-bootstrap-icons';
 
 @Component({
   template: `
     @if (isValid()) {}
 
-    <form #formRef class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="submit()">
+    <form class="d-flex flex-column gap-3" #formRef [formGroup]="form" (ngSubmit)="submit()">
       <div class="d-flex flex-column flex-sm-row gap-3 gap-md-4">
         <div class="form-group flex-fill">
           <label for="name">{{ 'NAME' | transloco }}</label>
-          <input class="form-control" type="text" id="name" formControlName="name" [placeholder]="'NAME' | transloco" />
+          <input class="form-control" id="name" [placeholder]="'NAME' | transloco" type="text" formControlName="name" />
 
           @if (form.controls.name.invalid) {
-            <small class="text-danger"> {{ 'HOME_ORGS_NAME_INCORRECT' | transloco }} </small>
+            <small class="text-danger">
+              {{ 'HOME_ORGS_NAME_INCORRECT' | transloco }}
+            </small>
           }
         </div>
         <div class="form-group">
           <label for="countryCode">{{ 'HOME_ORGS_COUNTRY_CODE' | transloco }}</label>
           <input
             class="form-control"
-            type="text"
             id="countryCode"
-            formControlName="countryCode"
             [placeholder]="'HOME_ORGS_COUNTRY_CODE' | transloco"
+            type="text"
+            formControlName="countryCode"
           />
           @if (form.controls.countryCode.invalid) {
-            <small class="text-danger"> {{ 'HOME_ORGS_COUNTRY_CODE_INCORRECT' | transloco }} </small>
+            <small class="text-danger">
+              {{ 'HOME_ORGS_COUNTRY_CODE_INCORRECT' | transloco }}
+            </small>
           }
         </div>
       </div>
@@ -43,22 +47,26 @@ import {BiComponent} from 'dfx-bootstrap-icons';
       <div class="d-flex flex-column flex-sm-row gap-4">
         <div class="form-group flex-fill">
           <label for="street">{{ 'HOME_ORGS_STREET' | transloco }}</label>
-          <input class="form-control" type="text" id="street" formControlName="street" [placeholder]="'HOME_ORGS_STREET' | transloco" />
+          <input class="form-control" id="street" [placeholder]="'HOME_ORGS_STREET' | transloco" type="text" formControlName="street" />
           @if (form.controls.street.invalid) {
-            <small class="text-danger"> {{ 'HOME_ORGS_STREET_INCORRECT' | transloco }} </small>
+            <small class="text-danger">
+              {{ 'HOME_ORGS_STREET_INCORRECT' | transloco }}
+            </small>
           }
         </div>
         <div class="form-group flex-fill">
           <label for="streetNumber">{{ 'HOME_ORGS_STREETNUMBER' | transloco }}</label>
           <input
             class="form-control"
-            type="text"
             id="streetNumber"
-            formControlName="streetNumber"
             [placeholder]="'HOME_ORGS_STREETNUMBER' | transloco"
+            type="text"
+            formControlName="streetNumber"
           />
           @if (form.controls.streetNumber.invalid) {
-            <small class="text-danger"> {{ 'HOME_ORGS_STREETNUMBER_INCORRECT' | transloco }} </small>
+            <small class="text-danger">
+              {{ 'HOME_ORGS_STREETNUMBER_INCORRECT' | transloco }}
+            </small>
           }
         </div>
 
@@ -66,21 +74,25 @@ import {BiComponent} from 'dfx-bootstrap-icons';
           <label for="postalCode">{{ 'HOME_ORGS_POSTAL_CODE' | transloco }}</label>
           <input
             class="form-control"
-            type="text"
             id="postalCode"
-            formControlName="postalCode"
             [placeholder]="'HOME_ORGS_POSTAL_CODE' | transloco"
+            type="text"
+            formControlName="postalCode"
           />
           @if (form.controls.postalCode.invalid) {
-            <small class="text-danger"> {{ 'HOME_ORGS_POSTAL_CODE_INCORRECT' | transloco }} </small>
+            <small class="text-danger">
+              {{ 'HOME_ORGS_POSTAL_CODE_INCORRECT' | transloco }}
+            </small>
           }
         </div>
 
         <div class="form-group flex-fill">
           <label for="city">{{ 'HOME_ORGS_CITY' | transloco }}</label>
-          <input class="form-control" type="text" id="city" formControlName="city" [placeholder]="'HOME_ORGS_CITY' | transloco" />
+          <input class="form-control" id="city" [placeholder]="'HOME_ORGS_CITY' | transloco" type="text" formControlName="city" />
           @if (form.controls.city.invalid) {
-            <small class="text-danger"> {{ 'HOME_ORGS_CITY_INCORRECT' | transloco }} </small>
+            <small class="text-danger">
+              {{ 'HOME_ORGS_CITY_INCORRECT' | transloco }}
+            </small>
           }
         </div>
       </div>
@@ -93,7 +105,10 @@ import {BiComponent} from 'dfx-bootstrap-icons';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppOrganisationEditFormComponent extends AbstractModelEditFormComponent<CreateOrganisationDto, UpdateOrganisationDto> {
+export class AppOrganisationEditFormComponent extends AbstractModelEditFormComponent<
+  BackendType['CreateOrganisationDto'],
+  BackendType['UpdateOrganisationDto']
+> {
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(40)]],
     street: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(80)]],
@@ -107,7 +122,7 @@ export class AppOrganisationEditFormComponent extends AbstractModelEditFormCompo
   isValid = injectIsValid(this.form);
 
   @Input()
-  set organisation(it: GetOrganisationResponse | 'CREATE') {
+  set organisation(it: BackendType['GetOrganisationResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;
@@ -126,5 +141,5 @@ export class AppOrganisationEditFormComponent extends AbstractModelEditFormCompo
     });
   }
 
-  _organisation?: GetOrganisationResponse;
+  _organisation?: BackendType['GetOrganisationResponse'];
 }

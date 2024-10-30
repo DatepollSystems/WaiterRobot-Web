@@ -1,8 +1,8 @@
 import {Location, NgOptimizedImage} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {Router} from '@angular/router';
-import {TranslocoPipe} from '@jsverse/transloco';
 
+import {TranslocoPipe} from '@jsverse/transloco';
 import {n_fromStorage, st_set} from 'dfts-helper';
 
 @Component({
@@ -12,7 +12,7 @@ import {n_fromStorage, st_set} from 'dfts-helper';
       <img ngSrc="/assets/404.webp" priority width="400" height="320" alt="Image of cat which hides in a box" />
     </div>
     <h2 class="text-center mt-5">{{ '404_TITLE' | transloco }}</h2>
-    <button type="button" class="btn btn-primary btn-lg mt-5 mb-4 w-100" (click)="goBack()">
+    <button class="btn btn-primary btn-lg mt-5 mb-4 w-100" (click)="goBack()" type="button">
       {{ 'GO_BACK' | transloco }}
     </button>
   `,

@@ -3,14 +3,15 @@ import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core'
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {passwordMatchValidator} from '@home-shared/regex';
-import {TranslocoPipe} from '@jsverse/transloco';
-
-import {AuthService} from '@shared/services/auth/auth.service';
-
-import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {delay, tap} from 'rxjs';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {BiComponent} from 'dfx-bootstrap-icons';
+
+import {passwordMatchValidator} from '@home-shared/regex';
+
+import {injectAPI} from '@shared/api';
 
 @Component({
   template: `
@@ -26,17 +27,17 @@ import {delay, tap} from 'rxjs';
               <div class="form-floating">
                 <input
                   class="form-control"
+                  id="email"
+                  [placeholder]="'ABOUT_SIGNIN_EMAIL_ADDRESS' | transloco"
                   autocomplete="on"
                   type="email"
-                  id="email"
                   formControlName="email"
-                  [placeholder]="'ABOUT_SIGNIN_EMAIL_ADDRESS' | transloco"
                 />
                 <label for="email">{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | transloco }}</label>
               </div>
 
               <div class="d-flex">
-                <button type="submit" class="btn btn-primary w-100" [disabled]="!requestPasswordResetForm.valid">
+                <button class="btn btn-primary w-100" [disabled]="!requestPasswordResetForm.valid" type="submit">
                   {{ 'SENT' | transloco }}
                 </button>
               </div>
@@ -44,7 +45,7 @@ import {delay, tap} from 'rxjs';
 
             @if (requestPasswordResetForm.valid) {
               <div class="text-center mt-4">
-                <button type="button" class="btn btn-link" (click)="resetState.set('SET')">
+                <button class="btn btn-link" (click)="resetState.set('SET')" type="button">
                   {{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_ALREADY_SENT' | transloco }}
                 </button>
               </div>
@@ -57,10 +58,12 @@ import {delay, tap} from 'rxjs';
             <form class="d-flex flex-column gap-3" [formGroup]="resetPasswordForm" (ngSubmit)="resetPassword()">
               <h3>{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_RESET' | transloco }}</h3>
 
-              <div class="alert alert-info d-flex" role="alert">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_EMAIL_SENT' | transloco }}</div>
+              <div class="alert alert-info d-flex" role="alert">
+                {{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_EMAIL_SENT' | transloco }}
+              </div>
 
               <div class="form-floating">
-                <input class="form-control" type="text" id="resetToken" formControlName="resetToken" placeholder="XXXXXXXXXXXXX" />
+                <input class="form-control" id="resetToken" type="text" formControlName="resetToken" placeholder="XXXXXXXXXXXXX" />
                 <label for="resetToken">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_RESET_TOKEN' | transloco }}</label>
               </div>
 
@@ -73,10 +76,10 @@ import {delay, tap} from 'rxjs';
               <div class="form-floating">
                 <input
                   class="form-control"
-                  type="password"
                   id="password"
-                  formControlName="newPassword"
                   [placeholder]="'PASSWORD' | transloco"
+                  type="password"
+                  formControlName="newPassword"
                 />
                 <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | transloco }}</label>
               </div>
@@ -90,10 +93,10 @@ import {delay, tap} from 'rxjs';
               <div class="form-floating">
                 <input
                   class="form-control"
-                  type="password"
                   id="password"
-                  formControlName="confirmPassword"
                   [placeholder]="'PASSWORD' | transloco"
+                  type="password"
+                  formControlName="confirmPassword"
                 />
                 <label for="password">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_AGAIN' | transloco }}</label>
               </div>
@@ -111,7 +114,7 @@ import {delay, tap} from 'rxjs';
               }
 
               <div class="d-flex">
-                <button type="submit" class="btn btn-primary w-100" []="!resetPasswordForm.valid">
+                <button class="btn btn-primary w-100" [disabled]="resetPasswordForm.invalid" type="submit">
                   {{ 'SENT' | transloco }}
                 </button>
               </div>
@@ -123,7 +126,7 @@ import {delay, tap} from 'rxjs';
               {{ 'ABOUT_SIGNIN_FORGOT_PASSWORD_SUCCESS' | transloco }}
             </div>
 
-            <a routerLink="/about" class="btn btn-secondary">{{ 'GO_BACK' | transloco }}</a>
+            <a class="btn btn-secondary" routerLink="/about">{{ 'GO_BACK' | transloco }}</a>
           }
         }
       </div>
@@ -136,7 +139,7 @@ import {delay, tap} from 'rxjs';
 })
 export class ForgotPasswordComponent {
   #router = inject(Router);
-  #authService = inject(AuthService);
+  #api = injectAPI();
   #fb = inject(FormBuilder);
 
   requestPasswordResetForm = this.#fb.nonNullable.group({
@@ -174,17 +177,27 @@ export class ForgotPasswordComponent {
 
   requestPasswordReset(): void {
     const email = this.requestPasswordResetForm.controls.email.getRawValue();
-    this.#authService.sendPasswordResetRequest(email).subscribe(() => {
-      this.resetState.set('SET');
-    });
+    this.#api
+      .post('/v1/auth/resetPassword', {
+        body: {email},
+      })
+      .subscribe(() => {
+        this.resetState.set('SET');
+      });
   }
 
   resetPassword(): void {
     const email = this.requestPasswordResetForm.controls.email.getRawValue();
     const resetToken = this.resetPasswordForm.controls.resetToken.getRawValue();
     const newPassword = this.resetPasswordForm.controls.newPassword.getRawValue();
-    this.#authService
-      .sendPasswordReset(email, resetToken, newPassword)
+    this.#api
+      .post('/v1/auth/resetPassword/update', {
+        body: {
+          email,
+          resetToken,
+          newPassword,
+        },
+      })
       .pipe(
         tap(() => {
           this.resetState.set('SUCCESS');

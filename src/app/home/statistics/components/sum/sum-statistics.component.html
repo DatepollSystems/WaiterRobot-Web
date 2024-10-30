@@ -5,8 +5,8 @@
         <h4><ng-content /></h4>
       </div>
       <div class="col text-end">
-        <div ngbDropdown class="d-inline-block">
-          <button type="button" class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>
+        <div class="d-inline-block" ngbDropdown>
+          <button class="btn btn-primary" id="dropdownBasic1" type="button" ngbDropdownToggle>
             @switch (chartType) { @case ('BAR') {
             <span>{{ 'HOME_STATISTICS_BAR_CHART' | transloco }}</span>
             } @case ('PIE') {
@@ -16,14 +16,17 @@
             } }
           </button>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button type="button" ngbDropdownItem (click)="setChartType('BAR')">
-              <bi name="bar-chart-line-fill" /> {{ 'HOME_STATISTICS_BAR_CHART' | transloco }}
+            <button (click)="setChartType('BAR')" type="button" ngbDropdownItem>
+              <bi name="bar-chart-line-fill" />
+              {{ 'HOME_STATISTICS_BAR_CHART' | transloco }}
             </button>
-            <button type="button" ngbDropdownItem (click)="setChartType('PIE')">
-              <bi name="pie-chart-fill" /> {{ 'HOME_STATISTICS_PIE_CHART' | transloco }}
+            <button (click)="setChartType('PIE')" type="button" ngbDropdownItem>
+              <bi name="pie-chart-fill" />
+              {{ 'HOME_STATISTICS_PIE_CHART' | transloco }}
             </button>
-            <button type="button" ngbDropdownItem (click)="setChartType('TEXT')">
-              <bi name="list-ul" /> {{ 'HOME_STATISTICS_TEXT_CHART' | transloco }}
+            <button (click)="setChartType('TEXT')" type="button" ngbDropdownItem>
+              <bi name="list-ul" />
+              {{ 'HOME_STATISTICS_TEXT_CHART' | transloco }}
             </button>
           </div>
         </div>
@@ -40,16 +43,12 @@
 
     <div id="chart">
       @if (chartType === 'PIE' && sumDtos && sumDtos.length > 0) {
-
       <div style="height: 45vh">
-        <ngx-charts-pie-chart scheme="cool" [results]="sumDtos" [labels]="true" [trimLabels]="false" />
+        <ngx-charts-pie-chart [results]="sumDtos" [labels]="true" [trimLabels]="false" scheme="cool" />
       </div>
-
       } @if (chartType === 'BAR' && sumDtos && sumDtos.length > 0) {
-
       <div [style.height]="_height">
         <ngx-charts-bar-horizontal
-          scheme="cool"
           [barPadding]="16"
           [maxYAxisTickLength]="26"
           [showDataLabel]="!isBlurred()"
@@ -59,11 +58,10 @@
           [trimXAxisTicks]="false"
           [results]="sumDtos"
           [legend]="false"
+          scheme="cool"
         />
       </div>
-
       } @if (chartType === 'TEXT' && sumDtos && sumDtos.length > 0) {
-
       <ul class="list-group list-group-flush">
         @for (dto of sumDtos; track dto) {
         <li class="d-flex justify-content-between list-group-item">
@@ -72,7 +70,6 @@
         </li>
         }
       </ul>
-
       }
     </div>
 

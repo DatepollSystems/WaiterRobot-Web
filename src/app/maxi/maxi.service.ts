@@ -1,14 +1,12 @@
-import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {NonNullableFormBuilder, Validators} from '@angular/forms';
 
-import {IdResponse} from '@shared/waiterrobot-backend';
+import {BehaviorSubject, Observable, Subject, catchError, combineLatest, filter, map, of, switchMap, timer, withLatestFrom} from 'rxjs';
 
 import {n_generate_int} from 'dfts-helper';
-
 import {signalSlice} from 'ngxtension/signal-slice';
 
-import {BehaviorSubject, catchError, combineLatest, filter, map, Observable, of, Subject, switchMap, timer, withLatestFrom} from 'rxjs';
+import {injectAPI} from '@shared/api';
 
 interface MaxiOrderTry {
   id: number;
@@ -37,7 +35,7 @@ interface MaxiState {
 
 @Injectable({providedIn: 'root'})
 export class MaxiService {
-  private httpClient = inject(HttpClient);
+  #api = injectAPI();
 
   private initialState: MaxiState = {
     activeTab: 'CREATE',
@@ -67,14 +65,26 @@ export class MaxiService {
           withLatestFrom(this.running),
           filter(([, running]) => running),
           switchMap(([[eventId]]) =>
-            this.httpClient.post<IdResponse>('/config/order/test/all', {}, {params: {eventId}}).pipe(
+            this.#api.post('/v1/config/order/test/all', {params: {query: {eventId}}}).pipe(
               map((response) => [...state().currentSessionOrders, {id: response.id, sent: new Date(), success: true}]),
-              catchError(() => of([...state().currentSessionOrders, {id: n_generate_int(0, 100000000), sent: new Date(), success: false}])),
+              catchError(() =>
+                of([
+                  ...state().currentSessionOrders,
+                  {
+                    id: n_generate_int(0, 100000000),
+                    sent: new Date(),
+                    success: false,
+                  },
+                ]),
+              ),
             ),
           ),
           map((currentSessionOrders) => {
             return {
-              currentSession: {...state().currentSession!, successRate: calculateSuccessRate(currentSessionOrders)},
+              currentSession: {
+                ...state().currentSession!,
+                successRate: calculateSuccessRate(currentSessionOrders),
+              },
               currentSessionOrders,
             };
           }),
@@ -89,7 +99,10 @@ export class MaxiService {
               oldCurrentSession.ended = new Date();
             }
 
-            this.load$.next({intervalInMs: state().intervalInMs, eventId: state().eventId!});
+            this.load$.next({
+              intervalInMs: state().intervalInMs,
+              eventId: state().eventId!,
+            });
             this.running.next(true);
             this.form.disable();
             return {

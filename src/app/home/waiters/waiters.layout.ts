@@ -1,10 +1,13 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink, RouterOutlet} from '@angular/router';
-import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
-import {NgbNav, NgbNavItem, NgbNavLink} from '@ng-bootstrap/ng-bootstrap';
+
 import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbNav, NgbNavItem, NgbNavLink} from '@ng-bootstrap/ng-bootstrap';
 import {injectParams} from 'ngxtension/inject-params';
+
+import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
+
 import {EventsService} from '../_admin/events/_services/events.service';
 
 @Component({
@@ -12,13 +15,13 @@ import {EventsService} from '../_admin/events/_services/events.service';
     <h1 class="mb-3">{{ 'HOME_WAITERS_NAV_ORGANISATION' | transloco }}</h1>
 
     <div class="nav-x-scroll">
-      <ul ngbNav class="nav-tabs mb-3" [activeId]="activeId()">
+      <ul class="nav-tabs mb-3" [activeId]="activeId()" ngbNav>
         <li ngbNavItem="all">
           <a ngbNavLink routerLink="../all">{{ 'ALL' | transloco }}</a>
         </li>
         @for (event of events(); track event.id) {
           <li [ngbNavItem]="event.id.toString()">
-            <a ngbNavLink [routerLink]="'../' + event.id">
+            <a [routerLink]="'../' + event.id" ngbNavLink>
               {{ event.name }}
             </a>
           </li>

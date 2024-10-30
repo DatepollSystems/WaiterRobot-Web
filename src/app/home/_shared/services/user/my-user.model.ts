@@ -1,5 +1,6 @@
-import {GetMyselfResponse} from '@shared/waiterrobot-backend';
 import {HasIDAndName} from 'dfts-helper';
+
+import {BackendType} from '@shared/api';
 
 export class MyUserModel implements HasIDAndName<number> {
   public readonly id: number;
@@ -9,7 +10,7 @@ export class MyUserModel implements HasIDAndName<number> {
   public readonly surname: string;
   public isAdmin: boolean;
 
-  constructor(data: GetMyselfResponse) {
+  constructor(data: BackendType['GetMyselfResponse']) {
     this.id = data.id;
     this.name = `${data.firstname} ${data.surname}`;
     this.emailAddress = data.emailAddress;

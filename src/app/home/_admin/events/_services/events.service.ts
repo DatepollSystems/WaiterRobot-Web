@@ -1,86 +1,111 @@
-import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
-import {
-  CreateEventOrLocationDto,
-  GetEventOrLocationResponse,
-  GetProductResponse,
-  IdResponse,
-  UpdateEventOrLocationDto,
-} from '@shared/waiterrobot-backend';
+import {BehaviorSubject, EMPTY, catchError, combineLatest, map, shareReplay, switchMap, tap} from 'rxjs';
 
-import {s_from} from 'dfts-helper';
-import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
-
-import {BehaviorSubject, catchError, combineLatest, EMPTY, map, Observable, shareReplay, switchMap, tap} from 'rxjs';
-
-import {SelectedOrganisationService} from '../../organisations/_services/selected-organisation.service';
+import {BackendType, injectAPI} from '@shared/api';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse, SelectedOrganisationService} from '@shared/services';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventsService
   implements
-    HasGetAll<GetEventOrLocationResponse>,
-    HasGetSingle<GetEventOrLocationResponse>,
-    HasCreateWithIdResponse<CreateEventOrLocationDto>,
-    HasUpdateWithIdResponse<UpdateEventOrLocationDto>,
-    HasDelete<GetProductResponse>
+    HasCreateWithIdResponse<BackendType['CreateEventOrLocationDto']>,
+    HasUpdateWithIdResponse<BackendType['UpdateEventOrLocationDto']>
 {
-  private url = '/config/event';
+  #api = injectAPI();
+  #selectedOrganisationService = inject(SelectedOrganisationService);
 
-  private httpClient = inject(HttpClient);
-  private selectedOrganisationService = inject(SelectedOrganisationService);
-
-  create$(dto: CreateEventOrLocationDto): Observable<IdResponse> {
-    return this.httpClient.post<IdResponse>(this.url, dto).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
-    );
+  create$(body: BackendType['CreateEventOrLocationDto']) {
+    return this.#api
+      .post('/v1/config/event', {
+        body,
+      })
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
   }
 
-  update$(dto: UpdateEventOrLocationDto): Observable<IdResponse> {
-    return this.httpClient.put<IdResponse>(this.url, dto).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
-    );
+  update$(body: BackendType['UpdateEventOrLocationDto']) {
+    return this.#api
+      .put('/v1/config/event', {
+        body,
+      })
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
   }
 
-  delete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
-    );
+  delete$(id: number) {
+    return this.#api
+      .delete('/v1/config/event/{id}', {
+        params: {
+          path: {id},
+        },
+      })
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
   }
 
   triggerGet$ = new BehaviorSubject(true);
 
-  getAll$(): Observable<GetEventOrLocationResponse[]> {
-    return combineLatest([this.selectedOrganisationService.selectedIdNotNull$, this.triggerGet$]).pipe(
-      switchMap(([organisationId]) => this.httpClient.get<GetEventOrLocationResponse[]>(this.url, {params: {organisationId}})),
+  getAll$() {
+    return combineLatest([this.#selectedOrganisationService.selectedIdNotNull$, this.triggerGet$]).pipe(
+      switchMap(([organisationId]) =>
+        this.#api.get('/v1/config/event', {
+          params: {
+            query: {organisationId},
+          },
+        }),
+      ),
       map((it) => it.sort((a, b) => a.name.trim().toLowerCase().localeCompare(b.name.trim().toLowerCase()))),
       shareReplay(1),
       catchError(() => EMPTY),
     );
   }
 
-  getAllById$(organisationId: number): Observable<GetEventOrLocationResponse[]> {
-    return this.triggerGet$.pipe(switchMap(() => this.httpClient.get<GetEventOrLocationResponse[]>(this.url, {params: {organisationId}})));
-  }
-
-  getSingle$(id: number): Observable<GetEventOrLocationResponse> {
-    return this.triggerGet$.pipe(switchMap(() => this.httpClient.get<GetEventOrLocationResponse>(`${this.url}/${id}`)));
-  }
-
-  clone$(id: number): Observable<IdResponse> {
-    return this.httpClient.put<IdResponse>(`${this.url}/${id}/clone`, undefined).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
+  getAllById$(organisationId: number) {
+    return this.triggerGet$.pipe(
+      switchMap(() =>
+        this.#api.get('/v1/config/event', {
+          params: {
+            query: {organisationId},
+          },
+        }),
+      ),
     );
+  }
+
+  getSingle$(id: number) {
+    return this.triggerGet$.pipe(
+      switchMap(() =>
+        this.#api.get('/v1/config/event/{id}', {
+          params: {
+            path: {id},
+          },
+        }),
+      ),
+    );
+  }
+
+  clone$(eventId: number) {
+    return this.#api
+      .put('/v1/config/event/{eventId}/clone', {
+        params: {
+          path: {eventId},
+        },
+      })
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
   }
 }

@@ -1,11 +1,10 @@
 import {inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {map, Observable} from 'rxjs';
-
-import {filterNil} from 'ngxtension/filter-nil';
+import {Observable, map} from 'rxjs';
 
 import {n_from} from 'dfts-helper';
+import {filterNil} from 'ngxtension/filter-nil';
 
 export function injectIdParam$(): Observable<number> {
   return inject(ActivatedRoute).paramMap.pipe(

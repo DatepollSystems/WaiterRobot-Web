@@ -1,42 +1,24 @@
-import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
-import {getPaginationParams, PageableDto} from '@home-shared/services/pagination';
+import {Injectable, inject} from '@angular/core';
 
-import {HasCreateWithIdResponse, HasOrdered, HasUpdateWithIdResponse} from '@shared/services/services.interface';
+import {BehaviorSubject, Observable, combineLatest, map, switchMap, tap} from 'rxjs';
 
-import {
-  CreateTableGroupDto,
-  EntityOrderDto,
-  GetTableGroupResponse,
-  IdResponse,
-  PaginatedResponseGetTableGroupResponse,
-  UpdateTableGroupDto,
-} from '@shared/waiterrobot-backend';
-
-import {s_from} from 'dfts-helper';
-import {HasDelete, HasGetAll, HasGetSingle} from 'dfx-helper';
-
-import {BehaviorSubject, combineLatest, map, Observable, switchMap, tap} from 'rxjs';
-import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
+import {BackendType, PageableDto, injectAPI} from '@shared/api';
+import {HasCreateWithIdResponse, HasOrdered, HasUpdateWithIdResponse} from '@shared/services/custom-types';
+import {SelectedEventService} from '@shared/services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
 export class TableGroupsService
   implements
-    HasGetAll<GetTableGroupResponse>,
-    HasGetSingle<GetTableGroupResponse>,
-    HasCreateWithIdResponse<CreateTableGroupDto>,
-    HasUpdateWithIdResponse<UpdateTableGroupDto>,
-    HasDelete<GetTableGroupResponse>,
-    HasOrdered<GetTableGroupResponse>
+    HasCreateWithIdResponse<BackendType['CreateTableGroupDto']>,
+    HasUpdateWithIdResponse<BackendType['UpdateTableGroupDto']>,
+    HasOrdered<BackendType['GetTableGroupResponse']>
 {
-  url = '/config/table/group';
-
-  private httpClient = inject(HttpClient);
-  private selectedEventService = inject(SelectedEventService);
+  #api = injectAPI();
+  #selectedEventService = inject(SelectedEventService);
 
   triggerGet$ = new BehaviorSubject(true);
 
-  #sortByPositionAndName(a: GetTableGroupResponse, b: GetTableGroupResponse) {
+  #sortByPositionAndName(a: BackendType['GetTableGroupResponse'], b: BackendType['GetTableGroupResponse']) {
     // Default to a high value if position is undefined
     const groupPositionA = a.position ?? 100000;
     const groupPositionB = b.position ?? 100000;
@@ -51,59 +33,97 @@ export class TableGroupsService
     return groupNameCompare;
   }
 
-  getAll$(): Observable<GetTableGroupResponse[]> {
-    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
-      switchMap(([eventId]) => this.httpClient.get<GetTableGroupResponse[]>(this.url, {params: {eventId}})),
+  getAll$() {
+    return combineLatest([this.#selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
+      switchMap(([eventId]) =>
+        this.#api.get('/v1/config/table/group', {
+          params: {
+            query: {eventId},
+          },
+        }),
+      ),
       map((it) => it.sort(this.#sortByPositionAndName)),
     );
   }
 
-  getSingle$(id: number): Observable<GetTableGroupResponse> {
-    return this.httpClient.get<GetTableGroupResponse>(`${this.url}/${s_from(id)}`);
+  getSingle$(id: number) {
+    return this.#api.get('/v1/config/table/group/{id}', {
+      params: {
+        path: {id},
+      },
+    });
   }
 
-  create$(dto: CreateTableGroupDto): Observable<IdResponse> {
-    return this.httpClient.post<IdResponse>(this.url, dto).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
-    );
+  create$(body: BackendType['CreateTableGroupDto']) {
+    return this.#api
+      .post('/v1/config/table/group', {
+        body,
+      })
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
   }
 
-  update$(dto: UpdateTableGroupDto): Observable<IdResponse> {
-    return this.httpClient.put<IdResponse>(this.url, dto).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
-    );
+  update$(body: BackendType['UpdateTableGroupDto']) {
+    return this.#api
+      .put('/v1/config/table/group', {
+        body,
+      })
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
   }
 
-  delete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
-    );
+  delete$(id: number) {
+    return this.#api
+      .delete('/v1/config/table/group/{id}', {
+        params: {
+          path: {id},
+        },
+      })
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
   }
 
   unDelete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${s_from(id)}/undo`);
+    return this.#api.delete('/v1/config/table/group/{id}/undo', {
+      params: {
+        path: {id},
+      },
+    });
   }
 
-  getAllDeleted$(options: PageableDto): Observable<PaginatedResponseGetTableGroupResponse> {
-    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
+  getAllDeleted$(options: PageableDto) {
+    return combineLatest([this.#selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
       switchMap(([eventId]) =>
-        this.httpClient.get<PaginatedResponseGetTableGroupResponse>(`${this.url}/deleted`, {
-          params: getPaginationParams(options).append('eventId', eventId),
+        this.#api.get('/v1/config/table/group/deleted', {
+          params: {
+            query: {
+              eventId,
+              ...options,
+            },
+          },
         }),
       ),
     );
   }
 
-  order$(dto: EntityOrderDto[]): Observable<IdResponse[]> {
-    return this.httpClient
-      .patch<IdResponse[]>(`${this.url}/order`, dto, {
-        params: {eventId: this.selectedEventService.selectedId()!},
+  order$(body: BackendType['EntityOrderDto'][]) {
+    return this.#api
+      .patch('/v1/config/table/group/order', {
+        body,
+        params: {
+          query: {
+            eventId: this.#selectedEventService.selectedId()!,
+          },
+        },
       })
       .pipe(
         tap(() => {

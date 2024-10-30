@@ -1,19 +1,12 @@
-import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import {GetAllergenResponse} from '@shared/waiterrobot-backend';
-
-import {HasGetAll} from 'dfx-helper';
-
-import {Observable} from 'rxjs';
+import {injectAPI} from '@shared/api';
 
 @Injectable({providedIn: 'root'})
-export class AllergensService implements HasGetAll<GetAllergenResponse> {
-  url = '/config/allergen';
+export class AllergensService {
+  #api = injectAPI();
 
-  #httpClient = inject(HttpClient);
-
-  getAll$(): Observable<GetAllergenResponse[]> {
-    return this.#httpClient.get<GetAllergenResponse[]>(this.url);
+  getAll$() {
+    return this.#api.get('/v1/config/allergen');
   }
 }

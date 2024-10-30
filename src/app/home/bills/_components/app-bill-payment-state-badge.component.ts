@@ -1,20 +1,19 @@
 import {NgClass} from '@angular/common';
 import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 
-import {NgbPopover} from '@ng-bootstrap/ng-bootstrap';
 import {TranslocoPipe} from '@jsverse/transloco';
-
+import {NgbPopover} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
 @Component({
   template: `
     <div
       class="badge not-selectable"
-      style="width: min-content"
       [ngClass]="{
         'text-bg-warning': !!unpaidReason(),
         'text-bg-success': !unpaidReason(),
       }"
+      style="width: min-content"
     >
       @if (!unpaidReason()) {
         <div class="d-flex gap-2 align-items-center">
@@ -32,16 +31,16 @@ import {BiComponent} from 'dfx-bootstrap-icons';
           @default {
             <div
               class="d-flex gap-2 align-items-center"
+              [ngbPopover]="unpaidReason() ? popContent : null"
               placement="right"
               triggers="mouseenter:mouseleave"
               popoverTitle="Rechnungsdetails"
-              [ngbPopover]="unpaidReason() ? popContent : null"
             >
               <span>{{ 'Unbezahlt' | transloco }}</span>
               <bi name="cone-striped" />
             </div>
 
-            <ng-template #popContent class="d-flex flex-column">
+            <ng-template class="d-flex flex-column" #popContent>
               <div>Grund: {{ unpaidReason() }}</div>
             </ng-template>
           }

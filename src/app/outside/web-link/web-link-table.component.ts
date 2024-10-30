@@ -1,23 +1,22 @@
-import {HttpClient} from '@angular/common/http';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {AppBackDirective} from '@home-shared/components/button/app-back-button.component';
-import {TranslocoPipe} from '@jsverse/transloco';
-
-import {GetOpenBillResponse, GetTableWithGroupResponse} from '@shared/waiterrobot-backend';
-
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxCurrencyCentPipe} from 'dfx-helper';
-
-import {filterNil} from 'ngxtension/filter-nil';
 
 import {combineLatest, map, shareReplay, switchMap} from 'rxjs';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxCurrencyCentPipe} from 'dfx-helper';
+import {filterNil} from 'ngxtension/filter-nil';
 import {AppSpinnerRowComponent} from 'src/app/_shared/ui/loading/app-spinner-row.component';
+
+import {AppBackDirective} from '@home-shared/components/button/app-back-button.component';
+
+import {injectAPI} from '@shared/api';
 
 @Component({
   template: `
-    @if (vm$(); as vm) {
+    @if (vm(); as vm) {
       <h1 class="text-center">
         Tisch <b>{{ vm.table.group.name }} - {{ vm.table.number }}</b>
       </h1>
@@ -49,7 +48,9 @@ import {AppSpinnerRowComponent} from 'src/app/_shared/ui/loading/app-spinner-row
       }
 
       <div class="mt-3 d-flex flex-column flex-md-row justify-content-between gap-2">
-        <button type="button" back class="btn btn-secondary btn-sm">{{ 'GO_BACK' | transloco }}</button>
+        <button class="btn btn-secondary btn-sm" type="button" back>
+          {{ 'GO_BACK' | transloco }}
+        </button>
         <!--      <div class="d-flex gap-2">-->
         <!--        <a routerLink="./orders" class="btn btn-outline-primary btn-sm">-->
         <!--          <bi name="view-stacked" />-->
@@ -71,18 +72,18 @@ import {AppSpinnerRowComponent} from 'src/app/_shared/ui/loading/app-spinner-row
   imports: [TranslocoPipe, DfxCurrencyCentPipe, RouterLink, BiComponent, AppBackDirective, AppSpinnerRowComponent],
 })
 export class WebLinkTableComponent {
-  httpClient = inject(HttpClient);
+  #api = injectAPI();
 
-  publicId$ = inject(ActivatedRoute).paramMap.pipe(
+  #publicId$ = inject(ActivatedRoute).paramMap.pipe(
     map((params) => params.get('publicId')),
     filterNil(),
     shareReplay(1),
   );
 
-  vm$ = toSignal(
+  vm = toSignal(
     combineLatest([
-      this.publicId$.pipe(switchMap((publicId) => this.httpClient.get<GetTableWithGroupResponse>(`/public/table/${publicId}`))),
-      this.publicId$.pipe(switchMap((publicId) => this.httpClient.get<GetOpenBillResponse>(`/public/table/${publicId}/bill`))),
+      this.#publicId$.pipe(switchMap((publicId) => this.#api.get('/v1/public/table/{publicId}', {params: {path: {publicId}}}))),
+      this.#publicId$.pipe(switchMap((publicId) => this.#api.get('/v1/public/table/{publicId}/bill', {params: {path: {publicId}}}))),
     ]).pipe(
       map(([table, bill]) => ({
         table,

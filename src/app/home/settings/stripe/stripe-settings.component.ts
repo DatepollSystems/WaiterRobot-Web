@@ -1,24 +1,25 @@
 import {ChangeDetectionStrategy, Component, effect, inject, viewChild} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {BlankslateComponent} from '@home-shared/components/blankslate.component';
 
-import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
-import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {filter, of, pipe, startWith, switchMap} from 'rxjs';
+
 import {TranslocoPipe} from '@jsverse/transloco';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {CreateStripeAccountDto, GetStripeAccountResponse, UpdateStripeAccountDto} from '@shared/waiterrobot-backend';
-
+import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {notNullAndUndefined} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {StopPropagationDirective} from 'dfx-helper';
 import {derivedFrom} from 'ngxtension/derived-from';
 
-import {filter, of, pipe, startWith, switchMap} from 'rxjs';
+import {BlankslateComponent} from '@home-shared/components/blankslate.component';
+import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
 
-import {OrganisationsStripeService} from '../../_admin/organisations/_services/organisations-stripe.service';
-import {SelectedOrganisationService} from '../../_admin/organisations/_services/selected-organisation.service';
+import {BackendType} from '@shared/api';
+import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
+
+import {StripeService} from '../_services/stripe.service';
 import {StripeAccountModal} from './stripe-account-modal.component';
 import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
 
@@ -26,8 +27,8 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
   template: `
     <div class="bg-body-tertiary border rounded-3 d-flex flex-column gap-2">
       @if ((stripeState.data()?.length ?? 0) === 0) {
-        <app-blankslate icon="stripe" [header]="'Willkommen zu Stripe' | transloco" [description]="'STRIPE_ACCOUNT_EMPTY' | transloco">
-          <button class="btn btn-success" type="button" (click)="onCreateStripeAccount()">
+        <app-blankslate [header]="'Willkommen zu Stripe' | transloco" [description]="'STRIPE_ACCOUNT_EMPTY' | transloco" icon="stripe">
+          <button class="btn btn-success" (click)="onCreateStripeAccount()" type="button">
             <bi name="plus-circle" />
             {{ 'Erstelle deinen ersten Stripe-Account' | transloco }}
           </button>
@@ -37,21 +38,21 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
           <h2 class="my-0 mb-1">Stripe</h2>
           <div class="d-flex flex-column flex-md-row gap-3 justify-content-between">
             <div>
-              <button class="btn btn-success" type="button" [disabled]="stripeState.loading()" (click)="onCreateStripeAccount()">
+              <button class="btn btn-success" [disabled]="stripeState.loading()" (click)="onCreateStripeAccount()" type="button">
                 <bi name="save" />
                 {{ 'ADD_3' | transloco }}
               </button>
             </div>
             <div>
               <div class="input-group">
-                <input class="form-control ml-2" type="text" [formControl]="filter" [placeholder]="'SEARCH' | transloco" />
+                <input class="form-control ml-2" [formControl]="filter" [placeholder]="'SEARCH' | transloco" type="text" />
                 @if ((filter.value?.length ?? 0) > 0) {
                   <button
                     class="btn btn-outline-secondary"
-                    type="button"
-                    placement="bottom"
                     [ngbTooltip]="'CLEAR' | transloco"
                     (click)="filter.reset()"
+                    type="button"
+                    placement="bottom"
                   >
                     <bi name="x-circle-fill" />
                   </button>
@@ -61,29 +62,35 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
           </div>
 
           <div class="table-responsive mt-3">
-            <table ngb-table ngb-sort ngbSortActive="name" ngbSortDirection="asc" [hover]="true" [dataSource]="dataSource()">
+            <table [hover]="true" [dataSource]="dataSource()" ngb-table ngb-sort ngbSortActive="name" ngbSortDirection="asc">
               <ng-container ngbColumnDef="name">
-                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
+                <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                  {{ 'NAME' | transloco }}
+                </th>
                 <td *ngbCellDef="let stripeAccount" ngb-cell>
                   {{ stripeAccount.name }}
                   @if (stripeAccount.events.length === 0) {
-                    <bi name="exclamation-triangle-fill" class="text-warning" ngbTooltip="Stripe-Account noch keinem Event zugeordnet." />
+                    <bi class="text-warning" name="exclamation-triangle-fill" ngbTooltip="Stripe-Account noch keinem Event zugeordnet." />
                   }
                 </td>
               </ng-container>
 
               <ng-container ngbColumnDef="state">
-                <th *ngbHeaderCellDef ngb-header-cell>{{ 'STATE' | transloco }}</th>
+                <th *ngbHeaderCellDef ngb-header-cell>
+                  {{ 'STATE' | transloco }}
+                </th>
                 <td *ngbCellDef="let stripeAccount" ngb-cell>
                   <app-stripe-account-state-badge [stripeAccountId]="stripeAccount.id" [state]="stripeAccount.state" />
                 </td>
               </ng-container>
 
               <ng-container ngbColumnDef="event">
-                <th *ngbHeaderCellDef ngb-header-cell>{{ 'NAV_EVENTS' | transloco }}</th>
+                <th *ngbHeaderCellDef ngb-header-cell>
+                  {{ 'NAV_EVENTS' | transloco }}
+                </th>
                 <td *ngbCellDef="let stripeAccount" ngb-cell>
                   @for (event of stripeAccount.events; track event.id; let last = $last) {
-                    <a stopPropagation [routerLink]="'../../o/' + stripeAccount.organisationId + '/events/' + event.id">{{ event.name }}</a>
+                    <a [routerLink]="'../../o/' + stripeAccount.organisationId + '/events/' + event.id" stopPropagation>{{ event.name }}</a>
                     @if (!last) {
                       ,&nbsp;
                     }
@@ -94,21 +101,23 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
               </ng-container>
 
               <ng-container ngbColumnDef="actions">
-                <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
+                <th *ngbHeaderCellDef ngb-header-cell>
+                  {{ 'ACTIONS' | transloco }}
+                </th>
                 <td *ngbCellDef="let stripeAccount" ngb-cell>
                   <button
-                    type="button"
                     class="btn btn-sm m-1 btn-outline-success text-body-emphasis"
                     [ngbTooltip]="'EDIT' | transloco"
                     (click)="$event.stopPropagation(); onUpdateStripeAccount(stripeAccount)"
+                    type="button"
                   >
                     <bi name="pencil-square" />
                   </button>
                   <button
-                    type="button"
                     class="btn btn-sm m-1 btn-outline-danger text-body-emphasis"
                     [ngbTooltip]="'DELETE' | transloco"
                     (click)="$event.stopPropagation(); onDeleteStripeAccount(stripeAccount.id)"
+                    type="button"
                   >
                     <bi name="trash" />
                   </button>
@@ -116,7 +125,7 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
               </ng-container>
 
               <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
-              <tr *ngbRowDef="let stripeAccount; columns: columnsToDisplay" ngb-row (click)="onUpdateStripeAccount(stripeAccount)"></tr>
+              <tr *ngbRowDef="let stripeAccount; columns: columnsToDisplay" (click)="onUpdateStripeAccount(stripeAccount)" ngb-row></tr>
             </table>
           </div>
         </div>
@@ -146,7 +155,7 @@ export class StripeSettingsComponent {
   modal = inject(NgbModal);
   confirmDialog = injectConfirmDialog();
 
-  stripeState = inject(OrganisationsStripeService).state;
+  stripeState = inject(StripeService).state;
   selectedOrganisationId = inject(SelectedOrganisationService).selectedId;
 
   filter = new FormControl('');
@@ -167,7 +176,7 @@ export class StripeSettingsComponent {
 
         return of(dataSource);
       }),
-      startWith(new NgbTableDataSource<GetStripeAccountResponse>()),
+      startWith(new NgbTableDataSource<BackendType['GetStripeAccountResponse']>()),
     ),
   );
 
@@ -192,14 +201,14 @@ export class StripeSettingsComponent {
       name: undefined,
       eventIds: undefined,
     });
-    modalRef.closed.subscribe((it?: CreateStripeAccountDto) => {
+    modalRef.closed.subscribe((it?: BackendType['CreateStripeAccountDto']) => {
       if (it) {
         void this.stripeState.create(it);
       }
     });
   }
 
-  onUpdateStripeAccount(stripeAccount: GetStripeAccountResponse): void {
+  onUpdateStripeAccount(stripeAccount: BackendType['GetStripeAccountResponse']): void {
     const modalRef = this.modal.open(StripeAccountModal, {
       ariaLabelledBy: 'modal-title-org-stripe-update',
       size: 'lg',
@@ -211,7 +220,7 @@ export class StripeSettingsComponent {
       name: stripeAccount.name,
       eventIds: stripeAccount.events.map((it) => it.id),
     });
-    modalRef.closed.subscribe((it?: Omit<UpdateStripeAccountDto, 'id'>) => {
+    modalRef.closed.subscribe((it?: Omit<BackendType['UpdateStripeAccountDto'], 'id'>) => {
       if (it) {
         void this.stripeState.update({
           ...it,

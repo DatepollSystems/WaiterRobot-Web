@@ -4,34 +4,36 @@ import {ChangeDetectionStrategy, Component, effect, inject, signal, viewChild} f
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+
+import {forkJoin, switchMap} from 'rxjs';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbDropdownModule, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {n_from} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
+import {DfxArrayPluck, DfxCurrencyCentPipe, DfxImplodePipe, StopPropagationDirective} from 'dfx-helper';
+import {injectParams} from 'ngxtension/inject-params';
+
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 import {AppResetOrderButtonComponent} from '@home-shared/components/button/app-reset-order-button.component';
 import {AppOrderModeSwitchComponent} from '@home-shared/form/app-order-mode-switch.component';
 import {
+  ListFilterComponent,
   addGroupIfMissing,
   injectTable,
   injectTableDelete,
   injectTableFilter,
   injectTableOrder,
   injectTableSelect,
-  ListFilterComponent,
   listOrderStyles,
   removeGroup,
 } from '@home-shared/list';
 import {mapName} from '@home-shared/name-map';
-import {TranslocoPipe} from '@jsverse/transloco';
 
-import {NgbDropdownModule, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-
+import {BackendType} from '@shared/api';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-import {GetProductMaxResponse} from '@shared/waiterrobot-backend';
-import {n_from} from 'dfts-helper';
 
-import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
-import {DfxArrayPluck, DfxCurrencyCentPipe, DfxImplodePipe, StopPropagationDirective} from 'dfx-helper';
-import {injectParams} from 'ngxtension/inject-params';
-import {forkJoin, switchMap} from 'rxjs';
 import {AppTextWithColorIndicatorComponent} from '../_shared/components/color/app-text-with-color-indicator.component';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {AppSoldOutPipe} from '../_shared/pipes/app-sold-out.pipe';
@@ -42,14 +44,14 @@ import {ProductsService} from './_services/products.service';
     <div class="d-flex flex-column gap-3">
       <scrollable-toolbar>
         <div>
-          <a routerLink="../p/create" class="btn btn-sm btn-success" [queryParams]="{group: activeId() !== 'all' ? activeId() : null}">
+          <a class="btn btn-sm btn-success" [queryParams]="{group: activeId() !== 'all' ? activeId() : null}" routerLink="../p/create">
             <bi name="plus-circle" />
             {{ 'ADD_2' | transloco }}</a
           >
         </div>
 
         <div [ngbTooltip]="!selection.hasValue() ? ('HOME_PROD_SELECT_INFO' | transloco) : undefined">
-          <button type="button" class="btn btn-sm btn-danger" [disabled]="!selection.hasValue()" (mousedown)="delete.onDeleteSelected()">
+          <button class="btn btn-sm btn-danger" [disabled]="!selection.hasValue()" (mousedown)="delete.onDeleteSelected()" type="button">
             <bi name="trash" />
             {{ 'DELETE' | transloco }}
           </button>
@@ -57,22 +59,22 @@ import {ProductsService} from './_services/products.service';
 
         <div ngbDropdown container="body">
           <button
-            type="button"
             class="btn btn-sm btn-secondary"
             id="toggleSoldOutDropdown"
-            ngbDropdownToggle
             [disabled]="setSoldOutLoading() || !selection.hasValue()"
             [class.btnSpinner]="setSoldOutLoading()"
+            type="button"
+            ngbDropdownToggle
           >
             <bi name="cart" />
             {{ 'HOME_PROD_AVAILABLE' | transloco }}
           </button>
           <div ngbDropdownMenu aria-labelledby="toggleSoldOutDropdown">
-            <button type="button" ngbDropdownItem (click)="toggleProductsSoldOut(false)">
+            <button (click)="toggleProductsSoldOut(false)" type="button" ngbDropdownItem>
               {{ false | soldOut }}
               {{ 'ACTIVATE' | transloco }}
             </button>
-            <button type="button" ngbDropdownItem (click)="toggleProductsSoldOut(true)">
+            <button (click)="toggleProductsSoldOut(true)" type="button" ngbDropdownItem>
               {{ true | soldOut }}
               {{ 'HOME_PROD_SOLD_OUT' | transloco }}
             </button>
@@ -82,7 +84,8 @@ import {ProductsService} from './_services/products.service';
         @if (activeId() !== 'all') {
           <a class="btn btn-sm btn-primary" [routerLink]="'../../product-groups/' + activeId()">
             <bi name="pencil-square" />
-            {{ 'HOME_PROD_GROUP' | transloco }} {{ 'EDIT' | transloco | lowercase }}</a
+            {{ 'HOME_PROD_GROUP' | transloco }}
+            {{ 'EDIT' | transloco | lowercase }}</a
           >
         }
 
@@ -102,16 +105,16 @@ import {ProductsService} from './_services/products.service';
       @if (table.dataSource(); as dataSource) {
         <div class="table-responsive">
           <table
-            ngb-table
-            ngb-sort
-            cdkDropList
-            cdkDropListLockAxis="y"
             [hover]="true"
             [dataSource]="dataSource"
             [ngbSortDisabled]="order.isOrdering()"
             [cdkDropListData]="dataSource.data"
             [cdkDropListDisabled]="!order.isOrdering()"
             (cdkDropListDropped)="order.drop($event)"
+            ngb-table
+            ngb-sort
+            cdkDropList
+            cdkDropListLockAxis="y"
           >
             <ng-container ngbColumnDef="select">
               <th *ngbHeaderCellDef ngb-header-cell>
@@ -119,27 +122,27 @@ import {ProductsService} from './_services/products.service';
                   <div class="form-check">
                     <input
                       class="form-check-input"
-                      type="checkbox"
-                      name="checked"
                       [checked]="selection.isAllSelected()"
                       (change)="selection.toggleAll()"
+                      type="checkbox"
+                      name="checked"
                     />
                   </div>
                 }
               </th>
               <td *ngbCellDef="let selectable" ngb-cell stopPropagation>
                 @if (order.isOrdering()) {
-                  <button type="button" class="btn btn-sm btn-outline-primary text-body-emphasis" cdkDragHandle>
+                  <button class="btn btn-sm btn-outline-primary text-body-emphasis" type="button" cdkDragHandle>
                     <bi name="grip-vertical" />
                   </button>
                 } @else {
                   <div class="form-check">
                     <input
                       class="form-check-input"
-                      type="checkbox"
-                      name="checked"
                       [checked]="selection.isSelected(selectable)"
                       (change)="selection.toggle(selectable, !selection.isSelected(selectable))"
+                      type="checkbox"
+                      name="checked"
                     />
                   </div>
                 }
@@ -147,7 +150,9 @@ import {ProductsService} from './_services/products.service';
             </ng-container>
 
             <ng-container ngbColumnDef="group">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_GROUP_PRODUCTS_VIEW' | transloco }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'HOME_PROD_GROUP_PRODUCTS_VIEW' | transloco }}
+              </th>
               <td *ngbCellDef="let product" ngb-cell>
                 <app-text-with-color-indicator [color]="product.group.color">
                   {{ product.group.name }}
@@ -156,12 +161,18 @@ import {ProductsService} from './_services/products.service';
             </ng-container>
 
             <ng-container ngbColumnDef="position">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header style="width: 20px">{{ 'POSITION' | transloco }}</th>
-              <td *ngbCellDef="let product" ngb-cell>{{ product.position ?? '' }}</td>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header style="width: 20px">
+                {{ 'POSITION' | transloco }}
+              </th>
+              <td *ngbCellDef="let product" ngb-cell>
+                {{ product.position ?? '' }}
+              </td>
             </ng-container>
 
             <ng-container ngbColumnDef="name">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAME' | transloco }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'NAME' | transloco }}
+              </th>
               <td *ngbCellDef="let product" ngb-cell>
                 <app-text-with-color-indicator [color]="product.color">
                   {{ product.name }}
@@ -170,17 +181,27 @@ import {ProductsService} from './_services/products.service';
             </ng-container>
 
             <ng-container ngbColumnDef="price">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'PRICE' | transloco }}</th>
-              <td *ngbCellDef="let product" ngb-cell>{{ product.price | currency }}</td>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'PRICE' | transloco }}
+              </th>
+              <td *ngbCellDef="let product" ngb-cell>
+                {{ product.price | currency }}
+              </td>
             </ng-container>
 
             <ng-container ngbColumnDef="soldOut">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_AVAILABLE' | transloco }}</th>
-              <td *ngbCellDef="let product" ngb-cell>{{ product.soldOut | soldOut }}</td>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'HOME_PROD_AVAILABLE' | transloco }}
+              </th>
+              <td *ngbCellDef="let product" ngb-cell>
+                {{ product.soldOut | soldOut }}
+              </td>
             </ng-container>
 
             <ng-container ngbColumnDef="initialStock">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_PROD_AMOUNT_LEFT' | transloco }}</th>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'HOME_PROD_AMOUNT_LEFT' | transloco }}
+              </th>
               <td *ngbCellDef="let product" ngb-cell>
                 @if (product.initialStock) {
                   <span>
@@ -191,13 +212,21 @@ import {ProductsService} from './_services/products.service';
             </ng-container>
 
             <ng-container ngbColumnDef="printer">
-              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'NAV_PRINTERS' | transloco }}</th>
-              <td *ngbCellDef="let product" ngb-cell>{{ product.printer.name }}</td>
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'NAV_PRINTERS' | transloco }}
+              </th>
+              <td *ngbCellDef="let product" ngb-cell>
+                {{ product.printer.name }}
+              </td>
             </ng-container>
 
             <ng-container ngbColumnDef="allergens">
-              <th *ngbHeaderCellDef ngb-header-cell>{{ 'HOME_PROD_ALLERGENS' | transloco }}</th>
-              <td *ngbCellDef="let product" ngb-cell>{{ product.allergens | a_pluck: 'shortName' | s_implode: ', ' }}</td>
+              <th *ngbHeaderCellDef ngb-header-cell>
+                {{ 'HOME_PROD_ALLERGENS' | transloco }}
+              </th>
+              <td *ngbCellDef="let product" ngb-cell>
+                {{ product.allergens | a_pluck: 'shortName' | s_implode: ', ' }}
+              </td>
             </ng-container>
 
             <ng-container ngbColumnDef="actions">
@@ -207,27 +236,27 @@ import {ProductsService} from './_services/products.service';
               <td *ngbCellDef="let product" ngb-cell>
                 <app-action-dropdown>
                   <a
-                    type="button"
                     class="d-flex gap-2 align-items-center"
+                    [queryParams]="{productIds: product.id}"
+                    type="button"
                     ngbDropdownItem
                     routerLink="../../orders"
-                    [queryParams]="{productIds: product.id}"
                   >
                     <bi name="stack" />
                     {{ 'NAV_ORDERS' | transloco }}
                   </a>
                   <a
-                    type="button"
                     class="d-flex gap-2 align-items-center"
+                    [queryParams]="{productIds: product.id}"
+                    type="button"
                     ngbDropdownItem
                     routerLink="../../bills"
-                    [queryParams]="{productIds: product.id}"
                   >
                     <bi name="cash-coin" />
                     {{ 'NAV_BILLS' | transloco }}
                   </a>
                   <div class="dropdown-divider"></div>
-                  <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem (click)="toggleProductSoldOut(product)">
+                  <a class="d-flex gap-2 align-items-center" (click)="toggleProductSoldOut(product)" type="button" ngbDropdownItem>
                     @if (product.soldOut) {
                       {{ false | soldOut }}
                       {{ 'ACTIVATE' | transloco }}
@@ -236,15 +265,15 @@ import {ProductsService} from './_services/products.service';
                       {{ 'HOME_PROD_SOLD_OUT' | transloco }}
                     }
                   </a>
-                  <a type="button" class="d-flex gap-2 align-items-center" ngbDropdownItem [routerLink]="'../p/' + product.id">
+                  <a class="d-flex gap-2 align-items-center" [routerLink]="'../p/' + product.id" type="button" ngbDropdownItem>
                     <bi name="pencil-square" />
                     {{ 'EDIT' | transloco }}
                   </a>
                   <button
-                    type="button"
                     class="d-flex gap-2 align-items-center text-danger-emphasis"
-                    ngbDropdownItem
                     (mousedown)="delete.onDelete(product.id)"
+                    type="button"
+                    ngbDropdownItem
                   >
                     <bi name="trash" />
                     {{ 'DELETE' | transloco }}
@@ -256,10 +285,10 @@ import {ProductsService} from './_services/products.service';
             <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
             <tr
               *ngbRowDef="let product; columns: table.columnsToDisplay()"
-              ngb-row
-              cdkDrag
               [routerLink]="'../p/' + product.id"
               [cdkDragData]="product"
+              ngb-row
+              cdkDrag
             ></tr>
           </table>
         </div>
@@ -369,7 +398,7 @@ export class ProductsComponent {
     );
   }
 
-  toggleProductSoldOut(dto: GetProductMaxResponse): void {
+  toggleProductSoldOut(dto: BackendType['GetProductMaxResponse']): void {
     this.table.isLoading.set(true);
     this.setSoldOutLoading.set(true);
     this.#productsService.toggleSoldOut$(dto).subscribe();

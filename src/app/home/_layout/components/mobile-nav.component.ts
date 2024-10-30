@@ -1,16 +1,19 @@
 import {Component, effect, inject} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {NavigationEnd, Router} from '@angular/router';
+
+import {filter} from 'rxjs';
+
 import {NgbActiveOffcanvas} from '@ng-bootstrap/ng-bootstrap';
 import {IsMobileService} from 'dfx-helper';
-import {filter} from 'rxjs';
+
 import {NavComponent} from './nav.component';
 
 @Component({
   template: `
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvas-mobile-nav">Navigation</h5>
-      <button type="button" class="btn-close text-reset" aria-label="Close" (mousedown)="activeOffcanvas.close()"></button>
+      <button class="btn-close text-reset" (mousedown)="activeOffcanvas.close()" type="button" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
       <app-nav class="d-flex flex-column" />

@@ -11,13 +11,13 @@
             <div class="form-group col-12 col-md-3">
               <label for="email">{{ 'EMAIL' | transloco }}</label>
               <input
-                #emailModel="ngModel"
                 class="form-control mb-1"
-                type="email"
                 id="email"
-                name="email"
+                #emailModel="ngModel"
                 [ngModel]="emailAddress()"
                 (ngModelChange)="emailChange($event)"
+                type="email"
+                name="email"
               />
               @if (emailModel.invalid || !emailAddressValid()) {
               <small class="text-danger"> {{ 'HOME_USERS_EMAIL_INCORRECT' | transloco }} </small>
@@ -25,7 +25,7 @@
             </div>
           </div>
         </div>
-        <button class="btn btn-outline-warning" type="submit" [disabled]="!emailForm || !emailForm.valid || !emailAddressValid">
+        <button class="btn btn-outline-warning" [disabled]="!emailForm || !emailForm.valid || !emailAddressValid" type="submit">
           {{ 'SAVE' | transloco }}
         </button>
       </form>
@@ -41,15 +41,15 @@
             <div class="form-group col-12 col-md-4">
               <label for="oldPassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_OLD' | transloco }}</label>
               <input
-                #passwordModel="ngModel"
-                ngModel
                 class="form-control mb-1"
-                type="password"
                 id="oldPassword"
-                required
-                name="oldPassword"
+                #passwordModel="ngModel"
                 [minlength]="6"
                 [placeholder]="'PASSWORD' | transloco"
+                ngModel
+                type="password"
+                required
+                name="oldPassword"
               />
               @if (passwordModel.invalid) {
               <small class="text-danger"> {{ 'HOME_USERS_PASSWORD_INCORRECT' | transloco }} </small>
@@ -61,16 +61,16 @@
             <div class="form-group col-12 col-md-4">
               <label for="newPassword">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW' | transloco }}</label>
               <input
-                #newPasswordModel="ngModel"
-                ngModel
                 class="form-control mb-1"
-                type="password"
                 id="newPassword"
-                required
-                name="newPassword"
+                #newPasswordModel="ngModel"
                 [minlength]="6"
                 [placeholder]="'PASSWORD' | transloco"
                 (ngModelChange)="newPasswordsChange($event, undefined)"
+                ngModel
+                type="password"
+                required
+                name="newPassword"
               />
               @if (newPasswordModel.invalid) {
               <small class="text-danger"> {{ 'HOME_USERS_PASSWORD_INCORRECT' | transloco }} </small>
@@ -82,16 +82,16 @@
             <div class="form-group col-12 col-md-4">
               <label for="newPasswordAgain">{{ 'HOME_USERSETTINGS_USER_SETTINGS_PASSWORD_NEW_AGAIN' | transloco }}</label>
               <input
-                #newPasswordAgainModel="ngModel"
-                ngModel
                 class="form-control mb-1"
-                type="password"
                 id="newPasswordAgain"
-                required
-                name="newPasswordAgain"
+                #newPasswordAgainModel="ngModel"
                 [minlength]="6"
                 [placeholder]="'PASSWORD' | transloco"
                 (ngModelChange)="newPasswordsChange(undefined, $event)"
+                ngModel
+                type="password"
+                required
+                name="newPasswordAgain"
               />
 
               @if (newPasswordAgainModel.invalid) {
@@ -106,7 +106,13 @@
             </div>
           </div>
         </div>
-        <button class="btn btn-outline-danger" type="submit" [disabled]="!passwordForm || !passwordForm.valid || !newPasswordsMatch">
+        <button
+          class="btn btn-outline-danger"
+          [disabled]="
+            !passwordForm || !passwordForm.valid || !newPasswordsMatch
+          "
+          type="submit"
+        >
           {{ 'SAVE' | transloco }}
         </button>
       </form>

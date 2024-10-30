@@ -1,12 +1,27 @@
 import {Location} from '@angular/common';
-import {inject, signal, Signal} from '@angular/core';
+import {Signal, inject, signal} from '@angular/core';
+import {toSignal} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, Router} from '@angular/router';
-import {derivedFrom} from 'ngxtension/derived-from';
 
-import {map, startWith, tap} from 'rxjs';
+import {Observable, map, of, startWith, switchMap, tap} from 'rxjs';
+
+import {n_from, n_isNumeric} from 'dfts-helper';
+import {derivedFrom} from 'ngxtension/derived-from';
+import {injectParams} from 'ngxtension/inject-params';
 
 import {injectConfirmDialog} from '../components/question-dialog.component';
 import {AbstractModelEditFormComponent} from './abstract-model-edit-form.component';
+
+export function injectEditEntity<EntityType>({get$}: {get$: (id: number) => Observable<EntityType>}) {
+  const idParam = injectParams('id');
+  return toSignal(
+    inject(ActivatedRoute).paramMap.pipe(
+      map((params) => params.get('id')),
+      map((id) => (n_isNumeric(id) ? n_from(id) : undefined)),
+      switchMap((it) => (it ? get$(it) : of('CREATE' as const))),
+    ),
+  );
+}
 
 export function injectOnDelete<ID>(successFn: (it: ID) => void): (it: ID, event?: MouseEvent) => void {
   const confirmDialog = injectConfirmDialog();
@@ -47,10 +62,10 @@ export function injectContinuousCreation<CreateDTOType, UpdateDTOType>(options: 
 
     if ((continuousUsePropertyNames?.length ?? 0) > 0) {
       console.info('checkContinuousCreation - continuous use properties found trying to reseed them');
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      for (const modelKeyValuePairs of Object.keys(dto as Record<string, never>).map((key) => [String(key), dto[key]])) {
+      for (const modelKeyValuePairs of Object.keys(
+        dto as Record<string, never>,
+        // @ts-expect-error
+      ).map((key) => [String(key), dto[key]])) {
         if (continuousUsePropertyNames?.includes(modelKeyValuePairs[0] as keyof CreateDTOType | keyof UpdateDTOType | string)) {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const control = modelKeyValuePairs[0];

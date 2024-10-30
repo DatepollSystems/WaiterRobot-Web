@@ -1,47 +1,30 @@
-import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/services.interface';
-import {
-  CreateTableDto,
-  GetTableGroupResponse,
-  GetTableIdsWithActiveOrdersResponse,
-  GetTableWithGroupMinResponse,
-  GetTableWithGroupResponse,
-  IdResponse,
-  UpdateTableDto,
-} from '@shared/waiterrobot-backend';
+import {BehaviorSubject, Observable, combineLatest, map, switchMap, tap} from 'rxjs';
 
-import {s_from} from 'dfts-helper';
-import {HasDelete, HasGetAll, HasGetByParent, HasGetSingle} from 'dfx-helper';
-
-import {BehaviorSubject, combineLatest, map, Observable, switchMap, tap} from 'rxjs';
-
-import {SelectedEventService} from '../../_admin/events/_services/selected-event.service';
+import {BackendType, injectAPI} from '@shared/api';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/custom-types';
+import {SelectedEventService} from '@shared/services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
 export class TablesService
-  implements
-    HasGetAll<GetTableWithGroupResponse>,
-    HasGetSingle<GetTableWithGroupResponse>,
-    HasCreateWithIdResponse<CreateTableDto>,
-    HasUpdateWithIdResponse<UpdateTableDto>,
-    HasGetByParent<GetTableWithGroupResponse, GetTableGroupResponse>,
-    HasDelete<GetTableWithGroupResponse>
+  implements HasCreateWithIdResponse<BackendType['CreateTableDto']>, HasUpdateWithIdResponse<BackendType['UpdateTableDto']>
 {
-  url = '/config/table';
-
-  private httpClient = inject(HttpClient);
-  private selectedEventService = inject(SelectedEventService);
+  #api = injectAPI();
+  #selectedEventService = inject(SelectedEventService);
 
   triggerGet$ = new BehaviorSubject(true);
 
-  #isNextTableMissing(table: GetTableWithGroupResponse, index: number, tables: GetTableWithGroupResponse[]): boolean {
+  #isNextTableMissing(
+    table: BackendType['GetTableWithGroupResponse'],
+    index: number,
+    tables: BackendType['GetTableWithGroupResponse'][],
+  ): boolean {
     const nextTable = tables.at(index + 1);
     return !!nextTable && table.group.id === nextTable.group.id && table.number + 1 !== nextTable.number;
   }
 
-  #sortByGroupPositionAndNumber(a: GetTableWithGroupResponse, b: GetTableWithGroupMinResponse) {
+  #sortByGroupPositionAndNumber(a: BackendType['GetTableWithGroupResponse'], b: BackendType['GetTableWithGroupMinResponse']) {
     // Default to a high value if position is undefined
     const positionA = a.group.position ?? 100000;
     const positionB = b.group.position ?? 100000;
@@ -64,11 +47,15 @@ export class TablesService
     return a.number - b.number;
   }
 
-  getAll$(): Observable<GetTableWithGroupResponse[]> {
-    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
+  getAll$() {
+    return combineLatest([this.#selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
       switchMap(([eventId]) =>
         combineLatest([
-          this.httpClient.get<GetTableWithGroupResponse[]>(this.url, {params: {eventId}}),
+          this.#api.get('/v1/config/table', {
+            params: {
+              query: {eventId},
+            },
+          }),
           this.getTableIdsWithActiveOrders$(eventId),
         ]),
       ),
@@ -82,17 +69,27 @@ export class TablesService
     );
   }
 
-  getAllWithoutExtra$(): Observable<GetTableWithGroupResponse[]> {
-    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
-      switchMap(([eventId]) => this.httpClient.get<GetTableWithGroupResponse[]>(this.url, {params: {eventId}})),
+  getAllWithoutExtra$() {
+    return combineLatest([this.#selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
+      switchMap(([eventId]) =>
+        this.#api.get('/v1/config/table', {
+          params: {
+            query: {eventId},
+          },
+        }),
+      ),
     );
   }
 
-  getByParent$(groupId: number): Observable<GetTableWithGroupResponse[]> {
-    return combineLatest([this.selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
+  getByParent$(groupId: number) {
+    return combineLatest([this.#selectedEventService.selectedIdNotNull$, this.triggerGet$]).pipe(
       switchMap(([eventId]) =>
         combineLatest([
-          this.httpClient.get<GetTableWithGroupResponse[]>(this.url, {params: {groupId}}),
+          this.#api.get('/v1/config/table', {
+            params: {
+              query: {groupId},
+            },
+          }),
           this.getTableIdsWithActiveOrders$(eventId),
         ]),
       ),
@@ -108,43 +105,71 @@ export class TablesService
     );
   }
 
-  private getTableIdsWithActiveOrders$(eventId: number): Observable<GetTableIdsWithActiveOrdersResponse> {
-    return this.httpClient.get<GetTableIdsWithActiveOrdersResponse>(`${this.url}/activeOrders`, {params: {eventId}});
+  private getTableIdsWithActiveOrders$(eventId: number) {
+    return this.#api.get('/v1/config/table/activeOrders', {
+      params: {
+        query: {eventId},
+      },
+    });
   }
 
-  getSingle$(id: number): Observable<GetTableWithGroupResponse> {
-    return this.httpClient.get<GetTableWithGroupResponse>(`${this.url}/${s_from(id)}`);
+  getSingle$(id: number) {
+    return this.#api.get('/v1/config/table/{id}', {
+      params: {
+        path: {id},
+      },
+    });
   }
 
-  create$(dto: CreateTableDto): Observable<IdResponse> {
-    return this.httpClient.post<IdResponse>(this.url, dto).pipe(
+  create$(body: BackendType['CreateTableDto']) {
+    return this.#api
+      .post('/v1/config/table', {
+        body,
+      })
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
+  }
+
+  update$(body: BackendType['UpdateTableDto']) {
+    return this.#api.put('/v1/config/table', {body}).pipe(
       tap(() => {
         this.triggerGet$.next(true);
       }),
     );
   }
 
-  update$(dto: UpdateTableDto): Observable<IdResponse> {
-    return this.httpClient.put<IdResponse>(this.url, dto).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
-    );
-  }
-
-  delete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${s_from(id)}`).pipe(
-      tap(() => {
-        this.triggerGet$.next(true);
-      }),
-    );
+  delete$(id: number) {
+    return this.#api
+      .delete('/v1/config/table/{id}', {
+        params: {
+          path: {id},
+        },
+      })
+      .pipe(
+        tap(() => {
+          this.triggerGet$.next(true);
+        }),
+      );
   }
 
   unDelete$(id: number): Observable<unknown> {
-    return this.httpClient.delete(`${this.url}/${s_from(id)}/undo`);
+    return this.#api.delete('/v1/config/table/{id}/undo', {
+      params: {
+        path: {
+          id,
+        },
+      },
+    });
   }
 
   checkIfExists(groupId: number, tableNumber: number): Observable<boolean> {
-    return this.httpClient.get<boolean>('/config/table/existsByGroupIdAndNumber', {params: {groupId, tableNumber}});
+    return this.#api.get('/v1/config/table/existsByGroupIdAndNumber', {
+      params: {
+        query: {groupId, tableNumber},
+      },
+    });
   }
 }

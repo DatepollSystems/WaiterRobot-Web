@@ -1,17 +1,16 @@
-import {HttpClient} from '@angular/common/http';
-import {computed, inject, Injectable, signal} from '@angular/core';
+import {Injectable, computed, inject, signal} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 
-import {BehaviorSubject, catchError, map, merge, Observable, of, Subject, switchMap, tap} from 'rxjs';
-
-import {connect} from 'ngxtension/connect';
-import {filterNil} from 'ngxtension/filter-nil';
+import {BehaviorSubject, Subject, catchError, map, merge, of, switchMap, tap} from 'rxjs';
 
 import {i_complete, s_from, s_fromStorage, st_removeAll, st_set} from 'dfts-helper';
 import {injectWindow} from 'dfx-helper';
+import {connect} from 'ngxtension/connect';
+import {filterNil} from 'ngxtension/filter-nil';
+
+import {injectAPI} from '@shared/api';
 
 import {NotificationService} from '../../notifications/notification.service';
-import {JwtResponse, RefreshJwtWithSessionTokenDto, SignInWithPasswordChangeDto, UserLoginDto} from '../../waiterrobot-backend';
 
 interface AuthState {
   status: 'LOGGED_OUT' | 'ERROR' | 'LOADING' | 'LOGGED_IN';
@@ -21,17 +20,11 @@ interface AuthState {
   redirectUrl?: string;
 }
 
-export const loginUrl = '/auth/login';
-export const loginPwChangeUrl = '/auth/passwordChange';
-export const requestPasswordChangeUrl = '/auth/resetPassword';
-export const sendPasswordChangeUrl = '/auth/resetPassword/update';
-export const refreshUrl = '/auth/refresh';
-
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private httpClient = inject(HttpClient);
+  private api = injectAPI();
   private notificationService = inject(NotificationService);
   private window = injectWindow();
 
@@ -41,7 +34,11 @@ export class AuthService {
   }
 
   public triggerLogin = new Subject<{email: string; password: string}>();
-  public triggerLoginWithPwChange = new Subject<{email: string; oldPassword: string; newPassword: string}>();
+  public triggerLoginWithPwChange = new Subject<{
+    email: string;
+    oldPassword: string;
+    newPassword: string;
+  }>();
 
   private triggerLogout = new Subject<string | undefined>();
 
@@ -53,13 +50,15 @@ export class AuthService {
 
   private login$ = this.triggerLogin.pipe(
     switchMap(({email, password}) =>
-      this.httpClient
-        .post<JwtResponse>(loginUrl, {
-          email,
-          password,
-          sessionInformation: AuthService.getSessionInformation(),
-          stayLoggedIn: true,
-        } as UserLoginDto)
+      this.api
+        .post('/v1/auth/login', {
+          body: {
+            email,
+            password,
+            sessionInformation: AuthService.getSessionInformation(),
+            stayLoggedIn: true,
+          },
+        })
         .pipe(
           catchError((error) => {
             const codeName = error?.error?.codeName as unknown;
@@ -75,7 +74,11 @@ export class AuthService {
         ),
     ),
     filterNil(),
-    map(({accessToken, refreshToken}) => ({accessToken, refreshToken, status: 'LOGGED_IN' as const})),
+    map(({accessToken, refreshToken}) => ({
+      accessToken,
+      refreshToken,
+      status: 'LOGGED_IN' as const,
+    })),
     tap((it) => {
       st_set('refreshToken', it.refreshToken);
       st_set('accessToken', it.accessToken);
@@ -84,14 +87,17 @@ export class AuthService {
 
   private loginWithPwChange$ = this.triggerLoginWithPwChange.pipe(
     switchMap(({email, newPassword, oldPassword}) =>
-      this.httpClient
-        .post<JwtResponse>(loginPwChangeUrl, {
-          email,
-          oldPassword,
-          newPassword,
-          sessionInformation: AuthService.getSessionInformation(),
-          stayLoggedIn: true,
-        } as SignInWithPasswordChangeDto)
+      this.api
+        .post('/v1/auth/passwordChange', {
+          body: {
+            email,
+            oldPassword,
+            newPassword,
+            password: oldPassword, // TODO: fix backend dto issue
+            sessionInformation: AuthService.getSessionInformation(),
+            stayLoggedIn: true,
+          },
+        })
         .pipe(
           catchError(() => {
             this.notificationService.terror('ABOUT_SIGNIN_FAILED');
@@ -100,7 +106,11 @@ export class AuthService {
         ),
     ),
     filterNil(),
-    map(({accessToken, refreshToken}) => ({accessToken, refreshToken, status: 'LOGGED_IN' as const})),
+    map(({accessToken, refreshToken}) => ({
+      accessToken,
+      refreshToken,
+      status: 'LOGGED_IN' as const,
+    })),
     tap((it) => {
       st_set('refreshToken', it.refreshToken);
       st_set('accessToken', it.accessToken);
@@ -109,13 +119,19 @@ export class AuthService {
 
   private logout$ = this.triggerLogout.pipe(
     switchMap(() =>
-      this.httpClient.post('/auth/logout', {refreshToken: this.refreshToken()}).pipe(
-        catchError(() => {
-          this.clearStorage();
-          this.window?.location.reload();
-          return of({status: 'LOGGED_OUT' as const});
-        }),
-      ),
+      this.api
+        .post('/v1/auth/logout', {
+          body: {
+            refreshToken: this.refreshToken() ?? 'INVALID_TOKEN',
+          },
+        })
+        .pipe(
+          catchError(() => {
+            this.clearStorage();
+            this.window?.location.reload();
+            return of({status: 'LOGGED_OUT' as const});
+          }),
+        ),
     ),
     tap(() => {
       this.clearStorage();
@@ -142,17 +158,15 @@ export class AuthService {
         this.logout$,
         this.triggerLoginError.pipe(map((loginError) => ({loginError, status: 'ERROR' as const}))),
         this.refreshTokenLoad.pipe(
-          map((refreshToken) => ({refreshToken, status: refreshToken ? ('LOGGED_IN' as const) : ('LOGGED_OUT' as const)})),
+          map((refreshToken) => ({
+            refreshToken,
+            status: refreshToken ? ('LOGGED_IN' as const) : ('LOGGED_OUT' as const),
+          })),
         ),
         this.accessTokenLoad.pipe(map((accessToken) => ({accessToken}))),
       ),
     );
   }
-
-  sendPasswordResetRequest = (email: string): Observable<unknown> => this.httpClient.post(requestPasswordChangeUrl, {email: email});
-
-  sendPasswordReset = (email: string, resetToken: string, newPassword: string): Observable<unknown> =>
-    this.httpClient.post(sendPasswordChangeUrl, {email, resetToken, newPassword});
 
   setRefreshToken(refreshToken: string | undefined): void {
     st_set('refreshToken', refreshToken);
@@ -168,12 +182,14 @@ export class AuthService {
     this.authState.update((it) => ({...it, redirectUrl}));
   }
 
-  refreshAccessToken(): Observable<JwtResponse> {
-    return this.httpClient
-      .post<JwtResponse>(refreshUrl, {
-        refreshToken: this.refreshToken(),
-        sessionInformation: AuthService.getSessionInformation(),
-      } as RefreshJwtWithSessionTokenDto)
+  refreshAccessToken() {
+    return this.api
+      .post('/v1/auth/refresh', {
+        body: {
+          refreshToken: this.refreshToken()!!,
+          sessionInformation: AuthService.getSessionInformation(),
+        },
+      })
       .pipe(
         tap((response) => {
           this.setJWTToken(response.accessToken);

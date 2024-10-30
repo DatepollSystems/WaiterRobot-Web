@@ -1,4 +1,5 @@
 import {Component, input} from '@angular/core';
+
 import {BiComponent, BiName} from 'dfx-bootstrap-icons';
 
 @Component({
@@ -6,7 +7,7 @@ import {BiComponent, BiName} from 'dfx-bootstrap-icons';
     @if (show()) {
       <div class="d-flex flex-column gap-3 p-5 align-items-center text-center">
         @if (icon(); as icon) {
-          <bi width="36px" height="36px" [name]="icon" />
+          <bi [name]="icon" width="36px" height="36px" />
         }
         @if (header(); as header) {
           <h2 class="my-0">{{ header }}</h2>

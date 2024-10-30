@@ -2,17 +2,17 @@ import {AsyncPipe, DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
+import {combineLatest, map, switchMap} from 'rxjs';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {BiComponent} from 'dfx-bootstrap-icons';
+
 import {AppTestBadge} from '@home-shared/components/app-test-badge.component';
 import {AppBackButtonComponent} from '@home-shared/components/button/app-back-button.component';
 import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {injectIdParam$} from '@home-shared/services/injectActivatedRouteIdParam';
-import {TranslocoPipe} from '@jsverse/transloco';
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-
-import {BiComponent} from 'dfx-bootstrap-icons';
-
-import {combineLatest, map, switchMap} from 'rxjs';
 
 import {AppOrderRefreshButtonComponent} from './_components/app-order-refresh-button.component';
 import {AppOrderStateBadgeComponent} from './_components/app-order-state-badge.component';
@@ -70,7 +70,7 @@ import {OrdersService} from './orders.service';
           <back-button />
           <div>
             @if (vm.showRequeueButton) {
-              <button type="button" class="btn btn-sm btn-warning" (mousedown)="requeueOrder(vm.order.id)">
+              <button class="btn btn-sm btn-warning" (mousedown)="requeueOrder(vm.order.id)" type="button">
                 <bi name="printer" />
                 {{ 'HOME_ORDER_REQUEUE' | transloco }}
               </button>
