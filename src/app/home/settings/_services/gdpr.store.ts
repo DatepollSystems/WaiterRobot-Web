@@ -53,6 +53,9 @@ export const GDPRStore = signalStore(
         ),
       ),
     ),
+    reset(): void {
+      patchState(store, () => ({fileDto: undefined}));
+    },
     newAgreement: rxMethod<void>(
       pipe(
         tap(() => patchState(store, () => ({isLoading: true}))),

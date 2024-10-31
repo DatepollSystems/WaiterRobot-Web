@@ -88,9 +88,11 @@ export class GDPRList {
     void modalRef.result
       .then((result?: PrinterBatchUpdateDto) => {
         if (result) {
-          this.gdprStore.confirm();
+          void this.gdprStore.confirm();
+        } else {
+          this.gdprStore.reset();
         }
       })
-      .catch();
+      .catch(() => this.gdprStore.reset());
   }
 }
