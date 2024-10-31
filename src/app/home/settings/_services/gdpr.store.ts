@@ -2,14 +2,16 @@ import {inject} from '@angular/core';
 
 import {pipe, switchMap, tap} from 'rxjs';
 
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {tapResponse} from '@ngrx/operators';
 import {patchState, signalStore, withMethods, withState} from '@ngrx/signals';
 import {rxMethod} from '@ngrx/signals/rxjs-interop';
 
-import {base64ToFileAndDownload} from '@home-shared/services/file.utils';
+import {base64ToArrayBuffer} from '@home-shared/services/file.utils';
 
 import {BackendType} from '@shared/api';
 
+import {GDPRConfirmationModal} from '../gdpr/gdpr-confirmation-modal';
 import {GDPRClient} from './gdpr.client';
 
 type OrganisationsGDPRState = {
@@ -29,7 +31,7 @@ const initialState: OrganisationsGDPRState = {
 export const GDPRStore = signalStore(
   {providedIn: 'root'},
   withState(initialState),
-  withMethods((store, gdprClient = inject(GDPRClient)) => ({
+  withMethods((store, gdprClient = inject(GDPRClient), modal = inject(NgbModal)) => ({
     confirm: rxMethod<void>(
       pipe(
         tap(() => patchState(store, () => ({isLoading: true}))),
@@ -89,7 +91,16 @@ export const GDPRStore = signalStore(
       switchMap((id) =>
         gdprClient.loadAgreement(id).pipe(
           tapResponse({
-            next: (agreement) => void base64ToFileAndDownload(agreement.base64Data, 'gdpr.pdf'),
+            next: (agreement) => {
+              const modalRef = modal.open(GDPRConfirmationModal, {
+                ariaLabelledBy: 'modal-gdpr-confirmation',
+                size: 'lg',
+              });
+
+              (modalRef.componentInstance as GDPRConfirmationModal).confirm.set(false);
+              (modalRef.componentInstance as GDPRConfirmationModal).contractDate.set(new Date(agreement.agreedOnAt));
+              (modalRef.componentInstance as GDPRConfirmationModal).pdf.set(base64ToArrayBuffer(agreement.base64Data));
+            },
             error: () => {},
           }),
         ),

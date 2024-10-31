@@ -14,6 +14,7 @@ import {injectParams} from 'ngxtension/inject-params';
 
 import {AppBackButtonComponent} from '@home-shared/components/button/app-back-button.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+import {base64ToArrayBuffer} from '@home-shared/services/file.utils';
 
 import {injectAPI} from '@shared/api';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
@@ -173,23 +174,5 @@ export class TmpNotificationViewComponent {
 
   copy(it: string) {
     cl_copy(it);
-  }
-}
-
-function base64ToArrayBuffer(base64: string): Uint8Array | undefined {
-  try {
-    if (!/^(?:[A-Za-z0-9+/]{4})*?(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(base64)) {
-      return undefined;
-    }
-
-    const binary_string = window.atob(base64);
-    const len = binary_string.length;
-    const bytes = new Uint8Array(len);
-    for (let i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
-    }
-    return bytes;
-  } catch {
-    return undefined;
   }
 }

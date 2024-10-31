@@ -24,13 +24,12 @@ export async function base64ToFileAndDownload(base64: string, fileName: string, 
 }
 
 /**
- * Converts a Base64 string to a Blob.
+ * Converts a Base64 string to an array buffer.
  *
  * @param base64 - The Base64-encoded string.
- * @param mimeType - The MIME type of the data.
- * @returns A Blob representing the binary data.
+ * @returns A ByteArray representing the binary data.
  */
-export function base64ToBlob(base64: string, mimeType: string): Blob {
+export function base64ToArrayBuffer(base64: string): Uint8Array {
   // Decode the Base64 string
   const byteCharacters: string = atob(base64);
 
@@ -41,7 +40,19 @@ export function base64ToBlob(base64: string, mimeType: string): Blob {
   }
 
   // Convert byte numbers to a Uint8Array
-  const byteArray: Uint8Array = new Uint8Array(byteNumbers);
+  return new Uint8Array(byteNumbers);
+}
+
+/**
+ * Converts a Base64 string to a Blob.
+ *
+ * @param base64 - The Base64-encoded string.
+ * @param mimeType - The MIME type of the data.
+ * @returns A Blob representing the binary data.
+ */
+export function base64ToBlob(base64: string, mimeType: string): Blob {
+  // Convert byte numbers to a Uint8Array
+  const byteArray = base64ToArrayBuffer(base64);
 
   // Create and return the Blob
   return new Blob([byteArray], {type: mimeType});

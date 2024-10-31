@@ -1,18 +1,19 @@
 import {DatePipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, effect, inject, viewChild} from '@angular/core';
+import {Component, effect, inject, viewChild} from '@angular/core';
 
 import {TranslocoPipe} from '@jsverse/transloco';
-import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 
 import {injectTable} from '@home-shared/list';
-import {base64ToFileAndDownload} from '@home-shared/services/file.utils';
+import {base64ToArrayBuffer} from '@home-shared/services/file.utils';
 
 import {SelectedOrganisationService} from '@shared/services';
 import {AppProgressBarComponent} from '@shared/ui/loading';
 
 import {PrinterBatchUpdateDto} from '../../printers/printers-batch-update.modal';
 import {GDPRStore} from '../_services/gdpr.store';
+import {GDPRConfirmationModal} from './gdpr-confirmation-modal';
 
 @Component({
   template: `
@@ -20,18 +21,18 @@ import {GDPRStore} from '../_services/gdpr.store';
       <h1 class="my-0">{{ 'NAV_SETTINGS_GDPR' | transloco }}</h1>
 
       <div>
-        <button class="btn btn-success" (click)="gdprStore.newAgreement()">Neuer Auftragsverarbeitungsvertrag</button>
+        <button class="btn btn-success" (click)="gdprStore.newAgreement()">{{ 'HOME_ORGS_SETTINGS_NEW_GDPR_CONTRACT' | transloco }}</button>
       </div>
 
       <div class="table-responsive">
         <table [hover]="true" [dataSource]="table.dataSource()" ngb-table ngb-sort>
           <ng-container ngbColumnDef="agreedAt">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'Agreed at' | transloco }}</th>
-            <td *ngbCellDef="let agreement" ngb-cell>{{ agreement.agreedOnAt | date: 'YYYY.MM.dd HH:mm:ss' }}</td>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_SETTINGS_GDPR_AGREED_AT' | transloco }}</th>
+            <td *ngbCellDef="let agreement" ngb-cell>{{ agreement.agreedOnAt | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="agreedBy">
-            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'Agreed By' | transloco }}</th>
+            <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_SETTINGS_GDPR_AGREED_BY' | transloco }}</th>
             <td *ngbCellDef="let agreement" ngb-cell>{{ agreement.agreedOnBy }}</td>
           </ng-container>
 
@@ -63,23 +64,26 @@ export class GDPRList {
   constructor() {
     this.gdprStore.loadAll(this.#selectedOrganisationId$);
 
-    effect(() => {
-      const fileDto = this.gdprStore.fileDto();
-      if (fileDto) {
-        console.log('New gdpr file', fileDto);
+    effect(
+      () => {
+        const fileDto = this.gdprStore.fileDto();
+        if (fileDto) {
+          console.log('New gdpr file', fileDto);
 
-        void base64ToFileAndDownload(fileDto.data, 'gdpr.pdf');
-
-        this.openGDPRConfirmModal();
-      }
-    });
+          this.openGDPRConfirmModal(base64ToArrayBuffer(fileDto.data));
+        }
+      },
+      {allowSignalWrites: true},
+    );
   }
 
-  openGDPRConfirmModal() {
+  openGDPRConfirmModal(pdf: Uint8Array) {
     const modalRef = this.#modal.open(GDPRConfirmationModal, {
       ariaLabelledBy: 'modal-gdpr-confirmation',
       size: 'lg',
     });
+
+    (modalRef.componentInstance as GDPRConfirmationModal).pdf.set(pdf);
 
     void modalRef.result
       .then((result?: PrinterBatchUpdateDto) => {
@@ -89,29 +93,4 @@ export class GDPRList {
       })
       .catch();
   }
-}
-
-@Component({
-  template: `
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-gdpr-confirmation">Confirm</h4>
-      <button class="btn-close btn-close-white" (mousedown)="activeModal.close(undefined)" type="button" aria-label="Close"></button>
-    </div>
-    <div class="modal-body"></div>
-    <div class="modal-footer">
-      <button class="btn btn-outline-secondary" (mousedown)="activeModal.close(undefined)" type="button">
-        {{ 'CLOSE' | transloco }}
-      </button>
-      <button class="btn btn-success" (mousedown)="activeModal.close(true)" type="submit">
-        {{ 'CONFIRM' | transloco }}
-      </button>
-    </div>
-  `,
-  selector: 'wr-gdpr-confirmation-modal',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoPipe],
-})
-class GDPRConfirmationModal {
-  activeModal = inject(NgbActiveModal);
 }

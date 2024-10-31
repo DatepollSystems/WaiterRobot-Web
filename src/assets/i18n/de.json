@@ -69,6 +69,7 @@
   "ORDER": "Anordnung",
   "POSITION": "#",
   "LEARN_MORE": "Erfahre mehr",
+  "CONFIRM": "Bestätigen",
 
   "RECYCLE_BIN": "Papierkorb",
   "RECYCLE_BIN_EMPTY": "Keine gelöschten Daten.",
@@ -184,6 +185,10 @@
   "HOME_ORGS_SETTINGS_ACTIVATE_WAITER_ON_SIGN_IN_VIA_CREATE_TOKEN": "Personal bei Registrierung automatisch aktiveren",
   "HOME_ORGS_SETTINGS_TIMEZONE": "Zeitzone",
   "HOME_ORGS_SETTINGS_TIMEZONE_INVALID": "Ungültige Zeitzone",
+  "HOME_ORGS_SETTINGS_GDPR_CONTRACT": "Auftragsverarbeitungsvertrag",
+  "HOME_ORGS_SETTINGS_NEW_GDPR_CONTRACT": "Neuer Auftragsverarbeitungsvertrag",
+  "HOME_ORGS_SETTINGS_GDPR_AGREED_AT": "Zugestimmt am",
+  "HOME_ORGS_SETTINGS_GDPR_AGREED_BY": "Zugestimmt von",
 
   "HOME_EVENTS_UPDATE_CREATE_WAITER_TOKEN": "Personal-Erstellungs QR-Code zurücksetzen",
   "HOME_EVENTS_START_DATE": "Start-Datum",
