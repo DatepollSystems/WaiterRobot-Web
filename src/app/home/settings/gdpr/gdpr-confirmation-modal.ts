@@ -13,13 +13,11 @@ import {PdfJsViewerModule} from 'ng2-pdfjs-viewer';
       </h4>
       <button class="btn-close btn-close-white" (mousedown)="activeModal.close(undefined)" type="button" aria-label="Close"></button>
     </div>
-    <div class="modal-body">
-      @if (pdf(); as pdf) {
-        <div style="height: 80vh; width: 100%">
-          <ng2-pdfjs-viewer [pdfSrc]="pdf" [viewBookmark]="false" />
-        </div>
-      }
-    </div>
+    @if (pdf(); as pdf) {
+      <div style="height: 80vh; width: 100%">
+        <ng2-pdfjs-viewer [pdfSrc]="pdf" [viewBookmark]="false" />
+      </div>
+    }
     <div class="modal-footer">
       <button class="btn btn-outline-secondary" (mousedown)="activeModal.close(undefined)" type="button">
         {{ 'CLOSE' | transloco }}

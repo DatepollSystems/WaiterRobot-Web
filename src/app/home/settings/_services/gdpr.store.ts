@@ -1,6 +1,6 @@
 import {inject} from '@angular/core';
 
-import {pipe, switchMap, tap} from 'rxjs';
+import {filter, pipe, switchMap, tap} from 'rxjs';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {tapResponse} from '@ngrx/operators';
@@ -17,14 +17,12 @@ import {GDPRClient} from './gdpr.client';
 type OrganisationsGDPRState = {
   organisationId: number | undefined;
   agreements: BackendType['GdprDocumentPreviewResponse'][];
-  fileDto: BackendType['FileDto'] | undefined;
   isLoading: boolean;
 };
 
 const initialState: OrganisationsGDPRState = {
   organisationId: undefined,
   agreements: [],
-  fileDto: undefined,
   isLoading: true,
 };
 
@@ -32,47 +30,30 @@ export const GDPRStore = signalStore(
   {providedIn: 'root'},
   withState(initialState),
   withMethods((store, gdprClient = inject(GDPRClient), modal = inject(NgbModal)) => ({
-    confirm: rxMethod<void>(
-      pipe(
-        tap(() => patchState(store, () => ({isLoading: true}))),
-        switchMap(() =>
-          gdprClient.confirm(store.organisationId()!).pipe(
-            tapResponse({
-              next: () => patchState(store, () => ({fileDto: undefined})),
-              error: () => {},
-            }),
-            switchMap(() =>
-              gdprClient.loadAgreements(store.organisationId()!).pipe(
-                tapResponse({
-                  next: (agreements) => patchState(store, () => ({agreements, isLoading: false})),
-                  error: () => {},
-                }),
-              ),
-            ),
-          ),
-        ),
-      ),
-    ),
-    reset(): void {
-      patchState(store, () => ({fileDto: undefined}));
-    },
     newAgreement: rxMethod<void>(
       pipe(
         tap(() => patchState(store, () => ({isLoading: true}))),
+        switchMap(() => gdprClient.newAgreement(store.organisationId()!)),
+        tap(() => patchState(store, () => ({isLoading: false}))),
+        switchMap((response) => {
+          const modalRef = modal.open(GDPRConfirmationModal, {
+            ariaLabelledBy: 'modal-gdpr-confirmation',
+            size: 'lg',
+          });
+
+          (modalRef.componentInstance as GDPRConfirmationModal).pdf.set(base64ToArrayBuffer(response.data));
+
+          return modalRef.closed;
+        }),
+        filter((result) => result === true),
+        switchMap(() => gdprClient.confirm(store.organisationId()!)),
+        tap(() => patchState(store, () => ({isLoading: true}))),
         switchMap(() =>
-          gdprClient.newAgreement(store.organisationId()!).pipe(
+          gdprClient.loadAgreements(store.organisationId()!).pipe(
             tapResponse({
-              next: (fileDto) => patchState(store, () => ({fileDto})),
+              next: (agreements) => patchState(store, () => ({agreements, isLoading: false})),
               error: () => {},
             }),
-            switchMap(() =>
-              gdprClient.loadAgreements(store.organisationId()!).pipe(
-                tapResponse({
-                  next: (agreements) => patchState(store, () => ({agreements, isLoading: false})),
-                  error: () => {},
-                }),
-              ),
-            ),
           ),
         ),
       ),

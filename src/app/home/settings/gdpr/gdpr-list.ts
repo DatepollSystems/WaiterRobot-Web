@@ -1,19 +1,15 @@
 import {DatePipe} from '@angular/common';
-import {Component, effect, inject, viewChild} from '@angular/core';
+import {Component, inject, viewChild} from '@angular/core';
 
 import {TranslocoPipe} from '@jsverse/transloco';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 
 import {injectTable} from '@home-shared/list';
-import {base64ToArrayBuffer} from '@home-shared/services/file.utils';
 
 import {SelectedOrganisationService} from '@shared/services';
 import {AppProgressBarComponent} from '@shared/ui/loading';
 
-import {PrinterBatchUpdateDto} from '../../printers/printers-batch-update.modal';
 import {GDPRStore} from '../_services/gdpr.store';
-import {GDPRConfirmationModal} from './gdpr-confirmation-modal';
 
 @Component({
   template: `
@@ -50,7 +46,6 @@ import {GDPRConfirmationModal} from './gdpr-confirmation-modal';
 })
 export class GDPRList {
   gdprStore = inject(GDPRStore);
-  #modal = inject(NgbModal);
   #selectedOrganisationId$ = inject(SelectedOrganisationService).selectedIdNotNull$;
 
   sort = viewChild(NgbSort);
@@ -63,36 +58,5 @@ export class GDPRList {
 
   constructor() {
     this.gdprStore.loadAll(this.#selectedOrganisationId$);
-
-    effect(
-      () => {
-        const fileDto = this.gdprStore.fileDto();
-        if (fileDto) {
-          console.log('New gdpr file', fileDto);
-
-          this.openGDPRConfirmModal(base64ToArrayBuffer(fileDto.data));
-        }
-      },
-      {allowSignalWrites: true},
-    );
-  }
-
-  openGDPRConfirmModal(pdf: Uint8Array) {
-    const modalRef = this.#modal.open(GDPRConfirmationModal, {
-      ariaLabelledBy: 'modal-gdpr-confirmation',
-      size: 'lg',
-    });
-
-    (modalRef.componentInstance as GDPRConfirmationModal).pdf.set(pdf);
-
-    void modalRef.result
-      .then((result?: PrinterBatchUpdateDto) => {
-        if (result) {
-          void this.gdprStore.confirm();
-        } else {
-          this.gdprStore.reset();
-        }
-      })
-      .catch(() => this.gdprStore.reset());
   }
 }
