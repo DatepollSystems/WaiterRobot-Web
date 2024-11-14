@@ -1,25 +1,33 @@
-import {LowerCasePipe} from '@angular/common';
-import {ChangeDetectionStrategy, Component, computed, inject, viewChild} from '@angular/core';
-import {toSignal} from '@angular/core/rxjs-interop';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
 
-import {filter, map, shareReplay} from 'rxjs';
 
-import {n_from, n_isNumeric} from 'dfts-helper';
 
-import {UnknownModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
-import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
-import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
-import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectEditEntity, injectOnDelete} from '@home-shared/form/edit';
-import {MobileLinkService} from '@home-shared/services/mobile-link.service';
+import { filter, map, shareReplay } from 'rxjs';
 
-import {injectOnSubmit} from '@shared/form';
-import {SelectedEventService} from '@shared/services/selected-event.service';
 
-import {TableGroupsService} from '../_services/table-groups.service';
-import {TablesService} from '../_services/tables.service';
-import {TableEditFormComponent} from './table-edit-form.component';
+
+import { n_from, n_isNumeric } from 'dfts-helper';
+
+
+
+import { UnknownModelEditFormComponent } from '@home-shared/form/abstract-model-edit-form.component';
+import { AppDeletedDirectives } from '@home-shared/form/app-entity-deleted.directives';
+import { AppEntityEditModule } from '@home-shared/form/app-entity-edit.module';
+import { injectContinuousCreation, injectEditEntity, injectOnDelete } from '@home-shared/form/edit';
+import { PublicTableLinkPipe, ShareableLinkPipe } from '@home-shared/pipes/wr-links.pipe';
+
+
+
+import { injectOnSubmit } from '@shared/form';
+import { SelectedEventService } from '@shared/services/selected-event.service';
+
+
+
+import { TableGroupsService } from '../_services/table-groups.service';
+import { TablesService } from '../_services/tables.service';
+
 
 @Component({
   template: `
@@ -45,14 +53,12 @@ import {TableEditFormComponent} from './table-edit-form.component';
                 {{ 'DELETE' | transloco }}
               </button>
             </div>
-            @if (publicIdLink(); as link) {
-              <div>
-                <a class="btn btn-sm btn-info" [href]="link">
-                  <bi name="box-arrow-up-right" />
-                  {{ 'HOME_TABLES_PUBLIC_ID' | transloco }}
-                </a>
-              </div>
-            }
+            <div *isEditingAndNotDeleted="entity">
+              <a class="btn btn-sm btn-info" [href]="'wl' | shareableLink | publicTableLink: entity.publicId">
+                <bi name="box-arrow-up-right" />
+                {{ 'HOME_TABLES_PUBLIC_ID' | transloco }}
+              </a>
+            </div>
 
             <div>
               <a class="btn btn-sm btn-secondary" [queryParams]="{tableIds: entity.id}" routerLink="../../../orders">
@@ -101,14 +107,7 @@ import {TableEditFormComponent} from './table-edit-form.component';
   selector: 'app-table-edit',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    RouterLink,
-    AppEntityEditModule,
-    AppContinuesCreationSwitchComponent,
-    TableEditFormComponent,
-    AppDeletedDirectives,
-    LowerCasePipe,
-  ],
+  imports: [AppEntityEditModule, AppDeletedDirectives, ShareableLinkPipe, PublicTableLinkPipe],
 })
 export class TableEditComponent {
   #tablesService = inject(TablesService);
@@ -135,7 +134,6 @@ export class TableEditComponent {
     },
   });
 
-  ml = inject(MobileLinkService);
   selectedEventId = inject(SelectedEventService).selectedId;
   tableGroups = toSignal(inject(TableGroupsService).getAll$());
 
@@ -156,12 +154,4 @@ export class TableEditComponent {
       map((id) => n_from(id)),
     ),
   );
-
-  publicIdLink = computed(() => {
-    const entity = this.entity();
-    if (entity !== 'CREATE' && entity) {
-      return this.ml.createTableLink(entity.publicId);
-    }
-    return undefined;
-  });
 }

@@ -1,4 +1,3 @@
-import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 
 import {delay, of} from 'rxjs';
@@ -12,7 +11,7 @@ import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
 
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-import {MobileLinkService} from '@home-shared/services/mobile-link.service';
+import {PublicTableLinkPipe, ShareableLinkPipe} from '@home-shared/pipes/wr-links.pipe';
 
 import {BackendType} from '@shared/api';
 
@@ -55,7 +54,7 @@ import {BackendType} from '@shared/api';
 
       <div class="main">
         <div class="d-flex flex-wrap justify-content-center">
-          @for (mytable of tables(); track mytable.id) {
+          @for (table of tables(); track table.id) {
             <div class="qr-code-item">
               <qrcode
                 [imageSrc]="qrCodeSize === 'MD' ? '/assets/mono.png' : undefined"
@@ -64,13 +63,13 @@ import {BackendType} from '@shared/api';
                 [size]="8"
                 [errorCorrectionLevel]="qrCodeSize === 'MD' ? 'H' : 'M'"
                 [margin]="0"
-                [data]="parser(mytable)"
+                [data]="'wl' | shareableLink | publicTableLink: table.publicId"
                 cssClass="text-center"
                 elementType="canvas"
               />
 
               <div class="text-center text-black qr-code-label">
-                <b>{{ mytable.group.name }} - {{ mytable.number }}</b>
+                <b>{{ table.group.name }} - {{ table.number }}</b>
               </div>
             </div>
           }
@@ -104,21 +103,25 @@ import {BackendType} from '@shared/api';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-print-table-qr-codes-modal',
   standalone: true,
-  imports: [NgbProgressbarModule, QRCodeComponent, ScrollableToolbarComponent, BiComponent, NgbDropdownModule, AsyncPipe, TranslocoPipe],
+  imports: [
+    NgbProgressbarModule,
+    QRCodeComponent,
+    ScrollableToolbarComponent,
+    BiComponent,
+    NgbDropdownModule,
+    TranslocoPipe,
+    ShareableLinkPipe,
+    PublicTableLinkPipe,
+  ],
 })
 export class TablesPrintQrCodesModal {
   activeModal = inject(NgbActiveModal);
-  #mobileLink = inject(MobileLinkService);
 
   tables = signal<BackendType['GetTableWithGroupResponse'][]>([]);
 
   qrCodeSize: 'SM' | 'MD' = 'MD';
   generating = false;
   progress = signal<number | undefined>(undefined);
-
-  parser = (table: BackendType['GetTableWithGroupResponse']): string => {
-    return this.#mobileLink.createTableLink(table.publicId);
-  };
 
   async pdf(): Promise<void> {
     this.generating = true;
@@ -175,17 +178,6 @@ export class TablesPrintQrCodesModal {
         return 118;
       case 'MD':
         return 167;
-      default:
-        throw Error('Uknown qr code size');
-    }
-  };
-
-  getQrCodePadding = (): number => {
-    switch (this.qrCodeSize) {
-      case 'SM':
-        return 20;
-      case 'MD':
-        return 13;
       default:
         throw Error('Uknown qr code size');
     }

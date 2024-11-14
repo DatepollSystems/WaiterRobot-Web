@@ -7,7 +7,7 @@ import {RouterLink} from '@angular/router';
 import {forkJoin, of, switchMap, tap} from 'rxjs';
 
 import {TranslocoPipe} from '@jsverse/transloco';
-import {NgbDropdownAnchor, NgbDropdownItem, NgbDropdownModule, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownItem, NgbDropdownModule, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {n_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
@@ -19,7 +19,7 @@ import {BlankslateComponent} from '@home-shared/components/blankslate.component'
 import {BtnWaiterCreateQrCodeComponent} from '@home-shared/components/button/app-waiter-create-qr-code-btn.component';
 import {ListFilterComponent, injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
 import {mapName} from '@home-shared/name-map';
-import {AppSoldOutPipe} from '@home-shared/pipes/app-sold-out.pipe';
+import {ShareableLinkPipe, WaiterAuthLinkPipe} from '@home-shared/pipes/wr-links.pipe';
 
 import {BackendType} from '@shared/api';
 import {SelectedEventService} from '@shared/services/selected-event.service';
@@ -28,11 +28,9 @@ import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.compo
 import {EventsService} from '../_admin/events/_services/events.service';
 import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
 import {AppActivatedPipe} from '../_shared/pipes/app-activated.pipe';
-import {MobileLinkService} from '../_shared/services/mobile-link.service';
 import {QrCodeService} from '../_shared/services/qr-code.service';
 import {OrganisationWaitersService} from './_services/organisation-waiters.service';
 import {WaitersService} from './_services/waiters.service';
-import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.component';
 
 @Component({
   template: `
@@ -235,7 +233,6 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
     DfxImplodePipe,
     ScrollableToolbarComponent,
     BiComponent,
-    BtnWaiterSignInQrCodeComponent,
     AppActivatedPipe,
     AppProgressBarComponent,
     ActionDropdownComponent,
@@ -244,15 +241,12 @@ import {BtnWaiterSignInQrCodeComponent} from './btn-waiter-sign-in-qr-code.compo
     LowerCasePipe,
     BtnWaiterCreateQrCodeComponent,
     BlankslateComponent,
-    NgbDropdownAnchor,
     NgbDropdownModule,
-    AppSoldOutPipe,
     ListFilterComponent,
   ],
 })
 export class WaitersComponent {
   #qrCodeService = inject(QrCodeService);
-  #mobileLink = inject(MobileLinkService);
   #organisationWaitersService = inject(OrganisationWaitersService);
   #waitersService = inject(WaitersService);
   #eventsService = inject(EventsService);
@@ -309,9 +303,12 @@ export class WaitersComponent {
     );
   }
 
+  shareLinkTransform = new ShareableLinkPipe().transform;
+  waiterAuthLinkTransform = new WaiterAuthLinkPipe().transform;
+
   openLoginQRCode(token: string): void {
     this.#qrCodeService.openQRCodePage({
-      data: this.#mobileLink.createWaiterSignInLink(token),
+      data: this.waiterAuthLinkTransform(this.shareLinkTransform('ml'), 'SIGN_IN', token),
       text: 'HOME_WAITERS_EDIT_QR_CODE',
       info: 'HOME_WAITERS_EDIT_QR_CODE_DESCRIPTION',
     });

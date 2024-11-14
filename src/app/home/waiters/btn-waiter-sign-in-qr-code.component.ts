@@ -1,22 +1,23 @@
-import {ChangeDetectionStrategy, Component, Input, inject} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import {AppQrCodeButtonComponent} from '../_shared/components/button/app-qr-code-button.component';
-import {MobileLinkService} from '../_shared/services/mobile-link.service';
+
+
+import { ShareableLinkPipe, WaiterAuthLinkPipe } from '@home-shared/pipes/wr-links.pipe';
+
 
 @Component({
-  template: ' <app-qrcode-button text="HOME_WAITERS_EDIT_QR_CODE" info="HOME_WAITERS_EDIT_QR_CODE_DESCRIPTION" [data]="_token" /> ',
+  template: `
+    <app-qrcode-button
+      [data]="'ml' | shareableLink | waiterAuthLink: 'SIGN_IN' : token()"
+      text="HOME_WAITERS_EDIT_QR_CODE"
+      info="HOME_WAITERS_EDIT_QR_CODE_DESCRIPTION"
+    />
+  `,
   selector: 'app-btn-waiter-signin-qrcode',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AppQrCodeButtonComponent],
+  imports: [ShareableLinkPipe, WaiterAuthLinkPipe],
 })
 export class BtnWaiterSignInQrCodeComponent {
-  _token: string | undefined;
-
-  #mobileLink = inject(MobileLinkService);
-
-  @Input()
-  set token(token: string) {
-    this._token = this.#mobileLink.createWaiterSignInLink(token);
-  }
+  token = input.required<string>();
 }
