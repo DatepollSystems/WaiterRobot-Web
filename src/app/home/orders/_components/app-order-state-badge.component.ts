@@ -1,11 +1,14 @@
-import {DatePipe, NgClass} from '@angular/common';
-import {ChangeDetectionStrategy, Component, Input, input} from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Input, input } from '@angular/core';
 
-import {TranslocoPipe} from '@jsverse/transloco';
-import {NgbPopover, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {BackendType} from '@shared/api';
+
+import { TranslocoPipe } from '@jsverse/transloco';
+
+
+
+import { BackendType } from '@shared/api';
+
 
 @Component({
   template: `
@@ -47,7 +50,7 @@ import {BackendType} from '@shared/api';
         </div>
       }
       @if (processedAt()) {
-        <div>Verarbeitet um: {{ processedAt() | date: 'dd.MM.yy HH:mm:ss' }}</div>
+        <div>Verarbeitet: {{ processedAt() | date: 'dd.MM.yy HH:mm:ss' }}</div>
       }
       <div>Gedruckte Produkte: {{ printedProducts }} von {{ allProducts }}</div>
     </ng-template>
@@ -80,7 +83,7 @@ import {BackendType} from '@shared/api';
   standalone: true,
   selector: 'app-order-state-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, BiComponent, TranslocoPipe, NgbTooltip, DatePipe, NgbPopover],
+  imports: [TranslocoPipe, DatePipe],
 })
 export class AppOrderStateBadgeComponent {
   orderState = input.required<BackendType['GetOrderResponse']['state']>();
