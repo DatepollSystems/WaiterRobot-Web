@@ -16,6 +16,7 @@ import {DfxArrayPluck, DfxCurrencyCentPipe, DfxImplodePipe, StopPropagationDirec
 import {injectParams} from 'ngxtension/inject-params';
 
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
+import {BlankslateComponent} from '@home-shared/components/blankslate.component';
 import {AppResetOrderButtonComponent} from '@home-shared/components/button/app-reset-order-button.component';
 import {AppOrderModeSwitchComponent} from '@home-shared/form/app-order-mode-switch.component';
 import {
@@ -294,6 +295,16 @@ import {ProductsService} from './_services/products.service';
         </div>
       }
 
+      @if (table.isEmpty()) {
+        <app-blankslate [header]="'HOME_PROD_ALL' | transloco" [description]="'HOME_PROD_EMPTY' | transloco" icon="columns-gap">
+          <a class="btn btn-success" type="button" routerLink="../p/create">
+            <bi name="plus-circle" />
+            {{ 'ADD_2' | transloco }}
+          </a>
+          <a href="https://help.kellner.team/product.html" target="_blank">Erfahre mehr</a>
+        </app-blankslate>
+      }
+
       <app-progress-bar [show]="table.isLoading()" />
     </div>
   `,
@@ -326,6 +337,7 @@ import {ProductsService} from './_services/products.service';
     AppOrderModeSwitchComponent,
     AppResetOrderButtonComponent,
     ListFilterComponent,
+    BlankslateComponent,
   ],
 })
 export class ProductsComponent {

@@ -12,6 +12,7 @@ import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {StopPropagationDirective} from 'dfx-helper';
 
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
+import {BlankslateComponent} from '@home-shared/components/blankslate.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {ListFilterComponent, injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
 import {mapName} from '@home-shared/name-map';
@@ -163,6 +164,16 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
         </div>
       }
 
+      @if (table.isEmpty()) {
+        <app-blankslate [header]="'NAV_PRINTERS' | transloco" [description]="'HOME_PRINTER_EMPTY' | transloco" icon="printer">
+          <a class="btn btn-success" type="button" routerLink="../create">
+            <bi name="plus-circle" />
+            {{ 'ADD_2' | transloco }}
+          </a>
+          <a href="https://help.kellner.team/printer.html" target="_blank">Erfahre mehr</a>
+        </app-blankslate>
+      }
+
       <app-progress-bar [show]="table.isLoading()" />
     </div>
   `,
@@ -183,6 +194,7 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
     NgbDropdownItem,
     StopPropagationDirective,
     ListFilterComponent,
+    BlankslateComponent,
   ],
 })
 export class PrintersComponent {

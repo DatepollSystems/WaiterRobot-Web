@@ -1,4 +1,5 @@
 import {CdkDrag, CdkDragHandle, CdkDropList} from '@angular/cdk/drag-drop';
+import {LowerCasePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -10,6 +11,7 @@ import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {StopPropagationDirective} from 'dfx-helper';
 
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
+import {BlankslateComponent} from '@home-shared/components/blankslate.component';
 import {AppResetOrderButtonComponent} from '@home-shared/components/button/app-reset-order-button.component';
 import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
@@ -187,6 +189,16 @@ import {TableGroupsService} from './_services/table-groups.service';
         </div>
       }
 
+      @if (table.isEmpty()) {
+        <app-blankslate [header]="'HOME_TABLE_GROUPS' | transloco" [description]="'HOME_TABLES_EMPTY' | transloco" icon="columns-gap">
+          <a class="btn btn-success" type="button" routerLink="../create">
+            <bi name="plus-circle" />
+            {{ 'ADD_2' | transloco }}
+          </a>
+          <a href="https://help.kellner.team/table.html" target="_blank">Erfahre mehr</a>
+        </app-blankslate>
+      }
+
       <app-progress-bar [show]="table.isLoading()" />
     </div>
   `,
@@ -214,6 +226,8 @@ import {TableGroupsService} from './_services/table-groups.service';
     StopPropagationDirective,
     AppResetOrderButtonComponent,
     ListFilterComponent,
+    BlankslateComponent,
+    LowerCasePipe,
   ],
 })
 export class TableGroupsComponent {

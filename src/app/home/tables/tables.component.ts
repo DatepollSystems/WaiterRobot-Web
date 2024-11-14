@@ -14,6 +14,7 @@ import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {injectParams} from 'ngxtension/inject-params';
 
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
+import {BlankslateComponent} from '@home-shared/components/blankslate.component';
 import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {
@@ -38,8 +39,8 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
         <a class="btn btn-sm btn-success" [queryParams]="{group: activeId() !== 'all' ? activeId() : null}" routerLink="../t/create">
           <bi name="plus-circle" />
           {{ 'HOME_TABLE' | transloco }}
-          {{ 'ADD_3' | transloco | lowercase }}</a
-        >
+          {{ 'ADD_3' | transloco | lowercase }}
+        </a>
 
         <div [ngbTooltip]="!selection.hasValue() ? ('HOME_TABLE_SELECT_REQUIRED' | transloco) : undefined">
           <button class="btn btn-sm btn-danger" [class.disabled]="!selection.hasValue()" (click)="delete.onDeleteSelected()" type="button">
@@ -218,6 +219,17 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
         </table>
       </div>
 
+      @if (table.isEmpty()) {
+        <app-blankslate [header]="'HOME_TABLES' | transloco" [description]="'HOME_TABLES_EMPTY' | transloco" icon="columns-gap">
+          <a class="btn btn-success" type="button" routerLink="../t/create">
+            <bi name="plus-circle" />
+            {{ 'HOME_TABLE' | transloco }}
+            {{ 'ADD_3' | transloco | lowercase }}
+          </a>
+          <a href="https://help.kellner.team/table.html" target="_blank">Erfahre mehr</a>
+        </app-blankslate>
+      }
+
       <app-progress-bar [show]="table.isLoading()" />
     </div>
   `,
@@ -246,6 +258,7 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
     ActionDropdownComponent,
     NgbDropdownItem,
     ListFilterComponent,
+    BlankslateComponent,
   ],
 })
 export class TablesComponent {

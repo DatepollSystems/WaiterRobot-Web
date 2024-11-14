@@ -10,6 +10,7 @@ import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {StopPropagationDirective} from 'dfx-helper';
 
 import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
+import {BlankslateComponent} from '@home-shared/components/blankslate.component';
 import {AppResetOrderButtonComponent} from '@home-shared/components/button/app-reset-order-button.component';
 import {
   ListFilterComponent,
@@ -187,6 +188,16 @@ import {ProductGroupsService} from './_services/product-groups.service';
         </div>
       }
 
+      @if (table.isEmpty()) {
+        <app-blankslate [header]="'HOME_PROD_GROUPS' | transloco" [description]="'HOME_PROD_EMPTY' | transloco" icon="columns-gap">
+          <a class="btn btn-success" type="button" routerLink="../create">
+            <bi name="plus-circle" />
+            {{ 'ADD_2' | transloco }}
+          </a>
+          <a href="https://help.kellner.team/product.html" target="_blank">Erfahre mehr</a>
+        </app-blankslate>
+      }
+
       <app-progress-bar [show]="table.isLoading()" />
     </div>
   `,
@@ -214,6 +225,7 @@ import {ProductGroupsService} from './_services/product-groups.service';
     StopPropagationDirective,
     AppResetOrderButtonComponent,
     ListFilterComponent,
+    BlankslateComponent,
   ],
 })
 export class ProductGroupsComponent {

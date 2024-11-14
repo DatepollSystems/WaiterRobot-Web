@@ -209,10 +209,11 @@ import {WaitersService} from './_services/waiters.service';
 
       @if (table.isEmpty()) {
         <app-blankslate [header]="'NAV_WAITERS' | transloco" [description]="'HOME_WAITERS_EMPTY' | transloco" icon="people">
-          <button class="btn btn-success" type="button" routerLink="../waiter/create">
+          <a class="btn btn-success" type="button" routerLink="../waiter/create">
             <bi name="plus-circle" />
             {{ 'HOME_START_SETUP_CREATE_WAITER' | transloco }}
-          </button>
+          </a>
+          <a href="https://help.kellner.team/mobile-apps.html" target="_blank">Erfahre mehr über die Apps</a>
         </app-blankslate>
       }
 
