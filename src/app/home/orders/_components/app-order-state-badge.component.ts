@@ -1,14 +1,11 @@
-import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, input } from '@angular/core';
+import {DatePipe, NgClass} from '@angular/common';
+import {ChangeDetectionStrategy, Component, Input, input} from '@angular/core';
 
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbPopover} from '@ng-bootstrap/ng-bootstrap';
+import {BiComponent} from 'dfx-bootstrap-icons';
 
-
-import { TranslocoPipe } from '@jsverse/transloco';
-
-
-
-import { BackendType } from '@shared/api';
-
+import {BackendType} from '@shared/api';
 
 @Component({
   template: `
@@ -83,7 +80,7 @@ import { BackendType } from '@shared/api';
   standalone: true,
   selector: 'app-order-state-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoPipe, DatePipe],
+  imports: [TranslocoPipe, DatePipe, NgbPopover, NgClass, BiComponent],
 })
 export class AppOrderStateBadgeComponent {
   orderState = input.required<BackendType['GetOrderResponse']['state']>();

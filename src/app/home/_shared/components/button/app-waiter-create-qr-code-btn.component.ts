@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 
+import {AppQrCodeButtonComponent} from '@home-shared/components/button/app-qr-code-button.component';
 
-
-import { ShareableLinkPipe, WaiterAuthLinkPipe } from '../../pipes/wr-links.pipe';
-
+import {ShareableLinkPipe, WaiterAuthLinkPipe} from '../../pipes/wr-links.pipe';
 
 @Component({
   selector: 'app-waiter-create-qrcode-btn',
@@ -14,7 +13,7 @@ import { ShareableLinkPipe, WaiterAuthLinkPipe } from '../../pipes/wr-links.pipe
       info="HOME_WAITERS_EDIT_EVENTS_QR_CODE_DESCRIPTION"
     />
   `,
-  imports: [ShareableLinkPipe, WaiterAuthLinkPipe],
+  imports: [ShareableLinkPipe, WaiterAuthLinkPipe, AppQrCodeButtonComponent],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

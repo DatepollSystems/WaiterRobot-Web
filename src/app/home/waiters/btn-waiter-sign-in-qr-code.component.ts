@@ -1,9 +1,7 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 
-
-
-import { ShareableLinkPipe, WaiterAuthLinkPipe } from '@home-shared/pipes/wr-links.pipe';
-
+import {AppQrCodeButtonComponent} from '@home-shared/components/button/app-qr-code-button.component';
+import {ShareableLinkPipe, WaiterAuthLinkPipe} from '@home-shared/pipes/wr-links.pipe';
 
 @Component({
   template: `
@@ -16,7 +14,7 @@ import { ShareableLinkPipe, WaiterAuthLinkPipe } from '@home-shared/pipes/wr-lin
   selector: 'app-btn-waiter-signin-qrcode',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ShareableLinkPipe, WaiterAuthLinkPipe],
+  imports: [ShareableLinkPipe, WaiterAuthLinkPipe, AppQrCodeButtonComponent],
 })
 export class BtnWaiterSignInQrCodeComponent {
   token = input.required<string>();

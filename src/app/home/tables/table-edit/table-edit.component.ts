@@ -1,33 +1,24 @@
-import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute } from '@angular/router';
+import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
+import {toSignal} from '@angular/core/rxjs-interop';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 
+import {filter, map, shareReplay} from 'rxjs';
 
+import {n_from, n_isNumeric} from 'dfts-helper';
 
-import { filter, map, shareReplay } from 'rxjs';
+import {UnknownModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
+import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
+import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
+import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
+import {injectContinuousCreation, injectEditEntity, injectOnDelete} from '@home-shared/form/edit';
+import {PublicTableLinkPipe, ShareableLinkPipe} from '@home-shared/pipes/wr-links.pipe';
 
+import {injectOnSubmit} from '@shared/form';
+import {SelectedEventService} from '@shared/services/selected-event.service';
 
-
-import { n_from, n_isNumeric } from 'dfts-helper';
-
-
-
-import { UnknownModelEditFormComponent } from '@home-shared/form/abstract-model-edit-form.component';
-import { AppDeletedDirectives } from '@home-shared/form/app-entity-deleted.directives';
-import { AppEntityEditModule } from '@home-shared/form/app-entity-edit.module';
-import { injectContinuousCreation, injectEditEntity, injectOnDelete } from '@home-shared/form/edit';
-import { PublicTableLinkPipe, ShareableLinkPipe } from '@home-shared/pipes/wr-links.pipe';
-
-
-
-import { injectOnSubmit } from '@shared/form';
-import { SelectedEventService } from '@shared/services/selected-event.service';
-
-
-
-import { TableGroupsService } from '../_services/table-groups.service';
-import { TablesService } from '../_services/tables.service';
-
+import {TableGroupsService} from '../_services/table-groups.service';
+import {TablesService} from '../_services/tables.service';
+import {TableEditFormComponent} from './table-edit-form.component';
 
 @Component({
   template: `
@@ -107,7 +98,15 @@ import { TablesService } from '../_services/tables.service';
   selector: 'app-table-edit',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AppEntityEditModule, AppDeletedDirectives, ShareableLinkPipe, PublicTableLinkPipe],
+  imports: [
+    AppEntityEditModule,
+    AppDeletedDirectives,
+    ShareableLinkPipe,
+    PublicTableLinkPipe,
+    RouterLink,
+    AppContinuesCreationSwitchComponent,
+    TableEditFormComponent,
+  ],
 })
 export class TableEditComponent {
   #tablesService = inject(TablesService);

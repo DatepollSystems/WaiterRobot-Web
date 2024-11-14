@@ -1,42 +1,38 @@
-import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, viewChild } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { ReactiveFormsModule } from '@angular/forms';
+import {AsyncPipe} from '@angular/common';
+import {ChangeDetectionStrategy, Component, computed, inject, viewChild} from '@angular/core';
+import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
+import {ReactiveFormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
 
+import {Observable, debounceTime, map, pipe, switchMap, tap} from 'rxjs';
 
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbCollapse, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgSelectModule} from '@ng-select/ng-select';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
+import {DfxCurrencyCentPipe, StopPropagationDirective, injectIsMobile} from 'dfx-helper';
+import {derivedFrom} from 'ngxtension/derived-from';
 
-import { Observable, debounceTime, map, pipe, switchMap, tap } from 'rxjs';
+import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+import {RelativeTimeWithTooltip} from '@home-shared/pipes/relative-time.pipe';
+import {Download} from '@home-shared/services/download.service';
 
+import {BackendType} from '@shared/api';
+import {injectFilter} from '@shared/api/filter';
+import {injectPagination} from '@shared/api/pagination';
+import {injectCustomFormBuilder} from '@shared/form';
+import {AppProgressBarComponent} from '@shared/ui/loading';
 
-
-import { TranslocoPipe } from '@jsverse/transloco';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { loggerOf } from 'dfts-helper';
-import { DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort } from 'dfx-bootstrap-table';
-import { DfxCurrencyCentPipe, injectIsMobile } from 'dfx-helper';
-import { derivedFrom } from 'ngxtension/derived-from';
-
-
-
-import { Download } from '@home-shared/services/download.service';
-
-
-
-import { BackendType } from '@shared/api';
-import { injectFilter } from '@shared/api/filter';
-import { injectPagination } from '@shared/api/pagination';
-import { injectCustomFormBuilder } from '@shared/form';
-
-
-
-import { ProductGroupsService } from '../products/_services/product-groups.service';
-import { ProductsService } from '../products/_services/products.service';
-import { TableGroupsService } from '../tables/_services/table-groups.service';
-import { TablesService } from '../tables/_services/tables.service';
-import { OrganisationWaitersService } from '../waiters/_services/organisation-waiters.service';
-import { BillsService } from './_services/bills.service';
-import { UnpaidReasonsService } from './_services/unpaid-reasons.service';
-
+import {ProductGroupsService} from '../products/_services/product-groups.service';
+import {ProductsService} from '../products/_services/products.service';
+import {TableGroupsService} from '../tables/_services/table-groups.service';
+import {TablesService} from '../tables/_services/tables.service';
+import {OrganisationWaitersService} from '../waiters/_services/organisation-waiters.service';
+import {AppBillPaymentStateBadgeComponent} from './_components/app-bill-payment-state-badge.component';
+import {AppBillRefreshButtonComponent} from './_components/app-bill-refresh-button.component';
+import {BillsService} from './_services/bills.service';
+import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
 
 @Component({
   template: `
@@ -277,11 +273,19 @@ import { UnpaidReasonsService } from './_services/unpaid-reasons.service';
     DfxPaginationModule,
     TranslocoPipe,
     DfxCurrencyCentPipe,
+    AppProgressBarComponent,
+    RouterLink,
+    NgbTooltip,
+    StopPropagationDirective,
+    AppBillPaymentStateBadgeComponent,
+    RelativeTimeWithTooltip,
+    BiComponent,
+    AppBillRefreshButtonComponent,
+    ScrollableToolbarComponent,
+    NgbCollapse,
   ],
 })
 export class BillsComponent {
-  #lumber = loggerOf('AllBills');
-
   #billsService = inject(BillsService);
 
   isMobile = injectIsMobile();

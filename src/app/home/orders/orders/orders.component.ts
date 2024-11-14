@@ -1,53 +1,42 @@
-import { SelectionModel } from '@angular/cdk/collections';
-import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import {SelectionModel} from '@angular/cdk/collections';
+import {AsyncPipe} from '@angular/common';
+import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
+import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
+import {ReactiveFormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
 
+import {Observable, debounceTime, forkJoin, map, pipe, switchMap, tap} from 'rxjs';
 
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbCollapse, NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgSelectModule} from '@ng-select/ng-select';
+import {loggerOf, s_imploder} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
+import {StopPropagationDirective, injectIsMobile} from 'dfx-helper';
+import {derivedFrom} from 'ngxtension/derived-from';
 
-import { Observable, debounceTime, forkJoin, map, pipe, switchMap, tap } from 'rxjs';
+import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
+import {AppTestBadge} from '@home-shared/components/app-test-badge.component';
+import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
+import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+import {RelativeTimeWithTooltip} from '@home-shared/pipes/relative-time.pipe';
+import {Download} from '@home-shared/services/download.service';
 
+import {BackendType} from '@shared/api';
+import {injectFilter} from '@shared/api/filter';
+import {injectPagination} from '@shared/api/pagination';
+import {injectCustomFormBuilder} from '@shared/form';
+import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
-
-import { TranslocoPipe } from '@jsverse/transloco';
-import { NgbCollapse, NgbDropdownItem, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { loggerOf, s_imploder } from 'dfts-helper';
-import { BiComponent } from 'dfx-bootstrap-icons';
-import { DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort } from 'dfx-bootstrap-table';
-import { StopPropagationDirective, injectIsMobile } from 'dfx-helper';
-import { derivedFrom } from 'ngxtension/derived-from';
-
-
-
-import { ActionDropdownComponent } from '@home-shared/components/action-dropdown.component';
-import { AppTestBadge } from '@home-shared/components/app-test-badge.component';
-import { injectConfirmDialog } from '@home-shared/components/question-dialog.component';
-import { ScrollableToolbarComponent } from '@home-shared/components/scrollable-toolbar.component';
-import { RelativeTimeWithTooltip } from '@home-shared/pipes/relative-time.pipe';
-import { Download } from '@home-shared/services/download.service';
-
-
-
-import { BackendType } from '@shared/api';
-import { injectFilter } from '@shared/api/filter';
-import { injectPagination } from '@shared/api/pagination';
-import { injectCustomFormBuilder } from '@shared/form';
-import { AppProgressBarComponent } from '@shared/ui/loading/app-progress-bar.component';
-
-
-
-import { ProductGroupsService } from '../../products/_services/product-groups.service';
-import { ProductsService } from '../../products/_services/products.service';
-import { TableGroupsService } from '../../tables/_services/table-groups.service';
-import { TablesService } from '../../tables/_services/tables.service';
-import { OrganisationWaitersService } from '../../waiters/_services/organisation-waiters.service';
-import { AppOrderRefreshButtonComponent } from '../_components/app-order-refresh-button.component';
-import { AppOrderStateBadgeComponent } from '../_components/app-order-state-badge.component';
-import { OrdersService } from '../orders.service';
-
+import {ProductGroupsService} from '../../products/_services/product-groups.service';
+import {ProductsService} from '../../products/_services/products.service';
+import {TableGroupsService} from '../../tables/_services/table-groups.service';
+import {TablesService} from '../../tables/_services/tables.service';
+import {OrganisationWaitersService} from '../../waiters/_services/organisation-waiters.service';
+import {AppOrderRefreshButtonComponent} from '../_components/app-order-refresh-button.component';
+import {AppOrderStateBadgeComponent} from '../_components/app-order-state-badge.component';
+import {OrdersService} from '../orders.service';
 
 @Component({
   templateUrl: './orders.component.html',
