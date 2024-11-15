@@ -8,7 +8,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {s_imploder} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxTableModule, NgbPaginator} from 'dfx-bootstrap-table';
-import {DfxCurrencyCentPipe} from 'dfx-helper';
+import {DfxCurrencyCentPipe, StopPropagationDirective} from 'dfx-helper';
 import {derivedFrom} from 'ngxtension/derived-from';
 
 import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
@@ -48,7 +48,8 @@ type BinType = (BackendType['GetProductResponse'] | BackendType['GetProductGroup
                   <input
                     class="form-check-input"
                     [checked]="selection.isAllSelected()"
-                    (change)="selection.toggleAll()"
+                    (click)="selection.toggleAll()"
+                    stopPropagation
                     type="checkbox"
                     name="checked"
                   />
@@ -60,7 +61,8 @@ type BinType = (BackendType['GetProductResponse'] | BackendType['GetProductGroup
                     <input
                       class="form-check-input"
                       [checked]="selection.isSelected(selectable)"
-                      (change)="toggle(selectable, !selection.isSelected(selectable))"
+                      (click)="toggle(selectable, !selection.isSelected(selectable))"
+                      stopPropagation
                       type="checkbox"
                       name="checked"
                     />
@@ -118,7 +120,11 @@ type BinType = (BackendType['GetProductResponse'] | BackendType['GetProductGroup
             </ng-container>
 
             <tr *ngbHeaderRowDef="columnsToDisplay()" ngb-header-row></tr>
-            <tr *ngbRowDef="let binItem; columns: columnsToDisplay()" ngb-row></tr>
+            <tr
+              *ngbRowDef="let binItem; columns: columnsToDisplay()"
+              (click)="toggle(binItem, !selection.isSelected(binItem))"
+              ngb-row
+            ></tr>
           </table>
         </div>
       }
@@ -154,6 +160,7 @@ type BinType = (BackendType['GetProductResponse'] | BackendType['GetProductGroup
     AppTextWithColorIndicatorComponent,
     AppProgressBarComponent,
     AppSoldOutPipe,
+    StopPropagationDirective,
   ],
 })
 export class ProductGroupsRecycleBinComponent {
@@ -259,7 +266,7 @@ export class ProductGroupsRecycleBinComponent {
       // Check if the parent group is selected, if not, select the parent group
       const parentGroup = this.dataSource().find((group) => group.id === it.groupId && group.type === 'GROUP');
       if (parentGroup && !this.selection.isSelected(parentGroup)) {
-        this.selection.toggle(parentGroup, isSelected);
+        this.selection.toggle(parentGroup, true);
       }
     } else {
       throw 'Unknown bin type';

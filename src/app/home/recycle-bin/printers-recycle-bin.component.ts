@@ -7,6 +7,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {s_imploder} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxTableModule, NgbPaginator} from 'dfx-bootstrap-table';
+import {StopPropagationDirective} from 'dfx-helper';
 import {derivedFrom} from 'ngxtension/derived-from';
 
 import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
@@ -39,7 +40,8 @@ import {PrintersService} from '../printers/_services/printers.service';
                   <input
                     class="form-check-input"
                     [checked]="selection.isAllSelected()"
-                    (change)="selection.toggleAll()"
+                    (click)="selection.toggleAll()"
+                    stopPropagation
                     type="checkbox"
                     name="checked"
                   />
@@ -51,7 +53,8 @@ import {PrintersService} from '../printers/_services/printers.service';
                     <input
                       class="form-check-input"
                       [checked]="selection.isSelected(selectable)"
-                      (change)="selection.toggle(selectable, !selection.isSelected(selectable))"
+                      (click)="selection.toggle(selectable, !selection.isSelected(selectable))"
+                      stopPropagation
                       type="checkbox"
                       name="checked"
                     />
@@ -113,7 +116,11 @@ import {PrintersService} from '../printers/_services/printers.service';
             </ng-container>
 
             <tr *ngbHeaderRowDef="columnsToDisplay()" ngb-header-row></tr>
-            <tr *ngbRowDef="let printer; columns: columnsToDisplay()" ngb-row></tr>
+            <tr
+              *ngbRowDef="let binItem; columns: columnsToDisplay()"
+              (click)="selection.toggle(binItem, !selection.isSelected(binItem))"
+              ngb-row
+            ></tr>
           </table>
         </div>
       }
@@ -146,6 +153,7 @@ import {PrintersService} from '../printers/_services/printers.service';
     BiComponent,
     ScrollableToolbarComponent,
     AppProgressBarComponent,
+    StopPropagationDirective,
   ],
 })
 export class PrintersRecycleBinComponent {

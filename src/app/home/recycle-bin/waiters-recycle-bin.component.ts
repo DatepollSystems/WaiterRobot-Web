@@ -7,7 +7,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {s_imploder} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxTableModule, NgbPaginator} from 'dfx-bootstrap-table';
-import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
+import {DfxArrayMapNamePipe, DfxImplodePipe, StopPropagationDirective} from 'dfx-helper';
 import {derivedFrom} from 'ngxtension/derived-from';
 
 import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
@@ -42,7 +42,8 @@ import {WaitersService} from '../waiters/_services/waiters.service';
                   <input
                     class="form-check-input"
                     [checked]="selection.isAllSelected()"
-                    (change)="selection.toggleAll()"
+                    (click)="selection.toggleAll()"
+                    stopPropagation
                     type="checkbox"
                     name="checked"
                   />
@@ -54,7 +55,8 @@ import {WaitersService} from '../waiters/_services/waiters.service';
                     <input
                       class="form-check-input"
                       [checked]="selection.isSelected(selectable)"
-                      (change)="selection.toggle(selectable, !selection.isSelected(selectable))"
+                      (click)="selection.toggle(selectable, !selection.isSelected(selectable))"
+                      stopPropagation
                       type="checkbox"
                       name="checked"
                     />
@@ -91,7 +93,11 @@ import {WaitersService} from '../waiters/_services/waiters.service';
             </ng-container>
 
             <tr *ngbHeaderRowDef="columnsToDisplay()" ngb-header-row></tr>
-            <tr *ngbRowDef="let waiter; columns: columnsToDisplay()" ngb-row></tr>
+            <tr
+              *ngbRowDef="let binItem; columns: columnsToDisplay()"
+              (click)="selection.toggle(binItem, !selection.isSelected(binItem))"
+              ngb-row
+            ></tr>
           </table>
         </div>
       }
@@ -127,6 +133,7 @@ import {WaitersService} from '../waiters/_services/waiters.service';
     ScrollableToolbarComponent,
     AppProgressBarComponent,
     AppActivatedPipe,
+    StopPropagationDirective,
   ],
 })
 export class WaitersRecycleBinComponent {

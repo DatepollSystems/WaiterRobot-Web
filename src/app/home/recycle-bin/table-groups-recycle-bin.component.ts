@@ -8,6 +8,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {s_imploder} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxTableModule, NgbPaginator} from 'dfx-bootstrap-table';
+import {StopPropagationDirective} from 'dfx-helper';
 import {derivedFrom} from 'ngxtension/derived-from';
 
 import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
@@ -47,7 +48,8 @@ type BinType = (BackendType['GetTableMinResponse'] | BackendType['GetTableGroupR
                   <input
                     class="form-check-input"
                     [checked]="selection.isAllSelected()"
-                    (change)="selection.toggleAll()"
+                    (click)="selection.toggleAll()"
+                    stopPropagation
                     type="checkbox"
                     name="checked"
                   />
@@ -59,7 +61,8 @@ type BinType = (BackendType['GetTableMinResponse'] | BackendType['GetTableGroupR
                     <input
                       class="form-check-input"
                       [checked]="selection.isSelected(selectable)"
-                      (change)="toggle(selectable, !selection.isSelected(selectable))"
+                      (click)="toggle(selectable, !selection.isSelected(selectable))"
+                      stopPropagation
                       type="checkbox"
                       name="checked"
                     />
@@ -82,7 +85,11 @@ type BinType = (BackendType['GetTableMinResponse'] | BackendType['GetTableGroupR
             </ng-container>
 
             <tr *ngbHeaderRowDef="columnsToDisplay()" ngb-header-row></tr>
-            <tr *ngbRowDef="let binItem; columns: columnsToDisplay()" ngb-row></tr>
+            <tr
+              *ngbRowDef="let binItem; columns: columnsToDisplay()"
+              (click)="toggle(binItem, !selection.isSelected(binItem))"
+              ngb-row
+            ></tr>
           </table>
         </div>
       }
@@ -116,6 +123,7 @@ type BinType = (BackendType['GetTableMinResponse'] | BackendType['GetTableGroupR
     ScrollableToolbarComponent,
     AppTextWithColorIndicatorComponent,
     AppProgressBarComponent,
+    StopPropagationDirective,
   ],
 })
 export class TableGroupsRecycleBinComponent {
@@ -147,7 +155,7 @@ export class TableGroupsRecycleBinComponent {
         return it.data
           .map((tableGroup) => ({
             ...tableGroup,
-            products: tableGroup.tables.map((table) => ({
+            tables: tableGroup.tables.map((table) => ({
               ...table,
               name: `${table.number}`,
               groupId: tableGroup.id,
@@ -159,7 +167,7 @@ export class TableGroupsRecycleBinComponent {
             type: 'GROUP' as const,
           }))
           .reduce<BinType[]>((previous, current) => {
-            return [...previous, current, ...current.products];
+            return [...previous, current, ...current.tables];
           }, []);
       }),
     ),
