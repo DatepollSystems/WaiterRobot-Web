@@ -4,7 +4,7 @@ import {Component, inject, viewChild} from '@angular/core';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 
-import {injectTable} from '@home-shared/list';
+import {ListFilterComponent, injectTableFilter} from '@home-shared/list';
 
 import {SelectedOrganisationService} from '@shared/services';
 import {AppProgressBarComponent} from '@shared/ui/loading';
@@ -20,43 +20,43 @@ import {GDPRStore} from '../_services/gdpr.store';
         <button class="btn btn-success" (click)="gdprStore.newAgreement()">{{ 'HOME_ORGS_SETTINGS_NEW_GDPR_CONTRACT' | transloco }}</button>
       </div>
 
+      <app-list-filter [filter]="filter" />
+
       <div class="table-responsive">
-        <table [hover]="true" [dataSource]="table.dataSource()" ngb-table ngb-sort>
-          <ng-container ngbColumnDef="agreedAt">
+        <table [hover]="true" [dataSource]="gdprStore.dataSource()" ngb-table ngb-sort ngbSortActive="agreedOnAt" ngbSortDirection="desc">
+          <ng-container ngbColumnDef="agreedOnAt">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_SETTINGS_GDPR_AGREED_AT' | transloco }}</th>
             <td *ngbCellDef="let agreement" ngb-cell>{{ agreement.agreedOnAt | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
           </ng-container>
 
-          <ng-container ngbColumnDef="agreedBy">
+          <ng-container ngbColumnDef="agreedOnBy">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_SETTINGS_GDPR_AGREED_BY' | transloco }}</th>
             <td *ngbCellDef="let agreement" ngb-cell>{{ agreement.agreedOnBy }}</td>
           </ng-container>
 
-          <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
-          <tr *ngbRowDef="let agreement; columns: table.columnsToDisplay()" (mousedown)="gdprStore.load(agreement.id)" ngb-row></tr>
+          <tr *ngbHeaderRowDef="gdprStore.columnsToDisplay()" ngb-header-row></tr>
+          <tr *ngbRowDef="let agreement; columns: gdprStore.columnsToDisplay()" (mousedown)="gdprStore.load(agreement.id)" ngb-row></tr>
         </table>
       </div>
 
-      <app-progress-bar [show]="gdprStore.isLoading()" />
+      <app-progress-bar [show]="gdprStore.isPending()" />
     </div>
   `,
   selector: 'wr-gdpr-list',
   standalone: true,
-  imports: [TranslocoPipe, DfxSortModule, DfxTableModule, AppProgressBarComponent, DatePipe],
+  imports: [TranslocoPipe, DfxSortModule, DfxTableModule, AppProgressBarComponent, DatePipe, ListFilterComponent],
 })
 export class GDPRList {
-  gdprStore = inject(GDPRStore);
   #selectedOrganisationId$ = inject(SelectedOrganisationService).selectedIdNotNull$;
+
+  gdprStore = inject(GDPRStore);
+  filter = injectTableFilter();
 
   sort = viewChild(NgbSort);
 
-  table = injectTable({
-    columnsToDisplay: ['agreedAt', 'agreedBy'],
-    data: this.gdprStore.agreements,
-    sort: this.sort,
-  });
-
   constructor() {
+    this.gdprStore.setFilter(this.filter.value);
+    this.gdprStore.setSort(this.sort);
     this.gdprStore.loadAll(this.#selectedOrganisationId$);
   }
 }
