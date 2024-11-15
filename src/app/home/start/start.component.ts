@@ -1,6 +1,6 @@
 import {DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {toSignal} from '@angular/core/rxjs-interop';
+import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 
 import {catchError, combineLatest, filter, map, of, shareReplay, startWith, switchMap, timer} from 'rxjs';
@@ -72,6 +72,7 @@ export class StartComponent {
       }),
     ),
     map((it) => it.data),
+    takeUntilDestroyed(),
     shareReplay(),
   );
 

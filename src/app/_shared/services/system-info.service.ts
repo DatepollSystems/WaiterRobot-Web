@@ -20,7 +20,7 @@ interface ServerInfoState {
   adminInfo?: BackendType['AdminInfoResponse'];
 }
 
-const refreshIn = 20;
+const refreshIn = 30;
 
 @Injectable({
   providedIn: 'any',

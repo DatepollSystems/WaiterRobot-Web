@@ -1,15 +1,18 @@
 import {Component} from '@angular/core';
+import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
+
+import {catchError, map, of, switchMap, timer} from 'rxjs';
 
 import {TranslocoPipe} from '@jsverse/transloco';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxHideIfOffline, DfxHideIfPingSucceeds} from 'dfx-helper';
 
-import {EnvironmentHelper} from '@shared/EnvironmentHelper';
+import {injectAPI} from '@shared/api';
 
 @Component({
   template: `
     <div hideIfOffline>
-      <div hideIfPingSucceeds url="{{ apiUrl }}/v1/json" refreshTime="20">
+      @if (pingFails()) {
         <div class="alert alert-warning" role="alert">
           <div class="d-flex gap-3 align-items-center">
             <bi name="exclamation-triangle-fill" />
@@ -27,7 +30,7 @@ import {EnvironmentHelper} from '@shared/EnvironmentHelper';
             </div>
           </div>
         </div>
-      </div>
+      }
     </div>
   `,
   standalone: true,
@@ -35,5 +38,14 @@ import {EnvironmentHelper} from '@shared/EnvironmentHelper';
   imports: [DfxHideIfOffline, DfxHideIfPingSucceeds, BiComponent, TranslocoPipe],
 })
 export class MaintenanceWarningComponent {
-  apiUrl = EnvironmentHelper.getAPIUrl();
+  #api = injectAPI();
+
+  pingFails = toSignal(
+    timer(0, 30 * 1000).pipe(
+      takeUntilDestroyed(),
+      switchMap(() => this.#api.get('/v1/json')),
+      map(() => false),
+      catchError(() => of(true)),
+    ),
+  );
 }
