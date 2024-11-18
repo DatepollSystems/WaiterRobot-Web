@@ -199,7 +199,7 @@ export class PrintersRecycleBinComponent {
     void this.#confirmDialog(
       'RECOVER_ALL',
       `<ol><li>${s_imploder()
-        .mappedSource(selected, (it) => it.name)
+        .source(selected, (it) => it.name)
         .separator('</li><li>')
         .build()}</li></ol>`,
     ).then((result) => {

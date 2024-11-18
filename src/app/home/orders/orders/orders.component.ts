@@ -176,7 +176,7 @@ export class OrdersComponent {
     void this.#confirmDialog(
       'HOME_ORDER_REQUEUE',
       `<ol><li>${s_imploder()
-        .mappedSource(selected, (it) => it.orderNumber)
+        .source(selected, (it) => it.orderNumber)
         .separator('</li><li>')
         .build()}</li></ol>`,
     ).then((result) => {

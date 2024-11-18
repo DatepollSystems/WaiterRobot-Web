@@ -75,16 +75,15 @@ export function injectTableDelete<EntityType extends IHasID<EntityType['id']>>({
     lumber.info('onDeleteSelected', 'Opening delete question dialog');
     lumber.info('onDeleteSelected', 'Selected entities:', selected);
 
-    void confirmDialog(
-      'DELETE_ALL',
-      `<ol><li>${s_imploder().mappedSource(selected, nameMap).separator('</li><li>').build()}</li></ol>`,
-    ).then((result) => {
-      if (result) {
-        forkJoin(selected.map((it) => delete$(it.id))).subscribe({
-          complete: deleted,
-        });
-      }
-    });
+    void confirmDialog('DELETE_ALL', `<ol><li>${s_imploder().source(selected, nameMap).separator('</li><li>').build()}</li></ol>`).then(
+      (result) => {
+        if (result) {
+          forkJoin(selected.map((it) => delete$(it.id))).subscribe({
+            complete: deleted,
+          });
+        }
+      },
+    );
   };
 
   return {
