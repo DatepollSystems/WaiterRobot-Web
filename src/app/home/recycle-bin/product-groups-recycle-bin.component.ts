@@ -216,7 +216,7 @@ export class ProductGroupsRecycleBinComponent {
     void this.#confirmDialog(
       'RECOVER_ALL',
       `<ol><li>${s_imploder()
-        .mappedSource(selected, (it) => `${it.type === 'ITEM' ? `(${it.groupName}) ` : ''}${it.name}`)
+        .source(selected, (it) => `${it.type === 'ITEM' ? `(${it.groupName}) ` : ''}${it.name}`)
         .separator('</li><li>')
         .build()}</li></ol>`,
     ).then((result) => {
