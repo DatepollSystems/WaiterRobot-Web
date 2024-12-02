@@ -18,7 +18,7 @@
     "api:types": "openapi-typescript http://localhost:8080/api/swagger/docs-json -o  ./src/app/_shared/api/api-types.ts && prettier --write ./src/app/_shared/api/api-types.ts",
     "api:types:lava": "openapi-typescript https://lava.kellner.team/api/swagger/docs-json -o  ./src/app/_shared/api/api-types.ts && prettier --write ./src/app/_shared/api/api-types.ts"
   },
-  "packageManager": "pnpm@9.13.2",
+  "packageManager": "pnpm@9.14.3",
   "private": true,
   "dependencies": {
     "@angular-devkit/build-angular": "^18.0.0",
@@ -65,7 +65,7 @@
     "@types/d3-scale": "4.0.8",
     "@types/d3-selection": "3.0.11",
     "@types/d3-shape": "^3.1.1",
-    "@types/jasmine": "5.1.4",
+    "@types/jasmine": "5.1.5",
     "@types/node": "^22.0.0",
     "@types/tinycolor2": "^1.4.6",
     "jasmine-core": "5.4.0",
@@ -77,7 +77,7 @@
     "karma-jasmine-html-reporter": "2.1.0",
     "license-report": "^6.4.0",
     "openapi-typescript": "^7.4.2",
-    "prettier": "3.3.3",
+    "prettier": "3.4.1",
     "prettier-plugin-organize-attributes": "^1.0.0",
     "source-map-explorer": "2.5.3",
     "typescript": "5.5.4"

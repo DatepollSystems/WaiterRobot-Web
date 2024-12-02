@@ -125,7 +125,7 @@ importers:
         version: 18.2.11(@angular/compiler@18.2.11(@angular/core@18.2.11(rxjs@7.8.1)(zone.js@0.15.0)))(typescript@5.5.4)
       '@trivago/prettier-plugin-sort-imports':
         specifier: ^4.3.0
-        version: 4.3.0(prettier@3.3.3)
+        version: 4.3.0(prettier@3.4.1)
       '@types/d3-scale':
         specifier: 4.0.8
         version: 4.0.8
@@ -136,8 +136,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.6
       '@types/jasmine':
-        specifier: 5.1.4
-        version: 5.1.4
+        specifier: 5.1.5
+        version: 5.1.5
       '@types/node':
         specifier: ^22.0.0
         version: 22.10.1
@@ -172,11 +172,11 @@ importers:
         specifier: ^7.4.2
         version: 7.4.4(encoding@0.1.13)(typescript@5.5.4)
       prettier:
-        specifier: 3.3.3
-        version: 3.3.3
+        specifier: 3.4.1
+        version: 3.4.1
       prettier-plugin-organize-attributes:
         specifier: ^1.0.0
-        version: 1.0.0(prettier@3.3.3)
+        version: 1.0.0(prettier@3.4.1)
       source-map-explorer:
         specifier: 2.5.3
         version: 2.5.3
@@ -2375,8 +2375,8 @@ packages:
   '@types/http-proxy@1.17.15':
     resolution: {integrity: sha512-25g5atgiVNTIv0LBDTg1H74Hvayx0ajtJPLLcYE3whFv75J0pWNtOBzaXJQgDTmrX1bx5U9YC2w/n65BN1HwRQ==}
 
-  '@types/jasmine@5.1.4':
-    resolution: {integrity: sha512-px7OMFO/ncXxixDe1zR13V1iycqWae0MxTaw62RpFlksUi5QuNWgQJFkTQjIOvrmutJbI7Fp2Y2N1F6D2R4G6w==}
+  '@types/jasmine@5.1.5':
+    resolution: {integrity: sha512-SaCZ3kM5NjOiJqMRYwHpLbTfUC2Dyk1KS3QanNFsUYPGTk70CWVK/J9ueun6zNhw/UkgV7xl8V4ZLQZNRbfnNw==}
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -4865,8 +4865,8 @@ packages:
     peerDependencies:
       prettier: ^3.0.0
 
-  prettier@3.3.3:
-    resolution: {integrity: sha512-i2tDNA0O5IrMO757lfrdQZCc2jPNDVntV0m/+4whiDfWaTKfMNgR7Qz0NAeGz/nRqF4m5/6CLzbP4/liHt12Ew==}
+  prettier@3.4.1:
+    resolution: {integrity: sha512-G+YdqtITVZmOJje6QkXQWzl3fSfMxFwm1tjTyo9exhkmWSqC4Yhd1+lug++IlR2mvRVAxEDDWYkQdeSztajqgg==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -7986,7 +7986,7 @@ snapshots:
     dependencies:
       defer-to-connect: 2.0.1
 
-  '@trivago/prettier-plugin-sort-imports@4.3.0(prettier@3.3.3)':
+  '@trivago/prettier-plugin-sort-imports@4.3.0(prettier@3.4.1)':
     dependencies:
       '@babel/generator': 7.17.7
       '@babel/parser': 7.26.2
@@ -7994,7 +7994,7 @@ snapshots:
       '@babel/types': 7.17.0
       javascript-natural-sort: 0.7.1
       lodash: 4.17.21
-      prettier: 3.3.3
+      prettier: 3.4.1
     transitivePeerDependencies:
       - supports-color
 
@@ -8108,7 +8108,7 @@ snapshots:
     dependencies:
       '@types/node': 22.10.1
 
-  '@types/jasmine@5.1.4': {}
+  '@types/jasmine@5.1.5': {}
 
   '@types/json-schema@7.0.15': {}
 
@@ -10846,11 +10846,11 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  prettier-plugin-organize-attributes@1.0.0(prettier@3.3.3):
+  prettier-plugin-organize-attributes@1.0.0(prettier@3.4.1):
     dependencies:
-      prettier: 3.3.3
+      prettier: 3.4.1
 
-  prettier@3.3.3: {}
+  prettier@3.4.1: {}
 
   pretty-format@29.7.0:
     dependencies:
