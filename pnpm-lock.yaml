@@ -42,8 +42,8 @@ importers:
         specifier: 18.2.13
         version: 18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0)))(rxjs@7.8.1)
       '@jsverse/transloco':
-        specifier: 7.5.0
-        version: 7.5.0(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(typescript@5.5.4)
+        specifier: 7.5.1
+        version: 7.5.1(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(typescript@5.5.4)
       '@micro-sentry/angular':
         specifier: ^7.0.2
         version: 7.1.1(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))
@@ -63,8 +63,8 @@ importers:
         specifier: 2.11.8
         version: 2.11.8
       '@swimlane/ngx-charts':
-        specifier: 21.0.0
-        version: 21.0.0(pz6qxm6mnisvszy7yfnfnr3pym)
+        specifier: 21.1.2
+        version: 21.1.2(pz6qxm6mnisvszy7yfnfnr3pym)
       bootstrap:
         specifier: 5.3.2
         version: 5.3.2(@popperjs/core@2.11.8)
@@ -72,8 +72,8 @@ importers:
         specifier: 3.2.0
         version: 3.2.0
       dfts-helper:
-        specifier: 1.1.2
-        version: 1.1.2
+        specifier: 1.2.0
+        version: 1.2.0
       dfx-bootstrap-icons:
         specifier: 2.1.0
         version: 2.1.0(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)
@@ -82,10 +82,10 @@ importers:
         version: 4.0.1(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0)))(@angular/cdk@18.2.14(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(@angular/forms@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0)))(rxjs@7.8.1))(bootstrap@5.3.2(@popperjs/core@2.11.8))(rxjs@7.8.1)
       dfx-helper:
         specifier: 8.0.1
-        version: 8.0.1(b2o4kmbez5cxo2u2bahukqpsqy)
+        version: 8.0.1(usacamiayo4nsesvavop57bwbe)
       dfx-openapi:
-        specifier: ^0.0.2
-        version: 0.0.2(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(openapi-typescript-helpers@0.0.15)
+        specifier: ^0.1.0
+        version: 0.1.1(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(openapi-typescript-helpers@0.0.15)(rxjs@7.8.1)
       dfx-qrcode:
         specifier: 3.0.1
         version: 3.0.1(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0)))
@@ -102,8 +102,8 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
       ngxtension:
-        specifier: 4.1.0
-        version: 4.1.0(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)
+        specifier: 4.2.0
+        version: 4.2.0(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)
       rxjs:
         specifier: 7.8.1
         version: 7.8.1
@@ -125,7 +125,7 @@ importers:
         version: 18.2.13(@angular/compiler@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0)))(typescript@5.5.4)
       '@trivago/prettier-plugin-sort-imports':
         specifier: ^4.3.0
-        version: 4.3.0(prettier@3.4.1)
+        version: 4.3.0(prettier@3.4.2)
       '@types/d3-scale':
         specifier: 4.0.8
         version: 4.0.8
@@ -145,8 +145,8 @@ importers:
         specifier: ^1.4.6
         version: 1.4.6
       jasmine-core:
-        specifier: 5.4.0
-        version: 5.4.0
+        specifier: 5.5.0
+        version: 5.5.0
       jasmine-spec-reporter:
         specifier: 7.0.0
         version: 7.0.0
@@ -164,7 +164,7 @@ importers:
         version: 5.1.0(karma@6.4.4)
       karma-jasmine-html-reporter:
         specifier: 2.1.0
-        version: 2.1.0(jasmine-core@5.4.0)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4)
+        version: 2.1.0(jasmine-core@5.5.0)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4)
       license-report:
         specifier: ^6.4.0
         version: 6.7.1
@@ -172,11 +172,11 @@ importers:
         specifier: ^7.4.2
         version: 7.4.4(encoding@0.1.13)(typescript@5.5.4)
       prettier:
-        specifier: 3.4.1
-        version: 3.4.1
+        specifier: 3.4.2
+        version: 3.4.2
       prettier-plugin-organize-attributes:
         specifier: ^1.0.0
-        version: 1.0.0(prettier@3.4.1)
+        version: 1.0.0(prettier@3.4.2)
       source-map-explorer:
         specifier: 2.5.3
         version: 2.5.3
@@ -1554,8 +1554,8 @@ packages:
     resolution: {integrity: sha512-zud1M68mMC/Pu6irEba+Z2SzmwmmPzUPnBzMKlcGdIhzUe1z41cqQutK1M0QaQpY4h4yhumXcNaY/Ot6piv6QQ==}
     engines: {node: '>=16'}
 
-  '@jsverse/transloco@7.5.0':
-    resolution: {integrity: sha512-OnK8y84TWxWeNH+Qw0kHPECpmLOrwMRP+NMcUXm3lEqRrd13qe9XkhbAysAHGJ6kfZqgIiAMS9rqnFf6JTSc5g==}
+  '@jsverse/transloco@7.5.1':
+    resolution: {integrity: sha512-2GtJKFKmwvw7ygkf51kNMNJ1PSiepvDIqgFM1Sl8aX6if/kZ4/FNKVz0t64QP2JHUU16I2Le05In7IbiRE7ZrQ==}
     peerDependencies:
       '@angular/core': '>=16.0.0'
 
@@ -2251,8 +2251,8 @@ packages:
   '@socket.io/component-emitter@3.1.2':
     resolution: {integrity: sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==}
 
-  '@swimlane/ngx-charts@21.0.0':
-    resolution: {integrity: sha512-4YQNWevbVPekiuLz6w3wLdJY9rD2Pk21xskTUtfpUirUFXdkKZdUByJkSUlup+F8UPvkeZIEC5bhBtOr0yTktA==}
+  '@swimlane/ngx-charts@21.1.2':
+    resolution: {integrity: sha512-Cb5+zxupyVWoBHAR3APLRLCJS/oC72t6QMHI60cELZVLHhxP69lbI3VMXWvpjOr2Cxgc38Md9WkfAHvGAUSy1A==}
     peerDependencies:
       '@angular/animations': 17.x || 18.x
       '@angular/cdk': 17.x || 18.x
@@ -3159,8 +3159,8 @@ packages:
     peerDependencies:
       tslib: 1.14.1
 
-  dfts-helper@1.1.2:
-    resolution: {integrity: sha512-eYqS9LxxvSSR3K+aH2NXGqxipXJh4UR8+A+VcaGTBb2TdbGZ4VIRAzzcDyUn++dlupa84hcBigfdS90G4XxciA==}
+  dfts-helper@1.2.0:
+    resolution: {integrity: sha512-HtY0ox5CiutxzRNpweJ9ccrY0vdZj/cmNDXv1t4cAas9nqmWEr2WSCaJrzwfUAzx8gJnOt1vcaPV6tDQoQ84kg==}
 
   dfts-qrcode@1.1.0:
     resolution: {integrity: sha512-c7xF090SLAgzTfD+gXsyCdx+RK7VNUW5/+ZohO0PfY/VmKs9Osq73ETBC04slw9NfU/Ww4VzpvILwno2hWQjtw==}
@@ -3194,12 +3194,12 @@ packages:
       dfts-helper: '1'
       rxjs: '7'
 
-  dfx-openapi@0.0.2:
-    resolution: {integrity: sha512-1ZuDPedOYAsG6srVI6djKkjt7+P1IsUZ+WtRK3mmVwCkmdMs+utDKTGcz+NnWyluudThXQ8WYGtypSOPqx/FYg==}
+  dfx-openapi@0.1.1:
+    resolution: {integrity: sha512-zl4V5wNkoGWla4lvyMLCtDdnbQKYVlx1S5jWeNWGl8qHQSoIWS60hm8FK5t3OPLi9NXhfedVIyzgBZfyJEJXBA==}
     peerDependencies:
-      '@angular/common': '18'
-      '@angular/core': '18'
-      openapi-typescript-helpers: '>=0.0.13'
+      '@angular/common': '19'
+      openapi-typescript-helpers: '>=0.0.15'
+      rxjs: '7'
 
   dfx-qrcode@3.0.1:
     resolution: {integrity: sha512-WXVDSI8i3v6Si4CMojrrI3xYQthsVWMpu3vGWbe5dE8hPA7RQj6q0Gtw7BVuH8Rs36FRkB2115jxVaCorLtzYA==}
@@ -3507,11 +3507,6 @@ packages:
     resolution: {integrity: sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==}
     hasBin: true
 
-  flat@6.0.1:
-    resolution: {integrity: sha512-/3FfIa8mbrg3xE7+wAhWeV+bd7L2Mof+xtZb5dRDKZ+wDvYJK4WDYeIOuOhre5Yv5aQObZrlbRmk3RTSiuQBtw==}
-    engines: {node: '>=18'}
-    hasBin: true
-
   flatted@3.3.2:
     resolution: {integrity: sha512-AiwGJM8YcNOaobumgtng+6NHuOqC3A7MixFeDafM3X9cIUM+xUXoS5Vfgf+OihAYe20fxqNM9yPBXJzRtZ/4eA==}
 
@@ -3650,6 +3645,9 @@ packages:
 
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
+
+  gradient-path@2.3.0:
+    resolution: {integrity: sha512-vZdF/Z0EpqUztzWXFjFC16lqcialHacYoRonslk/bC6CuujkuIrqx7etlzdYHY4SnUU94LRWESamZKfkGh7yYQ==}
 
   gzip-size@6.0.0:
     resolution: {integrity: sha512-ax7ZYomf6jqPTQ4+XCpUGyXKHk5WweS+e05MBO4/y3WJ5RkmPXNKvX+bx1behVILVwr6JSQvZAku021CHPXG3Q==}
@@ -4002,8 +4000,8 @@ packages:
   jasmine-core@4.6.1:
     resolution: {integrity: sha512-VYz/BjjmC3klLJlLwA4Kw8ytk0zDSmbbDLNs794VnWmkcCB7I9aAL/D48VNQtmITyPvea2C3jdUMfc3kAoy0PQ==}
 
-  jasmine-core@5.4.0:
-    resolution: {integrity: sha512-T4fio3W++llLd7LGSGsioriDHgWyhoL6YTu4k37uwJLF7DzOzspz7mNxRoM3cQdLWtL/ebazQpIf/yZGJx/gzg==}
+  jasmine-core@5.5.0:
+    resolution: {integrity: sha512-NHOvoPO6o9gVR6pwqEACTEpbgcH+JJ6QDypyymGbSUIFIFsMMbBJ/xsFNud8MSClfnWclXd7RQlAZBz7yVo5TQ==}
 
   jasmine-spec-reporter@7.0.0:
     resolution: {integrity: sha512-OtC7JRasiTcjsaCBPtMO0Tl8glCejM4J4/dNuOJdA8lBjz4PmWjYQ6pzb0uzpBNAWJMDudYuj9OdXJWqM2QTJg==}
@@ -4476,8 +4474,8 @@ packages:
   ngx-print@1.5.1:
     resolution: {integrity: sha512-hrFMZCIAIyxXHnSWEgztJ1CQnelO306A23EVhRcbLgeZPdU8CBE6ixILTna/qf5ZbLv07vxWMm+UxbPcxNvOrA==}
 
-  ngxtension@4.1.0:
-    resolution: {integrity: sha512-qS/Twu6lkL6K/fN2CInOTKmd9xZ9gCH3XSm+fEqlTGKlG66E3c6xsph3Vf2f+fUgbvsKlrrvkiWKeKeU9vrFxw==}
+  ngxtension@4.2.0:
+    resolution: {integrity: sha512-cICPiNES4uKJaHASU5c1dkYYfgchIQ0TAZwcZ8NgGX9HbFzAClyS3TG8hSOHA8GIaT03eJU6CKCMSBrWyVjxZA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@angular/common': '>=16.0.0'
@@ -4877,8 +4875,8 @@ packages:
     peerDependencies:
       prettier: ^3.0.0
 
-  prettier@3.4.1:
-    resolution: {integrity: sha512-G+YdqtITVZmOJje6QkXQWzl3fSfMxFwm1tjTyo9exhkmWSqC4Yhd1+lug++IlR2mvRVAxEDDWYkQdeSztajqgg==}
+  prettier@3.4.2:
+    resolution: {integrity: sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -5490,6 +5488,9 @@ packages:
 
   tinycolor2@1.6.0:
     resolution: {integrity: sha512-XPaBkWQJdsf3pLKJV9p4qN/S+fm2Oj8AIPo1BTUhg5oxkvm9+SVEGFdhyOz7tTdUTfvxMiAs4sp6/eZO2Ew+pw==}
+
+  tinygradient@1.1.5:
+    resolution: {integrity: sha512-8nIfc2vgQ4TeLnk2lFj4tRLvvJwEfQuabdsmvDdQPT0xlk9TaNtpGd6nNRxXoK6vQhN6RSzj+Cnp5tTQmpxmbw==}
 
   tmp@0.0.33:
     resolution: {integrity: sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw==}
@@ -7382,11 +7383,10 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@jsverse/transloco@7.5.0(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(typescript@5.5.4)':
+  '@jsverse/transloco@7.5.1(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(typescript@5.5.4)':
     dependencies:
       '@angular/core': 18.2.13(rxjs@7.8.1)(zone.js@0.15.0)
       '@jsverse/transloco-utils': 7.0.2(typescript@5.5.4)
-      flat: 6.0.1
       fs-extra: 11.2.0
       glob: 10.4.5
       lodash.kebabcase: 4.1.1
@@ -7961,7 +7961,7 @@ snapshots:
 
   '@socket.io/component-emitter@3.1.2': {}
 
-  '@swimlane/ngx-charts@21.0.0(pz6qxm6mnisvszy7yfnfnr3pym)':
+  '@swimlane/ngx-charts@21.1.2(pz6qxm6mnisvszy7yfnfnr3pym)':
     dependencies:
       '@angular/animations': 18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))
       '@angular/cdk': 18.2.14(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)
@@ -7983,6 +7983,7 @@ snapshots:
       d3-shape: 3.2.0
       d3-time-format: 4.1.0
       d3-transition: 3.0.1(d3-selection@3.0.0)
+      gradient-path: 2.3.0
       rxjs: 7.8.1
       tslib: 2.6.3
 
@@ -7990,7 +7991,7 @@ snapshots:
     dependencies:
       defer-to-connect: 2.0.1
 
-  '@trivago/prettier-plugin-sort-imports@4.3.0(prettier@3.4.1)':
+  '@trivago/prettier-plugin-sort-imports@4.3.0(prettier@3.4.2)':
     dependencies:
       '@babel/generator': 7.17.7
       '@babel/parser': 7.26.3
@@ -7998,7 +7999,7 @@ snapshots:
       '@babel/types': 7.17.0
       javascript-natural-sort: 0.7.1
       lodash: 4.17.21
-      prettier: 3.4.1
+      prettier: 3.4.2
     transitivePeerDependencies:
       - supports-color
 
@@ -8930,7 +8931,7 @@ snapshots:
     dependencies:
       tslib: 2.6.2
 
-  dfts-helper@1.1.2:
+  dfts-helper@1.2.0:
     dependencies:
       tslib: 2.6.3
 
@@ -8957,22 +8958,22 @@ snapshots:
       rxjs: 7.8.1
       tslib: 2.6.3
 
-  dfx-helper@8.0.1(b2o4kmbez5cxo2u2bahukqpsqy):
+  dfx-helper@8.0.1(usacamiayo4nsesvavop57bwbe):
     dependencies:
       '@angular/cdk': 18.2.14(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)
       '@angular/common': 18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)
       '@angular/core': 18.2.13(rxjs@7.8.1)(zone.js@0.15.0)
       '@angular/platform-browser': 18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))
       '@angular/router': 18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0)))(rxjs@7.8.1)
-      dfts-helper: 1.1.2
+      dfts-helper: 1.2.0
       rxjs: 7.8.1
       tslib: 2.6.3
 
-  dfx-openapi@0.0.2(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(openapi-typescript-helpers@0.0.15):
+  dfx-openapi@0.1.1(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(openapi-typescript-helpers@0.0.15)(rxjs@7.8.1):
     dependencies:
       '@angular/common': 18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)
-      '@angular/core': 18.2.13(rxjs@7.8.1)(zone.js@0.15.0)
       openapi-typescript-helpers: 0.0.15
+      rxjs: 7.8.1
       tslib: 2.6.3
 
   dfx-qrcode@3.0.1(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))):
@@ -9384,8 +9385,6 @@ snapshots:
 
   flat@5.0.2: {}
 
-  flat@6.0.1: {}
-
   flatted@3.3.2: {}
 
   follow-redirects@1.15.9(debug@4.4.0):
@@ -9536,6 +9535,10 @@ snapshots:
       type-fest: 4.31.0
 
   graceful-fs@4.2.11: {}
+
+  gradient-path@2.3.0:
+    dependencies:
+      tinygradient: 1.1.5
 
   gzip-size@6.0.0:
     dependencies:
@@ -9874,7 +9877,7 @@ snapshots:
 
   jasmine-core@4.6.1: {}
 
-  jasmine-core@5.4.0: {}
+  jasmine-core@5.5.0: {}
 
   jasmine-spec-reporter@7.0.0:
     dependencies:
@@ -9975,9 +9978,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  karma-jasmine-html-reporter@2.1.0(jasmine-core@5.4.0)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4):
+  karma-jasmine-html-reporter@2.1.0(jasmine-core@5.5.0)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4):
     dependencies:
-      jasmine-core: 5.4.0
+      jasmine-core: 5.5.0
       karma: 6.4.4
       karma-jasmine: 5.1.0(karma@6.4.4)
 
@@ -10408,7 +10411,7 @@ snapshots:
     dependencies:
       tslib: 2.6.3
 
-  ngxtension@4.1.0(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1):
+  ngxtension@4.2.0(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1):
     dependencies:
       '@angular-eslint/bundled-angular-compiler': 18.4.3
       '@angular/common': 18.2.13(@angular/core@18.2.13(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)
@@ -10656,7 +10659,7 @@ snapshots:
       bl: 4.1.0
       chalk: 4.1.2
       cli-cursor: 3.1.0
-      cli-spinners: 2.6.1
+      cli-spinners: 2.9.2
       is-interactive: 1.0.0
       log-symbols: 4.1.0
       strip-ansi: 6.0.1
@@ -10874,11 +10877,11 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  prettier-plugin-organize-attributes@1.0.0(prettier@3.4.1):
+  prettier-plugin-organize-attributes@1.0.0(prettier@3.4.2):
     dependencies:
-      prettier: 3.4.1
+      prettier: 3.4.2
 
-  prettier@3.4.1: {}
+  prettier@3.4.2: {}
 
   pretty-format@29.7.0:
     dependencies:
@@ -11585,6 +11588,11 @@ snapshots:
   thunky@1.1.0: {}
 
   tinycolor2@1.6.0: {}
+
+  tinygradient@1.1.5:
+    dependencies:
+      '@types/tinycolor2': 1.4.6
+      tinycolor2: 1.6.0
 
   tmp@0.0.33:
     dependencies:
