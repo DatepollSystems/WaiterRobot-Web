@@ -80,7 +80,7 @@
     "name": "@jsverse/transloco",
     "licenseType": "MIT",
     "link": "git+https://github.com/jsverse/transloco.git",
-    "installedVersion": "7.5.0",
+    "installedVersion": "7.5.1",
     "author": "n/a"
   },
   {
@@ -129,7 +129,7 @@
     "name": "@swimlane/ngx-charts",
     "licenseType": "MIT",
     "link": "git+https://github.com/swimlane/ngx-charts.git",
-    "installedVersion": "21.0.0",
+    "installedVersion": "21.1.2",
     "author": "Swimlane"
   },
   {
@@ -150,7 +150,7 @@
     "name": "dfts-helper",
     "licenseType": "MIT",
     "link": "git+https://github.com/Dafnik/dfts-common.git",
-    "installedVersion": "1.1.2",
+    "installedVersion": "1.2.0",
     "author": "Dafnik contact@dafnik.me https://dafnik.me"
   },
   {
@@ -178,7 +178,7 @@
     "name": "dfx-openapi",
     "licenseType": "MIT",
     "link": "git+ssh://git@github.com/Dafnik/dfts-common.git",
-    "installedVersion": "0.0.2",
+    "installedVersion": "0.1.1",
     "author": "Dafnik contact@dafnik.me https://dafnik.me"
   },
   {
@@ -214,7 +214,7 @@
     "name": "ngxtension",
     "licenseType": "MIT",
     "link": "git+https://github.com/ngxtension/ngxtension-platform.git",
-    "installedVersion": "4.1.0",
+    "installedVersion": "4.2.0",
     "author": "n/a"
   },
   {
