@@ -7,7 +7,6 @@ import {Observable, filter, map, pipe, startWith, switchMap} from 'rxjs';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
-import {BiComponent} from 'dfx-bootstrap-icons';
 import {derivedFrom} from 'ngxtension/derived-from';
 import {signalSlice} from 'ngxtension/signal-slice';
 
@@ -81,7 +80,7 @@ interface OrganisationStripeAccountModalState {
   `,
   selector: 'app-stripe-add-create',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoPipe, LowerCasePipe, BiComponent, NgSelectModule, ReactiveFormsModule, AsyncPipe],
+  imports: [TranslocoPipe, LowerCasePipe, NgSelectModule, ReactiveFormsModule, AsyncPipe],
 })
 export class StripeAccountModal {
   state = signalSlice({

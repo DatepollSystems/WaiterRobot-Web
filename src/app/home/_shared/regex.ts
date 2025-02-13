@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-escape */
 import {AbstractControl} from '@angular/forms';
 
 import {n_from, s_from} from 'dfts-helper';

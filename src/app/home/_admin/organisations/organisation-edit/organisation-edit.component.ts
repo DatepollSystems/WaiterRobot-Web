@@ -7,7 +7,6 @@ import {injectOnSubmit} from '@shared/form';
 
 import {OrganisationsService} from '../_services/organisations.service';
 import {AppOrganisationEditFormComponent} from './organisation-edit-form.component';
-import {OrganisationUsersSettingsComponent} from './organisation-edit-users/organisation-users-settings.component';
 
 @Component({
   template: `
@@ -43,7 +42,7 @@ import {OrganisationUsersSettingsComponent} from './organisation-edit-users/orga
     }
   `,
   selector: 'app-organisation-edit',
-  imports: [AppEntityEditModule, AppOrganisationEditFormComponent, OrganisationUsersSettingsComponent],
+  imports: [AppEntityEditModule, AppOrganisationEditFormComponent],
 })
 export class OrganisationEditComponent {
   #organisationsService = inject(OrganisationsService);

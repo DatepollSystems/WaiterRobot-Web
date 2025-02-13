@@ -2,8 +2,6 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {TranslocoPipe} from '@jsverse/transloco';
-import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
-import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {AppDatetimeInputComponent} from '@home-shared/components/datetime-picker/datetime-picker.component';
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
@@ -120,7 +118,7 @@ import {injectIsValid} from '@shared/form';
     </form>
   `,
   selector: 'app-event-edit-form',
-  imports: [ReactiveFormsModule, TranslocoPipe, BiComponent, NgbInputDatepicker, AppDatetimeInputComponent, AppModelEditSaveBtn],
+  imports: [ReactiveFormsModule, TranslocoPipe, AppDatetimeInputComponent, AppModelEditSaveBtn],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppEventEditFormComponent extends AbstractModelEditFormComponent<

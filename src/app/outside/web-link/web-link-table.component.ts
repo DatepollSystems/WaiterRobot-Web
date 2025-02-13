@@ -1,11 +1,10 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 
 import {combineLatest, map, shareReplay, switchMap} from 'rxjs';
 
 import {TranslocoPipe} from '@jsverse/transloco';
-import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxCurrencyCentPipe} from 'dfx-helper';
 import {filterNil} from 'ngxtension/filter-nil';
 import {AppSpinnerRowComponent} from 'src/app/_shared/ui/loading/app-spinner-row.component';
@@ -68,7 +67,7 @@ import {injectAPI} from '@shared/api';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-mobile-link-table',
-  imports: [TranslocoPipe, DfxCurrencyCentPipe, RouterLink, BiComponent, AppBackDirective, AppSpinnerRowComponent],
+  imports: [TranslocoPipe, DfxCurrencyCentPipe, AppBackDirective, AppSpinnerRowComponent],
 })
 export class WebLinkTableComponent {
   #api = injectAPI();

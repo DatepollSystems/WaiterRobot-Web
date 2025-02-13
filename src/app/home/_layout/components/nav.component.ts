@@ -1,11 +1,9 @@
-import {NgOptimizedImage} from '@angular/common';
 import {Component, computed, inject} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxCutPipe} from 'dfx-helper';
 
 import {MyUserService} from '@home-shared/services/user/my-user.service';
 
@@ -334,17 +332,7 @@ import {SwitcherModalComponent} from './switcher.component';
     }
   `,
   selector: 'app-nav',
-  imports: [
-    RouterLink,
-    NgOptimizedImage,
-    BiComponent,
-    RouterLinkActive,
-    TranslocoPipe,
-    ProfileMenuComponent,
-    DfxCutPipe,
-    NgbTooltip,
-    AppLogoWithTextComponent,
-  ],
+  imports: [RouterLink, BiComponent, RouterLinkActive, TranslocoPipe, ProfileMenuComponent, NgbTooltip, AppLogoWithTextComponent],
 })
 export class NavComponent {
   modal = inject(NgbModal);

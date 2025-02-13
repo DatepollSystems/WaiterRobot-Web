@@ -1,4 +1,4 @@
-import {AsyncPipe, DatePipe, KeyValuePipe, NgClass} from '@angular/common';
+import {AsyncPipe, KeyValuePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input, booleanAttribute, input, output} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
@@ -11,7 +11,6 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {BackendType} from '@shared/api';
 
-import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
 import {AppOrderProductsListTableComponent} from './app-order-products-list-table.component';
 
 type GetImplodedOrderProductResponse = BackendType['GetImplodedOrderProductResponse'];
@@ -82,18 +81,7 @@ type GetImplodedOrderProductResponse = BackendType['GetImplodedOrderProductRespo
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    TranslocoPipe,
-    AsyncPipe,
-    AppOrderProductStateBadgeComponent,
-    NgClass,
-    DatePipe,
-    RouterLink,
-    KeyValuePipe,
-    AppOrderProductsListTableComponent,
-    BiComponent,
-    NgbTooltip,
-  ],
+  imports: [TranslocoPipe, AsyncPipe, RouterLink, KeyValuePipe, AppOrderProductsListTableComponent, BiComponent, NgbTooltip],
   selector: 'app-order-products-list',
 })
 export class AppOrderProductsListComponent {

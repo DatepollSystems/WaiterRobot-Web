@@ -1,4 +1,3 @@
-import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
@@ -43,7 +42,7 @@ import {injectIsValid} from '@shared/form';
     </form>
   `,
   selector: 'app-table-group-edit-form',
-  imports: [ReactiveFormsModule, AsyncPipe, TranslocoPipe, AppColorPicker, AppModelEditSaveBtn],
+  imports: [ReactiveFormsModule, TranslocoPipe, AppColorPicker, AppModelEditSaveBtn],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableGroupEditFormComponent extends AbstractModelEditFormComponent<

@@ -67,13 +67,10 @@ export function injectContinuousCreation<CreateDTOType, UpdateDTOType>(options: 
         // @ts-expect-error
       ).map((key) => [String(key), dto[key]])) {
         if (continuousUsePropertyNames?.includes(modelKeyValuePairs[0] as keyof CreateDTOType | keyof UpdateDTOType | string)) {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const control = modelKeyValuePairs[0];
           const fun = dataTransformers ? (dataTransformers[control] as ContinuousCreationDataTransformersMap | undefined) : undefined;
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const value = fun ? fun(modelKeyValuePairs[1]) : modelKeyValuePairs[1];
           console.log(`checkContinuousCreation - patching control: "${control}" with value: "${value}"; transform fun: ${!!fun}`);
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           formComponent()?.patchValue({[control]: value});
         }
       }

@@ -1,4 +1,3 @@
-import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, computed, effect, inject, viewChild} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 
@@ -127,7 +126,6 @@ import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.c
     DfxTableModule,
     DfxSortModule,
     TranslocoPipe,
-    AsyncPipe,
     AppProgressBarComponent,
     BlankslateComponent,
     ReactiveFormsModule,

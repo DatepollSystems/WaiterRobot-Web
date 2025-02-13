@@ -6,7 +6,6 @@ node_modules
 *.md
 dist
 .editorconfig
-.eslintrc.json
 .prettierignore
 .prettierrc
 Dockerfile

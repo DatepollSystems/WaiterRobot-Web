@@ -4,15 +4,7 @@ import {ControlValueAccessor, FormsModule, NgControl} from '@angular/forms';
 
 import {noop} from 'rxjs';
 
-import {
-  NgbDateParserFormatter,
-  NgbDateStruct,
-  NgbDatepicker,
-  NgbInputDatepicker,
-  NgbPopover,
-  NgbTimeStruct,
-  NgbTimepicker,
-} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDateParserFormatter, NgbDateStruct, NgbDatepicker, NgbPopover, NgbTimeStruct, NgbTimepicker} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {NgbDateTimeAdapter} from './datetime-adapter';
@@ -69,7 +61,7 @@ import {NgbDateTimeStruct} from './datetime.struct';
   `,
   selector: 'app-datetime-input',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BiComponent, NgbInputDatepicker, NgbTimepicker, NgClass, NgbPopover, NgbDatepicker, FormsModule],
+  imports: [BiComponent, NgbTimepicker, NgClass, NgbPopover, NgbDatepicker, FormsModule],
 })
 export class AppDatetimeInputComponent implements ControlValueAccessor {
   #ngbDateParser = inject(NgbDateParserFormatter);
@@ -107,7 +99,6 @@ export class AppDatetimeInputComponent implements ControlValueAccessor {
     const _dateStruct = this.#ngbDateParser.parse(dateTimeValue[0]!);
     const _timeStruct: string[] | undefined = dateTimeValue[1]?.split(':');
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!_dateStruct || !_timeStruct) {
       return null;
     }

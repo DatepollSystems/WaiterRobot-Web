@@ -7,7 +7,7 @@ import {RouterLink} from '@angular/router';
 import {filter, map, switchMap, tap} from 'rxjs';
 
 import {TranslocoPipe} from '@jsverse/transloco';
-import {NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
 import {n_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
@@ -163,7 +163,6 @@ import {EventsService} from './_services/events.service';
     TranslocoPipe,
     DfxTableModule,
     DfxSortModule,
-    NgbTooltip,
     BiComponent,
     ScrollableToolbarComponent,
     AppProgressBarComponent,

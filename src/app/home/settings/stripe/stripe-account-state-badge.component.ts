@@ -1,6 +1,5 @@
 import {Component, inject, input, signal} from '@angular/core';
 
-import {TranslocoPipe} from '@jsverse/transloco';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {BackendType} from '@shared/api';
@@ -30,7 +29,7 @@ import {StripeService} from '../_services/stripe.service';
     </button>
   `,
   selector: 'app-stripe-account-state-badge',
-  imports: [TranslocoPipe, BiComponent],
+  imports: [BiComponent],
 })
 export class StripeAccountStateBadge {
   stripeAccountId = input.required<string>();

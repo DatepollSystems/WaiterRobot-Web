@@ -5,8 +5,6 @@ import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angula
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgSelectModule} from '@ng-select/ng-select';
 
-import {AppBackButtonComponent} from '@home-shared/components/button/app-back-button.component';
-import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
@@ -127,15 +125,7 @@ import {injectIsValid} from '@shared/form';
     </form>
   `,
   selector: 'app-user-edit-form',
-  imports: [
-    ReactiveFormsModule,
-    TranslocoPipe,
-    AppBackButtonComponent,
-    ScrollableToolbarComponent,
-    AppModelEditSaveBtn,
-    NgSelectModule,
-    FormsModule,
-  ],
+  imports: [ReactiveFormsModule, TranslocoPipe, AppModelEditSaveBtn, NgSelectModule, FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserEditFormComponent extends AbstractModelEditFormComponent<BackendType['CreateUserDto'], BackendType['UpdateUserDto']> {

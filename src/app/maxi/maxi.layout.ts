@@ -1,8 +1,6 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 
-import {BiComponent} from 'dfx-bootstrap-icons';
-
 import {ThemeSwitcherComponent} from '@shared/ui/theme-switcher.component';
 
 @Component({
@@ -14,6 +12,6 @@ import {ThemeSwitcherComponent} from '@shared/ui/theme-switcher.component';
   `,
   selector: 'app-outside-layout',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, BiComponent, ThemeSwitcherComponent],
+  imports: [RouterOutlet, ThemeSwitcherComponent],
 })
 export class MaxiLayout {}

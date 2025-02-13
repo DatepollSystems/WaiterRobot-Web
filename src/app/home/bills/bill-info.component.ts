@@ -13,7 +13,6 @@ import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolb
 import {injectIdParam$} from '../_shared/services/injectActivatedRouteIdParam';
 import {AppBillPaymentStateBadgeComponent} from './_components/app-bill-payment-state-badge.component';
 import {AppOrderProductsListTableComponent} from './_components/app-bill-products-list-table.component';
-import {AppBillRefreshButtonComponent} from './_components/app-bill-refresh-button.component';
 import {BillsService} from './_services/bills.service';
 
 @Component({
@@ -72,7 +71,6 @@ import {BillsService} from './_services/bills.service';
     DatePipe,
     ScrollableToolbarComponent,
     AppBackButtonComponent,
-    AppBillRefreshButtonComponent,
     BiComponent,
     RouterLink,
     TranslocoPipe,

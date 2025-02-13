@@ -50,4 +50,3 @@ Thumbs.db
 # Ignore install files
 waiterrobot-web/
 installed/
-/.eslintcache

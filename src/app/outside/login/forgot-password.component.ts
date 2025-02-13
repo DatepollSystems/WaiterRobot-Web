@@ -1,4 +1,4 @@
-import {AsyncPipe, NgSwitch, NgSwitchCase} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -7,7 +7,6 @@ import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {delay, tap} from 'rxjs';
 
 import {TranslocoPipe} from '@jsverse/transloco';
-import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {passwordMatchValidator} from '@home-shared/regex';
 
@@ -134,7 +133,7 @@ import {injectAPI} from '@shared/api';
   `,
   selector: 'app-password-reset',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, RouterLink, NgSwitch, NgSwitchCase, AsyncPipe, TranslocoPipe, BiComponent],
+  imports: [ReactiveFormsModule, RouterLink, AsyncPipe, TranslocoPipe],
 })
 export class ForgotPasswordComponent {
   #router = inject(Router);

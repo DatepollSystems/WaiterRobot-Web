@@ -6,8 +6,6 @@ import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbNav, NgbNavItem, NgbNavLink} from '@ng-bootstrap/ng-bootstrap';
 import {injectParams} from 'ngxtension/inject-params';
 
-import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
-
 import {EventsService} from '../_admin/events/_services/events.service';
 
 @Component({
@@ -33,7 +31,7 @@ import {EventsService} from '../_admin/events/_services/events.service';
   `,
   selector: 'app-tables-layout',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, TranslocoPipe, NgbNav, NgbNavItem, NgbNavLink, RouterOutlet, AppTextWithColorIndicatorComponent],
+  imports: [RouterLink, TranslocoPipe, NgbNav, NgbNavItem, NgbNavLink, RouterOutlet],
 })
 export class WaitersLayout {
   activeId = injectParams('id');

@@ -47,7 +47,6 @@ export abstract class AbstractModelEditFormComponent<CreateDTOType, UpdateDTOTyp
   }
 
   private setInputFocus(): void {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const input = this.formRef()?.nativeElement.querySelector(focuses.join(','));
     if (input) {
       input.focus();

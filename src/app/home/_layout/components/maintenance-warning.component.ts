@@ -5,13 +5,13 @@ import {catchError, map, of, switchMap, timer} from 'rxjs';
 
 import {TranslocoPipe} from '@jsverse/transloco';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxHideIfOffline, DfxHideIfPingSucceeds} from 'dfx-helper';
+import {injectNetwork} from 'ngxtension/inject-network';
 
 import {injectAPI} from '@shared/api';
 
 @Component({
   template: `
-    <div hideIfOffline>
+    @if (networkState.online()) {
       @if (pingFails()) {
         <div class="alert alert-warning" role="alert">
           <div class="d-flex gap-3 align-items-center">
@@ -31,13 +31,15 @@ import {injectAPI} from '@shared/api';
           </div>
         </div>
       }
-    </div>
+    }
   `,
   selector: 'app-maintenance-warning',
-  imports: [DfxHideIfOffline, DfxHideIfPingSucceeds, BiComponent, TranslocoPipe],
+  imports: [BiComponent, TranslocoPipe],
 })
 export class MaintenanceWarningComponent {
   #api = injectAPI();
+
+  networkState = injectNetwork();
 
   pingFails = toSignal(
     timer(0, 30 * 1000).pipe(

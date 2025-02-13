@@ -1,8 +1,6 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 
-import {BiComponent} from 'dfx-bootstrap-icons';
-
 import {FooterComponent} from '@shared/ui/footer/footer.component';
 import {ThemeSwitcherComponent} from '@shared/ui/theme-switcher.component';
 
@@ -33,6 +31,6 @@ import {AppLogoWithTextComponent} from './_shared/app-logo-with-text.component';
   `,
   selector: 'app-outside-layout',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AppLogoWithTextComponent, BiComponent, RouterOutlet, FooterComponent, ThemeSwitcherComponent],
+  imports: [AppLogoWithTextComponent, RouterOutlet, FooterComponent, ThemeSwitcherComponent],
 })
 export class OutsideLayout {}

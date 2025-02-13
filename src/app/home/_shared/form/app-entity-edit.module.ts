@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/sort-ngmodule-metadata-arrays */
 import {NgModule} from '@angular/core';
 
 import {TranslocoPipe} from '@jsverse/transloco';

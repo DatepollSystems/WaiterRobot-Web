@@ -3,11 +3,9 @@ import {Component, ViewEncapsulation, computed} from '@angular/core';
 
 import {filter, map, pipe, startWith, switchMap} from 'rxjs';
 
-import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbNavModule, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {cl_copy} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxCutPipe} from 'dfx-helper';
 import {PdfJsViewerModule} from 'ng2-pdfjs-viewer';
 import {derivedFrom} from 'ngxtension/derived-from';
 import {injectParams} from 'ngxtension/inject-params';
@@ -17,7 +15,6 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
 import {base64ToArrayBuffer} from '@home-shared/services/file.utils';
 
 import {injectAPI} from '@shared/api';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
 @Component({
   template: `
@@ -139,19 +136,7 @@ import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.compo
     }
   `,
   selector: 'app-tmp-notification-view',
-  imports: [
-    TranslocoPipe,
-    BiComponent,
-    ScrollableToolbarComponent,
-    AppBackButtonComponent,
-    DatePipe,
-    AppProgressBarComponent,
-    NgbNavModule,
-    PdfJsViewerModule,
-    NgbTooltip,
-    DfxCutPipe,
-  ],
-  // eslint-disable-next-line @angular-eslint/use-component-view-encapsulation
+  imports: [BiComponent, ScrollableToolbarComponent, AppBackButtonComponent, DatePipe, NgbNavModule, PdfJsViewerModule, NgbTooltip],
   encapsulation: ViewEncapsulation.None,
 })
 export class TmpNotificationViewComponent {

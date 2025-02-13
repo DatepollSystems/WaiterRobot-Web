@@ -92,7 +92,7 @@ export class ActiveSystemNotificationsDesktopComponent {
     }
   `,
   selector: 'app-active-system-mobile-toggle-notifications',
-  imports: [BiComponent, TranslocoPipe, ActiveSystemNotificationsComponent],
+  imports: [BiComponent, TranslocoPipe],
 })
 export class ActiveSystemNotificationsMobileToggleComponent {
   activeSystemNotificationsService = inject(ActiveSystemNotificationsService);

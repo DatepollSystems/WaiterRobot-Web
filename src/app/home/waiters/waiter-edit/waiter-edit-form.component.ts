@@ -4,7 +4,6 @@ import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {HasNumberIDAndName} from 'dfts-helper';
-import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
@@ -58,7 +57,7 @@ import {injectIsValid} from '@shared/form';
     </form>
   `,
   selector: 'app-waiter-edit-form',
-  imports: [ReactiveFormsModule, TranslocoPipe, BiComponent, NgSelectModule, AppModelEditSaveBtn],
+  imports: [ReactiveFormsModule, TranslocoPipe, NgSelectModule, AppModelEditSaveBtn],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppWaiterEditFormComponent extends AbstractModelEditFormComponent<

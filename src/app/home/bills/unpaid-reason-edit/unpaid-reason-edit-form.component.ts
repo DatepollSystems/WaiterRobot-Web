@@ -2,10 +2,7 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {TranslocoPipe} from '@jsverse/transloco';
-import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
-import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {AppDatetimeInputComponent} from '@home-shared/components/datetime-picker/datetime-picker.component';
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
@@ -57,7 +54,7 @@ import {injectIsValid} from '@shared/form';
     </form>
   `,
   selector: 'app-unpaid-reason-edit-form',
-  imports: [ReactiveFormsModule, TranslocoPipe, BiComponent, NgbInputDatepicker, AppDatetimeInputComponent, AppModelEditSaveBtn],
+  imports: [ReactiveFormsModule, TranslocoPipe, AppModelEditSaveBtn],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppUnpaidReasonEditFormComponent extends AbstractModelEditFormComponent<

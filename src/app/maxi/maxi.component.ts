@@ -1,4 +1,4 @@
-import {DatePipe, JsonPipe} from '@angular/common';
+import {DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -161,7 +161,6 @@ import {MaxiService} from './maxi.service';
     ReactiveFormsModule,
     TranslocoPipe,
     NgSelectModule,
-    JsonPipe,
     DatePipe,
     NgbNav,
     NgbNavItem,

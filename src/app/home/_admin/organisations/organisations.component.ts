@@ -4,7 +4,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
 import {TranslocoPipe} from '@jsverse/transloco';
-import {NgbDropdownItem, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
 import {StopPropagationDirective} from 'dfx-helper';
@@ -148,7 +148,6 @@ import {OrganisationsService} from './_services/organisations.service';
     ReactiveFormsModule,
     RouterLink,
     UpperCasePipe,
-    NgbTooltip,
     TranslocoPipe,
     DfxTableModule,
     DfxSortModule,

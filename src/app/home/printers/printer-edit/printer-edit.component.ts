@@ -11,7 +11,6 @@ import {injectContinuousCreation, injectEditEntity, injectOnDelete, injectTabCon
 import {injectOnSubmit} from '@shared/form';
 import {SelectedEventService} from '@shared/services/selected-event.service';
 
-import {OrganisationUsersSettingsComponent} from '../../_admin/organisations/organisation-edit/organisation-edit-users/organisation-users-settings.component';
 import {PrintersService} from '../_services/printers.service';
 import {AppPrinterEditForm} from './printer-edit-form.component';
 import {PrinterEditProductsComponent} from './printer-edit-products.component';
@@ -82,14 +81,7 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
   `,
   selector: 'app-printer-edit',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    AppEntityEditModule,
-    AppPrinterEditForm,
-    AppContinuesCreationSwitchComponent,
-    PrinterEditProductsComponent,
-    NgbNavModule,
-    OrganisationUsersSettingsComponent,
-  ],
+  imports: [AppEntityEditModule, AppPrinterEditForm, AppContinuesCreationSwitchComponent, PrinterEditProductsComponent, NgbNavModule],
 })
 export class PrinterEditComponent {
   #printersService = inject(PrintersService);

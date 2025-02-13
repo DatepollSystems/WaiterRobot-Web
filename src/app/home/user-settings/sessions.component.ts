@@ -1,4 +1,4 @@
-import {AsyncPipe, DatePipe} from '@angular/common';
+import {DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 
@@ -119,7 +119,6 @@ import {UserSessionsService} from './_services/user-sessions.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    AsyncPipe,
     DatePipe,
     NgbTooltipModule,
     DfxTableModule,

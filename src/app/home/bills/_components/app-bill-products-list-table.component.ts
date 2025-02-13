@@ -2,7 +2,6 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, input, signal, viewCh
 import {RouterLink} from '@angular/router';
 
 import {TranslocoPipe} from '@jsverse/transloco';
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {DfxCurrencyCentPipe} from 'dfx-helper';
 
@@ -59,7 +58,7 @@ import {BackendType} from '@shared/api';
     }
   `,
   selector: 'app-bill-products-list-table',
-  imports: [DfxSortModule, DfxTableModule, TranslocoPipe, RouterLink, NgbTooltip, DfxCurrencyCentPipe],
+  imports: [DfxSortModule, DfxTableModule, TranslocoPipe, RouterLink, DfxCurrencyCentPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrderProductsListTableComponent implements AfterViewInit {

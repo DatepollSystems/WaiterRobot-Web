@@ -1,5 +1,4 @@
 import {CdkDrag, CdkDragHandle, CdkDropList} from '@angular/cdk/drag-drop';
-import {LowerCasePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -226,7 +225,6 @@ import {TableGroupsService} from './_services/table-groups.service';
     AppResetOrderButtonComponent,
     ListFilterComponent,
     BlankslateComponent,
-    LowerCasePipe,
   ],
 })
 export class TableGroupsComponent {

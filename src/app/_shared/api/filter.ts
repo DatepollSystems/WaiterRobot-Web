@@ -1,4 +1,3 @@
-/* eslint-disable */
 // noinspection NonAsciiCharacters,JSNonASCIINames
 import {Signal, inject} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
