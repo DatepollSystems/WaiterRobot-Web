@@ -42,7 +42,6 @@ import {ProductGroupsService} from './_services/product-groups.service';
     <router-outlet />
   `,
   selector: 'app-products-layout',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,

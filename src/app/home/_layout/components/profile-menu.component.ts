@@ -94,7 +94,6 @@ import {ThemePickerComponent} from './theme-picker.component';
       </div>
     </div>
   `,
-  standalone: true,
   imports: [
     BiComponent,
     NgbDropdown,

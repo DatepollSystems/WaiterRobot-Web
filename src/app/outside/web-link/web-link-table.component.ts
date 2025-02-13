@@ -66,7 +66,6 @@ import {injectAPI} from '@shared/api';
       <app-spinner-row />
     }
   `,
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-mobile-link-table',
   imports: [TranslocoPipe, DfxCurrencyCentPipe, RouterLink, BiComponent, AppBackDirective, AppSpinnerRowComponent],

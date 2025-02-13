@@ -41,7 +41,6 @@ import {PrintersService} from '../printers/_services/printers.service';
   `,
   selector: 'wr-unused-printers-card',
   imports: [BiComponent, RouterLink, TranslocoPipe],
-  standalone: true,
 })
 export class UnusedPrintersCard {
   #mediatorStore = inject(MediatorStore);

@@ -12,7 +12,6 @@ import {ShareableLinkPipe, WaiterAuthLinkPipe} from '@home-shared/pipes/wr-links
     />
   `,
   selector: 'app-btn-waiter-signin-qrcode',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ShareableLinkPipe, WaiterAuthLinkPipe, AppQrCodeButtonComponent],
 })

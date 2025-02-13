@@ -10,7 +10,6 @@ import {BiComponent} from 'dfx-bootstrap-icons';
       {{ 'OFFLINE' | transloco }}
     </div>
   `,
-  standalone: true,
   selector: 'app-network-offline-warning',
   imports: [TranslocoPipe, BiComponent],
 })

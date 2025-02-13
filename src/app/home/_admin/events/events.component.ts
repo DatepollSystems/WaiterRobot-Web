@@ -173,7 +173,6 @@ import {EventsService} from './_services/events.service';
     ListFilterComponent,
     ScrollableToolbarComponent,
   ],
-  standalone: true,
 })
 export class EventsComponent {
   #eventsService = inject(EventsService);

@@ -149,7 +149,6 @@ import {UnpaidReasonsService} from './_services/unpaid-reasons.service';
     </div>
   `,
   selector: 'app-all-unpaid-reasons',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,

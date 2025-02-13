@@ -28,7 +28,6 @@ import {NavComponent} from './nav.component';
       flex-direction: column;
     }
   `,
-  standalone: true,
   selector: 'app-mobile-nav',
   imports: [NavComponent],
 })

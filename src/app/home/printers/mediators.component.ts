@@ -77,7 +77,6 @@ import {MediatorStore} from './_services/mediator.store';
     </div>
   `,
   selector: 'app-all-mediators',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,

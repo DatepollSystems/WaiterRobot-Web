@@ -141,7 +141,6 @@ import {OrganisationsSettingsService} from '../_admin/organisations/_services/or
     }
   `,
   selector: 'app-settings-grid',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, BiComponent, TranslocoPipe, NgbTypeahead, AppProgressBarComponent],
 })

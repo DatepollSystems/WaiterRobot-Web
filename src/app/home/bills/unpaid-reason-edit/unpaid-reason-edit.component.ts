@@ -49,7 +49,6 @@ import {AppUnpaidReasonEditFormComponent} from './unpaid-reason-edit-form.compon
     }
   `,
   selector: 'app-event-edit',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AppEntityEditModule, BiComponent, AppUnpaidReasonEditFormComponent],
 })

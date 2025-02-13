@@ -43,7 +43,6 @@ import {OrganisationUsersSettingsComponent} from './organisation-edit-users/orga
     }
   `,
   selector: 'app-organisation-edit',
-  standalone: true,
   imports: [AppEntityEditModule, AppOrganisationEditFormComponent, OrganisationUsersSettingsComponent],
 })
 export class OrganisationEditComponent {

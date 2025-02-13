@@ -133,7 +133,6 @@ import {injectAPI} from '@shared/api';
     </div>
   `,
   selector: 'app-password-reset',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, RouterLink, NgSwitch, NgSwitchCase, AsyncPipe, TranslocoPipe, BiComponent],
 })

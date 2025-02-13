@@ -136,7 +136,6 @@ import {injectIsValid} from '@shared/form';
     NgSelectModule,
     FormsModule,
   ],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserEditFormComponent extends AbstractModelEditFormComponent<BackendType['CreateUserDto'], BackendType['UpdateUserDto']> {

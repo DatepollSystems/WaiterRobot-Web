@@ -2,6 +2,7 @@ import {Directive, Input, TemplateRef, ViewContainerRef, inject} from '@angular/
 
 @Directive({
   selector: '[isCreating]',
+  standalone: false,
 })
 export class AppIsCreatingDirective {
   private viewContainerRef = inject(ViewContainerRef);
@@ -23,6 +24,7 @@ export class AppIsCreatingDirective {
 
 @Directive({
   selector: '[isEditing]',
+  standalone: false,
 })
 export class AppIsEditingDirective {
   private viewContainerRef = inject(ViewContainerRef);

@@ -135,7 +135,6 @@ import {StripeAccountStateBadge} from './stripe-account-state-badge.component';
     </div>
   `,
   selector: 'app-stripe-settings',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     BiComponent,

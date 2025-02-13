@@ -121,7 +121,6 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
     AppDatetimeInputComponent,
     AppModelEditSaveBtn,
   ],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SystemNotificationEditFormComponent extends AbstractModelEditFormComponent<

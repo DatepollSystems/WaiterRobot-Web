@@ -41,7 +41,6 @@ import {SystemNotificationEditFormComponent} from './system-notification-edit-fo
   `,
   selector: 'app-user-edit',
   imports: [AppEntityEditModule, SystemNotificationEditFormComponent],
-  standalone: true,
 })
 export class SystemNotificationEditComponent {
   #systemNotificationsService = inject(SystemNotificationsService);

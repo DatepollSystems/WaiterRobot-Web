@@ -22,7 +22,6 @@ import {BillsService} from '../_services/bills.service';
       }
     </button>
   `,
-  standalone: true,
   selector: 'app-bill-refresh-btn',
   imports: [TranslocoPipe, NgbTooltip, BiComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,

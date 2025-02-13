@@ -109,7 +109,6 @@ import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
   ],
   selector: 'app-duplicate-organisation-waiters',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
 })
 export class DuplicateOrganisationWaitersComponent {
   #duplicateWaitersService = inject(DuplicateWaitersService);

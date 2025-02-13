@@ -21,7 +21,6 @@ import {StopPropagationDirective} from 'dfx-helper';
       </div>
     </div>
   `,
-  standalone: true,
   imports: [NgbDropdown, StopPropagationDirective, BiComponent, NgbDropdownMenu, NgbDropdownAnchor],
   selector: 'app-action-dropdown',
 })

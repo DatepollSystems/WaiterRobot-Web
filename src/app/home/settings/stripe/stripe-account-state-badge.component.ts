@@ -31,7 +31,6 @@ import {StripeService} from '../_services/stripe.service';
   `,
   selector: 'app-stripe-account-state-badge',
   imports: [TranslocoPipe, BiComponent],
-  standalone: true,
 })
 export class StripeAccountStateBadge {
   stripeAccountId = input.required<string>();

@@ -37,7 +37,6 @@ import {ThemeService} from '@shared/services/theme.service';
       position: fixed;
     }
   `,
-  standalone: true,
   imports: [BiComponent, NgbDropdown, NgbDropdownButtonItem, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle],
   selector: 'app-theme-switcher',
 })

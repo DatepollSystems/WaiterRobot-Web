@@ -58,7 +58,6 @@ import {injectIsValid} from '@shared/form';
   `,
   selector: 'app-unpaid-reason-edit-form',
   imports: [ReactiveFormsModule, TranslocoPipe, BiComponent, NgbInputDatepicker, AppDatetimeInputComponent, AppModelEditSaveBtn],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppUnpaidReasonEditFormComponent extends AbstractModelEditFormComponent<

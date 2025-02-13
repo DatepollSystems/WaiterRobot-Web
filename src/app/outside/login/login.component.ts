@@ -116,7 +116,6 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
     }
   `,
   selector: 'app-login',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, TranslocoPipe, AppDownloadBtnListComponent, ReactiveFormsModule, BiComponent],
 })

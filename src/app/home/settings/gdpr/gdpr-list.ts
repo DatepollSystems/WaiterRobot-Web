@@ -42,7 +42,6 @@ import {GDPRStore} from '../_services/gdpr.store';
     </div>
   `,
   selector: 'wr-gdpr-list',
-  standalone: true,
   imports: [TranslocoPipe, DfxSortModule, DfxTableModule, AppProgressBarComponent, DatePipe, ListFilterComponent],
 })
 export class GDPRList {

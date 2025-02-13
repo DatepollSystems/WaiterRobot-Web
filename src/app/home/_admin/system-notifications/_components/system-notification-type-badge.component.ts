@@ -37,7 +37,6 @@ import {BackendType} from '@shared/api';
       <span>{{ type() | s_lowerCaseAllExceptFirstLetter }}</span>
     </div>
   `,
-  standalone: true,
   selector: 'app-system-notification-type-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgClass, BiComponent, DfxLowerCaseExceptFirstLettersPipe],

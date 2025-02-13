@@ -204,7 +204,6 @@ import {TableGroupsService} from './_services/table-groups.service';
   `,
   styles: [listOrderStyles],
   selector: 'app-table-groups',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,

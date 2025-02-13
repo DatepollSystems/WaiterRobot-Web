@@ -22,9 +22,7 @@ import {AppSystemNotificationAlertComponent} from './system-notification-alert.c
       }
     }
   `,
-  standalone: true,
   selector: 'app-active-system-notifications',
-
   imports: [AppSystemNotificationAlertComponent],
 })
 export class ActiveSystemNotificationsComponent {
@@ -64,9 +62,7 @@ export class ActiveSystemNotificationsComponent {
       }
     }
   `,
-  standalone: true,
   selector: 'app-active-system-desktop-notifications',
-
   imports: [BiComponent, TranslocoPipe, ActiveSystemNotificationsComponent],
 })
 export class ActiveSystemNotificationsDesktopComponent {
@@ -95,9 +91,7 @@ export class ActiveSystemNotificationsDesktopComponent {
       }
     }
   `,
-  standalone: true,
   selector: 'app-active-system-mobile-toggle-notifications',
-
   imports: [BiComponent, TranslocoPipe, ActiveSystemNotificationsComponent],
 })
 export class ActiveSystemNotificationsMobileToggleComponent {

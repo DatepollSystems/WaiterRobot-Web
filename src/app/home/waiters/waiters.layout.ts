@@ -32,7 +32,6 @@ import {EventsService} from '../_admin/events/_services/events.service';
     <router-outlet />
   `,
   selector: 'app-tables-layout',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, TranslocoPipe, NgbNav, NgbNavItem, NgbNavLink, RouterOutlet, AppTextWithColorIndicatorComponent],
 })

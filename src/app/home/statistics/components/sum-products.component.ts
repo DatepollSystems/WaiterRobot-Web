@@ -28,6 +28,7 @@ import {StatisticsService} from '../statistics.service';
   `,
   selector: 'app-statistics-sum-products',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SumProductsComponent {
   standalone = input(booleanAttribute(true), {transform: booleanAttribute});

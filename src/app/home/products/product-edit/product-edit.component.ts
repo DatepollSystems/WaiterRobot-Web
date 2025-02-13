@@ -94,7 +94,6 @@ import {AppProductEditFormComponent} from './product-edit-form.component';
   `,
   selector: 'app-product-edit',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     RouterLink,
     AppEntityEditModule,

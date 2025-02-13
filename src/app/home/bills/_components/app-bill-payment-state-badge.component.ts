@@ -48,7 +48,6 @@ import {BiComponent} from 'dfx-bootstrap-icons';
       }
     </div>
   `,
-  standalone: true,
   selector: 'app-bill-payment-state-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgClass, BiComponent, TranslocoPipe, NgbPopover],

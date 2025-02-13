@@ -33,7 +33,6 @@ import type {TableFilter} from '@home-shared/list/inject-table-filter';
   `,
   selector: 'app-list-filter',
   imports: [BiComponent, ReactiveFormsModule, TranslocoPipe, NgbTooltip],
-  standalone: true,
 })
 export class ListFilterComponent {
   filter = input.required<TableFilter>();

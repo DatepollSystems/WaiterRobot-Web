@@ -96,7 +96,6 @@ import {TableEditFormComponent} from './table-edit-form.component';
     }
   `,
   selector: 'app-table-edit',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AppEntityEditModule,

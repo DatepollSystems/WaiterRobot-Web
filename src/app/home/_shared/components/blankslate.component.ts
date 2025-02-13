@@ -21,7 +21,6 @@ import {BiComponent, BiName} from 'dfx-bootstrap-icons';
     }
   `,
   selector: 'app-blankslate',
-  standalone: true,
   imports: [BiComponent],
 })
 export class BlankslateComponent {

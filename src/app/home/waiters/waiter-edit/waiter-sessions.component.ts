@@ -125,7 +125,6 @@ import {WaiterSessionsService} from '../_services/waiter-sessions.service';
     <app-progress-bar [show]="table.isLoading()" />
   `,
   selector: 'app-waiter-sessions',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,

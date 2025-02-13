@@ -12,7 +12,6 @@ import {TranslocoPipe} from '@jsverse/transloco';
     </div>
   `,
   selector: 'app-continues-creation-switch',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, TranslocoPipe],
 })

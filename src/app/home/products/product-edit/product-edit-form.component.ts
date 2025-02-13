@@ -197,7 +197,6 @@ import {injectIsValid} from '@shared/form';
   `,
   selector: 'app-product-edit-form',
   imports: [ReactiveFormsModule, TranslocoPipe, BiComponent, NgSelectModule, AppModelEditSaveBtn, RouterLink, NgbTooltip, AppColorPicker],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppProductEditFormComponent extends AbstractModelEditFormComponent<

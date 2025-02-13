@@ -16,7 +16,6 @@ import {UserSettingsService} from '../_services/user-settings.service';
   templateUrl: './user-settings-sub.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, TranslocoPipe],
-  standalone: true,
 })
 export class UserSettingsSubComponent {
   #authService = inject(AuthService);

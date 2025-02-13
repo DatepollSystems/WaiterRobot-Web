@@ -35,7 +35,6 @@ import {NotificationService, Toast} from './notification.service';
   selector: 'app-toasts',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet, NgbToast, AsyncPipe],
-  standalone: true,
 })
 export class ToastsContainerComponent {
   @HostBinding('class.ngb-toasts') toasts = true;

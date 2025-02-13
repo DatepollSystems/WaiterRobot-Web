@@ -121,7 +121,6 @@ import {injectIsValid} from '@shared/form';
   `,
   selector: 'app-event-edit-form',
   imports: [ReactiveFormsModule, TranslocoPipe, BiComponent, NgbInputDatepicker, AppDatetimeInputComponent, AppModelEditSaveBtn],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppEventEditFormComponent extends AbstractModelEditFormComponent<

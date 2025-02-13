@@ -11,7 +11,6 @@ import {BiComponent} from 'dfx-bootstrap-icons';
       <bi name="terminal-fill" />
     </span>
   `,
-  standalone: true,
   selector: 'app-test-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [BiComponent, TranslocoPipe, NgbTooltip],

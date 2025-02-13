@@ -14,7 +14,6 @@ import {AppDownloadBtnListComponent} from '@shared/ui/app-download-btn-list.comp
       <a class="btn btn-light btn-sm w-100" routerLink="/">{{ 'GO_BACK' | transloco }}</a>
     </div>
   `,
-  standalone: true,
   selector: 'app-mobile-link-home',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AppDownloadBtnListComponent, TranslocoPipe, RouterLink],

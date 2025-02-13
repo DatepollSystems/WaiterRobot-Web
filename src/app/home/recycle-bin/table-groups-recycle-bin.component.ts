@@ -112,7 +112,6 @@ type BinType = (BackendType['GetTableMinResponse'] | BackendType['GetTableGroupR
     </div>
   `,
   selector: 'app-table-groups-recycle-bin',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoPipe,

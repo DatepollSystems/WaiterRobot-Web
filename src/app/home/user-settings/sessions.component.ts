@@ -116,7 +116,6 @@ import {UserSessionsService} from './_services/user-sessions.service';
     </div>
   `,
   selector: 'app-sessions',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,

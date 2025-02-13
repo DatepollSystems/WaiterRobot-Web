@@ -89,7 +89,6 @@ import {OrdersService} from './orders.service';
     }
   `,
   selector: 'app-orders-info',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AsyncPipe,

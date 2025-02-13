@@ -81,7 +81,6 @@ import {PrinterEditProductsComponent} from './printer-edit-products.component';
     }
   `,
   selector: 'app-printer-edit',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AppEntityEditModule,

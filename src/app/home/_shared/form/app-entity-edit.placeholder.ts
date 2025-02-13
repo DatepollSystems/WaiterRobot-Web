@@ -26,7 +26,6 @@ import {AppSpinnerRowComponent} from '@shared/ui/loading/app-spinner-row.compone
       </div>
     </div>
   `,
-  standalone: true,
   imports: [AppSpinnerRowComponent],
 })
 export class AppEntityEditPlaceholder {}

@@ -77,7 +77,6 @@ import {BackendType} from '@shared/api';
       }
     }
   `,
-  standalone: true,
   selector: 'app-order-state-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoPipe, DatePipe, NgbPopover, NgClass, BiComponent],

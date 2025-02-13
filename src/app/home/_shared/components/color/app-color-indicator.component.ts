@@ -17,7 +17,6 @@ import {ThemeService} from '@shared/services/theme.service';
       }"
     ></div>
   `,
-  standalone: true,
   selector: 'app-color-indicator',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgStyle, AppAdjustDarkModeColor],

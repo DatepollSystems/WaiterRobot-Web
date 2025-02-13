@@ -26,7 +26,6 @@ import {SystemInfoComponent} from './system-info.component';
 
     <app-toasts aria-live="polite" aria-atomic="true" />
   `,
-  standalone: true,
   selector: 'app-root',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ToastsContainerComponent, SystemInfoComponent, RouterOutlet, AppLogoWithTextComponent],

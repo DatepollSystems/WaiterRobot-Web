@@ -311,7 +311,6 @@ import {ProductsService} from './_services/products.service';
   styles: [listOrderStyles],
   selector: 'app-all-products',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     RouterLink,

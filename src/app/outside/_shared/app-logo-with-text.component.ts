@@ -46,7 +46,6 @@ import {ThemeService} from '@shared/services/theme.service';
       </div>
     </div>
   `,
-  standalone: true,
   selector: 'app-logo-with-text',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgOptimizedImage],

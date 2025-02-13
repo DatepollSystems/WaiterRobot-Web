@@ -68,7 +68,6 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
       </table>
     </div>
   `,
-  standalone: true,
   selector: 'app-order-products-list-table',
   imports: [DfxSortModule, DfxTableModule, TranslocoPipe, AppOrderProductStateBadgeComponent, RouterLink, NgbTooltip],
   changeDetection: ChangeDetectionStrategy.OnPush,

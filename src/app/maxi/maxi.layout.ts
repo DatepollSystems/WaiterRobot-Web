@@ -15,6 +15,5 @@ import {ThemeSwitcherComponent} from '@shared/ui/theme-switcher.component';
   selector: 'app-outside-layout',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterOutlet, BiComponent, ThemeSwitcherComponent],
-  standalone: true,
 })
 export class MaxiLayout {}

@@ -76,7 +76,6 @@ import {EnvironmentHelper} from '../../EnvironmentHelper';
       </button>
     </div>
   `,
-  standalone: true,
   selector: 'app-about-modal',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgbNavOutlet, NgbNavContent, TranslocoPipe, NgbNavLink, NgbNavItem, NgbNav, AppProgressBarComponent],

@@ -74,7 +74,6 @@ import {TableGroupEditFormComponent} from './table-group-edit-form.component';
     }
   `,
   selector: 'app-table-group-edit',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, AppEntityEditModule, TableGroupEditFormComponent, AppContinuesCreationSwitchComponent, AppDeletedDirectives],
 })

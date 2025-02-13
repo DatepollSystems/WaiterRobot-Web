@@ -179,7 +179,6 @@ import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-
   `,
   selector: 'app-event-by-id-printers',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     RouterLink,

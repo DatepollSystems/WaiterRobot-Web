@@ -67,7 +67,6 @@ import {NgbDateTimeStruct} from './datetime.struct';
       </div>
     </ng-template>
   `,
-  standalone: true,
   selector: 'app-datetime-input',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [BiComponent, NgbInputDatepicker, NgbTimepicker, NgClass, NgbPopover, NgbDatepicker, FormsModule],

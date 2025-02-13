@@ -24,6 +24,7 @@ import {injectBlurSetting} from '@home-shared/services/blur-setting.service';
   `,
   selector: 'app-statistics-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class StatisticsCardComponent {
   isBlurred = injectBlurSetting().isBlurred;

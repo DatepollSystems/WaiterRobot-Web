@@ -30,7 +30,6 @@ import {PdfJsViewerModule} from 'ng2-pdfjs-viewer';
     </div>
   `,
   selector: 'wr-gdpr-confirmation-modal',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoPipe, PdfJsViewerModule, DatePipe],
 })

@@ -70,7 +70,6 @@ import {systemColors} from '@shared/system-colors';
       padding: 10px !important;
     }
   `,
-  standalone: true,
   selector: 'app-color-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoPipe, BiComponent, NgbPopover, NgbTooltip, AppAdjustDarkModeColor, AppTextColorByBackgroundDirective],

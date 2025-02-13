@@ -14,7 +14,6 @@ import {ShareableLinkPipe, WaiterAuthLinkPipe} from '../../pipes/wr-links.pipe';
     />
   `,
   imports: [ShareableLinkPipe, WaiterAuthLinkPipe, AppQrCodeButtonComponent],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BtnWaiterCreateQrCodeComponent {

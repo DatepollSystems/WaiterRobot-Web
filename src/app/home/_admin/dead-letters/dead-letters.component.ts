@@ -136,7 +136,6 @@ import {DeadLettersService} from './dead-letters.service';
     </div>
   `,
   selector: 'app-all-dead-letters',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,

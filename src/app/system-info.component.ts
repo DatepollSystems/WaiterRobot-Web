@@ -221,7 +221,6 @@ import {AppSystemColorsModal} from './system-colors.modal';
     }
   `,
   selector: 'app-system-info',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DatePipe, DfxTimeSpanPipe, JsonPipe, NgbTooltip, CdkDrag, TranslocoPipe],
   providers: [SystemInfoService],

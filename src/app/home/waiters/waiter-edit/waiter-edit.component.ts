@@ -99,7 +99,6 @@ import {WaiterSessionsComponent} from './waiter-sessions.component';
     }
   `,
   selector: 'app-waiter-edit',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgbNavModule,

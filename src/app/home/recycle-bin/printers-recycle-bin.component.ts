@@ -143,7 +143,6 @@ import {PrintersService} from '../printers/_services/printers.service';
     </div>
   `,
   selector: 'app-printers-recycle-bin',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoPipe,

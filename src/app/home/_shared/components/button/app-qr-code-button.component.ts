@@ -50,7 +50,6 @@ import {QrCodeService} from '../../services/qr-code.service';
       </button>
     </div>
   `,
-  standalone: true,
   imports: [CopyDirective, NgbTooltipModule, BiComponent, NgbPopoverModule, DfxCutPipe, TranslocoPipe],
   selector: 'app-qrcode-button',
   changeDetection: ChangeDetectionStrategy.OnPush,

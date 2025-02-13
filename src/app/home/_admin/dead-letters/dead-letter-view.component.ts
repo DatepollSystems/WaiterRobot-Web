@@ -60,7 +60,6 @@ import {DeadLettersService} from './dead-letters.service';
   `,
   selector: 'app-dead-letter-view',
   imports: [TranslocoPipe, BiComponent, ScrollableToolbarComponent, AppBackButtonComponent, AppSpinnerRowComponent, DatePipe],
-  standalone: true,
 })
 export class DeadLetterViewComponent {
   deadLettersService = inject(DeadLettersService);

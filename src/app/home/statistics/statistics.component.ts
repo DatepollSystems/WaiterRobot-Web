@@ -80,6 +80,7 @@ import {StatisticsService} from './statistics.service';
     </div>
   `,
   selector: 'app-statistics-overview',
+  standalone: false,
 })
 export class StatisticsComponent {
   statisticsCount = inject(StatisticsService).counts;

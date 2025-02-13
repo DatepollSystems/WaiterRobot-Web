@@ -26,7 +26,6 @@ import {StripeSettingsComponent} from './stripe/stripe-settings.component';
     </div>
   `,
   selector: 'app-settings',
-  standalone: true,
   imports: [SettingsGridComponent, StripeSettingsComponent, OrganisationUsersSettingsComponent, TranslocoPipe],
 })
 export class SettingsComponent {

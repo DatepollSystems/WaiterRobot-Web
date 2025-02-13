@@ -15,7 +15,6 @@ import {BiComponent} from 'dfx-bootstrap-icons';
   `,
   selector: 'app-reset-order-button',
   imports: [BiComponent, LowerCasePipe, TranslocoPipe],
-  standalone: true,
 })
 export class AppResetOrderButtonComponent {
   isOrdering = input.required<boolean>();

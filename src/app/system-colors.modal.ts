@@ -53,7 +53,6 @@ import {systemColors} from '@shared/system-colors';
     </div>
   `,
   selector: 'app-system-colors',
-  standalone: true,
   imports: [AppAdjustDarkModeColor, AppIsLightColorPipe, UpperCasePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

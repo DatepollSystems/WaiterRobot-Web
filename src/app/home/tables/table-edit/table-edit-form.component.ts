@@ -94,7 +94,6 @@ import {TablesService} from '../_services/tables.service';
     </form>
   `,
   selector: 'app-table-edit-form',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, AsyncPipe, TranslocoPipe, BiComponent, AppModelEditSaveBtn, RouterLink, NgbTooltip],
 })

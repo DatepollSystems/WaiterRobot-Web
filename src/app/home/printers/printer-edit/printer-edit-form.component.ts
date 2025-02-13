@@ -117,7 +117,6 @@ import {injectIsValid} from '@shared/form';
   `,
   selector: 'app-printer-edit-form',
   imports: [ReactiveFormsModule, TranslocoPipe, BiComponent, AppModelEditSaveBtn],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppPrinterEditForm extends AbstractModelEditFormComponent<BackendType['CreatePrinterDto'], BackendType['UpdatePrinterDto']> {

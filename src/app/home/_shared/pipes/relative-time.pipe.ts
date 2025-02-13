@@ -126,7 +126,6 @@ export class RelativeTimePipe implements PipeTransform {
 @Component({
   template: `<span [ngbTooltip]="value() | date: format()">{{ value() | relativeTime: currentDate() }}</span>`,
   selector: 'wr-relative-time',
-  standalone: true,
   imports: [RelativeTimePipe, NgbTooltip, DatePipe],
 })
 export class RelativeTimeWithTooltip {

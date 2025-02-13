@@ -126,7 +126,6 @@ import {BackendType} from '@shared/api';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-print-table-qr-codes-modal',
-  standalone: true,
   imports: [
     NgbProgressbarModule,
     QRCodeComponent,

@@ -83,7 +83,6 @@ import {injectIsValid} from '@shared/form';
   `,
   selector: 'app-product-group-edit-form',
   imports: [ReactiveFormsModule, TranslocoPipe, BiComponent, AppColorPicker, AppModelEditSaveBtn],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductGroupEditFormComponent extends AbstractModelEditFormComponent<

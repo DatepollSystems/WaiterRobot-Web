@@ -178,7 +178,6 @@ import {PrintersService} from './_services/printers.service';
   selector: 'app-printer-batch-update-modal',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoPipe, ReactiveFormsModule],
-  standalone: true,
 })
 export class PrintersBatchUpdateModal {
   activeModal = inject(NgbActiveModal);

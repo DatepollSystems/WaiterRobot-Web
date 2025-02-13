@@ -16,7 +16,6 @@ import {n_fromStorage, st_set} from 'dfts-helper';
       {{ 'GO_BACK' | transloco }}
     </button>
   `,
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoPipe, NgOptimizedImage],
 })

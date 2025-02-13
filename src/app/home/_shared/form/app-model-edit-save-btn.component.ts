@@ -23,7 +23,6 @@ import {BiComponent, provideBi, withSize} from 'dfx-bootstrap-icons';
     </div>
   `,
   selector: 'app-model-edit-save-btn',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [BiComponent, TranslocoPipe],
   providers: [provideBi(withSize('20'))],

@@ -8,7 +8,6 @@ import {injectBlurSetting} from '@home-shared/services/blur-setting.service';
 
 @Component({
   selector: 'app-blur-toggle',
-  standalone: true,
   template: `
     <button
       class="btn mt-1 d-inline-flex align-items-center justify-content-between"

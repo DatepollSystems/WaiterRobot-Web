@@ -149,7 +149,6 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
     </div>
   `,
   selector: 'app-all-system-notifications',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,

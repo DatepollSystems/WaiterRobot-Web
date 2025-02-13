@@ -203,7 +203,6 @@ import {ProductGroupsService} from './_services/product-groups.service';
   `,
   styles: [listOrderStyles],
   selector: 'app-product-groups',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,

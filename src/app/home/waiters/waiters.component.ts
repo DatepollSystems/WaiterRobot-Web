@@ -221,7 +221,6 @@ import {WaitersService} from './_services/waiters.service';
     </div>
   `,
   selector: 'app-waiters',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,

@@ -241,7 +241,6 @@ import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
     }
   `,
   selector: 'app-tables',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,

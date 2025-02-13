@@ -41,7 +41,6 @@ import {OrdersService} from '../orders.service';
 @Component({
   templateUrl: './orders.component.html',
   selector: 'app-orders',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AsyncPipe,

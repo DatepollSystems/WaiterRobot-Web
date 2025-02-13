@@ -33,7 +33,6 @@ import {injectAPI} from '@shared/api';
       }
     </div>
   `,
-  standalone: true,
   selector: 'app-maintenance-warning',
   imports: [DfxHideIfOffline, DfxHideIfPingSucceeds, BiComponent, TranslocoPipe],
 })

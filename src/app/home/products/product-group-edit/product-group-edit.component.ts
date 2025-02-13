@@ -76,7 +76,6 @@ import {ProductGroupEditFormComponent} from './product-group-edit-form.component
     }
   `,
   selector: 'app-product-group-edit',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, AppEntityEditModule, AppContinuesCreationSwitchComponent, ProductGroupEditFormComponent, AppDeletedDirectives],
 })

@@ -16,7 +16,6 @@ import {AppColorIndicatorComponent} from './app-color-indicator.component';
       }
     </div>
   `,
-  standalone: true,
   selector: 'app-text-with-color-indicator',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AppColorIndicatorComponent],

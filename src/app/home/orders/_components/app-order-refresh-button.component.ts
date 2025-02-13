@@ -22,7 +22,6 @@ import {OrdersService} from '../orders.service';
       }
     </button>
   `,
-  standalone: true,
   selector: 'app-order-refresh-btn',
   imports: [TranslocoPipe, NgbTooltip, BiComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -48,7 +48,6 @@ import {BackendType} from '@shared/api';
     }
   `,
   selector: 'app-printer-edit-products',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DfxTableModule, TranslocoPipe, RouterLink, NgbTooltip, DfxSortModule, BiComponent],
 })

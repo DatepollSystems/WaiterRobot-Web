@@ -81,6 +81,5 @@ import {TranslocoPipe} from '@jsverse/transloco';
   selector: 'app-privacy-policy',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoPipe],
-  standalone: true,
 })
 export class PrivacyPolicyComponent {}

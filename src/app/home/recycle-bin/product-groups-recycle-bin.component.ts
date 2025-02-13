@@ -147,7 +147,6 @@ type BinType = (BackendType['GetProductResponse'] | BackendType['GetProductGroup
     </div>
   `,
   selector: 'app-product-groups-recycle-bin',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoPipe,

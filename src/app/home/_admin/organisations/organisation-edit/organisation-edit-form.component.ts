@@ -102,7 +102,6 @@ import {injectIsValid} from '@shared/form';
   `,
   selector: 'app-organisation-edit-form',
   imports: [ReactiveFormsModule, TranslocoPipe, BiComponent, NgbInputDatepicker, AppModelEditSaveBtn],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrganisationEditFormComponent extends AbstractModelEditFormComponent<

@@ -27,7 +27,6 @@ import {OrganisationsService} from '../organisations/_services/organisations.ser
     <router-outlet />
   `,
   selector: 'app-events-layout',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, TranslocoPipe, NgbNav, NgbNavItem, NgbNavLink, RouterOutlet],
 })

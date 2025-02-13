@@ -66,7 +66,6 @@ import {BillsService} from './_services/bills.service';
     }
   `,
   selector: 'app-orders-info',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AsyncPipe,

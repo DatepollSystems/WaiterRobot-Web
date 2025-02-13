@@ -107,7 +107,6 @@ import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.compo
     </div>
   `,
   selector: 'app-all-dead-letters',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,

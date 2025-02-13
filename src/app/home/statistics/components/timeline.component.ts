@@ -142,6 +142,7 @@ type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
   `,
   selector: 'app-statistics-timeline',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TimelineComponent {
   curve = shape.curveNatural;

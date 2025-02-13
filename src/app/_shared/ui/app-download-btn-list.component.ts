@@ -81,7 +81,6 @@ export interface appDownload {
   `,
   selector: 'app-download-btn-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [NgbTooltipModule, BiComponent, CopyDirective, NgOptimizedImage, TranslocoPipe],
 })
 export class AppDownloadBtnListComponent {

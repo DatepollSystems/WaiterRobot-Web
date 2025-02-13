@@ -80,7 +80,6 @@ type DuplicateWaiterWithSelected = BackendType['IdAndNameResponse'] & {
   imports: [BiComponent, TranslocoPipe, ScrollableToolbarComponent, RouterLink, AsyncPipe, FormsModule, StopPropagationDirective],
   selector: 'app-duplicate-organisation-waiters-edit',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
 })
 export class DuplicateOrganisationWaitersEditComponent {
   #duplicateWaitersService = inject(DuplicateWaitersService);

@@ -13,7 +13,6 @@ import {ThemeService} from '@shared/services/theme.service';
     </button>
   `,
   selector: 'theme-picker',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [BiComponent, NgbDropdownItem],
 })

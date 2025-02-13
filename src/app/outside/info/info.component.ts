@@ -39,7 +39,6 @@ import {ThemeSwitcherComponent} from '@shared/ui/theme-switcher.component';
     <app-footer container="container-md" />
   `,
   selector: 'app-info',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, RouterOutlet, RouterLinkActive, TranslocoPipe, FooterComponent, ThemeSwitcherComponent],
 })

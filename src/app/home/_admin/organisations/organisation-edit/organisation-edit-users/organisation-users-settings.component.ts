@@ -120,7 +120,6 @@ import {OrganisationUserAddModalComponent} from './organisation-user-add-modal.c
     </div>
   `,
   selector: 'app-organisation-edit-users',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgbTooltip,

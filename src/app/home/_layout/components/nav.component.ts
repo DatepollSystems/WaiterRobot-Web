@@ -333,7 +333,6 @@ import {SwitcherModalComponent} from './switcher.component';
       border-color: var(--bs-emphasis-color) !important;
     }
   `,
-  standalone: true,
   selector: 'app-nav',
   imports: [
     RouterLink,

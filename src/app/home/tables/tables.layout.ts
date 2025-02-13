@@ -44,7 +44,6 @@ import {TableGroupsService} from './_services/table-groups.service';
     <router-outlet />
   `,
   selector: 'app-tables-layout',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,

@@ -59,7 +59,6 @@ import {injectIsValid} from '@shared/form';
   `,
   selector: 'app-waiter-edit-form',
   imports: [ReactiveFormsModule, TranslocoPipe, BiComponent, NgSelectModule, AppModelEditSaveBtn],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppWaiterEditFormComponent extends AbstractModelEditFormComponent<

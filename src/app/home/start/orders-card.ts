@@ -76,7 +76,6 @@ import {OrdersService} from '../orders/orders.service';
   `,
   selector: 'wr-orders-card',
   imports: [AppOrderStateBadgeComponent, AppProgressBarComponent, AppTestBadge, StopPropagationDirective, TranslocoPipe, RouterLink],
-  standalone: true,
 })
 export class OrdersCard {
   #ordersService = inject(OrdersService);

@@ -95,7 +95,6 @@ type GetImplodedOrderProductResponse = BackendType['GetImplodedOrderProductRespo
     NgbTooltip,
   ],
   selector: 'app-order-products-list',
-  standalone: true,
 })
 export class AppOrderProductsListComponent {
   @Input({required: true}) set orderProducts(it: GetImplodedOrderProductResponse[]) {

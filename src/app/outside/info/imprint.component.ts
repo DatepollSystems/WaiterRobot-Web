@@ -26,6 +26,5 @@ import {TranslocoPipe} from '@jsverse/transloco';
   selector: 'app-imprint',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoPipe],
-  standalone: true,
 })
 export class ImprintComponent {}

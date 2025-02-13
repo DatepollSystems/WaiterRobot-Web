@@ -49,7 +49,6 @@ import {OrganisationUsersService} from '../../_services/organisations-users.serv
     </form>
   `,
   selector: 'app-organisation-user-add-modal',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoPipe, LowerCasePipe, NgSelectModule, ReactiveFormsModule],
 })

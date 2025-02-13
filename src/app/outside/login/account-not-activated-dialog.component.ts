@@ -21,7 +21,6 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
     </div>
   `,
   selector: 'app-account-not-activated-modal',
-  standalone: true,
   imports: [TranslocoPipe],
 })
 export class AppAccountNotActivatedDialog {

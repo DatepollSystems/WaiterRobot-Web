@@ -119,7 +119,6 @@ import {OrganisationsService} from '../../_admin/organisations/_services/organis
       border-color: var(--bs-primary);
     }
   `,
-  standalone: true,
   selector: 'app-switcher',
   imports: [ReactiveFormsModule, AppProgressBarComponent],
 })
@@ -280,7 +279,6 @@ export class SwitcherComponent {
       <app-switcher [modal]="activeModal" />
     </div>
   `,
-  standalone: true,
   selector: 'app-switcher-modal',
   imports: [SwitcherComponent],
 })

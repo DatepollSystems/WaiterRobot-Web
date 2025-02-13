@@ -49,7 +49,6 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
     }
   `,
   selector: 'app-event-edit',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AppEntityEditModule, BiComponent, AppEventEditFormComponent],
 })

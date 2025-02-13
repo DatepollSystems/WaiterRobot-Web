@@ -9,6 +9,7 @@ import {BackendType} from '@shared/api';
   templateUrl: './sum-statistics.component.html',
   styleUrl: './sum-statistics.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SumStatisticsComponent {
   @Input()

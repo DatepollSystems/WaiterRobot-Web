@@ -156,7 +156,6 @@ import {MaxiService} from './maxi.service';
       topacity: 0.8;
     }
   `,
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,

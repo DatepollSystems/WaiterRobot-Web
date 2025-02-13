@@ -153,7 +153,6 @@ import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.compo
   ],
   // eslint-disable-next-line @angular-eslint/use-component-view-encapsulation
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
 })
 export class TmpNotificationViewComponent {
   #api = injectAPI();

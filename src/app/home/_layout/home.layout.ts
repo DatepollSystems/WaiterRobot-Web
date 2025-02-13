@@ -28,7 +28,6 @@ import {NetworkOfflineWarningComponent} from './components/network-offline-warni
 @Component({
   template: '<router-outlet name="title" />',
   selector: 'home-title',
-  standalone: true,
   imports: [RouterOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -115,7 +114,6 @@ export class HomeTitle {}
     }
   `,
   selector: 'app-home',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NetworkOfflineWarningComponent,

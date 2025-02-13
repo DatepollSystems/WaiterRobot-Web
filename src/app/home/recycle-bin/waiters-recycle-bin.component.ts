@@ -120,7 +120,6 @@ import {WaitersService} from '../waiters/_services/waiters.service';
     </div>
   `,
   selector: 'app-waiters-recycle-bin',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoPipe,

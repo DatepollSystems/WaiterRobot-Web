@@ -144,7 +144,6 @@ import {OrganisationsService} from './_services/organisations.service';
     </div>
   `,
   selector: 'app-all-organisations',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     RouterLink,

@@ -100,7 +100,6 @@ import {AboutModalComponent} from '@shared/ui/footer/about-modal.component';
   `,
   selector: 'app-footer',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [LowerCasePipe, RouterLink, TranslocoPipe, AppLogoWithTextComponent],
 })
 export class FooterComponent {

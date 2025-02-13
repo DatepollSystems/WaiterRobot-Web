@@ -81,7 +81,6 @@ import {passwordMatchValidator} from '@home-shared/regex';
     </div>
   `,
   selector: 'app-account-not-activated-modal',
-  standalone: true,
   imports: [TranslocoPipe, FormsModule, ReactiveFormsModule, AsyncPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

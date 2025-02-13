@@ -44,7 +44,6 @@ import {injectIsValid} from '@shared/form';
   `,
   selector: 'app-table-group-edit-form',
   imports: [ReactiveFormsModule, AsyncPipe, TranslocoPipe, AppColorPicker, AppModelEditSaveBtn],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableGroupEditFormComponent extends AbstractModelEditFormComponent<

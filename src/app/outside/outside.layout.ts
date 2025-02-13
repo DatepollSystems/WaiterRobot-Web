@@ -34,6 +34,5 @@ import {AppLogoWithTextComponent} from './_shared/app-logo-with-text.component';
   selector: 'app-outside-layout',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AppLogoWithTextComponent, BiComponent, RouterOutlet, FooterComponent, ThemeSwitcherComponent],
-  standalone: true,
 })
 export class OutsideLayout {}

@@ -80,7 +80,6 @@ interface OrganisationStripeAccountModalState {
     </form>
   `,
   selector: 'app-stripe-add-create',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoPipe, LowerCasePipe, BiComponent, NgSelectModule, ReactiveFormsModule, AsyncPipe],
 })

@@ -105,7 +105,6 @@ import {UsersService} from './services/users.service';
     </div>
   `,
   selector: 'app-all-users',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,

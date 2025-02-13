@@ -65,7 +65,6 @@ import {BackendType} from '@shared/api';
       </div>
     }
   `,
-  standalone: true,
   selector: 'app-system-notification-alert',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgClass, BiComponent, DfxLowerCaseExceptFirstLettersPipe, DatePipe],

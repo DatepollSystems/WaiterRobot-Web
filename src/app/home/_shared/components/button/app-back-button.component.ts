@@ -40,7 +40,6 @@ export class AppBackDirective {
     </div>
   `,
   selector: 'back-button',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoPipe, AppBackDirective],
 })

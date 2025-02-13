@@ -41,7 +41,6 @@ import {BiComponent, BiName} from 'dfx-bootstrap-icons';
   selector: 'app-question-modal',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoPipe, BiComponent],
-  standalone: true,
 })
 export class QuestionDialogComponent {
   activeModal = inject(NgbActiveModal);

@@ -70,7 +70,6 @@ import {BiComponent} from 'dfx-bootstrap-icons';
       }
     }
   `,
-  standalone: true,
   selector: 'app-order-product-state-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgClass, BiComponent, TranslocoPipe, DatePipe, NgbTooltip],

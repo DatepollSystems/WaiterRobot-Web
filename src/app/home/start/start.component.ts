@@ -20,7 +20,6 @@ import {UnusedPrintersCard} from './unused-printers-card';
   selector: 'app-start',
   templateUrl: './start.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [RouterLink, TranslocoPipe, AppDownloadBtnListComponent, BiComponent, UnusedPrintersCard, OrdersCard],
 })
 export class StartComponent {

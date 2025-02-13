@@ -58,7 +58,6 @@ import {BackendType} from '@shared/api';
       font-weight: bold;
     }
   `,
-  standalone: true,
   selector: 'app-bill-products-list-table',
   imports: [DfxSortModule, DfxTableModule, TranslocoPipe, RouterLink, NgbTooltip, DfxCurrencyCentPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,

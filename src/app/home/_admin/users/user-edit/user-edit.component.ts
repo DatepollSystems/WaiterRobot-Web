@@ -51,7 +51,6 @@ import {UserEditFormComponent} from './user-edit-form.component';
   `,
   selector: 'app-user-edit',
   imports: [AppEntityEditModule, UserEditFormComponent],
-  standalone: true,
 })
 export class UserEditComponent {
   #usersService = inject(UsersService);
