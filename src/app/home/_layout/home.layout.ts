@@ -2,23 +2,23 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
 
-import {FullScreenService} from '@home-shared/services/fullscreen.service';
+import {filter, pairwise} from 'rxjs';
 
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbOffcanvas} from '@ng-bootstrap/ng-bootstrap';
-
-import {SelectedEventService} from '@shared/services/selected-event.service';
-import {FooterComponent} from '@shared/ui/footer/footer.component';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {injectWindow} from 'dfx-helper';
 import {injectNetwork} from 'ngxtension/inject-network';
 
-import {filter, pairwise} from 'rxjs';
+import {FullScreenService} from '@home-shared/services/fullscreen.service';
+
+import {SelectedEventService} from '@shared/services/selected-event.service';
+import {FooterComponent} from '@shared/ui/footer/footer.component';
 
 import {
   ActiveSystemNotificationsComponent,
   ActiveSystemNotificationsDesktopComponent,
-  ActiveSystemNotificationsMobileToggleComponent
+  ActiveSystemNotificationsMobileToggleComponent,
 } from './components/active-system-notifications.component';
 import {MaintenanceWarningComponent} from './components/maintenance-warning.component';
 import {MobileNavComponent} from './components/mobile-nav.component';
