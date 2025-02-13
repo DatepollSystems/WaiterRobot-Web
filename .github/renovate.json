@@ -28,37 +28,19 @@
       "groupName": "typescript dependencies"
     },
     {
-      "matchPackageNames": [
-        "@schematics/angular",
-        "@angular/{/,}**",
-        "@angular-devkit{/,}**"
-      ],
+      "matchPackageNames": ["@schematics/angular", "@angular/{/,}**", "@angular-devkit{/,}**"],
       "groupName": "angular monorepo",
       "matchUpdateTypes": ["digest", "patch", "minor", "major"]
     },
     {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "groupName": "minor-updates",
-      "matchPackageNames": [
-        "*",
-        "!typescript",
-        "!tslib",
-        "!@schematics/angular",
-        "!/@angular//",
-        "!/@angular-devkit/"
-      ]
+      "matchPackageNames": ["*", "!typescript", "!tslib", "!@schematics/angular", "!/@angular//", "!/@angular-devkit/"]
     },
     {
       "matchUpdateTypes": ["major"],
       "groupName": "major-update"
     }
   ],
-  "extends": [
-    "config:recommended",
-    ":pinVersions",
-    "npm:unpublishSafe",
-    ":prNotPending",
-    ":preserveSemverRanges",
-    ":rebaseStalePrs"
-  ]
+  "extends": ["config:recommended", ":pinVersions", "npm:unpublishSafe", ":prNotPending", ":preserveSemverRanges", ":rebaseStalePrs"]
 }
