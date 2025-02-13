@@ -4,7 +4,7 @@ import {toSignal} from '@angular/core/rxjs-interop';
 import {FormBuilder, FormGroup, NonNullableFormBuilder} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import {Observable, distinctUntilChanged, map} from 'rxjs';
+import {Observable, distinctUntilChanged, map, tap} from 'rxjs';
 
 import {IHasID, s_from} from 'dfts-helper';
 
@@ -16,11 +16,10 @@ import {NotificationService} from './notifications/notification.service';
 export function injectIsValid(form: FormGroup): Signal<boolean> {
   return toSignal(
     form.statusChanges.pipe(
+      map(() => form.valid),
       distinctUntilChanged(),
-      map(() => {
-        const valid = form.valid;
+      tap((valid) => {
         console.log(`formValidChange is valid = ${valid}`, form.value);
-        return valid;
       }),
     ),
     {initialValue: form.valid},
