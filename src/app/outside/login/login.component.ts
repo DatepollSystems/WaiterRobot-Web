@@ -3,15 +3,15 @@ import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 
-import {map, shareReplay} from 'rxjs';
+import {catchError, map, of, shareReplay, switchMap, timer} from 'rxjs';
 
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {loggerOf} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {DfxHideIfOffline, DfxHideIfOnline, DfxHideIfPingFails, DfxHideIfPingSucceeds} from 'dfx-helper';
+import {injectNetwork} from 'ngxtension/inject-network';
 
-import {EnvironmentHelper} from '@shared/EnvironmentHelper';
+import {injectAPI} from '@shared/api';
 import {injectIsValid} from '@shared/form';
 import {NotificationService} from '@shared/notifications/notification.service';
 import {AuthService} from '@shared/services';
@@ -27,65 +27,69 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
     <div class="d-flex flex-column gap-3">
       <form class="d-flex flex-column gap-3" [formGroup]="form" (ngSubmit)="onSignIn()">
         <h1 class="fs-2">{{ 'ABOUT_SIGNIN' | transloco }}</h1>
-        <div class="alert alert-warning" role="alert" hideIfOnline>
-          <bi name="wifi-off" />
-          {{ 'OFFLINE' | transloco }}
-        </div>
 
-        <div hideIfOffline>
-          <div class="alert alert-warning" role="alert" hideIfPingSucceeds url="{{ apiUrl }}/v1/json">
-            <div class="d-flex gap-3 align-items-center">
-              <bi name="exclamation-triangle-fill" />
-              <div>
-                <b>{{ 'ABOUT_MAINTENANCE_1' | transloco }}</b>
-                {{ 'ABOUT_MAINTENANCE_2' | transloco }}
-                <br />
-                Besuche
-                <a style="text-decoration: underline; color: #664d03" href="https://status.kellner.team" target="_blank" rel="noreferrer"
-                  >status.kellner.team</a
-                >
-                für weitere Informationen!
+        @if (networkState.online()) {
+          @if (pingFails()) {
+            <div class="alert alert-warning" role="alert">
+              <div class="d-flex gap-3 align-items-center">
+                <bi name="exclamation-triangle-fill" />
+                <div>
+                  <b>{{ 'ABOUT_MAINTENANCE_1' | transloco }}</b>
+                  {{ 'ABOUT_MAINTENANCE_2' | transloco }}
+                  <br />
+                  Besuche
+                  <a style="text-decoration: underline; color: #664d03" href="https://status.kellner.team" target="_blank" rel="noreferrer"
+                    >status.kellner.team</a
+                  >
+                  für weitere Informationen!
+                </div>
               </div>
             </div>
+          } @else {
+            <div class="d-flex flex-column gap-3">
+              <div class="d-flex flex-column">
+                <div class="form-floating">
+                  <input
+                    class="form-control"
+                    id="email"
+                    [placeholder]="'ABOUT_SIGNIN_EMAIL_ADDRESS' | transloco"
+                    autocomplete="on"
+                    type="email"
+                    formControlName="email"
+                  />
+                  <label for="email">{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | transloco }}</label>
+                </div>
+
+                <div class="form-floating">
+                  <input
+                    class="form-control"
+                    id="password"
+                    [placeholder]="'ABOUT_SIGNIN_PASSWORD' | transloco"
+                    autocomplete="on"
+                    type="password"
+                    formControlName="password"
+                  />
+                  <label for="password">{{ 'ABOUT_SIGNIN_PASSWORD' | transloco }}</label>
+                </div>
+              </div>
+
+              <div class="d-flex">
+                <button class="btn btn-primary w-100" [disabled]="!form.valid" type="submit">
+                  {{ 'ABOUT_SIGNIN' | transloco }}
+                </button>
+              </div>
+
+              <div class="text-center">
+                <a routerLink="forgot-password">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD' | transloco }}</a>
+              </div>
+            </div>
+          }
+        } @else {
+          <div class="alert alert-warning" role="alert">
+            <bi name="wifi-off" />
+            {{ 'OFFLINE' | transloco }}
           </div>
-          <div class="d-flex flex-column gap-3" hideIfPingFails url="{{ apiUrl }}/v1/json">
-            <div class="d-flex flex-column">
-              <div class="form-floating">
-                <input
-                  class="form-control"
-                  id="email"
-                  [placeholder]="'ABOUT_SIGNIN_EMAIL_ADDRESS' | transloco"
-                  autocomplete="on"
-                  type="email"
-                  formControlName="email"
-                />
-                <label for="email">{{ 'ABOUT_SIGNIN_EMAIL_ADDRESS' | transloco }}</label>
-              </div>
-
-              <div class="form-floating">
-                <input
-                  class="form-control"
-                  id="password"
-                  [placeholder]="'ABOUT_SIGNIN_PASSWORD' | transloco"
-                  autocomplete="on"
-                  type="password"
-                  formControlName="password"
-                />
-                <label for="password">{{ 'ABOUT_SIGNIN_PASSWORD' | transloco }}</label>
-              </div>
-            </div>
-
-            <div class="d-flex">
-              <button class="btn btn-primary w-100" [disabled]="!form.valid" type="submit">
-                {{ 'ABOUT_SIGNIN' | transloco }}
-              </button>
-            </div>
-
-            <div class="text-center">
-              <a routerLink="forgot-password">{{ 'ABOUT_SIGNIN_FORGOT_PASSWORD' | transloco }}</a>
-            </div>
-          </div>
-        </div>
+        }
       </form>
 
       <hr />
@@ -114,17 +118,7 @@ import {AppPasswordChangeDialogComponent} from './password-change-dialog.compone
   selector: 'app-login',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    RouterLink,
-    TranslocoPipe,
-    AppDownloadBtnListComponent,
-    ReactiveFormsModule,
-    DfxHideIfPingSucceeds,
-    DfxHideIfPingFails,
-    DfxHideIfOnline,
-    DfxHideIfOffline,
-    BiComponent,
-  ],
+  imports: [RouterLink, TranslocoPipe, AppDownloadBtnListComponent, ReactiveFormsModule, BiComponent],
 })
 export class LoginComponent {
   router = inject(Router);
@@ -133,7 +127,7 @@ export class LoginComponent {
   notificationService = inject(NotificationService);
   queryParams = inject(ActivatedRoute).queryParamMap.pipe(takeUntilDestroyed(), shareReplay(1));
 
-  apiUrl = EnvironmentHelper.getAPIUrl();
+  networkState = injectNetwork();
 
   isPreview = toSignal(this.queryParams.pipe(map((params) => !!params.get('preview'))), {initialValue: true});
 
@@ -145,6 +139,17 @@ export class LoginComponent {
   });
 
   formValid = injectIsValid(this.form);
+
+  #api = injectAPI();
+
+  pingFails = toSignal(
+    timer(0, 30 * 1000).pipe(
+      takeUntilDestroyed(),
+      switchMap(() => this.#api.get('/v1/json')),
+      map(() => false),
+      catchError(() => of(true)),
+    ),
+  );
 
   constructor() {
     this.queryParams.subscribe((params) => {
