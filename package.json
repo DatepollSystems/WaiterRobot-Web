@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve --hmr",
     "start:lava": "ng serve --configuration lava --hmr",
-    "build:prod": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --configuration production && cp ./LICENSE ./dist/WaiterRobot-Web/",
+    "build:prod": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --configuration production --verbose && cp ./LICENSE ./dist/WaiterRobot-Web/",
     "build:lava": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --configuration lava && cp ./LICENSE ./dist/WaiterRobot-Web/",
     "build:local": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --configuration local && cp ./LICENSE ./dist/WaiterRobot-Web/",
     "build:stats": "rm -rf ./dist/WaiterRobot-Web/ && mkdir -p ./dist/WaiterRobot-Web && ng build --stats-json",
