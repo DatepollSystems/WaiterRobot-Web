@@ -24,31 +24,44 @@ import {BackendType} from '@shared/api';
       <button class="btn-close btn-close-white" (mousedown)="activeModal.dismiss()" type="button" aria-label="Close"></button>
     </div>
     <div class="modal-body d-flex flex-column gap-3">
+      @let _qrCodeSize = qrCodeSize();
+      @let _generating = generating();
+
       <scrollable-toolbar>
         <div>
-          <button class="btn btn-sm btn-primary" [class.btnSpinner]="generating" [disabled]="generating" (click)="pdf()" type="button">
+          <button class="btn btn-sm btn-primary" [class.btnSpinner]="_generating" [disabled]="_generating" (click)="pdf()" type="button">
             <bi name="printer" />
             {{ 'HOME_TABLE_PRINT_GENERATE' | transloco }}
           </button>
         </div>
 
         <div class="btn-group flex-wrap" role="group" aria-label="QRCode size">
-          <button class="btn btn-sm btn-outline-secondary" [class.active]="qrCodeSize === 'SM'" (click)="qrCodeSize = 'SM'" type="button">
+          <button
+            class="btn btn-sm btn-outline-secondary"
+            [class.active]="_qrCodeSize === 'SM'"
+            (click)="qrCodeSize.set('SM')"
+            type="button"
+          >
             {{ 'HOME_TABLE_PRINT_SM' | transloco }}
           </button>
-          <button class="btn btn-sm btn-outline-secondary" [class.active]="qrCodeSize === 'MD'" (click)="qrCodeSize = 'MD'" type="button">
+          <button
+            class="btn btn-sm btn-outline-secondary"
+            [class.active]="_qrCodeSize === 'MD'"
+            (click)="qrCodeSize.set('MD')"
+            type="button"
+          >
             {{ 'HOME_TABLE_PRINT_MD' | transloco }}
           </button>
         </div>
       </scrollable-toolbar>
 
       @if (progress(); as progress) {
-        <ngb-progressbar class="my-2" [value]="progress" [max]="100" [showValue]="true" type="primary" textType="white" />
+        <ngb-progressbar class="my-2" [value]="progress" [showValue]="true" type="primary" textType="white" />
       }
 
       <div class="alert alert-info mb-2" role="alert">Deaktiviere mögliche Seitenränder beim drucken.</div>
 
-      @if (generating) {
+      @if (_generating) {
         <div class="alert alert-info" role="alert">{{ 'DO_NOT_CLOSE_WINDOW' | transloco }}!</div>
       }
 
@@ -56,17 +69,28 @@ import {BackendType} from '@shared/api';
         <div class="d-flex flex-wrap justify-content-center">
           @for (table of tables(); track table.id) {
             <div class="qr-code-item">
-              <qrcode
-                [imageSrc]="qrCodeSize === 'MD' ? '/assets/mono.png' : undefined"
-                [imageWidth]="70"
-                [imageHeight]="70"
-                [size]="8"
-                [errorCorrectionLevel]="qrCodeSize === 'MD' ? 'H' : 'M'"
-                [margin]="0"
-                [data]="'wl' | shareableLink | publicTableLink: table.publicId"
-                cssClass="text-center"
-                elementType="canvas"
-              />
+              @if (_qrCodeSize === 'MD') {
+                <qrcode
+                  [imageSrc]="'/assets/mono.png'"
+                  [imageWidth]="70"
+                  [imageHeight]="70"
+                  [size]="8"
+                  [errorCorrectionLevel]="'H'"
+                  [margin]="0"
+                  [data]="'wl' | shareableLink | publicTableLink: table.publicId"
+                  cssClass="text-center"
+                  elementType="canvas"
+                />
+              } @else {
+                <qrcode
+                  [size]="8"
+                  [errorCorrectionLevel]="'M'"
+                  [margin]="0"
+                  [data]="'wl' | shareableLink | publicTableLink: table.publicId"
+                  cssClass="text-center"
+                  elementType="canvas"
+                />
+              }
 
               <div class="text-center text-black qr-code-label">
                 <b>{{ table.group.name }} - {{ table.number }}</b>
@@ -119,12 +143,12 @@ export class TablesPrintQrCodesModal {
 
   tables = signal<BackendType['GetTableWithGroupResponse'][]>([]);
 
-  qrCodeSize: 'SM' | 'MD' = 'MD';
-  generating = false;
+  qrCodeSize = signal<'SM' | 'MD'>('MD');
+  generating = signal(false);
   progress = signal<number | undefined>(undefined);
 
   async pdf(): Promise<void> {
-    this.generating = true;
+    this.generating.set(true);
     this.progress.set(1);
 
     const qrCodeDivs = document.getElementsByClassName('qr-code-item');
@@ -141,7 +165,7 @@ export class TablesPrintQrCodesModal {
       const qrcode = qrCodeDivs.item(i);
       if (qrcode) {
         const canvas = await toJpeg(qrcode as HTMLElement, {
-          quality: 0.7,
+          quality: 0.8,
           backgroundColor: '#FFFFFF',
         });
 
@@ -163,17 +187,17 @@ export class TablesPrintQrCodesModal {
       this.progress.update((it) => (it ?? 1) + steps);
     }
     pdf.save(`tables-${d_formatWithHoursMinutesAndSeconds(new Date())}.pdf`);
-    this.generating = false;
+    this.generating.set(false);
 
     of(true)
-      .pipe(delay(1000))
+      .pipe(delay(600))
       .subscribe(() => {
         this.progress.set(undefined);
       });
   }
 
   getQrCodeSize = (): number => {
-    switch (this.qrCodeSize) {
+    switch (this.qrCodeSize()) {
       case 'SM':
         return 118;
       case 'MD':
