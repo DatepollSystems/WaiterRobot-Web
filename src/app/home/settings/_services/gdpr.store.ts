@@ -13,24 +13,21 @@ import {base64ToArrayBuffer} from '@home-shared/services/file.utils';
 import {BackendType, injectAPI} from '@shared/api';
 import {setError, setFulfilled, setPending} from '@shared/api/request-status.feature';
 import {withTable} from '@shared/api/table.feature';
+import {SelectedOrganisationService} from '@shared/services';
 
 import {GDPRConfirmationModal} from '../gdpr/gdpr-confirmation-modal';
-
-type OrganisationsGDPRState = {
-  organisationId: number | undefined;
-};
 
 export const GDPRStore = signalStore(
   {providedIn: 'root'},
   withTable<BackendType['GdprDocumentPreviewResponse']>({
     columnsToDisplay: ['agreedOnAt', 'agreedOnBy'],
   }),
-  withState<OrganisationsGDPRState>({organisationId: undefined}),
-  withMethods((store, api = injectAPI(), modal = inject(NgbModal)) => ({
+  withState({}),
+  withMethods((store, api = injectAPI(), modal = inject(NgbModal), selectedOrganisationService = inject(SelectedOrganisationService)) => ({
     newAgreement: rxMethod<void>(
       pipe(
         tap(() => patchState(store, setPending())),
-        switchMap(() => api.post('/v1/config/gdpr/{id}', {params: {path: {id: store.organisationId()!}}})),
+        switchMap(() => api.post('/v1/config/gdpr/{id}', {params: {path: {id: selectedOrganisationService.selectedId()!}}})),
         tap(() => patchState(store, setFulfilled())),
         switchMap((response) => {
           const modalRef = modal.open(GDPRConfirmationModal, {
@@ -43,10 +40,10 @@ export const GDPRStore = signalStore(
           return modalRef.closed;
         }),
         filter((result) => result === true),
-        switchMap(() => api.put('/v1/config/gdpr/{id}', {params: {path: {id: store.organisationId()!}}})),
+        switchMap(() => api.put('/v1/config/gdpr/{id}', {params: {path: {id: selectedOrganisationService.selectedId()!}}})),
         tap(() => patchState(store, setPending())),
         switchMap(() =>
-          api.get('/v1/config/gdpr/{id}', {params: {path: {id: store.organisationId()!}}}).pipe(
+          api.get('/v1/config/gdpr/{id}', {params: {path: {id: selectedOrganisationService.selectedId()!}}}).pipe(
             tapResponse({
               next: (agreements) => patchState(store, setAllEntities(agreements), setFulfilled()),
               error: (error) => patchState(store, setError(error)),
@@ -55,13 +52,13 @@ export const GDPRStore = signalStore(
         ),
       ),
     ),
-    loadAll: rxMethod<number>(
+    loadAll: rxMethod<void>(
       pipe(
         tap(() => patchState(store, setPending())),
-        switchMap((organisationId) =>
-          api.get('/v1/config/gdpr/{id}', {params: {path: {id: organisationId}}}).pipe(
+        switchMap(() =>
+          api.get('/v1/config/gdpr/{id}', {params: {path: {id: selectedOrganisationService.selectedId()!}}}).pipe(
             tapResponse({
-              next: (agreements) => patchState(store, setAllEntities(agreements), setFulfilled(), () => ({organisationId})),
+              next: (agreements) => patchState(store, setAllEntities(agreements), setFulfilled()),
               error: (error) => patchState(store, setError(error)),
             }),
           ),

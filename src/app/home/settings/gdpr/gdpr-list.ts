@@ -6,7 +6,6 @@ import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 
 import {ListFilterComponent, injectTableFilter} from '@home-shared/list';
 
-import {SelectedOrganisationService} from '@shared/services';
 import {AppProgressBarComponent} from '@shared/ui/loading';
 
 import {GDPRStore} from '../_services/gdpr.store';
@@ -47,8 +46,6 @@ import {GDPRStore} from '../_services/gdpr.store';
   imports: [TranslocoPipe, DfxSortModule, DfxTableModule, AppProgressBarComponent, DatePipe, ListFilterComponent],
 })
 export class GDPRList {
-  #selectedOrganisationId$ = inject(SelectedOrganisationService).selectedIdNotNull$;
-
   gdprStore = inject(GDPRStore);
   filter = injectTableFilter();
 
@@ -57,6 +54,6 @@ export class GDPRList {
   constructor() {
     this.gdprStore.setFilter(this.filter.value);
     this.gdprStore.setSort(this.sort);
-    this.gdprStore.loadAll(this.#selectedOrganisationId$);
+    this.gdprStore.loadAll();
   }
 }
