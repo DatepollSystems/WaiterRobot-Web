@@ -3,41 +3,24 @@ import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/co
 import {ReactiveFormsModule} from '@angular/forms';
 
 import {TranslocoPipe} from '@jsverse/transloco';
-import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
 
 import {BlankslateComponent} from '@home-shared/components/blankslate.component';
-import {injectTable, injectTableFilter} from '@home-shared/list';
+import {ListFilterComponent, injectTableFilter} from '@home-shared/list';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
-import {MediatorsService} from './_services/mediators.service';
+import {MediatorStore} from './_services/mediator.store';
 
 @Component({
   template: `
     <div class="d-flex flex-column gap-3">
       <h1 class="my-0">{{ 'HOME_PRINTER_NAV_MEDIATOR' | transloco }}</h1>
 
-      <form>
-        <div class="input-group">
-          <input class="form-control ml-2" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" type="text" />
-          @if (filter.isActive()) {
-            <button
-              class="btn btn-outline-secondary"
-              [ngbTooltip]="'CLEAR' | transloco"
-              (click)="filter.reset()"
-              type="button"
-              placement="bottom"
-            >
-              <bi name="x-circle-fill" />
-            </button>
-          }
-        </div>
-      </form>
+      <app-list-filter [filter]="filter" />
 
-      @if (table.dataSource(); as dataSource) {
+      @if (mediatorStore.dataSource(); as dataSource) {
         <div class="table-responsive">
           <table [hover]="true" [dataSource]="dataSource" ngb-table ngb-sort>
             <ng-container ngbColumnDef="id">
@@ -77,12 +60,12 @@ import {MediatorsService} from './_services/mediators.service';
               </td>
             </ng-container>
 
-            <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
-            <tr *ngbRowDef="let mediator; columns: table.columnsToDisplay()" ngb-row></tr>
+            <tr *ngbHeaderRowDef="mediatorStore.columnsToDisplay()" ngb-header-row></tr>
+            <tr *ngbRowDef="let mediator; columns: mediatorStore.columnsToDisplay()" ngb-row></tr>
           </table>
         </div>
       }
-      @if (table.isEmpty()) {
+      @if (mediatorStore.isEmpty()) {
         <app-blankslate [description]="'Keine Mediators verbunden'" icon="wifi-off">
           <a class="btn btn-success" type="button" href="https://help.kellner.team/desktop.html" rel="noopener" target="_blank">
             {{ 'LEARN_MORE' | transloco }}
@@ -90,7 +73,7 @@ import {MediatorsService} from './_services/mediators.service';
         </app-blankslate>
       }
 
-      <app-progress-bar [show]="table.isLoading()" />
+      <app-progress-bar [show]="mediatorStore.isPending()" />
     </div>
   `,
   selector: 'app-all-mediators',
@@ -99,26 +82,25 @@ import {MediatorsService} from './_services/mediators.service';
   imports: [
     ReactiveFormsModule,
     DatePipe,
-    NgbTooltip,
     TranslocoPipe,
     DfxTableModule,
     DfxSortModule,
     DfxArrayMapNamePipe,
     DfxImplodePipe,
-    BiComponent,
     AppProgressBarComponent,
     BlankslateComponent,
+    ListFilterComponent,
   ],
 })
 export class MediatorsComponent {
-  #mediatorsService = inject(MediatorsService);
+  readonly mediatorStore = inject(MediatorStore);
+  readonly filter = injectTableFilter();
 
-  sort = viewChild(NgbSort);
-  filter = injectTableFilter();
-  table = injectTable({
-    columnsToDisplay: ['id', 'name', 'active', 'lastContact', 'printers'],
-    fetchData: () => this.#mediatorsService.getAll$(),
-    sort: this.sort,
-    filterValue$: this.filter.value$,
-  });
+  readonly sort = viewChild(NgbSort);
+
+  constructor() {
+    this.mediatorStore.setFilter(this.filter.value);
+    this.mediatorStore.setSort(this.sort);
+    this.mediatorStore.loadAll();
+  }
 }

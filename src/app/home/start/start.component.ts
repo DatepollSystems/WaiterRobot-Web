@@ -1,52 +1,31 @@
-import {DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
+import {toSignal} from '@angular/core/rxjs-interop';
 import {RouterLink} from '@angular/router';
 
-import {catchError, combineLatest, filter, map, of, shareReplay, startWith, switchMap, timer} from 'rxjs';
+import {catchError, filter, of, startWith} from 'rxjs';
 
 import {TranslocoPipe} from '@jsverse/transloco';
 import {BiComponent} from 'dfx-bootstrap-icons';
-import {StopPropagationDirective} from 'dfx-helper';
-import {deriveLoading} from 'ngxtension/derive-loading';
-
-import {AppTestBadge} from '@home-shared/components/app-test-badge.component';
 
 import {EnvironmentHelper} from '@shared/EnvironmentHelper';
 import {injectAPI} from '@shared/api';
 import {AuthService, SelectedEventService, SystemInfoShowService} from '@shared/services';
 import {AppDownloadBtnListComponent} from '@shared/ui';
-import {AppProgressBarComponent} from '@shared/ui/loading';
 
 import {MyUserService} from '../_shared/services/user/my-user.service';
-import {AppOrderStateBadgeComponent} from '../orders/_components/app-order-state-badge.component';
-import {OrdersService} from '../orders/orders.service';
-import {MediatorsService} from '../printers/_services/mediators.service';
-import {PrintersService} from '../printers/_services/printers.service';
+import {OrdersCard} from './orders-card';
+import {UnusedPrintersCard} from './unused-printers-card';
 
 @Component({
   selector: 'app-start',
   templateUrl: './start.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [
-    RouterLink,
-    TranslocoPipe,
-    AppDownloadBtnListComponent,
-    BiComponent,
-    AppOrderStateBadgeComponent,
-    AppTestBadge,
-    DatePipe,
-    AppProgressBarComponent,
-    StopPropagationDirective,
-  ],
+  imports: [RouterLink, TranslocoPipe, AppDownloadBtnListComponent, BiComponent, UnusedPrintersCard, OrdersCard],
 })
 export class StartComponent {
   #api = injectAPI();
   #authService = inject(AuthService);
-  #ordersService = inject(OrdersService);
-  #mediatorsService = inject(MediatorsService);
-  #printersService = inject(PrintersService);
 
   isProduction = EnvironmentHelper.getProduction();
   type = EnvironmentHelper.getType();
@@ -60,34 +39,6 @@ export class StartComponent {
       startWith(false),
       catchError(() => of(true)),
       filter((it) => it === true),
-    ),
-  );
-
-  #orders$ = timer(0, 10000).pipe(
-    switchMap(() =>
-      this.#ordersService.getAllPaginated({
-        page: 0,
-        size: 8,
-        sort: ['createdAt,desc'],
-      }),
-    ),
-    map((it) => it.data),
-    takeUntilDestroyed(),
-    shareReplay(),
-  );
-
-  orders = toSignal(this.#orders$, {initialValue: []});
-
-  showOrdersLoading = toSignal(this.#orders$.pipe(deriveLoading({threshold: 0, loadingTime: 0})), {requireSync: true});
-
-  unusedPrinters = toSignal(
-    timer(0, 3 * 60000).pipe(
-      switchMap(() => combineLatest([this.#mediatorsService.getAll$(), this.#printersService.getAll$()])),
-      map(([mediators, printers]) => {
-        const allUsedPrinters = mediators.map((mediator) => mediator.printers.map((printer) => printer.id)).flat();
-        return printers.filter((printer) => !allUsedPrinters.includes(printer.id));
-      }),
-      map((printers) => (printers.length > 0 ? printers : undefined)),
     ),
   );
 
