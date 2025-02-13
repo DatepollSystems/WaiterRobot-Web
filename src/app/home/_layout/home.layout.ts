@@ -65,9 +65,10 @@ export class HomeTitle {}
               <app-active-system-desktop-notifications />
             </div>
 
-            @defer (when selectedEvent()?.isDemo) {
-              @if (selectedEvent()?.isDemo) {
-                <div class="alert alert-danger d-flex align-items-center gap-2 fs-4" role="alert">
+            @let _selectedEvent = selectedEvent();
+            @defer (when _selectedEvent?.isDemo) {
+              @if (_selectedEvent?.isDemo) {
+                <div class="alert alert-danger d-flex align-items-center gap-2 fs-4 justify-content-center" role="alert">
                   <div class="d-none d-md-block" style="margin-top: 6px">
                     <bi name="cart-x-fill" size="24px" />
                   </div>
