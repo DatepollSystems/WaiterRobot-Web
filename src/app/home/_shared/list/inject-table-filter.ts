@@ -4,6 +4,8 @@ import {FormControl} from '@angular/forms';
 
 import {map, startWith} from 'rxjs';
 
+export type TableFilter = ReturnType<typeof injectTableFilter>;
+
 export function injectTableFilter() {
   const control = new FormControl('');
 
@@ -18,9 +20,7 @@ export function injectTableFilter() {
     control,
     value,
     value$,
-    reset: () => {
-      control.reset();
-    },
+    reset: () => control.reset(),
     isActive,
   };
 }

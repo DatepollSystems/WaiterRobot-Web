@@ -5,17 +5,18 @@ import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {injectTableFilter} from '@home-shared/list/inject-table-filter';
+import type {TableFilter} from '@home-shared/list/inject-table-filter';
 
 @Component({
   template: `
+    @let _filter = filter();
     <div class="input-group action-search">
-      <input class="form-control form-control-sm" [formControl]="filter().control" [placeholder]="'SEARCH' | transloco" type="text" />
-      @if (filter().isActive()) {
+      <input class="form-control form-control-sm" [formControl]="_filter.control" [placeholder]="'SEARCH' | transloco" type="text" />
+      @if (_filter.isActive()) {
         <button
           class="btn btn-sm btn-outline-secondary"
           [ngbTooltip]="'CLEAR' | transloco"
-          (click)="filter().reset()"
+          (click)="_filter.reset()"
           type="button"
           placement="bottom"
         >
@@ -35,5 +36,5 @@ import {injectTableFilter} from '@home-shared/list/inject-table-filter';
   standalone: true,
 })
 export class ListFilterComponent {
-  filter = input.required<ReturnType<typeof injectTableFilter>>();
+  filter = input.required<TableFilter>();
 }
