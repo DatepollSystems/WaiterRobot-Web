@@ -3,7 +3,7 @@
     "name": "@angular-devkit/build-angular",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular-cli.git",
-    "installedVersion": "19.1.7",
+    "installedVersion": "19.2.5",
     "author": "Angular Authors"
   },
   {
@@ -101,7 +101,7 @@
     "name": "@ng-select/ng-select",
     "licenseType": "MIT",
     "link": "git+https://github.com/ng-select/ng-select.git",
-    "installedVersion": "14.2.2",
+    "installedVersion": "14.2.6",
     "author": "@ng-select/ng-select"
   },
   {
@@ -195,7 +195,7 @@
     "installedVersion": "1.11.12",
     "author": "bubkooo bubkoo.wy@gmail.com"
   },
-  {"name": "jspdf", "licenseType": "MIT", "link": "git+https://github.com/MrRio/jsPDF.git", "installedVersion": "2.5.2", "author": "n/a"},
+  {"name": "jspdf", "licenseType": "MIT", "link": "git+https://github.com/MrRio/jsPDF.git", "installedVersion": "3.0.1", "author": "n/a"},
   {
     "name": "ng2-pdfjs-viewer",
     "licenseType": "Apache",
@@ -235,7 +235,7 @@
     "name": "tslib",
     "licenseType": "0BSD",
     "link": "git+https://github.com/Microsoft/tslib.git",
-    "installedVersion": "2.6.3",
+    "installedVersion": "2.8.1",
     "author": "Microsoft Corp."
   }
 ]
