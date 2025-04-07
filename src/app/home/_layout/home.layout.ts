@@ -71,7 +71,10 @@ export class HomeTitle {}
                   <div class="d-none d-md-block" style="margin-top: 6px">
                     <bi name="cart-x-fill" size="24px" />
                   </div>
-                  {{ 'HOME_START_DEMO_EVENT_WARNING' | transloco }}
+                  <span>
+                    {{ 'HOME_START_DEMO_EVENT_WARNING' | transloco }}
+                    <a href="https://kellner.team/#contact" target="_blank" rel="noopener">hier</a>.
+                  </span>
                 </div>
               }
             }
