@@ -17,28 +17,9 @@ import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} fr
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
-import {WaiterSessionsService} from '../_services/waiter-sessions.service';
-
 @Component({
   template: `
     <div class="d-flex flex-column flex-sm-row gap-2">
-      <div class="flex-grow-1">
-        <div class="input-group">
-          <input class="form-control" [formControl]="filter.control" [placeholder]="'SEARCH' | transloco" type="text" />
-          @if (filter.isActive()) {
-            <button
-              class="btn btn-outline-secondary"
-              [ngbTooltip]="'CLEAR' | transloco"
-              (mousedown)="filter.reset()"
-              type="button"
-              placement="bottom"
-            >
-              <bi name="x-circle-fill" />
-            </button>
-          }
-        </div>
-      </div>
-
       <button
         class="btn btn-sm btn-outline-danger"
         [class.disabled]="!selection.hasValue()"
@@ -124,7 +105,7 @@ import {WaiterSessionsService} from '../_services/waiter-sessions.service';
 
     <app-progress-bar [show]="table.isLoading()" />
   `,
-  selector: 'app-waiter-sessions',
+  selector: 'app-event-license',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
@@ -157,7 +138,6 @@ export class WaiterSessionsComponent {
         switchMap((activeId) => this.#waiterSessionsService.getByParent$(n_from(activeId))),
       ),
     sort: this.sort,
-    filterValue$: this.filter.value$,
   });
 
   selection = injectTableSelect({

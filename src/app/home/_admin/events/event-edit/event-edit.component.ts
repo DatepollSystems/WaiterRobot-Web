@@ -1,14 +1,15 @@
-import {ChangeDetectionStrategy, Component, inject, numberAttribute} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, numberAttribute} from '@angular/core';
 
+import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {injectQueryParams} from 'ngxtension/inject-query-params';
 
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectEditEntity, injectOnDelete} from '@home-shared/form/edit';
-import {MyUserService} from '@home-shared/services/user/my-user.service';
+import {injectEditEntity, injectOnDelete, injectTabControls} from '@home-shared/form/edit';
 
 import {injectOnSubmit} from '@shared/form';
 
+import {AppWaiterEditFormComponent} from '../../../waiters/waiter-edit/waiter-edit-form.component';
 import {EventsService} from '../_services/events.service';
 import {AppEventEditFormComponent} from './event-edit-form.component';
 
@@ -23,26 +24,42 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
           <back-button />
 
           <ng-container *isEditing="entity">
-            @if (myUser()?.isAdmin) {
-              <div>
-                <button class="btn btn-sm btn-outline-danger" (mousedown)="onDelete(entity.id)" type="button">
-                  <bi name="trash" />
-                  {{ 'DELETE' | transloco }}
-                </button>
-              </div>
-            }
+            <div>
+              <button class="btn btn-sm btn-outline-danger" (mousedown)="onDelete(entity.id)" type="button">
+                <bi name="trash" />
+                {{ 'DELETE' | transloco }}
+              </button>
+            </div>
           </ng-container>
         </scrollable-toolbar>
 
         <hr />
 
-        <app-event-edit-form
-          [selectedOrganisationId]="entity !== 'CREATE' ? entity.organisationId : selectedOrganisationId()"
-          [formDisabled]="!myUser()?.isAdmin"
-          [event]="entity"
-          (submitUpdate)="onSubmit('UPDATE', $event)"
-          (submitCreate)="onSubmit('CREATE', $event)"
-        />
+        <ul
+          class="nav-tabs"
+          #nav="ngbNav"
+          [activeId]="tabControls.activeTab()"
+          (navChange)="tabControls.navigateToTab($event.nextId)"
+          ngbNav
+        >
+          <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">
+            <a ngbNavLink>{{ 'DATA' | transloco }}</a>
+            <ng-template ngbNavContent>
+              <app-event-edit-form
+                [selectedOrganisationId]="entity !== 'CREATE' ? entity.organisationId : selectedOrganisationId()"
+                [event]="entity"
+                (submitUpdate)="onSubmit('UPDATE', $event)"
+                (submitCreate)="onSubmit('CREATE', $event)"
+              />
+            </ng-template>
+          </li>
+          <li *isEditing="entity" [ngbNavItem]="'LICENSES'" [destroyOnHide]="true">
+            <a ngbNavLink>{{ 'Licenses' | transloco }}</a>
+            <ng-template ngbNavContent> Test works </ng-template>
+          </li>
+        </ul>
+
+        <div [ngbNavOutlet]="nav"></div>
       </div>
     } @else {
       <app-edit-placeholder />
@@ -50,7 +67,7 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
   `,
   selector: 'app-event-edit',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AppEntityEditModule, BiComponent, AppEventEditFormComponent],
+  imports: [AppEntityEditModule, BiComponent, AppEventEditFormComponent, NgbNav, NgbNavItem, NgbNavLink, NgbNavContent, NgbNavOutlet],
 })
 export class EventEditComponent {
   #eventsService = inject(EventsService);
@@ -62,8 +79,13 @@ export class EventEditComponent {
   onDelete = injectOnDelete((it: number) => this.#eventsService.delete$(it).subscribe());
   onSubmit = injectOnSubmit({entityService: this.#eventsService});
 
-  myUser = inject(MyUserService).user;
   selectedOrganisationId = injectQueryParams('orgId', {
     transform: numberAttribute,
+  });
+
+  tabControls = injectTabControls<'DATA' | 'LICENSES'>({
+    onlyEditingTabs: ['LICENSES'],
+    defaultTab: 'DATA',
+    isCreating: computed(() => this.entity() === 'CREATE'),
   });
 }

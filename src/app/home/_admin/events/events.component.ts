@@ -18,6 +18,7 @@ import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.c
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {ListFilterComponent, injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
 import {mapName} from '@home-shared/name-map';
+import {MyUserService} from '@home-shared/services/user/my-user.service';
 
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 

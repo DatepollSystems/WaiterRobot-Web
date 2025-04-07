@@ -7,6 +7,11 @@ body {
   background: var(--bs-body-bg);
 }
 
+a {
+  text-decoration: none;
+  color: #2196f3;
+}
+
 a:hover {
   color: #21b3f2;
   cursor: pointer;
@@ -119,8 +124,26 @@ a:hover.badge {
   position: relative !important;
 }
 
+@keyframes btnSpinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .btnSpinner:before {
-  animation: btnSpinner 0.8s linear infinite !important;
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -9px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  border-top-color: #000000;
+  animation: btnSpinner 0.8s linear infinite;
 }
 
 @media (min-width: 1800px) {

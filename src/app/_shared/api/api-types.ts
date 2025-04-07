@@ -76,7 +76,7 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations['getAll_5'];
+    get: operations['getAll'];
     put: operations['update_1'];
     post: operations['create_1'];
     delete?: never;
@@ -108,7 +108,7 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations['getAll_6'];
+    get: operations['getAll_1'];
     put: operations['update_2'];
     post: operations['create_2'];
     delete?: never;
@@ -128,7 +128,7 @@ export interface paths {
      * Get all tables by eventId or groupId
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_USER
      */
-    get: operations['getAll_7'];
+    get: operations['getAll_2'];
     /**
      * Update table
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_ADMIN
@@ -156,7 +156,7 @@ export interface paths {
      * Get table groups by eventId
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_USER
      */
-    get: operations['getAll_8'];
+    get: operations['getAll_3'];
     /**
      * Update table group
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_ADMIN
@@ -184,7 +184,7 @@ export interface paths {
      * Get all stripe accounts by organisation id
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_USER
      */
-    get: operations['getAll_9'];
+    get: operations['getAll_4'];
     /**
      * Update stripe account
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_ADMIN
@@ -212,7 +212,7 @@ export interface paths {
      * Get all products by eventId or groupId
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_USER
      */
-    get: operations['getAll_10'];
+    get: operations['getAll_5'];
     /**
      * Update product
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_ADMIN
@@ -240,7 +240,7 @@ export interface paths {
      * Get product groups by eventId
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_USER
      */
-    get: operations['getAll_11'];
+    get: operations['getAll_6'];
     /**
      * Update product group
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_ADMIN
@@ -264,7 +264,7 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations['getAll_12'];
+    get: operations['getAll_7'];
     put: operations['update_8'];
     post: operations['create_8'];
     delete?: never;
@@ -284,7 +284,7 @@ export interface paths {
      * Get all organisation, if global admin return all organisations, else user specific organisations
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_USER
      */
-    get: operations['getAll_14'];
+    get: operations['getAll_8'];
     /**
      * Update organisation
      * @description <b>Required auth:</b> INSTANCE_ADMIN
@@ -444,7 +444,7 @@ export interface paths {
      * Get all events by organisation id
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_USER
      */
-    get: operations['getAll_16'];
+    get: operations['getAll_9'];
     /**
      * Update event
      * @description <b>Required auth:</b> INSTANCE_ADMIN
@@ -501,6 +501,34 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/config/event/licence': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get licences for event
+     * @description <b>Required auth:</b> ORG_USER
+     */
+    get: operations['get'];
+    /**
+     * Update licence
+     * @description <b>Required auth:</b> INSTANCE_ADMIN
+     */
+    put: operations['update_11'];
+    /**
+     * Add licence for event
+     * @description <b>Required auth:</b> INSTANCE_ADMIN
+     */
+    post: operations['add'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/config/billing/unpaid': {
     parameters: {
       query?: never;
@@ -512,12 +540,12 @@ export interface paths {
      * Get all bill unpaid reasons
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_USER
      */
-    get: operations['getAll_18'];
+    get: operations['getAll_10'];
     /**
      * Update bill unpaid reason
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_ADMIN
      */
-    put: operations['update_11'];
+    put: operations['update_12'];
     /**
      * Create bill unpaid reason
      * @description <b>Required auth:</b> ORG_ADMIN | INSTANCE_ADMIN
@@ -536,8 +564,8 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations['getAll_19'];
-    put: operations['update_12'];
+    get: operations['getAll_11'];
+    put: operations['update_13'];
     post: operations['create_12'];
     delete?: never;
     options?: never;
@@ -1005,7 +1033,7 @@ export interface paths {
      * Get all tables by eventId
      * @description <b>Required auth:</b> WAITER
      */
-    get: operations['getAll'];
+    get: operations['getAll_12'];
     put?: never;
     post?: never;
     delete?: never;
@@ -1041,7 +1069,7 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations['getAll_1'];
+    get: operations['getAll_13'];
     put?: never;
     post?: never;
     delete?: never;
@@ -1307,7 +1335,7 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations['getAll_2'];
+    get: operations['getAll_14'];
     put?: never;
     post?: never;
     delete?: never;
@@ -1420,7 +1448,7 @@ export interface paths {
       cookie?: never;
     };
     /** Get all system notifications for editing */
-    get: operations['getAll_3'];
+    get: operations['getAll_15'];
     put?: never;
     post?: never;
     delete?: never;
@@ -1436,7 +1464,7 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations['getAll_4'];
+    get: operations['getAll_16'];
     put?: never;
     post?: never;
     delete?: never;
@@ -1486,10 +1514,10 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations['get'];
+    get: operations['get_1'];
     put?: never;
     post?: never;
-    delete: operations['delete_1'];
+    delete: operations['delete'];
     options?: never;
     head?: never;
     patch?: never;
@@ -1570,10 +1598,10 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations['get_1'];
+    get: operations['get_2'];
     put?: never;
     post?: never;
-    delete: operations['delete_2'];
+    delete: operations['delete_1'];
     options?: never;
     head?: never;
     patch?: never;
@@ -1633,7 +1661,7 @@ export interface paths {
      * Delete table
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_ADMIN
      */
-    delete: operations['delete_3'];
+    delete: operations['delete_2'];
     options?: never;
     head?: never;
     patch?: never;
@@ -1650,14 +1678,14 @@ export interface paths {
      * Get table group by id
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_USER
      */
-    get: operations['get_2'];
+    get: operations['get_3'];
     put?: never;
     post?: never;
     /**
      * Delete table group
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_ADMIN
      */
-    delete: operations['delete_4'];
+    delete: operations['delete_3'];
     options?: never;
     head?: never;
     patch?: never;
@@ -1737,7 +1765,7 @@ export interface paths {
      * Delete stripe account
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_ADMIN
      */
-    delete: operations['delete_5'];
+    delete: operations['delete_4'];
     options?: never;
     head?: never;
     patch?: never;
@@ -1841,7 +1869,7 @@ export interface paths {
      * Delete product
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_ADMIN
      */
-    delete: operations['delete_6'];
+    delete: operations['delete_5'];
     options?: never;
     head?: never;
     patch?: never;
@@ -1858,14 +1886,14 @@ export interface paths {
      * Get product group by id
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_USER
      */
-    get: operations['get_3'];
+    get: operations['get_4'];
     put?: never;
     post?: never;
     /**
      * Delete product group
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_ADMIN
      */
-    delete: operations['delete_7'];
+    delete: operations['delete_6'];
     options?: never;
     head?: never;
     patch?: never;
@@ -1901,7 +1929,7 @@ export interface paths {
     get: operations['getSingle_7'];
     put?: never;
     post?: never;
-    delete: operations['delete_8'];
+    delete: operations['delete_7'];
     options?: never;
     head?: never;
     patch?: never;
@@ -1914,7 +1942,7 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations['getAll_13'];
+    get: operations['getAll_17'];
     put?: never;
     post?: never;
     delete?: never;
@@ -1954,14 +1982,14 @@ export interface paths {
      * Get organisation
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_USER
      */
-    get: operations['get_4'];
+    get: operations['get_5'];
     put?: never;
     post?: never;
     /**
      * Delete organisation
      * @description <b>Required auth:</b> INSTANCE_ADMIN
      */
-    delete: operations['delete_9'];
+    delete: operations['delete_8'];
     options?: never;
     head?: never;
     patch?: never;
@@ -2134,7 +2162,7 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations['getAll_15'];
+    get: operations['getAll_18'];
     put?: never;
     post?: never;
     delete?: never;
@@ -2194,14 +2222,14 @@ export interface paths {
      * Get single event by id
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_USER
      */
-    get: operations['get_5'];
+    get: operations['get_6'];
     put?: never;
     post?: never;
     /**
      * Delete event
      * @description <b>Required auth:</b> INSTANCE_ADMIN
      */
-    delete: operations['delete_10'];
+    delete: operations['delete_9'];
     options?: never;
     head?: never;
     patch?: never;
@@ -2218,7 +2246,7 @@ export interface paths {
      * Get all dead letters
      * @description <b>Required auth:</b> INSTANCE_ADMIN
      */
-    get: operations['getAll_17'];
+    get: operations['getAll_19'];
     put?: never;
     post?: never;
     delete?: never;
@@ -2285,7 +2313,7 @@ export interface paths {
      * Delete bill unpaid reason
      * @description <b>Required auth:</b> INSTANCE_ADMIN | ORG_ADMIN
      */
-    delete: operations['delete_12'];
+    delete: operations['delete_10'];
     options?: never;
     head?: never;
     patch?: never;
@@ -2349,7 +2377,7 @@ export interface paths {
     get?: never;
     put?: never;
     post?: never;
-    delete: operations['delete'];
+    delete: operations['delete_11'];
     options?: never;
     head?: never;
     patch?: never;
@@ -2523,6 +2551,26 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/v1/config/event/licence/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /**
+     * Delete licence
+     * @description <b>Required auth:</b> INSTANCE_ADMIN
+     */
+    delete: operations['delete_12'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/v1/config/dead-letter/{id}': {
     parameters: {
       query?: never;
@@ -2537,7 +2585,7 @@ export interface paths {
      * Delete dead letter
      * @description <b>Required auth:</b> INSTANCE_ADMIN
      */
-    delete: operations['delete_11'];
+    delete: operations['delete_13'];
     options?: never;
     head?: never;
     patch?: never;
@@ -2553,7 +2601,7 @@ export interface paths {
     get?: never;
     put?: never;
     post?: never;
-    delete: operations['delete_13'];
+    delete: operations['delete_14'];
     options?: never;
     head?: never;
     patch?: never;
@@ -2740,6 +2788,15 @@ export interface components {
       /** Format: date-time */
       endDate?: string;
       updateWaiterCreateToken?: boolean;
+    };
+    UpdateEventLicenceDto: {
+      /** Format: int64 */
+      licenceId: number;
+      /** Format: date-time */
+      startDate: string;
+      /** Format: date-time */
+      endDate: string;
+      note?: string;
     };
     UpdateBillUnpaidReasonDto: {
       /** Format: int64 */
@@ -3058,6 +3115,15 @@ export interface components {
       /** Format: int64 */
       organisationId: number;
     };
+    AddEventLicenceDto: {
+      /** Format: int64 */
+      eventId: number;
+      /** Format: date-time */
+      startDate: string;
+      /** Format: date-time */
+      endDate: string;
+      note?: string;
+    };
     CreateBillUnpaidReasonDto: {
       reason: string;
       description: string;
@@ -3105,8 +3171,16 @@ export interface components {
       number: number;
       /** Format: int32 */
       seats: number;
-      /** Format: int64 */
+      /**
+       * Format: int64
+       * @deprecated
+       * @description Please use the 'group.id' property
+       */
       groupId: number;
+      /**
+       * @deprecated
+       * @description Please use the 'group.name' property
+       */
       groupName: string;
       group: components['schemas']['GetTableGroupMinResponse'];
       /** Format: int64 */
@@ -3219,10 +3293,15 @@ export interface components {
       /** Format: int32 */
       stripeMinAmount?: number;
       stripeLocationId?: string;
+      /**
+       * @deprecated
+       * @description Please use 'startDate' or 'endDate' property
+       */
       date?: string;
       /** Format: date-time */
       deleted?: string;
       isDemo: boolean;
+      hasValidLicence: boolean;
     };
     GetBillForTableResponseV1: {
       /** Format: int64 */
@@ -3527,6 +3606,29 @@ export interface components {
       /** Format: date-time */
       agreedOnAt: string;
     };
+    EventLicencesResponse: {
+      /** Format: int64 */
+      eventId: number;
+      licences: components['schemas']['License'][];
+      ranges: components['schemas']['Range'][];
+      hasCurrentValidLicence: boolean;
+    };
+    License: {
+      /** Format: int64 */
+      id: number;
+      /** Format: date-time */
+      start: string;
+      /** Format: date-time */
+      end: string;
+      /** Format: int64 */
+      hours: number;
+    };
+    Range: {
+      /** Format: date-time */
+      startDate: string;
+      /** Format: date-time */
+      endDate: string;
+    };
     DeadLetterResponse: {
       /** Format: int64 */
       id: number;
@@ -3699,7 +3801,7 @@ export interface operations {
       };
     };
   };
-  getAll_5: {
+  getAll: {
     parameters: {
       query?: {
         organisationId?: number;
@@ -3792,7 +3894,7 @@ export interface operations {
       };
     };
   };
-  getAll_6: {
+  getAll_1: {
     parameters: {
       query?: never;
       header?: never;
@@ -3860,7 +3962,7 @@ export interface operations {
       };
     };
   };
-  getAll_7: {
+  getAll_2: {
     parameters: {
       query?: {
         eventId?: number;
@@ -3931,7 +4033,7 @@ export interface operations {
       };
     };
   };
-  getAll_8: {
+  getAll_3: {
     parameters: {
       query: {
         eventId: number;
@@ -4001,7 +4103,7 @@ export interface operations {
       };
     };
   };
-  getAll_9: {
+  getAll_4: {
     parameters: {
       query: {
         organisationId: number;
@@ -4071,7 +4173,7 @@ export interface operations {
       };
     };
   };
-  getAll_10: {
+  getAll_5: {
     parameters: {
       query?: {
         eventId?: number;
@@ -4142,7 +4244,7 @@ export interface operations {
       };
     };
   };
-  getAll_11: {
+  getAll_6: {
     parameters: {
       query: {
         eventId: number;
@@ -4212,7 +4314,7 @@ export interface operations {
       };
     };
   };
-  getAll_12: {
+  getAll_7: {
     parameters: {
       query: {
         eventId: number;
@@ -4282,7 +4384,7 @@ export interface operations {
       };
     };
   };
-  getAll_14: {
+  getAll_8: {
     parameters: {
       query?: never;
       header?: never;
@@ -4564,7 +4666,7 @@ export interface operations {
       };
     };
   };
-  getAll_16: {
+  getAll_9: {
     parameters: {
       query: {
         organisationId: number;
@@ -4676,7 +4778,77 @@ export interface operations {
       };
     };
   };
-  getAll_18: {
+  get: {
+    parameters: {
+      query: {
+        eventId: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['EventLicencesResponse'];
+        };
+      };
+    };
+  };
+  update_11: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateEventLicenceDto'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['IdResponse'];
+        };
+      };
+    };
+  };
+  add: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['AddEventLicenceDto'];
+      };
+    };
+    responses: {
+      /** @description Created */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['IdResponse'];
+        };
+      };
+    };
+  };
+  getAll_10: {
     parameters: {
       query: {
         eventId: number;
@@ -4698,7 +4870,7 @@ export interface operations {
       };
     };
   };
-  update_11: {
+  update_12: {
     parameters: {
       query?: never;
       header?: never;
@@ -4746,7 +4918,7 @@ export interface operations {
       };
     };
   };
-  getAll_19: {
+  getAll_11: {
     parameters: {
       query?: never;
       header?: never;
@@ -4766,7 +4938,7 @@ export interface operations {
       };
     };
   };
-  update_12: {
+  update_13: {
     parameters: {
       query?: never;
       header?: never;
@@ -5473,7 +5645,7 @@ export interface operations {
       };
     };
   };
-  getAll: {
+  getAll_12: {
     parameters: {
       query: {
         eventId: number;
@@ -5517,7 +5689,7 @@ export interface operations {
       };
     };
   };
-  getAll_1: {
+  getAll_13: {
     parameters: {
       query: {
         eventId: number;
@@ -5847,7 +6019,7 @@ export interface operations {
       };
     };
   };
-  getAll_2: {
+  getAll_14: {
     parameters: {
       query?: never;
       header?: never;
@@ -5989,7 +6161,7 @@ export interface operations {
       };
     };
   };
-  getAll_3: {
+  getAll_15: {
     parameters: {
       query?: never;
       header?: never;
@@ -6009,7 +6181,7 @@ export interface operations {
       };
     };
   };
-  getAll_4: {
+  getAll_16: {
     parameters: {
       query?: never;
       header?: never;
@@ -6073,7 +6245,7 @@ export interface operations {
       };
     };
   };
-  get: {
+  get_1: {
     parameters: {
       query?: never;
       header?: never;
@@ -6095,7 +6267,7 @@ export interface operations {
       };
     };
   };
-  delete_1: {
+  delete: {
     parameters: {
       query?: never;
       header?: never;
@@ -6209,7 +6381,7 @@ export interface operations {
       };
     };
   };
-  get_1: {
+  get_2: {
     parameters: {
       query?: never;
       header?: never;
@@ -6231,7 +6403,7 @@ export interface operations {
       };
     };
   };
-  delete_2: {
+  delete_1: {
     parameters: {
       query?: never;
       header?: never;
@@ -6317,7 +6489,7 @@ export interface operations {
       };
     };
   };
-  delete_3: {
+  delete_2: {
     parameters: {
       query?: never;
       header?: never;
@@ -6337,7 +6509,7 @@ export interface operations {
       };
     };
   };
-  get_2: {
+  get_3: {
     parameters: {
       query?: never;
       header?: never;
@@ -6359,7 +6531,7 @@ export interface operations {
       };
     };
   };
-  delete_4: {
+  delete_3: {
     parameters: {
       query?: never;
       header?: never;
@@ -6474,7 +6646,7 @@ export interface operations {
       };
     };
   };
-  delete_5: {
+  delete_4: {
     parameters: {
       query?: never;
       header?: never;
@@ -6631,7 +6803,7 @@ export interface operations {
       };
     };
   };
-  delete_6: {
+  delete_5: {
     parameters: {
       query?: never;
       header?: never;
@@ -6651,7 +6823,7 @@ export interface operations {
       };
     };
   };
-  get_3: {
+  get_4: {
     parameters: {
       query?: never;
       header?: never;
@@ -6673,7 +6845,7 @@ export interface operations {
       };
     };
   };
-  delete_7: {
+  delete_6: {
     parameters: {
       query?: never;
       header?: never;
@@ -6743,7 +6915,7 @@ export interface operations {
       };
     };
   };
-  delete_8: {
+  delete_7: {
     parameters: {
       query?: never;
       header?: never;
@@ -6763,7 +6935,7 @@ export interface operations {
       };
     };
   };
-  getAll_13: {
+  getAll_17: {
     parameters: {
       query?: never;
       header?: never;
@@ -6811,7 +6983,7 @@ export interface operations {
       };
     };
   };
-  get_4: {
+  get_5: {
     parameters: {
       query?: never;
       header?: never;
@@ -6833,7 +7005,7 @@ export interface operations {
       };
     };
   };
-  delete_9: {
+  delete_8: {
     parameters: {
       query?: never;
       header?: never;
@@ -7062,7 +7234,7 @@ export interface operations {
       };
     };
   };
-  getAll_15: {
+  getAll_18: {
     parameters: {
       query: {
         organisationId: number;
@@ -7126,7 +7298,7 @@ export interface operations {
       };
     };
   };
-  get_5: {
+  get_6: {
     parameters: {
       query?: never;
       header?: never;
@@ -7148,7 +7320,7 @@ export interface operations {
       };
     };
   };
-  delete_10: {
+  delete_9: {
     parameters: {
       query?: never;
       header?: never;
@@ -7168,7 +7340,7 @@ export interface operations {
       };
     };
   };
-  getAll_17: {
+  getAll_19: {
     parameters: {
       query?: never;
       header?: never;
@@ -7266,7 +7438,7 @@ export interface operations {
       };
     };
   };
-  delete_12: {
+  delete_10: {
     parameters: {
       query?: never;
       header?: never;
@@ -7348,7 +7520,7 @@ export interface operations {
       };
     };
   };
-  delete: {
+  delete_11: {
     parameters: {
       query?: never;
       header?: never;
@@ -7548,7 +7720,7 @@ export interface operations {
       };
     };
   };
-  delete_11: {
+  delete_12: {
     parameters: {
       query?: never;
       header?: never;
@@ -7569,6 +7741,26 @@ export interface operations {
     };
   };
   delete_13: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  delete_14: {
     parameters: {
       query?: never;
       header?: never;
