@@ -9,9 +9,9 @@ import {injectEditEntity, injectOnDelete, injectTabControls} from '@home-shared/
 
 import {injectOnSubmit} from '@shared/form';
 
-import {AppWaiterEditFormComponent} from '../../../waiters/waiter-edit/waiter-edit-form.component';
 import {EventsService} from '../_services/events.service';
 import {AppEventEditFormComponent} from './event-edit-form.component';
+import {EventLicencesComponent} from './event-licences.component';
 
 @Component({
   template: `
@@ -55,7 +55,9 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
           </li>
           <li *isEditing="entity" [ngbNavItem]="'LICENSES'" [destroyOnHide]="true">
             <a ngbNavLink>{{ 'Licenses' | transloco }}</a>
-            <ng-template ngbNavContent> Test works </ng-template>
+            <ng-template ngbNavContent>
+              <app-event-licences />
+            </ng-template>
           </li>
         </ul>
 
@@ -67,7 +69,17 @@ import {AppEventEditFormComponent} from './event-edit-form.component';
   `,
   selector: 'app-event-edit',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AppEntityEditModule, BiComponent, AppEventEditFormComponent, NgbNav, NgbNavItem, NgbNavLink, NgbNavContent, NgbNavOutlet],
+  imports: [
+    AppEntityEditModule,
+    BiComponent,
+    AppEventEditFormComponent,
+    NgbNav,
+    NgbNavItem,
+    NgbNavLink,
+    NgbNavContent,
+    NgbNavOutlet,
+    EventLicencesComponent,
+  ],
 })
 export class EventEditComponent {
   #eventsService = inject(EventsService);
