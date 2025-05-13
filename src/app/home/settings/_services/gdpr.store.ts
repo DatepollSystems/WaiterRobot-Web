@@ -4,7 +4,7 @@ import {filter, pipe, switchMap, tap} from 'rxjs';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {tapResponse} from '@ngrx/operators';
-import {patchState, signalStore, withMethods, withState} from '@ngrx/signals';
+import {patchState, signalStore, withMethods} from '@ngrx/signals';
 import {setAllEntities} from '@ngrx/signals/entities';
 import {rxMethod} from '@ngrx/signals/rxjs-interop';
 
@@ -22,7 +22,6 @@ export const GDPRStore = signalStore(
   withTable<BackendType['GdprDocumentPreviewResponse']>({
     columnsToDisplay: ['agreedOnAt', 'agreedOnBy'],
   }),
-  withState({}),
   withMethods((store, api = injectAPI(), modal = inject(NgbModal), selectedOrganisationService = inject(SelectedOrganisationService)) => ({
     newAgreement: rxMethod<void>(
       pipe(
