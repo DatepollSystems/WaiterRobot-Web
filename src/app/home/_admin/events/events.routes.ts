@@ -15,4 +15,8 @@ export const ROUTES: Routes = [
     path: 'e/:id',
     loadComponent: () => import('./event-edit/event-edit.component').then((c) => c.EventEditComponent),
   },
+  {
+    path: 'l/:id',
+    loadComponent: () => import('./event-edit/event-edit.component').then((c) => c.EventEditComponent),
+  },
 ];
