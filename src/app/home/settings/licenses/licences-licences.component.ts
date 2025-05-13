@@ -8,48 +8,57 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {StopPropagationDirective} from 'dfx-helper';
 
+import {MyUserService} from '@home-shared/services/user/my-user.service';
+
 import {EventLicencesLicencesStore} from '../_services/event-licences.store';
 
 @Component({
   template: `
-    <div class="d-flex gap-2">
-      <div>
-        <a class="btn btn-sm btn-outline-success" routerLink="../../l/new" type="button">
-          <bi name="plus-circle" />
-          {{ 'ADD_2' | transloco }}
-        </a>
+    @let isAdmin = myUserService.user()?.isAdmin;
+    @if (isAdmin) {
+      <div class="d-flex gap-2 mb-2">
+        <div>
+          <a class="btn btn-sm btn-outline-success" routerLink="new" type="button">
+            <bi name="plus-circle" />
+            {{ 'ADD_2' | transloco }}
+          </a>
+        </div>
+        <div>
+          <button class="btn btn-sm btn-outline-danger" [class.disabled]="!eventLicencesLicencesStore.hasValue()" type="button">
+            <bi name="trash" />
+            {{ 'DELETE' | transloco }}
+          </button>
+        </div>
       </div>
-      <div>
-        <button class="btn btn-sm btn-outline-danger" [class.disabled]="!eventLicencesLicencesStore.hasValue()" type="button">
-          <bi name="trash" />
-          {{ 'DELETE' | transloco }}
-        </button>
-      </div>
-    </div>
+    }
     <div class="table-responsive">
       <table [hover]="true" [dataSource]="eventLicencesLicencesStore.dataSource()" ngb-table ngb-sort ngbSortDirection="desc">
         <ng-container ngbColumnDef="select">
           <th *ngbHeaderCellDef ngb-header-cell>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                [checked]="eventLicencesLicencesStore.isAllSelected()"
-                (change)="eventLicencesLicencesStore.toggleAll()"
-                type="checkbox"
-                name="checked"
-              />
-            </div>
+            @if (isAdmin) {
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  [checked]="eventLicencesLicencesStore.isAllSelected()"
+                  (change)="eventLicencesLicencesStore.toggleAll()"
+                  type="checkbox"
+                  name="checked"
+                />
+              </div>
+            }
           </th>
           <td *ngbCellDef="let selectable" ngb-cell stopPropagation>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                [checked]="eventLicencesLicencesStore.isSelected(selectable)"
-                (change)="eventLicencesLicencesStore.toggle(selectable, !eventLicencesLicencesStore.isSelected(selectable))"
-                type="checkbox"
-                name="checked"
-              />
-            </div>
+            @if (isAdmin) {
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  [checked]="eventLicencesLicencesStore.isSelected(selectable)"
+                  (change)="eventLicencesLicencesStore.toggle(selectable, !eventLicencesLicencesStore.isSelected(selectable))"
+                  type="checkbox"
+                  name="checked"
+                />
+              </div>
+            }
           </td>
         </ng-container>
 
@@ -57,7 +66,9 @@ import {EventLicencesLicencesStore} from '../_services/event-licences.store';
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
             {{ 'Start' | transloco }}
           </th>
-          <td *ngbCellDef="let licence" ngb-cell>{{ licence.start }}</td>
+          <td *ngbCellDef="let licence" ngb-cell>
+            {{ licence.start | date: 'YYYY.MM.dd - HH:mm:ss' }}
+          </td>
         </ng-container>
 
         <ng-container ngbColumnDef="end">
@@ -78,6 +89,15 @@ import {EventLicencesLicencesStore} from '../_services/event-licences.store';
           </td>
         </ng-container>
 
+        <ng-container ngbColumnDef="note">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+            {{ 'Note' | transloco }}
+          </th>
+          <td *ngbCellDef="let licence" ngb-cell>
+            {{ licence.note }}
+          </td>
+        </ng-container>
+
         <tr *ngbHeaderRowDef="eventLicencesLicencesStore.columnsToDisplay()" ngb-header-row></tr>
         <tr *ngbRowDef="let session; columns: eventLicencesLicencesStore.columnsToDisplay()" ngb-row></tr>
       </table>
@@ -91,7 +111,8 @@ import {EventLicencesLicencesStore} from '../_services/event-licences.store';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, DatePipe, DfxTableModule, DfxSortModule, TranslocoPipe, BiComponent, StopPropagationDirective, RouterLink],
 })
-export class EventLicencesLicencesComponent {
+export class LicencesLicencesComponent {
+  myUserService = inject(MyUserService);
   eventLicencesLicencesStore = inject(EventLicencesLicencesStore);
 
   sort = viewChild(NgbSort);

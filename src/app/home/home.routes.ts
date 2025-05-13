@@ -137,6 +137,11 @@ export const ROUTES: Routes = [
         title: 'NAV_STATISTICS',
         loadChildren: () => import('./statistics/statistics.module').then((m) => m.StatisticsModule),
       },
+      {
+        path: 'settings',
+        title: 'SETTINGS',
+        loadChildren: () => import('./settings/settings.routes').then((m) => m.EVENT_ROUTES),
+      },
     ],
   },
 ];

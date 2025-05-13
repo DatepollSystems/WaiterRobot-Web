@@ -1,17 +1,15 @@
-import {ChangeDetectionStrategy, Component, computed, inject, numberAttribute} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, numberAttribute} from '@angular/core';
 
-import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLink, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {injectQueryParams} from 'ngxtension/inject-query-params';
 
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectEditEntity, injectOnDelete, injectTabControls} from '@home-shared/form/edit';
+import {injectEditEntity, injectOnDelete} from '@home-shared/form/edit';
 
 import {injectOnSubmit} from '@shared/form';
 
 import {EventsService} from '../_services/events.service';
 import {AppEventEditFormComponent} from './event-edit-form.component';
-import {EventLicencesComponent} from './event-licences.component';
 
 @Component({
   template: `
@@ -35,33 +33,12 @@ import {EventLicencesComponent} from './event-licences.component';
 
         <hr />
 
-        <ul
-          class="nav-tabs"
-          #nav="ngbNav"
-          [activeId]="tabControls.activeTab()"
-          (navChange)="tabControls.navigateToTab($event.nextId)"
-          ngbNav
-        >
-          <li [ngbNavItem]="'DATA'" [destroyOnHide]="false">
-            <a ngbNavLink>{{ 'DATA' | transloco }}</a>
-            <ng-template ngbNavContent>
-              <app-event-edit-form
-                [selectedOrganisationId]="entity !== 'CREATE' ? entity.organisationId : selectedOrganisationId()"
-                [event]="entity"
-                (submitUpdate)="onSubmit('UPDATE', $event)"
-                (submitCreate)="onSubmit('CREATE', $event)"
-              />
-            </ng-template>
-          </li>
-          <li *isEditing="entity" [ngbNavItem]="'LICENSES'" [destroyOnHide]="true">
-            <a ngbNavLink>{{ 'Licenses' | transloco }}</a>
-            <ng-template ngbNavContent>
-              <app-event-licences />
-            </ng-template>
-          </li>
-        </ul>
-
-        <div [ngbNavOutlet]="nav"></div>
+        <app-event-edit-form
+          [selectedOrganisationId]="entity !== 'CREATE' ? entity.organisationId : selectedOrganisationId()"
+          [event]="entity"
+          (submitUpdate)="onSubmit('UPDATE', $event)"
+          (submitCreate)="onSubmit('CREATE', $event)"
+        />
       </div>
     } @else {
       <app-edit-placeholder />
@@ -69,17 +46,7 @@ import {EventLicencesComponent} from './event-licences.component';
   `,
   selector: 'app-event-edit',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    AppEntityEditModule,
-    BiComponent,
-    AppEventEditFormComponent,
-    NgbNav,
-    NgbNavItem,
-    NgbNavLink,
-    NgbNavContent,
-    NgbNavOutlet,
-    EventLicencesComponent,
-  ],
+  imports: [AppEntityEditModule, BiComponent, AppEventEditFormComponent],
 })
 export class EventEditComponent {
   #eventsService = inject(EventsService);
@@ -93,11 +60,5 @@ export class EventEditComponent {
 
   selectedOrganisationId = injectQueryParams('orgId', {
     transform: numberAttribute,
-  });
-
-  tabControls = injectTabControls<'DATA' | 'LICENSES'>({
-    onlyEditingTabs: ['LICENSES'],
-    defaultTab: 'DATA',
-    isCreating: computed(() => this.entity() === 'CREATE'),
   });
 }

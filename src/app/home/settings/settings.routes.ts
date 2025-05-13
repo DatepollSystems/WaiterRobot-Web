@@ -9,4 +9,15 @@ export const ROUTES: Routes = [
     path: 'gdpr',
     loadComponent: () => import('./gdpr/gdpr-list').then((m) => m.GDPRList),
   },
+  {
+    path: 'licenses',
+    loadComponent: () => import('./licenses/licences.component').then((c) => c.LicencesComponent),
+  },
+];
+
+export const EVENT_ROUTES: Routes = [
+  {
+    path: 'licenses',
+    loadComponent: () => import('./licenses/licences.component').then((c) => c.LicencesComponent),
+  },
 ];

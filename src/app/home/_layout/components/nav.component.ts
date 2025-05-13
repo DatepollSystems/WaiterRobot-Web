@@ -209,6 +209,14 @@ import {SwitcherModalComponent} from './switcher.component';
               >{{ 'NAV_SETTINGS_GDPR' | transloco }}</a
             >
           </li>
+          <li>
+            <a
+              class="d-inline-block rounded"
+              [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/settings/licenses'"
+              routerLinkActive="active"
+              >{{ 'Licenses' | transloco }}</a
+            >
+          </li>
         </ul>
       </li>
     </ul>

@@ -15,7 +15,9 @@ import {EventLicencesRangesStore} from '../_services/event-licences.store';
           <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
             {{ 'Start' | transloco }}
           </th>
-          <td *ngbCellDef="let licence" ngb-cell>{{ licence.start }}</td>
+          <td *ngbCellDef="let licence" ngb-cell>
+            {{ licence.startDate | date: 'YYYY.MM.dd - HH:mm:ss' }}
+          </td>
         </ng-container>
 
         <ng-container ngbColumnDef="endDate">
@@ -23,7 +25,7 @@ import {EventLicencesRangesStore} from '../_services/event-licences.store';
             {{ 'End' | transloco }}
           </th>
           <td *ngbCellDef="let licence" ngb-cell>
-            {{ licence.end | date: 'YYYY.MM.dd - HH:mm:ss' }}
+            {{ licence.endDate | date: 'YYYY.MM.dd - HH:mm:ss' }}
           </td>
         </ng-container>
 
@@ -32,13 +34,15 @@ import {EventLicencesRangesStore} from '../_services/event-licences.store';
       </table>
     </div>
 
-    <div class="w-100 text-center">Keine Lizenzen verfügbar.</div>
+    @if (eventLicencesRangesStore.isEmpty()) {
+      <div class="w-100 text-center">Keine Lizenzen verfügbar.</div>
+    }
   `,
   selector: 'app-event-licences-ranges',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, DatePipe, DfxTableModule, DfxSortModule, TranslocoPipe],
 })
-export class EventLicencesRangesComponent {
+export class LicencesRangesComponent {
   eventLicencesRangesStore = inject(EventLicencesRangesStore);
 
   sort = viewChild(NgbSort);

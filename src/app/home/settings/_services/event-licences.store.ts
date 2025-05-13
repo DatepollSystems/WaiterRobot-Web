@@ -14,12 +14,16 @@ import {withSelectionTable, withTable} from '@shared/api/table.feature';
 
 export const EventLicensesStore = signalStore(
   {providedIn: 'root'},
-  withState<{response: BackendType['EventLicencesResponse'] | undefined}>({response: undefined}),
+  withState<{
+    eventId: number | undefined;
+    response: BackendType['EventLicencesResponse'] | undefined;
+    license: BackendType['EventLicencesResponse']['licences'][0] | undefined;
+  }>({response: undefined, license: undefined, eventId: undefined}),
   withRequestStatus(),
-  withMethods((store, api = injectAPI(), modal = inject(NgbModal)) => ({
-    load: rxMethod<number | null>(
+  withMethods((store, api = injectAPI(), modal = inject(NgbModal)) => {
+    const load = rxMethod<number | undefined>(
       pipe(
-        tap(() => patchState(store, setPending())),
+        tap((eventId) => patchState(store, setPending(), () => ({eventId}))),
         filter((it): it is number => !!it),
         switchMap((eventId) =>
           api.get('/v1/config/event/licence', {params: {query: {eventId}}}).pipe(
@@ -30,14 +34,68 @@ export const EventLicensesStore = signalStore(
           ),
         ),
       ),
-    ),
-  })),
+    );
+    return {
+      load,
+      loadSingle: rxMethod<number>(
+        tap((id) => patchState(store, ({response}) => ({license: response?.licences?.find((it) => it.id === id)}))),
+      ),
+      create: rxMethod<BackendType['AddEventLicenceDto']>(
+        pipe(
+          tap(() => patchState(store, setPending())),
+          switchMap((body) =>
+            api.post('/v1/config/event/licence', {body}).pipe(
+              tapResponse({
+                next: () => {
+                  patchState(store, setFulfilled());
+                  load(store.eventId());
+                },
+                error: (error) => patchState(store, setError(error)),
+              }),
+            ),
+          ),
+        ),
+      ),
+      update: rxMethod<BackendType['UpdateEventLicenceDto']>(
+        pipe(
+          tap(() => patchState(store, setPending())),
+          switchMap((body) =>
+            api.put('/v1/config/event/licence', {body}).pipe(
+              tapResponse({
+                next: () => {
+                  patchState(store, setFulfilled());
+                  load(store.eventId());
+                },
+                error: (error) => patchState(store, setError(error)),
+              }),
+            ),
+          ),
+        ),
+      ),
+      delete: rxMethod<number>(
+        pipe(
+          tap(() => patchState(store, setPending())),
+          switchMap((id) =>
+            api.delete('/v1/config/event/licence/{id}', {params: {path: {id}}}).pipe(
+              tapResponse({
+                next: () => {
+                  patchState(store, setFulfilled());
+                  load(store.eventId());
+                },
+                error: (error) => patchState(store, setError(error)),
+              }),
+            ),
+          ),
+        ),
+      ),
+    };
+  }),
 );
 
 export const EventLicencesLicencesStore = signalStore(
   {providedIn: 'root'},
   withSelectionTable<BackendType['EventLicencesResponse']['licences'][0]>({
-    columnsToDisplay: ['start', 'end', 'hours'],
+    columnsToDisplay: ['start', 'end', 'hours', 'note'],
   }),
   withMethods((store) => ({
     setAllEntities(entities: BackendType['EventLicencesResponse']['licences']) {
