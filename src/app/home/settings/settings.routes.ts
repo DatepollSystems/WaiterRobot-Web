@@ -9,15 +9,25 @@ export const ROUTES: Routes = [
     path: 'gdpr',
     loadComponent: () => import('./gdpr/gdpr-list').then((m) => m.GDPRList),
   },
-  {
-    path: 'licenses',
-    loadComponent: () => import('./licenses/licences.component').then((c) => c.LicencesComponent),
-  },
 ];
 
 export const EVENT_ROUTES: Routes = [
   {
     path: 'licenses',
-    loadComponent: () => import('./licenses/licences.component').then((c) => c.LicencesComponent),
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        loadComponent: () => import('./licenses/licences.component').then((c) => c.LicencesComponent),
+      },
+      {
+        path: ':id',
+        loadComponent: () => import('./licenses/license-edit/license-edit.component').then((c) => c.LicenseEditComponent),
+      },
+      {
+        path: 'new',
+        loadComponent: () => import('./licenses/license-edit/license-edit.component').then((c) => c.LicenseEditComponent),
+      },
+    ],
   },
 ];

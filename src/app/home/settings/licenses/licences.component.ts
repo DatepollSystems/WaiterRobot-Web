@@ -3,7 +3,7 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {SelectedEventService} from '@shared/services';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
-import {EventLicencesRangesStore, EventLicensesStore} from '../_services/event-licences.store';
+import {EventLicencesRangesStore, EventLicencesStore} from '../_services/event-licences.store';
 import {LicencesLicencesComponent} from './licences-licences.component';
 import {LicencesRangesComponent} from './licences-ranges.component';
 
@@ -28,7 +28,7 @@ import {LicencesRangesComponent} from './licences-ranges.component';
   imports: [AppProgressBarComponent, LicencesLicencesComponent, LicencesRangesComponent],
 })
 export class LicencesComponent {
-  eventLicencesStore = inject(EventLicensesStore);
+  eventLicencesStore = inject(EventLicencesStore);
   eventLicencesRangesStore = inject(EventLicencesRangesStore);
 
   #activeId = inject(SelectedEventService).selectedId;

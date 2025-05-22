@@ -38,6 +38,11 @@ import {injectIsValid} from '@shared/form';
         </div>
       </div>
 
+      <div class="form-floating">
+        <textarea class="form-control" id="note" formControlName="note" placeholder="Leave a note here" style="height: 100px"></textarea>
+        <label for="note">Note</label>
+      </div>
+
       <app-model-edit-save-btn [valid]="isValid()" [creating]="isCreating()" />
     </form>
   `,
@@ -46,13 +51,13 @@ import {injectIsValid} from '@shared/form';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppLicenseEditFormComponent extends AbstractModelEditFormComponent<
-  BackendType['CreateEventOrLocationDto'],
-  BackendType['UpdateEventOrLocationDto']
+  BackendType['AddEventLicenceDto'],
+  BackendType['UpdateEventLicenceDto']
 > {
   override form = this.fb.nonNullable.group({
     startDate: new FormControl<string | null>(null),
     endDate: new FormControl<string | null>(null),
-    note: ['', [Validators.minLength(0), Validators.maxLength(255)]],
+    note: [null as string | null, [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
     eventId: [-1, [Validators.required, Validators.min(0)]],
     id: [-1],
   });
@@ -60,21 +65,21 @@ export class AppLicenseEditFormComponent extends AbstractModelEditFormComponent<
   isValid = injectIsValid(this.form);
 
   @Input()
-  set license(it: BackendType['GetEventOrLocationResponse'] | 'CREATE') {
+  set license(it: BackendType['EventLicencesResponse']['licences'][0] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;
     }
 
     this.form.patchValue({
-      startDate: it.startDate,
-      endDate: it.endDate,
+      startDate: it.start,
+      endDate: it.end,
       id: it.id,
     });
   }
 
   @Input()
-  set selectedEventId(id: number | null) {
+  set selectedEventId(id: number | null | undefined) {
     if (id) {
       this.lumber.log('selectedEventId', 'set selected event', id);
       this.form.controls.eventId.setValue(id);

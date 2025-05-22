@@ -1,26 +1,28 @@
 import {effect, inject} from '@angular/core';
+import {Router} from '@angular/router';
 
-import {filter, pipe, switchMap, tap} from 'rxjs';
+import {filter, map, pipe, switchMap, tap} from 'rxjs';
 
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {tapResponse} from '@ngrx/operators';
 import {patchState, signalStore, withHooks, withMethods, withState} from '@ngrx/signals';
 import {setAllEntities} from '@ngrx/signals/entities';
 import {rxMethod} from '@ngrx/signals/rxjs-interop';
+import {n_from, n_isNumeric} from 'dfts-helper';
 
 import {BackendType, injectAPI} from '@shared/api';
 import {setError, setFulfilled, setPending, withRequestStatus} from '@shared/api/request-status.feature';
 import {withSelectionTable, withTable} from '@shared/api/table.feature';
+import {SelectedOrganisationService} from '@shared/services';
 
-export const EventLicensesStore = signalStore(
+export const EventLicencesStore = signalStore(
   {providedIn: 'root'},
   withState<{
     eventId: number | undefined;
     response: BackendType['EventLicencesResponse'] | undefined;
-    license: BackendType['EventLicencesResponse']['licences'][0] | undefined;
+    license: BackendType['EventLicencesResponse']['licences'][0] | 'CREATE' | undefined;
   }>({response: undefined, license: undefined, eventId: undefined}),
   withRequestStatus(),
-  withMethods((store, api = injectAPI(), modal = inject(NgbModal)) => {
+  withMethods((store, api = injectAPI(), selectedOrganisationService = inject(SelectedOrganisationService), router = inject(Router)) => {
     const load = rxMethod<number | undefined>(
       pipe(
         tap((eventId) => patchState(store, setPending(), () => ({eventId}))),
@@ -37,8 +39,17 @@ export const EventLicensesStore = signalStore(
     );
     return {
       load,
-      loadSingle: rxMethod<number>(
-        tap((id) => patchState(store, ({response}) => ({license: response?.licences?.find((it) => it.id === id)}))),
+      loadSingle: rxMethod<string | null>(
+        pipe(
+          map((id) => (n_isNumeric(id) ? n_from(id) : undefined)),
+          tap((id) => {
+            if (!id) {
+              patchState(store, () => ({license: 'CREATE' as const}));
+            }
+          }),
+          filter((id): id is number => !!id),
+          tap((id) => patchState(store, ({response}) => ({license: response?.licences?.find((it) => it.id === id)}))),
+        ),
       ),
       create: rxMethod<BackendType['AddEventLicenceDto']>(
         pipe(
@@ -49,6 +60,7 @@ export const EventLicensesStore = signalStore(
                 next: () => {
                   patchState(store, setFulfilled());
                   load(store.eventId());
+                  void router.navigate([`/o/${selectedOrganisationService.selectedId()}/e/${store.eventId()}/settings/licences`]);
                 },
                 error: (error) => patchState(store, setError(error)),
               }),
@@ -65,6 +77,7 @@ export const EventLicensesStore = signalStore(
                 next: () => {
                   patchState(store, setFulfilled());
                   load(store.eventId());
+                  void router.navigate([`/o/${selectedOrganisationService.selectedId()}/e/${store.eventId()}/settings/licences`]);
                 },
                 error: (error) => patchState(store, setError(error)),
               }),
@@ -95,7 +108,7 @@ export const EventLicensesStore = signalStore(
 export const EventLicencesLicencesStore = signalStore(
   {providedIn: 'root'},
   withSelectionTable<BackendType['EventLicencesResponse']['licences'][0]>({
-    columnsToDisplay: ['start', 'end', 'hours', 'note'],
+    columnsToDisplay: ['start', 'end', 'hours', 'note', 'actions'],
   }),
   withMethods((store) => ({
     setAllEntities(entities: BackendType['EventLicencesResponse']['licences']) {
@@ -103,7 +116,7 @@ export const EventLicencesLicencesStore = signalStore(
     },
   })),
   withHooks({
-    onInit(store, eventLicencesStore = inject(EventLicensesStore)) {
+    onInit(store, eventLicencesStore = inject(EventLicencesStore)) {
       effect(() => {
         const response = eventLicencesStore.response();
         if (response) {
@@ -125,7 +138,7 @@ export const EventLicencesRangesStore = signalStore(
     },
   })),
   withHooks({
-    onInit(store, eventLicencesStore = inject(EventLicensesStore)) {
+    onInit(store, eventLicencesStore = inject(EventLicencesStore)) {
       effect(() => {
         const response = eventLicencesStore.response();
         if (response) {

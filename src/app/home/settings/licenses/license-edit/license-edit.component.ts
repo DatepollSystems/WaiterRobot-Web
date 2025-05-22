@@ -1,20 +1,24 @@
+import {DatePipe} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
+import {injectParams} from 'ngxtension/inject-params';
 
 import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
 import {injectOnDelete} from '@home-shared/form/edit';
 
 import {SelectedEventService} from '@shared/services';
 
-import {EventLicensesStore} from '../../_services/event-licences.store';
+import {EventLicencesStore} from '../../_services/event-licences.store';
 import {AppLicenseEditFormComponent} from './license-edit-form.component';
 
 @Component({
   template: `
     @if (eventLicenseStore.license(); as entity) {
       <div class="d-flex flex-column gap-2">
-        <h1 *isEditing="entity">{{ 'EDIT_2' | transloco }} {{ entity.name }}</h1>
+        <h1 *isEditing="entity">
+          {{ 'EDIT_2' | transloco }} {{ entity.start | date: 'YYYY.MM.DD HH:mm:ss' }} {{ entity.end | date: 'YYYY.MM.DD HH:mm:ss' }}
+        </h1>
         <h1 *isCreating="entity">{{ 'ADD_2' | transloco }}</h1>
 
         <scrollable-toolbar>
@@ -33,11 +37,11 @@ import {AppLicenseEditFormComponent} from './license-edit-form.component';
         <hr />
 
         <app-license-edit-form
-          [selectedEventId]="entity !== 'CREATE' ? entity.eventId : selectedEventService.selectedId()"
+          [selectedEventId]="entity !== 'CREATE' ? eventLicenseStore.eventId() : selectedEventService.selectedId()"
           [license]="entity"
+          (submitUpdate)="eventLicenseStore.update($event)"
+          (submitCreate)="eventLicenseStore.create($event)"
         />
-        <!--          (submitUpdate)="onSubmit('UPDATE', $event)"-->
-        <!--          (submitCreate)="onSubmit('CREATE', $event)"-->
       </div>
     } @else {
       <app-edit-placeholder />
@@ -45,13 +49,17 @@ import {AppLicenseEditFormComponent} from './license-edit-form.component';
   `,
   selector: 'app-event-edit',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AppEntityEditModule, BiComponent, AppLicenseEditFormComponent],
+  imports: [AppEntityEditModule, BiComponent, AppLicenseEditFormComponent, DatePipe],
 })
 export class LicenseEditComponent {
-  eventLicenseStore = inject(EventLicensesStore);
+  eventLicenseStore = inject(EventLicencesStore);
 
   selectedEventService = inject(SelectedEventService);
 
   onDelete = injectOnDelete((it: number) => this.eventLicenseStore.delete(it));
-  // onSubmit = injectOnSubmit({entityService: this.#eventsService});
+
+  constructor() {
+    const id = injectParams('id');
+    this.eventLicenseStore.loadSingle(id);
+  }
 }

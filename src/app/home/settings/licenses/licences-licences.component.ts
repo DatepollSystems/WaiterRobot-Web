@@ -4,13 +4,15 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
 import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {StopPropagationDirective} from 'dfx-helper';
 
+import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
 import {MyUserService} from '@home-shared/services/user/my-user.service';
 
-import {EventLicencesLicencesStore} from '../_services/event-licences.store';
+import {EventLicencesLicencesStore, EventLicencesStore} from '../_services/event-licences.store';
 
 @Component({
   template: `
@@ -98,6 +100,25 @@ import {EventLicencesLicencesStore} from '../_services/event-licences.store';
           </td>
         </ng-container>
 
+        <ng-container ngbColumnDef="actions">
+          <th *ngbHeaderCellDef ngb-header-cell>
+            <span class="visually-hidden">{{ 'ACTIONS' | transloco }}</span>
+          </th>
+          <td *ngbCellDef="let licence" ngb-cell>
+            <app-action-dropdown>
+              <button
+                class="d-flex gap-2 align-items-center text-danger-emphasis"
+                (mousedown)="eventLicencesStore.delete(licence.id)"
+                type="button"
+                ngbDropdownItem
+              >
+                <bi name="trash" />
+                {{ 'DELETE' | transloco }}
+              </button>
+            </app-action-dropdown>
+          </td>
+        </ng-container>
+
         <tr *ngbHeaderRowDef="eventLicencesLicencesStore.columnsToDisplay()" ngb-header-row></tr>
         <tr *ngbRowDef="let session; columns: eventLicencesLicencesStore.columnsToDisplay()" ngb-row></tr>
       </table>
@@ -109,10 +130,22 @@ import {EventLicencesLicencesStore} from '../_services/event-licences.store';
   `,
   selector: 'app-event-licences-licences',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, DatePipe, DfxTableModule, DfxSortModule, TranslocoPipe, BiComponent, StopPropagationDirective, RouterLink],
+  imports: [
+    ReactiveFormsModule,
+    DatePipe,
+    DfxTableModule,
+    DfxSortModule,
+    TranslocoPipe,
+    BiComponent,
+    StopPropagationDirective,
+    RouterLink,
+    ActionDropdownComponent,
+    NgbDropdownItem,
+  ],
 })
 export class LicencesLicencesComponent {
   myUserService = inject(MyUserService);
+  eventLicencesStore = inject(EventLicencesStore);
   eventLicencesLicencesStore = inject(EventLicencesLicencesStore);
 
   sort = viewChild(NgbSort);
