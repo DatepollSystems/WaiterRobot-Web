@@ -25,12 +25,12 @@ import {EventLicencesLicencesStore, EventLicencesStore} from '../_services/event
             {{ 'ADD_2' | transloco }}
           </a>
         </div>
-        <div>
-          <button class="btn btn-sm btn-outline-danger" [class.disabled]="!eventLicencesLicencesStore.hasValue()" type="button">
-            <bi name="trash" />
-            {{ 'DELETE' | transloco }}
-          </button>
-        </div>
+        <!--        <div>-->
+        <!--          <button class="btn btn-sm btn-outline-danger" [class.disabled]="!eventLicencesLicencesStore.hasValue()" type="button">-->
+        <!--            <bi name="trash" />-->
+        <!--            {{ 'DELETE' | transloco }}-->
+        <!--          </button>-->
+        <!--        </div>-->
       </div>
     }
     <div class="table-responsive">
@@ -105,17 +105,19 @@ import {EventLicencesLicencesStore, EventLicencesStore} from '../_services/event
             <span class="visually-hidden">{{ 'ACTIONS' | transloco }}</span>
           </th>
           <td *ngbCellDef="let licence" ngb-cell>
-            <app-action-dropdown>
-              <button
-                class="d-flex gap-2 align-items-center text-danger-emphasis"
-                (mousedown)="eventLicencesStore.delete(licence.id)"
-                type="button"
-                ngbDropdownItem
-              >
-                <bi name="trash" />
-                {{ 'DELETE' | transloco }}
-              </button>
-            </app-action-dropdown>
+            @if (isAdmin) {
+              <app-action-dropdown>
+                <button
+                  class="d-flex gap-2 align-items-center text-danger-emphasis"
+                  (mousedown)="eventLicencesStore.delete(licence.id)"
+                  type="button"
+                  ngbDropdownItem
+                >
+                  <bi name="trash" />
+                  {{ 'DELETE' | transloco }}
+                </button>
+              </app-action-dropdown>
+            }
           </td>
         </ng-container>
 
