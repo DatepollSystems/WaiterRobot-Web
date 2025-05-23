@@ -245,5 +245,22 @@
     <noscript>
       <div class="d-flex justify-content-center mt-5">Please enable JavaScript to continue using this application.</div>
     </noscript>
+    <script>
+      (function (d, t) {
+        const BASE_URL = 'https://chat.kellner.team';
+        const g = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+        g.src = BASE_URL + '/packs/js/sdk.js';
+        g.defer = true;
+        g.async = true;
+        s.parentNode.insertBefore(g, s);
+        g.onload = function () {
+          window.chatwootSDK.run({
+            websiteToken: 'xt6PEW9UmEs4wxrk45wwh4FS',
+            baseUrl: BASE_URL,
+          });
+        };
+      })(document, 'script');
+    </script>
   </body>
 </html>
