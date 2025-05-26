@@ -8,15 +8,15 @@ import {injectWindow} from 'dfx-helper';
   pure: true,
 })
 export class ShareableLinkPipe implements PipeTransform {
-  #window = injectWindow();
+  window = injectWindow();
 
   transform(type: 'ml' | 'wl'): any {
-    if (!this.#window) {
+    if (!this.window) {
       return '';
     }
 
-    return `${this.#window.location.protocol}//${this.#window.location.hostname}${
-      this.#window.location.port.length > 0 ? ':' + this.#window.location.port : ''
+    return `${this.window.location.protocol}//${this.window.location.hostname}${
+      this.window.location.port.length > 0 ? ':' + this.window.location.port : ''
     }/${type}`;
   }
 }
