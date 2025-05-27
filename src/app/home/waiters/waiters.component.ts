@@ -143,10 +143,11 @@ import {WaitersService} from './_services/waiters.service';
                 <span class="visually-hidden">{{ 'ACTIONS' | transloco }}</span>
               </th>
               <td *ngbCellDef="let waiter" ngb-cell>
+                @let waiterAuthLink = 'ml' | shareableLink | waiterAuthLink: 'SIGN_IN' : waiter.signInToken;
                 <button
                   class="btn btn-sm btn-outline-primary me-2 text-body"
                   [ngbTooltip]="'HOME_WAITERS_EDIT_QR_CODE' | transloco"
-                  (mousedown)="openLoginQRCode(waiter.signInToken)"
+                  (mousedown)="openLoginQRCode(waiterAuthLink)"
                   stopPropagation
                   type="button"
                   placement="left"
@@ -243,6 +244,8 @@ import {WaitersService} from './_services/waiters.service';
     BlankslateComponent,
     NgbDropdownModule,
     ListFilterComponent,
+    ShareableLinkPipe,
+    WaiterAuthLinkPipe,
   ],
 })
 export class WaitersComponent {
@@ -303,12 +306,9 @@ export class WaitersComponent {
     );
   }
 
-  shareLinkTransform = new ShareableLinkPipe().transform;
-  waiterAuthLinkTransform = new WaiterAuthLinkPipe().transform;
-
-  openLoginQRCode(token: string): void {
+  openLoginQRCode(waiterAuthLink: string): void {
     this.#qrCodeService.openQRCodePage({
-      data: this.waiterAuthLinkTransform(this.shareLinkTransform('ml'), 'SIGN_IN', token),
+      data: waiterAuthLink,
       text: 'HOME_WAITERS_EDIT_QR_CODE',
       info: 'HOME_WAITERS_EDIT_QR_CODE_DESCRIPTION',
     });

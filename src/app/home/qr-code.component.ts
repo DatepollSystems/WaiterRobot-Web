@@ -18,7 +18,11 @@ import {QrCodeService} from './_shared/services/qr-code.service';
     @if (qrCodeData(); as data) {
       <div class="my-container d-flex flex-row flex-wrap gap-5 align-items-center justify-content-center h-100" id="printContainer">
         <div class="qrcode-rounded" id="qrcode" style="background-color: #f6f6f6">
-          <qrcode [size]="isMobile() ? 8 : 14" [margin]="0" [data]="data.data" errorCorrectionLevel="M" colorLight="#f6f6f6" />
+          @if (isMobile()) {
+            <qrcode [size]="8" [margin]="0" [data]="data.data" errorCorrectionLevel="M" colorLight="#f6f6f6" />
+          } @else {
+            <qrcode [size]="14" [margin]="0" [data]="data.data" errorCorrectionLevel="M" colorLight="#f6f6f6" />
+          }
         </div>
         <div class="card">
           <div class="card-header no-print">

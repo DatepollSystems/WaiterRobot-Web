@@ -12,6 +12,7 @@ export class ShareableLinkPipe implements PipeTransform {
 
   transform(type: 'ml' | 'wl'): any {
     if (!this.window) {
+      console.warn('Window not found');
       return '';
     }
 
