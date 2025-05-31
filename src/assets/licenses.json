@@ -3,7 +3,7 @@
     "name": "@angular-devkit/build-angular",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular-cli.git",
-    "installedVersion": "19.2.5",
+    "installedVersion": "19.2.7",
     "author": "Angular Authors"
   },
   {
@@ -101,21 +101,21 @@
     "name": "@ng-select/ng-select",
     "licenseType": "MIT",
     "link": "git+https://github.com/ng-select/ng-select.git",
-    "installedVersion": "14.2.6",
+    "installedVersion": "14.5.6",
     "author": "@ng-select/ng-select"
   },
   {
     "name": "@ngrx/operators",
     "licenseType": "MIT",
     "link": "git+https://github.com/ngrx/platform.git",
-    "installedVersion": "19.0.1",
+    "installedVersion": "19.1.0",
     "author": "NgRx"
   },
   {
     "name": "@ngrx/signals",
     "licenseType": "MIT",
     "link": "git+https://github.com/ngrx/platform.git",
-    "installedVersion": "19.0.1",
+    "installedVersion": "19.1.0",
     "author": "NgRx"
   },
   {
@@ -129,7 +129,7 @@
     "name": "@swimlane/ngx-charts",
     "licenseType": "MIT",
     "link": "git+https://github.com/swimlane/ngx-charts.git",
-    "installedVersion": "21.1.3",
+    "installedVersion": "22.0.0",
     "author": "Swimlane"
   },
   {
@@ -214,7 +214,7 @@
     "name": "ngxtension",
     "licenseType": "MIT",
     "link": "git+https://github.com/ngxtension/ngxtension-platform.git",
-    "installedVersion": "4.3.2",
+    "installedVersion": "5.0.0",
     "author": "n/a"
   },
   {
