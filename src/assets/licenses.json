@@ -3,7 +3,7 @@
     "name": "@angular-devkit/build-angular",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular-cli.git",
-    "installedVersion": "19.2.7",
+    "installedVersion": "19.2.15",
     "author": "Angular Authors"
   },
   {
@@ -101,21 +101,21 @@
     "name": "@ng-select/ng-select",
     "licenseType": "MIT",
     "link": "git+https://github.com/ng-select/ng-select.git",
-    "installedVersion": "14.5.6",
+    "installedVersion": "14.9.0",
     "author": "@ng-select/ng-select"
   },
   {
     "name": "@ngrx/operators",
     "licenseType": "MIT",
     "link": "git+https://github.com/ngrx/platform.git",
-    "installedVersion": "19.1.0",
+    "installedVersion": "19.2.1",
     "author": "NgRx"
   },
   {
     "name": "@ngrx/signals",
     "licenseType": "MIT",
     "link": "git+https://github.com/ngrx/platform.git",
-    "installedVersion": "19.1.0",
+    "installedVersion": "19.2.1",
     "author": "NgRx"
   },
   {
