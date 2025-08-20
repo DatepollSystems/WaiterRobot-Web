@@ -58,7 +58,11 @@ export class HomeTitle {}
               }
             }
 
-            <app-maintenance-warning />
+            @defer (when !networkOnline()) {
+              @if (networkOnline()) {
+                <app-maintenance-warning />
+              }
+            }
 
             <div class="d-none d-md-block">
               <app-active-system-desktop-notifications />
