@@ -4,6 +4,7 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
+import {injectWindow} from 'dfx-helper';
 
 import {MyUserService} from '@home-shared/services/user/my-user.service';
 
@@ -288,15 +289,20 @@ import {SwitcherModalComponent} from './switcher.component';
     <div class="d-flex align-items-center justify-content-between mb-3 mt-1">
       <app-profile-menu />
 
-      <a
-        class="btn d-inline-flex align-items-center"
-        href="https://help.kellner.team"
-        target="_blank"
-        rel="noopener"
-        ngbTooltip="Hilfe-Seite"
-      >
-        <bi name="question-square-fill" size="24" />
-      </a>
+      <div class="d-inline-flex">
+        <button class="btn d-inline-flex align-items-center" (click)="openSupport()" ngbTooltip="Support">
+          <bi name="headset" size="24" />
+        </button>
+        <a
+          class="btn d-inline-flex align-items-center"
+          href="https://help.kellner.team"
+          target="_blank"
+          rel="noopener"
+          ngbTooltip="Hilfe-Seite"
+        >
+          <bi name="question-square-fill" size="24" />
+        </a>
+      </div>
     </div>
   `,
   styles: `
@@ -344,6 +350,7 @@ import {SwitcherModalComponent} from './switcher.component';
 })
 export class NavComponent {
   modal = inject(NgbModal);
+  window = injectWindow();
 
   myUser = inject(MyUserService).user;
 
@@ -361,5 +368,15 @@ export class NavComponent {
       ariaLabelledBy: 'modal-switcher-title',
       size: 'lg',
     });
+  }
+
+  openSupport(): void {
+    // @ts-expect-error chatwootSDK
+    if (window.$chatwoot) {
+      // @ts-expect-error chatwootSDK
+      window.$chatwoot.toggle();
+    } else {
+      console.log('Chatwoot is not ready yet.');
+    }
   }
 }
