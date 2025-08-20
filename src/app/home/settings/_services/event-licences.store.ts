@@ -60,7 +60,7 @@ export const EventLicencesStore = signalStore(
                 next: () => {
                   patchState(store, setFulfilled());
                   load(store.eventId());
-                  void router.navigate([`/o/${selectedOrganisationService.selectedId()}/e/${store.eventId()}/settings/licences`]);
+                  void router.navigate([`/o/${selectedOrganisationService.selectedId()}/e/${store.eventId()}/settings/licenses`]);
                 },
                 error: (error) => patchState(store, setError(error)),
               }),
@@ -77,7 +77,7 @@ export const EventLicencesStore = signalStore(
                 next: () => {
                   patchState(store, setFulfilled());
                   load(store.eventId());
-                  void router.navigate([`/o/${selectedOrganisationService.selectedId()}/e/${store.eventId()}/settings/licences`]);
+                  void router.navigate([`/o/${selectedOrganisationService.selectedId()}/e/${store.eventId()}/settings/licenses`]);
                 },
                 error: (error) => patchState(store, setError(error)),
               }),
