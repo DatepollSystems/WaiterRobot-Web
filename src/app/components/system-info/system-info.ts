@@ -10,13 +10,14 @@ import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {i_complete} from 'dfts-helper';
 import {injectIsMobile} from 'dfx-helper';
 
-import {EnvironmentHelper} from '@shared';
-import {AuthService, SystemInfoService, SystemInfoShowService, ThemeService} from '@shared/services';
-
+import {AuthService} from '../../services/auth/auth.service';
 import {Hotkeys} from '../../services/hot-keys.service';
 import {QrCodeService} from '../../services/qr-code.service';
 import {RedirectService} from '../../services/redirect.service';
+import {SystemInfoService, SystemInfoShowService} from '../../services/system-info.service';
+import {ThemeService} from '../../services/theme.service';
 import {MyUserService} from '../../services/user/my-user.service';
+import {EnvironmentHelper} from '../../util/EnvironmentHelper';
 import {DfxTimeSpanPipe} from '../../util/format-date';
 import {SystemColorsModal} from './system-colors.modal';
 

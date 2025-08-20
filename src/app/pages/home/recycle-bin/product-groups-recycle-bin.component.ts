@@ -1,0 +1,272 @@
+import {SelectionModel} from '@angular/cdk/collections';
+import {ChangeDetectionStrategy, Component, inject, signal, viewChild} from '@angular/core';
+
+import {concat, debounceTime, map, pipe, switchMap, tap} from 'rxjs';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {s_imploder} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxPaginationModule, DfxTableModule, NgbPaginator} from 'dfx-bootstrap-table';
+import {DfxCurrencyCentPipe, StopPropagationDirective} from 'dfx-helper';
+import {derivedFrom} from 'ngxtension/derived-from';
+
+import {APIType} from '../../../api';
+import {injectPagination} from '../../../api/pagination';
+import {AppTextWithColorIndicatorComponent} from '../../../components/color/app-text-with-color-indicator.component';
+import {AppProgressBarComponent} from '../../../components/loading/app-progress-bar.component';
+import {injectConfirmDialog} from '../../../components/question-dialog.component';
+import {ScrollableToolbarComponent} from '../../../components/scrollable-toolbar.component';
+import {AppSoldOutPipe} from '../../../pipes/app-sold-out.pipe';
+import {ProductGroupsService} from '../../../services/product-groups.service';
+import {ProductsService} from '../../../services/products.service';
+import {injectTableSelect} from '../../../util/list';
+import {GenericGroupBinType, sortBinTypes} from '../../../util/recycle-bin';
+
+type BinType = (APIType['GetProductResponse'] | APIType['GetProductGroupMaxResponse']) & GenericGroupBinType;
+
+@Component({
+  template: `
+    <div class="d-flex flex-column gap-3">
+      <scrollable-toolbar>
+        <div [ngbTooltip]="!selection.hasValue() ? ('HOME_PROD_SELECT_INFO' | transloco) : undefined">
+          <button class="btn btn-sm btn-primary" [class.disabled]="!selection.hasValue()" (mousedown)="undelete()" type="button">
+            <bi name="arrow-counterclockwise" />
+            {{ 'RECOVER' | transloco }}
+          </button>
+        </div>
+      </scrollable-toolbar>
+
+      @if (dataSource(); as dataSource) {
+        <div class="table-responsive">
+          <table [hover]="true" [dataSource]="dataSource" ngb-table>
+            <ng-container ngbColumnDef="select">
+              <th *ngbHeaderCellDef ngb-header-cell style="width: 20px">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    [checked]="selection.isAllSelected()"
+                    (click)="selection.toggleAll()"
+                    stopPropagation
+                    type="checkbox"
+                    name="checked"
+                  />
+                </div>
+              </th>
+              <td *ngbCellDef="let selectable" ngb-cell>
+                <div [class.ps-3]="selectable.type === 'ITEM'">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      [checked]="selection.isSelected(selectable)"
+                      (click)="toggle(selectable, !selection.isSelected(selectable))"
+                      stopPropagation
+                      type="checkbox"
+                      name="checked"
+                    />
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container ngbColumnDef="name">
+              <th *ngbHeaderCellDef ngb-header-cell>
+                {{ 'NAME' | transloco }}
+              </th>
+              <td *ngbCellDef="let binItem" ngb-cell>
+                <div [class.ps-3]="binItem.type === 'ITEM'">
+                  <app-text-with-color-indicator [color]="binItem.color">
+                    {{ binItem.name }}
+                  </app-text-with-color-indicator>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container ngbColumnDef="price">
+              <th *ngbHeaderCellDef ngb-header-cell>
+                {{ 'PRICE' | transloco }}
+              </th>
+              <td *ngbCellDef="let binItem" ngb-cell>
+                @if (binItem.price) {
+                  {{ binItem.price | currency }}
+                }
+              </td>
+            </ng-container>
+
+            <ng-container ngbColumnDef="soldOut">
+              <th *ngbHeaderCellDef ngb-header-cell>
+                {{ 'HOME_PROD_AVAILABLE' | transloco }}
+              </th>
+              <td *ngbCellDef="let binItem" ngb-cell>
+                @if (binItem.soldOut !== undefined) {
+                  {{ binItem.soldOut | soldOut }}
+                }
+              </td>
+            </ng-container>
+
+            <ng-container ngbColumnDef="initialStock">
+              <th *ngbHeaderCellDef ngb-header-cell>
+                {{ 'HOME_PROD_AMOUNT_LEFT' | transloco }}
+              </th>
+              <td *ngbCellDef="let binItem" ngb-cell>
+                @if (binItem.initialStock) {
+                  <span>
+                    {{ binItem.initialStock - binItem.amountOrdered }}
+                  </span>
+                }
+              </td>
+            </ng-container>
+
+            <tr *ngbHeaderRowDef="columnsToDisplay()" ngb-header-row></tr>
+            <tr
+              *ngbRowDef="let binItem; columns: columnsToDisplay()"
+              (click)="toggle(binItem, !selection.isSelected(binItem))"
+              ngb-row
+            ></tr>
+          </table>
+        </div>
+      }
+
+      <app-progress-bar [show]="pagination.loading()" />
+
+      @if (!pagination.loading() && dataSource().length < 1) {
+        <div class="w-100 text-center mt-2">
+          {{ 'RECYCLE_BIN_EMPTY' | transloco }}
+        </div>
+      }
+
+      <ngb-paginator
+        [length]="pagination.totalElements()"
+        [pageSize]="pagination.params().size"
+        [pageSizeOptions]="[5, 10, 20]"
+        [pageIndex]="pagination.params().page"
+        showFirstLastButtons
+      />
+    </div>
+  `,
+  selector: 'app-product-groups-recycle-bin',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    TranslocoPipe,
+    DfxTableModule,
+    DfxPaginationModule,
+    DfxCurrencyCentPipe,
+    NgbTooltip,
+    BiComponent,
+    ScrollableToolbarComponent,
+    AppTextWithColorIndicatorComponent,
+    AppProgressBarComponent,
+    AppSoldOutPipe,
+    StopPropagationDirective,
+  ],
+})
+export class ProductGroupsRecycleBinComponent {
+  #confirmDialog = injectConfirmDialog();
+  #productGroupsService = inject(ProductGroupsService);
+  #productService = inject(ProductsService);
+
+  columnsToDisplay = signal(['name', 'price', 'soldOut', 'initialStock']);
+  private paginator = viewChild.required(NgbPaginator);
+
+  pagination = injectPagination({
+    defaultSortBy: 'createdAt',
+    paginator: this.paginator,
+    defaultPageSize: 5,
+  });
+
+  dataSource = derivedFrom(
+    [this.pagination.params],
+    pipe(
+      debounceTime(350),
+      tap(() => {
+        this.pagination.loading.set(true);
+      }),
+      switchMap(([options]) => this.#productGroupsService.getAllDeleted$(options)),
+      map((it) => {
+        this.pagination.loading.set(false);
+        this.pagination.totalElements.set(it.numberOfItems);
+        return it.data
+          .map((productGroup) => ({
+            ...productGroup,
+            products: productGroup.products.map((product) => ({
+              ...product,
+              groupId: productGroup.id,
+              groupName: productGroup.name,
+              type: 'ITEM' as const,
+            })),
+            groupId: undefined,
+            groupName: undefined,
+            type: 'GROUP' as const,
+          }))
+          .reduce<BinType[]>((previous, current) => {
+            return [...previous, current, ...current.products];
+          }, []);
+      }),
+    ),
+    {initialValue: []},
+  );
+
+  selection = injectTableSelect({
+    dataSource: this.dataSource,
+    columnsToDisplay: this.columnsToDisplay,
+    getSelectionModel: (it) => new SelectionModel(true, it, false, (o1, o2) => o1.id === o2.id && o1.type === o2.type),
+  });
+
+  undelete(): void {
+    const selected = this.selection
+      .selection()
+      .selected.sort(sortBinTypes)
+      .filter((it) => !!it.deleted);
+    void this.#confirmDialog(
+      'RECOVER_ALL',
+      `<ol><li>${s_imploder()
+        .source(selected, (it) => `${it.type === 'ITEM' ? `(${it.groupName}) ` : ''}${it.name}`)
+        .separator('</li><li>')
+        .build()}</li></ol>`,
+    ).then((result) => {
+      if (result) {
+        concat(
+          ...selected.map((it) => {
+            if (it.type === 'ITEM') {
+              return this.#productService.unDelete$(it.id);
+            } else if (it.type === 'GROUP') {
+              return this.#productGroupsService.unDelete$(it.id);
+            } else {
+              throw 'Unknown bin type';
+            }
+          }),
+        ).subscribe({
+          complete: () => {
+            this.#productService.triggerGet$.next(true);
+            this.#productGroupsService.triggerGet$.next(true);
+            this.selection.clear();
+          },
+        });
+      }
+    });
+  }
+
+  toggle(it: BinType, isSelected: boolean): void {
+    if (it.type === 'GROUP') {
+      // Toggle the parent group
+      this.selection.toggle(it, isSelected);
+
+      // Find all child items belonging to this group and toggle them
+      const childItems = this.dataSource().filter((item) => item.groupId === it.id && item.type === 'ITEM');
+      childItems.forEach((item) => {
+        this.selection.toggle(item, isSelected);
+      });
+    } else if (it.type === 'ITEM') {
+      // Toggle the individual item
+      this.selection.toggle(it, isSelected);
+
+      // Check if the parent group is selected, if not, select the parent group
+      const parentGroup = this.dataSource().find((group) => group.id === it.groupId && group.type === 'GROUP');
+      if (parentGroup && !this.selection.isSelected(parentGroup)) {
+        this.selection.toggle(parentGroup, true);
+      }
+    } else {
+      throw 'Unknown bin type';
+    }
+  }
+}

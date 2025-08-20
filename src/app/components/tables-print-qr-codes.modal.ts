@@ -1,0 +1,207 @@
+import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
+
+import {delay, of} from 'rxjs';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbActiveModal, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {QRCodeComponent} from 'dfx-qrcode';
+import {toJpeg} from 'html-to-image';
+import {jsPDF} from 'jspdf';
+
+import {APIType} from '../api';
+import {PublicTableLinkPipe, ShareableLinkPipe} from '../pipes/wr-links.pipe';
+import {d_formatWithHoursMinutesAndSeconds} from '../util/format-date';
+import {ScrollableToolbarComponent} from './scrollable-toolbar.component';
+
+@Component({
+  template: `
+    <div class="modal-header">
+      <h4 class="modal-title" id="app-tables-qr-codes-title">
+        {{ 'HOME_TABLE_PRINT_TITLE' | transloco }}
+      </h4>
+      <button class="btn-close btn-close-white" (mousedown)="activeModal.dismiss()" type="button" aria-label="Close"></button>
+    </div>
+    <div class="modal-body d-flex flex-column gap-3">
+      @let _qrCodeSize = qrCodeSize();
+      @let _generating = generating();
+
+      <scrollable-toolbar>
+        <div>
+          <button class="btn btn-sm btn-primary" [class.btnSpinner]="_generating" [disabled]="_generating" (click)="pdf()" type="button">
+            <bi name="printer" />
+            {{ 'HOME_TABLE_PRINT_GENERATE' | transloco }}
+          </button>
+        </div>
+
+        <div class="btn-group flex-wrap" role="group" aria-label="QRCode size">
+          <button
+            class="btn btn-sm btn-outline-secondary"
+            [class.active]="_qrCodeSize === 'SM'"
+            (click)="qrCodeSize.set('SM')"
+            type="button"
+          >
+            {{ 'HOME_TABLE_PRINT_SM' | transloco }}
+          </button>
+          <button
+            class="btn btn-sm btn-outline-secondary"
+            [class.active]="_qrCodeSize === 'MD'"
+            (click)="qrCodeSize.set('MD')"
+            type="button"
+          >
+            {{ 'HOME_TABLE_PRINT_MD' | transloco }}
+          </button>
+        </div>
+      </scrollable-toolbar>
+
+      @if (progress(); as progress) {
+        <ngb-progressbar class="my-2" [value]="progress" [showValue]="true" type="primary" textType="white" />
+      }
+
+      <div class="alert alert-info mb-2" role="alert">Deaktiviere mögliche Seitenränder beim drucken.</div>
+
+      @if (_generating) {
+        <div class="alert alert-info" role="alert">{{ 'DO_NOT_CLOSE_WINDOW' | transloco }}!</div>
+      }
+
+      <div class="main">
+        <div class="d-flex flex-wrap justify-content-center">
+          @for (table of tables(); track table.id) {
+            <div class="qr-code-item">
+              @if (_qrCodeSize === 'MD') {
+                <qrcode
+                  [imageSrc]="'/assets/mono.png'"
+                  [imageWidth]="70"
+                  [imageHeight]="70"
+                  [size]="8"
+                  [errorCorrectionLevel]="'H'"
+                  [margin]="0"
+                  [data]="'wl' | shareableLink | publicTableLink: table.publicId"
+                  cssClass="text-center"
+                  elementType="canvas"
+                />
+              } @else {
+                <qrcode
+                  [size]="8"
+                  [errorCorrectionLevel]="'M'"
+                  [margin]="0"
+                  [data]="'wl' | shareableLink | publicTableLink: table.publicId"
+                  cssClass="text-center"
+                  elementType="canvas"
+                />
+              }
+
+              <div class="text-center text-black qr-code-label">
+                <b>{{ table.group.name }} - {{ table.number }}</b>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline-secondary" (mousedown)="activeModal.close()" type="button">
+        {{ 'CLOSE' | transloco }}
+      </button>
+    </div>
+  `,
+  styles: `
+    .main {
+      background-color: #ffffff;
+    }
+
+    .qr-code-item {
+      border-style: dashed;
+      border-color: #ccc;
+      border-width: 1px;
+      padding: 25px 31px 15px 31px;
+    }
+
+    .qr-code-label {
+      margin-top: -22px;
+      margin-bottom: -22px;
+      font-size: 5.8rem;
+    }
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-print-table-qr-codes-modal',
+  imports: [
+    NgbProgressbarModule,
+    QRCodeComponent,
+    ScrollableToolbarComponent,
+    BiComponent,
+    NgbDropdownModule,
+    TranslocoPipe,
+    ShareableLinkPipe,
+    PublicTableLinkPipe,
+  ],
+})
+export class TablesPrintQrCodesModal {
+  activeModal = inject(NgbActiveModal);
+
+  tables = signal<APIType['GetTableWithGroupResponse'][]>([]);
+
+  qrCodeSize = signal<'SM' | 'MD'>('MD');
+  generating = signal(false);
+  progress = signal<number | undefined>(undefined);
+
+  async pdf(): Promise<void> {
+    this.generating.set(true);
+    this.progress.set(1);
+
+    const qrCodeDivs = document.getElementsByClassName('qr-code-item');
+    const pdf = new jsPDF('p', 'pt', 'a4', true);
+
+    const width = this.getQrCodeSize() + 31;
+
+    let x = 0;
+    let y = 10;
+
+    const steps = 100 / qrCodeDivs.length;
+
+    for (let i = 0; i < qrCodeDivs.length; i++) {
+      const qrcode = qrCodeDivs.item(i);
+      if (qrcode) {
+        const canvas = await toJpeg(qrcode as HTMLElement, {
+          quality: 0.8,
+          backgroundColor: '#FFFFFF',
+        });
+
+        pdf.addImage(canvas, 'JPEG', x, y, width, width);
+        x += width;
+      }
+      if (x > 500) {
+        x = 0;
+        y += width;
+      }
+      if (y > 720) {
+        // Do not add page if it is the last round of the loop and the last qr code line on a page
+        if (i + 1 < qrCodeDivs.length) {
+          pdf.addPage();
+        }
+        x = 0;
+        y = 10;
+      }
+      this.progress.update((it) => (it ?? 1) + steps);
+    }
+    pdf.save(`tables-${d_formatWithHoursMinutesAndSeconds(new Date())}.pdf`);
+    this.generating.set(false);
+
+    of(true)
+      .pipe(delay(600))
+      .subscribe(() => {
+        this.progress.set(undefined);
+      });
+  }
+
+  getQrCodeSize = (): number => {
+    switch (this.qrCodeSize()) {
+      case 'SM':
+        return 118;
+      case 'MD':
+        return 167;
+      default:
+        throw Error('Uknown qr code size');
+    }
+  };
+}

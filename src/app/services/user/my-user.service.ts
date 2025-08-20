@@ -4,9 +4,8 @@ import {EMPTY, Subject, catchError, map, merge, of, switchMap} from 'rxjs';
 
 import {connect} from 'ngxtension/connect';
 
-import {AuthService} from '@shared/services';
-
 import {injectAPI} from '../../api';
+import {AuthService} from '../auth/auth.service';
 import {MyUserModel} from './my-user.model';
 
 interface MyUserState {

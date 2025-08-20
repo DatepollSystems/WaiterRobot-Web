@@ -1,0 +1,82 @@
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+
+import {APIType} from '../api';
+import {AppColorPicker} from '../components/color/color-picker.component';
+import {injectIsValid} from '../util/form';
+import {allowedCharacterSet} from '../util/regex';
+import {AbstractModelEditFormComponent} from './form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from './form/app-model-edit-save-btn.component';
+
+@Component({
+  template: `
+    @if (isValid()) {}
+
+    <form #formRef [formGroup]="form" (ngSubmit)="submit()">
+      <div class="d-flex flex-column flex-md-row gap-4 mb-5">
+        <div class="form-group col">
+          <label for="name">{{ 'NAME' | transloco }}</label>
+          <input class="form-control" id="name" [placeholder]="'NAME' | transloco" type="text" formControlName="name" />
+
+          @if (form.controls.name.invalid) {
+            <small class="text-danger">
+              {{ 'HOME_TABLE_GROUP_NAME_INCORRECT' | transloco }}
+            </small>
+          }
+        </div>
+
+        <div class="d-flex flex-column">
+          <label for="name">{{ 'COLOR' | transloco }}</label>
+          <app-color-picker
+            [color]="form.controls.color.getRawValue()"
+            [disabled]="form.disabled"
+            (colorChange)="form.controls.color.setValue($event)"
+          />
+        </div>
+      </div>
+
+      <app-model-edit-save-btn [valid]="isValid()" [creating]="isCreating()" />
+    </form>
+  `,
+  selector: 'app-table-group-edit-form',
+  imports: [ReactiveFormsModule, TranslocoPipe, AppColorPicker, AppModelEditSaveBtn],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class TableGroupEditFormComponent extends AbstractModelEditFormComponent<
+  APIType['CreateTableGroupDto'],
+  APIType['UpdateTableGroupDto']
+> {
+  override form = this.fb.nonNullable.group({
+    name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(60), Validators.pattern(allowedCharacterSet)]],
+    eventId: [-1, [Validators.required, Validators.min(0)]],
+    color: new FormControl<string | undefined>(undefined),
+    id: [-1],
+  });
+
+  isValid = injectIsValid(this.form);
+
+  @Input()
+  set tableGroup(it: APIType['GetTableGroupResponse'] | 'CREATE') {
+    if (it === 'CREATE') {
+      this.isCreating.set(true);
+      return;
+    }
+
+    this.form.patchValue({
+      name: it.name,
+      id: it.id,
+      color: it.color,
+    });
+  }
+
+  @Input()
+  set selectedEventId(id: number | undefined) {
+    if (id) {
+      this._selectedEventId = id;
+      this.form.controls.eventId.setValue(this._selectedEventId);
+    }
+  }
+  _selectedEventId = -1;
+}

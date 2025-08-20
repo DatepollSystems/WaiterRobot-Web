@@ -8,10 +8,9 @@ import {Observable, distinctUntilChanged, map, tap} from 'rxjs';
 
 import {IHasID, s_from} from 'dfts-helper';
 
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services';
-
 import {APIType} from '../api';
 import {NotificationService} from '../services/notification.service';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from './custom-types';
 
 export function injectIsValid(form: FormGroup): Signal<boolean> {
   return toSignal(

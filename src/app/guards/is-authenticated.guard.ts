@@ -1,7 +1,7 @@
 import {inject} from '@angular/core';
 import {ActivatedRouteSnapshot, Router, RouterStateSnapshot} from '@angular/router';
 
-import {AuthService} from '@shared/services';
+import {AuthService} from '../services/auth/auth.service';
 
 export const isAuthenticated = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean => {
   const authService = inject(AuthService);

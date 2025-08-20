@@ -1,0 +1,213 @@
+import {ChangeDetectionStrategy, Component, inject, signal, viewChild} from '@angular/core';
+
+import {concat, debounceTime, map, pipe, switchMap, tap} from 'rxjs';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {s_imploder} from 'dfts-helper';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxPaginationModule, DfxTableModule, NgbPaginator} from 'dfx-bootstrap-table';
+import {StopPropagationDirective} from 'dfx-helper';
+import {derivedFrom} from 'ngxtension/derived-from';
+
+import {injectPagination} from '../../../api/pagination';
+import {AppProgressBarComponent} from '../../../components/loading/app-progress-bar.component';
+import {injectConfirmDialog} from '../../../components/question-dialog.component';
+import {ScrollableToolbarComponent} from '../../../components/scrollable-toolbar.component';
+import {PrintersService} from '../../../services/printers.service';
+import {injectTableSelect} from '../../../util/list';
+
+@Component({
+  template: `
+    <div class="d-flex flex-column gap-3">
+      <scrollable-toolbar>
+        <div [ngbTooltip]="!selection.hasValue() ? ('HOME_PRINTER_SELECT' | transloco) : undefined">
+          <button class="btn btn-sm btn-primary" [class.disabled]="!selection.hasValue()" (mousedown)="undelete()" type="button">
+            <bi name="arrow-counterclockwise" />
+            {{ 'RECOVER' | transloco }}
+          </button>
+        </div>
+      </scrollable-toolbar>
+
+      @if (dataSource(); as dataSource) {
+        <div class="table-responsive">
+          <table [hover]="true" [dataSource]="dataSource" ngb-table>
+            <ng-container ngbColumnDef="select">
+              <th *ngbHeaderCellDef ngb-header-cell style="width: 20px">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    [checked]="selection.isAllSelected()"
+                    (click)="selection.toggleAll()"
+                    stopPropagation
+                    type="checkbox"
+                    name="checked"
+                  />
+                </div>
+              </th>
+              <td *ngbCellDef="let selectable" ngb-cell>
+                <div [class.ps-3]="selectable.type === 'ITEM'">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      [checked]="selection.isSelected(selectable)"
+                      (click)="selection.toggle(selectable, !selection.isSelected(selectable))"
+                      stopPropagation
+                      type="checkbox"
+                      name="checked"
+                    />
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container ngbColumnDef="name">
+              <th *ngbHeaderCellDef ngb-header-cell>
+                {{ 'NAME' | transloco }}
+              </th>
+              <td *ngbCellDef="let printer" ngb-cell>
+                {{ printer.name }}
+              </td>
+            </ng-container>
+
+            <ng-container ngbColumnDef="fontScale">
+              <th *ngbHeaderCellDef ngb-header-cell>
+                {{ 'HOME_PRINTER_FONT_SCALE' | transloco }}
+              </th>
+              <td *ngbCellDef="let printer" ngb-cell>
+                {{ printer.fontScale }}
+              </td>
+            </ng-container>
+
+            <ng-container ngbColumnDef="font">
+              <th *ngbHeaderCellDef ngb-header-cell>
+                {{ 'HOME_PRINTER_FONT' | transloco }}
+              </th>
+              <td *ngbCellDef="let printer" ngb-cell>
+                {{ printer.font.description }}
+              </td>
+            </ng-container>
+
+            <ng-container ngbColumnDef="bonWidth">
+              <th *ngbHeaderCellDef ngb-header-cell>
+                {{ 'HOME_PRINTER_BON_WIDTH' | transloco }}
+              </th>
+              <td *ngbCellDef="let printer" ngb-cell>{{ printer.bonWidth }}</td>
+            </ng-container>
+
+            <ng-container ngbColumnDef="bonPadding">
+              <th class="ws-nowrap" *ngbHeaderCellDef ngb-header-cell>
+                {{ 'HOME_PRINTER_BON_PADDING' | transloco }}
+              </th>
+              <td *ngbCellDef="let printer" ngb-cell>
+                {{ printer.bonPadding }}
+              </td>
+            </ng-container>
+
+            <ng-container ngbColumnDef="bonPaddingTop">
+              <th class="ws-nowrap" *ngbHeaderCellDef ngb-header-cell>
+                {{ 'HOME_PRINTER_BON_PADDING_TOP' | transloco }}
+              </th>
+              <td *ngbCellDef="let printer" ngb-cell>
+                {{ printer.bonPaddingTop }}
+              </td>
+            </ng-container>
+
+            <tr *ngbHeaderRowDef="columnsToDisplay()" ngb-header-row></tr>
+            <tr
+              *ngbRowDef="let binItem; columns: columnsToDisplay()"
+              (click)="selection.toggle(binItem, !selection.isSelected(binItem))"
+              ngb-row
+            ></tr>
+          </table>
+        </div>
+      }
+
+      <app-progress-bar [show]="pagination.loading()" />
+
+      @if (!pagination.loading() && dataSource().length < 1) {
+        <div class="w-100 text-center mt-2">
+          {{ 'RECYCLE_BIN_EMPTY' | transloco }}
+        </div>
+      }
+
+      <ngb-paginator
+        [length]="pagination.totalElements()"
+        [pageSize]="pagination.params().size"
+        [pageSizeOptions]="[5, 10, 20]"
+        [pageIndex]="pagination.params().page"
+        showFirstLastButtons
+      />
+    </div>
+  `,
+  selector: 'app-printers-recycle-bin',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    TranslocoPipe,
+    DfxTableModule,
+    DfxPaginationModule,
+    NgbTooltip,
+    BiComponent,
+    ScrollableToolbarComponent,
+    AppProgressBarComponent,
+    StopPropagationDirective,
+  ],
+})
+export class PrintersRecycleBinComponent {
+  #confirmDialog = injectConfirmDialog();
+  #printersService = inject(PrintersService);
+
+  columnsToDisplay = signal(['name', 'font', 'fontScale', 'bonWidth', 'bonPadding', 'bonPaddingTop']);
+  private paginator = viewChild.required(NgbPaginator);
+
+  pagination = injectPagination({
+    defaultSortBy: 'createdAt',
+    paginator: this.paginator,
+    defaultPageSize: 5,
+  });
+
+  dataSource = derivedFrom(
+    [this.pagination.params],
+    pipe(
+      debounceTime(350),
+      tap(() => {
+        this.pagination.loading.set(true);
+      }),
+      switchMap(([options]) => this.#printersService.getAllDeleted$(options)),
+      map((it) => {
+        this.pagination.loading.set(false);
+        this.pagination.totalElements.set(it.numberOfItems);
+        return it.data;
+      }),
+    ),
+    {initialValue: []},
+  );
+
+  selection = injectTableSelect({
+    dataSource: this.dataSource,
+    columnsToDisplay: this.columnsToDisplay,
+  });
+
+  undelete(): void {
+    const selected = this.selection
+      .selection()
+      .selected.sort((a, b) => a.name.localeCompare(b.name))
+      .filter((it) => !!it.deleted);
+    void this.#confirmDialog(
+      'RECOVER_ALL',
+      `<ol><li>${s_imploder()
+        .source(selected, (it) => it.name)
+        .separator('</li><li>')
+        .build()}</li></ol>`,
+    ).then((result) => {
+      if (result) {
+        concat(...selected.map((it) => this.#printersService.unDelete$(it.id))).subscribe({
+          complete: () => {
+            this.#printersService.triggerGet$.next(true);
+            this.selection.clear();
+          },
+        });
+      }
+    });
+  }
+}

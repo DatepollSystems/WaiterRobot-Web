@@ -2,9 +2,9 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, EMPTY, catchError, combineLatest, map, shareReplay, switchMap, tap} from 'rxjs';
 
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse, SelectedOrganisationService} from '@shared/services';
-
 import {APIType, injectAPI} from '../api';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../util/custom-types';
+import {SelectedOrganisationService} from './selected-organisation.service';
 
 @Injectable({
   providedIn: 'root',

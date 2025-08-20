@@ -7,8 +7,8 @@ import {combineLatest, map, switchMap, tap, timer} from 'rxjs';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {MediatorStore} from '../../home/printers/_services/mediator.store';
-import {PrintersService} from '../../home/printers/_services/printers.service';
+import {MediatorStore} from '../../services/mediator.store';
+import {PrintersService} from '../../services/printers.service';
 
 @Component({
   template: `

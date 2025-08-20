@@ -11,12 +11,11 @@ import {loggerOf} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {injectNetwork} from 'ngxtension/inject-network';
 
-import {AuthService} from '@shared/services';
-
 import {injectAPI} from '../../api';
 import {AccountNotActivatedModal} from '../../components/account-not-activated-dialog.modal';
 import {AppDownloadBtnListComponent} from '../../components/app-download-btn-list.component';
 import {PasswordChangeDialogModal} from '../../components/password-change-dialog.modal';
+import {AuthService} from '../../services/auth/auth.service';
 import {NotificationService} from '../../services/notification.service';
 import {injectIsValid} from '../../util/form';
 

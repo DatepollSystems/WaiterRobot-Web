@@ -22,12 +22,16 @@ import {
   withWindow,
 } from 'dfx-helper';
 
-import {CustomTitleStrategy, EnvironmentHelper, TranslocoHttpLoader} from '@shared';
-import {CustomDateParserFormatter, CustomDateTimeAdapter, CustomPaginatorIntl, authInterceptor, errorInterceptor} from '@shared/services';
-
 import {NgbDateTimeAdapter} from './app/components/datetime-picker/datetime-adapter';
+import {authInterceptor} from './app/interceptors/auth-interceptor';
+import {errorInterceptor} from './app/interceptors/error-interceptor';
 import {AppPage} from './app/pages/app.page';
 import {ROUTES} from './app/pages/app.routes';
+import {CustomTitleStrategy} from './app/services/custom-title.strategy';
+import {TranslocoHttpLoader} from './app/services/transloco-loader';
+import {EnvironmentHelper} from './app/util/EnvironmentHelper';
+import {CustomPaginatorIntl} from './app/util/custom-paginator-intl';
+import {CustomDateParserFormatter, CustomDateTimeAdapter} from './app/util/datepicker-adapter';
 
 bootstrapApplication(AppPage, {
   providers: [

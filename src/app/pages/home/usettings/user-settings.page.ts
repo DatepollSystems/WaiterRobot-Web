@@ -4,11 +4,10 @@ import {FormsModule, NgForm} from '@angular/forms';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {s_isEmail} from 'dfts-helper';
 
-import {AuthService} from '@shared/services';
-
-import {NotificationService} from '../../services/notification.service';
-import {MyUserService} from '../../services/user/my-user.service';
-import {UserSettingsService} from './_services/user-settings.service';
+import {AuthService} from '../../../services/auth/auth.service';
+import {NotificationService} from '../../../services/notification.service';
+import {UserSettingsService} from '../../../services/user-settings.service';
+import {MyUserService} from '../../../services/user/my-user.service';
 
 @Component({
   template: `

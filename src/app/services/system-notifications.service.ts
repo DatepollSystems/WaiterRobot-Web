@@ -2,9 +2,8 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, map, shareReplay, switchMap, tap} from 'rxjs';
 
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services';
-
 import {APIType, injectAPI} from '../api';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../util/custom-types';
 import {ActiveSystemNotificationsService} from './active-system-notifications.service';
 
 @Injectable({providedIn: 'root'})

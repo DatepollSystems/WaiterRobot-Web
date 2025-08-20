@@ -3,7 +3,7 @@ import {Injectable, inject} from '@angular/core';
 import {switchMap} from 'rxjs';
 
 import {injectAPI} from '../../api';
-import {OrganisationsUsersService} from '../../organisations/_services/organisations-users.service';
+import {OrganisationsUsersService} from '../organisations/organisations-users.service';
 
 @Injectable({
   providedIn: 'root',

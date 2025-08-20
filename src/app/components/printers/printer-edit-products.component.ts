@@ -1,0 +1,67 @@
+import {AfterViewInit, ChangeDetectionStrategy, Component, Input, viewChild} from '@angular/core';
+import {RouterLink} from '@angular/router';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
+
+import {APIType} from '../../api';
+
+@Component({
+  template: `
+    <div class="table-responsive">
+      <table [hover]="true" [dataSource]="_products" ngb-table ngb-sort ngbSortActive="name" ngbSortDirection="asc">
+        <ng-container ngbColumnDef="name">
+          <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+            {{ 'NAME' | transloco }}
+          </th>
+          <td *ngbCellDef="let product" ngb-cell>{{ product.name }}</td>
+        </ng-container>
+
+        <ng-container ngbColumnDef="actions">
+          <th *ngbHeaderCellDef ngb-header-cell>{{ 'ACTIONS' | transloco }}</th>
+          <td *ngbCellDef="let product" ngb-cell>
+            <a
+              class="btn btn-sm m-1 btn-outline-primary text-body-emphasis"
+              [routerLink]="'../../products/p/' + product.id"
+              [ngbTooltip]="'OPEN' | transloco"
+            >
+              <bi name="arrow-up-right-square-fill" />
+            </a>
+          </td>
+        </ng-container>
+
+        <tr *ngbHeaderRowDef="columnsToDisplay" ngb-header-row></tr>
+        <tr
+          class="clickable"
+          *ngbRowDef="let product; columns: columnsToDisplay"
+          [routerLink]="'../../products/p/' + product.id"
+          ngb-row
+        ></tr>
+      </table>
+    </div>
+    @if (_products.data.length < 1) {
+      <div class="w-100 text-center">
+        {{ 'HOME_STATISTICS_NO_DATA' | transloco }}
+      </div>
+    }
+  `,
+  selector: 'app-printer-edit-products',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [DfxTableModule, TranslocoPipe, RouterLink, NgbTooltip, DfxSortModule, BiComponent],
+})
+export class PrinterEditProductsComponent implements AfterViewInit {
+  columnsToDisplay = ['name', 'actions'];
+  sort = viewChild(NgbSort);
+
+  @Input({required: true}) set products(it: APIType['GetProductMinResponse'][]) {
+    this._products = new NgbTableDataSource(it);
+  }
+
+  _products!: NgbTableDataSource<APIType['GetProductMinResponse']>;
+
+  ngAfterViewInit(): void {
+    this._products.sort = this.sort();
+  }
+}

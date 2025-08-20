@@ -21,15 +21,15 @@ import {AppBillPaymentStateBadgeComponent} from '../../../components/bills/app-b
 import {AppBillRefreshButtonComponent} from '../../../components/bills/app-bill-refresh-button.component';
 import {AppProgressBarComponent} from '../../../components/loading';
 import {ScrollableToolbarComponent} from '../../../components/scrollable-toolbar.component';
-import {ProductGroupsService} from '../../../home/products/_services/product-groups.service';
-import {ProductsService} from '../../../home/products/_services/products.service';
-import {TableGroupsService} from '../../../home/tables/_services/table-groups.service';
-import {TablesService} from '../../../home/tables/_services/tables.service';
-import {OrganisationWaitersService} from '../../../home/waiters/_services/organisation-waiters.service';
 import {RelativeTimeWithTooltip} from '../../../pipes/relative-time.pipe';
 import {BillsService} from '../../../services/bills.service';
 import {Download} from '../../../services/download.service';
+import {ProductGroupsService} from '../../../services/product-groups.service';
+import {ProductsService} from '../../../services/products.service';
+import {TableGroupsService} from '../../../services/table-groups.service';
+import {TablesService} from '../../../services/tables.service';
 import {UnpaidReasonsService} from '../../../services/unpaid-reasons.service';
+import {OrganisationWaitersService} from '../../../services/waiters/organisation-waiters.service';
 import {injectCustomFormBuilder} from '../../../util/form';
 
 @Component({

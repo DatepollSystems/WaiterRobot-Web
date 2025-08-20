@@ -26,14 +26,14 @@ import {AppOrderRefreshButtonComponent} from '../../../components/orders/app-ord
 import {AppOrderStateBadgeComponent} from '../../../components/orders/app-order-state-badge.component';
 import {injectConfirmDialog} from '../../../components/question-dialog.component';
 import {ScrollableToolbarComponent} from '../../../components/scrollable-toolbar.component';
-import {ProductGroupsService} from '../../../home/products/_services/product-groups.service';
-import {ProductsService} from '../../../home/products/_services/products.service';
-import {TableGroupsService} from '../../../home/tables/_services/table-groups.service';
-import {TablesService} from '../../../home/tables/_services/tables.service';
-import {OrganisationWaitersService} from '../../../home/waiters/_services/organisation-waiters.service';
 import {RelativeTimeWithTooltip} from '../../../pipes/relative-time.pipe';
 import {Download} from '../../../services/download.service';
 import {OrdersService} from '../../../services/orders.service';
+import {ProductGroupsService} from '../../../services/product-groups.service';
+import {ProductsService} from '../../../services/products.service';
+import {TableGroupsService} from '../../../services/table-groups.service';
+import {TablesService} from '../../../services/tables.service';
+import {OrganisationWaitersService} from '../../../services/waiters/organisation-waiters.service';
 import {injectCustomFormBuilder} from '../../../util/form';
 
 @Component({

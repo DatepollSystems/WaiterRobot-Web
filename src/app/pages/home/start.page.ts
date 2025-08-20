@@ -7,12 +7,13 @@ import {catchError, filter, of, startWith} from 'rxjs';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {AuthService, SelectedEventService, SystemInfoShowService} from '@shared/services';
-import {AppDownloadBtnListComponent} from '@shared/ui';
-
 import {injectAPI} from '../../api';
+import {AppDownloadBtnListComponent} from '../../components/app-download-btn-list.component';
 import {OrdersCard} from '../../components/start/orders-card';
 import {UnusedPrintersCard} from '../../components/start/unused-printers-card';
+import {AuthService} from '../../services/auth/auth.service';
+import {SelectedEventService} from '../../services/selected-event.service';
+import {SystemInfoShowService} from '../../services/system-info.service';
 import {MyUserService} from '../../services/user/my-user.service';
 import {EnvironmentHelper} from '../../util/EnvironmentHelper';
 

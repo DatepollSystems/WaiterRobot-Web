@@ -8,8 +8,7 @@ import {loggerOf, s_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxCutPipe} from 'dfx-helper';
 
-import {AuthService} from '@shared/services';
-
+import {AuthService} from '../../../services/auth/auth.service';
 import {FullScreenService} from '../../../services/fullscreen.service';
 import {QrCodeService} from '../../../services/qr-code.service';
 import {MyUserService} from '../../../services/user/my-user.service';

@@ -8,10 +8,10 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {StopPropagationDirective} from 'dfx-helper';
 
-import {AppSpinnerRowComponent} from '../../components/loading/app-spinner-row.component';
-import {ScrollableToolbarComponent} from '../../components/scrollable-toolbar.component';
-import {ListFilterComponent, injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '../../util/list';
-import {UserSessionsService} from './_services/user-sessions.service';
+import {AppSpinnerRowComponent} from '../../../components/loading';
+import {ScrollableToolbarComponent} from '../../../components/scrollable-toolbar.component';
+import {UserSessionsService} from '../../../services/user-sessions.service';
+import {ListFilterComponent, injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '../../../util/list';
 
 @Component({
   template: `

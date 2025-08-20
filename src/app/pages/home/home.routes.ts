@@ -36,7 +36,7 @@ export const ROUTES: Routes = [
       {
         path: 'usettings',
         title: 'NAV_USER_SETTINGS',
-        loadChildren: () => import('../../home/user-settings/user-settings.routes').then((m) => m.ROUTES),
+        loadChildren: () => import('./usettings/user-settings.routes').then((m) => m.ROUTES),
       },
       {
         path: 'select',
@@ -68,7 +68,7 @@ export const ROUTES: Routes = [
       {
         path: 'settings',
         title: 'SETTINGS',
-        loadChildren: () => import('../../home/settings/settings.routes').then((m) => m.ROUTES),
+        loadChildren: () => import('./settings/settings.routes').then((m) => m.ROUTES),
       },
     ],
   },
@@ -85,42 +85,42 @@ export const ROUTES: Routes = [
       {
         path: 'recycle-bin',
         title: 'RECYCLE_BIN',
-        loadChildren: () => import('../../home/recycle-bin/recycle-bin.routes').then((m) => m.RECYCLE_BIN_ROUTES),
+        loadChildren: () => import('./recycle-bin/recycle-bin.routes').then((m) => m.RECYCLE_BIN_ROUTES),
       },
       {
         path: 'waiters',
         title: 'NAV_WAITERS',
-        loadChildren: () => import('../../home/waiters/waiters.routes').then((m) => m.WAITER_ROUTES),
+        loadChildren: () => import('./waiters/waiters.routes').then((m) => m.WAITER_ROUTES),
       },
       {
         path: 'waiter-duplicates',
         title: 'NAV_WAITERS',
-        loadChildren: () => import('../../home/waiters/waiters.routes').then((m) => m.WAITER_DUPLICATE_ROUTES),
+        loadChildren: () => import('./waiters/waiters.routes').then((m) => m.WAITER_DUPLICATE_ROUTES),
       },
       {
         path: 'printers',
         title: 'NAV_PRINTERS',
-        loadChildren: () => import('../../home/printers/printers.routes').then((m) => m.ROUTES),
+        loadChildren: () => import('./printers/printers.routes').then((m) => m.ROUTES),
       },
       {
         path: 'tables',
         title: 'HOME_TABLES',
-        loadChildren: () => import('../../home/tables/tables.routes').then((m) => m.TABLE_ROUTES),
+        loadChildren: () => import('./tables/tables.routes').then((m) => m.TABLE_ROUTES),
       },
       {
         path: 'table-groups',
         title: 'HOME_TABLE_GROUPS',
-        loadChildren: () => import('../../home/tables/tables.routes').then((m) => m.TABLE_GROUP_ROUTES),
+        loadChildren: () => import('./tables/tables.routes').then((m) => m.TABLE_GROUP_ROUTES),
       },
       {
         path: 'products',
         title: 'HOME_PROD_ALL',
-        loadChildren: () => import('../../home/products/products.routes').then((m) => m.PRODUCT_ROUTES),
+        loadChildren: () => import('./products/products.routes').then((m) => m.PRODUCT_ROUTES),
       },
       {
         path: 'product-groups',
         title: 'HOME_PROD_GROUPS',
-        loadChildren: () => import('../../home/products/products.routes').then((m) => m.PRODUCT_GROUP_ROUTES),
+        loadChildren: () => import('./products/products.routes').then((m) => m.PRODUCT_GROUP_ROUTES),
       },
       {
         path: 'orders',
@@ -135,12 +135,12 @@ export const ROUTES: Routes = [
       {
         path: 'statistics',
         title: 'NAV_STATISTICS',
-        loadChildren: () => import('../../home/statistics/statistics.module').then((m) => m.StatisticsModule),
+        loadChildren: () => import('../../components/statistics/statistics.module').then((m) => m.StatisticsModule),
       },
       {
         path: 'settings',
         title: 'SETTINGS',
-        loadChildren: () => import('../../home/settings/settings.routes').then((m) => m.EVENT_ROUTES),
+        loadChildren: () => import('./settings/settings.routes').then((m) => m.EVENT_ROUTES),
       },
     ],
   },
