@@ -5,7 +5,7 @@ import {TranslocoPipe} from '@jsverse/transloco';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 import {DfxCurrencyCentPipe} from 'dfx-helper';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 
 @Component({
   template: `
@@ -62,20 +62,20 @@ import {BackendType} from '@shared/api';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrderProductsListTableComponent implements AfterViewInit {
-  billProducts = input.required<BackendType['GetImplodedBillProductResponse'][]>();
+  billProducts = input.required<APIType['GetImplodedBillProductResponse'][]>();
   priceSum = input.required<number>();
 
   sort = viewChild(NgbSort);
   columnsToDisplay = ['product', 'pricePerPiece', 'priceSum'];
 
-  dataSource = signal(new NgbTableDataSource<BackendType['GetImplodedBillProductResponse']>());
+  dataSource = signal(new NgbTableDataSource<APIType['GetImplodedBillProductResponse']>());
 
   ngAfterViewInit(): void {
     const dataSource = new NgbTableDataSource(this.billProducts());
     dataSource.sortingDataAccessor = (item, property: string) => {
       switch (property) {
         default:
-          return item[property as keyof BackendType['GetImplodedBillProductResponse']] as string | number;
+          return item[property as keyof APIType['GetImplodedBillProductResponse']] as string | number;
       }
     };
     dataSource.sort = this.sort();

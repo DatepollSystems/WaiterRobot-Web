@@ -7,14 +7,14 @@ import {patchState, signalStore, withMethods, withState} from '@ngrx/signals';
 import {setAllEntities} from '@ngrx/signals/entities';
 import {rxMethod} from '@ngrx/signals/rxjs-interop';
 
-import {BackendType, injectAPI} from '@shared/api';
+import {APIType, injectAPI} from '@shared/api';
 import {setError, setFulfilled, setPending} from '@shared/api/request-status.feature';
 import {withTable} from '@shared/api/table.feature';
 import {SelectedOrganisationService} from '@shared/services';
 
 export const MediatorStore = signalStore(
   {providedIn: 'root'},
-  withTable<BackendType['GetMediatorResponse']>({
+  withTable<APIType['GetMediatorResponse']>({
     columnsToDisplay: ['id', 'name', 'active', 'lastContact', 'printers'],
   }),
   withState({}),

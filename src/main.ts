@@ -2,7 +2,7 @@ import {registerLocaleData} from '@angular/common';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import {DEFAULT_CURRENCY_CODE, LOCALE_ID, importProvidersFrom, isDevMode, provideExperimentalZonelessChangeDetection} from '@angular/core';
+import {DEFAULT_CURRENCY_CODE, LOCALE_ID, importProvidersFrom, isDevMode, provideZonelessChangeDetection} from '@angular/core';
 import {bootstrapApplication} from '@angular/platform-browser';
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {TitleStrategy, provideRouter, withPreloading} from '@angular/router';
@@ -32,7 +32,7 @@ import {ROUTES} from './app/app.routes';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideExperimentalZonelessChangeDetection(),
+    provideZonelessChangeDetection(),
     provideDfxHelper(withMobileBreakpoint(1200), withLoggingInterceptor(['json', 'assets', 'auth']), withWindow()),
     provideAnimations(),
     DfxPreloadStrategy,

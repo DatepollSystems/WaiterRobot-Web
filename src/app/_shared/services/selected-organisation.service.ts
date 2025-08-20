@@ -6,12 +6,12 @@ import {BehaviorSubject, catchError, filter, map, merge, of, switchMap} from 'rx
 import {n_fromStorage, notNullAndUndefined, st_set} from 'dfts-helper';
 import {connect} from 'ngxtension/connect';
 
-import {BackendType, injectAPI} from '@shared/api';
+import {APIType, injectAPI} from '@shared/api';
 
 interface SelectedOrganisationState {
   status: 'UNSET' | 'LOADING' | 'LOADED';
   selectedId?: number;
-  selected?: BackendType['GetOrganisationResponse'];
+  selected?: APIType['GetOrganisationResponse'];
 }
 
 export const selectedOrganisationRouteParamKey = 'soId';

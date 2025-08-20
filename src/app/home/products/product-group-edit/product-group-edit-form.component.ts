@@ -5,7 +5,6 @@ import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {startWith} from 'rxjs';
 
 import {TranslocoPipe} from '@jsverse/transloco';
-import {HasNumberIDAndName} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {AppColorPicker} from '@home-shared/components/color/color-picker.component';
@@ -13,7 +12,7 @@ import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-e
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 import {allowedCharacterSet} from '@home-shared/regex';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
 
 @Component({
@@ -86,8 +85,8 @@ import {injectIsValid} from '@shared/form';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductGroupEditFormComponent extends AbstractModelEditFormComponent<
-  BackendType['CreateProductGroupDto'],
-  BackendType['UpdateProductGroupDto']
+  APIType['CreateProductGroupDto'],
+  APIType['UpdateProductGroupDto']
 > {
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(60), Validators.pattern(allowedCharacterSet)]],
@@ -120,7 +119,7 @@ export class ProductGroupEditFormComponent extends AbstractModelEditFormComponen
   }
 
   @Input()
-  set productGroup(it: BackendType['GetProductGroupResponse'] | 'CREATE') {
+  set productGroup(it: APIType['GetProductGroupResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;
@@ -142,5 +141,5 @@ export class ProductGroupEditFormComponent extends AbstractModelEditFormComponen
   }
   _selectedEventId = -1;
 
-  printers = input<HasNumberIDAndName[]>();
+  printers = input<APIType['GetPrinterMinResponse'][]>();
 }

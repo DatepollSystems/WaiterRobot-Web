@@ -2,7 +2,7 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, map, shareReplay, switchMap, tap} from 'rxjs';
 
-import {BackendType, injectAPI} from '@shared/api';
+import {APIType, injectAPI} from '@shared/api';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services';
 
 import {ActiveSystemNotificationsService} from '../../../_layout/services/active-system-notifications.service';
@@ -10,8 +10,8 @@ import {ActiveSystemNotificationsService} from '../../../_layout/services/active
 @Injectable({providedIn: 'root'})
 export class SystemNotificationsService
   implements
-    HasCreateWithIdResponse<BackendType['CreateSystemNotificationDto']>,
-    HasUpdateWithIdResponse<BackendType['UpdateSystemNotificationDto']>
+    HasCreateWithIdResponse<APIType['CreateSystemNotificationDto']>,
+    HasUpdateWithIdResponse<APIType['UpdateSystemNotificationDto']>
 {
   #api = injectAPI();
   #activeSystemNotificationsService = inject(ActiveSystemNotificationsService);
@@ -29,7 +29,7 @@ export class SystemNotificationsService
     return this.getAll$().pipe(map((notifications) => notifications.find((it) => it.id === id)!));
   }
 
-  create$(body: BackendType['CreateSystemNotificationDto']) {
+  create$(body: APIType['CreateSystemNotificationDto']) {
     return this.#api.post('/v1/system-notification', {body}).pipe(
       tap(() => {
         this.triggerGet$.next(true);
@@ -38,7 +38,7 @@ export class SystemNotificationsService
     );
   }
 
-  update$(body: BackendType['UpdateSystemNotificationDto']) {
+  update$(body: APIType['UpdateSystemNotificationDto']) {
     return this.#api.put('/v1/system-notification', {body}).pipe(
       tap(() => {
         this.triggerGet$.next(true);

@@ -6,7 +6,7 @@ import {TranslocoPipe} from '@jsverse/transloco';
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
 
 @Component({
@@ -58,8 +58,8 @@ import {injectIsValid} from '@shared/form';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppUnpaidReasonEditFormComponent extends AbstractModelEditFormComponent<
-  BackendType['CreateBillUnpaidReasonDto'],
-  BackendType['UpdateBillUnpaidReasonDto']
+  APIType['CreateBillUnpaidReasonDto'],
+  APIType['UpdateBillUnpaidReasonDto']
 > {
   override form = this.fb.nonNullable.group({
     reason: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(120)]],
@@ -71,7 +71,7 @@ export class AppUnpaidReasonEditFormComponent extends AbstractModelEditFormCompo
   isValid = injectIsValid(this.form);
 
   @Input()
-  set unpaidReason(it: BackendType['GetBillUnpaidReasonResponse'] | 'CREATE') {
+  set unpaidReason(it: APIType['GetBillUnpaidReasonResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;
@@ -85,7 +85,7 @@ export class AppUnpaidReasonEditFormComponent extends AbstractModelEditFormCompo
       id: it.id,
     });
   }
-  _unpaidReason?: BackendType['GetBillUnpaidReasonResponse'];
+  _unpaidReason?: APIType['GetBillUnpaidReasonResponse'];
 
   @Input()
   set selectedEventId(id: number | undefined) {

@@ -2,18 +2,18 @@ import {Injectable} from '@angular/core';
 
 import {BehaviorSubject, EMPTY, catchError, shareReplay, switchMap, tap} from 'rxjs';
 
-import {BackendType, injectAPI} from '@shared/api';
+import {APIType, injectAPI} from '@shared/api';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/custom-types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrganisationsService
-  implements HasCreateWithIdResponse<BackendType['CreateOrganisationDto']>, HasUpdateWithIdResponse<BackendType['UpdateOrganisationDto']>
+  implements HasCreateWithIdResponse<APIType['CreateOrganisationDto']>, HasUpdateWithIdResponse<APIType['UpdateOrganisationDto']>
 {
   #api = injectAPI();
 
-  create$(body: BackendType['CreateOrganisationDto']) {
+  create$(body: APIType['CreateOrganisationDto']) {
     return this.#api
       .post('/v1/config/organisation', {
         body,
@@ -25,7 +25,7 @@ export class OrganisationsService
       );
   }
 
-  update$(body: BackendType['UpdateOrganisationDto']) {
+  update$(body: APIType['UpdateOrganisationDto']) {
     return this.#api
       .put('/v1/config/organisation', {
         body,

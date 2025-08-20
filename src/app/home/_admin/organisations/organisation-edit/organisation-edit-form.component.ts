@@ -6,7 +6,7 @@ import {TranslocoPipe} from '@jsverse/transloco';
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
 
 @Component({
@@ -103,8 +103,8 @@ import {injectIsValid} from '@shared/form';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrganisationEditFormComponent extends AbstractModelEditFormComponent<
-  BackendType['CreateOrganisationDto'],
-  BackendType['UpdateOrganisationDto']
+  APIType['CreateOrganisationDto'],
+  APIType['UpdateOrganisationDto']
 > {
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(40)]],
@@ -119,7 +119,7 @@ export class AppOrganisationEditFormComponent extends AbstractModelEditFormCompo
   isValid = injectIsValid(this.form);
 
   @Input()
-  set organisation(it: BackendType['GetOrganisationResponse'] | 'CREATE') {
+  set organisation(it: APIType['GetOrganisationResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;
@@ -138,5 +138,5 @@ export class AppOrganisationEditFormComponent extends AbstractModelEditFormCompo
     });
   }
 
-  _organisation?: BackendType['GetOrganisationResponse'];
+  _organisation?: APIType['GetOrganisationResponse'];
 }

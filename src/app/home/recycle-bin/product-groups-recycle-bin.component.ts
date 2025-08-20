@@ -17,7 +17,7 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
 import {injectTableSelect} from '@home-shared/list';
 import {AppSoldOutPipe} from '@home-shared/pipes/app-sold-out.pipe';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 import {injectPagination} from '@shared/api/pagination';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
@@ -25,7 +25,7 @@ import {ProductGroupsService} from '../products/_services/product-groups.service
 import {ProductsService} from '../products/_services/products.service';
 import {GenericGroupBinType, sortBinTypes} from './utils';
 
-type BinType = (BackendType['GetProductResponse'] | BackendType['GetProductGroupMaxResponse']) & GenericGroupBinType;
+type BinType = (APIType['GetProductResponse'] | APIType['GetProductGroupMaxResponse']) & GenericGroupBinType;
 
 @Component({
   template: `

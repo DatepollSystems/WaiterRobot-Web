@@ -2,13 +2,11 @@ import {Injectable} from '@angular/core';
 
 import {BehaviorSubject, switchMap, tap} from 'rxjs';
 
-import {BackendType, injectAPI} from '@shared/api';
+import {APIType, injectAPI} from '@shared/api';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/custom-types';
 
 @Injectable({providedIn: 'root'})
-export class UsersService
-  implements HasCreateWithIdResponse<BackendType['CreateUserDto']>, HasUpdateWithIdResponse<BackendType['UpdateUserDto']>
-{
+export class UsersService implements HasCreateWithIdResponse<APIType['CreateUserDto']>, HasUpdateWithIdResponse<APIType['UpdateUserDto']> {
   url = '/config/user';
   #api = injectAPI();
 
@@ -22,7 +20,7 @@ export class UsersService
     return this.#api.get('/v1/config/user/{id}', {params: {path: {id}}});
   }
 
-  create$(body: BackendType['CreateUserDto']) {
+  create$(body: APIType['CreateUserDto']) {
     return this.#api.post('/v1/config/user', {body}).pipe(
       tap(() => {
         this.triggerGet$.next(true);
@@ -30,7 +28,7 @@ export class UsersService
     );
   }
 
-  update$(body: BackendType['UpdateUserDto']) {
+  update$(body: APIType['UpdateUserDto']) {
     return this.#api.put('/v1/config/user', {body}).pipe(
       tap(() => {
         this.triggerGet$.next(true);

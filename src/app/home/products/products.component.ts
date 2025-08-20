@@ -32,7 +32,7 @@ import {
 } from '@home-shared/list';
 import {mapName} from '@home-shared/name-map';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
 import {AppTextWithColorIndicatorComponent} from '../_shared/components/color/app-text-with-color-indicator.component';
@@ -409,7 +409,7 @@ export class ProductsComponent {
     );
   }
 
-  toggleProductSoldOut(dto: BackendType['GetProductMaxResponse']): void {
+  toggleProductSoldOut(dto: APIType['GetProductMaxResponse']): void {
     this.table.isLoading.set(true);
     this.setSoldOutLoading.set(true);
     this.#productsService.toggleSoldOut$(dto).subscribe();

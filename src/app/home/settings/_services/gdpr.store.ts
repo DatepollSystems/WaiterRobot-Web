@@ -10,7 +10,7 @@ import {rxMethod} from '@ngrx/signals/rxjs-interop';
 
 import {base64ToArrayBuffer} from '@home-shared/services/file.utils';
 
-import {BackendType, injectAPI} from '@shared/api';
+import {APIType, injectAPI} from '@shared/api';
 import {setError, setFulfilled, setPending} from '@shared/api/request-status.feature';
 import {withTable} from '@shared/api/table.feature';
 import {SelectedOrganisationService} from '@shared/services';
@@ -19,7 +19,7 @@ import {GDPRConfirmationModal} from '../gdpr/gdpr-confirmation-modal';
 
 export const GDPRStore = signalStore(
   {providedIn: 'root'},
-  withTable<BackendType['GdprDocumentPreviewResponse']>({
+  withTable<APIType['GdprDocumentPreviewResponse']>({
     columnsToDisplay: ['agreedOnAt', 'agreedOnBy'],
   }),
   withMethods((store, api = injectAPI(), modal = inject(NgbModal), selectedOrganisationService = inject(SelectedOrganisationService)) => ({

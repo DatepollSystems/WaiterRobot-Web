@@ -2,29 +2,25 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, Observable, combineLatest, map, switchMap, tap} from 'rxjs';
 
-import {BackendType, injectAPI} from '@shared/api';
+import {APIType, injectAPI} from '@shared/api';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/custom-types';
 import {SelectedEventService} from '@shared/services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
 export class TablesService
-  implements HasCreateWithIdResponse<BackendType['CreateTableDto']>, HasUpdateWithIdResponse<BackendType['UpdateTableDto']>
+  implements HasCreateWithIdResponse<APIType['CreateTableDto']>, HasUpdateWithIdResponse<APIType['UpdateTableDto']>
 {
   #api = injectAPI();
   #selectedEventService = inject(SelectedEventService);
 
   triggerGet$ = new BehaviorSubject(true);
 
-  #isNextTableMissing(
-    table: BackendType['GetTableWithGroupResponse'],
-    index: number,
-    tables: BackendType['GetTableWithGroupResponse'][],
-  ): boolean {
+  #isNextTableMissing(table: APIType['GetTableWithGroupResponse'], index: number, tables: APIType['GetTableWithGroupResponse'][]): boolean {
     const nextTable = tables.at(index + 1);
     return !!nextTable && table.group.id === nextTable.group.id && table.number + 1 !== nextTable.number;
   }
 
-  #sortByGroupPositionAndNumber(a: BackendType['GetTableWithGroupResponse'], b: BackendType['GetTableWithGroupMinResponse']) {
+  #sortByGroupPositionAndNumber(a: APIType['GetTableWithGroupResponse'], b: APIType['GetTableWithGroupMinResponse']) {
     // Default to a high value if position is undefined
     const positionA = a.group.position ?? 100000;
     const positionB = b.group.position ?? 100000;
@@ -121,7 +117,7 @@ export class TablesService
     });
   }
 
-  create$(body: BackendType['CreateTableDto']) {
+  create$(body: APIType['CreateTableDto']) {
     return this.#api
       .post('/v1/config/table', {
         body,
@@ -133,7 +129,7 @@ export class TablesService
       );
   }
 
-  update$(body: BackendType['UpdateTableDto']) {
+  update$(body: APIType['UpdateTableDto']) {
     return this.#api.put('/v1/config/table', {body}).pipe(
       tap(() => {
         this.triggerGet$.next(true);

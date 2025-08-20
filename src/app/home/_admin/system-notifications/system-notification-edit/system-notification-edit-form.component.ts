@@ -10,7 +10,7 @@ import {AppDatetimeInputComponent} from '@home-shared/components/datetime-picker
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
 
 import {systemNotificationTypes} from '../_services/system-notifications.service';
@@ -124,8 +124,8 @@ import {systemNotificationTypes} from '../_services/system-notifications.service
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SystemNotificationEditFormComponent extends AbstractModelEditFormComponent<
-  BackendType['CreateSystemNotificationDto'],
-  BackendType['UpdateSystemNotificationDto']
+  APIType['CreateSystemNotificationDto'],
+  APIType['UpdateSystemNotificationDto']
 > {
   systemNotificationTypes = systemNotificationTypes;
 
@@ -142,7 +142,7 @@ export class SystemNotificationEditFormComponent extends AbstractModelEditFormCo
   isValid = injectIsValid(this.form);
 
   @Input()
-  set systemNotification(it: BackendType['GetSystemNotificationResponse'] | 'CREATE') {
+  set systemNotification(it: APIType['GetSystemNotificationResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;

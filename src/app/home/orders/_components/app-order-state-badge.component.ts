@@ -5,7 +5,7 @@ import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbPopover} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 
 @Component({
   template: `
@@ -82,8 +82,8 @@ import {BackendType} from '@shared/api';
   imports: [TranslocoPipe, DatePipe, NgbPopover, NgClass, BiComponent],
 })
 export class AppOrderStateBadgeComponent {
-  orderState = input.required<BackendType['GetOrderResponse']['state']>();
-  @Input({required: true}) set orderProductPrintStates(it: BackendType['GetImplodedOrderProductResponse']['printState'][]) {
+  orderState = input.required<APIType['GetOrderResponse']['state']>();
+  @Input({required: true}) set orderProductPrintStates(it: APIType['GetImplodedOrderProductResponse']['printState'][]) {
     this.allProducts = it.length;
     this.printedProducts = it.length - it.filter((iit) => iit === 'QUEUED').length;
   }

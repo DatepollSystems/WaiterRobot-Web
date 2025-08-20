@@ -6,7 +6,7 @@ import {catchError, interval, map, merge, of, switchMap, timer} from 'rxjs';
 import {b_fromStorage, st_set} from 'dfts-helper';
 import {connect} from 'ngxtension/connect';
 
-import {BackendType, injectAPI} from '@shared/api';
+import {APIType, injectAPI} from '@shared/api';
 
 import {AuthService} from './auth/auth.service';
 
@@ -16,8 +16,8 @@ interface ServerInfoState {
   publicInfo?: {
     lastPing: Date;
     responseTime: number;
-  } & BackendType['JsonInfoResponse'];
-  adminInfo?: BackendType['AdminInfoResponse'];
+  } & APIType['JsonInfoResponse'];
+  adminInfo?: APIType['AdminInfoResponse'];
 }
 
 const refreshIn = 30;

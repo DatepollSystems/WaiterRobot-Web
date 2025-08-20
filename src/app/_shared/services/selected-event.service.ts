@@ -6,14 +6,14 @@ import {BehaviorSubject, catchError, combineLatest, filter, map, merge, of, swit
 import {n_fromStorage, notNullAndUndefined, st_set} from 'dfts-helper';
 import {connect} from 'ngxtension/connect';
 
-import {BackendType, injectAPI} from '@shared/api';
+import {APIType, injectAPI} from '@shared/api';
 
 import {SelectedOrganisationService} from './selected-organisation.service';
 
 interface SelectedEventState {
   status: 'UNSET' | 'LOADING' | 'LOADED';
   selectedId?: number;
-  selected?: BackendType['GetEventOrLocationResponse'];
+  selected?: APIType['GetEventOrLocationResponse'];
 }
 
 export const selectedEventRouteParamKey = 'seId';

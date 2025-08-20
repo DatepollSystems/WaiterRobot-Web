@@ -2,21 +2,19 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, EMPTY, catchError, combineLatest, map, shareReplay, switchMap, tap} from 'rxjs';
 
-import {BackendType, injectAPI} from '@shared/api';
+import {APIType, injectAPI} from '@shared/api';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse, SelectedOrganisationService} from '@shared/services';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventsService
-  implements
-    HasCreateWithIdResponse<BackendType['CreateEventOrLocationDto']>,
-    HasUpdateWithIdResponse<BackendType['UpdateEventOrLocationDto']>
+  implements HasCreateWithIdResponse<APIType['CreateEventOrLocationDto']>, HasUpdateWithIdResponse<APIType['UpdateEventOrLocationDto']>
 {
   #api = injectAPI();
   #selectedOrganisationService = inject(SelectedOrganisationService);
 
-  create$(body: BackendType['CreateEventOrLocationDto']) {
+  create$(body: APIType['CreateEventOrLocationDto']) {
     return this.#api
       .post('/v1/config/event', {
         body,
@@ -28,7 +26,7 @@ export class EventsService
       );
   }
 
-  update$(body: BackendType['UpdateEventOrLocationDto']) {
+  update$(body: APIType['UpdateEventOrLocationDto']) {
     return this.#api
       .put('/v1/config/event', {
         body,

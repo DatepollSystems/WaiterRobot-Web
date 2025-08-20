@@ -4,7 +4,7 @@ import {ChangeDetectionStrategy, Component, booleanAttribute, computed, input, o
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 
 @Component({
   template: `
@@ -70,7 +70,7 @@ import {BackendType} from '@shared/api';
   imports: [NgClass, BiComponent, DfxLowerCaseExceptFirstLettersPipe, DatePipe],
 })
 export class AppSystemNotificationAlertComponent {
-  notification = input.required<BackendType['GetSystemNotificationResponse']>();
+  notification = input.required<APIType['GetSystemNotificationResponse']>();
 
   disableIgnore = input(false, {transform: booleanAttribute});
 

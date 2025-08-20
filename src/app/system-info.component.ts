@@ -8,8 +8,9 @@ import {interval, map} from 'rxjs';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {i_complete} from 'dfts-helper';
-import {DfxTimeSpanPipe, injectIsMobile} from 'dfx-helper';
+import {injectIsMobile} from 'dfx-helper';
 
+import {DfxTimeSpanPipe} from '@home-shared/format-date';
 import {Hotkeys} from '@home-shared/services/hot-keys.service';
 import {QrCodeService} from '@home-shared/services/qr-code.service';
 import {RedirectService} from '@home-shared/services/redirect.service';

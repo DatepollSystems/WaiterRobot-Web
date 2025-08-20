@@ -6,7 +6,7 @@ import {TranslocoService} from '@jsverse/transloco';
 import {createInjectable} from 'ngxtension/create-injectable';
 import {signalSlice} from 'ngxtension/signal-slice';
 
-import {BackendType, injectAPI} from '@shared/api';
+import {APIType, injectAPI} from '@shared/api';
 import {NotificationService} from '@shared/notifications/notification.service';
 
 @Injectable({
@@ -46,7 +46,7 @@ export class OrganisationsUsersService {
       );
   }
 
-  create$(id: number, uEmail: string, body: BackendType['OrganisationUserDto']) {
+  create$(id: number, uEmail: string, body: APIType['OrganisationUserDto']) {
     return this.#api
       .put('/v1/config/organisation/{id}/user/{uEmail}', {
         body,
@@ -68,7 +68,7 @@ export class OrganisationsUsersService {
 interface OrganisationUsersState {
   loading: boolean;
   organisationId: number | undefined;
-  data: BackendType['OrganisationUserResponse'][] | undefined;
+  data: APIType['OrganisationUserResponse'][] | undefined;
 }
 
 export const OrganisationUsersService = createInjectable(() => {
@@ -96,7 +96,7 @@ export const OrganisationUsersService = createInjectable(() => {
     actionSources: {
       load: (state, $: Observable<number | undefined>) =>
         $.pipe(switchMap((organisationId) => concat(of({loading: true}), load(organisationId ?? state().organisationId!)))),
-      create: (state, $: Observable<BackendType['OrganisationUserDto'] & {email: string}>) =>
+      create: (state, $: Observable<APIType['OrganisationUserDto'] & {email: string}>) =>
         $.pipe(
           switchMap((body) =>
             concat(

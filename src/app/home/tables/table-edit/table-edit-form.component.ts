@@ -7,13 +7,12 @@ import {debounceTime, filter, map, switchMap, tap} from 'rxjs';
 
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {HasNumberIDAndName} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
 
 import {TablesService} from '../_services/tables.service';
@@ -97,7 +96,7 @@ import {TablesService} from '../_services/tables.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, AsyncPipe, TranslocoPipe, BiComponent, AppModelEditSaveBtn, RouterLink, NgbTooltip],
 })
-export class TableEditFormComponent extends AbstractModelEditFormComponent<BackendType['CreateTableDto'], BackendType['UpdateTableDto']> {
+export class TableEditFormComponent extends AbstractModelEditFormComponent<APIType['CreateTableDto'], APIType['UpdateTableDto']> {
   tablesService = inject(TablesService);
 
   override form = this.fb.nonNullable.group({
@@ -131,9 +130,9 @@ export class TableEditFormComponent extends AbstractModelEditFormComponent<Backe
     }),
   );
 
-  _table?: BackendType['GetTableWithGroupResponse'];
+  _table?: APIType['GetTableWithGroupResponse'];
   @Input()
-  set table(it: BackendType['GetTableWithGroupResponse'] | 'CREATE') {
+  set table(it: APIType['GetTableWithGroupResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;
@@ -178,5 +177,5 @@ export class TableEditFormComponent extends AbstractModelEditFormComponent<Backe
 
   _selectedEventId = -1;
 
-  tableGroups = input<HasNumberIDAndName[]>();
+  tableGroups = input<APIType['GetTableGroupMinResponse'][]>();
 }

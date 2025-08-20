@@ -2,7 +2,7 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, combineLatest, switchMap, tap} from 'rxjs';
 
-import {BackendType, injectAPI} from '@shared/api';
+import {APIType, injectAPI} from '@shared/api';
 import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
 
 @Injectable({providedIn: 'root'})
@@ -26,7 +26,7 @@ export class DuplicateWaitersService {
     );
   }
 
-  public merge(body: BackendType['MergeWaiterDto']) {
+  public merge(body: APIType['MergeWaiterDto']) {
     return this.#api.put('/v1/config/waiter/duplicates/merge', {body}).pipe(
       tap(() => {
         this.trigger.next(true);

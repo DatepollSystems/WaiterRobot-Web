@@ -2,7 +2,7 @@ import {Component, inject, input, signal} from '@angular/core';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 
 import {StripeService} from '../_services/stripe.service';
 
@@ -33,7 +33,7 @@ import {StripeService} from '../_services/stripe.service';
 })
 export class StripeAccountStateBadge {
   stripeAccountId = input.required<string>();
-  state = input.required<BackendType['GetStripeAccountResponse']['state']>();
+  state = input.required<APIType['GetStripeAccountResponse']['state']>();
 
   loading = signal(false);
 

@@ -8,7 +8,7 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
 
 @Component({
@@ -128,7 +128,7 @@ import {injectIsValid} from '@shared/form';
   imports: [ReactiveFormsModule, TranslocoPipe, AppModelEditSaveBtn, NgSelectModule, FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserEditFormComponent extends AbstractModelEditFormComponent<BackendType['CreateUserDto'], BackendType['UpdateUserDto']> {
+export class UserEditFormComponent extends AbstractModelEditFormComponent<APIType['CreateUserDto'], APIType['UpdateUserDto']> {
   readonly userOrganisations = output<[]>();
 
   form = inject(FormBuilder).nonNullable.group({
@@ -200,7 +200,7 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Backen
   }
 
   @Input()
-  set user(it: BackendType['GetUserResponse'] | 'CREATE') {
+  set user(it: APIType['GetUserResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       this.form.controls.password.setValidators([Validators.minLength(6)]);
@@ -219,8 +219,8 @@ export class UserEditFormComponent extends AbstractModelEditFormComponent<Backen
     });
   }
 
-  organisations = input<BackendType['GetOrganisationResponse'][]>([]);
-  @Input() set selectedOrganisations(selectedOrganisations: BackendType['IdAndNameResponse'][]) {
+  organisations = input<APIType['GetOrganisationResponse'][]>([]);
+  @Input() set selectedOrganisations(selectedOrganisations: APIType['IdAndNameResponse'][]) {
     this.form.controls.selectedOrganisations.setValue(selectedOrganisations.map((it) => it.id));
   }
 }

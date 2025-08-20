@@ -18,7 +18,7 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
 import {RelativeTimeWithTooltip} from '@home-shared/pipes/relative-time.pipe';
 import {Download} from '@home-shared/services/download.service';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 import {injectFilter} from '@shared/api/filter';
 import {injectPagination} from '@shared/api/pagination';
 import {injectCustomFormBuilder} from '@shared/form';
@@ -364,7 +364,7 @@ export class BillsComponent {
     });
   }
 
-  customTableSearch(term: string, item: BackendType['GetTableWithGroupResponse']): boolean {
+  customTableSearch(term: string, item: APIType['GetTableWithGroupResponse']): boolean {
     term = term.toLowerCase().trim();
     return (
       item.group.name.toLowerCase().trim().includes(term) ||

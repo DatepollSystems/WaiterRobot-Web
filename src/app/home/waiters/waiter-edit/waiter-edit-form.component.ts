@@ -3,13 +3,12 @@ import {ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgSelectModule} from '@ng-select/ng-select';
-import {HasNumberIDAndName} from 'dfts-helper';
 
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 import {allowedCharacterSet} from '@home-shared/regex';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
 
 @Component({
@@ -60,10 +59,7 @@ import {injectIsValid} from '@shared/form';
   imports: [ReactiveFormsModule, TranslocoPipe, NgSelectModule, AppModelEditSaveBtn],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppWaiterEditFormComponent extends AbstractModelEditFormComponent<
-  BackendType['CreateWaiterDto'],
-  BackendType['UpdateWaiterDto']
-> {
+export class AppWaiterEditFormComponent extends AbstractModelEditFormComponent<APIType['CreateWaiterDto'], APIType['UpdateWaiterDto']> {
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(70), Validators.pattern(allowedCharacterSet)]],
     eventIds: [new Array<number>()],
@@ -75,7 +71,7 @@ export class AppWaiterEditFormComponent extends AbstractModelEditFormComponent<
   isValid = injectIsValid(this.form);
 
   @Input()
-  set waiter(it: BackendType['GetWaiterResponse'] | 'CREATE') {
+  set waiter(it: APIType['GetWaiterResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;
@@ -106,7 +102,7 @@ export class AppWaiterEditFormComponent extends AbstractModelEditFormComponent<
   _selectedOrganisationId = -1;
 
   @Input()
-  set selectedEvent(it: BackendType['GetEventOrLocationMinResponse'] | undefined) {
+  set selectedEvent(it: APIType['GetEventOrLocationMinResponse'] | undefined) {
     console.warn('setting selected event', it);
     if (it) {
       this.lumber.info('selectedEvent', 'set selected event', it);
@@ -119,7 +115,7 @@ export class AppWaiterEditFormComponent extends AbstractModelEditFormComponent<
       }
     }
   }
-  _selectedEvent?: BackendType['GetEventOrLocationMinResponse'];
+  _selectedEvent?: APIType['GetEventOrLocationMinResponse'];
 
-  events = input.required<HasNumberIDAndName[]>();
+  events = input.required<APIType['GetEventOrLocationMinResponse'][]>();
 }

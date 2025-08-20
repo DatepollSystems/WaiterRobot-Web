@@ -9,11 +9,11 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {s_fromStorage, st_set} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 
 import {AppOrderProductsListTableComponent} from './app-order-products-list-table.component';
 
-type GetImplodedOrderProductResponse = BackendType['GetImplodedOrderProductResponse'];
+type GetImplodedOrderProductResponse = APIType['GetImplodedOrderProductResponse'];
 
 @Component({
   template: `

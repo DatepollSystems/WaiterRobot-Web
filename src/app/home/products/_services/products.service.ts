@@ -2,7 +2,7 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, Observable, combineLatest, map, switchMap, tap} from 'rxjs';
 
-import {BackendType, injectAPI} from '@shared/api';
+import {APIType, injectAPI} from '@shared/api';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/custom-types';
 import {SelectedEventService} from '@shared/services/selected-event.service';
 
@@ -10,14 +10,14 @@ import {SelectedEventService} from '@shared/services/selected-event.service';
   providedIn: 'root',
 })
 export class ProductsService
-  implements HasCreateWithIdResponse<BackendType['CreateProductDto']>, HasUpdateWithIdResponse<BackendType['UpdateProductDto']>
+  implements HasCreateWithIdResponse<APIType['CreateProductDto']>, HasUpdateWithIdResponse<APIType['UpdateProductDto']>
 {
   #api = injectAPI();
   #selectedEventService = inject(SelectedEventService);
 
   triggerGet$ = new BehaviorSubject(true);
 
-  #sortByPositionAndName(a: BackendType['GetProductMaxResponse'], b: BackendType['GetProductMaxResponse']) {
+  #sortByPositionAndName(a: APIType['GetProductMaxResponse'], b: APIType['GetProductMaxResponse']) {
     // Default to a high value if position is undefined
     const groupPositionA = a.group.position ?? 100000;
     const groupPositionB = b.group.position ?? 100000;
@@ -87,7 +87,7 @@ export class ProductsService
     });
   }
 
-  create$(body: BackendType['CreateProductDto']) {
+  create$(body: APIType['CreateProductDto']) {
     return this.#api.post('/v1/config/product', {body}).pipe(
       tap(() => {
         this.triggerGet$.next(true);
@@ -95,7 +95,7 @@ export class ProductsService
     );
   }
 
-  update$(body: BackendType['UpdateProductDto']) {
+  update$(body: APIType['UpdateProductDto']) {
     return this.#api
       .put('/v1/config/product', {
         body,
@@ -107,7 +107,7 @@ export class ProductsService
       );
   }
 
-  toggleSoldOut$(dto: BackendType['GetProductMaxResponse'], soldOut?: boolean) {
+  toggleSoldOut$(dto: APIType['GetProductMaxResponse'], soldOut?: boolean) {
     return this.#api
       .put('/v1/config/product', {
         body: {
@@ -142,7 +142,7 @@ export class ProductsService
     });
   }
 
-  order$(groupId: number, body: BackendType['EntityOrderDto'][]) {
+  order$(groupId: number, body: APIType['EntityOrderDto'][]) {
     return this.#api
       .patch('/v1/config/product/order', {
         body,

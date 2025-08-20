@@ -4,16 +4,16 @@ import {delay, of} from 'rxjs';
 
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbActiveModal, NgbDropdownModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
-import {d_formatWithHoursMinutesAndSeconds} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {QRCodeComponent} from 'dfx-qrcode';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
 
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+import {d_formatWithHoursMinutesAndSeconds} from '@home-shared/format-date';
 import {PublicTableLinkPipe, ShareableLinkPipe} from '@home-shared/pipes/wr-links.pipe';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 
 @Component({
   template: `
@@ -140,7 +140,7 @@ import {BackendType} from '@shared/api';
 export class TablesPrintQrCodesModal {
   activeModal = inject(NgbActiveModal);
 
-  tables = signal<BackendType['GetTableWithGroupResponse'][]>([]);
+  tables = signal<APIType['GetTableWithGroupResponse'][]>([]);
 
   qrCodeSize = signal<'SM' | 'MD'>('MD');
   generating = signal(false);

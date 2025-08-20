@@ -21,7 +21,7 @@ import {ListFilterComponent, injectTable, injectTableDelete, injectTableFilter, 
 import {mapName} from '@home-shared/name-map';
 import {ShareableLinkPipe, WaiterAuthLinkPipe} from '@home-shared/pipes/wr-links.pipe';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 import {SelectedEventService} from '@shared/services/selected-event.service';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
@@ -314,7 +314,7 @@ export class WaitersComponent {
     });
   }
 
-  toggleWaiterActivated(dto: BackendType['GetWaiterResponse']): void {
+  toggleWaiterActivated(dto: APIType['GetWaiterResponse']): void {
     this.table.isLoading.set(true);
     this.setSoldOutLoading.set(true);
     this.#waitersService.toggleActivated$(dto).subscribe();

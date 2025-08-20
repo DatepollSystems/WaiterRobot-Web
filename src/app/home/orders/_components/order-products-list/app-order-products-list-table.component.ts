@@ -8,7 +8,7 @@ import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 
 import {injectTable} from '@home-shared/list';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 
 import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-badge.component';
 
@@ -73,7 +73,7 @@ import {AppOrderProductStateBadgeComponent} from '../app-order-product-state-bad
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppOrderProductsListTableComponent {
-  orderProducts = input.required<BackendType['GetImplodedOrderProductResponse'][]>();
+  orderProducts = input.required<APIType['GetImplodedOrderProductResponse'][]>();
   orderProducts$ = toObservable(this.orderProducts);
 
   sort = viewChild(NgbSort);

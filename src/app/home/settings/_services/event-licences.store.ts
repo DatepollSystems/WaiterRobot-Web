@@ -9,7 +9,7 @@ import {setAllEntities} from '@ngrx/signals/entities';
 import {rxMethod} from '@ngrx/signals/rxjs-interop';
 import {n_from, n_isNumeric} from 'dfts-helper';
 
-import {BackendType, injectAPI} from '@shared/api';
+import {APIType, injectAPI} from '@shared/api';
 import {setError, setFulfilled, setPending, withRequestStatus} from '@shared/api/request-status.feature';
 import {withSelectionTable, withTable} from '@shared/api/table.feature';
 import {SelectedOrganisationService} from '@shared/services';
@@ -18,8 +18,8 @@ export const EventLicencesStore = signalStore(
   {providedIn: 'root'},
   withState<{
     eventId: number | undefined;
-    response: BackendType['EventLicencesResponse'] | undefined;
-    license: BackendType['EventLicencesResponse']['licences'][0] | 'CREATE' | undefined;
+    response: APIType['EventLicencesResponse'] | undefined;
+    license: APIType['EventLicencesResponse']['licences'][0] | 'CREATE' | undefined;
   }>({response: undefined, license: undefined, eventId: undefined}),
   withRequestStatus(),
   withMethods((store, api = injectAPI(), selectedOrganisationService = inject(SelectedOrganisationService), router = inject(Router)) => {
@@ -51,7 +51,7 @@ export const EventLicencesStore = signalStore(
           tap((id) => patchState(store, ({response}) => ({license: response?.licences?.find((it) => it.id === id)}))),
         ),
       ),
-      create: rxMethod<BackendType['AddEventLicenceDto']>(
+      create: rxMethod<APIType['AddEventLicenceDto']>(
         pipe(
           tap(() => patchState(store, setPending())),
           switchMap((body) =>
@@ -68,7 +68,7 @@ export const EventLicencesStore = signalStore(
           ),
         ),
       ),
-      update: rxMethod<BackendType['UpdateEventLicenceDto']>(
+      update: rxMethod<APIType['UpdateEventLicenceDto']>(
         pipe(
           tap(() => patchState(store, setPending())),
           switchMap((body) =>
@@ -107,11 +107,11 @@ export const EventLicencesStore = signalStore(
 
 export const EventLicencesLicencesStore = signalStore(
   {providedIn: 'root'},
-  withSelectionTable<BackendType['EventLicencesResponse']['licences'][0]>({
+  withSelectionTable<APIType['EventLicencesResponse']['licences'][0]>({
     columnsToDisplay: ['start', 'end', 'hours', 'note', 'actions'],
   }),
   withMethods((store) => ({
-    setAllEntities(entities: BackendType['EventLicencesResponse']['licences']) {
+    setAllEntities(entities: APIType['EventLicencesResponse']['licences']) {
       patchState(store, setAllEntities(entities), setFulfilled());
     },
   })),
@@ -129,11 +129,11 @@ export const EventLicencesLicencesStore = signalStore(
 
 export const EventLicencesRangesStore = signalStore(
   {providedIn: 'root'},
-  withTable<BackendType['EventLicencesResponse']['ranges'][0]>({
+  withTable<APIType['EventLicencesResponse']['ranges'][0]>({
     columnsToDisplay: ['startDate', 'endDate'],
   }),
   withMethods((store) => ({
-    setAllEntities(entities: BackendType['EventLicencesResponse']['ranges']) {
+    setAllEntities(entities: APIType['EventLicencesResponse']['ranges']) {
       patchState(store, setFulfilled(), setAllEntities(entities, {selectId: (it) => `${it.startDate}-${it.endDate}`}));
     },
   })),

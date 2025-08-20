@@ -12,11 +12,11 @@ import {StopPropagationDirective} from 'dfx-helper';
 
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 
 import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
 
-type DuplicateWaiterWithSelected = BackendType['IdAndNameResponse'] & {
+type DuplicateWaiterWithSelected = APIType['IdAndNameResponse'] & {
   selectedToMerge: boolean;
   selectedAsMain: boolean;
 };
@@ -95,7 +95,7 @@ export class DuplicateOrganisationWaitersEditComponent {
     filter(notNullAndUndefined),
     map((name) => name.replace('"', '').replace('"', '')),
     switchMap((name) => this.allDuplicateWaiters$.pipe(map((waiters) => waiters.find((it) => it.name === name)))),
-    filter((waiter): waiter is BackendType['DuplicateWaiterResponse'] => {
+    filter((waiter): waiter is APIType['DuplicateWaiterResponse'] => {
       if (!waiter) {
         this.#location.back();
         return false;

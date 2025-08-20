@@ -11,7 +11,7 @@ import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-too
 import {ListFilterComponent, injectTable, injectTableDelete, injectTableFilter} from '@home-shared/list';
 import {AppActivatedPipe} from '@home-shared/pipes/app-activated.pipe';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
 import {UsersService} from './services/users.service';
@@ -132,7 +132,7 @@ export class UsersComponent {
     filterValue$: this.filter.value$,
   });
 
-  delete = injectTableDelete<BackendType['GetUserResponse']>({
+  delete = injectTableDelete<APIType['GetUserResponse']>({
     delete$: (id) => this.#usersService.delete$(id),
   });
 }

@@ -7,7 +7,7 @@ import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
 import {injectEditEntity, injectOnDelete} from '@home-shared/form/edit';
 import {injectIdParam$} from '@home-shared/services/injectActivatedRouteIdParam';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 import {injectOnSubmit} from '@shared/form';
 
 import {OrganisationsUsersService} from '../../organisations/_services/organisations-users.service';
@@ -79,7 +79,7 @@ export class UserEditComponent {
     initialValue: [],
   });
 
-  orgUserChange(organisations: BackendType['IdAndNameResponse'][]): void {
+  orgUserChange(organisations: APIType['IdAndNameResponse'][]): void {
     const user = this.entity();
 
     if (!user || user === 'CREATE') {

@@ -16,7 +16,7 @@ import {injectConfirmDialog} from '@home-shared/components/question-dialog.compo
 import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
 import {injectTableSelect} from '@home-shared/list';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 import {injectPagination} from '@shared/api/pagination';
 import {NotificationService} from '@shared/notifications/notification.service';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
@@ -25,7 +25,7 @@ import {TableGroupsService} from '../tables/_services/table-groups.service';
 import {TablesService} from '../tables/_services/tables.service';
 import {GenericGroupBinType, sortBinTypes} from './utils';
 
-type BinType = (BackendType['GetTableMinResponse'] | BackendType['GetTableGroupResponse']) & GenericGroupBinType;
+type BinType = (APIType['GetTableMinResponse'] | APIType['GetTableGroupResponse']) & GenericGroupBinType;
 
 @Component({
   template: `

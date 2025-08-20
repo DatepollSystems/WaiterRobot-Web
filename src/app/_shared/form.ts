@@ -8,7 +8,7 @@ import {Observable, distinctUntilChanged, map, tap} from 'rxjs';
 
 import {IHasID, s_from} from 'dfts-helper';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services';
 
 import {NotificationService} from './notifications/notification.service';
@@ -48,7 +48,7 @@ export function injectOnSubmit<CreateDTOType, UpdateDTOType extends IHasID<Updat
   return (method: 'CREATE' | 'UPDATE', dto: CreateDTOType | UpdateDTOType) => {
     console.info(`submit - method: "${method}"; Continuous creation check enabled: "${s_from(!!continuousCreation)}"`, dto);
 
-    let obs$: Observable<BackendType['IdResponse'] | BackendType['AlphabeticIdResponse']>;
+    let obs$: Observable<APIType['IdResponse'] | APIType['AlphabeticIdResponse']>;
 
     switch (method) {
       case 'CREATE':

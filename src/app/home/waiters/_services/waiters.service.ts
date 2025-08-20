@@ -2,12 +2,12 @@ import {Injectable} from '@angular/core';
 
 import {BehaviorSubject, switchMap, tap} from 'rxjs';
 
-import {BackendType, injectAPI} from '@shared/api';
+import {APIType, injectAPI} from '@shared/api';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/custom-types';
 
 @Injectable({providedIn: 'root'})
 export class WaitersService
-  implements HasCreateWithIdResponse<BackendType['CreateWaiterDto']>, HasUpdateWithIdResponse<BackendType['UpdateWaiterDto']>
+  implements HasCreateWithIdResponse<APIType['CreateWaiterDto']>, HasUpdateWithIdResponse<APIType['UpdateWaiterDto']>
 {
   #api = injectAPI();
 
@@ -35,7 +35,7 @@ export class WaitersService
     );
   }
 
-  create$(body: BackendType['CreateWaiterDto']) {
+  create$(body: APIType['CreateWaiterDto']) {
     return this.#api
       .post('/v1/config/waiter', {
         body,
@@ -47,7 +47,7 @@ export class WaitersService
       );
   }
 
-  update$(body: BackendType['UpdateWaiterDto']) {
+  update$(body: APIType['UpdateWaiterDto']) {
     return this.#api
       .put('/v1/config/waiter', {
         body,
@@ -59,7 +59,7 @@ export class WaitersService
       );
   }
 
-  toggleActivated$(dto: BackendType['GetWaiterResponse'], activated?: boolean) {
+  toggleActivated$(dto: APIType['GetWaiterResponse'], activated?: boolean) {
     return this.#api
       .put('/v1/config/waiter', {
         body: {

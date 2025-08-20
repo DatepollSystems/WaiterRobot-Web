@@ -7,7 +7,7 @@ import {AppDatetimeInputComponent} from '@home-shared/components/datetime-picker
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
 
 @Component({
@@ -122,8 +122,8 @@ import {injectIsValid} from '@shared/form';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppEventEditFormComponent extends AbstractModelEditFormComponent<
-  BackendType['CreateEventOrLocationDto'],
-  BackendType['UpdateEventOrLocationDto']
+  APIType['CreateEventOrLocationDto'],
+  APIType['UpdateEventOrLocationDto']
 > {
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(40)]],
@@ -141,7 +141,7 @@ export class AppEventEditFormComponent extends AbstractModelEditFormComponent<
   isValid = injectIsValid(this.form);
 
   @Input()
-  set event(it: BackendType['GetEventOrLocationResponse'] | 'CREATE') {
+  set event(it: APIType['GetEventOrLocationResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;

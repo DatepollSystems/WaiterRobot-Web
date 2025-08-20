@@ -5,13 +5,13 @@ import {Observable, catchError, concat, map, of, switchMap, tap} from 'rxjs';
 import {injectWindow} from 'dfx-helper';
 import {signalSlice} from 'ngxtension/signal-slice';
 
-import {BackendType, injectAPI} from '@shared/api';
+import {APIType, injectAPI} from '@shared/api';
 import {NotificationService} from '@shared/notifications/notification.service';
 
 interface OrganisationStripeState {
   loading: boolean;
   organisationId: number | undefined;
-  data: BackendType['GetStripeAccountResponse'][] | undefined;
+  data: APIType['GetStripeAccountResponse'][] | undefined;
 }
 
 @Injectable({
@@ -40,7 +40,7 @@ export class StripeService {
       .pipe(map((data) => ({organisationId, data, loading: false})));
   }
 
-  #create$(body: BackendType['CreateStripeAccountDto']) {
+  #create$(body: APIType['CreateStripeAccountDto']) {
     return this.#api
       .post('/v1/config/stripe/account', {
         body,
@@ -51,7 +51,7 @@ export class StripeService {
       );
   }
 
-  #update$(body: BackendType['UpdateStripeAccountDto']) {
+  #update$(body: APIType['UpdateStripeAccountDto']) {
     return this.#api.put('/v1/config/stripe/account', {body}).pipe(map(() => ({})));
   }
 
@@ -78,9 +78,9 @@ export class StripeService {
     actionSources: {
       load: (state, $: Observable<number | undefined>) =>
         $.pipe(switchMap((organisationId) => concat(of({loading: true}), this.#load$(organisationId ?? state().organisationId!)))),
-      create: (state, action$: Observable<BackendType['CreateStripeAccountDto']>) =>
+      create: (state, action$: Observable<APIType['CreateStripeAccountDto']>) =>
         action$.pipe(switchMap((dto) => concat(of({loading: true}), this.#create$(dto), this.#load$(state().organisationId!)))),
-      update: (state, action$: Observable<BackendType['UpdateStripeAccountDto']>) =>
+      update: (state, action$: Observable<APIType['UpdateStripeAccountDto']>) =>
         action$.pipe(switchMap((dto) => concat(of({loading: true}), this.#update$(dto), this.#load$(state().organisationId!)))),
       delete: (state, action$: Observable<string>) =>
         action$.pipe(

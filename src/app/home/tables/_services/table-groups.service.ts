@@ -2,23 +2,23 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, Observable, combineLatest, map, switchMap, tap} from 'rxjs';
 
-import {BackendType, PageableDto, injectAPI} from '@shared/api';
+import {APIType, PageableDto, injectAPI} from '@shared/api';
 import {HasCreateWithIdResponse, HasOrdered, HasUpdateWithIdResponse} from '@shared/services/custom-types';
 import {SelectedEventService} from '@shared/services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
 export class TableGroupsService
   implements
-    HasCreateWithIdResponse<BackendType['CreateTableGroupDto']>,
-    HasUpdateWithIdResponse<BackendType['UpdateTableGroupDto']>,
-    HasOrdered<BackendType['GetTableGroupResponse']>
+    HasCreateWithIdResponse<APIType['CreateTableGroupDto']>,
+    HasUpdateWithIdResponse<APIType['UpdateTableGroupDto']>,
+    HasOrdered<APIType['GetTableGroupResponse']>
 {
   #api = injectAPI();
   #selectedEventService = inject(SelectedEventService);
 
   triggerGet$ = new BehaviorSubject(true);
 
-  #sortByPositionAndName(a: BackendType['GetTableGroupResponse'], b: BackendType['GetTableGroupResponse']) {
+  #sortByPositionAndName(a: APIType['GetTableGroupResponse'], b: APIType['GetTableGroupResponse']) {
     // Default to a high value if position is undefined
     const groupPositionA = a.position ?? 100000;
     const groupPositionB = b.position ?? 100000;
@@ -54,7 +54,7 @@ export class TableGroupsService
     });
   }
 
-  create$(body: BackendType['CreateTableGroupDto']) {
+  create$(body: APIType['CreateTableGroupDto']) {
     return this.#api
       .post('/v1/config/table/group', {
         body,
@@ -66,7 +66,7 @@ export class TableGroupsService
       );
   }
 
-  update$(body: BackendType['UpdateTableGroupDto']) {
+  update$(body: APIType['UpdateTableGroupDto']) {
     return this.#api
       .put('/v1/config/table/group', {
         body,
@@ -115,7 +115,7 @@ export class TableGroupsService
     );
   }
 
-  order$(body: BackendType['EntityOrderDto'][]) {
+  order$(body: APIType['EntityOrderDto'][]) {
     return this.#api
       .patch('/v1/config/table/group/order', {
         body,

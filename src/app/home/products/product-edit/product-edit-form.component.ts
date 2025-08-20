@@ -5,7 +5,7 @@ import {RouterLink} from '@angular/router';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
-import {HasNumberIDAndName, a_pluck, s_from} from 'dfts-helper';
+import {a_pluck, s_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
 import {AppColorPicker} from '@home-shared/components/color/color-picker.component';
@@ -13,7 +13,7 @@ import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-e
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 import {allowedCharacterSet, s_toCurrencyNumber} from '@home-shared/regex';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
 
 @Component({
@@ -199,10 +199,7 @@ import {injectIsValid} from '@shared/form';
   imports: [ReactiveFormsModule, TranslocoPipe, BiComponent, NgSelectModule, AppModelEditSaveBtn, RouterLink, NgbTooltip, AppColorPicker],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
-  BackendType['CreateProductDto'],
-  BackendType['UpdateProductDto']
-> {
+export class AppProductEditFormComponent extends AbstractModelEditFormComponent<APIType['CreateProductDto'], APIType['UpdateProductDto']> {
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(70), Validators.pattern(allowedCharacterSet)]],
     price: ['', [Validators.required, Validators.pattern(/^\d+([.,](\d{1,2}|[0-8]\d?))?$/)]],
@@ -227,7 +224,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
   };
 
   @Input()
-  set product(it: BackendType['GetProductMaxResponse'] | 'CREATE') {
+  set product(it: APIType['GetProductMaxResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;
@@ -248,7 +245,7 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
     });
   }
 
-  _product?: BackendType['GetProductMaxResponse'];
+  _product?: APIType['GetProductMaxResponse'];
 
   @Input()
   set selectedProductGroupId(id: number | undefined | null) {
@@ -272,9 +269,9 @@ export class AppProductEditFormComponent extends AbstractModelEditFormComponent<
 
   _selectedEventId = -1;
 
-  productGroups = input<HasNumberIDAndName[]>();
+  productGroups = input<APIType['GetProductGroupMinResponse'][]>();
 
-  printers = input<HasNumberIDAndName[]>();
+  printers = input<APIType['GetPrinterMinResponse'][]>();
 
-  allergens = input<HasNumberIDAndName[]>();
+  allergens = input<APIType['GetAllergenResponse'][]>();
 }

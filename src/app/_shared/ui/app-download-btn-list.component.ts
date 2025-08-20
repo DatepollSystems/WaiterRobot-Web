@@ -4,7 +4,7 @@ import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {a_shuffle} from 'dfts-helper';
-import {BiComponent, BiName, BiNamesEnum} from 'dfx-bootstrap-icons';
+import {BiComponent, BiName} from 'dfx-bootstrap-icons';
 
 import {QrCodeService} from '@home-shared/services/qr-code.service';
 
@@ -100,12 +100,12 @@ export class AppDownloadBtnListComponent {
     {
       text: 'App Store',
       link: 'https://apps.apple.com/at/app/waiterrobot/id1610157234',
-      icon: BiNamesEnum.apple,
+      icon: 'apple',
     },
     {
       text: 'Play Store',
       link: 'https://play.google.com/store/apps/details?id=org.datepollsystems.waiterrobot.android',
-      icon: BiNamesEnum.google,
+      icon: 'google',
     },
   ]);
 

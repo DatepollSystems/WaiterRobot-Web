@@ -7,7 +7,7 @@ import {AppDatetimeInputComponent} from '@home-shared/components/datetime-picker
 import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
 
 @Component({
@@ -51,8 +51,8 @@ import {injectIsValid} from '@shared/form';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppLicenseEditFormComponent extends AbstractModelEditFormComponent<
-  BackendType['AddEventLicenceDto'],
-  BackendType['UpdateEventLicenceDto']
+  APIType['AddEventLicenceDto'],
+  APIType['UpdateEventLicenceDto']
 > {
   override form = this.fb.nonNullable.group({
     startDate: new FormControl<string | null>(null),
@@ -65,7 +65,7 @@ export class AppLicenseEditFormComponent extends AbstractModelEditFormComponent<
   isValid = injectIsValid(this.form);
 
   @Input()
-  set license(it: BackendType['EventLicencesResponse']['licences'][0] | 'CREATE') {
+  set license(it: APIType['EventLicencesResponse']['licences'][0] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;

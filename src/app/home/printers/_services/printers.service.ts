@@ -2,7 +2,7 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, combineLatest, map, switchMap, tap} from 'rxjs';
 
-import {BackendType, PageableDto, injectAPI} from '@shared/api';
+import {APIType, PageableDto, injectAPI} from '@shared/api';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/custom-types';
 import {SelectedEventService} from '@shared/services/selected-event.service';
 
@@ -10,7 +10,7 @@ import {SelectedEventService} from '@shared/services/selected-event.service';
   providedIn: 'root',
 })
 export class PrintersService
-  implements HasCreateWithIdResponse<BackendType['CreatePrinterDto']>, HasUpdateWithIdResponse<BackendType['UpdatePrinterDto']>
+  implements HasCreateWithIdResponse<APIType['CreatePrinterDto']>, HasUpdateWithIdResponse<APIType['UpdatePrinterDto']>
 {
   #api = injectAPI();
   #selectedEventService = inject(SelectedEventService);
@@ -57,7 +57,7 @@ export class PrintersService
       );
   }
 
-  create$(body: BackendType['CreatePrinterDto']) {
+  create$(body: APIType['CreatePrinterDto']) {
     return this.#api
       .post('/v1/config/printer', {
         body,
@@ -69,7 +69,7 @@ export class PrintersService
       );
   }
 
-  update$(body: BackendType['UpdatePrinterDto']) {
+  update$(body: APIType['UpdatePrinterDto']) {
     return this.#api.put('/v1/config/printer', {body}).pipe(
       tap(() => {
         this.triggerGet$.next(true);

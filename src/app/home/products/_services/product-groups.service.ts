@@ -2,23 +2,23 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, combineLatest, map, switchMap, tap} from 'rxjs';
 
-import {BackendType, PageableDto, injectAPI} from '@shared/api';
+import {APIType, PageableDto, injectAPI} from '@shared/api';
 import {HasCreateWithIdResponse, HasOrdered, HasUpdateWithIdResponse} from '@shared/services/custom-types';
 import {SelectedEventService} from '@shared/services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
 export class ProductGroupsService
   implements
-    HasCreateWithIdResponse<BackendType['CreateProductGroupDto']>,
-    HasUpdateWithIdResponse<BackendType['UpdateProductGroupDto']>,
-    HasOrdered<BackendType['GetProductGroupResponse']>
+    HasCreateWithIdResponse<APIType['CreateProductGroupDto']>,
+    HasUpdateWithIdResponse<APIType['UpdateProductGroupDto']>,
+    HasOrdered<APIType['GetProductGroupResponse']>
 {
   #api = injectAPI();
   #selectedEventService = inject(SelectedEventService);
 
   triggerGet$ = new BehaviorSubject(true);
 
-  #sortByPositionAndName(a: BackendType['GetProductGroupResponse'], b: BackendType['GetProductGroupResponse']) {
+  #sortByPositionAndName(a: APIType['GetProductGroupResponse'], b: APIType['GetProductGroupResponse']) {
     // Default to a high value if position is undefined
     const groupPositionA = a.position ?? 100000;
     const groupPositionB = b.position ?? 100000;
@@ -58,7 +58,7 @@ export class ProductGroupsService
     });
   }
 
-  create$(body: BackendType['CreateProductGroupDto']) {
+  create$(body: APIType['CreateProductGroupDto']) {
     return this.#api
       .post('/v1/config/product/group', {
         body,
@@ -70,7 +70,7 @@ export class ProductGroupsService
       );
   }
 
-  update$(body: BackendType['UpdateProductGroupDto']) {
+  update$(body: APIType['UpdateProductGroupDto']) {
     return this.#api
       .put('/v1/config/product/group', {
         body,
@@ -113,7 +113,7 @@ export class ProductGroupsService
     );
   }
 
-  order$(body: BackendType['EntityOrderDto'][]) {
+  order$(body: APIType['EntityOrderDto'][]) {
     return this.#api
       .patch('/v1/config/product/group/order', {
         body,

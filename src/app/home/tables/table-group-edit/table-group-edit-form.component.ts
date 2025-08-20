@@ -8,7 +8,7 @@ import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-e
 import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
 import {allowedCharacterSet} from '@home-shared/regex';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 import {injectIsValid} from '@shared/form';
 
 @Component({
@@ -46,8 +46,8 @@ import {injectIsValid} from '@shared/form';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableGroupEditFormComponent extends AbstractModelEditFormComponent<
-  BackendType['CreateTableGroupDto'],
-  BackendType['UpdateTableGroupDto']
+  APIType['CreateTableGroupDto'],
+  APIType['UpdateTableGroupDto']
 > {
   override form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(60), Validators.pattern(allowedCharacterSet)]],
@@ -59,7 +59,7 @@ export class TableGroupEditFormComponent extends AbstractModelEditFormComponent<
   isValid = injectIsValid(this.form);
 
   @Input()
-  set tableGroup(it: BackendType['GetTableGroupResponse'] | 'CREATE') {
+  set tableGroup(it: APIType['GetTableGroupResponse'] | 'CREATE') {
     if (it === 'CREATE') {
       this.isCreating.set(true);
       return;

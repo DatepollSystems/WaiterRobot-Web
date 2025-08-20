@@ -8,8 +8,8 @@ import {interval, map} from 'rxjs';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
-import {DfxTimeSpanPipe} from 'dfx-helper';
 
+import {DfxTimeSpanPipe} from '@home-shared/format-date';
 import {AppActivatedPipe} from '@home-shared/pipes/app-activated.pipe';
 
 import {injectIsValid} from '@shared/form';

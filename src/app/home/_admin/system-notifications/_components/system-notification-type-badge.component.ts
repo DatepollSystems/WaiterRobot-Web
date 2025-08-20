@@ -4,7 +4,7 @@ import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 
 @Component({
   template: `
@@ -42,5 +42,5 @@ import {BackendType} from '@shared/api';
   imports: [NgClass, BiComponent, DfxLowerCaseExceptFirstLettersPipe],
 })
 export class AppSystemNotificationTypeBadgeComponent {
-  type = input.required<BackendType['GetSystemNotificationResponse']['type']>();
+  type = input.required<APIType['GetSystemNotificationResponse']['type']>();
 }

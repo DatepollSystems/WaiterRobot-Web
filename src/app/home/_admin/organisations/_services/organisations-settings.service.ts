@@ -4,12 +4,12 @@ import {Observable, combineLatest, map, of, startWith, switchMap} from 'rxjs';
 
 import {signalSlice} from 'ngxtension/signal-slice';
 
-import {BackendType, injectAPI} from '@shared/api';
+import {APIType, injectAPI} from '@shared/api';
 
 type OrganisationsSettingsState = {
   organisationId: number | undefined;
   state: 'LOADING' | 'SETTING' | 'DONE';
-  settings: BackendType['OrganisationSettingsResponse'] | undefined;
+  settings: APIType['OrganisationSettingsResponse'] | undefined;
 };
 
 @Injectable({

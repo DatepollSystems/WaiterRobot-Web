@@ -2,15 +2,13 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, combineLatest, switchMap, tap} from 'rxjs';
 
-import {BackendType, injectAPI} from '@shared/api';
+import {APIType, injectAPI} from '@shared/api';
 import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/custom-types';
 import {SelectedEventService} from '@shared/services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
 export class UnpaidReasonsService
-  implements
-    HasCreateWithIdResponse<BackendType['CreateBillUnpaidReasonDto']>,
-    HasUpdateWithIdResponse<BackendType['UpdateBillUnpaidReasonDto']>
+  implements HasCreateWithIdResponse<APIType['CreateBillUnpaidReasonDto']>, HasUpdateWithIdResponse<APIType['UpdateBillUnpaidReasonDto']>
 {
   #api = injectAPI();
   #selectedEventService = inject(SelectedEventService);
@@ -31,7 +29,7 @@ export class UnpaidReasonsService
     );
   }
 
-  create$(body: BackendType['CreateBillUnpaidReasonDto']) {
+  create$(body: APIType['CreateBillUnpaidReasonDto']) {
     return this.#api.post('/v1/config/billing/unpaid', {body}).pipe(
       tap(() => {
         this.triggerRefresh.next(true);
@@ -39,7 +37,7 @@ export class UnpaidReasonsService
     );
   }
 
-  update$(body: BackendType['UpdateBillUnpaidReasonDto']) {
+  update$(body: APIType['UpdateBillUnpaidReasonDto']) {
     return this.#api.put('/v1/config/billing/unpaid', {body}).pipe(
       tap(() => {
         this.triggerRefresh.next(true);

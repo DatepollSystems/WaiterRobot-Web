@@ -15,7 +15,7 @@ import {derivedFrom} from 'ngxtension/derived-from';
 import {BlankslateComponent} from '@home-shared/components/blankslate.component';
 import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
 
-import {BackendType} from '@shared/api';
+import {APIType} from '@shared/api';
 import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
 import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
@@ -175,7 +175,7 @@ export class StripeSettingsComponent {
 
         return of(dataSource);
       }),
-      startWith(new NgbTableDataSource<BackendType['GetStripeAccountResponse']>()),
+      startWith(new NgbTableDataSource<APIType['GetStripeAccountResponse']>()),
     ),
   );
 
@@ -200,14 +200,14 @@ export class StripeSettingsComponent {
       name: undefined,
       eventIds: undefined,
     });
-    modalRef.closed.subscribe((it?: BackendType['CreateStripeAccountDto']) => {
+    modalRef.closed.subscribe((it?: APIType['CreateStripeAccountDto']) => {
       if (it) {
         void this.stripeState.create(it);
       }
     });
   }
 
-  onUpdateStripeAccount(stripeAccount: BackendType['GetStripeAccountResponse']): void {
+  onUpdateStripeAccount(stripeAccount: APIType['GetStripeAccountResponse']): void {
     const modalRef = this.modal.open(StripeAccountModal, {
       ariaLabelledBy: 'modal-title-org-stripe-update',
       size: 'lg',
@@ -219,7 +219,7 @@ export class StripeSettingsComponent {
       name: stripeAccount.name,
       eventIds: stripeAccount.events.map((it) => it.id),
     });
-    modalRef.closed.subscribe((it?: Omit<BackendType['UpdateStripeAccountDto'], 'id'>) => {
+    modalRef.closed.subscribe((it?: Omit<APIType['UpdateStripeAccountDto'], 'id'>) => {
       if (it) {
         void this.stripeState.update({
           ...it,
