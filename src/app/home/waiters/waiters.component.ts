@@ -14,21 +14,19 @@ import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe, StopPropagationDirective} from 'dfx-helper';
 import {injectParams} from 'ngxtension/inject-params';
 
-import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
-import {BlankslateComponent} from '@home-shared/components/blankslate.component';
-import {BtnWaiterCreateQrCodeComponent} from '@home-shared/components/button/app-waiter-create-qr-code-btn.component';
-import {ListFilterComponent, injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
-import {mapName} from '@home-shared/name-map';
-import {ShareableLinkPipe, WaiterAuthLinkPipe} from '@home-shared/pipes/wr-links.pipe';
-
-import {APIType} from '@shared/api';
-import {SelectedEventService} from '@shared/services/selected-event.service';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-
-import {EventsService} from '../_admin/events/_services/events.service';
-import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
-import {AppActivatedPipe} from '../_shared/pipes/app-activated.pipe';
-import {QrCodeService} from '../_shared/services/qr-code.service';
+import {APIType} from '../../api';
+import {ActionDropdownComponent} from '../../components/action-dropdown.component';
+import {BlankslateComponent} from '../../components/blankslate.component';
+import {BtnWaiterCreateQrCodeComponent} from '../../components/button/app-waiter-create-qr-code-btn.component';
+import {AppProgressBarComponent} from '../../components/loading/app-progress-bar.component';
+import {ScrollableToolbarComponent} from '../../components/scrollable-toolbar.component';
+import {AppActivatedPipe} from '../../pipes/app-activated.pipe';
+import {ShareableLinkPipe, WaiterAuthLinkPipe} from '../../pipes/wr-links.pipe';
+import {EventsService} from '../../services/events.service';
+import {QrCodeService} from '../../services/qr-code.service';
+import {SelectedEventService} from '../../services/selected-event.service';
+import {ListFilterComponent, injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '../../util/list';
+import {mapName} from '../../util/name-map';
 import {OrganisationWaitersService} from './_services/organisation-waiters.service';
 import {WaitersService} from './_services/waiters.service';
 

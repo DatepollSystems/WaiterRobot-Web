@@ -13,10 +13,11 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {injectParams} from 'ngxtension/inject-params';
 
-import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
-import {BlankslateComponent} from '@home-shared/components/blankslate.component';
-import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
-import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
+import {ActionDropdownComponent} from '../../components/action-dropdown.component';
+import {BlankslateComponent} from '../../components/blankslate.component';
+import {AppTextWithColorIndicatorComponent} from '../../components/color/app-text-with-color-indicator.component';
+import {AppProgressBarComponent} from '../../components/loading/app-progress-bar.component';
+import {ScrollableToolbarComponent} from '../../components/scrollable-toolbar.component';
 import {
   ListFilterComponent,
   addGroupIfMissing,
@@ -25,10 +26,7 @@ import {
   injectTableFilter,
   injectTableSelect,
   removeGroup,
-} from '@home-shared/list';
-
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-
+} from '../../util/list';
 import {TablesService} from './_services/tables.service';
 import {TablesPrintQrCodesModal} from './tables-print-qr-codes.modal';
 

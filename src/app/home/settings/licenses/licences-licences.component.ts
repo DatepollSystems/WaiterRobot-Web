@@ -9,9 +9,8 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {StopPropagationDirective} from 'dfx-helper';
 
-import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
-import {MyUserService} from '@home-shared/services/user/my-user.service';
-
+import {ActionDropdownComponent} from '../../../components/action-dropdown.component';
+import {MyUserService} from '../../../services/user/my-user.service';
 import {EventLicencesLicencesStore, EventLicencesStore} from '../_services/event-licences.store';
 
 @Component({

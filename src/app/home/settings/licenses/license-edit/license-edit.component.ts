@@ -4,11 +4,10 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {injectParams} from 'ngxtension/inject-params';
 
-import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectOnDelete} from '@home-shared/form/edit';
-
 import {SelectedEventService} from '@shared/services';
 
+import {AppEntityEditModule} from '../../../../forms/form/app-entity-edit.module';
+import {injectOnDelete} from '../../../../forms/form/edit';
 import {EventLicencesStore} from '../../_services/event-licences.store';
 import {AppLicenseEditFormComponent} from './license-edit-form.component';
 

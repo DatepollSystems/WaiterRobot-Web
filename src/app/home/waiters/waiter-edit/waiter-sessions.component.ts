@@ -13,10 +13,8 @@ import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {StopPropagationDirective} from 'dfx-helper';
 import {injectParams} from 'ngxtension/inject-params';
 
-import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
-
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-
+import {AppProgressBarComponent} from '../../../components/loading/app-progress-bar.component';
+import {injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '../../../util/list';
 import {WaiterSessionsService} from '../_services/waiter-sessions.service';
 
 @Component({

@@ -2,8 +2,7 @@ import {Component, inject, input, signal} from '@angular/core';
 
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {APIType} from '@shared/api';
-
+import {APIType} from '../../../api';
 import {StripeService} from '../_services/stripe.service';
 
 @Component({

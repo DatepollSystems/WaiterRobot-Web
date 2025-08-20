@@ -9,10 +9,10 @@ import {d_from} from 'dfts-helper';
 import {derivedFrom} from 'ngxtension/derived-from';
 import {filterNil} from 'ngxtension/filter-nil';
 
-import {injectAPI} from '@shared/api';
-import {injectCustomFormBuilder} from '@shared/form';
-import {dateToBackendDateTimeString} from '@shared/services/datepicker-adapter';
-import {SelectedEventService} from '@shared/services/selected-event.service';
+import {injectAPI} from '../../../api';
+import {SelectedEventService} from '../../../services/selected-event.service';
+import {dateToBackendDateTimeString} from '../../../util/datepicker-adapter';
+import {injectCustomFormBuilder} from '../../../util/form';
 
 type timelineType = 'PRODUCTS' | 'WAITERS' | 'PRODUCT_GROUPS';
 

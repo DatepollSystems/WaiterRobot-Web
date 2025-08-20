@@ -4,7 +4,7 @@ import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent, provideBi, withSize} from 'dfx-bootstrap-icons';
 
-import {injectBlurSetting} from '@home-shared/services/blur-setting.service';
+import {injectBlurSetting} from '../../services/blur-setting.service';
 
 @Component({
   selector: 'app-blur-toggle',

@@ -10,11 +10,9 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import {derivedFrom} from 'ngxtension/derived-from';
 import {signalSlice} from 'ngxtension/signal-slice';
 
-import {allowedCharacterSet} from '@home-shared/regex';
-
-import {APIType} from '@shared/api';
-
-import {EventsService} from '../../_admin/events/_services/events.service';
+import {APIType} from '../../../api';
+import {EventsService} from '../../../services/events.service';
+import {allowedCharacterSet} from '../../../util/regex';
 
 interface OrganisationStripeAccountModalState {
   name: string | undefined;

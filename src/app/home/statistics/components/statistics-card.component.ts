@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 
-import {injectBlurSetting} from '@home-shared/services/blur-setting.service';
+import {injectBlurSetting} from '../../../services/blur-setting.service';
 
 @Component({
   template: `

@@ -11,11 +11,10 @@ import {DfxPaginationModule, DfxSortModule, DfxTableModule} from 'dfx-bootstrap-
 import {DfxCurrencyCentPipe} from 'dfx-helper';
 import {NgxPrintDirective} from 'ngx-print';
 
-import {AppSpinnerRowComponent} from '@shared/ui/loading/app-spinner-row.component';
-
-import {AppBackButtonComponent} from '../_shared/components/button/app-back-button.component';
-import {AppDatetimeInputComponent} from '../_shared/components/datetime-picker/datetime-picker.component';
-import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
+import {AppBackButtonComponent} from '../../components/button/app-back-button.component';
+import {AppDatetimeInputComponent} from '../../components/datetime-picker/datetime-picker.component';
+import {AppSpinnerRowComponent} from '../../components/loading/app-spinner-row.component';
+import {ScrollableToolbarComponent} from '../../components/scrollable-toolbar.component';
 import {BlurToggleComponent} from './blur-toggle.component';
 import {StatisticsCardComponent} from './components/statistics-card.component';
 import {SumProductGroupsComponent} from './components/sum-product-groups.component';

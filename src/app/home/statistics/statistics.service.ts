@@ -3,8 +3,8 @@ import {toSignal} from '@angular/core/rxjs-interop';
 
 import {switchMap} from 'rxjs';
 
-import {injectAPI} from '@shared/api';
-import {SelectedEventService} from '@shared/services/selected-event.service';
+import {injectAPI} from '../../api';
+import {SelectedEventService} from '../../services/selected-event.service';
 
 @Injectable({providedIn: 'root'})
 export class StatisticsService {

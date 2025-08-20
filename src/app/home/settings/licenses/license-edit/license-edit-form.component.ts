@@ -3,12 +3,11 @@ import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
 import {TranslocoPipe} from '@jsverse/transloco';
 
-import {AppDatetimeInputComponent} from '@home-shared/components/datetime-picker/datetime-picker.component';
-import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
-import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
-
-import {APIType} from '@shared/api';
-import {injectIsValid} from '@shared/form';
+import {APIType} from '../../../../api';
+import {AppDatetimeInputComponent} from '../../../../components/datetime-picker/datetime-picker.component';
+import {AbstractModelEditFormComponent} from '../../../../forms/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '../../../../forms/form/app-model-edit-save-btn.component';
+import {injectIsValid} from '../../../../util/form';
 
 @Component({
   template: `

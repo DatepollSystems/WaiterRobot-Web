@@ -9,25 +9,16 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {StopPropagationDirective} from 'dfx-helper';
 
-import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
-import {BlankslateComponent} from '@home-shared/components/blankslate.component';
-import {AppResetOrderButtonComponent} from '@home-shared/components/button/app-reset-order-button.component';
-import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
-import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-import {AppOrderModeSwitchComponent} from '@home-shared/form/app-order-mode-switch.component';
-import {
-  ListFilterComponent,
-  injectTable,
-  injectTableDelete,
-  injectTableFilter,
-  injectTableOrder,
-  injectTableSelect,
-} from '@home-shared/list';
-import {listOrderStyles} from '@home-shared/list/list-order-styles';
-import {mapName} from '@home-shared/name-map';
-
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-
+import {ActionDropdownComponent} from '../../components/action-dropdown.component';
+import {BlankslateComponent} from '../../components/blankslate.component';
+import {AppResetOrderButtonComponent} from '../../components/button/app-reset-order-button.component';
+import {AppTextWithColorIndicatorComponent} from '../../components/color/app-text-with-color-indicator.component';
+import {AppProgressBarComponent} from '../../components/loading/app-progress-bar.component';
+import {ScrollableToolbarComponent} from '../../components/scrollable-toolbar.component';
+import {AppOrderModeSwitchComponent} from '../../forms/form/app-order-mode-switch.component';
+import {ListFilterComponent, injectTable, injectTableDelete, injectTableFilter, injectTableOrder, injectTableSelect} from '../../util/list';
+import {listOrderStyles} from '../../util/list/list-order-styles';
+import {mapName} from '../../util/name-map';
 import {TableGroupsService} from './_services/table-groups.service';
 
 @Component({

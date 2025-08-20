@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 
 import {SelectedEventService} from '@shared/services';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
 
+import {AppProgressBarComponent} from '../../../components/loading/app-progress-bar.component';
 import {EventLicencesRangesStore, EventLicencesStore} from '../_services/event-licences.store';
 import {LicencesLicencesComponent} from './licences-licences.component';
 import {LicencesRangesComponent} from './licences-ranges.component';

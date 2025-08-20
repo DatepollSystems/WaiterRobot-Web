@@ -2,8 +2,8 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, combineLatest, switchMap, tap} from 'rxjs';
 
-import {APIType, injectAPI} from '@shared/api';
-import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
+import {APIType, injectAPI} from '../../../api';
+import {SelectedOrganisationService} from '../../../services/selected-organisation.service';
 
 @Injectable({providedIn: 'root'})
 export class DuplicateWaitersService {

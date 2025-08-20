@@ -1,0 +1,379 @@
+import {Component, computed, inject} from '@angular/core';
+import {RouterLink, RouterLinkActive} from '@angular/router';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbModal, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {injectWindow} from 'dfx-helper';
+
+import {SelectedEventService} from '../../services/selected-event.service';
+import {SelectedOrganisationService} from '../../services/selected-organisation.service';
+import {MyUserService} from '../../services/user/my-user.service';
+import {LogoWithText} from '../logo-with-text';
+import {ProfileMenu} from './profile-menu/profile.menu';
+import {SwitcherModal} from './profile-menu/switcher.modal';
+
+@Component({
+  template: `
+    <div class="d-flex flex-column gap-3 pb-3 mb-3 border-bottom">
+      <a class="link-body-emphasis text-decoration-none" routerLink="/">
+        <logo-with-text logoSize="30" textHeight="12" textWidthScale="0.5" />
+      </a>
+      <button
+        class="btn switcher d-flex justify-content-between align-items-center"
+        (mousedown)="openSwitcher()"
+        type="button"
+        style="border-color: #cccccc; border-width: 1px;"
+      >
+        <div class="d-flex flex-column align-items-start" style="font-size: 0.875rem; width: 85%">
+          @if (selectedOrganisation(); as organisation) {
+            <span class="ws-nowrap overflow-x-hidden text-start w-100" style="text-overflow: ellipsis;">{{ organisation.name }}</span>
+            @if (selectedEvent(); as event) {
+              <span class="ws-nowrap text-start w-100" style="text-overflow: ellipsis;">{{ event.name }}</span>
+            }
+          } @else {
+            <span class="my-2">Organisation auswählen</span>
+          }
+        </div>
+        <bi name="chevron-expand" />
+      </button>
+    </div>
+    <ul class="list-unstyled flex-column ps-0 mb-auto">
+      <li class="mb-1">
+        <a
+          class="nav-heading d-inline-block rounded"
+          [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/tables'"
+          routerLinkActive="active"
+        >
+          <div class="d-inline-flex align-items-center gap-2 ">
+            <bi name="columns-gap" />
+            {{ 'HOME_TABLES' | transloco }}
+          </div>
+        </a>
+        <ul class="nav-sub list-unstyled fw-normal pb-1 small">
+          <li>
+            <a
+              class="d-inline-block rounded"
+              [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/table-groups'"
+              routerLinkActive="active"
+              >{{ 'HOME_TABLE_GROUPS' | transloco }}</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li class="mb-1">
+        <a
+          class="nav-heading d-inline-block rounded"
+          [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/products'"
+          routerLinkActive="active"
+        >
+          <div class="d-inline-flex align-items-center gap-2 ">
+            <bi name="cup-straw" />
+            {{ 'HOME_PROD_ALL' | transloco }}
+          </div>
+        </a>
+        <ul class="nav-sub list-unstyled fw-normal pb-1 small">
+          <li>
+            <a
+              class="d-inline-block rounded"
+              [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/product-groups'"
+              routerLinkActive="active"
+              >{{ 'HOME_PROD_GROUPS' | transloco }}</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li class="mb-1">
+        <a
+          class="nav-heading d-inline-block rounded"
+          [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/waiters'"
+          routerLinkActive="active"
+        >
+          <div class="d-inline-flex align-items-center gap-2 ">
+            <bi name="people" />
+            {{ 'NAV_WAITERS' | transloco }}
+          </div>
+        </a>
+        <ul class="nav-sub list-unstyled fw-normal pb-1 small">
+          <li>
+            <a
+              class="d-inline-block rounded"
+              [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/waiter-duplicates'"
+              routerLinkActive="active"
+              >Duplikate</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li class="mb-1">
+        <a
+          class="nav-heading d-inline-block rounded"
+          [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/printers/all'"
+          routerLinkActive="active"
+        >
+          <div class="d-inline-flex align-items-center gap-2 ">
+            <bi name="printer" />
+            {{ 'NAV_PRINTERS' | transloco }}
+          </div>
+        </a>
+        <ul class="nav-sub list-unstyled fw-normal pb-1 small">
+          <li>
+            <a
+              class="d-inline-block rounded"
+              [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/printers/mediators/all'"
+              routerLinkActive="active"
+              >Mediators</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li class="mb-1">
+        <a
+          class="nav-heading d-inline-block rounded"
+          [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/orders/all'"
+          routerLinkActive="active"
+        >
+          <div class="d-inline-flex align-items-center gap-2 ">
+            <bi name="stack" />
+            {{ 'NAV_ORDERS' | transloco }}
+          </div>
+        </a>
+      </li>
+      <li class="mb-1">
+        <a
+          class="nav-heading d-inline-block rounded"
+          [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/bills/all'"
+          routerLinkActive="active"
+        >
+          <div class="d-inline-flex align-items-center gap-2 ">
+            <bi name="cash-coin" />
+            {{ 'NAV_BILLS' | transloco }}
+          </div>
+        </a>
+        <ul class="nav-sub list-unstyled fw-normal pb-1 small">
+          <li>
+            <a
+              class="d-inline-block rounded"
+              [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/bills/reasons/all'"
+              routerLinkActive="active"
+              >{{ 'HOME_BILL_UNPAID_REASON' | transloco }}</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li class="mb-1">
+        <a
+          class="nav-heading d-inline-block rounded"
+          [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/statistics'"
+          routerLinkActive="active"
+        >
+          <div class="d-inline-flex align-items-center gap-2 ">
+            <bi name="graph-up" />
+            {{ 'NAV_STATISTICS' | transloco }}
+          </div>
+        </a>
+      </li>
+      <hr />
+      <li class="mb-1">
+        <a
+          class="nav-heading d-inline-block rounded"
+          [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/recycle-bin'"
+          routerLinkActive="active"
+        >
+          <div class="d-inline-flex align-items-center gap-2 ">
+            <bi name="trash" />
+            {{ 'RECYCLE_BIN' | transloco }}
+          </div>
+        </a>
+      </li>
+      <li class="mb-1">
+        <a
+          class="nav-heading d-inline-block rounded"
+          [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/settings'"
+          [routerLinkActiveOptions]="{exact: true}"
+          routerLinkActive="active"
+        >
+          <div class="d-inline-flex align-items-center gap-2 ">
+            <bi name="gear" />
+            {{ 'SETTINGS' | transloco }}
+          </div>
+        </a>
+        <ul class="nav-sub list-unstyled fw-normal pb-1 small">
+          <li>
+            <a
+              class="d-inline-block rounded"
+              [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/settings/gdpr'"
+              routerLinkActive="active"
+              >{{ 'NAV_SETTINGS_GDPR' | transloco }}</a
+            >
+          </li>
+          <li>
+            <a
+              class="d-inline-block rounded"
+              [routerLink]="'/o/' + selectedOrganisationIdRoute() + '/e/' + selectedEventIdRoute() + '/settings/licenses'"
+              routerLinkActive="active"
+              >{{ 'Licenses' | transloco }}</a
+            >
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    @if (myUser(); as user) {
+      @if (user.isAdmin) {
+        <hr />
+        <ul class="list-unstyled flex-column ps-0">
+          <li class="mb-1">
+            <a class="nav-heading d-inline-block rounded" routerLinkActive="active" routerLink="/organisations">
+              <div class="d-inline-flex align-items-center gap-2 ">
+                <bi name="buildings" />
+                {{ 'NAV_ORGANISATIONS' | transloco }}
+              </div>
+            </a>
+          </li>
+          <li class="mb-1">
+            <a
+              class="nav-heading d-inline-block rounded"
+              [routerLink]="'/events/' + selectedOrganisationIdRoute()"
+              routerLinkActive="active"
+            >
+              <div class="d-inline-flex align-items-center gap-2 ">
+                <bi name="building" />
+                {{ 'NAV_EVENTS' | transloco }}
+              </div>
+            </a>
+          </li>
+
+          <li class="mb-1">
+            <a class="nav-heading d-inline-block rounded" routerLinkActive="active" routerLink="/users">
+              <div class="d-inline-flex align-items-center gap-2 ">
+                <bi name="person-badge" />
+                {{ 'NAV_USERS' | transloco }}
+              </div>
+            </a>
+          </li>
+
+          <li class="mb-1">
+            <a class="nav-heading d-inline-block rounded" routerLinkActive="active" routerLink="/system-notifications">
+              <div class="d-inline-flex align-items-center gap-2 ">
+                <bi name="bell" />
+                {{ 'NAV_SYSTEM_NOTIFICATIONS' | transloco }}
+              </div>
+            </a>
+          </li>
+          <li class="mb-1">
+            <a class="nav-heading d-inline-block rounded" routerLinkActive="active" routerLink="/dead-letters">
+              <div class="d-inline-flex align-items-center gap-2 ">
+                <bi name="braces" />
+                {{ 'NAV_DEAD_LETTERS' | transloco }}
+              </div>
+            </a>
+          </li>
+          <li class="mb-1">
+            <a class="nav-heading d-inline-block rounded" routerLinkActive="active" routerLink="/tmp-notifications">
+              <div class="d-inline-flex align-items-center gap-2 ">
+                <bi name="braces" />
+                {{ 'NAV_TMP_NOTIFICATIONS' | transloco }}
+              </div>
+            </a>
+          </li>
+        </ul>
+      }
+    }
+
+    <hr />
+
+    <div class="d-flex align-items-center justify-content-between mb-3 mt-1">
+      <profile-menu />
+
+      <div class="d-inline-flex">
+        <button class="btn d-inline-flex align-items-center" (click)="openSupport()" ngbTooltip="Support">
+          <bi name="headset" size="24" />
+        </button>
+        <a
+          class="btn d-inline-flex align-items-center"
+          href="https://help.kellner.team"
+          target="_blank"
+          rel="noopener"
+          ngbTooltip="Hilfe-Seite"
+        >
+          <bi name="question-square-fill" size="24" />
+        </a>
+      </div>
+    </div>
+  `,
+  styles: `
+    .nav-heading {
+      margin-top: 0.25rem;
+      padding: 0.1875rem 0.5rem;
+      text-decoration: none;
+      color: var(--bs-body-color);
+      font-weight: 600;
+    }
+
+    a.nav-heading.active,
+    a.nav-heading:hover,
+    a.nav-heading:focus {
+      color: var(--bs-emphasis-color) !important;
+      background-color: var(--bd-sidebar-link-bg);
+    }
+
+    .nav-sub a {
+      color: var(--bs-body-color);
+      padding: 0.1875rem 0.5rem;
+      text-decoration: none;
+      margin-top: 0.125rem;
+      margin-left: 1.5rem;
+    }
+
+    .nav-sub a.active {
+      font-weight: 600;
+    }
+
+    .nav-sub a.active,
+    .nav-sub a:hover,
+    .nav-sub a:focus {
+      color: var(--bs-emphasis-color) !important;
+      background-color: var(--bd-sidebar-link-bg);
+    }
+
+    .switcher:hover,
+    .switcher:active {
+      border-color: var(--bs-emphasis-color) !important;
+    }
+  `,
+  selector: 'app-nav',
+  imports: [RouterLink, BiComponent, RouterLinkActive, TranslocoPipe, ProfileMenu, NgbTooltip, LogoWithText],
+})
+export class Nav {
+  modal = inject(NgbModal);
+  window = injectWindow();
+
+  myUser = inject(MyUserService).user;
+
+  #selectedOrganisationService = inject(SelectedOrganisationService);
+  #selectedEventService = inject(SelectedEventService);
+
+  selectedOrganisation = this.#selectedOrganisationService.selected;
+  selectedEvent = this.#selectedEventService.selected;
+
+  selectedOrganisationIdRoute = computed(() => this.#selectedOrganisationService.selectedId() ?? 'organisationId');
+  selectedEventIdRoute = computed(() => this.#selectedEventService.selectedId() ?? 'eventId');
+
+  openSwitcher(): void {
+    this.modal.open(SwitcherModal, {
+      ariaLabelledBy: 'modal-switcher-title',
+      size: 'lg',
+    });
+  }
+
+  openSupport(): void {
+    // @ts-expect-error chatwootSDK
+    if (window.$chatwoot) {
+      // @ts-expect-error chatwootSDK
+      window.$chatwoot.toggle();
+    } else {
+      console.log('Chatwoot is not ready yet.');
+    }
+  }
+}

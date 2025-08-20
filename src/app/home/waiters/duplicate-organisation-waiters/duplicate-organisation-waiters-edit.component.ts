@@ -10,10 +10,8 @@ import {notNullAndUndefined} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {StopPropagationDirective} from 'dfx-helper';
 
-import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-
-import {APIType} from '@shared/api';
-
+import {APIType} from '../../../api';
+import {ScrollableToolbarComponent} from '../../../components/scrollable-toolbar.component';
 import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
 
 type DuplicateWaiterWithSelected = APIType['IdAndNameResponse'] & {

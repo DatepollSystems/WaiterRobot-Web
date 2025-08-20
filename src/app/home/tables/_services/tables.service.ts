@@ -2,9 +2,9 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, Observable, combineLatest, map, switchMap, tap} from 'rxjs';
 
-import {APIType, injectAPI} from '@shared/api';
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/custom-types';
-import {SelectedEventService} from '@shared/services/selected-event.service';
+import {APIType, injectAPI} from '../../../api';
+import {SelectedEventService} from '../../../services/selected-event.service';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../util/custom-types';
 
 @Injectable({providedIn: 'root'})
 export class TablesService

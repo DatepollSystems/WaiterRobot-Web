@@ -6,11 +6,9 @@ import {TranslocoPipe} from '@jsverse/transloco';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {DfxArrayMapNamePipe, DfxImplodePipe} from 'dfx-helper';
 
-import {BlankslateComponent} from '@home-shared/components/blankslate.component';
-import {ListFilterComponent, injectTableFilter} from '@home-shared/list';
-
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-
+import {BlankslateComponent} from '../../components/blankslate.component';
+import {AppProgressBarComponent} from '../../components/loading/app-progress-bar.component';
+import {ListFilterComponent, injectTableFilter} from '../../util/list';
 import {MediatorStore} from './_services/mediator.store';
 
 @Component({

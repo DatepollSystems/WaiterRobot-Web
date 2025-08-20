@@ -11,16 +11,14 @@ import {DfxPaginationModule, DfxTableModule, NgbPaginator} from 'dfx-bootstrap-t
 import {DfxCurrencyCentPipe, StopPropagationDirective} from 'dfx-helper';
 import {derivedFrom} from 'ngxtension/derived-from';
 
-import {AppTextWithColorIndicatorComponent} from '@home-shared/components/color/app-text-with-color-indicator.component';
-import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
-import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-import {injectTableSelect} from '@home-shared/list';
-import {AppSoldOutPipe} from '@home-shared/pipes/app-sold-out.pipe';
-
-import {APIType} from '@shared/api';
-import {injectPagination} from '@shared/api/pagination';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-
+import {APIType} from '../../api';
+import {injectPagination} from '../../api/pagination';
+import {AppTextWithColorIndicatorComponent} from '../../components/color/app-text-with-color-indicator.component';
+import {AppProgressBarComponent} from '../../components/loading/app-progress-bar.component';
+import {injectConfirmDialog} from '../../components/question-dialog.component';
+import {ScrollableToolbarComponent} from '../../components/scrollable-toolbar.component';
+import {AppSoldOutPipe} from '../../pipes/app-sold-out.pipe';
+import {injectTableSelect} from '../../util/list';
 import {ProductGroupsService} from '../products/_services/product-groups.service';
 import {ProductsService} from '../products/_services/products.service';
 import {GenericGroupBinType, sortBinTypes} from './utils';

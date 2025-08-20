@@ -1,0 +1,187 @@
+import {UpperCasePipe} from '@angular/common';
+import {Component, inject, viewChild} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxPaginationModule, DfxSortModule, DfxTableModule, NgbPaginator, NgbSort} from 'dfx-bootstrap-table';
+import {StopPropagationDirective} from 'dfx-helper';
+
+import {ActionDropdownComponent} from '../../../components/action-dropdown.component';
+import {AppProgressBarComponent} from '../../../components/loading/app-progress-bar.component';
+import {ScrollableToolbarComponent} from '../../../components/scrollable-toolbar.component';
+import {OrganisationsService} from '../../../services/organisations/organisations.service';
+import {ListFilterComponent, injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '../../../util/list';
+import {mapName} from '../../../util/name-map';
+
+@Component({
+  template: `
+    <div class="d-flex flex-column gap-3">
+      <h1 class="my-0">{{ 'HOME_ORGS_ALL' | transloco }}</h1>
+
+      <scrollable-toolbar>
+        <div>
+          <a class="btn btn-sm btn-success" routerLink="../create">
+            <bi name="plus-circle" />
+            {{ 'ADD_2' | transloco }}</a
+          >
+        </div>
+
+        <div>
+          <button
+            class="btn btn-sm btn-danger"
+            [class.disabled]="!selection.hasValue()"
+            (mousedown)="delete.onDeleteSelected()"
+            type="button"
+          >
+            <bi name="trash" />
+            {{ 'DELETE' | transloco }}
+          </button>
+        </div>
+
+        <app-list-filter [filter]="filter" />
+      </scrollable-toolbar>
+
+      @if (table.dataSource(); as dataSource) {
+        <div class="table-responsive">
+          <table [hover]="true" [dataSource]="dataSource" ngb-table ngb-sort ngbSortActive="name" ngbSortDirection="asc">
+            <ng-container ngbColumnDef="select">
+              <th *ngbHeaderCellDef ngb-header-cell>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    [checked]="selection.isAllSelected()"
+                    (change)="selection.toggleAll()"
+                    type="checkbox"
+                    name="selectAll"
+                  />
+                </div>
+              </th>
+              <td *ngbCellDef="let selectable" ngb-cell stopPropagation>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    [checked]="selection.isSelected(selectable)"
+                    (change)="selection.toggle(selectable, !selection.isSelected(selectable))"
+                    type="checkbox"
+                    name="select"
+                  />
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container ngbColumnDef="id">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>#</th>
+              <td *ngbCellDef="let organisation" ngb-cell>
+                {{ organisation.id }}
+              </td>
+            </ng-container>
+
+            <ng-container ngbColumnDef="name">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'NAME' | transloco }}
+              </th>
+              <td *ngbCellDef="let organisation" ngb-cell>
+                {{ organisation.name }}
+              </td>
+            </ng-container>
+
+            <ng-container ngbColumnDef="street">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'HOME_ORGS_STREET' | transloco }} ,
+                {{ 'HOME_ORGS_STREETNUMBER' | transloco }}
+              </th>
+              <td *ngbCellDef="let organisation" ngb-cell>{{ organisation.street }} {{ organisation.streetNumber }}</td>
+            </ng-container>
+
+            <ng-container ngbColumnDef="city">
+              <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>
+                {{ 'HOME_ORGS_CITY' | transloco }} ,
+                {{ 'HOME_ORGS_COUNTRY_CODE' | transloco }}
+              </th>
+              <td *ngbCellDef="let organisation" ngb-cell>
+                {{ organisation.postalCode }} {{ organisation.city }},
+                {{ organisation.countryCode | uppercase }}
+              </td>
+            </ng-container>
+
+            <ng-container ngbColumnDef="actions">
+              <th *ngbHeaderCellDef ngb-header-cell>
+                <span class="visually-hidden">{{ 'ACTIONS' | transloco }}</span>
+              </th>
+              <td *ngbCellDef="let organisation" ngb-cell>
+                <app-action-dropdown>
+                  <a class="d-flex gap-2 align-items-center" [routerLink]="'../' + organisation.id" type="button" ngbDropdownItem>
+                    <bi name="pencil-square" />
+                    {{ 'EDIT' | transloco }}
+                  </a>
+                  <button
+                    class="d-flex gap-2 align-items-center text-danger-emphasis"
+                    (mousedown)="delete.onDelete(organisation.id)"
+                    type="button"
+                    ngbDropdownItem
+                  >
+                    <bi name="trash" />
+                    {{ 'DELETE' | transloco }}
+                  </button>
+                </app-action-dropdown>
+              </td>
+            </ng-container>
+
+            <tr *ngbHeaderRowDef="table.columnsToDisplay()" ngb-header-row></tr>
+            <tr *ngbRowDef="let organisation; columns: table.columnsToDisplay()" [routerLink]="'../' + organisation.id" ngb-row></tr>
+          </table>
+        </div>
+
+        <app-progress-bar [show]="table.isLoading()" />
+
+        <ngb-paginator [length]="dataSource.data.length" [pageSizeOptions]="[10, 20, 50]" />
+      }
+    </div>
+  `,
+  selector: 'organisations-page',
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    UpperCasePipe,
+    TranslocoPipe,
+    DfxTableModule,
+    DfxSortModule,
+    DfxPaginationModule,
+    BiComponent,
+    ScrollableToolbarComponent,
+    AppProgressBarComponent,
+    ActionDropdownComponent,
+    NgbDropdownItem,
+    StopPropagationDirective,
+    ListFilterComponent,
+    ScrollableToolbarComponent,
+  ],
+})
+export class OrganisationsPage {
+  #organisationsService = inject(OrganisationsService);
+
+  sort = viewChild(NgbSort);
+  paginator = viewChild(NgbPaginator);
+  filter = injectTableFilter();
+  table = injectTable({
+    columnsToDisplay: ['id', 'name', 'street', 'city', 'actions'],
+    fetchData: () => this.#organisationsService.getAll$(),
+    sort: this.sort,
+    paginator: this.paginator,
+    filterValue$: this.filter.value$,
+  });
+
+  selection = injectTableSelect({
+    dataSource: this.table.dataSource,
+    columnsToDisplay: this.table.columnsToDisplay,
+  });
+
+  delete = injectTableDelete({
+    delete$: (id) => this.#organisationsService.delete$(id),
+    selection: this.selection.selection,
+    nameMap: mapName(),
+  });
+}

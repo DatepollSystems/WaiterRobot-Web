@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 
 import {BehaviorSubject, switchMap, tap} from 'rxjs';
 
-import {injectAPI} from '@shared/api';
+import {injectAPI} from '../../../api';
 
 @Injectable({providedIn: 'root'})
 export class WaiterSessionsService {

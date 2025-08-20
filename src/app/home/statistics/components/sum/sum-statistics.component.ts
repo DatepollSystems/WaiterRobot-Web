@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, numberAttribute} from '@angular/core';
 
-import {injectBlurSetting} from '@home-shared/services/blur-setting.service';
-
-import {APIType} from '@shared/api';
+import {APIType} from '../../../../api';
+import {injectBlurSetting} from '../../../../services/blur-setting.service';
 
 @Component({
   selector: 'app-sum-statistics',

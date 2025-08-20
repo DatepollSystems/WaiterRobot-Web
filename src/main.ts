@@ -22,15 +22,14 @@ import {
   withWindow,
 } from 'dfx-helper';
 
-import {NgbDateTimeAdapter} from '@home-shared/components/datetime-picker/datetime-adapter';
-
 import {CustomTitleStrategy, EnvironmentHelper, TranslocoHttpLoader} from '@shared';
 import {CustomDateParserFormatter, CustomDateTimeAdapter, CustomPaginatorIntl, authInterceptor, errorInterceptor} from '@shared/services';
 
-import {AppComponent} from './app/app.component';
-import {ROUTES} from './app/app.routes';
+import {NgbDateTimeAdapter} from './app/components/datetime-picker/datetime-adapter';
+import {AppPage} from './app/pages/app.page';
+import {ROUTES} from './app/pages/app.routes';
 
-bootstrapApplication(AppComponent, {
+bootstrapApplication(AppPage, {
   providers: [
     provideZonelessChangeDetection(),
     provideDfxHelper(withMobileBreakpoint(1200), withLoggingInterceptor(['json', 'assets', 'auth']), withWindow()),

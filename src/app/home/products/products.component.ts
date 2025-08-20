@@ -15,10 +15,15 @@ import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {DfxArrayPluck, DfxCurrencyCentPipe, DfxImplodePipe, StopPropagationDirective} from 'dfx-helper';
 import {injectParams} from 'ngxtension/inject-params';
 
-import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
-import {BlankslateComponent} from '@home-shared/components/blankslate.component';
-import {AppResetOrderButtonComponent} from '@home-shared/components/button/app-reset-order-button.component';
-import {AppOrderModeSwitchComponent} from '@home-shared/form/app-order-mode-switch.component';
+import {APIType} from '../../api';
+import {ActionDropdownComponent} from '../../components/action-dropdown.component';
+import {BlankslateComponent} from '../../components/blankslate.component';
+import {AppResetOrderButtonComponent} from '../../components/button/app-reset-order-button.component';
+import {AppTextWithColorIndicatorComponent} from '../../components/color/app-text-with-color-indicator.component';
+import {AppProgressBarComponent} from '../../components/loading/app-progress-bar.component';
+import {ScrollableToolbarComponent} from '../../components/scrollable-toolbar.component';
+import {AppOrderModeSwitchComponent} from '../../forms/form/app-order-mode-switch.component';
+import {AppSoldOutPipe} from '../../pipes/app-sold-out.pipe';
 import {
   ListFilterComponent,
   addGroupIfMissing,
@@ -29,15 +34,8 @@ import {
   injectTableSelect,
   listOrderStyles,
   removeGroup,
-} from '@home-shared/list';
-import {mapName} from '@home-shared/name-map';
-
-import {APIType} from '@shared/api';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-
-import {AppTextWithColorIndicatorComponent} from '../_shared/components/color/app-text-with-color-indicator.component';
-import {ScrollableToolbarComponent} from '../_shared/components/scrollable-toolbar.component';
-import {AppSoldOutPipe} from '../_shared/pipes/app-sold-out.pipe';
+} from '../../util/list';
+import {mapName} from '../../util/name-map';
 import {ProductsService} from './_services/products.service';
 
 @Component({

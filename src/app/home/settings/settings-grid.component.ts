@@ -8,13 +8,11 @@ import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {s_toCurrencyNumber} from '@home-shared/regex';
-import {MyUserService} from '@home-shared/services/user/my-user.service';
-
-import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-
-import {OrganisationsSettingsService} from '../_admin/organisations/_services/organisations-settings.service';
+import {AppProgressBarComponent} from '../../components/loading/app-progress-bar.component';
+import {OrganisationsSettingsService} from '../../services/organisations/organisations-settings.service';
+import {SelectedOrganisationService} from '../../services/selected-organisation.service';
+import {MyUserService} from '../../services/user/my-user.service';
+import {s_toCurrencyNumber} from '../../util/regex';
 
 @Component({
   template: `

@@ -3,14 +3,12 @@ import {toSignal} from '@angular/core/rxjs-interop';
 
 import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
-import {UnknownModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
-import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
-import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectEditEntity, injectOnDelete, injectTabControls} from '@home-shared/form/edit';
-
-import {injectOnSubmit} from '@shared/form';
-import {SelectedEventService} from '@shared/services/selected-event.service';
-
+import {UnknownModelEditFormComponent} from '../../../forms/form/abstract-model-edit-form.component';
+import {AppContinuesCreationSwitchComponent} from '../../../forms/form/app-continues-creation-switch.component';
+import {AppEntityEditModule} from '../../../forms/form/app-entity-edit.module';
+import {injectContinuousCreation, injectEditEntity, injectOnDelete, injectTabControls} from '../../../forms/form/edit';
+import {SelectedEventService} from '../../../services/selected-event.service';
+import {injectOnSubmit} from '../../../util/form';
 import {PrintersService} from '../_services/printers.service';
 import {AppPrinterEditForm} from './printer-edit-form.component';
 import {PrinterEditProductsComponent} from './printer-edit-products.component';

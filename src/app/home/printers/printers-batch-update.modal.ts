@@ -6,8 +6,7 @@ import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {n_from, s_from} from 'dfts-helper';
 
-import {injectIsValid} from '@shared/form';
-
+import {injectIsValid} from '../../util/form';
 import {PrintersService} from './_services/printers.service';
 
 @Component({

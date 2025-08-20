@@ -7,11 +7,9 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 
-import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-import {injectTable, injectTableFilter} from '@home-shared/list';
-
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-
+import {AppProgressBarComponent} from '../../../components/loading/app-progress-bar.component';
+import {ScrollableToolbarComponent} from '../../../components/scrollable-toolbar.component';
+import {injectTable, injectTableFilter} from '../../../util/list';
 import {DuplicateWaitersService} from '../_services/duplicate-waiters.service';
 
 @Component({

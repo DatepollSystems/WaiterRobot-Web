@@ -12,13 +12,11 @@ import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bo
 import {StopPropagationDirective} from 'dfx-helper';
 import {derivedFrom} from 'ngxtension/derived-from';
 
-import {BlankslateComponent} from '@home-shared/components/blankslate.component';
-import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
-
-import {APIType} from '@shared/api';
-import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-
+import {APIType} from '../../../api';
+import {BlankslateComponent} from '../../../components/blankslate.component';
+import {AppProgressBarComponent} from '../../../components/loading/app-progress-bar.component';
+import {injectConfirmDialog} from '../../../components/question-dialog.component';
+import {SelectedOrganisationService} from '../../../services/selected-organisation.service';
 import {StripeService} from '../_services/stripe.service';
 import {StripeAccountModal} from './stripe-account-modal.component';
 import {StripeAccountStateBadge} from './stripe-account-state-badge.component';

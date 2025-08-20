@@ -1,0 +1,28 @@
+import {Component, inject} from '@angular/core';
+
+import {TranslocoPipe} from '@jsverse/transloco';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+
+@Component({
+  template: `
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-account-deactivated">
+        {{ 'INFORMATION' | transloco }}
+      </h4>
+      <button class="btn-close btn-close-white" (mousedown)="activeModal.close()" type="button" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <strong>{{ 'ABOUT_SIGNIN_FAILED_ACCOUNT_NOT_ACTIVATED' | transloco }}</strong>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline-secondary" (mousedown)="activeModal.close()" type="button">
+        {{ 'CLOSE' | transloco }}
+      </button>
+    </div>
+  `,
+  selector: 'account-not-activated-modal',
+  imports: [TranslocoPipe],
+})
+export class AccountNotActivatedModal {
+  activeModal = inject(NgbActiveModal);
+}

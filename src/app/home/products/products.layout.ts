@@ -6,11 +6,9 @@ import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbNav, NgbNavItem, NgbNavLink} from '@ng-bootstrap/ng-bootstrap';
 import {injectParams} from 'ngxtension/inject-params';
 
-import {AppAdjustDarkModeColor} from '@home-shared/components/color/app-adjust-dark-mode-color.pipe';
-import {AppTextColorByBackgroundDirective} from '@home-shared/components/color/app-text-color-by-background.directive';
-
-import {ThemeService} from '@shared/services/theme.service';
-
+import {AppAdjustDarkModeColor} from '../../components/color/app-adjust-dark-mode-color.pipe';
+import {AppTextColorByBackgroundDirective} from '../../components/color/app-text-color-by-background.directive';
+import {ThemeService} from '../../services/theme.service';
 import {ProductGroupsService} from './_services/product-groups.service';
 
 @Component({

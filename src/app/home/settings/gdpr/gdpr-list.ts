@@ -4,10 +4,8 @@ import {Component, inject, viewChild} from '@angular/core';
 import {TranslocoPipe} from '@jsverse/transloco';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 
-import {ListFilterComponent, injectTableFilter} from '@home-shared/list';
-
-import {AppProgressBarComponent} from '@shared/ui/loading';
-
+import {AppProgressBarComponent} from '../../../components/loading';
+import {ListFilterComponent, injectTableFilter} from '../../../util/list';
 import {GDPRStore} from '../_services/gdpr.store';
 
 @Component({

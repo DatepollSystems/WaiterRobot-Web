@@ -2,9 +2,8 @@ import {Injectable, inject} from '@angular/core';
 
 import {combineLatest, switchMap, tap} from 'rxjs';
 
-import {PageableDto, injectAPI} from '@shared/api';
-import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
-
+import {PageableDto, injectAPI} from '../../../api';
+import {SelectedOrganisationService} from '../../../services/selected-organisation.service';
 import {WaitersService} from './waiters.service';
 
 @Injectable({providedIn: 'root'})

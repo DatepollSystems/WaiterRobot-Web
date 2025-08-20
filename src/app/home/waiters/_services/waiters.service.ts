@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 
 import {BehaviorSubject, switchMap, tap} from 'rxjs';
 
-import {APIType, injectAPI} from '@shared/api';
-import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '@shared/services/custom-types';
+import {APIType, injectAPI} from '../../../api';
+import {HasCreateWithIdResponse, HasUpdateWithIdResponse} from '../../../util/custom-types';
 
 @Injectable({providedIn: 'root'})
 export class WaitersService

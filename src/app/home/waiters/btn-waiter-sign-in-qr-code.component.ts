@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 
-import {AppQrCodeButtonComponent} from '@home-shared/components/button/app-qr-code-button.component';
-import {ShareableLinkPipe, WaiterAuthLinkPipe} from '@home-shared/pipes/wr-links.pipe';
+import {AppQrCodeButtonComponent} from '../../components/button/app-qr-code-button.component';
+import {ShareableLinkPipe, WaiterAuthLinkPipe} from '../../pipes/wr-links.pipe';
 
 @Component({
   template: `

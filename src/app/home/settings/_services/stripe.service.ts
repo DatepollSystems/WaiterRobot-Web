@@ -5,8 +5,8 @@ import {Observable, catchError, concat, map, of, switchMap, tap} from 'rxjs';
 import {injectWindow} from 'dfx-helper';
 import {signalSlice} from 'ngxtension/signal-slice';
 
-import {APIType, injectAPI} from '@shared/api';
-import {NotificationService} from '@shared/notifications/notification.service';
+import {APIType, injectAPI} from '../../../api';
+import {NotificationService} from '../../../services/notification.service';
 
 interface OrganisationStripeState {
   loading: boolean;

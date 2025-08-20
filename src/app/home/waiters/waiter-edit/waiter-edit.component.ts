@@ -7,16 +7,14 @@ import {combineLatest, filter, map, shareReplay, startWith, tap} from 'rxjs';
 import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 import {loggerOf, n_from, n_isNumeric} from 'dfts-helper';
 
-import {UnknownModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
-import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
-import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectEditEntity, injectOnDelete, injectTabControls} from '@home-shared/form/edit';
-
-import {injectOnSubmit} from '@shared/form';
-import {SelectedEventService} from '@shared/services/selected-event.service';
-import {SelectedOrganisationService} from '@shared/services/selected-organisation.service';
-
-import {EventsService} from '../../_admin/events/_services/events.service';
+import {UnknownModelEditFormComponent} from '../../../forms/form/abstract-model-edit-form.component';
+import {AppContinuesCreationSwitchComponent} from '../../../forms/form/app-continues-creation-switch.component';
+import {AppEntityEditModule} from '../../../forms/form/app-entity-edit.module';
+import {injectContinuousCreation, injectEditEntity, injectOnDelete, injectTabControls} from '../../../forms/form/edit';
+import {EventsService} from '../../../services/events.service';
+import {SelectedEventService} from '../../../services/selected-event.service';
+import {SelectedOrganisationService} from '../../../services/selected-organisation.service';
+import {injectOnSubmit} from '../../../util/form';
 import {WaitersService} from '../_services/waiters.service';
 import {BtnWaiterSignInQrCodeComponent} from '../btn-waiter-sign-in-qr-code.component';
 import {AppWaiterEditFormComponent} from './waiter-edit-form.component';

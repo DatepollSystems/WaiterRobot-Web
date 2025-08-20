@@ -9,10 +9,11 @@ import {setAllEntities} from '@ngrx/signals/entities';
 import {rxMethod} from '@ngrx/signals/rxjs-interop';
 import {n_from, n_isNumeric} from 'dfts-helper';
 
-import {APIType, injectAPI} from '@shared/api';
-import {setError, setFulfilled, setPending, withRequestStatus} from '@shared/api/request-status.feature';
-import {withSelectionTable, withTable} from '@shared/api/table.feature';
 import {SelectedOrganisationService} from '@shared/services';
+
+import {APIType, injectAPI} from '../../../api';
+import {setError, setFulfilled, setPending, withRequestStatus} from '../../../api/request-status.feature';
+import {withSelectionTable, withTable} from '../../../api/table.feature';
 
 export const EventLicencesStore = signalStore(
   {providedIn: 'root'},

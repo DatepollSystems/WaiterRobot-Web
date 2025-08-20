@@ -10,14 +10,12 @@ import {DfxPaginationModule, DfxTableModule, NgbPaginator} from 'dfx-bootstrap-t
 import {DfxArrayMapNamePipe, DfxImplodePipe, StopPropagationDirective} from 'dfx-helper';
 import {derivedFrom} from 'ngxtension/derived-from';
 
-import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
-import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-import {injectTableSelect} from '@home-shared/list';
-import {AppActivatedPipe} from '@home-shared/pipes/app-activated.pipe';
-
-import {injectPagination} from '@shared/api/pagination';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-
+import {injectPagination} from '../../api/pagination';
+import {AppProgressBarComponent} from '../../components/loading/app-progress-bar.component';
+import {injectConfirmDialog} from '../../components/question-dialog.component';
+import {ScrollableToolbarComponent} from '../../components/scrollable-toolbar.component';
+import {AppActivatedPipe} from '../../pipes/app-activated.pipe';
+import {injectTableSelect} from '../../util/list';
 import {OrganisationWaitersService} from '../waiters/_services/organisation-waiters.service';
 import {WaitersService} from '../waiters/_services/waiters.service';
 

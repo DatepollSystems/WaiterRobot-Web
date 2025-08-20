@@ -1,15 +1,13 @@
 import {ChangeDetectionStrategy, Component, inject, viewChild} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
-import {UnknownModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
-import {AppContinuesCreationSwitchComponent} from '@home-shared/form/app-continues-creation-switch.component';
-import {AppDeletedDirectives} from '@home-shared/form/app-entity-deleted.directives';
-import {AppEntityEditModule} from '@home-shared/form/app-entity-edit.module';
-import {injectContinuousCreation, injectEditEntity, injectOnDelete} from '@home-shared/form/edit';
-
-import {injectOnSubmit} from '@shared/form';
-import {SelectedEventService} from '@shared/services/selected-event.service';
-
+import {UnknownModelEditFormComponent} from '../../../forms/form/abstract-model-edit-form.component';
+import {AppContinuesCreationSwitchComponent} from '../../../forms/form/app-continues-creation-switch.component';
+import {AppDeletedDirectives} from '../../../forms/form/app-entity-deleted.directives';
+import {AppEntityEditModule} from '../../../forms/form/app-entity-edit.module';
+import {injectContinuousCreation, injectEditEntity, injectOnDelete} from '../../../forms/form/edit';
+import {SelectedEventService} from '../../../services/selected-event.service';
+import {injectOnSubmit} from '../../../util/form';
 import {TableGroupsService} from '../_services/table-groups.service';
 import {TableGroupEditFormComponent} from './table-group-edit-form.component';
 

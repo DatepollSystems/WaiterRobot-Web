@@ -10,13 +10,11 @@ import {DfxPaginationModule, DfxTableModule, NgbPaginator} from 'dfx-bootstrap-t
 import {StopPropagationDirective} from 'dfx-helper';
 import {derivedFrom} from 'ngxtension/derived-from';
 
-import {injectConfirmDialog} from '@home-shared/components/question-dialog.component';
-import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-import {injectTableSelect} from '@home-shared/list';
-
-import {injectPagination} from '@shared/api/pagination';
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-
+import {injectPagination} from '../../api/pagination';
+import {AppProgressBarComponent} from '../../components/loading/app-progress-bar.component';
+import {injectConfirmDialog} from '../../components/question-dialog.component';
+import {ScrollableToolbarComponent} from '../../components/scrollable-toolbar.component';
+import {injectTableSelect} from '../../util/list';
 import {PrintersService} from '../printers/_services/printers.service';
 
 @Component({

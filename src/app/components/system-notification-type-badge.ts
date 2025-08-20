@@ -1,0 +1,46 @@
+import {NgClass} from '@angular/common';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
+
+import {BiComponent} from 'dfx-bootstrap-icons';
+import {DfxLowerCaseExceptFirstLettersPipe} from 'dfx-helper';
+
+import {APIType} from '../api';
+
+@Component({
+  template: `
+    <div
+      class="badge d-flex align-items-center gap-2 not-selectable"
+      [ngClass]="{
+        'text-bg-light': type() === 'NEUTRAL',
+        'text-bg-success': type() === 'SUCCESS',
+        'text-bg-danger': type() === 'DANGER',
+        'text-bg-warning': type() === 'WARNING',
+        'text-bg-info': type() === 'INFO',
+      }"
+      style="width: min-content"
+    >
+      @switch (type()) {
+        @case ('INFO') {
+          <bi name="info-circle-fill" />
+        }
+        @case ('SUCCESS') {
+          <bi name="check-circle-fill" />
+        }
+        @case ('DANGER') {
+          <bi name="exclamation-triangle-fill" />
+        }
+        @case ('WARNING') {
+          <bi name="exclamation-triangle-fill" />
+        }
+      }
+
+      <span>{{ type() | s_lowerCaseAllExceptFirstLetter }}</span>
+    </div>
+  `,
+  selector: 'system-notification-type-badge',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgClass, BiComponent, DfxLowerCaseExceptFirstLettersPipe],
+})
+export class SystemNotificationTypeBadge {
+  type = input.required<APIType['GetSystemNotificationResponse']['type']>();
+}

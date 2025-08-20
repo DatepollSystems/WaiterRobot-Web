@@ -7,10 +7,11 @@ import {patchState, signalStore, withMethods, withState} from '@ngrx/signals';
 import {setAllEntities} from '@ngrx/signals/entities';
 import {rxMethod} from '@ngrx/signals/rxjs-interop';
 
-import {APIType, injectAPI} from '@shared/api';
-import {setError, setFulfilled, setPending} from '@shared/api/request-status.feature';
-import {withTable} from '@shared/api/table.feature';
 import {SelectedOrganisationService} from '@shared/services';
+
+import {APIType, injectAPI} from '../../../api';
+import {setError, setFulfilled, setPending} from '../../../api/request-status.feature';
+import {withTable} from '../../../api/table.feature';
 
 export const MediatorStore = signalStore(
   {providedIn: 'root'},

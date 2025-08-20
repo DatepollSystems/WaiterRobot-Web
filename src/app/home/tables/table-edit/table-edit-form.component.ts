@@ -9,12 +9,10 @@ import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
-import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
-
-import {APIType} from '@shared/api';
-import {injectIsValid} from '@shared/form';
-
+import {APIType} from '../../../api';
+import {AbstractModelEditFormComponent} from '../../../forms/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '../../../forms/form/app-model-edit-save-btn.component';
+import {injectIsValid} from '../../../util/form';
 import {TablesService} from '../_services/tables.service';
 
 @Component({

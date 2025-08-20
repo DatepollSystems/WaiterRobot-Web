@@ -164,28 +164,33 @@
   },
   "schematics": {
     "@schematics/angular:component": {
-      "type": "component"
+      "changeDetection": "OnPush",
+      "flat": true,
+      "inlineStyle": true,
+      "inlineTemplate": true,
+      "prefix": "pu",
+      "skipTests": true,
+      "type": ""
     },
     "@schematics/angular:directive": {
-      "type": "directive"
-    },
-    "@schematics/angular:service": {
-      "type": "service"
+      "flat": true,
+      "skipTests": true
     },
     "@schematics/angular:guard": {
-      "typeSeparator": "."
+      "flat": true,
+      "skipTests": true
     },
     "@schematics/angular:interceptor": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:module": {
-      "typeSeparator": "."
+      "flat": true,
+      "skipTests": true
     },
     "@schematics/angular:pipe": {
-      "typeSeparator": "."
+      "flat": true,
+      "skipTests": true
     },
-    "@schematics/angular:resolver": {
-      "typeSeparator": "."
+    "@schematics/angular:service": {
+      "flat": true,
+      "skipTests": true
     }
   }
 }

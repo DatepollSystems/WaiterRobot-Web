@@ -2,9 +2,9 @@ import {Injectable, inject} from '@angular/core';
 
 import {BehaviorSubject, combineLatest, map, switchMap, tap} from 'rxjs';
 
-import {APIType, PageableDto, injectAPI} from '@shared/api';
-import {HasCreateWithIdResponse, HasOrdered, HasUpdateWithIdResponse} from '@shared/services/custom-types';
-import {SelectedEventService} from '@shared/services/selected-event.service';
+import {APIType, PageableDto, injectAPI} from '../../../api';
+import {SelectedEventService} from '../../../services/selected-event.service';
+import {HasCreateWithIdResponse, HasOrdered, HasUpdateWithIdResponse} from '../../../util/custom-types';
 
 @Injectable({providedIn: 'root'})
 export class ProductGroupsService

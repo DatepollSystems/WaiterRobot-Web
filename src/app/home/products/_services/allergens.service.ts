@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 
-import {injectAPI} from '@shared/api';
+import {injectAPI} from '../../../api';
 
 @Injectable({providedIn: 'root'})
 export class AllergensService {

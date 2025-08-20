@@ -6,7 +6,7 @@ import {TranslocoPipe} from '@jsverse/transloco';
 import {NgbNav, NgbNavItem, NgbNavLink} from '@ng-bootstrap/ng-bootstrap';
 import {injectParams} from 'ngxtension/inject-params';
 
-import {EventsService} from '../_admin/events/_services/events.service';
+import {EventsService} from '../../services/events.service';
 
 @Component({
   template: `

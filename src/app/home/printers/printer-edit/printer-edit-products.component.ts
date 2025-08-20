@@ -6,7 +6,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort, NgbTableDataSource} from 'dfx-bootstrap-table';
 
-import {APIType} from '@shared/api';
+import {APIType} from '../../../api';
 
 @Component({
   template: `

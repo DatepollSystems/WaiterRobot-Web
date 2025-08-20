@@ -11,14 +11,12 @@ import {BiComponent} from 'dfx-bootstrap-icons';
 import {DfxSortModule, DfxTableModule, NgbSort} from 'dfx-bootstrap-table';
 import {StopPropagationDirective} from 'dfx-helper';
 
-import {ActionDropdownComponent} from '@home-shared/components/action-dropdown.component';
-import {BlankslateComponent} from '@home-shared/components/blankslate.component';
-import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-import {ListFilterComponent, injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '@home-shared/list';
-import {mapName} from '@home-shared/name-map';
-
-import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.component';
-
+import {ActionDropdownComponent} from '../../components/action-dropdown.component';
+import {BlankslateComponent} from '../../components/blankslate.component';
+import {AppProgressBarComponent} from '../../components/loading/app-progress-bar.component';
+import {ScrollableToolbarComponent} from '../../components/scrollable-toolbar.component';
+import {ListFilterComponent, injectTable, injectTableDelete, injectTableFilter, injectTableSelect} from '../../util/list';
+import {mapName} from '../../util/name-map';
 import {PrintersService} from './_services/printers.service';
 import {PrinterBatchUpdateDto, PrintersBatchUpdateModal} from './printers-batch-update.modal';
 

@@ -9,11 +9,10 @@ import {QRCodeComponent} from 'dfx-qrcode';
 import {toJpeg} from 'html-to-image';
 import {jsPDF} from 'jspdf';
 
-import {ScrollableToolbarComponent} from '@home-shared/components/scrollable-toolbar.component';
-import {d_formatWithHoursMinutesAndSeconds} from '@home-shared/format-date';
-import {PublicTableLinkPipe, ShareableLinkPipe} from '@home-shared/pipes/wr-links.pipe';
-
-import {APIType} from '@shared/api';
+import {APIType} from '../../api';
+import {ScrollableToolbarComponent} from '../../components/scrollable-toolbar.component';
+import {PublicTableLinkPipe, ShareableLinkPipe} from '../../pipes/wr-links.pipe';
+import {d_formatWithHoursMinutesAndSeconds} from '../../util/format-date';
 
 @Component({
   template: `

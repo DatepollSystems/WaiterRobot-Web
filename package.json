@@ -15,8 +15,8 @@
     "format:check": "prettier --check .",
     "format": "prettier --write .",
     "e2e": "ng e2e",
-    "api:types": "openapi-typescript http://localhost:8080/api/swagger/api-docs -o  ./src/app/_shared/api/api-types.ts && prettier --write ./src/app/_shared/api/api-types.ts",
-    "api:types:lava": "openapi-typescript https://lava.kellner.team/api/swagger/api-docs -o  ./src/app/_shared/api/api-types.ts && prettier --write ./src/app/_shared/api/api-types.ts"
+    "api:types": "openapi-typescript http://localhost:8080/api/swagger/api-docs -o  src/app/api/api-types.ts && prettier --write ./src/app/_shared/api/api-types.ts",
+    "api:types:lava": "openapi-typescript https://lava.kellner.team/api/swagger/api-docs -o  src/app/api/api-types.ts && prettier --write ./src/app/_shared/api/api-types.ts"
   },
   "packageManager": "pnpm@10.20.0",
   "private": true,

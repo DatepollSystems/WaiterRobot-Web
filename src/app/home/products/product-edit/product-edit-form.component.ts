@@ -8,13 +8,12 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import {a_pluck, s_from} from 'dfts-helper';
 import {BiComponent} from 'dfx-bootstrap-icons';
 
-import {AppColorPicker} from '@home-shared/components/color/color-picker.component';
-import {AbstractModelEditFormComponent} from '@home-shared/form/abstract-model-edit-form.component';
-import {AppModelEditSaveBtn} from '@home-shared/form/app-model-edit-save-btn.component';
-import {allowedCharacterSet, s_toCurrencyNumber} from '@home-shared/regex';
-
-import {APIType} from '@shared/api';
-import {injectIsValid} from '@shared/form';
+import {APIType} from '../../../api';
+import {AppColorPicker} from '../../../components/color/color-picker.component';
+import {AbstractModelEditFormComponent} from '../../../forms/form/abstract-model-edit-form.component';
+import {AppModelEditSaveBtn} from '../../../forms/form/app-model-edit-save-btn.component';
+import {injectIsValid} from '../../../util/form';
+import {allowedCharacterSet, s_toCurrencyNumber} from '../../../util/regex';
 
 @Component({
   template: `
