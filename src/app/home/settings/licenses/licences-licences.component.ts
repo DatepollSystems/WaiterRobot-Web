@@ -69,7 +69,7 @@ import {EventLicencesLicencesStore, EventLicencesStore} from '../_services/event
             {{ 'Start' | transloco }}
           </th>
           <td *ngbCellDef="let licence" ngb-cell>
-            {{ licence.start | date: 'yyyy.MM.dd - HH:mm:ss' }}
+            {{ licence.start | date: 'dd.MM.yyyy - HH:mm:ss' }}
           </td>
         </ng-container>
 
@@ -78,7 +78,7 @@ import {EventLicencesLicencesStore, EventLicencesStore} from '../_services/event
             {{ 'End' | transloco }}
           </th>
           <td *ngbCellDef="let licence" ngb-cell>
-            {{ licence.end | date: 'yyyy.MM.dd - HH:mm:ss' }}
+            {{ licence.end | date: 'dd.MM.yyyy - HH:mm:ss' }}
           </td>
         </ng-container>
 
