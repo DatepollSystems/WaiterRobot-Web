@@ -25,7 +25,7 @@ import {GDPRStore} from '../_services/gdpr.store';
         <table [hover]="true" [dataSource]="gdprStore.dataSource()" ngb-table ngb-sort ngbSortActive="agreedOnAt" ngbSortDirection="desc">
           <ng-container ngbColumnDef="agreedOnAt">
             <th *ngbHeaderCellDef ngb-header-cell ngb-sort-header>{{ 'HOME_ORGS_SETTINGS_GDPR_AGREED_AT' | transloco }}</th>
-            <td *ngbCellDef="let agreement" ngb-cell>{{ agreement.agreedOnAt | date: 'dd.MM.YYYY HH:mm:ss' }}</td>
+            <td *ngbCellDef="let agreement" ngb-cell>{{ agreement.agreedOnAt | date: 'dd.MM.yyyy HH:mm:ss' }}</td>
           </ng-container>
 
           <ng-container ngbColumnDef="agreedOnBy">

@@ -75,7 +75,7 @@ import {AppProgressBarComponent} from '@shared/ui/loading/app-progress-bar.compo
                 {{ 'HOME_ORDER_CREATED_AT' | transloco }}
               </th>
               <td *ngbCellDef="let it" ngb-cell>
-                {{ it.createdAt | date: 'dd.MM.YY HH:mm:ss:SSS' }}
+                {{ it.createdAt | date: 'dd.MM.yy HH:mm:ss:SSS' }}
               </td>
             </ng-container>
 

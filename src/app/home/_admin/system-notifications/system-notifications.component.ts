@@ -94,7 +94,7 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
                 {{ 'STARTS' | transloco }}
               </th>
               <td *ngbCellDef="let it" ngb-cell>
-                {{ it.starts | date: 'dd.MM.YYYY HH:mm' : 'UTC' }}
+                {{ it.starts | date: 'dd.MM.yyyy HH:mm' : 'UTC' }}
               </td>
             </ng-container>
 
@@ -103,7 +103,7 @@ import {SystemNotificationsService} from './_services/system-notifications.servi
                 {{ 'ENDS' | transloco }}
               </th>
               <td *ngbCellDef="let it" ngb-cell>
-                {{ it.ends | date: 'dd.MM.YYYY HH:mm' : 'UTC' }}
+                {{ it.ends | date: 'dd.MM.yyyy HH:mm' : 'UTC' }}
               </td>
             </ng-container>
 

@@ -25,7 +25,7 @@ import {injectAPI} from '@shared/api';
         <scrollable-toolbar>
           <back-button />
           <div>
-            <span class="badge text-bg-primary">{{ it.createdAt | date: 'dd.MM.YYYY HH:mm:ss:SSS' }}</span>
+            <span class="badge text-bg-primary">{{ it.createdAt | date: 'dd.MM.yyyy HH:mm:ss:SSS' }}</span>
           </div>
           <div>
             <span class="badge text-bg-secondary">{{ it.to }}</span>

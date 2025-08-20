@@ -76,7 +76,7 @@ import {UserSessionsService} from './_services/user-sessions.service';
                 {{ 'HOME_USERSETTINGS_SESSIONS_REGISTERED_AT' | transloco }}
               </th>
               <td *ngbCellDef="let session" ngb-cell>
-                {{ session.createdAt | date: 'YYYY.MM.dd - HH:mm:ss' }}
+                {{ session.createdAt | date: 'yyyy.MM.dd - HH:mm:ss' }}
               </td>
             </ng-container>
 
@@ -85,7 +85,7 @@ import {UserSessionsService} from './_services/user-sessions.service';
                 {{ 'HOME_USERSETTINGS_SESSIONS_UPDATED_AT' | transloco }}
               </th>
               <td *ngbCellDef="let session" ngb-cell>
-                {{ session.updatedAt | date: 'YYYY.MM.dd - HH:mm:ss' }}
+                {{ session.updatedAt | date: 'yyyy.MM.dd - HH:mm:ss' }}
               </td>
             </ng-container>
 

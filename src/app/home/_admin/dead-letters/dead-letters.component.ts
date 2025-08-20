@@ -99,7 +99,7 @@ import {DeadLettersService} from './dead-letters.service';
                 {{ 'HOME_ORDER_CREATED_AT' | transloco }}
               </th>
               <td *ngbCellDef="let it" ngb-cell>
-                {{ it.createdAt | date: 'dd.MM.YYYY HH:mm:ss:SSS' }}
+                {{ it.createdAt | date: 'dd.MM.yyyy HH:mm:ss:SSS' }}
               </td>
             </ng-container>
 

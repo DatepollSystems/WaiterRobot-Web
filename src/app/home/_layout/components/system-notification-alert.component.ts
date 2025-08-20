@@ -43,7 +43,7 @@ import {APIType} from '@shared/api';
               }
               @if (notification.starts) {
                 <span
-                  >{{ notification.starts | date: 'dd.MM.YYYY HH:mm' : 'UTC' }}
+                  >{{ notification.starts | date: 'dd.MM.yyyy HH:mm' : 'UTC' }}
                   @if (notification.starts && notification.ends) {
                     <span> - </span>
                   }
@@ -88,7 +88,7 @@ export class AppSystemNotificationAlertComponent {
     ) {
       return 'HH:mm';
     }
-    return 'dd.MM.YYYY HH:mm';
+    return 'dd.MM.yyyy HH:mm';
   });
 
   ignore = output<number>();

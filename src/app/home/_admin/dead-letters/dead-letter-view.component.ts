@@ -33,7 +33,7 @@ import {DeadLettersService} from './dead-letters.service';
         </scrollable-toolbar>
 
         <div class="d-flex flex-wrap gap-2 mb-4">
-          <span class="badge text-bg-primary">{{ deadLetter.createdAt | date: 'dd.MM.YYYY HH:mm:ss:SSS' }}</span>
+          <span class="badge text-bg-primary">{{ deadLetter.createdAt | date: 'dd.MM.yyyy HH:mm:ss:SSS' }}</span>
           <span class="badge text-bg-secondary">{{ deadLetter.queue }}</span>
           <span class="badge text-bg-secondary">{{ deadLetter.exchange }}</span>
         </div>

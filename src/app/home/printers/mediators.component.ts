@@ -47,7 +47,7 @@ import {MediatorStore} from './_services/mediator.store';
                 {{ 'LAST_CONTACT' | transloco }}
               </th>
               <td *ngbCellDef="let mediator" ngb-cell>
-                {{ mediator.lastContact | date: 'dd.MM.YYYY HH:mm:ss' }}
+                {{ mediator.lastContact | date: 'dd.MM.yyyy HH:mm:ss' }}
               </td>
             </ng-container>
 

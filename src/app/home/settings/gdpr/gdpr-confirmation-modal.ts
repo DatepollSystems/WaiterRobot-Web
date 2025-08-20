@@ -9,7 +9,7 @@ import {PdfJsViewerModule} from 'ng2-pdfjs-viewer';
   template: `
     <div class="modal-header">
       <h4 class="modal-title" id="modal-gdpr-confirmation">
-        {{ 'HOME_ORGS_SETTINGS_GDPR_CONTRACT' | transloco }} - {{ contractDate() | date: 'dd.MM.YYYY' }}
+        {{ 'HOME_ORGS_SETTINGS_GDPR_CONTRACT' | transloco }} - {{ contractDate() | date: 'dd.MM.yyyy' }}
       </h4>
       <button class="btn-close btn-close-white" (mousedown)="activeModal.close(undefined)" type="button" aria-label="Close"></button>
     </div>

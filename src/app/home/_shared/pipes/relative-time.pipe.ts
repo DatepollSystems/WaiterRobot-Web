@@ -119,7 +119,7 @@ export class RelativeTimePipe implements PipeTransform {
       return `am ${formatDate(date, 'd MMM', locale ?? this.locale, timezone ?? this.defaultOptions?.timezone)}`;
     }
 
-    return `am ${formatDate(date, 'd MMM YYYY', locale ?? this.locale, timezone ?? this.defaultOptions?.timezone)}`;
+    return `am ${formatDate(date, 'd MMM yyyy', locale ?? this.locale, timezone ?? this.defaultOptions?.timezone)}`;
   }
 }
 

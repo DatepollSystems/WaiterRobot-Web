@@ -15,7 +15,7 @@ export function d_format(date: string | number | Date): string;
 export function d_format(date: null | undefined): undefined;
 export function d_format(date: DateInput): string | undefined;
 /**
- * Returns a string formatted in 'YYYY-MM-DD'
+ * Returns a string formatted in 'yyyy-MM-DD'
  * If string or date is null, returns <code>null</code>
  * @param {string|Date|undefined|null} date
  * @return string|undefined
@@ -28,7 +28,7 @@ export function d_formatWithHoursMinutesAndSeconds(date: string | number | Date)
 export function d_formatWithHoursMinutesAndSeconds(date: null | undefined): undefined;
 export function d_formatWithHoursMinutesAndSeconds(date: DateInput): string | undefined;
 /**
- * Returns a string formatted in 'YYYY-MM-DD HH:mm:ss'
+ * Returns a string formatted in 'yyyy-MM-DD HH:mm:ss'
  * <br/>If string or date is null, returns <code>undefined</code>
  * @param {string|Date|undefined|null} date
  * @return string|undefined

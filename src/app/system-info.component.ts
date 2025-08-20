@@ -49,7 +49,7 @@ import {AppSystemColorsModal} from './system-colors.modal';
               <ul class="list-unstyled px-2 d-flex flex-column gap-2">
                 <li class="d-flex flex-column flex-sm-row justify-content-between">
                   Local time:
-                  <span>{{ localTime() | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
+                  <span>{{ localTime() | date: 'yyyy-MM-dd HH:mm:ss (zzz)' }}</span>
                 </li>
                 <li class="d-flex justify-content-between">
                   OS: <span>{{ browserInfos.os }}</span>
@@ -192,11 +192,11 @@ import {AppSystemColorsModal} from './system-colors.modal';
                     </li>
                     <li class="d-flex flex-column flex-sm-row justify-content-between">
                       Time:
-                      <span>{{ publicInfo.serverTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' : 'UTC' }}</span>
+                      <span>{{ publicInfo.serverTime | date: 'yyyy-MM-dd HH:mm:ss (zzz)' : 'UTC' }}</span>
                     </li>
                     <li class="d-flex flex-column flex-sm-row justify-content-between">
                       Started:
-                      <span>{{ publicInfo.serverStartTime | date: 'YYYY-MM-dd HH:mm:ss (zzz)' }}</span>
+                      <span>{{ publicInfo.serverStartTime | date: 'yyyy-MM-dd HH:mm:ss (zzz)' }}</span>
                     </li>
                   }
 

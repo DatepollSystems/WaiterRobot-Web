@@ -17,7 +17,7 @@ import {AppLicenseEditFormComponent} from './license-edit-form.component';
     @if (eventLicenseStore.license(); as entity) {
       <div class="d-flex flex-column gap-2">
         <h1 *isEditing="entity">
-          {{ 'EDIT_2' | transloco }} {{ entity.start | date: 'YYYY.MM.DD HH:mm:ss' }} {{ entity.end | date: 'YYYY.MM.DD HH:mm:ss' }}
+          {{ 'EDIT_2' | transloco }} {{ entity.start | date: 'yyyy.MM.DD HH:mm:ss' }} {{ entity.end | date: 'yyyy.MM.DD HH:mm:ss' }}
         </h1>
         <h1 *isCreating="entity">{{ 'ADD_2' | transloco }}</h1>
 

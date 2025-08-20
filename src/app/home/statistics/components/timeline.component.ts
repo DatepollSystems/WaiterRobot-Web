@@ -217,7 +217,7 @@ export class TimelineComponent {
         it.highestValue += 5;
         it.data = it.data.map((iit) => {
           iit.series = iit.series.map((iiit) => {
-            iiit.name = formatDate(iiit.name, 'YYYY-MM-ddTHH:mm:ss', 'de-AT');
+            iiit.name = formatDate(iiit.name, 'yyyy-MM-ddTHH:mm:ss', 'de-AT');
             return iiit;
           });
           return iit;
