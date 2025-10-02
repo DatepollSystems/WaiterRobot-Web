@@ -42,8 +42,8 @@ importers:
         specifier: 7.6.1
         version: 7.6.1(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(typescript@5.8.3)
       '@micro-sentry/angular':
-        specifier: 7.0.2
-        version: 7.0.2(@angular/common@20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))
+        specifier: 7.1.1
+        version: 7.1.1(@angular/common@20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))
       '@ng-bootstrap/ng-bootstrap':
         specifier: 19.0.1
         version: 19.0.1(@angular/common@20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(@angular/forms@20.3.2(@angular/common@20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(@angular/platform-browser@20.3.2(@angular/animations@20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2)))(@angular/common@20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2)))(rxjs@7.8.2))(@angular/localize@20.3.2(@angular/compiler-cli@20.3.2(@angular/compiler@20.3.2)(typescript@5.8.3))(@angular/compiler@20.3.2))(@popperjs/core@2.11.8)(rxjs@7.8.2)
@@ -60,8 +60,8 @@ importers:
         specifier: 2.11.8
         version: 2.11.8
       '@swimlane/ngx-charts':
-        specifier: 23.0.0
-        version: 23.0.0(b8f3da9a5e8b6178a9eb6a50c0196be3)
+        specifier: 23.0.1
+        version: 23.0.1(b8f3da9a5e8b6178a9eb6a50c0196be3)
       bootstrap:
         specifier: 5.3.7
         version: 5.3.7(@popperjs/core@2.11.8)
@@ -93,17 +93,17 @@ importers:
         specifier: 1.11.13
         version: 1.11.13
       jspdf:
-        specifier: 3.0.2
-        version: 3.0.2
+        specifier: 3.0.3
+        version: 3.0.3
       ng2-pdfjs-viewer:
-        specifier: 20.0.0
-        version: 20.0.0(@angular/common@20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(ng-packagr@20.2.0(@angular/compiler-cli@20.3.2(@angular/compiler@20.3.2)(typescript@5.8.3))(tslib@2.8.1)(typescript@5.8.3))
+        specifier: 20.0.1
+        version: 20.0.1(@angular/common@20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(ng-packagr@20.2.0(@angular/compiler-cli@20.3.2(@angular/compiler@20.3.2)(typescript@5.8.3))(tslib@2.8.1)(typescript@5.8.3))
       ngx-print:
-        specifier: 20.0.0
-        version: 20.0.0(rxjs@7.8.2)
+        specifier: 20.1.0
+        version: 20.1.0(rxjs@7.8.2)
       ngxtension:
-        specifier: 5.1.0
-        version: 5.1.0(@angular/common@20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2)
+        specifier: 5.2.0
+        version: 5.2.0(@angular/common@20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2)
       rxjs:
         specifier: 7.8.2
         version: 7.8.2
@@ -136,8 +136,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.7
       '@types/jasmine':
-        specifier: 5.1.8
-        version: 5.1.8
+        specifier: 5.1.9
+        version: 5.1.9
       '@types/node':
         specifier: ^22.0.0
         version: 22.17.2
@@ -145,8 +145,8 @@ importers:
         specifier: ^1.4.6
         version: 1.4.6
       jasmine-core:
-        specifier: 5.9.0
-        version: 5.9.0
+        specifier: 5.11.0
+        version: 5.11.0
       jasmine-spec-reporter:
         specifier: 7.0.0
         version: 7.0.0
@@ -164,7 +164,7 @@ importers:
         version: 5.1.0(karma@6.4.4)
       karma-jasmine-html-reporter:
         specifier: 2.1.0
-        version: 2.1.0(jasmine-core@5.9.0)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4)
+        version: 2.1.0(jasmine-core@5.11.0)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4)
       license-report:
         specifier: ^6.4.0
         version: 6.8.0
@@ -882,17 +882,17 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@micro-sentry/angular@7.0.2':
-    resolution: {integrity: sha512-LPd4UCWSYj5SVcUtevs5F5lDS7suo9pnD3JeT0SYl+hGGdyoE327ao9+H08VEdFYYOT6Ifv/W7kRHl7i6U0iDw==}
+  '@micro-sentry/angular@7.1.1':
+    resolution: {integrity: sha512-eEL9HrsTTqvs620EqNxyR9sc2HyHeHSZqk4nlmO+JarTu1m/CGa4eYeSxB7gsPV9aW/NGhx3DgfMmhK8OE/GsQ==}
     peerDependencies:
       '@angular/common': '>=14.0.0'
       '@angular/core': '>=14.0.0'
 
-  '@micro-sentry/browser@7.0.2':
-    resolution: {integrity: sha512-gy0Y7HHqC8FVFZkh4Flt0cXZsgNiOJ+kUrHOO52UYgLLhf77aAcBkpUSkqgu8v5v09GJxuMqsI/TBYXAa6cQzQ==}
+  '@micro-sentry/browser@7.1.1':
+    resolution: {integrity: sha512-wkF1WugjZyJ4sdd0FlcMkqPkJfEU6GsePZUZ2zEL3zRjOdPK+dmtLZ2Xb6ZRu5sfxuLp72K4l/vWTH4nRz/0dQ==}
 
-  '@micro-sentry/core@7.0.2':
-    resolution: {integrity: sha512-Ttarqr/DvWilaoCaz/jlqw89/Ud9UdvZKj8DVeo6HA2KVdRRasPSv1Co6qJXxd79cEn65w58PQeE+mOkNbBm1g==}
+  '@micro-sentry/core@7.1.1':
+    resolution: {integrity: sha512-e3rgTGIbw5QPZloClKEomtF6DwT1j0wDj/Lqk9PjIHju8NrtJLqZJUlVJ5qe0oHWGDDHBrvWrz48t8Uwna8/TA==}
 
   '@modelcontextprotocol/sdk@1.17.3':
     resolution: {integrity: sha512-JPwUKWSsbzx+DLFznf/QZ32Qa+ptfbUlHhRLrBQBAFu9iI1iYvizM4p+zhhRDceSsPutXp4z+R/HPVphlIiclg==}
@@ -1455,8 +1455,8 @@ packages:
   '@socket.io/component-emitter@3.1.2':
     resolution: {integrity: sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==}
 
-  '@swimlane/ngx-charts@23.0.0':
-    resolution: {integrity: sha512-bLv1FWEvuM8pqCZr+WFQ980xH1F3bnbVRRlyW52kGUzj4BHdfGIOJo/JolFkIjMQdzLlAV5MqN649JlO3G70Dg==}
+  '@swimlane/ngx-charts@23.0.1':
+    resolution: {integrity: sha512-mvdJTjBjUNoDj/R3AopYyVkVNrv0Zsrlh71CIQLVhBOs6PSV1mT3o7ukBFu8ct4w38wTfiGr8G+twHiYM1TEKA==}
     peerDependencies:
       '@angular/animations': 18.x || 19.x || 20.x
       '@angular/cdk': 18.x || 19.x || 20.x
@@ -1534,8 +1534,8 @@ packages:
   '@types/http-cache-semantics@4.0.4':
     resolution: {integrity: sha512-1m0bIFVc7eJWyve9S0RnuRgcQqF/Xd5QsUZAZeQFr1Q3/p9JWoQQEqmVy+DPTNpGXwhgIetAoYF8JSc33q29QA==}
 
-  '@types/jasmine@5.1.8':
-    resolution: {integrity: sha512-u7/CnvRdh6AaaIzYjCgUuVbREFgulhX05Qtf6ZtW+aOcjCKKVvKgpkPYJBFTZSHtFBYimzU4zP0V2vrEsq9Wcg==}
+  '@types/jasmine@5.1.9':
+    resolution: {integrity: sha512-8t4HtkW4wxiPVedMpeZ63n3vlWxEIquo/zc1Tm8ElU+SqVV7+D3Na2PWaJUp179AzTragMWVwkMv7mvty0NfyQ==}
 
   '@types/node@22.17.2':
     resolution: {integrity: sha512-gL6z5N9Jm9mhY+U2KXZpteb+09zyffliRkZyZOHODGATyC5B1Jt/7TzuuiLkFsSUMLbS1OLmlj/E+/3KF4Q/4w==}
@@ -2683,8 +2683,8 @@ packages:
   jasmine-core@4.6.1:
     resolution: {integrity: sha512-VYz/BjjmC3klLJlLwA4Kw8ytk0zDSmbbDLNs794VnWmkcCB7I9aAL/D48VNQtmITyPvea2C3jdUMfc3kAoy0PQ==}
 
-  jasmine-core@5.9.0:
-    resolution: {integrity: sha512-OMUvF1iI6+gSRYOhMrH4QYothVLN9C3EJ6wm4g7zLJlnaTl8zbaPOr0bTw70l7QxkoM7sVFOWo83u9B2Fe2Zng==}
+  jasmine-core@5.11.0:
+    resolution: {integrity: sha512-MPJ8L5yyNul0F2SuEsLASwESXQjJvBXnKu31JWFyRZSvuv2B79K4GDWN3pSqvLheUNh7Fyb6dXwd4rsz95O2Kg==}
 
   jasmine-spec-reporter@7.0.0:
     resolution: {integrity: sha512-OtC7JRasiTcjsaCBPtMO0Tl8glCejM4J4/dNuOJdA8lBjz4PmWjYQ6pzb0uzpBNAWJMDudYuj9OdXJWqM2QTJg==}
@@ -2742,8 +2742,8 @@ packages:
     resolution: {integrity: sha512-POQXvpdL69+CluYsillJ7SUhKvytYjW9vG/GKpnf+xP8UWgYEM/RaMzHHofbALDiKbbP1W8UEYmgGl39WkPZsg==}
     engines: {'0': node >= 0.2.0}
 
-  jspdf@3.0.2:
-    resolution: {integrity: sha512-G0fQDJ5fAm6UW78HG6lNXyq09l0PrA1rpNY5i+ly17Zb1fMMFSmS+3lw4cnrAPGyouv2Y0ylujbY2Ieq3DSlKA==}
+  jspdf@3.0.3:
+    resolution: {integrity: sha512-eURjAyz5iX1H8BOYAfzvdPfIKK53V7mCpBTe7Kb16PaM8JSXEcUQNBQaiWMI8wY5RvNOPj4GccMjTlfwRBd+oQ==}
 
   karma-chrome-launcher@3.2.0:
     resolution: {integrity: sha512-rE9RkUPI7I9mAxByQWkGJFXfFD6lE4gC5nPuZdobf/QdTEJI6EU4yIay/cfU/xV4ZxlM5JiTv7zWYgA64NpS5Q==}
@@ -3037,20 +3037,20 @@ packages:
       tailwindcss:
         optional: true
 
-  ng2-pdfjs-viewer@20.0.0:
-    resolution: {integrity: sha512-sq+1rG60DJepbXsN5GdzEpJDPWAjgmAMuSRtuzhJorhtbhlIf4CziCPUhg5A+tizid6XrvXgFKRVBEDT2pyBYQ==}
+  ng2-pdfjs-viewer@20.0.1:
+    resolution: {integrity: sha512-CROQbWA+h1jwbaIbzQNaCxvDrgLMJIyBlZEME1VIxz0GPVplwayuakM4YHYfToTIC1wQd1NA1sjS9BjM8VBWDA==}
     peerDependencies:
       '@angular/common': ^20.0.0
       '@angular/core': ^20.0.0
       ng-packagr: ^20.0.0
 
-  ngx-print@20.0.0:
-    resolution: {integrity: sha512-s43uURV5M0WWhHeSRF0tzQ9noqP3BAZrFEBXPuvn5IUz4ceopvqohAYrBgj+NyPq4wUohuLCdKKrqZ0O/trwcw==}
+  ngx-print@20.1.0:
+    resolution: {integrity: sha512-nB82xOSy0TOfw4+V6nuiyWjf5zSGeVfFG9La2SZmbrmjMSXVkWc70MoaaunBWCmMt1iagMApkjCsS+XJestPDw==}
     peerDependencies:
       rxjs: ^7.4.0
 
-  ngxtension@5.1.0:
-    resolution: {integrity: sha512-ZYs5Fkgrcu+aa/GBqIf/2N7SUZoYam+Fjmu7WxP9rIm4Mx0SECzq+glpWDwBYyPtyfCBwuo6Z8dSPyyzR7PTFQ==}
+  ngxtension@5.2.0:
+    resolution: {integrity: sha512-OZR1xnMYiCpCMnwjN1pkSrrfNbKk9VzHzpNW7elD51tEI63l8p27R8Kc1VPqRuYhBSwZ53mc891o8mWWJYuMSA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@angular/common': '>=16.0.0'
@@ -4688,19 +4688,19 @@ snapshots:
   '@lmdb/lmdb-win32-x64@3.4.2':
     optional: true
 
-  '@micro-sentry/angular@7.0.2(@angular/common@20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))':
+  '@micro-sentry/angular@7.1.1(@angular/common@20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))':
     dependencies:
       '@angular/common': 20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2)
       '@angular/core': 20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2)
-      '@micro-sentry/browser': 7.0.2
+      '@micro-sentry/browser': 7.1.1
       tslib: 2.8.1
 
-  '@micro-sentry/browser@7.0.2':
+  '@micro-sentry/browser@7.1.1':
     dependencies:
-      '@micro-sentry/core': 7.0.2
+      '@micro-sentry/core': 7.1.1
       tslib: 2.8.1
 
-  '@micro-sentry/core@7.0.2':
+  '@micro-sentry/core@7.1.1':
     dependencies:
       tslib: 2.8.1
 
@@ -5169,7 +5169,7 @@ snapshots:
 
   '@socket.io/component-emitter@3.1.2': {}
 
-  '@swimlane/ngx-charts@23.0.0(b8f3da9a5e8b6178a9eb6a50c0196be3)':
+  '@swimlane/ngx-charts@23.0.1(b8f3da9a5e8b6178a9eb6a50c0196be3)':
     dependencies:
       '@angular/animations': 20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))
       '@angular/cdk': 20.2.5(@angular/common@20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2)
@@ -5266,7 +5266,7 @@ snapshots:
 
   '@types/http-cache-semantics@4.0.4': {}
 
-  '@types/jasmine@5.1.8': {}
+  '@types/jasmine@5.1.9': {}
 
   '@types/node@22.17.2':
     dependencies:
@@ -6484,7 +6484,7 @@ snapshots:
 
   jasmine-core@4.6.1: {}
 
-  jasmine-core@5.9.0: {}
+  jasmine-core@5.11.0: {}
 
   jasmine-spec-reporter@7.0.0:
     dependencies:
@@ -6528,7 +6528,7 @@ snapshots:
 
   jsonparse@1.3.1: {}
 
-  jspdf@3.0.2:
+  jspdf@3.0.3:
     dependencies:
       '@babel/runtime': 7.28.3
       fast-png: 6.4.0
@@ -6554,9 +6554,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  karma-jasmine-html-reporter@2.1.0(jasmine-core@5.9.0)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4):
+  karma-jasmine-html-reporter@2.1.0(jasmine-core@5.11.0)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4):
     dependencies:
-      jasmine-core: 5.9.0
+      jasmine-core: 5.11.0
       karma: 6.4.4
       karma-jasmine: 5.1.0(karma@6.4.4)
 
@@ -6905,25 +6905,25 @@ snapshots:
       rollup-plugin-dts: 6.2.3(rollup@4.48.0)(typescript@5.8.3)
       rxjs: 7.8.2
       sass: 1.90.0
-      tinyglobby: 0.2.14
+      tinyglobby: 0.2.15
       tslib: 2.8.1
       typescript: 5.8.3
     optionalDependencies:
       rollup: 4.48.0
 
-  ng2-pdfjs-viewer@20.0.0(@angular/common@20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(ng-packagr@20.2.0(@angular/compiler-cli@20.3.2(@angular/compiler@20.3.2)(typescript@5.8.3))(tslib@2.8.1)(typescript@5.8.3)):
+  ng2-pdfjs-viewer@20.0.1(@angular/common@20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(ng-packagr@20.2.0(@angular/compiler-cli@20.3.2(@angular/compiler@20.3.2)(typescript@5.8.3))(tslib@2.8.1)(typescript@5.8.3)):
     dependencies:
       '@angular/common': 20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2)
       '@angular/core': 20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2)
       ng-packagr: 20.2.0(@angular/compiler-cli@20.3.2(@angular/compiler@20.3.2)(typescript@5.8.3))(tslib@2.8.1)(typescript@5.8.3)
       tslib: 2.8.1
 
-  ngx-print@20.0.0(rxjs@7.8.2):
+  ngx-print@20.1.0(rxjs@7.8.2):
     dependencies:
       rxjs: 7.8.2
       tslib: 2.8.1
 
-  ngxtension@5.1.0(@angular/common@20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2):
+  ngxtension@5.2.0(@angular/common@20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2):
     dependencies:
       '@angular/common': 20.3.2(@angular/core@20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2))(rxjs@7.8.2)
       '@angular/core': 20.3.2(@angular/compiler@20.3.2)(rxjs@7.8.2)
