@@ -42,8 +42,8 @@ importers:
         specifier: 7.6.1
         version: 7.6.1(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2))(typescript@5.8.3)
       '@micro-sentry/angular':
-        specifier: 7.1.1
-        version: 7.1.1(@angular/common@20.3.9(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2))
+        specifier: 7.2.0
+        version: 7.2.0(@angular/common@20.3.9(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2))
       '@ng-bootstrap/ng-bootstrap':
         specifier: 19.0.1
         version: 19.0.1(@angular/common@20.3.9(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2))(@angular/forms@20.3.9(@angular/common@20.3.9(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2))(@angular/platform-browser@20.3.9(@angular/animations@20.3.9(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2)))(@angular/common@20.3.9(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2)))(rxjs@7.8.2))(@angular/localize@20.3.9(@angular/compiler-cli@20.3.9(@angular/compiler@20.3.9)(typescript@5.8.3))(@angular/compiler@20.3.9))(@popperjs/core@2.11.8)(rxjs@7.8.2)
@@ -60,8 +60,8 @@ importers:
         specifier: 2.11.8
         version: 2.11.8
       '@swimlane/ngx-charts':
-        specifier: 23.0.1
-        version: 23.0.1(ccf7c076ee1289b0ed50d73a6f5bf4ce)
+        specifier: 23.1.0
+        version: 23.1.0(ccf7c076ee1289b0ed50d73a6f5bf4ce)
       bootstrap:
         specifier: 5.3.7
         version: 5.3.7(@popperjs/core@2.11.8)
@@ -136,8 +136,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.7
       '@types/jasmine':
-        specifier: 5.1.9
-        version: 5.1.9
+        specifier: 5.1.12
+        version: 5.1.12
       '@types/node':
         specifier: ^22.0.0
         version: 22.17.2
@@ -145,8 +145,8 @@ importers:
         specifier: ^1.4.6
         version: 1.4.6
       jasmine-core:
-        specifier: 5.12.0
-        version: 5.12.0
+        specifier: 5.12.1
+        version: 5.12.1
       jasmine-spec-reporter:
         specifier: 7.0.0
         version: 7.0.0
@@ -164,7 +164,7 @@ importers:
         version: 5.1.0(karma@6.4.4)
       karma-jasmine-html-reporter:
         specifier: 2.1.0
-        version: 2.1.0(jasmine-core@5.12.0)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4)
+        version: 2.1.0(jasmine-core@5.12.1)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4)
       license-report:
         specifier: ^6.4.0
         version: 6.8.0
@@ -873,8 +873,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@micro-sentry/angular@7.1.1':
-    resolution: {integrity: sha512-eEL9HrsTTqvs620EqNxyR9sc2HyHeHSZqk4nlmO+JarTu1m/CGa4eYeSxB7gsPV9aW/NGhx3DgfMmhK8OE/GsQ==}
+  '@micro-sentry/angular@7.2.0':
+    resolution: {integrity: sha512-XqxYHFMUCEVE+7QDH6VEdSNBdcTs8RBNV8pnfq/sQeQJnUaWY/yutyYJ+JOXLe9XR+Pacv74swe/NIGYcJl27A==}
     peerDependencies:
       '@angular/common': '>=14.0.0'
       '@angular/core': '>=14.0.0'
@@ -1364,8 +1364,8 @@ packages:
   '@socket.io/component-emitter@3.1.2':
     resolution: {integrity: sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==}
 
-  '@swimlane/ngx-charts@23.0.1':
-    resolution: {integrity: sha512-mvdJTjBjUNoDj/R3AopYyVkVNrv0Zsrlh71CIQLVhBOs6PSV1mT3o7ukBFu8ct4w38wTfiGr8G+twHiYM1TEKA==}
+  '@swimlane/ngx-charts@23.1.0':
+    resolution: {integrity: sha512-f2lBc8M9164PtylLDLd98XqO6owSw4LQMT9L/vQovT3nIjMO7t5l9JnytyOB8s5KImo3p+7x+1/HYxBZ5iOVWA==}
     peerDependencies:
       '@angular/animations': 18.x || 19.x || 20.x
       '@angular/cdk': 18.x || 19.x || 20.x
@@ -1440,8 +1440,8 @@ packages:
   '@types/http-cache-semantics@4.0.4':
     resolution: {integrity: sha512-1m0bIFVc7eJWyve9S0RnuRgcQqF/Xd5QsUZAZeQFr1Q3/p9JWoQQEqmVy+DPTNpGXwhgIetAoYF8JSc33q29QA==}
 
-  '@types/jasmine@5.1.9':
-    resolution: {integrity: sha512-8t4HtkW4wxiPVedMpeZ63n3vlWxEIquo/zc1Tm8ElU+SqVV7+D3Na2PWaJUp179AzTragMWVwkMv7mvty0NfyQ==}
+  '@types/jasmine@5.1.12':
+    resolution: {integrity: sha512-1BzPxNsFDLDfj9InVR3IeY0ZVf4o9XV+4mDqoCfyPkbsA7dYyKAPAb2co6wLFlHcvxPlt1wShm7zQdV7uTfLGA==}
 
   '@types/node@22.17.2':
     resolution: {integrity: sha512-gL6z5N9Jm9mhY+U2KXZpteb+09zyffliRkZyZOHODGATyC5B1Jt/7TzuuiLkFsSUMLbS1OLmlj/E+/3KF4Q/4w==}
@@ -2585,8 +2585,8 @@ packages:
   jasmine-core@4.6.1:
     resolution: {integrity: sha512-VYz/BjjmC3klLJlLwA4Kw8ytk0zDSmbbDLNs794VnWmkcCB7I9aAL/D48VNQtmITyPvea2C3jdUMfc3kAoy0PQ==}
 
-  jasmine-core@5.12.0:
-    resolution: {integrity: sha512-QqO4pX33GEML5JoGQU6BM5NHKPgEsg+TXp3jCIDek9MbfEp2JUYEFBo9EF1+hegWy/bCHS1m5nP0BOp18G6rVA==}
+  jasmine-core@5.12.1:
+    resolution: {integrity: sha512-P/UbRZ0LKwXe7wEpwDheuhunPwITn4oPALhrJEQJo6756EwNGnsK/TSQrWojBB4cQDQ+VaxWYws9tFNDuiMh2Q==}
 
   jasmine-spec-reporter@7.0.0:
     resolution: {integrity: sha512-OtC7JRasiTcjsaCBPtMO0Tl8glCejM4J4/dNuOJdA8lBjz4PmWjYQ6pzb0uzpBNAWJMDudYuj9OdXJWqM2QTJg==}
@@ -4569,7 +4569,7 @@ snapshots:
   '@lmdb/lmdb-win32-x64@3.4.2':
     optional: true
 
-  '@micro-sentry/angular@7.1.1(@angular/common@20.3.9(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2))':
+  '@micro-sentry/angular@7.2.0(@angular/common@20.3.9(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2))':
     dependencies:
       '@angular/common': 20.3.9(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2))(rxjs@7.8.2)
       '@angular/core': 20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2)
@@ -5001,7 +5001,7 @@ snapshots:
 
   '@socket.io/component-emitter@3.1.2': {}
 
-  '@swimlane/ngx-charts@23.0.1(ccf7c076ee1289b0ed50d73a6f5bf4ce)':
+  '@swimlane/ngx-charts@23.1.0(ccf7c076ee1289b0ed50d73a6f5bf4ce)':
     dependencies:
       '@angular/animations': 20.3.9(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2))
       '@angular/cdk': 20.2.10(@angular/common@20.3.9(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2))(rxjs@7.8.2)
@@ -5093,7 +5093,7 @@ snapshots:
 
   '@types/http-cache-semantics@4.0.4': {}
 
-  '@types/jasmine@5.1.9': {}
+  '@types/jasmine@5.1.12': {}
 
   '@types/node@22.17.2':
     dependencies:
@@ -6309,7 +6309,7 @@ snapshots:
 
   jasmine-core@4.6.1: {}
 
-  jasmine-core@5.12.0: {}
+  jasmine-core@5.12.1: {}
 
   jasmine-spec-reporter@7.0.0:
     dependencies:
@@ -6379,9 +6379,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  karma-jasmine-html-reporter@2.1.0(jasmine-core@5.12.0)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4):
+  karma-jasmine-html-reporter@2.1.0(jasmine-core@5.12.1)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4):
     dependencies:
-      jasmine-core: 5.12.0
+      jasmine-core: 5.12.1
       karma: 6.4.4
       karma-jasmine: 5.1.0(karma@6.4.4)
 
