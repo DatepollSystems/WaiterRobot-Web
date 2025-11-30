@@ -93,8 +93,8 @@ importers:
         specifier: 1.11.13
         version: 1.11.13
       jspdf:
-        specifier: 3.0.3
-        version: 3.0.3
+        specifier: 3.0.4
+        version: 3.0.4
       ng2-pdfjs-viewer:
         specifier: 20.0.1
         version: 20.0.1(@angular/common@20.3.9(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.9(@angular/compiler@20.3.9)(rxjs@7.8.2))(ng-packagr@20.2.0(@angular/compiler-cli@20.3.9(@angular/compiler@20.3.9)(typescript@5.8.3))(tslib@2.8.1)(typescript@5.8.3))
@@ -125,7 +125,7 @@ importers:
         version: 20.3.9(@angular/compiler@20.3.9)(typescript@5.8.3)
       '@trivago/prettier-plugin-sort-imports':
         specifier: ^5.0.0
-        version: 5.2.2(prettier@3.6.2)
+        version: 5.2.2(prettier@3.7.1)
       '@types/d3-scale':
         specifier: 4.0.9
         version: 4.0.9
@@ -136,8 +136,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.7
       '@types/jasmine':
-        specifier: 5.1.12
-        version: 5.1.12
+        specifier: 5.1.13
+        version: 5.1.13
       '@types/node':
         specifier: ^22.0.0
         version: 22.17.2
@@ -172,11 +172,11 @@ importers:
         specifier: ^7.4.2
         version: 7.9.1(typescript@5.8.3)
       prettier:
-        specifier: 3.6.2
-        version: 3.6.2
+        specifier: 3.7.1
+        version: 3.7.1
       prettier-plugin-organize-attributes:
         specifier: ^1.0.0
-        version: 1.0.0(prettier@3.6.2)
+        version: 1.0.0(prettier@3.7.1)
       source-map-explorer:
         specifier: 2.5.3
         version: 2.5.3
@@ -471,8 +471,8 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
-  '@babel/runtime@7.28.3':
-    resolution: {integrity: sha512-9uIQ10o0WGdpP6GDhXcdOJPJuDgFtIDtN/9+ArJQ2NAfAmiuhTQdzkaTGR33v43GYS2UrSA0eX2pPPHoFVvpxA==}
+  '@babel/runtime@7.28.4':
+    resolution: {integrity: sha512-Q/N6JNWvIvPnLDvjlE1OUBLPQHH6l3CltCEsHIujp45zQUSSh8K+gHnaEX45yAT1nyngnINhvWtzN+Nb9D8RAQ==}
     engines: {node: '>=6.9.0'}
 
   '@babel/template@7.27.2':
@@ -1440,8 +1440,8 @@ packages:
   '@types/http-cache-semantics@4.0.4':
     resolution: {integrity: sha512-1m0bIFVc7eJWyve9S0RnuRgcQqF/Xd5QsUZAZeQFr1Q3/p9JWoQQEqmVy+DPTNpGXwhgIetAoYF8JSc33q29QA==}
 
-  '@types/jasmine@5.1.12':
-    resolution: {integrity: sha512-1BzPxNsFDLDfj9InVR3IeY0ZVf4o9XV+4mDqoCfyPkbsA7dYyKAPAb2co6wLFlHcvxPlt1wShm7zQdV7uTfLGA==}
+  '@types/jasmine@5.1.13':
+    resolution: {integrity: sha512-MYCcDkruFc92LeYZux5BC0dmqo2jk+M5UIZ4/oFnAPCXN9mCcQhLyj7F3/Za7rocVyt5YRr1MmqJqFlvQ9LVcg==}
 
   '@types/node@22.17.2':
     resolution: {integrity: sha512-gL6z5N9Jm9mhY+U2KXZpteb+09zyffliRkZyZOHODGATyC5B1Jt/7TzuuiLkFsSUMLbS1OLmlj/E+/3KF4Q/4w==}
@@ -2644,8 +2644,8 @@ packages:
     resolution: {integrity: sha512-POQXvpdL69+CluYsillJ7SUhKvytYjW9vG/GKpnf+xP8UWgYEM/RaMzHHofbALDiKbbP1W8UEYmgGl39WkPZsg==}
     engines: {'0': node >= 0.2.0}
 
-  jspdf@3.0.3:
-    resolution: {integrity: sha512-eURjAyz5iX1H8BOYAfzvdPfIKK53V7mCpBTe7Kb16PaM8JSXEcUQNBQaiWMI8wY5RvNOPj4GccMjTlfwRBd+oQ==}
+  jspdf@3.0.4:
+    resolution: {integrity: sha512-dc6oQ8y37rRcHn316s4ngz/nOjayLF/FFxBF4V9zamQKRqXxyiH1zagkCdktdWhtoQId5K20xt1lB90XzkB+hQ==}
 
   karma-chrome-launcher@3.2.0:
     resolution: {integrity: sha512-rE9RkUPI7I9mAxByQWkGJFXfFD6lE4gC5nPuZdobf/QdTEJI6EU4yIay/cfU/xV4ZxlM5JiTv7zWYgA64NpS5Q==}
@@ -3201,8 +3201,8 @@ packages:
     peerDependencies:
       prettier: ^3.0.0
 
-  prettier@3.6.2:
-    resolution: {integrity: sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==}
+  prettier@3.7.1:
+    resolution: {integrity: sha512-RWKXE4qB3u5Z6yz7omJkjWwmTfLdcbv44jUVHC5NpfXwFGzvpQM798FGv/6WNK879tc+Cn0AAyherCl1KjbyZQ==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -4248,7 +4248,7 @@ snapshots:
     dependencies:
       '@babel/types': 7.28.2
 
-  '@babel/runtime@7.28.3': {}
+  '@babel/runtime@7.28.4': {}
 
   '@babel/template@7.27.2':
     dependencies:
@@ -5031,7 +5031,7 @@ snapshots:
     dependencies:
       defer-to-connect: 2.0.1
 
-  '@trivago/prettier-plugin-sort-imports@5.2.2(prettier@3.6.2)':
+  '@trivago/prettier-plugin-sort-imports@5.2.2(prettier@3.7.1)':
     dependencies:
       '@babel/generator': 7.28.3
       '@babel/parser': 7.28.3
@@ -5039,7 +5039,7 @@ snapshots:
       '@babel/types': 7.28.2
       javascript-natural-sort: 0.7.1
       lodash: 4.17.21
-      prettier: 3.6.2
+      prettier: 3.7.1
     transitivePeerDependencies:
       - supports-color
 
@@ -5093,7 +5093,7 @@ snapshots:
 
   '@types/http-cache-semantics@4.0.4': {}
 
-  '@types/jasmine@5.1.12': {}
+  '@types/jasmine@5.1.13': {}
 
   '@types/node@22.17.2':
     dependencies:
@@ -5334,7 +5334,7 @@ snapshots:
 
   canvg@3.0.11:
     dependencies:
-      '@babel/runtime': 7.28.3
+      '@babel/runtime': 7.28.4
       '@types/raf': 3.4.3
       core-js: 3.45.1
       raf: 3.4.1
@@ -6353,9 +6353,9 @@ snapshots:
 
   jsonparse@1.3.1: {}
 
-  jspdf@3.0.3:
+  jspdf@3.0.4:
     dependencies:
-      '@babel/runtime': 7.28.3
+      '@babel/runtime': 7.28.4
       fast-png: 6.4.0
       fflate: 0.8.2
     optionalDependencies:
@@ -7028,11 +7028,11 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  prettier-plugin-organize-attributes@1.0.0(prettier@3.6.2):
+  prettier-plugin-organize-attributes@1.0.0(prettier@3.7.1):
     dependencies:
-      prettier: 3.6.2
+      prettier: 3.7.1
 
-  prettier@3.6.2: {}
+  prettier@3.7.1: {}
 
   proc-log@5.0.0: {}
 
