@@ -3,70 +3,70 @@
     "name": "@angular/animations",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.4",
+    "installedVersion": "20.3.9",
     "author": "angular"
   },
   {
     "name": "@angular/cdk",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/components.git",
-    "installedVersion": "20.2.8",
+    "installedVersion": "20.2.10",
     "author": "n/a"
   },
   {
     "name": "@angular/common",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.4",
+    "installedVersion": "20.3.9",
     "author": "angular"
   },
   {
     "name": "@angular/compiler",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.4",
+    "installedVersion": "20.3.9",
     "author": "angular"
   },
   {
     "name": "@angular/core",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.4",
+    "installedVersion": "20.3.9",
     "author": "angular"
   },
   {
     "name": "@angular/forms",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.4",
+    "installedVersion": "20.3.9",
     "author": "angular"
   },
   {
     "name": "@angular/localize",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.4",
+    "installedVersion": "20.3.9",
     "author": "angular"
   },
   {
     "name": "@angular/platform-browser",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.4",
+    "installedVersion": "20.3.9",
     "author": "angular"
   },
   {
     "name": "@angular/platform-browser-dynamic",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.4",
+    "installedVersion": "20.3.9",
     "author": "angular"
   },
   {
     "name": "@angular/router",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.4",
+    "installedVersion": "20.3.9",
     "author": "angular"
   },
   {
@@ -80,7 +80,7 @@
     "name": "@micro-sentry/angular",
     "licenseType": "Apache-2.0",
     "link": "git+https://github.com/taiga-family/micro-sentry.git",
-    "installedVersion": "7.1.1",
+    "installedVersion": "7.2.0",
     "author": "n/a"
   },
   {
@@ -122,7 +122,7 @@
     "name": "@swimlane/ngx-charts",
     "licenseType": "MIT",
     "link": "git+https://github.com/swimlane/ngx-charts.git",
-    "installedVersion": "23.0.1",
+    "installedVersion": "23.1.0",
     "author": "Swimlane"
   },
   {
