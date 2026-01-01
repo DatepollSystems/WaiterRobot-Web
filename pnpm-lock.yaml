@@ -72,8 +72,8 @@ importers:
         specifier: 3.2.0
         version: 3.2.0
       dfts-helper:
-        specifier: 2.0.0
-        version: 2.0.0
+        specifier: 2.1.0
+        version: 2.1.0
       dfx-bootstrap-icons:
         specifier: 20.0.0
         version: 20.0.0(@angular/common@20.3.14(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2))(bootstrap-icons@1.13.1)(rxjs@7.8.2)
@@ -82,7 +82,7 @@ importers:
         version: 20.1.0(@angular/cdk@20.2.14(@angular/common@20.3.14(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/common@20.3.14(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2))(@angular/forms@20.3.14(@angular/common@20.3.14(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2))(@angular/platform-browser@20.3.14(@angular/animations@20.3.14(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2)))(@angular/common@20.3.14(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2)))(rxjs@7.8.2))(bootstrap@5.3.7(@popperjs/core@2.11.8))(rxjs@7.8.2)
       dfx-helper:
         specifier: 20.1.0
-        version: 20.1.0(76db45b273ab9870ef82a0be58cdb14b)
+        version: 20.1.0(bc446efaa2aae2e5d02e9e0272890f7d)
       dfx-openapi:
         specifier: 20.1.0
         version: 20.1.0(@angular/common@20.3.14(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2))(rxjs@7.8.2))(openapi-typescript-helpers@0.0.15)(rxjs@7.8.2)
@@ -125,7 +125,7 @@ importers:
         version: 20.3.14(@angular/compiler@20.3.14)(typescript@5.8.3)
       '@trivago/prettier-plugin-sort-imports':
         specifier: ^5.0.0
-        version: 5.2.2(prettier@3.7.1)
+        version: 5.2.2(prettier@3.7.4)
       '@types/d3-scale':
         specifier: 4.0.9
         version: 4.0.9
@@ -145,8 +145,8 @@ importers:
         specifier: ^1.4.6
         version: 1.4.6
       jasmine-core:
-        specifier: 5.12.1
-        version: 5.12.1
+        specifier: 5.13.0
+        version: 5.13.0
       jasmine-spec-reporter:
         specifier: 7.0.0
         version: 7.0.0
@@ -164,7 +164,7 @@ importers:
         version: 5.1.0(karma@6.4.4)
       karma-jasmine-html-reporter:
         specifier: 2.1.0
-        version: 2.1.0(jasmine-core@5.12.1)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4)
+        version: 2.1.0(jasmine-core@5.13.0)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4)
       license-report:
         specifier: ^6.4.0
         version: 6.8.0
@@ -172,11 +172,11 @@ importers:
         specifier: ^7.4.2
         version: 7.9.1(typescript@5.8.3)
       prettier:
-        specifier: 3.7.1
-        version: 3.7.1
+        specifier: 3.7.4
+        version: 3.7.4
       prettier-plugin-organize-attributes:
         specifier: ^1.0.0
-        version: 1.0.0(prettier@3.7.1)
+        version: 1.0.0(prettier@3.7.4)
       source-map-explorer:
         specifier: 2.5.3
         version: 2.5.3
@@ -1951,8 +1951,8 @@ packages:
     peerDependencies:
       tslib: 1.14.1
 
-  dfts-helper@2.0.0:
-    resolution: {integrity: sha512-+eO+fZxjutGwreQnFXhKpt4qQ9BpMm7ydonQArvlrIGuwSTwrsy4JopoMbncRvf51lJeI2f3AOzNL26NuQOT7Q==}
+  dfts-helper@2.1.0:
+    resolution: {integrity: sha512-KHT8xGvIVAKjM3jNvk1jaY8JvZMbMcYjtM/id3qOYkMmnxGyf/D7qaxTAlYi/EtSfs8hQlcP9/FXp0zapEDsGg==}
 
   dfts-qrcode@1.1.0:
     resolution: {integrity: sha512-c7xF090SLAgzTfD+gXsyCdx+RK7VNUW5/+ZohO0PfY/VmKs9Osq73ETBC04slw9NfU/Ww4VzpvILwno2hWQjtw==}
@@ -2585,8 +2585,8 @@ packages:
   jasmine-core@4.6.1:
     resolution: {integrity: sha512-VYz/BjjmC3klLJlLwA4Kw8ytk0zDSmbbDLNs794VnWmkcCB7I9aAL/D48VNQtmITyPvea2C3jdUMfc3kAoy0PQ==}
 
-  jasmine-core@5.12.1:
-    resolution: {integrity: sha512-P/UbRZ0LKwXe7wEpwDheuhunPwITn4oPALhrJEQJo6756EwNGnsK/TSQrWojBB4cQDQ+VaxWYws9tFNDuiMh2Q==}
+  jasmine-core@5.13.0:
+    resolution: {integrity: sha512-vsYjfh7lyqvZX5QgqKc4YH8phs7g96Z8bsdIFNEU3VqXhlHaq+vov/Fgn/sr6MiUczdZkyXRC3TX369Ll4Nzbw==}
 
   jasmine-spec-reporter@7.0.0:
     resolution: {integrity: sha512-OtC7JRasiTcjsaCBPtMO0Tl8glCejM4J4/dNuOJdA8lBjz4PmWjYQ6pzb0uzpBNAWJMDudYuj9OdXJWqM2QTJg==}
@@ -3201,8 +3201,8 @@ packages:
     peerDependencies:
       prettier: ^3.0.0
 
-  prettier@3.7.1:
-    resolution: {integrity: sha512-RWKXE4qB3u5Z6yz7omJkjWwmTfLdcbv44jUVHC5NpfXwFGzvpQM798FGv/6WNK879tc+Cn0AAyherCl1KjbyZQ==}
+  prettier@3.7.4:
+    resolution: {integrity: sha512-v6UNi1+3hSlVvv8fSaoUbggEM5VErKmmpGA7Pl3HF8V6uKY7rvClBOJlH6yNwQtfTueNkGVpOv/mtWL9L4bgRA==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -5031,7 +5031,7 @@ snapshots:
     dependencies:
       defer-to-connect: 2.0.1
 
-  '@trivago/prettier-plugin-sort-imports@5.2.2(prettier@3.7.1)':
+  '@trivago/prettier-plugin-sort-imports@5.2.2(prettier@3.7.4)':
     dependencies:
       '@babel/generator': 7.28.3
       '@babel/parser': 7.28.3
@@ -5039,7 +5039,7 @@ snapshots:
       '@babel/types': 7.28.2
       javascript-natural-sort: 0.7.1
       lodash: 4.17.21
-      prettier: 3.7.1
+      prettier: 3.7.4
     transitivePeerDependencies:
       - supports-color
 
@@ -5622,7 +5622,7 @@ snapshots:
     dependencies:
       tslib: 2.6.2
 
-  dfts-helper@2.0.0:
+  dfts-helper@2.1.0:
     dependencies:
       tslib: 2.8.1
 
@@ -5649,14 +5649,14 @@ snapshots:
       rxjs: 7.8.2
       tslib: 2.8.1
 
-  dfx-helper@20.1.0(76db45b273ab9870ef82a0be58cdb14b):
+  dfx-helper@20.1.0(bc446efaa2aae2e5d02e9e0272890f7d):
     dependencies:
       '@angular/cdk': 20.2.14(@angular/common@20.3.14(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2))(rxjs@7.8.2)
       '@angular/common': 20.3.14(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2))(rxjs@7.8.2)
       '@angular/core': 20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2)
       '@angular/platform-browser': 20.3.14(@angular/animations@20.3.14(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2)))(@angular/common@20.3.14(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2))
       '@angular/router': 20.3.14(@angular/common@20.3.14(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2))(@angular/platform-browser@20.3.14(@angular/animations@20.3.14(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2)))(@angular/common@20.3.14(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.3.14(@angular/compiler@20.3.14)(rxjs@7.8.2)))(rxjs@7.8.2)
-      dfts-helper: 2.0.0
+      dfts-helper: 2.1.0
       rxjs: 7.8.2
       tslib: 2.8.1
 
@@ -6309,7 +6309,7 @@ snapshots:
 
   jasmine-core@4.6.1: {}
 
-  jasmine-core@5.12.1: {}
+  jasmine-core@5.13.0: {}
 
   jasmine-spec-reporter@7.0.0:
     dependencies:
@@ -6379,9 +6379,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  karma-jasmine-html-reporter@2.1.0(jasmine-core@5.12.1)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4):
+  karma-jasmine-html-reporter@2.1.0(jasmine-core@5.13.0)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4):
     dependencies:
-      jasmine-core: 5.12.1
+      jasmine-core: 5.13.0
       karma: 6.4.4
       karma-jasmine: 5.1.0(karma@6.4.4)
 
@@ -7028,11 +7028,11 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  prettier-plugin-organize-attributes@1.0.0(prettier@3.7.1):
+  prettier-plugin-organize-attributes@1.0.0(prettier@3.7.4):
     dependencies:
-      prettier: 3.7.1
+      prettier: 3.7.4
 
-  prettier@3.7.1: {}
+  prettier@3.7.4: {}
 
   proc-log@5.0.0: {}
 
