@@ -3,70 +3,70 @@
     "name": "@angular/animations",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.9",
+    "installedVersion": "20.3.14",
     "author": "angular"
   },
   {
     "name": "@angular/cdk",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/components.git",
-    "installedVersion": "20.2.10",
+    "installedVersion": "20.2.14",
     "author": "n/a"
   },
   {
     "name": "@angular/common",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.9",
+    "installedVersion": "20.3.14",
     "author": "angular"
   },
   {
     "name": "@angular/compiler",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.9",
+    "installedVersion": "20.3.14",
     "author": "angular"
   },
   {
     "name": "@angular/core",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.9",
+    "installedVersion": "20.3.14",
     "author": "angular"
   },
   {
     "name": "@angular/forms",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.9",
+    "installedVersion": "20.3.14",
     "author": "angular"
   },
   {
     "name": "@angular/localize",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.9",
+    "installedVersion": "20.3.14",
     "author": "angular"
   },
   {
     "name": "@angular/platform-browser",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.9",
+    "installedVersion": "20.3.14",
     "author": "angular"
   },
   {
     "name": "@angular/platform-browser-dynamic",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.9",
+    "installedVersion": "20.3.14",
     "author": "angular"
   },
   {
     "name": "@angular/router",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.9",
+    "installedVersion": "20.3.14",
     "author": "angular"
   },
   {
@@ -199,7 +199,7 @@
     "name": "jspdf",
     "licenseType": "MIT",
     "link": "git+https://github.com/parallax/jsPDF.git",
-    "installedVersion": "3.0.3",
+    "installedVersion": "3.0.4",
     "author": "n/a"
   },
   {
