@@ -80,6 +80,6 @@
     "prettier": "3.7.4",
     "prettier-plugin-organize-attributes": "^1.0.0",
     "source-map-explorer": "2.5.3",
-    "typescript": "5.8.3"
+    "typescript": "5.9.3"
   }
 }
