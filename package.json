@@ -18,7 +18,7 @@
     "api:types": "openapi-typescript http://localhost:8080/api/swagger/api-docs -o  src/app/api/api-types.ts && prettier --write ./src/app/_shared/api/api-types.ts",
     "api:types:lava": "openapi-typescript https://lava.kellner.team/api/swagger/api-docs -o  src/app/api/api-types.ts && prettier --write ./src/app/_shared/api/api-types.ts"
   },
-  "packageManager": "pnpm@10.26.2",
+  "packageManager": "pnpm@10.34.1",
   "private": true,
   "dependencies": {
     "@angular/animations": "20.3.15",
@@ -65,7 +65,7 @@
     "@types/d3-scale": "4.0.9",
     "@types/d3-selection": "3.0.11",
     "@types/d3-shape": "^3.1.1",
-    "@types/jasmine": "5.1.13",
+    "@types/jasmine": "5.1.15",
     "@types/node": "^22.0.0",
     "@types/tinycolor2": "^1.4.6",
     "jasmine-core": "5.13.0",
@@ -74,10 +74,10 @@
     "karma-chrome-launcher": "3.2.0",
     "karma-coverage": "2.2.1",
     "karma-jasmine": "5.1.0",
-    "karma-jasmine-html-reporter": "2.1.0",
+    "karma-jasmine-html-reporter": "2.2.0",
     "license-report": "^6.4.0",
     "openapi-typescript": "^7.4.2",
-    "prettier": "3.7.4",
+    "prettier": "3.8.3",
     "prettier-plugin-organize-attributes": "^1.0.0",
     "source-map-explorer": "2.5.3",
     "typescript": "5.8.3"
