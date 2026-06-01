@@ -3,7 +3,7 @@
     "name": "@angular/animations",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.14",
+    "installedVersion": "20.3.15",
     "author": "angular"
   },
   {
@@ -17,7 +17,7 @@
     "name": "@angular/common",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.14",
+    "installedVersion": "20.3.15",
     "author": "angular"
   },
   {
@@ -31,42 +31,42 @@
     "name": "@angular/core",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.14",
+    "installedVersion": "20.3.15",
     "author": "angular"
   },
   {
     "name": "@angular/forms",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.14",
+    "installedVersion": "20.3.15",
     "author": "angular"
   },
   {
     "name": "@angular/localize",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.14",
+    "installedVersion": "20.3.15",
     "author": "angular"
   },
   {
     "name": "@angular/platform-browser",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.14",
+    "installedVersion": "20.3.15",
     "author": "angular"
   },
   {
     "name": "@angular/platform-browser-dynamic",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.14",
+    "installedVersion": "20.3.15",
     "author": "angular"
   },
   {
     "name": "@angular/router",
     "licenseType": "MIT",
     "link": "git+https://github.com/angular/angular.git",
-    "installedVersion": "20.3.14",
+    "installedVersion": "20.3.15",
     "author": "angular"
   },
   {
@@ -150,7 +150,7 @@
     "name": "dfts-helper",
     "licenseType": "MIT",
     "link": "git+https://github.com/Dafnik/dfts-common.git",
-    "installedVersion": "2.0.0",
+    "installedVersion": "2.1.0",
     "author": "Dafnik contact@dafnik.me https://dafnik.me"
   },
   {
