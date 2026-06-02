@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout your repository using git
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: setup node and pnpm
-        uses: dafnik/setup-node-pnpm@v4
+        uses: dafnik/setup-node-pnpm@v5
         with:
           install-ignore-scripts: true
 
@@ -24,7 +24,7 @@ jobs:
 
       - name: create new pull request if needed
         if: steps.license-report.outputs.has-no-changes != 'true'
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           title: Generated new licenses report
           branch-suffix: timestamp

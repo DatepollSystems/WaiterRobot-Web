@@ -17,11 +17,11 @@ jobs:
   build-local:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - uses: dafnik/setup-node-pnpm@v4
+      - uses: dafnik/setup-node-pnpm@v5
         with:
           install-ignore-scripts: true
 
@@ -31,11 +31,11 @@ jobs:
   build-lava:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - uses: dafnik/setup-node-pnpm@v4
+      - uses: dafnik/setup-node-pnpm@v5
         with:
           install-ignore-scripts: true
 
@@ -45,11 +45,11 @@ jobs:
   build-prod:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - uses: dafnik/setup-node-pnpm@v4
+      - uses: dafnik/setup-node-pnpm@v5
         with:
           install-ignore-scripts: true
 
@@ -59,11 +59,11 @@ jobs:
   prettier:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - uses: dafnik/setup-node-pnpm@v4
+      - uses: dafnik/setup-node-pnpm@v5
         with:
           install-ignore-scripts: true
 
@@ -73,11 +73,11 @@ jobs:
   tsc:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - uses: dafnik/setup-node-pnpm@v4
+      - uses: dafnik/setup-node-pnpm@v5
         with:
           install-ignore-scripts: true
 
@@ -90,7 +90,7 @@ jobs:
     steps:
       # Needed to get the commitlint config
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
